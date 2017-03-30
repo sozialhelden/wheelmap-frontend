@@ -22,6 +22,6 @@ export default class Map extends Component {
   }
 
   render() {
-    return (<section ref={(el) => (this.mapElement = el)}></section>);
+    return (<section ref={el => (this.mapElement = el)} />);
   }
 }
