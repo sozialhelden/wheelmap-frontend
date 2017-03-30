@@ -7,10 +7,10 @@ import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route,
-  Link
 } from 'react-router-dom'
 import 'leaflet/dist/leaflet.css';
 import './App.css';
+import Toolbar from './components/Toolbar';
 
 
 const Wrapper = styled.section`
@@ -20,7 +20,7 @@ const Wrapper = styled.section`
   flex-direction: column;
 `;
 
-const Toolbar = styled.nav`
+const StyledToolbar = styled(Toolbar)`
   background-color: #fff;
   flex: 50px;
   color: white;
@@ -36,11 +36,7 @@ const App = () => (
       <Route exact path="/" component={StyledMap}/>
       {/* <Route path="/about" component={About}/>
       <Route path="/topics" component={Topics}/> */}
-      <Toolbar>
-        <Link to="/">Wheelmap</Link>
-        <Link to="/about">About</Link>
-        <Link to="/topics">Topics</Link>
-      </Toolbar>
+      <StyledToolbar/>
     </Wrapper>
   </Router>
 )
