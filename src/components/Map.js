@@ -5,8 +5,6 @@ import GeoJSONTileLayer from '../lib/geojson-tile-layer';
 
 export default class Map extends Component {
   componentDidMount() {
-    const id =
-
     this.map = L.mapbox.map(this.mapElement, 'mapbox.streets', {
       center: [51.505, -0.09],
       zoom: 13,

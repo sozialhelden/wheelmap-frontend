@@ -1,17 +1,16 @@
 // @flow
 
 import React from 'react';
-import Map from './components/Map';
 // import logo from './logo.svg';
 import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route,
-  Link
-} from 'react-router-dom'
+  Link,
+} from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
+import Map from './components/Map';
 import './App.css';
-
 
 const Wrapper = styled.section`
   height: 100%;
@@ -33,7 +32,7 @@ const StyledMap = styled(Map)`
 const App = () => (
   <Router>
     <Wrapper>
-      <Route exact path="/" component={StyledMap}/>
+      <Route exact path="/" component={StyledMap} />
       {/* <Route path="/about" component={About}/>
       <Route path="/topics" component={Topics}/> */}
       <Toolbar>
@@ -43,6 +42,6 @@ const App = () => (
       </Toolbar>
     </Wrapper>
   </Router>
-)
+);
 
 export default App;

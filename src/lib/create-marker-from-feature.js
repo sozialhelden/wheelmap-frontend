@@ -1,5 +1,5 @@
 import L from 'mapbox.js';
-import get from 'lodash/get';
+// import get from 'lodash/get';
 
 // Extend Leaflet-icon to support colors and category-images
 const AccessibilityIcon = L.Icon.extend({
@@ -23,7 +23,7 @@ const AccessibilityIcon = L.Icon.extend({
 });
 
 function getColorForWheelchairAccessiblity(placeData) {
-  const accessibility = placeData.properties.accessibility;
+  // const accessibility = placeData.properties.accessibility;
   try {
     if (placeData.properties.accessibility.accessibleWith.wheelchair === true) {
       return 'green';
@@ -39,7 +39,7 @@ function getColorForWheelchairAccessiblity(placeData) {
 export default function createMarkerFromFeature(
   feature,
   latlng,
-  size = 1
+  size = 1,
 ) {
   const iconName = (feature && feature.properties && feature.properties.category) || 'place';
   const color = getColorForWheelchairAccessiblity(feature);
