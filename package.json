@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "cors": "^2.8.1",
+    "d3-color": "^1.0.3",
     "express": "^4.15.2",
     "http-proxy-middleware": "^0.17.4",
     "immutable": "^3.8.1",
@@ -49,7 +50,9 @@
       "browser": true
     },
     "rules": {
-      "no-underscore-dangle": [0],
+      "no-underscore-dangle": [
+        0
+      ],
       "react/jsx-filename-extension": [
         1,
         {
