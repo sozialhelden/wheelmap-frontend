@@ -14,10 +14,11 @@ export default class Map extends Component {
     });
 
     const url = 'http://localhost:3001/nodes/{x}/{y}/{z}.geojson?limit=25';
-    this.map.addLayer(new GeoJSONTileLayer(url, {}, {}));
-
-    // const tileUrl = `//{s}.tiles.mapbox.com/v4/sozialhelden.map-iqt6py1k/{z}/{x}/{y}${L.Browser.retina ? '@2x' : ''}.png64?access_token=pk.eyJ1Ijoic296aWFsaGVsZGVuIiwiYSI6IldvNHpkUUkifQ.5lLzFYw4MmAUkqLMoEcI3g`;
-    // this.map.addLayer(L.tileLayer(tileUrl));
+    this.map.addLayer(new GeoJSONTileLayer(url, {
+      pointToLayer(feature, latlng) {
+        return new L.Marker(latlng);
+      },
+    }));
   }
 
   render() {

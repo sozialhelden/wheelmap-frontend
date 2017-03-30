@@ -42,13 +42,13 @@ class GeoJSONTileLayer extends TileLayer {
 
     // this._layerGroup = L.layerGroup();
     this._layerGroup = new L.MarkerClusterGroup();
-    this._idsToShownMarkers = {};
+    this._idsToShownLayers = {};
   }
 
   _removeShownFeatures(featureCollection) {
     const result = { type: 'FeatureCollection' };
     result.features = featureCollection.features.filter(
-      feature => !this._idsToShownMarkers[feature.properties._id || feature.properties.id],
+      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id],
     );
     return result;
   }
@@ -97,6 +97,10 @@ class GeoJSONTileLayer extends TileLayer {
     return layers;
   }
 
+  static pointToLayer(feature, latlng) {
+    return new L.Marker(latlng);
+  }
+
   _loadTile(tile, tilePoint) {
     // this._adjustTilePoint(tilePoint);
 
@@ -111,11 +115,11 @@ class GeoJSONTileLayer extends TileLayer {
     });
 
     const removeShownFeatures = this._removeShownFeatures.bind(this);
-    const idsToShownMarkers = this._idsToShownMarkers;
+    const idsToShownLayers = this._idsToShownLayers;
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
     tile.request.open('GET', url, true);
     tile.request.addEventListener('load', function load() {
-      if (!this.responseText) {
+      if (!this.responseText || this.status >= 400) {
         return;
       }
       const geoJSON = JSON.parse(this.responseText);
@@ -123,26 +127,9 @@ class GeoJSONTileLayer extends TileLayer {
       const geoJSONOptions = { // eslint-disable-line new-cap
         pointToLayer(feature, latlng) {
           const id = feature.properties._id || feature.properties.id;
-
-          if (idsToShownMarkers[id]) {
-            return idsToShownMarkers[id];
-          }
-
-          // const marker = createMarkerFromFeature(feature, latlng);
-          const marker = L.marker(latlng);
-
-          marker.on('click', () => {
-            // FlowRouter.go('placeInfos.show', {
-            //   _id: FlowRouter.getParam('_id'),
-            //   placeInfoId: feature.properties._id,
-            // }, {
-            //   limit: FlowRouter.getQueryParam('limit'),
-            // });
-          });
-
-          idsToShownMarkers[id] = marker;
-
-          return marker;
+          if (idsToShownLayers[id]) return idsToShownLayers[id];
+          const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
+          return (idsToShownLayers[id] = pointToLayerFn(feature, latlng));
         },
       };
       // eslint-disable-next-line no-param-reassign
