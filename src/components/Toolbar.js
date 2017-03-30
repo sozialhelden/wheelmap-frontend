@@ -25,15 +25,9 @@ export default class Toolbar extends Component {
   }
 
   render() {
-    let categoryMenu = null;
-
-    if (this.state.categoryMenuIsVisible) {
-      categoryMenu = <CategoryMenu />;
-    }
-
     return (
       <nav className={this.props.className}>
-        {categoryMenu}
+        {this.state.categoryMenuIsVisible ? <CategoryMenu /> : null}
         <CategoryButton toggleCategoryMenu={this.toggleCategoryMenu} />
 
         <Link to="/">Wheelmap</Link>

@@ -20,6 +20,10 @@ const categories = [
 ];
 
 export class Category extends Component {
+  static propTypes = {
+    name: React.PropTypes.string.isRequired,
+  };
+
   render() {
     const name = this.props.name;
     const humanizedName = humanize(name);
@@ -31,7 +35,7 @@ export class Category extends Component {
   }
 }
 
-const StyledLink= styled(Link)`
+const StyledLink = styled(Link)`
   display: inline-flex;
   flex-basis: 50%;
   margin: 10px 0 10px 0;
@@ -57,7 +61,7 @@ export class CategoryMenu extends Component {
   render() {
     return (
       <Container>
-        {categories.map(name => <Category name={name} key={name}/>)}
+        {categories.map(name => <Category name={name} key={name} />)}
       </Container>
     );
   }
@@ -67,7 +71,7 @@ const StyledButton = styled.button`
   margin: 20px;
 `;
 
-export const CategoryButton = (props) => (
+export const CategoryButton = props => (
   <StyledButton onClick={props.toggleCategoryMenu}>
     Categories
   </StyledButton>
@@ -75,4 +79,4 @@ export const CategoryButton = (props) => (
 
 CategoryButton.propTypes = {
   toggleCategoryMenu: React.PropTypes.func,
-}
+};
