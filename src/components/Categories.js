@@ -27,7 +27,7 @@ export class Category extends Component {
   render() {
     const name = this.props.name;
     const humanizedName = humanize(name);
-    const url = `categories/${name}`;
+    const url = `/categories/${name}`;
 
     return (
       <StyledLink to={url}>{humanizedName}</StyledLink>
