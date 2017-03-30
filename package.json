@@ -19,6 +19,11 @@
     "webworkify-webpack": "^2.0.4"
   },
   "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
     "flow-bin": "^0.42.0",
     "react-scripts": "0.9.5"
   },
@@ -29,5 +34,30 @@
     "eject": "react-scripts eject",
     "flow": "flow",
     "server": "server"
+  },
+  "eslintConfig": {
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "plugins": [
+      "import",
+      "jsx-a11y",
+      "react"
+    ],
+    "env": {
+      "jest": true,
+      "node": true,
+      "browser": true
+    },
+    "rules": {
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ]
+    }
   }
 }
