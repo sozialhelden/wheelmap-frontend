@@ -16,7 +16,7 @@ const categories = [
   'shopping',
   'sport',
   'tourism',
-  'unknown',
+  // 'unknown',
 ];
 
 export class Category extends Component {
@@ -30,17 +30,33 @@ export class Category extends Component {
     const url = `/categories/${name}`;
 
     return (
-      <StyledLink to={url}>{humanizedName}</StyledLink>
+      <StyledLink to={url}>
+        <StyledButtonIcon
+          src={`${process.env.PUBLIC_URL}/icons/main-categories/${name}.svg`}
+          alt={`${name}-icon`}
+        />
+        <span>{humanizedName}</span>
+      </StyledLink>
     );
   }
 }
 
+const StyledButtonIcon = styled.img`
+  width: 46px;
+`;
+
 const StyledLink = styled(Link)`
   display: inline-flex;
   flex-basis: 50%;
+  flex-direction: column;
+  align-items: center
   margin: 10px 0 10px 0;
-  font-size: 20px;
+  font-size: 16px;
   color: black;
+
+  &:hover {
+    background-color: #eee;
+  }
 `;
 
 const Container = styled.div`
