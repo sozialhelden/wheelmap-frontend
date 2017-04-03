@@ -1524,13 +1524,13 @@ debug@2.2.0, debug@~2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.6.1, debug@^2.2.0:
+debug@2.6.1, debug@^2.1.1, debug@^2.2.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
     ms "0.7.2"
 
-debug@2.6.3, debug@^2.1.0, debug@^2.1.1, debug@^2.6.0:
+debug@2.6.3, debug@^2.1.0, debug@^2.6.0:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.3.tgz#0f7eb8c30965ec08c72accfa0130c8b79984141d"
   dependencies:
@@ -3367,6 +3367,10 @@ leaflet-tilelayer-geojson@^1.0.4:
   resolved "https://registry.yarnpkg.com/leaflet-tilelayer-geojson/-/leaflet-tilelayer-geojson-1.0.4.tgz#b115e8f889bbbdb8ddc272471dbbba8ffd4fb51b"
   dependencies:
     leaflet "~0.7.1"
+
+leaflet.locatecontrol@^0.60.0:
+  version "0.60.0"
+  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.60.0.tgz#fc7be657ca9b7e8b8ba7263e52b0bb902b7cd965"
 
 leaflet.markercluster@^1.0.4:
   version "1.0.4"

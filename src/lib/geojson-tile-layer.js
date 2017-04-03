@@ -28,20 +28,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import L from 'mapbox.js';
+import L from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-// import createMarkerFromFeature from './create-marker-from-feature';
+// import 'leaflet.markercluster/dist/MarkerCluster.css';
+// import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 const TileLayer = L.TileLayer;
 
 class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl, options) {
     super(tileUrl, options);
-
-    // this._layerGroup = L.layerGroup();
-    this._layerGroup = new L.MarkerClusterGroup();
+    this._layerGroup = options.layerGroup || L.layerGroup();
     this._idsToShownLayers = {};
   }
 
@@ -57,16 +54,6 @@ class GeoJSONTileLayer extends TileLayer {
     Object.values(this._tiles).forEach(tile => tile.request.abort());
     // TileLayer.prototype._reset.apply(this, arguments);
     this._layerGroup.clearLayers();
-  }
-
-  onAdd(map) {
-    TileLayer.prototype.onAdd.call(this, map);
-    map.addLayer(this._layerGroup);
-  }
-
-  onRemove(map) {
-    TileLayer.prototype.onRemove.call(this, map);
-    map.removeLayer(this._layerGroup);
   }
 
   _addTile(tilePoint) {

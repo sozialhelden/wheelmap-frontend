@@ -1,5 +1,5 @@
-import L from 'mapbox.js';
-// import get from 'lodash/get';
+import L from 'leaflet';
+import get from 'lodash/get';
 
 // Extend Leaflet-icon to support colors and category-images
 const AccessibilityIcon = L.Icon.extend({
@@ -23,32 +23,30 @@ const AccessibilityIcon = L.Icon.extend({
 });
 
 function getColorForWheelchairAccessiblity(placeData) {
-  // const accessibility = placeData.properties.accessibility;
-  try {
-    if (placeData.properties.accessibility.accessibleWith.wheelchair === true) {
-      return 'green';
-    } else if (placeData.properties.accessibility.accessibleWith.wheelchair === false) {
-      return 'red';
-    }
-  } catch (e) {
-    console.warn('Failed to get color for', placeData, e);
+  const isAccessible = get(placeData, 'properties.wheelchair') ||
+    get(placeData, 'properties.accessibility.accessibleWith.wheelchair');
+  switch (isAccessible) {
+    case 'yes':
+    case true: return 'green';
+    case 'no':
+    case false: return 'red';
+    default: return 'gray';
   }
-  return 'grey';
 }
 
 export default function createMarkerFromFeature(
   feature,
   latlng,
-  size = 1,
 ) {
   const iconName = (feature && feature.properties && feature.properties.category) || 'place';
   const color = getColorForWheelchairAccessiblity(feature);
   const icon = new AccessibilityIcon({
-    iconUrl: `/icons/categories/${iconName}@${size * 2}x.png`,
-    className: `ac-marker ${color}`,
-    iconSize: new L.Point(27, 27).multiplyBy(size),
-    iconAnchor: new L.Point(13, 25).multiplyBy(size),
-    popupAnchor: new L.Point(0, -33).multiplyBy(size),
+    iconUrl: `/icons/categories/${iconName}.svg`,
+    // iconUrl: `/icons/categories/${icons[iconName}.svg`,
+    className: `ac-marker ac-marker-${color}`,
+    iconSize: new L.Point(19, 19),
+    iconAnchor: new L.Point(10, 11),
+    popupAnchor: new L.Point(10, 11),
   });
   return L.marker(latlng, { icon });
 }
