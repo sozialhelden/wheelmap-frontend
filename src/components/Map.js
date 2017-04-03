@@ -13,8 +13,16 @@ export default class Map extends Component {
       accessToken: 'pk.eyJ1Ijoic296aWFsaGVsZGVuIiwiYSI6IldvNHpkUUkifQ.5lLzFYw4MmAUkqLMoEcI3g',
     });
 
-    const url = 'http://localhost:3001/nodes/{x}/{y}/{z}.geojson?limit=25';
-    this.map.addLayer(new GeoJSONTileLayer(url, {
+    const wheelmapBackendUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
+    this.map.addLayer(new GeoJSONTileLayer(wheelmapBackendUrl, {
+      pointToLayer(feature, latlng) {
+        return new L.Marker(latlng);
+      },
+    }));
+
+    const accessibilityCloudUrl = 'http://localhost:4000/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';
+    this.map.addLayer(new GeoJSONTileLayer(accessibilityCloudUrl, {
+      // httpHeaders,
       pointToLayer(feature, latlng) {
         return new L.Marker(latlng);
       },

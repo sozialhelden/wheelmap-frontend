@@ -118,6 +118,10 @@ class GeoJSONTileLayer extends TileLayer {
     const idsToShownLayers = this._idsToShownLayers;
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
     tile.request.open('GET', url, true);
+    tile.request.setRequestHeader('Accept', 'application/json');
+    const httpHeaders = layer.options.httpHeaders;
+    Object.keys(httpHeaders || {}).forEach(key =>
+      tile.request.setRequestHeader(key, httpHeaders[key]));
     tile.request.addEventListener('load', function load() {
       if (!this.responseText || this.status >= 400) {
         return;
