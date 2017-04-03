@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>drinkingwater</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="drinkingwater" fill="#000000">
+            <g id="drinking-water-15" transform="translate(1.000000, 1.000000)">
+                <path d="M5,0 C3.8954305,-1.11022302e-16 3,0.8954305 3,2 L3,5.5 C3,5.77614237 3.22385763,6 3.5,6 L5.5,6 C5.77614237,6 6,5.77614237 6,5.5 L6,3.5 C6,3.22385763 6.22385763,3 6.5,3 L13,3 L13,0 L5,0 Z" id="Shape"></path>
+                <path d="M6,14 L3,14 C2.77209103,13.9975413 2.57468807,13.841264 2.52,13.62 L1,7.62 C0.962407681,7.46823212 0.997974874,7.30761685 1.09612668,7.18590861 C1.19427849,7.06420037 1.34371296,6.99541356 1.5,7 L7.5,7 C7.65628704,6.99541356 7.80572151,7.06420037 7.90387332,7.18590861 C8.00202513,7.30761685 8.03759232,7.46823212 8,7.62 L6.5,13.62 C6.44359224,13.8485916 6.23534859,14.0068568 6,14 L6,14 Z M2.65,10 L6.36,10 L6.86,8 L2.14,8 L2.65,10 Z" id="Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

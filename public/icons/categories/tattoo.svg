@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>tattoo</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="tattoo" fill="#000000">
+            <path d="M7,12.9716851 L7,5.94999094 C5.85887984,5.71835578 5,4.70947896 5,3.5 C5,2.11928813 6.11928813,1 7.5,1 C8.88071187,1 10,2.11928813 10,3.5 C10,4.70947896 9.14112016,5.71835578 8,5.94999094 L8,12.9716851 C10.6666667,12.6666667 12,10 12,10 L13,11 C13,11 11.5,14 7.5,14 C4.25972591,14 2.65997935,11.7032615 2.16918443,10.8308156 L1,12 L1,9 L4,9 L3,10 C3.00006386,10.0001277 4.3333972,12.666674 7,12.9716851 Z M7.5,5 C8.32842712,5 9,4.32842712 9,3.5 C9,2.67157288 8.32842712,2 7.5,2 C6.67157288,2 6,2.67157288 6,3.5 C6,4.32842712 6.67157288,5 7.5,5 Z M11,9 L14,9 L14,12 L11,9 Z" id="Combined-Shape"></path>
+        </g>
+    </g>
+</svg>

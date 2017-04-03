@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>stadium</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="stadium" fill="#000000">
+            <g transform="translate(2.000000, 1.000000)" id="svg4619">
+                <g>
+                    <path d="M5,0 L5,2 L5,3.5 L5,4.0098 C2.1695,4.1037 0.0021,4.9665 0,6 L0,10.5 C0,11.6046 2.4624,12.5 5.5,12.5 C8.5376,12.5 11,11.6046 11,10.5 L11,6 C10.9979,4.9665 8.8305,4.1037 6,4.0098 L6,3.0625 L9,1.75 L5,0 Z M1,7.1465 C1.5148,7.4136 2.2014,7.6308 3,7.7793 L3,10.7461 C1.7948,10.477 1,10.0199 1,9.5 L1,7.1465 Z M10,7.1484 L10,9.5 C10,10.0199 9.2052,10.477 8,10.7461 L8,7.7812 C8.7986,7.6328 9.4852,7.4155 10,7.1484 Z M4,7.9219 C4.4877,7.973 4.9925,7.9992 5.5,8 C6.0073,7.9999 6.5121,7.9743 7,7.9238 L7,10.9082 C6.5287,10.964 6.0288,11 5.5,11 C4.9712,11 4.4713,10.964 4,10.9082 L4,7.9219 Z" id="path4177"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

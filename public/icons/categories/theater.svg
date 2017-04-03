@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>theater</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="theater" fill="#000000">
+            <g transform="translate(0.000000, 1.000000)" id="svg4619">
+                <g>
+                    <path d="M1,0 C1,0 0,0 0,1 L0,6.1582 C0,7.8885 0.354,10 3.5,10 L4,10 L4,7 L1.5,8 C1.5,8 1.5,5.5 4,5.5 L4,4 C4,3.2922 4.0868,2.6791 4.5,2.2246 C4.8815,1.805 5.5046,0.9674 7.1562,1.7539 L8,2.3027 L8,1 C8,1 8,0 7,0 C6.2922,0 5.0224,1 4,1 C2.9776,1 1.7865,0 1,0 Z M2,2 C2.5523,2 3,2.4477 3,3 C3,3.5523 2.5523,4 2,4 C1.4477,4 1,3.5523 1,3 C1,2.4477 1.4477,2 2,2 Z M6,3 C6,3 5,3 5,4 L5,9 C5,11 6,13 9,13 C12,13 13,11 13,9 L13,4 C13,3 12,3 12,3 C11.2922,3 10.0224,4 9,4 C7.9776,4 6.7865,3 6,3 Z M7,5 C7.5523,5 8,5.4477 8,6 C8,6.5523 7.5523,7 7,7 C6.4477,7 6,6.5523 6,6 C6,5.4477 6.4477,5 7,5 Z M11,5 C11.5523,5 12,5.4477 12,6 C12,6.5523 11.5523,7 11,7 C10.4477,7 10,6.5523 10,6 C10,5.4477 10.4477,5 11,5 Z M6.5,9 L9,9 L11.5,9 C11.5,9 11.5,11.5 9,11.5 C6.5,11.5 6.5,9 6.5,9 Z" id="path6342-3"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
