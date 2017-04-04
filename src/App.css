@@ -84,10 +84,15 @@ html, body, #root {
   background-color: #69d289;
 }
 
+.ac-marker-yellow {
+  background-color: #f9c637;
+}
+
 .ac-marker-red {
   background-color: #d26969;
 }
 
+.ac-marker-yellow img,
 .ac-marker-green img,
 .ac-marker-red img {
   filter: invert();

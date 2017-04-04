@@ -30,7 +30,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import L from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
-// import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 const TileLayer = L.TileLayer;

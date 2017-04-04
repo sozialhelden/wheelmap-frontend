@@ -28,6 +28,7 @@ function getColorForWheelchairAccessiblity(placeData) {
   switch (isAccessible) {
     case 'yes':
     case true: return 'green';
+    case 'limited': return 'yellow';
     case 'no':
     case false: return 'red';
     default: return 'gray';
