@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { humanize } from 'underscore.string';
 import styled from 'styled-components';
 
@@ -30,7 +30,7 @@ export class Category extends Component {
     const url = `/categories/${name}`;
 
     return (
-      <StyledLink to={url}>
+      <StyledLink activeClassName='active' to={url}>
         <StyledButtonIcon
           src={`${process.env.PUBLIC_URL}/icons/main-categories/${name}.svg`}
           alt={`${name}-icon`}
@@ -45,14 +45,27 @@ const StyledButtonIcon = styled.img`
   width: 46px;
 `;
 
-const StyledLink = styled(Link)`
+// ^ add in later when supporting button icons as svg components
+// height: 46px;
+// fill: #2d2d2d;
+
+const StyledLink = styled(NavLink)`
   display: inline-flex;
   flex-basis: 50%;
   flex-direction: column;
-  align-items: center
-  margin: 10px 0 10px 0;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px 0 10px 0;
+
   font-size: 16px;
-  color: black;
+  text-decoration: none;
+  color: #2d2d2d;
+
+  border-bottom: 1px solid #eee;
+
+  &:nth-child(even) {
+    border-left: 1px solid #eee;
+  }
 
   &:hover {
     background-color: #eee;
@@ -64,12 +77,9 @@ const Container = styled.div`
   flex-flow: row wrap;
   display: flex;
   z-index: 1000;
-  top: 0px;
-  left: 0px;
-  width: 400px;
-  padding: 20px;
-  color: black;
-  font-size: 20px;
+  top: 50px;
+  width: 320px;
+  font-size: 18px;
   background-color: white;
 `;
 
@@ -84,7 +94,21 @@ export class CategoryMenu extends Component {
 }
 
 const StyledButton = styled.button`
-  margin: 20px;
+  height: 30px;
+  font-size: 18px;
+  border: 1px solid #aaa;
+  border-radius: 20px;
+  padding: 0 11px;
+  background-color: #ddd;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ccc;
+  }
+
+  &:active {
+    background-color: #bbb;
+  }
 `;
 
 export const CategoryButton = props => (

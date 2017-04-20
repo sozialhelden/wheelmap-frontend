@@ -64,6 +64,7 @@ export default class Map extends Component {
     const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudUrl, {
       layerGroup: markerClusterGroup,
       pointToLayer(feature, latlng) {
+        debugger
         return new L.Marker(latlng);
       },
     });

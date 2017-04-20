@@ -6,6 +6,8 @@ html, body, #root {
 .leaflet-container {
   width: 100%;
   height: calc(100vh - 50px);
+  position: relative;
+  top: 50px;
 }
 
 .marker-cluster-small {
@@ -116,4 +118,29 @@ html, body, #root {
 
 body, button, input, select, textarea {
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', sans-serif;
+}
+
+/* categories menu */
+nav .active {
+  background-color: #eee;
+}
+
+/* sidebar */
+
+.sidebar-enter {
+  left: -320px;
+}
+
+.sidebar-enter.sidebar-enter-active {
+  left: 0px;
+  transition: left 500ms ease-in;
+}
+
+.sidebar-leave {
+  left: 0px;
+}
+
+.sidebar-leave.sidebar-leave-active {
+  left: -320px;
+  transition: left 500ms ease-out;
 }

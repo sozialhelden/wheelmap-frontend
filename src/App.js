@@ -26,9 +26,21 @@ const Flex = styled.section`
 `;
 
 const StyledToolbar = styled(Toolbar)`
-  background-color: ${colors.neutralBackgroundColor};
   flex: 50px;
   color: white;
+  position: absolute;
+  z-index: 1000;
+  top: 0px;
+  left: 0px;
+
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 20px;
+
+  font-size: 18px;
+  background-color: ${colors.neutralBackgroundColor};
+  background: -webkit-linear-gradient(top, #f2f2f2 0%, #ededed 100%);
 `;
 
 const StyledMap = styled(Map)`
@@ -40,6 +52,7 @@ const App = () => (
     <Flex direction="column">
       <Flex direction="row">
         <Route path="/nodes/:id" component={StyledNodeSidebar} />
+
         <Route path="/" component={StyledMap} />
       </Flex>
       {/* <Route path="/about" component={About}/>
