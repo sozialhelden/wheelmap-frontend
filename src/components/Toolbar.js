@@ -1,21 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
+//import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import {
   CategoryButton,
   CategoryMenu,
 } from './Categories';
-
-const StyledNavLink = styled(Link)`
-  padding: 5px;
-  text-decoration: none;
-  color: #2d2d2d;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
+import { SearchInput } from './Search';
 
 export default class Toolbar extends Component {
   static propTypes = {
@@ -38,20 +27,19 @@ export default class Toolbar extends Component {
 
   render() {
     return (
-      <nav className={this.props.className}>
-        <CSSTransitionGroup
+      <div className={this.props.className, 'toolbar'}>
+        {/*<CSSTransitionGroup
           transitionName="sidebar"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}>
           {this.state.categoryMenuIsVisible ? <CategoryMenu /> : null}
-        </CSSTransitionGroup>
+        </CSSTransitionGroup>*/}
+
+        {this.state.categoryMenuIsVisible ? <CategoryMenu /> : null}
 
         <CategoryButton toggleCategoryMenu={this.toggleCategoryMenu} />
-
-        <StyledNavLink to="/">Wheelmap</StyledNavLink>
-        <StyledNavLink to="/about">About</StyledNavLink>
-        <StyledNavLink to="/topics">Topics</StyledNavLink>
-      </nav>
+        <SearchInput />
+      </div>
     );
   }
 }

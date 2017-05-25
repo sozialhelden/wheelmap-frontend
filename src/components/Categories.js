@@ -73,7 +73,6 @@ const StyledLink = styled(NavLink)`
 `;
 
 const Container = styled.div`
-  position: absolute;
   flex-flow: row wrap;
   display: flex;
   z-index: 1000;
@@ -96,18 +95,19 @@ export class CategoryMenu extends Component {
 const StyledButton = styled.button`
   height: 30px;
   font-size: 18px;
-  border: 1px solid #aaa;
+  border: none;
   border-radius: 20px;
   padding: 0 11px;
-  background-color: #ddd;
+  background-color: #8ab648;
+  color: #eee;
   cursor: pointer;
 
   &:hover {
-    background-color: #ccc;
+    background-color: #79a03e;
   }
 
   &:active {
-    background-color: #bbb;
+    background-color: #688935;
   }
 `;
 

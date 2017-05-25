@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 export default class NodeHeader extends Component {
   render() {
-    return (<button>
-      Report Problem
-    </button>);
+    return <button>Report Problem</button>;
   }
 }

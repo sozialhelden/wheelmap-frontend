@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-export SearchInput = styled.input`
-  position: absolute;
-  z-index: 1000;
-  top: 0px;
-  left: 0px;
-
-  height: 50px;
-  width: 100%;
+const StyledInput = styled.input`
+  height: 30px;
+  width: 200px;
   box-sizing: border-box;
-  padding: 10px 20px;
+  padding: 10px 10px;
+  margin-left: 10px;
 
   font-size: 18px;
-  background-color: #f2f2f2;
-  background: -webkit-linear-gradient(top, #f2f2f2 0%,#ededed 100%);
+  border: none;
+  border-left: 2px solid #aaa;
 `;
+
+export const SearchInput = () =>
+  <StyledInput className="search-input" placeholder="🔍 Search Wheelmap"></StyledInput>;
