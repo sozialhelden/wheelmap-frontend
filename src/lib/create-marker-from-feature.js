@@ -2,7 +2,7 @@ import L from 'leaflet';
 import get from 'lodash/get';
 
 // Extend Leaflet-icon to support colors and category-images
-const AccessibilityIcon = L.Icon.extend({
+const Icon = L.Icon.extend({
   options: {
     number: '',
     shadowUrl: null,
@@ -10,11 +10,12 @@ const AccessibilityIcon = L.Icon.extend({
   },
 
   createIcon() {
-    const div = document.createElement('div');
+    const link = document.createElement('a');
+    link.href = `/nodes/${this.options.feature.properties.id}`;
     const img = this._createImg(this.options.iconUrl);
-    div.appendChild(img);
-    this._setIconStyles(div, 'icon');
-    return div;
+    link.appendChild(img);
+    this._setIconStyles(link, 'icon');
+    return link;
   },
 
   createShadow() {
@@ -25,12 +26,13 @@ const AccessibilityIcon = L.Icon.extend({
 function getColorForWheelchairAccessiblity(placeData) {
   const isAccessible = get(placeData, 'properties.wheelchair') ||
     get(placeData, 'properties.accessibility.accessibleWith.wheelchair');
+  const isPartiallyAccessible = get(placeData, 'properties.accessibility.partiallyAccessibleWith.wheelchair');
   switch (isAccessible) {
     case 'yes':
     case true: return 'green';
     case 'limited': return 'yellow';
     case 'no':
-    case false: return 'red';
+    case false: return isPartiallyAccessible ? 'yellow' : 'red';
     default: return 'gray';
   }
 }
@@ -41,7 +43,8 @@ export default function createMarkerFromFeature(
 ) {
   const iconName = (feature && feature.properties && feature.properties.category) || 'place';
   const color = getColorForWheelchairAccessiblity(feature);
-  const icon = new AccessibilityIcon({
+  const icon = new Icon({
+    feature,
     iconUrl: `/icons/categories/${iconName}.svg`,
     // iconUrl: `/icons/categories/${icons[iconName}.svg`,
     className: `ac-marker ac-marker-${color}`,

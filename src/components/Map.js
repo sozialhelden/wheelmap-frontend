@@ -4,6 +4,7 @@ import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import GeoJSONTileLayer from '../lib/geojson-tile-layer';
 import createMarkerFromFeature from '../lib/create-marker-from-feature';
+import styled from 'styled-components';
 
 const config = {
   locateTimeout: 60 * 60 * 1000,
@@ -25,7 +26,11 @@ export default class Map extends Component {
       center: (lastCenter && lastCenter[0] && lastCenter) || config.defaultStartCenter,
       zoom: lastZoom || (config.maxZoom - 1),
       minZoom: 2,
+      zoomControl: false,
     });
+
+   new L.Control.Zoom({ position: 'bottomright' }).addTo(this.map);
+
 
     if (+new Date() - lastMoveDate > config.locateTimeout) {
       this.map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
@@ -42,7 +47,28 @@ export default class Map extends Component {
     });
 
     L.control.scale().addTo(this.map);
-    L.control.locate().addTo(this.map);
+    L.control.locate({
+      position: 'bottomright',
+      icon: 'leaflet-icon-locate',
+      iconLoading: 'leaflet-icon-locate-loading',
+      showPopup: false,
+      circleStyle: {
+        color: '#1fabd9',
+        fillColor: '#1fabd9',
+        fillOpacity: 0.1,
+        opacity: 0.25,
+      },
+      markerStyle: {
+        color: '#1fabd9',
+        fillColor: '#1fabd9',
+      },
+      strings: {
+        title: 'Show me where I am',
+      },
+      locateOptions: {
+        enableHighAccuracy: true,
+      },
+    }).addTo(this.map);
 
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.accessToken}`, {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',

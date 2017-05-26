@@ -2,7 +2,6 @@
 
 import React from 'react';
 // import logo from './logo.svg';
-import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route,
@@ -10,22 +9,15 @@ import {
 import 'leaflet/dist/leaflet.css';
 import Map from './components/Map';
 import './App.css';
-import colors from './lib/colors';
-import { Linkbar } from './components/Linkbar';
-import Toolbar from './components/Toolbar';
-import NodeSidebar from './components/NodeSidebar';
-
-const StyledNodeSidebar = styled(NodeSidebar)`
-  background-color: ${colors.colorizedBackgroundColor};
-`;
+import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 
 const App = () => (
   <Router>
     <div className="app-container">
-      <Route path="/nodes/:id" component={StyledNodeSidebar} />
       <Route path="/" component={Map} />
-      <Linkbar />
-      <Toolbar />
+      <Route component={SearchToolbar} />
+      <Route path="/nodes/:id" component={NodeToolbar} />
     </div>
   </Router>
 );

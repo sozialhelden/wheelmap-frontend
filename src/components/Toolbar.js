@@ -1,45 +1,41 @@
-import React, { Component } from 'react';
-//import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
-import {
-  CategoryButton,
-  CategoryMenu,
-} from './Categories';
-import { SearchInput } from './Search';
+// @flow
+import React from 'react';
+import styled from 'styled-components';
+import type { AnyReactElement } from 'react-flow-types';
+import colors from '../lib/colors';
 
-export default class Toolbar extends Component {
-  static propTypes = {
-    className: React.PropTypes.string.isRequired,
-  };
+type Props = {
+  className: string,
+  children: AnyReactElement,
+};
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      categoryMenuIsVisible: false,
-    };
-    this.toggleCategoryMenu = this.toggleCategoryMenu.bind(this);
-  }
 
-  toggleCategoryMenu() {
-    this.setState(prevState => ({
-      categoryMenuIsVisible: !prevState.categoryMenuIsVisible,
-    }));
-  }
-
-  render() {
-    return (
-      <div className={this.props.className, 'toolbar'}>
-        {/*<CSSTransitionGroup
-          transitionName="sidebar"
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}>
-          {this.state.categoryMenuIsVisible ? <CategoryMenu /> : null}
-        </CSSTransitionGroup>*/}
-
-        {this.state.categoryMenuIsVisible ? <CategoryMenu /> : null}
-
-        <CategoryButton toggleCategoryMenu={this.toggleCategoryMenu} />
-        <SearchInput />
-      </div>
-    );
-  }
+function Toolbar(props: Props) {
+  return (<nav className={['node-toolbar', props.className].filter(Boolean).join(' ')}>
+    {props.children}
+  </nav>);
 }
+
+const StyledToolbar = styled(Toolbar)`
+  position: absolute;
+  z-index: 1000;
+  max-height: calc(100% - 20px);
+  overflow: scroll;
+  box-sizing: border-box;
+  left: 0;
+  margin: 10px;
+  padding: 10px;
+  width: 270px;
+  top: 0;
+
+  font-size: 16px;
+  background-color: ${colors.colorizedBackgroundColor};
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+  @media (max-width: 512px) {
+    width: calc(100% - 20px);
+    top: calc(100% - 80px);
+  }
+`;
+
+export default StyledToolbar;
