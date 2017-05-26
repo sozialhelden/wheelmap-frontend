@@ -6,6 +6,7 @@
     "cors": "^2.8.1",
     "d3-color": "^1.0.3",
     "express": "^4.15.2",
+    "geojson-flow": "^1.0.1",
     "http-proxy-middleware": "^0.17.4",
     "immutable": "^3.8.1",
     "leaflet": "^1.0.3",
@@ -16,19 +17,24 @@
     "mapbox.js": "^3.0.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-flow-types": "^0.1.1",
     "react-router-dom": "^4.0.0",
     "react-transition-group": "^1.1.1",
-    "styled-components": "^1.4.4",
+    "styled-components": "^2.0.0",
     "underscore.string": "^3.3.4",
     "webworkify-webpack": "^2.0.4"
   },
   "devDependencies": {
     "eslint": "^3.18.0",
     "eslint-config-airbnb": "^14.1.0",
+    "eslint-config-react-app": "^0.6.2",
+    "eslint-loader": "1.6.0",
+    "eslint-plugin-flowtype": "^2.32.1",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
+    "eslint-plugin-react": "^6.9.0",
     "flow-bin": "^0.46.0",
+    "flow-typed": "^2.1.2",
     "react-scripts": "0.9.5"
   },
   "scripts": {
@@ -39,13 +45,25 @@
     "flow": "flow",
     "server": "server"
   },
+  "babel": {
+    "plugins": [
+      "syntax-flow"
+    ],
+    "presets": [
+      "react-app"
+    ]
+  },
   "eslintConfig": {
-    "extends": "airbnb",
+    "extends": [
+      "plugin:flowtype/recommended",
+      "airbnb"
+    ],
     "parser": "babel-eslint",
     "plugins": [
       "import",
       "jsx-a11y",
-      "react"
+      "react",
+      "flowtype"
     ],
     "env": {
       "jest": true,
