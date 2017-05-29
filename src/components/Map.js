@@ -81,9 +81,11 @@ export default class Map extends Component {
     });
 
     const wheelmapBackendUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
+
     const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapBackendUrl, {
       layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeature,
+      pointToLayer: (feature, latLng) =>
+        createMarkerFromFeature(feature, latLng, this.props.history),
     });
 
     const accessibilityCloudUrl = 'https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';

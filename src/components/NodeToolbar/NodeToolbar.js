@@ -29,13 +29,15 @@ export default class NodeToolbar extends Component<*, Props, State> {
   }
 
   render() {
-    return (<Toolbar>
-      <NodeHeader node={this.state.node} />
-      <WheelmapAccessibilityHeader node={this.state.node} />
-      <NodeFooter
-        node={this.state.node}
-        node_id={this.props.match.params.id}
-      />
-    </Toolbar>);
+    return (
+      <Toolbar>
+        <NodeHeader node={this.state.node} />
+        <WheelmapAccessibilityHeader node={this.state.node} />
+        <NodeFooter
+          node={this.state.node}
+          node_id={this.props.match.params.id}
+        />
+      </Toolbar>
+    );
   }
 }

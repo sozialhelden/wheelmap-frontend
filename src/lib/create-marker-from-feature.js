@@ -1,7 +1,10 @@
+// @flow
+
 import L from 'leaflet';
 import get from 'lodash/get';
 
 // Extend Leaflet-icon to support colors and category-images
+
 const Icon = L.Icon.extend({
   options: {
     number: '',
@@ -10,11 +13,16 @@ const Icon = L.Icon.extend({
   },
 
   createIcon() {
+    // this.options.history.navigate(...)
     const link = document.createElement('a');
     link.href = `/nodes/${this.options.feature.properties.id}`;
     const img = this._createImg(this.options.iconUrl);
     link.appendChild(img);
     this._setIconStyles(link, 'icon');
+    link.addEventListener('click', (event: MouseEvent) => {
+      event.preventDefault();
+      this.options.history.push(link.pathname);
+    });
     return link;
   },
 
@@ -40,10 +48,12 @@ function getColorForWheelchairAccessiblity(placeData) {
 export default function createMarkerFromFeature(
   feature,
   latlng,
+  history,
 ) {
   const iconName = (feature && feature.properties && feature.properties.category) || 'place';
   const color = getColorForWheelchairAccessiblity(feature);
   const icon = new Icon({
+    history,
     feature,
     iconUrl: `/icons/categories/${iconName}.svg`,
     // iconUrl: `/icons/categories/${icons[iconName}.svg`,
