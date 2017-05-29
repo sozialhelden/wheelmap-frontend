@@ -1,9 +1,19 @@
+import styled from 'styled-components';
 import React, { Component } from 'react';
+
+
+const StyledAccHeader = styled.header`
+  height: 80px;
+`;
 
 export default class WheelmapAccessibilityHeader extends Component {
   render() {
-    return (<header>
-      (Wheelmap accessibility goes here)
-    </header>);
+    return (
+      <StyledAccHeader>
+      <p>
+        (Accessibility Cloud Snippet)
+      </p>
+      </StyledAccHeader>
+    );
   }
 };

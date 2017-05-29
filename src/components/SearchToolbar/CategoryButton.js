@@ -18,10 +18,6 @@ const StyledButtonIcon = styled.img`
   opacity: 0.95;
 `;
 
-// ^ add in later when supporting button icons as svg components
-// height: 46px;
-// fill: #2d2d2d;
-
 const StyledLink = styled(NavLink)`
   display: flex;
   flex-basis: 25%;
