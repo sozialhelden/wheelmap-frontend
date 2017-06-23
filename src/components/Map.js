@@ -106,10 +106,7 @@ export default class Map extends Component {
     const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
-      pointToLayer(feature, latlng) {
-        // debugger
-        return new L.Marker(latlng);
-      },
+      pointToLayer: createMarkerFromFeatureFn(this.props.history, accessibilityCloudFeatureCache),
     });
 
     const featureLayer = new L.LayerGroup();
