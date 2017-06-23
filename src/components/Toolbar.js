@@ -24,12 +24,13 @@ const StyledToolbar = styled(Toolbar)`
   box-sizing: border-box;
   left: 0;
   margin: 10px;
-  padding: 10px;
+  padding: 10px 15px;
   width: 270px;
   top: 0;
 
   font-size: 16px;
   background-color: ${colors.colorizedBackgroundColor};
+  border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 
   @media (max-width: 512px) {

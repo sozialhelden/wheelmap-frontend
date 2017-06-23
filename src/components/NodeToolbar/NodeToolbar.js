@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import type { Point } from 'geojson-flow';
 import NodeHeader from './NodeHeader';
 import WheelmapAccessibilityHeader from './WheelmapAccessibilityHeader';
-import ShareButton from './ShareButton';
-import ReportProblemButton from './ReportProblemButton';
+import NodeFooter from './NodeFooter';
 import Toolbar from '../Toolbar';
 import { Link } from 'react-router-dom';
 import { wheelmapFeatureCache } from '../../lib/WheelmapFeatureCache';
@@ -50,22 +49,16 @@ export default class NodeToolbar extends Component<*, Props, State> {
 
 
   render() {
-    const id = this.id()
-    return (<Toolbar>
-      <NodeHeader node={this.state.node} />
-      <WheelmapAccessibilityHeader node={this.state.node} />
-      <Link to='/'>Close</Link>
-      <footer>
-        <a href={`/de/nodes/${id}`}>
-          Details
-        </a>
-        <a href={`/de/nodes/${id}/edit`}>
-          Edit
-        </a>
-        <ShareButton node={this.state.node} />
-        <ReportProblemButton node={this.state.node} />
-      </footer>
-    </Toolbar>);
+    return (
+      <Toolbar>
+        <NodeHeader node={this.state.node} />
+        <WheelmapAccessibilityHeader node={this.state.node} />
+        <NodeFooter
+          node={this.state.node}
+          node_id={this.props.match.params.id}
+        />
+      </Toolbar>
+    );
   }
 
 }

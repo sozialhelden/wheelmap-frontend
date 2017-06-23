@@ -1,7 +1,10 @@
+// @flow
+
 import L from 'leaflet';
 import get from 'lodash/get';
 
 // Extend Leaflet-icon to support colors and category-images
+
 const Icon = L.Icon.extend({
   options: {
     number: '',
@@ -10,6 +13,7 @@ const Icon = L.Icon.extend({
   },
 
   createIcon() {
+    // this.options.history.navigate(...)
     const link = document.createElement('a');
     const href = `/nodes/${this.options.feature.properties.id}`;
     link.href = href;
@@ -20,6 +24,10 @@ const Icon = L.Icon.extend({
       this.options.history.push(href);
     });
     this._setIconStyles(link, 'icon');
+    link.addEventListener('click', (event: MouseEvent) => {
+      event.preventDefault();
+      this.options.history.push(link.pathname);
+    });
     return link;
   },
 
