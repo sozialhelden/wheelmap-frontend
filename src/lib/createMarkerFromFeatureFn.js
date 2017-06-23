@@ -11,9 +11,14 @@ const Icon = L.Icon.extend({
 
   createIcon() {
     const link = document.createElement('a');
-    link.href = `/nodes/${this.options.feature.properties.id}`;
+    const href = `/nodes/${this.options.feature.properties.id}`;
+    link.href = href;
     const img = this._createImg(this.options.iconUrl);
     link.appendChild(img);
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.options.history.push(href);
+    });
     this._setIconStyles(link, 'icon');
     return link;
   },
@@ -37,13 +42,11 @@ function getColorForWheelchairAccessiblity(placeData) {
   }
 }
 
-export default function createMarkerFromFeature(
-  feature,
-  latlng,
-) {
+const createMarkerFromFeatureFn = (history) => (feature, latlng) => {
   const iconName = (feature && feature.properties && feature.properties.category) || 'place';
   const color = getColorForWheelchairAccessiblity(feature);
   const icon = new Icon({
+    history,
     feature,
     iconUrl: `/icons/categories/${iconName}.svg`,
     // iconUrl: `/icons/categories/${icons[iconName}.svg`,
@@ -53,4 +56,6 @@ export default function createMarkerFromFeature(
     popupAnchor: new L.Point(10, 11),
   });
   return L.marker(latlng, { icon });
-}
+};
+
+export default createMarkerFromFeatureFn;

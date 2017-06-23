@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import colors from '../../lib/colors';
 

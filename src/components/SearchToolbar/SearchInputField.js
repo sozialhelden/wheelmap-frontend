@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../../lib/colors';
+// import colors from '../../lib/colors';
 
 
 const StyledInput = styled.input`

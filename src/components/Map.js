@@ -1,10 +1,13 @@
+// @flow
+
 import React, { Component } from 'react';
 import L from 'leaflet';
 import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
-import GeoJSONTileLayer from '../lib/geojson-tile-layer';
-import createMarkerFromFeature from '../lib/create-marker-from-feature';
-import styled from 'styled-components';
+import GeoJSONTileLayer from '../lib/GeoJSONTileLayer';
+import createMarkerFromFeatureFn from '../lib/createMarkerFromFeatureFn';
+import { wheelmapFeatureCache } from '../lib/WheelmapFeatureCache';
+import { accessibilityCloudFeatureCache } from '../lib/AccessibilityCloudFeatureCache';
 
 const config = {
   locateTimeout: 60 * 60 * 1000,
@@ -13,13 +16,22 @@ const config = {
   maxZoom: 18,
 };
 
+
 const lastCenter = ['lat', 'lng']
   .map(coordinate => localStorage.getItem(`wheelmap.lastCenter.${coordinate}`));
 const lastMoveDateString = localStorage.getItem('wheelmap.lastMoveDate');
 const lastMoveDate = lastMoveDateString && new Date(lastMoveDateString);
 const lastZoom = localStorage.getItem('wheelmap.lastZoom');
 
+
+type Props = {
+  history: { push: ((path: String) => void) },
+}
+
 export default class Map extends Component {
+  map: ?L.Map;
+  mapElement: ?HTMLElement;
+
   componentDidMount() {
     this.map = L.map(this.mapElement, {
       maxZoom: config.maxZoom,
@@ -29,7 +41,9 @@ export default class Map extends Component {
       zoomControl: false,
     });
 
-   new L.Control.Zoom({ position: 'bottomright' }).addTo(this.map);
+    if (!this.map) throw new Error('Could not initialize map component.');
+
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(this.map);
 
 
     if (+new Date() - lastMoveDate > config.locateTimeout) {
@@ -42,6 +56,7 @@ export default class Map extends Component {
       localStorage.setItem('wheelmap.lastCenter.lng', lng);
       localStorage.setItem('wheelmap.lastMoveDate', new Date());
     });
+
     this.map.on('zoomend', () => {
       localStorage.setItem('wheelmap.lastZoom', this.map.getZoom());
     });
@@ -80,14 +95,16 @@ export default class Map extends Component {
       maxClusterRadius: 15,
     });
 
-    const wheelmapBackendUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapBackendUrl, {
+    const wheelmapTileUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
+    const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
+      featureCache: wheelmapFeatureCache,
       layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeature,
+      pointToLayer: createMarkerFromFeatureFn(this.props.history, wheelmapFeatureCache),
     });
 
-    const accessibilityCloudUrl = 'https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';
-    const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudUrl, {
+    const accessibilityCloudTileUrl = 'https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';
+    const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
+      featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
       pointToLayer(feature, latlng) {
         // debugger
@@ -109,6 +126,8 @@ export default class Map extends Component {
       }
     });
   }
+
+  props: Props;
 
   render() {
     return (<section ref={el => (this.mapElement = el)} />);

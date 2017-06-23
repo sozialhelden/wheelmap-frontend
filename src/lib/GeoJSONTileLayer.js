@@ -115,6 +115,7 @@ class GeoJSONTileLayer extends TileLayer {
       }
       const geoJSON = JSON.parse(this.responseText);
       const filteredGeoJSON = removeShownFeatures(geoJSON);
+      layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
       const geoJSONOptions = { // eslint-disable-line new-cap
         pointToLayer(feature, latlng) {
           const id = feature.properties._id || feature.properties.id;

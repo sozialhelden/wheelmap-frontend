@@ -8,7 +8,8 @@ import ShareButton from './ShareButton';
 import ReportProblemButton from './ReportProblemButton';
 import Toolbar from '../Toolbar';
 import { Link } from 'react-router-dom';
-
+import { wheelmapFeatureCache } from '../../lib/WheelmapFeatureCache';
+import { accessibilityCloudFeatureCache } from '../../lib/AccessibilityCloudFeatureCache';
 
 type Props = {
   match: {
@@ -19,8 +20,12 @@ type Props = {
 };
 
 type State = {
-  node: ?Point,
+  feature: ?Feature,
 };
+
+function isNumeric(id) {
+  return id.match(/^\d+$/)
+}
 
 export default class NodeToolbar extends Component<*, Props, State> {
   state: State;
@@ -31,16 +36,30 @@ export default class NodeToolbar extends Component<*, Props, State> {
     this.state = {};
   }
 
+
+  id(props: Props): string {
+    return (props || this.props).match.params.id;
+  }
+
+
+  componentWillReceiveProps(newProps: Props): void {
+    const id = this.id(newProps);
+    const cache = isNumeric(id) ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
+    cache.getFeature(id).then(node => this.setState({ node }));
+  }
+
+
   render() {
+    const id = this.id()
     return (<Toolbar>
       <NodeHeader node={this.state.node} />
       <WheelmapAccessibilityHeader node={this.state.node} />
       <Link to='/'>Close</Link>
       <footer>
-        <a href={`/de/nodes/${this.props.match.params.id}`}>
+        <a href={`/de/nodes/${id}`}>
           Details
         </a>
-        <a href={`/de/nodes/${this.props.match.params.id}/edit`}>
+        <a href={`/de/nodes/${id}/edit`}>
           Edit
         </a>
         <ShareButton node={this.state.node} />
@@ -48,4 +67,5 @@ export default class NodeToolbar extends Component<*, Props, State> {
       </footer>
     </Toolbar>);
   }
+
 }
