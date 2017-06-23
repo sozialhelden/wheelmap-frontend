@@ -1,9 +1,10 @@
 // @flow
 import type { Feature, FeatureCollection } from 'geojson-flow';
 
+
 export default class FeatureCache {
-  // Data structure: { [featureId]: feature }
-  cache = {};
+  cache: { [string]: Feature } = {};
+
 
   cacheFeature(feature: Feature) {
     const featureId = String(feature.id ||
@@ -13,6 +14,7 @@ export default class FeatureCache {
     this.cache[featureId] = feature;
     console.log('Cached', feature);
   }
+
 
   cacheGeoJSON(geoJSON: FeatureCollection) {
     if (!geoJSON || !geoJSON.features) {
@@ -42,6 +44,6 @@ export default class FeatureCache {
 
 
   fetchFeature(id: string): Promise<Feature> {
-    throw new Error('Not implemented');
+    throw new Error('Not implemented. Please override this method in your subclass.');
   }
 }
