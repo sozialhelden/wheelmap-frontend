@@ -100,7 +100,7 @@ export default class Map extends Component {
     this.map.addLayer(featureLayer);
 
     Categories.fetchPromise.then(() => {
-      const wheelmapTileUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
+      const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
       const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,

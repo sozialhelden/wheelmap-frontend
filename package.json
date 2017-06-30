@@ -46,6 +46,7 @@
     "flow": "flow",
     "server": "server"
   },
+  "proxy": "https://staging.wheelmap.org",
   "babel": {
     "plugins": [
       "syntax-flow"

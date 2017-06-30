@@ -5,7 +5,7 @@ import FeatureCache from './FeatureCache';
 
 export default class WheelmapFeatureCache extends FeatureCache {
   static fetchFeature(id): Promise<Feature> {
-    return fetch(`http://localhost:5000/nodes/${id}.json`);
+    return fetch(`/nodes/${id}.json`);
   }
 
   static getFeatureFromResponse(response): Promise<Feature> {
