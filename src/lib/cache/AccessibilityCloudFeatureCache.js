@@ -2,10 +2,8 @@ import type { Feature } from 'geojson-flow';
 import FeatureCache from './FeatureCache';
 
 export default class AccessibilityCloudFeatureCache extends FeatureCache {
-  static sourceId = 'accessibility.cloud';
-
-  fetchFeature(id): Promise<Feature> {
-    return fetch(`http://www.accessibility.cloud/place-infos/${id}`, { headers: { Accept: 'application/json', 'X-App-Token': ''} });
+  static fetchFeature(id): Promise<Feature> {
+    return fetch(`https://www.accessibility.cloud/place-infos/${id}.json?appToken=27be4b5216aced82122d7cf8f69e4a07`);
   }
 }
 

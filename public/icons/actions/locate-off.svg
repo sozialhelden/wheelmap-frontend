@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+<svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
     <title>locate-off</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="locate-off" transform="translate(0.006139, -3.362133)" fill-rule="nonzero" fill="#000000">
-            <path d="M4.40301723,15.0206258 L8.75556231,15.0233468 L8.75828328,19.3758918 L16.7302398,7.04866923 L4.40301723,15.0206258 Z M20.4169553,3.3619538 L7.66684727,23.0777436 L7.66249542,16.1164136 L0.701165482,16.1120618 L20.4169553,3.3619538 Z" id="Combined-Shape"></path>
+            <path d="M3.7053377,12.8233426 L7.23756857,12.8255507 L7.23977673,16.3577816 L13.7092769,6.35384241 L3.7053377,12.8233426 Z M16.7011655,3.3619538 L6.35404116,19.3619538 L6.3505095,13.7126098 L0.701165482,13.7090781 L16.7011655,3.3619538 Z" id="Combined-Shape"></path>
         </g>
     </g>
 </svg>

@@ -2,65 +2,199 @@
 
 import styled from 'styled-components';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import Categories from '../../lib/Categories';
+import type { Category } from '../../lib/Categories';
+import type { Feature, WheelmapProperties, AccessibilityCloudProperties, NodeProperties } from '../../lib/Feature';
+import colors, { getColorForWheelchairAccessiblity } from '../../lib/colors';
+import CloseLink from './CloseLink';
+import BreadCrumbs from './BreadCrumbs';
+import ToolbarLink from './ToolbarLink';
+import ChevronRight from './ChevronRight';
 
-type Props = {
-  className: string,
-};
-
-const NodePath = (props: Props) => (
-  <p className={props.className}>
-    <span className="city">Berlin </span>
-    &gt;
-    <span className="category"> Essen </span>
-    &gt;
-    <span className="subcategory"> Bar</span>
-  </p>
-);
 
 const StyledNodeHeader = styled.header`
-  border-bottom: 1px solid #ccc;
   color: rgba(0, 0, 0, 0.8);
+  a.place-website-url {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 `;
 
-const StyledNodePath = styled(NodePath)`
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
-  display: inline-block;
+
+const StyledBreadCrumbs = styled(BreadCrumbs)`
+  margin-right: 30px;
 `;
 
-const Close = styled(Link)`
-  color: rgba(0, 0, 0, 0.3);
-  font-size: 36px;
-  text-decoration: none;
-  position: absolute;
-  top: -13px;
-  left: 246px;
-`;
 
 const LocationName = styled.h1`
+  margin: 1em 0;
   font-size: 20px;
-  line-height: 0.5;
-  margin: 0px;
-`;
-const Address = styled.p``;
-const Source = styled.p`
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.6);
-`;
-const SourceName = styled(Link)`
-  color: rgba(0, 0, 0, 0.6);
+  line-height: 1;
+  font-weight: 400;
 `;
 
-export default class NodeHeader extends Component {
+
+const SourceLink = ({ to, className } : { to: string, className?: string }) => {
+  return <ToolbarLink to={to} className={`${className} link-button`}>
+    on Jaccede <ChevronRight color={colors.linkColor} />
+  </ToolbarLink>;
+};
+
+const StyledSourceLink = styled(SourceLink)`
+  margin-top: .5em;
+  text-align: right;
+  .chevron-right {
+    vertical-align: bottom;
+    height: 18px;
+    width: 7px;
+    min-width: 7px;
+  }
+`;
+
+const StyledIconImage = styled('figure')`
+  display: inline-block;
+  height: 1.5em;
+  width: 1.5em;
+  margin: 0;
+  padding: 0;
+  border-radius: 1em;
+  vertical-align: middle;
+  margin-right: 0.5em;
+  margin-bottom: 0.2em;
+  img {
+    width: 1em;
+    height: 1em;
+    margin: 0.25em;
+    vertical-align: middle;
+  }
+`;
+
+function Icon({ properties, category }: { properties: NodeProperties, category: Category }) {
+  const src = `/icons/categories/${category._id}.svg`;
+  const color = getColorForWheelchairAccessiblity(properties);
+  return <StyledIconImage className={`ac-marker-${color}`}><img src={src} alt="" /></StyledIconImage>;
+}
+
+type Props = {
+  node: Feature,
+};
+
+type State = {
+  category: ?Category,
+  parentCategory: ?Category,
+};
+
+
+function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
+  return (<a className="phone-number link-button" href={`tel:${phoneNumber}`}>
+    Call {phoneNumber}
+  </a>);
+}
+
+export default class NodeHeader extends Component<void, Props, State> {
+  static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
+    return [
+      [properties.street, properties.housenumber].filter(Boolean).join(' '),
+      [properties.postcode, properties.city].filter(Boolean).join(' '),
+    ].filter(Boolean).join(', ');
+  }
+
+  static getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
+    if (typeof properties.address === 'string') return properties.address;
+    if (typeof properties.address === 'object') {
+      if (typeof properties.address.full === 'string') return properties.address.full;
+    }
+    return null;
+  }
+
+  static getAddressForProperties(properties: AccessibilityCloudProperties | WheelmapProperties): ?string {
+    if (properties.address) {
+      return this.getAddressForACProperties(((properties: any): AccessibilityCloudProperties));
+    }
+    return this.getAddressForWheelmapProperties(((properties: any): WheelmapProperties));
+  }
+
+
+  state = { category: null, parentCategory: null };
+
+  componentDidMount() {
+    this.fetchCategory(this.props);
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    this.fetchCategory(nextProps);
+  }
+
+  fetchCategory(props: Props = this.props) {
+    const node = props.node;
+    if (!node) {
+      this.setState({ category: null });
+      return;
+    }
+    const properties = node.properties;
+    if (!properties) {
+      this.setState({ category: null });
+      return;
+    }
+    const categoryId = (properties.type && properties.type.identifier) || properties.category;
+    if (!categoryId) {
+      this.setState({ category: null });
+      return;
+    }
+    Categories.getCategory(categoryId).then(
+      (category) => { this.setState({ category }); return category; },
+      () => this.setState({ category: null }),
+    )
+    .then(category => category && Categories.getCategory(category.parentIds[0]))
+    .then(parentCategory => this.setState({ parentCategory }));
+  }
+
+
   render() {
+    const node = this.props.node;
+    if (!node) return null;
+    const properties = node.properties;
+    if (!properties) return null;
+    const address = this.constructor.getAddressForProperties(properties);
+    const addressString = address ? address.replace(/,$/, '').replace(/^,/, '') : null;
+    const externalInfoPageUrl = properties.infoPageUrl;
+    const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
+    const phoneNumber: ?string = properties.phoneNumber || properties.phone;
+    const description: ?string = properties.wheelchair_description;
+    const categoryOrParentCategory = this.state.category || this.state.parentCategory;
+    const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
     return (
       <StyledNodeHeader>
-        <StyledNodePath />
-        <Close to="/">&#10799;</Close>
-        <LocationName>Chaostheorie</LocationName>
-        <Address>Schliemannstraße 123 <br /> 10437 Berlin</Address>
-        <Source> Source: <SourceName to="supersource.org">Supersource</SourceName></Source>
+        <StyledBreadCrumbs
+          properties={properties}
+          category={this.state.category}
+          parentCategory={this.state.parentCategory}
+          />
+
+        <CloseLink />
+
+        <LocationName>
+          {categoryOrParentCategory ?
+            <Icon properties={properties} category={categoryOrParentCategory} />
+            : null
+          }
+          {properties.name || categoryName || 'place' }
+        </LocationName>
+
+        <address>{addressString}</address>
+
+        {externalInfoPageUrl ? <StyledSourceLink to={externalInfoPageUrl} /> : null}
+
+        {phoneNumber ? <p><PhoneNumberLink phoneNumber={phoneNumber} /></p> : null}
+
+        {description ? <p>“{description}”</p> : null}
+
+        {placeWebsiteUrl ?
+          <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
+          : null
+        }
       </StyledNodeHeader>
     );
   }

@@ -13,4 +13,4 @@ flow-typed
 # This package can give you a lot of flow errors, better ignore it
 .*/node_modules/fbjs/.*
 fbjs/.*
-.*/node_modules/styled-components/.*
+# .*/node_modules/styled-components/.*

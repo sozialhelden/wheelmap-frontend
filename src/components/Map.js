@@ -6,8 +6,9 @@ import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import GeoJSONTileLayer from '../lib/GeoJSONTileLayer';
 import createMarkerFromFeatureFn from '../lib/createMarkerFromFeatureFn';
-import { wheelmapFeatureCache } from '../lib/WheelmapFeatureCache';
-import { accessibilityCloudFeatureCache } from '../lib/AccessibilityCloudFeatureCache';
+import Categories from '../lib/Categories';
+import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
+import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 
 const config = {
   locateTimeout: 60 * 60 * 1000,
@@ -44,7 +45,6 @@ export default class Map extends Component {
     if (!this.map) throw new Error('Could not initialize map component.');
 
     new L.Control.Zoom({ position: 'bottomright' }).addTo(this.map);
-
 
     if (+new Date() - lastMoveDate > config.locateTimeout) {
       this.map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
@@ -95,25 +95,28 @@ export default class Map extends Component {
       maxClusterRadius: 15,
     });
 
-    const wheelmapTileUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
-      featureCache: wheelmapFeatureCache,
-      layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeatureFn(this.props.history, wheelmapFeatureCache),
-    });
-
-    const accessibilityCloudTileUrl = 'https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';
-    const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
-      featureCache: accessibilityCloudFeatureCache,
-      layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeatureFn(this.props.history, accessibilityCloudFeatureCache),
-    });
-
     const featureLayer = new L.LayerGroup();
-    featureLayer.addLayer(wheelmapTileLayer);
-    featureLayer.addLayer(accessibilityCloudTileLayer);
     featureLayer.addLayer(markerClusterGroup);
     this.map.addLayer(featureLayer);
+
+    Categories.fetchPromise.then(() => {
+      const wheelmapTileUrl = 'http://localhost:5000/nodes/{x}/{y}/{z}.geojson?limit=25';
+      const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
+        featureCache: wheelmapLightweightFeatureCache,
+        layerGroup: markerClusterGroup,
+        pointToLayer: createMarkerFromFeatureFn(this.props.history, wheelmapLightweightFeatureCache),
+      });
+
+      const accessibilityCloudTileUrl = 'https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=27be4b5216aced82122d7cf8f69e4a07';
+      const accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
+        featureCache: accessibilityCloudFeatureCache,
+        layerGroup: markerClusterGroup,
+        pointToLayer: createMarkerFromFeatureFn(this.props.history, accessibilityCloudFeatureCache),
+      });
+      featureLayer.addLayer(wheelmapTileLayer);
+      featureLayer.addLayer(accessibilityCloudTileLayer);
+    });
+
 
     this.map.on('zoomend', () => {
       if (this.map.getZoom() > 16) {

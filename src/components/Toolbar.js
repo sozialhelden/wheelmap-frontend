@@ -24,8 +24,8 @@ const StyledToolbar = styled(Toolbar)`
   box-sizing: border-box;
   left: 0;
   margin: 10px;
-  padding: 10px 15px;
-  width: 270px;
+  padding: 12px 15px 5px 15px;
+  width: 320px;
   top: 0;
 
   font-size: 16px;
@@ -36,6 +36,19 @@ const StyledToolbar = styled(Toolbar)`
   @media (max-width: 512px) {
     width: calc(100% - 20px);
     top: calc(100% - 80px);
+  }
+
+  a.link-button {
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 0 -10px;
+
+    &:hover {
+      background-color: #f2f2f2;
+    }
   }
 `;
 

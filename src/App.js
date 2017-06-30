@@ -2,19 +2,21 @@
 
 import React from 'react';
 // import logo from './logo.svg';
+import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
+import colors from './lib/colors';
 import Map from './components/Map';
 import './App.css';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 
-const App = () => (
+const App = ({ className }: { className: string }) => (
   <Router>
-    <div className="app-container">
+    <div className={`app-container ${className}`}>
       <Route path="/" component={Map} />
       <Route component={SearchToolbar} />
       <Route path="/nodes/:id" component={NodeToolbar} />
@@ -22,4 +24,11 @@ const App = () => (
   </Router>
 );
 
-export default App;
+const StyledApp = styled(App)`
+  a {
+    color: ${colors.linkColor};
+    text-decoration: none;
+  }
+`;
+
+export default StyledApp;

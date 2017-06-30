@@ -109,15 +109,15 @@ html, body, #root, .app-container {
 }
 
 .ac-marker-green {
-  background-color: #69d289;
+  background-color: #00b773;
 }
 
 .ac-marker-yellow {
-  background-color: #f9c637;
+  background-color: #ff8d00;
 }
 
 .ac-marker-red {
-  background-color: #d26969;
+  background-color: #f54b4b;
 }
 
 .ac-marker-yellow img,
@@ -140,5 +140,7 @@ html, body, #root, .app-container {
 }
 
 body, button, input, select, textarea {
-  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', sans-serif;
+  /* Mix of the two system font stacks used by GitHub and Medium. */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+

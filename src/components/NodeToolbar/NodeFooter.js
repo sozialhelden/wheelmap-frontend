@@ -1,64 +1,45 @@
+// @flow
+
+import React from 'react';
 import styled from 'styled-components';
-import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import type { Feature } from '../../lib/Feature';
+import { isWheelmapFeatureId } from '../../lib/Feature';
 
-const FooterLink = styled(Link)`
-  display: block;
-  font-size: 16px;
-  color: #1fabd9;
-  padding: 10px;
-  text-decoration: none;
-  border-radius: 4px;
-
-  &:hover {
-    background-color: #f2f2f2;
-  }
-`;
-
-const ShareLink = (node) => (
-  <FooterLink to="/" >
-    Share
-  </FooterLink>
-);
-
-const ReportProblemLink = (node) => (
-  <FooterLink to="/" >
-    Report Problem
-  </FooterLink>
-);
-
-const FooterLinkSmall = styled(Link)`
-  display: block;
-  margin-bottom: 10px;
-  color: #1fabd9;
-  font-size: 14px;
-  text-decoration: none;
-  padding-left: 10px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 const StyledFooter = styled.footer`
-    border-top: 1px solid #ccc;
     padding-top: 10px;
 `;
 
-export default class NodeFooter extends Component {
-  render() {
-    return (
-      <StyledFooter>
-        <FooterLinkSmall to={`/de/nodes/${this.node_id}`}>
-          Details
-        </FooterLinkSmall>
-        <FooterLinkSmall to={`/de/nodes/${this.node_id}/edit`}>
-          Edit
-        </FooterLinkSmall>
 
-        <ShareLink node={this.props.node} />
-        <ReportProblemLink node={this.props.node} />
-      </StyledFooter>
-    );
-  }
+type Props = {
+  feature: Feature,
+  featureId: string | number | null,
+};
+
+
+export default function NodeFooter({ feature, featureId }: Props) {
+  const isWheelmap = isWheelmapFeatureId(featureId);
+
+  return (
+    <StyledFooter>
+      {isWheelmap ?
+        <div className="wheelmap-links">
+          <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
+            Details
+          </a>
+          <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}/edit`}>
+            Edit
+          </a>
+        </div> : null}
+
+      <Link to="/" className="link-button">
+        Share
+      </Link>
+
+      <Link to="/" className="link-button">
+        Report Problem
+      </Link>
+    </StyledFooter>
+  );
 }

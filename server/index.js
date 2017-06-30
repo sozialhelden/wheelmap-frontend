@@ -6,7 +6,9 @@ var app = express();
 app.use(cors())
 
 app.use('/nodes', proxy({
-  target: 'https://wheelmap.org',
+  target: 'https://staging.wheelmap.org',
+  // target: 'https://wheelmap.org',
+  // target: 'http://192.168.33.10:3000',
   changeOrigin: true,
 }));
 
