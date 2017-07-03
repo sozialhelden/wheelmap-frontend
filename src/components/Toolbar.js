@@ -4,6 +4,7 @@ import Swipeable from 'react-swipeable';
 import styled from 'styled-components';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
+import uniq from 'lodash/uniq';
 
 const minimalHeight = 130;
 
@@ -13,14 +14,9 @@ type Props = {
 };
 
 
-type PositionName = 'top' | 'middle' | 'bottom';
-
-const positionNames: PositionName[] = ['top', 'middle', 'bottom'];
-
-
 type State = {
-  positionIndex: number;
   topOffset: number,
+  lastTopOffset: number;
   scrollTop: number,
   isSwiping: boolean,
   viewportSize: {
@@ -41,9 +37,9 @@ class Toolbar extends Component<void, Props, State> {
   onResizeBound: (() => void);
 
   state = {
-    positionIndex: positionNames.indexOf('bottom'),
-    scrollTop: 0,
+    lastTopOffset: 0,
     topOffset: 0,
+    scrollTop: 0,
     isSwiping: false,
     viewportSize: {
       width: -1,
@@ -73,102 +69,96 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
-  getPositionNamesToTopPositions(): { [PositionName]: number } {
+  getStops(): number[] {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
       toolbarHeight = parseFloat(style.marginTop) +
         parseFloat(style.marginBottom) +
-        this.scrollElement.scrollHeight;
+        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
     const minimalTopPosition = this.state.viewportSize.height - toolbarHeight;
-    return {
-      top: minimalTopPosition,
-      middle: Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
-      bottom: this.state.viewportSize.height - minimalHeight,
-    };
+    return uniq([
+      minimalTopPosition,
+      Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
+      this.state.viewportSize.height - minimalHeight,
+    ]);
   }
 
 
-  getTopOffsetForPositionName(position: PositionName): number {
-    return this.getPositionNamesToTopPositions()[position];
-  }
-
-
-  getPositionName(): PositionName {
+  getPositionIndex(): number {
     if (this.state.viewportSize.width > this.state.viewportSize.height) {
-      return 'top';
+      return 0;
     }
-    return positionNames[this.state.positionIndex];
+    return this.state.lastTopOffset;
   }
 
 
-  getNearestPositionNameForTopOffset(): PositionName {
+  getNearestStopForTopOffset(): number {
     const topOffset = this.state.topOffset;
-    const positionNamesToTopPositions = this.getPositionNamesToTopPositions();
+    const stops = this.getStops();
     function distanceTo(positionName) {
-      return Math.abs(positionNamesToTopPositions[positionName] - topOffset);
+      return Math.abs(stops[positionName] - topOffset);
     }
-    let result = positionNames[0];
+    let result = stops[0];
     let distance = distanceTo(result);
-    Object.keys(positionNamesToTopPositions).forEach((positionName: PositionName) => {
-      if (distanceTo(positionName) < distance) {
-        distance = distanceTo(positionName);
-        result = positionName;
+    stops.forEach((stop: number) => {
+      if (stop - topOffset < distance) {
+        distance = stop - topOffset;
+        result = stop;
       }
     });
     return result;
   }
 
 
-  getStyle(): { top: string } {
-    const positionName: PositionName = this.getPositionName();
-    const topOffset = this.state.topOffset || this.getTopOffsetForPositionName(positionName);
+  getStyle(): { transform: string, touchAction: string, transition: string } {
+    const lastTopOffset = this.state.lastTopOffset;
+    const topOffset = this.state.topOffset || this.state.lastTopOffset;
     return {
-      touchAction: positionName === 'top' ? 'inherit' : 'none',
+      touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
       transition: this.state.isSwiping ? '' : 'transform 0.3s ease-out',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
 
 
-  onSwiping(e: TouchEvent, deltaX: number, deltaY: number, absX: number, absY: number, velocity: number) {
+  onSwiping(e: TouchEvent, deltaX: number, deltaY: number, absX: number, absY: number) {
     if (this.scrollElement && this.scrollElement.scrollTop > 0) {
       this.setState({ scrollTop: this.state.scrollTop || this.scrollElement.scrollTop });
       return;
     }
 
-    if (this.getPositionName() !== 'top') {
+    if (this.getPositionIndex() !== 'top') {
       e.preventDefault();
       e.stopPropagation();
     }
 
     this.setState({ isSwiping: true });
-    const positionName = this.getPositionName();
-    const originalTopOffset = this.getTopOffsetForPositionName(positionName);
     this.setState({
-      topOffset: Math.max(0, originalTopOffset - deltaY - this.state.scrollTop),
+      topOffset: Math.max(0, this.state.lastTopOffset - deltaY - this.state.scrollTop),
     });
   }
 
 
-  onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean, velocity: number) {
+  onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
     this.setState({ isSwiping: false, scrollTop: 0 });
     if (isFlick && !this.state.scrollTop) {
       const isSwipingUp = deltaY > 0;
       const indexDelta = isSwipingUp ? -1 : +1;
-      const index = this.state.positionIndex + indexDelta;
-      const clampedPositionNameIndex = Math.max(0, Math.min(positionNames.length - 1, index));
+      const stops = this.getStops();
+      const index = stops.indexOf(this.state.lastTopOffset) + indexDelta;
+      const newIndex = Math.max(0, Math.min(stops.length - 1, index));
       this.setState({
-        positionIndex: clampedPositionNameIndex,
+        lastTopOffset: stops[newIndex],
         topOffset: 0,
       });
       return;
     }
-    const newPositionName = this.getNearestPositionNameForTopOffset();
+    const newStop = this.getNearestStopForTopOffset();
     this.setState({
-      positionIndex: positionNames.indexOf(newPositionName),
-      topOffset: this.getTopOffsetForPositionName(newPositionName),
+      lastTopOffset: newStop,
+      topOffset: 0,
     });
   }
 
