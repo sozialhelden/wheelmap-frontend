@@ -59,6 +59,11 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
   }
 
 
+  componentDidMount() {
+    this.onResize();
+  }
+
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResizeBound);
   }
