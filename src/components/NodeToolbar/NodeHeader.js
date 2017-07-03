@@ -66,11 +66,17 @@ const StyledIconImage = styled('figure')`
   border-radius: 1em;
   vertical-align: middle;
   margin-right: 0.5em;
+  box-sizing: border-box;
+
   img {
     width: 1em;
     height: 1em;
     margin: 0.25em;
     vertical-align: middle;
+  }
+
+  &.ac-marker-gray {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
   }
 `;
 
