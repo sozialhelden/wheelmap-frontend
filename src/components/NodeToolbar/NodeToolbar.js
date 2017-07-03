@@ -145,8 +145,8 @@ export default class NodeToolbar extends Component<*, Props, State> {
   }
 
 
-  id(props: Props): string {
-    return (props || this.props).match.params.id;
+  id(props: Props = this.props): ?string {
+    return props.match && props.match.params.id;
   }
 
 
@@ -181,7 +181,7 @@ export default class NodeToolbar extends Component<*, Props, State> {
         <StyledAccessibilityDetails details={accessibility} />
         <NodeFooter
           feature={this.state.node}
-          featureId={this.props.match.params.id}
+          featureId={this.props.match && this.props.match.params.id}
         />
       </Toolbar>
     );

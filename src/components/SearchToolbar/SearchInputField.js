@@ -13,7 +13,7 @@ const StyledInput = styled.input`
   border: none;
   background-color: #ddd;
   border-radius: 0.3em;
-  margin-bottom: 0.5em;
+  margin: 0.5em 0;
 
   background-position: 0.5em 0.5em;
   background-image: url(/icons/actions/search.svg);

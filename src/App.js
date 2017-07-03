@@ -14,11 +14,17 @@ import './App.css';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 
+
+function HidingSearchToolbar(props) {
+  const isNodeRoute = Boolean(props.location && props.location.pathname.match(/\/nodes/));
+  return <SearchToolbar hidden={isNodeRoute} />;
+}
+
 const App = ({ className }: { className: string }) => (
   <Router>
     <div className={`app-container ${className}`}>
       <Route path="/" component={Map} />
-      <Route component={SearchToolbar} />
+      <Route path="/" component={HidingSearchToolbar} />
       <Route path="/nodes/:id" component={NodeToolbar} />
     </div>
   </Router>

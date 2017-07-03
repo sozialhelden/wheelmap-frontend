@@ -28,7 +28,7 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 `;
 
 
-const LocationName = styled.h1`
+const PlaceName = styled.h1`
   margin: 0.25em 30px 0.5em 0;
   font-size: 20px;
   line-height: 1;
@@ -168,15 +168,17 @@ export default class NodeHeader extends Component<void, Props, State> {
     const description: ?string = properties.wheelchair_description;
     const categoryOrParentCategory = this.state.category || this.state.parentCategory;
     const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+    const placeName = (properties.name || categoryName || 'place')
+      .replace(/(\w)\/(\w)/g, '$1 / $2');
     return (
       <StyledNodeHeader>
-        <LocationName>
+        <PlaceName>
           {categoryOrParentCategory ?
             <Icon properties={properties} category={categoryOrParentCategory} />
             : null
           }
-          {properties.name || categoryName || 'place' }
-        </LocationName>
+          {placeName}
+        </PlaceName>
 
         <StyledBreadCrumbs
           properties={properties}

@@ -7,12 +7,17 @@ import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
 
 
-const minimalHeight = 130;
-
-
 type Props = {
   className: string,
   children: AnyReactElement,
+  hidden?: boolean,
+  minimalHeight?: number,
+};
+
+
+const defaultProps = {
+  hidden: false,
+  minimalHeight: 130,
 };
 
 
@@ -28,7 +33,9 @@ type State = {
 };
 
 
-class Toolbar extends Component<void, Props, State> {
+class Toolbar extends Component<typeof defaultProps, Props, State> {
+  static defaultProps = defaultProps;
+
   constructor(props: Props) {
     super(props);
     this.onResizeBound = this.onResize.bind(this);
@@ -76,7 +83,7 @@ class Toolbar extends Component<void, Props, State> {
       return;
     }
 
-    if (this.getPositionIndex() !== 'top') {
+    if (this.state.lastTopOffset !== 0) {
       e.preventDefault();
       e.stopPropagation();
     }
@@ -110,14 +117,6 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
-  getPositionIndex(): number {
-    if (this.state.viewportSize.width > this.state.viewportSize.height) {
-      return 0;
-    }
-    return this.state.lastTopOffset;
-  }
-
-
   getNearestStopForTopOffset(): number {
     const topOffset = this.state.topOffset;
     const stops = this.getStops();
@@ -136,7 +135,7 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
-  getStops(): number[] {
+  getMinimalTopPosition(): number {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
@@ -144,21 +143,34 @@ class Toolbar extends Component<void, Props, State> {
         parseFloat(style.marginBottom) +
         (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
-    const minimalTopPosition = this.state.viewportSize.height - toolbarHeight;
+    return this.state.viewportSize.height - toolbarHeight;
+  }
+
+
+  getStops(): number[] {
+    const minimalTopPosition = this.getMinimalTopPosition();
     return uniq([
       minimalTopPosition,
       Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
-      this.state.viewportSize.height - minimalHeight,
+      this.state.viewportSize.height - (this.props.minimalHeight || 0),
     ]);
   }
 
 
   getStyle(): { transform: string, touchAction: string, transition: string } {
     const lastTopOffset = this.state.lastTopOffset;
-    const topOffset = this.state.topOffset || this.state.lastTopOffset;
+
+    let topOffset = this.state.topOffset || this.state.lastTopOffset;
+    topOffset = Math.max(this.getMinimalTopPosition(), topOffset);
+    if (this.state.viewportSize.width > this.state.viewportSize.height) {
+      topOffset = 0;
+    }
+
+    const defaultTransitions = 'opacity 0.3s ease-out';
+
     return {
       touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: this.state.isSwiping ? '' : 'transform 0.3s ease-out',
+      transition: this.state.isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
@@ -168,13 +180,19 @@ class Toolbar extends Component<void, Props, State> {
 
 
   render() {
+    const classNames = [
+      'node-toolbar',
+      this.props.hidden ? 'toolbar-hidden' : null,
+      this.props.className,
+    ];
+    const className = classNames.filter(Boolean).join(' ');
     return (<Swipeable
       onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
       onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
     >
       <nav
         style={this.getStyle()}
-        className={['node-toolbar', this.props.className].filter(Boolean).join(' ')}
+        className={className}
         ref={(nav) => { this.scrollElement = nav; }}
       >
         {this.props.children}
@@ -207,6 +225,24 @@ const StyledToolbar = styled(Toolbar)`
 
   &, * { /* switch on 3D acceleration for the panel */
     transform: scale3d(1, 1, 1);
+  }
+
+  &.toolbar-hidden {
+    opacity: 0;
+  }
+
+  /* handle to signalize you can resize by swiping */
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: 44px;
+    height: 5px;
+    border-radius: 2.5px;
+    background-color: rgba(0, 0, 0, 0.2);
   }
 
   @media (max-width: 512px) {

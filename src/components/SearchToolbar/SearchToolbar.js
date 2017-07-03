@@ -7,6 +7,7 @@ import SearchInputField from './SearchInputField';
 
 type Props = {
   className: string,
+  hidden: boolean,
 };
 
 type DefaultProps = {};
@@ -30,7 +31,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, *> {
 
   render() {
     return (
-      <Toolbar>
+      <Toolbar hidden={this.props.hidden} minimalHeight={75}>
         <SearchInputField />
         <CategoryMenu isVisible={this.state.categoryMenuIsVisible} />
       </Toolbar>
