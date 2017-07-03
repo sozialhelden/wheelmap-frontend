@@ -74,9 +74,17 @@ class Toolbar extends Component<void, Props, State> {
 
 
   getPositionNamesToTopPositions(): { [PositionName]: number } {
+    let toolbarHeight = 0;
+    if (this.scrollElement) {
+      const style = window.getComputedStyle(this.scrollElement);
+      toolbarHeight = parseFloat(style.marginTop) +
+        parseFloat(style.marginBottom) +
+        this.scrollElement.scrollHeight;
+    }
+    const minimalTopPosition = this.state.viewportSize.height - toolbarHeight;
     return {
-      top: 0,
-      middle: this.state.viewportSize.height / 2,
+      top: minimalTopPosition,
+      middle: Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
       bottom: this.state.viewportSize.height - minimalHeight,
     };
   }
