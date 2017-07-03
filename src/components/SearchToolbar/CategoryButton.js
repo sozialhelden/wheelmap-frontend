@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import colors from '../../lib/colors';
+import { interpolateLab } from 'd3-interpolate';
 
 const Circle = styled.div.attrs({ className: 'circle' })`
   width: 35px;
@@ -34,6 +35,9 @@ const StyledLink = styled(NavLink)`
   &.active .circle {
     background-color: ${colors.selectedColor};
   }
+  &:not(.active):hover .circle {
+    background-color: ${interpolateLab(colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+  }
   &:focus {
     outline: none;
     .circle {
@@ -54,6 +58,7 @@ type Props = {
   id: string,
 };
 
+
 export default function CategoryButton(props: Props) {
   const url = `/categories/${props.id}`;
 
@@ -62,7 +67,7 @@ export default function CategoryButton(props: Props) {
       <Circle>
         <StyledButtonIcon
           src={`/icons/main-categories/white/${props.id}.svg`}
-          alt={`${name}-icon`}
+          alt=""
         />
       </Circle>
       <Caption>{props.name}</Caption>

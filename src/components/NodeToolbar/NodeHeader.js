@@ -6,7 +6,6 @@ import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
 import type { Feature, WheelmapProperties, AccessibilityCloudProperties, NodeProperties } from '../../lib/Feature';
 import colors, { getColorForWheelchairAccessiblity } from '../../lib/colors';
-import CloseLink from './CloseLink';
 import BreadCrumbs from './BreadCrumbs';
 import ToolbarLink from './ToolbarLink';
 import ChevronRight from './ChevronRight';
@@ -14,6 +13,7 @@ import ChevronRight from './ChevronRight';
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
+
   a.place-website-url {
     display: block;
     overflow: hidden;
@@ -24,15 +24,18 @@ const StyledNodeHeader = styled.header`
 
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
-  margin-right: 30px;
+  margin-bottom: 0.5em;
 `;
 
 
 const LocationName = styled.h1`
-  margin: 1em 0;
+  margin: 0.25em 30px 0.5em 0;
   font-size: 20px;
   line-height: 1;
   font-weight: 400;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 
@@ -50,6 +53,7 @@ const StyledSourceLink = styled(SourceLink)`
     height: 18px;
     width: 7px;
     min-width: 7px;
+    margin: 0;
   }
 `;
 
@@ -62,7 +66,6 @@ const StyledIconImage = styled('figure')`
   border-radius: 1em;
   vertical-align: middle;
   margin-right: 0.5em;
-  margin-bottom: 0.2em;
   img {
     width: 1em;
     height: 1em;
@@ -167,14 +170,6 @@ export default class NodeHeader extends Component<void, Props, State> {
     const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
     return (
       <StyledNodeHeader>
-        <StyledBreadCrumbs
-          properties={properties}
-          category={this.state.category}
-          parentCategory={this.state.parentCategory}
-          />
-
-        <CloseLink />
-
         <LocationName>
           {categoryOrParentCategory ?
             <Icon properties={properties} category={categoryOrParentCategory} />
@@ -182,6 +177,12 @@ export default class NodeHeader extends Component<void, Props, State> {
           }
           {properties.name || categoryName || 'place' }
         </LocationName>
+
+        <StyledBreadCrumbs
+          properties={properties}
+          category={this.state.category}
+          parentCategory={this.state.parentCategory}
+          />
 
         <address>{addressString}</address>
 

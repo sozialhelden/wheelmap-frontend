@@ -17,6 +17,7 @@ import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
 import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
+import CloseLink from './CloseLink';
 
 
 type Props = {
@@ -175,6 +176,7 @@ export default class NodeToolbar extends Component<*, Props, State> {
     const accessibility = properties && properties.accessibility;
     return (
       <Toolbar>
+        <CloseLink />
         <NodeHeader node={this.state.node} />
         <StyledAccessibilityDetails details={accessibility} />
         <NodeFooter

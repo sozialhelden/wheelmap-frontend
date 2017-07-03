@@ -19,6 +19,7 @@ const StyledCloseLink = styled(CloseLink)`
   color: rgba(0, 0, 0, 0.3);
   text-decoration: none;
   text-align: center;
+  z-index: 1;
 
   > svg {
     display: block;
