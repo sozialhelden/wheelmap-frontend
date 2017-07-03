@@ -1,12 +1,14 @@
 // @flow
-import React, { Component } from 'react';
-import Swipeable from 'react-swipeable';
+import uniq from 'lodash/uniq';
 import styled from 'styled-components';
+import Swipeable from 'react-swipeable';
+import React, { Component } from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
-import uniq from 'lodash/uniq';
+
 
 const minimalHeight = 130;
+
 
 type Props = {
   className: string,
@@ -32,10 +34,6 @@ class Toolbar extends Component<void, Props, State> {
     this.onResizeBound = this.onResize.bind(this);
   }
 
-  scrollElement: ?HTMLElement;
-
-  onResizeBound: (() => void);
-
   state = {
     lastTopOffset: 0,
     topOffset: 0,
@@ -59,6 +57,9 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
+  onResizeBound: (() => void);
+
+
   onResize() {
     this.setState({
       viewportSize: {
@@ -69,61 +70,7 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
-  getStops(): number[] {
-    let toolbarHeight = 0;
-    if (this.scrollElement) {
-      const style = window.getComputedStyle(this.scrollElement);
-      toolbarHeight = parseFloat(style.marginTop) +
-        parseFloat(style.marginBottom) +
-        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
-    }
-    const minimalTopPosition = this.state.viewportSize.height - toolbarHeight;
-    return uniq([
-      minimalTopPosition,
-      Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
-      this.state.viewportSize.height - minimalHeight,
-    ]);
-  }
-
-
-  getPositionIndex(): number {
-    if (this.state.viewportSize.width > this.state.viewportSize.height) {
-      return 0;
-    }
-    return this.state.lastTopOffset;
-  }
-
-
-  getNearestStopForTopOffset(): number {
-    const topOffset = this.state.topOffset;
-    const stops = this.getStops();
-    function distanceTo(positionName) {
-      return Math.abs(stops[positionName] - topOffset);
-    }
-    let result = stops[0];
-    let distance = distanceTo(result);
-    stops.forEach((stop: number) => {
-      if (stop - topOffset < distance) {
-        distance = stop - topOffset;
-        result = stop;
-      }
-    });
-    return result;
-  }
-
-
-  getStyle(): { transform: string, touchAction: string, transition: string } {
-    const lastTopOffset = this.state.lastTopOffset;
-    const topOffset = this.state.topOffset || this.state.lastTopOffset;
-    return {
-      touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: this.state.isSwiping ? '' : 'transform 0.3s ease-out',
-      transform: `translate3d(0, ${topOffset}px, 0)`,
-    };
-  }
-
-
-  onSwiping(e: TouchEvent, deltaX: number, deltaY: number, absX: number, absY: number) {
+  onSwiping(e: TouchEvent, deltaX: number, deltaY: number) {
     if (this.scrollElement && this.scrollElement.scrollTop > 0) {
       this.setState({ scrollTop: this.state.scrollTop || this.scrollElement.scrollTop });
       return;
@@ -163,10 +110,67 @@ class Toolbar extends Component<void, Props, State> {
   }
 
 
+  getPositionIndex(): number {
+    if (this.state.viewportSize.width > this.state.viewportSize.height) {
+      return 0;
+    }
+    return this.state.lastTopOffset;
+  }
+
+
+  getNearestStopForTopOffset(): number {
+    const topOffset = this.state.topOffset;
+    const stops = this.getStops();
+    function distanceTo(positionName) {
+      return Math.abs(stops[positionName] - topOffset);
+    }
+    let result = stops[0];
+    let distance = distanceTo(result);
+    stops.forEach((stop: number) => {
+      if (stop - topOffset < distance) {
+        distance = stop - topOffset;
+        result = stop;
+      }
+    });
+    return result;
+  }
+
+
+  getStops(): number[] {
+    let toolbarHeight = 0;
+    if (this.scrollElement) {
+      const style = window.getComputedStyle(this.scrollElement);
+      toolbarHeight = parseFloat(style.marginTop) +
+        parseFloat(style.marginBottom) +
+        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
+    }
+    const minimalTopPosition = this.state.viewportSize.height - toolbarHeight;
+    return uniq([
+      minimalTopPosition,
+      Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
+      this.state.viewportSize.height - minimalHeight,
+    ]);
+  }
+
+
+  getStyle(): { transform: string, touchAction: string, transition: string } {
+    const lastTopOffset = this.state.lastTopOffset;
+    const topOffset = this.state.topOffset || this.state.lastTopOffset;
+    return {
+      touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
+      transition: this.state.isSwiping ? '' : 'transform 0.3s ease-out',
+      transform: `translate3d(0, ${topOffset}px, 0)`,
+    };
+  }
+
+
+  scrollElement: ?HTMLElement;
+
+
   render() {
     return (<Swipeable
-      onSwiping={this.onSwiping.bind(this)}
-      onSwiped={this.onSwiped.bind(this)}
+      onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
+      onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
     >
       <nav
         style={this.getStyle()}
