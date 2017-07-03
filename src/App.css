@@ -144,3 +144,31 @@ body, button, input, select, textarea {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+  border: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-touch .leaflet-bar a {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.leaflet-icon-locate:before {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+@media screen and (max-width: 512px), screen and (max-height: 512px) {
+  .leaflet-control-scale-line:not(:first-child) {
+    border-top: 1px solid #777;
+    margin-top: -1px;
+  }
+  .leaflet-control-scale-line {
+    font-size: 8px;
+    border: 1px solid #777;
+  }
+}
