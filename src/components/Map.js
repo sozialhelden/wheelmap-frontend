@@ -44,7 +44,7 @@ export default class Map extends Component {
 
     if (!this.map) throw new Error('Could not initialize map component.');
 
-    new L.Control.Zoom({ position: 'bottomright' }).addTo(this.map);
+    new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
     if (+new Date() - lastMoveDate > config.locateTimeout) {
       this.map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
@@ -63,7 +63,7 @@ export default class Map extends Component {
 
     L.control.scale().addTo(this.map);
     L.control.locate({
-      position: 'bottomright',
+      position: 'topright',
       icon: 'leaflet-icon-locate',
       iconLoading: 'leaflet-icon-locate-loading',
       showPopup: false,
