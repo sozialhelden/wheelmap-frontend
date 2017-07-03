@@ -125,14 +125,14 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
   getNearestStopForTopOffset(): number {
     const topOffset = this.state.topOffset;
     const stops = this.getStops();
-    function distanceTo(positionName) {
-      return Math.abs(stops[positionName] - topOffset);
+    function distanceTo(position) {
+      return Math.abs(position - topOffset);
     }
     let result = stops[0];
     let distance = distanceTo(result);
     stops.forEach((stop: number) => {
-      if (stop - topOffset < distance) {
-        distance = stop - topOffset;
+      if (distanceTo(stop) < distance) {
+        distance = distanceTo(stop);
         result = stop;
       }
     });
