@@ -4,7 +4,22 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const StyledInput = styled.input`
+type Props = {
+  showSpinner: boolean;
+  onChange: ?((event: UIEvent) => void),
+  ref: ((input: HTMLInputElement) => void),
+};
+
+const SearchInputField = (props: Props) =>
+  <input
+    ref={props.ref}
+    onChange={props.onChange}
+    className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''} ${props.className}`}
+    placeholder="Search for a place / address"
+  />;
+
+
+const StyledSearchInputField = styled(SearchInputField)`
   display: block;
   width: 100%;
   box-sizing: border-box;
@@ -29,16 +44,4 @@ const StyledInput = styled.input`
   }
 `;
 
-type Props = {
-  showSpinner: boolean;
-  onChange: ?((event: UIEvent) => void),
-};
-
-const SearchInputField = (props: Props) =>
-  <StyledInput
-    onChange={props.onChange}
-    className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''}`}
-    placeholder="Search for a place / address"
-  />;
-
-export default SearchInputField;
+export default StyledSearchInputField;
