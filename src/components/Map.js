@@ -9,7 +9,7 @@ import createMarkerFromFeatureFn from '../lib/createMarkerFromFeatureFn';
 import Categories from '../lib/Categories';
 import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
-import { getQueryParams, setQueryParams } from '../lib/queryParams';
+import { Feature } from '../lib/Feature';
 
 
 const config = {
@@ -28,22 +28,34 @@ const lastZoom = localStorage.getItem('wheelmap.lastZoom');
 
 
 type Props = {
+  featureId: ?string,
+  feature: ?Feature,
+  lat?: ?number,
+  lon?: ?number,
+  zoom?: ?number,
   history: {
     push: ((path: String) => void),
   },
 }
 
-export default class Map extends Component {
-  map: ?L.Map;
-  mapElement: ?HTMLElement;
-  onHashUpdateBound: (() => void);
+type State = {
+  lat?: number,
+  lon?: number,
+  zoom?: number,
+};
 
 
-  constructor(props: Props) {
-    super(props);
-    this.onHashUpdateBound = this.onHashUpdate.bind(this);
-  }
+function normalizeCoordinate(number) {
+  const asFloat = parseFloat(number);
+  return Math.floor(asFloat * 10000) / 10000;
+}
 
+function normalizeCoordinates([lat, lon]: [number, number]) {
+  return [lat, lon].map(normalizeCoordinate);
+}
+
+export default class Map extends Component<void, Props, State> {
+  state: State = {};
 
   componentDidMount() {
     this.map = L.map(this.mapElement, {
@@ -56,9 +68,7 @@ export default class Map extends Component {
 
     if (!this.map) throw new Error('Could not initialize map component.');
 
-    this.navigate(this.props.location);
-    window.addEventListener('hashchange', this.onHashUpdateBound);
-    window.addEventListener('popstate', this.onHashUpdateBound);
+    this.navigate(this.props);
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
@@ -71,13 +81,17 @@ export default class Map extends Component {
       localStorage.setItem('wheelmap.lastCenter.lat', lat);
       localStorage.setItem('wheelmap.lastCenter.lon', lng);
       localStorage.setItem('wheelmap.lastMoveDate', new Date());
-      setQueryParams({ lat, lon: lng });
+      if (this.props.onMoveEnd) {
+        this.props.onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng) });
+      }
     });
 
     this.map.on('zoomend', () => {
       const zoom = this.map.getZoom();
       localStorage.setItem('wheelmap.lastZoom', zoom);
-      setQueryParams({ zoom });
+      if (this.props.onZoomEnd) {
+        this.props.onZoomEnd({ zoom });
+      }
     });
 
     L.control.scale().addTo(this.map);
@@ -146,42 +160,59 @@ export default class Map extends Component {
   }
 
 
-  componentWillReceiveNewProps(newProps: Props) {
-    this.navigate(newProps.location);
+  componentWillReceiveProps(newProps: Props = this.props) {
+    this.navigate(newProps);
   }
 
-
-  componentWillUnmount() {
-    window.removeEventListener('hashchange', this.onHashUpdateBound);
-    window.removeEventListener('popstate', this.onHashUpdateBound);
-  }
-
-
-  onHashUpdate() {
-    const map = this.map;
-    if (!map) return;
-    const params = getQueryParams();
-    if (params.lat && params.lon) {
-      const { lat, lon } = params;
-      map.panTo([lat, lon]);
-    }
-    if (params.zoom) {
-      map.setZoom(params.zoom);
-    }
-  }
-
-
+  map: ?L.Map;
+  mapElement: ?HTMLElement;
   props: Props;
 
+  coordinatesAreDifferent(coordinates: [number, number]) {
+    const lat = this.state.lat || 0;
+    const lon = this.state.lon || 0;
+    return coordinates &&
+      Math.abs(coordinates[0] - lat) > 0.001 &&
+      Math.abs(coordinates[1] - lon) > 0.001;
+  }
 
-  navigate(location) {
-    if (!this.map) return;
-    console.log(location);
+
+  navigate(props: Props) {
+    const map = this.map;
+    if (!map) return;
+
+    if (props.zoom && this.state.zoom !== props.zoom) {
+      this.setState({ zoom: props.zoom });
+      map.setZoom(props.zoom);
+    }
+
+    const overriddenCoordinates: ?[number, number] = (props.lat && props.lon) ? normalizeCoordinates([props.lat, props.lon]) : null;
+    if (overriddenCoordinates) {
+      if (this.coordinatesAreDifferent(overriddenCoordinates)) {
+        console.log('Panning to', overriddenCoordinates, 'because params override them');
+        this.setState({ lat: overriddenCoordinates[0], lon: overriddenCoordinates[1] });
+        map.panTo(overriddenCoordinates);
+      }
+      return;
+    }
+
+    const feature = props.feature;
+    if (feature &&
+      feature.geometry &&
+      feature.geometry.type === 'Point' &&
+      feature.geometry.coordinates instanceof Array) {
+      const coordinates = feature.geometry.coordinates;
+      const featureCoordinates = coordinates && normalizeCoordinates([coordinates[1], coordinates[0]]);
+      if (featureCoordinates && this.coordinatesAreDifferent(featureCoordinates)) {
+        console.log('Panning to', featureCoordinates, 'because PoI position');
+        this.setState({ lat: featureCoordinates[0], lon: featureCoordinates[1] });
+        map.panTo(featureCoordinates);
+      }
+    }
   }
 
 
   render() {
-    this.navigate(this.props.location);
     return (<section ref={el => (this.mapElement = el)} />);
   }
 }

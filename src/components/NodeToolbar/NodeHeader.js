@@ -51,7 +51,7 @@ const StyledSourceLink = styled(SourceLink)`
 
 
 type Props = {
-  node: Feature,
+  feature: Feature,
 };
 
 type State = {
@@ -101,12 +101,12 @@ export default class NodeHeader extends Component<void, Props, State> {
 
 
   fetchCategory(props: Props = this.props) {
-    const node = props.node;
-    if (!node) {
+    const feature = props.feature;
+    if (!feature) {
       this.setState({ category: null });
       return;
     }
-    const properties = node.properties;
+    const properties = feature.properties;
     if (!properties) {
       this.setState({ category: null });
       return;
@@ -126,9 +126,9 @@ export default class NodeHeader extends Component<void, Props, State> {
 
 
   render() {
-    const node = this.props.node;
-    if (!node) return null;
-    const properties = node.properties;
+    const feature = this.props.feature;
+    if (!feature) return null;
+    const properties = feature.properties;
     if (!properties) return null;
     const address = this.constructor.getAddressForProperties(properties);
     const addressString = address ? address.replace(/,$/, '').replace(/^,/, '') : null;

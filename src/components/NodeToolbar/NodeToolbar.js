@@ -6,32 +6,10 @@ import styled from 'styled-components';
 import AccessibilityDetails from 'accessibility-cloud-widget/lib/components/AccessibilityDetails';
 import 'accessibility-cloud-widget/src/app.css';
 
-import { isWheelmapFeatureId } from '../../lib/Feature';
-
-import type { Feature } from '../../lib/Feature';
-
-import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
-
 import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
 import CloseLink from './CloseLink';
-
-
-type Props = {
-  match: {
-    params: {
-      id: string,
-    },
-  },
-};
-
-type State = {
-  node?: Feature,
-  fetching: boolean,
-};
 
 
 const StyledAccessibilityDetails = styled(AccessibilityDetails)`
@@ -132,57 +110,17 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
 `;
 
 export default class NodeToolbar extends Component<*, Props, State> {
-  state: State = { fetching: false };
-
-
-  componentDidMount() {
-    this.fetchFeature(this.props);
-  }
-
-
-  componentWillReceiveProps(newProps: Props): void {
-    this.fetchFeature(newProps);
-  }
-
-
-  id(props: Props = this.props): ?string {
-    return props.match && props.match.params.id;
-  }
-
-
-  fetchFeature(props: Props): void {
-    const id = this.id(props);
-    if (!id) return;
-    this.setState({ fetching: true });
-    const isWheelmap = isWheelmapFeatureId(id);
-    if (isWheelmap) {
-      this.setState({ node: wheelmapLightweightFeatureCache.getCachedFeature(id) });
-    }
-    const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    cache.getFeature(id).then((feature) => {
-      if (!feature) return;
-      const currentlyShownId = this.id(this.props);
-      const idProperties = [feature._id, feature.id, feature.properties.id, feature.properties._id];
-      const fetchedId = String(idProperties.filter(Boolean)[0]);
-      // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
-      // we ignore the response here instead.
-      if (fetchedId !== currentlyShownId) return;
-      this.setState({ node: feature, fetching: false });
-    });
-  }
-
-
   render() {
-    const properties = this.state.node && this.state.node.properties;
+    const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties && properties.accessibility;
     return (
       <Toolbar>
         <CloseLink />
-        <NodeHeader node={this.state.node} />
+        <NodeHeader feature={this.props.feature} />
         <StyledAccessibilityDetails details={accessibility} />
         <NodeFooter
-          feature={this.state.node}
-          featureId={this.props.match && this.props.match.params.id}
+          feature={this.props.feature}
+          featureId={this.props.featureId}
         />
       </Toolbar>
     );
