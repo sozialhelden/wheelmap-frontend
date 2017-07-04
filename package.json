@@ -17,6 +17,7 @@
     "leaflet.markercluster": "^1.0.4",
     "lodash": "^4.17.4",
     "mapbox.js": "^3.0.1",
+    "query-string": "^4.3.4",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-flow-types": "^0.1.1",

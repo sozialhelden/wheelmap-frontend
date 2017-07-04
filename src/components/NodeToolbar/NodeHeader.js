@@ -3,13 +3,15 @@
 import styled from 'styled-components';
 import React, { Component } from 'react';
 import Categories from '../../lib/Categories';
+import Icon from '../Icon';
+import PlaceName from '../PlaceName';
 import type { Category } from '../../lib/Categories';
-import type { Feature, WheelmapProperties, AccessibilityCloudProperties, NodeProperties } from '../../lib/Feature';
-import colors, { getColorForWheelchairAccessiblity } from '../../lib/colors';
+import type { Feature, WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
+import colors from '../../lib/colors';
 import BreadCrumbs from './BreadCrumbs';
-import ToolbarLink from './ToolbarLink';
+import ToolbarLink from '../ToolbarLink';
 import ChevronRight from './ChevronRight';
-
+import getAddressString from '../../lib/getAddressString';
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
@@ -28,22 +30,12 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 `;
 
 
-const PlaceName = styled.h1`
-  margin: 0.25em 30px 0.5em 0;
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 400;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-
 const SourceLink = ({ to, className } : { to: string, className?: string }) => {
   return <ToolbarLink to={to} className={`${className} link-button`}>
     on Jaccede <ChevronRight color={colors.linkColor} />
   </ToolbarLink>;
 };
+
 
 const StyledSourceLink = styled(SourceLink)`
   margin-top: .5em;
@@ -57,34 +49,6 @@ const StyledSourceLink = styled(SourceLink)`
   }
 `;
 
-const StyledIconImage = styled('figure')`
-  display: inline-block;
-  height: 1.5em;
-  width: 1.5em;
-  margin: 0;
-  padding: 0;
-  border-radius: 1em;
-  vertical-align: middle;
-  margin-right: 0.5em;
-  box-sizing: border-box;
-
-  img {
-    width: 1em;
-    height: 1em;
-    margin: 0.25em;
-    vertical-align: middle;
-  }
-
-  &.ac-marker-gray {
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-  }
-`;
-
-function Icon({ properties, category }: { properties: NodeProperties, category: Category }) {
-  const src = `/icons/categories/${category._id}.svg`;
-  const color = getColorForWheelchairAccessiblity(properties);
-  return <StyledIconImage className={`ac-marker-${color}`}><img src={src} alt="" /></StyledIconImage>;
-}
 
 type Props = {
   node: Feature,
@@ -104,10 +68,7 @@ function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
 
 export default class NodeHeader extends Component<void, Props, State> {
   static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
-    return [
-      [properties.street, properties.housenumber].filter(Boolean).join(' '),
-      [properties.postcode, properties.city].filter(Boolean).join(' '),
-    ].filter(Boolean).join(', ');
+    return getAddressString(properties);
   }
 
   static getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
@@ -128,13 +89,16 @@ export default class NodeHeader extends Component<void, Props, State> {
 
   state = { category: null, parentCategory: null };
 
+
   componentDidMount() {
     this.fetchCategory(this.props);
   }
 
+
   componentWillReceiveProps(nextProps: Props) {
     this.fetchCategory(nextProps);
   }
+
 
   fetchCategory(props: Props = this.props) {
     const node = props.node;

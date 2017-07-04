@@ -8,7 +8,8 @@ import type { Feature, FeatureCollection } from 'geojson-flow';
  */
 
 export default class FeatureCache {
-  cache: { [string]: Feature } = {};
+  cache: { [string]: ?Feature } = {};
+
 
   /**
    * Caches a given GeoJSON Feature by id.
@@ -51,6 +52,9 @@ export default class FeatureCache {
             resolve(fetchedFeature);
           }, reject);
         }
+        if (response.status === 404) {
+          this.cache[id] = null;
+        }
         return reject(response);
       },
       reject,
@@ -61,10 +65,10 @@ export default class FeatureCache {
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  getFeature(id: string): Promise<Feature> {
+  getFeature(id: string): Promise<?Feature> {
     const feature = this.getCachedFeature(id);
     return new Promise((resolve, reject) => {
-      if (feature) {
+      if (feature || feature === null) {
         resolve(feature);
         return;
       }

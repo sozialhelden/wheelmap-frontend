@@ -220,7 +220,7 @@ const StyledToolbar = styled(Toolbar)`
   overflow: scroll;
   transform: translate3d(0, 0);
 
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 5px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   background-color: ${colors.colorizedBackgroundColor};
@@ -241,6 +241,10 @@ const StyledToolbar = styled(Toolbar)`
     display: none;
   }
 
+  @media (max-width: 768px) {
+    width: calc(50% - 20px);
+  }
+
   @media (max-width: 512px) {
     width: calc(100% - 20px);
 
@@ -259,7 +263,7 @@ const StyledToolbar = styled(Toolbar)`
 
   a.link-button {
     display: block;
-    font-size: 16px;
+    font-size: 15px;
     padding: 10px;
     text-decoration: none;
     border-radius: 4px;

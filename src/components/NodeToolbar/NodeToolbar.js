@@ -159,14 +159,15 @@ export default class NodeToolbar extends Component<*, Props, State> {
       this.setState({ node: wheelmapLightweightFeatureCache.getCachedFeature(id) });
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    cache.getFeature(id).then(node => {
+    cache.getFeature(id).then((feature) => {
+      if (!feature) return;
       const currentlyShownId = this.id(this.props);
-      const idProperties = [node._id, node.id, node.properties.id, node.properties._id];
+      const idProperties = [feature._id, feature.id, feature.properties.id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);
-      // shown node might have changed in the mean time. `fetch` requests cannot be aborted so
+      // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (fetchedId !== currentlyShownId) return;
-      this.setState({ node, fetching: false });
+      this.setState({ node: feature, fetching: false });
     });
   }
 

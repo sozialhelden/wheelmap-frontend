@@ -1,6 +1,7 @@
+// @flow
+
 import React from 'react';
 import styled from 'styled-components';
-// import colors from '../../lib/colors';
 
 
 const StyledInput = styled.input`
@@ -23,9 +24,21 @@ const StyledInput = styled.input`
     outline: none;
   }
 
+  &.search-input-spinner:after {
+    content: 'Loading…';
+  }
 `;
 
-const SearchInputField = () =>
-  <StyledInput className="search-input" placeholder="Search for a place / address" />;
+type Props = {
+  showSpinner: boolean;
+  onChange: ?((event: UIEvent) => void),
+};
+
+const SearchInputField = (props: Props) =>
+  <StyledInput
+    onChange={props.onChange}
+    className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''}`}
+    placeholder="Search for a place / address"
+  />;
 
 export default SearchInputField;

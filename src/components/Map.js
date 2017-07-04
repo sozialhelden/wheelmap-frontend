@@ -9,6 +9,8 @@ import createMarkerFromFeatureFn from '../lib/createMarkerFromFeatureFn';
 import Categories from '../lib/Categories';
 import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
+import { getQueryParams, setQueryParams } from '../lib/queryParams';
+
 
 const config = {
   locateTimeout: 60 * 60 * 1000,
@@ -18,7 +20,7 @@ const config = {
 };
 
 
-const lastCenter = ['lat', 'lng']
+const lastCenter = ['lat', 'lon']
   .map(coordinate => localStorage.getItem(`wheelmap.lastCenter.${coordinate}`));
 const lastMoveDateString = localStorage.getItem('wheelmap.lastMoveDate');
 const lastMoveDate = lastMoveDateString && new Date(lastMoveDateString);
@@ -26,12 +28,22 @@ const lastZoom = localStorage.getItem('wheelmap.lastZoom');
 
 
 type Props = {
-  history: { push: ((path: String) => void) },
+  history: {
+    push: ((path: String) => void),
+  },
 }
 
 export default class Map extends Component {
   map: ?L.Map;
   mapElement: ?HTMLElement;
+  onHashUpdateBound: (() => void);
+
+
+  constructor(props: Props) {
+    super(props);
+    this.onHashUpdateBound = this.onHashUpdate.bind(this);
+  }
+
 
   componentDidMount() {
     this.map = L.map(this.mapElement, {
@@ -44,6 +56,10 @@ export default class Map extends Component {
 
     if (!this.map) throw new Error('Could not initialize map component.');
 
+    this.navigate(this.props.location);
+    window.addEventListener('hashchange', this.onHashUpdateBound);
+    window.addEventListener('popstate', this.onHashUpdateBound);
+
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
     if (+new Date() - lastMoveDate > config.locateTimeout) {
@@ -53,12 +69,15 @@ export default class Map extends Component {
     this.map.on('moveend', () => {
       const { lat, lng } = this.map.getCenter();
       localStorage.setItem('wheelmap.lastCenter.lat', lat);
-      localStorage.setItem('wheelmap.lastCenter.lng', lng);
+      localStorage.setItem('wheelmap.lastCenter.lon', lng);
       localStorage.setItem('wheelmap.lastMoveDate', new Date());
+      setQueryParams({ lat, lon: lng });
     });
 
     this.map.on('zoomend', () => {
-      localStorage.setItem('wheelmap.lastZoom', this.map.getZoom());
+      const zoom = this.map.getZoom();
+      localStorage.setItem('wheelmap.lastZoom', zoom);
+      setQueryParams({ zoom });
     });
 
     L.control.scale().addTo(this.map);
@@ -117,7 +136,6 @@ export default class Map extends Component {
       featureLayer.addLayer(accessibilityCloudTileLayer);
     });
 
-
     this.map.on('zoomend', () => {
       if (this.map.getZoom() > 16) {
         this.map.addLayer(featureLayer);
@@ -127,9 +145,43 @@ export default class Map extends Component {
     });
   }
 
+
+  componentWillReceiveNewProps(newProps: Props) {
+    this.navigate(newProps.location);
+  }
+
+
+  componentWillUnmount() {
+    window.removeEventListener('hashchange', this.onHashUpdateBound);
+    window.removeEventListener('popstate', this.onHashUpdateBound);
+  }
+
+
+  onHashUpdate() {
+    const map = this.map;
+    if (!map) return;
+    const params = getQueryParams();
+    if (params.lat && params.lon) {
+      const { lat, lon } = params;
+      map.panTo([lat, lon]);
+    }
+    if (params.zoom) {
+      map.setZoom(params.zoom);
+    }
+  }
+
+
   props: Props;
 
+
+  navigate(location) {
+    if (!this.map) return;
+    console.log(location);
+  }
+
+
   render() {
+    this.navigate(this.props.location);
     return (<section ref={el => (this.mapElement = el)} />);
   }
 }
