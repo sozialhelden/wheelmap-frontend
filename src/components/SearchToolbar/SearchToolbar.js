@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import Toolbar from '../Toolbar';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
@@ -33,16 +33,16 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
       searchResults: null,
     };
 
-    this.handleSearchInputChangeThrottled = throttle(
+    this.handleSearchInputChangeDebounced = debounce(
       this.handleSearchInputChange,
       500,
-      { leading: false },
+      { leading: false, trailing: true, maxWait: 1000 }
     );
   }
 
   queryIndex: number = 0;
 
-  handleSearchInputChangeThrottled: ((event: UIEvent) => void);
+  handleSearchInputChangeDebounced: ((event: UIEvent) => void);
 
 
   toggleCategoryMenu(): void {
@@ -53,8 +53,8 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
 
 
   handleSearchInputChange(event: UIEvent): void {
-    if (!(event.target instanceof HTMLInputElement)) return;
-    const query = event.target.value;
+    if (!(this.input instanceof HTMLInputElement)) return;
+    const query = this.input.value;
     this.sendSearchRequest(query);
   }
 
@@ -85,7 +85,10 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     const showSpinner = false;
     return (
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
-        <SearchInputField onChange={event => this.handleSearchInputChange(event)} showSpinner={showSpinner} />
+        <SearchInputField
+          onChange={(event) => { this.input = event.target; this.handleSearchInputChangeDebounced(event); }}
+          showSpinner={showSpinner}
+        />
         { searchResults ?
           <SearchResults searchResults={searchResults} /> :
           <CategoryMenu isVisible={this.state.categoryMenuIsVisible} /> }
