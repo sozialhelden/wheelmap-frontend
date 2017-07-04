@@ -1,6 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
+import uniq from 'lodash/uniq';
 import React, { Component } from 'react';
 import type { GeometryObject } from 'geojson-flow';
 import Categories from '../../lib/Categories';
@@ -203,11 +204,10 @@ type Props = {
 
 
 function SearchResults(props: Props) {
+  const id = result => result && result.properties && result.properties.osm_id;
+  const features = uniq(props.searchResults.features, id);
   return (<ul className={props.className}>
-    {props.searchResults.features.map((result) => {
-      const id = result && result.properties && result.properties.osm_id;
-      return <SearchResult result={result} key={id} />;
-    })}
+    {features.map(result => <SearchResult result={result} key={id(result)} />)}
   </ul>);
 }
 
