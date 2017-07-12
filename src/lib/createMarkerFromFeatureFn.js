@@ -1,10 +1,13 @@
 // @flow
 
 import L from 'leaflet';
-import Categories from './Categories';
+import type { RouterHistory } from 'react-router-dom';
 import { getColorForWheelchairAccessiblity } from './colors';
+import Categories from './Categories';
+import type { Feature } from './Feature';
 
-// Extend Leaflet-icon to support colors and category-images
+
+// Extend Leaflet-icon to support colors and category images
 
 const Icon = L.Icon.extend({
   options: {
@@ -21,7 +24,7 @@ const Icon = L.Icon.extend({
     link.href = href;
     const img = this._createImg(this.options.iconUrl);
     link.appendChild(img);
-    link.addEventListener('click', (event) => {
+    link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
       this.options.history.push(href);
     });
@@ -39,23 +42,26 @@ const Icon = L.Icon.extend({
 });
 
 
-const createMarkerFromFeatureFn = (history) => (feature, latlng) => {
-  const properties = feature && feature.properties;
-  const categoryIdOrSynonym = properties && (properties.node_type || properties.category);
-  const categoryId = Categories.getCategoryFromCache(categoryIdOrSynonym)._id;
-  const iconName = categoryId || 'place';
-  const color = getColorForWheelchairAccessiblity(properties);
-  const icon = new Icon({
-    history,
-    feature,
-    iconUrl: `/icons/categories/${iconName}.svg`,
-    // iconUrl: `/icons/categories/${icons[iconName}.svg`,
-    className: `ac-marker ac-marker-${color}`,
-    iconSize: new L.Point(19, 19),
-    iconAnchor: new L.Point(10, 11),
-    popupAnchor: new L.Point(10, 11),
-  });
-  return L.marker(latlng, { icon });
-};
+const createMarkerFromFeatureFn = (history: RouterHistory) =>
+  (feature: Feature, latlng: [number, number]) => {
+    const properties = feature && feature.properties;
+    if (!properties) return null;
+    const categoryIdOrSynonym = properties && (properties.node_type || properties.category);
+    const category = Categories.getCategoryFromCache(categoryIdOrSynonym);
+    const categoryId = category ? category._id : null;
+    const iconName = categoryId || 'place';
+    const color = getColorForWheelchairAccessiblity(properties);
+    const icon = new Icon({
+      history,
+      feature,
+      iconUrl: `/icons/categories/${iconName}.svg`,
+      // iconUrl: `/icons/categories/${icons[iconName}.svg`,
+      className: `ac-marker ac-marker-${color}`,
+      iconSize: new L.Point(19, 19),
+      iconAnchor: new L.Point(10, 11),
+      popupAnchor: new L.Point(10, 11),
+    });
+    return L.marker(latlng, { icon });
+  };
 
 export default createMarkerFromFeatureFn;
