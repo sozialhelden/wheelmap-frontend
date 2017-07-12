@@ -76,9 +76,8 @@
       "browser": true
     },
     "rules": {
-      "no-underscore-dangle": [
-        0
-      ],
+      "no-underscore-dangle": [0],
+      "react/sort-comp": [0],
       "react/jsx-filename-extension": [
         1,
         {
