@@ -164,6 +164,18 @@ body, button, input, select, textarea {
   height: 40px;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.leaflet-marker-icon {
+  animation: fadeIn 0.3s ease-out;
+}
+
 @media screen and (max-width: 512px), screen and (max-height: 512px) {
   .leaflet-control-scale-line:not(:first-child) {
     border-top: 1px solid #777;
