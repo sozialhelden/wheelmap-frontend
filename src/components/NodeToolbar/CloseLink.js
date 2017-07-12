@@ -12,7 +12,7 @@ const CloseLink = (props: { className: string }) => (<Link to="/" className={pro
 const StyledCloseLink = styled(CloseLink)`
   display: block;
   position: absolute;
-  top: 0;
+  top: 9px;
   right: 0;
   padding: 14px;
   font-size: 30px;
