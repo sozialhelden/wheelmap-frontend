@@ -2,6 +2,7 @@
   "name": "wheelmap-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://wheelmap.now.sh/",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
     "cors": "^2.8.1",
