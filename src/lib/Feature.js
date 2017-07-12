@@ -16,17 +16,16 @@ export type MinimalAccessibility = {
 }
 
 
-export type WheelmapNodeType = {
-  id: number,
+export type WheelmapCategoryOrNodeType = {
+  id: ?number,
   identifier: ?string,
-  category: ?number,
-  icon: ?string,
 };
 
 
 export type WheelmapProperties = {
   id: number | string,
-  category_id: ?number,
+  category: ?WheelmapCategoryOrNodeType,
+  node_type: ?WheelmapCategoryOrNodeType,
   city: ?string,
   housenumber: ?string,
   lat: ?number,
@@ -40,8 +39,6 @@ export type WheelmapProperties = {
   icon: ?string,
   region: ?string,
   street: ?string,
-  type_id: ?number,
-  type?: WheelmapNodeType,
   website: ?string,
   wheelchair: ?YesNoPartial,
   wheelchair_description: ?string,
@@ -56,6 +53,10 @@ export type WheelmapFeature = {
   id: number,
 };
 
+export type WheelmapFeatureCollection = {
+  type: 'FeatureCollection',
+  features: WheelmapFeature[],
+};
 
 export type AccessibilityCloudProperties = {
   _id: string,
@@ -88,4 +89,24 @@ export function isWheelmapFeatureId(id: string | number | null) {
 
 export function isWheelmapFeature(feature: Feature) {
   return feature && feature.properties && feature.properties.id && isNumeric(feature.id);
+}
+
+
+export function convertResponseToWheelmapFeature(node: WheelmapProperties): WheelmapFeature {
+  return {
+    type: 'Feature',
+    properties: node,
+    id: node.id,
+    geometry: {
+      type: 'Point',
+      coordinates: [node.lon, node.lat],
+    },
+  };
+}
+
+export function wheelmapFeatureCollectionFromResponse(response): WheelmapFeatureCollection {
+  return {
+    type: 'FeatureCollection',
+    features: response.nodes.map(convertResponseToWheelmapFeature),
+  };
 }

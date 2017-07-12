@@ -116,7 +116,7 @@ export default class NodeHeader extends Component<void, Props, State> {
       this.setState({ category: null });
       return;
     }
-    const categoryId = (properties.type && properties.type.identifier) || properties.category;
+    const categoryId = (properties.node_type && properties.node_type.identifier) || properties.category;
     if (!categoryId) {
       this.setState({ category: null });
       return;

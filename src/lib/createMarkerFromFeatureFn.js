@@ -46,7 +46,15 @@ const createMarkerFromFeatureFn = (history: RouterHistory) =>
   (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
     if (!properties) return null;
-    const categoryIdOrSynonym = properties && (properties.node_type || properties.category);
+    const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
+    let givenCategoryId = null;
+    if (typeof properties.category === 'string') {
+      givenCategoryId = properties.category;
+    }
+    if (typeof properties.category === 'object') {
+      givenCategoryId = properties.category.identifier;
+    }
+    const categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
     const category = Categories.getCategoryFromCache(categoryIdOrSynonym);
     const categoryId = category ? category._id : null;
     const iconName = categoryId || 'place';
@@ -55,7 +63,6 @@ const createMarkerFromFeatureFn = (history: RouterHistory) =>
       history,
       feature,
       iconUrl: `/icons/categories/${iconName}.svg`,
-      // iconUrl: `/icons/categories/${icons[iconName}.svg`,
       className: `ac-marker ac-marker-${color}`,
       iconSize: new L.Point(19, 19),
       iconAnchor: new L.Point(10, 11),

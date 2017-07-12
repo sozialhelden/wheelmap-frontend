@@ -32,6 +32,7 @@ import L from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import geoTileToBbox from './geoTileToBbox';
 
 const TileLayer = L.TileLayer;
 
@@ -88,6 +89,26 @@ class GeoJSONTileLayer extends TileLayer {
     return new L.Marker(latlng);
   }
 
+  getTileUrl(coords) {
+    const data = {
+      r: L.Browser.retina ? '@2x' : '',
+      s: this._getSubdomain(coords),
+      x: coords.x,
+      y: coords.y,
+      z: this._getZoomForUrl(),
+    };
+    data.bbox = geoTileToBbox(data);
+    if (this._map && !this._map.options.crs.infinite) {
+      const invertedY = this._globalTileRange.max.y - coords.y;
+      if (this.options.tms) {
+        data.y = invertedY;
+      }
+      data['-y'] = invertedY;
+    }
+
+    return L.Util.template(this._url, L.extend(data, this.options));
+  }
+
   _loadTile(tile, tilePoint) {
     // this._adjustTilePoint(tilePoint);
 
@@ -103,6 +124,7 @@ class GeoJSONTileLayer extends TileLayer {
 
     const removeShownFeatures = this._removeShownFeatures.bind(this);
     const idsToShownLayers = this._idsToShownLayers;
+    const featureCollectionFromResponse = this.options.featureCollectionFromResponse || (r => r);
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
     tile.request.open('GET', url, true);
     tile.request.setRequestHeader('Accept', 'application/json');
@@ -113,7 +135,7 @@ class GeoJSONTileLayer extends TileLayer {
       if (!this.responseText || this.status >= 400) {
         return;
       }
-      const geoJSON = JSON.parse(this.responseText);
+      const geoJSON = featureCollectionFromResponse(JSON.parse(this.responseText));
       const filteredGeoJSON = removeShownFeatures(geoJSON);
       layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
       const geoJSONOptions = { // eslint-disable-line new-cap

@@ -6,19 +6,13 @@ import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import GeoJSONTileLayer from '../lib/GeoJSONTileLayer';
 import createMarkerFromFeatureFn from '../lib/createMarkerFromFeatureFn';
+import config from '../lib/config';
 import Categories from '../lib/Categories';
 import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
+import { wheelmapFeatureCollectionFromResponse } from '../lib/Feature';
 import type { Feature } from '../lib/Feature';
 import type { RouterHistory } from 'react-router-dom';
-
-
-const config = {
-  locateTimeout: 60 * 60 * 1000,
-  defaultStartCenter: [51.505, -0.09],
-  accessToken: 'pk.eyJ1Ijoic296aWFsaGVsZGVuIiwiYSI6IkdUY09sSmsifQ.6vkpci46vdS7m5Jeb_YTbA',
-  maxZoom: 18,
-};
 
 
 const lastCenter = ['lat', 'lon']
@@ -63,7 +57,7 @@ export default class Map extends Component<void, Props, State> {
   mapElement: ?HTMLElement;
 
   componentDidMount() {
-    const map = L.map(this.mapElement, {
+    const map: L.Map = L.map(this.mapElement, {
       maxZoom: config.maxZoom,
       center: (lastCenter && lastCenter[0] && lastCenter) || config.defaultStartCenter,
       zoom: lastZoom || (config.maxZoom - 1),
@@ -128,7 +122,7 @@ export default class Map extends Component<void, Props, State> {
       },
     }).addTo(map);
 
-    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.accessToken}`, {
+    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.mapboxAccessToken}`, {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18,
       id: 'accessibility-cloud',
@@ -144,10 +138,16 @@ export default class Map extends Component<void, Props, State> {
 
     Categories.fetchPromise.then(() => {
       const history = this.props.history;
-      const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
+      // Deprecated way of fetching GeoJSON tiles:
+      // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
+
+      // const wheelmapTileUrl = `/api/categories/5/nodes/?api_key=${config.wheelmapApiKey}&per_page=25&bbox={bbox}.geojson?limit=25`;
+      const wheelmapTileUrl = `/api/nodes/?api_key=${config.wheelmapApiKey}&per_page=25&bbox={bbox}.geojson?limit=25`;
+
       const wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,
+        featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
         pointToLayer: createMarkerFromFeatureFn(history, wheelmapLightweightFeatureCache),
       });
 
