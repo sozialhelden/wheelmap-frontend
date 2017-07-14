@@ -1,8 +1,10 @@
+// @flow
+
 import styled from 'styled-components';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import colors from '../../lib/colors';
 import { interpolateLab } from 'd3-interpolate';
+import colors from '../../lib/colors';
 
 const Circle = styled.div.attrs({ className: 'circle' })`
   width: 35px;
@@ -63,7 +65,7 @@ export default function CategoryButton(props: Props) {
   const url = `/categories/${props.id}`;
 
   return (
-    <StyledLink activeClassName='active' to={url}>
+    <StyledLink activeClassName="active" to={url}>
       <Circle>
         <StyledButtonIcon
           src={`/icons/main-categories/white/${props.id}.svg`}

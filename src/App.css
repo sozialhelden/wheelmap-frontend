@@ -38,72 +38,20 @@ html, body, #root, .app-container {
   opacity: 0.5;
 }
 
-.marker-cluster-small {
-  width: 30px !important;
-  height: 30px !important;
-  margin: -15px !important;
-  background-color: rgba(31, 171, 217, 0.3);
-}
-
-.marker-cluster-small > div {
-  width: 20px !important;
-  height: 20px !important;
-  margin: 5px !important;
-  font-size: 1em;
-  background-color: rgba(31, 171, 217, 0.5);
-}
-
-.marker-cluster-medium {
-  width: 50px;
-  height: 50px;
-  margin: -25px;
-  background-color: rgba(31, 171, 217, 0.3);
-}
-
-.marker-cluster-medium > div {
-  width: 40px;
-  height: 40px;
-  font-size: 1.25em;
-  line-height: 40px;
-  background-color: rgba(19, 159, 206, 0.75);
-}
-
-.marker-cluster-large {
-  width: 60px;
-  height: 60px;
-  margin: -30px;
-  background-color: rgba(31, 171, 217, 0.3);
-}
-
-.marker-cluster-large > div {
-  width: 50px;
-  height: 50px;
-  font-size: 1.5em;
-  line-height: 50px;
-  background-color: rgba(12, 122, 158, 0.7);
-}
-
 .marker-cluster {
   background-clip: padding-box;
   border-radius: 500px;
 }
 
-.marker-cluster div {
-  padding-top: 1px;
-  border-radius: 500px;
-  text-align: center;
-}
-
-.marker-cluster div span {
-  line-height: 1;
-  text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
-  color: white;
-}
-
 .ac-marker {
   border-radius: 10px;
   background-color: rgba(220, 217, 214, 0.9);
-  transition: box-shadow ease-out 0.3s;
+  /*transition: box-shadow ease-out 0.3s;*/
+  border: 1px rgba(255, 255, 255, 0.7) solid;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: white;
+  line-height: 21px;
 }
 
 .ac-marker-gray img {
@@ -141,6 +89,10 @@ html, body, #root, .app-container {
   box-shadow: 0 0 1px black;
 }
 
+.ac-marker-cluster {
+  border: solid 1px rgba(255, 255, 255, 0.4);
+}
+
 body, button, input, select, textarea {
   /* Mix of the two system font stacks used by GitHub and Medium. */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -158,6 +110,11 @@ body, button, input, select, textarea {
   color: rgba(0, 0, 0, 0.7);
 }
 
+.leaflet-touch .leaflet-bar a.leaflet-disabled {
+  background-color: #eee;
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .leaflet-icon-locate:before {
   position: relative;
   width: 40px;
@@ -173,7 +130,7 @@ body, button, input, select, textarea {
   }
 }
 .leaflet-marker-icon {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.6s ease-out;
 }
 
 @media screen and (max-width: 512px), screen and (max-height: 512px) {

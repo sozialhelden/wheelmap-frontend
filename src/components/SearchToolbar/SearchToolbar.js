@@ -64,7 +64,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
       this.setState({ searchResults: null });
       return;
     }
-    const url = `https://photon.komoot.de/api/?q=${query}&limit=10`;
+    const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
     this.queryIndex += 1;
     const queryIndex = this.queryIndex;
     fetch(url).then((response) => {

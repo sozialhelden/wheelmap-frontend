@@ -1,7 +1,11 @@
 // @flow
 
 import get from 'lodash/get';
+import reduce from 'lodash/reduce';
+import { scaleLinear } from 'd3-scale';
+import { interpolateLab } from 'd3-interpolate';
 import type { NodeProperties } from './Feature';
+
 
 const colors = {
   primaryColor: '#435D75',
@@ -16,10 +20,16 @@ const colors = {
   positiveColor: '#00b773',
   warningColor: '#ff8d00',
   negativeColor: '#f54b4b',
+  markerBackground: {
+    green: 'rgba(0, 183, 115, 1.0)',
+    yellow: 'rgba(255, 141, 0, 1.0)',
+    red: 'rgba(245, 75, 75, 1.0)',
+    gray: 'rgba(220, 217, 214, 0.9)',
+  },
 };
 
 
-export function getColorForWheelchairAccessiblity(properties: NodeProperties): string {
+export function getColorForWheelchairAccessibility(properties: NodeProperties): string {
   const isAccessible = get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair');
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
@@ -32,5 +42,41 @@ export function getColorForWheelchairAccessiblity(properties: NodeProperties): s
     default: return 'gray';
   }
 }
+
+export function getHTMLColorForWheelchairAccessibility(properties: NodeProperties): string {
+  return colors.markerBackground[getColorForWheelchairAccessibility(properties)];
+}
+
+
+const interpolateYellowGreen = interpolateLab(colors.markerBackground.yellow, colors.markerBackground.green)
+
+const definedAccessibilityColorScale = scaleLinear().domain([0, 0.2, 0.4, 0.6, 0.8, 1]).range([
+  colors.markerBackground.red,
+  colors.markerBackground.yellow,
+  interpolateYellowGreen(0.25),
+  interpolateYellowGreen(0.5),
+  interpolateYellowGreen(0.75),
+  colors.markerBackground.green,
+]);
+
+export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
+  if (!propertiesArray || propertiesArray.length === 0) {
+    return colors.markerBackground.gray;
+  }
+  const colorValues = propertiesArray.map(getColorForWheelchairAccessibility);
+  const undefinedCount = colorValues.filter(c => c === 'gray').length;
+  const definedCount = colorValues.length - undefinedCount;
+  if (definedCount === 0) {
+    return colors.markerBackground.gray;
+  }
+  const ratingForColor = color => ({ gray: 0, red: 0, yellow: 0.5, green: 1 }[color]);
+  const reduceFn = (acc, color) => acc + ratingForColor(color);
+  const totalRatingForDefined = reduce(colorValues, reduceFn, 0);
+  const averageRatingForDefined = totalRatingForDefined / definedCount;
+  const averageColorForDefined = definedAccessibilityColorScale(averageRatingForDefined);
+  const definedRatio = Math.min(1.0, 0.5 + (definedCount / colorValues.length));
+  return interpolateLab(colors.markerBackground.gray, averageColorForDefined)(definedRatio);
+}
+
 
 export default colors;

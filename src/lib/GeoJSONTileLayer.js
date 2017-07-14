@@ -37,10 +37,12 @@ import geoTileToBbox from './geoTileToBbox';
 const TileLayer = L.TileLayer;
 
 class GeoJSONTileLayer extends TileLayer {
+  _idsToShownLayers = {};
+  _loadedTileUrls = {};
+
   constructor(tileUrl, options) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
-    this._idsToShownLayers = {};
   }
 
   _removeShownFeatures(featureCollection) {
@@ -48,12 +50,16 @@ class GeoJSONTileLayer extends TileLayer {
     result.features = featureCollection.features.filter(
       feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id],
     );
+    console.log('Added', result.features.length, '/', featureCollection.features.length, 'features');
     return result;
   }
 
   _reset() {
-    Object.values(this._tiles).forEach(tile => tile.request.abort());
+    if (this._tiles) {
+      Object.values(this._tiles).forEach(tile => tile.request.abort());
+    }
     // TileLayer.prototype._reset.apply(this, arguments);
+    Object.keys(this._idsToShownLayers).forEach(id => delete this._idsToShownLayers[id]);
     this._layerGroup.clearLayers();
   }
 
@@ -90,6 +96,7 @@ class GeoJSONTileLayer extends TileLayer {
   }
 
   getTileUrl(coords) {
+    if (!this._url) return null;
     const data = {
       r: L.Browser.retina ? '@2x' : '',
       s: this._getSubdomain(coords),
@@ -117,10 +124,20 @@ class GeoJSONTileLayer extends TileLayer {
 
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
 
+
     this.fire('tileloadstart', {
       tile,
       url,
     });
+
+    if (this._loadedTileUrls[url]) {
+      // This is needed to not crash in superclasses
+      tile.el = {};
+      tile.request = { abort() {} };
+      return;
+    }
+
+    this._loadedTileUrls[url] = true;
 
     const removeShownFeatures = this._removeShownFeatures.bind(this);
     const idsToShownLayers = this._idsToShownLayers;

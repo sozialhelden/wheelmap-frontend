@@ -1,6 +1,8 @@
 // @flow
 
-export type Category = {
+import config from './config';
+
+export type ACCategory = {
   _id: string,
   icon: string,
   parentIds: string[],
@@ -12,21 +14,31 @@ export type Category = {
   synonyms: string[],
 };
 
+export type WheelmapCategory = {
+  id: number,
+  identifier: string,
+  category_id: number,
+  category: {
+    id: number,
+    identifier: string,
+  },
+  localized_name: string,
+  icon: string,
+};
+
 type SynonymCache = {
-  [string]: Category,
+  [string]: ACCategory,
 };
 
 
-const url = 'https://www.accessibility.cloud/categories.json?appToken=27be4b5216aced82122d7cf8f69e4a07';
-
 export default class Categories {
   static synonymCache: SynonymCache;
+  static idsToWheelmapCategories = {};
+  static wheelmapCategoryNamesToCategories = {};
+  static fetchPromise: ?Promise<*>;
 
-  static fetchPromise = fetch(url)
-    .then(response => response.json())
-    .then(json => Categories.generateSynonymCache(json.results || []));
-
-  static getCategory(idOrSynonym): Promise<Category> {
+  static getCategory(idOrSynonym): Promise<ACCategory> {
+    if (!this.fetchPromise) throw new Error('Category fetching not initialized yet.');
     return this.fetchPromise.then(() => this.getCategoryFromCache(idOrSynonym));
   }
 
@@ -34,7 +46,7 @@ export default class Categories {
     return this.synonymCache[idOrSynonym];
   }
 
-  static generateSynonymCache(categories: Category[]): SynonymCache {
+  static generateSynonymCache(categories: ACCategory[]): SynonymCache {
     const result: SynonymCache = {};
     categories.forEach((category) => {
       result[category._id] = category;
@@ -45,5 +57,45 @@ export default class Categories {
     this.synonymCache = result;
     return result;
   }
+
+  static loadCategories(categories: WheelmapCategory[]) {
+    categories.forEach((category) => {
+      this.idsToWheelmapCategories[category.id] = category;
+      this.wheelmapCategoryNamesToCategories[category.identifier] = category;
+    });
+  }
+
+  static wheelmapCategoryWithName(name: string) {
+    return this.wheelmapCategoryNamesToCategories[name];
+  }
 }
 
+
+const countryCode = navigator.language.substr(0, 2);
+
+function acCategoriesFetch() {
+  const url = `https://www.accessibility.cloud/categories.json?appToken=${config.accessibilityCloudAppToken}`;
+  return fetch(url)
+    .then(response => response.json())
+    .then(json => Categories.generateSynonymCache(json.results || []));
+}
+
+function wheelmapCategoriesFetch() {
+  const url = `/api/categories?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
+  return fetch(url)
+    .then(response => response.json())
+    .then(json => Categories.loadCategories(json.categories || []));
+}
+
+function wheelmapNodeTypesFetch() {
+  const url = `/api/node_types?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
+  return fetch(url)
+    .then(response => response.json())
+    .then(json => Categories.loadCategories(json.node_types || []));
+}
+
+Categories.fetchPromise = Promise.all([
+  acCategoriesFetch(),
+  wheelmapCategoriesFetch(),
+  wheelmapNodeTypesFetch(),
+]);

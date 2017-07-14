@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import colors from './lib/colors';
-import Map from './components/Map';
+import Map from './components/Map/Map';
 import './App.css';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
@@ -44,6 +44,7 @@ class FeatureLoader extends Component<void, Props, State> {
 
 
   state: State = { fetching: false };
+  map: ?any;
 
 
   componentDidMount() {
@@ -67,7 +68,7 @@ class FeatureLoader extends Component<void, Props, State> {
   onHashUpdate() {
     const map = this.map;
     if (!map) return;
-    // this.setState(getQueryParams());
+    this.setState(getQueryParams());
   }
 
 
@@ -80,6 +81,15 @@ class FeatureLoader extends Component<void, Props, State> {
     return null;
   }
 
+
+  category(props: Props = this.props): ?string {
+    const location = props.location;
+    const match = location.pathname.match(/\/(-?\w+)\/([-_\w\d]+)/i);
+    if (match) {
+      if (match[1] === 'categories') return match[2];
+    }
+    return null;
+  }
 
   fetchFeature(props: Props): void {
     const id = this.featureId(props);
@@ -108,21 +118,26 @@ class FeatureLoader extends Component<void, Props, State> {
 
   render() {
     const featureId = this.featureId();
+    const category = this.category();
     const isNodeRoute = Boolean(featureId);
-    const { lat, lon, zoom } = getQueryParams();
+    const { lat, lon, zoom } = this.state;
+    console.log('Category:', category);
+    console.log('Positioning:', lat, lon, zoom);
     return (<div className={`app-container ${this.props.className}`}>
       <Map
+        ref={(map) => { this.map = map; }}
         history={this.props.history}
         onZoomEnd={setQueryParams}
         onMoveEnd={setQueryParams}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
+        category={category}
         featureId={featureId}
         feature={this.state.feature}
       />
       <SearchToolbar hidden={isNodeRoute} />;
-      {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId}/> : null}
+      {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId} /> : null}
     </div>);
   }
 }
