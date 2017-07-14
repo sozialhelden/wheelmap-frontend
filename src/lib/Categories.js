@@ -35,6 +35,7 @@ export default class Categories {
   static synonymCache: SynonymCache;
   static idsToWheelmapCategories = {};
   static wheelmapCategoryNamesToCategories = {};
+  static wheelmapRootCategoryNamesToCategories = {};
   static fetchPromise: ?Promise<*>;
 
   static getCategory(idOrSynonym): Promise<ACCategory> {
@@ -62,11 +63,18 @@ export default class Categories {
     categories.forEach((category) => {
       this.idsToWheelmapCategories[category.id] = category;
       this.wheelmapCategoryNamesToCategories[category.identifier] = category;
+      if (!category.category_id) {
+        this.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
+      }
     });
   }
 
   static wheelmapCategoryWithName(name: string) {
     return this.wheelmapCategoryNamesToCategories[name];
+  }
+
+  static wheelmapRootCategoryWithName(name: string) {
+    return this.wheelmapRootCategoryNamesToCategories[name];
   }
 }
 

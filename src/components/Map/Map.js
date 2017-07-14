@@ -312,7 +312,7 @@ export default class Map extends Component<void, Props, State> {
 
     const categoryName = props.category;
     if (categoryName) {
-      const category = Categories.wheelmapCategoryWithName(categoryName);
+      const category = Categories.wheelmapRootCategoryWithName(categoryName);
       if (!category) {
         return null;
       }
