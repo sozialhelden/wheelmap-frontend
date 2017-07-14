@@ -61,6 +61,7 @@ class GeoJSONTileLayer extends TileLayer {
     // TileLayer.prototype._reset.apply(this, arguments);
     Object.keys(this._idsToShownLayers).forEach(id => delete this._idsToShownLayers[id]);
     this._layerGroup.clearLayers();
+    this._loadedTileUrls = {};
   }
 
   _addTile(tilePoint) {
