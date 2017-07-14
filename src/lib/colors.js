@@ -74,8 +74,10 @@ export function interpolateWheelchairAccessibilityColors(propertiesArray: NodePr
   const totalRatingForDefined = reduce(colorValues, reduceFn, 0);
   const averageRatingForDefined = totalRatingForDefined / definedCount;
   const averageColorForDefined = definedAccessibilityColorScale(averageRatingForDefined);
-  const definedRatio = Math.min(1.0, 0.5 + (definedCount / colorValues.length));
-  return interpolateLab(colors.markerBackground.gray, averageColorForDefined)(definedRatio);
+  const definedRatio = definedCount / colorValues.length;
+  // Don't take gray values into account that much
+  const clampedDefinedRatio = Math.min(1.0, 0.5 + (definedRatio));
+  return interpolateLab(colors.markerBackground.gray, averageColorForDefined)(clampedDefinedRatio);
 }
 
 
