@@ -9,6 +9,7 @@ import SearchResults from './SearchResults';
 import type { SearchResultCollection } from './SearchResults';
 import SearchInputField from './SearchInputField';
 import CloseLink from '../CloseLink';
+import SearchIcon from './SearchIcon';
 
 type Props = {
   className: string,
@@ -29,10 +30,15 @@ const PositionedCloseLink = styled(CloseLink)`
   right: 8px;
 `;
 
+const StyledSearchIcon = styled(SearchIcon)`
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  pointer-events: none;
+`;
 
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
-
 
   constructor(props: Props) {
     super(props);
@@ -110,6 +116,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
           }}
           showSpinner={showSpinner}
         />
+        <StyledSearchIcon />
         { searchResults ?
           <SearchResults searchResults={searchResults} /> :
           (this.state.categoryMenuIsVisible ? <CategoryMenu /> : null) }

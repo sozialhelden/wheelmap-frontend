@@ -35,10 +35,6 @@ const StyledSearchInputField = styled(SearchInputField)`
   border-radius: 0.3em;
   margin: 0 0 0.5em 0;
 
-  background-position: 0.5em 0.5em;
-  background-image: url(/icons/actions/search.svg);
-  background-repeat: no-repeat;
-
   &:focus {
     outline: none;
   }
