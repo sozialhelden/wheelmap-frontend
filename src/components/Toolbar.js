@@ -167,7 +167,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
     let topOffset = this.state.topOffset || this.state.lastTopOffset;
     topOffset = Math.max(this.getMinimalTopPosition(), topOffset);
-    if (this.state.viewportSize.width > this.state.viewportSize.height) {
+    if (this.state.viewportSize.width > this.state.viewportSize.height || this.state.viewportSize.width >= 512) {
       topOffset = 0;
     }
 
@@ -212,6 +212,7 @@ const StyledToolbar = styled(Toolbar)`
   top: 0;
   left: 0;
   width: 320px;
+  min-width: 320px;
   max-height: calc(100% - 36px);
   margin: 10px;
   padding: 12px 15px 5px 15px;
@@ -229,7 +230,7 @@ const StyledToolbar = styled(Toolbar)`
      -webkit-overflow-scrolling: touch;
   }
 
-  &, * { /* switch on 3D acceleration for the panel */
+  & { /* switch on 3D acceleration for the panel */
     transform: scale3d(1, 1, 1);
   }
 
