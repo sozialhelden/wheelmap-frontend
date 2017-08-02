@@ -3,6 +3,7 @@
 import L from 'leaflet';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import includes from 'lodash/includes';
 import levenshtein from 'fast-levenshtein';
 import { color as d3Color } from 'd3-color';
 import type { RouterHistory } from 'react-router-dom';
@@ -96,7 +97,7 @@ function isSamePlace(propertiesArray: NodeProperties[]) {
   const levenshteinDistance = levenshtein.get(name0, name1, { useCollator: true });
   if (levenshteinDistance < 5) return true;
 
-  const isOneStringContainedInTheOther = Boolean(name0.match(name1)) || Boolean(name1.match(name0));
+  const isOneStringContainedInTheOther = includes(name0, name1) || includes(name1, name0);
   return isOneStringContainedInTheOther;
 }
 
