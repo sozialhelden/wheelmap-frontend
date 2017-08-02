@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { interpolateLab } from 'd3-interpolate';
+
+import * as icons from '../icons/mainCategories';
+
 import colors from '../../lib/colors';
 
 const Circle = styled.div.attrs({ className: 'circle' })`
@@ -14,11 +17,6 @@ const Circle = styled.div.attrs({ className: 'circle' })`
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-`;
-
-const StyledButtonIcon = styled.img`
-  width: 21px;
-  opacity: 0.95;
 `;
 
 const StyledLink = styled(NavLink)`
@@ -34,8 +32,11 @@ const StyledLink = styled(NavLink)`
   .circle {
     background-color: ${colors.tonedDownSelectedColor};
   }
-  &.active .circle {
-    background-color: ${colors.selectedColor};
+  &.active {
+    font-weight: bold;
+    .circle {
+      background-color: ${colors.selectedColor};
+    }
   }
   &:not(.active):hover .circle {
     background-color: ${interpolateLab(colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
@@ -44,6 +45,15 @@ const StyledLink = styled(NavLink)`
     outline: none;
     .circle {
       background-color: ${colors.selectedColor};
+    }
+  }
+
+  svg {
+    width: 21px;
+    height: 21px;
+    opacity: 0.95;
+    g {
+      fill: white;
     }
   }
 `;
@@ -63,14 +73,12 @@ type Props = {
 
 export default function CategoryButton(props: Props) {
   const url = `/categories/${props.id}`;
+  const SvgComponent = icons[props.id || 'undefined'];
 
   return (
     <StyledLink activeClassName="active" to={url}>
       <Circle>
-        <StyledButtonIcon
-          src={`/icons/main-categories/white/${props.id}.svg`}
-          alt=""
-        />
+        <SvgComponent />
       </Circle>
       <Caption>{props.name}</Caption>
     </StyledLink>

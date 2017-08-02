@@ -2,9 +2,9 @@
 
 import styled from 'styled-components';
 import React from 'react';
-import type { Category } from '../lib/Categories';
 import type { NodeProperties } from '../lib/Feature';
 import { getColorForWheelchairAccessibility } from '../lib/colors';
+import * as icons from './icons/categories';
 
 
 const StyledIconImage = styled('figure')`
@@ -18,7 +18,7 @@ const StyledIconImage = styled('figure')`
   margin-right: 0.5em;
   box-sizing: border-box;
 
-  img {
+  svg {
     width: 1em;
     height: 1em;
     margin: 0.25em;
@@ -38,7 +38,9 @@ type Props = {
 
 
 export default function Icon({ properties, category }: Props) {
-  const src = `/icons/categories/${category._id}.svg`;
   const color = getColorForWheelchairAccessibility(properties);
-  return <StyledIconImage className={`ac-marker-${color}`}><img src={src} alt="" /></StyledIconImage>;
+  const SvgComponent = icons[category._id || 'undefined'];
+  return (<StyledIconImage className={`ac-marker-${color}`}>
+    <SvgComponent />
+  </StyledIconImage>);
 }
