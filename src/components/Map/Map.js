@@ -190,6 +190,12 @@ export default class Map extends Component<void, Props, State> {
 
   componentWillReceiveProps(newProps: Props) {
     this.navigate(newProps);
+    // Without this, the map would be empty when navigating to a category
+    if (this.props.category !== newProps.category) {
+      if (this.map.getZoom() < config.minimalZoom.withSetCategory) {
+        this.map.setZoom(config.minimalZoom.withSetCategory, { animate: true });
+      }
+    }
   }
 
 

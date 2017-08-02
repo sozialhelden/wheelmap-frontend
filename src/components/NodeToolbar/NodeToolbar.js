@@ -9,7 +9,7 @@ import 'accessibility-cloud-widget/src/app.css';
 import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
-import CloseLink from './CloseLink';
+import CloseLink from '../CloseLink';
 
 
 const StyledAccessibilityDetails = styled(AccessibilityDetails)`
@@ -109,13 +109,19 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
   }
 `;
 
+
+const PositionedCloseLink = styled(CloseLink)`
+  top: 9px;
+  right: 0;
+`;
+
 export default class NodeToolbar extends Component<*, Props, State> {
   render() {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties && properties.accessibility;
     return (
       <Toolbar>
-        <CloseLink />
+        <PositionedCloseLink />
         <NodeHeader feature={this.props.feature} />
         <StyledAccessibilityDetails details={accessibility} />
         <NodeFooter

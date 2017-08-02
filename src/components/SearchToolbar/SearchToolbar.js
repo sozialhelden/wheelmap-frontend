@@ -1,17 +1,19 @@
 // @flow
 
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import Toolbar from '../Toolbar';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
 import type { SearchResultCollection } from './SearchResults';
 import SearchInputField from './SearchInputField';
-
+import CloseLink from '../CloseLink';
 
 type Props = {
   className: string,
   hidden: boolean,
+  category: ?string,
 };
 
 type DefaultProps = {};
@@ -20,6 +22,12 @@ type State = {
   searchResults: ?SearchResultCollection,
   categoryMenuIsVisible: boolean,
 };
+
+
+const PositionedCloseLink = styled(CloseLink)`
+  top: 5px;
+  right: 8px;
+`;
 
 
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
@@ -85,13 +93,26 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     const showSpinner = false;
     return (
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
+        <PositionedCloseLink onClick={ () => {
+          this.setState({ categoryMenuIsVisible: true, searchResults: null });
+          const input = this.input;
+          if (input instanceof HTMLInputElement) {
+            input.value = '';
+            input.focus();
+          }
+        }} />
         <SearchInputField
-          onChange={(event) => { this.input = event.target; this.handleSearchInputChangeDebounced(event); }}
+          onFocus={() => { this.setState({ categoryMenuIsVisible: true }); }}
+          onBlur={() => { setTimeout(() => { this.setState({ categoryMenuIsVisible: this.props.category }); }, 0) }}
+          onChange={(event) => {
+            this.input = event.target;
+            this.handleSearchInputChangeDebounced(event);
+          }}
           showSpinner={showSpinner}
         />
         { searchResults ?
           <SearchResults searchResults={searchResults} /> :
-          <CategoryMenu isVisible={this.state.categoryMenuIsVisible} /> }
+          (this.state.categoryMenuIsVisible ? <CategoryMenu /> : null) }
       </Toolbar>
     );
   }

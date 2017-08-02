@@ -7,6 +7,8 @@ import styled from 'styled-components';
 type Props = {
   showSpinner: boolean;
   onChange: ?((event: UIEvent) => void),
+  onBlur: ?((event: UIEvent) => void),
+  onFocus: ?((event: UIEvent) => void),
   ref: ((input: HTMLInputElement) => void),
 };
 
@@ -14,6 +16,8 @@ const SearchInputField = (props: Props) =>
   <input
     ref={props.ref}
     onChange={props.onChange}
+    onFocus={props.onFocus}
+    onBlur={props.onBlur}
     className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''} ${props.className}`}
     placeholder="Search for a place / address"
   />;

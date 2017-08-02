@@ -136,7 +136,7 @@ class FeatureLoader extends Component<void, Props, State> {
         featureId={featureId}
         feature={this.state.feature}
       />
-      <SearchToolbar hidden={isNodeRoute} />;
+      <SearchToolbar hidden={isNodeRoute} category={category} />;
       {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId} /> : null}
     </div>);
   }
