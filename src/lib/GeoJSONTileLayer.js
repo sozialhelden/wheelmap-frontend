@@ -76,7 +76,7 @@ class GeoJSONTileLayer extends TileLayer {
 
     tile.request.abort();
     this.fire('tileunload', { tile });
-
+    delete this._loadedTileUrls[tile.url];
     if (tile.layer != null) { this._layerGroup.removeLayer(tile.layer); }
 
     delete this._tiles[key];
@@ -124,6 +124,7 @@ class GeoJSONTileLayer extends TileLayer {
     const layer = this;
 
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
+    tile.url = url;
 
 
     this.fire('tileloadstart', {
@@ -132,7 +133,7 @@ class GeoJSONTileLayer extends TileLayer {
     });
 
     if (this._loadedTileUrls[url]) {
-      // This is needed to not crash in superclasses
+      // This is needed to not crash in superclasses, which assume that every tile has a request
       tile.el = {};
       tile.request = { abort() {} };
       return;

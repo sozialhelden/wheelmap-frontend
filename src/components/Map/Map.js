@@ -253,19 +253,6 @@ export default class Map extends Component<void, Props, State> {
 
     let minimalZoomLevelForFeatures = config.minimalZoom.withSetCategory;
 
-    if (!this.props.category) {
-      minimalZoomLevelForFeatures = config.minimalZoom.withoutSetCategory;
-      if (!featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        console.log('Show AC layer...');
-        featureLayer.addLayer(this.accessibilityCloudTileLayer);
-      }
-    }
-
-    if (!featureLayer.hasLayer(this.wheelmapTileLayer)) {
-      console.log('Show wheelmap layer...');
-      featureLayer.addLayer(this.wheelmapTileLayer);
-    }
-
     if (map.getZoom() >= minimalZoomLevelForFeatures) {
       if (!map.hasLayer(featureLayer)) {
         console.log('Show feature layer...');
@@ -277,6 +264,21 @@ export default class Map extends Component<void, Props, State> {
     }
 
     this.updateFeatureLayerSourceUrls(props);
+
+    if (!this.props.category) {
+      minimalZoomLevelForFeatures = config.minimalZoom.withoutSetCategory;
+      if (!featureLayer.hasLayer(this.accessibilityCloudTileLayer) && this.accessibilityCloudTileLayer) {
+        console.log('Show AC layer...');
+        featureLayer.addLayer(this.accessibilityCloudTileLayer);
+        this.accessibilityCloudTileLayer._update(map.getCenter());
+      }
+    }
+
+    if (!featureLayer.hasLayer(this.wheelmapTileLayer) && this.wheelmapTileLayer) {
+      console.log('Show wheelmap layer...');
+      featureLayer.addLayer(this.wheelmapTileLayer);
+      this.wheelmapTileLayer._update(map.getCenter());
+    }
   }
 
 
@@ -320,5 +322,4 @@ export default class Map extends Component<void, Props, State> {
     }
     return `/api/nodes/?api_key=${config.wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
   }
-
 }
