@@ -1,14 +1,18 @@
 // @flow
 
 import L from 'leaflet';
-import { color } from 'd3-color';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import levenshtein from 'fast-levenshtein';
+import { color as d3Color } from 'd3-color';
 import type { RouterHistory } from 'react-router-dom';
 import {
   getColorForWheelchairAccessibility,
   interpolateWheelchairAccessibilityColors,
 } from './colors';
 import Categories from './Categories';
-import type { Feature } from './Feature';
+import type { Feature, NodeProperties } from './Feature';
+import * as categoryIcons from '../components/icons/categories';
 
 // Extend Leaflet-icon to support colors and category images
 
@@ -25,8 +29,10 @@ const Icon = L.Icon.extend({
     const properties = this.options.feature.properties;
     const href = `/nodes/${properties.id || properties._id}`;
     link.href = href;
-    const img = this._createImg(this.options.iconUrl);
-    link.appendChild(img);
+    const IconComponent = categoryIcons[this.options.iconName || 'undefined'];
+    if (IconComponent) {
+      ReactDOM.render(<IconComponent />, link);
+    }
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
       this.options.history.push(href);
@@ -44,28 +50,31 @@ const Icon = L.Icon.extend({
   },
 });
 
+function getIconNameForProperties(properties) {
+  const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
+  let givenCategoryId = null;
+  if (typeof properties.category === 'string') {
+    givenCategoryId = properties.category;
+  }
+  if (typeof properties.category === 'object') {
+    givenCategoryId = properties.category.identifier;
+  }
+  const categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
+  const category = Categories.getCategoryFromCache(categoryIdOrSynonym);
+  const categoryId = category ? category._id : null;
+  return categoryId;
+}
 
 const createMarkerFromFeatureFn = (history: RouterHistory) =>
   (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
     if (!properties) return null;
-    const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
-    let givenCategoryId = null;
-    if (typeof properties.category === 'string') {
-      givenCategoryId = properties.category;
-    }
-    if (typeof properties.category === 'object') {
-      givenCategoryId = properties.category.identifier;
-    }
-    const categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
-    const category = Categories.getCategoryFromCache(categoryIdOrSynonym);
-    const categoryId = category ? category._id : null;
-    const iconName = categoryId || 'place';
+
     const color = getColorForWheelchairAccessibility(properties);
     const icon = new Icon({
       history,
       feature,
-      iconUrl: `/icons/categories/${iconName}.svg`,
+      iconName: getIconNameForProperties(properties) || 'place',
       className: `ac-marker ac-marker-${color}`,
       iconSize: new L.Point(19, 19),
       iconAnchor: new L.Point(11, 11),
@@ -75,6 +84,21 @@ const createMarkerFromFeatureFn = (history: RouterHistory) =>
   };
 
 export default createMarkerFromFeatureFn;
+
+
+function isSamePlace(propertiesArray: NodeProperties[]) {
+  const hasTwoPlaces = propertiesArray.length === 2;
+  if (!hasTwoPlaces) return false;
+
+  const [name0, name1] = propertiesArray.map(p => p.name);
+  if (!name0 || !name1) return false;
+
+  const levenshteinDistance = levenshtein.get(name0, name1, { useCollator: true });
+  if (levenshteinDistance < 5) return true;
+
+  const isOneStringContainedInTheOther = Boolean(name0.match(name1)) || Boolean(name1.match(name0));
+  return isOneStringContainedInTheOther;
+}
 
 
 export const ClusterIcon = L.Icon.extend({
@@ -90,12 +114,17 @@ export const ClusterIcon = L.Icon.extend({
   createIcon() {
     const div = document.createElement('div');
     const propertiesArray = this.options.propertiesArray;
-    div.innerHTML = String(propertiesArray.length);
-    const backgroundColor = color(interpolateWheelchairAccessibilityColors(propertiesArray));
-    // backgroundColor.opacity *= 0.95;
+    if (isSamePlace(propertiesArray)) {
+      const iconNames = propertiesArray.map(p => getIconNameForProperties(p)).filter(Boolean);
+      const IconComponent = categoryIcons[iconNames[0] || 'undefined'];
+      if (IconComponent) {
+        ReactDOM.render(<IconComponent />, div);
+      }
+    } else {
+      div.innerHTML = String(propertiesArray.length);
+    }
+    const backgroundColor = d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
     div.style.backgroundColor = backgroundColor;
-    // backgroundColor.opacity *= 0.5;
-    // div.style.boxShadow = `0 0 0px 5px ${backgroundColor}`;
     this._setIconStyles(div, 'icon');
     return div;
   },
