@@ -169,8 +169,11 @@ class GeoJSONTileLayer extends TileLayer {
           const marker = pointToLayerFn(feature, latlng);
           idsToShownLayers[id] = marker;
           if (String(id) === layer.highlightedMarkerId) {
-            debugger
-            highlightMarker(marker);
+            const highlightFn = () => {
+              highlightMarker(marker);
+              marker.off('add', highlightFn);
+            };
+            marker.on('add', highlightFn);
           }
           return marker;
         },
