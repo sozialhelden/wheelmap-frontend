@@ -29,7 +29,7 @@ const Icon = L.Icon.extend({
     // this.options.history.navigate(...)
     const link = document.createElement('a');
     const properties = this.options.feature.properties;
-    const href = `/nodes/${properties.id || properties._id}`;
+    const href = `/beta/nodes/${properties.id || properties._id}`;
     link.href = href;
     const IconComponent = categoryIcons[this.options.iconName || 'undefined'];
     if (IconComponent) {

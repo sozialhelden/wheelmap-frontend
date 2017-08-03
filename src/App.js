@@ -74,7 +74,7 @@ class FeatureLoader extends Component<void, Props, State> {
 
   featureId(props: Props = this.props): ?string {
     const location = props.location;
-    const match = location.pathname.match(/\/(-?\w+)\/([-\w\d]+)/i);
+    const match = location.pathname.match(/(?:\/beta)?\/(-?\w+)\/([-\w\d]+)/i);
     if (match) {
       if (match[1] === 'nodes') return match[2];
     }
@@ -84,7 +84,7 @@ class FeatureLoader extends Component<void, Props, State> {
 
   category(props: Props = this.props): ?string {
     const location = props.location;
-    const match = location.pathname.match(/\/(-?\w+)\/([-_\w\d]+)/i);
+    const match = location.pathname.match(/(?:\/beta)?\/(-?\w+)\/([-_\w\d]+)/i);
     if (match) {
       if (match[1] === 'categories') return match[2];
     }

@@ -154,7 +154,7 @@ class SearchResult extends Component<void, SearchResultProps, State> {
   getHref(): ?string {
     const wheelmapFeature = this.state.wheelmapFeature;
     if (wheelmapFeature && wheelmapFeature.properties && wheelmapFeature.properties.id) {
-      return `/nodes/${wheelmapFeature.properties.id}`;
+      return `/beta/nodes/${wheelmapFeature.properties.id}`;
     }
     const result = this.props.result;
     const geometry = result ? result.geometry : null;

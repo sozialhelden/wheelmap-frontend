@@ -72,7 +72,7 @@ type Props = {
 
 
 export default function CategoryButton(props: Props) {
-  const url = `/categories/${props.id}`;
+  const url = `/beta/categories/${props.id}`;
   const SvgComponent = icons[props.id || 'undefined'];
 
   return (
