@@ -1,4 +1,3 @@
-debugger
 const config = {
   locateTimeout: 60 * 60 * 1000,
   defaultStartCenter: [51.505, -0.09],
