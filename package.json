@@ -2,7 +2,7 @@
   "name": "wheelmap-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://wheelmap.now.sh/",
+  "homepage": "https://wheelmap.now.sh/beta/",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
     "cors": "^2.8.1",
@@ -49,6 +49,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
+    "deploy-staging": "npm run build && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "flow": "flow",
     "server": "server"
   },
