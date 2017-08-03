@@ -58,7 +58,7 @@ function getIconNameForProperties(properties) {
   if (typeof properties.category === 'string') {
     givenCategoryId = properties.category;
   }
-  if (typeof properties.category === 'object') {
+  if (properties.category && typeof properties.category === 'object') {
     givenCategoryId = properties.category.identifier;
   }
   const categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
