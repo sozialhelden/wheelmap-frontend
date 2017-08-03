@@ -17,22 +17,46 @@ html, body, #root, .app-container {
 .leaflet-icon-locate:before {
   display: block;
   position: absolute;
-  top: 5px;
-  left: 0;
+  top: 7px;
+  left: 2px;
   width: 31px;
   height: 24px;
-  content: url(/icons/actions/locate-off.svg);
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb2ZmPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vZmYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDA2MTM5LCAtMC4zNjIxMzMpIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiMwMDAwMDAiPgogICAgICAgICAgICA8cGF0aCBkPSJNNS43Nzc5OTA3NCwxNC43OTkwMzI3IEw5LjI2MTkwODY2LDE0LjgwMTIxMDYgTDkuMjY0MDg2NjIsMTguMjg1MTI4NSBMMTUuNjQ1MDk4Niw4LjQxODAyMDY4IEw1Ljc3Nzk5MDc0LDE0Ljc5OTAzMjcgWiBNMjAuNzAxMTY1NSwzLjM2MTk1MzggTDcuNzY3MjYwMDgsMjMuMzYxOTUzOCBMNy43NjI4NDU1LDE2LjMwMDI3MzggTDAuNzAxMTY1NDgyLDE2LjI5NTg1OTIgTDIwLjcwMTE2NTUsMy4zNjE5NTM4IFoiIGlkPSJDb21iaW5lZC1TaGFwZSI+PC9wYXRoPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
 }
 
-.leaflet-icon-locate-loading:before {
+.leaflet-control-locate.active .leaflet-icon-locate:before {
   display: block;
   position: absolute;
-  top: 5px;
-  left: 0;
+  top: 7px;
+  left: 2px;
   width: 31px;
   height: 24px;
-  content: url(/icons/actions/locate-on.svg);
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LCAwKSI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vbiIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjMzlBQkRCIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkNvbWJpbmVkLVNoYXBlIiBwb2ludHM9IjIwLjcwNzMwNDggMi45OTk4MjExMSA3Ljc3MzM5OTQgMjIuOTk5ODIxMSA3Ljc2ODk4NDgzIDE1LjkzODE0MTEgMC43MDczMDQ4MDkgMTUuOTMzNzI2NSI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
 }
+
+@keyframes loopedFading {
+  0% {
+    opacity: 1.0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+.leaflet-control-locate.requesting .leaflet-icon-locate-loading:before {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 2px;
+  width: 31px;
+  height: 24px;
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LCAwKSI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vbiIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjMzlBQkRCIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkNvbWJpbmVkLVNoYXBlIiBwb2ludHM9IjIwLjcwNzMwNDggMi45OTk4MjExMSA3Ljc3MzM5OTQgMjIuOTk5ODIxMSA3Ljc2ODk4NDgzIDE1LjkzODE0MTEgMC43MDczMDQ4MDkgMTUuOTMzNzI2NSI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+  animation: loopedFading 0.5s linear infinite;
+}
+
 
 .leaflet-control-attribution {
   opacity: 0.5;
