@@ -17,6 +17,7 @@ import { wheelmapFeatureCollectionFromResponse } from '../../lib/Feature';
 import createMarkerFromFeatureFn, { ClusterIcon } from '../../lib/createMarkerFromFeatureFn';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
+import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
 
 import { normalizeCoordinate, normalizeCoordinates } from './normalizeCoordinates';
 import addLocateControlToMap from './addLocateControlToMap';
@@ -285,8 +286,25 @@ export default class Map extends Component<void, Props, State> {
       featureLayer.addLayer(this.wheelmapTileLayer);
       this.wheelmapTileLayer._update(map.getCenter());
     }
+
+    this.updateHighlightedMarker(props);
   }
 
+  updateHighlightedMarker(props: Props) {
+    if (props.feature && props.feature.properties) {
+      const id = props.feature.properties._id || props.feature.properties.id;
+      if (id) {
+        if (this.wheelmapTileLayer) {
+          this.wheelmapTileLayer.highlightMarkerWithId(String(id));
+        }
+        if (this.accessibilityCloudTileLayer) {
+          this.accessibilityCloudTileLayer.highlightMarkerWithId(String(id));
+        }
+        return;
+      }
+    }
+    removeCurrentHighlightedMarker();
+  }
 
   updateFeatureLayerSourceUrls(props: Props = this.props) {
     const wheelmapTileLayer = this.wheelmapTileLayer;

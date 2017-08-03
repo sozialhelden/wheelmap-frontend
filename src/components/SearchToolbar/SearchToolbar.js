@@ -10,6 +10,8 @@ import type { SearchResultCollection } from './SearchResults';
 import SearchInputField from './SearchInputField';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
+import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
+
 
 type Props = {
   className: string,
@@ -97,29 +99,44 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
   render() {
     const searchResults = this.state.searchResults;
     const showSpinner = false;
+
+    let contentBelowSearchField = null;
+    if (searchResults) {
+      contentBelowSearchField = <SearchResults searchResults={searchResults} />;
+    } else if (this.state.categoryMenuIsVisible) {
+      contentBelowSearchField = <CategoryMenu />;
+    }
+
     return (
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
-        <PositionedCloseLink onClick={ () => {
-          this.setState({ categoryMenuIsVisible: true, searchResults: null });
-          const input = this.input;
-          if (input instanceof HTMLInputElement) {
-            input.value = '';
-            input.focus();
-          }
-        }} />
+        <PositionedCloseLink
+          onClick={ () => {
+            this.setState({ categoryMenuIsVisible: true, searchResults: null });
+            const input = this.input;
+            if (input instanceof HTMLInputElement) {
+              input.value = '';
+              setTimeout(() => input.focus(), 50);
+            }
+          }}
+        />
+
         <SearchInputField
           onFocus={() => { this.setState({ categoryMenuIsVisible: true }); }}
-          onBlur={() => { setTimeout(() => { this.setState({ categoryMenuIsVisible: this.props.category }); }, 0) }}
+          onBlur={() => {
+            setTimeout(() => {
+              this.setState({ categoryMenuIsVisible: this.props.category });
+            }, 50);
+          }}
           onChange={(event) => {
             this.input = event.target;
             this.handleSearchInputChangeDebounced(event);
           }}
           showSpinner={showSpinner}
         />
+
         <StyledSearchIcon />
-        { searchResults ?
-          <SearchResults searchResults={searchResults} /> :
-          (this.state.categoryMenuIsVisible ? <CategoryMenu /> : null) }
+
+        { contentBelowSearchField }
       </Toolbar>
     );
   }

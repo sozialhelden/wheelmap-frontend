@@ -14,6 +14,7 @@ import {
 import Categories from './Categories';
 import type { Feature, NodeProperties } from './Feature';
 import * as categoryIcons from '../components/icons/categories';
+import highlightMarker from './highlightMarker';
 
 // Extend Leaflet-icon to support colors and category images
 
@@ -72,16 +73,40 @@ const createMarkerFromFeatureFn = (history: RouterHistory) =>
     if (!properties) return null;
 
     const color = getColorForWheelchairAccessibility(properties);
+    const iconName = getIconNameForProperties(properties) || 'place';
+    const className = `ac-marker ac-marker-${color}`;
     const icon = new Icon({
       history,
       feature,
-      iconName: getIconNameForProperties(properties) || 'place',
-      className: `ac-marker ac-marker-${color}`,
+      iconName,
+      className,
       iconSize: new L.Point(19, 19),
       iconAnchor: new L.Point(11, 11),
       popupAnchor: new L.Point(11, 11),
+      tooltipAnchor: new L.Point(11, 37),
     });
-    return L.marker(latlng, { icon });
+
+    const marker = L.marker(latlng, { icon });
+    // marker.on('click', () => {
+    //   highlightMarker(marker);
+    // });
+
+    // Uncomment this to enable tooltips with names for each place.
+
+    // if (properties.name) {
+    //   marker.bindTooltip(properties.name, {
+    //     direction: 'bottom',
+    //     className: 'ac-marker-name-tooltip',
+    //     offset: new L.Point(0, 1),
+    //     // permanent: true,
+    //   });
+    //   marker.on('tooltipopen', (event) => {
+    //     const el = event.tooltip.getElement();
+    //     el.style.width = el.scrollWidth;
+    //   });
+    // }
+
+    return marker;
   };
 
 export default createMarkerFromFeatureFn;

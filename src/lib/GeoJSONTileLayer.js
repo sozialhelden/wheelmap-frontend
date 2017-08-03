@@ -1,3 +1,5 @@
+// @flow
+
 /*!
 
 Code based on https://github.com/glenrobertson/leaflet-tilelayer-geojson, adapted for Mapbox
@@ -33,6 +35,8 @@ import 'leaflet.markercluster/dist/leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from './geoTileToBbox';
+import highlightMarker from './highlightMarker';
+
 
 const TileLayer = L.TileLayer;
 
@@ -162,7 +166,13 @@ class GeoJSONTileLayer extends TileLayer {
           const id = feature.properties._id || feature.properties.id;
           if (idsToShownLayers[id]) return idsToShownLayers[id];
           const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
-          return (idsToShownLayers[id] = pointToLayerFn(feature, latlng));
+          const marker = pointToLayerFn(feature, latlng);
+          idsToShownLayers[id] = marker;
+          if (String(id) === layer.highlightedMarkerId) {
+            debugger
+            highlightMarker(marker);
+          }
+          return marker;
         },
       };
       // eslint-disable-next-line no-param-reassign
@@ -190,6 +200,13 @@ class GeoJSONTileLayer extends TileLayer {
       tile,
       url,
     });
+  }
+
+  highlightMarkerWithId(id: string) {
+    const marker = this._idsToShownLayers[id];
+    if (!marker) return;
+    highlightMarker(marker);
+    this.highlightedMarkerId = id;
   }
 }
 
