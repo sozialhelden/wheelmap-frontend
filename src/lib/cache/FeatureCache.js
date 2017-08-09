@@ -1,4 +1,5 @@
 // @flow
+
 import type { Feature, FeatureCollection } from 'geojson-flow';
 
 
@@ -9,7 +10,6 @@ import type { Feature, FeatureCollection } from 'geojson-flow';
 
 export default class FeatureCache {
   cache: { [string]: ?Feature } = {};
-
 
   /**
    * Caches a given GeoJSON Feature by id.
@@ -43,7 +43,7 @@ export default class FeatureCache {
     geoJSON.features.forEach(feature => this.cacheFeature(feature));
   }
 
-  fetchFeature(id, resolve, reject) {
+  fetchFeature(id: string, resolve: ((Feature) => void), reject: ((response: any) => void)) {
     this.constructor.fetchFeature(id).then(
       (response: Response) => {
         if (response.status === 200) {
@@ -77,7 +77,7 @@ export default class FeatureCache {
   }
 
 
-  /** @private */ getCachedFeature(id: string): Feature {
+  /** @private */ getCachedFeature(id: string): ?Feature {
     return this.cache[id];
   }
 

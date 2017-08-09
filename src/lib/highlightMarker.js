@@ -32,6 +32,10 @@ export default function highlightMarker(marker: L.Marker) {
   const bigMarkerDiv = document.createElement('div');
   bigMarkerDiv.className = `${marker.options.icon.options.className} ac-big-icon-marker`;
   const markerEl = marker.getElement();
+  if (!markerEl) {
+    currentHighlightedMarker = null;
+    return;
+  }
   markerEl.appendChild(bigMarkerDiv);
   markerEl.classList.add('ac-marker-current');
   if (IconComponent) {

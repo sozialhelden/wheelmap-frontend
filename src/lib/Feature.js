@@ -23,13 +23,13 @@ export type WheelmapCategoryOrNodeType = {
 
 
 export type WheelmapProperties = {
-  id: number | string,
+  id: number,
   category: ?WheelmapCategoryOrNodeType,
   node_type: ?WheelmapCategoryOrNodeType,
   city: ?string,
   housenumber: ?string,
-  lat: ?number,
-  lon: ?number,
+  lat: number,
+  lon: number,
   name: ?string,
   phone: ?string,
   photo_ids: ?(number | string)[],
@@ -104,7 +104,11 @@ export function convertResponseToWheelmapFeature(node: WheelmapProperties): Whee
   };
 }
 
-export function wheelmapFeatureCollectionFromResponse(response): WheelmapFeatureCollection {
+type WheelmapPropertiesResponse = { nodes: WheelmapProperties[] };
+
+export function wheelmapFeatureCollectionFromResponse(
+  response: WheelmapPropertiesResponse,
+): WheelmapFeatureCollection {
   return {
     type: 'FeatureCollection',
     features: response.nodes.map(convertResponseToWheelmapFeature),

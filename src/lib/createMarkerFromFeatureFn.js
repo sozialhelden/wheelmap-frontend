@@ -14,7 +14,7 @@ import {
 import Categories from './Categories';
 import type { Feature, NodeProperties } from './Feature';
 import * as categoryIcons from '../components/icons/categories';
-import highlightMarker from './highlightMarker';
+
 
 // Extend Leaflet-icon to support colors and category images
 

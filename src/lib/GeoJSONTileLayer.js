@@ -158,7 +158,13 @@ class GeoJSONTileLayer extends TileLayer {
       if (!this.responseText || this.status >= 400) {
         return;
       }
-      const geoJSON = featureCollectionFromResponse(JSON.parse(this.responseText));
+      let geoJSON;
+      try {
+        geoJSON = featureCollectionFromResponse(JSON.parse(this.responseText));
+      } catch (e) {
+        console.log('Could not parse FeatureCollection JSON.');
+        return;
+      }
       const filteredGeoJSON = removeShownFeatures(geoJSON);
       layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
       const geoJSONOptions = { // eslint-disable-line new-cap

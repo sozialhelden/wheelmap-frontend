@@ -10,7 +10,6 @@ import type { SearchResultCollection } from './SearchResults';
 import SearchInputField from './SearchInputField';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
-import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
 
 
 type Props = {
