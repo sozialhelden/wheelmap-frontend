@@ -119,7 +119,7 @@ export default class Map extends Component<void, Props, State> {
 
     const markerClusterGroup = new L.MarkerClusterGroup({
       maxClusterRadius(zoom) {
-        const radius = 15 + (((1.3 ** (18 - zoom)) - 1) * 10);
+        const radius = 15 + (((1.4 ** (18 - zoom)) - 1) * 10);
         return Math.round(Math.max(15, Math.min(radius, 120)));
       },
       iconCreateFunction(cluster) {
@@ -128,7 +128,7 @@ export default class Map extends Component<void, Props, State> {
           .map(marker => marker.feature.properties);
         return new ClusterIcon({ propertiesArray });
       },
-      // animate: false,
+      animate: false,
       chunkedLoading: true,
     });
 
