@@ -7,11 +7,10 @@ import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import type { Category } from '../../lib/Categories';
 import type { Feature, WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
-import colors from '../../lib/colors';
 import BreadCrumbs from './BreadCrumbs';
-import ToolbarLink from '../ToolbarLink';
-import ChevronRight from './ChevronRight';
+import SourceLink from './SourceLink';
 import getAddressString from '../../lib/getAddressString';
+
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
@@ -27,26 +26,6 @@ const StyledNodeHeader = styled.header`
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
   margin-bottom: 0.5em;
-`;
-
-
-const SourceLink = ({ to, className } : { to: string, className?: string }) => {
-  return <ToolbarLink to={to} className={`${className} link-button`}>
-    on Jaccede <ChevronRight color={colors.linkColor} />
-  </ToolbarLink>;
-};
-
-
-const StyledSourceLink = styled(SourceLink)`
-  margin-top: .5em;
-  text-align: right;
-  .chevron-right {
-    vertical-align: bottom;
-    height: 18px;
-    width: 7px;
-    min-width: 7px;
-    margin: 0;
-  }
 `;
 
 
@@ -137,7 +116,7 @@ export default class NodeHeader extends Component<void, Props, State> {
     if (!properties) return null;
     const address = this.constructor.getAddressForProperties(properties);
     const addressString = address ? address.replace(/,$/, '').replace(/^,/, '') : null;
-    const externalInfoPageUrl = properties.infoPageUrl;
+
     const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
@@ -163,7 +142,7 @@ export default class NodeHeader extends Component<void, Props, State> {
 
         <address>{addressString}</address>
 
-        {externalInfoPageUrl ? <StyledSourceLink to={externalInfoPageUrl} /> : null}
+        <SourceLink properties={properties} />
 
         {phoneNumber ? <p><PhoneNumberLink phoneNumber={phoneNumber} /></p> : null}
 
