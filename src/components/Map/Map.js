@@ -1,6 +1,7 @@
 // @flow
 
 import L from 'leaflet';
+import includes from 'lodash/includes';
 import throttle from 'lodash/throttle';
 import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
@@ -10,7 +11,8 @@ import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import config from '../../lib/config';
 import savedState, { saveState } from './savedState';
 import Categories from '../../lib/Categories';
-import type { Feature } from '../../lib/Feature';
+import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { isWheelchairAccessible, yesNoLimitedUnknownArray, yesNoUnknownArray, hasAccessibleToilet } from '../../lib/Feature';
 import GeoJSONTileLayer from '../../lib/GeoJSONTileLayer';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import { wheelmapFeatureCollectionFromResponse } from '../../lib/Feature';
@@ -40,6 +42,8 @@ type State = {
   lat?: number,
   lon?: number,
   zoom?: number,
+  accessibilityFilter: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[],
 };
 
 
@@ -48,7 +52,10 @@ overrideLeafletZoomBehavior();
 
 export default class Map extends Component<void, Props, State> {
   props: Props;
-  state: State = {};
+  state: State = {
+    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
+    toiletFilter: [].concat(yesNoUnknownArray),
+  };
   map: ?L.Map;
   mapElement: ?HTMLElement;
   featureLayer: ?L.LayerGroup;
@@ -79,7 +86,7 @@ export default class Map extends Component<void, Props, State> {
     }
 
     this.map = map;
-    window.map = map;
+    window.map = this;
 
     this.navigate();
 
@@ -144,6 +151,7 @@ export default class Map extends Component<void, Props, State> {
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
       pointToLayer: createMarkerFromFeatureFn(history, wheelmapLightweightFeatureCache),
+      filter: this.isFeatureVisible.bind(this),
     });
 
     const accessibilityCloudTileUrl = this.accessibilityCloudTileUrl();
@@ -151,6 +159,7 @@ export default class Map extends Component<void, Props, State> {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
       pointToLayer: createMarkerFromFeatureFn(history, accessibilityCloudFeatureCache),
+      filter: this.isFeatureVisible.bind(this),
     });
 
     if (!Categories.fetchPromise) {
@@ -242,7 +251,6 @@ export default class Map extends Component<void, Props, State> {
     if (!Categories.fetchPromise) {
       throw new Error('Category fetching must be started.');
     }
-    console.log('Updating debounced...');
     Categories.fetchPromise.then(() => {
       this.updateFeatureLayerVisibilityDebounced(props);
     });
@@ -304,6 +312,16 @@ export default class Map extends Component<void, Props, State> {
       }
     }
     removeCurrentHighlightedMarker();
+  }
+
+  isFeatureVisible(feature: Feature) {
+    if (!feature) return false;
+    if (!feature.properties) return false;
+    const properties = feature.properties;
+    const { accessibilityFilter, toiletFilter } = this.state;
+    const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
+    const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));
+    return hasMatchingA11y && hasMatchingToilet;
   }
 
   updateFeatureLayerSourceUrls(props: Props = this.props) {

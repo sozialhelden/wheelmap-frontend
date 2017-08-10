@@ -86,7 +86,7 @@ const createMarkerFromFeatureFn = (history: RouterHistory) =>
       tooltipAnchor: new L.Point(11, 37),
     });
 
-    const marker = L.marker(latlng, { icon });
+    const marker = L.marker(latlng, { icon, color });
     // marker.on('click', () => {
     //   highlightMarker(marker);
     // });

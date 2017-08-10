@@ -1,10 +1,10 @@
 // @flow
 
-import get from 'lodash/get';
 import reduce from 'lodash/reduce';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab } from 'd3-interpolate';
 import type { NodeProperties } from './Feature';
+import { isWheelchairAccessible } from './Feature';
 
 
 const colors = {
@@ -28,17 +28,16 @@ const colors = {
   },
 };
 
+export type MarkerColor = 'red' | 'yellow' | 'green' | 'gray';
+export const markerColors: MarkerColor[] = ['red', 'yellow', 'green', 'gray'];
 
-export function getColorForWheelchairAccessibility(properties: NodeProperties): string {
-  const isAccessible = get(properties, 'wheelchair') ||
-    get(properties, 'accessibility.accessibleWith.wheelchair');
-  const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
+
+export function getColorForWheelchairAccessibility(properties: NodeProperties): MarkerColor {
+  const isAccessible = isWheelchairAccessible(properties);
   switch (isAccessible) {
-    case 'yes':
-    case true: return 'green';
+    case 'yes': return 'green';
     case 'limited': return 'yellow';
-    case 'no':
-    case false: return isPartiallyAccessible ? 'yellow' : 'red';
+    case 'no': return 'red';
     default: return 'gray';
   }
 }

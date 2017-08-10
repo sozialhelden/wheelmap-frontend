@@ -1,10 +1,28 @@
 // @flow
+import get from 'lodash/get';
+import flatten from 'lodash/flatten';
+import includes from 'lodash/includes';
+
 import type { GeometryObject } from 'geojson-flow';
 
-export type YesNoPartial = "yes" | "no" | "limited" | "unknown";
+export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
+export type YesNoUnknown = "yes" | "no" | "unknown";
+export const yesNoLimitedUnknownArray = ['yes', 'no', 'limited', 'unknown'];
+Object.freeze(yesNoLimitedUnknownArray);
+export const yesNoUnknownArray = ['yes', 'no', 'unknown'];
+Object.freeze(yesNoUnknownArray);
 
 
 // TODO: Create flowtype definition for AC format and re-use it here
+
+export type Restroom = {
+  isAccessibleWithWheelchair?: boolean,
+  ratingForWheelchair: number,
+};
+
+export type Area = {
+  restrooms: Restroom[],
+};
 
 export type MinimalAccessibility = {
   accessibleWith: {
@@ -13,6 +31,7 @@ export type MinimalAccessibility = {
   partiallyAccessibleWith: {
     wheelchair: boolean,
   },
+  areas?: Area[],
 }
 
 
@@ -40,9 +59,9 @@ export type WheelmapProperties = {
   region: ?string,
   street: ?string,
   website: ?string,
-  wheelchair: ?YesNoPartial,
+  wheelchair: ?YesNoLimitedUnknown,
   wheelchair_description: ?string,
-  wheelchair_toilet: ?YesNoPartial,
+  wheelchair_toilet: ?YesNoUnknown,
 };
 
 
@@ -113,4 +132,43 @@ export function wheelmapFeatureCollectionFromResponse(
     type: 'FeatureCollection',
     features: response.nodes.map(convertResponseToWheelmapFeature),
   };
+}
+
+export function hasAccessibleToilet(properties: WheelmapProperties | AccessibilityCloudProperties): YesNoUnknown {
+  if (!properties) return 'unknown';
+  if (properties && properties.wheelchair_toilet) {
+    if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
+      return ((properties.wheelchair_toilet: any): YesNoUnknown);
+    }
+    return 'unknown';
+  }
+
+  if (!(get(properties, 'accessibility.areas') instanceof Array)) return 'unknown';
+
+  const restroomAccessibilities = flatten(properties.accessibility.areas.map((area) => {
+    if (!(area.restrooms instanceof Array)) return null;
+    return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
+  }));
+
+  const accessibleCount = restroomAccessibilities.filter(a => a === true).length;
+  const nonAccessibleCount = restroomAccessibilities.filter(a => a === false).length;
+  const unknownCount = restroomAccessibilities.filter(a => a === null || typeof a === 'undefined').length;
+
+  if (accessibleCount >= 1) return 'yes';
+  if (nonAccessibleCount > unknownCount) return 'no';
+  return 'unknown';
+}
+
+export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
+  const isAccessible = get(properties, 'wheelchair') ||
+    get(properties, 'accessibility.accessibleWith.wheelchair');
+  const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
+  switch (isAccessible) {
+    case 'yes':
+    case true: return 'yes';
+    case 'limited': return 'limited';
+    case 'no':
+    case false: return isPartiallyAccessible ? 'limited' : 'no';
+    default: return 'unknown';
+  }
 }

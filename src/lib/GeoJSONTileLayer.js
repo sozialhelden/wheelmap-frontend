@@ -36,6 +36,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarker from './highlightMarker';
+import type { MarkerColor } from './colors';
 
 
 const TileLayer = L.TileLayer;
@@ -44,18 +45,28 @@ class GeoJSONTileLayer extends TileLayer {
   _idsToShownLayers = {};
   _loadedTileUrls = {};
 
-  constructor(tileUrl, options) {
+  constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
   }
 
-  _removeShownFeatures(featureCollection) {
-    const result = { type: 'FeatureCollection' };
-    result.features = featureCollection.features.filter(
-      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id],
-    );
-    console.log('Added', result.features.length, '/', featureCollection.features.length, 'features');
+  _filterFeatureCollection(featureCollection, filterFn) {
+    const result = {
+      type: 'FeatureCollection',
+      features: featureCollection.features.filter(filterFn),
+    };
     return result;
+  }
+
+  _removeFilteredFeatures(featureCollection) {
+    return this._filterFeatureCollection(featureCollection, this.options.filter || (i => true));
+  }
+
+  _removeShownFeatures(featureCollection) {
+    return this._filterFeatureCollection(
+      featureCollection,
+      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id]
+    );
   }
 
   _reset() {
@@ -87,13 +98,7 @@ class GeoJSONTileLayer extends TileLayer {
   }
 
   getLayers() {
-    const layers = [];
-
-    this._layerGroup.eachLayer((layer) => {
-      layers.push(...layer.getLayers());
-    });
-
-    return layers;
+    return this._layerGroup.getLayers();
   }
 
   static pointToLayer(feature, latlng) {
@@ -145,7 +150,6 @@ class GeoJSONTileLayer extends TileLayer {
 
     this._loadedTileUrls[url] = true;
 
-    const removeShownFeatures = this._removeShownFeatures.bind(this);
     const idsToShownLayers = this._idsToShownLayers;
     const featureCollectionFromResponse = this.options.featureCollectionFromResponse || (r => r);
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
@@ -154,6 +158,26 @@ class GeoJSONTileLayer extends TileLayer {
     const httpHeaders = layer.options.httpHeaders;
     Object.keys(httpHeaders || {}).forEach(key =>
       tile.request.setRequestHeader(key, httpHeaders[key]));
+
+    function pointToLayer(feature) {
+      const geometry = feature.geometry;
+      const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
+      const id = feature.properties._id || feature.properties.id;
+      if (idsToShownLayers[id]) return idsToShownLayers[id];
+      const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
+      const marker = pointToLayerFn(feature, latlng);
+      marker.feature = feature;
+      idsToShownLayers[id] = marker;
+      if (String(id) === layer.highlightedMarkerId) {
+        const highlightFn = () => {
+          highlightMarker(marker);
+          marker.off('add', highlightFn);
+        };
+        marker.on('add', highlightFn);
+      }
+      return marker;
+    }
+
     tile.request.addEventListener('load', function load() {
       if (!this.responseText || this.status >= 400) {
         return;
@@ -165,27 +189,14 @@ class GeoJSONTileLayer extends TileLayer {
         console.log('Could not parse FeatureCollection JSON.');
         return;
       }
-      const filteredGeoJSON = removeShownFeatures(geoJSON);
+      const filteredGeoJSON = layer._removeFilteredFeatures(layer._removeShownFeatures(geoJSON));
+      console.log('Added', filteredGeoJSON.features.length, '/', geoJSON.features.length, 'features');
       layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
-      const geoJSONOptions = { // eslint-disable-line new-cap
-        pointToLayer(feature, latlng) {
-          const id = feature.properties._id || feature.properties.id;
-          if (idsToShownLayers[id]) return idsToShownLayers[id];
-          const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
-          const marker = pointToLayerFn(feature, latlng);
-          idsToShownLayers[id] = marker;
-          if (String(id) === layer.highlightedMarkerId) {
-            const highlightFn = () => {
-              highlightMarker(marker);
-              marker.off('add', highlightFn);
-            };
-            marker.on('add', highlightFn);
-          }
-          return marker;
-        },
-      };
+      const markers = filteredGeoJSON.features.map(pointToLayer);
+      const layerGroup = L.layerGroup(layer.options);
+      markers.forEach(marker => layerGroup.addLayer(marker));
       // eslint-disable-next-line no-param-reassign
-      tile.layer = new L.GeoJSON(filteredGeoJSON, Object.assign({}, layer.options, geoJSONOptions));
+      tile.layer = layerGroup;
       layer._tileOnLoad(tile, url);
     });
     tile.request.addEventListener('error', () => layer._tileOnError(tile, url));
