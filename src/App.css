@@ -82,6 +82,7 @@ html, body, #root, .app-container {
   align-items: center;
 }
 
+
 @keyframes popUp {
   0% {
     transform: scale3d(0.7, 0.7, 0.7) translate3d(0, -5px, 0);
@@ -123,10 +124,6 @@ html, body, #root, .app-container {
   z-index: -100;
 }
 
-.ac-marker-gray svg {
-  opacity: 0.6;
-}
-
 .ac-marker-gray .ac-big-icon-marker:after {
   background-color: rgb(220, 217, 214);
 }
@@ -162,6 +159,10 @@ html, body, #root, .app-container {
   fill: white;
 }
 
+.ac-marker-gray svg g {
+  fill: rgb(105, 97, 91);
+}
+
 .ac-markers svg {
   margin: 2px;
 }
@@ -171,6 +172,7 @@ html, body, #root, .app-container {
   transform: scale3d(1, 1, 1);
   opacity: 1;
 }
+
 
 .ac-marker-current {
   background-color: transparent;
