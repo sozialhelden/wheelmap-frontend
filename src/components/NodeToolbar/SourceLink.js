@@ -26,6 +26,7 @@ class SourceLink extends Component<void, Props, State> {
   componentWillReceiveProps(newProps: Props) {
     if (!newProps.properties || !newProps.properties.sourceId) {
       this.setState(defaultState);
+      return;
     }
     dataSourceCache
       .getDataSourceWithId(newProps.properties.sourceId)
