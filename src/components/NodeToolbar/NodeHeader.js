@@ -41,9 +41,9 @@ type State = {
 
 function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
   if (window.navigator.userAgent.match(/iPhone/)) {
-    return (<div className="phone-number">
+    return (<span className="phone-number">
       {phoneNumber}
-    </div>);
+    </span>);
   }
   return (<a className="phone-number link-button" href={`tel:${phoneNumber}`}>
     Call {phoneNumber}
