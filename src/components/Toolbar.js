@@ -244,10 +244,12 @@ const StyledToolbar = styled(Toolbar)`
 
   @media (max-width: 768px) {
     width: calc(50% - 20px);
+    min-width: 250px;
   }
 
   @media (max-width: 512px) {
     width: calc(100% - 20px);
+    min-width: 250px;
 
     /* handle to signalize you can resize by swiping */
     .grab-handle {
