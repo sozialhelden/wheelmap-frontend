@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import AccessibilityDetails from 'accessibility-cloud-widget/lib/components/AccessibilityDetails';
@@ -10,6 +10,7 @@ import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
 import BasicAccessibility from './BasicAccessibility';
+import type { Feature } from '../../lib/Feature';
 import CloseLink from '../CloseLink';
 
 const StyledAccessibilityDetails = styled(AccessibilityDetails)`
@@ -115,24 +116,29 @@ const PositionedCloseLink = styled(CloseLink)`
   right: 0;
 `;
 
-class NodeToolbar extends Component<*, Props, State> {
-  render() {
-    const properties = this.props.feature && this.props.feature.properties;
-    const accessibility = properties && properties.accessibility;
+type Props = {
+  className: string,
+  feature: Feature,
+  featureId: string | number,
+};
 
-    return (
-      <Toolbar className={this.props.className}>
-        <PositionedCloseLink />
-        <NodeHeader feature={this.props.feature} />
-        <BasicAccessibility properties={properties}/>
-        <StyledAccessibilityDetails details={accessibility} />
-        <NodeFooter
-          feature={this.props.feature}
-          featureId={this.props.featureId}
-        />
-      </Toolbar>
-    );
-  }
+
+function NodeToolbar(props: Props) {
+  const properties = props.feature && props.feature.properties;
+  const accessibility = properties && properties.accessibility;
+
+  return (
+    <Toolbar className={props.className}>
+      <PositionedCloseLink />
+      <NodeHeader feature={props.feature} />
+      <BasicAccessibility properties={properties}/>
+      <StyledAccessibilityDetails details={accessibility} />
+      <NodeFooter
+        feature={props.feature}
+        featureId={props.featureId}
+      />
+    </Toolbar>
+  );
 }
 
 export default NodeToolbar;

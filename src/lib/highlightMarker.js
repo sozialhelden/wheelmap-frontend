@@ -5,7 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as categoryIcons from '../components/icons/categories';
 
-let currentHighlightedMarker: ?HTMLELement = null;
+let currentHighlightedMarker: ?HTMLElement = null;
 
 export function removeCurrentHighlightedMarker() {
   if (!currentHighlightedMarker) return;
