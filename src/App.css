@@ -59,7 +59,8 @@ html, body, #root, .app-container {
 
 
 .leaflet-control-attribution {
-  opacity: 0.5;
+  background-color: white !important;
+  font-size: 10px !important;
 }
 
 .marker-cluster {
