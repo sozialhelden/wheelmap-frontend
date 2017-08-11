@@ -36,7 +36,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarker from './highlightMarker';
-import type { MarkerColor } from './colors';
 
 
 const TileLayer = L.TileLayer;
