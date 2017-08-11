@@ -1,29 +1,25 @@
 // @flow
 
-import React, { Component } from 'react';
-// import logo from './logo.svg';
+import pick from 'lodash/pick';
 import styled from 'styled-components';
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom';
-import 'leaflet/dist/leaflet.css';
-import colors from './lib/colors';
+import includes from 'lodash/includes';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import Map from './components/Map/Map';
-import './App.css';
-import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
+import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 
-import { isWheelmapFeatureId } from './lib/Feature';
-
+import colors from './lib/colors';
 import type { Feature } from './lib/Feature';
-
+import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
+import { getQueryParams, setQueryParams } from './lib/queryParams';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 
-import { getQueryParams, setQueryParams } from './lib/queryParams';
-
+import 'leaflet/dist/leaflet.css';
+import './App.css';
 
 type Props = {
   className: string
@@ -33,18 +29,33 @@ type Props = {
 type State = {
   feature?: Feature,
   fetching: boolean,
+  toilet: ?string,
+  status: ?string,
+  lat: ?string,
+  lon: ?string,
+  zoom: ?string,
 };
 
 
 class FeatureLoader extends Component<void, Props, State> {
+  state: State = {
+    fetching: false,
+    toilet: null,
+    status: null,
+    lat: null,
+    lon: null,
+    zoom: null,
+  };
+
+  map: ?any;
+
+  onHashUpdateBound: (() => void);
+
+
   constructor(props: Props) {
     super(props);
     this.onHashUpdateBound = this.onHashUpdate.bind(this);
   }
-
-
-  state: State = { fetching: false };
-  map: ?any;
 
 
   componentDidMount() {
@@ -62,13 +73,30 @@ class FeatureLoader extends Component<void, Props, State> {
     window.removeEventListener('hashchange', this.onHashUpdateBound);
   }
 
-  onHashUpdateBound: (() => void);
-
 
   onHashUpdate() {
     const map = this.map;
     if (!map) return;
-    this.setState(getQueryParams());
+    const params = pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status');
+    this.setState(params);
+  }
+
+
+  accessibilityFilter() {
+    const allowedStatuses = yesNoLimitedUnknownArray;
+    if (!this.state.status) return [].concat(allowedStatuses);
+    return this.state.status
+      .split(/\./)
+      .filter(s => includes(allowedStatuses, s));
+  }
+
+
+  toiletFilter() {
+    const allowedStatuses = yesNoUnknownArray;
+    if (!this.state.toilet) return [].concat(allowedStatuses);
+    return this.state.toilet
+      .split(/\./)
+      .filter(s => includes(allowedStatuses, s));
   }
 
 
@@ -90,6 +118,7 @@ class FeatureLoader extends Component<void, Props, State> {
     }
     return null;
   }
+
 
   fetchFeature(props: Props): void {
     const id = this.featureId(props);
@@ -123,6 +152,8 @@ class FeatureLoader extends Component<void, Props, State> {
     const { lat, lon, zoom } = this.state;
     console.log('Category:', category);
     console.log('Positioning:', lat, lon, zoom);
+    console.log('Accessibility filter:', this.accessibilityFilter());
+    console.log('Toilet filter:', this.toiletFilter());
     return (<div className={`app-container ${this.props.className}`}>
       <Map
         ref={(map) => { this.map = map; }}
@@ -135,6 +166,8 @@ class FeatureLoader extends Component<void, Props, State> {
         category={category}
         featureId={featureId}
         feature={this.state.feature}
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
       />
       <SearchToolbar hidden={isNodeRoute} category={category} />;
       {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId} /> : null}
@@ -142,20 +175,18 @@ class FeatureLoader extends Component<void, Props, State> {
   }
 }
 
-
-function App() {
-  return (<Router>
-    <Route path="/" component={FeatureLoader} />
-  </Router>);
-}
-
-
-const StyledApp = styled(App)`
+const StyledFeatureLoader = styled(FeatureLoader)`
   a {
     color: ${colors.linkColor};
     text-decoration: none;
   }
 `;
 
+function App() {
+  return (<Router>
+    <Route path="/" component={StyledFeatureLoader} />
+  </Router>);
+}
 
-export default StyledApp;
+
+export default App;

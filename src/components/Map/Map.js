@@ -2,6 +2,7 @@
 
 import L from 'leaflet';
 import includes from 'lodash/includes';
+import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
 import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
@@ -23,6 +24,7 @@ import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
 
 import { normalizeCoordinate, normalizeCoordinates } from './normalizeCoordinates';
 import addLocateControlToMap from './addLocateControlToMap';
+import { addFilterControlToMap } from './FilterButton';
 import isSamePosition from './isSamePosition';
 
 
@@ -35,6 +37,8 @@ type Props = {
   onZoomEnd?: (({ zoom: number }) => void),
   category: ?string,
   history: RouterHistory,
+  accessibilityFilter: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[],
 }
 
 
@@ -117,6 +121,9 @@ export default class Map extends Component<void, Props, State> {
     L.control.scale().addTo(map);
 
     addLocateControlToMap(map);
+
+    if (!this.mapElement) throw new Error('Map element must be initialized here');
+    addFilterControlToMap(this.map);
 
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.mapboxAccessToken}`, {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -222,6 +229,9 @@ export default class Map extends Component<void, Props, State> {
       map.setZoom(props.zoom);
     }
 
+    this.setState({ accessibilityFilter: props.accessibilityFilter });
+    this.setState({ toiletFilter: props.toiletFilter });
+
     if (props.lat && props.lon) {
       const overriddenCoordinates = normalizeCoordinates([props.lat, props.lon]);
       if (!isSamePosition(overriddenCoordinates, [this.state.lat, this.state.lon])) {
@@ -292,6 +302,13 @@ export default class Map extends Component<void, Props, State> {
     if (!featureLayer.hasLayer(this.wheelmapTileLayer) && this.wheelmapTileLayer) {
       console.log('Show wheelmap layer...');
       featureLayer.addLayer(this.wheelmapTileLayer);
+      this.wheelmapTileLayer._update(map.getCenter());
+    }
+
+    const accessibilityFilterChanged = !isEqual(this.props.accessibilityFilter.sort(), props.accessibilityFilter.sort());
+    const toiletFilterChanged = !isEqual(this.props.toiletFilter.sort(), props.toiletFilter.sort());
+    if (accessibilityFilterChanged || toiletFilterChanged) {
+      this.accessibilityCloudTileLayer._update(map.getCenter());
       this.wheelmapTileLayer._update(map.getCenter());
     }
 

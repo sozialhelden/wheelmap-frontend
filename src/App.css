@@ -198,6 +198,10 @@ html, body, #root, .app-container {
   align-items: center;
 }
 
+.leaflet-control-locate {
+  cursor: pointer;
+}
+
 .ac-marker-name-tooltip {
   padding: 0;
   border: none;
