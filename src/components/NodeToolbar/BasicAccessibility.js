@@ -8,8 +8,8 @@ import colors from '../../lib/colors';
 
 
 const CheckmarkIcon = () => (<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1">
-  <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-    <polygon id="checkmark" fill="#000000" points="4.51565378 13.174954 0 8.67495396 1.76887661 7 4.51565378 9.73112339 14.2311234 0 16 1.67495396 6.23756906 11.5313076"></polygon>
+  <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+    <polygon id="checkmark" fill="#000000" points="4.51565378 13.174954 0 8.67495396 1.76887661 7 4.51565378 9.73112339 14.2311234 0 16 1.67495396 6.23756906 11.5313076" />
   </g>
 </svg>);
 
