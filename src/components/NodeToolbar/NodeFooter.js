@@ -12,12 +12,15 @@ const StyledFooter = styled.footer`
   padding-top: 10px;
 
   .edit-hint {
+    margin: -10px;
     padding: 0.25em 0.5em;
     font-size: 90%;
-    opacity: 0.5;
+    font-weight: 300;
+    opacity: 0.3;
     color: white;
-    background-color: ${colors.darkSelectedColor};
+    background: ${colors.positiveColor};
     border-radius: 0.25em;
+    text-align: center;
   }
 
   a.edit-link-button {
@@ -34,7 +37,7 @@ const StyledFooter = styled.footer`
     }
     > .edit-hint {
       position: relative;
-      flex: 3;
+      flex: 2;
       &:before {
         content: '';
         display: block;
@@ -45,7 +48,7 @@ const StyledFooter = styled.footer`
         width: 16px;
         height: 16px;
         border: 8px solid transparent;
-        border-right-color: ${colors.darkSelectedColor};
+        border-right-color: ${colors.positiveColor};
         box-sizing: border-box;
       }
     }

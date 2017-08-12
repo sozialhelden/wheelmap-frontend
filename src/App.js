@@ -9,10 +9,13 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Map from './components/Map/Map';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import FilterButton from './components/FilterToolbar/FilterButton';
+import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 
 import colors from './lib/colors';
 import type { Feature } from './lib/Feature';
 import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
+import type { YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { getQueryParams, setQueryParams } from './lib/queryParams';
@@ -58,6 +61,11 @@ class FeatureLoader extends Component<void, Props, State> {
   }
 
 
+  componentWillMount() {
+    this.onHashUpdate();
+  }
+
+
   componentDidMount() {
     this.fetchFeature(this.props);
     window.addEventListener('hashchange', this.onHashUpdateBound);
@@ -75,28 +83,28 @@ class FeatureLoader extends Component<void, Props, State> {
 
 
   onHashUpdate() {
-    const map = this.map;
-    if (!map) return;
-    const params = pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status');
+    const params = Object.assign({ toilet: null, status: null }, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
     this.setState(params);
   }
 
 
-  accessibilityFilter() {
+  accessibilityFilter(): YesNoLimitedUnknown[] {
     const allowedStatuses = yesNoLimitedUnknownArray;
     if (!this.state.status) return [].concat(allowedStatuses);
-    return this.state.status
+    const result = this.state.status
       .split(/\./)
       .filter(s => includes(allowedStatuses, s));
+    return ((result: any): YesNoLimitedUnknown[]);
   }
 
 
-  toiletFilter() {
+  toiletFilter(): YesNoUnknown[] {
     const allowedStatuses = yesNoUnknownArray;
     if (!this.state.toilet) return [].concat(allowedStatuses);
-    return this.state.toilet
+    const result = this.state.toilet
       .split(/\./)
       .filter(s => includes(allowedStatuses, s));
+    return ((result: any): YesNoUnknown[]);
   }
 
 
@@ -169,8 +177,16 @@ class FeatureLoader extends Component<void, Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
       />
+      <FilterButton
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+      />
       <SearchToolbar hidden={isNodeRoute} category={category} />;
       {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId} /> : null}
+      <FilterToolbar
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+      />
     </div>);
   }
 }

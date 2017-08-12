@@ -3,7 +3,7 @@
 import reduce from 'lodash/reduce';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab } from 'd3-interpolate';
-import type { NodeProperties } from './Feature';
+import type { NodeProperties, YesNoLimitedUnknown } from './Feature';
 import { isWheelchairAccessible } from './Feature';
 
 
@@ -32,8 +32,7 @@ export type MarkerColor = 'red' | 'yellow' | 'green' | 'gray';
 export const markerColors: MarkerColor[] = ['red', 'yellow', 'green', 'gray'];
 
 
-export function getColorForWheelchairAccessibility(properties: NodeProperties): MarkerColor {
-  const isAccessible = isWheelchairAccessible(properties);
+export function getColorForWheelchairAccessibilityValue(isAccessible: YesNoLimitedUnknown): MarkerColor {
   switch (isAccessible) {
     case 'yes': return 'green';
     case 'limited': return 'yellow';
@@ -42,8 +41,14 @@ export function getColorForWheelchairAccessibility(properties: NodeProperties): 
   }
 }
 
-export function getHTMLColorForWheelchairAccessibility(properties: NodeProperties): string {
-  return colors.markerBackground[getColorForWheelchairAccessibility(properties)];
+
+export function getHTMLColorForWheelchairAccessibilityValue(isAccessible: YesNoLimitedUnknown): MarkerColor {
+  return colors.markerBackground[getColorForWheelchairAccessibilityValue(isAccessible)];
+}
+
+
+export function getColorForWheelchairAccessibility(properties: NodeProperties): MarkerColor {
+  return getColorForWheelchairAccessibilityValue(isWheelchairAccessible(properties));
 }
 
 

@@ -200,7 +200,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         className={className}
         ref={(nav) => { this.scrollElement = nav; }}
       >
-        <div className='grab-handle'></div>
+        <div className="grab-handle"></div>
         {this.props.children}
       </nav>
     </Swipeable>);
@@ -234,22 +234,22 @@ const StyledToolbar = styled(Toolbar)`
     transform: scale3d(1, 1, 1);
   }
 
-  &.toolbar-hidden {
-    opacity: 0;
-  }
-
-  .grab-handle {
-    display: none;
-  }
-
   @media (max-width: 768px) {
     width: calc(50% - 20px);
     min-width: 250px;
   }
+  .grab-handle {
+    display: none;
+  }
+
 
   @media (max-width: 512px) {
     width: calc(100% - 20px);
     min-width: 250px;
+  }
+
+  a.link-button {
+    display: block;
 
     /* handle to signalize you can resize by swiping */
     .grab-handle {
@@ -262,10 +262,6 @@ const StyledToolbar = styled(Toolbar)`
       background-color: rgba(0, 0, 0, 0.2);
       margin-bottom: 0.5em;
     }
-  }
-
-  a.link-button {
-    display: block;
     font-size: 15px;
     padding: 10px;
     text-decoration: none;
@@ -275,6 +271,10 @@ const StyledToolbar = styled(Toolbar)`
     &:hover {
       background-color: #f2f2f2;
     }
+  }
+
+  &.toolbar-hidden {
+    opacity: 0;
   }
 `;
 
