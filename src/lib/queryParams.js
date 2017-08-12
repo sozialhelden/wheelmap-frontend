@@ -10,6 +10,9 @@ export function getQueryParams() {
 
 export function setQueryParams(newParams: {}) {
   const params = getQueryParams();
-  const newString = queryString.stringify(Object.assign(params, newParams));
+  const changedParams = Object.assign(params, newParams);
+  const keysToDelete = Object.keys(changedParams).filter(key => changedParams[key] === null);
+  keysToDelete.forEach(key => delete changedParams[key]);
+  const newString = queryString.stringify(changedParams);
   window.location.hash = `/?${newString}`;
 }
