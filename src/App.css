@@ -180,7 +180,7 @@ html, body, #root, .app-container {
   background-color: transparent;
   box-shadow: none;
   /* Force currently selected marker to be  shown on top of all markers */
-  z-index: 1000000 !important;
+  z-index: 100000000 !important;
   /* Allow to select PoIs behind the currently highlighted marker */
   pointer-events: none !important;
 }
