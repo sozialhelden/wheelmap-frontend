@@ -7,7 +7,7 @@ import type { GeometryObject } from 'geojson-flow';
 
 export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
 export type YesNoUnknown = "yes" | "no" | "unknown";
-export const yesNoLimitedUnknownArray = ['yes', 'no', 'limited', 'unknown'];
+export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'];
 Object.freeze(yesNoLimitedUnknownArray);
 export const yesNoUnknownArray = ['yes', 'no', 'unknown'];
 Object.freeze(yesNoUnknownArray);
