@@ -2,15 +2,24 @@
 
 [libs]
 flow-typed
+./node_modules/fbjs/flow/lib
 
 [options]
 # Absolute path support:
 # e.g. "/collections/todos"
 # module.name_mapper='^\/\(.*\)$' -> '<PROJECT_ROOT>/\1'
 # module.name_mapper='.*\.html$' -> 'empty/object'
+unsafe.enable_getters_and_setters=true
+module.system=haste
+esproposal.class_instance_fields=enable
+esproposal.class_static_fields=enable
+# Ignore flow warning about not supporting decorator types fully yet
+esproposal.decorators=ignore
+suppress_type=$FlowFixMe
 
 [ignore]
-# This package can give you a lot of flow errors, better ignore it
-.*/node_modules/fbjs/.*
-fbjs/.*
-# .*/node_modules/styled-components/.*
+.*/node_modules/styled-components/src/no-parser/.*
+.*/node_modules/styled-components/src/.*test.*
+.*/node_modules/styled-components/src/.*native.*
+.*/node_modules/styled-components/src/.*Native.*
+.*/node_modules/styled-components/src/.*primitives.*
