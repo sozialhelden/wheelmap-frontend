@@ -131,19 +131,19 @@ html, body, #root, .app-container {
 }
 
 .ac-marker-green {
-  background-color: #00b773;
+  background-color: #7ec512;
 }
 
 .ac-marker-green .ac-big-icon-marker:after {
-  background-color: #00b773
+  background-color: #7ec512
 }
 
 .ac-marker-yellow {
-  background-color: #ff8d00;
+  background-color: #f39e3b;
 }
 
 .ac-marker-yellow .ac-big-icon-marker:after {
-  background-color: #ff8d00;
+  background-color: #f39e3b;
 }
 
 .ac-marker-red {

@@ -6,24 +6,45 @@ import { interpolateLab } from 'd3-interpolate';
 import type { NodeProperties, YesNoLimitedUnknown } from './Feature';
 import { isWheelchairAccessible } from './Feature';
 
+// A bit more shiny:
+// const colors = {
+//   primaryColor: '#435D75',
+//   secondaryColor: '#8B6A43',
+//   linkColor: '#1fabd9',
+//   highlightColor: '#435D75',
+//   colorizedBackgroundColor: '#fbfaf9',
+//   neutralBackgroundColor: '#F5F5F5',
+//   selectedColor: '#1fabd9',
+//   tonedDownSelectedColor: '#7c9198',
+//   darkSelectedColor: '#04536d',
+//   positiveColor: '#00b773',
+//   warningColor: '#ff8d00',
+//   negativeColor: '#f54b4b',
+//   markerBackground: {
+//     green: 'rgba(0, 183, 115, 1.0)',
+//     yellow: 'rgba(255, 141, 0, 1.0)',
+//     red: 'rgba(245, 75, 75, 1.0)',
+//     gray: 'rgba(220, 217, 214, 0.9)',
+//   },
+// };
 
 const colors = {
-  primaryColor: '#435D75',
+  primaryColor: '#8bb847',
   secondaryColor: '#8B6A43',
-  linkColor: '#1fabd9',
+  linkColor: '#2e6ce0',
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
-  neutralBackgroundColor: '#F5F5F5',
-  selectedColor: '#1fabd9',
-  tonedDownSelectedColor: '#7c9198',
+  neutralBackgroundColor: '#eaeaea',
+  selectedColor: '#51a6ff',
+  tonedDownSelectedColor: '#89939e',
   darkSelectedColor: '#04536d',
-  positiveColor: '#00b773',
-  warningColor: '#ff8d00',
+  positiveColor: '#7ec512',
+  warningColor: '#f39e3b',
   negativeColor: '#f54b4b',
   markerBackground: {
-    green: 'rgba(0, 183, 115, 1.0)',
-    yellow: 'rgba(255, 141, 0, 1.0)',
-    red: 'rgba(245, 75, 75, 1.0)',
+    green: '#7ec512',
+    yellow: '#f39e3b',
+    red: '#f54b4b',
     gray: 'rgba(220, 217, 214, 0.9)',
   },
 };
