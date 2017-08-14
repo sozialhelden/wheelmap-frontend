@@ -48,6 +48,9 @@ function Onboarding(props) {
 
 
 const StyledOnboarding = styled(Onboarding)`
+  @media (max-height: 320px), (max-width: 320px) {
+    font-size: 90%;
+  }
   .close-dialog {
     display: none;
   }
@@ -110,7 +113,6 @@ const StyledOnboarding = styled(Onboarding)`
         justify-content: space-around;
         align-items: center;
         text-align: center;
-        padding: 10px;
         background-color: transparent;
 
         @media (max-width: 400px) {
