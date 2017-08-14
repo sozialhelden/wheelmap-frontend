@@ -223,7 +223,8 @@ const StyledToolbar = styled(Toolbar)`
 
   font-size: 15px;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   background-color: ${colors.colorizedBackgroundColor};
 
   & {
@@ -246,11 +247,6 @@ const StyledToolbar = styled(Toolbar)`
   @media (max-width: 512px) {
     width: calc(100% - 20px);
     min-width: 250px;
-  }
-
-  a.link-button {
-    display: block;
-
     /* handle to signalize you can resize by swiping */
     .grab-handle {
       display: block;
@@ -262,6 +258,12 @@ const StyledToolbar = styled(Toolbar)`
       background-color: rgba(0, 0, 0, 0.2);
       margin-bottom: 0.5em;
     }
+  }
+
+
+  a.link-button {
+    display: block;
+
     font-size: 15px;
     padding: 10px;
     text-decoration: none;

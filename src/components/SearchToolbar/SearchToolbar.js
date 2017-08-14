@@ -29,6 +29,9 @@ type State = {
 const PositionedCloseLink = styled(CloseLink)`
   top: 5px;
   right: 8px;
+  @media (max-width: 512px) {
+    top: 13px;
+  }
 `;
 
 const StyledSearchIcon = styled(SearchIcon)`
@@ -36,6 +39,9 @@ const StyledSearchIcon = styled(SearchIcon)`
   top: 20px;
   left: 22px;
   pointer-events: none;
+  @media (max-width: 512px) {
+    top: 28px;
+  }
 `;
 
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
@@ -110,7 +116,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
         <PositionedCloseLink
           onClick={ () => {
-            this.setState({ categoryMenuIsVisible: true, searchResults: null });
+            this.setState({ categoryMenuIsVisible: false, searchResults: null });
             const input = this.input;
             if (input instanceof HTMLInputElement) {
               input.value = '';

@@ -120,6 +120,7 @@ type Props = {
   className: string,
   feature: Feature,
   featureId: string | number,
+  hidden: boolean,
 };
 
 
@@ -128,7 +129,7 @@ function NodeToolbar(props: Props) {
   const accessibility = properties && properties.accessibility;
 
   return (
-    <Toolbar className={props.className}>
+    <Toolbar className={props.className} hidden={props.hidden}>
       <PositionedCloseLink />
       <NodeHeader feature={props.feature} />
       <BasicAccessibility properties={properties}/>

@@ -37,6 +37,7 @@ type State = {
   lat: ?string,
   lon: ?string,
   zoom: ?string,
+  isFilterToolbarVisible: boolean,
 };
 
 
@@ -48,6 +49,7 @@ class FeatureLoader extends Component<void, Props, State> {
     lat: null,
     lon: null,
     zoom: null,
+    isFilterToolbarVisible: false,
   };
 
   map: ?any;
@@ -74,6 +76,9 @@ class FeatureLoader extends Component<void, Props, State> {
 
   componentWillReceiveProps(newProps: Props): void {
     this.fetchFeature(newProps);
+    if (this.featureId(newProps) !== this.featureId(this.props)) {
+      this.setState({ isFilterToolbarVisible: false });
+    }
   }
 
 
@@ -153,6 +158,11 @@ class FeatureLoader extends Component<void, Props, State> {
   }
 
 
+  toggleFilterToolbar() {
+    this.setState({ isFilterToolbarVisible: !this.state.isFilterToolbarVisible });
+  }
+
+
   render() {
     const featureId = this.featureId();
     const category = this.category();
@@ -177,16 +187,21 @@ class FeatureLoader extends Component<void, Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
       />
-      <FilterButton
+      {this.state.isFilterToolbarVisible ? null : <FilterButton
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
-      />
-      <SearchToolbar hidden={isNodeRoute} category={category} />;
-      {isNodeRoute ? <NodeToolbar feature={this.state.feature} featureId={featureId} /> : null}
-      <FilterToolbar
+        onClick={() => this.toggleFilterToolbar()}
+      />}
+      <SearchToolbar hidden={isNodeRoute || this.state.isFilterToolbarVisible} category={category} />;
+      {isNodeRoute ? <NodeToolbar
+        feature={this.state.feature}
+        hidden={this.state.isFilterToolbarVisible}
+        featureId={featureId} /> : null}
+      {this.state.isFilterToolbarVisible ? <FilterToolbar
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
-      />
+        onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
+      /> : null}
     </div>);
   }
 }

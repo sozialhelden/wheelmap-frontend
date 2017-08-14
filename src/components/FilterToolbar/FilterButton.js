@@ -45,6 +45,7 @@ type Props = {
   className?: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  onClick: (() => void),
 }
 
 const defaultProps = {
@@ -62,6 +63,7 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
     return (<StyledButton
       className={this.props.className}
       title="Change which places are shown on the map"
+      onClick={this.props.onClick}
     >
       <header><span>i</span></header>
       <footer>{toiletFilterHint}</footer>

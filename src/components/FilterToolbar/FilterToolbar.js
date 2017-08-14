@@ -16,6 +16,7 @@ type Props = {
   hidden: boolean,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  onCloseClicked: (() => void),
 };
 
 type DefaultProps = {};
@@ -65,19 +66,22 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;
     const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
-    const shouldShowToiletFilter = includes(['partial', 'full'], filterName);
+    const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
 
     return (
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
-        <PositionedCloseLink onClick={() => {}} />
+        <PositionedCloseLink onClick={this.props.onCloseClicked} />
         <header>Which places do you want to see?</header>
         <section>
           <RadioGroup
             name="accessibility-filter"
             selectedValue={filterName}
             onChange={(f) => {
-              setQueryParams({ status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.') });
+              setQueryParams({
+                status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
+                toilet: shouldShowToiletFilter(f) && isToiletFilterEnabled ? 'yes' : null,
+              });
             }}
           >
             <label><Radio value="all" /><span>All</span></label>
@@ -86,7 +90,7 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
             <label><Radio value="unknown" /><span>Places that I can contribute to</span></label>
           </RadioGroup>
         </section>
-        <section className={shouldShowToiletFilter ? '' : 'section-hidden'}>
+        <section className={shouldShowToiletFilter(filterName) ? '' : 'section-hidden'}>
           <label htmlFor="toilet-filter">
             <input
               onChange={(event) => {
