@@ -3,6 +3,7 @@
 import L from 'leaflet';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import queryString from 'query-string';
 import includes from 'lodash/includes';
 import levenshtein from 'fast-levenshtein';
 import { color as d3Color } from 'd3-color';
@@ -14,7 +15,7 @@ import {
 import Categories from './Categories';
 import type { Feature, NodeProperties } from './Feature';
 import * as categoryIcons from '../components/icons/categories';
-
+import { getQueryParams } from '../lib/queryParams';
 
 // Extend Leaflet-icon to support colors and category images
 
@@ -37,13 +38,14 @@ const Icon = L.Icon.extend({
     }
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
-      this.options.history.push(href);
+      const params = getQueryParams();
+      this.options.history.push(`${href}#?${queryString.stringify(params)}`);
     });
     this._setIconStyles(link, 'icon');
-    link.addEventListener('click', (event: MouseEvent) => {
-      event.preventDefault();
-      this.options.history.push(link.pathname);
-    });
+    // link.addEventListener('click', (event: MouseEvent) => {
+    //   event.preventDefault();
+    //   this.options.history.push(link.pathname);
+    // });
     return link;
   },
 

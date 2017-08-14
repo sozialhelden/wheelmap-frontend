@@ -115,6 +115,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     return (
       <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
         <PositionedCloseLink
+          history={this.props.history}
           onClick={ () => {
             this.setState({ categoryMenuIsVisible: false, searchResults: null });
             const input = this.input;

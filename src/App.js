@@ -11,6 +11,8 @@ import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
+import Logo from './components/Logo';
+import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
 import colors from './lib/colors';
 import type { Feature } from './lib/Feature';
@@ -38,6 +40,7 @@ type State = {
   lon: ?string,
   zoom: ?string,
   isFilterToolbarVisible: boolean,
+  isOnboardingVisible: boolean,
 };
 
 
@@ -50,6 +53,7 @@ class FeatureLoader extends Component<void, Props, State> {
     lon: null,
     zoom: null,
     isFilterToolbarVisible: false,
+    isOnboardingVisible: isOnboardingVisible(),
   };
 
   map: ?any;
@@ -172,7 +176,7 @@ class FeatureLoader extends Component<void, Props, State> {
     console.log('Positioning:', lat, lon, zoom);
     console.log('Accessibility filter:', this.accessibilityFilter());
     console.log('Toilet filter:', this.toiletFilter());
-    return (<div className={`app-container ${this.props.className}`}>
+    return (<div className={`app-container ${this.props.className} ${this.state.isOnboardingVisible ? 'is-dialog-visible' : ''}`}>
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
@@ -187,21 +191,35 @@ class FeatureLoader extends Component<void, Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
       />
+
       {this.state.isFilterToolbarVisible ? null : <FilterButton
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onClick={() => this.toggleFilterToolbar()}
       />}
-      <SearchToolbar hidden={isNodeRoute || this.state.isFilterToolbarVisible} category={category} />;
+
+      <SearchToolbar
+        history={this.props.history}
+        hidden={isNodeRoute || this.state.isFilterToolbarVisible}
+        category={category} />;
+
       {isNodeRoute ? <NodeToolbar
+        history={this.props.history}
         feature={this.state.feature}
         hidden={this.state.isFilterToolbarVisible}
         featureId={featureId} /> : null}
+
       {this.state.isFilterToolbarVisible ? <FilterToolbar
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
       /> : null}
+
+      <Logo />
+      <Onboarding isVisible={this.state.isOnboardingVisible} onClose={() => {
+        saveOnboardingFlag();
+        this.setState({ isOnboardingVisible: false });
+      }} />
     </div>);
   }
 }
@@ -210,6 +228,12 @@ const StyledFeatureLoader = styled(FeatureLoader)`
   a {
     color: ${colors.linkColor};
     text-decoration: none;
+  }
+
+  &.is-dialog-visible {
+    > *:not(.modal-dialog) {
+      filter: blur(10px);
+    }
   }
 `;
 

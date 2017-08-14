@@ -9,7 +9,9 @@ import 'accessibility-cloud-widget/src/app.css';
 import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
+import LicenseHint from './LicenseHint';
 import BasicAccessibility from './BasicAccessibility';
+import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import type { Feature } from '../../lib/Feature';
 import CloseLink from '../CloseLink';
 
@@ -130,7 +132,7 @@ function NodeToolbar(props: Props) {
 
   return (
     <Toolbar className={props.className} hidden={props.hidden}>
-      <PositionedCloseLink />
+      <PositionedCloseLink history={props.history}/>
       <NodeHeader feature={props.feature} />
       <BasicAccessibility properties={properties}/>
       <StyledAccessibilityDetails details={accessibility} />
@@ -138,6 +140,8 @@ function NodeToolbar(props: Props) {
         feature={props.feature}
         featureId={props.featureId}
       />
+      <AccessibilityExtraInfo properties={properties} />
+      <LicenseHint properties={properties} />
     </Toolbar>
   );
 }

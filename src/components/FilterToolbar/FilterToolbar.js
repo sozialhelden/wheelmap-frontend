@@ -30,8 +30,9 @@ type State = {
 
 const PositionedCloseLink = styled(CloseIcon)`
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 5px;
+  right: 5px;
+  padding: 10px;
   cursor: pointer;
 `;
 

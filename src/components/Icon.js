@@ -34,13 +34,17 @@ const StyledIconImage = styled('figure')`
 type Props = {
   properties: ?NodeProperties,
   category: Category,
+  overriddenColor: 'red' | 'yellow' | 'green' | 'gray' | void,
+  className: ?string,
+  isBig: ?boolean,
 };
 
 
-export default function Icon({ properties, category }: Props) {
-  const color = getColorForWheelchairAccessibility(properties);
-  const SvgComponent = icons[category._id || 'undefined'];
-  return (<StyledIconImage className={`ac-marker-${color}`}>
-    <SvgComponent />
+export default function Icon({ overriddenColor, properties, category, className, isBig }: Props) {
+  const color = overriddenColor || getColorForWheelchairAccessibility(properties);
+  const SvgComponent = icons[category._id || 'undefined'] || null;
+  if (!SvgComponent) debugger;
+  return (<StyledIconImage className={`ac-marker-${color} ${className || ''} ${isBig ? 'ac-big-icon-marker' : ''}`}>
+    { SvgComponent ? <SvgComponent /> : null}
   </StyledIconImage>);
 }

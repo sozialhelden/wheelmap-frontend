@@ -1,12 +1,16 @@
 // @flow
 
 import React from 'react';
+import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
 import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
-import colors from '../../lib/colors';
 
+
+const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
+editHintBackgroundColor.s -= 0.5;
 
 const StyledFooter = styled.footer`
   padding-top: 10px;
@@ -16,11 +20,12 @@ const StyledFooter = styled.footer`
     padding: 0.25em 0.5em;
     font-size: 90%;
     font-weight: 300;
-    opacity: 0.3;
+    opacity: 0.5;
     color: white;
-    background: ${colors.positiveColor};
+    background: ${editHintBackgroundColor};
     border-radius: 0.25em;
     text-align: center;
+    text-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
   }
 
   a.edit-link-button {
@@ -48,7 +53,7 @@ const StyledFooter = styled.footer`
         width: 16px;
         height: 16px;
         border: 8px solid transparent;
-        border-right-color: ${colors.positiveColor};
+        border-right-color: ${editHintBackgroundColor};
         box-sizing: border-box;
       }
     }
