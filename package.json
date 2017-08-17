@@ -50,7 +50,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy-staging": "npm run build && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
+    "build-staging": "REACT_APP_ENV=staging react-scripts build",
+    "deploy-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
+    "deploy-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",
     "flow": "flow",
     "server": "server"
   },
