@@ -19,7 +19,7 @@ const SearchInputField = (props: Props) =>
     onFocus={props.onFocus}
     onBlur={props.onBlur}
     className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''} ${props.className}`}
-    placeholder="Search for a place / address"
+    placeholder="Search wheelmap.org"
   />;
 
 

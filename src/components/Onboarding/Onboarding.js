@@ -18,22 +18,22 @@ function Onboarding(props) {
     <section>
       <ul>
         <li className="ac-marker-green">
-          <Icon overriddenColor="green" category={{ _id: 'coffee' }} isBig={true} />
+          <Icon overriddenColor="green" category={{ _id: 'other' }} isBig={true} />
           <header>Wheelchair accessible</header>
           <footer>Entrance without steps, all rooms without steps.</footer>
         </li>
         <li className="ac-marker-yellow">
-          <Icon overriddenColor="yellow" category={{ _id: 'bank' }} isBig={true} />
+          <Icon overriddenColor="yellow" category={{ _id: 'other' }} isBig={true} />
           <header>Partially wheelchair accessible</header>
           <footer>Entrance has one step with max. height 7cm (3 in), most rooms are without steps.</footer>
         </li>
         <li className="ac-marker-red">
-          <Icon overriddenColor="red" category={{ _id: 'arts_center' }} isBig={true} />
+          <Icon overriddenColor="red" category={{ _id: 'other' }} isBig={true} />
           <header>Not wheelchair accessible</header>
           <footer>Entrance has a step or several steps, rooms are not accessible.</footer>
         </li>
         <li className="ac-marker-gray">
-          <Icon overriddenColor="gray" category={{ _id: 'transport' }} isBig={true} />
+          <Icon overriddenColor="gray" category={{ _id: 'other' }} isBig={true} />
           <header>Unknown status</header>
           <footer>Help out by marking places!</footer>
         </li>

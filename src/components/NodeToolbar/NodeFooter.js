@@ -102,9 +102,9 @@ export default function NodeFooter({ feature, featureId }: Props) {
         Share
       </Link>
 
-      <Link to="/" className="link-button">
+      <a to={`mailto:`} className="link-button">
         Report Problem
-      </Link>
+      </a>
     </StyledFooter>
   );
 }

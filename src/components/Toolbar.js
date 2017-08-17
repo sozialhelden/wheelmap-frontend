@@ -12,12 +12,14 @@ type Props = {
   children: AnyReactElement,
   hidden?: boolean,
   minimalHeight?: number,
+  isSwipeable?: boolean,
 };
 
 
 const defaultProps = {
   hidden: false,
   minimalHeight: 130,
+  isSwipeable: true,
 };
 
 
@@ -35,11 +37,8 @@ type State = {
 
 class Toolbar extends Component<typeof defaultProps, Props, State> {
   static defaultProps = defaultProps;
-
-  constructor(props: Props) {
-    super(props);
-    this.onResizeBound = this.onResize.bind(this);
-  }
+  scrollElement: ?HTMLElement;
+  onResizeBound: (() => void);
 
   state = {
     lastTopOffset: 0,
@@ -51,6 +50,12 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
       height: -1,
     },
   };
+
+
+  constructor(props: Props) {
+    super(props);
+    this.onResizeBound = this.onResize.bind(this);
+  }
 
 
   componentWillMount() {
@@ -69,20 +74,26 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
   }
 
 
-  onResizeBound: (() => void);
-
-
   onResize() {
     this.setState({
       viewportSize: {
         width: window.innerWidth,
         height: window.innerHeight,
       },
+      topOffset: this.getNearestStopForTopOffset(this.state.topOffset),
     });
+  }
+
+  ensureFullVisibility() {
+    this.setState({ topOffset: 0 });
+    this.onResize();
   }
 
 
   onSwiping(e: TouchEvent, deltaX: number, deltaY: number) {
+    if (!this.props.isSwipeable) {
+      return;
+    }
     if (this.scrollElement && this.scrollElement.scrollTop > 0) {
       this.setState({ scrollTop: this.state.scrollTop || this.scrollElement.scrollTop });
       return;
@@ -101,6 +112,9 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
 
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
+    if (!this.props.isSwipeable) {
+      return;
+    }
     this.setState({ isSwiping: false, scrollTop: 0 });
     if (isFlick && !this.state.scrollTop) {
       const isSwipingUp = deltaY > 0;
@@ -181,9 +195,6 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
   }
 
 
-  scrollElement: ?HTMLElement;
-
-
   render() {
     const classNames = [
       'node-toolbar',
@@ -200,7 +211,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         className={className}
         ref={(nav) => { this.scrollElement = nav; }}
       >
-        <div className="grab-handle"></div>
+        {this.props.isSwipeable ? <div className="grab-handle"></div> : null}
         {this.props.children}
       </nav>
     </Swipeable>);
@@ -239,6 +250,7 @@ const StyledToolbar = styled(Toolbar)`
     width: calc(50% - 20px);
     min-width: 250px;
   }
+
   .grab-handle {
     display: none;
   }

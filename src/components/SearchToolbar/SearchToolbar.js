@@ -62,7 +62,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
   }
 
   queryIndex: number = 0;
-
+  toolbar: AnyReactElement;
   handleSearchInputChangeDebounced: ((event: UIEvent) => void);
 
 
@@ -113,7 +113,12 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     }
 
     return (
-      <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
+      <Toolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        minimalHeight={75}
+        innerRef={(toolbar) => { this.toolbar = toolbar; }}
+      >
         <PositionedCloseLink
           history={this.props.history}
           onClick={ () => {
@@ -123,14 +128,23 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
               input.value = '';
               setTimeout(() => input.focus(), 50);
             }
+            setTimeout(() => {
+              this.toolbar.ensureFullVisibility();
+            }, 100);
           }}
         />
 
         <SearchInputField
-          onFocus={() => { this.setState({ categoryMenuIsVisible: true }); }}
+          onFocus={() => {
+            this.setState({ categoryMenuIsVisible: true });
+            setTimeout(() => {
+              this.toolbar.ensureFullVisibility();
+            }, 100);
+          }}
           onBlur={() => {
             setTimeout(() => {
               this.setState({ categoryMenuIsVisible: this.props.category });
+              this.toolbar.ensureFullVisibility();
             }, 50);
           }}
           onChange={(event) => {

@@ -22,6 +22,7 @@ import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweight
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { getQueryParams, setQueryParams } from './lib/queryParams';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
+import isTouchDevice from './lib/isTouchDevice';
 
 import 'leaflet/dist/leaflet.css';
 import './App.css';
@@ -69,6 +70,13 @@ class FeatureLoader extends Component<void, Props, State> {
 
   componentWillMount() {
     this.onHashUpdate();
+    this.touchDetectionInterval = setInterval(() => {
+      if (isTouchDevice()) {
+        document.body.classList.add('is-touch-device');
+      } else {
+        document.body.classList.remove('is-touch-device');
+      }
+    }, 1000);
   }
 
 
@@ -88,6 +96,7 @@ class FeatureLoader extends Component<void, Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener('hashchange', this.onHashUpdateBound);
+    clearInterval(this.touchDetectionInterval);
   }
 
 

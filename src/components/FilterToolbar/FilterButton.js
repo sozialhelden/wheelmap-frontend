@@ -61,7 +61,7 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
     const toiletFilterHint = null;
 
     return (<StyledButton
-      className={this.props.className}
+      className={`${this.props.className} leaflet-filter-button`}
       title="Change which places are shown on the map"
       onClick={this.props.onClick}
     >

@@ -10,6 +10,7 @@ import CloseIcon from '../icons/actions/Close';
 import Toolbar from '../Toolbar';
 import { getQueryParams, setQueryParams } from '../../lib/queryParams';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import type { AnyReactElement } from 'react-flow-types';
 
 type Props = {
   className: string,
@@ -60,6 +61,8 @@ function getFilterNameForFilterList(list: YesNoLimitedUnknown[]): ?FilterName {
 
 class FilterToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
+  toolbar: ?AnyReactElement;
+
   state = {
     filterName: 'all',
   }
@@ -71,7 +74,13 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
 
     return (
-      <Toolbar className={this.props.className} hidden={this.props.hidden} minimalHeight={75}>
+      <Toolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        minimalHeight={75}
+        isSwipeable={false}
+        innerRef={(toolbar) => { this.toolbar = toolbar; }}
+      >
         <PositionedCloseLink onClick={this.props.onCloseClicked} />
         <header>Which places do you want to see?</header>
         <section>
@@ -83,6 +92,11 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
                 status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
                 toilet: shouldShowToiletFilter(f) && isToiletFilterEnabled ? 'yes' : null,
               });
+              setTimeout(() => {
+                if (this.toolbar) {
+                  this.toolbar.onResize();
+                }
+              }, 300);
             }}
           >
             <label><Radio value="all" /><span>All</span></label>
