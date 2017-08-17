@@ -45,6 +45,15 @@ type State = {
 };
 
 
+function updateTouchCapability() {
+  if (isTouchDevice()) {
+    document.body.classList.add('is-touch-device');
+  } else {
+    document.body.classList.remove('is-touch-device');
+  }
+}
+
+
 class FeatureLoader extends Component<void, Props, State> {
   state: State = {
     fetching: false,
@@ -70,13 +79,9 @@ class FeatureLoader extends Component<void, Props, State> {
 
   componentWillMount() {
     this.onHashUpdate();
-    this.touchDetectionInterval = setInterval(() => {
-      if (isTouchDevice()) {
-        document.body.classList.add('is-touch-device');
-      } else {
-        document.body.classList.remove('is-touch-device');
-      }
-    }, 1000);
+    this.resizeListener = () => { updateTouchCapability(); };
+    window.addEventListener('resize', this.resizeListener);
+    updateTouchCapability();
   }
 
 
@@ -95,8 +100,9 @@ class FeatureLoader extends Component<void, Props, State> {
 
 
   componentWillUnmount() {
+    delete this.resizeListener;
     window.removeEventListener('hashchange', this.onHashUpdateBound);
-    clearInterval(this.touchDetectionInterval);
+    window.removeEventListener('resize', this.resizeListener);
   }
 
 

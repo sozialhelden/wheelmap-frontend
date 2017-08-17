@@ -1,3 +1,3 @@
 export default function isTouchDevice() {
-  return 'ontouchstart' in window;
+  return window.navigator.maxTouchPoints > 0;
 }

@@ -5,11 +5,11 @@ html, body, #root, .app-container {
   position: fixed;
 }
 
-html.is-touch-device .leaflet-control-zoom {
+body.is-touch-device .leaflet-control-zoom {
   display: none;
 }
 
-html.is-touch-device .leaflet-filter-button {
+body.is-touch-device .leaflet-filter-button {
   top: 60px;
 }
 
