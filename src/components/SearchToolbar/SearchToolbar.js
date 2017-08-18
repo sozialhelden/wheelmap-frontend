@@ -172,7 +172,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
         isSwipeable={false}
       >
         <header>
-          <CloseLink
+          {contentBelowSearchField ? <CloseLink
             history={this.props.history}
             className="close-link"
             onClick={ () => {
@@ -185,7 +185,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
               }, 100);
             }}
-          />
+          /> : null}
 
           <SearchInputField
             onFocus={() => {
