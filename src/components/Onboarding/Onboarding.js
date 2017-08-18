@@ -58,7 +58,7 @@ const StyledOnboarding = styled(Onboarding)`
     padding: 15px;
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    overflow: auto;
     img.logo {
       width: 200px;
     }

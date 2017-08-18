@@ -7,7 +7,7 @@ import { licenseCache } from '../../lib/cache/LicenseCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 
 type Props = {
-  properties: AccessibilityCloudProperties,
+  properties: AccessibilityCloudProperties, // eslint-disable-line react/no-unused-prop-types
   className: string,
 };
 

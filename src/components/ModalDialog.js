@@ -114,7 +114,7 @@ const StyledModalDialog = styled(ModalDialog)`
   .modal-dialog-default .modal-dialog-content {
     position: relative;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow: auto;
     max-width: 40em;
     max-height: 100%;
     padding: 3em 1em 2em 1em;

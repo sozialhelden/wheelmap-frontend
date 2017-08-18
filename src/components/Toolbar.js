@@ -66,6 +66,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
   componentDidMount() {
     this.onResize();
+    setTimeout(() => this.onResize(), 1000);
   }
 
 
@@ -197,7 +198,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
   render() {
     const classNames = [
-      'node-toolbar',
+      'toolbar',
       this.props.hidden ? 'toolbar-hidden' : null,
       this.props.className,
     ];
@@ -229,10 +230,10 @@ const StyledToolbar = styled(Toolbar)`
   padding: 12px 15px 5px 15px;
   box-sizing: border-box;
   z-index: 1000;
-  overflow: scroll;
+  overflow: auto;
   transform: translate3d(0, 0);
 
-  font-size: 15px;
+  font-size: 16px;
   border-radius: 5px;
 
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
@@ -276,7 +277,7 @@ const StyledToolbar = styled(Toolbar)`
   a.link-button {
     display: block;
 
-    font-size: 15px;
+    font-size: 16px;
     padding: 10px;
     text-decoration: none;
     border-radius: 4px;

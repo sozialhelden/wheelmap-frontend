@@ -23,26 +23,73 @@ type DefaultProps = {};
 type State = {
   searchResults: ?SearchResultCollection,
   categoryMenuIsVisible: boolean,
+  searchFieldIsFocused: boolean,
 };
 
 
-const PositionedCloseLink = styled(CloseLink)`
-  top: 5px;
-  right: 8px;
-  @media (max-width: 512px) {
-    top: 13px;
+const StyledToolbar = styled(Toolbar)`
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out, width: 0.3s ease-out, height: 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+
+  > header, .search-results, .category-menu {
+    padding: 12px 15px 5px 15px;
+  }
+  .search-results {
+    padding-top: 0;
+  }
+
+  > header {
+    position: relative;
+  }
+
+  .search-icon, .close-link {
+    transition: top 0.3s ease-out, left 0.3s ease-out;
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 20px;
+    left: 22px;
+    pointer-events: none;
+  }
+
+  .close-link {
+    top: 5px;
+    right: 8px;
+  }
+
+  @media (max-width: 512px), (max-height: 512px) {
+    &.search-field-is-focused {
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      margin: 0;
+      padding: 12px 15px;
+      transform: translate3d(0, 0, 0) !important;
+      > header, .search-results, .category-menu {
+        padding: 0
+      }
+      .search-icon {
+        top: 8px;
+        left: 8px;
+      }
+      .close-link {
+        top: -6px;
+        right: -5px;
+      }
+    }
+  }
+
+  .search-results {
+    overflow: auto;
   }
 `;
 
-const StyledSearchIcon = styled(SearchIcon)`
-  position: absolute;
-  top: 20px;
-  left: 22px;
-  pointer-events: none;
-  @media (max-width: 512px) {
-    top: 28px;
-  }
-`;
 
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
@@ -51,6 +98,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     super(props);
     this.state = {
       categoryMenuIsVisible: false,
+      searchFieldIsFocused: false,
       searchResults: null,
     };
 
@@ -112,52 +160,67 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
       contentBelowSearchField = <CategoryMenu />;
     }
 
+    const className = [
+      this.props.className,
+      'search-toolbar',
+      this.state.searchFieldIsFocused ? 'search-field-is-focused' : null,
+    ].filter(Boolean).join(' ');
+
     return (
-      <Toolbar
-        className={this.props.className}
+      <StyledToolbar
+        className={className}
         hidden={this.props.hidden}
         minimalHeight={75}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
+        isSwipeable={!this.state.searchFieldIsFocused && !this.state.searchResults}
       >
-        <PositionedCloseLink
-          history={this.props.history}
-          onClick={ () => {
-            this.setState({ categoryMenuIsVisible: false, searchResults: null });
-            const input = this.input;
-            if (input instanceof HTMLInputElement) {
-              input.value = '';
-              setTimeout(() => input.focus(), 50);
-            }
-            setTimeout(() => {
-              this.toolbar.ensureFullVisibility();
-            }, 100);
-          }}
-        />
+        <header>
+          <CloseLink
+            history={this.props.history}
+            className="close-link"
+            onClick={ () => {
+              this.setState({ categoryMenuIsVisible: false, searchResults: null });
+              const input = this.input;
+              if (input instanceof HTMLInputElement) {
+                input.value = '';
+                setTimeout(() => input.focus(), 50);
+              }
+              setTimeout(() => {
+                if (this.toolbar) this.toolbar.ensureFullVisibility();
+              }, 100);
+            }}
+          />
 
-        <SearchInputField
-          onFocus={() => {
-            this.setState({ categoryMenuIsVisible: true });
-            setTimeout(() => {
-              this.toolbar.ensureFullVisibility();
-            }, 100);
-          }}
-          onBlur={() => {
-            setTimeout(() => {
-              this.setState({ categoryMenuIsVisible: this.props.category });
-              this.toolbar.ensureFullVisibility();
-            }, 50);
-          }}
-          onChange={(event) => {
-            this.input = event.target;
-            this.handleSearchInputChangeDebounced(event);
-          }}
-          showSpinner={showSpinner}
-        />
+          <SearchInputField
+            onFocus={() => {
+              this.setState({ categoryMenuIsVisible: true });
+              this.setState({ searchFieldIsFocused: true });
+              setTimeout(() => {
+                if (this.toolbar) this.toolbar.ensureFullVisibility();
+              }, 100);
+              setTimeout(() => {
+                window.scrollTo(0, 0);
+              }, 300);
+            }}
+            onBlur={() => {
+              setTimeout(() => {
+                this.setState({ categoryMenuIsVisible: this.props.category });
+                this.setState({ searchFieldIsFocused: false });
+                if (this.toolbar) this.toolbar.ensureFullVisibility();
+              }, 50);
+            }}
+            onChange={(event) => {
+              this.input = event.target;
+              this.handleSearchInputChangeDebounced(event);
+            }}
+            showSpinner={showSpinner}
+          />
 
-        <StyledSearchIcon />
+          <SearchIcon className="search-icon" />
+        </header>
 
         { contentBelowSearchField }
-      </Toolbar>
+      </StyledToolbar>
     );
   }
 }

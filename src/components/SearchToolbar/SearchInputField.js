@@ -35,6 +35,8 @@ const StyledSearchInputField = styled(SearchInputField)`
   border-radius: 0.3em;
   margin: 0 0 0.5em 0;
 
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+
   &:focus {
     outline: none;
   }
