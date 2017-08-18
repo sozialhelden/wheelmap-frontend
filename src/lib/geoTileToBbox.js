@@ -1,5 +1,9 @@
 // @flow
 
+Math.sinh = Math.sinh || function(x) {
+  return (Math.exp(x) - Math.exp(-x)) / 2;
+}
+
 function tile2LatLon(x: number, y: number, z: number): [number, number] {
   const n = 2.0 ** z;
   const lonDeg = ((x / n) * 360.0) - 180.0;
