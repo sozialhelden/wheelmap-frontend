@@ -156,7 +156,7 @@ const StyledFilterToolbar = styled(FilterToolbar)`
 
   label {
     display: flex;
-    margin: 10px;
+    margin: 1em 0;
     align-items: center;
     cursor: pointer;
     input {
