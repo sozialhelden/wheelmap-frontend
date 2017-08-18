@@ -212,7 +212,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         className={className}
         ref={(nav) => { this.scrollElement = nav; }}
       >
-        {this.props.isSwipeable ? <div className="grab-handle"></div> : null}
+        {this.props.isSwipeable ? <div className="grab-handle" /> : null}
         {this.props.children}
       </nav>
     </Swipeable>);
