@@ -66,6 +66,7 @@ const StyledToolbar = styled(Toolbar)`
       bottom: 0;
       margin: 0;
       padding: 12px 15px;
+      border-radius: 0;
       transform: translate3d(0, 0, 0) !important;
       > header, .search-results, .category-menu {
         padding: 0
