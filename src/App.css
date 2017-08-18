@@ -79,7 +79,7 @@ body.is-touch-device .leaflet-filter-button {
 
 .ac-marker {
   border-radius: 10px;
-  background-color: rgba(220, 217, 214, 0.9);
+  background-color: #e6e4e0;
   /*transition: box-shadow ease-out 0.3s;*/
   /* border: 1px rgba(255, 255, 255, 0.7) solid; */
   border: none;
@@ -137,7 +137,7 @@ body.is-touch-device .leaflet-filter-button {
 }
 
 .ac-marker-gray .ac-big-icon-marker:after {
-  background-color: rgb(220, 217, 214);
+  background-color: #e6e4e0;
 }
 
 .ac-marker-green {

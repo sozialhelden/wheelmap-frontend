@@ -45,7 +45,7 @@ const colors = {
     green: '#7ec512',
     yellow: '#f39e3b',
     red: '#f54b4b',
-    gray: 'rgba(220, 217, 214, 0.9)',
+    gray: '#e6e4e0',
   },
 };
 
