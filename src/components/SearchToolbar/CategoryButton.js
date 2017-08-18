@@ -59,7 +59,7 @@ const StyledLink = styled(NavLink)`
 `;
 
 const Caption = styled.div`
-  font-size: 0.75em;
+  font-size: 0.70em;
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.2;
   margin-top: 0.5em;
