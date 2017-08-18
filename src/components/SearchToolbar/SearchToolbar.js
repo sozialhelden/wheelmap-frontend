@@ -44,10 +44,6 @@ const StyledToolbar = styled(Toolbar)`
     position: relative;
   }
 
-  .search-icon, .close-link {
-    transition: top 0.3s ease-out, left 0.3s ease-out;
-  }
-
   .search-icon {
     position: absolute;
     top: 20px;
