@@ -172,7 +172,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
         hidden={this.props.hidden}
         minimalHeight={75}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
-        isSwipeable={!this.state.searchFieldIsFocused && !this.state.searchResults}
+        isSwipeable={false}
       >
         <header>
           <CloseLink
