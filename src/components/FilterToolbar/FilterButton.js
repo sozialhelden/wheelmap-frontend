@@ -2,10 +2,7 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import ReactDOM from 'react-dom';
-import L from 'leaflet';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { getHTMLColorForWheelchairAccessibilityValue } from '../../lib/colors';
 
 const StyledButton = styled.div`
   display: flex;

@@ -5,12 +5,12 @@ import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
 import React, { Component } from 'react';
 import { RadioGroup, Radio } from 'react-radio-group';
+import type { AnyReactElement } from 'react-flow-types';
 
 import CloseIcon from '../icons/actions/Close';
 import Toolbar from '../Toolbar';
-import { getQueryParams, setQueryParams } from '../../lib/queryParams';
+import { setQueryParams } from '../../lib/queryParams';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import type { AnyReactElement } from 'react-flow-types';
 
 type Props = {
   className: string,
@@ -65,7 +65,7 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
 
   state = {
     filterName: 'all',
-  }
+  };
 
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;

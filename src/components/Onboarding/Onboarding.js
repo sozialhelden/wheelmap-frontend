@@ -11,7 +11,7 @@ import { hsl } from 'd3-color';
 function Onboarding(props) {
   return (<ModalDialog className={props.className} isVisible={props.isVisible} onClose={props.onClose}>
     <header>
-      <img className="logo" src={logo} />
+      <img alt="" className="logo" src={logo} />
       <p>Mark and find wheelchair accessible places—worldwide and for free. It’s easy with our traffic light system:</p>
     </header>
 

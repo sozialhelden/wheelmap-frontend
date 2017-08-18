@@ -216,7 +216,8 @@ class FeatureLoader extends Component<void, Props, State> {
       <SearchToolbar
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
-        category={category} />;
+        category={category}
+      />
 
       {isNodeRoute ? <NodeToolbar
         history={this.props.history}

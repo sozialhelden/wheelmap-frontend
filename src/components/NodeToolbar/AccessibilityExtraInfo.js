@@ -3,7 +3,6 @@
 import styled from 'styled-components';
 import React, { Component } from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
-import { licenseCache } from '../../lib/cache/LicenseCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 
 type Props = {

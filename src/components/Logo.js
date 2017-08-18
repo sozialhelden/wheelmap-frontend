@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import logo from './Logo@2x.png';
 
 function Logo(props) {
-  return (<img {...props} src={logo} />);
+  return (<img alt="" {...props} src={logo} />);
 }
 
 const StyledLogo = styled(Logo)`
