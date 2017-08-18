@@ -183,7 +183,6 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
               const input = this.input;
               if (input instanceof HTMLInputElement) {
                 input.value = '';
-                setTimeout(() => input.focus(), 50);
               }
               setTimeout(() => {
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
