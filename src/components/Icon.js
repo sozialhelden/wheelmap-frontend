@@ -42,7 +42,8 @@ type Props = {
 
 export default function Icon({ overriddenColor, properties, category, className, isBig }: Props) {
   const color = overriddenColor || getColorForWheelchairAccessibility(properties);
-  const SvgComponent = icons[category._id || 'undefined'] || null;
+  const categoryName = category._id === '2nd_hand' ? 'second_hand' : category._id;
+  const SvgComponent = icons[categoryName || 'undefined'] || null;
   if (!SvgComponent) debugger;
   return (<StyledIconImage className={`ac-marker-${color} ${className || ''} ${isBig ? 'ac-big-icon-marker' : ''}`}>
     { SvgComponent ? <SvgComponent /> : null}
