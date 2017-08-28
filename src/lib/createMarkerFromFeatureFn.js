@@ -63,7 +63,10 @@ function getIconNameForProperties(properties) {
   if (properties.category && typeof properties.category === 'object') {
     givenCategoryId = properties.category.identifier;
   }
-  const categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
+  let categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
+  if (categoryIdOrSynonym === '2nd_hand') {
+    categoryIdOrSynonym = 'second_hand';
+  }
   const category = Categories.getCategoryFromCache(categoryIdOrSynonym);
   const categoryId = category ? category._id : null;
   return categoryId;
