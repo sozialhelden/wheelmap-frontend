@@ -222,7 +222,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
 
     &.is-open {
-      background-color: rgba(254, 254, 254, 0.8);
+      background-color: rgba(254, 254, 254, 0.9);
       height: auto;
       > .nav-link {
         display: flex;
