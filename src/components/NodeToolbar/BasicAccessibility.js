@@ -4,10 +4,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
+import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 import colors from '../../lib/colors';
 
 
-const CheckmarkIcon = () => (<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1">
+const CheckmarkIcon = () => (<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1" className="checkmark-icon">
   <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
     <polygon id="checkmark" fill="#000000" points="4.51565378 13.174954 0 8.67495396 1.76887661 7 4.51565378 9.73112339 14.2311234 0 16 1.67495396 6.23756906 11.5313076" />
   </g>
@@ -38,8 +39,8 @@ function accessibilityDescription(accessibility: YesNoLimitedUnknown) {
 
 function toiletDescription(accessibility: YesNoUnknown) {
   switch (accessibility) {
-    case 'yes': return <span><span>Wheelchair accessible toilet available.</span></span>;
-    case 'no': return <span>No wheelchair accessible toilet available.</span>;
+    case 'yes': return <span><span>Has a wheelchair accessible toilet.</span> <ToiletStatusAccessibleIcon/></span>;
+    case 'no': return <span>No wheelchair accessible toilet.</span>;
     case 'unknown':
     default:
       return null;
@@ -69,6 +70,9 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     }
     &.accessibility-yes {
       color: ${colors.positiveColor};
+      svg {
+        margin: 0 10px 0 5px;
+      }
       polygon#checkmark {
         fill: ${colors.positiveColor};
       }
@@ -81,6 +85,12 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     }
   }
   footer {
+    &.accessibility-toilet span {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
     color: rgba(0, 0, 0, 0.6);
   }
   > header > span {
