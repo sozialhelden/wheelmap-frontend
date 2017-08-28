@@ -95,8 +95,9 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
               setTimeout(() => {
                 if (this.toolbar) {
                   this.toolbar.onResize();
+                  if (this.toolbar) this.toolbar.ensureFullVisibility();
                 }
-              }, 300);
+              }, 120);
             }}
           >
             <label><Radio value="all" /><span>All</span></label>
@@ -146,7 +147,7 @@ const StyledFilterToolbar = styled(FilterToolbar)`
     opacity: 1;
     max-height: 300px;
     overflow: hidden;
-    transition: opacity 0.3s ease-out, max-height 0.3s ease-out;
+    transition: opacity 0.1s ease-out, max-height 0.1s ease-out;
     box-sizing: border-box;
     &.section-hidden {
       max-height: 0;
