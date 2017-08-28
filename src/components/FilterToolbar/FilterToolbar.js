@@ -8,9 +8,22 @@ import { RadioGroup, Radio } from 'react-radio-group';
 import type { AnyReactElement } from 'react-flow-types';
 
 import CloseIcon from '../icons/actions/Close';
+
+import RadioButtonUnselected from '../icons/ui-elements/RadioButtonUnselected';
+import RadioButtonSelected from '../icons/ui-elements/RadioButtonSelected';
+
+import AllAccessibilitiesIcon from '../icons/accessibility/AllAccessibilities';
+import UnknownAccessibilityIcon from '../icons/accessibility/UnknownAccessibility';
+import AtLeastPartialAccessibilityIcon from '../icons/accessibility/AtLeastPartialAccessibility';
+import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
+import ToiletStatusIcon from '../icons/accessibility/ToiletStatus';
+import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
+
 import Toolbar from '../Toolbar';
 import { setQueryParams } from '../../lib/queryParams';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { getFiltersForNamedFilter, getFilterNameForFilterList } from './FilterModel';
+import type { FilterName } from './FilterModel';
 
 type Props = {
   className: string,
@@ -22,8 +35,6 @@ type Props = {
 
 type DefaultProps = {};
 
-type FilterName = 'all' | 'partial' | 'full' | 'unknown';
-
 type State = {
   filterName: FilterName,
 };
@@ -31,33 +42,13 @@ type State = {
 
 const PositionedCloseLink = styled(CloseIcon)`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0px;
+  right: 0px;
+  padding: 5px;
   padding: 10px;
   cursor: pointer;
 `;
 
-function sortedIsEqual(array1, array2): boolean {
-  return isEqual([].concat(array1).sort(), [].concat(array2).sort());
-}
-
-function getFiltersForNamedFilter(name: FilterName): YesNoLimitedUnknown[] {
-  switch (name) {
-    case 'partial': return ['yes', 'limited'];
-    case 'full': return ['yes'];
-    case 'unknown': return ['unknown'];
-    case 'all':
-    default: return ['yes', 'limited', 'no', 'unknown'];
-  }
-}
-
-function getFilterNameForFilterList(list: YesNoLimitedUnknown[]): ?FilterName {
-  if (sortedIsEqual(list, ['yes', 'limited'])) return 'partial';
-  if (sortedIsEqual(list, ['yes'])) return 'full';
-  if (sortedIsEqual(list, ['unknown'])) return 'unknown';
-  if (sortedIsEqual(list, ['yes', 'limited', 'no', 'unknown']) || sortedIsEqual(list, [])) return 'all';
-  return null;
-}
 
 class FilterToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
@@ -72,7 +63,10 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
     const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
     const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
-
+    function CustomRadio({ value }: { value: string }) {
+      const RadioButton = filterName === value ? RadioButtonSelected : RadioButtonUnselected;
+      return <RadioButton className="radio-button" />;
+    }
     return (
       <Toolbar
         className={this.props.className}
@@ -81,7 +75,7 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
         isSwipeable={false}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
-        <PositionedCloseLink onClick={this.props.onCloseClicked} />
+        <PositionedCloseLink onClick={this.props.onCloseClicked} className="close-icon" />
         <header>Which places do you want to see?</header>
         <section>
           <RadioGroup
@@ -100,10 +94,30 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
               }, 120);
             }}
           >
-            <label><Radio value="all" /><span>All</span></label>
-            <label><Radio value="partial" /><span>At least partially wheelchair accessible</span></label>
-            <label><Radio value="full" /><span>Only fully wheelchair accessible</span></label>
-            <label><Radio value="unknown" /><span>Places that I can contribute to</span></label>
+            <label>
+              <Radio value="all" />
+              <CustomRadio value="all" />
+              <span className="icon"><AllAccessibilitiesIcon /></span>
+              <span className="caption">All</span>
+            </label>
+            <label>
+              <Radio value="partial" />
+              <CustomRadio value="partial" />
+              <span className="icon"><AtLeastPartialAccessibilityIcon /></span>
+              <span className="caption">At least partially wheelchair accessible</span>
+            </label>
+            <label>
+              <Radio value="full" />
+              <CustomRadio value="full" />
+              <span className="icon"><FullAccessibilityIcon /></span>
+              <span className="caption">Only fully wheelchair accessible</span>
+            </label>
+            <label>
+              <Radio value="unknown" />
+              <CustomRadio value="unknown" />
+              <span className="icon"><UnknownAccessibilityIcon /></span>
+              <span className="caption">Places that I can contribute to</span>
+            </label>
           </RadioGroup>
         </section>
         <section className={shouldShowToiletFilter(filterName) ? '' : 'section-hidden'}>
@@ -117,7 +131,10 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
               id="toilet-filter"
               checked={isToiletFilterEnabled}
             />
-            <span>Only show places with a wheelchair accessible toilet</span>
+            <span className="icon">
+              {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
+            </span>
+            <span className="caption">Only show places with a wheelchair accessible toilet</span>
           </label>
         </section>
       </Toolbar>
@@ -128,7 +145,8 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
 const StyledFilterToolbar = styled(FilterToolbar)`
   top: 190px;
   @media (max-width: 768px) {
-    top: 50px;
+    top: 0px;
+    max-height: calc(100% - 20px);
   }
 
   left: auto;
@@ -161,11 +179,26 @@ const StyledFilterToolbar = styled(FilterToolbar)`
     align-items: center;
     cursor: pointer;
     input {
-      width: 25px;
-      height: 20px;
+      width: 0;
+      height: 0;
+      opacity: 0;
     }
-    span {
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      margin-right: 8px;
+    }
+    .radio-button {
+      margin-right: 8px;
+    }
+    .caption {
       flex: 1;
+    }
+    &:focus {
+      background-color: yellow;
     }
   }
 `;

@@ -280,14 +280,16 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     }
   }
 
-  /*&.is-filter-toolbar-visible {
-    > .main-menu {
-      filter: blur(5px);
-      &, * {
-        pointer-events: none;
+  @media (max-width: 400px), (max-height: 400px) {
+    &.is-filter-toolbar-visible {
+      > *:not(.filter-toolbar) {
+        filter: blur(5px);
+        &, * {
+          pointer-events: none;
+        }
       }
     }
-  }*/
+  }
 `;
 
 function App() {
