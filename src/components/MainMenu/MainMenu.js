@@ -99,7 +99,7 @@ openMenuHoverColor.opacity = 0.5;
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   height: 50px;
-  padding: 10px 0 10px 20px;
+  padding: 10px 5px 10px 20px;
   background-color: rgba(254, 254, 254, 0.95);
   display: flex;
   flex-direction: row;
@@ -131,7 +131,8 @@ const StyledMainMenu = styled(MainMenu)`
       background-color: ${colors.linkBackgroundColorTransparent};
     }
     &:active {
-      color: ${colors.primaryColor}
+      color: ${colors.primaryColor};
+      background-color: ${hsl(colors.primaryColor).brighter(1.7)};
     }
   }
 
@@ -240,8 +241,11 @@ const StyledMainMenu = styled(MainMenu)`
             fill: ${hsl(colors.primaryColor).darker(1)};
           }
         }
-        &:active svg g {
-          color: ${hsl(colors.primaryColor).darker(2)};
+        &:active {
+          background-color: ${openMenuHoverColor};
+          svg g {
+            color: ${hsl(openMenuHoverColor).darker(2)};
+          }
         }
       }
     }
