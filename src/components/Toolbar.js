@@ -248,7 +248,7 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   @media (max-width: 768px) {
-    width: calc(50% - 20px);
+    width: width: calc(55%);
     min-width: 250px;
   }
 
