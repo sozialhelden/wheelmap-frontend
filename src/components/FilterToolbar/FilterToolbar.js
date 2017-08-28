@@ -125,9 +125,9 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
 }
 
 const StyledFilterToolbar = styled(FilterToolbar)`
-  top: 140px;
+  top: 190px;
   @media (max-width: 768px) {
-    top: 0px;
+    top: 50px;
   }
 
   left: auto;
@@ -139,7 +139,7 @@ const StyledFilterToolbar = styled(FilterToolbar)`
     flex-direction: row;
     align-items: center;
     height: 30px;
-    padding-right: 10px; /* For close icon */
+    padding-right: 20px; /* For close icon */
   }
 
   section {

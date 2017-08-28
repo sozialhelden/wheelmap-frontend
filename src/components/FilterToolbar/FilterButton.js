@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import colors from '../../lib/colors';
 
 const StyledButton = styled.div`
   display: flex;
@@ -17,12 +18,12 @@ const StyledButton = styled.div`
   border: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   position: fixed;
-  top: 150px;
+  top: 200px;
   right: 10px;
   z-index: 400;
   cursor: pointer;
   &:hover {
-    background-color: #f4f4f4;
+    background-color: ${colors.linkBackgroundColor};
   }
   header {
     display: flex;
@@ -70,11 +71,3 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
 
 
 export default FilterButton;
-
-
-// export function addFilterControlToMap(map: L.Map) {
-//   const bar = document.createElement('div');
-//   bar.className = 'leaflet-bar leaflet-control';
-//   map._controlCorners.topright.appendChild(bar);
-//   ReactDOM.render(<FilterButton />, bar);
-// }

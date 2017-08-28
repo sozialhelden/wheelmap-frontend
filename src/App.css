@@ -10,16 +10,24 @@ body.is-touch-device .leaflet-control-zoom {
 }
 
 body.is-touch-device .leaflet-filter-button {
-  top: 60px;
+  top: 110px;
 }
 
 .app-container {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+@media (max-width: 1024px) {
+  .leaflet-control-container .leaflet-top {
+    top: 50px;
+  }
 }
 
 .leaflet-container {
-  width: 100%;
-  height: 100%;
+  flex: 1;
 }
 
 .leaflet-icon-locate:before {
@@ -70,6 +78,12 @@ body.is-touch-device .leaflet-filter-button {
 .leaflet-control-attribution {
   background-color: white !important;
   font-size: 10px !important;
+}
+
+@media (max-height: 400px), (max-width: 400px) {
+  .leaflet-control-attribution {
+    font-size: 7px !important;
+  }
 }
 
 .marker-cluster {
@@ -252,6 +266,11 @@ body, button, input, select, textarea {
   height: 40px !important;
   line-height: 40px !important;
   color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: rgb(218, 241, 255) !important;
+  color: #2e6ce0 !important;
 }
 
 .leaflet-bar a.leaflet-disabled {

@@ -6,12 +6,12 @@ import includes from 'lodash/includes';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import MainMenu from './components/MainMenu/MainMenu';
 import Map from './components/Map/Map';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
-import Logo from './components/Logo';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
 import colors from './lib/colors';
@@ -42,6 +42,7 @@ type State = {
   zoom: ?string,
   isFilterToolbarVisible: boolean,
   isOnboardingVisible: boolean,
+  isMainMenuOpen: boolean;
 };
 
 
@@ -191,7 +192,21 @@ class FeatureLoader extends Component<void, Props, State> {
     console.log('Positioning:', lat, lon, zoom);
     console.log('Accessibility filter:', this.accessibilityFilter());
     console.log('Toilet filter:', this.toiletFilter());
-    return (<div className={`app-container ${this.props.className} ${this.state.isOnboardingVisible ? 'is-dialog-visible' : ''}`}>
+
+    const classList = [
+      'app-container',
+      this.props.className,
+      this.state.isOnboardingVisible ? 'is-dialog-visible' : null,
+      this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
+      this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
+    ].filter(Boolean);
+
+    return (<div className={classList.join(' ')}>
+      <MainMenu
+        className="main-menu"
+        onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
+      />
+
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
@@ -225,13 +240,14 @@ class FeatureLoader extends Component<void, Props, State> {
         hidden={this.state.isFilterToolbarVisible}
         featureId={featureId} /> : null}
 
-      {this.state.isFilterToolbarVisible ? <FilterToolbar
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
-      /> : null}
+      {this.state.isFilterToolbarVisible ? (<div className="filter-toolbar">
+        <FilterToolbar
+          accessibilityFilter={this.accessibilityFilter()}
+          toiletFilter={this.toiletFilter()}
+          onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
+        />
+      </div>) : null}
 
-      <Logo />
       <Onboarding isVisible={this.state.isOnboardingVisible} onClose={() => {
         saveOnboardingFlag();
         this.setState({ isOnboardingVisible: false });
@@ -249,8 +265,29 @@ const StyledFeatureLoader = styled(FeatureLoader)`
   &.is-dialog-visible {
     > *:not(.modal-dialog) {
       filter: blur(10px);
+      &, * {
+        pointer-events: none;
+      }
     }
   }
+
+  &.is-main-menu-open {
+    > *:not(.main-menu) {
+      filter: blur(5px);
+      &, * {
+        pointer-events: none;
+      }
+    }
+  }
+
+  /*&.is-filter-toolbar-visible {
+    > .main-menu {
+      filter: blur(5px);
+      &, * {
+        pointer-events: none;
+      }
+    }
+  }*/
 `;
 
 function App() {

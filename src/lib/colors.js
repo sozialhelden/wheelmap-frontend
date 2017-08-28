@@ -31,7 +31,10 @@ import { isWheelchairAccessible } from './Feature';
 const colors = {
   primaryColor: '#8bb847',
   secondaryColor: '#8B6A43',
+  darkLinkColor: '#455668',
   linkColor: '#2e6ce0',
+  linkBackgroundColor: 'rgb(218, 241, 255)',
+  linkBackgroundColorTransparent: 'rgba(0, 161, 255, 0.1)',
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',

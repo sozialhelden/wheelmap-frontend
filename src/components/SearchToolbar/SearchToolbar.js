@@ -33,7 +33,7 @@ const StyledToolbar = styled(Toolbar)`
   flex-direction: column;
   padding: 0;
 
-  > header, .search-results, .category-menu {
+  > header, .search-results {
     padding: 12px 15px 5px 15px;
   }
   .search-results {
@@ -58,12 +58,15 @@ const StyledToolbar = styled(Toolbar)`
 
   @media (max-width: 512px), (max-height: 512px) {
     &.search-field-is-focused {
+      position: fixed;
+      top: 0;
       width: 100%;
       height: 100%;
       max-height: 100%;
       right: 0;
       left: 0;
       bottom: 0;
+      z-index: 1000000000;
       margin: 0;
       padding: 12px 15px;
       border-radius: 0;
@@ -78,6 +81,11 @@ const StyledToolbar = styled(Toolbar)`
       .close-link {
         top: -6px;
         right: -5px;
+      }
+      @media (max-height: 400px) {
+        .category-button {
+          flex-basis: 16.666666% !important;
+        }
       }
     }
   }

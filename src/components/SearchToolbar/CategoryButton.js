@@ -68,6 +68,7 @@ const Caption = styled.div`
 type Props = {
   name: string,
   id: string,
+  className: string,
 };
 
 
@@ -76,7 +77,7 @@ export default function CategoryButton(props: Props) {
   const SvgComponent = icons[props.id || 'undefined'];
 
   return (
-    <StyledLink activeClassName="active" to={url}>
+    <StyledLink activeClassName="active" to={url} className={props.className}>
       <Circle>
         <SvgComponent />
       </Circle>

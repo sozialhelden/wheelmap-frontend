@@ -7,17 +7,8 @@ function Logo(props) {
 }
 
 const StyledLogo = styled(Logo)`
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  margin-left: -66px;
-  z-index: 100000000000;
   width: 97px;
   height: 24px;
-  pointer-events: none;
-  @media (max-width: 512px) {
-    display: none;
-  }
 `;
 
 export default StyledLogo;

@@ -1,11 +1,11 @@
 // @flow
 import uniq from 'lodash/uniq';
+import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import Swipeable from 'react-swipeable';
 import React, { Component } from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
-
 
 type Props = {
   className: string,
@@ -163,7 +163,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         parseFloat(style.marginBottom) +
         (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
-    return this.state.viewportSize.height - toolbarHeight;
+    return this.state.viewportSize.height - toolbarHeight - 60;
   }
 
 
@@ -208,8 +208,8 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
       onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
     >
       <nav
-        style={this.getStyle()}
         className={className}
+        style={this.getStyle()}
         ref={(nav) => { this.scrollElement = nav; }}
       >
         {this.props.isSwipeable ? <div className="grab-handle" /> : null}
@@ -221,11 +221,11 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
 const StyledToolbar = styled(Toolbar)`
   position: fixed;
-  top: 0;
+  top: 50px;
   left: 0;
   width: 320px;
   min-width: 320px;
-  max-height: calc(100% - 36px);
+  max-height: calc(100% - 80px);
   margin: 10px;
   padding: 12px 15px 5px 15px;
   box-sizing: border-box;
@@ -284,7 +284,7 @@ const StyledToolbar = styled(Toolbar)`
     margin: 0 -10px;
 
     &:hover {
-      background-color: #f2f2f2;
+      background-color: ${colors.linkBackgroundColorTransparent};
     }
   }
 

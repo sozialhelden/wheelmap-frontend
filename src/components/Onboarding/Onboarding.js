@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
-import logo from './Logo.svg';
+import logo from '../../lib/Logo.svg';
 import Icon from '../Icon';
 import colors from '../../lib/colors';
 import { hsl } from 'd3-color';

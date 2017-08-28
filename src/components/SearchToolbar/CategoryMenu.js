@@ -31,8 +31,8 @@ const Container = styled.div`
 export default class CategoryMenu extends Component {
   render() {
     return (
-      <Container>
-        {Object.keys(categories).map(id => <CategoryButton key={id} name={categories[id]} id={id} />)}
+      <Container className="category-menu">
+        {Object.keys(categories).map(id => <CategoryButton key={id} className="category-button" name={categories[id]} id={id} />)}
       </Container>
     );
   }
