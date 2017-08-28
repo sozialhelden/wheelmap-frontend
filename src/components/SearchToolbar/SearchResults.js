@@ -41,6 +41,7 @@ export type SearchResultCollection = {
 
 type SearchResultProps = {
   result: SearchResultFeature,
+  onSelect: (() => void),
 };
 
 type State = {
@@ -54,9 +55,9 @@ type State = {
 
 function HashLinkOrRouterLink(props) {
   if (props.isHashLink) {
-    return <a href={props.to} className={props.className}>{props.children}</a>;
+    return <a onClick={props.onClick} href={props.to} className={props.className}>{props.children}</a>;
   }
-  return <ToolbarLink to={props.to} className={props.className}>{props.children}</ToolbarLink>;
+  return <ToolbarLink onClick={props.onClick} to={props.to} className={props.className}>{props.children}</ToolbarLink>;
 }
 
 
@@ -182,7 +183,7 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     const href = this.getHref();
     const isHashLink = !Boolean(wheelmapFeature);
     return (<li>
-      <HashLinkOrRouterLink to={href} className="link-button" isHashLink={isHashLink}>
+      <HashLinkOrRouterLink to={href} className="link-button" isHashLink={isHashLink} onClick={() => this.props.onSelect()}>
         <PlaceName>
           {categoryOrParentCategory ?
             <Icon properties={wheelmapFeatureProperties} category={categoryOrParentCategory} />
@@ -200,6 +201,7 @@ class SearchResult extends Component<void, SearchResultProps, State> {
 type Props = {
   searchResults: SearchResultCollection,
   className: string,
+  onSelect: (() => void),
 };
 
 
@@ -207,7 +209,7 @@ function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
   const features = uniq(props.searchResults.features, id);
   return (<ul className={`search-results ${props.className}`}>
-    {features.map(result => <SearchResult result={result} key={id(result)} />)}
+    {features.map(result => <SearchResult result={result} key={id(result)} onSelect={props.onSelect} />)}
   </ul>);
 }
 

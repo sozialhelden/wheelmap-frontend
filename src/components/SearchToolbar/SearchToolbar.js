@@ -154,13 +154,20 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
   }
 
 
+  clearSearchOnSmallViewports() {
+    if (window.innerWidth < 512) {
+      this.setState({ categoryMenuIsVisible: false, searchResults: null });
+    }
+  }
+
+
   render() {
     const searchResults = this.state.searchResults;
     const showSpinner = false;
 
     let contentBelowSearchField = null;
     if (searchResults) {
-      contentBelowSearchField = <SearchResults searchResults={searchResults} />;
+      contentBelowSearchField = <SearchResults searchResults={searchResults} onSelect={() => this.clearSearchOnSmallViewports()}/>;
     } else if (this.state.categoryMenuIsVisible) {
       contentBelowSearchField = <CategoryMenu />;
     }
