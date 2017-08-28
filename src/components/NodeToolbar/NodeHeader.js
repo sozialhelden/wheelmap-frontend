@@ -21,6 +21,10 @@ const StyledNodeHeader = styled.header`
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+
+  .description {
+    word-break: break-word;
+  }
 `;
 
 
@@ -146,7 +150,7 @@ export default class NodeHeader extends Component<void, Props, State> {
 
         {phoneNumber ? <p><PhoneNumberLink phoneNumber={phoneNumber} /></p> : null}
 
-        {description ? <p>“{description}”</p> : null}
+        {description ? <p className="description">“{description}”</p> : null}
 
         {placeWebsiteUrl ?
           <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
