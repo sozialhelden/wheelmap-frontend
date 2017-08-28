@@ -105,7 +105,7 @@ const StyledMainMenu = styled(MainMenu)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  z-index: 1000000000;
+  z-index: 1000;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
   transition: height 0.3s ease-out;
   overflow: auto;
