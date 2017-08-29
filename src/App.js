@@ -282,13 +282,11 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     }
   }
 
-  @media (max-width: 400px), (max-height: 400px) {
-    &.is-filter-toolbar-visible {
-      > *:not(.filter-toolbar) {
-        filter: blur(5px);
-        &, * {
-          pointer-events: none;
-        }
+  &.is-filter-toolbar-visible {
+    > *:not(.filter-toolbar) {
+      filter: blur(5px);
+      &, * {
+        pointer-events: none;
       }
     }
   }
