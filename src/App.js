@@ -3,6 +3,7 @@
 import pick from 'lodash/pick';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
+import get from 'lodash/get';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -173,7 +174,8 @@ class FeatureLoader extends Component<void, Props, State> {
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (fetchedId !== currentlyShownId) return;
-      this.setState({ feature, fetching: false });
+      const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
+      this.setState({ feature, lat, lon, fetching: false });
     });
   }
 

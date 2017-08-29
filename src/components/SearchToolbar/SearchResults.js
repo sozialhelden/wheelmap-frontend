@@ -155,7 +155,10 @@ class SearchResult extends Component<void, SearchResultProps, State> {
   getHref(): ?string {
     const wheelmapFeature = this.state.wheelmapFeature;
     if (wheelmapFeature && wheelmapFeature.properties && wheelmapFeature.properties.id) {
-      return `/beta/nodes/${wheelmapFeature.properties.id}#?zoom=18`;
+      const geometry = wheelmapFeature ? wheelmapFeature.geometry : null;
+      const coordinates = (geometry instanceof Object) ? geometry.coordinates : null;
+      const coordinateParameter = (coordinates instanceof Array) ? `&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
+      return `/beta/nodes/${wheelmapFeature.properties.id}#?zoom=18${coordinateParameter}`;
     }
     const result = this.props.result;
     const geometry = result ? result.geometry : null;
