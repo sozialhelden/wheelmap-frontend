@@ -91,7 +91,8 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   .search-results {
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 `;
 
