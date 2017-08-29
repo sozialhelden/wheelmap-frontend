@@ -194,6 +194,11 @@ const StyledOnboarding = styled(Onboarding)`
       transform: none;
       animation: none;
       margin: 15px;
+      left: auto;
+      top: auto;
+      svg {
+        opacity: 0.6;
+      }
     }
   }
 `;
