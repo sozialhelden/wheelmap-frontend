@@ -232,6 +232,10 @@ const StyledSearchResults = styled(SearchResults)`
     &:hover {
       color: rgba(0, 0, 0, 0.8);
     }
+
+    address {
+      font-size: 16px !important;
+    }
   }
 `;
 
