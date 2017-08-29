@@ -106,9 +106,6 @@ export default function NodeFooter(props: Props) {
           </a>
         </div> : null}
       <ShareButtons {...props} />
-      <a to={`mailto:`} className="link-button">
-        Report Problem
-      </a>
     </StyledFooter>
   );
 }
