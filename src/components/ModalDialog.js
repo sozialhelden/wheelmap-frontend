@@ -109,7 +109,7 @@ const StyledModalDialog = styled(ModalDialog)`
     background-color: rgba(200, 200, 200, 0.8);
   }
   .modal-dialog-fullscreen-overlay {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.85);
   }
   .modal-dialog-default .modal-dialog-content {
     position: relative;
