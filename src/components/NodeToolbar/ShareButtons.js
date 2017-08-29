@@ -26,7 +26,7 @@ export default function NodeFooter(props: Props) {
 
   let pageTitle = 'Wheelmap.org';
   let pageDescription = null;
-  const url = featureId ? `https://wheelmap.org/beta/nodes/${featureId}` : 'https://wheelmap.org/beta';
+  const url = featureId ? `https://wheelmap.org/nodes/${featureId}` : 'https://wheelmap.org';
   let mailBody = `I found a place on Wheelmap: ${url}`;
   let mailToLink = `mailto:?subject=Wheelmap.org&body=${encodeURIComponent(mailBody)}`;
   let placeName = 'a place';
