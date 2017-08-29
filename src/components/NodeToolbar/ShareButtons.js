@@ -47,7 +47,7 @@ export default function NodeFooter(props: Props) {
   const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(reportSubject)}&body=${encodeURIComponent(reportBody)}`;
 
   return (<div className={props.className}>
-    <FacebookShareButton className="link-button" url={url} description={pageDescription}>
+    <FacebookShareButton className="link-button" url={url} quote={pageDescription}>
       Share on Facebook
     </FacebookShareButton>
     <TwitterShareButton className="link-button" url={url} title={pageTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
