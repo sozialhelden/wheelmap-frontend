@@ -274,14 +274,14 @@ const StyledToolbar = styled(Toolbar)`
   }
 
 
-  a.link-button {
+  .link-button {
     display: block;
-
     font-size: 16px;
     padding: 10px;
     text-decoration: none;
     border-radius: 4px;
     margin: 0 -10px;
+    cursor: pointer;
 
     &:hover {
       background-color: ${colors.linkBackgroundColorTransparent};

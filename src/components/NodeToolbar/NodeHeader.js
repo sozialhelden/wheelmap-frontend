@@ -2,10 +2,8 @@
 
 import styled from 'styled-components';
 import React, { Component } from 'react';
-import Categories from '../../lib/Categories';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
-import type { Category } from '../../lib/Categories';
 import type { Feature, WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
 import BreadCrumbs from './BreadCrumbs';
 import SourceLink from './SourceLink';
@@ -35,9 +33,6 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 
 type Props = {
   feature: Feature,
-};
-
-type State = {
   category: ?Category,
   parentCategory: ?Category,
 };
@@ -54,7 +49,7 @@ function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
   </a>);
 }
 
-export default class NodeHeader extends Component<void, Props, State> {
+export default class NodeHeader extends Component<void, Props, void> {
   static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
     return getAddressString(properties);
   }
@@ -75,44 +70,6 @@ export default class NodeHeader extends Component<void, Props, State> {
   }
 
 
-  state = { category: null, parentCategory: null };
-
-
-  componentDidMount() {
-    this.fetchCategory(this.props);
-  }
-
-
-  componentWillReceiveProps(nextProps: Props) {
-    this.fetchCategory(nextProps);
-  }
-
-
-  fetchCategory(props: Props = this.props) {
-    const feature = props.feature;
-    if (!feature) {
-      this.setState({ category: null });
-      return;
-    }
-    const properties = feature.properties;
-    if (!properties) {
-      this.setState({ category: null });
-      return;
-    }
-    const categoryId = (properties.node_type && properties.node_type.identifier) || properties.category;
-    if (!categoryId) {
-      this.setState({ category: null });
-      return;
-    }
-    Categories.getCategory(categoryId).then(
-      (category) => { this.setState({ category }); return category; },
-      () => this.setState({ category: null }),
-    )
-    .then(category => category && Categories.getCategory(category.parentIds[0]))
-    .then(parentCategory => this.setState({ parentCategory }));
-  }
-
-
   render() {
     const feature = this.props.feature;
     if (!feature) return null;
@@ -124,7 +81,7 @@ export default class NodeHeader extends Component<void, Props, State> {
     const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
-    const categoryOrParentCategory = this.state.category || this.state.parentCategory;
+    const categoryOrParentCategory = this.props.category || this.props.parentCategory;
     const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
     const placeName = (properties.name || categoryName || 'place')
       .replace(/(\w)\/(\w)/g, '$1 / $2');
@@ -140,8 +97,8 @@ export default class NodeHeader extends Component<void, Props, State> {
 
         <StyledBreadCrumbs
           properties={properties}
-          category={this.state.category}
-          parentCategory={this.state.parentCategory}
+          category={this.props.category}
+          parentCategory={this.props.parentCategory}
           />
 
         <address>{addressString}</address>

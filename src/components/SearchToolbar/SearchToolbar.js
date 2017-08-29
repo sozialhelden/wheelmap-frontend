@@ -157,6 +157,9 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
   clearSearchOnSmallViewports() {
     if (window.innerWidth < 512) {
       this.setState({ categoryMenuIsVisible: false, searchResults: null });
+      if (this.input instanceof HTMLInputElement) {
+        this.input.value = '';
+      }
     }
   }
 

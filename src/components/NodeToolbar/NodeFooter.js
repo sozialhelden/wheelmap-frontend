@@ -3,11 +3,11 @@
 import React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
 import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
-
+import ShareButtons from './ShareButtons';
+import type { Category } from '../../lib/Categories';
 
 const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
@@ -26,6 +26,10 @@ const StyledFooter = styled.footer`
     border-radius: 0.25em;
     text-align: center;
     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
+  }
+
+  .link-button {
+    color: ${colors.linkColor};
   }
 
   a.edit-link-button {
@@ -64,22 +68,26 @@ const StyledFooter = styled.footer`
 type Props = {
   feature: Feature,
   featureId: string | number | null,
+  category: ?Category,
+  parentCategory: ?Category,
 };
 
 
-export default function NodeFooter({ feature, featureId }: Props) {
+export default function NodeFooter(props: Props) {
+  const { feature, featureId } = props;
   const isWheelmap = isWheelmapFeatureId(featureId);
 
   let editHint = null;
   if (feature && feature.properties) {
-    switch (isWheelchairAccessible(feature.properties)) {
+    const properties = feature.properties;
+    switch (isWheelchairAccessible(properties)) {
       case 'unknown':
-        editHint = (<span className='edit-hint'>Help out by marking this place!</span>);
+        editHint = (<span className="edit-hint">Help out by marking this place!</span>);
         break;
       case 'limited':
       case 'yes':
-        if (hasAccessibleToilet(feature.properties) === 'unknown') {
-          editHint = (<span className='edit-hint'>Help out by marking the toilet status!</span>);
+        if (hasAccessibleToilet(properties) === 'unknown') {
+          editHint = (<span className="edit-hint">Help out by marking the toilet status!</span>);
         }
         break;
       default: break;
@@ -88,20 +96,16 @@ export default function NodeFooter({ feature, featureId }: Props) {
 
   return (
     <StyledFooter>
-      {isWheelmap ?
+      {(isWheelmap && featureId) ?
         <div className="wheelmap-links">
           <a className="link-button edit-link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}/edit`}>
-            <span>Edit</span>{editHint}
+            <span>Edit</span>{editHint || null}
           </a>
           <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
             Details
           </a>
         </div> : null}
-
-      <Link to="/" className="link-button">
-        Share
-      </Link>
-
+      <ShareButtons {...props} />
       <a to={`mailto:`} className="link-button">
         Report Problem
       </a>

@@ -10,6 +10,7 @@ const PlaceName = styled.h1`
   display: flex;
   flex-direction: row;
   align-items: center;
+  word-break: break-word;
 `;
 
 export default PlaceName;

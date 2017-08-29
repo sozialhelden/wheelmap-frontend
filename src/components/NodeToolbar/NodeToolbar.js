@@ -1,10 +1,12 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import AccessibilityDetails from 'accessibility-cloud-widget/lib/components/AccessibilityDetails';
 import 'accessibility-cloud-widget/src/app.css';
+
+import Categories from '../../lib/Categories';
 
 import Toolbar from '../Toolbar';
 import NodeHeader from './NodeHeader';
@@ -126,24 +128,78 @@ type Props = {
 };
 
 
-function NodeToolbar(props: Props) {
-  const properties = props.feature && props.feature.properties;
-  const accessibility = properties && properties.accessibility;
+type State = {
+  category: ?Category,
+  parentCategory: ?Category,
+};
 
-  return (
-    <Toolbar className={props.className} hidden={props.hidden}>
-      <PositionedCloseLink history={props.history}/>
-      <NodeHeader feature={props.feature} />
-      <BasicAccessibility properties={properties}/>
-      <StyledAccessibilityDetails details={accessibility} />
-      <NodeFooter
-        feature={props.feature}
-        featureId={props.featureId}
-      />
-      <AccessibilityExtraInfo properties={properties} />
-      <LicenseHint properties={properties} />
-    </Toolbar>
-  );
+
+const StyledToolbar = styled(Toolbar)`
+  hyphens: auto;
+`;
+
+class NodeToolbar extends Component<void, Props, State> {
+  state = { category: null, parentCategory: null };
+
+  componentDidMount() {
+    this.fetchCategory(this.props);
+  }
+
+
+  componentWillReceiveProps(nextProps: Props) {
+    this.fetchCategory(nextProps);
+  }
+
+
+  fetchCategory(props: Props = this.props) {
+    const feature = props.feature;
+    if (!feature) {
+      this.setState({ category: null });
+      return;
+    }
+    const properties = feature.properties;
+    if (!properties) {
+      this.setState({ category: null });
+      return;
+    }
+    const categoryId = (properties.node_type && properties.node_type.identifier) || properties.category;
+    if (!categoryId) {
+      this.setState({ category: null });
+      return;
+    }
+    Categories.getCategory(categoryId).then(
+      (category) => { this.setState({ category }); return category; },
+      () => this.setState({ category: null }),
+    )
+    .then(category => category && Categories.getCategory(category.parentIds[0]))
+    .then(parentCategory => this.setState({ parentCategory }));
+  }
+
+  render() {
+    const properties = this.props.feature && this.props.feature.properties;
+    const accessibility = properties && properties.accessibility;
+  
+    return (
+      <StyledToolbar className={this.props.className} hidden={this.props.hidden}>
+        <PositionedCloseLink history={this.props.history}/>
+        <NodeHeader
+          feature={this.props.feature}
+          category={this.state.category}
+          parentCategory={this.state.parentCategory}
+        />
+        <BasicAccessibility properties={properties}/>
+        <StyledAccessibilityDetails details={accessibility} />
+        <AccessibilityExtraInfo properties={properties} />
+        <NodeFooter
+          feature={this.props.feature}
+          featureId={this.props.featureId}
+          category={this.state.category}
+          parentCategory={this.state.parentCategory}
+        />
+        <LicenseHint properties={properties} />
+      </StyledToolbar>
+    );
+  }
 }
 
 export default NodeToolbar;
