@@ -77,8 +77,6 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
   props: Props;
 
   render() {
-    // const accessibility = this.props.accessibilityFilter.map((f, i) => <StyledFilterPoint value={f} index={i} />);
-    const toiletFilterHint = null;
     const filterName = getFilterNameForFilterList(this.props.accessibilityFilter);
     let Icon = null;
     switch (filterName) {

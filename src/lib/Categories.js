@@ -26,6 +26,8 @@ export type WheelmapCategory = {
   icon: string,
 };
 
+export type Category = WheelmapCategory | ACCategory;
+
 type SynonymCache = {
   [string]: ACCategory,
 };

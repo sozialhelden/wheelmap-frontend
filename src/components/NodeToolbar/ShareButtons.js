@@ -2,7 +2,6 @@
 import React from 'react';
 import { ShareButtons } from 'react-share';
 import type { Feature } from '../../lib/Feature';
-import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
 
 const {

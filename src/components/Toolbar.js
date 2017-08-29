@@ -1,6 +1,5 @@
 // @flow
 import uniq from 'lodash/uniq';
-import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import Swipeable from 'react-swipeable';
 import React, { Component } from 'react';
