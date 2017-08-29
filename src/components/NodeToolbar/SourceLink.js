@@ -42,7 +42,7 @@ class SourceLink extends Component<void, Props, State> {
     if (!infoPageUrl) return null;
     const sourceName = this.state.sourceName;
     return (<a href={infoPageUrl} className={`${className} link-button`}>
-      {sourceName ? `on ${sourceName}` : 'Details'} <ChevronRight color={colors.linkColor} />
+      {sourceName ? `View this place on ${sourceName}` : 'Details'} <ChevronRight color={colors.linkColor} />
     </a>);
   }
 }
