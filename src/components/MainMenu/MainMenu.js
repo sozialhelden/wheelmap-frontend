@@ -168,6 +168,9 @@ const StyledMainMenu = styled(MainMenu)`
     pointer-events: none;
     transition: opacity 0.3s ease-out;
 
+    svg {
+      margin: auto;
+    }
     svg g {
       fill: ${colors.darkLinkColor};
       transition: fill 0.1s ease-out;
