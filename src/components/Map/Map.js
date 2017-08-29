@@ -117,7 +117,14 @@ export default class Map extends Component<void, Props, State> {
       onZoomEnd({ zoom });
     });
 
-    L.control.scale().addTo(map);
+    const locale = window.navigator.language;
+    const isImperial = locale === 'en' || locale === 'en-GB' || locale === 'en-US';
+
+    L.control.scale({
+      maxWidth: 70,
+      metric: !isImperial,
+      imperial: isImperial,
+    }).addTo(map);
 
     addLocateControlToMap(map);
     // addFilterControlToMap(this.map);

@@ -80,9 +80,27 @@ body.is-touch-device .leaflet-filter-button {
   font-size: 10px !important;
 }
 
-@media (max-height: 400px), (max-width: 400px) {
+.leaflet-left .leaflet-control-scale-line {
+  background-color: transparent;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: none;
+  color: rgba(0, 0, 0, 0.9);
+  text-shadow: 0 0 1px white, 0 0 1px white;
+}
+
+
+@media (max-height: 500px), (max-width: 500px) {
   .leaflet-control-attribution {
     font-size: 7px !important;
+  }
+
+  .leaflet-bottom.leaflet-left {
+    bottom: 80px;
+  }
+
+  .leaflet-left .leaflet-control-scale {
+    margin-left: 10px;
   }
 }
 
