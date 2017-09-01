@@ -196,12 +196,10 @@ export default class Map extends Component<void, Props, State> {
 
     if (this.props.category) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
       }
     }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
-      console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
   }
@@ -234,9 +232,7 @@ export default class Map extends Component<void, Props, State> {
 
 
   navigate(props: Props = this.props) {
-    console.log('Navigating', props);
     if (!this.map) {
-      console.log('Map not loaded yet.');
       return;
     }
     const map: L.Map = this.map;
@@ -252,7 +248,7 @@ export default class Map extends Component<void, Props, State> {
     if (props.lat && props.lon) {
       const overriddenCoordinates = normalizeCoordinates([props.lat, props.lon]);
       if (!isSamePosition(overriddenCoordinates, [this.state.lat, this.state.lon])) {
-        console.log('Panning to', overriddenCoordinates, 'because params override existing state coordinates');
+        console.log('Panning to', overriddenCoordinates, 'because params override existing state coordinates', [this.state.lat, this.state.lon]);
         this.setState({ lat: overriddenCoordinates[0], lon: overriddenCoordinates[1] });
         map.panTo(overriddenCoordinates);
       }
@@ -267,7 +263,7 @@ export default class Map extends Component<void, Props, State> {
         const state = this.state;
         if (featureCoordinates && !isSamePosition(featureCoordinates, [state.lat, state.lon])) {
           if (!map.getBounds().pad(-30).contains(featureCoordinates) || !state.lat) {
-            console.log('Panning to', featureCoordinates, 'because PoI position is new');
+            console.log('Panning to', featureCoordinates, 'because PoI position is new', [state.lat, state.lon]);
             this.setState({ lat: featureCoordinates[0], lon: featureCoordinates[1] });
             map.panTo(featureCoordinates);
           }
