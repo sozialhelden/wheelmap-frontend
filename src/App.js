@@ -190,10 +190,6 @@ class FeatureLoader extends Component<void, Props, State> {
     const category = this.category();
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom } = this.state;
-    console.log('Category:', category);
-    console.log('Positioning:', lat, lon, zoom);
-    console.log('Accessibility filter:', this.accessibilityFilter());
-    console.log('Toilet filter:', this.toiletFilter());
 
     const classList = [
       'app-container',
