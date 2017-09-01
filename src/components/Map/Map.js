@@ -91,8 +91,6 @@ export default class Map extends Component<void, Props, State> {
     this.map = map;
     window.map = this;
 
-    this.navigate();
-
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
     if (+new Date() - (savedState.lastMoveDate || 0) > config.locateTimeout) {
