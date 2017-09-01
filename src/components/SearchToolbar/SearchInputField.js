@@ -12,9 +12,14 @@ type Props = {
   ref: ((input: HTMLInputElement) => void),
 };
 
+function hasBigViewport() {
+  return window.innerHeight > 512 && window.innerWidth > 512;
+}
+
 const SearchInputField = (props: Props) =>
   <input
     ref={props.ref}
+    autoFocus={hasBigViewport()}
     onChange={props.onChange}
     onFocus={props.onFocus}
     onBlur={props.onBlur}
