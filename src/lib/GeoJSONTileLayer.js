@@ -37,7 +37,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarker from './highlightMarker';
 
-
 const TileLayer = L.TileLayer;
 
 class GeoJSONTileLayer extends TileLayer {
@@ -62,13 +61,16 @@ class GeoJSONTileLayer extends TileLayer {
   }
 
   _removeShownFeatures(featureCollection) {
-    return this._filterFeatureCollection(
+    console.log('Filtering from', Object.keys(this._idsToShownLayers).length, 'cached layers');
+    const result = this._filterFeatureCollection(
       featureCollection,
-      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id]
+      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id],
     );
+    return result;
   }
 
   _reset() {
+    console.log('Resetting tile layer, emptying _idsToShownLayers');
     if (this._tiles) {
       Object.values(this._tiles).forEach(tile => tile.request.abort());
     }
@@ -166,6 +168,7 @@ class GeoJSONTileLayer extends TileLayer {
       const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
       const marker = pointToLayerFn(feature, latlng);
       marker.feature = feature;
+      // console.log('Adding marker', id, 'to _idsToShownLayers');
       idsToShownLayers[id] = marker;
       if (String(id) === layer.highlightedMarkerId) {
         const highlightFn = () => {
@@ -188,8 +191,7 @@ class GeoJSONTileLayer extends TileLayer {
         console.log('Could not parse FeatureCollection JSON.');
         return;
       }
-      const filteredGeoJSON = layer._removeFilteredFeatures(layer._removeShownFeatures(geoJSON));
-      console.log('Added', filteredGeoJSON.features.length, '/', geoJSON.features.length, 'features');
+      const filteredGeoJSON = layer._removeFilteredFeatures(geoJSON);
       layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
       const markers = filteredGeoJSON.features.map(pointToLayer);
       const layerGroup = L.layerGroup(layer.options);
