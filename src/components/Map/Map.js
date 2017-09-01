@@ -4,6 +4,7 @@ import L from 'leaflet';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import throttle from 'lodash/throttle';
+import debounce from 'lodash/debounce';
 import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
 import 'leaflet.locatecontrol/src/L.Control.Locate';
@@ -67,6 +68,26 @@ export default class Map extends Component<void, Props, State> {
   updateFeatureLayerSourceUrlsDebounced: (() => void);
   updateFeatureLayerVisibilityDebounced: (() => void);
 
+  onMoveEnd = debounce(() => {
+    if (!this.map) return;
+    const { lat, lng } = this.map.getCenter();
+    saveState('lastCenter.lat', lat);
+    saveState('lastCenter.lon', lng);
+    saveState('lastMoveDate', new Date().toString());
+    const onMoveEnd = this.props.onMoveEnd;
+    if (!(typeof onMoveEnd === 'function')) return;
+    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng) });
+  }, 500);
+
+  onZoomEnd = debounce(() => {
+    if (!this.map) return;
+    const zoom = this.map.getZoom();
+    localStorage.setItem('wheelmap.lastZoom', zoom);
+    const onZoomEnd = this.props.onZoomEnd;
+    if (!(typeof onZoomEnd === 'function')) return;
+    onZoomEnd({ zoom });
+  }, 500);
+
   constructor() {
     super();
     this.updateFeatureLayerSourceUrlsDebounced = throttle(this.updateFeatureLayerSourceUrls, 500);
@@ -97,23 +118,8 @@ export default class Map extends Component<void, Props, State> {
       map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
     }
 
-    map.on('moveend', () => {
-      const { lat, lng } = map.getCenter();
-      saveState('lastCenter.lat', lat);
-      saveState('lastCenter.lon', lng);
-      saveState('lastMoveDate', new Date().toString());
-      const onMoveEnd = this.props.onMoveEnd;
-      if (!(typeof onMoveEnd === 'function')) return;
-      onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng) });
-    });
-
-    map.on('zoomend', () => {
-      const zoom = map.getZoom();
-      localStorage.setItem('wheelmap.lastZoom', zoom);
-      const onZoomEnd = this.props.onZoomEnd;
-      if (!(typeof onZoomEnd === 'function')) return;
-      onZoomEnd({ zoom });
-    });
+    map.on('moveend', this.onMoveEnd);
+    map.on('zoomend', this.onZoomEnd);
 
     const locale = window.navigator.language;
     const isImperial = locale === 'en' || locale === 'en-GB' || locale === 'en-US';
