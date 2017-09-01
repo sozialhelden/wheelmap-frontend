@@ -16,8 +16,13 @@ export type TileCoords = { x: number, y: number, z: number };
 export type Bbox = [number, number, number, number];
 
 export default function geoTileToBbox({ x, y, z }: TileCoords): Bbox {
-  const [north, west] = tile2LatLon(x, y, z);
-  const [south, east] = tile2LatLon(x + 1, y + 1, z);
+  const [north, west] = tile2LatLon(x + 1, y + 1, z);
+  const [south, east] = tile2LatLon(x, y, z);
 
-  return [east, north, west, south];
+  return [
+    east,
+    north,
+    west,
+    south,
+  ];
 }
