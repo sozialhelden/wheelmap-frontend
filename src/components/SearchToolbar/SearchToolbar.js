@@ -100,39 +100,31 @@ const StyledToolbar = styled(Toolbar)`
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
 
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      categoryMenuIsVisible: false,
-      searchFieldIsFocused: false,
-      searchResults: null,
-    };
-
-    this.handleSearchInputChangeDebounced = debounce(
-      this.handleSearchInputChange,
-      500,
-      { leading: false, trailing: true, maxWait: 1000 }
-    );
-  }
+  state = {
+    categoryMenuIsVisible: false,
+    searchFieldIsFocused: false,
+    searchResults: null,
+  };
 
   queryIndex: number = 0;
-  toolbar: AnyReactElement;
-  handleSearchInputChangeDebounced: ((event: UIEvent) => void);
 
+  toolbar: AnyReactElement;
+  input: HTMLInputElement;
+
+  handleSearchInputChange = debounce((event: UIEvent) => {
+      if (!(this.input instanceof HTMLInputElement)) return;
+      const query = this.input.value;
+      this.sendSearchRequest(query);
+    },
+    500,
+    { leading: false, trailing: true, maxWait: 1000 },
+  );
 
   toggleCategoryMenu(): void {
     this.setState(prevState => ({
       categoryMenuIsVisible: !prevState.categoryMenuIsVisible,
     }));
   }
-
-
-  handleSearchInputChange(event: UIEvent): void {
-    if (!(this.input instanceof HTMLInputElement)) return;
-    const query = this.input.value;
-    this.sendSearchRequest(query);
-  }
-
 
   sendSearchRequest(query: string): void {
     if (!query || query.length < 3) {
@@ -196,9 +188,8 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
             className="close-link"
             onClick={ () => {
               this.setState({ categoryMenuIsVisible: false, searchResults: null });
-              const input = this.input;
-              if (input instanceof HTMLInputElement) {
-                input.value = '';
+              if (this.input instanceof HTMLInputElement) {
+                this.input.value = '';
               }
               setTimeout(() => {
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
@@ -225,10 +216,10 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
               }, 50);
             }}
             onChange={(event) => {
-              this.input = event.target;
-              this.handleSearchInputChangeDebounced(event);
+              this.handleSearchInputChange(event);
             }}
             showSpinner={showSpinner}
+            innerRef={(input) => { this.input = input; }}
           />
 
           <SearchIcon className="search-icon" />
