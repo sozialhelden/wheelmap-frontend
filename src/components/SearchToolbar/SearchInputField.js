@@ -2,10 +2,10 @@
 
 import React from 'react';
 import styled from 'styled-components';
-
+import { interpolateLab } from 'd3-interpolate';
+import colors from '../../lib/colors';
 
 type Props = {
-  showSpinner: boolean;
   onChange: ?((event: UIEvent) => void),
   onBlur: ?((event: UIEvent) => void),
   onFocus: ?((event: UIEvent) => void),
@@ -23,7 +23,7 @@ const SearchInputField = (props: Props) =>
     onChange={props.onChange}
     onFocus={props.onFocus}
     onBlur={props.onBlur}
-    className={`search-input ${props.showSpinner ? 'search-input-spinner' : ''} ${props.className}`}
+    className={`search-input ${props.className}`}
     placeholder="Search place or address"
   />;
 
@@ -44,10 +44,7 @@ const StyledSearchInputField = styled(SearchInputField)`
 
   &:focus {
     outline: none;
-  }
-
-  &.search-input-spinner:after {
-    content: 'Loading…';
+    background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
   }
 `;
 

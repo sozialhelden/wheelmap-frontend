@@ -32,7 +32,7 @@ export default class CategoryMenu extends Component {
   render() {
     return (
       <Container className="category-menu">
-        {Object.keys(categories).map(id => <CategoryButton key={id} className="category-button" name={categories[id]} id={id} />)}
+        {Object.keys(categories).map(id => <CategoryButton onFocus={this.props.onFocus} onBlur={this.props.onBlur} key={id} className="category-button" name={categories[id]} id={id} />)}
       </Container>
     );
   }

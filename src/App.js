@@ -230,6 +230,8 @@ class FeatureLoader extends Component<void, Props, State> {
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
         category={category}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
       />
 
       {isNodeRoute ? <NodeToolbar

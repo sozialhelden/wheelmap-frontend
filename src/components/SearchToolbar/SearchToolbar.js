@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Dots } from 'react-activity';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import Toolbar from '../Toolbar';
@@ -16,6 +17,8 @@ type Props = {
   className: string,
   hidden: boolean,
   category: ?string,
+  lat: ?number,
+  lon: ?number,
 };
 
 type DefaultProps = {};
@@ -24,6 +27,7 @@ type State = {
   searchResults: ?SearchResultCollection,
   categoryMenuIsVisible: boolean,
   searchFieldIsFocused: boolean,
+  isCategoryFocused: boolean,
 };
 
 
@@ -94,6 +98,13 @@ const StyledToolbar = styled(Toolbar)`
     overflow-x: hidden;
     overflow-y: auto;
   }
+
+  .rai-activity-indicator {
+    display: flex !important;
+    justify-content: center;
+    height: 4em;
+    align-items: center;
+  }
 `;
 
 
@@ -104,6 +115,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     categoryMenuIsVisible: false,
     searchFieldIsFocused: false,
     searchResults: null,
+    isCategoryFocused: false,
   };
 
   queryIndex: number = 0;
@@ -112,7 +124,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
   input: HTMLInputElement;
 
   handleSearchInputChange = debounce((event: UIEvent) => {
-      if (!(this.input instanceof HTMLInputElement)) return;
+    if (!(this.input instanceof HTMLInputElement)) return;
       const query = this.input.value;
       this.sendSearchRequest(query);
     },
@@ -131,17 +143,22 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
       this.setState({ searchResults: null });
       return;
     }
+
     const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
+    const { lat, lon } = this.props;
+    const hasLocation = lat && lon;
+    const locationBiasedUrl = hasLocation ? `${url}&lon=${lon}&lat=${lat}` : url;
     this.queryIndex += 1;
     const queryIndex = this.queryIndex;
-    fetch(url).then((response) => {
+    this.setState({ isLoading: true });
+    fetch(locationBiasedUrl).then((response) => {
       if (queryIndex !== this.queryIndex) {
         // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
         // allow to cancel a request yet.
         return;
       }
       response.json().then((featureCollection) => {
-        this.setState({ searchResults: featureCollection });
+        this.setState({ searchResults: featureCollection, isLoading: false });
       });
     });
   }
@@ -156,16 +173,30 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     }
   }
 
+  updateCategoryMenuVisibility = debounce(() => {
+    const isCategorySelected = Boolean(this.props.category);
+    const isCategoryFocused = this.state.isCategoryFocused;
+    this.setState({ categoryMenuIsVisible: isCategorySelected || isCategoryFocused });
+    if (this.toolbar) this.toolbar.ensureFullVisibility();
+  }, 100);
+
 
   render() {
     const searchResults = this.state.searchResults;
-    const showSpinner = false;
 
     let contentBelowSearchField = null;
-    if (searchResults) {
-      contentBelowSearchField = <SearchResults searchResults={searchResults} onSelect={() => this.clearSearchOnSmallViewports()}/>;
+    if (this.state.isLoading) {
+      contentBelowSearchField = <Dots size={20} />;
+    } else if (searchResults) {
+      contentBelowSearchField = <SearchResults searchResults={searchResults} onSelect={() => this.clearSearchOnSmallViewports()} />;
     } else if (this.state.categoryMenuIsVisible) {
-      contentBelowSearchField = <CategoryMenu />;
+      contentBelowSearchField = <CategoryMenu
+        onFocus={() => {
+          this.setState({ categoryMenuIsVisible: true });
+          this.setState({ isCategoryFocused: true });
+        }}
+        onBlur={() => this.setState({ isCategoryFocused: false })}
+      />;
     }
 
     const className = [
@@ -198,7 +229,8 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
           /> : null}
 
           <SearchInputField
-            onFocus={() => {
+            onFocus={(event) => {
+              this.input = event.target;
               this.setState({ categoryMenuIsVisible: true });
               this.setState({ searchFieldIsFocused: true });
               setTimeout(() => {
@@ -209,17 +241,15 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
               }, 300);
             }}
             onBlur={() => {
+              this.updateCategoryMenuVisibility();
               setTimeout(() => {
-                this.setState({ categoryMenuIsVisible: this.props.category });
                 this.setState({ searchFieldIsFocused: false });
-                if (this.toolbar) this.toolbar.ensureFullVisibility();
-              }, 50);
+              }, 300);
             }}
             onChange={(event) => {
+              this.input = event.target;
               this.handleSearchInputChange(event);
             }}
-            showSpinner={showSpinner}
-            innerRef={(input) => { this.input = input; }}
           />
 
           <SearchIcon className="search-icon" />

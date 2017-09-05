@@ -137,6 +137,7 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     if (!osmId) {
       return;
     }
+    if (searchResultProperties.osm_type !== 'N') return;
     wheelmapFeatureCache.getFeature(osmId).then((feature) => {
       if (!feature) return;
       if (feature.properties.id !== this.state.lastFetchedOsmId) return;

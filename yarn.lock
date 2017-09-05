@@ -5698,6 +5698,12 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-activity@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-activity/-/react-activity-1.1.2.tgz#e0e32c6334ea9fac1674274476df29bd92780603"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dev-utils@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-3.1.1.tgz#09ae7209a81384248db56547e718e65bd3b20eb5"

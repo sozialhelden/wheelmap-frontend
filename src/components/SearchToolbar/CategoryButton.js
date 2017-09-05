@@ -77,7 +77,7 @@ export default function CategoryButton(props: Props) {
   const SvgComponent = icons[props.id || 'undefined'];
 
   return (
-    <StyledLink activeClassName="active" to={url} className={props.className}>
+    <StyledLink activeClassName="active" to={url} className={props.className} onFocus={props.onFocus} onBlur={props.onBlur}>
       <Circle>
         <SvgComponent />
       </Circle>
