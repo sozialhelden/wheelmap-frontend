@@ -1,3 +1,5 @@
+@import '../node_modules/react-activity/dist/react-activity.css';
+
 html, body, #root, .app-container {
   width: 100%;
   height: 100%;
@@ -78,7 +80,27 @@ body.is-touch-device .leaflet-filter-button {
 .leaflet-control-attribution {
   background-color: white !important;
   font-size: 10px !important;
+  line-height: 21px !important;
+  max-width: calc(100vw - 100px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important;
 }
+
+
+.leaflet-control-attribution img {
+  vertical-align: middle;
+}
+
+
+@media (max-width: 500px), (max-height: 500px) {
+  .leaflet-control-attribution {
+    line-height: 9px !important;
+    max-width: none;
+  }
+  .leaflet-control-attribution .hide-on-small-viewports {
+    display: none;
+  }
+}
+
 
 .leaflet-left .leaflet-control-scale-line {
   background-color: transparent;

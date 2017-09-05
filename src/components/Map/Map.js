@@ -9,7 +9,8 @@ import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
 import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
-
+import sozialheldenLogoUrl from './Sozialhelden.svg';
+import immobilienScout24LogoUrl from './ImmobilienScout24.svg';
 import config from '../../lib/config';
 import savedState, { saveState } from './savedState';
 import Categories from '../../lib/Categories';
@@ -88,6 +89,7 @@ export default class Map extends Component<void, Props, State> {
     onZoomEnd({ zoom });
   }, 500);
 
+
   constructor() {
     super();
     this.updateFeatureLayerSourceUrlsDebounced = throttle(this.updateFeatureLayerSourceUrls, 500);
@@ -104,6 +106,10 @@ export default class Map extends Component<void, Props, State> {
       minZoom: 2,
       zoomControl: false,
     });
+
+    map.attributionControl.setPrefix(null);
+    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">A project by&nbsp;<a href="https://www.sozialhelden.de"><img src="${sozialheldenLogoUrl}" alt="Sozialhelden"></a></span>`);
+    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">main sponsor: <a href="https://www.immobilienscout24.de"><img src="${immobilienScout24LogoUrl}" alt="">&nbsp;ImmobilienScout24</a></span>`);
 
     if (!map) {
       throw new Error('Could not initialize map component.');
@@ -134,7 +140,7 @@ export default class Map extends Component<void, Props, State> {
     // addFilterControlToMap(this.map);
 
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.mapboxAccessToken}`, {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: 'map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
       maxZoom: 18,
       id: 'accessibility-cloud',
     }).addTo(map);
@@ -153,6 +159,11 @@ export default class Map extends Component<void, Props, State> {
       animate: false,
       chunkedLoading: true,
     });
+
+    // markerClusterGroup.on('clusterclick', (cluster) => {
+    //   const markers = cluster.layer.getAllChildMarkers();
+    //   markers.forEach(marker => marker.)
+    // });
 
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
