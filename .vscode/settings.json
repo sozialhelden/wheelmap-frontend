@@ -4,6 +4,6 @@
   "javascript.validate.enable": false,
   "flow.useNPMPackagedFlow": true,
   "search.exclude": {
-      "dist/*.js": true
+      "build/**/*": true
   }
 }
