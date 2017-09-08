@@ -210,6 +210,7 @@ class FeatureLoader extends Component<void, Props, State> {
       this.state.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
+      isEditMode ? 'is-edit-mode' : null,
     ].filter(Boolean);
 
     return (<div className={classList.join(' ')}>
@@ -259,13 +260,15 @@ class FeatureLoader extends Component<void, Props, State> {
         }}
       />
 
-      {isNodeRoute ? <NodeToolbar
-        history={this.props.history}
-        feature={this.state.feature}
-        hidden={this.state.isFilterToolbarVisible}
-        featureId={featureId}
-        isEditMode={isEditMode}
-      /> : null}
+      {isNodeRoute ? (<div className="node-toolbar">
+        <NodeToolbar
+          history={this.props.history}
+          feature={this.state.feature}
+          hidden={this.state.isFilterToolbarVisible}
+          featureId={featureId}
+          isEditMode={isEditMode}
+        />
+      </div>) : null}
 
       {this.state.isFilterToolbarVisible ? (<div className="filter-toolbar">
         <FilterToolbar
@@ -313,6 +316,15 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 
   &.is-filter-toolbar-visible {
     > *:not(.filter-toolbar) {
+      filter: blur(5px);
+      &, * {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &.is-edit-mode {
+    > *:not(.node-toolbar) {
       filter: blur(5px);
       &, * {
         pointer-events: none;

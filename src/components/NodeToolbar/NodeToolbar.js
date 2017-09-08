@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Dots } from 'react-activity';
 
 import 'accessibility-cloud-widget/src/app.css';
 
@@ -90,25 +91,39 @@ class NodeToolbar extends Component<void, Props, State> {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties && properties.accessibility;
 
+    if (!properties) {
+      return <Dots size={20} />;
+    }
     return (
-      <StyledToolbar className={this.props.className} hidden={this.props.hidden}>
-        <PositionedCloseLink history={this.props.history} />
+      <StyledToolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        isSwipeable={!this.props.isEditMode}
+      >
+        {this.props.isEditMode ? null : <PositionedCloseLink history={this.props.history} />}
         <NodeHeader
           feature={this.props.feature}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
+          isEditMode={this.props.isEditMode}
         />
-        <BasicAccessibility properties={properties} />
-        <BasicAccessibilityEditor feature={this.props.feature} />
-        <AccessibilityDetails details={accessibility} />
-        <AccessibilityExtraInfo properties={properties} />
-        <NodeFooter
-          feature={this.props.feature}
-          featureId={this.props.featureId}
-          category={this.state.category}
-          parentCategory={this.state.parentCategory}
-        />
-        <LicenseHint properties={properties} />
+        {(() => {
+          if (this.props.isEditMode) {
+            return <BasicAccessibilityEditor feature={this.props.feature} />;
+          }
+          return (<div>
+            <BasicAccessibility properties={properties} />
+            <AccessibilityDetails details={accessibility} />
+            <AccessibilityExtraInfo properties={properties} />
+            <NodeFooter
+              feature={this.props.feature}
+              featureId={this.props.featureId}
+              category={this.state.category}
+              parentCategory={this.state.parentCategory}
+            />
+            <LicenseHint properties={properties} />
+          </div>);
+        })()}
       </StyledToolbar>
     );
   }

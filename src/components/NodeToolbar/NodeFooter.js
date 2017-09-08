@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { hsl } from 'd3-color';
-import styled from 'styled-components';
 import colors from '../../lib/colors';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import type { Feature } from '../../lib/Feature';
 import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
 import ShareButtons from './ShareButtons';
@@ -98,9 +99,9 @@ export default function NodeFooter(props: Props) {
     <StyledFooter>
       {(isWheelmap && featureId) ?
         <div className="wheelmap-links">
-          <a className="link-button edit-link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}/edit`}>
+          <Link className="link-button edit-link-button" to={`/beta/nodes/${featureId}/edit`}>
             <span>Edit</span>{editHint || null}
-          </a>
+          </Link>
           <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
             Details
           </a>

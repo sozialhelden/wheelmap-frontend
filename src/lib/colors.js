@@ -44,6 +44,8 @@ const colors = {
   positiveColor: '#7ec512',
   warningColor: '#f39e3b',
   negativeColor: '#f54b4b',
+  negativeBackgroundColor: 'rgb(250, 233, 232)',
+  negativeBackgroundColorTransparent: 'rgba(245, 75, 75, 0.1)',
   markerBackground: {
     green: '#7ec512',
     yellow: '#f39e3b',

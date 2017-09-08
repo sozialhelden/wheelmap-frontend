@@ -36,6 +36,7 @@ type Props = {
   feature: Feature,
   category: ?Category,
   parentCategory: ?Category,
+  isEditMode: boolean,
 };
 
 
@@ -84,23 +85,27 @@ export default class NodeHeader extends Component<void, Props, void> {
     const description: ?string = properties.wheelchair_description;
     const categoryOrParentCategory = this.props.category || this.props.parentCategory;
     const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
-    const placeName = (properties.name || categoryName || 'place')
-      .replace(/(\w)\/(\w)/g, '$1 / $2');
+    const placeName = (<PlaceName>
+      {categoryOrParentCategory ?
+        <Icon properties={properties} category={categoryOrParentCategory} />
+        : null
+      }
+      {(properties.name || categoryName || 'place').replace(/(\w)\/(\w)/g, '$1 / $2')}
+    </PlaceName>);
+
+    if (this.props.isEditMode) {
+      return <StyledNodeHeader>{placeName}</StyledNodeHeader>;
+    }
+
     return (
       <StyledNodeHeader>
-        <PlaceName>
-          {categoryOrParentCategory ?
-            <Icon properties={properties} category={categoryOrParentCategory} />
-            : null
-          }
-          {placeName}
-        </PlaceName>
+        {placeName}
 
         <StyledBreadCrumbs
           properties={properties}
           category={this.props.category}
           parentCategory={this.props.parentCategory}
-          />
+        />
 
         <address>{addressString}</address>
 

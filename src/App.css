@@ -346,3 +346,8 @@ body, button, input, select, textarea {
     border: 1px solid #777;
   }
 }
+
+.subtle {
+  font-weight: lighter;
+  opacity: 0.5;
+}

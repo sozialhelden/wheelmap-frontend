@@ -5,6 +5,7 @@ import Swipeable from 'react-swipeable';
 import React, { Component } from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
+import { hsl } from 'd3-color';
 
 type Props = {
   className: string,
@@ -281,9 +282,34 @@ const StyledToolbar = styled(Toolbar)`
     border-radius: 4px;
     margin: 0 -10px;
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
 
     &:hover {
       background-color: ${colors.linkBackgroundColorTransparent};
+    }
+  }
+
+  .primary-button {
+    color: white;
+    background-color: ${colors.linkColor};
+    min-width: 8em;
+    &:hover {
+      background-color: ${hsl(colors.linkColor).brighter(0.2)};
+    }
+    &:active {
+      background-color: ${hsl(colors.linkColor).darker(0.2)};
+    }
+  }
+
+  .negative-button {
+    color: ${colors.negativeColor};
+    &:hover {
+      background-color: ${colors.negativeBackgroundColorTransparent};
+    }
+    &:active {
+      background-color: ${hsl(colors.negativeBackgroundColorTransparent).darker(1)};
     }
   }
 
