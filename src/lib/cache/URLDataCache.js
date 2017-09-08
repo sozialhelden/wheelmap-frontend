@@ -1,4 +1,9 @@
 // @flow
+import { globalFetchManager } from '../FetchManager';
+
+
+// Provides a WhatWG-fetch-like API to make HTTP requests.
+// Caches response promises and returns an old promise if one is existing for the same URL.
 
 export default class URLDataCache<T> {
   cache: { [string]: Promise<?T> } = {};
@@ -49,7 +54,7 @@ export default class URLDataCache<T> {
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected @abstract */ static fetch(url: string): Promise<Response> {
-    return fetch(url);
+  /** @protected */ static fetch(url: string): Promise<Response> {
+    return globalFetchManager.fetch(url);
   }
 }

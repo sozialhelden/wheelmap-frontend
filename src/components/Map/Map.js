@@ -3,7 +3,6 @@
 import L from 'leaflet';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
-import throttle from 'lodash/throttle';
 import debounce from 'lodash/debounce';
 import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
@@ -15,7 +14,12 @@ import config from '../../lib/config';
 import savedState, { saveState } from './savedState';
 import Categories from '../../lib/Categories';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { isWheelchairAccessible, yesNoLimitedUnknownArray, yesNoUnknownArray, hasAccessibleToilet } from '../../lib/Feature';
+import {
+  isWheelchairAccessible,
+  yesNoLimitedUnknownArray,
+  yesNoUnknownArray,
+  hasAccessibleToilet,
+} from '../../lib/Feature';
 import GeoJSONTileLayer from '../../lib/GeoJSONTileLayer';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import { wheelmapFeatureCollectionFromResponse } from '../../lib/Feature';
@@ -24,7 +28,7 @@ import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityClo
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
 
-import { normalizeCoordinate, normalizeCoordinates } from './normalizeCoordinates';
+import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import addLocateControlToMap from './addLocateControlToMap';
 import isSamePosition from './isSamePosition';
 
@@ -34,8 +38,7 @@ type Props = {
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
-  onMoveEnd?: (({ lat: number, lon: number }) => void),
-  onZoomEnd?: (({ zoom: number }) => void),
+  onMoveEnd?: (({ zoom: number, lat: number, lon: number }) => void),
   category: ?string,
   history: RouterHistory,
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -66,34 +69,18 @@ export default class Map extends Component<void, Props, State> {
   featureLayer: ?L.LayerGroup;
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
-  updateFeatureLayerSourceUrlsDebounced: (() => void);
-  updateFeatureLayerVisibilityDebounced: (() => void);
 
-  onMoveEnd = debounce(() => {
+  onMoveEnd() {
     if (!this.map) return;
     const { lat, lng } = this.map.getCenter();
+    const zoom = this.map.getZoom();
+    saveState('lastZoom', zoom);
     saveState('lastCenter.lat', lat);
     saveState('lastCenter.lon', lng);
     saveState('lastMoveDate', new Date().toString());
     const onMoveEnd = this.props.onMoveEnd;
     if (!(typeof onMoveEnd === 'function')) return;
-    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng) });
-  }, 500);
-
-  onZoomEnd = debounce(() => {
-    if (!this.map) return;
-    const zoom = this.map.getZoom();
-    localStorage.setItem('wheelmap.lastZoom', zoom);
-    const onZoomEnd = this.props.onZoomEnd;
-    if (!(typeof onZoomEnd === 'function')) return;
-    onZoomEnd({ zoom });
-  }, 500);
-
-
-  constructor() {
-    super();
-    this.updateFeatureLayerSourceUrlsDebounced = throttle(this.updateFeatureLayerSourceUrls, 500);
-    this.updateFeatureLayerVisibilityDebounced = throttle(this.updateFeatureLayerVisibility, 500);
+    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom });
   }
 
   componentDidMount() {
@@ -124,8 +111,8 @@ export default class Map extends Component<void, Props, State> {
       map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
     }
 
-    map.on('moveend', this.onMoveEnd);
-    map.on('zoomend', this.onZoomEnd);
+    map.on('moveend', () => this.onMoveEnd());
+    map.on('zoomend', () => this.onMoveEnd());
 
     const locale = window.navigator.language;
     const isImperial = locale === 'en' || locale === 'en-GB' || locale === 'en-US';
@@ -192,8 +179,9 @@ export default class Map extends Component<void, Props, State> {
       throw new Error('Category fetching must be started.');
     }
     Categories.fetchPromise.then(() => {
-      this.updateFeatureLayerVisibilityDebounced();
-      map.on('zoomend', () => { this.updateFeatureLayerVisibilityDebounced(); });
+      this.updateFeatureLayerVisibility();
+      map.on('moveend', () => { this.updateFeatureLayerVisibility(); });
+      map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
     });
   }
@@ -254,11 +242,6 @@ export default class Map extends Component<void, Props, State> {
     }
     const map: L.Map = this.map;
 
-    if (props.zoom && this.state.zoom !== props.zoom) {
-      this.setState({ zoom: props.zoom });
-      map.setZoom(props.zoom);
-    }
-
     this.setState({ accessibilityFilter: props.accessibilityFilter });
     this.setState({ toiletFilter: props.toiletFilter });
 
@@ -279,7 +262,7 @@ export default class Map extends Component<void, Props, State> {
         const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
         const state = this.state;
         if (featureCoordinates && !isSamePosition(featureCoordinates, [state.lat, state.lon])) {
-          if (!map.getBounds().pad(-30).contains(featureCoordinates) || !state.lat) {
+          if (!map.getBounds().pad(-5).contains(featureCoordinates) || !state.lat) {
             console.log('Panning to', featureCoordinates, 'because PoI position is new', [state.lat, state.lon]);
             this.setState({ lat: featureCoordinates[0], lon: featureCoordinates[1] });
             map.panTo(featureCoordinates);
@@ -288,16 +271,23 @@ export default class Map extends Component<void, Props, State> {
       }
     }
 
+    if (props.zoom && this.state.zoom !== props.zoom) {
+      console.log('Zooming to', props.zoom, 'because params override existing zoom', this.state.zoom);
+
+      this.setState({ zoom: props.zoom });
+      map.setZoom(props.zoom);
+    }
+
     if (!Categories.fetchPromise) {
       throw new Error('Category fetching must be started.');
     }
     Categories.fetchPromise.then(() => {
-      this.updateFeatureLayerVisibilityDebounced(props);
+      this.updateFeatureLayerVisibility(props);
     });
   }
 
 
-  updateFeatureLayerVisibility(props: Props = this.props) {
+  updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
     console.log('Update feature layer visibility...');
     const map: L.Map = this.map;
     const featureLayer = this.featureLayer;
@@ -336,7 +326,7 @@ export default class Map extends Component<void, Props, State> {
     }
 
     this.updateHighlightedMarker(props);
-  }
+  }, 500);
 
   updateHighlightedMarker(props: Props) {
     if (props.feature && props.feature.properties) {
@@ -364,7 +354,7 @@ export default class Map extends Component<void, Props, State> {
     return hasMatchingA11y && hasMatchingToilet;
   }
 
-  updateFeatureLayerSourceUrls(props: Props = this.props) {
+  updateFeatureLayerSourceUrls = debounce((props: Props = this.props) => {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     if (!wheelmapTileLayer) return;
     const url = this.wheelmapTileUrl(props);
@@ -376,7 +366,7 @@ export default class Map extends Component<void, Props, State> {
       featureLayer.addLayer(wheelmapTileLayer);
       wheelmapTileLayer.setUrl(url);
     }
-  }
+  }, 500);
 
 
   render() {

@@ -7,7 +7,7 @@ import config from '../config';
 
 export default class WheelmapFeatureCache extends FeatureCache {
   static fetchFeature(id): Promise<Feature> {
-    return fetch(`/api/nodes/${id}?api_key=${config.wheelmapApiKey}`);
+    return this.fetch(`/api/nodes/${id}?api_key=${config.wheelmapApiKey}`);
   }
 
   static getFeatureFromResponse(response): Promise<Feature> {

@@ -1,6 +1,8 @@
 // @flow
 
 import config from './config';
+import { globalFetchManager } from './FetchManager';
+
 
 export type ACCategory = {
   _id: string,
@@ -85,21 +87,21 @@ const countryCode = navigator.language.substr(0, 2);
 
 function acCategoriesFetch() {
   const url = `https://www.accessibility.cloud/categories.json?appToken=${config.accessibilityCloudAppToken}`;
-  return fetch(url)
+  return globalFetchManager.fetch(url)
     .then(response => response.json())
     .then(json => Categories.generateSynonymCache(json.results || []));
 }
 
 function wheelmapCategoriesFetch() {
   const url = `/api/categories?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
-  return fetch(url)
+  return globalFetchManager.fetch(url)
     .then(response => response.json())
     .then(json => Categories.loadCategories(json.categories || []));
 }
 
 function wheelmapNodeTypesFetch() {
   const url = `/api/node_types?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
-  return fetch(url)
+  return globalFetchManager.fetch(url)
     .then(response => response.json())
     .then(json => Categories.loadCategories(json.node_types || []));
 }

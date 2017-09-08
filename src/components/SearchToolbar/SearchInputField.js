@@ -10,6 +10,8 @@ type Props = {
   onBlur: ?((event: UIEvent) => void),
   onFocus: ?((event: UIEvent) => void),
   ref: ((input: HTMLInputElement) => void),
+  searchQuery: ?string,
+  className: string,
 };
 
 function hasBigViewport() {
@@ -17,15 +19,16 @@ function hasBigViewport() {
 }
 
 const SearchInputField = (props: Props) =>
-  <input
+  (<input
     ref={props.ref}
+    value={props.searchQuery ? props.searchQuery : ''}
     autoFocus={hasBigViewport()}
     onChange={props.onChange}
     onFocus={props.onFocus}
     onBlur={props.onBlur}
     className={`search-input ${props.className}`}
     placeholder="Search place or address"
-  />;
+  />);
 
 
 const StyledSearchInputField = styled(SearchInputField)`

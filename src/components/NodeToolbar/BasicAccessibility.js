@@ -2,8 +2,14 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import { isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
-import type { YesNoLimitedUnknown } from '../../lib/Feature';
+import {
+  isWheelchairAccessible,
+  hasAccessibleToilet,
+  accessibilityName,
+  accessibilityDescription,
+  toiletDescription,
+} from '../../lib/Feature';
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 import colors from '../../lib/colors';
 
@@ -15,45 +21,37 @@ const CheckmarkIcon = () => (<svg width="16px" height="14px" viewBox="0 0 16 14"
 </svg>);
 
 
-function accessibilityName(accessibility: YesNoLimitedUnknown) {
+function AccessibilityName(accessibility: YesNoLimitedUnknown) {
+  const description = accessibilityName(accessibility);
   switch (accessibility) {
-    case 'yes': return <span><span>Accessible with wheelchair</span> <CheckmarkIcon /></span>;
-    case 'limited': return <span>Partially wheelchair accessible</span>;
-    case 'no': return <span>Not accessible with wheelchair</span>;
+    case 'yes': return <span><span>{description}</span> <CheckmarkIcon /></span>;
+    case 'limited':
+    case 'no': return <span>{description}</span>;
     case 'unknown':
     default:
       return null;
   }
 }
 
-function accessibilityDescription(accessibility: YesNoLimitedUnknown) {
+function ToiletDescription(accessibility: YesNoUnknown) {
+  const description = toiletDescription(accessibility);
   switch (accessibility) {
-    case 'yes': return <span>Entrance without steps, all rooms without steps.</span>;
-    case 'limited': return <span>Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.</span>;
-    case 'no': return <span>Entrance has a step or several steps, rooms are not accessible.</span>;
+    case 'yes': return <span><span>{description}</span> <ToiletStatusAccessibleIcon/></span>;
+    case 'no': return <span>{description}</span>;
     case 'unknown':
     default:
       return null;
   }
 }
 
-function toiletDescription(accessibility: YesNoUnknown) {
-  switch (accessibility) {
-    case 'yes': return <span><span>Has a wheelchair accessible toilet.</span> <ToiletStatusAccessibleIcon/></span>;
-    case 'no': return <span>No wheelchair accessible toilet.</span>;
-    case 'unknown':
-    default:
-      return null;
-  }
-}
 
 function BasicAccessibility(props) {
   const wheelchairAccessibility = isWheelchairAccessible(props.properties);
   const toiletAccessibility = hasAccessibleToilet(props.properties);
   return (<section className={`basic-accessibility ${props.className}`}>
-    <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{accessibilityName(wheelchairAccessibility)}</header>
-    <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{toiletDescription(toiletAccessibility)}</footer>
-    <footer>{accessibilityDescription(wheelchairAccessibility)}</footer>
+    <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
+    <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
+    <footer><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
   </section>);
 }
 

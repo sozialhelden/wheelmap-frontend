@@ -1,24 +1,31 @@
 // @flow
 
-import React, { Component } from 'react';
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
+import React, { Component } from 'react';
+import type { RouterHistory } from 'react-router-dom';
+
 import Toolbar from '../Toolbar';
-import CategoryMenu from './CategoryMenu';
-import SearchResults from './SearchResults';
-import type { SearchResultCollection } from './SearchResults';
-import SearchInputField from './SearchInputField';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
+import CategoryMenu from './CategoryMenu';
+import SearchResults from './SearchResults';
+import SearchInputField from './SearchInputField';
+import { globalFetchManager } from '../../lib/FetchManager';
+import type { SearchResultCollection } from './SearchResults';
 
 
 type Props = {
   className: string,
+  history: RouterHistory,
   hidden: boolean,
   category: ?string,
+  searchQuery: ?string,
   lat: ?number,
   lon: ?number,
+  onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
+  onChangeSearchQuery: ((newSearchQuery: string) => void),
 };
 
 type DefaultProps = {};
@@ -28,6 +35,7 @@ type State = {
   categoryMenuIsVisible: boolean,
   searchFieldIsFocused: boolean,
   isCategoryFocused: boolean,
+  isLoading: boolean;
 };
 
 
@@ -110,12 +118,14 @@ const StyledToolbar = styled(Toolbar)`
 
 export default class SearchToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
+  props: Props;
 
   state = {
     categoryMenuIsVisible: false,
     searchFieldIsFocused: false,
     searchResults: null,
     isCategoryFocused: false,
+    isLoading: false,
   };
 
   queryIndex: number = 0;
@@ -132,6 +142,12 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     { leading: false, trailing: true, maxWait: 1000 },
   );
 
+  componentDidMount() {
+    if (this.props.searchQuery) {
+      this.sendSearchRequest(this.props.searchQuery);
+    }
+  }
+
   toggleCategoryMenu(): void {
     this.setState(prevState => ({
       categoryMenuIsVisible: !prevState.categoryMenuIsVisible,
@@ -146,12 +162,14 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
 
     const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
     const { lat, lon } = this.props;
-    const hasLocation = lat && lon;
-    const locationBiasedUrl = hasLocation ? `${url}&lon=${lon}&lat=${lat}` : url;
+    let locationBiasedUrl = url;
+    if (typeof lat === 'number' && typeof lon === 'number') {
+      locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
+    }
     this.queryIndex += 1;
     const queryIndex = this.queryIndex;
     this.setState({ isLoading: true });
-    fetch(locationBiasedUrl).then((response) => {
+    globalFetchManager.fetch(locationBiasedUrl).then((response) => {
       if (queryIndex !== this.queryIndex) {
         // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
         // allow to cancel a request yet.
@@ -188,15 +206,19 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     if (this.state.isLoading) {
       contentBelowSearchField = <Dots size={20} />;
     } else if (searchResults) {
-      contentBelowSearchField = <SearchResults searchResults={searchResults} onSelect={() => this.clearSearchOnSmallViewports()} />;
+      contentBelowSearchField = (<SearchResults
+        searchResults={searchResults}
+        onSelectCoordinate={this.props.onSelectCoordinate}
+        onSelect={() => this.clearSearchOnSmallViewports()}
+      />);
     } else if (this.state.categoryMenuIsVisible) {
-      contentBelowSearchField = <CategoryMenu
+      contentBelowSearchField = (<CategoryMenu
         onFocus={() => {
           this.setState({ categoryMenuIsVisible: true });
           this.setState({ isCategoryFocused: true });
         }}
         onBlur={() => this.setState({ isCategoryFocused: false })}
-      />;
+      />);
     }
 
     const className = [
@@ -229,6 +251,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
           /> : null}
 
           <SearchInputField
+            searchQuery={this.props.searchQuery}
             onFocus={(event) => {
               this.input = event.target;
               this.setState({ categoryMenuIsVisible: true });
@@ -248,6 +271,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
             }}
             onChange={(event) => {
               this.input = event.target;
+              this.props.onChangeSearchQuery(event.target.value);
               this.handleSearchInputChange(event);
             }}
           />

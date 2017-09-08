@@ -32,7 +32,7 @@ const StyledFooter = styled.footer`
     color: ${colors.linkColor};
   }
 
-  a.edit-link-button {
+  .edit-link-button {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

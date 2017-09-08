@@ -8,6 +8,7 @@ import type { Feature, WheelmapProperties, AccessibilityCloudProperties } from '
 import BreadCrumbs from './BreadCrumbs';
 import SourceLink from './SourceLink';
 import getAddressString from '../../lib/getAddressString';
+import type { Category } from '../../lib/Categories';
 
 
 const StyledNodeHeader = styled.header`

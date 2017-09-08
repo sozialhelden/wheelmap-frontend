@@ -172,3 +172,36 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     default: return 'unknown';
   }
 }
+
+
+export function accessibilityName(accessibility: YesNoLimitedUnknown): ?string {
+  switch (accessibility) {
+    case 'yes': return 'Fully wheelchair accessible';
+    case 'limited': return 'Partially wheelchair accessible';
+    case 'no': return 'Not wheelchair accessible';
+    case 'unknown':
+    default:
+      return null;
+  }
+}
+
+export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?string {
+  switch (accessibility) {
+    case 'yes': return 'Entrance without steps, all rooms without steps.';
+    case 'limited': return 'Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.';
+    case 'no': return 'Entrance has a step or several steps, rooms are not accessible.';
+    case 'unknown':
+    default:
+      return null;
+  }
+}
+
+export function toiletDescription(accessibility: YesNoUnknown): ?string {
+  switch (accessibility) {
+    case 'yes': return 'Has a wheelchair accessible toilet.';
+    case 'no': return 'No wheelchair accessible toilet.';
+    case 'unknown':
+    default:
+      return null;
+  }
+}

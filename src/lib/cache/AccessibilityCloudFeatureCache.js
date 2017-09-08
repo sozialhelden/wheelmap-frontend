@@ -3,7 +3,7 @@ import FeatureCache from './FeatureCache';
 
 export default class AccessibilityCloudFeatureCache extends FeatureCache {
   static fetchFeature(id): Promise<Feature> {
-    return fetch(`https://www.accessibility.cloud/place-infos/${id}.json?appToken=27be4b5216aced82122d7cf8f69e4a07`);
+    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?appToken=27be4b5216aced82122d7cf8f69e4a07`);
   }
 }
 

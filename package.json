@@ -35,14 +35,15 @@
     "webworkify-webpack": "^2.0.4"
   },
   "devDependencies": {
-    "eslint": "^3.18.0",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.1.1",
     "eslint-config-airbnb": "^14.1.0",
-    "eslint-config-react-app": "^0.6.2",
+    "eslint-config-react-app": "^2.0.0",
     "eslint-loader": "1.6.0",
-    "eslint-plugin-flowtype": "^2.32.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.2 || ^4.0.0",
-    "eslint-plugin-react": "^6.9.0",
+    "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.46.0",
     "flow-typed": "^2.1.2",
     "react-scripts": "^1.0.11"

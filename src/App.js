@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, RouterHistory } from 'react-router-dom';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import Map from './components/Map/Map';
@@ -14,6 +14,7 @@ import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
+import NotFound from './components/NotFound/NotFound';
 
 import colors from './lib/colors';
 import type { Feature } from './lib/Feature';
@@ -22,6 +23,7 @@ import type { YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { getQueryParams, setQueryParams } from './lib/queryParams';
+import parseQueryParams from './lib/parseQueryParams';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import isTouchDevice from './lib/isTouchDevice';
 
@@ -29,7 +31,8 @@ import 'leaflet/dist/leaflet.css';
 import './App.css';
 
 type Props = {
-  className: string
+  className: string,
+  history: RouterHistory,
 };
 
 
@@ -44,8 +47,14 @@ type State = {
   isFilterToolbarVisible: boolean,
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
+  isNotFoundVisible: boolean;
 };
 
+type RouteInformation = {
+  nodeId: ?string,
+  category: ?string,
+  isEditMode: boolean,
+};
 
 function updateTouchCapability() {
   if (isTouchDevice()) {
@@ -66,17 +75,10 @@ class FeatureLoader extends Component<void, Props, State> {
     zoom: null,
     isFilterToolbarVisible: false,
     isOnboardingVisible: isOnboardingVisible(),
+    isNotFoundVisible: false,
   };
 
   map: ?any;
-
-  onHashUpdateBound: (() => void);
-
-
-  constructor(props: Props) {
-    super(props);
-    this.onHashUpdateBound = this.onHashUpdate.bind(this);
-  }
 
 
   componentWillMount() {
@@ -89,7 +91,7 @@ class FeatureLoader extends Component<void, Props, State> {
 
   componentDidMount() {
     this.fetchFeature(this.props);
-    window.addEventListener('hashchange', this.onHashUpdateBound);
+    window.addEventListener('hashchange', this.onHashUpdate);
   }
 
 
@@ -98,18 +100,23 @@ class FeatureLoader extends Component<void, Props, State> {
     if (this.featureId(newProps) !== this.featureId(this.props)) {
       this.setState({ isFilterToolbarVisible: false });
     }
+    const routeInformation = this.routeInformation(newProps);
+    if (!routeInformation) {
+      this.setState({ isNotFoundVisible: true });
+    }
   }
 
 
   componentWillUnmount() {
     delete this.resizeListener;
-    window.removeEventListener('hashchange', this.onHashUpdateBound);
+    window.removeEventListener('hashchange', this.onHashUpdate);
     window.removeEventListener('resize', this.resizeListener);
   }
 
 
-  onHashUpdate() {
+  onHashUpdate = () => {
     const params = Object.assign({ toilet: null, status: null }, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
+    console.log('Hash updated:', params);
     this.setState(params);
   }
 
@@ -134,23 +141,26 @@ class FeatureLoader extends Component<void, Props, State> {
   }
 
 
-  featureId(props: Props = this.props): ?string {
+  routeInformation(props: Props = this.props): ?RouteInformation {
     const location = props.location;
-    const match = location.pathname.match(/(?:\/beta)?\/(-?\w+)\/([-\w\d]+)/i);
+    const allowedResourceNames = ['nodes', 'categories', 'search'];
+    const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?/i);
     if (match) {
-      if (match[1] === 'nodes') return match[2];
+      if (match[1] && !allowedResourceNames.includes(match[1])) return null;
+      return {
+        featureId: match[1] === 'nodes' ? match[2] : null,
+        category: match[1] === 'categories' ? match[2] : null,
+        searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
+        isEditMode: (match[3] === 'edit'),
+      };
     }
     return null;
   }
 
 
-  category(props: Props = this.props): ?string {
-    const location = props.location;
-    const match = location.pathname.match(/(?:\/beta)?\/(-?\w+)\/([-_\w\d]+)/i);
-    if (match) {
-      if (match[1] === 'categories') return match[2];
-    }
-    return null;
+  featureId(props: Props = this.props): ?string {
+    const routeInformation = this.routeInformation(props);
+    return routeInformation ? routeInformation.featureId : null;
   }
 
 
@@ -176,6 +186,8 @@ class FeatureLoader extends Component<void, Props, State> {
       if (fetchedId !== currentlyShownId) return;
       const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
       this.setState({ feature, lat, lon, fetching: false });
+    }, (reason) => {
+      this.setState({ feature: null, fetching: false, isNotFoundVisible: true });
     });
   }
 
@@ -186,8 +198,9 @@ class FeatureLoader extends Component<void, Props, State> {
 
 
   render() {
-    const featureId = this.featureId();
-    const category = this.category();
+    const routeInformation = this.routeInformation();
+
+    const { featureId, category, isEditMode, searchQuery } = routeInformation || {};
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom } = this.state;
 
@@ -208,8 +221,7 @@ class FeatureLoader extends Component<void, Props, State> {
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
-        onZoomEnd={setQueryParams}
-        onMoveEnd={setQueryParams}
+        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(...params); }}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
@@ -230,15 +242,30 @@ class FeatureLoader extends Component<void, Props, State> {
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
         category={category}
+        searchQuery={searchQuery}
+        onChangeSearchQuery={(newSearchQuery) => {
+          if (!newSearchQuery || newSearchQuery.length === 0) {
+            this.props.history.replace('/beta/', null);
+            return;
+          }
+          this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
+        }}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
+        onSelectCoordinate={(coords: ?{ lat: number, lon: number }) => {
+          if (coords) {
+            this.setState(coords);
+          }
+        }}
       />
 
       {isNodeRoute ? <NodeToolbar
         history={this.props.history}
         feature={this.state.feature}
         hidden={this.state.isFilterToolbarVisible}
-        featureId={featureId} /> : null}
+        featureId={featureId}
+        isEditMode={isEditMode}
+      /> : null}
 
       {this.state.isFilterToolbarVisible ? (<div className="filter-toolbar">
         <FilterToolbar
@@ -251,6 +278,10 @@ class FeatureLoader extends Component<void, Props, State> {
       <Onboarding isVisible={this.state.isOnboardingVisible} onClose={() => {
         saveOnboardingFlag();
         this.setState({ isOnboardingVisible: false });
+      }} />
+
+      <NotFound isVisible={this.state.isNotFoundVisible} onClose={() => {
+        this.setState({ isNotFoundVisible: false });
       }} />
     </div>);
   }

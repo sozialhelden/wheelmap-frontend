@@ -12,6 +12,7 @@ import type { WheelmapFeature } from '../../lib/Feature';
 import ToolbarLink from '../ToolbarLink';
 import PlaceName from '../PlaceName';
 import Icon from '../Icon';
+import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 
 export type SearchResultProperties = {
   city?: ?any,
@@ -42,6 +43,7 @@ export type SearchResultCollection = {
 type SearchResultProps = {
   result: SearchResultFeature,
   onSelect: (() => void),
+  onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
 };
 
 type State = {
@@ -53,6 +55,15 @@ type State = {
 };
 
 
+function normalizedCoordinatesForFeature(feature): ?[number, number] {
+  const geometry = feature ? feature.geometry : null;
+  if (!(geometry instanceof Object)) return null;
+  const coordinates = geometry ? geometry.coordinates : null;
+  if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
+  return normalizeCoordinates(coordinates);
+}
+
+
 function HashLinkOrRouterLink(props) {
   if (props.isHashLink) {
     return <a onClick={props.onClick} href={props.to} className={props.className}>{props.children}</a>;
@@ -62,6 +73,8 @@ function HashLinkOrRouterLink(props) {
 
 
 class SearchResult extends Component<void, SearchResultProps, State> {
+  props: SearchResultProps;
+
   state: State = {
     parentCategory: null,
     category: null,
@@ -106,8 +119,6 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     }
   }
 
-  props: SearchResultProps;
-
 
   fetchCategory(props: SearchResultProps = this.props) {
     const feature = props.result;
@@ -137,7 +148,10 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     if (!osmId) {
       return;
     }
+
+    // Only nodes with type 'N' can be on Wheelmap.
     if (searchResultProperties.osm_type !== 'N') return;
+
     wheelmapFeatureCache.getFeature(osmId).then((feature) => {
       if (!feature) return;
       if (feature.properties.id !== this.state.lastFetchedOsmId) return;
@@ -152,21 +166,29 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     });
   }
 
+  getFeature() {
+    return this.state.wheelmapFeature || this.props.result;
+  }
+
+
+  getCoordinates(): ?[number, number] {
+    const feature = this.getFeature();
+    return normalizedCoordinatesForFeature(feature);
+  }
+
+  getZoomLevel(hasWheelmapId: boolean) {
+    return hasWheelmapId ? 18 : 16;
+  }
 
   getHref(): ?string {
-    const wheelmapFeature = this.state.wheelmapFeature;
-    if (wheelmapFeature && wheelmapFeature.properties && wheelmapFeature.properties.id) {
-      const geometry = wheelmapFeature ? wheelmapFeature.geometry : null;
-      const coordinates = (geometry instanceof Object) ? geometry.coordinates : null;
-      const coordinateParameter = (coordinates instanceof Array) ? `&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
-      return `/beta/nodes/${wheelmapFeature.properties.id}#?zoom=18${coordinateParameter}`;
-    }
-    const result = this.props.result;
-    const geometry = result ? result.geometry : null;
-    if (!(geometry instanceof Object)) return null;
-    const coordinates = geometry ? geometry.coordinates : null;
-    if (!(coordinates instanceof Array)) return null;
-    return `#/?lat=${coordinates[1]}&lon=${coordinates[0]}&zoom=16`;
+    const feature = this.getFeature();
+    const coordinates = normalizedCoordinatesForFeature(feature);
+    const wheelmapId = feature && feature.properties && feature.properties.id;
+    const prefix = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
+    const hasWheelmapId = Boolean(wheelmapId);
+    const zoom = this.getZoomLevel(hasWheelmapId);
+    const suffix = coordinates ? `#?zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
+    return `${prefix}${suffix}`;
   }
 
 
@@ -185,9 +207,21 @@ class SearchResult extends Component<void, SearchResultProps, State> {
     const wheelmapFeature = this.state.wheelmapFeature;
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const href = this.getHref();
-    const isHashLink = !Boolean(wheelmapFeature);
+    const hasWheelmapId = Boolean(wheelmapFeature);
+    const isHashLink = !hasWheelmapId;
     return (<li>
-      <HashLinkOrRouterLink to={href} className="link-button" isHashLink={isHashLink} onClick={() => this.props.onSelect()}>
+      <HashLinkOrRouterLink
+        to={href}
+        className="link-button"
+        isHashLink={isHashLink}
+        onClick={(event: Event) => {
+          const coordinates = this.getCoordinates();
+          if (coordinates) {
+            this.props.onSelectCoordinate({ lat: coordinates[1], lon: coordinates[0], zoom: this.getZoomLevel(hasWheelmapId) });
+          }
+          this.props.onSelect();
+        }}
+      >
         <PlaceName>
           {categoryOrParentCategory ?
             <Icon properties={wheelmapFeatureProperties} category={categoryOrParentCategory} />
@@ -206,6 +240,7 @@ type Props = {
   searchResults: SearchResultCollection,
   className: string,
   onSelect: (() => void),
+  onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
 };
 
 
@@ -213,7 +248,12 @@ function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
   const features = uniq(props.searchResults.features, id);
   return (<ul className={`search-results ${props.className}`}>
-    {features.map(result => <SearchResult result={result} key={id(result)} onSelect={props.onSelect} />)}
+    {features.map(result => <SearchResult
+      result={result}
+      key={id(result)}
+      onSelect={props.onSelect}
+      onSelectCoordinate={props.onSelectCoordinate}
+    />)}
   </ul>);
 }
 

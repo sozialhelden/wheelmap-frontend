@@ -1,7 +1,7 @@
 // @flow
 
 import type { Feature, FeatureCollection } from 'geojson-flow';
-
+import { globalFetchManager } from '../FetchManager';
 
 /**
  * Base clase for a cache of GeoJSON features (cached by id). Subclass this and override the
@@ -94,5 +94,13 @@ export default class FeatureCache {
   // eslint-disable-next-line
   /** @protected @abstract */ static fetchFeature(id: string): Promise<Response> {
     throw new Error('Not implemented. Please override this method in your subclass.');
+  }
+
+    /**
+   * Fetches a non-cached feature from its store, using WhatWG `fetch`.
+   * @param {string} url
+   */
+  /** @protected @abstract */ static fetch(url: string): Promise<Response> {
+    return globalFetchManager.fetch(url);
   }
 }

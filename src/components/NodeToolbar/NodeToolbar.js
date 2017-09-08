@@ -3,116 +3,20 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import AccessibilityDetails from 'accessibility-cloud-widget/lib/components/AccessibilityDetails';
 import 'accessibility-cloud-widget/src/app.css';
 
 import Categories from '../../lib/Categories';
 
 import Toolbar from '../Toolbar';
+import CloseLink from '../CloseLink';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
 import LicenseHint from './LicenseHint';
 import BasicAccessibility from './BasicAccessibility';
+import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
+import BasicAccessibilityEditor from './BasicAccessibilityEditor';
 import type { Feature } from '../../lib/Feature';
-import CloseLink from '../CloseLink';
-
-const StyledAccessibilityDetails = styled(AccessibilityDetails)`
-  width: 100%;
-  box-sizing: border-box;
-  line-height: 1.3;
-  font-weight: 300;
-  color: #444;
-
-  ul {
-    list-style: none;
-  }
-
-  .ac-result-list,
-  .ac-details > .ac-group {
-    margin-left: 0;
-  }
-
-  .ac-details > dl.ac-group {
-    padding: 0;
-  }
-
-  .ac-details em {
-    font-style: normal;
-  }
-
-  .ac-group > .subtle {
-    font-weight: 400;
-  }
-
-  dl {
-      width: 100%;
-      /*display: block;*/
-      /*background-color: rgba(0, 0, 0, 0.1);*/
-      overflow: auto;
-      margin: 0;
-  }
-
-  dt {
-      /*background-color: rgba(255, 0, 0, 0.1);*/
-      float: left;
-      clear: left;
-      margin: 0;
-      padding: 0;
-  }
-
-  > dt {
-    margin-top: 0.5em;
-  }
-
-  dt[data-key] {
-      font-weight: bolder;
-  }
-
-  dd {
-      /*background-color: rgba(0, 255, 0, 0.1);*/
-      margin-left: 1em;
-      display: table-cell;
-      padding: 0 0 0 0.3em;
-  }
-
-  dt[data-key="areas"] {
-    display: none
-  }
-
-  dt[data-key="areas"] + dd {
-    padding: 0;
-  }
-
-  dt[data-key="entrances"] {
-    width: 100%;
-  }
-
-  dt[data-key="entrances"] + dd {
-    padding-left: 0;
-  }
-
-  .ac-group header {
-    margin: 0.5em 0 0 0;
-  }
-
-  dt {
-    margin-right: 0.5em;
-    font-weight: normal;
-    &[data-key] {
-      font-weight: bold;
-    }
-  }
-
-  dd {
-    display: block;
-    padding: 0;
-  }
-
-  dt[data-key="areas"] + dd {
-    margin-left: 0;
-  }
-`;
 
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -125,6 +29,7 @@ type Props = {
   feature: Feature,
   featureId: string | number,
   hidden: boolean,
+  isEditMode: boolean,
 };
 
 
@@ -138,7 +43,9 @@ const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
 `;
 
+
 class NodeToolbar extends Component<void, Props, State> {
+  props: Props;
   state = { category: null, parentCategory: null };
 
   componentDidMount() {
@@ -162,33 +69,38 @@ class NodeToolbar extends Component<void, Props, State> {
       this.setState({ category: null });
       return;
     }
-    const categoryId = (properties.node_type && properties.node_type.identifier) || properties.category;
+
+    const categoryId =
+      (properties.node_type && properties.node_type.identifier) || properties.category;
+
     if (!categoryId) {
       this.setState({ category: null });
       return;
     }
+
     Categories.getCategory(categoryId).then(
       (category) => { this.setState({ category }); return category; },
       () => this.setState({ category: null }),
     )
-    .then(category => category && Categories.getCategory(category.parentIds[0]))
-    .then(parentCategory => this.setState({ parentCategory }));
+      .then(category => category && Categories.getCategory(category.parentIds[0]))
+      .then(parentCategory => this.setState({ parentCategory }));
   }
 
   render() {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties && properties.accessibility;
-  
+
     return (
       <StyledToolbar className={this.props.className} hidden={this.props.hidden}>
-        <PositionedCloseLink history={this.props.history}/>
+        <PositionedCloseLink history={this.props.history} />
         <NodeHeader
           feature={this.props.feature}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
         />
-        <BasicAccessibility properties={properties}/>
-        <StyledAccessibilityDetails details={accessibility} />
+        <BasicAccessibility properties={properties} />
+        <BasicAccessibilityEditor feature={this.props.feature} />
+        <AccessibilityDetails details={accessibility} />
         <AccessibilityExtraInfo properties={properties} />
         <NodeFooter
           feature={this.props.feature}
