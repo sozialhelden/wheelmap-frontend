@@ -17,23 +17,31 @@ type State = {
   sourceName: ?string;
 };
 
-const defaultState = { sourceName: null };
+const defaultState: State = { sourceName: null };
 
 class SourceLink extends Component<void, Props, State> {
   props: Props;
-  state = defaultState;
+  state: State = defaultState;
 
-  componentWillReceiveProps(newProps: Props) {
-    if (!newProps.properties || !newProps.properties.sourceId) {
+  fetchSource(props: Props) {
+    if (!props.properties || !props.properties.sourceId) {
       this.setState(defaultState);
       return;
     }
     dataSourceCache
-      .getDataSourceWithId(newProps.properties.sourceId)
+      .getDataSourceWithId(props.properties.sourceId)
       .then(
         (source) => { this.setState({ sourceName: source.name }); },
         () => { this.setState(defaultState); },
       );
+  }
+
+  componentDidMount() {
+    this.fetchSource(this.props);
+  }
+
+  componentWillReceiveProps(newProps: Props) {
+    this.fetchSource(newProps);
   }
 
   render() {
@@ -50,7 +58,6 @@ class SourceLink extends Component<void, Props, State> {
 
 const StyledSourceLink = styled(SourceLink)`
   margin-top: .5em;
-  text-align: right;
   .chevron-right {
     vertical-align: bottom;
     height: 18px;

@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { hsl } from 'd3-color';
-import colors from '../../lib/colors';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+
+import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
-import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
-import ShareButtons from './ShareButtons';
 import type { Category } from '../../lib/Categories';
+import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
 
 const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
@@ -37,7 +37,7 @@ const StyledFooter = styled.footer`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: stretch;
 
     > * {
       flex: 2;
@@ -48,6 +48,9 @@ const StyledFooter = styled.footer`
     > .edit-hint {
       position: relative;
       flex: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       &:before {
         content: '';
         display: block;
@@ -79,16 +82,21 @@ export default function NodeFooter(props: Props) {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
   let editHint = null;
+  let needsContribution = false;
+  let editButtonCaption = 'Mark this place';
   if (feature && feature.properties) {
     const properties = feature.properties;
     switch (isWheelchairAccessible(properties)) {
       case 'unknown':
-        editHint = (<span className="edit-hint">Help out by marking this place!</span>);
+        editHint = (<span className="edit-hint">Improve your karma!</span>);
+        needsContribution = true;
         break;
       case 'limited':
       case 'yes':
         if (hasAccessibleToilet(properties) === 'unknown') {
-          editHint = (<span className="edit-hint">Help out by marking the toilet status!</span>);
+          editHint = (<span className="edit-hint">Bonus karma points!</span>);
+          needsContribution = true;
+          editButtonCaption = 'Add toilet status';
         }
         break;
       default: break;
@@ -99,14 +107,13 @@ export default function NodeFooter(props: Props) {
     <StyledFooter>
       {(isWheelmap && featureId) ?
         <div className="wheelmap-links">
-          <Link className="link-button edit-link-button" to={`/beta/nodes/${featureId}/edit`}>
-            <span>Edit</span>{editHint || null}
-          </Link>
+          {needsContribution ? (<Link className="link-button edit-link-button" to={`/beta/nodes/${featureId}/edit`}>
+            <span>{editButtonCaption}</span>{editHint || null}
+          </Link>) : null}
           <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
             Details
           </a>
         </div> : null}
-      <ShareButtons {...props} />
     </StyledFooter>
   );
 }

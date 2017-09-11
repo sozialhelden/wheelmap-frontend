@@ -36,17 +36,17 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint": "^4.1.1",
-    "eslint-config-airbnb": "^14.1.0",
+    "eslint": "^3.19.0 || ^4.3.0",
+    "eslint-config-airbnb": "^15.1.0",
     "eslint-config-react-app": "^2.0.0",
     "eslint-loader": "1.6.0",
     "eslint-plugin-flowtype": "^2.34.1",
-    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
-    "flow-bin": "^0.46.0",
+    "flow-bin": "^0.54.1",
     "flow-typed": "^2.1.2",
-    "react-scripts": "^1.0.11"
+    "react-scripts": "^1.0.13"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -268,10 +268,10 @@ const StyledSearchResults = styled(SearchResults)`
   }
 
   li > a {
-    color: rgba(0, 0, 0, 0.8);
+    color: rgba(0, 0, 0, 0.8) !important;
 
     &:hover {
-      color: rgba(0, 0, 0, 0.8);
+      color: rgba(0, 0, 0, 0.8) !important;
     }
 
     address {

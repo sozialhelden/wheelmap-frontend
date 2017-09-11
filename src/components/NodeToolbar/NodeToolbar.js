@@ -12,11 +12,13 @@ import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
+import ShareButtons from './ShareButtons/ShareButtons';
+import ReportDialog from './Report/ReportDialog';
 import LicenseHint from './LicenseHint';
 import BasicAccessibility from './BasicAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
-import BasicAccessibilityEditor from './BasicAccessibilityEditor';
+import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature } from '../../lib/Feature';
 
 
@@ -37,6 +39,7 @@ type Props = {
 type State = {
   category: ?Category,
   parentCategory: ?Category,
+  isReportMode: boolean,
 };
 
 
@@ -47,7 +50,7 @@ const StyledToolbar = styled(Toolbar)`
 
 class NodeToolbar extends Component<void, Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null };
+  state = { category: null, parentCategory: null, isReportMode: false };
 
   componentDidMount() {
     this.fetchCategory(this.props);
@@ -56,6 +59,9 @@ class NodeToolbar extends Component<void, Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     this.fetchCategory(nextProps);
+    if (nextProps.featureId !== this.props.featureId) {
+      this.setState({ isReportMode: false });
+    }
   }
 
 
@@ -92,7 +98,13 @@ class NodeToolbar extends Component<void, Props, State> {
     const accessibility = properties && properties.accessibility;
 
     if (!properties) {
-      return <Dots size={20} />;
+      return (<StyledToolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        isSwipeable={false}
+      >
+        <Dots size={20} />
+      </StyledToolbar>);
     }
     return (
       <StyledToolbar
@@ -101,15 +113,24 @@ class NodeToolbar extends Component<void, Props, State> {
         isSwipeable={!this.props.isEditMode}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink history={this.props.history} />}
+
         <NodeHeader
           feature={this.props.feature}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
-          isEditMode={this.props.isEditMode}
+          showOnlyBasics={this.props.isEditMode || this.state.isReportMode}
         />
+
         {(() => {
+          if (this.state.isReportMode) {
+            return (<ReportDialog
+              feature={this.props.feature}
+              featureId={this.props.featureId}
+              onClose={() => this.setState({ isReportMode: false })}
+            />);
+          }
           if (this.props.isEditMode) {
-            return <BasicAccessibilityEditor feature={this.props.feature} />;
+            return <AccessibilityEditor feature={this.props.feature} />;
           }
           return (<div>
             <BasicAccessibility properties={properties} />
@@ -121,6 +142,18 @@ class NodeToolbar extends Component<void, Props, State> {
               category={this.state.category}
               parentCategory={this.state.parentCategory}
             />
+            <ShareButtons
+              feature={this.props.feature}
+              featureId={this.props.featureId}
+              category={this.state.category}
+              parentCategory={this.state.parentCategory}
+            />
+            <button
+              className="link-button full-width-button"
+              onClick={() => this.setState({ isReportMode: true })}
+            >
+              Report an Issue
+            </button>
             <LicenseHint properties={properties} />
           </div>);
         })()}

@@ -36,7 +36,7 @@ type Props = {
   feature: Feature,
   category: ?Category,
   parentCategory: ?Category,
-  isEditMode: boolean,
+  showOnlyBasics: boolean,
 };
 
 
@@ -93,7 +93,7 @@ export default class NodeHeader extends Component<void, Props, void> {
       {(properties.name || categoryName || 'place').replace(/(\w)\/(\w)/g, '$1 / $2')}
     </PlaceName>);
 
-    if (this.props.isEditMode) {
+    if (this.props.showOnlyBasics) {
       return <StyledNodeHeader>{placeName}</StyledNodeHeader>;
     }
 
@@ -111,7 +111,7 @@ export default class NodeHeader extends Component<void, Props, void> {
 
         <SourceLink properties={properties} />
 
-        {phoneNumber ? <p><PhoneNumberLink phoneNumber={phoneNumber} /></p> : null}
+        {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
 
         {description ? <p className="description">“{description}”</p> : null}
 

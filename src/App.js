@@ -210,6 +210,7 @@ class FeatureLoader extends Component<void, Props, State> {
       this.state.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
+      this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
       isEditMode ? 'is-edit-mode' : null,
     ].filter(Boolean);
 
@@ -323,8 +324,17 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     }
   }
 
-  &.is-edit-mode {
+  &.is-edit-mode:not(.is-on-not-found-page) {
     > *:not(.node-toolbar) {
+      filter: blur(5px);
+      &, * {
+        pointer-events: none;
+      }
+    }
+  }
+
+  &.is-on-not-found-page {
+    > *:not(.not-found-page) {
       filter: blur(5px);
       &, * {
         pointer-events: none;

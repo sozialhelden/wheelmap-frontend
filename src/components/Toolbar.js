@@ -285,10 +285,16 @@ const StyledToolbar = styled(Toolbar)`
     background-color: transparent;
     border: none;
     outline: none;
+    color: ${colors.linkColor};
 
     &:hover {
       background-color: ${colors.linkBackgroundColorTransparent};
     }
+  }
+
+  button.link-button.full-width-button {
+    width: calc(100% + 20px);
+    text-align: left;
   }
 
   .primary-button {

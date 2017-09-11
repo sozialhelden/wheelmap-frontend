@@ -61,7 +61,8 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;
     const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
-    const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
+    // const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
+    const shouldShowToiletFilter = () => true;
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
     function CustomRadio({ value }: { value: string }) {
       const RadioButton = filterName === value ? RadioButtonSelected : RadioButtonUnselected;
@@ -82,10 +83,12 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
             name="accessibility-filter"
             selectedValue={filterName}
             onChange={(f) => {
-              setQueryParams({
+              const queryParams = {
                 status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
                 toilet: shouldShowToiletFilter(f) && isToiletFilterEnabled ? 'yes' : null,
-              });
+              };
+              queryParams.toilet = null;
+              setQueryParams(queryParams);
               setTimeout(() => {
                 if (this.toolbar) {
                   this.toolbar.onResize();
@@ -125,7 +128,11 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
             <input
               onChange={(event) => {
                 const value = event.target.checked;
-                setQueryParams({ toilet: (value === true) ? 'yes' : null });
+                const queryParams = { toilet: (value === true) ? 'yes' : null };
+                if (value && includes(['all', 'unknown'], filterName)) {
+                  queryParams.status = 'yes.limited';
+                }
+                setQueryParams(queryParams);
               }}
               type="checkbox"
               id="toilet-filter"

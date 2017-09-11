@@ -179,7 +179,18 @@ export function accessibilityName(accessibility: YesNoLimitedUnknown): ?string {
     case 'yes': return 'Fully wheelchair accessible';
     case 'limited': return 'Partially wheelchair accessible';
     case 'no': return 'Not wheelchair accessible';
-    case 'unknown':
+    case 'unknown': return 'Unknown status';
+    default:
+      return null;
+  }
+}
+
+export function shortAccessibilityName(accessibility: YesNoLimitedUnknown): ?string {
+  switch (accessibility) {
+    case 'yes': return 'Fully';
+    case 'limited': return 'Partially';
+    case 'no': return 'Not at all';
+    case 'unknown': return 'Unknown';
     default:
       return null;
   }
@@ -205,3 +216,11 @@ export function toiletDescription(accessibility: YesNoUnknown): ?string {
       return null;
   }
 }
+
+export const accessibleToiletDescription = [
+  'Doorways’ inner width ≥ 90 cm',
+  'Clear floor space ≥ 150 cm wide',
+  'Wheelchair-height toilet seat',
+  'Folding grab rails',
+  'Accessible hand basin',
+];

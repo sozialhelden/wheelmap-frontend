@@ -8,7 +8,12 @@ import { Link } from 'react-router-dom';
 
 
 function NotFound(props) {
-  return (<ModalDialog className={props.className} isVisible={props.isVisible}>
+  const classList = [
+    props.className,
+    'not-found-page',
+  ].filter(Boolean);
+
+  return (<ModalDialog className={classList.join(' ')} isVisible={props.isVisible}>
     <header>
       <img alt="" className="logo" src={logo} />
       <h1>Error 404</h1>
@@ -69,6 +74,7 @@ const StyledNotFound = styled(NotFound)`
     max-width: 1200px;
 
     .button-cta-close {
+      display: inline-block;
       border: none;
       outline: none;
       color: white;
