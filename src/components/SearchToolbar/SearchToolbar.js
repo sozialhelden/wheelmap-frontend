@@ -148,12 +148,6 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
     }
   }
 
-  toggleCategoryMenu(): void {
-    this.setState(prevState => ({
-      categoryMenuIsVisible: !prevState.categoryMenuIsVisible,
-    }));
-  }
-
   sendSearchRequest(query: string): void {
     if (!query || query.length < 3) {
       this.setState({ searchResults: null });
