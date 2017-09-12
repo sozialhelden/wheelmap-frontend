@@ -25,6 +25,9 @@ const Container = styled.div`
   top: 50px;
   width: 100%;
   margin-bottom: 10px;
+  > * {
+    flex: 65px;
+  }
 `;
 
 
