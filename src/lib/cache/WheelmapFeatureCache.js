@@ -1,16 +1,20 @@
 // @flow
 
-import type { Feature } from 'geojson-flow';
 import FeatureCache from './FeatureCache';
 import { convertResponseToWheelmapFeature } from '../Feature';
+import type { WheelmapFeature, WheelmapFeatureCollection } from '../Feature';
 import config from '../config';
 
-export default class WheelmapFeatureCache extends FeatureCache {
-  static fetchFeature(id): Promise<Feature> {
+export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, WheelmapFeatureCollection> {
+  static fetchFeature(id): Promise<WheelmapFeature> {
     return this.fetch(`/api/nodes/${id}?api_key=${config.wheelmapApiKey}`);
   }
 
-  static getFeatureFromResponse(response): Promise<Feature> {
+  static getIdForFeature(feature: WheelmapFeature): string {
+    return String(feature.id || (feature.properties && feature.properties.id));
+  }
+
+  static getFeatureFromResponse(response): Promise<WheelmapFeature> {
     return response.json().then((responseJson) => {
       return convertResponseToWheelmapFeature(responseJson.node);
     });

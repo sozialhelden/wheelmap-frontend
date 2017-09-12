@@ -1,6 +1,6 @@
 // @flow
 
-import type { Feature, FeatureCollection } from 'geojson-flow';
+import type { Feature, FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 
 /**
@@ -8,8 +8,8 @@ import { globalFetchManager } from '../FetchManager';
  * `fetchFeature` method.
  */
 
-export default class FeatureCache {
-  cache: { [string]: ?Feature } = {};
+export default class FeatureCache<FeatureType: Class<Feature>, FeatureCollectionType: Class<FeatureCollection>> {
+  cache: { [string]: ?FeatureType } = {};
 
   /**
    * Caches a given GeoJSON Feature by id.
@@ -21,13 +21,14 @@ export default class FeatureCache {
    *     - _id
    *     - properties._id
    */
-  cacheFeature(feature: Feature): void {
-    const featureId = String(feature.id ||
-      feature._id ||
-      (feature.properties && (feature.properties.id || feature.properties._id))
-    );
+  cacheFeature(feature: FeatureType): void {
+    const featureId = this.constructor.getIdForFeature(feature);
     if (!featureId) return;
     this.cache[featureId] = feature;
+  }
+
+  static getIdForFeature(feature: FeatureType): string {
+    throw new Error('Please implement this in your subclass.');
   }
 
   /**
@@ -36,14 +37,14 @@ export default class FeatureCache {
    * @param {FeatureCollection} geoJSON A GeoJSON-compatible FeatureCollection that includes all
    *   features that should be cached.
    */
-  cacheGeoJSON(geoJSON: FeatureCollection): void {
+  cacheGeoJSON(geoJSON: FeatureCollectionType): void {
     if (!geoJSON || !geoJSON.features) {
       return;
     }
     geoJSON.features.forEach(feature => this.cacheFeature(feature));
   }
 
-  fetchFeature(id: string, resolve: ((Feature) => void), reject: ((response: any) => void)) {
+  fetchFeature(id: string, resolve: ((FeatureType) => void), reject: ((response: any) => void)) {
     this.constructor.fetchFeature(id).then(
       (response: Response) => {
         if (response.status === 200) {
@@ -65,7 +66,7 @@ export default class FeatureCache {
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  getFeature(id: string): Promise<?Feature> {
+  getFeature(id: string): Promise<?FeatureType> {
     const feature = this.getCachedFeature(id);
     return new Promise((resolve, reject) => {
       if (feature || feature === null) {
@@ -77,13 +78,32 @@ export default class FeatureCache {
   }
 
 
-  /** @private */ getCachedFeature(id: string): ?Feature {
+  reloadFeature(id: string): Promise<?FeatureType> {
+    delete this.cache[id];
+    return this.getFeature(id);
+  }
+
+
+  /** @private */ getCachedFeature(id: string): ?FeatureType {
     return this.cache[id];
   }
 
 
-  static getFeatureFromResponse(response: Response): Promise<Feature> {
+  static getFeatureFromResponse(response: Response): Promise<FeatureType> {
     return response.json();
+  }
+
+
+  updateFeatureAttribute(id: string, newProperties: $PropertyType<FeatureType, 'properties'>) {
+    const feature = this.cache[id];
+    if (!feature) throw new Error('Cannot update a feature that is not in cache.');
+
+    const existingProperties = feature.properties;
+    if (existingProperties) {
+      Object.assign(existingProperties, newProperties);
+      return;
+    }
+    feature.properties = Object.assign({}, newProperties);
   }
 
 

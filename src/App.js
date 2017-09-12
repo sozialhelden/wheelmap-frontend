@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import get from 'lodash/get';
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, RouterHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import type { RouterHistory } from 'react-router-dom';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import Map from './components/Map/Map';

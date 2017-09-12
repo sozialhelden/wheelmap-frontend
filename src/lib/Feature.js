@@ -72,9 +72,17 @@ export type WheelmapFeature = {
   id: number,
 };
 
+export type WheelmapLightweightFeature = $Supertype<WheelmapFeature>;
+
 export type WheelmapFeatureCollection = {
   type: 'FeatureCollection',
   features: WheelmapFeature[],
+};
+
+
+export type WheelmapLightweightFeatureCollection = {
+  type: 'FeatureCollection',
+  features: WheelmapLightweightFeature[],
 };
 
 export type AccessibilityCloudProperties = {
@@ -91,11 +99,17 @@ export type AccessibilityCloudFeature = {
   type: 'Feature',
   name: ?string,
   geometry: ?GeometryObject,
-  properties: ?AccessibilityCloudProperties,
+  properties: AccessibilityCloudProperties,
+}
+
+export type AccessibilityCloudFeatureCollection = {
+  type: 'FeatureCollection',
+  features: AccessibilityCloudFeature[],
 }
 
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
+export type FeatureCollection = AccessibilityCloudFeatureCollection | WheelmapFeatureCollection;
 
 
 function isNumeric(id) {

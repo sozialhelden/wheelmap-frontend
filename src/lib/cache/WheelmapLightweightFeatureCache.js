@@ -1,5 +1,12 @@
 // @flow
 
 import FeatureCache from './FeatureCache';
+import type { WheelmapLightweightFeature, WheelmapLightweightFeatureCollection } from '../Feature';
 
-export const wheelmapLightweightFeatureCache = new FeatureCache();
+export default class WheelmapLightweightFeatureCache extends FeatureCache<WheelmapLightweightFeature, WheelmapLightweightFeatureCollection> {
+  static getIdForFeature(feature: WheelmapLightweightFeature): string {
+    return String(feature.id || (feature.properties && feature.properties.id));
+  }
+}
+
+export const wheelmapLightweightFeatureCache = new WheelmapLightweightFeatureCache();
