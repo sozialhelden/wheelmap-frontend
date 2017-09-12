@@ -7,6 +7,7 @@ import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 type Props = {
   featureId: number,
   feature: Feature,
+  onClose: (() => void),
 };
 
 type State = {
@@ -51,11 +52,12 @@ class FixOnExternalPage extends Component<Props, State> {
       </p>
       {properties.infoPageUrl ? (<div>
         <p>
-          You can use the link below to see or change the data.
+          Use the link below to see or change the place.
         </p>
-        <p className="subtle">(Note that it can take a while until the place is updated on Wheelmap.)</p>
+        <p className="subtle">(Note that it can take a while until the place is updated on Wheelmap after editing.)</p>
         <SourceLink properties={properties} />
       </div>) : null}
+      <button className="link-button negative-button" onClick={this.props.onClose}>Back</button>
     </section>);
   }
 }

@@ -24,6 +24,10 @@ const StyledNodeHeader = styled.header`
   .description {
     word-break: break-word;
   }
+
+  address {
+    margin-bottom: 0.5em;
+  }
 `;
 
 
@@ -107,7 +111,7 @@ export default class NodeHeader extends Component<Props, void> {
           parentCategory={this.props.parentCategory}
         />
 
-        <address>{addressString}</address>
+        {addressString ? <address>{addressString}</address> : null }
 
         <SourceLink properties={properties} />
 

@@ -14,17 +14,10 @@ import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAcces
 import colors from '../../lib/colors';
 
 
-const CheckmarkIcon = () => (<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1" className="checkmark-icon">
-  <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-    <polygon id="checkmark" fill="#000000" points="4.51565378 13.174954 0 8.67495396 1.76887661 7 4.51565378 9.73112339 14.2311234 0 16 1.67495396 6.23756906 11.5313076" />
-  </g>
-</svg>);
-
-
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
   const description = accessibilityName(accessibility);
   switch (accessibility) {
-    case 'yes': return <span><span>{description}</span> <CheckmarkIcon /></span>;
+    case 'yes':
     case 'limited':
     case 'no': return <span>{description}</span>;
     case 'unknown':
@@ -48,6 +41,10 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 function BasicAccessibility(props) {
   const wheelchairAccessibility = isWheelchairAccessible(props.properties);
   const toiletAccessibility = hasAccessibleToilet(props.properties);
+  if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
+    return null;
+  }
+
   return (<section className={`basic-accessibility ${props.className}`}>
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
     <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
@@ -56,12 +53,15 @@ function BasicAccessibility(props) {
 }
 
 const StyledBasicAccessibility = styled(BasicAccessibility)`
+  padding-bottom: 10px;
+
   > * {
     margin: 1em 0em;
   }
   > *:last-child {
     margin-bottom: inherit;
   }
+
   header {
     &.accessibility-wheelchair {
       font-weight: bold;
@@ -82,6 +82,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       color: ${colors.negativeColor};
     }
   }
+
   footer {
     &.accessibility-toilet span {
       display: flex;
@@ -91,6 +92,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     }
     color: rgba(0, 0, 0, 0.6);
   }
+
   > header > span {
     display: flex;
     flex-direction: row;

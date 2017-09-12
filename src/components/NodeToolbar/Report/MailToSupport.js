@@ -8,6 +8,7 @@ type Props = {
   featureId: string | number | null,
   category: ?Category,
   parentCategory: ?Category,
+  onClose: (() => void),
 };
 
 export default function ReportProblemButton(props: Props) {
@@ -29,5 +30,6 @@ export default function ReportProblemButton(props: Props) {
     <a href={reportMailToLink} className="link-button">
       Contact the Wheelmap support team
     </a>
+    <button className="link-button negative-button" onClick={props.onClose}>Back</button>
   </section>);
 }

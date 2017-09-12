@@ -9,8 +9,8 @@ import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';
 type Props = {
   currentValue: string,
   shownValue: string,
-  description: string,
-  caption: string,
+  description: ?string,
+  caption: ?string,
 };
 
 
@@ -19,7 +19,7 @@ export default function CustomRadio(props: Props) {
   const isSelected = (props.currentValue === shownValue);
   const RadioButton = isSelected ? RadioButtonSelected : RadioButtonUnselected;
   const id = `accessibility-${shownValue}`;
-  return (<label className={shownValue} htmlFor={id}>
+  return (<label className={`${shownValue} ${isSelected ? 'is-selected' : ''}`} htmlFor={id}>
     <header>
       <Radio value={shownValue} id={id} />
       <RadioButton className="radio-button" />

@@ -7,6 +7,7 @@ import { Dots } from 'react-activity';
 import 'accessibility-cloud-widget/src/app.css';
 
 import Categories from '../../lib/Categories';
+import type { Category } from '../../lib/Categories';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -28,7 +29,6 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 
 type Props = {
-  className: string,
   feature: Feature,
   featureId: string | number,
   hidden: boolean,
@@ -99,7 +99,6 @@ class NodeToolbar extends Component<Props, State> {
 
     if (!properties) {
       return (<StyledToolbar
-        className={this.props.className}
         hidden={this.props.hidden}
         isSwipeable={false}
       >
@@ -108,7 +107,6 @@ class NodeToolbar extends Component<Props, State> {
     }
     return (
       <StyledToolbar
-        className={this.props.className}
         hidden={this.props.hidden}
         isSwipeable={!this.props.isEditMode}
       >
@@ -130,7 +128,11 @@ class NodeToolbar extends Component<Props, State> {
             />);
           }
           if (this.props.isEditMode) {
-            return <AccessibilityEditor feature={this.props.feature} />;
+            return (<AccessibilityEditor
+              feature={this.props.feature}
+              featureId={this.props.featureId}
+              onClose={() => this.props.history.push(`/nodes/${this.props.featureId}`)}
+            />);
           }
           return (<div>
             <BasicAccessibility properties={properties} />

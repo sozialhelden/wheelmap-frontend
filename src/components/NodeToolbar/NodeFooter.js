@@ -14,19 +14,30 @@ const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
 
 const StyledFooter = styled.footer`
-  padding-top: 10px;
+  @keyframes slideIn {
+    0% {
+      opacity: 0;
+      transform: translate3d(-2px, 0, 0);
+    }
+    100% {
+      opacity: 0.5;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
 
   .edit-hint {
     margin: -10px;
     padding: 0.25em 0.5em;
     font-size: 90%;
     font-weight: 300;
-    opacity: 0.5;
+    opacity: 0;
     color: white;
     background: ${editHintBackgroundColor};
     border-radius: 0.25em;
     text-align: center;
     text-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
+    animation: slideIn 1.5s 1s ease-out forwards;
   }
 
   .link-button {
@@ -47,7 +58,7 @@ const StyledFooter = styled.footer`
     }
     > .edit-hint {
       position: relative;
-      flex: 2;
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;

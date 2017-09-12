@@ -290,6 +290,10 @@ const StyledToolbar = styled(Toolbar)`
     &:hover {
       background-color: ${colors.linkBackgroundColorTransparent};
     }
+
+    &:disabled {
+      opacity: 0.15;
+    }
   }
 
   button.link-button.full-width-button {
