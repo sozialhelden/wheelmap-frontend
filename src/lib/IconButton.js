@@ -36,8 +36,10 @@ const StyledDiv = styled.div`
       background-color: ${props => props.activeColor || colors.selectedColor};
     }
   }
-  &:not(.active):hover .circle {
-    background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+  @media (hover), (-moz-touch-enabled: 0) {
+    &:not(.active):hover .circle {
+      background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+    }
   }
   &:focus {
     outline: none;

@@ -58,6 +58,7 @@ class AccessibilityEditor extends Component<Props, State> {
         featureId={this.props.featureId}
         feature={this.props.feature}
         onSave={(newValue: YesNoUnknown) => this.props.onClose()}
+        onClose={this.props.onClose}
       />);
     }
 
@@ -72,6 +73,7 @@ class AccessibilityEditor extends Component<Props, State> {
           this.props.onClose();
         }
       }}
+      onClose={this.props.onClose}
     />);
   }
 }

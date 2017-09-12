@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
 import React, { Component } from 'react';
 import { RadioGroup, Radio } from 'react-radio-group';
-import type { AnyReactElement } from 'react-flow-types';
 
 import CloseIcon from '../icons/actions/Close';
 
@@ -52,7 +51,7 @@ const PositionedCloseLink = styled(CloseIcon)`
 
 class FilterToolbar extends Component<DefaultProps, Props, State> {
   static defaultProps: DefaultProps;
-  toolbar: ?AnyReactElement;
+  toolbar: ?React.Element<typeof Toolbar>;
 
   state = {
     filterName: 'all',

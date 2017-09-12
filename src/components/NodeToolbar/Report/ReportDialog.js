@@ -121,6 +121,9 @@ class ReportDialog extends Component<Props, State> {
 
 
 const StyledReportDialog = styled(ReportDialog)`
+  header {
+    margin-bottom: 0.5em;
+  }
   ul.issue-types {
     margin: 0;
     padding: 0;

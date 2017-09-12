@@ -3,7 +3,7 @@
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
-import React, { Component } from 'react';
+import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
 import Toolbar from '../Toolbar';
@@ -27,8 +27,6 @@ type Props = {
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
 };
-
-type DefaultProps = {};
 
 type State = {
   searchResults: ?SearchResultCollection,
@@ -116,8 +114,7 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 
-export default class SearchToolbar extends Component<DefaultProps, Props, State> {
-  static defaultProps: DefaultProps;
+export default class SearchToolbar extends React.Component<Props, State> {
   props: Props;
 
   state = {
@@ -130,7 +127,7 @@ export default class SearchToolbar extends Component<DefaultProps, Props, State>
 
   queryIndex: number = 0;
 
-  toolbar: AnyReactElement;
+  toolbar: ?React.Element<typeof Toolbar>;
   input: HTMLInputElement;
 
   handleSearchInputChange = debounce((event: UIEvent) => {

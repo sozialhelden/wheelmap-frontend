@@ -47,6 +47,7 @@ class ToiletStatusEditor extends Component<Props, State> {
 
     if (value === 'unknown') {
       if (typeof this.props.onClose === 'function') this.props.onClose();
+      return;
     }
 
     const featureId = this.props.featureId;

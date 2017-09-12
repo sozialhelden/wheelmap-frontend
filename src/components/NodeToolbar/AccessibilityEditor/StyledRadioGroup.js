@@ -68,6 +68,9 @@ const StyledRadioGroup = styled(RadioGroup)`
     footer {
       margin: 0.5em 0 0 0;
       opacity: 0.6;
+      @media (max-width: 512px), (max-height: 512px) {
+        font-size: 80%;
+      }
     }
     cursor: pointer;
     input {

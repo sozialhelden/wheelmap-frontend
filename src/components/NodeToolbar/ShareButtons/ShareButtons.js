@@ -28,6 +28,7 @@ type Props = {
   featureId: string | number | null,
   category: ?Category,
   parentCategory: ?Category,
+  onToggle: (() => void),
 };
 
 type State = {
@@ -36,21 +37,21 @@ type State = {
 
 
 class ExpandableShareButtons extends Component<Props, State> {
+  props: Props;
+
   state = {
     isExpanded: false,
   };
 
-  expand() {
-    this.setState({ isExpanded: true });
+  toggle(isExpanded) {
+    this.setState({ isExpanded });
+    if (this.props.onToggle) this.props.onToggle();
   }
 
-  collapse() {
-    this.setState({ isExpanded: false });
-  }
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.featureId !== this.props.featureId) {
-      this.collapse();
+      this.toggle(false);
     }
   }
 
@@ -76,36 +77,36 @@ class ExpandableShareButtons extends Component<Props, State> {
       mailToLink = `mailto:?subject=${encodeURIComponent(placeName)}%20on%20Wheelmap.org&body=${encodeURIComponent(mailBody)}`;
     }
 
-    const expandButton = (<button className={'link-button expand-button full-width-button'} onClick={() => this.expand()}>
+    const expandButton = (<button className={'link-button expand-button full-width-button'} onClick={() => this.toggle(true)}>
       Share
     </button>);
 
     if (!this.state.isExpanded) return expandButton;
 
     return (<div className={this.props.className}>
-      <button className={'link-button collapse-button'} onClick={() => this.collapse()}>
+      <button className={'link-button collapse-button'} onClick={() => this.toggle(false)}>
         <ChevronLeft />
       </button>
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
         <FacebookShareButton url={url} quote={pageDescription}>
-          <IconButton hoverColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" />
+          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" />
         </FacebookShareButton>
 
         <TwitterShareButton url={url} title={pageTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
-          <IconButton hoverColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" />
+          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" />
         </TwitterShareButton>
 
         <TelegramShareButton url={url} title={pageTitle}>
-          <IconButton hoverColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" />
+          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" />
         </TelegramShareButton>
 
         <a href={mailToLink}>
-          <IconButton hoverColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" />
+          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" />
         </a>
 
         <WhatsappShareButton url={url} title={pageTitle}>
-          <IconButton hoverColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" />
+          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" />
         </WhatsappShareButton>
       </footer>
     </div>);
@@ -160,9 +161,11 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
       border: none;
     }
 
-    &:hover {
-      .caption {
-        color: ${colors.linkColor} !important;
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:hover {
+        .caption {
+          color: ${colors.linkColor} !important;
+        }
       }
     }
   }

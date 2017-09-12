@@ -33,6 +33,7 @@ type Props = {
   featureId: string | number,
   hidden: boolean,
   isEditMode: boolean,
+  onReportModeToggle: ?((isReportMode: boolean) => void),
 };
 
 
@@ -60,8 +61,14 @@ class NodeToolbar extends Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     this.fetchCategory(nextProps);
     if (nextProps.featureId !== this.props.featureId) {
-      this.setState({ isReportMode: false });
+      this.toggleReportMode(false);
     }
+  }
+
+
+  toggleReportMode(isReportMode: boolean) {
+    this.setState({ isReportMode });
+    if (this.props.onReportModeToggle) this.props.onReportModeToggle(isReportMode);
   }
 
 
@@ -108,7 +115,8 @@ class NodeToolbar extends Component<Props, State> {
     return (
       <StyledToolbar
         hidden={this.props.hidden}
-        isSwipeable={!this.props.isEditMode}
+        isModal={this.props.isEditMode || this.state.isReportMode}
+        innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink history={this.props.history} />}
 
@@ -124,16 +132,22 @@ class NodeToolbar extends Component<Props, State> {
             return (<ReportDialog
               feature={this.props.feature}
               featureId={this.props.featureId}
-              onClose={() => this.setState({ isReportMode: false })}
+              onClose={() => {
+                this.toggleReportMode(false);
+              }}
             />);
           }
+
           if (this.props.isEditMode) {
             return (<AccessibilityEditor
               feature={this.props.feature}
               featureId={this.props.featureId}
-              onClose={() => this.props.history.push(`/nodes/${this.props.featureId}`)}
+              onClose={() => {
+                this.props.history.push(`/nodes/${this.props.featureId}`);
+              }}
             />);
           }
+
           return (<div>
             <BasicAccessibility properties={properties} />
             <AccessibilityDetails details={accessibility} />
@@ -149,10 +163,15 @@ class NodeToolbar extends Component<Props, State> {
               featureId={this.props.featureId}
               category={this.state.category}
               parentCategory={this.state.parentCategory}
+              onToggle={() => {
+                if (this.toolbar) this.toolbar.ensureFullVisibility();
+              }}
             />
             <button
               className="link-button full-width-button"
-              onClick={() => this.setState({ isReportMode: true })}
+              onClick={() => {
+                this.toggleReportMode(true);
+              }}
             >
               Report an Issue
             </button>

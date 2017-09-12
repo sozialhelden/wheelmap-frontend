@@ -2,8 +2,7 @@
 /* eslint-disable max-len */
 
 import styled from 'styled-components';
-import React, { Component } from 'react';
-import type { AnyReactElement } from 'react-flow-types';
+import * as React from 'react';
 
 
 type Props = {
@@ -12,35 +11,33 @@ type Props = {
   className: string,
   isKeyboardShown: boolean,
   isRenderedIfInvisible: boolean,
-  children: AnyReactElement,
+  children: React.Node,
 };
 
-class ModalDialog extends Component<Props, void> {
-  render() {
-    const isVisible = this.props.isVisible;
+function ModalDialog(props: Props) {
+  const isVisible = props.isVisible;
 
-    if (!isVisible && !this.props.isRenderedIfInvisible) {
-      return null;
-    }
+  if (!isVisible && !props.isRenderedIfInvisible) {
+    return null;
+  }
 
-    const hasKeyboard = this.props.isKeyboardShown;
+  const hasKeyboard = props.isKeyboardShown;
 
-    return (
-      <div className={`modal-dialog ${this.props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}>
-        <div className={'modal-dialog-fullscreen-overlay'} onClick={this.props.onClose} />
-        <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
-          <div className={'modal-dialog-content'}>
-            <button className={'close-dialog'} onClick={this.props.onClose}>
-              <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
-                <polygon id="×" stroke="none" fill="#000" opacity="0.8" fillRule="evenodd" points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031" />
-              </svg>
-            </button>
-            {this.props.children}
-          </div>
+  return (
+    <div className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}>
+      <div className={'modal-dialog-fullscreen-overlay'} onClick={props.onClose} />
+      <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
+        <div className={'modal-dialog-content'}>
+          <button className={'close-dialog'} onClick={props.onClose}>
+            <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
+              <polygon id="×" stroke="none" fill="#000" opacity="0.8" fillRule="evenodd" points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031" />
+            </svg>
+          </button>
+          {props.children}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const StyledModalDialog = styled(ModalDialog)`

@@ -1,9 +1,10 @@
 // @flow
 
+import get from 'lodash/get';
 import pick from 'lodash/pick';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
-import get from 'lodash/get';
+import initReactFastclick from 'react-fastclick';
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
@@ -18,9 +19,9 @@ import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './component
 import NotFound from './components/NotFound/NotFound';
 
 import colors from './lib/colors';
-import type { Feature } from './lib/Feature';
+
 import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
-import type { YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
+import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { getQueryParams, setQueryParams } from './lib/queryParams';
@@ -30,6 +31,10 @@ import isTouchDevice from './lib/isTouchDevice';
 
 import 'leaflet/dist/leaflet.css';
 import './App.css';
+
+
+initReactFastclick();
+
 
 type Props = {
   className: string,
@@ -49,6 +54,7 @@ type State = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
+  isReportMode: boolean,
 };
 
 type RouteInformation = {
@@ -213,6 +219,7 @@ class FeatureLoader extends Component<Props, State> {
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
       this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
       isEditMode ? 'is-edit-mode' : null,
+      this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
 
     return (<div className={classList.join(' ')}>
@@ -269,6 +276,7 @@ class FeatureLoader extends Component<Props, State> {
           hidden={this.state.isFilterToolbarVisible}
           featureId={featureId}
           isEditMode={isEditMode}
+          onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
         />
       </div>) : null}
 
@@ -325,6 +333,7 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     }
   }
 
+  &.is-report-mode:not(.is-on-not-found-page),
   &.is-edit-mode:not(.is-on-not-found-page) {
     > *:not(.node-toolbar) {
       filter: blur(5px);

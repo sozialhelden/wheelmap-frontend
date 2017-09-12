@@ -1,11 +1,12 @@
 // @flow
+import { hsl } from 'd3-color';
 import uniq from 'lodash/uniq';
 import styled from 'styled-components';
+import debounce from 'lodash/debounce';
 import Swipeable from 'react-swipeable';
 import React, { Component } from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
-import { hsl } from 'd3-color';
 
 type Props = {
   className: string,
@@ -13,13 +14,7 @@ type Props = {
   hidden?: boolean,
   minimalHeight?: number,
   isSwipeable?: boolean,
-};
-
-
-const defaultProps = {
-  hidden: false,
-  minimalHeight: 130,
-  isSwipeable: true,
+  isModal?: boolean,
 };
 
 
@@ -35,10 +30,17 @@ type State = {
 };
 
 
-class Toolbar extends Component<typeof defaultProps, Props, State> {
-  static defaultProps = defaultProps;
+class Toolbar extends Component<Props, State> {
+  static defaultProps = {
+    hidden: false,
+    minimalHeight: 130,
+    isSwipeable: true,
+    isModal: false,
+  };
+
+  props: Props;
+
   scrollElement: ?HTMLElement;
-  onResizeBound: (() => void);
 
   state = {
     lastTopOffset: 0,
@@ -52,26 +54,41 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
   };
 
 
-  constructor(props: Props) {
-    super(props);
-    this.onResizeBound = this.onResize.bind(this);
-  }
+  onWindowResize = debounce(() => {
+    this.onResize();
+  }, 200);
 
 
   componentWillMount() {
     this.onResize();
-    window.addEventListener('resize', this.onResizeBound);
+    window.addEventListener('resize', this.onWindowResize);
   }
 
 
   componentDidMount() {
     this.onResize();
-    setTimeout(() => this.onResize(), 1000);
+    if (this.props.isModal) this.ensureFullVisibility();
+    setTimeout(() => this.onResize(), 500);
   }
 
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResizeBound);
+    window.removeEventListener('resize', this.onWindowResize);
+  }
+
+
+  componentWillReceiveProps(newProps: Props) {
+    if (newProps.isModal !== this.props.isModal) {
+      this.ensureFullVisibility();
+    }
+  }
+
+
+  ensureFullVisibility() {
+    setTimeout(() => {
+      this.setState({ topOffset: 0 });
+      this.onResize();
+    }, 150);
   }
 
 
@@ -81,18 +98,18 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-      topOffset: this.getNearestStopForTopOffset(this.state.topOffset),
     });
-  }
 
-  ensureFullVisibility() {
-    this.setState({ topOffset: 0 });
-    this.onResize();
+    const topOffset = this.getNearestStopForTopOffset();
+    this.setState({
+      topOffset,
+      lastTopOffset: topOffset,
+    });
   }
 
 
   onSwiping(e: TouchEvent, deltaX: number, deltaY: number) {
-    if (!this.props.isSwipeable) {
+    if (!this.props.isSwipeable || this.props.isModal) {
       return;
     }
     if (this.scrollElement && this.scrollElement.scrollTop > 0) {
@@ -113,16 +130,14 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
 
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
-    if (!this.props.isSwipeable) {
+    if (!this.props.isSwipeable || this.props.isModal) {
       return;
     }
     this.setState({ isSwiping: false, scrollTop: 0 });
     if (isFlick && !this.state.scrollTop) {
       const isSwipingUp = deltaY > 0;
-      const indexDelta = isSwipingUp ? -1 : +1;
       const stops = this.getStops();
-      const index = stops.indexOf(this.state.lastTopOffset) + indexDelta;
-      const newIndex = Math.max(0, Math.min(stops.length - 1, index));
+      const newIndex = isSwipingUp ? 0 : (stops.length - 1);
       this.setState({
         lastTopOffset: stops[newIndex],
         topOffset: 0,
@@ -200,6 +215,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
     const classNames = [
       'toolbar',
       this.props.hidden ? 'toolbar-hidden' : null,
+      this.props.isModal ? 'toolbar-is-modal' : null,
       this.props.className,
     ];
     const className = classNames.filter(Boolean).join(' ');
@@ -212,7 +228,7 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
         style={this.getStyle()}
         ref={(nav) => { this.scrollElement = nav; }}
       >
-        {this.props.isSwipeable ? <div className="grab-handle" /> : null}
+        {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
         {this.props.children}
       </nav>
     </Swipeable>);
@@ -221,11 +237,17 @@ class Toolbar extends Component<typeof defaultProps, Props, State> {
 
 const StyledToolbar = styled(Toolbar)`
   position: fixed;
-  top: 50px;
   left: 0;
   width: 320px;
   min-width: 320px;
+  top: 50px;
   max-height: calc(100% - 80px);
+  &.toolbar-is-modal {
+    @media (max-height: 512px), (max-width: 512px) {
+      top: 0px;
+      max-height: 100%;
+    }
+  }
   margin: 10px;
   padding: 12px 15px 5px 15px;
   box-sizing: border-box;
@@ -287,8 +309,10 @@ const StyledToolbar = styled(Toolbar)`
     outline: none;
     color: ${colors.linkColor};
 
-    &:hover {
-      background-color: ${colors.linkBackgroundColorTransparent};
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:hover {
+        background-color: ${colors.linkBackgroundColorTransparent};
+      }
     }
 
     &:disabled {
@@ -305,8 +329,11 @@ const StyledToolbar = styled(Toolbar)`
     color: white;
     background-color: ${colors.linkColor};
     min-width: 8em;
-    &:hover {
-      background-color: ${hsl(colors.linkColor).brighter(0.2)};
+
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:hover {
+        background-color: ${hsl(colors.linkColor).brighter(0.2)};
+      }
     }
     &:active {
       background-color: ${hsl(colors.linkColor).darker(0.2)};
@@ -315,8 +342,10 @@ const StyledToolbar = styled(Toolbar)`
 
   .negative-button {
     color: ${colors.negativeColor};
-    &:hover {
-      background-color: ${colors.negativeBackgroundColorTransparent};
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:hover {
+        background-color: ${colors.negativeBackgroundColorTransparent};
+      }
     }
     &:active {
       background-color: ${hsl(colors.negativeBackgroundColorTransparent).darker(1)};
