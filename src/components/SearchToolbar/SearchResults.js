@@ -268,6 +268,7 @@ const StyledSearchResults = styled(SearchResults)`
   }
 
   li > a {
+    overflow: hidden;
     color: rgba(0, 0, 0, 0.8) !important;
 
     &:hover {
