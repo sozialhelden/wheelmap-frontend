@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
-import React from 'react';
+import * as React from 'react';
 import ChevronRight from './ChevronRight';
 import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature.js';
 

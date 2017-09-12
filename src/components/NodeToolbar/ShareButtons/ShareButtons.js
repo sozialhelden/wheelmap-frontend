@@ -35,7 +35,7 @@ type State = {
 }
 
 
-class ExpandableShareButtons extends Component<void, Props, State> {
+class ExpandableShareButtons extends Component<Props, State> {
   state = {
     isExpanded: false,
   };

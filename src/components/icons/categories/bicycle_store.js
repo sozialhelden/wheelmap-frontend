@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function Bicycle_store(props) {
   return (

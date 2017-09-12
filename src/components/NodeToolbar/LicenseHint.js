@@ -18,7 +18,7 @@ type State = {
 
 const defaultState = { license: null, source: null };
 
-class LicenseHint extends Component<void, Props, State> {
+class LicenseHint extends Component<Props, State> {
   props: Props;
   state = defaultState;
 

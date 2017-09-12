@@ -48,7 +48,7 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 
-class NodeToolbar extends Component<void, Props, State> {
+class NodeToolbar extends Component<Props, State> {
   props: Props;
   state = { category: null, parentCategory: null, isReportMode: false };
 

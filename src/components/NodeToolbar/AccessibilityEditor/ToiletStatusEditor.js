@@ -20,7 +20,7 @@ type State = {
 };
 
 
-class ToiletStatusEditor extends Component<void, Props, State> {
+class ToiletStatusEditor extends Component<Props, State> {
   props: Props;
   state = {
     toiletAccessibility: 'unknown',

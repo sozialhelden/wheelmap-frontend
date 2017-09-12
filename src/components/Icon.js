@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
-import React from 'react';
+import * as React from 'react';
 import type { NodeProperties } from '../lib/Feature';
 import { getColorForWheelchairAccessibility } from '../lib/colors';
 import * as icons from './icons/categories';

@@ -19,7 +19,7 @@ type State = {
 
 const defaultState: State = { sourceName: null };
 
-class SourceLink extends Component<void, Props, State> {
+class SourceLink extends Component<Props, State> {
   props: Props;
   state: State = defaultState;
 

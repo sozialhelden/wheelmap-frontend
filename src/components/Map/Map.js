@@ -58,7 +58,7 @@ type State = {
 overrideLeafletZoomBehavior();
 
 
-export default class Map extends Component<void, Props, State> {
+export default class Map extends Component<Props, State> {
   props: Props;
   state: State = {
     accessibilityFilter: [].concat(yesNoLimitedUnknownArray),

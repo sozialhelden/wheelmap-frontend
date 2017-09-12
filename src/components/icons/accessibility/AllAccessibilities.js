@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function AllAccessibilitiesIcon(props) {
   return (<svg width="40px" height="19px" viewBox="0 0 40 19" version="1.1" {...props}>

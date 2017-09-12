@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function ToiletStatuAccessibleIcon(props) {
   return (<svg width="38px" height="24px" viewBox="0 0 38 24" version="1.1" {...props}>

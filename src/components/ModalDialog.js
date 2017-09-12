@@ -15,7 +15,7 @@ type Props = {
   children: AnyReactElement,
 };
 
-class ModalDialog extends Component<void, Props, void> {
+class ModalDialog extends Component<Props, void> {
   render() {
     const isVisible = this.props.isVisible;
 

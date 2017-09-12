@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function Close(props) {
   return (<svg width="13px" height="13px" viewBox="0 0 17 17" version="1.1" {...props}>

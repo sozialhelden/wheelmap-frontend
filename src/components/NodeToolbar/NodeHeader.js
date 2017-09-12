@@ -51,7 +51,7 @@ function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
   </a>);
 }
 
-export default class NodeHeader extends Component<void, Props, void> {
+export default class NodeHeader extends Component<Props, void> {
   static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
     return getAddressString(properties);
   }

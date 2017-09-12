@@ -20,7 +20,7 @@ type State = {
 };
 
 
-class AccessibilityEditor extends Component<void, Props, State> {
+class AccessibilityEditor extends Component<Props, State> {
   props: Props;
   state = {
     isInToiletEditingMode: false,

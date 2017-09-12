@@ -16,7 +16,7 @@ type State = {
 
 const defaultState = { extraInfo: null };
 
-class AccessibilityExtraInfo extends Component<void, Props, State> {
+class AccessibilityExtraInfo extends Component<Props, State> {
   props: Props;
   state = defaultState;
 

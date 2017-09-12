@@ -1,7 +1,7 @@
 // @flow
 
 import L from 'leaflet';
-import React from 'react';
+import * as React from 'react';
 import ReactDOM from 'react-dom';
 import * as categoryIcons from '../components/icons/categories';
 

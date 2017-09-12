@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';

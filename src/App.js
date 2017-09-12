@@ -65,7 +65,7 @@ function updateTouchCapability() {
 }
 
 
-class FeatureLoader extends Component<void, Props, State> {
+class FeatureLoader extends Component<Props, State> {
   state: State = {
     fetching: false,
     toilet: null,

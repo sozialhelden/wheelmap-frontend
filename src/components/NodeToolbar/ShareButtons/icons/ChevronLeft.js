@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function ChevronLeft(props) {
   return (<svg width="12px" height="30px" viewBox="0 0 24 59" version="1.1">

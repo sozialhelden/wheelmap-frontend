@@ -27,7 +27,7 @@ function MenuIcon(props) {
 }
 
 
-class MainMenu extends Component<void, Props, State> {
+class MainMenu extends Component<Props, State> {
   props: Props;
   state: State = {
     isMenuVisible: false,

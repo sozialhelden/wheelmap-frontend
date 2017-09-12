@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 
 export default function AtLeastPartialAccessibilityIcon(props) {
   return (<svg width="39px" height="22px" viewBox="0 0 39 22" version="1.1" {...props}>

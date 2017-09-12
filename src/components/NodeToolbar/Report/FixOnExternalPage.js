@@ -15,7 +15,7 @@ type State = {
 
 const defaultState: State = { sourceName: null };
 
-class FixOnExternalPage extends Component<void, Props, State> {
+class FixOnExternalPage extends Component<Props, State> {
   props: Props;
   state: State = defaultState;
 

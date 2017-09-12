@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Radio } from 'react-radio-group';
 import RadioButtonUnselected from '../../icons/ui-elements/RadioButtonUnselected';
 import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';

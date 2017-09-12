@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 import IconButton from '../../lib/IconButton';
 import * as icons from '../icons/mainCategories';

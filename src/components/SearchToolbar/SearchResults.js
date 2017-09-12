@@ -72,7 +72,7 @@ function HashLinkOrRouterLink(props) {
 }
 
 
-class SearchResult extends Component<void, SearchResultProps, State> {
+class SearchResult extends Component<SearchResultProps, State> {
   props: SearchResultProps;
 
   state: State = {
