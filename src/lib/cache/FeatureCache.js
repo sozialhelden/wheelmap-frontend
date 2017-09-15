@@ -2,13 +2,23 @@
 
 import type { Feature, FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
+import EventTarget, { CustomEvent } from '../EventTarget';
+
+
+type FeatureCacheEvent = Event & {
+  target: FeatureCache, // eslint-disable-line no-use-before-define
+  feature: Feature,
+};
 
 /**
  * Base clase for a cache of GeoJSON features (cached by id). Subclass this and override the
  * `fetchFeature` method.
  */
 
-export default class FeatureCache<FeatureType: Class<Feature>, FeatureCollectionType: Class<FeatureCollection>> {
+export default class FeatureCache<
+  FeatureType: Class<Feature>,
+  FeatureCollectionType: Class<FeatureCollection>
+> extends EventTarget<FeatureCacheEvent> {
   cache: { [string]: ?FeatureType } = {};
 
   /**
@@ -27,7 +37,7 @@ export default class FeatureCache<FeatureType: Class<Feature>, FeatureCollection
     this.cache[featureId] = feature;
   }
 
-  static getIdForFeature(feature: FeatureType): string {
+  static getIdForFeature(feature: FeatureType): string { // eslint-disable-line no-unused-vars
     throw new Error('Please implement this in your subclass.');
   }
 
@@ -48,9 +58,11 @@ export default class FeatureCache<FeatureType: Class<Feature>, FeatureCollection
     this.constructor.fetchFeature(id).then(
       (response: Response) => {
         if (response.status === 200) {
-          return this.constructor.getFeatureFromResponse(response).then((fetchedFeature) => {
-            this.cacheFeature(fetchedFeature);
-            resolve(fetchedFeature);
+          return this.constructor.getFeatureFromResponse(response).then((feature) => {
+            this.cacheFeature(feature);
+            resolve(feature);
+            const changeEvent = new CustomEvent('change', { target: this, feature });
+            this.dispatchEvent(changeEvent);
           }, reject);
         }
         if (response.status === 404) {
@@ -101,9 +113,12 @@ export default class FeatureCache<FeatureType: Class<Feature>, FeatureCollection
     const existingProperties = feature.properties;
     if (existingProperties) {
       Object.assign(existingProperties, newProperties);
-      return;
+    } else {
+      feature.properties = Object.assign({}, newProperties);
     }
-    feature.properties = Object.assign({}, newProperties);
+    const changeEvent = new CustomEvent('change', { target: this, feature });
+    this.dispatchEvent(changeEvent);
+    console.log('Updated feature', feature);
   }
 
 

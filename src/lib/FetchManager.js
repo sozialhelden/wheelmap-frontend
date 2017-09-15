@@ -1,38 +1,13 @@
 // @flow
 
+import EventTarget, { CustomEvent } from './EventTarget';
 
-export default class FetchManager {
+export default class FetchManager extends EventTarget {
   lastError = null;
   runningPromises: Map<Promise<Response>, boolean> = new Map();
-  listeners = {};
 
-  addEventListener(type: string, callback: ((event: Event) => void)) {
-    if (!(type in this.listeners)) {
-      this.listeners[type] = [];
-    }
-    this.listeners[type].push(callback);
-  }
-
-  removeEventListener(type: string, callback: ((event: Event) => void)) {
-    if (!(type in this.listeners)) {
-      return;
-    }
-    const stack = this.listeners[type];
-    for (let i = 0, l = stack.length; i < l; i += 1) {
-      if (stack[i] === callback) {
-        stack.splice(i, 1);
-        return;
-      }
-    }
-  }
-
-  dispatchEvent(event: Event) {
-    if (!(event.type in this.listeners)) {
-      return true;
-    }
-    const stack = this.listeners[event.type];
-    stack.forEach(handler => handler.call(this, event));
-    return !event.defaultPrevented;
+  isLoading(): boolean {
+    return this.runningPromises.size ? (this.runningPromises.size > 0) : false;
   }
 
   fetch(
@@ -45,13 +20,13 @@ export default class FetchManager {
       if (promise) {
         this.runningPromises.delete(promise);
       }
-      this.dispatchEvent(new Event('stop', { target: this }));
+      this.dispatchEvent(new CustomEvent('stop', { target: this }));
       return response;
     };
 
     const handleError = (reason: any) => {
       console.log('Unhandled error while fetching:', reason);
-      this.dispatchEvent(new Event('error', { target: this }));
+      this.dispatchEvent(new CustomEvent('error', { target: this }));
       if (reason instanceof Error) {
         this.lastError = reason;
       }
@@ -61,7 +36,7 @@ export default class FetchManager {
       .then(removeFromRunningPromises, removeFromRunningPromises)
       .catch(handleError);
     this.runningPromises.set(promise, true);
-    this.dispatchEvent(new Event('start', { target: this }));
+    this.dispatchEvent(new CustomEvent('start', { target: this }));
     return promise;
   }
 }

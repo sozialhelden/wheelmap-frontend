@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import logo from '../../lib/Logo.svg';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
+import GlobalActivityIndicator from './GlobalActivityIndicator';
 
 type State = {
   isMenuVisible: boolean,
@@ -76,6 +77,7 @@ class MainMenu extends Component<Props, State> {
           <img alt="" className="logo" src={logo} />
         </a>
       </div>
+      <GlobalActivityIndicator />
       <div className="flexible-separator" />
       <a className="nav-link" href="https://travelable.info">Travel guide</a>
       <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter">Get involved</a>
@@ -109,6 +111,10 @@ const StyledMainMenu = styled(MainMenu)`
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
   transition: height 0.3s ease-out;
   overflow: auto;
+
+  .home-link {
+    margin-right: 1em;
+  }
 
   .logo {
     height: 30px;
