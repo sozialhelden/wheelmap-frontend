@@ -308,7 +308,7 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 
   &.is-dialog-visible {
     > *:not(.modal-dialog) {
-      filter: blur(10px);
+      filter: blur(5px);
       &, * {
         pointer-events: none;
       }

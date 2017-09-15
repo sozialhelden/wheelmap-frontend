@@ -51,17 +51,27 @@ const StyledOnboarding = styled(Onboarding)`
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 90%;
   }
+
+  .modal-dialog-fullscreen-overlay {
+    background-color: transparent;
+  }
+
   .close-dialog {
     display: none;
   }
+
   .modal-dialog-content {
-    padding: 15px;
     display: flex;
     flex-direction: row;
+    padding: 15px;
     overflow: auto;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.92);
+
     img.logo {
       width: 200px;
     }
+
     @media (max-width: 768px) {
       > header {
         img.logo {
@@ -69,6 +79,7 @@ const StyledOnboarding = styled(Onboarding)`
         }
       }
     }
+
     @media (max-width: 1199px) {
       flex-direction: column !important;
       > footer, > header {
@@ -77,11 +88,17 @@ const StyledOnboarding = styled(Onboarding)`
         margin: 0 12.5%;
       }
     }
+
     @media (min-width: 1200px) {
       justify-content: center;
       align-items: center;
       > header, footer {
         flex: 1;
+        display: flex;
+        justify-content: center;
+      }
+      header {
+        flex-direction: column;
       }
       > section {
         flex: 2;
@@ -163,9 +180,7 @@ const StyledOnboarding = styled(Onboarding)`
         footer {
           font-size: 90%;
           opacity: 0.7;
-          /*@media (max-width: 768px) {*/
-            display: none;
-          /*}*/
+          display: none;
         }
 
       }
