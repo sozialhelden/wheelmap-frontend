@@ -7,7 +7,7 @@ import StyledRadioGroup from './StyledRadioGroup';
 import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
-
+import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 
 type Props = {
   featureId: number,
@@ -64,6 +64,7 @@ class WheelchairStatusEditor extends Component<Props, State> {
     };
 
     wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
+    wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
 
     fetch(`/nodes/${featureId}/update_wheelchair.js`, options);
 

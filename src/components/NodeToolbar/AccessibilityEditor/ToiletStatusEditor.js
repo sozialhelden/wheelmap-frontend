@@ -6,6 +6,7 @@ import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
+import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 
 type Props = {
   featureId: number,
@@ -62,6 +63,7 @@ class ToiletStatusEditor extends Component<Props, State> {
     };
 
     wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
+    wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
 
     fetch(`/nodes/${featureId}/update_toilet.js`, options);
 
