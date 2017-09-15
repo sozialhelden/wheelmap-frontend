@@ -42,7 +42,9 @@ class FixOnExternalPage extends Component<Props, State> {
   }
 
   render() {
-    const { properties } = this.props;
+    const { feature } = this.props;
+    if (!feature || !feature.properties) return null;
+    const properties = feature.properties;
 
     const sourceName = this.state.sourceName;
 
