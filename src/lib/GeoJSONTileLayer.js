@@ -46,6 +46,23 @@ class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
+    options.featureCache.addEventListener('change', (event) => {
+      const feature = event.feature;
+      const featureId = feature.properties.id || feature.properties._id || feature.id;
+      const existingMarker = this._idsToShownLayers[featureId];
+      debugger
+      if (existingMarker) {
+        const layerGroup = existingMarker.layerGroup;
+        if (layerGroup) {
+          existingMarker.remove();
+          delete this._idsToShownLayers[featureId];
+          const marker = this.pointToLayer(feature);
+          layerGroup.addLayer(marker);
+          marker.layerGroup = layerGroup;
+          this._map.addLayer(marker);
+        }
+      }
+    });
   }
 
   _filterFeatureCollection(featureCollection, filterFn) {
@@ -127,11 +144,31 @@ class GeoJSONTileLayer extends TileLayer {
     return L.Util.template(this._url, L.extend(data, this.options));
   }
 
+  pointToLayer(feature) {
+    const geometry = feature.geometry;
+    const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
+    const id = feature.properties._id || feature.properties.id;
+    if (this._idsToShownLayers[id]) return this._idsToShownLayers[id];
+    const pointToLayerFn = this.options.pointToLayer || this.constructor.pointToLayer;
+    const marker = pointToLayerFn(feature, latlng);
+    marker.feature = feature;
+
+    this._idsToShownLayers[id] = marker;
+    if (String(id) === this.highlightedMarkerId) {
+      const highlightFn = () => {
+        highlightMarker(marker);
+        marker.off('add', highlightFn);
+      };
+      marker.on('add', highlightFn);
+    }
+    return marker;
+  }
+
   _loadTile(tile, tilePoint) {
     // this._adjustTilePoint(tilePoint);
 
     const url = this.getTileUrl(tilePoint);
-    const layer = this;
+    const tileLayer = this;
 
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
     tile.url = url;
@@ -156,29 +193,9 @@ class GeoJSONTileLayer extends TileLayer {
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
     tile.request.open('GET', url, true);
     tile.request.setRequestHeader('Accept', 'application/json');
-    const httpHeaders = layer.options.httpHeaders;
+    const httpHeaders = tileLayer.options.httpHeaders;
     Object.keys(httpHeaders || {}).forEach(key =>
       tile.request.setRequestHeader(key, httpHeaders[key]));
-
-    function pointToLayer(feature) {
-      const geometry = feature.geometry;
-      const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
-      const id = feature.properties._id || feature.properties.id;
-      if (idsToShownLayers[id]) return idsToShownLayers[id];
-      const pointToLayerFn = layer.options.pointToLayer || layer.constructor.pointToLayer;
-      const marker = pointToLayerFn(feature, latlng);
-      marker.feature = feature;
-      // console.log('Adding marker', id, 'to _idsToShownLayers');
-      idsToShownLayers[id] = marker;
-      if (String(id) === layer.highlightedMarkerId) {
-        const highlightFn = () => {
-          highlightMarker(marker);
-          marker.off('add', highlightFn);
-        };
-        marker.on('add', highlightFn);
-      }
-      return marker;
-    }
 
     tile.request.addEventListener('load', function load() {
       if (!this.responseText || this.status >= 400) {
@@ -191,16 +208,19 @@ class GeoJSONTileLayer extends TileLayer {
         console.log('Could not parse FeatureCollection JSON.');
         return;
       }
-      const filteredGeoJSON = layer._removeFilteredFeatures(geoJSON);
-      layer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
-      const markers = filteredGeoJSON.features.map(pointToLayer);
-      const layerGroup = L.layerGroup(layer.options);
-      markers.forEach(marker => layerGroup.addLayer(marker));
+      const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
+      tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
+      const markers = filteredGeoJSON.features.map(feature => tileLayer.pointToLayer(feature));
+      const layerGroup = L.layerGroup(tileLayer.options);
+      markers.forEach((marker) => {
+        layerGroup.addLayer(marker);
+        marker.layerGroup = layerGroup;
+      });
       // eslint-disable-next-line no-param-reassign
       tile.layer = layerGroup;
-      layer._tileOnLoad(tile, url);
+      tileLayer._tileOnLoad(tile, url);
     });
-    tile.request.addEventListener('error', () => layer._tileOnError(tile, url));
+    tile.request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
     tile.request.send();
     tile.el = {}; // eslint-disable-line no-param-reassign
   }
