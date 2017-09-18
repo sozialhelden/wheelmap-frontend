@@ -55,6 +55,7 @@ type State = {
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
   isReportMode: boolean,
+  category: ?string,
 };
 
 type RouteInformation = {
@@ -73,6 +74,8 @@ function updateTouchCapability() {
 
 
 class FeatureLoader extends Component<Props, State> {
+  props: Props;
+
   state: State = {
     fetching: false,
     toilet: null,
@@ -83,6 +86,7 @@ class FeatureLoader extends Component<Props, State> {
     isFilterToolbarVisible: false,
     isOnboardingVisible: isOnboardingVisible(),
     isNotFoundVisible: false,
+    category: null,
   };
 
   map: ?any;
@@ -97,20 +101,30 @@ class FeatureLoader extends Component<Props, State> {
 
 
   componentDidMount() {
-    this.fetchFeature(this.props);
     window.addEventListener('hashchange', this.onHashUpdate);
+    this.updateStateFromProps(this.props);
   }
 
+  updateStateFromProps(props: Props) {
+    this.fetchFeature(props);
 
-  componentWillReceiveProps(newProps: Props): void {
-    this.fetchFeature(newProps);
-    if (this.featureId(newProps) !== this.featureId(this.props)) {
+    if (this.featureId(props) !== this.featureId(this.props)) {
       this.setState({ isFilterToolbarVisible: false });
     }
-    const routeInformation = this.routeInformation(newProps);
+
+    const routeInformation = this.routeInformation(props);
     if (!routeInformation) {
       this.setState({ isNotFoundVisible: true });
+      return;
     }
+
+    if (routeInformation.category) {
+      this.setState({ category: routeInformation.category });
+    }
+  }
+
+  componentWillReceiveProps(newProps: Props): void {
+    this.updateStateFromProps(newProps);
   }
 
 
@@ -148,6 +162,12 @@ class FeatureLoader extends Component<Props, State> {
   }
 
 
+  featureId(props: Props = this.props): ?string {
+    const routeInformation = this.routeInformation(props);
+    return routeInformation ? routeInformation.featureId : null;
+  }
+
+
   routeInformation(props: Props = this.props): ?RouteInformation {
     const location = props.location;
     const allowedResourceNames = ['nodes', 'categories', 'search'];
@@ -162,12 +182,6 @@ class FeatureLoader extends Component<Props, State> {
       };
     }
     return null;
-  }
-
-
-  featureId(props: Props = this.props): ?string {
-    const routeInformation = this.routeInformation(props);
-    return routeInformation ? routeInformation.featureId : null;
   }
 
 
@@ -207,7 +221,8 @@ class FeatureLoader extends Component<Props, State> {
   render() {
     const routeInformation = this.routeInformation();
 
-    const { featureId, category, isEditMode, searchQuery } = routeInformation || {};
+    const { featureId, isEditMode, searchQuery } = routeInformation || {};
+    const category = this.state.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom } = this.state;
 
