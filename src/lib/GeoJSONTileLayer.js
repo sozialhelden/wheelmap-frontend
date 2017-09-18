@@ -50,7 +50,7 @@ class GeoJSONTileLayer extends TileLayer {
       const feature = event.feature;
       const featureId = feature.properties.id || feature.properties._id || feature.id;
       const existingMarker = this._idsToShownLayers[featureId];
-      debugger
+
       if (existingMarker) {
         const layerGroup = existingMarker.layerGroup;
         if (layerGroup) {
@@ -148,7 +148,13 @@ class GeoJSONTileLayer extends TileLayer {
     const geometry = feature.geometry;
     const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
     const id = feature.properties._id || feature.properties.id;
-    if (this._idsToShownLayers[id]) return this._idsToShownLayers[id];
+    const existingMarker = this._idsToShownLayers[id];
+    if (existingMarker) {
+      if (String(id) === this.highlightedMarkerId) {
+        highlightMarker(existingMarker, false);
+      }
+      return existingMarker;
+    }
     const pointToLayerFn = this.options.pointToLayer || this.constructor.pointToLayer;
     const marker = pointToLayerFn(feature, latlng);
     marker.feature = feature;
@@ -156,7 +162,7 @@ class GeoJSONTileLayer extends TileLayer {
     this._idsToShownLayers[id] = marker;
     if (String(id) === this.highlightedMarkerId) {
       const highlightFn = () => {
-        highlightMarker(marker);
+        highlightMarker(marker, false);
         marker.off('add', highlightFn);
       };
       marker.on('add', highlightFn);
@@ -189,12 +195,10 @@ class GeoJSONTileLayer extends TileLayer {
     this._loadedTileUrls[url] = true;
 
     const featureCollectionFromResponse = this.options.featureCollectionFromResponse || (r => r);
+
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
     tile.request.open('GET', url, true);
     tile.request.setRequestHeader('Accept', 'application/json');
-    const httpHeaders = tileLayer.options.httpHeaders;
-    Object.keys(httpHeaders || {}).forEach(key =>
-      tile.request.setRequestHeader(key, httpHeaders[key]));
 
     tile.request.addEventListener('load', function load() {
       if (!this.responseText || this.status >= 400) {
@@ -221,6 +225,7 @@ class GeoJSONTileLayer extends TileLayer {
     });
     tile.request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
     tile.request.send();
+
     tile.el = {}; // eslint-disable-line no-param-reassign
   }
 
@@ -245,7 +250,7 @@ class GeoJSONTileLayer extends TileLayer {
   highlightMarkerWithId(id: string) {
     const marker = this._idsToShownLayers[id];
     if (!marker) return;
-    highlightMarker(marker);
+    highlightMarker(marker, this.highlightedMarkerId !== id);
     this.highlightedMarkerId = id;
   }
 }

@@ -167,9 +167,12 @@ body.is-touch-device .leaflet-filter-button {
   z-index: 200;
   transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.4);
-  animation: popUp 0.3s ease-out;
   left: -15px;
   top: -20px;
+}
+
+.ac-big-icon-marker.animated {
+  animation: popUp 0.3s ease-out;
 }
 
 .ac-big-icon-marker svg {

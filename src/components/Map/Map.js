@@ -166,7 +166,7 @@ export default class Map extends Component<Props, State> {
       featureCache: wheelmapLightweightFeatureCache,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-      pointToLayer: createMarkerFromFeatureFn(history, wheelmapLightweightFeatureCache),
+      pointToLayer: createMarkerFromFeatureFn(history),
       filter: this.isFeatureVisible.bind(this),
     });
 
@@ -174,7 +174,7 @@ export default class Map extends Component<Props, State> {
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeatureFn(history, accessibilityCloudFeatureCache),
+      pointToLayer: createMarkerFromFeatureFn(history),
       filter: this.isFeatureVisible.bind(this),
     });
 

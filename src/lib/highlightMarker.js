@@ -23,22 +23,45 @@ export function removeCurrentHighlightedMarker() {
   currentHighlightedMarker = null;
 }
 
-export default function highlightMarker(marker: L.Marker) {
-  if (marker === currentHighlightedMarker) return;
-  removeCurrentHighlightedMarker();
-  currentHighlightedMarker = marker;
+// Appends a big marker div as child element to the given marker's element.
+// Returns `false` if the marker already was removed from the map, true if ther marker has been
+// appended (or was appended already).
+function appendBigMarkerDiv(marker: L.Marker, firstTime: boolean): boolean {
+  const markerEl = marker.getElement();
+
+  if (!markerEl) {
+    // Parent marker element already removed from map
+    return false;
+  }
+
+  if (markerEl.querySelector('.ac-big-icon-marker')) {
+    // Big marker child <div> already appended
+    return true;
+  }
+
+  console.log('Appending big marker')
 
   const IconComponent = categoryIcons[marker.options.icon.options.iconName || 'undefined'];
   const bigMarkerDiv = document.createElement('div');
   bigMarkerDiv.className = `${marker.options.icon.options.className} ac-big-icon-marker`;
-  const markerEl = marker.getElement();
-  if (!markerEl) {
-    currentHighlightedMarker = null;
-    return;
+  if (firstTime) {
+    bigMarkerDiv.className += ' animated';
   }
   markerEl.appendChild(bigMarkerDiv);
   markerEl.classList.add('ac-marker-current');
   if (IconComponent) {
     ReactDOM.render(<IconComponent />, bigMarkerDiv);
+  }
+  return true;
+}
+
+
+export default function highlightMarker(marker: L.Marker, firstTime: boolean = true) {
+  if (marker !== currentHighlightedMarker) removeCurrentHighlightedMarker();
+
+  currentHighlightedMarker = marker;
+
+  if (!appendBigMarkerDiv(marker, firstTime)) {
+    currentHighlightedMarker = null;
   }
 }
