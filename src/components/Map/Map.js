@@ -73,7 +73,11 @@ export default class Map extends Component<Props, State> {
   onMoveEnd() {
     if (!this.map) return;
     const { lat, lng } = this.map.getCenter();
-    const zoom = this.map.getZoom();
+    const zoom = Math.max(
+      this.map.getZoom(),
+      config.minimalZoom.withSetCategory,
+      config.minimalZoom.withoutSetCategory,
+    );
     saveState('lastZoom', zoom);
     saveState('lastCenter.lat', lat);
     saveState('lastCenter.lon', lng);
