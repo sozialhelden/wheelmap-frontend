@@ -325,7 +325,7 @@ export default class Map extends Component<Props, State> {
     }
 
     this.updateHighlightedMarker(props);
-  }, 500);
+  }, 100);
 
   updateHighlightedMarker(props: Props) {
     if (props.feature && props.feature.properties) {
