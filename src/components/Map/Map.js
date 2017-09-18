@@ -147,7 +147,7 @@ export default class Map extends Component<Props, State> {
           .map(marker => marker.feature.properties);
         return new ClusterIcon({ propertiesArray });
       },
-      animate: false,
+      animate: true,
       chunkedLoading: true,
     });
 
