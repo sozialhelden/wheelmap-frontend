@@ -1,5 +1,7 @@
+// @flow
+
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import React from 'react';
 import CategoryButton from './CategoryButton';
 
 const categories = {
@@ -31,12 +33,23 @@ const Container = styled.div`
 `;
 
 
-export default class CategoryMenu extends Component {
-  render() {
-    return (
-      <Container className="category-menu">
-        {Object.keys(categories).map(id => <CategoryButton onFocus={this.props.onFocus} onBlur={this.props.onBlur} key={id} className="category-button" name={categories[id]} id={id} />)}
-      </Container>
-    );
-  }
+type Props = {
+  onFocus: (() => void),
+  onBlur: (() => void),
+};
+
+
+export default function CategoryMenu(props: Props) {
+  return (
+    <Container className="category-menu">
+      {Object.keys(categories).map(id => (<CategoryButton
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        key={id}
+        className="category-button"
+        name={categories[id]}
+        id={id}
+      />))}
+    </Container>
+  );
 }
