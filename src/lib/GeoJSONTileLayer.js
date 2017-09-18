@@ -48,7 +48,7 @@ class GeoJSONTileLayer extends TileLayer {
     this._layerGroup = options.layerGroup || L.layerGroup();
     options.featureCache.addEventListener('change', (event) => {
       const feature = event.feature;
-      const featureId = feature.properties.id || feature.properties._id || feature.id;
+      const featureId = feature.id || feature.properties.id || feature.properties._id;
       const existingMarker = this._idsToShownLayers[featureId];
 
       if (existingMarker) {
@@ -151,7 +151,7 @@ class GeoJSONTileLayer extends TileLayer {
     const existingMarker = this._idsToShownLayers[id];
     if (existingMarker) {
       if (String(id) === this.highlightedMarkerId) {
-        highlightMarker(existingMarker, false);
+        highlightMarker(existingMarker);
       }
       return existingMarker;
     }
@@ -162,7 +162,7 @@ class GeoJSONTileLayer extends TileLayer {
     this._idsToShownLayers[id] = marker;
     if (String(id) === this.highlightedMarkerId) {
       const highlightFn = () => {
-        highlightMarker(marker, false);
+        highlightMarker(marker);
         marker.off('add', highlightFn);
       };
       marker.on('add', highlightFn);
@@ -249,9 +249,9 @@ class GeoJSONTileLayer extends TileLayer {
 
   highlightMarkerWithId(id: string) {
     const marker = this._idsToShownLayers[id];
-    if (!marker) return;
-    highlightMarker(marker, this.highlightedMarkerId !== id);
     this.highlightedMarkerId = id;
+    if (!marker) return;
+    highlightMarker(marker);
   }
 }
 

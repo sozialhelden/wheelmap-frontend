@@ -4,8 +4,10 @@ import L from 'leaflet';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import * as categoryIcons from '../components/icons/categories';
+import { getFeatureId } from './Feature';
 
 let currentHighlightedMarker: ?HTMLElement = null;
+let lastId = null;
 
 export function removeCurrentHighlightedMarker() {
   if (!currentHighlightedMarker) return;
@@ -23,10 +25,11 @@ export function removeCurrentHighlightedMarker() {
   currentHighlightedMarker = null;
 }
 
+
 // Appends a big marker div as child element to the given marker's element.
 // Returns `false` if the marker already was removed from the map, true if ther marker has been
 // appended (or was appended already).
-function appendBigMarkerDiv(marker: L.Marker, firstTime: boolean): boolean {
+function appendBigMarkerDiv(marker: L.Marker): boolean {
   const markerEl = marker.getElement();
 
   if (!markerEl) {
@@ -39,13 +42,15 @@ function appendBigMarkerDiv(marker: L.Marker, firstTime: boolean): boolean {
     return true;
   }
 
-  console.log('Appending big marker')
+  console.log('Appending big marker');
 
   const IconComponent = categoryIcons[marker.options.icon.options.iconName || 'undefined'];
   const bigMarkerDiv = document.createElement('div');
   bigMarkerDiv.className = `${marker.options.icon.options.className} ac-big-icon-marker`;
-  if (firstTime) {
+  const featureId = getFeatureId(marker.options.icon.options.feature);
+  if (featureId !== lastId) {
     bigMarkerDiv.className += ' animated';
+    lastId = featureId;
   }
   markerEl.appendChild(bigMarkerDiv);
   markerEl.classList.add('ac-marker-current');
@@ -56,12 +61,12 @@ function appendBigMarkerDiv(marker: L.Marker, firstTime: boolean): boolean {
 }
 
 
-export default function highlightMarker(marker: L.Marker, firstTime: boolean = true) {
+export default function highlightMarker(marker: L.Marker) {
   if (marker !== currentHighlightedMarker) removeCurrentHighlightedMarker();
 
   currentHighlightedMarker = marker;
 
-  if (!appendBigMarkerDiv(marker, firstTime)) {
+  if (!appendBigMarkerDiv(marker)) {
     currentHighlightedMarker = null;
   }
 }

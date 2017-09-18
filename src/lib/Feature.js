@@ -111,8 +111,16 @@ export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 export type FeatureCollection = AccessibilityCloudFeatureCollection | WheelmapFeatureCollection;
 
+export function getFeatureId(feature: Feature) {
+  if (!feature) return null;
+  if (feature.id) return feature.id;
+  if (!feature.properties) return null;
+  const result = feature.properties.id || feature.properties._id;
+  if (result) return String(result);
+  return null;
+}
 
-function isNumeric(id) {
+function isNumeric(id: string | number) {
   return String(id).match(/^-?\d+$/);
 }
 

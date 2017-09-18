@@ -34,6 +34,7 @@ import isSamePosition from './isSamePosition';
 
 
 type Props = {
+  featureId?: ?string,
   feature?: ?Feature,
   lat?: ?number,
   lon?: ?number,
@@ -137,7 +138,7 @@ export default class Map extends Component<Props, State> {
 
     const markerClusterGroup = new L.MarkerClusterGroup({
       maxClusterRadius(zoom) {
-        const radius = 15 + (((1.4 ** (18 - zoom)) - 1) * 10);
+        const radius = 15 + (((1.5 ** (18 - zoom)) - 1) * 10);
         return Math.round(Math.max(15, Math.min(radius, 120)));
       },
       iconCreateFunction(cluster) {
@@ -331,21 +332,20 @@ export default class Map extends Component<Props, State> {
     this.updateHighlightedMarker(props);
   }, 100);
 
+
   updateHighlightedMarker(props: Props) {
-    if (props.feature && props.feature.properties) {
-      const id = props.feature.properties._id || props.feature.properties.id;
-      if (id) {
-        if (this.wheelmapTileLayer) {
-          this.wheelmapTileLayer.highlightMarkerWithId(String(id));
-        }
-        if (this.accessibilityCloudTileLayer) {
-          this.accessibilityCloudTileLayer.highlightMarkerWithId(String(id));
-        }
-        return;
+    if (props.featureId) {
+      if (this.wheelmapTileLayer) {
+        this.wheelmapTileLayer.highlightMarkerWithId(String(props.featureId));
       }
+      if (this.accessibilityCloudTileLayer) {
+        this.accessibilityCloudTileLayer.highlightMarkerWithId(String(props.featureId));
+      }
+    } else {
+      removeCurrentHighlightedMarker();
     }
-    removeCurrentHighlightedMarker();
   }
+
 
   isFeatureVisible(feature: Feature) {
     if (!feature) return false;
