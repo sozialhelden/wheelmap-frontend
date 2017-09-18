@@ -118,7 +118,13 @@ class NodeToolbar extends Component<Props, State> {
         isModal={this.props.isEditMode || this.state.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
-        {this.props.isEditMode ? null : <PositionedCloseLink history={this.props.history} onClick={() => this.toggleReportMode(false)} />}
+        {this.props.isEditMode ? null : <PositionedCloseLink
+          history={this.props.history}
+          onClick={() => {
+            this.toggleReportMode(false);
+            if (this.props.onClose) this.props.onClose();
+          }}
+        />}
 
         <NodeHeader
           feature={this.props.feature}

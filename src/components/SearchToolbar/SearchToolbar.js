@@ -26,6 +26,7 @@ type Props = {
   lon: ?number,
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
+  onClose: ?(() => void),
 };
 
 type State = {
@@ -238,6 +239,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
               setTimeout(() => {
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
               }, 100);
+              if (this.props.onClose) this.props.onClose();
             }}
           /> : null}
 

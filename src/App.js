@@ -267,6 +267,7 @@ class FeatureLoader extends Component<Props, State> {
             this.setState(coords);
           }
         }}
+        onClose={() => { this.setState({ category: null }); }}
       />
 
       {isNodeRoute ? (<div className="node-toolbar">
@@ -277,6 +278,7 @@ class FeatureLoader extends Component<Props, State> {
           featureId={featureId}
           isEditMode={isEditMode}
           onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
+          onClose={() => { this.setState({ category: null }); }}
         />
       </div>) : null}
 
