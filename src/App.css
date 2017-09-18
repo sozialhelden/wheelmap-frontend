@@ -256,14 +256,45 @@ body.is-touch-device .leaflet-filter-button {
   opacity: 0;
 }
 
-.leaflet-marker-pane > .ac-marker:not(.ac-marker-current):hover {
-  box-shadow: 0 0 1px black;
+@media (hover), (-moz-touch-enabled: 0) {
+  .leaflet-marker-pane > .ac-marker:not(.ac-marker-current):hover {
+    box-shadow: 0 0 2px black;
+  }
 }
 
 .ac-marker-cluster {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.ac-marker-cluster.over-fifty {
+  margin-left: -13px !important;
+  margin-top: -13px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 12px !important;
+}
+
+.ac-marker-cluster.over-hundred {
+  margin-left: -14px !important;
+  margin-top: -14px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 13px !important;
+  opacity: 0.8 !important;
+  font-size: 115%;
+}
+
+.ac-marker-cluster.over-fivehundred {
+  margin-left: -21px !important;
+  margin-top: -21px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 20px !important;
+  opacity: 0.8 !important;
+  font-size: 125%;
 }
 
 @media (hover), (-moz-touch-enabled: 0) {

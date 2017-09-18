@@ -156,7 +156,15 @@ export const ClusterIcon = L.Icon.extend({
     }
     const backgroundColor = d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
     div.style.backgroundColor = backgroundColor;
+    const count = propertiesArray.length;
     this._setIconStyles(div, 'icon');
+    if (count >= 500) {
+      div.classList.add('over-fivehundred');
+    } else if (count >= 100) {
+      div.classList.add('over-hundred');
+    } else if (count >= 50) {
+      div.classList.add('over-fifty');
+    }
     return div;
   },
 
