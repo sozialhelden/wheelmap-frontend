@@ -266,6 +266,13 @@ body.is-touch-device .leaflet-filter-button {
   align-items: center;
 }
 
+@media (hover), (-moz-touch-enabled: 0) {
+  .ac-marker-cluster:hover {
+    opacity: 1 !important;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+}
+
 .leaflet-control-locate {
   cursor: pointer;
 }
