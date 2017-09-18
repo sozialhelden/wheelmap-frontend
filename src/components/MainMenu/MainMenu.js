@@ -210,6 +210,10 @@ const StyledMainMenu = styled(MainMenu)`
       pointer-events: inherit;
     }
 
+    .flexible-separator {
+      display: none;
+    }
+
     > .nav-link {
       width: 50%;
       max-width: 200px;

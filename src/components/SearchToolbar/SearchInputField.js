@@ -12,6 +12,8 @@ type Props = {
   ref: ((input: HTMLInputElement) => void),
   searchQuery: ?string,
   className: string,
+  placeholder?: ?string,
+  disabled?: boolean,
 };
 
 function hasBigViewport() {
@@ -24,10 +26,11 @@ const SearchInputField = (props: Props) =>
     value={props.searchQuery ? props.searchQuery : ''}
     autoFocus={hasBigViewport()}
     onChange={props.onChange}
+    disabled={props.disabled}
     onFocus={props.onFocus}
     onBlur={props.onBlur}
     className={`search-input ${props.className}`}
-    placeholder="Search place or address"
+    placeholder={props.placeholder ? props.placeholder : 'Search place or address'}
   />);
 
 

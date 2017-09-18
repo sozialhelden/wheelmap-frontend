@@ -38,6 +38,11 @@ type State = {
 };
 
 
+function isOnSmallViewport() {
+  return window.innerWidth < 512;
+}
+
+
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, width: 0.3s ease-out, height: 0.3s ease-out;
   display: flex;
@@ -140,11 +145,30 @@ export default class SearchToolbar extends React.Component<Props, State> {
     { leading: false, trailing: true, maxWait: 1000 },
   );
 
+
   componentDidMount() {
     if (this.props.searchQuery) {
       this.sendSearchRequest(this.props.searchQuery);
     }
   }
+
+
+  componentWillReceiveProps(newProps: Props) {
+    if (newProps.category !== this.props.category) {
+      const hasCategory = Boolean(newProps.category);
+      if (hasCategory) {
+        if (isOnSmallViewport()) {
+          this.setState({ categoryMenuIsVisible: false, searchFieldIsFocused: false });
+        }
+        if (this.toolbar) {
+          this.toolbar.ensureFullVisibility();
+        }
+      } else {
+        this.setState({ categoryMenuIsVisible: false });
+      }
+    }
+  }
+
 
   sendSearchRequest(query: string): void {
     if (!query || query.length < 3) {
@@ -175,13 +199,14 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   clearSearchOnSmallViewports() {
-    if (window.innerWidth < 512) {
+    if (isOnSmallViewport()) {
       this.setState({ categoryMenuIsVisible: false, searchResults: null });
       if (this.input instanceof HTMLInputElement) {
         this.input.value = '';
       }
     }
   }
+
 
   updateCategoryMenuVisibility = debounce(() => {
     const isCategorySelected = Boolean(this.props.category);
@@ -195,6 +220,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     const searchResults = this.state.searchResults;
 
     let contentBelowSearchField = null;
+
     if (this.state.isLoading) {
       contentBelowSearchField = <Dots size={20} />;
     } else if (searchResults) {
@@ -228,7 +254,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         isSwipeable={false}
       >
         <header>
-          {contentBelowSearchField ? <CloseLink
+          {(contentBelowSearchField || this.props.category) ? <CloseLink
             history={this.props.history}
             className="close-link"
             onClick={ () => {
@@ -244,7 +270,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
           /> : null}
 
           <SearchInputField
-            searchQuery={this.props.searchQuery}
+            searchQuery={this.props.category ? '' : this.props.searchQuery}
+            placeholder={this.props.category ? this.props.category : null}
+            disabled={Boolean(this.props.category)}
             onFocus={(event) => {
               this.input = event.target;
               this.setState({ categoryMenuIsVisible: true });

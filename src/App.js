@@ -293,7 +293,7 @@ class FeatureLoader extends Component<Props, State> {
           featureId={featureId}
           isEditMode={isEditMode}
           onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
-          onClose={() => { this.setState({ category: null }); }}
+          // onClose={() => { this.setState({ category: null }); }}
         />
       </div>) : null}
 
