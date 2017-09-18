@@ -13,7 +13,7 @@ export default class GlobalActivityIndicator extends Component<void, State> {
 
   updateState = debounce(() => {
     this.setState({ isShown: globalFetchManager.isLoading() });
-  }, 100);
+  }, 1000);
 
   componentDidMount() {
     globalFetchManager.addEventListener('start', this.updateState);
