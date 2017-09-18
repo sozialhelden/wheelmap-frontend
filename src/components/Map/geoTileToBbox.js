@@ -1,7 +1,7 @@
 // @flow
 
-Math.sinh = Math.sinh || function(x) {
-  return (Math.exp(x) - Math.exp(-x)) / 2;
+if (typeof Math.sinh === 'undefined') {
+  Math.sinh = x => (Math.exp(x) - Math.exp(-x)) / 2;
 }
 
 function tile2LatLon(x: number, y: number, z: number): [number, number] {

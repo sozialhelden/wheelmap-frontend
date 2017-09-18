@@ -6,31 +6,33 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import React, { Component } from 'react';
 import type { RouterHistory } from 'react-router-dom';
+
 import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import sozialheldenLogoUrl from './Sozialhelden.svg';
 import immobilienScout24LogoUrl from './ImmobilienScout24.svg';
-import config from '../../lib/config';
-import savedState, { saveState } from './savedState';
-import Categories from '../../lib/Categories';
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+
 import {
   isWheelchairAccessible,
   yesNoLimitedUnknownArray,
   yesNoUnknownArray,
   hasAccessibleToilet,
+  wheelmapFeatureCollectionFromResponse,
 } from '../../lib/Feature';
-import GeoJSONTileLayer from '../../lib/GeoJSONTileLayer';
+import config from '../../lib/config';
+import ClusterIcon from './ClusterIcon';
+import Categories from '../../lib/Categories';
+import isSamePosition from './isSamePosition';
+import GeoJSONTileLayer from './GeoJSONTileLayer';
+import savedState, { saveState } from './savedState';
+import addLocateControlToMap from './addLocateControlToMap';
+import { removeCurrentHighlightedMarker } from './highlightMarker';
+import createMarkerFromFeatureFn from './createMarkerFromFeatureFn';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import { wheelmapFeatureCollectionFromResponse } from '../../lib/Feature';
-import createMarkerFromFeatureFn, { ClusterIcon } from '../../lib/createMarkerFromFeatureFn';
+import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
-import { removeCurrentHighlightedMarker } from '../../lib/highlightMarker';
-
-import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
-import addLocateControlToMap from './addLocateControlToMap';
-import isSamePosition from './isSamePosition';
 
 
 type Props = {

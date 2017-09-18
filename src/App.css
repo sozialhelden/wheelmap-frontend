@@ -163,6 +163,8 @@ body.is-touch-device .leaflet-filter-button {
   width: 50px;
   height: 50px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 30px;
   z-index: 200;
   transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
@@ -193,11 +195,12 @@ body.is-touch-device .leaflet-filter-button {
   z-index: -100;
 }
 
+.ac-marker-gray .ac-big-icon-marker,
 .ac-marker-gray .ac-big-icon-marker:after {
   background-color: #e6e4e0;
 }
 
-.ac-marker-green {
+.ac-marker-green, .ac-marker-green .ac-big-icon-marker {
   background-color: #7ec512;
 }
 
@@ -205,7 +208,7 @@ body.is-touch-device .leaflet-filter-button {
   background-color: #7ec512
 }
 
-.ac-marker-yellow {
+.ac-marker-yellow, .ac-marker-yellow .ac-big-icon-marker {
   background-color: #f39e3b;
 }
 
@@ -213,11 +216,11 @@ body.is-touch-device .leaflet-filter-button {
   background-color: #f39e3b;
 }
 
-.ac-marker-red {
+.ac-marker-red, .ac-marker-red .ac-big-icon-marker {
   background-color: #f54b4b;
 }
 
-.ac-marker-red .ac-big-icon-marker:after {
+.ac-marker-red .ac-big-icon-marker:after, .ac-marker-red .ac-big-icon-marker {
   background-color: #f54b4b;
 }
 
@@ -283,7 +286,7 @@ body.is-touch-device .leaflet-filter-button {
   width: 26px !important;
   height: 26px !important;
   border-radius: 13px !important;
-  opacity: 0.8 !important;
+  opacity: 0.9 !important;
   font-size: 115%;
 }
 
@@ -293,7 +296,7 @@ body.is-touch-device .leaflet-filter-button {
   width: 40px !important;
   height: 40px !important;
   border-radius: 20px !important;
-  opacity: 0.8 !important;
+  opacity: 0.9 !important;
   font-size: 125%;
 }
 
