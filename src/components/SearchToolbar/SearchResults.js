@@ -81,9 +81,22 @@ type HashLinkOrRouterLinkProps = {
 
 function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
   if (props.isHashLink) {
-    return <a onClick={props.onClick} href={props.to} className={props.className}>{props.children}</a>;
+    return (<a
+      onClick={props.onClick}
+      href={props.to}
+      className={props.className}
+    >
+      {props.children}
+    </a>);
   }
-  return <ToolbarLink onClick={props.onClick} to={props.to} className={props.className}>{props.children}</ToolbarLink>;
+
+  return (<ToolbarLink
+    onClick={props.onClick}
+    to={props.to}
+    className={props.className}
+  >
+    {props.children}
+  </ToolbarLink>);
 }
 
 
@@ -229,7 +242,11 @@ class SearchResult extends Component<SearchResultProps, State> {
         onClick={() => {
           const coordinates = this.getCoordinates();
           if (coordinates) {
-            this.props.onSelectCoordinate({ lat: coordinates[1], lon: coordinates[0], zoom: getZoomLevel(hasWheelmapId) });
+            this.props.onSelectCoordinate({
+              lat: coordinates[1],
+              lon: coordinates[0],
+              zoom: getZoomLevel(hasWheelmapId),
+            });
           }
           this.props.onSelect();
         }}

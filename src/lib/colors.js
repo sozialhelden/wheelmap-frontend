@@ -61,7 +61,9 @@ export type MarkerColor = 'red' | 'yellow' | 'green' | 'gray';
 export const markerColors: MarkerColor[] = ['red', 'yellow', 'green', 'gray'];
 
 
-export function getColorForWheelchairAccessibilityValue(isAccessible: YesNoLimitedUnknown): MarkerColor {
+export function getColorForWheelchairAccessibilityValue(
+  isAccessible: YesNoLimitedUnknown,
+): MarkerColor {
   switch (isAccessible) {
     case 'yes': return 'green';
     case 'limited': return 'yellow';
@@ -71,7 +73,9 @@ export function getColorForWheelchairAccessibilityValue(isAccessible: YesNoLimit
 }
 
 
-export function getHTMLColorForWheelchairAccessibilityValue(isAccessible: YesNoLimitedUnknown): MarkerColor {
+export function getHTMLColorForWheelchairAccessibilityValue(
+  isAccessible: YesNoLimitedUnknown,
+): MarkerColor {
   return colors.markerBackground[getColorForWheelchairAccessibilityValue(isAccessible)];
 }
 
@@ -81,7 +85,10 @@ export function getColorForWheelchairAccessibility(properties: NodeProperties): 
 }
 
 
-const interpolateYellowGreen = interpolateLab(colors.markerBackground.yellow, colors.markerBackground.green);
+const interpolateYellowGreen = interpolateLab(
+  colors.markerBackground.yellow,
+  colors.markerBackground.green,
+);
 
 const definedAccessibilityColorScale = scaleLinear().domain([0, 0.2, 0.4, 0.6, 0.8, 1]).range([
   colors.markerBackground.red,

@@ -197,15 +197,17 @@ class Toolbar extends Component<Props, State> {
 
     let topOffset = this.state.topOffset || this.state.lastTopOffset;
     topOffset = Math.max(this.getMinimalTopPosition(), topOffset);
-    if (this.state.viewportSize.width > this.state.viewportSize.height || this.state.viewportSize.width >= 512) {
+    const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
+    const isBigViewport = this.state.viewportSize.width >= 512;
+    if (isLandscape || isBigViewport) {
       topOffset = 0;
     }
 
     const defaultTransitions = 'opacity 0.3s ease-out';
-
+    const isSwiping = this.state.isSwiping;
     return {
       touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: this.state.isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
+      transition: isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }

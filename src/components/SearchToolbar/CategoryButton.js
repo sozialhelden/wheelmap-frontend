@@ -13,6 +13,8 @@ type Props = {
   name: string,
   id: string,
   className: string,
+  onFocus: ((event: UIEvent) => void),
+  onBlur: ((event: UIEvent) => void),
 };
 
 
@@ -43,7 +45,13 @@ export default function CategoryButton(props: Props) {
   const url = `/beta/categories/${props.id}`;
   const SvgComponent = icons[props.id || 'undefined'];
 
-  return (<StyledNavLink activeClassName="active" to={url} className={props.className} onFocus={props.onFocus} onBlur={props.onBlur}>
+  return (<StyledNavLink
+    activeClassName="active"
+    to={url}
+    className={props.className}
+    onFocus={props.onFocus}
+    onBlur={props.onBlur}
+  >
     <IconButton iconComponent={<SvgComponent />} caption={props.name} />
   </StyledNavLink>);
 }

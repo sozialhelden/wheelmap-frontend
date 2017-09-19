@@ -1,18 +1,33 @@
+// @flow
+
 import * as React from 'react';
+import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
+import colors from '../../lib/colors';
 import logo from '../../lib/Logo.svg';
 import Icon from '../Icon';
-import colors from '../../lib/colors';
-import { hsl } from 'd3-color';
 
 
-function Onboarding(props) {
-  return (<ModalDialog className={props.className} isVisible={props.isVisible} onClose={props.onClose}>
+type Props = {
+  className: string,
+  isVisible: boolean,
+  onClose: (() => void),
+};
+
+function Onboarding(props: Props) {
+  return (<ModalDialog
+    className={props.className}
+    isVisible={props.isVisible}
+    onClose={props.onClose}
+  >
     <header>
       <img alt="" className="logo" src={logo} />
-      <p>Mark and find wheelchair accessible places—worldwide and for free. It’s easy with our traffic light system:</p>
+      <p>
+        Mark and find wheelchair accessible places—worldwide and for free.
+        It’s easy with our traffic light system:
+      </p>
     </header>
 
     <section>
@@ -25,7 +40,9 @@ function Onboarding(props) {
         <li className="ac-marker-yellow">
           <Icon overriddenColor="yellow" category={{ _id: 'other' }} isBig />
           <header>Partially wheelchair accessible</header>
-          <footer>Entrance has one step with max. height 7cm (3 in), most rooms are without steps.</footer>
+          <footer>
+            Entrance has one step with max. height 7cm (3 in), most rooms are without steps.
+          </footer>
         </li>
         <li className="ac-marker-red">
           <Icon overriddenColor="red" category={{ _id: 'other' }} isBig />
@@ -41,7 +58,10 @@ function Onboarding(props) {
     </section>
 
     <footer>
-      <button className="button-cta-close" onClick={props.onClose}>Okay, let’s go! <ChevronRight /></button>
+      <button className="button-cta-close" onClick={props.onClose}>
+        Okay, let’s go!
+        <ChevronRight />
+      </button>
     </footer>
   </ModalDialog>);
 }

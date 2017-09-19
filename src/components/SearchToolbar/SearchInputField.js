@@ -12,8 +12,8 @@ type Props = {
   ref: ((input: HTMLInputElement) => void),
   searchQuery: ?string,
   className: string,
-  placeholder?: ?string,
-  disabled?: boolean,
+  placeholder: ?string,
+  disabled: ?boolean,
 };
 
 function hasBigViewport() {

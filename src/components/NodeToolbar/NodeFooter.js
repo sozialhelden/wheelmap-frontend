@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom';
 
 import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
-import type { Category } from '../../lib/Categories';
-import { isWheelmapFeatureId, isWheelchairAccessible, hasAccessibleToilet } from '../../lib/Feature';
+import {
+  hasAccessibleToilet,
+  isWheelmapFeatureId,
+  isWheelchairAccessible,
+} from '../../lib/Feature';
 
 const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
@@ -83,8 +86,6 @@ const StyledFooter = styled.footer`
 type Props = {
   feature: Feature,
   featureId: string | number | null,
-  category: ?Category,
-  parentCategory: ?Category,
 };
 
 
@@ -95,6 +96,7 @@ export default function NodeFooter(props: Props) {
   let editHint = null;
   let needsContribution = false;
   let editButtonCaption = 'Mark this place';
+
   if (feature && feature.properties) {
     const properties = feature.properties;
     switch (isWheelchairAccessible(properties)) {
@@ -114,13 +116,21 @@ export default function NodeFooter(props: Props) {
     }
   }
 
+  let contributionLink = null;
+  if (needsContribution && featureId) {
+    contributionLink = (<Link
+      className="link-button edit-link-button"
+      to={`/beta/nodes/${featureId}/edit`}
+    >
+      <span>{editButtonCaption}</span>{editHint || null}
+    </Link>);
+  }
+
   return (
     <StyledFooter>
       {(isWheelmap && featureId) ?
         <div className="wheelmap-links">
-          {needsContribution ? (<Link className="link-button edit-link-button" to={`/beta/nodes/${featureId}/edit`}>
-            <span>{editButtonCaption}</span>{editHint || null}
-          </Link>) : null}
+          {contributionLink}
           <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
             Details
           </a>

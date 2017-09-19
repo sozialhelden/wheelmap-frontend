@@ -12,8 +12,8 @@ type Props = {
 };
 
 type State = {
-  license: ?{},
-  source: ?{},
+  license: ?any,
+  source: ?any,
 };
 
 const defaultState = { license: null, source: null };
@@ -23,16 +23,20 @@ class LicenseHint extends Component<Props, State> {
   state = defaultState;
 
   componentWillReceiveProps(newProps: Props) {
-    if (!newProps.properties || !newProps.properties.sourceId) {
+    if (!newProps.properties || typeof newProps.properties.sourceId !== 'string') {
       this.setState(defaultState);
       return;
     }
+
     dataSourceCache
       .getDataSourceWithId(newProps.properties.sourceId)
       .then(
         (source) => {
           this.setState({ source });
-          return licenseCache.getLicenseWithId(source.licenseId);
+          if (typeof source.licenseId === 'string') {
+            return licenseCache.getLicenseWithId(source.licenseId);
+          }
+          return null;
         },
         () => { this.setState(defaultState); },
       ).then(
@@ -46,6 +50,8 @@ class LicenseHint extends Component<Props, State> {
     if (!source) return null;
     const license = this.state.license;
     if (!license) return null;
+    if (typeof license.websiteURL !== 'string') return null;
+
     return (<p className={this.props.className}>
       Source: {source.name} —
       <a href={license.websiteURL}>{license.shortName}</a>

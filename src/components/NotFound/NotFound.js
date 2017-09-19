@@ -1,13 +1,21 @@
+// @flow
+
 import * as React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
-import logo from '../../lib/Logo.svg';
 import colors from '../../lib/colors';
-import { Link } from 'react-router-dom';
+import logo from '../../lib/Logo.svg';
 
 
-function NotFound(props) {
+type Props = {
+  className: string,
+  isVisible: boolean,
+  onClose: (() => void),
+}
+
+function NotFound(props: Props) {
   const classList = [
     props.className,
     'not-found-page',
@@ -24,7 +32,9 @@ function NotFound(props) {
     </section>
 
     <footer>
-      <Link to="/" className="button-cta-close" onClick={props.onClose}>Return Home <ChevronRight /></Link>
+      <Link to="/" className="button-cta-close" onClick={props.onClose}>
+        Return Home <ChevronRight />
+      </Link>
     </footer>
   </ModalDialog>);
 }

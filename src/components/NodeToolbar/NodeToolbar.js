@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
 
@@ -34,6 +35,8 @@ type Props = {
   hidden: boolean,
   isEditMode: boolean,
   onReportModeToggle: ?((isReportMode: boolean) => void),
+  history: RouterHistory,
+  onClose: ?(() => void),
 };
 
 
@@ -112,6 +115,7 @@ class NodeToolbar extends Component<Props, State> {
         <Dots size={20} />
       </StyledToolbar>);
     }
+
     return (
       <StyledToolbar
         hidden={this.props.hidden}

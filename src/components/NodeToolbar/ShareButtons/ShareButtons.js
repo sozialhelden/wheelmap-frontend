@@ -29,6 +29,7 @@ type Props = {
   category: ?Category,
   parentCategory: ?Category,
   onToggle: (() => void),
+  className: string,
 };
 
 type State = {

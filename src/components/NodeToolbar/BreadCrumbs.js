@@ -3,9 +3,9 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import ChevronRight from './ChevronRight';
-import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature.js';
-
 import type { Category } from '../../lib/Categories';
+import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
+
 
 type Props = {
   className: string,
@@ -13,6 +13,7 @@ type Props = {
   parentCategory: ?Category;
   properties: WheelmapProperties | AccessibilityCloudProperties,
 };
+
 
 const BreadCrumbs = styled((props: Props) => {
   const region = props.properties && props.properties.region;

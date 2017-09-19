@@ -1,13 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import SourceLink from '../SourceLink';
-import type { Feature } from '../../../lib/Feature';
+import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 
 type Props = {
-  featureId: number,
   feature: Feature,
   onClose: (() => void),
+  properties: AccessibilityCloudProperties,
 };
 
 type State = {
@@ -25,8 +25,12 @@ class FixOnExternalPage extends Component<Props, State> {
       this.setState(defaultState);
       return;
     }
+    const sourceId = props.properties.sourceId;
+
+    if (typeof sourceId !== 'string') return;
+
     dataSourceCache
-      .getDataSourceWithId(props.properties.sourceId)
+      .getDataSourceWithId(sourceId)
       .then(
         (source) => { this.setState({ sourceName: source.name }); },
         () => { this.setState(defaultState); },

@@ -4,7 +4,12 @@ import styled from 'styled-components';
 import React, { Component } from 'react';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
-import type { Feature, WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
+import type {
+  Feature,
+  NodeProperties,
+  WheelmapProperties,
+  AccessibilityCloudProperties,
+} from '../../lib/Feature';
 import BreadCrumbs from './BreadCrumbs';
 import SourceLink from './SourceLink';
 import getAddressString from '../../lib/getAddressString';
@@ -68,7 +73,7 @@ export default class NodeHeader extends Component<Props, void> {
     return null;
   }
 
-  static getAddressForProperties(properties: AccessibilityCloudProperties | WheelmapProperties): ?string {
+  static getAddressForProperties(properties: NodeProperties): ?string {
     if (properties.address) {
       return this.getAddressForACProperties(((properties: any): AccessibilityCloudProperties));
     }
@@ -119,7 +124,7 @@ export default class NodeHeader extends Component<Props, void> {
 
         {description ? <p className="description">“{description}”</p> : null}
 
-        {placeWebsiteUrl ?
+        {typeof placeWebsiteUrl === 'string' ?
           <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
           : null
         }

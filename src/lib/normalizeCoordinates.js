@@ -1,3 +1,5 @@
+// @flow
+
 export function normalizeCoordinate(number) {
   const asFloat = parseFloat(number);
   return Math.round(asFloat * 10000) / 10000;

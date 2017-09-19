@@ -120,7 +120,7 @@ export function getFeatureId(feature: Feature) {
   return null;
 }
 
-function isNumeric(id: string | number) {
+function isNumeric(id: string | number | null) {
   return String(id).match(/^-?\d+$/);
 }
 
@@ -156,7 +156,9 @@ export function wheelmapFeatureCollectionFromResponse(
   };
 }
 
-export function hasAccessibleToilet(properties: WheelmapProperties | AccessibilityCloudProperties): YesNoUnknown {
+export function hasAccessibleToilet(
+  properties: WheelmapProperties | AccessibilityCloudProperties,
+): YesNoUnknown {
   if (!properties) return 'unknown';
   if (properties && properties.wheelchair_toilet) {
     if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
@@ -167,14 +169,22 @@ export function hasAccessibleToilet(properties: WheelmapProperties | Accessibili
 
   if (!(get(properties, 'accessibility.areas') instanceof Array)) return 'unknown';
 
-  const restroomAccessibilities = flatten(properties.accessibility.areas.map((area) => {
+  if (!properties.accessibility) {
+    return 'unknown';
+  }
+
+  if (!(properties.accessibility.areas instanceof Array)) {
+    return 'unknown';
+  }
+
+  const restroomInfos = flatten(properties.accessibility.areas.map((area) => {
     if (!(area.restrooms instanceof Array)) return null;
     return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
   }));
 
-  const accessibleCount = restroomAccessibilities.filter(a => a === true).length;
-  const nonAccessibleCount = restroomAccessibilities.filter(a => a === false).length;
-  const unknownCount = restroomAccessibilities.filter(a => a === null || typeof a === 'undefined').length;
+  const accessibleCount = restroomInfos.filter(a => a === true).length;
+  const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
+  const unknownCount = restroomInfos.filter(a => a === null || typeof a === 'undefined').length;
 
   if (accessibleCount >= 1) return 'yes';
   if (nonAccessibleCount > unknownCount) return 'no';
@@ -221,7 +231,8 @@ export function shortAccessibilityName(accessibility: YesNoLimitedUnknown): ?str
 export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?string {
   switch (accessibility) {
     case 'yes': return 'Entrance without steps, all rooms without steps.';
-    case 'limited': return 'Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.';
+    case 'limited':
+      return 'Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.';
     case 'no': return 'Entrance has a step or several steps, rooms are not accessible.';
     case 'unknown':
     default:
