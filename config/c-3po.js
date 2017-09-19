@@ -1,6 +1,6 @@
 const { extract, locale } = process.env;
 const c3poConfig = {
-  addComments: 'translator:'
+  addComments: 'translator:',
   sortByMsgid: true,
 };
 
