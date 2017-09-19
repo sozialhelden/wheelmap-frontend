@@ -1,23 +1,35 @@
 // @flow
 
-import styled from 'styled-components';
+import { t } from 'c-3po';
 import React from 'react';
+import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
 
 const categories = {
-  shopping: 'Shopping',
-  food: 'Food & Drinks',
-  public_transfer: 'Transport',
-  leisure: 'Leisure',
-  accommodation: 'Hotels',
-  tourism: 'Tourism',
-  education: 'Education',
-  government: 'Official',
-  health: 'Health',
-  money_post: 'Money',
-  sport: 'Sport',
-  misc: 'Misc',
-  // 'unknown',
+  // translator: Main category
+  shopping: t`Shopping`,
+  // translator: Main category
+  food: t`Food & Drinks`,
+  // translator: Main category
+  public_transfer: t`Transport`,
+  // translator: Main category
+  leisure: t`Leisure`,
+  // translator: Main category
+  accommodation: t`Hotels`,
+  // translator: Main category
+  tourism: t`Tourism`,
+  // translator: Main category
+  education: t`Education`,
+  // translator: Main category
+  government: t`Official`,
+  // translator: Main category
+  health: t`Health`,
+  // translator: Main category
+  money_post: t`Money`,
+  // translator: Main category
+  sport: t`Sport`,
+  // translator: Main category
+  misc: t`Misc`,
 };
 
 const Container = styled.div`

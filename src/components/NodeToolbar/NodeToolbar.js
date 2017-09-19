@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import React, { Component } from 'react';
 import { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -107,6 +108,9 @@ class NodeToolbar extends Component<Props, State> {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties && properties.accessibility;
 
+    // translator: Button caption shown in the place toolbar
+    const reportButtonCaption = t`Report an Issue`;
+
     if (!properties) {
       return (<StyledToolbar
         hidden={this.props.hidden}
@@ -183,7 +187,7 @@ class NodeToolbar extends Component<Props, State> {
                 this.toggleReportMode(true);
               }}
             >
-              Report an Issue
+              {reportButtonCaption}
             </button>
             <LicenseHint properties={properties} />
           </div>);

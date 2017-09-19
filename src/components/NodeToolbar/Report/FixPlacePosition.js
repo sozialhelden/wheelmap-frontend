@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import strings from './strings';
 
 type Props = {
   featureId: number,
@@ -11,12 +12,14 @@ export default function ReportProblemButton(props: Props) {
 
   const url = `https://www.openstreetmap.org/edit?node=${props.featureId}`;
 
+  const { osmPositionHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings;
+
   return (<section>
-    <p>You can change this place’s position on OpenStreetMap.</p>
-    <p className="subtle">(Note that you need to log in first to do this, and that it can take a while until the place is updated on Wheelmap.)</p>
-    <a href={url} className="link-button">
-      Edit this place on OpenStreetMap
-    </a>
-    <button className="link-button negative-button" onClick={props.onClose}>Back</button>
+    <p>{osmPositionHint}</p>
+    <p className="subtle">{osmLoginHint}</p>
+    <a href={url} className="link-button">{editButtonCaption}</a>
+    <button className="link-button negative-button" onClick={props.onClose}>
+      {backButtonCaption}
+    </button>
   </section>);
 }

@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import styled from 'styled-components';
 import uniq from 'lodash/uniq';
 import React, { Component } from 'react';
@@ -220,7 +221,8 @@ class SearchResult extends Component<SearchResultProps, State> {
   render() {
     const result = this.props.result;
     const properties = result && result.properties;
-    const placeName = properties ? properties.name : 'Unnamed';
+    // translator: Place name shown in search results for places with unknown name / category.
+    const placeName = properties ? properties.name : t`Unnamed`;
     const address = properties && getAddressString({
       country: properties.country,
       street: properties.street,

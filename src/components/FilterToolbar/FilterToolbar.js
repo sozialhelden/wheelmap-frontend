@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import styled from 'styled-components';
 import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
@@ -49,7 +50,7 @@ const PositionedCloseLink = styled(CloseIcon)`
 `;
 
 
-class FilterToolbar extends Component<DefaultProps, Props, State> {
+class FilterToolbar extends Component<Props, State> {
   static defaultProps: DefaultProps;
   toolbar: ?React.Element<typeof Toolbar>;
 
@@ -67,6 +68,25 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
       const RadioButton = filterName === value ? RadioButtonSelected : RadioButtonUnselected;
       return <RadioButton className="radio-button" />;
     }
+
+    // translator: Shown at the top of the filter toolbar
+    const headerText = t`Which places do you want to see?`;
+
+    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see, plural
+    const allCaption = t`All`;
+
+    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
+    const atLeastPartialCaption = t`At least partially wheelchair accessible`;
+
+    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
+    const unknownCaption = t`Places that I can contribute to`;
+
+    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
+    const fullyCaption = t`Only fully wheelchair accessible`;
+
+    // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places with a wheelchair accessible toilet are shown.
+    const toiletFilterCaption = t`Only show places with a wheelchair accessible toilet`;
+
     return (
       <Toolbar
         className={this.props.className}
@@ -76,7 +96,7 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
         <PositionedCloseLink onClick={this.props.onCloseClicked} className="close-icon" />
-        <header>Which places do you want to see?</header>
+        <header>{headerText}</header>
         <section>
           <RadioGroup
             name="accessibility-filter"
@@ -100,25 +120,25 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
               <Radio value="all" />
               <CustomRadio value="all" />
               <span className="icon"><AllAccessibilitiesIcon /></span>
-              <span className="caption">All</span>
+              <span className="caption">{allCaption}</span>
             </label>
             <label>
               <Radio value="partial" />
               <CustomRadio value="partial" />
               <span className="icon"><AtLeastPartialAccessibilityIcon /></span>
-              <span className="caption">At least partially wheelchair accessible</span>
+              <span className="caption">{atLeastPartialCaption}</span>
             </label>
             <label>
               <Radio value="full" />
               <CustomRadio value="full" />
               <span className="icon"><FullAccessibilityIcon /></span>
-              <span className="caption">Only fully wheelchair accessible</span>
+              <span className="caption">{fullyCaption}</span>
             </label>
             <label>
               <Radio value="unknown" />
               <CustomRadio value="unknown" />
               <span className="icon"><UnknownAccessibilityIcon /></span>
-              <span className="caption">Places that I can contribute to</span>
+              <span className="caption">{unknownCaption}</span>
             </label>
           </RadioGroup>
         </section>
@@ -140,7 +160,7 @@ class FilterToolbar extends Component<DefaultProps, Props, State> {
             <span className="icon">
               {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
             </span>
-            <span className="caption">Only show places with a wheelchair accessible toilet</span>
+            <span className="caption">{toiletFilterCaption}</span>
           </label>
         </section>
       </Toolbar>

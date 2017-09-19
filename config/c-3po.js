@@ -1,12 +1,15 @@
 const { extract, locale } = process.env;
-const c3poConfig = {};
+const c3poConfig = {
+  addComments: 'translator:'
+  sortByMsgid: true,
+};
 
 if (extract) {
-  c3poConfig.extract = { output: 'src/i18n/translations.pot' };
+  c3poConfig.extract = { output: 'public/i18n/translations.pot', location: 'full' };
 }
 
 if (locale) {
-  c3poConfig.resolve = { translations: locale !== 'default' ? `src/i18n/${locale}.po` : 'default' };
+  c3poConfig.resolve = { translations: locale !== 'default' ? `public/i18n/${locale}.po` : 'default' };
 }
 
 module.exports = c3poConfig;

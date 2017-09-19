@@ -1,0 +1,45 @@
+# Translators:
+# Sebastian Felix Zappe <hypo@me.com>, 2017
+msgid ""
+msgstr ""
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Language-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/MainMenu/MainMenu.js:83
+msgid "Travel guide"
+msgstr "Reiseführer"
+
+#: src/components/MainMenu/MainMenu.js:84
+msgid "Get involved"
+msgstr "Mitmachen"
+
+#: src/components/MainMenu/MainMenu.js:85
+msgid "News"
+msgstr "News"
+
+#: src/components/MainMenu/MainMenu.js:86
+msgid "Press"
+msgstr "Presse"
+
+#: src/components/MainMenu/MainMenu.js:87
+msgid "Contact"
+msgstr "Kontakt"
+
+#: src/components/MainMenu/MainMenu.js:88
+msgid "Imprint"
+msgstr "Impressum"
+
+#: src/components/MainMenu/MainMenu.js:89
+msgid "FAQ"
+msgstr "FAQ"
+
+#: src/components/MainMenu/MainMenu.js:90
+msgid "Add missing place"
+msgstr "Fehlenden Ort hinzufügen"
+
+#: src/components/SearchToolbar/SearchInputField.js:10
+msgid "Search place or address"
+msgstr "Ort oder Adresse suchen"

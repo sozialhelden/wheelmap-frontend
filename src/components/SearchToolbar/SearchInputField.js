@@ -4,6 +4,12 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
 import colors from '../../lib/colors';
+import { t } from 'c-3po';
+
+
+// translator: Placeholder for search input field
+const defaultPlaceholder = t`Search place or address`;
+
 
 type Props = {
   onChange: ?((event: UIEvent) => void),
@@ -16,9 +22,11 @@ type Props = {
   disabled: ?boolean,
 };
 
+
 function hasBigViewport() {
   return window.innerHeight > 512 && window.innerWidth > 512;
 }
+
 
 const SearchInputField = (props: Props) =>
   (<input
@@ -30,7 +38,7 @@ const SearchInputField = (props: Props) =>
     onFocus={props.onFocus}
     onBlur={props.onBlur}
     className={`search-input ${props.className}`}
-    placeholder={props.placeholder ? props.placeholder : 'Search place or address'}
+    placeholder={props.placeholder ? props.placeholder : defaultPlaceholder}
   />);
 
 

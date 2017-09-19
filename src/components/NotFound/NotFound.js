@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -21,19 +22,26 @@ function NotFound(props: Props) {
     'not-found-page',
   ].filter(Boolean);
 
+  // translator: Shown as header text on the error page.
+  const headerText = t`Error`;
+  // translator: Shown as apology text / description on the error page.
+  const apologyText = t`Sorry, that shouldn\'t have happened!`;
+  // translator: Shown on the error page.
+  const returnHomeButtonCaption = t`Return Home`;
+
   return (<ModalDialog className={classList.join(' ')} isVisible={props.isVisible}>
     <header>
       <img alt="" className="logo" src={logo} />
-      <h1>Error 404</h1>
+      <h1>{headerText}</h1>
     </header>
 
     <section>
-      <p>{'Oops, that shouldn\'t have happened!'}</p>
+      <p>{apologyText}</p>
     </section>
 
     <footer>
       <Link to="/" className="button-cta-close" onClick={props.onClose}>
-        Return Home <ChevronRight />
+        {returnHomeButtonCaption} <ChevronRight />
       </Link>
     </footer>
   </ModalDialog>);

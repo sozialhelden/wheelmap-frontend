@@ -6,6 +6,8 @@ import logo from '../../lib/Logo.svg';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
+import strings from './strings';
+
 
 type State = {
   isMenuVisible: boolean,
@@ -71,22 +73,31 @@ class MainMenu extends Component<Props, State> {
       'main-menu',
     ].filter(Boolean);
 
+
+    const {
+      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace,
+    } = strings;
+
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
         <a href="/beta">
           <img alt="" className="logo" src={logo} />
         </a>
       </div>
+
       <GlobalActivityIndicator />
+
       <div className="flexible-separator" />
-      <a className="nav-link" href="https://travelable.info">Travel guide</a>
-      <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter">Get involved</a>
-      <a className="nav-link" href="https://news.wheelmap.org">News</a>
-      <a className="nav-link" href="https://news.wheelmap.org/presse">Press</a>
-      <a className="nav-link" href="https://news.wheelmap.org/kontakt">Contact</a>
-      <a className="nav-link" href="https://news.wheelmap.org/imprint">Imprint</a>
-      <a className="nav-link" href="https://news.wheelmap.org/faq">FAQ</a>
-      <a className="nav-link add-place-link" href="/nodes/new">Add missing place</a>
+
+      <a className="nav-link" href="https://travelable.info">{travelGuide}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter">{getInvolved}</a>
+      <a className="nav-link" href="https://news.wheelmap.org">{news}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/presse">{press}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/kontakt">{contact}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/imprint">{imprint}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/faq">{faq}</a>
+      <a className="nav-link add-place-link" href="/nodes/new">{addMissingPlace}</a>
+
       <button className="menu" onClick={() => this.toggleMenu()}>
         {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
       </button>
@@ -216,7 +227,7 @@ const StyledMainMenu = styled(MainMenu)`
 
     > .nav-link {
       width: 50%;
-      max-width: 200px;
+      max-width: 220px;
       display: none;
       align-items: center;
     }

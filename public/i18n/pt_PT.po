@@ -1,0 +1,43 @@
+# 
+msgid ""
+msgstr ""
+"Language-Team: Portuguese (Portugal) (https://www.transifex.com/sozialhelden/teams/16671/pt_PT/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: pt_PT\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/components/MainMenu/MainMenu.js:83
+msgid "Travel guide"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:84
+msgid "Get involved"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:85
+msgid "News"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:86
+msgid "Press"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:87
+msgid "Contact"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:88
+msgid "Imprint"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:89
+msgid "FAQ"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:90
+msgid "Add missing place"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchInputField.js:10
+msgid "Search place or address"
+msgstr ""

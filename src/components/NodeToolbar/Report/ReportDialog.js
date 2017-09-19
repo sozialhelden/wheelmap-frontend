@@ -1,55 +1,63 @@
 // @flow
+import { t } from 'c-3po';
 import React, { Component } from 'react';
 import styled from 'styled-components';
-
 import {
   accessibilityName,
   isWheelchairAccessible,
-  Feature,
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
 
+import type { Feature } from '../../../lib/Feature';
+
+import strings from './strings';
+import FixComment from './FixComment';
+import MailToSupport from './MailToSupport';
+import FixPlacePosition from './FixPlacePosition';
+import FixOnExternalPage from './FixOnExternalPage';
+import FixNonExistingPlace from './FixNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
-import FixComment from './FixComment';
-import FixNonExistingPlace from './FixNonExistingPlace';
-import FixPlacePosition from './FixPlacePosition';
-import MailToSupport from './MailToSupport';
-import FixOnExternalPage from './FixOnExternalPage';
 
 
 const issues = properties => [
   {
     className: 'wrong-wheelchair-accessibility',
     issueText() {
-      const wheelchairAccessibilityName = accessibilityName(isWheelchairAccessible(properties));
-      return `The place is marked as ‘${wheelchairAccessibilityName || ''}’, but this is wrong!`;
+      const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || '';
+      // translator: Shown as issue description in the report dialog
+      return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
     },
     component: WheelchairStatusEditor,
   },
   (isWheelchairAccessible(properties) !== 'unknown') ? {
     className: 'wrong-toilet-accessibility',
-    issueText: () => 'The place’s toilet status is wrong or missing.',
+    // translator: Shown as issue description in the report dialog
+    issueText: () => t`The place’s toilet status is wrong or missing.`,
     component: ToiletStatusEditor,
   } : null,
   {
     className: 'information-missing',
-    issueText: () => 'I have more information about this place.',
+    // translator: Shown as issue description in the report dialog
+    issueText: () => t`I have more information about this place.`,
     component: FixComment,
   },
   {
     className: 'non-existing-place',
-    issueText: () => 'The place does not exist.',
+    // translator: Shown as issue description in the report dialog
+    issueText: () => t`The place does not exist.`,
     component: FixNonExistingPlace,
   },
   {
     className: 'wrong-position',
-    issueText: () => 'The place is in the wrong position.',
+    // translator: Shown as issue description in the report dialog
+    issueText: () => t`The place is in the wrong position.`,
     component: FixPlacePosition,
   },
   {
     className: 'other-issue',
-    issueText: () => 'My problem isn’t listed here…',
+    // translator: Shown as issue description in the report dialog
+    issueText: () => t`My problem isn’t listed here…`,
     component: MailToSupport,
   },
 ].filter(Boolean);
@@ -88,6 +96,7 @@ class ReportDialog extends Component<Props, State> {
     if (!featureId || !feature || !feature.properties) return null;
 
     const ComponentClass = this.state.SelectedComponentClass;
+    const { backButtonCaption, reportIssueHeader } = strings;
 
     if (ComponentClass) {
       return (<ComponentClass
@@ -98,7 +107,7 @@ class ReportDialog extends Component<Props, State> {
     }
 
     return (<div className={this.props.className}>
-      <header>Is there an issue with this place?</header>
+      <header>{reportIssueHeader}</header>
 
       <ul className="issue-types">
         {issues(feature.properties).map(issue =>
@@ -114,7 +123,9 @@ class ReportDialog extends Component<Props, State> {
           </li>))}
       </ul>
 
-      <button className="link-button negative-button" onClick={this.props.onClose}>Back</button>
+      <button className="link-button negative-button" onClick={this.props.onClose}>
+        {backButtonCaption}
+      </button>
     </div>);
   }
 }

@@ -1,6 +1,7 @@
 // @flow
 
 import L from 'leaflet';
+import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
@@ -101,9 +102,18 @@ export default class Map extends Component<Props, State> {
       zoomControl: false,
     });
 
+    // translator: Shown in the attributon bar at the bottom (followed by the ‘Sozialhelden’ logo)
+    const aProjectBy = t`A project by`;
+
+    // translator: Shown in the attributon bar at the bottom (followed by the ‘ImmobilienScout24’ logo)
+    const mainSponsor = t`main sponsor:`;
+
+    // translator: Shown in the attributon bar at the bottom
+    const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
+
     map.attributionControl.setPrefix(null);
-    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">A project by&nbsp;<a href="https://www.sozialhelden.de"><img src="${sozialheldenLogoUrl}" alt="Sozialhelden"></a></span>`);
-    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">main sponsor: <a href="https://www.immobilienscout24.de"><img src="${immobilienScout24LogoUrl}" alt="">&nbsp;ImmobilienScout24</a></span>`);
+    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de"><img src="${sozialheldenLogoUrl}" alt="Sozialhelden"></a></span>`);
+    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${mainSponsor}: <a href="https://www.immobilienscout24.de"><img src="${immobilienScout24LogoUrl}" alt="">&nbsp;ImmobilienScout24</a></span>`);
 
     if (!map) {
       throw new Error('Could not initialize map component.');
@@ -133,7 +143,7 @@ export default class Map extends Component<Props, State> {
     addLocateControlToMap(map);
 
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.mapboxAccessToken}`, {
-      attribution: 'map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      attribution: mapboxOSMAttribution,
       maxZoom: config.maxZoom,
       id: 'accessibility-cloud',
     }).addTo(map);

@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
@@ -95,21 +96,34 @@ export default function NodeFooter(props: Props) {
 
   let editHint = null;
   let needsContribution = false;
-  let editButtonCaption = 'Mark this place';
+
+  // translator: Button caption in the place toolbar
+  let editButtonCaption = t`Mark this place`;
+
+  // translator: Button caption in the place toolbar. Button navigates to Wheelmap classic.
+  const detailsButtonCaption = t`Details`;
 
   if (feature && feature.properties) {
     const properties = feature.properties;
+
+    // translator: Text that incentivizes the user to edit a place's accessibility.
+    const basicAccessibilityEditHint = t`Improve your karma!`;
+
+    // translator: Text that incentivizes the user to edit a place's toilet accessibility.
+    const toiletEditHint = t`Bonus karma points!`;
+
     switch (isWheelchairAccessible(properties)) {
       case 'unknown':
-        editHint = (<span className="edit-hint">Improve your karma!</span>);
+        editHint = (<span className="edit-hint">{basicAccessibilityEditHint}</span>);
         needsContribution = true;
         break;
       case 'limited':
       case 'yes':
         if (hasAccessibleToilet(properties) === 'unknown') {
-          editHint = (<span className="edit-hint">Bonus karma points!</span>);
+          editHint = (<span className="edit-hint">{toiletEditHint}</span>);
           needsContribution = true;
-          editButtonCaption = 'Add toilet status';
+          // translator: Button caption, shown in the place toolbar
+          editButtonCaption = t`Add toilet status`;
         }
         break;
       default: break;
@@ -132,7 +146,7 @@ export default function NodeFooter(props: Props) {
         <div className="wheelmap-links">
           {contributionLink}
           <a className="link-button" href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
-            Details
+            {detailsButtonCaption}
           </a>
         </div> : null}
     </StyledFooter>

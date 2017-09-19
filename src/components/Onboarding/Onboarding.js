@@ -1,11 +1,13 @@
 // @flow
 
+import { t } from 'c-3po';
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
+import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import logo from '../../lib/Logo.svg';
 import Icon from '../Icon';
 
@@ -17,6 +19,13 @@ type Props = {
 };
 
 function Onboarding(props: Props) {
+  // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
+  const claim = t`Mark and find wheelchair accessible places—worldwide and for free. It’s easy with our traffic light system:`;
+  // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
+  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+  // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
+  const startButtonCaption = t`Okay, let’s go!`;
+
   return (<ModalDialog
     className={props.className}
     isVisible={props.isVisible}
@@ -24,42 +33,37 @@ function Onboarding(props: Props) {
   >
     <header>
       <img alt="" className="logo" src={logo} />
-      <p>
-        Mark and find wheelchair accessible places—worldwide and for free.
-        It’s easy with our traffic light system:
-      </p>
+      <p>{claim}</p>
     </header>
 
     <section>
       <ul>
         <li className="ac-marker-green">
           <Icon overriddenColor="green" category={{ _id: 'other' }} isBig />
-          <header>Wheelchair accessible</header>
-          <footer>Entrance without steps, all rooms without steps.</footer>
+          <header>{accessibilityName('yes')}</header>
+          <footer>{accessibilityDescription('yes')}</footer>
         </li>
         <li className="ac-marker-yellow">
           <Icon overriddenColor="yellow" category={{ _id: 'other' }} isBig />
-          <header>Partially wheelchair accessible</header>
-          <footer>
-            Entrance has one step with max. height 7cm (3 in), most rooms are without steps.
-          </footer>
+          <header>{accessibilityName('limited')}</header>
+          <footer>{accessibilityDescription('limited')}</footer>
         </li>
         <li className="ac-marker-red">
           <Icon overriddenColor="red" category={{ _id: 'other' }} isBig />
-          <header>Not wheelchair accessible</header>
-          <footer>Entrance has a step or several steps, rooms are not accessible.</footer>
+          <header>{accessibilityName('no')}</header>
+          <footer>{accessibilityDescription('no')}</footer>
         </li>
         <li className="ac-marker-gray">
           <Icon overriddenColor="gray" category={{ _id: 'other' }} isBig />
-          <header>Unknown status</header>
-          <footer>Help out by marking places!</footer>
+          <header>{accessibilityName('unknown')}</header>
+          <footer>{unknownAccessibilityIncentiveText}</footer>
         </li>
       </ul>
     </section>
 
     <footer>
       <button className="button-cta-close" onClick={props.onClose}>
-        Okay, let’s go!
+        {startButtonCaption}
         <ChevronRight />
       </button>
     </footer>

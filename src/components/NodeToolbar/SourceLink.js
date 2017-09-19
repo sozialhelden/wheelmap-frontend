@@ -48,9 +48,19 @@ class SourceLink extends Component<Props, State> {
     const { properties, className } = this.props;
     const infoPageUrl = properties.infoPageUrl;
     if (!infoPageUrl) return null;
+
     const sourceName = this.state.sourceName;
+    const sourceNameString = String(sourceName);
+
+    // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
+    const unknownSourceNameCaption = 'Details';
+    // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
+    const knownSourceNameCaption = `View this place on ${sourceNameString}`;
+
+    const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
+
     return (<a href={infoPageUrl} className={`${className} link-button`}>
-      {sourceName ? `View this place on ${sourceName}` : 'Details'} <ChevronRight color={colors.linkColor} />
+      {caption} <ChevronRight color={colors.linkColor} />
     </a>);
   }
 }

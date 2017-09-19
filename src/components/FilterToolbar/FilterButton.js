@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
@@ -86,9 +87,13 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
       case 'unknown': Icon = UnknownAccessibilityIcon; break;
       default: Icon = null;
     }
+
+    // translator: Tooltip shown on the filter button
+    const filterButtonHint = t`Change which places are shown on the map`;
+
     return (<StyledButton
       className={`${this.props.className} leaflet-filter-button`}
-      title="Change which places are shown on the map"
+      title={filterButtonHint}
       onClick={this.props.onClick}
     >
       <header>

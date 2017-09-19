@@ -9,24 +9,24 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 
-import MainMenu from './components/MainMenu/MainMenu';
 import Map from './components/Map/Map';
+import NotFound from './components/NotFound/NotFound';
+import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
-import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
+import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
-import NotFound from './components/NotFound/NotFound';
 
 import colors from './lib/colors';
-
-import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
+import { loadExistingLocalizationByPreference } from './lib/i18n';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
+import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
+import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams, setQueryParams } from './lib/queryParams';
 import parseQueryParams from './lib/parseQueryParams';
-import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import isTouchDevice from './lib/isTouchDevice';
 
 import 'leaflet/dist/leaflet.css';
@@ -56,6 +56,7 @@ type State = {
   isNotFoundVisible: boolean;
   isReportMode: boolean,
   category: ?string,
+  isLocalizationLoaded: boolean,
 };
 
 type RouteInformation = {
@@ -87,16 +88,19 @@ class FeatureLoader extends Component<Props, State> {
     isOnboardingVisible: isOnboardingVisible(),
     isNotFoundVisible: false,
     category: null,
+    isLocalizationLoaded: false,
   };
 
   map: ?any;
 
 
-  componentWillMount() {
+  async componentWillMount() {
     this.onHashUpdate();
     this.resizeListener = () => { updateTouchCapability(); };
     window.addEventListener('resize', this.resizeListener);
     updateTouchCapability();
+    loadExistingLocalizationByPreference()
+      .then(() => this.setState({ isLocalizationLoaded: true }));
   }
 
 
@@ -104,6 +108,7 @@ class FeatureLoader extends Component<Props, State> {
     window.addEventListener('hashchange', this.onHashUpdate);
     this.updateStateFromProps(this.props);
   }
+
 
   updateStateFromProps(props: Props) {
     this.fetchFeature(props);
@@ -122,6 +127,7 @@ class FeatureLoader extends Component<Props, State> {
       this.setState({ category: routeInformation.category });
     }
   }
+
 
   componentWillReceiveProps(newProps: Props): void {
     this.updateStateFromProps(newProps);
@@ -222,6 +228,7 @@ class FeatureLoader extends Component<Props, State> {
     const routeInformation = this.routeInformation();
 
     const { featureId, isEditMode, searchQuery } = routeInformation || {};
+    const { isLocalizationLoaded } = this.state;
     const category = this.state.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom } = this.state;
@@ -238,10 +245,10 @@ class FeatureLoader extends Component<Props, State> {
     ].filter(Boolean);
 
     return (<div className={classList.join(' ')}>
-      <MainMenu
+      {isLocalizationLoaded ? <MainMenu
         className="main-menu"
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
-      />
+      /> : null}
 
       <Map
         ref={(map) => { this.map = map; }}
@@ -257,13 +264,13 @@ class FeatureLoader extends Component<Props, State> {
         toiletFilter={this.toiletFilter()}
       />
 
-      {this.state.isFilterToolbarVisible ? null : <FilterButton
+      {(this.state.isFilterToolbarVisible || !isLocalizationLoaded) ? null : <FilterButton
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onClick={() => this.toggleFilterToolbar()}
       />}
 
-      <SearchToolbar
+      {isLocalizationLoaded ? <SearchToolbar
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
         category={category}
@@ -283,9 +290,9 @@ class FeatureLoader extends Component<Props, State> {
           }
         }}
         onClose={() => { this.setState({ category: null }); }}
-      />
+      /> : null }
 
-      {isNodeRoute ? (<div className="node-toolbar">
+      {(isNodeRoute && isLocalizationLoaded) ? (<div className="node-toolbar">
         <NodeToolbar
           history={this.props.history}
           feature={this.state.feature}
@@ -297,7 +304,7 @@ class FeatureLoader extends Component<Props, State> {
         />
       </div>) : null}
 
-      {this.state.isFilterToolbarVisible ? (<div className="filter-toolbar">
+      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) ? (<div className="filter-toolbar">
         <FilterToolbar
           accessibilityFilter={this.accessibilityFilter()}
           toiletFilter={this.toiletFilter()}

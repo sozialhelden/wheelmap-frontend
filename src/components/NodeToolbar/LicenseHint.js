@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import styled from 'styled-components';
 import React, { Component } from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
@@ -52,8 +53,11 @@ class LicenseHint extends Component<Props, State> {
     if (!license) return null;
     if (typeof license.websiteURL !== 'string') return null;
 
+    // translator: License hint on the place toolbar.
+    const sourceCaption = t`Source:`;
+
     return (<p className={this.props.className}>
-      Source: {source.name} —
+      {sourceCaption} {source.name} —
       <a href={license.websiteURL}>{license.shortName}</a>
     </p>);
   }

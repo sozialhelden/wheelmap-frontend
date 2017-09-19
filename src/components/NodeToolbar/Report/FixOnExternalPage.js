@@ -1,4 +1,5 @@
 // @flow
+import strings from './strings';
 import React, { Component } from 'react';
 import SourceLink from '../SourceLink';
 import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
@@ -51,19 +52,25 @@ class FixOnExternalPage extends Component<Props, State> {
     const properties = feature.properties;
 
     const sourceName = this.state.sourceName;
+    const {
+      externalDataHint,
+      useLinkExplanation,
+      editingDelayExplanation,
+      backButtonCaption,
+    } = strings;
 
     return (<section>
       <p>
-        Information about this place has kindly been provided by another organization ({sourceName || 'somebody else'}).
+        {externalDataHint}{sourceName ? ` ({sourceName})` : null}.
       </p>
       {properties.infoPageUrl ? (<div>
         <p>
-          Use the link below to see or change the place.
+          {useLinkExplanation}
         </p>
-        <p className="subtle">(Note that it can take a while until the place is updated on Wheelmap after editing.)</p>
+        <p className="subtle">{editingDelayExplanation}</p>
         <SourceLink properties={properties} />
       </div>) : null}
-      <button className="link-button negative-button" onClick={this.props.onClose}>Back</button>
+      <button className="link-button negative-button" onClick={this.props.onClose}>{backButtonCaption}</button>
     </section>);
   }
 }

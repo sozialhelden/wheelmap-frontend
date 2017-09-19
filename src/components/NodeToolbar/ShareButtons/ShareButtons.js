@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'c-3po';
 import styled from 'styled-components';
 import React, { Component } from 'react';
 import { ShareButtons } from 'react-share';
@@ -59,27 +60,39 @@ class ExpandableShareButtons extends Component<Props, State> {
   render() {
     const { feature, featureId } = this.props;
 
-    let pageTitle = 'Wheelmap.org';
     let pageDescription = null;
     const url = featureId ? `https://wheelmap.org/nodes/${featureId}` : 'https://wheelmap.org';
-    let mailBody = `I found a place on Wheelmap: ${url}`;
-    let mailToLink = `mailto:?subject=Wheelmap.org&body=${encodeURIComponent(mailBody)}`;
-    let placeName = 'a place';
+
+    // translator: Email body used when sharing a place without known name/category via email.
+    let mailBody = t`I found a place on Wheelmap: ${url}`;
+    // translator: Email body used when sharing a place without known name/category via email.// Email subject used for sharing a place via email.
+    let mailSubject = t`Wheelmap.org`;
+    // translator: First line in an email and shared object title used when sharing a place via email or a social network.
+    let sharedObjectTitle = t`I found a place on Wheelmap…`;
+    // Shown as button caption in the place toolbar
+    const shareButtonCaption = t`Share`;
 
     if (feature && feature.properties) {
       const properties = feature.properties;
       const description: ?string = properties.wheelchair_description;
       const categoryOrParentCategory = this.props.category || this.props.parentCategory;
       const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
-      placeName = properties.name || (categoryName && `${categoryName} on Wheelmap`) || 'This place is on Wheelmap';
-      pageTitle = `I found this place on Wheelmap: ${placeName}`;
-      pageDescription = description || 'Find out about this place\'s accessibility.';
-      mailBody = `${pageTitle}\n\nClick on this link to open it: ${url}`;
-      mailToLink = `mailto:?subject=${encodeURIComponent(placeName)}%20on%20Wheelmap.org&body=${encodeURIComponent(mailBody)}`;
+      // translator: Used to describe a place with unknown name, but known category (when sharing)
+      const placeName = properties.name || (categoryName && t`${categoryName} on Wheelmap`);
+      if (placeName) {
+        // translator: First line in an email and shared object title used when sharing a place via email or a social network.
+        sharedObjectTitle = t`I found this place on Wheelmap: ${placeName}`;
+        // translator: Email body used when sharing a place with known name via email.// Email subject used for sharing a place via email.
+        mailSubject = t`${placeName} on Wheelmap.org`;
+      }
+      // translator: Additional description text for sharing a place in a social network.
+      pageDescription = description || t`Find out about this place’s accessibility.`;
+      mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
     }
+    const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
     const expandButton = (<button className={'link-button expand-button full-width-button'} onClick={() => this.toggle(true)}>
-      Share
+      {shareButtonCaption}
     </button>);
 
     if (!this.state.isExpanded) return expandButton;
@@ -94,11 +107,11 @@ class ExpandableShareButtons extends Component<Props, State> {
           <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" />
         </FacebookShareButton>
 
-        <TwitterShareButton url={url} title={pageTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
+        <TwitterShareButton url={url} title={sharedObjectTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
           <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" />
         </TwitterShareButton>
 
-        <TelegramShareButton url={url} title={pageTitle}>
+        <TelegramShareButton url={url} title={sharedObjectTitle}>
           <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" />
         </TelegramShareButton>
 
@@ -106,7 +119,7 @@ class ExpandableShareButtons extends Component<Props, State> {
           <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" />
         </a>
 
-        <WhatsappShareButton url={url} title={pageTitle}>
+        <WhatsappShareButton url={url} title={sharedObjectTitle}>
           <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" />
         </WhatsappShareButton>
       </footer>

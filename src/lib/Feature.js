@@ -1,4 +1,5 @@
 // @flow
+import { t } from 'c-3po';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
@@ -208,10 +209,14 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
 
 export function accessibilityName(accessibility: YesNoLimitedUnknown): ?string {
   switch (accessibility) {
-    case 'yes': return 'Fully wheelchair accessible';
-    case 'limited': return 'Partially wheelchair accessible';
-    case 'no': return 'Not wheelchair accessible';
-    case 'unknown': return 'Unknown status';
+    // translator: Long accessibility description for full wheelchair accessibility
+    case 'yes': return t`Fully wheelchair accessible`;
+    // translator: Long accessibility description for partial wheelchair accessibility
+    case 'limited': return t`Partially wheelchair accessible`;
+    // translator: Long accessibility description for no wheelchair accessibility
+    case 'no': return t`Not wheelchair accessible`;
+    // translator: Long accessibility description for unknown wheelchair accessibility
+    case 'unknown': return t`Unknown status`;
     default:
       return null;
   }
@@ -219,10 +224,14 @@ export function accessibilityName(accessibility: YesNoLimitedUnknown): ?string {
 
 export function shortAccessibilityName(accessibility: YesNoLimitedUnknown): ?string {
   switch (accessibility) {
-    case 'yes': return 'Fully';
-    case 'limited': return 'Partially';
-    case 'no': return 'Not at all';
-    case 'unknown': return 'Unknown';
+    // translator: Shortened accessibility description for full wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
+    case 'yes': return t`Fully`;
+    // translator: Shortened accessibility description for partial wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
+    case 'limited': return t`Partially`;
+    // translator: Shortened accessibility description for no wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
+    case 'no': return t`Not at all`;
+    // translator: Shortened accessibility description for unknown wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
+    case 'unknown': return t`Unknown`;
     default:
       return null;
   }
@@ -230,10 +239,13 @@ export function shortAccessibilityName(accessibility: YesNoLimitedUnknown): ?str
 
 export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?string {
   switch (accessibility) {
-    case 'yes': return 'Entrance without steps, all rooms without steps.';
+    // translator: Describes criteria for marking places as fully wheelchair accessible on Wheelmap
+    case 'yes': return t`Entrance without steps, all rooms without steps.`;
     case 'limited':
-      return 'Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.';
-    case 'no': return 'Entrance has a step or several steps, rooms are not accessible.';
+      // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap
+      return t`Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.`;
+    // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
+    case 'no': return t`Entrance has a step or several steps, rooms are not accessible.`;
     case 'unknown':
     default:
       return null;
@@ -242,18 +254,20 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?s
 
 export function toiletDescription(accessibility: YesNoUnknown): ?string {
   switch (accessibility) {
-    case 'yes': return 'Has a wheelchair accessible toilet.';
-    case 'no': return 'No wheelchair accessible toilet.';
+    // translator: Long toilet accessibility description on place toolbar if the toilet IS accessible
+    case 'yes': return t`Has a wheelchair accessible toilet.`;
+    // translator: Long toilet accessibility description on place toolbar if the toilet is NOT accessible
+    case 'no': return t`No wheelchair accessible toilet.`;
     case 'unknown':
     default:
       return null;
   }
 }
 
-export const accessibleToiletDescription = [
-  'Doorways’ inner width ≥ 90 cm',
-  'Clear floor space ≥ 150 cm wide',
-  'Wheelchair-height toilet seat',
-  'Folding grab rails',
-  'Accessible hand basin',
+export const accessibleToiletDescription = (useImperialUnits: boolean) => [
+  useImperialUnits ? t`Doorways’ inner width ≥ 35 inch` : t`Doorways’ inner width ≥ 90 cm`,
+  useImperialUnits ? t`Clear floor space ≥ 59 inch wide` : t`Clear floor space ≥ 150 cm wide`,
+  t`Wheelchair-height toilet seat`,
+  t`Folding grab rails`,
+  t`Accessible hand basin`,
 ];

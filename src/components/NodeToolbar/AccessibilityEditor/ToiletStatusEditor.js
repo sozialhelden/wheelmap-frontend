@@ -1,5 +1,7 @@
 // @flow
 
+import { t } from 'c-3po';
+import { currentLocale } from '../../../lib/i18n';
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { accessibleToiletDescription } from '../../../lib/Feature';
@@ -7,6 +9,7 @@ import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
+
 
 type Props = {
   featureId: number,
@@ -77,25 +80,44 @@ class ToiletStatusEditor extends Component<Props, State> {
       'basic-accessibility-editor',
     ].filter(Boolean);
 
+    // translator: Header for the toilet status prompt. Asks the user if the edited place’s toilet is wheelchair accessible.
+    const headerText = t`Is the toilet here wheelchair accessible?`;
+
+    // translator: Caption for the ‘yes’ radio button (while marking toilet status)
+    const yesCaption = t`Yes`;
+
+    // translator: Caption for the ‘no’ radio button (while marking toilet status)
+    const noCaption = t`No`;
+
+    // translator: Caption for the ‘I don’t know’ radio button (while marking toilet status)
+    const unknownCaption = t`I don’t know`;
+
+    // translator: Header for the toilet accessibility checklist (while marking toilet status)
+    const toiletAccessibilityExplanationHeader = t`This means:`;
+
+    const useImperialUnits = currentLocale === 'en' || Boolean(currentLocale.match(/(UK|US)$/));
+
     return (<section className={classList.join(' ')}>
-      <header>Is the toilet here wheelchair accessible?</header>
+      <header>{headerText}</header>
 
       <footer>
         <button className="link-button yes" onClick={() => this.save('yes')}>
-          Yes
+          {yesCaption}
         </button>
+
         <button className="link-button no" onClick={() => this.save('no')}>
-          No
+          {noCaption}
         </button>
+
         <button className="link-button unknown" onClick={() => this.save('unknown')}>
-          I don’t know
+          {unknownCaption}
         </button>
       </footer>
 
-      <p className="subtle">This means:</p>
+      <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
 
       <ul className="subtle">
-        {accessibleToiletDescription.map(text => <li key={text}>{text}</li>)}
+        {accessibleToiletDescription(useImperialUnits).map(text => <li key={text}>{text}</li>)}
       </ul>
     </section>);
   }
