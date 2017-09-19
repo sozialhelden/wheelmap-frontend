@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Hearing_aids(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>hearing_aids</title>
-      
-      
+
+      <title>hearing_aids</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="hearing_aids" fill="#010101">
           <g id="hospital" transform="translate(1.000000, 1.000000)">

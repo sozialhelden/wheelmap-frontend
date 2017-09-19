@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Dormitory(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>dormitory</title>
-      
-      
+
+      <title>dormitory</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="dormitory" fill="#000000">
           <g id="apartment" transform="translate(3.000000, 3.000000)">

@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Guest_house(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>guest_house</title>
-      
-      
+
+      <title>guest_house</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="guest_house" fill="#000000">
           <g transform="translate(1.000000, 3.000000)" id="Layer_1">

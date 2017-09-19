@@ -31,7 +31,7 @@ class LicenseHint extends Component<Props, State> {
       .getDataSourceWithId(newProps.properties.sourceId)
       .then(
         (source) => {
-          this.setState({ source })
+          this.setState({ source });
           return licenseCache.getLicenseWithId(source.licenseId);
         },
         () => { this.setState(defaultState); },

@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Post_office(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>post_office</title>
-      
-      
+
+      <title>post_office</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="post_office" fill="#000000">
           <g transform="translate(1.000000, 3.000000)" id="Layer_1">

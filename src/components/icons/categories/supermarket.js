@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Supermarket(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>supermarket</title>
-      
-      
+
+      <title>supermarket</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="supermarket" fill="#000000">
           <g transform="translate(1.000000, 0.000000)" id="svg4619">

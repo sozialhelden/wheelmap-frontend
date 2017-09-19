@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Gifts(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>gifts</title>
-      
-      
+
+      <title>gifts</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="gifts" fill="#000000">
           <g id="Layer_1">

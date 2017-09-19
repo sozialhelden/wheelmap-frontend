@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Nightclub(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>nightclub</title>
-      
-      
+
+      <title>nightclub</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="nightclub" fill="#000000">
           <g id="karaoke-15" transform="translate(2.000000, 2.000000)">

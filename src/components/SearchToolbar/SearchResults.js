@@ -14,6 +14,7 @@ import PlaceName from '../PlaceName';
 import Icon from '../Icon';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 
+
 export type SearchResultProperties = {
   city?: ?any,
   country?: ?any,
@@ -46,6 +47,7 @@ type SearchResultProps = {
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
 };
 
+
 type State = {
   category: ?Category,
   parentCategory: ?Category,
@@ -53,6 +55,11 @@ type State = {
   lastFetchedOsmId: ?number,
   wheelmapFeature: ?WheelmapFeature
 };
+
+
+function getZoomLevel(hasWheelmapId: boolean) {
+  return hasWheelmapId ? 18 : 16;
+}
 
 
 function normalizedCoordinatesForFeature(feature): ?[number, number] {
@@ -64,7 +71,15 @@ function normalizedCoordinatesForFeature(feature): ?[number, number] {
 }
 
 
-function HashLinkOrRouterLink(props) {
+type HashLinkOrRouterLinkProps = {
+  isHashLink: boolean,
+  className: string,
+  children: React.Node,
+  onClick: ((event: UIEvent) => void),
+  to: ?string,
+};
+
+function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
   if (props.isHashLink) {
     return <a onClick={props.onClick} href={props.to} className={props.className}>{props.children}</a>;
   }
@@ -130,12 +145,13 @@ class SearchResult extends Component<SearchResultProps, State> {
 
   fetchCategoryId(categoryId: string) {
     if (this.state.category) return;
+
     Categories.getCategory(categoryId).then(
       (category) => { this.setState({ category }); return category; },
       () => this.setState({ category: null }),
     )
-    .then(category => category && Categories.getCategory(category.parentIds[0]))
-    .then(parentCategory => this.setState({ parentCategory }));
+      .then(category => category && Categories.getCategory(category.parentIds[0]))
+      .then(parentCategory => this.setState({ parentCategory }));
   }
 
 
@@ -152,7 +168,7 @@ class SearchResult extends Component<SearchResultProps, State> {
     // Only nodes with type 'N' can be on Wheelmap.
     if (searchResultProperties.osm_type !== 'N') return;
 
-    wheelmapFeatureCache.getFeature(osmId).then((feature) => {
+    wheelmapFeatureCache.getFeature(String(osmId)).then((feature) => {
       if (!feature) return;
       if (feature.properties.id !== this.state.lastFetchedOsmId) return;
       this.setState({ wheelmapFeature: feature });
@@ -176,17 +192,13 @@ class SearchResult extends Component<SearchResultProps, State> {
     return normalizedCoordinatesForFeature(feature);
   }
 
-  getZoomLevel(hasWheelmapId: boolean) {
-    return hasWheelmapId ? 18 : 16;
-  }
-
   getHref(): ?string {
     const feature = this.getFeature();
     const coordinates = normalizedCoordinatesForFeature(feature);
     const wheelmapId = feature && feature.properties && feature.properties.id;
     const prefix = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
     const hasWheelmapId = Boolean(wheelmapId);
-    const zoom = this.getZoomLevel(hasWheelmapId);
+    const zoom = getZoomLevel(hasWheelmapId);
     const suffix = coordinates ? `#?zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
     return `${prefix}${suffix}`;
   }
@@ -214,10 +226,10 @@ class SearchResult extends Component<SearchResultProps, State> {
         to={href}
         className="link-button"
         isHashLink={isHashLink}
-        onClick={(event: Event) => {
+        onClick={() => {
           const coordinates = this.getCoordinates();
           if (coordinates) {
-            this.props.onSelectCoordinate({ lat: coordinates[1], lon: coordinates[0], zoom: this.getZoomLevel(hasWheelmapId) });
+            this.props.onSelectCoordinate({ lat: coordinates[1], lon: coordinates[0], zoom: getZoomLevel(hasWheelmapId) });
           }
           this.props.onSelect();
         }}
@@ -248,12 +260,12 @@ function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
   const features = uniq(props.searchResults.features, id);
   return (<ul className={`search-results ${props.className}`}>
-    {features.map(result => <SearchResult
+    {features.map(result => (<SearchResult
       result={result}
       key={id(result)}
       onSelect={props.onSelect}
       onSelectCoordinate={props.onSelectCoordinate}
-    />)}
+    />))}
   </ul>);
 }
 

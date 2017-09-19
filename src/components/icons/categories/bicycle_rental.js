@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Bicycle_rental(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>bicycle_rental</title>
-      
-      
+
+      <title>bicycle_rental</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="bicycle_rental" fill="#000000">
           <g id="bicycle_store" transform="translate(0.000000, 2.000000)">

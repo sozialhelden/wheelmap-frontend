@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Art_gallery(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>art_gallery</title>
-      
-      
+
+      <title>art_gallery</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="art_gallery" fill="#000000">
           <g id="art-gallery-15" transform="translate(1.000000, 0.000000)">

@@ -29,7 +29,7 @@ function AccessibilityName(accessibility: YesNoLimitedUnknown) {
 function ToiletDescription(accessibility: YesNoUnknown) {
   const description = toiletDescription(accessibility);
   switch (accessibility) {
-    case 'yes': return <span><span>{description}</span> <ToiletStatusAccessibleIcon/></span>;
+    case 'yes': return <span><span>{description}</span> <ToiletStatusAccessibleIcon /></span>;
     case 'no': return <span>{description}</span>;
     case 'unknown':
     default:

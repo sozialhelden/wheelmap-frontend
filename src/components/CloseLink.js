@@ -9,15 +9,19 @@ import { getQueryParams } from '../lib/queryParams';
 type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
 
 const CloseLink = (props: { className: string, onClick: ClickHandler }) => (
-  <Link to="/beta/" className={props.className} onClick={(event) => {
-    if (props.onClick) {
-      props.onClick(event);
-      return;
-    }
-    event.preventDefault();
-    const params = getQueryParams();
-    props.history.push(`/beta#?${queryString.stringify(params)}`);
-  }}>
+  <Link
+    to="/beta/"
+    className={props.className}
+    onClick={(event) => {
+      if (props.onClick) {
+        props.onClick(event);
+        return;
+      }
+      event.preventDefault();
+      const params = getQueryParams();
+      props.history.push(`/beta#?${queryString.stringify(params)}`);
+    }}
+  >
     <CloseIcon />
   </Link>
 );

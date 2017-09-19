@@ -31,7 +31,7 @@
     "react-share": "^1.15.1",
     "react-swipeable": "^4.0.1",
     "react-transition-group": "^1.1.1",
-    "styled-components": "^2.0.0",
+    "styled-components": "^2.1.2",
     "underscore.string": "^3.3.4",
     "webworkify-webpack": "^2.0.4"
   },

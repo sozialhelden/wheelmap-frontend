@@ -38,13 +38,13 @@ export default class HighlightableMarker extends L.Marker {
     }
   }
 
-  
+
   // Appends a big marker div as child element to the given marker's element.
   // Returns `false` if the marker already was removed from the map, true if ther marker has been
   // appended (or was appended already).
   highlight(animated: boolean): boolean {
     const markerEl = this.getElement();
-  
+
     if (!markerEl) {
       // Parent marker element already removed from map
       return false;

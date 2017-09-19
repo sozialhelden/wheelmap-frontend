@@ -23,8 +23,8 @@ const BreadCrumbs = styled((props: Props) => {
     parentCategory,
     category,
   ]
-  .filter(Boolean)
-  .map((s, i) => <span className='breadcrumb' key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
+    .filter(Boolean)
+    .map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
 
   return (
     <section className={props.className}>

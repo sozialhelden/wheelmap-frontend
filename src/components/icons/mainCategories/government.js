@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Government(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>government_office</title>
-      
-      
+
+      <title>government_office</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="government_office" fill="#000000">
           <g id="building-15" transform="translate(3.000000, 2.000000)">

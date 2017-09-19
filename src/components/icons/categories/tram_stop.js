@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Tram_stop(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>tram_stop</title>
-      
-      
+
+      <title>tram_stop</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="tram_stop" fill="#000000">
           <g id="rail-light-15" transform="translate(3.000000, 0.000000)">

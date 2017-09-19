@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Bread(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>bread</title>
-      
-      
+
+      <title>bread</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="bread" fill="#000000">
           <g transform="translate(0.000000, 3.000000)" id="svg4619">

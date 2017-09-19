@@ -131,7 +131,7 @@ export default class FeatureCache<
     throw new Error('Not implemented. Please override this method in your subclass.');
   }
 
-    /**
+  /**
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */

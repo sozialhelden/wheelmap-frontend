@@ -15,9 +15,7 @@ export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, 
   }
 
   static getFeatureFromResponse(response): Promise<WheelmapFeature> {
-    return response.json().then((responseJson) => {
-      return convertResponseToWheelmapFeature(responseJson.node);
-    });
+    return response.json().then(responseJson => convertResponseToWheelmapFeature(responseJson.node));
   }
 }
 

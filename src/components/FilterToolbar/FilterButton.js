@@ -85,7 +85,7 @@ class FilterButton extends Component <typeof defaultProps, Props, void> {
       case 'full': Icon = FullAccessibilityIcon; break;
       case 'unknown': Icon = UnknownAccessibilityIcon; break;
       default: Icon = null;
-    };
+    }
     return (<StyledButton
       className={`${this.props.className} leaflet-filter-button`}
       title="Change which places are shown on the map"

@@ -305,14 +305,20 @@ class FeatureLoader extends Component<Props, State> {
         />
       </div>) : null}
 
-      <Onboarding isVisible={this.state.isOnboardingVisible} onClose={() => {
-        saveOnboardingFlag();
-        this.setState({ isOnboardingVisible: false });
-      }} />
+      <Onboarding
+        isVisible={this.state.isOnboardingVisible}
+        onClose={() => {
+          saveOnboardingFlag();
+          this.setState({ isOnboardingVisible: false });
+        }}
+      />
 
-      <NotFound isVisible={this.state.isNotFoundVisible} onClose={() => {
-        this.setState({ isNotFoundVisible: false });
-      }} />
+      <NotFound
+        isVisible={this.state.isNotFoundVisible}
+        onClose={() => {
+          this.setState({ isNotFoundVisible: false });
+        }}
+      />
     </div>);
   }
 }

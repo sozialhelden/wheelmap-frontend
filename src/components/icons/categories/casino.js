@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Casino(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>casino</title>
-      
-      
+
+      <title>casino</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="casino" fill="#000000">
           <path d="M8.10656921,2.55948837 C8.16714938,2.56094436 8.22891865,2.56930508 8.29104725,2.58514215 L13.2129623,3.83977673 C13.6545814,3.95234889 13.9352206,4.39857829 13.8346998,4.85980184 L12.0167493,13.2011781 C11.9185063,13.6519503 11.4882588,13.9280011 11.0392425,13.8135434 L7.59887814,12.9365676 L10,12.5 L9.98124754,12.4015496 L11.0199453,12.6663218 L12.7219558,4.85691793 L8.33097578,3.73762283 L8.10656921,2.55948837 Z" id="Combined-Shape" />

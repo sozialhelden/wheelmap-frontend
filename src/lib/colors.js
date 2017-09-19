@@ -81,7 +81,7 @@ export function getColorForWheelchairAccessibility(properties: NodeProperties): 
 }
 
 
-const interpolateYellowGreen = interpolateLab(colors.markerBackground.yellow, colors.markerBackground.green)
+const interpolateYellowGreen = interpolateLab(colors.markerBackground.yellow, colors.markerBackground.green);
 
 const definedAccessibilityColorScale = scaleLinear().domain([0, 0.2, 0.4, 0.6, 0.8, 1]).range([
   colors.markerBackground.red,

@@ -12,7 +12,7 @@ export default function overrideLeafletZoomBehavior() {
     this._lastMousePos = this._map.mouseEventToContainerPoint(e);
 
     if (!this._startTime) {
-        this._startTime = +new Date();
+      this._startTime = +new Date();
     }
 
     const left = Math.max(debounce - (+new Date() - this._startTime), 0);

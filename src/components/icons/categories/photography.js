@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Photography(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>photography</title>
-      
-      
+
+      <title>photography</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="photography" fill="#000000">
           <g transform="translate(1.000000, 2.000000)" id="svg4619">

@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Beach(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>beach</title>
-      
-      
+
+      <title>beach</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="beach" fill="#000000">
           <g id="swimming-15" transform="translate(0.000000, 2.000000)">

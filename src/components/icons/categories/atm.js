@@ -3,10 +3,10 @@ import * as React from 'react';
 export default function Atm(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
-        
-        <title>atm</title>
-      
-      
+
+      <title>atm</title>
+
+
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="atm" fill="#000000">
           <g transform="translate(0.000000, 3.000000)" id="svg4619">
