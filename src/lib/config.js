@@ -1,7 +1,7 @@
 const config = {
   locateTimeout: 60 * 60 * 1000,
   defaultStartCenter: [51.505, -0.09],
-  maxZoom: 18,
+  maxZoom: 19,
   minimalZoom: {
     withSetCategory: 13,
     withoutSetCategory: 16,
