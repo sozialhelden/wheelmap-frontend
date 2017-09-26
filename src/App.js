@@ -273,7 +273,7 @@ class FeatureLoader extends React.Component<Props, State> {
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
-        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(...params); }}
+        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(this.props.history, ...params); }}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
@@ -329,6 +329,10 @@ class FeatureLoader extends React.Component<Props, State> {
           accessibilityFilter={this.accessibilityFilter()}
           toiletFilter={this.toiletFilter()}
           onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
+          onFilterChanged={(filter) => {
+            setQueryParams(this.props.history, filter);
+            this.setState(filter);
+          }}
         />
       </div>) : null}
 

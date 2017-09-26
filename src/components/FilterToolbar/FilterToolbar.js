@@ -20,7 +20,6 @@ import ToiletStatusIcon from '../icons/accessibility/ToiletStatus';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 
 import Toolbar from '../Toolbar';
-import { setQueryParams } from '../../lib/queryParams';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { getFiltersForNamedFilter, getFilterNameForFilterList } from './FilterModel';
 import type { FilterName } from './FilterModel';
@@ -31,6 +30,7 @@ type Props = {
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   onCloseClicked: (() => void),
+  onFilterChanged: ((filter: PlaceFilter) => void),
 };
 
 type DefaultProps = {};
@@ -102,12 +102,12 @@ class FilterToolbar extends React.Component<Props, State> {
             name="accessibility-filter"
             selectedValue={filterName}
             onChange={(f) => {
-              const queryParams = {
+              const filter = {
                 status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
                 toilet: shouldShowToiletFilter(f) && isToiletFilterEnabled ? 'yes' : null,
               };
-              queryParams.toilet = null;
-              setQueryParams(queryParams);
+              filter.toilet = null;
+              this.props.onFilterChanged(filter);
               setTimeout(() => {
                 if (this.toolbar) {
                   this.toolbar.onResize();
@@ -147,11 +147,11 @@ class FilterToolbar extends React.Component<Props, State> {
             <input
               onChange={(event) => {
                 const value = event.target.checked;
-                const queryParams = { toilet: (value === true) ? 'yes' : null };
+                const filter = { toilet: (value === true) ? 'yes' : null };
                 if (value && includes(['all', 'unknown'], filterName)) {
-                  queryParams.status = 'yes.limited';
+                  filter.status = 'yes.limited';
                 }
-                setQueryParams(queryParams);
+                this.props.onFilterChanged(filter);
               }}
               type="checkbox"
               id="toilet-filter"
