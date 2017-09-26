@@ -4,7 +4,7 @@ import URLDataCache from './URLDataCache';
 
 export default class I18nCache extends URLDataCache<?{}> {
   getLocalization(locale: string): Promise<?{}> {
-    const url = `/i18n/${locale.replace('-', '_')}.po`;
+    const url = `/beta/i18n/${locale.replace('-', '_')}.txt`;
     return this.getData(url);
   }
 

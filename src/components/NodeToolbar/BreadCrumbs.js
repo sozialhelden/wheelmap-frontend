@@ -3,9 +3,10 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import ChevronRight from './ChevronRight';
+import Categories from  '../../lib/Categories';
+import { currentLocale } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
-
 
 type Props = {
   className: string,
@@ -14,25 +15,54 @@ type Props = {
   properties: WheelmapProperties | AccessibilityCloudProperties,
 };
 
+type State = {
+  displayedCategoryNames: string[],
+};
 
-const BreadCrumbs = styled((props: Props) => {
-  const region = props.properties && props.properties.region;
-  const parentCategory = props.parentCategory && props.parentCategory._id;
-  const category = props.category && props.category._id;
-  const breadCrumbs = [
-    region,
-    parentCategory,
-    category,
-  ]
-    .filter(Boolean)
-    .map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
+class BreadCrumbs extends React.Component<Props, State> {
+  state = {
+    displayedCategoryNames: [],
+  };
 
-  return (
-    <section className={props.className}>
-      {breadCrumbs}
-    </section>
-  );
-})`
+  componentWillMount() {
+    this.setState({ displayedCategoryNames: this.categoryIds(this.props) });
+    this.loadCategories(this.props);
+  }
+
+  componentWillReceiveProps(props: Props) {
+    this.loadCategories(props);
+  }
+
+  categoryIds(props) {
+    const parentCategoryId = props.parentCategory && props.parentCategory._id;
+    const categoryId = props.category && props.category._id;
+    // return [parentCategoryId, categoryId];
+    return [categoryId];
+  }
+
+  loadCategories(props: Props) {
+    const promises = this.categoryIds(props)
+      .filter(Boolean)
+      .map(id => Categories.getCategory(id));
+    Promise.all(promises).then(categories => {
+      const names = categories.map(category => category.translations._id[currentLocale]);
+      this.setState({ displayedCategoryNames: names.filter(Boolean) });
+    });
+  }
+
+  render() {
+    const breadCrumbs = this.state.displayedCategoryNames
+      .map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
+
+    return (
+      <section className={this.props.className}>
+        {breadCrumbs}
+      </section>
+    );
+  }
+}
+
+const StyledBreadCrumbs = styled(BreadCrumbs)`
   color: rgba(0, 0, 0, 0.6);
 
   display: inline-block;
@@ -49,4 +79,4 @@ const BreadCrumbs = styled((props: Props) => {
   }
 `;
 
-export default BreadCrumbs;
+export default StyledBreadCrumbs;

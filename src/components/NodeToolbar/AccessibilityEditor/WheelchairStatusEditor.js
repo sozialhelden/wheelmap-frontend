@@ -1,13 +1,14 @@
 // @flow
 
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
-import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
-import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
+import { t } from '../../../lib/i18n';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
+import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
+import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
 
 type Props = {
   featureId: number,
@@ -23,7 +24,7 @@ type State = {
 };
 
 
-class WheelchairStatusEditor extends Component<Props, State> {
+class WheelchairStatusEditor extends React.Component<Props, State> {
   props: Props;
 
   state = {
@@ -84,11 +85,27 @@ class WheelchairStatusEditor extends Component<Props, State> {
     const valueHasChanged = wheelchairAccessibility !== this.wheelchairAccessibility();
     const valueIsDefined = wheelchairAccessibility !== 'unknown';
     const hasBeenUnknownBefore = this.wheelchairAccessibility() === 'unknown';
-    let saveButtonCaption = 'Confirm';
-    if (valueHasChanged) saveButtonCaption = 'Change';
-    if (hasBeenUnknownBefore) saveButtonCaption = 'Continue';
 
-    const backButtonCaption = valueHasChanged ? 'Cancel' : 'Back';
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const confirmButtonCaption = t`Confirm`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const changeButtonCaption = t`Change`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const continueButtonCaption = t`Continue`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const cancelButtonCaption = t`Cancel`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const backButtonCaption = t`Back`;
+
+    let saveButtonCaption = confirmButtonCaption;
+    if (valueHasChanged) saveButtonCaption = changeButtonCaption;
+    if (hasBeenUnknownBefore) saveButtonCaption = continueButtonCaption;
+
+    const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
 
     return (<section className={classList.join(' ')}>
       <header>How wheelchair accessible is this place?</header>
@@ -113,7 +130,7 @@ class WheelchairStatusEditor extends Component<Props, State> {
           className={`link-button ${valueHasChanged ? 'negative-button' : ''}`}
           onClick={this.props.onClose}
         >
-          {backButtonCaption}
+          {backOrCancelButtonCaption}
         </button>
         <button
           className="link-button primary-button"

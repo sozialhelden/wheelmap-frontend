@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';

@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import Swipeable from 'react-swipeable';
-import React, { Component } from 'react';
+import * as React from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
 
@@ -30,7 +30,7 @@ type State = {
 };
 
 
-class Toolbar extends Component<Props, State> {
+class Toolbar extends React.Component<Props, State> {
   static defaultProps = {
     hidden: false,
     minimalHeight: 130,

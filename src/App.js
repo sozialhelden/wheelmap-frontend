@@ -5,9 +5,9 @@ import pick from 'lodash/pick';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import initReactFastclick from 'react-fastclick';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
+import type { RouterHistory, Location } from 'react-router-dom';
 
 import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
@@ -20,8 +20,19 @@ import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './component
 
 import colors from './lib/colors';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
+import type {
+  Feature,
+  WheelmapFeature,
+  AccessibilityCloudFeature,
+  YesNoLimitedUnknown,
+  YesNoUnknown
+} from './lib/Feature';
+import {
+  isWheelmapFeatureId,
+  yesNoLimitedUnknownArray,
+  yesNoUnknownArray
+} from './lib/Feature';
+
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
@@ -39,11 +50,12 @@ initReactFastclick();
 type Props = {
   className: string,
   history: RouterHistory,
+  location: Location,
 };
 
 
 type State = {
-  feature?: Feature,
+  feature?: ?Feature,
   fetching: boolean,
   toilet: ?string,
   status: ?string,
@@ -60,12 +72,14 @@ type State = {
 };
 
 type RouteInformation = {
-  nodeId: ?string,
+  featureId: ?string,
   category: ?string,
   isEditMode: boolean,
 };
 
 function updateTouchCapability() {
+  if (!document.body) return;
+
   if (isTouchDevice()) {
     document.body.classList.add('is-touch-device');
   } else {
@@ -74,7 +88,7 @@ function updateTouchCapability() {
 }
 
 
-class FeatureLoader extends Component<Props, State> {
+class FeatureLoader extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
@@ -89,16 +103,22 @@ class FeatureLoader extends Component<Props, State> {
     isNotFoundVisible: false,
     category: null,
     isLocalizationLoaded: false,
+    isMainMenuOpen: false,
+    isReportMode: false,
   };
 
   map: ?any;
 
 
+  resizeListener = () => {
+    updateTouchCapability();
+  };
+
+
   async componentWillMount() {
     this.onHashUpdate();
-    this.resizeListener = () => { updateTouchCapability(); };
     window.addEventListener('resize', this.resizeListener);
-    updateTouchCapability();
+    this.resizeListener();
     loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }));
   }
@@ -203,10 +223,10 @@ class FeatureLoader extends Component<Props, State> {
       this.setState({ feature: wheelmapLightweightFeatureCache.getCachedFeature(id) });
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    cache.getFeature(id).then((feature) => {
+    cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
       const currentlyShownId = this.featureId(this.props);
-      const idProperties = [feature._id, feature.id, feature.properties.id, feature.properties._id];
+      const idProperties = [feature.id, feature.properties.id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
@@ -264,11 +284,11 @@ class FeatureLoader extends Component<Props, State> {
         toiletFilter={this.toiletFilter()}
       />
 
-      {(this.state.isFilterToolbarVisible || !isLocalizationLoaded) ? null : <FilterButton
+      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onClick={() => this.toggleFilterToolbar()}
-      />}
+      /> : null}
 
       {isLocalizationLoaded ? <SearchToolbar
         history={this.props.history}

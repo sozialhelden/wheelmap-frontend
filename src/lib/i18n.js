@@ -1,31 +1,48 @@
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
+import find from 'lodash/find';
 import gettextParser from 'gettext-parser';
-import { addLocale, useLocale } from 'c-3po';
+import { tWithLocale, addLocale, useLocale } from 'c-3po';
 import { i18nCache } from './cache/I18nCache';
 
 
-export const defaultLocale = 'en-US';
+export const defaultLocale = 'en_US';
 export let currentLocale = defaultLocale;
 
 
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
   addLocale(locale, localization);
-  useLocale(locale);
+  // useLocale(locale);
   currentLocale = locale;
   return localization;
 }
 
-// Returns the language code with the country code removed (for example "en" if given "en-GB").
+// Returns the locale as language code without country code etc. removed
+// (for example "en" if given "en-GB").
 
-function localeWithoutCountry(language: string): string {
-  return language.substring(0, 2);
+function localeWithoutCountry(locale: string): string {
+  return locale.substring(0, 2);
 }
 
 
-export function getPreferredLocales() {
-  return uniq(flatten((window.navigator.languages || []).concat([window.navigator.language, defaultLocale]).map(l => [l, localeWithoutCountry(l)])));
+// Returns an expanded list of preferred locales.
+export function expandedPreferredLocales() {
+  // Note that some browsers don't support navigator.languages
+  const localesPreferredByUser = window.navigator.languages || [];
+  const locales = localesPreferredByUser.concat([window.navigator.language, defaultLocale]);
+
+  // Try all locales without country code, too
+  return uniq(flatten(locales.map(l => [l, localeWithoutCountry(l)])));
+}
+
+// Wraps c-3po's translation function using a fallback strategy for missing strings
+export function t(...args) {
+  for (const locale of expandedPreferredLocales()) {
+    const translatedString = tWithLocale(locale, ...args);
+    if (translatedString) return translatedString;
+  }
+  return args[0]; // return the untranslated string as last option
 }
 
 
@@ -33,10 +50,9 @@ export function getPreferredLocales() {
 //
 // Falls back to languages without countries if a bundle for the given language exists.
 //
-// If none of the user's preferred languages exist as localization, it falls back to the default
-// locale.
+// If none of the user's preferred languages exist as localization, it falls back to the default locale.
 
-export function loadExistingPOFileByPreference(locales = getPreferredLocales()): Promise<*> {
+export function loadExistingPOFileByPreference(locales = expandedPreferredLocales()): Promise<*> {
   if (locales.length === 0)
     return Promise.resolve(null);
 
@@ -54,7 +70,7 @@ export function loadExistingPOFileByPreference(locales = getPreferredLocales()):
 }
 
 
-export function loadExistingLocalizationByPreference(locales = getPreferredLocales()): Promise<*> {
+export function loadExistingLocalizationByPreference(locales = expandedPreferredLocales()): Promise<*> {
   return loadExistingPOFileByPreference(locales)
     .then(([locale, result]) => loadLocalizationFromPOFile(locale, result));
 }

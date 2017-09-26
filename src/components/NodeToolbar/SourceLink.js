@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import colors from '../../lib/colors';
@@ -19,7 +19,7 @@ type State = {
 
 const defaultState: State = { sourceName: null };
 
-class SourceLink extends Component<Props, State> {
+class SourceLink extends React.Component<Props, State> {
   props: Props;
   state: State = defaultState;
 

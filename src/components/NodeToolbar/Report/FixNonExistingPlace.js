@@ -21,7 +21,7 @@ export default function ReportProblemButton(props: Props) {
     osmLoginHint,
     editButtonCaption,
     backButtonCaption,
-  } = strings;
+  } = strings();
 
   return (<section>
     <p>{osmRemoveHint}</p>

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react';
+import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import logo from '../../lib/Logo.svg';
@@ -30,7 +30,7 @@ function MenuIcon(props) {
 }
 
 
-class MainMenu extends Component<Props, State> {
+class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
     isMenuVisible: false,
@@ -76,7 +76,7 @@ class MainMenu extends Component<Props, State> {
 
     const {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace,
-    } = strings;
+    } = strings();
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">

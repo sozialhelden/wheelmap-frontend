@@ -1,9 +1,9 @@
 // @flow
 
-import { t } from 'c-3po';
 import { currentLocale } from '../../../lib/i18n';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
+import { t } from '../../../lib/i18n';
 import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
@@ -25,7 +25,7 @@ type State = {
 };
 
 
-class ToiletStatusEditor extends Component<Props, State> {
+class ToiletStatusEditor extends React.Component<Props, State> {
   props: Props;
   state = {
     toiletAccessibility: 'unknown',

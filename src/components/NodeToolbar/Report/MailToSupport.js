@@ -30,7 +30,7 @@ export default function ReportProblemButton(props: Props) {
     apologyAndSolution,
     contactButtonCaption,
     backButtonCaption,
-  } = strings;
+  } = strings();
 
   const subject = reportSubject(properties.name, categoryName);
   const body = reportBody(url);

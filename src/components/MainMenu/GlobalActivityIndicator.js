@@ -1,14 +1,14 @@
 // @flow
 import debounce from 'lodash/debounce';
 import { Dots } from 'react-activity';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { globalFetchManager } from '../../lib/FetchManager';
 
 type State = {
   isShown: boolean;
 }
 
-export default class GlobalActivityIndicator extends Component<void, State> {
+export default class GlobalActivityIndicator extends React.Component<void, State> {
   state = { isShown: false };
 
   updateState = debounce(() => {

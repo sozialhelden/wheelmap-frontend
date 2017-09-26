@@ -1,11 +1,11 @@
 // @flow
 
 import L from 'leaflet';
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
-import React, { Component } from 'react';
+import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
 import 'leaflet.locatecontrol/src/L.Control.Locate';
@@ -62,7 +62,7 @@ type State = {
 overrideLeafletZoomBehavior();
 
 
-export default class Map extends Component<Props, State> {
+export default class Map extends React.Component<Props, State> {
   props: Props;
   state: State = {
     accessibilityFilter: [].concat(yesNoLimitedUnknownArray),

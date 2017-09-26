@@ -4,11 +4,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
 import colors from '../../lib/colors';
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 
 
-// translator: Placeholder for search input field
-const defaultPlaceholder = t`Search place or address`;
 
 
 type Props = {
@@ -28,8 +26,11 @@ function hasBigViewport() {
 }
 
 
-const SearchInputField = (props: Props) =>
-  (<input
+const SearchInputField = (props: Props) => {
+  // translator: Placeholder for search input field
+  const defaultPlaceholder = t`Search place or address`;
+
+  return (<input
     ref={props.ref}
     value={props.searchQuery ? props.searchQuery : ''}
     autoFocus={hasBigViewport()}
@@ -40,7 +41,7 @@ const SearchInputField = (props: Props) =>
     className={`search-input ${props.className}`}
     placeholder={props.placeholder ? props.placeholder : defaultPlaceholder}
   />);
-
+}
 
 const StyledSearchInputField = styled(SearchInputField)`
   display: block;

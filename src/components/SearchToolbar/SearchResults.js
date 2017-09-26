@@ -1,9 +1,9 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 import styled from 'styled-components';
 import uniq from 'lodash/uniq';
-import React, { Component } from 'react';
+import * as React from 'react';
 import type { GeometryObject } from 'geojson-flow';
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
@@ -101,7 +101,7 @@ function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
 }
 
 
-class SearchResult extends Component<SearchResultProps, State> {
+class SearchResult extends React.Component<SearchResultProps, State> {
   props: SearchResultProps;
 
   state: State = {

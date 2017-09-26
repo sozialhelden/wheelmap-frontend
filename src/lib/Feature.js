@@ -1,10 +1,10 @@
 // @flow
-import { t } from 'c-3po';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 
 import type { GeometryObject } from 'geojson-flow';
+import { t } from './i18n';
 
 export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
 export type YesNoUnknown = "yes" | "no" | "unknown";

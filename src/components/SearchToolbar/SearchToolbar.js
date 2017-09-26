@@ -11,6 +11,7 @@ import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
+import Categories from '../../lib/Categories';
 import SearchInputField from './SearchInputField';
 import { globalFetchManager } from '../../lib/FetchManager';
 import type { SearchResultCollection } from './SearchResults';
@@ -242,6 +243,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
       />);
     }
 
+    const placeholder = this.props.category ? Categories.translatedWheelmapRootCategoryName(this.props.category) : '';
+
     const className = [
       'search-toolbar',
       this.state.searchFieldIsFocused ? 'search-field-is-focused' : null,
@@ -271,7 +274,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
           <SearchInputField
             searchQuery={this.props.category ? '' : this.props.searchQuery}
-            placeholder={this.props.category ? this.props.category : null}
+            placeholder={placeholder}
             disabled={Boolean(this.props.category)}
             onFocus={(event) => {
               this.input = event.target;

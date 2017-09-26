@@ -12,7 +12,7 @@ export default function ReportProblemButton(props: Props) {
 
   const url = `https://www.openstreetmap.org/edit?node=${props.featureId}`;
 
-  const { osmHint, osmEditHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings;
+  const { osmHint, osmEditHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
 
   return (<section>
     <p>{osmHint}</p>

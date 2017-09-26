@@ -1,7 +1,7 @@
 // @flow
 
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 
@@ -16,7 +16,7 @@ type State = {
 
 const defaultState = { extraInfo: null };
 
-class AccessibilityExtraInfo extends Component<Props, State> {
+class AccessibilityExtraInfo extends React.Component<Props, State> {
   props: Props;
   state = defaultState;
 

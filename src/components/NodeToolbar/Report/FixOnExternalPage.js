@@ -1,6 +1,6 @@
 // @flow
 import strings from './strings';
-import React, { Component } from 'react';
+import * as React from 'react';
 import SourceLink from '../SourceLink';
 import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
@@ -17,7 +17,7 @@ type State = {
 
 const defaultState: State = { sourceName: null };
 
-class FixOnExternalPage extends Component<Props, State> {
+class FixOnExternalPage extends React.Component<Props, State> {
   props: Props;
   state: State = defaultState;
 
@@ -57,7 +57,7 @@ class FixOnExternalPage extends Component<Props, State> {
       useLinkExplanation,
       editingDelayExplanation,
       backButtonCaption,
-    } = strings;
+    } = strings();
 
     return (<section>
       <p>

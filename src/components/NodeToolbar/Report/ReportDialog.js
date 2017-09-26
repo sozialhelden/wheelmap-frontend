@@ -1,6 +1,5 @@
 // @flow
-import { t } from 'c-3po';
-import React, { Component } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import {
   accessibilityName,
@@ -8,6 +7,7 @@ import {
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
 
+import { t } from '../../../lib/i18n';
 import type { Feature } from '../../../lib/Feature';
 
 import strings from './strings';
@@ -75,7 +75,7 @@ type State = {
   SelectedComponentClass: ?Class<Component<*, *>>,
 };
 
-class ReportDialog extends Component<Props, State> {
+class ReportDialog extends React.Component<Props, State> {
   props: Props;
 
   state = {
@@ -96,7 +96,7 @@ class ReportDialog extends Component<Props, State> {
     if (!featureId || !feature || !feature.properties) return null;
 
     const ComponentClass = this.state.SelectedComponentClass;
-    const { backButtonCaption, reportIssueHeader } = strings;
+    const { backButtonCaption, reportIssueHeader } = strings();
 
     if (ComponentClass) {
       return (<ComponentClass

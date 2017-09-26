@@ -2,7 +2,7 @@
 
 import includes from 'lodash/includes';
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import WheelchairStatusEditor from './WheelchairStatusEditor';
 import ToiletStatusEditor from './ToiletStatusEditor';
 import type { WheelmapFeature, YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
@@ -21,7 +21,7 @@ type State = {
 };
 
 
-class AccessibilityEditor extends Component<Props, State> {
+class AccessibilityEditor extends React.Component<Props, State> {
   props: Props;
   state = {
     isInToiletEditingMode: false,

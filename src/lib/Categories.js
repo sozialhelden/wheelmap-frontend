@@ -2,6 +2,7 @@
 
 import config from './config';
 import { globalFetchManager } from './FetchManager';
+import { t } from './i18n';
 
 
 export type ACCategory = {
@@ -42,6 +43,35 @@ export default class Categories {
   static wheelmapRootCategoryNamesToCategories = {};
   static fetchPromise: ?Promise<*>;
 
+  static getTranslatedRootCategoryNames() {
+    return {
+      // translator: Root category
+      shopping: t`Shopping`,
+      // translator: Root category
+      food: t`Food & Drinks`,
+      // translator: Root category
+      public_transfer: t`Transport`,
+      // translator: Root category
+      leisure: t`Leisure`,
+      // translator: Root category
+      accommodation: t`Hotels`,
+      // translator: Root category
+      tourism: t`Tourism`,
+      // translator: Root category
+      education: t`Education`,
+      // translator: Root category
+      government: t`Official`,
+      // translator: Root category
+      health: t`Health`,
+      // translator: Root category
+      money_post: t`Money`,
+      // translator: Root category
+      sport: t`Sport`,
+      // translator: Root category
+      misc: t`Misc`,
+    };
+  }
+
   static getCategory(idOrSynonym): Promise<ACCategory> {
     if (!this.fetchPromise) throw new Error('Category fetching not initialized yet.');
     return this.fetchPromise.then(() => this.getCategoryFromCache(idOrSynonym));
@@ -79,6 +109,10 @@ export default class Categories {
 
   static wheelmapRootCategoryWithName(name: string) {
     return this.wheelmapRootCategoryNamesToCategories[name];
+  }
+
+  static translatedWheelmapRootCategoryName(name: string) {
+    return this.getTranslatedRootCategoryNames()[name];
   }
 }
 

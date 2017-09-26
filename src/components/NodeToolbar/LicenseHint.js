@@ -1,8 +1,8 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import { licenseCache } from '../../lib/cache/LicenseCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
@@ -19,7 +19,7 @@ type State = {
 
 const defaultState = { license: null, source: null };
 
-class LicenseHint extends Component<Props, State> {
+class LicenseHint extends React.Component<Props, State> {
   props: Props;
   state = defaultState;
 

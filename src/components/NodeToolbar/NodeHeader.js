@@ -1,19 +1,23 @@
 // @flow
 
+import { t } from '../../lib/i18n';
+import get from 'lodash/get';
+import * as React from 'react';
 import styled from 'styled-components';
-import React, { Component } from 'react';
-import Icon from '../Icon';
-import PlaceName from '../PlaceName';
+
 import type {
   Feature,
   NodeProperties,
   WheelmapProperties,
   AccessibilityCloudProperties,
 } from '../../lib/Feature';
-import BreadCrumbs from './BreadCrumbs';
+import Icon from '../Icon';
+import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
-import getAddressString from '../../lib/getAddressString';
+import BreadCrumbs from './BreadCrumbs';
+import { currentLocale } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
+import getAddressString from '../../lib/getAddressString';
 
 
 const StyledNodeHeader = styled.header`
@@ -60,7 +64,7 @@ function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
   </a>);
 }
 
-export default class NodeHeader extends Component<Props, void> {
+export default class NodeHeader extends React.Component<Props, void> {
   static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
     return getAddressString(properties);
   }
@@ -93,13 +97,13 @@ export default class NodeHeader extends Component<Props, void> {
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
     const categoryOrParentCategory = this.props.category || this.props.parentCategory;
-    const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+    let categoryName = get(categoryOrParentCategory, `translations._id.${currentLocale}`);
     const placeName = (<PlaceName>
       {categoryOrParentCategory ?
         <Icon properties={properties} category={categoryOrParentCategory} />
         : null
       }
-      {(properties.name || categoryName || 'place').replace(/(\w)\/(\w)/g, '$1 / $2')}
+      {(properties.name || categoryName || t`Unnamed place`).replace(/(\w)\/(\w)/g, '$1 / $2')}
     </PlaceName>);
 
     if (this.props.showOnlyBasics) {
@@ -110,11 +114,11 @@ export default class NodeHeader extends Component<Props, void> {
       <StyledNodeHeader>
         {placeName}
 
-        <StyledBreadCrumbs
+        {properties.name ? <StyledBreadCrumbs
           properties={properties}
           category={this.props.category}
           parentCategory={this.props.parentCategory}
-        />
+        /> : null}
 
         {addressString ? <address>{addressString}</address> : null }
 

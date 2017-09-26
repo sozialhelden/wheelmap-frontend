@@ -1,13 +1,13 @@
 // @flow
 
-import { t } from 'c-3po';
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { ShareButtons } from 'react-share';
+import { t } from '../../../lib/i18n';
+import colors from '../../../lib/colors';
 import IconButton from '../../../lib/IconButton';
 import type { Feature } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
-import colors from '../../../lib/colors';
 
 import ChevronLeft from './icons/ChevronLeft';
 import FacebookIcon from './icons/Facebook';
@@ -38,7 +38,7 @@ type State = {
 }
 
 
-class ExpandableShareButtons extends Component<Props, State> {
+class ExpandableShareButtons extends React.Component<Props, State> {
   props: Props;
 
   state = {

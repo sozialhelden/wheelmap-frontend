@@ -1,7 +1,7 @@
 // @flow
 
-import { t } from 'c-3po';
-import React, { Component } from 'react';
+import { t } from '../../lib/i18n';
+import * as React from 'react';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
 import isEqual from 'lodash/isEqual';
@@ -73,7 +73,7 @@ const defaultProps = {
   className: '',
 };
 
-class FilterButton extends Component <typeof defaultProps, Props, void> {
+class FilterButton extends React.Component<Props, void> {
   static defaultProps = defaultProps;
   props: Props;
 

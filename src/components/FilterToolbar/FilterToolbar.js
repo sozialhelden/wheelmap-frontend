@@ -1,10 +1,10 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from '../../lib/i18n';
 import styled from 'styled-components';
 import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { RadioGroup, Radio } from 'react-radio-group';
 
 import CloseIcon from '../icons/actions/Close';
@@ -50,7 +50,7 @@ const PositionedCloseLink = styled(CloseIcon)`
 `;
 
 
-class FilterToolbar extends Component<Props, State> {
+class FilterToolbar extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
   toolbar: ?React.Element<typeof Toolbar>;
 

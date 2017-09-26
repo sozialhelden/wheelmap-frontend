@@ -1,8 +1,8 @@
 // @flow
 
-import { t } from 'c-3po';
-import React, { Component } from 'react';
-import { RouterHistory } from 'react-router-dom';
+import { t } from '../../lib/i18n';
+import * as React from 'react';
+import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
 
@@ -37,7 +37,7 @@ type Props = {
   isEditMode: boolean,
   onReportModeToggle: ?((isReportMode: boolean) => void),
   history: RouterHistory,
-  onClose: ?(() => void),
+  onClose?: ?(() => void),
 };
 
 
@@ -53,9 +53,10 @@ const StyledToolbar = styled(Toolbar)`
 `;
 
 
-class NodeToolbar extends Component<Props, State> {
+class NodeToolbar extends React.Component<Props, State> {
   props: Props;
   state = { category: null, parentCategory: null, isReportMode: false };
+  toolbar: ?React.Element<typeof Toolbar>;
 
   componentDidMount() {
     this.fetchCategory(this.props);
@@ -106,7 +107,7 @@ class NodeToolbar extends Component<Props, State> {
 
   render() {
     const properties = this.props.feature && this.props.feature.properties;
-    const accessibility = properties && properties.accessibility;
+    const accessibility = properties ? properties.accessibility : null;
 
     // translator: Button caption shown in the place toolbar
     const reportButtonCaption = t`Report an Issue`;

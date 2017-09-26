@@ -9,7 +9,7 @@ if (extract) {
 }
 
 if (locale) {
-  c3poConfig.resolve = { translations: locale !== 'default' ? `public/i18n/${locale}.po` : 'default' };
+  c3poConfig.resolve = { translations: locale !== 'default' ? `public/i18n/${locale}.txt` : 'default' };
 }
 
 module.exports = c3poConfig;
