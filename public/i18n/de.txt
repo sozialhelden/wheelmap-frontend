@@ -430,7 +430,7 @@ msgstr "Unbenannt"
 
 #: src/components/NodeToolbar/NodeHeader.js:106
 msgid "Unnamed place"
-msgstr ""
+msgstr "Unbenannter Ort"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below to see or change the place."

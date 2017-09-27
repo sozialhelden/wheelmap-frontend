@@ -1,8 +1,9 @@
 # Translators:
 # Battulga <qwertybat1234@gmail.com>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Battulga <qwertybat1234@gmail.com>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Mongolian (https://www.transifex.com/sozialhelden/teams/16671/mn/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: mn\n"
@@ -10,15 +11,15 @@ msgstr ""
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:81
 msgid "${ categoryName } on Wheelmap"
-msgstr "${} Wheelmap дээрх "
+msgstr "${ categoryName } Wheelmap дээрх "
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
 msgid "${ placeName } on Wheelmap.org"
-msgstr "Wheelmap дээрх ${газрын нэр}"
+msgstr "Wheelmap дээрх ${ placeName }"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr "${}\\n\\nЭнэ холбоос дээр дарж үүнийг нээ: ${}"
+msgstr "${ sharedObjectTitle }\\n\\nЭнэ холбоос дээр дарж үүнийг нээ: ${ url }"
 
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid ""
@@ -44,8 +45,8 @@ msgid ""
 "problem is:\\n\\n"
 msgstr ""
 "(Зөвхөн Англи эсвэл Герман хэлээр бичнэ үү.) \\n\\nСайн байна уу "
-"Sozialhelden, \\n\\nэнэ газар ямар нэгэн зүйл буруу байна: ${}\\n\\nАсуудал "
-"бол:\\n\\n"
+"Sozialhelden, \\n\\nэнэ газар ямар нэгэн зүйл буруу байна: ${ url "
+"}\\n\\nАсуудал бол:\\n\\n"
 
 #: src/components/Map/Map.js:106
 msgid "A project by"
@@ -214,7 +215,7 @@ msgstr "Би мэдэхгүй "
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:67
 msgid "I found a place on Wheelmap: ${ url }"
-msgstr "Би Wheelmap дээр газар олсон: ${}"
+msgstr "Би Wheelmap дээр газар олсон: ${ url }"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:71
 msgid "I found a place on Wheelmap…"
@@ -222,7 +223,7 @@ msgstr "Би Wheelmap дээр газар олсон..."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:84
 msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "Би энэ газрыг Wheelmap дээр олсон: ${}"
+msgstr "Би энэ газрыг Wheelmap дээр олсон: ${ placeName }"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:42
 msgid "I have more information about this place."
@@ -393,8 +394,8 @@ msgstr "Энэ газар буруу байршилд тэмдэглэгдсэн
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
-"Энэ газар дараах байдлаар тэмдэглэгдсэн байна '${хүртээмжтэйТодорхойлолт }',"
-" гэвч энэ нь буруу байна!"
+"Энэ газар дараах байдлаар тэмдэглэгдсэн байна '${ accessibilityDescription "
+"}', гэвч энэ нь буруу байна!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:36
 msgid "The place’s toilet status is wrong or missing."
@@ -467,11 +468,11 @@ msgstr "Та оршин байхаа болисон газруудыг OpenStree
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] $ холбоотой асуудал{} Wheelmap дээрх"
+msgstr "[Wheelmap] холбоотой асуудал ${ placeName } Wheelmap дээрх"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] $ холбоотой асуудал{ангилалыннэр}Wheelmap дээрх"
+msgstr "[Wheelmap] холбоотой асуудал ${ categoryName } Wheelmap дээрх"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
@@ -487,5 +488,7 @@ msgid ""
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
 "BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
 msgstr ""
-"газарзүйн мэдээлэл &хуулбар {OpenStreetMap} хамтрагчид, {CC-BY-SA}, Зураглал"
-" {Газарзүйн зураглалын хайрцаг}"
+"газарзүйн мэдээлэл &хуулбар <a "
+"href=\"http://openstreetmap.org\">OpenStreetMap</a> хамтрагчид, <a "
+"href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
+"Зураглал <a href=\"http://mapbox.com\">Газарзүйн зураглалын хайрцаг</a>"

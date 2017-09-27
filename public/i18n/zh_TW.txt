@@ -1,9 +1,10 @@
 # Translators:
 # Supaplex <bejokeup@gmail.com>, 2017
 # Hu Kenneth <Kenneth_hu@livemail.tw>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Hu Kenneth <Kenneth_hu@livemail.tw>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/sozialhelden/teams/16671/zh_TW/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: zh_TW\n"
@@ -19,7 +20,7 @@ msgstr "${ placeName } 在 Wheelmap.org"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr "$ {sharedObjectTitle}\\\\n\\n點擊此鏈接打開它：$ {url}"
+msgstr "${ sharedObjectTitle }\\\\n\\n點擊此鏈接打開它：${ url }"
 
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid ""
@@ -38,7 +39,7 @@ msgid ""
 "(Please only write in English or German.)\\n\\nHi "
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\n"
-msgstr "(請只用英文或德文寫。)\\n\\n Hi Sozialhelden，\\n\\n 這個地方有錯誤：$ {url} \\n\\n問題是：\\n\\n"
+msgstr "(請只用英文或德文寫。)\\n\\n Hi Sozialhelden，\\n\\n 這個地方有錯誤：${ url } \\n\\n問題是：\\n\\n"
 
 #: src/components/Map/Map.js:106
 msgid "A project by"
@@ -375,7 +376,7 @@ msgstr "這地點是錯的"
 #: src/components/NodeToolbar/Report/ReportDialog.js:29
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
-msgstr "該地點被標記為'$ {accessibilityDescription}'，但這是錯誤的！"
+msgstr "該地點被標記為'${ accessibilityDescription }'，但這是錯誤的！"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:36
 msgid "The place’s toilet status is wrong or missing."
@@ -447,11 +448,11 @@ msgstr "您可以刪除OpenStreetMap上不存在的地方。"
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] Wheelmap上的$ {placeName}問題"
+msgstr "[Wheelmap] Wheelmap上的$ ${ placeName }問題"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] Wheelmap上的$ {categoryName}問題"
+msgstr "[Wheelmap] Wheelmap上的$ ${ categoryName }問題"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
