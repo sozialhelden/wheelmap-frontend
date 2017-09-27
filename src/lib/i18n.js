@@ -1,8 +1,7 @@
 import uniq from 'lodash/uniq';
 import flatten from 'lodash/flatten';
-import find from 'lodash/find';
 import gettextParser from 'gettext-parser';
-import { tWithLocale, addLocale, useLocale } from 'c-3po';
+import { tWithLocale, addLocale } from 'c-3po';
 import { i18nCache } from './cache/I18nCache';
 
 

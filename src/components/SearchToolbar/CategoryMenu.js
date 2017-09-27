@@ -1,6 +1,5 @@
 // @flow
 
-import { t } from '../../lib/i18n';
 import React from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';

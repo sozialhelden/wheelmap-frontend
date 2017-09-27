@@ -34,7 +34,7 @@ class BreadCrumbs extends React.Component<Props, State> {
   }
 
   categoryIds(props) {
-    const parentCategoryId = props.parentCategory && props.parentCategory._id;
+    // const parentCategoryId = props.parentCategory && props.parentCategory._id;
     const categoryId = props.category && props.category._id;
     // return [parentCategoryId, categoryId];
     return [categoryId];
