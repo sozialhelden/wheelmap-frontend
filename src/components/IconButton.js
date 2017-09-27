@@ -3,7 +3,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
-import colors from './colors';
+import colors from '../lib/colors';
 
 const Circle = styled.div.attrs({ className: 'circle' })`
   width: 35px;

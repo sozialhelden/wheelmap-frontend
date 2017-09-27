@@ -5,7 +5,8 @@ import * as React from 'react';
 import { ShareButtons } from 'react-share';
 import { t } from '../../../lib/i18n';
 import colors from '../../../lib/colors';
-import IconButton from '../../../lib/IconButton';
+import IconButton from '../../IconButton';
+
 import type { Feature } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 
