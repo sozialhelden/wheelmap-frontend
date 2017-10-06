@@ -1,6 +1,6 @@
 {
   "name": "wheelmap-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://wheelmap.now.sh/beta/",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
