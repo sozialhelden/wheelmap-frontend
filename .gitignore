@@ -9,6 +9,9 @@
 # production
 /build
 
+# built npm module code
+/lib
+
 # misc
 .DS_Store
 .env
