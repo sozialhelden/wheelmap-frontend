@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
-import logo from '../../lib/Logo.svg';
+import Logo from '../../lib/Logo';
 
 
 type Props = {
@@ -31,7 +31,7 @@ function NotFound(props: Props) {
 
   return (<ModalDialog className={classList.join(' ')} isVisible={props.isVisible}>
     <header>
-      <img alt="" className="logo" src={logo} />
+      <Logo className="logo" />
       <h1>{headerText}</h1>
     </header>
 
@@ -60,12 +60,12 @@ const StyledNotFound = styled(NotFound)`
     display: flex;
     flex-direction: row;
     overflow: auto;
-    img.logo {
+    .logo {
       width: 200px;
     }
     @media (max-width: 768px) {
       > header {
-        img.logo {
+        .logo {
           width: 150px;
         }
       }

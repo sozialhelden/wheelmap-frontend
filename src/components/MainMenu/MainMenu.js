@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
-import logo from '../../lib/Logo.svg';
+import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
@@ -81,7 +81,7 @@ class MainMenu extends React.Component<Props, State> {
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
         <a href="/beta">
-          <img alt="" className="logo" src={logo} />
+          <Logo className="logo" width={123} height={30} />
         </a>
       </div>
 

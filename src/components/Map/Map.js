@@ -9,8 +9,7 @@ import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
 import 'leaflet.locatecontrol/src/L.Control.Locate';
-import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
-import sozialheldenLogoUrl from './Sozialhelden.svg';
+import sozialheldenLogoHTML from './SozialheldenLogo';
 
 import {
   isWheelchairAccessible,
@@ -108,7 +107,7 @@ export default class Map extends React.Component<Props, State> {
     const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
 
     map.attributionControl.setPrefix(null);
-    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de"><img src="${sozialheldenLogoUrl}" alt="Sozialhelden"></a></span>`);
+    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de">${sozialheldenLogoHTML}</a></span>`);
 
     if (!map) {
       throw new Error('Could not initialize map component.');

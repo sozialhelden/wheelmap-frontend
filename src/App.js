@@ -40,9 +40,6 @@ import { getQueryParams, setQueryParams } from './lib/queryParams';
 import parseQueryParams from './lib/parseQueryParams';
 import isTouchDevice from './lib/isTouchDevice';
 
-import 'leaflet/dist/leaflet.css';
-import './App.css';
-
 
 initReactFastclick();
 

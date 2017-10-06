@@ -8,7 +8,7 @@ import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import logo from '../../lib/Logo.svg';
+import Logo from '../../lib/Logo';
 import Icon from '../Icon';
 
 
@@ -32,7 +32,7 @@ function Onboarding(props: Props) {
     onClose={props.onClose}
   >
     <header>
-      <img alt="" className="logo" src={logo} />
+      <Logo className="logo" alt=""/>
       <p>{claim}</p>
     </header>
 
@@ -92,13 +92,13 @@ const StyledOnboarding = styled(Onboarding)`
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
 
-    img.logo {
+    .logo {
       width: 200px;
     }
 
     @media (max-width: 768px) {
       > header {
-        img.logo {
+        .logo {
           width: 150px;
         }
       }

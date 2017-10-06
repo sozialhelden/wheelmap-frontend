@@ -1,0 +1,373 @@
+body.is-touch-device .leaflet-control-zoom {
+  display: none;
+}
+
+body.is-touch-device .leaflet-filter-button {
+  top: 110px;
+}
+
+@media (max-width: 1024px) {
+  .leaflet-control-container .leaflet-top {
+    top: 50px;
+  }
+}
+
+.leaflet-container {
+  flex: 1;
+}
+
+.leaflet-icon-locate:before {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 2px;
+  width: 31px;
+  height: 24px;
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb2ZmPC90aXRsZT4KICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPgogICAgPGRlZnM+PC9kZWZzPgogICAgPGcgaWQ9IlBhZ2UtMSIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vZmYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAuMDA2MTM5LCAtMC4zNjIxMzMpIiBmaWxsLXJ1bGU9Im5vbnplcm8iIGZpbGw9IiMwMDAwMDAiPgogICAgICAgICAgICA8cGF0aCBkPSJNNS43Nzc5OTA3NCwxNC43OTkwMzI3IEw5LjI2MTkwODY2LDE0LjgwMTIxMDYgTDkuMjY0MDg2NjIsMTguMjg1MTI4NSBMMTUuNjQ1MDk4Niw4LjQxODAyMDY4IEw1Ljc3Nzk5MDc0LDE0Ljc5OTAzMjcgWiBNMjAuNzAxMTY1NSwzLjM2MTk1MzggTDcuNzY3MjYwMDgsMjMuMzYxOTUzOCBMNy43NjI4NDU1LDE2LjMwMDI3MzggTDAuNzAxMTY1NDgyLDE2LjI5NTg1OTIgTDIwLjcwMTE2NTUsMy4zNjE5NTM4IFoiIGlkPSJDb21iaW5lZC1TaGFwZSI+PC9wYXRoPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+  opacity: 0.75;
+}
+
+.leaflet-control-locate.active .leaflet-icon-locate:before {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 2px;
+  width: 31px;
+  height: 24px;
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LCAwKSI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vbiIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjMzlBQkRCIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkNvbWJpbmVkLVNoYXBlIiBwb2ludHM9IjIwLjcwNzMwNDggMi45OTk4MjExMSA3Ljc3MzM5OTQgMjIuOTk5ODIxMSA3Ljc2ODk4NDgzIDE1LjkzODE0MTEgMC43MDczMDQ4MDkgMTUuOTMzNzI2NSI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+}
+
+@keyframes loopedFading {
+  0% {
+    opacity: 1.0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1.0;
+  }
+}
+
+
+.leaflet-control-locate.requesting .leaflet-icon-locate-loading:before {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 2px;
+  width: 31px;
+  height: 24px;
+  content: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjRweCIgaGVpZ2h0PSIyNHB4IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDQ1LjEgKDQzNTA0KSAtIGh0dHA6Ly93d3cuYm9oZW1pYW5jb2RpbmcuY29tL3NrZXRjaCAtLT4KICAgIDx0aXRsZT5sb2NhdGUtb248L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZGVmcz48L2RlZnM+CiAgICA8ZyBpZD0iUGFnZS0xIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg0LCAwKSI+CiAgICAgICAgPGcgaWQ9ImxvY2F0ZS1vbiIgZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjMzlBQkRCIj4KICAgICAgICAgICAgPHBvbHlnb24gaWQ9IkNvbWJpbmVkLVNoYXBlIiBwb2ludHM9IjIwLjcwNzMwNDggMi45OTk4MjExMSA3Ljc3MzM5OTQgMjIuOTk5ODIxMSA3Ljc2ODk4NDgzIDE1LjkzODE0MTEgMC43MDczMDQ4MDkgMTUuOTMzNzI2NSI+PC9wb2x5Z29uPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+);
+  animation: loopedFading 0.5s linear infinite;
+}
+
+
+.leaflet-control-attribution {
+  background-color: white !important;
+  font-size: 10px !important;
+  line-height: 21px !important;
+  max-width: calc(100vw - 100px);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2) !important;
+}
+
+
+.leaflet-control-attribution img,
+.leaflet-control-attribution svg {
+  vertical-align: middle;
+}
+
+
+@media (max-width: 500px), (max-height: 500px) {
+  .leaflet-control-attribution {
+    line-height: 9px !important;
+    max-width: none;
+  }
+  .leaflet-control-attribution .hide-on-small-viewports {
+    display: none;
+  }
+}
+
+
+.leaflet-left .leaflet-control-scale-line {
+  background-color: transparent;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-top: none;
+  color: rgba(0, 0, 0, 0.9);
+  text-shadow: 0 0 1px white, 0 0 1px white;
+}
+
+
+@media (max-height: 500px), (max-width: 500px) {
+  .leaflet-control-attribution {
+    font-size: 7px !important;
+  }
+
+  .leaflet-bottom.leaflet-left {
+    bottom: 80px;
+  }
+
+  .leaflet-left .leaflet-control-scale {
+    margin-left: 10px;
+  }
+}
+
+.marker-cluster {
+  background-clip: padding-box;
+  border-radius: 500px;
+}
+
+.ac-marker {
+  border-radius: 10px;
+  background-color: #e6e4e0;
+  /*transition: box-shadow ease-out 0.3s;*/
+  /* border: 1px rgba(255, 255, 255, 0.7) solid; */
+  border: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  /* text-align: center;  */
+  color: white;
+  line-height: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@keyframes popUp {
+  0% {
+    transform: scale3d(0.7, 0.7, 0.7) translate3d(0, -5px, 0);
+    /* background-color: black; */
+  }
+  100% {
+    transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
+    /* background-color: white; */
+  }
+}
+
+.ac-big-icon-marker {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  z-index: 200;
+  transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.4);
+  left: -15px;
+  top: -20px;
+}
+
+.ac-big-icon-marker.animated {
+  animation: popUp 0.3s ease-out;
+}
+
+.ac-big-icon-marker svg {
+  width: 30px;
+  height: 30px;
+}
+
+.ac-big-icon-marker:after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  top: calc(100% - 6px);
+  left: 50%;
+  margin-left: -5px;
+  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
+  z-index: -100;
+}
+
+.ac-marker-gray .ac-big-icon-marker,
+.ac-marker-gray .ac-big-icon-marker:after {
+  background-color: #e6e4e0;
+}
+
+.ac-marker-green, .ac-marker-green .ac-big-icon-marker {
+  background-color: #7ec512;
+}
+
+.ac-marker-green .ac-big-icon-marker:after {
+  background-color: #7ec512
+}
+
+.ac-marker-yellow, .ac-marker-yellow .ac-big-icon-marker {
+  background-color: #f39e3b;
+}
+
+.ac-marker-yellow .ac-big-icon-marker:after {
+  background-color: #f39e3b;
+}
+
+.ac-marker-red, .ac-marker-red .ac-big-icon-marker {
+  background-color: #f54b4b;
+}
+
+.ac-marker-red .ac-big-icon-marker:after, .ac-marker-red .ac-big-icon-marker {
+  background-color: #f54b4b;
+}
+
+.ac-marker-yellow svg g,
+.ac-marker-green svg g,
+.ac-marker-red svg g,
+.ac-marker-cluster svg g  {
+  fill: white;
+}
+
+.ac-marker-gray svg g {
+  fill: rgb(105, 97, 91);
+}
+
+.ac-markers svg {
+  margin: 2px;
+}
+
+.ac-marker svg {
+  transition: transform ease-out 0.1s, opacity ease-out 0.6s;
+  transform: scale3d(1, 1, 1);
+  opacity: 1;
+}
+
+
+.ac-marker-current {
+  background-color: transparent;
+  box-shadow: none;
+  /* Force currently selected marker to be  shown on top of all markers */
+  z-index: 100000000 !important;
+  /* Allow to select PoIs behind the currently highlighted marker */
+  pointer-events: none !important;
+}
+
+.ac-marker-current > svg {
+  opacity: 0;
+}
+
+@media (hover), (-moz-touch-enabled: 0) {
+  .leaflet-marker-pane > .ac-marker:not(.ac-marker-current):hover {
+    box-shadow: 0 0 2px black;
+  }
+}
+
+.ac-marker-cluster {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.ac-marker-cluster.over-fifty {
+  margin-left: -13px !important;
+  margin-top: -13px !important;
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 12px !important;
+}
+
+.ac-marker-cluster.over-hundred {
+  margin-left: -14px !important;
+  margin-top: -14px !important;
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 13px !important;
+  opacity: 0.9 !important;
+  font-size: 115%;
+}
+
+.ac-marker-cluster.over-fivehundred {
+  margin-left: -21px !important;
+  margin-top: -21px !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 20px !important;
+  opacity: 0.9 !important;
+  font-size: 125%;
+}
+
+@media (hover), (-moz-touch-enabled: 0) {
+  .ac-marker-cluster:hover {
+    opacity: 1 !important;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.leaflet-control-locate {
+  cursor: pointer;
+}
+
+.ac-marker-name-tooltip {
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background-color: rgba(230, 228, 224, 0.9);
+  /* background-color: transparent; */
+  text-shadow: 0 0 0px white;
+  /* word-break: break-word; */
+  color: #735139;
+  width: 90px;
+  font-size: 11px;
+  max-width: 80px;
+  white-space: initial;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.2;
+  display: flex;
+  justify-content: center;
+}
+
+.ac-marker-name-tooltip:before {
+  display: none;
+}
+
+.leaflet-control-layers, .leaflet-bar {
+  border: none !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-bar a {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: rgb(218, 241, 255) !important;
+  color: #2e6ce0 !important;
+}
+
+.leaflet-bar a.leaflet-disabled {
+  background-color: #eee !important;
+  color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.leaflet-icon-locate:before {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+  }
+}
+
+.leaflet-marker-icon {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@media screen and (max-width: 512px), screen and (max-height: 512px) {
+  .leaflet-control-scale-line:not(:first-child) {
+    border-top: 1px solid #777;
+    margin-top: -1px;
+  }
+  .leaflet-control-scale-line {
+    font-size: 8px;
+    border: 1px solid #777;
+  }
+}
