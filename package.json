@@ -86,7 +86,8 @@
     "flow-bin": "^0.54.1",
     "flow-copy-source": "^1.2.1",
     "flow-remove-types": "^1.2.1",
-    "flow-typed": "^2.1.2"
+    "flow-typed": "^2.1.2",
+    "npmignore": "^0.2.0"
   },
   "scripts": {
     "start": "extract=1 node scripts/start.js",
@@ -99,9 +100,10 @@
     "server": "server",
     "push-translations": "tx push -s",
     "pull-translations": "tx pull -a",
-    "prepublish": "npm run prepublish-remove-flow-types && npm run prepublish-copy-flow-info",
+    "prepublish": "npm run prepublish-remove-flow-types && npm run prepublish-copy-flow-info && npmignore -u /lib",
     "prepublish-remove-flow-types": "flow-remove-types --pretty --out-dir lib ./src",
-    "prepublish-copy-flow-info": "flow-copy-source src lib"
+    "prepublish-copy-flow-info": "flow-copy-source src lib",
+    "postpublish": "npmignore /lib"
   },
   "proxy": "https://wheelmap.org",
   "babel": {
