@@ -1,7 +1,6 @@
 {
   "name": "wheelmap-react",
   "version": "0.1.0",
-  "private": true,
   "homepage": "https://wheelmap.now.sh/beta/",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
@@ -84,6 +83,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.54.1",
+    "flow-copy-source": "^1.2.1",
     "flow-typed": "^2.1.2"
   },
   "scripts": {
