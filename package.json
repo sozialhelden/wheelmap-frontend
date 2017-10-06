@@ -96,7 +96,8 @@
     "flow": "flow",
     "server": "server",
     "push-translations": "tx push -s",
-    "pull-translations": "tx pull -a"
+    "pull-translations": "tx pull -a",
+    "prepublish": "flow-copy-source src lib"
   },
   "proxy": "https://wheelmap.org",
   "babel": {
