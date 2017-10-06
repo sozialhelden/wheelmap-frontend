@@ -11,7 +11,6 @@ import type { RouterHistory } from 'react-router-dom';
 import 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
 import sozialheldenLogoUrl from './Sozialhelden.svg';
-import immobilienScout24LogoUrl from './ImmobilienScout24.svg';
 
 import {
   isWheelchairAccessible,
@@ -105,15 +104,11 @@ export default class Map extends React.Component<Props, State> {
     // translator: Shown in the attributon bar at the bottom (followed by the ‘Sozialhelden’ logo)
     const aProjectBy = t`A project by`;
 
-    // translator: Shown in the attributon bar at the bottom (followed by the ‘ImmobilienScout24’ logo)
-    const mainSponsor = t`main sponsor:`;
-
     // translator: Shown in the attributon bar at the bottom
     const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
 
     map.attributionControl.setPrefix(null);
     map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de"><img src="${sozialheldenLogoUrl}" alt="Sozialhelden"></a></span>`);
-    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${mainSponsor}: <a href="https://www.immobilienscout24.de"><img src="${immobilienScout24LogoUrl}" alt="">&nbsp;ImmobilienScout24</a></span>`);
 
     if (!map) {
       throw new Error('Could not initialize map component.');
