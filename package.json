@@ -1,6 +1,6 @@
 {
   "name": "wheelmap-react",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "homepage": "https://wheelmap.now.sh/beta/",
   "mainModule": "lib/App.js",
   "dependencies": {
