@@ -2,6 +2,7 @@
   "name": "wheelmap-react",
   "version": "0.1.1",
   "homepage": "https://wheelmap.now.sh/beta/",
+  "mainModule": "lib/App.js",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
     "autoprefixer": "7.1.2",
