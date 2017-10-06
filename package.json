@@ -84,6 +84,7 @@
     "eslint-plugin-react": "^7.1.0",
     "flow-bin": "^0.54.1",
     "flow-copy-source": "^1.2.1",
+    "flow-remove-types": "^1.2.1",
     "flow-typed": "^2.1.2"
   },
   "scripts": {
@@ -97,7 +98,9 @@
     "server": "server",
     "push-translations": "tx push -s",
     "pull-translations": "tx pull -a",
-    "prepublish": "flow-copy-source src lib"
+    "prepublish": "npm run prepublish-remove-flow-types && npm run prepublish-copy-flow-info",
+    "prepublish-remove-flow-types": "flow-remove-types --pretty --out-dir lib ./src",
+    "prepublish-copy-flow-info": "flow-copy-source src lib"
   },
   "proxy": "https://wheelmap.org",
   "babel": {
