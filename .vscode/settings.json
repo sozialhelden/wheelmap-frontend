@@ -4,7 +4,8 @@
   "javascript.validate.enable": false,
   "flow.useNPMPackagedFlow": true,
   "search.exclude": {
-      "build/**/*": true
+      "build/**/*": true,
+      "lib/**/*": true
   },
   "eslint.enable": true
 }
