@@ -2,12 +2,13 @@
 
 import get from 'lodash/get';
 import pick from 'lodash/pick';
+import * as React from 'react';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
+import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
-import * as React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 import type { RouterHistory, Location } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
@@ -16,8 +17,10 @@ import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
+import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
+import config from './lib/config';
 import colors from './lib/colors';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import type {
@@ -32,6 +35,7 @@ import {
   yesNoLimitedUnknownArray,
   yesNoUnknownArray
 } from './lib/Feature';
+
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
@@ -84,6 +88,9 @@ function updateTouchCapability() {
   }
 }
 
+function hrefForFeatureId(featureId: string) {
+  return `/beta/nodes/${featureId}`;
+}
 
 class FeatureLoader extends React.Component<Props, State> {
   props: Props;
@@ -105,6 +112,24 @@ class FeatureLoader extends React.Component<Props, State> {
   };
 
   map: ?any;
+
+
+  onMarkerClick = (featureId: string) => {
+    const params = getQueryParams();
+    const href = hrefForFeatureId(featureId);
+    this.props.history.push(`${href}#?${queryString.stringify(params)}`);
+  };
+
+
+  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
+    const properties = feature && feature.properties;
+    if (!properties) return null;
+    return new HighlightableMarker(latlng, {
+      onClick: this.onMarkerClick,
+      hrefForFeatureId,
+      feature,
+    });
+  }
 
 
   resizeListener = () => {
@@ -261,6 +286,7 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
 
+
     return (<div className={classList.join(' ')}>
       {isLocalizationLoaded ? <MainMenu
         className="main-menu"
@@ -279,6 +305,8 @@ class FeatureLoader extends React.Component<Props, State> {
         feature={this.state.feature}
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
+        pointToLayer={this.createMarkerFromFeature}
+        {...config}
       />
 
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton

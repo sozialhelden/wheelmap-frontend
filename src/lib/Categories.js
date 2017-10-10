@@ -1,6 +1,5 @@
 // @flow
 
-import config from './config';
 import { globalFetchManager } from './FetchManager';
 import { t } from './i18n';
 
@@ -114,34 +113,39 @@ export default class Categories {
   static translatedWheelmapRootCategoryName(name: string) {
     return this.getTranslatedRootCategoryNames()[name];
   }
+
+  static fetchOnce(options: { accessibilityCloudAppToken: string, wheelmapApiKey: string, wheelmapApiBaseUrl: string }) {
+    if (this.fetchPromise) return this.fetchPromise;
+
+    const countryCode = navigator.language.substr(0, 2);
+
+    function acCategoriesFetch() {
+      const url = `https://www.accessibility.cloud/categories.json?appToken=${options.accessibilityCloudAppToken}`;
+      return globalFetchManager.fetch(url)
+        .then(response => response.json())
+        .then(json => Categories.generateSynonymCache(json.results || []));
+    }
+    
+    function wheelmapCategoriesFetch() {
+      const url = `/api/categories?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
+      return globalFetchManager.fetch(url)
+        .then(response => response.json())
+        .then(json => Categories.loadCategories(json.categories || []));
+    }
+    
+    function wheelmapNodeTypesFetch() {
+      const url = `/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
+      return globalFetchManager.fetch(url)
+        .then(response => response.json())
+        .then(json => Categories.loadCategories(json.node_types || []));
+    }
+    
+    this.fetchPromise = Promise.all([
+      acCategoriesFetch(),
+      wheelmapCategoriesFetch(),
+      wheelmapNodeTypesFetch(),
+    ]);
+
+    return this.fetchPromise;
+  }
 }
-
-
-const countryCode = navigator.language.substr(0, 2);
-
-function acCategoriesFetch() {
-  const url = `https://www.accessibility.cloud/categories.json?appToken=${config.accessibilityCloudAppToken}`;
-  return globalFetchManager.fetch(url)
-    .then(response => response.json())
-    .then(json => Categories.generateSynonymCache(json.results || []));
-}
-
-function wheelmapCategoriesFetch() {
-  const url = `/api/categories?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
-  return globalFetchManager.fetch(url)
-    .then(response => response.json())
-    .then(json => Categories.loadCategories(json.categories || []));
-}
-
-function wheelmapNodeTypesFetch() {
-  const url = `/api/node_types?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
-  return globalFetchManager.fetch(url)
-    .then(response => response.json())
-    .then(json => Categories.loadCategories(json.node_types || []));
-}
-
-Categories.fetchPromise = Promise.all([
-  acCategoriesFetch(),
-  wheelmapCategoriesFetch(),
-  wheelmapNodeTypesFetch(),
-]);

@@ -3,7 +3,6 @@
 import L from 'leaflet';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import type { RouterHistory } from 'react-router-dom';
 import * as categoryIcons from '../icons/categories';
 import MarkerIcon from './MarkerIcon';
 import type { Feature } from '../../lib/Feature';
@@ -11,15 +10,20 @@ import getIconNameForProperties from './getIconNameForProperties';
 
 
 type Options = typeof L.Marker.Options & {
-  history: RouterHistory,
   feature: Feature,
+  onClick: ((featureId: string) => void),
+  hrefForFeatureId: ((featureId: string) => string),
 };
 
 
 export default class HighlightableMarker extends L.Marker {
   constructor(latlng: L.LatLng, options: Options) {
     const defaults: Options = {
-      icon: new MarkerIcon({ history: options.history, feature: options.feature }),
+      icon: new MarkerIcon({
+        hrefForFeatureId: options.hrefForFeatureId,
+        onClick: options.onClick,
+        feature: options.feature,
+      }),
     };
     super(latlng, Object.assign(defaults, options));
   }

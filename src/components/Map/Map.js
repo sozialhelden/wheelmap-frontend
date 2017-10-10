@@ -6,7 +6,6 @@ import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-import type { RouterHistory } from 'react-router-dom';
 
 import 'leaflet.locatecontrol/src/L.Control.Locate';
 import sozialheldenLogoHTML from './SozialheldenLogo';
@@ -18,7 +17,6 @@ import {
   hasAccessibleToilet,
   wheelmapFeatureCollectionFromResponse,
 } from '../../lib/Feature';
-import config from '../../lib/config';
 import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
@@ -26,7 +24,6 @@ import GeoJSONTileLayer from './GeoJSONTileLayer';
 import savedState, { saveState } from './savedState';
 import addLocateControlToMap from './addLocateControlToMap';
 import { removeCurrentHighlightedMarker } from './highlightMarker';
-import createMarkerFromFeatureFn from './createMarkerFromFeatureFn';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
@@ -42,9 +39,19 @@ type Props = {
   zoom?: ?number,
   onMoveEnd?: (({ zoom: number, lat: number, lon: number }) => void),
   category: ?string,
-  history: RouterHistory,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  accessibilityCloudTileUrl: string,
+  accessibilityCloudAppToken: string,
+  wheelmapApiBaseUrl: string,
+  wheelmapApiKey: string,
+  mapboxTileUrl: string,
+  maxZoom: number,
+  minZoomWithSetCategory: number,
+  minZoomWithoutSetCategory: number,
+  defaultStartCenter: [number, number],
+  locateTimeout: number,
+  pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
 }
 
 
@@ -77,8 +84,8 @@ export default class Map extends React.Component<Props, State> {
     const { lat, lng } = this.map.getCenter();
     const zoom = Math.max(
       this.map.getZoom(),
-      config.minimalZoom.withSetCategory,
-      config.minimalZoom.withoutSetCategory,
+      this.props.minZoomWithSetCategory,
+      this.props.minZoomWithoutSetCategory,
     );
     saveState('lastZoom', zoom);
     saveState('lastCenter.lat', lat);
@@ -93,9 +100,9 @@ export default class Map extends React.Component<Props, State> {
     const lastCenter = (savedState.lastCenter && savedState.lastCenter[0] && savedState.lastCenter);
 
     const map: L.Map = L.map(this.mapElement, {
-      maxZoom: config.maxZoom,
-      center: lastCenter || config.defaultStartCenter,
-      zoom: savedState.lastZoom || (config.maxZoom - 1),
+      maxZoom: this.props.maxZoom,
+      center: lastCenter || this.props.defaultStartCenter,
+      zoom: savedState.lastZoom || (this.props.maxZoom - 1),
       minZoom: 2,
       zoomControl: false,
     });
@@ -118,8 +125,8 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-    if (+new Date() - (savedState.lastMoveDate || 0) > config.locateTimeout) {
-      map.locate({ setView: true, maxZoom: config.maxZoom, enableHighAccuracy: true });
+    if (+new Date() - (savedState.lastMoveDate || 0) > this.props.locateTimeout) {
+      map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: true });
     }
 
     map.on('moveend', () => this.onMoveEnd());
@@ -136,9 +143,9 @@ export default class Map extends React.Component<Props, State> {
 
     addLocateControlToMap(map);
 
-    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${config.mapboxAccessToken}`, {
+    L.tileLayer(this.props.mapboxTileUrl, {
       attribution: mapboxOSMAttribution,
-      maxZoom: config.maxZoom,
+      maxZoom: this.props.maxZoom,
       id: 'accessibility-cloud',
     }).addTo(map);
 
@@ -165,32 +172,27 @@ export default class Map extends React.Component<Props, State> {
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
 
-    const history = this.props.history;
-
     const wheelmapTileUrl = this.wheelmapTileUrl();
 
     this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
       featureCache: wheelmapLightweightFeatureCache,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-      pointToLayer: createMarkerFromFeatureFn(history),
+      pointToLayer: this.props.pointToLayer,
       filter: this.isFeatureVisible.bind(this),
-      maxZoom: config.maxZoom,
+      maxZoom: this.props.maxZoom,
     });
 
-    const accessibilityCloudTileUrl = this.accessibilityCloudTileUrl();
+    const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl;
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
-      pointToLayer: createMarkerFromFeatureFn(history),
+      pointToLayer: this.props.pointToLayer,
       filter: this.isFeatureVisible.bind(this),
-      maxZoom: config.maxZoom,
+      maxZoom: this.props.maxZoom,
     });
 
-    if (!Categories.fetchPromise) {
-      throw new Error('Category fetching must be started.');
-    }
-    Categories.fetchPromise.then(() => {
+    Categories.fetchOnce(this.props).then(() => {
       this.updateFeatureLayerVisibility();
       map.on('moveend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
@@ -208,8 +210,8 @@ export default class Map extends React.Component<Props, State> {
     if (!map || !featureLayer || !wheelmapTileLayer || !accessibilityCloudTileLayer) return;
 
     const minimalZoomLevelForFeatures = this.props.category ?
-      config.minimalZoom.withSetCategory :
-      config.minimalZoom.withoutSetCategory;
+      this.props.minZoomWithSetCategory :
+      this.props.minZoomWithoutSetCategory;
 
     if (this.props.category) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
@@ -230,8 +232,9 @@ export default class Map extends React.Component<Props, State> {
 
     // Without this, the map would be empty when navigating to a category
     if (this.props.category !== newProps.category) {
-      if (map.getZoom() < config.minimalZoom.withSetCategory) {
-        map.setZoom(config.minimalZoom.withSetCategory, { animate: true });
+      debugger
+      if (map.getZoom() < this.props.minZoomWithSetCategory) {
+        map.setZoom(this.props.minZoomWithSetCategory, { animate: true });
       }
     }
 
@@ -287,13 +290,11 @@ export default class Map extends React.Component<Props, State> {
       console.log('Zooming to', props.zoom, 'because params override existing zoom', this.state.zoom);
 
       this.setState({ zoom: props.zoom });
+      debugger
       map.setZoom(props.zoom);
     }
 
-    if (!Categories.fetchPromise) {
-      throw new Error('Category fetching must be started.');
-    }
-    Categories.fetchPromise.then(() => {
+    Categories.fetchOnce(props).then(() => {
       this.updateFeatureLayerVisibility(props);
     });
   }
@@ -308,7 +309,7 @@ export default class Map extends React.Component<Props, State> {
 
     if (!map || !featureLayer || !wheelmapTileLayer || !accessibilityCloudTileLayer) return;
 
-    let minimalZoomLevelForFeatures = config.minimalZoom.withSetCategory;
+    let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
     if (map.getZoom() >= minimalZoomLevelForFeatures) {
       if (!map.hasLayer(featureLayer)) {
@@ -323,7 +324,7 @@ export default class Map extends React.Component<Props, State> {
     this.updateFeatureLayerSourceUrls(props);
 
     if (!this.props.category) {
-      minimalZoomLevelForFeatures = config.minimalZoom.withoutSetCategory;
+      minimalZoomLevelForFeatures = this.props.minZoomWithoutSetCategory;
       if (!featureLayer.hasLayer(this.accessibilityCloudTileLayer) && this.accessibilityCloudTileLayer) {
         console.log('Show AC layer...');
         featureLayer.addLayer(this.accessibilityCloudTileLayer);
@@ -385,24 +386,20 @@ export default class Map extends React.Component<Props, State> {
   }
 
 
-  accessibilityCloudTileUrl() { // eslint-disable-line class-methods-use-this
-    return `https://www.accessibility.cloud/place-infos?excludeSourceIds=LiBTS67TjmBcXdEmX&x={x}&y={y}&z={z}&appToken=${config.accessibilityCloudAppToken}`;
-  }
-
-
   wheelmapTileUrl(props: Props = this.props): ?string {
     // For historical reasons:
     // 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-
+    const baseUrl = this.props.wheelmapApiBaseUrl || '';
+    const wheelmapApiKey = this.props.wheelmapApiKey;
     const categoryName = props.category;
     if (categoryName) {
       const category = Categories.wheelmapRootCategoryWithName(categoryName);
       if (!category) {
         return null;
       }
-      return `/api/categories/${category.id}/nodes/?api_key=${config.wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
+      return `${baseUrl}/api/categories/${category.id}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
     }
-    return `/api/nodes/?api_key=${config.wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
+    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
   }
 }

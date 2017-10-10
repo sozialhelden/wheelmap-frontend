@@ -29,7 +29,7 @@ import { isWheelchairAccessible } from './Feature';
 // };
 
 const colors = {
-  primaryColor: '#8bb847',
+  primaryColor: '#79B63E',
   secondaryColor: '#8B6A43',
   darkLinkColor: '#455668',
   linkColor: '#2e6ce0',

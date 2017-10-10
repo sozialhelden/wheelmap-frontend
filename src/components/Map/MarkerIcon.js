@@ -3,17 +3,20 @@
 import L from 'leaflet';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import queryString from 'query-string';
 import * as categoryIcons from '../icons/categories';
-import { getQueryParams } from '../../lib/queryParams';
 import getIconNameForProperties from './getIconNameForProperties';
 import { getColorForWheelchairAccessibility } from '../../lib/colors';
 
 
 // Extend Leaflet-icon to support colors and category images
 
+type Options = typeof L.Icon.options & {
+  onClick: ((featureId: string) => void),
+  hrefForFeatureId: ((featureId: string) => ?string),
+};
+
 export default class MarkerIcon extends L.Icon {
-  constructor(options: typeof L.Icon.options) {
+  constructor(options: Options) {
     const defaults = {
       number: '',
       shadowUrl: null,
@@ -21,6 +24,8 @@ export default class MarkerIcon extends L.Icon {
       iconAnchor: new L.Point(11, 11),
       popupAnchor: new L.Point(11, 11),
       tooltipAnchor: new L.Point(11, 37),
+      onClick: ((featureId: string) => {}),
+      hrefForFeatureId: ((featureId: string) => null),
     };
 
     super(Object.assign(defaults, options));
@@ -29,8 +34,8 @@ export default class MarkerIcon extends L.Icon {
   createIcon() {
     const link = document.createElement('a');
     const properties = this.options.feature.properties;
-    const href = `/beta/nodes/${properties.id || properties._id}`;
-    link.href = href;
+    const featureId = properties.id || properties._id;
+    link.href = this.options.hrefForFeatureId(featureId);
 
     const iconName = getIconNameForProperties(properties) || 'place';
 
@@ -41,8 +46,7 @@ export default class MarkerIcon extends L.Icon {
 
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
-      const params = getQueryParams();
-      this.options.history.push(`${href}#?${queryString.stringify(params)}`);
+      this.options.onClick(featureId);
     });
     this._setIconStyles(link, 'icon');
 
