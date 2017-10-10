@@ -2,7 +2,7 @@
   "name": "wheelmap-react",
   "version": "0.1.6",
   "homepage": "https://wheelmap.now.sh/beta/",
-  "mainModule": "lib/App.js",
+  "main": "lib/App.js",
   "dependencies": {
     "accessibility-cloud-widget": "3.4.4",
     "c-3po": "git://github.com/opyh/c-3po.git#v0.5.8-with-fallback",
