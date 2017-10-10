@@ -232,7 +232,6 @@ export default class Map extends React.Component<Props, State> {
 
     // Without this, the map would be empty when navigating to a category
     if (this.props.category !== newProps.category) {
-      debugger
       if (map.getZoom() < this.props.minZoomWithSetCategory) {
         map.setZoom(this.props.minZoomWithSetCategory, { animate: true });
       }
@@ -290,7 +289,6 @@ export default class Map extends React.Component<Props, State> {
       console.log('Zooming to', props.zoom, 'because params override existing zoom', this.state.zoom);
 
       this.setState({ zoom: props.zoom });
-      debugger
       map.setZoom(props.zoom);
     }
 
