@@ -42,6 +42,9 @@ function isOnSmallViewport() {
   return window.innerWidth < 512;
 }
 
+function hasBigViewport() {
+  return window.innerHeight > 512 && window.innerWidth > 512;
+}
 
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.3s ease-out, width: 0.3s ease-out, height: 0.3s ease-out;
@@ -219,9 +222,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.ensureFullVisibility();
   }, 100);
 
-
   focus() {
-    this.searchInputField.focus();
+    if (hasBigViewport()) {
+      this.searchInputField.focus();
+    } else {
+      this.toolbar.focus();
+    }
   }
 
   render() {
