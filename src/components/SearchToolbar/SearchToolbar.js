@@ -220,6 +220,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }, 100);
 
 
+  focus() {
+    this.searchInputField.focus();
+  }
+
   render() {
     const searchResults = this.state.searchResults;
 
@@ -273,6 +277,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
           /> : null}
 
           <SearchInputField
+            innerRef={searchInputField => this.searchInputField = searchInputField}
             searchQuery={this.props.category ? '' : this.props.searchQuery}
             placeholder={placeholder}
             disabled={Boolean(this.props.category)}

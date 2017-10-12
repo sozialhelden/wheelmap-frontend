@@ -26,21 +26,36 @@ function hasBigViewport() {
 }
 
 
-const SearchInputField = (props: Props) => {
-  // translator: Placeholder for search input field
-  const defaultPlaceholder = t`Search place or address`;
+class SearchInputField extends React.Component<Props> {
+  focus() {
+    this.input.focus();
+  }
 
-  return (<input
-    ref={props.ref}
-    value={props.searchQuery ? props.searchQuery : ''}
-    autoFocus={hasBigViewport()}
-    onChange={props.onChange}
-    disabled={props.disabled}
-    onFocus={props.onFocus}
-    onBlur={props.onBlur}
-    className={`search-input ${props.className}`}
-    placeholder={props.placeholder ? props.placeholder : defaultPlaceholder}
-  />);
+  render() {
+    const {
+      searchQuery,
+      onChange,
+      disabled,
+      onFocus,
+      onBlur,
+      className,
+      placeholder
+    } = this.props;
+    // translator: Placeholder for search input field
+    const defaultPlaceholder = t`Search place or address`;
+
+    return (<input
+      ref={input => this.input = input}
+      value={searchQuery ? searchQuery : ''}
+      autoFocus={hasBigViewport()}
+      onChange={onChange}
+      disabled={disabled}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      className={`search-input ${className}`}
+      placeholder={placeholder ? placeholder : defaultPlaceholder}
+      />);
+  }
 }
 
 const StyledSearchInputField = styled(SearchInputField)`

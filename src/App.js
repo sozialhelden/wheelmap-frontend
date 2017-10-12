@@ -316,6 +316,7 @@ class FeatureLoader extends React.Component<Props, State> {
       /> : null}
 
       {isLocalizationLoaded ? <SearchToolbar
+        ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
         category={category}
@@ -366,6 +367,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onClose={() => {
           saveOnboardingFlag();
           this.setState({ isOnboardingVisible: false });
+          this.searchToolbar.focus();
         }}
       />
 
