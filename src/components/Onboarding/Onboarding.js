@@ -18,6 +18,12 @@ type Props = {
   onClose: (() => void),
 };
 
+const preventTabbing = event => {
+  if (event.key === 'Tab') {
+    event.preventDefault();
+  }
+}
+
 function Onboarding(props: Props) {
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const claim = t`Mark and find wheelchair accessible places—worldwide and for free. It’s easy with our traffic light system:`;
@@ -25,6 +31,15 @@ function Onboarding(props: Props) {
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const startButtonCaption = t`Okay, let’s go!`;
+
+  const manageFocus = buttonElement => {
+    if (!buttonElement) {
+      return;
+    }
+
+    buttonElement.addEventListener('keydown', preventTabbing);
+    buttonElement.focus();
+  }
 
   return (<ModalDialog
     className={props.className}
@@ -62,7 +77,7 @@ function Onboarding(props: Props) {
     </section>
 
     <footer>
-      <button className="button-cta-close" onClick={props.onClose}>
+      <button className="button-cta-close" onClick={props.onClose} ref={manageFocus} >
         {startButtonCaption}
         <ChevronRight />
       </button>
@@ -212,7 +227,6 @@ const StyledOnboarding = styled(Onboarding)`
 
     button.button-cta-close {
       border: none;
-      outline: none;
       color: white;
       background-color: ${colors.linkColor};
       font-size: 1.25em;
