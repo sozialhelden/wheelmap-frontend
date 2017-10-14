@@ -323,6 +323,10 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
 
+    &:focus {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
+
     &:disabled {
       opacity: 0.15;
     }
