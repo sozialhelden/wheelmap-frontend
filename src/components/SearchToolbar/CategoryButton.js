@@ -30,13 +30,16 @@ const StyledNavLink = styled(NavLink)`
       background-color: ${colors.selectedColor};
     }
   }
-  &:hover {
+  &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
     &.active {
       .circle {
         background-color: ${colors.darkSelectedColor};
       }
     }
+  }
+  &:focus {
+    outline: none;
   }
 `;
 
