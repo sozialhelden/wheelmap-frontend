@@ -269,19 +269,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
         isSwipeable={false}
       >
         <header>
-          {(contentBelowSearchField || this.props.category) ? <CloseLink
-            history={this.props.history}
-            className="close-link"
-            onClick={() => {
-              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
-              if (this.input instanceof HTMLInputElement) {
-                this.input.value = '';
-              }
-              setTimeout(() => this.ensureFullVisibility(), 100);
-              if (this.props.onClose) this.props.onClose();
-            }}
-          /> : null}
-
           <SearchInputField
             innerRef={searchInputField => this.searchInputField = searchInputField}
             searchQuery={this.props.category ? '' : this.props.searchQuery}
@@ -306,6 +293,19 @@ export default class SearchToolbar extends React.Component<Props, State> {
           />
 
           <SearchIcon className="search-icon" />
+
+          {(this.props.searchQuery || this.props.category) ? <CloseLink
+            history={this.props.history}
+            className="close-link"
+            onClick={() => {
+              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
+              if (this.input instanceof HTMLInputElement) {
+                this.input.value = '';
+              }
+              setTimeout(() => this.ensureFullVisibility(), 100);
+              if (this.props.onClose) this.props.onClose();
+            }}
+          /> : null}
         </header>
 
         { contentBelowSearchField }
