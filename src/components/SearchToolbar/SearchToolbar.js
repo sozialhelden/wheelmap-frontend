@@ -155,6 +155,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
+  componentDidUpdate(_, prevState) {
+    const searchFieldShouldBecomeFocused = !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
+    if (searchFieldShouldBecomeFocused) {
+      this.focus();
+    }
+  }
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.category !== this.props.category) {
@@ -298,7 +304,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             history={this.props.history}
             className="close-link"
             onClick={() => {
-              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
+              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: true });
               if (this.input instanceof HTMLInputElement) {
                 this.input.value = '';
               }
