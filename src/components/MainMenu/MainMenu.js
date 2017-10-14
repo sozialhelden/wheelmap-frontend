@@ -47,6 +47,8 @@ class MainMenu extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.boundOnResize = this.onResize.bind(this);
+    this.focusToLastElement = this.focusToLastElement.bind(this);
+    this.focusToFirstElement = this.focusToFirstElement.bind(this);
   }
 
   componentDidMount() {
@@ -57,6 +59,10 @@ class MainMenu extends React.Component<Props, State> {
     window.removeEventListener('resize', this.boundOnResize);
   }
 
+  componentDidUpdate() {
+    this.state.isMenuVisible ? this.setupFocusTrap() : this.tearDownFocusTrap();
+  }
+
   toggleMenu() {
     const newState = !this.state.isMenuVisible;
     this.setState({
@@ -64,6 +70,30 @@ class MainMenu extends React.Component<Props, State> {
     });
 
     this.props.onToggle(newState);
+  }
+
+  setupFocusTrap() {
+    this.homeLink.addEventListener('keydown', this.focusToLastElement);
+    this.addPlaceLink.addEventListener('keydown', this.focusToFirstElement);
+  }
+
+  tearDownFocusTrap() {
+    this.homeLink.removeEventListener('keydown', this.focusToLastElement);
+    this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);
+  }
+
+  focusToFirstElement(event) {
+    if (event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
+      this.homeLink.focus();
+    }
+  }
+
+  focusToLastElement(event) {
+    if (event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault();
+      this.addPlaceLink.focus();
+    }
   }
 
   render() {
@@ -80,7 +110,7 @@ class MainMenu extends React.Component<Props, State> {
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <a href="/beta">
+        <a href="/beta" ref={homeLink => this.homeLink = homeLink}>
           <Logo className="logo" width={123} height={30} />
         </a>
       </div>
@@ -89,6 +119,10 @@ class MainMenu extends React.Component<Props, State> {
 
       <div className="flexible-separator" />
 
+      <button className="menu" onClick={() => this.toggleMenu()}>
+        {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
+      </button>
+
       <a className="nav-link" href="https://travelable.info">{travelGuide}</a>
       <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter">{getInvolved}</a>
       <a className="nav-link" href="https://news.wheelmap.org">{news}</a>
@@ -96,11 +130,9 @@ class MainMenu extends React.Component<Props, State> {
       <a className="nav-link" href="https://news.wheelmap.org/kontakt">{contact}</a>
       <a className="nav-link" href="https://news.wheelmap.org/imprint">{imprint}</a>
       <a className="nav-link" href="https://news.wheelmap.org/faq">{faq}</a>
-      <a className="nav-link add-place-link" href="/nodes/new">{addMissingPlace}</a>
-
-      <button className="menu" onClick={() => this.toggleMenu()}>
-        {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
-      </button>
+      <a className="nav-link add-place-link" href="/nodes/new" ref={addPlaceLink => this.addPlaceLink = addPlaceLink}>
+        {addMissingPlace}
+      </a>
     </nav>);
   }
 }
