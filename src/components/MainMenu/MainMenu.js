@@ -177,7 +177,6 @@ const StyledMainMenu = styled(MainMenu)`
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: none;
     border: none;
     background: transparent;
     cursor: pointer;
