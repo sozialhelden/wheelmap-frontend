@@ -7,11 +7,15 @@ import CloseIcon from './icons/actions/Close';
 import { getQueryParams } from '../lib/queryParams';
 
 type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
+type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;
+type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
 
-const CloseLink = (props: { className: string, onClick: ClickHandler }) => (
+const CloseLink = (props: { className: string, onClick: ClickHandler, onFocus: FocusHandler, onBlur: BlurHandler }) => (
   <Link
     to="/beta/"
     className={props.className}
+    onBlur={props.onBlur}
+    onFocus={props.onFocus}
     onClick={(event) => {
       if (props.onClick) {
         props.onClick(event);
