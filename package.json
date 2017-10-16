@@ -1,6 +1,6 @@
 {
   "name": "wheelmap-react",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://wheelmap.now.sh/beta/",
   "main": "lib/App.js",
   "license": "MIT",
