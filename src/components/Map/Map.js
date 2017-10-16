@@ -174,14 +174,16 @@ export default class Map extends React.Component<Props, State> {
 
     const wheelmapTileUrl = this.wheelmapTileUrl();
 
-    this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
-      featureCache: wheelmapLightweightFeatureCache,
-      layerGroup: markerClusterGroup,
-      featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-      pointToLayer: this.props.pointToLayer,
-      filter: this.isFeatureVisible.bind(this),
-      maxZoom: this.props.maxZoom,
-    });
+    if (wheelmapTileUrl) {
+      this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
+        featureCache: wheelmapLightweightFeatureCache,
+        layerGroup: markerClusterGroup,
+        featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
+        pointToLayer: this.props.pointToLayer,
+        filter: this.isFeatureVisible.bind(this),
+        maxZoom: this.props.maxZoom,
+      });
+    }
 
     const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl;
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
@@ -207,7 +209,7 @@ export default class Map extends React.Component<Props, State> {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
-    if (!map || !featureLayer || !wheelmapTileLayer || !accessibilityCloudTileLayer) return;
+    if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
 
     const minimalZoomLevelForFeatures = this.props.category ?
       this.props.minZoomWithSetCategory :
@@ -242,9 +244,9 @@ export default class Map extends React.Component<Props, State> {
     if (accessibilityFilterChanged || toiletFilterChanged) {
       setTimeout(() => {
         this.accessibilityCloudTileLayer._reset();
-        this.wheelmapTileLayer._reset();
+        if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
         this.accessibilityCloudTileLayer._update(map.getCenter());
-        this.wheelmapTileLayer._update(map.getCenter());
+        if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
     }
   }
@@ -305,7 +307,7 @@ export default class Map extends React.Component<Props, State> {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
-    if (!map || !featureLayer || !wheelmapTileLayer || !accessibilityCloudTileLayer) return;
+    if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
 
     let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
@@ -323,17 +325,17 @@ export default class Map extends React.Component<Props, State> {
 
     if (!this.props.category) {
       minimalZoomLevelForFeatures = this.props.minZoomWithoutSetCategory;
-      if (!featureLayer.hasLayer(this.accessibilityCloudTileLayer) && this.accessibilityCloudTileLayer) {
+      if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
         console.log('Show AC layer...');
         featureLayer.addLayer(this.accessibilityCloudTileLayer);
-        this.accessibilityCloudTileLayer._update(map.getCenter());
+        accessibilityCloudTileLayer._update(map.getCenter());
       }
     }
 
-    if (!featureLayer.hasLayer(this.wheelmapTileLayer) && this.wheelmapTileLayer) {
+    if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
       console.log('Show wheelmap layer...');
-      featureLayer.addLayer(this.wheelmapTileLayer);
-      this.wheelmapTileLayer._update(map.getCenter());
+      featureLayer.addLayer(wheelmapTileLayer);
+      wheelmapTileLayer._update(map.getCenter());
     }
 
     this.updateHighlightedMarker(props);
@@ -388,7 +390,8 @@ export default class Map extends React.Component<Props, State> {
     // For historical reasons:
     // 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = this.props.wheelmapApiBaseUrl || '';
+    const baseUrl = this.props.wheelmapApiBaseUrl;
+    if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = this.props.wheelmapApiKey;
     const categoryName = props.category;
     if (categoryName) {

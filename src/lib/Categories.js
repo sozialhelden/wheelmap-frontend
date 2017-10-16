@@ -132,19 +132,22 @@ export default class Categories {
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.categories || []));
     }
-    
+
     function wheelmapNodeTypesFetch() {
       const url = `/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
       return globalFetchManager.fetch(url)
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.node_types || []));
     }
-    
+
+    const hasAccessibilityCloudCredentials = Boolean(options.accessibilityCloudAppToken);
+    const hasWheelmapCredentials = options.wheelmapApiKey && typeof options.wheelmapApiBaseUrl === 'string';
+
     this.fetchPromise = Promise.all([
-      acCategoriesFetch(),
-      wheelmapCategoriesFetch(),
-      wheelmapNodeTypesFetch(),
-    ]);
+      hasAccessibilityCloudCredentials ? acCategoriesFetch() : null,
+      hasWheelmapCredentials ? wheelmapCategoriesFetch() : null,
+      hasWheelmapCredentials ? wheelmapNodeTypesFetch() : null,
+    ].filter(Boolean));
 
     return this.fetchPromise;
   }

@@ -44,7 +44,7 @@ function isOnSmallViewport() {
 
 
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out, width: 0.3s ease-out, height: 0.3s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding: 0;
