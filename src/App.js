@@ -248,7 +248,7 @@ class FeatureLoader extends React.Component<Props, State> {
     cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
       const currentlyShownId = this.featureId(this.props);
-      const idProperties = [feature.id, feature.properties.id, feature._id];
+      const idProperties = [feature.id, feature.properties.id, feature._id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
