@@ -26,11 +26,19 @@ type Props = {
 
 export default function CategoryMenu(props: Props) {
   const names = Categories.getTranslatedRootCategoryNames();
+
+  const lastIndex = Object.keys(names).length - 1;
   return (
     <Container className="category-menu">
-      {Object.keys(names).map(id => (<CategoryButton
+      {Object.keys(names).map((id, index) => (<CategoryButton
         onFocus={props.onFocus}
-        onBlur={props.onBlur}
+        onKeyDown={({nativeEvent}) => {
+          const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
+          const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
+          if(tabPressedOnLastButton || shiftTabPressedOnFirstButton) {
+            props.onBlur();
+          }
+        }}
         key={id}
         className="category-button"
         name={names[id]}
