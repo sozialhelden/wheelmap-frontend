@@ -29,17 +29,18 @@ function hasBigViewport() {
 const SearchInputField = (props: Props) => {
   // translator: Placeholder for search input field
   const defaultPlaceholder = t`Search place or address`;
-
+  const value = props.placeholder || props.searchQuery || '';
   return (<input
     ref={props.ref}
-    value={props.searchQuery ? props.searchQuery : ''}
+    value={value}
     autoFocus={hasBigViewport()}
     onChange={props.onChange}
     disabled={props.disabled}
     onFocus={props.onFocus}
     onBlur={props.onBlur}
+    onClick={props.onClick}
     className={`search-input ${props.className}`}
-    placeholder={props.placeholder ? props.placeholder : defaultPlaceholder}
+    placeholder={value === '' ? defaultPlaceholder : null}
   />);
 }
 
@@ -60,6 +61,19 @@ const StyledSearchInputField = styled(SearchInputField)`
   &:focus {
     outline: none;
     background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder,
+  &:-moz-placeholder,
+  &::-ms-input-placeholder,
+  &:-ms-input-placeholder {
+    color: #333;
+    opacity: 1;
+  }
+
+  &:disabled {
+    opacity: 1;
   }
 `;
 
