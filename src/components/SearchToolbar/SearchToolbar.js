@@ -31,7 +31,6 @@ type Props = {
 
 type State = {
   searchResults: ?SearchResultCollection,
-  categoryMenuIsVisible: boolean,
   searchFieldIsFocused: boolean,
   isCloseButtonFocused: boolean,
   isCategoryFocused: boolean,
@@ -128,7 +127,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    categoryMenuIsVisible: false,
     searchFieldIsFocused: false,
     searchResults: null,
     isCloseButtonFocused: false,
@@ -222,19 +220,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-
-  updateCategoryMenuVisibility = debounce(() => {
-    const isCategoryFocused = this.state.isCategoryFocused;
-    const isSearchFieldFocusedAndEmpty = this.state.searchFieldIsFocused && !this.state.searchQuery
-
-    const isCloseButtonFocused = this.state.isCloseButtonFocused;
-
-    this.setState({
-      categoryMenuIsVisible: isCategoryFocused || isSearchFieldFocusedAndEmpty || isCloseButtonFocused
-    });
-    this.ensureFullVisibility();
-  }, 100);
-
   focus() {
     if (hasBigViewport()) {
       this.searchInputField.focus();
@@ -244,11 +229,22 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const searchResults = this.state.searchResults;
+    const {
+      isLoading,
+      searchQuery,
+      searchResults,
+      searchFieldIsFocused,
+      isCloseButtonFocused,
+      isCategoryFocused,
+    } = this.state;
+
+    const isSearchFieldFocusedAndEmpty = searchFieldIsFocused && !searchQuery
+    const categoryMenuIsVisible =
+      !this.props.category && (isCategoryFocused || isSearchFieldFocusedAndEmpty || isCloseButtonFocused);
 
     let contentBelowSearchField = null;
 
-    if (this.state.isLoading) {
+    if (isLoading) {
       contentBelowSearchField = <Dots size={20} />;
     } else if (searchResults) {
       contentBelowSearchField = (<SearchResults
@@ -256,17 +252,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
         onSelectCoordinate={this.props.onSelectCoordinate}
         onSelect={() => this.clearSearchOnSmallViewports()}
       />);
-    } else if (this.state.categoryMenuIsVisible) {
+    } else if (categoryMenuIsVisible) {
       contentBelowSearchField = (<CategoryMenu
-        onFocus={() => {
-          this.setState({ categoryMenuIsVisible: true });
-          this.setState({ isCategoryFocused: true });
-          this.updateCategoryMenuVisibility();
-        }}
-        onBlur={() => {
-          this.setState({ isCategoryFocused: false })
-          this.updateCategoryMenuVisibility();
-        }}
+        onFocus={() => this.setState({ isCategoryFocused: true })}
+        onBlur={() =>this.setState({ isCategoryFocused: false })}
       />);
     }
 
@@ -274,7 +263,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     const className = [
       'search-toolbar',
-      this.state.searchFieldIsFocused ? 'search-field-is-focused' : null,
+      searchFieldIsFocused ? 'search-field-is-focused' : null,
     ].filter(Boolean).join(' ');
 
     return (
@@ -293,13 +282,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
             disabled={Boolean(this.props.category)}
             onFocus={(event) => {
               this.input = event.target;
-              this.setState({ categoryMenuIsVisible: true });
               this.setState({ searchFieldIsFocused: true });
               setTimeout(() => this.ensureFullVisibility(), 100);
               setTimeout(() => window.scrollTo(0, 0), 300);
             }}
             onBlur={() => {
-              this.updateCategoryMenuVisibility();
+              this.ensureFullVisibility();
               setTimeout(() => this.setState({ searchFieldIsFocused: false }), 300);
             }}
             onChange={(event) => {
@@ -314,16 +302,15 @@ export default class SearchToolbar extends React.Component<Props, State> {
           {(this.props.searchQuery || this.props.category) ? <CloseLink
             history={this.props.history}
             className="close-link"
-            onFocus={() => {
-              this.setState({ isCloseButtonFocused: true })
-              this.updateCategoryMenuVisibility()
-            }}
-            onBlur={() => {
-              this.setState({ isCloseButtonFocused: false })
-              this.updateCategoryMenuVisibility()
-            }}
+            onFocus={() => this.setState({ isCloseButtonFocused: true })}
+            onBlur={() => this.setState({ isCloseButtonFocused: false })}
             onClick={() => {
-              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: true });
+              this.setState({
+                searchResults: null,
+                searchFieldIsFocused: true,
+                isCategoryFocused: false,
+                isCloseButtonFocused: false
+              });
               if (this.input instanceof HTMLInputElement) {
                 this.input.value = '';
               }
