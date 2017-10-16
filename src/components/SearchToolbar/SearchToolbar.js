@@ -70,6 +70,11 @@ const StyledToolbar = styled(Toolbar)`
   .close-link {
     top: 5px;
     right: 8px;
+    display: flex;
+    flex-direction: row-reverse;
+    &.has-open-category {
+      left: 8px;
+    }
   }
 
   @media (max-width: 512px), (max-height: 512px) {
@@ -261,7 +266,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         <header>
           {(contentBelowSearchField || this.props.category) ? <CloseLink
             history={this.props.history}
-            className="close-link"
+            className={`close-link${this.props.category ? ' has-open-category' : ''}`}
             onClick={() => {
               this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
               if (this.input instanceof HTMLInputElement) {
