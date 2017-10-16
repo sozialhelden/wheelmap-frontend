@@ -16,6 +16,10 @@ body.is-touch-device .leaflet-filter-button {
   flex: 1;
 }
 
+.leaflet-container:focus {
+  border: 3px solid blue;
+}
+
 .leaflet-icon-locate:before {
   display: block;
   position: absolute;
