@@ -151,6 +151,9 @@ class FeatureLoader extends React.Component<Props, State> {
     this.updateStateFromProps(this.props);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.manageFocus(prevProps, prevState);
+  }
 
   updateStateFromProps(props: Props) {
     this.fetchFeature(props);
@@ -265,6 +268,34 @@ class FeatureLoader extends React.Component<Props, State> {
     this.setState({ isFilterToolbarVisible: !this.state.isFilterToolbarVisible });
   }
 
+  manageFocus(prevProps, prevState) {
+    // focus to and from nodeToolbar
+    let wasNodeToolbarDisplayed: boolean;
+    let isNodeToolbarDisplayed: boolean;
+
+    const routeInformation = this.routeInformation();
+    const { featureId } = routeInformation || {};
+    const isNodeRoute = Boolean(featureId);
+    const { isLocalizationLoaded, isFilterToolbarVisible } = this.state;
+    isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded && !isFilterToolbarVisible;
+
+    const prevRouteInformation = this.routeInformation(prevProps);
+    const { featureId: prevFeatureId } = prevRouteInformation || {};
+    const wasNodeRoute = Boolean(prevFeatureId);
+    const { isLocalizationLoaded: wasLocalizationLoaded, isFilterToolbarVisible: wasFilterToolbarVisible } = prevState;
+    wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded && !wasFilterToolbarVisible;
+
+    const nodeToolbarAppeared = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
+    const nodeToolbarDisappeared = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
+
+    if (nodeToolbarDisappeared) {
+      this.lastFocusedElement.focus();
+    }
+    if (nodeToolbarAppeared){
+      this.lastFocusedElement = document.activeElement;
+      this.nodeToolbar.focus();
+    }
+  }
 
   render() {
     const routeInformation = this.routeInformation();
@@ -324,6 +355,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
       {(isNodeRoute && isLocalizationLoaded) ? (<div className="node-toolbar">
         <NodeToolbar
+          ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
           history={this.props.history}
           feature={this.state.feature}
           hidden={this.state.isFilterToolbarVisible}
