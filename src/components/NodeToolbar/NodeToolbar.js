@@ -62,12 +62,14 @@ class NodeToolbar extends React.Component<Props, State> {
     this.fetchCategory(this.props);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
     // element (the node toolbar's close link) was not rendered yet. See this.focus().
     if (this.shouldBeFocused) {
       this.focus();
     }
+
+    this.manageFocus(prevProps, prevState);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -118,6 +120,18 @@ class NodeToolbar extends React.Component<Props, State> {
       this.shouldBeFocused = false;
     } else {
       this.shouldBeFocused = true;
+    }
+  }
+
+  manageFocus(prevProps, prevState) {
+    if (this.props.isEditMode && !prevProps.isEditMode) {
+      this.lastFocusedElement = document.activeElement;
+      this.accessibilityEditor.focus();
+    }
+
+    if (prevProps.isEditMode && !this.props.isEditMode) {
+      this.lastFocusedElement.focus();
+      this.lastFocusedElement = null;
     }
   }
 
@@ -172,6 +186,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
           if (this.props.isEditMode) {
             return (<AccessibilityEditor
+              innerRef={accessibilityEditor => this.accessibilityEditor = accessibilityEditor}
               feature={this.props.feature}
               featureId={this.props.featureId}
               onClose={() => {

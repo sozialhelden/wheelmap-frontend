@@ -31,6 +31,11 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     toiletAccessibility: 'unknown',
   };
 
+  constructor(props) {
+    super(props);
+    this.trapFocus = this.trapFocus.bind(this);
+  }
+
   toiletAccessibility(props: Props = this.props): ?YesNoUnknown {
     if (!props.feature || !props.feature.properties || !props.feature.properties.wheelchair_toilet) {
       return null;
@@ -74,6 +79,21 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     if (typeof this.props.onClose === 'function') this.props.onClose();
   }
 
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.yesButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.unknownButton.focus();
+    }
+    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.yesButton.focus();
+    }
+  }
+
+  focus() {
+    this.yesButton.focus();
+  }
+
   render() {
     const classList = [
       this.props.className,
@@ -101,7 +121,12 @@ class ToiletStatusEditor extends React.Component<Props, State> {
       <header>{headerText}</header>
 
       <footer>
-        <button className="link-button yes" onClick={() => this.save('yes')}>
+        <button
+          className="link-button yes"
+          onClick={() => this.save('yes')}
+          ref={yesButton => this.yesButton = yesButton}
+          onKeyDown={this.trapFocus}
+        >
           {yesCaption}
         </button>
 
@@ -109,7 +134,12 @@ class ToiletStatusEditor extends React.Component<Props, State> {
           {noCaption}
         </button>
 
-        <button className="link-button unknown" onClick={() => this.save('unknown')}>
+        <button
+          className="link-button unknown"
+          onClick={() => this.save('unknown')}
+          ref={unknownButton => this.unknownButton = unknownButton}
+          onKeyDown={this.trapFocus}
+        >
           {unknownCaption}
         </button>
       </footer>

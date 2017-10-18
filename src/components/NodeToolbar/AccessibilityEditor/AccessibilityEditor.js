@@ -42,6 +42,14 @@ class AccessibilityEditor extends React.Component<Props, State> {
     }
   }
 
+  focus() {
+    if (this.state.isInToiletEditingMode) {
+      this.toiletStatusEditor.focus();
+    } else {
+      this.wheelchairStatusEditor.focus();
+    }
+  }
+
   render() {
     const classList = [
       this.props.className,
@@ -54,6 +62,7 @@ class AccessibilityEditor extends React.Component<Props, State> {
 
     if (isInToiletEditingMode) {
       return (<ToiletStatusEditor
+        innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
         className={className}
         featureId={this.props.featureId}
         feature={this.props.feature}
@@ -63,6 +72,7 @@ class AccessibilityEditor extends React.Component<Props, State> {
     }
 
     return (<WheelchairStatusEditor
+      innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
       className={className}
       featureId={this.props.featureId}
       feature={this.props.feature}
