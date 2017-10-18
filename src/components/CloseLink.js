@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
@@ -10,25 +11,42 @@ type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
 
-const CloseLink = (props: { className: string, onClick: ClickHandler, onFocus: FocusHandler, onBlur: BlurHandler }) => (
-  <Link
-    to="/beta/"
-    className={props.className}
-    onBlur={props.onBlur}
-    onFocus={props.onFocus}
-    onClick={(event) => {
-      if (props.onClick) {
-        props.onClick(event);
-        return;
-      }
-      event.preventDefault();
-      const params = getQueryParams();
-      props.history.push(`/beta#?${queryString.stringify(params)}`);
-    }}
-  >
-    <CloseIcon />
-  </Link>
-);
+type Props = {
+  className: string,
+  onClick: ClickHandler,
+  onFocus: FocusHandler,
+  onBlur: BlurHandler,
+}
+
+class CloseLink extends React.Component<Props> {
+  focus() {
+    const linkElement = ReactDOM.findDOMNode(this.linkInstance)
+    linkElement.focus();
+  }
+
+  render() {
+    return(
+      <Link
+        to="/beta/"
+        ref={linkInstance => this.linkInstance = linkInstance}
+        className={this.props.className}
+        onBlur={this.props.onBlur}
+        onFocus={this.props.onFocus}
+        onClick={(event) => {
+          if (this.props.onClick) {
+            this.props.onClick(event);
+            return;
+          }
+          event.preventDefault();
+          const params = getQueryParams();
+          this.props.history.push(`/beta#?${queryString.stringify(params)}`);
+        }}
+      >
+        <CloseIcon />
+      </Link>
+    )
+  }
+}
 
 const StyledCloseLink = styled(CloseLink)`
   display: block;
