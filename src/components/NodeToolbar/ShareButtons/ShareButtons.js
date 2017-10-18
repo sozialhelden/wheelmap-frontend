@@ -58,6 +58,20 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.manageFocus(prevProps, prevState)
+  }
+
+  manageFocus(_, prevState) {
+    if (this.state.isExpanded && !prevState.isExpanded) {
+      this.collapseButton.focus();
+    }
+
+    if (prevState.isExpanded && !this.state.isExpanded) {
+      this.shareButton.focus();
+    }    
+  }
+
   render() {
     const { feature, featureId } = this.props;
 
@@ -92,14 +106,21 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     }
     const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
-    const expandButton = (<button className={'link-button expand-button full-width-button'} onClick={() => this.toggle(true)}>
-      {shareButtonCaption}
-    </button>);
+    const expandButton = <button
+      ref={shareButton => this.shareButton = shareButton}
+      className={'link-button expand-button full-width-button'}
+      onClick={() => this.toggle(true)}>
+        {shareButtonCaption}
+      </button>;
 
     if (!this.state.isExpanded) return expandButton;
 
     return (<div className={this.props.className}>
-      <button className={'link-button collapse-button'} onClick={() => this.toggle(false)}>
+      <button
+        ref={collapseButton => this.collapseButton = collapseButton}
+        className={'link-button collapse-button'}
+        onClick={() => this.toggle(false)}
+      >
         <ChevronLeft />
       </button>
 
