@@ -11,6 +11,7 @@ import strings from './strings';
 
 type State = {
   isMenuVisible: boolean,
+  isMenuButtonVisible: boolean,
 };
 
 type Props = {
@@ -29,18 +30,22 @@ function MenuIcon(props) {
   </svg>);
 }
 
+const menuButtonVisibilityBreakpoint = 1024;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
     isMenuVisible: false,
+    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
   boundOnResize: (() => void);
 
   onResize() {
-    if (window.innerWidth > 1024) {
-      this.setState({ isMenuVisible: false });
+    if (window.innerWidth > menuButtonVisibilityBreakpoint) {
+      this.setState({ isMenuVisible: false, isMenuButtonVisible: false });
       this.props.onToggle(false);
+    } else {
+      this.setState({ isMenuButtonVisible: true });
     }
   }
 
@@ -119,7 +124,11 @@ class MainMenu extends React.Component<Props, State> {
 
       <div className="flexible-separator" />
 
-      <button className="menu" onClick={() => this.toggleMenu()}>
+      <button
+        className="menu"
+        onClick={() => this.toggleMenu()}
+        tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
+      >
         {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
       </button>
 
@@ -243,7 +252,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${menuButtonVisibilityBreakpoint}px) {
     position: absolute;
     top: 0;
     left: 0;
