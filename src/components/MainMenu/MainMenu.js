@@ -166,6 +166,16 @@ const StyledMainMenu = styled(MainMenu)`
 
   .home-link {
     margin-right: 1em;
+
+    a {
+      display: inline-block;
+
+      &:focus {
+        outline: none;
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px 2px #51a6ff;
+      }
+    }
   }
 
   .logo {
