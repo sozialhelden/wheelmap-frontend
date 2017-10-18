@@ -18,6 +18,7 @@ type Props = {
   className: string,
   placeholder: ?string,
   disabled: ?boolean,
+  hidden: boolean,
 };
 
 
@@ -36,6 +37,7 @@ class SearchInputField extends React.Component<Props> {
       searchQuery,
       onChange,
       disabled,
+      hidden,
       onFocus,
       onBlur,
       className,
@@ -50,6 +52,7 @@ class SearchInputField extends React.Component<Props> {
       autoFocus={hasBigViewport()}
       onChange={onChange}
       disabled={disabled}
+      tabIndex={hidden ? -1 : 0}
       onFocus={onFocus}
       onBlur={onBlur}
       className={`search-input ${className}`}

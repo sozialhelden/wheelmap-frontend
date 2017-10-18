@@ -45,6 +45,7 @@ export type SearchResultCollection = {
 type SearchResultProps = {
   result: SearchResultFeature,
   onSelect: (() => void),
+  hidden: boolean,
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
 };
 
@@ -86,6 +87,7 @@ function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
       onClick={props.onClick}
       href={props.to}
       className={props.className}
+      tabIndex={props.hidden ? -1 : 0}
     >
       {props.children}
     </a>);
@@ -95,6 +97,7 @@ function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
     onClick={props.onClick}
     to={props.to}
     className={props.className}
+    tabIndex={props.hidden ? -1 : 0}
   >
     {props.children}
   </ToolbarLink>);
@@ -240,6 +243,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
       <HashLinkOrRouterLink
         to={href}
         className="link-button"
+        hidden={this.props.hidden}
         isHashLink={isHashLink}
         onClick={() => {
           const coordinates = this.getCoordinates();
@@ -284,6 +288,7 @@ function SearchResults(props: Props) {
       key={id(result)}
       onSelect={props.onSelect}
       onSelectCoordinate={props.onSelectCoordinate}
+      hidden={props.hidden}
     />))}
   </ul>);
 }

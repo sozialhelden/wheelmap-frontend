@@ -250,10 +250,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
       contentBelowSearchField = (<SearchResults
         searchResults={searchResults}
         onSelectCoordinate={this.props.onSelectCoordinate}
+        hidden={this.props.hidden}
         onSelect={() => this.clearSearchOnSmallViewports()}
       />);
     } else if (categoryMenuIsVisible) {
       contentBelowSearchField = (<CategoryMenu
+        hidden={this.props.hidden}
         onFocus={() => this.setState({ isCategoryFocused: true })}
         onBlur={() =>this.setState({ isCategoryFocused: false })}
       />);
@@ -280,6 +282,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             searchQuery={this.props.category ? '' : this.props.searchQuery}
             placeholder={placeholder}
             disabled={Boolean(this.props.category)}
+            hidden={this.props.hidden}
             onFocus={(event) => {
               this.input = event.target;
               this.setState({ searchFieldIsFocused: true });

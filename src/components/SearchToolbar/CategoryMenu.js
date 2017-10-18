@@ -19,6 +19,7 @@ const Container = styled.div`
 
 
 type Props = {
+  hidden: boolean,
   onFocus: (() => void),
   onBlur: (() => void),
 };
@@ -31,6 +32,7 @@ export default function CategoryMenu(props: Props) {
   return (
     <Container className="category-menu">
       {Object.keys(names).map((id, index) => (<CategoryButton
+        hidden={props.hidden}
         onFocus={props.onFocus}
         onKeyDown={({nativeEvent}) => {
           const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;

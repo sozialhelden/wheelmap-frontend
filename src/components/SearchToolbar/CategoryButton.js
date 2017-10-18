@@ -13,6 +13,7 @@ type Props = {
   name: string,
   id: string,
   className: string,
+  hidden: boolean,
   onFocus: ((event: UIEvent) => void),
   onBlur: ((event: UIEvent) => void),
   onKeyDown: ((event: UIEvent) => void),
@@ -56,6 +57,7 @@ export default function CategoryButton(props: Props) {
     onFocus={(props.onFocus)}
     onBlur={props.onBlur}
     onKeyDown={props.onKeyDown}
+    tabIndex={props.hidden ? -1 : 0}
   >
     <IconButton iconComponent={<SvgComponent />} caption={props.name} />
   </StyledNavLink>);
