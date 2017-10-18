@@ -175,9 +175,12 @@ const StyledMainMenu = styled(MainMenu)`
     &, &:visited {
       color: ${colors.darkLinkColor};
     }
-    &:hover {
+    &:hover, &:focus {
       color: ${colors.linkColor};
       background-color: ${colors.linkBackgroundColorTransparent};
+    }
+    &:focus {
+      outline: none;
     }
     &:active {
       color: ${colors.primaryColor};
@@ -191,9 +194,12 @@ const StyledMainMenu = styled(MainMenu)`
     &, &:visited {
       color: ${colors.primaryColor};
     }
-    &:hover {
+    &:hover, &:focus {
       color: ${hsl(colors.primaryColor).darker(1)};
       background-color: ${hsl(colors.primaryColor).brighter(1.7)};
+    }
+    &:focus {
+      outline: none;
     }
     &:active {
       color: ${hsl(colors.primaryColor).darker(2)};
