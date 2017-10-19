@@ -38,7 +38,7 @@ type Props = {
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
-  onMoveEnd?: (({ zoom: number, lat: number, lon: number }) => void),
+  onMoveEnd?: (({ zoom: number, lat: number, lon: number, bbox: L.LatLngBounds }) => void),
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -82,20 +82,22 @@ export default class Map extends React.Component<Props, State> {
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
 
   onMoveEnd() {
-    if (!this.map) return;
-    const { lat, lng } = this.map.getCenter();
+    const map = this.map;
+    if (!map) return;
+    const { lat, lng } = map.getCenter();
     const zoom = Math.max(
-      this.map.getZoom(),
+      map.getZoom(),
       this.props.minZoomWithSetCategory,
       this.props.minZoomWithoutSetCategory,
     );
-    saveState('lastZoom', zoom);
+    saveState('lastZoom', String(zoom));
     saveState('lastCenter.lat', lat);
     saveState('lastCenter.lon', lng);
     saveState('lastMoveDate', new Date().toString());
     const onMoveEnd = this.props.onMoveEnd;
     if (!(typeof onMoveEnd === 'function')) return;
-    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom });
+    const bbox = map.getBounds();
+    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
   }
 
   componentDidMount() {
