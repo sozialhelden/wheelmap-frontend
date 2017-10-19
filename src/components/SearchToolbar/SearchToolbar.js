@@ -32,7 +32,6 @@ type Props = {
 type State = {
   searchResults: ?SearchResultCollection,
   searchFieldIsFocused: boolean,
-  isCloseButtonFocused: boolean,
   isCategoryFocused: boolean,
   isLoading: boolean;
 };
@@ -133,7 +132,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
   state = {
     searchFieldIsFocused: false,
     searchResults: null,
-    isCloseButtonFocused: false,
     isCategoryFocused: false,
     isLoading: false,
   };
@@ -239,13 +237,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
       searchQuery,
       searchResults,
       searchFieldIsFocused,
-      isCloseButtonFocused,
       isCategoryFocused,
     } = this.state;
 
     const isSearchFieldFocusedAndEmpty = searchFieldIsFocused && !searchQuery
     const categoryMenuIsVisible =
-      !this.props.category && (isCategoryFocused || isSearchFieldFocusedAndEmpty || isCloseButtonFocused);
+      !this.props.category && (isCategoryFocused || isSearchFieldFocusedAndEmpty);
 
     let contentBelowSearchField = null;
 
@@ -286,14 +283,14 @@ export default class SearchToolbar extends React.Component<Props, State> {
             history={this.props.history}
             className='close-link'
             onClick={() => {
-              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
+              this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
               if (this.input instanceof HTMLInputElement) {
                 this.input.value = '';
-                this.input.blur();
               }
               setTimeout(() => this.ensureFullVisibility(), 100);
               if (this.props.onClose) this.props.onClose();
             }}
+            innerRef={closeLink => this.closeLink = closeLink}
           /> : null}
 
           <SearchInputField
@@ -327,26 +324,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
           <SearchIcon className="search-icon" />
 
-          {(this.props.searchQuery || this.props.category) ? <CloseLink
-            history={this.props.history}
-            className="close-link"
-            innerRef={closeLink => this.closeLink = closeLink}
-            onFocus={() => this.setState({ isCloseButtonFocused: true })}
-            onBlur={() => this.setState({ isCloseButtonFocused: false })}
-            onClick={() => {
-              this.setState({
-                searchResults: null,
-                searchFieldIsFocused: true,
-                isCategoryFocused: false,
-                isCloseButtonFocused: false
-              });
-              if (this.input instanceof HTMLInputElement) {
-                this.input.value = '';
-              }
-              setTimeout(() => this.ensureFullVisibility(), 100);
-              if (this.props.onClose) this.props.onClose();
-            }}
-          /> : null}
         </header>
 
         { contentBelowSearchField }
