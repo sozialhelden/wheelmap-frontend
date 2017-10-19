@@ -282,7 +282,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         isSwipeable={false}
       >
         <header>
-          {(contentBelowSearchField || this.props.category) ? <CloseLink
+          {(this.props.searchQuery || this.props.category) ? <CloseLink
             history={this.props.history}
             className={`close-link${this.props.category ? ' has-open-category' : ''}`}
             onClick={() => {
