@@ -155,10 +155,15 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const searchFieldShouldBecomeFocused = !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
     if (searchFieldShouldBecomeFocused) {
       this.focus();
+    }
+
+    const closeLinkShouldBecomeFocused = !prevProps.category && this.props.category;
+    if (closeLinkShouldBecomeFocused) {
+      this.closeLink.focus();
     }
   }
 
@@ -305,6 +310,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
           {(this.props.searchQuery || this.props.category) ? <CloseLink
             history={this.props.history}
             className="close-link"
+            innerRef={closeLink => this.closeLink = closeLink}
             onFocus={() => this.setState({ isCloseButtonFocused: true })}
             onBlur={() => this.setState({ isCloseButtonFocused: false })}
             onClick={() => {
