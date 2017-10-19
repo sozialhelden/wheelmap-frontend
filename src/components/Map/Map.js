@@ -22,6 +22,7 @@ import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import savedState, { saveState } from './savedState';
+import isApplePlatform from '../../lib/isApplePlatform';
 import addLocateControlToMap from './addLocateControlToMap';
 import { removeCurrentHighlightedMarker } from './highlightMarker';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
@@ -52,6 +53,7 @@ type Props = {
   defaultStartCenter: [number, number],
   locateTimeout: number,
   pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
+  className: ?string,
 }
 
 
@@ -382,7 +384,11 @@ export default class Map extends React.Component<Props, State> {
 
 
   render() {
-    return (<section ref={el => (this.mapElement = el)} />);
+    const className = [
+      isApplePlatform() ? 'is-apple-platform' : null,
+      this.props.className,
+    ].filter(Boolean).join(' ');
+    return (<section className={className} ref={el => (this.mapElement = el)} />);
   }
 
 
