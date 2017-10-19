@@ -221,7 +221,7 @@ class FeatureLoader extends React.Component<Props, State> {
     const allowedResourceNames = ['nodes', 'categories', 'search'];
     const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?/i);
     if (match) {
-      if (match[1] && !allowedResourceNames.includes(match[1])) return null;
+      if (match[1] && !includes(allowedResourceNames, match[1])) return null;
       return {
         featureId: match[1] === 'nodes' ? match[2] : null,
         category: match[1] === 'categories' ? match[2] : null,
