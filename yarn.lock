@@ -7214,9 +7214,15 @@ which@^1.2.12, which@^1.2.14, which@^1.2.9:
   dependencies:
     isexe "^2.0.0"
 
-wicg-focus-ring@^2.0.2:
+"wicg-focus-ring@https://github.com/dakeyras7/focus-ring":
   version "2.0.2"
-  resolved "https://registry.yarnpkg.com/wicg-focus-ring/-/wicg-focus-ring-2.0.2.tgz#be67790977ed2305e6f4e2daa041384a6d033614"
+  resolved "https://github.com/dakeyras7/focus-ring#77b741b72e4bfeba80480fa6c731a5d03133c11f"
+  dependencies:
+    dom-classlist "^1.0.1"
+
+"wicg-focus-ring@https://github.com/dakeyras7/focus-ring#include-enter-keydown":
+  version "2.0.2"
+  resolved "https://github.com/dakeyras7/focus-ring#cb4be8c33ebb11bdbceed5762e788bcfdf13853e"
   dependencies:
     dom-classlist "^1.0.1"
 
