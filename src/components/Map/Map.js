@@ -386,6 +386,9 @@ export default class Map extends React.Component<Props, State> {
     }
   }, 500);
 
+  focus() {
+    this.mapElement.focus();
+  }
 
   render() {
     const className = [
