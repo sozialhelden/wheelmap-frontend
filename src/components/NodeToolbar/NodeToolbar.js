@@ -131,6 +131,14 @@ class NodeToolbar extends React.Component<Props, State> {
     if (prevProps.isEditMode && !this.props.isEditMode) {
       this.nodeFooter.focus();
     }
+
+    if (this.state.isReportMode && !prevState.isReportMode) {
+      this.reportDialog.focus();
+    }
+
+    if (prevState.isReportMode && !this.state.isReportMode) {
+      this.reportModeButton.focus();
+    }
   }
 
   render() {
@@ -174,6 +182,7 @@ class NodeToolbar extends React.Component<Props, State> {
         {(() => {
           if (this.state.isReportMode) {
             return (<ReportDialog
+              innerRef={reportDialog => this.reportDialog = reportDialog}
               feature={this.props.feature}
               featureId={this.props.featureId}
               onClose={() => {
@@ -214,6 +223,7 @@ class NodeToolbar extends React.Component<Props, State> {
               }}
             />
             <button
+              ref={reportModeButton => this.reportModeButton = reportModeButton}
               className="link-button full-width-button"
               onClick={() => {
                 this.toggleReportMode(true);

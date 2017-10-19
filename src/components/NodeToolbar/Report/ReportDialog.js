@@ -82,6 +82,12 @@ class ReportDialog extends React.Component<Props, State> {
     SelectedComponentClass: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.trapFocus = this.trapFocus.bind(this);
+  }
+
   componentWillReceiveProps(newProps: Props) {
     if (newProps.featureId !== this.props.featureId) {
       this.setState({ SelectedComponentClass: null });
@@ -89,6 +95,21 @@ class ReportDialog extends React.Component<Props, State> {
     if (!isWheelmapFeatureId(newProps.featureId)) {
       this.setState({ SelectedComponentClass: FixOnExternalPage });
     }
+  }
+
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.firstIssueButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton.focus();
+    }
+    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.firstIssueButton.focus();
+    }
+  }
+
+  focus() {
+    this.firstIssueButton.focus();
   }
 
   render() {
@@ -110,20 +131,32 @@ class ReportDialog extends React.Component<Props, State> {
       <header>{reportIssueHeader}</header>
 
       <ul className="issue-types">
-        {issues(feature.properties).map(issue =>
-          (<li key={issue.className} className={issue.className}>
+        {issues(feature.properties).map((issue, index) => (
+          <li key={issue.className} className={issue.className}>
             <button
               className={`link-button full-width-button ${issue.className}`}
+              ref={firstIssueButton => {
+                if(index === 0) {
+                  this.firstIssueButton = firstIssueButton
+                }
+              }}
               onClick={() => {
                 this.setState({ SelectedComponentClass: issue.component });
               }}
+              onKeyDown={this.trapFocus}
             >
               {issue.issueText()}
             </button>
-          </li>))}
+          </li>
+        ))}
       </ul>
 
-      <button className="link-button negative-button" onClick={this.props.onClose}>
+      <button
+        className="link-button negative-button"
+        ref={backButton => this.backButton = backButton}
+        onClick={this.props.onClose}
+        onKeyDown={this.trapFocus}
+      >
         {backButtonCaption}
       </button>
     </div>);
