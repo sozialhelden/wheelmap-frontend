@@ -325,23 +325,6 @@ class FeatureLoader extends React.Component<Props, State> {
         isEditMode={isEditMode}
       /> : null}
 
-      <Map
-        ref={(map) => { this.map = map; }}
-        history={this.props.history}
-        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(this.props.history, ...params); }}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        zoom={zoom ? parseFloat(zoom) : null}
-        category={category}
-        featureId={featureId}
-        feature={this.state.feature}
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        pointToLayer={this.createMarkerFromFeature}
-        locateOnStart={true}
-        {...config}
-      />
-
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
@@ -395,7 +378,6 @@ class FeatureLoader extends React.Component<Props, State> {
           }}
         />
       </div>) : null}
-
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
@@ -409,6 +391,7 @@ class FeatureLoader extends React.Component<Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         pointToLayer={this.createMarkerFromFeature}
+        locateOnStart={true}
         {...config}
       />
 
