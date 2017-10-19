@@ -306,6 +306,7 @@ class FeatureLoader extends React.Component<Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         pointToLayer={this.createMarkerFromFeature}
+        locateOnStart={true}
         {...config}
       />
 

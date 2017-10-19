@@ -53,6 +53,7 @@ type Props = {
   defaultStartCenter: [number, number],
   locateTimeout: number,
   pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
+  locateOnStart?: boolean,
   className: ?string,
 }
 
@@ -129,7 +130,8 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-    if (+new Date() - (savedState.lastMoveDate || 0) > this.props.locateTimeout) {
+    if (this.props.locateOnStart && 
+        +new Date() - (savedState.lastMoveDate || 0) > this.props.locateTimeout) {
       map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: true });
     }
 
