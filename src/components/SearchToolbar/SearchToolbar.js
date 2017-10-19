@@ -284,7 +284,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         <header>
           {(this.props.searchQuery || this.props.category) ? <CloseLink
             history={this.props.history}
-            className={`close-link${this.props.category ? ' has-open-category' : ''}`}
+            className='close-link'
             onClick={() => {
               this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
               if (this.input instanceof HTMLInputElement) {
