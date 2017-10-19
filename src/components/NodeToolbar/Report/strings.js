@@ -37,7 +37,7 @@ export default function strings() {
     apologyAndSolution: t`Sorry for that! Just drop us a line so we can help you to fix the issue.`,
     reportBody(url: string) {
       // translator: Report email body with place URL
-      return t`(Please only write in English or German.)\n\nHi Sozialhelden,\n\nsomething is wrong with this place: ${url}\n\nThe problem is:\n\n`;
+      return t`(Please only write in English or German.)\n\nHi Sozialhelden,\n\nsomething is wrong with this place: ${url}\n\nThe problem is:\n\nBrowser:\n\n${navigator.userAgent}`;
     },
     reportSubject(placeName: ?string, categoryName: ?string) {
       // translator: Report email subject if place name is known

@@ -15,9 +15,9 @@ import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
-import { currentLocale } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
+import { currentLocale, defaultLocale } from '../../lib/i18n';
 
 
 const StyledNodeHeader = styled.header`
@@ -97,7 +97,10 @@ export default class NodeHeader extends React.Component<Props, void> {
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
     const categoryOrParentCategory = this.props.category || this.props.parentCategory;
-    let categoryName = get(categoryOrParentCategory, `translations._id.${currentLocale}`);
+    let categoryName = get(categoryOrParentCategory, `translations._id.${currentLocale}`) ||
+      get(categoryOrParentCategory, `translations._id.${currentLocale.slice(0, 2)}`) ||
+      get(categoryOrParentCategory, `translations._id.${defaultLocale}`);
+
     const placeName = (<PlaceName>
       {categoryOrParentCategory ?
         <Icon properties={properties} category={categoryOrParentCategory} />
