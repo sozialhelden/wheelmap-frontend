@@ -371,6 +371,11 @@ body.is-touch-device .leaflet-filter-button {
   animation: fadeIn 0.6s ease-out;
 }
 
+.leaflet-marker-icon.focus-ring {
+  border-radius: 100%;
+  box-shadow: 0px 0px 0px 2px #4469E1;
+}
+
 @media screen and (max-width: 512px), screen and (max-height: 512px) {
   .leaflet-control-scale-line:not(:first-child) {
     border-top: 1px solid #777;
