@@ -279,15 +279,22 @@ export default class SearchToolbar extends React.Component<Props, State> {
           /> : null}
 
           <SearchInputField
+            refref={(input) => { this.input = input; }}
             searchQuery={this.props.category ? '' : this.props.searchQuery}
             placeholder={placeholder}
             disabled={Boolean(this.props.category)}
-            onClick={() => {
+            onClick={(event) => {
+              event.preventDefault();
+              console.log('onClick');
               if (this.props.category) {
                 this.setState({ categoryMenuIsVisible: true });
               }
+              setTimeout(() => {
+                this.input.focus();
+              }, 200);
             }}
             onFocus={(event) => {
+              console.log('onFocus');
               const input = event.target;
               this.input = input;
               this.setState({ categoryMenuIsVisible: true });
@@ -296,6 +303,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
               setTimeout(() => window.scrollTo(0, 0), 300);
             }}
             onBlur={() => {
+              console.log('onBlur');
               this.updateCategoryMenuVisibility();
               setTimeout(() => this.setState({ searchFieldIsFocused: false }), 300);
             }}

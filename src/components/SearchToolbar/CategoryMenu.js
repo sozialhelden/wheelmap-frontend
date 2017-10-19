@@ -13,7 +13,10 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: 10px;
   > * {
-    flex: 70px;
+    flex: 80px;
+    @media (max-width: 320px) {
+      flex: 60px;
+    }
   }
 `;
 

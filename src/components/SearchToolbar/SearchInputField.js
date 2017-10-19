@@ -13,6 +13,7 @@ type Props = {
   onChange: ?((event: UIEvent) => void),
   onBlur: ?((event: UIEvent) => void),
   onFocus: ?((event: UIEvent) => void),
+  onClick: ?((event: UIEvent) => void),
   ref: ((input: HTMLInputElement) => void),
   searchQuery: ?string,
   className: string,
@@ -31,7 +32,7 @@ const SearchInputField = (props: Props) => {
   const defaultPlaceholder = t`Search place or address`;
   const value = props.placeholder || props.searchQuery || '';
   return (<input
-    ref={props.ref}
+    ref={props.refref}
     value={value}
     autoFocus={hasBigViewport()}
     onChange={props.onChange}
