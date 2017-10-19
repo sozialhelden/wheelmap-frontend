@@ -322,6 +322,7 @@ class FeatureLoader extends React.Component<Props, State> {
       {isLocalizationLoaded ? <MainMenu
         className="main-menu"
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
+        isEditMode={isEditMode}
       /> : null}
 
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
