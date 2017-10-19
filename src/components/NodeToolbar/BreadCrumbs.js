@@ -1,10 +1,11 @@
 // @flow
 
-import styled from 'styled-components';
+import get from 'lodash/get';
 import * as React from 'react';
+import styled from 'styled-components';
 import ChevronRight from './ChevronRight';
 import Categories from  '../../lib/Categories';
-import { currentLocale } from '../../lib/i18n';
+import { currentLocale, defaultLocale } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
 
@@ -45,7 +46,11 @@ class BreadCrumbs extends React.Component<Props, State> {
       .filter(Boolean)
       .map(id => Categories.getCategory(id));
     Promise.all(promises).then(categories => {
-      const names = categories.map(category => category.translations._id[currentLocale]);
+      const names = categories.map(category => {
+        return get(category, `translations._id.${currentLocale}`) ||
+          get(category, `translations._id.${currentLocale.slice(0, 2)}`) ||
+          get(category, `translations._id.${defaultLocale}`);
+      });
       this.setState({ displayedCategoryNames: names.filter(Boolean) });
     });
   }

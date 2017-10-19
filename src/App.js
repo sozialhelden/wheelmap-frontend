@@ -251,7 +251,7 @@ class FeatureLoader extends React.Component<Props, State> {
     cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
       const currentlyShownId = this.featureId(this.props);
-      const idProperties = [feature.id, feature.properties.id, feature.properties._id];
+      const idProperties = [feature.id, feature.properties.id, feature._id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
@@ -324,6 +324,23 @@ class FeatureLoader extends React.Component<Props, State> {
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
         isEditMode={isEditMode}
       /> : null}
+
+      <Map
+        ref={(map) => { this.map = map; }}
+        history={this.props.history}
+        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(this.props.history, ...params); }}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
+        zoom={zoom ? parseFloat(zoom) : null}
+        category={category}
+        featureId={featureId}
+        feature={this.state.feature}
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        pointToLayer={this.createMarkerFromFeature}
+        locateOnStart={true}
+        {...config}
+      />
 
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
         accessibilityFilter={this.accessibilityFilter()}

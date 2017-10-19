@@ -40,23 +40,26 @@ class SearchInputField extends React.Component<Props> {
       hidden,
       onFocus,
       onBlur,
+      onClick,
       className,
       placeholder
     } = this.props;
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search place or address`;
+    const value = placeholder || searchQuery || '';
 
     return (<input
       ref={input => this.input = input}
-      value={searchQuery ? searchQuery : ''}
+      value={value}
       autoFocus={hasBigViewport()}
       onChange={onChange}
       disabled={disabled}
       tabIndex={hidden ? -1 : 0}
       onFocus={onFocus}
       onBlur={onBlur}
+      onClick={onClick}
       className={`search-input ${className}`}
-      placeholder={placeholder ? placeholder : defaultPlaceholder}
+      placeholder={value === '' ? defaultPlaceholder : null}
       />);
   }
 }
@@ -79,6 +82,19 @@ const StyledSearchInputField = styled(SearchInputField)`
     outline: none;
     box-shadow: none;
     background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder,
+  &:-moz-placeholder,
+  &::-ms-input-placeholder,
+  &:-ms-input-placeholder {
+    color: #333;
+    opacity: 1;
+  }
+
+  &:disabled {
+    opacity: 1;
   }
 `;
 

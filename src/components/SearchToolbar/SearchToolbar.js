@@ -47,7 +47,7 @@ function hasBigViewport() {
 }
 
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.3s ease-out, width: 0.3s ease-out, height: 0.3s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -73,6 +73,11 @@ const StyledToolbar = styled(Toolbar)`
   .close-link {
     top: 5px;
     right: 8px;
+    display: flex;
+    flex-direction: row-reverse;
+    &.has-open-category {
+      left: 8px;
+    }
   }
 
   @media (max-width: 512px), (max-height: 512px) {
@@ -80,16 +85,15 @@ const StyledToolbar = styled(Toolbar)`
       position: fixed;
       top: 0;
       width: 100%;
-      height: 100%;
       max-height: 100%;
       right: 0;
       left: 0;
-      bottom: 0;
-      z-index: 1000000000;
       margin: 0;
       padding: 12px 15px;
-      border-radius: 0;
       transform: translate3d(0, 0, 0) !important;
+      transition: opacity 0.3s ease-out !important;
+      z-index: 1000000000;
+      border-radius: 0;
       > header, .search-results, .category-menu {
         padding: 0
       }
@@ -173,6 +177,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
       if (hasCategory) {
         if (isOnSmallViewport()) {
           this.setState({ categoryMenuIsVisible: false, searchFieldIsFocused: false });
+          if (this.input) this.input.blur();
         }
         this.ensureFullVisibility();
       } else {
@@ -282,14 +287,34 @@ export default class SearchToolbar extends React.Component<Props, State> {
         isSwipeable={false}
       >
         <header>
+          {(contentBelowSearchField || this.props.category) ? <CloseLink
+            history={this.props.history}
+            className={`close-link${this.props.category ? ' has-open-category' : ''}`}
+            onClick={() => {
+              this.setState({ categoryMenuIsVisible: false, searchResults: null, searchFieldIsFocused: false });
+              if (this.input instanceof HTMLInputElement) {
+                this.input.value = '';
+                this.input.blur();
+              }
+              setTimeout(() => this.ensureFullVisibility(), 100);
+              if (this.props.onClose) this.props.onClose();
+            }}
+          /> : null}
+
           <SearchInputField
             innerRef={searchInputField => this.searchInputField = searchInputField}
             searchQuery={this.props.category ? '' : this.props.searchQuery}
             placeholder={placeholder}
             disabled={Boolean(this.props.category)}
             hidden={this.props.hidden}
+            onClick={() => {
+              if (this.props.category) {
+                this.setState({ categoryMenuIsVisible: true });
+              }
+            }}
             onFocus={(event) => {
               this.input = event.target;
+              this.setState({ categoryMenuIsVisible: true });
               this.setState({ searchFieldIsFocused: true });
               setTimeout(() => this.ensureFullVisibility(), 100);
               setTimeout(() => window.scrollTo(0, 0), 300);
