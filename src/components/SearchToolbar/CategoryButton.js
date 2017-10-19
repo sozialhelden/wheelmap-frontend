@@ -40,9 +40,6 @@ const StyledNavLink = styled(NavLink)`
       }
     }
   }
-  &:focus {
-    outline: none;
-  }
 `;
 
 
