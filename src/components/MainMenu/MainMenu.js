@@ -169,12 +169,6 @@ const StyledMainMenu = styled(MainMenu)`
 
     a {
       display: inline-block;
-
-      &:focus {
-        outline: none;
-        border-radius: 2px;
-        box-shadow: 0px 0px 0px 2px #51a6ff;
-      }
     }
   }
 
@@ -198,9 +192,6 @@ const StyledMainMenu = styled(MainMenu)`
       color: ${colors.linkColor};
       background-color: ${colors.linkBackgroundColorTransparent};
     }
-    &:focus {
-      outline: none;
-    }
     &:active {
       color: ${colors.primaryColor};
       background-color: ${hsl(colors.primaryColor).brighter(1.7)};
@@ -216,9 +207,6 @@ const StyledMainMenu = styled(MainMenu)`
     &:hover, &:focus {
       color: ${hsl(colors.primaryColor).darker(1)};
       background-color: ${hsl(colors.primaryColor).brighter(1.7)};
-    }
-    &:focus {
-      outline: none;
     }
     &:active {
       color: ${hsl(colors.primaryColor).darker(2)};

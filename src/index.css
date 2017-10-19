@@ -5,3 +5,18 @@ html, body {
   width: 100%;
   -webkit-tap-highlight-color: transparent;
 }
+
+/*
+Focus ring styling is disabled by default and instead we are using the :focus-ring polyfill. The
+:focus-ring pseudo selector is a future browser standard that differentiates between mouse
+and keyboard usage when determining whether to draw a focus ring. Usually we only want a
+focus ring in the latter case.
+*/
+*:focus {
+  outline: none;
+}
+
+*.focus-ring {
+  border-radius: 4px;
+  box-shadow: 0px 0px 0px 2px #4469E1;
+}

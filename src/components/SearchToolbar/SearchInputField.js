@@ -75,8 +75,9 @@ const StyledSearchInputField = styled(SearchInputField)`
 
   transition: width 0.3s ease-out, height 0.3s ease-out;
 
-  &:focus {
+  &:focus, &.focus-ring {
     outline: none;
+    box-shadow: none;
     background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
   }
 `;
