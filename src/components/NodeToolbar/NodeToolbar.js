@@ -124,10 +124,6 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   manageFocus(prevProps, prevState) {
-    if (this.props.isEditMode && !prevProps.isEditMode) {
-      this.accessibilityEditor.focus();
-    }
-
     if (prevProps.isEditMode && !this.props.isEditMode) {
       this.nodeFooter.focus();
     }

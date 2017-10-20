@@ -39,6 +39,7 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
+    this.unknownButton.focus();
   }
 
   componentWillUnmount() {
@@ -105,9 +106,10 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     }
   }
 
-  focus() {
-    this.unknownButton.focus();
-  }
+  // obsolete???
+  // focus() {
+  //   this.unknownButton.focus();
+  // }
 
   render() {
     const classList = [
