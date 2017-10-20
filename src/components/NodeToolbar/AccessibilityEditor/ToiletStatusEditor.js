@@ -80,18 +80,18 @@ class ToiletStatusEditor extends React.Component<Props, State> {
   }
 
   trapFocus({nativeEvent}) {
-    if (nativeEvent.target === this.yesButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+    if (nativeEvent.target === this.noButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
       this.unknownButton.focus();
     }
-    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.yesButton.focus();
+      this.noButton.focus();
     }
   }
 
   focus() {
-    this.yesButton.focus();
+    this.unknownButton.focus();
   }
 
   render() {
@@ -122,26 +122,30 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
       <footer>
         <button
-          className="link-button yes"
-          onClick={() => this.save('yes')}
-          ref={yesButton => this.yesButton = yesButton}
-          onKeyDown={this.trapFocus}
-        >
-          {yesCaption}
-        </button>
-
-        <button className="link-button no" onClick={() => this.save('no')}>
-          {noCaption}
-        </button>
-
-        <button
           className="link-button unknown"
           onClick={() => this.save('unknown')}
           ref={unknownButton => this.unknownButton = unknownButton}
           onKeyDown={this.trapFocus}
-        >
-          {unknownCaption}
+          >
+            {unknownCaption}
         </button>
+
+        <button
+          className="link-button yes"
+          onClick={() => this.save('yes')}
+        >
+          {yesCaption}
+        </button>
+
+        <button
+          className="link-button no"
+          onClick={() => this.save('no')}
+          ref={noButton => this.noButton = noButton}
+          onKeyDown={this.trapFocus}
+        >
+          {noCaption}
+        </button>
+
       </footer>
 
       <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
