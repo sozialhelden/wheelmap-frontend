@@ -22,6 +22,7 @@ import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './component
 
 import config from './lib/config';
 import colors from './lib/colors';
+import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import type {
   Feature,
@@ -170,7 +171,6 @@ class FeatureLoader extends React.Component<Props, State> {
     }
   }
 
-
   componentWillReceiveProps(newProps: Props): void {
     this.updateStateFromProps(newProps);
   }
@@ -184,8 +184,20 @@ class FeatureLoader extends React.Component<Props, State> {
 
 
   onHashUpdate = () => {
-    const params = Object.assign({ toilet: null, status: null }, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
+    console.log("Restored state", savedState);
+    let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
+    if (savedState.map.lastZoom) {
+      baseParams.zoom = savedState.map.lastZoom;
+    }
+    if (savedState.map.lastCenter && savedState.map.lastCenter[0]) {
+      const lastCenter = savedState.map.lastCenter;
+      baseParams.lat = lastCenter[0];
+      baseParams.lon = lastCenter[1];
+    }
+
+    const params = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
     console.log('Hash updated:', params);
+
     this.setState(params);
   }
 
@@ -286,6 +298,7 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
 
+    const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     return (<div className={classList.join(' ')}>
       {isLocalizationLoaded ? <MainMenu
@@ -296,7 +309,7 @@ class FeatureLoader extends React.Component<Props, State> {
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
-        onMoveEnd={(...params) => { console.log('Setting query params after moving to', params[0]); setQueryParams(this.props.history, ...params); }}
+        onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
@@ -306,7 +319,7 @@ class FeatureLoader extends React.Component<Props, State> {
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         pointToLayer={this.createMarkerFromFeature}
-        locateOnStart={true}
+        locateOnStart={shouldLocateOnStart}
         {...config}
       />
 
@@ -377,6 +390,17 @@ class FeatureLoader extends React.Component<Props, State> {
         }}
       />
     </div>);
+  }
+
+  onMoveEndHandler(...params) {
+    const moveProps = params[0];
+    console.log('Setting query params after moving to', moveProps); 
+    setQueryParams(this.props.history, ...params);
+    
+    saveState('map.lastZoom', String(moveProps.zoom));
+    saveState('map.lastCenter.lat', String(moveProps.lat));
+    saveState('map.lastCenter.lon', String(moveProps.lon));
+    saveState('map.lastMoveDate', new Date().toString());
   }
 }
 
