@@ -45,6 +45,10 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     }
   }
 
+  componentDidMount() {
+    this.firstRadioButton.focus();
+  }
+
   save(value: YesNoLimitedUnknown) {
     // Don't override existing values. If somebody does not know the new toilet status, we trust
     // the last information we have.
@@ -72,7 +76,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     if (typeof this.props.onSave === 'function') this.props.onSave(value);
     if (typeof this.props.onClose === 'function') this.props.onClose();
   }
-
 
   render() {
     const wheelchairAccessibility = this.state.wheelchairAccessibility;
@@ -116,13 +119,20 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
         className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
       >
-        {['yes', 'limited', 'no'].map(value => (<CustomRadio
-          key={value}
-          shownValue={value}
-          currentValue={wheelchairAccessibility}
-          caption={shortAccessibilityName(value)}
-          description={accessibilityDescription(value)}
-        />))}
+        {['yes', 'limited', 'no'].map((value, index) =>
+          <CustomRadio
+            key={value}
+            ref={firstRadioButton => {
+              if (index === 0) {
+                this.firstRadioButton = firstRadioButton
+              }
+            }}
+            shownValue={value}
+            currentValue={wheelchairAccessibility}
+            caption={shortAccessibilityName(value)}
+            description={accessibilityDescription(value)}
+          />
+        )}
       </StyledRadioGroup>
 
       <footer>

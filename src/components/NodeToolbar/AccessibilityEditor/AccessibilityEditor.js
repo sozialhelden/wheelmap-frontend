@@ -45,8 +45,6 @@ class AccessibilityEditor extends React.Component<Props, State> {
   focus() {
     if (this.state.isInToiletEditingMode) {
       this.toiletStatusEditor.focus();
-    } else {
-      this.wheelchairStatusEditor.focus();
     }
   }
 
