@@ -53,6 +53,7 @@ type Props = {
   pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
   locateOnStart?: boolean,
   className: ?string,
+  onMapMounted?: ((map: L.Map) => void),
 }
 
 
@@ -119,7 +120,9 @@ export default class Map extends React.Component<Props, State> {
     }
 
     this.map = map;
-    window.map = this;
+    if (this.props.onMapMounted) {
+      this.props.onMapMounted(map);
+    }
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
