@@ -240,7 +240,7 @@ const StyledOnboarding = styled(Onboarding)`
 
       &.focus-ring {
         box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-        transition: box-shadow 0.15s;
+        transition: box-shadow 0.2s;
       }
     }
 
