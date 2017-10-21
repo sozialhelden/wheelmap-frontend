@@ -216,14 +216,14 @@ const StyledToiletStatusEditor = styled(ToiletStatusEditor)`
       box-sizing: border-box;
 
       &.yes {
-        &:hover, &:active {
+        &:hover, &:active, &:focus {
           color: ${colors.positiveColor};
           background-color: ${colors.positiveBackgroundColorTransparent};
         }
       }
 
       &.no {
-        &:hover, &:active {
+        &:hover, &:active, &:focus {
           color: ${colors.negativeColor};
           background-color: ${colors.negativeBackgroundColorTransparent};
         }

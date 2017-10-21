@@ -355,7 +355,7 @@ const StyledToolbar = styled(Toolbar)`
   .negative-button {
     color: ${colors.negativeColor};
     @media (hover), (-moz-touch-enabled: 0) {
-      &:hover {
+      &:hover, &:focus {
         background-color: ${colors.negativeBackgroundColorTransparent};
       }
     }
