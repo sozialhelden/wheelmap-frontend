@@ -128,10 +128,6 @@ class NodeToolbar extends React.Component<Props, State> {
       this.nodeFooter.focus();
     }
 
-    if (this.state.isReportMode && !prevState.isReportMode) {
-      this.reportDialog.focus();
-    }
-
     if (prevState.isReportMode && !this.state.isReportMode) {
       this.reportModeButton.focus();
     }

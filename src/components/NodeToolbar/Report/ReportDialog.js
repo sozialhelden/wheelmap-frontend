@@ -91,6 +91,7 @@ class ReportDialog extends React.Component<Props, State> {
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
+    this.firstIssueButton.focus();
   }
 
   componentWillUnmount() {
@@ -121,10 +122,6 @@ class ReportDialog extends React.Component<Props, State> {
       nativeEvent.preventDefault();
       this.firstIssueButton.focus();
     }
-  }
-
-  focus() {
-    this.firstIssueButton.focus();
   }
 
   render() {
