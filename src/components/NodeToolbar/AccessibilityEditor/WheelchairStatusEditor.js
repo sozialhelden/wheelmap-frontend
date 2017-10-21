@@ -54,7 +54,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.firstRadioButton.focus();
+    this.toBeFocusedRadioButton.focus();
   }
 
   save(value: YesNoLimitedUnknown) {
@@ -130,9 +130,13 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         {['yes', 'limited', 'no'].map((value, index) =>
           <CustomRadio
             key={value}
-            ref={firstRadioButton => {
-              if (index === 0) {
-                this.firstRadioButton = firstRadioButton
+            ref={radioButton => {
+              const radioButtonIsSelected = value === wheelchairAccessibility;
+
+              if (radioButtonIsSelected) {
+                this.toBeFocusedRadioButton = radioButton;
+              } else if (index === 0) {
+                this.toBeFocusedRadioButton = radioButton;
               }
             }}
             shownValue={value}
