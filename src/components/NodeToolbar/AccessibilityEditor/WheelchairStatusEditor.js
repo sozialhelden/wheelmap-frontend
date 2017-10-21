@@ -31,6 +31,14 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     wheelchairAccessibility: 'unknown',
   };
 
+  constructor(props) {
+    super(props);
+    const wheelchairAccessibility = this.wheelchairAccessibility(props);
+    if (wheelchairAccessibility) {
+      this.state = { wheelchairAccessibility };
+    }
+  }
+
   wheelchairAccessibility(props: Props = this.props): ?YesNoLimitedUnknown {
     if (!props.feature || !props.feature.properties || !props.feature.properties.wheelchair) {
       return null;
