@@ -19,7 +19,7 @@ body.is-touch-device .leaflet-filter-button {
 .leaflet-container.focus-ring::after {
   content: '';
   border-radius: 4px;
-  box-shadow: inset 3px 3px #4469E1;
+  box-shadow: inset 0px 0px 0px 6px #4469E1;
   width: 100%;
   height: 100%;
   z-index: 500;
