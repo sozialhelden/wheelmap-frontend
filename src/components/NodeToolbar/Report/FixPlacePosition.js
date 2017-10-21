@@ -7,19 +7,54 @@ type Props = {
   onClose: (() => void),
 };
 
-export default function ReportProblemButton(props: Props) {
-  if (!props.featureId) return null;
+export default class ReportProblemButton extends React.Component<Props> {
+  constructor(props) {
+    super(props);
 
-  const url = `https://www.openstreetmap.org/edit?node=${props.featureId}`;
+    this.trapFocus = this.trapFocus.bind(this);
+  }
 
-  const { osmPositionHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
+  componentDidMount() {
+    this.editLink.focus();
+  }
 
-  return (<section>
-    <p>{osmPositionHint}</p>
-    <p className="subtle">{osmLoginHint}</p>
-    <a href={url} className="link-button">{editButtonCaption}</a>
-    <button className="link-button negative-button" onClick={props.onClose}>
-      {backButtonCaption}
-    </button>
-  </section>);
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.editLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton.focus();
+    }
+    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.editLink.focus();
+    }
+  }
+
+  render() {
+    if (!this.props.featureId) return null;
+
+    const url = `https://www.openstreetmap.org/edit?node=${this.props.featureId}`;
+
+    const { osmPositionHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
+
+    return (<section>
+      <p>{osmPositionHint}</p>
+      <p className="subtle">{osmLoginHint}</p>
+      <a
+        href={url}
+        className="link-button"
+        ref={editLink => this.editLink = editLink}
+        onKeyDown={this.trapFocus}
+      >
+        {editButtonCaption}
+      </a>
+      <button
+        className="link-button negative-button"
+        onClick={this.props.onClose}
+        ref={backButton => this.backButton = backButton}
+        onKeyDown={this.trapFocus}
+      >
+        {backButtonCaption}
+      </button>
+    </section>);
+  }
 }
