@@ -9,25 +9,64 @@ type Props = {
 };
 
 
-export default function ReportProblemButton(props: Props) {
-  if (!props.featureId) return null;
+export default class ReportProblemButton extends React.Component<Props> {
+  constructor(props) {
+    super(props);
 
-  const url = `https://www.openstreetmap.org/edit?node=${props.featureId}`;
+    this.trapFocus = this.trapFocus.bind(this);
+  }
 
-  const {
-    osmRemoveHint,
-    osmPermanentlyClosedHint,
-    howtoLinkCaption,
-    osmLoginHint,
-    editButtonCaption,
-    backButtonCaption,
-  } = strings();
+  componentDidMount() {
+    this.editLink.focus();
+  }
 
-  return (<section>
-    <p>{osmRemoveHint}</p>
-    <p>{osmPermanentlyClosedHint} (<a href="https://wiki.openstreetmap.org/wiki/Key:disused:">{howtoLinkCaption}</a>)</p>
-    <p className="subtle">{osmLoginHint}</p>
-    <a href={url} className="link-button">{editButtonCaption}</a>
-    <button className="link-button negative-button" onClick={props.onClose}>{backButtonCaption}</button>
-  </section>);
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.howToLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton.focus();
+    }
+    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.howToLink.focus();
+    }
+  }
+
+  render() {
+    if (!this.props.featureId) return null;
+
+    const url = `https://www.openstreetmap.org/edit?node=${this.props.featureId}`;
+
+    const {
+      osmRemoveHint,
+      osmPermanentlyClosedHint,
+      osmPermanentlyClosedHowtoLinkCaption,
+      osmLoginHint,
+      editButtonCaption,
+      backButtonCaption,
+    } = strings();
+
+    return (<section>
+      <p>{osmRemoveHint}</p>
+      <p>{osmPermanentlyClosedHint} (
+        <a
+          href="https://wiki.openstreetmap.org/wiki/Key:disused:"
+          ref={howToLink => this.howToLink = howToLink}
+        >
+          {osmPermanentlyClosedHowtoLinkCaption}
+        </a>
+      )</p>
+      <p className="subtle">{osmLoginHint}</p>
+      <a href={url} className="link-button" ref={editLink => this.editLink = editLink} onKeyDown={this.trapFocus}>
+        {editButtonCaption}
+      </a>
+      <button
+        className="link-button negative-button"
+        onClick={this.props.onClose}
+        ref={backButton => this.backButton = backButton}
+        onKeyDown={this.trapFocus}
+      >
+        {backButtonCaption}
+      </button>
+    </section>);
+  }
 }
