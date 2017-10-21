@@ -237,6 +237,11 @@ const StyledOnboarding = styled(Onboarding)`
       > svg {
         margin-left: 10px;
       }
+
+      &.focus-ring {
+        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+        transition: box-shadow 0.15s;
+      }
     }
 
     .ac-big-icon-marker {

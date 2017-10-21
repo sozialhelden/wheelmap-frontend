@@ -39,6 +39,7 @@ const colors = {
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',
   selectedColor: '#51a6ff',
+  selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',
   darkSelectedColor: '#04536d',
   positiveColor: 'rgb(126, 197, 18)',
