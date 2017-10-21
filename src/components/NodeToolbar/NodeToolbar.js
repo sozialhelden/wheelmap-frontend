@@ -131,6 +131,10 @@ class NodeToolbar extends React.Component<Props, State> {
     if (prevState.isReportMode && !this.state.isReportMode) {
       this.reportModeButton.focus();
     }
+
+    if (prevProps.featureId !== this.props.featureId) {
+      this.closeLink.focus();
+    }
   }
 
   render() {
