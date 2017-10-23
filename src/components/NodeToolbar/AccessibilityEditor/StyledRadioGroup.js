@@ -91,7 +91,8 @@ const StyledRadioGroup = styled(RadioGroup)`
       margin-right: 8px;
 
       &.focus-ring {
-        border-radius: 100%
+        border-radius: 100%;
+        box-shadow: 0px 0px 0px 2px #4469E1;
       }
     }
     .caption {

@@ -328,7 +328,8 @@ const StyledFilterToolbar = styled(FilterToolbar)`
   }
 
   .radio-button.focus-ring {
-    border-radius: 100%
+    border-radius: 100%;
+    box-shadow: 0px 0px 0px 2px #4469E1;
   }
 `;
 
