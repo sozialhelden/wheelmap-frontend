@@ -77,7 +77,7 @@ function Onboarding(props: Props) {
     </section>
 
     <footer>
-      <button className="button-cta-close" onClick={props.onClose} ref={manageFocus} >
+      <button className="button-cta-close focus-ring" onClick={props.onClose} ref={manageFocus} >
         {startButtonCaption}
         <ChevronRight />
       </button>
