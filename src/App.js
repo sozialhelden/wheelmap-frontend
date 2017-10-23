@@ -300,20 +300,22 @@ class FeatureLoader extends React.Component<Props, State> {
     const nodeToolbarAppeared = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
     const nodeToolbarDisappeared = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
 
-    if (nodeToolbarDisappeared) {
+    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible) {
+      this.filterButton.focus();
+      return;
+    }
+
+    if (nodeToolbarDisappeared && !this.state.isFilterToolbarVisible) {
       this.lastFocusedElement.focus();
     }
-    if (nodeToolbarAppeared){
+
+    if (nodeToolbarAppeared) {
       this.lastFocusedElement = document.activeElement;
       this.nodeToolbar.focus();
     }
 
     if (this.state.category && !prevState.category) {
       this.map.focus();
-    }
-
-    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible) {
-      this.filterButton.focus();
     }
   }
 
