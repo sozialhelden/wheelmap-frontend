@@ -29,7 +29,7 @@ const StyledButton = styled.button`
   right: 10px;
   z-index: 500;
   cursor: pointer;
-  &:hover {
+  &:hover, &:focus {
     background-color: ${colors.linkBackgroundColor};
   }
   header, footer {
