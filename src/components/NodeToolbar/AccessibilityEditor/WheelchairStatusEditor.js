@@ -37,6 +37,9 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     if (wheelchairAccessibility) {
       this.state = { wheelchairAccessibility };
     }
+
+    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.onRadioGroupKeyDown = this.onRadioGroupKeyDown.bind(this);
   }
 
   wheelchairAccessibility(props: Props = this.props): ?YesNoLimitedUnknown {
@@ -55,6 +58,24 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
   componentDidMount() {
     this.toBeFocusedRadioButton.focus();
+  }
+
+  onRadioGroupKeyDown({nativeEvent}) {
+    if(nativeEvent.key === 'Enter') {
+      this.onSaveButtonClick();
+    }
+  }
+
+  onSaveButtonClick() {
+    const wheelchairAccessibility = this.state.wheelchairAccessibility;
+    const valueIsDefined = wheelchairAccessibility !== 'unknown';
+
+    if (valueIsDefined) {
+      this.save(wheelchairAccessibility);
+      if (typeof this.props.onSave === 'function') {
+        this.props.onSave(wheelchairAccessibility);
+      }
+    }
   }
 
   save(value: YesNoLimitedUnknown) {
@@ -126,6 +147,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         selectedValue={wheelchairAccessibility}
         onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
         className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
+        onKeyDown={this.onRadioGroupKeyDown}
       >
         {['yes', 'limited', 'no'].map((value, index) =>
           <CustomRadio
@@ -157,14 +179,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         <button
           className="link-button primary-button"
           disabled={!valueIsDefined}
-          onClick={() => {
-            if (valueIsDefined) {
-              this.save(wheelchairAccessibility);
-              if (typeof this.props.onSave === 'function') {
-                this.props.onSave(wheelchairAccessibility);
-              }
-            }
-          }}
+          onClick={this.onSaveButtonClick}
         >
           {saveButtonCaption}
         </button>
