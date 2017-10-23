@@ -15,9 +15,10 @@ import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
   width: 40px;
   min-height: 40px;
+  padding: 0;
   background-color: white;
   border-radius: 4px;
   outline: none;
