@@ -52,8 +52,8 @@ const PositionedCloseButton = styled.button`
   cursor: pointer;
 `
 
-const CloseButton = ({onClick, ...restProps}) =>
-  <PositionedCloseButton onClick={onClick}>
+const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
+  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown}>
     <CloseIcon {...restProps} />
   </PositionedCloseButton>
 
@@ -123,6 +123,24 @@ class FilterToolbar extends React.Component<Props, State> {
     toiletCheckboxFocused: false,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.trapFocus = this.trapFocus.bind(this);
+  }
+
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.toiletCheckbox && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.closeButton.focus();
+    }
+
+    if (nativeEvent.target === this.closeButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.toiletCheckbox.focus();
+    }
+  }
+
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;
     const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
@@ -156,7 +174,12 @@ class FilterToolbar extends React.Component<Props, State> {
         isSwipeable={false}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
-        <CloseButton onClick={this.props.onCloseClicked} className="close-icon" />
+        <CloseButton
+          closeButtonRef={closeButton => this.closeButton = closeButton}
+          onClick={this.props.onCloseClicked}
+          onKeyDown={this.trapFocus}
+          className="close-icon"
+        />
         <header>{headerText}</header>
         <section>
           <RadioGroup
@@ -202,6 +225,7 @@ class FilterToolbar extends React.Component<Props, State> {
         <section className={shouldShowToiletFilter(filterName) ? '' : 'section-hidden'}>
           <label htmlFor="toilet-filter">
             <input
+              ref={toiletCheckbox => this.toiletCheckbox = toiletCheckbox }
               onChange={(event) => {
                 const value = event.target.checked;
                 const filter = { toilet: (value === true) ? 'yes' : null };
@@ -215,6 +239,7 @@ class FilterToolbar extends React.Component<Props, State> {
               checked={isToiletFilterEnabled}
               onFocus={() => this.setState({toiletCheckboxFocused: true})}
               onBlur={() => this.setState({toiletCheckboxFocused: false})}
+              onKeyDown={this.trapFocus}
             />
             <span className={`icon${ this.state.toiletCheckboxFocused ? ' focus-ring' : ''}`}>
               {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
