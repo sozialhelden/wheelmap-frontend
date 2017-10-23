@@ -323,7 +323,7 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
 
-    &:focus {
+    &:focus&:not(.primary-button) {
       background-color: ${colors.linkBackgroundColorTransparent};
     }
 
@@ -349,6 +349,11 @@ const StyledToolbar = styled(Toolbar)`
     }
     &:active {
       background-color: ${hsl(colors.linkColor).darker(0.2)};
+    }
+
+    &.focus-ring {
+      box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+      transition: box-shadow 0.2s;
     }
   }
 
