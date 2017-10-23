@@ -29,7 +29,7 @@ import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Featu
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
-
+import { globalFetchManager } from '../../lib/FetchManager';
 
 type Props = {
   featureId?: ?string,
@@ -93,6 +93,20 @@ export default class Map extends React.Component<Props, State> {
     if (!(typeof onMoveEnd === 'function')) return;
     const bbox = map.getBounds();
     onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+
+    this.updateTabIndexes();
+  }
+
+  updateTabIndexes() {
+    this.map.eachLayer(layer => {
+      if (layer.getElement) {
+
+        const isInViewport = this.map.getBounds().contains(layer.getLatLng());
+
+        const layerElement = layer.getElement();
+        layerElement.setAttribute('tabindex', isInViewport ? 0 : -1)
+      }
+    })
   }
 
   componentDidMount() {
@@ -198,8 +212,10 @@ export default class Map extends React.Component<Props, State> {
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
     });
-  }
 
+
+    globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
+  }
 
   removeLayersNotVisibleInZoomLevel() {
     const map: L.Map = this.map;
