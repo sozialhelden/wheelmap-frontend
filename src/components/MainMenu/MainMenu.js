@@ -75,7 +75,7 @@ class MainMenu extends React.Component<Props, State> {
 
 
     const {
-      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace,
+      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
     return (<nav className={classList.join(' ')}>
@@ -83,6 +83,10 @@ class MainMenu extends React.Component<Props, State> {
         <a href="/beta">
           <Logo className="logo" width={123} height={30} />
         </a>
+      </div>
+
+      <div className="claim">
+        {findWheelchairAccessiblePlaces}
       </div>
 
       <GlobalActivityIndicator />
@@ -112,7 +116,7 @@ openMenuHoverColor.opacity = 0.5;
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   height: 50px;
-  padding: 10px 5px 10px 20px;
+  padding: 9px 5px 11px 20px;
   background-color: rgba(254, 254, 254, 0.95);
   display: flex;
   flex-direction: row;
@@ -129,6 +133,22 @@ const StyledMainMenu = styled(MainMenu)`
 
   .logo {
     height: 30px;
+  }
+
+  .claim {
+    font-weight: lighter;
+    opacity: 0.4;
+    transition: opacity 0.3s ease-out;
+    @media (max-width: 1280px) {
+      font-size: 80%;
+      max-width: 130px;
+    }
+    @media (max-width: 1160px) {
+      opacity: 0;
+    }
+    @media (max-width: 1140px) {
+      display: none;
+    }
   }
 
   .flexible-separator {
@@ -241,7 +261,7 @@ const StyledMainMenu = styled(MainMenu)`
 
     > .nav-link, > .home-link {
       height: 44px;
-      padding: 5px 10px;
+      padding: 2px 10px;
       box-sizing: border-box;
     }
 
