@@ -26,7 +26,7 @@ const StyledButton = styled.div`
   position: fixed;
   top: 200px;
   right: 10px;
-  z-index: 400;
+  z-index: 500;
   cursor: pointer;
   &:hover {
     background-color: ${colors.linkBackgroundColor};
@@ -95,6 +95,7 @@ class FilterButton extends React.Component<Props, void> {
       className={`${this.props.className} leaflet-filter-button`}
       title={filterButtonHint}
       onClick={this.props.onClick}
+      tabIndex={0}
     >
       <header>
         {Icon ? <Icon /> : <span>?</span>}

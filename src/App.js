@@ -329,12 +329,6 @@ class FeatureLoader extends React.Component<Props, State> {
         isEditMode={isEditMode}
       /> : null}
 
-      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        onClick={() => this.toggleFilterToolbar()}
-      /> : null}
-
       {isLocalizationLoaded ? <SearchToolbar
         ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
@@ -371,6 +365,12 @@ class FeatureLoader extends React.Component<Props, State> {
         />
       </div>) : null}
 
+      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        onClick={() => this.toggleFilterToolbar()}
+      /> : null}
+
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) ? (<div className="filter-toolbar">
         <FilterToolbar
           accessibilityFilter={this.accessibilityFilter()}
@@ -382,6 +382,7 @@ class FeatureLoader extends React.Component<Props, State> {
           }}
         />
       </div>) : null}
+
       <Map
         ref={(map) => { this.map = map; }}
         history={this.props.history}
