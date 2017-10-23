@@ -37,7 +37,7 @@ export function expandedPreferredLocales() {
 
 // Wraps c-3po's translation function using a fallback strategy for missing strings
 export function t(...args) {
-  for (const locale of expandedPreferredLocales()) {
+  for (const locale in expandedPreferredLocales()) {
     const translatedString = tWithLocale(locale, ...args);
     if (translatedString) return translatedString;
   }

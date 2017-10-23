@@ -13,6 +13,7 @@ type Props = {
   onChange: ?((event: UIEvent) => void),
   onBlur: ?((event: UIEvent) => void),
   onFocus: ?((event: UIEvent) => void),
+  onClick: ?((event: UIEvent) => void),
   ref: ((input: HTMLInputElement) => void),
   searchQuery: ?string,
   className: string,
@@ -30,6 +31,10 @@ function hasBigViewport() {
 class SearchInputField extends React.Component<Props> {
   focus() {
     this.input.focus();
+  }
+
+  blur() {
+    this.input.blur();
   }
 
   render() {

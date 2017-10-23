@@ -21,7 +21,6 @@ import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
-import savedState, { saveState } from './savedState';
 import isApplePlatform from '../../lib/isApplePlatform';
 import addLocateControlToMap from './addLocateControlToMap';
 import { removeCurrentHighlightedMarker } from './highlightMarker';
@@ -51,7 +50,6 @@ type Props = {
   minZoomWithSetCategory: number,
   minZoomWithoutSetCategory: number,
   defaultStartCenter: [number, number],
-  locateTimeout: number,
   pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
   locateOnStart?: boolean,
   className: ?string,
@@ -91,10 +89,6 @@ export default class Map extends React.Component<Props, State> {
       this.props.minZoomWithSetCategory,
       this.props.minZoomWithoutSetCategory,
     );
-    saveState('lastZoom', String(zoom));
-    saveState('lastCenter.lat', lat);
-    saveState('lastCenter.lon', lng);
-    saveState('lastMoveDate', new Date().toString());
     const onMoveEnd = this.props.onMoveEnd;
     if (!(typeof onMoveEnd === 'function')) return;
     const bbox = map.getBounds();
@@ -102,12 +96,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const lastCenter = (savedState.lastCenter && savedState.lastCenter[0] && savedState.lastCenter);
-
+    const initialCenter = this.props.lat && this.props.lon ? [this.props.lat, this.props.lon] : this.props.defaultStartCenter;
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
-      center: lastCenter || this.props.defaultStartCenter,
-      zoom: savedState.lastZoom || (this.props.maxZoom - 1),
+      center: initialCenter,
+      zoom: this.props.zoom || (this.props.maxZoom - 1),
       minZoom: 2,
       zoomControl: false,
     });
@@ -130,8 +123,7 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-    if (this.props.locateOnStart && 
-        +new Date() - (savedState.lastMoveDate || 0) > this.props.locateTimeout) {
+    if (this.props.locateOnStart) {
       map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: true });
     }
 

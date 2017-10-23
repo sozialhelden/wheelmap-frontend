@@ -90,7 +90,6 @@ const StyledToolbar = styled(Toolbar)`
       margin: 0;
       padding: 12px 15px;
       transform: translate3d(0, 0, 0) !important;
-      transition: opacity 0.3s ease-out !important;
       z-index: 1000000000;
       border-radius: 0;
       > header, .search-results, .category-menu {
@@ -286,6 +285,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
               this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
               if (this.input instanceof HTMLInputElement) {
                 this.input.value = '';
+                if (!this.props.category) {
+                  this.searchInputField.blur();
+                }
               }
               setTimeout(() => this.ensureFullVisibility(), 100);
               if (this.props.onClose) this.props.onClose();
@@ -306,10 +308,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
             }}
             onFocus={(event) => {
               this.input = event.target;
-              this.setState({ categoryMenuIsVisible: true });
-              this.setState({ searchFieldIsFocused: true });
-              setTimeout(() => this.ensureFullVisibility(), 100);
-              setTimeout(() => window.scrollTo(0, 0), 300);
+              setTimeout(() => {
+                this.setState({ searchFieldIsFocused: true });
+                window.scrollTo(0, 0);
+                this.setState({ categoryMenuIsVisible: true });
+                setTimeout(() => {
+                }, 100);
+              }, 300);
             }}
             onBlur={() => {
               this.ensureFullVisibility();
