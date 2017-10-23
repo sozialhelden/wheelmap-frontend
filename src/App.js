@@ -299,6 +299,10 @@ class FeatureLoader extends React.Component<Props, State> {
     if (this.state.category && !prevState.category) {
       this.map.focus();
     }
+
+    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible) {
+      this.filterButton.focus();
+    }
   }
 
   render() {
@@ -366,6 +370,7 @@ class FeatureLoader extends React.Component<Props, State> {
       </div>) : null}
 
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
+        ref={filterButton => this.filterButton = filterButton}
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onClick={() => this.toggleFilterToolbar()}

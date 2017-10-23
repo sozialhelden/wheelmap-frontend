@@ -127,6 +127,21 @@ class FilterToolbar extends React.Component<Props, State> {
     super(props);
 
     this.trapFocus = this.trapFocus.bind(this);
+    this.escapeHandler = this.escapeHandler.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.escapeHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.escapeHandler);
+  }
+
+  escapeHandler(event) {
+    if (event.key === 'Escape') {
+      this.props.onCloseClicked();
+    }
   }
 
   trapFocus({nativeEvent}) {

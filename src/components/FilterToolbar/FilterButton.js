@@ -78,6 +78,10 @@ class FilterButton extends React.Component<Props, void> {
   static defaultProps = defaultProps;
   props: Props;
 
+  focus() {
+    this.button.focus();
+  }
+
   render() {
     const filterName = getFilterNameForFilterList(this.props.accessibilityFilter);
     let Icon = null;
@@ -93,6 +97,7 @@ class FilterButton extends React.Component<Props, void> {
     const filterButtonHint = t`Change which places are shown on the map`;
 
     return (<StyledButton
+      innerRef={button => this.button = button}
       className={`${this.props.className} leaflet-filter-button`}
       title={filterButtonHint}
       onClick={this.props.onClick}
