@@ -38,6 +38,7 @@ type DefaultProps = {};
 
 type State = {
   filterName: FilterName,
+  toiletCheckboxFocused: boolean,
 };
 
 const PositionedCloseButton = styled.button`
@@ -119,6 +120,7 @@ class FilterToolbar extends React.Component<Props, State> {
 
   state = {
     filterName: 'all',
+    toiletCheckboxFocused: false,
   };
 
   render() {
@@ -211,8 +213,10 @@ class FilterToolbar extends React.Component<Props, State> {
               type="checkbox"
               id="toilet-filter"
               checked={isToiletFilterEnabled}
+              onFocus={() => this.setState({toiletCheckboxFocused: true})}
+              onBlur={() => this.setState({toiletCheckboxFocused: false})}
             />
-            <span className="icon">
+            <span className={`icon${ this.state.toiletCheckboxFocused ? ' focus-ring' : ''}`}>
               {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
             </span>
             <span className="caption">{toiletFilterCaption}</span>
