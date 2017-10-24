@@ -1112,7 +1112,7 @@ babel-types@^6.16.0, babel-types@^6.18.0, babel-types@^6.19.0, babel-types@^6.23
     lodash "^4.17.4"
     to-fast-properties "^1.0.3"
 
-babylon@^6.11.0, babylon@^6.15.0, babylon@^6.17.0, babylon@^6.17.2, babylon@^6.18.0:
+babylon@^6.11.0, babylon@^6.17.0, babylon@^6.17.2, babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
 
@@ -2177,6 +2177,10 @@ doctrine@^2.0.0:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
+dom-classlist@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dom-classlist/-/dom-classlist-1.0.1.tgz#722814dc2f509d3d7d06f2533ba9ff48eeea59b9"
+
 dom-converter@~0.1:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.1.4.tgz#a45ef5727b890c9bffe6d7c876e7b19cb0e17f3b"
@@ -2894,13 +2898,6 @@ flow-copy-source@^1.2.1:
     glob "^7.0.0"
     kefir "^3.7.3"
     yargs "^8.0.2"
-
-flow-remove-types@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/flow-remove-types/-/flow-remove-types-1.2.1.tgz#58e261bf8b842bd234c86cafb982a1213aff0edb"
-  dependencies:
-    babylon "^6.15.0"
-    vlq "^0.2.1"
 
 flow-typed@^2.1.2:
   version "2.1.5"
@@ -7044,10 +7041,6 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vlq@^0.2.1:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/vlq/-/vlq-0.2.3.tgz#8f3e4328cf63b1540c0d67e1b2778386f8975b26"
-
 vm-browserify@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
@@ -7220,6 +7213,12 @@ which@^1.2.12, which@^1.2.14, which@^1.2.9:
   resolved "https://registry.yarnpkg.com/which/-/which-1.3.0.tgz#ff04bdfc010ee547d780bec38e1ac1c2777d253a"
   dependencies:
     isexe "^2.0.0"
+
+"wicg-focus-ring@https://github.com/dakeyras7/focus-ring#include-enter-keydown":
+  version "2.0.2"
+  resolved "https://github.com/dakeyras7/focus-ring#f9c70cf5159424f998323c21f2c7d5e218aa25ac"
+  dependencies:
+    dom-classlist "^1.0.1"
 
 wide-align@^1.1.0:
   version "1.1.2"

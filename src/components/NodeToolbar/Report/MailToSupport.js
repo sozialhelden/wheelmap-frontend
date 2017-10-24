@@ -14,31 +14,68 @@ type Props = {
 };
 
 
-export default function ReportProblemButton(props: Props) {
-  const { feature, featureId } = props;
+export default class ReportProblemButton extends React.Component<Props> {
+  constructor(props) {
+    super(props);
 
-  if (!featureId || !feature || !feature.properties) return null;
+    this.trapFocus = this.trapFocus.bind(this);
+  }
 
-  const url = `https://wheelmap.org/nodes/${featureId}`;
-  const properties = feature.properties;
-  const categoryOrParentCategory = props.category || props.parentCategory;
-  const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+  componentDidMount() {
+    this.mailLink.focus();
+  }
 
-  const {
-    reportBody,
-    reportSubject,
-    apologyAndSolution,
-    contactButtonCaption,
-    backButtonCaption,
-  } = strings();
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.mailLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton.focus();
+    }
+    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.mailLink.focus();
+    }
+  }
 
-  const subject = reportSubject(properties.name, categoryName);
-  const body = reportBody(url);
-  const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  render() {
+    const { feature, featureId } = this.props;
 
-  return (<section>
-    <p>{apologyAndSolution}</p>
-    <a href={reportMailToLink} className="link-button">{contactButtonCaption}</a>
-    <button className="link-button negative-button" onClick={props.onClose}>{backButtonCaption}</button>
-  </section>);
+    if (!featureId || !feature || !feature.properties) return null;
+
+    const url = `https://wheelmap.org/nodes/${featureId}`;
+    const properties = feature.properties;
+    const categoryOrParentCategory = this.props.category || this.props.parentCategory;
+    const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+
+    const {
+      reportBody,
+      reportSubject,
+      apologyAndSolution,
+      contactButtonCaption,
+      backButtonCaption,
+    } = strings();
+
+    const subject = reportSubject(properties.name, categoryName);
+    const body = reportBody(url);
+    const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    return (<section>
+      <p>{apologyAndSolution}</p>
+      <a
+        href={reportMailToLink}
+        className="link-button"
+        ref={mailLink => this.mailLink = mailLink}
+        onKeyDown={this.trapFocus}
+      >
+        {contactButtonCaption}
+      </a>
+      <button
+        className="link-button negative-button"
+        onClick={this.props.onClose}
+        ref={backButton => this.backButton = backButton}
+        onKeyDown={this.trapFocus}
+      >
+        {backButtonCaption}
+      </button>
+    </section>);
+  }
 }

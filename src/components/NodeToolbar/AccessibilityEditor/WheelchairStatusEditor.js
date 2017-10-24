@@ -31,6 +31,17 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     wheelchairAccessibility: 'unknown',
   };
 
+  constructor(props) {
+    super(props);
+    const wheelchairAccessibility = this.wheelchairAccessibility(props);
+    if (wheelchairAccessibility) {
+      this.state = { wheelchairAccessibility };
+    }
+
+    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
+    this.onRadioGroupKeyDown = this.onRadioGroupKeyDown.bind(this);
+  }
+
   wheelchairAccessibility(props: Props = this.props): ?YesNoLimitedUnknown {
     if (!props.feature || !props.feature.properties || !props.feature.properties.wheelchair) {
       return null;
@@ -42,6 +53,28 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     const wheelchairAccessibility = this.wheelchairAccessibility(props);
     if (wheelchairAccessibility) {
       this.setState({ wheelchairAccessibility });
+    }
+  }
+
+  componentDidMount() {
+    this.toBeFocusedRadioButton.focus();
+  }
+
+  onRadioGroupKeyDown({nativeEvent}) {
+    if(nativeEvent.key === 'Enter') {
+      this.onSaveButtonClick();
+    }
+  }
+
+  onSaveButtonClick() {
+    const wheelchairAccessibility = this.state.wheelchairAccessibility;
+    const valueIsDefined = wheelchairAccessibility !== 'unknown';
+
+    if (valueIsDefined) {
+      this.save(wheelchairAccessibility);
+      if (typeof this.props.onSave === 'function') {
+        this.props.onSave(wheelchairAccessibility);
+      }
     }
   }
 
@@ -72,7 +105,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     if (typeof this.props.onSave === 'function') this.props.onSave(value);
     if (typeof this.props.onClose === 'function') this.props.onClose();
   }
-
 
   render() {
     const wheelchairAccessibility = this.state.wheelchairAccessibility;
@@ -115,14 +147,26 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         selectedValue={wheelchairAccessibility}
         onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
         className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
+        onKeyDown={this.onRadioGroupKeyDown}
       >
-        {['yes', 'limited', 'no'].map(value => (<CustomRadio
-          key={value}
-          shownValue={value}
-          currentValue={wheelchairAccessibility}
-          caption={shortAccessibilityName(value)}
-          description={accessibilityDescription(value)}
-        />))}
+        {['yes', 'limited', 'no'].map((value, index) =>
+          <CustomRadio
+            key={value}
+            ref={radioButton => {
+              const radioButtonIsSelected = value === wheelchairAccessibility;
+
+              if (radioButtonIsSelected) {
+                this.toBeFocusedRadioButton = radioButton;
+              } else if (index === 0) {
+                this.toBeFocusedRadioButton = radioButton;
+              }
+            }}
+            shownValue={value}
+            currentValue={wheelchairAccessibility}
+            caption={shortAccessibilityName(value)}
+            description={accessibilityDescription(value)}
+          />
+        )}
       </StyledRadioGroup>
 
       <footer>
@@ -135,14 +179,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         <button
           className="link-button primary-button"
           disabled={!valueIsDefined}
-          onClick={() => {
-            if (valueIsDefined) {
-              this.save(wheelchairAccessibility);
-              if (typeof this.props.onSave === 'function') {
-                this.props.onSave(wheelchairAccessibility);
-              }
-            }
-          }}
+          onClick={this.onSaveButtonClick}
         >
           {saveButtonCaption}
         </button>

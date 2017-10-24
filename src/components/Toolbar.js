@@ -212,6 +212,10 @@ class Toolbar extends React.Component<Props, State> {
     };
   }
 
+  focus() {
+    this.scrollElement.focus();
+  }
+
 
   render() {
     const classNames = [
@@ -229,6 +233,7 @@ class Toolbar extends React.Component<Props, State> {
         className={className}
         style={this.getStyle()}
         ref={(nav) => { this.scrollElement = nav; }}
+        tabIndex={-1}
       >
         {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
         {this.props.children}
@@ -262,6 +267,7 @@ const StyledToolbar = styled(Toolbar)`
 
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   background-color: ${colors.colorizedBackgroundColor};
+  outline: none;
 
   & {
      -webkit-overflow-scrolling: touch;
@@ -317,6 +323,10 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
 
+    &:focus&:not(.primary-button) {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
+
     &:disabled {
       opacity: 0.15;
     }
@@ -340,12 +350,17 @@ const StyledToolbar = styled(Toolbar)`
     &:active {
       background-color: ${hsl(colors.linkColor).darker(0.2)};
     }
+
+    &.focus-ring {
+      box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+      transition: box-shadow 0.2s;
+    }
   }
 
   .negative-button {
     color: ${colors.negativeColor};
     @media (hover), (-moz-touch-enabled: 0) {
-      &:hover {
+      &:hover, &:focus {
         background-color: ${colors.negativeBackgroundColorTransparent};
       }
     }

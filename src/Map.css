@@ -16,6 +16,16 @@ body.is-touch-device .leaflet-filter-button {
   flex: 1;
 }
 
+.leaflet-container.focus-ring::after {
+  content: '';
+  border-radius: 4px;
+  box-shadow: inset 0px 0px 0px 6px #4469E1;
+  width: 100%;
+  height: 100%;
+  z-index: 500;
+  position: absolute;
+}
+
 .leaflet-icon-locate:before {
   display: block;
   position: absolute;
@@ -371,6 +381,12 @@ body.is-touch-device .leaflet-filter-button {
 
 .leaflet-marker-icon {
   animation: fadeIn 0.6s ease-out;
+}
+
+.leaflet-marker-icon.focus-ring {
+  border-radius: 100%;
+  box-shadow: 0px 0px 0px 6px #4469E1;
+  transition: box-shadow 0.2s;
 }
 
 @media screen and (max-width: 512px), screen and (max-height: 512px) {

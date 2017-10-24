@@ -13,8 +13,10 @@ type Props = {
   name: string,
   id: string,
   className: string,
+  hidden: boolean,
   onFocus: ((event: UIEvent) => void),
   onBlur: ((event: UIEvent) => void),
+  onKeyDown: ((event: UIEvent) => void),
 };
 
 
@@ -30,7 +32,7 @@ const StyledNavLink = styled(NavLink)`
       background-color: ${colors.selectedColor};
     }
   }
-  &:hover {
+  &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
     &.active {
       .circle {
@@ -49,8 +51,10 @@ export default function CategoryButton(props: Props) {
     activeClassName="active"
     to={url}
     className={props.className}
-    onFocus={props.onFocus}
+    onFocus={(props.onFocus)}
     onBlur={props.onBlur}
+    onKeyDown={props.onKeyDown}
+    tabIndex={props.hidden ? -1 : 0}
   >
     <IconButton iconComponent={<SvgComponent />} caption={props.name} />
   </StyledNavLink>);

@@ -19,6 +19,7 @@ type Props = {
   className: string,
   placeholder: ?string,
   disabled: ?boolean,
+  hidden: boolean,
 };
 
 
@@ -27,22 +28,45 @@ function hasBigViewport() {
 }
 
 
-const SearchInputField = (props: Props) => {
-  // translator: Placeholder for search input field
-  const defaultPlaceholder = t`Search place or address`;
-  const value = props.placeholder || props.searchQuery || '';
-  return (<input
-    ref={props.refref}
-    value={value}
-    autoFocus={hasBigViewport()}
-    onChange={props.onChange}
-    disabled={props.disabled}
-    onFocus={props.onFocus}
-    onBlur={props.onBlur}
-    onClick={props.onClick}
-    className={`search-input ${props.className}`}
-    placeholder={value === '' ? defaultPlaceholder : null}
-  />);
+class SearchInputField extends React.Component<Props> {
+  focus() {
+    this.input.focus();
+  }
+
+  blur() {
+    this.input.blur();
+  }
+
+  render() {
+    const {
+      searchQuery,
+      onChange,
+      disabled,
+      hidden,
+      onFocus,
+      onBlur,
+      onClick,
+      className,
+      placeholder
+    } = this.props;
+    // translator: Placeholder for search input field
+    const defaultPlaceholder = t`Search place or address`;
+    const value = placeholder || searchQuery || '';
+
+    return (<input
+      ref={input => this.input = input}
+      value={value}
+      autoFocus={hasBigViewport()}
+      onChange={onChange}
+      disabled={disabled}
+      tabIndex={hidden ? -1 : 0}
+      onFocus={onFocus}
+      onBlur={onBlur}
+      onClick={onClick}
+      className={`search-input ${className}`}
+      placeholder={value === '' ? defaultPlaceholder : null}
+      />);
+  }
 }
 
 const StyledSearchInputField = styled(SearchInputField)`
@@ -59,8 +83,9 @@ const StyledSearchInputField = styled(SearchInputField)`
 
   transition: width 0.3s ease-out, height 0.3s ease-out;
 
-  &:focus {
+  &:focus, &.focus-ring {
     outline: none;
+    box-shadow: none;
     background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
   }
 

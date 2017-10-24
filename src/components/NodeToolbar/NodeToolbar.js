@@ -62,6 +62,15 @@ class NodeToolbar extends React.Component<Props, State> {
     this.fetchCategory(this.props);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
+    // element (the node toolbar's close link) was not rendered yet. See this.focus().
+    if (this.shouldBeFocused) {
+      this.focus();
+    }
+
+    this.manageFocus(prevProps, prevState);
+  }
 
   componentWillReceiveProps(nextProps: Props) {
     this.fetchCategory(nextProps);
@@ -105,6 +114,29 @@ class NodeToolbar extends React.Component<Props, State> {
       .then(parentCategory => this.setState({ parentCategory }));
   }
 
+  focus() {
+    if (this.closeLink) {
+      this.closeLink.focus();
+      this.shouldBeFocused = false;
+    } else {
+      this.shouldBeFocused = true;
+    }
+  }
+
+  manageFocus(prevProps, prevState) {
+    if (prevProps.isEditMode && !this.props.isEditMode) {
+      this.nodeFooter.focus();
+    }
+
+    if (prevState.isReportMode && !this.state.isReportMode) {
+      this.reportModeButton.focus();
+    }
+
+    if (prevProps.featureId !== this.props.featureId) {
+      this.closeLink.focus();
+    }
+  }
+
   render() {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties ? properties.accessibility : null;
@@ -128,6 +160,7 @@ class NodeToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
+          innerRef={closeLink => this.closeLink = closeLink}
           history={this.props.history}
           onClick={() => {
             this.toggleReportMode(false);
@@ -145,6 +178,7 @@ class NodeToolbar extends React.Component<Props, State> {
         {(() => {
           if (this.state.isReportMode) {
             return (<ReportDialog
+              innerRef={reportDialog => this.reportDialog = reportDialog}
               feature={this.props.feature}
               featureId={this.props.featureId}
               onClose={() => {
@@ -155,6 +189,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
           if (this.props.isEditMode) {
             return (<AccessibilityEditor
+              innerRef={accessibilityEditor => this.accessibilityEditor = accessibilityEditor}
               feature={this.props.feature}
               featureId={this.props.featureId}
               onClose={() => {
@@ -168,6 +203,7 @@ class NodeToolbar extends React.Component<Props, State> {
             <AccessibilityDetails details={accessibility} />
             <AccessibilityExtraInfo properties={properties} />
             <NodeFooter
+              ref={nodeFooter => this.nodeFooter = nodeFooter}
               feature={this.props.feature}
               featureId={this.props.featureId}
               category={this.state.category}
@@ -183,6 +219,7 @@ class NodeToolbar extends React.Component<Props, State> {
               }}
             />
             <button
+              ref={reportModeButton => this.reportModeButton = reportModeButton}
               className="link-button full-width-button"
               onClick={() => {
                 this.toggleReportMode(true);

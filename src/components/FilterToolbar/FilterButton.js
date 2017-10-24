@@ -15,9 +15,10 @@ import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
   width: 40px;
   min-height: 40px;
+  padding: 0;
   background-color: white;
   border-radius: 4px;
   outline: none;
@@ -26,9 +27,9 @@ const StyledButton = styled.div`
   position: fixed;
   top: 200px;
   right: 10px;
-  z-index: 400;
+  z-index: 500;
   cursor: pointer;
-  &:hover {
+  &:hover, &:focus {
     background-color: ${colors.linkBackgroundColor};
   }
   header, footer {
@@ -77,6 +78,10 @@ class FilterButton extends React.Component<Props, void> {
   static defaultProps = defaultProps;
   props: Props;
 
+  focus() {
+    this.button.focus();
+  }
+
   render() {
     const filterName = getFilterNameForFilterList(this.props.accessibilityFilter);
     let Icon = null;
@@ -92,9 +97,11 @@ class FilterButton extends React.Component<Props, void> {
     const filterButtonHint = t`Change which places are shown on the map`;
 
     return (<StyledButton
+      innerRef={button => this.button = button}
       className={`${this.props.className} leaflet-filter-button`}
       title={filterButtonHint}
       onClick={this.props.onClick}
+      tabIndex={0}
     >
       <header>
         {Icon ? <Icon /> : <span>?</span>}

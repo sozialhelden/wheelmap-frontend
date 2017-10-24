@@ -31,6 +31,27 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     toiletAccessibility: 'unknown',
   };
 
+  constructor(props) {
+    super(props);
+    this.trapFocus = this.trapFocus.bind(this);
+    this.escapeHandler = this.escapeHandler.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.escapeHandler);
+    this.unknownButton.focus();
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.escapeHandler);
+  }
+
+  escapeHandler(event) {
+    if (event.key === 'Escape') {
+      this.props.onClose();
+    }
+  }
+
   toiletAccessibility(props: Props = this.props): ?YesNoUnknown {
     if (!props.feature || !props.feature.properties || !props.feature.properties.wheelchair_toilet) {
       return null;
@@ -74,6 +95,22 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     if (typeof this.props.onClose === 'function') this.props.onClose();
   }
 
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.noButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.unknownButton.focus();
+    }
+    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.noButton.focus();
+    }
+  }
+
+  // obsolete???
+  // focus() {
+  //   this.unknownButton.focus();
+  // }
+
   render() {
     const classList = [
       this.props.className,
@@ -101,17 +138,31 @@ class ToiletStatusEditor extends React.Component<Props, State> {
       <header>{headerText}</header>
 
       <footer>
-        <button className="link-button yes" onClick={() => this.save('yes')}>
+        <button
+          className="link-button unknown"
+          onClick={() => this.save('unknown')}
+          ref={unknownButton => this.unknownButton = unknownButton}
+          onKeyDown={this.trapFocus}
+          >
+            {unknownCaption}
+        </button>
+
+        <button
+          className="link-button yes"
+          onClick={() => this.save('yes')}
+        >
           {yesCaption}
         </button>
 
-        <button className="link-button no" onClick={() => this.save('no')}>
+        <button
+          className="link-button no"
+          onClick={() => this.save('no')}
+          ref={noButton => this.noButton = noButton}
+          onKeyDown={this.trapFocus}
+        >
           {noCaption}
         </button>
 
-        <button className="link-button unknown" onClick={() => this.save('unknown')}>
-          {unknownCaption}
-        </button>
       </footer>
 
       <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
@@ -165,14 +216,14 @@ const StyledToiletStatusEditor = styled(ToiletStatusEditor)`
       box-sizing: border-box;
 
       &.yes {
-        &:hover, &:active {
+        &:hover, &:active, &:focus {
           color: ${colors.positiveColor};
           background-color: ${colors.positiveBackgroundColorTransparent};
         }
       }
 
       &.no {
-        &:hover, &:active {
+        &:hover, &:active, &:focus {
           color: ${colors.negativeColor};
           background-color: ${colors.negativeBackgroundColorTransparent};
         }

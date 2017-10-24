@@ -152,6 +152,9 @@ class FeatureLoader extends React.Component<Props, State> {
     this.updateStateFromProps(this.props);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    this.manageFocus(prevProps, prevState);
+  }
 
   updateStateFromProps(props: Props) {
     this.fetchFeature(props);
@@ -277,6 +280,44 @@ class FeatureLoader extends React.Component<Props, State> {
     this.setState({ isFilterToolbarVisible: !this.state.isFilterToolbarVisible });
   }
 
+  manageFocus(prevProps, prevState) {
+    // focus to and from nodeToolbar
+    let wasNodeToolbarDisplayed: boolean;
+    let isNodeToolbarDisplayed: boolean;
+
+    const routeInformation = this.routeInformation();
+    const { featureId } = routeInformation || {};
+    const isNodeRoute = Boolean(featureId);
+    const { isLocalizationLoaded, isFilterToolbarVisible } = this.state;
+    isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded && !isFilterToolbarVisible;
+
+    const prevRouteInformation = this.routeInformation(prevProps);
+    const { featureId: prevFeatureId } = prevRouteInformation || {};
+    const wasNodeRoute = Boolean(prevFeatureId);
+    const { isLocalizationLoaded: wasLocalizationLoaded, isFilterToolbarVisible: wasFilterToolbarVisible } = prevState;
+    wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded && !wasFilterToolbarVisible;
+
+    const nodeToolbarAppeared = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
+    const nodeToolbarDisappeared = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
+
+    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible) {
+      this.filterButton.focus();
+      return;
+    }
+
+    if (nodeToolbarDisappeared && !this.state.isFilterToolbarVisible) {
+      this.lastFocusedElement.focus();
+    }
+
+    if (nodeToolbarAppeared) {
+      this.lastFocusedElement = document.activeElement;
+      this.nodeToolbar.focus();
+    }
+
+    if (this.state.category && !prevState.category) {
+      this.map.focus();
+    }
+  }
 
   render() {
     const routeInformation = this.routeInformation();
@@ -304,32 +345,11 @@ class FeatureLoader extends React.Component<Props, State> {
       {isLocalizationLoaded ? <MainMenu
         className="main-menu"
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
-      /> : null}
-
-      <Map
-        ref={(map) => { this.map = map; }}
-        history={this.props.history}
-        onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        zoom={zoom ? parseFloat(zoom) : null}
-        category={category}
-        featureId={featureId}
-        feature={this.state.feature}
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        pointToLayer={this.createMarkerFromFeature}
-        locateOnStart={shouldLocateOnStart}
-        {...config}
-      />
-
-      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        onClick={() => this.toggleFilterToolbar()}
+        isEditMode={isEditMode}
       /> : null}
 
       {isLocalizationLoaded ? <SearchToolbar
+        ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
         hidden={isNodeRoute || this.state.isFilterToolbarVisible}
         category={category}
@@ -353,6 +373,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
       {(isNodeRoute && isLocalizationLoaded) ? (<div className="node-toolbar">
         <NodeToolbar
+          ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
           history={this.props.history}
           feature={this.state.feature}
           hidden={this.state.isFilterToolbarVisible}
@@ -362,6 +383,13 @@ class FeatureLoader extends React.Component<Props, State> {
           // onClose={() => { this.setState({ category: null }); }}
         />
       </div>) : null}
+
+      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
+        ref={filterButton => this.filterButton = filterButton}
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        onClick={() => this.toggleFilterToolbar()}
+      /> : null}
 
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) ? (<div className="filter-toolbar">
         <FilterToolbar
@@ -375,11 +403,29 @@ class FeatureLoader extends React.Component<Props, State> {
         />
       </div>) : null}
 
+      <Map
+        ref={(map) => { this.map = map; }}
+        history={this.props.history}
+        onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
+        zoom={zoom ? parseFloat(zoom) : null}
+        category={category}
+        featureId={featureId}
+        feature={this.state.feature}
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        pointToLayer={this.createMarkerFromFeature}
+        locateOnStart={shouldLocateOnStart}
+        {...config}
+      />
+
       <Onboarding
         isVisible={this.state.isOnboardingVisible}
         onClose={() => {
           saveOnboardingFlag();
           this.setState({ isOnboardingVisible: false });
+          this.searchToolbar.focus();
         }}
       />
 
@@ -394,9 +440,9 @@ class FeatureLoader extends React.Component<Props, State> {
 
   onMoveEndHandler(...params) {
     const moveProps = params[0];
-    console.log('Setting query params after moving to', moveProps); 
+    console.log('Setting query params after moving to', moveProps);
     setQueryParams(this.props.history, ...params);
-    
+
     saveState('map.lastZoom', String(moveProps.zoom));
     saveState('map.lastCenter.lat', String(moveProps.lat));
     saveState('map.lastCenter.lon', String(moveProps.lon));

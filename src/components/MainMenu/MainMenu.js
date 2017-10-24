@@ -11,11 +11,13 @@ import strings from './strings';
 
 type State = {
   isMenuVisible: boolean,
+  isMenuButtonVisible: boolean,
 };
 
 type Props = {
   className: string,
   onToggle: ((isMainMenuOpen: boolean) => void),
+  isEditMode: boolean,
 };
 
 
@@ -29,24 +31,30 @@ function MenuIcon(props) {
   </svg>);
 }
 
+const menuButtonVisibilityBreakpoint = 1024;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
     isMenuVisible: false,
+    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
   boundOnResize: (() => void);
 
   onResize() {
-    if (window.innerWidth > 1024) {
-      this.setState({ isMenuVisible: false });
+    if (window.innerWidth > menuButtonVisibilityBreakpoint) {
+      this.setState({ isMenuVisible: false, isMenuButtonVisible: false });
       this.props.onToggle(false);
+    } else {
+      this.setState({ isMenuButtonVisible: true });
     }
   }
 
   constructor(props: Props) {
     super(props);
     this.boundOnResize = this.onResize.bind(this);
+    this.focusToLastElement = this.focusToLastElement.bind(this);
+    this.focusToFirstElement = this.focusToFirstElement.bind(this);
   }
 
   componentDidMount() {
@@ -57,6 +65,10 @@ class MainMenu extends React.Component<Props, State> {
     window.removeEventListener('resize', this.boundOnResize);
   }
 
+  componentDidUpdate() {
+    this.state.isMenuVisible ? this.setupFocusTrap() : this.tearDownFocusTrap();
+  }
+
   toggleMenu() {
     const newState = !this.state.isMenuVisible;
     this.setState({
@@ -64,6 +76,30 @@ class MainMenu extends React.Component<Props, State> {
     });
 
     this.props.onToggle(newState);
+  }
+
+  setupFocusTrap() {
+    this.homeLink.addEventListener('keydown', this.focusToLastElement);
+    this.addPlaceLink.addEventListener('keydown', this.focusToFirstElement);
+  }
+
+  tearDownFocusTrap() {
+    this.homeLink.removeEventListener('keydown', this.focusToLastElement);
+    this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);
+  }
+
+  focusToFirstElement(event) {
+    if (event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
+      this.homeLink.focus();
+    }
+  }
+
+  focusToLastElement(event) {
+    if (event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault();
+      this.addPlaceLink.focus();
+    }
   }
 
   render() {
@@ -78,9 +114,11 @@ class MainMenu extends React.Component<Props, State> {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
+    const { isEditMode } = this.props;
+
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <a href="/beta">
+        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} >
           <Logo className="logo" width={123} height={30} />
         </a>
       </div>
@@ -93,18 +131,31 @@ class MainMenu extends React.Component<Props, State> {
 
       <div className="flexible-separator" />
 
-      <a className="nav-link" href="https://travelable.info">{travelGuide}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter">{getInvolved}</a>
-      <a className="nav-link" href="https://news.wheelmap.org">{news}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/presse">{press}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/kontakt">{contact}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/imprint">{imprint}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/faq">{faq}</a>
-      <a className="nav-link add-place-link" href="/nodes/new">{addMissingPlace}</a>
-
-      <button className="menu" onClick={() => this.toggleMenu()}>
+      <button
+        className="menu"
+        onClick={() => this.toggleMenu()}
+        tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
+      >
         {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
       </button>
+
+      <a className="nav-link" href="https://travelable.info" tabIndex={isEditMode ? -1 : 0} >{travelGuide}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={isEditMode ? -1 : 0} >
+        {getInvolved}
+      </a>
+      <a className="nav-link" href="https://news.wheelmap.org" tabIndex={isEditMode ? -1 : 0} >{news}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={isEditMode ? -1 : 0} >{press}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={isEditMode ? -1 : 0} >{contact}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={isEditMode ? -1 : 0} >{imprint}</a>
+      <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} >{faq}</a>
+      <a
+        className="nav-link add-place-link"
+        href="/nodes/new"
+        ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
+        tabIndex={isEditMode ? -1 : 0}
+      >
+        {addMissingPlace}
+      </a>
     </nav>);
   }
 }
@@ -129,6 +180,10 @@ const StyledMainMenu = styled(MainMenu)`
 
   .home-link {
     margin-right: 1em;
+
+    a {
+      display: inline-block;
+    }
   }
 
   .logo {
@@ -163,7 +218,7 @@ const StyledMainMenu = styled(MainMenu)`
     &, &:visited {
       color: ${colors.darkLinkColor};
     }
-    &:hover {
+    &:hover, &:focus {
       color: ${colors.linkColor};
       background-color: ${colors.linkBackgroundColorTransparent};
     }
@@ -179,7 +234,7 @@ const StyledMainMenu = styled(MainMenu)`
     &, &:visited {
       color: ${colors.primaryColor};
     }
-    &:hover {
+    &:hover, &:focus {
       color: ${hsl(colors.primaryColor).darker(1)};
       background-color: ${hsl(colors.primaryColor).brighter(1.7)};
     }
@@ -197,7 +252,6 @@ const StyledMainMenu = styled(MainMenu)`
     display: flex;
     align-items: center;
     justify-content: center;
-    outline: none;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -226,7 +280,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  @media (max-width: 1024px) {
+  @media (max-width: ${menuButtonVisibilityBreakpoint}px) {
     position: absolute;
     top: 0;
     left: 0;

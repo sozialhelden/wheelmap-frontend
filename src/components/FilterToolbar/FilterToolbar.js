@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import { RadioGroup, Radio } from 'react-radio-group';
 
 import CloseIcon from '../icons/actions/Close';
@@ -37,18 +38,81 @@ type DefaultProps = {};
 
 type State = {
   filterName: FilterName,
+  toiletCheckboxFocused: boolean,
 };
 
-
-const PositionedCloseLink = styled(CloseIcon)`
+const PositionedCloseButton = styled.button`
   position: absolute;
   top: 0px;
   right: 0px;
   padding: 5px;
   padding: 10px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
-`;
+`
 
+const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
+  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown}>
+    <CloseIcon {...restProps} />
+  </PositionedCloseButton>
+
+type CustomRadioProps = {
+  currentFilterName: string,
+  value: string,
+}
+
+type CustomRadioState = {
+  isFocused: boolean,
+}
+
+class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
+  state = {
+    isFocused: false
+  }
+
+  constructor(props) {
+    super(props);
+
+    this.onFocus = this.onFocus.bind(this);
+    this.onBlur = this.onBlur.bind(this);
+  }
+
+  componentDidMount() {
+    const { currentFilterName, value } = this.props;
+    if (currentFilterName === value) {
+      this.radioButton.focus();
+    }
+  }
+
+  onFocus() {
+    this.setState({ isFocused: true})
+  }
+
+  onBlur() {
+    this.setState({ isFocused: false})
+  }
+
+  focus() {
+    this.radioButton.focus();
+  }
+
+  render() {
+    const { currentFilterName, value } = this.props;
+    const RadioButton = currentFilterName === value ? RadioButtonSelected : RadioButtonUnselected;
+    return (
+      <div>
+        <Radio
+          value={value}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          ref={radioButtonInstance => this.radioButton = findDOMNode(radioButtonInstance)}
+        />
+        <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} />
+      </div>
+    );
+  }
+}
 
 class FilterToolbar extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
@@ -56,7 +120,41 @@ class FilterToolbar extends React.Component<Props, State> {
 
   state = {
     filterName: 'all',
+    toiletCheckboxFocused: false,
   };
+
+  constructor(props) {
+    super(props);
+
+    this.trapFocus = this.trapFocus.bind(this);
+    this.escapeHandler = this.escapeHandler.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keydown', this.escapeHandler);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.escapeHandler);
+  }
+
+  escapeHandler(event) {
+    if (event.key === 'Escape') {
+      this.props.onCloseClicked();
+    }
+  }
+
+  trapFocus({nativeEvent}) {
+    if (nativeEvent.target === this.toiletCheckbox && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.closeButton.focus();
+    }
+
+    if (nativeEvent.target === this.closeButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.toiletCheckbox.focus();
+    }
+  }
 
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;
@@ -64,10 +162,6 @@ class FilterToolbar extends React.Component<Props, State> {
     // const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
     const shouldShowToiletFilter = () => true;
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
-    function CustomRadio({ value }: { value: string }) {
-      const RadioButton = filterName === value ? RadioButtonSelected : RadioButtonUnselected;
-      return <RadioButton className="radio-button" />;
-    }
 
     // translator: Shown at the top of the filter toolbar
     const headerText = t`Which places do you want to see?`;
@@ -95,7 +189,12 @@ class FilterToolbar extends React.Component<Props, State> {
         isSwipeable={false}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
-        <PositionedCloseLink onClick={this.props.onCloseClicked} className="close-icon" />
+        <CloseButton
+          closeButtonRef={closeButton => this.closeButton = closeButton}
+          onClick={this.props.onCloseClicked}
+          onKeyDown={this.trapFocus}
+          className="close-icon"
+        />
         <header>{headerText}</header>
         <section>
           <RadioGroup
@@ -117,26 +216,22 @@ class FilterToolbar extends React.Component<Props, State> {
             }}
           >
             <label>
-              <Radio value="all" />
-              <CustomRadio value="all" />
+              <CustomRadio currentFilterName={filterName} value="all" />
               <span className="icon"><AllAccessibilitiesIcon /></span>
               <span className="caption">{allCaption}</span>
             </label>
             <label>
-              <Radio value="partial" />
-              <CustomRadio value="partial" />
+              <CustomRadio currentFilterName={filterName} value="partial" />
               <span className="icon"><AtLeastPartialAccessibilityIcon /></span>
               <span className="caption">{atLeastPartialCaption}</span>
             </label>
             <label>
-              <Radio value="full" />
-              <CustomRadio value="full" />
+              <CustomRadio currentFilterName={filterName} value="full" />
               <span className="icon"><FullAccessibilityIcon /></span>
               <span className="caption">{fullyCaption}</span>
             </label>
             <label>
-              <Radio value="unknown" />
-              <CustomRadio value="unknown" />
+              <CustomRadio currentFilterName={filterName} value="unknown" />
               <span className="icon"><UnknownAccessibilityIcon /></span>
               <span className="caption">{unknownCaption}</span>
             </label>
@@ -145,6 +240,7 @@ class FilterToolbar extends React.Component<Props, State> {
         <section className={shouldShowToiletFilter(filterName) ? '' : 'section-hidden'}>
           <label htmlFor="toilet-filter">
             <input
+              ref={toiletCheckbox => this.toiletCheckbox = toiletCheckbox }
               onChange={(event) => {
                 const value = event.target.checked;
                 const filter = { toilet: (value === true) ? 'yes' : null };
@@ -156,8 +252,11 @@ class FilterToolbar extends React.Component<Props, State> {
               type="checkbox"
               id="toilet-filter"
               checked={isToiletFilterEnabled}
+              onFocus={() => this.setState({toiletCheckboxFocused: true})}
+              onBlur={() => this.setState({toiletCheckboxFocused: false})}
+              onKeyDown={this.trapFocus}
             />
-            <span className="icon">
+            <span className={`icon${ this.state.toiletCheckboxFocused ? ' focus-ring' : ''}`}>
               {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
             </span>
             <span className="caption">{toiletFilterCaption}</span>
@@ -226,6 +325,11 @@ const StyledFilterToolbar = styled(FilterToolbar)`
     &:focus {
       background-color: yellow;
     }
+  }
+
+  .radio-button.focus-ring {
+    border-radius: 100%;
+    box-shadow: 0px 0px 0px 2px #4469E1;
   }
 `;
 
