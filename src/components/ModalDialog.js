@@ -25,7 +25,7 @@ function ModalDialog(props: Props) {
 
   return (
     <div className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}>
-      <div className={'modal-dialog-fullscreen-overlay'} onClick={props.onClose} />
+      <div className={'modal-dialog-fullscreen-overlay'} onClick={props.onClose} aria-hidden='true' />
       <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
         <div className={'modal-dialog-content'}>
           <button className={'close-dialog'} onClick={props.onClose}>
@@ -135,4 +135,3 @@ const StyledModalDialog = styled(ModalDialog)`
   }
 `;
 export default StyledModalDialog;
-

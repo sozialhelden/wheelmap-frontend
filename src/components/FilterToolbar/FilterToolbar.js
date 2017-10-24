@@ -103,6 +103,7 @@ class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
     return (
       <div>
         <Radio
+          id={value}
           value={value}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
@@ -215,22 +216,22 @@ class FilterToolbar extends React.Component<Props, State> {
               }, 120);
             }}
           >
-            <label>
+            <label htmlFor="all">
               <CustomRadio currentFilterName={filterName} value="all" />
               <span className="icon"><AllAccessibilitiesIcon /></span>
               <span className="caption">{allCaption}</span>
             </label>
-            <label>
+            <label htmlFor="partial">
               <CustomRadio currentFilterName={filterName} value="partial" />
               <span className="icon"><AtLeastPartialAccessibilityIcon /></span>
               <span className="caption">{atLeastPartialCaption}</span>
             </label>
-            <label>
+            <label htmlFor="full">
               <CustomRadio currentFilterName={filterName} value="full" />
               <span className="icon"><FullAccessibilityIcon /></span>
               <span className="caption">{fullyCaption}</span>
             </label>
-            <label>
+            <label htmlFor="unknown">
               <CustomRadio currentFilterName={filterName} value="unknown" />
               <span className="icon"><UnknownAccessibilityIcon /></span>
               <span className="caption">{unknownCaption}</span>

@@ -29,6 +29,12 @@ function hasBigViewport() {
 
 
 class SearchInputField extends React.Component<Props> {
+  componentDidMount() {
+    if (hasBigViewport) {
+      this.focus();
+    }
+  }
+
   focus() {
     this.input.focus();
   }
