@@ -21,5 +21,7 @@ export default function strings() {
     faq: t`FAQ`,
     // translator: Main menu item
     addMissingPlace: t`Add missing place`,
+    // translator: Claim in the main menu toolbar, next to the logo
+    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`,
   };
 };
