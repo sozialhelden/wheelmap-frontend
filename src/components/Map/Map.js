@@ -403,7 +403,14 @@ export default class Map extends React.Component<Props, State> {
       isApplePlatform() ? 'is-apple-platform' : null,
       this.props.className,
     ].filter(Boolean).join(' ');
-    return (<section className={className} ref={el => (this.mapElement = el)} />);
+
+    return (
+      <section
+        className={className}
+        ref={el => (this.mapElement = el)}
+        aria-hidden="true"
+      />
+    );
   }
 
 

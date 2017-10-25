@@ -55,6 +55,7 @@ export default function CategoryButton(props: Props) {
     onBlur={props.onBlur}
     onKeyDown={props.onKeyDown}
     tabIndex={props.hidden ? -1 : 0}
+    aria-hidden={true}
   >
     <IconButton iconComponent={<SvgComponent />} caption={props.name} />
   </StyledNavLink>);
