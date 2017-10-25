@@ -70,6 +70,7 @@ class SearchInputField extends React.Component<Props> {
       onClick={onClick}
       className={`search-input ${className}`}
       placeholder={value === '' ? defaultPlaceholder : null}
+      aria-label={defaultPlaceholder}
       />);
   }
 }
