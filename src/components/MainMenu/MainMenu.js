@@ -55,6 +55,7 @@ class MainMenu extends React.Component<Props, State> {
     this.boundOnResize = this.onResize.bind(this);
     this.focusToLastElement = this.focusToLastElement.bind(this);
     this.focusToFirstElement = this.focusToFirstElement.bind(this);
+    this.focusFirstMenuElement = this.focusFirstMenuElement.bind(this);
   }
 
   componentDidMount() {
@@ -65,8 +66,16 @@ class MainMenu extends React.Component<Props, State> {
     window.removeEventListener('resize', this.boundOnResize);
   }
 
-  componentDidUpdate() {
-    this.state.isMenuVisible ? this.setupFocusTrap() : this.tearDownFocusTrap();
+  componentDidUpdate(_, prevState) {
+    if (this.state.isMenuVisible) {
+      this.setupFocusTrap()
+
+      if (!prevState.isMenuVisible) {
+        this.focusFirstMenuElement();
+      }
+    } else {
+      this.tearDownFocusTrap();
+    }
   }
 
   toggleMenu() {
@@ -100,6 +109,10 @@ class MainMenu extends React.Component<Props, State> {
       event.preventDefault();
       this.addPlaceLink.focus();
     }
+  }
+
+  focusFirstMenuElement() {
+    this.firstMenuElement.focus();
   }
 
   render() {
@@ -139,7 +152,14 @@ class MainMenu extends React.Component<Props, State> {
         {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
       </button>
 
-      <a className="nav-link" href="https://travelable.info" tabIndex={isEditMode ? -1 : 0} >{travelGuide}</a>
+      <a
+        className="nav-link"
+        href="https://travelable.info"
+        ref={firstMenuElement => this.firstMenuElement = firstMenuElement}
+        tabIndex={isEditMode ? -1 : 0}
+      >
+        {travelGuide}
+      </a>
       <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={isEditMode ? -1 : 0} >
         {getInvolved}
       </a>
