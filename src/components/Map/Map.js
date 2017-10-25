@@ -220,7 +220,6 @@ export default class Map extends React.Component<Props, State> {
   removeLayersNotVisibleInZoomLevel() {
     const map: L.Map = this.map;
     const featureLayer = this.featureLayer;
-    const wheelmapTileLayer = this.wheelmapTileLayer;
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
     if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
