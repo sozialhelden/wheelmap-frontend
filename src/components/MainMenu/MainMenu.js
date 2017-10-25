@@ -131,7 +131,7 @@ class MainMenu extends React.Component<Props, State> {
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} >
+        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} aria-label={`Home`}>
           <Logo className="logo" width={123} height={30} />
         </a>
       </div>
@@ -148,38 +148,46 @@ class MainMenu extends React.Component<Props, State> {
         className="menu"
         onClick={() => this.toggleMenu()}
         tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
+        aria-hidden={!this.state.isMenuButtonVisible}
+        aria-label={`Menü`}
+        aria-haspopup="true"
+        aria-expanded={this.state.isMenuVisible}
+        aria-controls="main-menu"
       >
         {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
       </button>
 
-      <a
-        className="nav-link"
-        href="https://travelable.info"
-        ref={firstMenuElement => this.firstMenuElement = firstMenuElement}
-        tabIndex={isEditMode ? -1 : 0}
-      >
-        {travelGuide}
-      </a>
-      <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={isEditMode ? -1 : 0} >
-        {getInvolved}
-      </a>
-      <a className="nav-link" href="https://news.wheelmap.org" tabIndex={isEditMode ? -1 : 0} >{news}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={isEditMode ? -1 : 0} >{press}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={isEditMode ? -1 : 0} >{contact}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={isEditMode ? -1 : 0} >{imprint}</a>
-      <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} >{faq}</a>
-      <a
-        className="nav-link add-place-link"
-        href="/nodes/new"
-        ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
-        tabIndex={isEditMode ? -1 : 0}
-      >
-        {addMissingPlace}
-      </a>
+      <div id="main-menu" role="menu">
+        <a
+          className="nav-link"
+          href="https://travelable.info"
+          ref={firstMenuElement => this.firstMenuElement = firstMenuElement}
+          tabIndex={isEditMode ? -1 : 0}
+          role="menuitem"
+        >
+          {travelGuide}
+        </a>
+        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={isEditMode ? -1 : 0} role="menuitem" >
+          {getInvolved}
+        </a>
+        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{news}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{press}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{contact}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{imprint}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{faq}</a>
+        <a
+          className="nav-link add-place-link"
+          href="/nodes/new"
+          ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
+          tabIndex={isEditMode ? -1 : 0}
+          role="menuitem"
+        >
+          {addMissingPlace}
+        </a>
+      </div>
     </nav>);
   }
 }
-
 
 const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4);
 openMenuHoverColor.opacity = 0.5;
@@ -230,7 +238,15 @@ const StyledMainMenu = styled(MainMenu)`
     flex: 1;
   }
 
-  > .nav-link {
+  #main-menu {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .nav-link {
     padding: 10px 16px;
     box-sizing: border-box;
     border-radius: 4px;
@@ -248,7 +264,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  > .add-place-link {
+  .add-place-link {
     font-weight: 500;
     white-space: nowrap;
     &, &:visited {
@@ -319,21 +335,21 @@ const StyledMainMenu = styled(MainMenu)`
       display: none;
     }
 
-    > .nav-link {
+    .nav-link {
       width: 50%;
       max-width: 220px;
       display: none;
       align-items: center;
     }
 
-    > .home-link {
+    .home-link {
       width: 100%;
       a {
         display: inline-block;
       }
     }
 
-    > .nav-link, > .home-link {
+    .nav-link, .home-link {
       height: 44px;
       padding: 2px 10px;
       box-sizing: border-box;
@@ -342,7 +358,7 @@ const StyledMainMenu = styled(MainMenu)`
     &.is-open {
       background-color: rgba(254, 254, 254, 0.9);
       height: auto;
-      > .nav-link {
+      .nav-link {
         display: flex;
       }
       button.menu {
@@ -370,7 +386,7 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   @media (max-width: 400px) {
-    > .nav-link {
+    .nav-link {
       width: 100%;
       max-width: 100%;
     }
