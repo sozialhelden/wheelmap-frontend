@@ -12,6 +12,7 @@ type Props = {
   className: string,
   children: AnyReactElement,
   hidden?: boolean,
+  inert?: boolean,
   minimalHeight?: number,
   isSwipeable?: boolean,
   isModal?: boolean,
@@ -216,7 +217,6 @@ class Toolbar extends React.Component<Props, State> {
     this.scrollElement.focus();
   }
 
-
   render() {
     const classNames = [
       'toolbar',
@@ -234,6 +234,7 @@ class Toolbar extends React.Component<Props, State> {
         style={this.getStyle()}
         ref={(nav) => { this.scrollElement = nav; }}
         tabIndex={-1}
+        aria-hidden={this.props.inert}
       >
         {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
         {this.props.children}

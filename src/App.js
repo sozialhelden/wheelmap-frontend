@@ -342,6 +342,11 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
+    const searchToolbarIsHidden =
+      isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible || this.state.isNotFoundVisible;
+
+    const searchToolbarIsInert = searchToolbarIsHidden || this.state.isMainMenuOpen;
+
     return (<div className={classList.join(' ')}>
       {isLocalizationLoaded ? <MainMenu
         className="main-menu"
@@ -352,7 +357,8 @@ class FeatureLoader extends React.Component<Props, State> {
       {isLocalizationLoaded ? <SearchToolbar
         ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
-        hidden={isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible || this.state.isNotFoundVisible}
+        hidden={searchToolbarIsHidden}
+        inert={searchToolbarIsInert}
         category={category}
         searchQuery={searchQuery}
         onChangeSearchQuery={(newSearchQuery) => {

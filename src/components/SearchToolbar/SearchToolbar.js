@@ -20,6 +20,7 @@ import type { SearchResultCollection } from './SearchResults';
 type Props = {
   history: RouterHistory,
   hidden: boolean,
+  inert: boolean,
   category: ?string,
   searchQuery: ?string,
   lat: ?number,
@@ -277,6 +278,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
       <StyledToolbar
         className={className}
         hidden={this.props.hidden}
+        inert={this.props.inert}
         minimalHeight={75}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         isSwipeable={false}
