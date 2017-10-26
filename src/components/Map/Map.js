@@ -407,7 +407,6 @@ export default class Map extends React.Component<Props, State> {
       <section
         className={className}
         ref={el => (this.mapElement = el)}
-        aria-hidden="true"
       />
     );
   }

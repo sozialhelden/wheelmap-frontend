@@ -102,7 +102,6 @@ class FilterButton extends React.Component<Props, void> {
       title={filterButtonHint}
       onClick={this.props.onClick}
       tabIndex={0}
-      aria-hidden="true"
     >
       <header>
         {Icon ? <Icon /> : <span>?</span>}
