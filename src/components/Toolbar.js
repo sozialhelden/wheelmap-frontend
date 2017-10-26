@@ -13,6 +13,7 @@ type Props = {
   children: AnyReactElement,
   hidden?: boolean,
   inert?: boolean,
+  role?: string,
   minimalHeight?: number,
   isSwipeable?: boolean,
   isModal?: boolean,
@@ -37,6 +38,7 @@ class Toolbar extends React.Component<Props, State> {
     minimalHeight: 130,
     isSwipeable: true,
     isModal: false,
+    role: ''
   };
 
   props: Props;
@@ -229,16 +231,16 @@ class Toolbar extends React.Component<Props, State> {
       onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
       onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
     >
-      <nav
+      <section
         className={className}
         style={this.getStyle()}
         ref={(nav) => { this.scrollElement = nav; }}
-        tabIndex={-1}
         aria-hidden={this.props.inert}
+        role={this.props.role}
       >
         {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
         {this.props.children}
-      </nav>
+      </section>
     </Swipeable>);
   }
 }

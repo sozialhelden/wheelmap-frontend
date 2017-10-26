@@ -282,6 +282,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         minimalHeight={75}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         isSwipeable={false}
+        role="search"
       >
         <header>
           {(this.props.searchQuery || this.props.category) ? <CloseLink
