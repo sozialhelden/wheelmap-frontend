@@ -12,7 +12,7 @@ import 'wicg-focus-ring'
 import registerServiceWorker from './registerServiceWorker';
 
 if (process.env.NODE_ENV === 'development') {
-  a11y(React);
+  a11y(React, { ReactDOM: ReactDOM });
 }
 
 ReactDOM.render(
