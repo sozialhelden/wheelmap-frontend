@@ -407,6 +407,8 @@ export default class Map extends React.Component<Props, State> {
       <section
         className={className}
         ref={el => (this.mapElement = el)}
+        role="main"
+        aria-label={`Map`}
       />
     );
   }
