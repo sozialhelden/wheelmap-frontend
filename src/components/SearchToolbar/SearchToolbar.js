@@ -332,6 +332,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
               this.props.onChangeSearchQuery(event.target.value);
               this.handleSearchInputChange(event);
             }}
+            ariaRole="searchbox"
           />
 
           <SearchIcon className="search-icon" />

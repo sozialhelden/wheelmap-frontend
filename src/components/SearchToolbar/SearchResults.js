@@ -282,7 +282,7 @@ type Props = {
 function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
   const features = uniq(props.searchResults.features, id);
-  return (<ul className={`search-results ${props.className}`}>
+  return (<ul className={`search-results ${props.className}`} aria-label={`Search results`}>
     {features.map(result => (<SearchResult
       result={result}
       key={id(result)}

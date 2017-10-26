@@ -20,6 +20,7 @@ type Props = {
   placeholder: ?string,
   disabled: ?boolean,
   hidden: boolean,
+  ariaRole: string,
 };
 
 
@@ -53,7 +54,8 @@ class SearchInputField extends React.Component<Props> {
       onBlur,
       onClick,
       className,
-      placeholder
+      placeholder,
+      ariaRole,
     } = this.props;
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search place or address`;
@@ -71,6 +73,7 @@ class SearchInputField extends React.Component<Props> {
       className={`search-input ${className}`}
       placeholder={value === '' ? defaultPlaceholder : null}
       aria-label={defaultPlaceholder}
+      role={ariaRole}
       />);
   }
 }
