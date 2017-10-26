@@ -19,6 +19,23 @@ type Props = {
 }
 
 class CloseLink extends React.Component<Props> {
+
+  onClick = event => {
+    if (this.props.onClick) {
+      this.props.onClick(event);
+      return;
+    }
+    event.preventDefault();
+    const params = getQueryParams();
+    this.props.history.push(`/beta#?${queryString.stringify(params)}`);
+  }
+
+  onKeyDown = event => {
+    if (event.nativeEvent.key === 'Enter' || event.nativeEvent.key === ' ') {
+      this.onClick(event);
+    }
+  }
+
   focus() {
     const linkElement = ReactDOM.findDOMNode(this.linkInstance)
     linkElement.focus();
@@ -32,15 +49,8 @@ class CloseLink extends React.Component<Props> {
         className={this.props.className}
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
-        onClick={(event) => {
-          if (this.props.onClick) {
-            this.props.onClick(event);
-            return;
-          }
-          event.preventDefault();
-          const params = getQueryParams();
-          this.props.history.push(`/beta#?${queryString.stringify(params)}`);
-        }}
+        onClick={this.onClick}
+        onKeyDown={this.onKeyDown}
         role='button'
         aria-label={`close`}
       >
