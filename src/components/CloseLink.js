@@ -41,6 +41,8 @@ class CloseLink extends React.Component<Props> {
           const params = getQueryParams();
           this.props.history.push(`/beta#?${queryString.stringify(params)}`);
         }}
+        role='button'
+        aria-label={`close`}
       >
         <CloseIcon />
       </Link>
