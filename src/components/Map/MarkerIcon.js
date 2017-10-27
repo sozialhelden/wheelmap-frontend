@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import * as categoryIcons from '../icons/categories';
 import getIconNameForProperties from './getIconNameForProperties';
 import { getColorForWheelchairAccessibility } from '../../lib/colors';
+import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 
 
 // Extend Leaflet-icon to support colors and category images
@@ -54,7 +55,11 @@ export default class MarkerIcon extends L.Icon {
     link.classList.add('ac-marker');
     link.classList.add(`ac-marker-${color}`);
 
-    link.setAttribute('aria-label', properties.name)
+
+    const wheelchairAccessibilityText = accessibilityName(isWheelchairAccessible(properties));
+
+    const accessibleName = `${properties.name} ${wheelchairAccessibilityText}`
+    link.setAttribute('aria-label', accessibleName)
     return link;
   }
 
