@@ -115,8 +115,8 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   focus() {
-    if (this.closeLink) {
-      this.closeLink.focus();
+    if (this.nodeFooter) {
+      this.nodeFooter.focus();
       this.shouldBeFocused = false;
     } else {
       this.shouldBeFocused = true;
@@ -130,10 +130,6 @@ class NodeToolbar extends React.Component<Props, State> {
 
     if (prevState.isReportMode && !this.state.isReportMode) {
       this.reportModeButton.focus();
-    }
-
-    if (prevProps.featureId !== this.props.featureId) {
-      this.closeLink.focus();
     }
   }
 
@@ -160,7 +156,6 @@ class NodeToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
-          innerRef={closeLink => this.closeLink = closeLink}
           history={this.props.history}
           onClick={() => {
             this.toggleReportMode(false);
