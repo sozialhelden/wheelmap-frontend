@@ -53,6 +53,8 @@ export default class MarkerIcon extends L.Icon {
     const color = getColorForWheelchairAccessibility(properties);
     link.classList.add('ac-marker');
     link.classList.add(`ac-marker-${color}`);
+
+    link.setAttribute('aria-label', properties.name)
     return link;
   }
 
