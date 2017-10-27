@@ -154,7 +154,7 @@ class NodeToolbar extends React.Component<Props, State> {
         hidden={this.props.hidden}
         isModal={this.props.isEditMode || this.state.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
-        role="complementary"
+        role="dialog"
         ariaLabel={`Location Info`}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
