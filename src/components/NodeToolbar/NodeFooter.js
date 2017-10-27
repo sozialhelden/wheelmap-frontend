@@ -146,6 +146,8 @@ export default class NodeFooter extends React.Component<Props> {
         ref={contributionLinkInstance => this.contributionLink = findDOMNode(contributionLinkInstance)}
         className="link-button edit-link-button"
         to={`/beta/nodes/${featureId}/edit`}
+        role="button"
+        aria-label={editButtonCaption}
       >
         <span>{editButtonCaption}</span>{editHint || null}
       </Link>);
