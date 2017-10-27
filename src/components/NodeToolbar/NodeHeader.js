@@ -103,7 +103,7 @@ export default class NodeHeader extends React.Component<Props, void> {
 
     const placeName = (<PlaceName>
       {categoryOrParentCategory ?
-        <Icon properties={properties} category={categoryOrParentCategory} />
+        <Icon properties={properties} category={categoryOrParentCategory} ariaHidden={true}/>
         : null
       }
       {(properties.name || categoryName || t`Unnamed place`).replace(/(\w)\/(\w)/g, '$1 / $2')}
