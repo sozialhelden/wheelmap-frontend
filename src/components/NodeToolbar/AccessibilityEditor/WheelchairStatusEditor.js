@@ -139,52 +139,59 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
     const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
 
-    return (<section className={classList.join(' ')}>
-      <header>How wheelchair accessible is this place?</header>
-
-      <StyledRadioGroup
-        name="accessibility"
-        selectedValue={wheelchairAccessibility}
-        onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
-        className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
-        onKeyDown={this.onRadioGroupKeyDown}
+    return (
+      <section
+        className={classList.join(' ')}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="wheelchair-accessibility-header"        
       >
-        {['yes', 'limited', 'no'].map((value, index) =>
-          <CustomRadio
-            key={value}
-            ref={radioButton => {
-              const radioButtonIsSelected = value === wheelchairAccessibility;
+        <header id="wheelchair-accessibility-header">How wheelchair accessible is this place?</header>
 
-              if (radioButtonIsSelected) {
-                this.toBeFocusedRadioButton = radioButton;
-              } else if (index === 0) {
-                this.toBeFocusedRadioButton = radioButton;
-              }
-            }}
-            shownValue={value}
-            currentValue={wheelchairAccessibility}
-            caption={shortAccessibilityName(value)}
-            description={accessibilityDescription(value)}
-          />
-        )}
-      </StyledRadioGroup>
+        <StyledRadioGroup
+          name="accessibility"
+          selectedValue={wheelchairAccessibility}
+          onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
+          className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
+          onKeyDown={this.onRadioGroupKeyDown}
+        >
+          {['yes', 'limited', 'no'].map((value, index) =>
+            <CustomRadio
+              key={value}
+              ref={radioButton => {
+                const radioButtonIsSelected = value === wheelchairAccessibility;
 
-      <footer>
-        <button
-          className={`link-button ${valueHasChanged ? 'negative-button' : ''}`}
-          onClick={this.props.onClose}
-        >
-          {backOrCancelButtonCaption}
-        </button>
-        <button
-          className="link-button primary-button"
-          disabled={!valueIsDefined}
-          onClick={this.onSaveButtonClick}
-        >
-          {saveButtonCaption}
-        </button>
-      </footer>
-    </section>);
+                if (radioButtonIsSelected) {
+                  this.toBeFocusedRadioButton = radioButton;
+                } else if (index === 0) {
+                  this.toBeFocusedRadioButton = radioButton;
+                }
+              }}
+              shownValue={value}
+              currentValue={wheelchairAccessibility}
+              caption={shortAccessibilityName(value)}
+              description={accessibilityDescription(value)}
+            />
+          )}
+        </StyledRadioGroup>
+
+        <footer>
+          <button
+            className={`link-button ${valueHasChanged ? 'negative-button' : ''}`}
+            onClick={this.props.onClose}
+          >
+            {backOrCancelButtonCaption}
+          </button>
+          <button
+            className="link-button primary-button"
+            disabled={!valueIsDefined}
+            onClick={this.onSaveButtonClick}
+          >
+            {saveButtonCaption}
+          </button>
+        </footer>
+      </section>
+    );
   }
 }
 

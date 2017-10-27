@@ -36,25 +36,31 @@ export default class ReportProblemButton extends React.Component<Props> {
 
     const { osmPositionHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
 
-    return (<section>
-      <p>{osmPositionHint}</p>
-      <p className="subtle">{osmLoginHint}</p>
-      <a
-        href={url}
-        className="link-button"
-        ref={editLink => this.editLink = editLink}
-        onKeyDown={this.trapFocus}
+    return (
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="osm-position-hint osm-login-hint"        
       >
-        {editButtonCaption}
-      </a>
-      <button
-        className="link-button negative-button"
-        onClick={this.props.onClose}
-        ref={backButton => this.backButton = backButton}
-        onKeyDown={this.trapFocus}
-      >
-        {backButtonCaption}
-      </button>
-    </section>);
+        <p id="osm-position-hint">{osmPositionHint}</p>
+        <p className="subtle" id="osm-login-hint">{osmLoginHint}</p>
+        <a
+          href={url}
+          className="link-button"
+          ref={editLink => this.editLink = editLink}
+          onKeyDown={this.trapFocus}
+        >
+          {editButtonCaption}
+        </a>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => this.backButton = backButton}
+          onKeyDown={this.trapFocus}
+        >
+          {backButtonCaption}
+        </button>
+      </section>
+    );
   }
 }

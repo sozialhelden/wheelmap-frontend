@@ -139,38 +139,44 @@ class ReportDialog extends React.Component<Props, State> {
       />);
     }
 
-    return (<div className={this.props.className}>
-      <header>{reportIssueHeader}</header>
-
-      <ul className="issue-types">
-        {issues(feature.properties).map((issue, index) => (
-          <li key={issue.className} className={issue.className}>
-            <button
-              className={`link-button full-width-button ${issue.className}`}
-              ref={firstIssueButton => {
-                if(index === 0) {
-                  this.firstIssueButton = firstIssueButton
-                }
-              }}
-              onClick={() => {
-                this.setState({ SelectedComponentClass: issue.component });
-              }}
-              onKeyDown={this.trapFocus}
-            >
-              {issue.issueText()}
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <button
-        className="link-button negative-button"
-        ref={backButton => this.backButton = backButton}
-        onClick={this.props.onClose}
-        onKeyDown={this.trapFocus}
+    return (
+      <div
+        className={this.props.className}
+        role="dialog"
+        aria-labelledby="report-dialog-header"
+        aria-modal="true"
       >
-        {backButtonCaption}
-      </button>
+        <header id='report-dialog-header'>{reportIssueHeader}</header>
+
+        <ul className="issue-types">
+          {issues(feature.properties).map((issue, index) => (
+            <li key={issue.className} className={issue.className}>
+              <button
+                className={`link-button full-width-button ${issue.className}`}
+                ref={firstIssueButton => {
+                  if(index === 0) {
+                    this.firstIssueButton = firstIssueButton
+                  }
+                }}
+                onClick={() => {
+                  this.setState({ SelectedComponentClass: issue.component });
+                }}
+                onKeyDown={this.trapFocus}
+              >
+                {issue.issueText()}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <button
+          className="link-button negative-button"
+          ref={backButton => this.backButton = backButton}
+          onClick={this.props.onClose}
+          onKeyDown={this.trapFocus}
+        >
+          {backButtonCaption}
+        </button>
     </div>);
   }
 }

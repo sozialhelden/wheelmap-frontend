@@ -36,26 +36,32 @@ export default class ReportProblemButton extends React.Component<Props> {
 
     const { osmHint, osmEditHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
 
-    return (<section>
-      <p>{osmHint}</p>
-      <p>{osmEditHint}</p>
-      <p className="subtle">{osmLoginHint}</p>
-      <a
-        href={url}
-        className="link-button"
-        ref={editLink => this.editLink = editLink}
-        onKeyDown={this.trapFocus}
+    return (
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="osm-hint osm-edit-hint osm-login-hint"
       >
-        {editButtonCaption}
-      </a>
-      <button
-        className="link-button negative-button"
-        onClick={this.props.onClose}
-        ref={backButton => this.backButton = backButton}
-        onKeyDown={this.trapFocus}
-      >
-        {backButtonCaption}
-      </button>
-    </section>);
+        <p id="osm-hint">{osmHint}</p>
+        <p id="osm-edit-hint">{osmEditHint}</p>
+        <p className="subtle" id="osm-login-hint">{osmLoginHint}</p>
+        <a
+          href={url}
+          className="link-button"
+          ref={editLink => this.editLink = editLink}
+          onKeyDown={this.trapFocus}
+        >
+          {editButtonCaption}
+        </a>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => this.backButton = backButton}
+          onKeyDown={this.trapFocus}
+        >
+          {backButtonCaption}
+        </button>
+      </section>
+    );
   }
 }

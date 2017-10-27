@@ -58,24 +58,30 @@ export default class ReportProblemButton extends React.Component<Props> {
     const body = reportBody(url);
     const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-    return (<section>
-      <p>{apologyAndSolution}</p>
-      <a
-        href={reportMailToLink}
-        className="link-button"
-        ref={mailLink => this.mailLink = mailLink}
-        onKeyDown={this.trapFocus}
+    return (
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="apology-and-solution"
       >
-        {contactButtonCaption}
-      </a>
-      <button
-        className="link-button negative-button"
-        onClick={this.props.onClose}
-        ref={backButton => this.backButton = backButton}
-        onKeyDown={this.trapFocus}
-      >
-        {backButtonCaption}
-      </button>
-    </section>);
+        <p id="apology-and-solution">{apologyAndSolution}</p>
+        <a
+          href={reportMailToLink}
+          className="link-button"
+          ref={mailLink => this.mailLink = mailLink}
+          onKeyDown={this.trapFocus}
+        >
+          {contactButtonCaption}
+        </a>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => this.backButton = backButton}
+          onKeyDown={this.trapFocus}
+        >
+          {backButtonCaption}
+        </button>
+      </section>
+    );
   }
 }

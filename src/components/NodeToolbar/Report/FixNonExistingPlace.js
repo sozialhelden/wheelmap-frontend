@@ -45,28 +45,34 @@ export default class ReportProblemButton extends React.Component<Props> {
       backButtonCaption,
     } = strings();
 
-    return (<section>
-      <p>{osmRemoveHint}</p>
-      <p>{osmPermanentlyClosedHint} (
-        <a
-          href="https://wiki.openstreetmap.org/wiki/Key:disused:"
-          ref={howToLink => this.howToLink = howToLink}
-        >
-          {osmPermanentlyClosedHowtoLinkCaption}
-        </a>
-      )</p>
-      <p className="subtle">{osmLoginHint}</p>
-      <a href={url} className="link-button" ref={editLink => this.editLink = editLink} onKeyDown={this.trapFocus}>
-        {editButtonCaption}
-      </a>
-      <button
-        className="link-button negative-button"
-        onClick={this.props.onClose}
-        ref={backButton => this.backButton = backButton}
-        onKeyDown={this.trapFocus}
+    return (
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="osm-remove-hint osm-permanently-closed-hint osm-login-hint"
       >
-        {backButtonCaption}
-      </button>
-    </section>);
+        <p id="osm-remove-hint">{osmRemoveHint}</p>
+        <p id="osm-permanently-closed-hint">{osmPermanentlyClosedHint} (
+          <a
+            href="https://wiki.openstreetmap.org/wiki/Key:disused:"
+            ref={howToLink => this.howToLink = howToLink}
+          >
+            {osmPermanentlyClosedHowtoLinkCaption}
+          </a>
+        )</p>
+        <p className="subtle" id="osm-login-hint">{osmLoginHint}</p>
+        <a href={url} className="link-button" ref={editLink => this.editLink = editLink} onKeyDown={this.trapFocus}>
+          {editButtonCaption}
+        </a>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => this.backButton = backButton}
+          onKeyDown={this.trapFocus}
+        >
+          {backButtonCaption}
+        </button>
+      </section>
+    );
   }
 }

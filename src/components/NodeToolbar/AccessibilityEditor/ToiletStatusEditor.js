@@ -134,43 +134,50 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
     const useImperialUnits = currentLocale === 'en' || Boolean(currentLocale.match(/(UK|US)$/));
 
-    return (<section className={classList.join(' ')}>
-      <header>{headerText}</header>
+    return (
+      <section
+        className={classList.join(' ')}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="toilet-status-editor-header"
+      >
+        <header id="toilet-status-editor-header">{headerText}</header>
 
-      <footer>
-        <button
-          className="link-button unknown"
-          onClick={() => this.save('unknown')}
-          ref={unknownButton => this.unknownButton = unknownButton}
-          onKeyDown={this.trapFocus}
+        <footer>
+          <button
+            className="link-button unknown"
+            onClick={() => this.save('unknown')}
+            ref={unknownButton => this.unknownButton = unknownButton}
+            onKeyDown={this.trapFocus}
+            >
+              {unknownCaption}
+          </button>
+
+          <button
+            className="link-button yes"
+            onClick={() => this.save('yes')}
           >
-            {unknownCaption}
-        </button>
+            {yesCaption}
+          </button>
 
-        <button
-          className="link-button yes"
-          onClick={() => this.save('yes')}
-        >
-          {yesCaption}
-        </button>
+          <button
+            className="link-button no"
+            onClick={() => this.save('no')}
+            ref={noButton => this.noButton = noButton}
+            onKeyDown={this.trapFocus}
+          >
+            {noCaption}
+          </button>
 
-        <button
-          className="link-button no"
-          onClick={() => this.save('no')}
-          ref={noButton => this.noButton = noButton}
-          onKeyDown={this.trapFocus}
-        >
-          {noCaption}
-        </button>
+        </footer>
 
-      </footer>
+        <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
 
-      <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
-
-      <ul className="subtle">
-        {accessibleToiletDescription(useImperialUnits).map(text => <li key={text}>{text}</li>)}
-      </ul>
-    </section>);
+        <ul className="subtle">
+          {accessibleToiletDescription(useImperialUnits).map(text => <li key={text}>{text}</li>)}
+        </ul>
+      </section>
+    );
   }
 }
 
