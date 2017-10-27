@@ -144,7 +144,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         className={classList.join(' ')}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="wheelchair-accessibility-header"        
+        aria-labelledby="wheelchair-accessibility-header"
       >
         <header id="wheelchair-accessibility-header">How wheelchair accessible is this place?</header>
 
@@ -154,6 +154,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
           onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
           className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
           onKeyDown={this.onRadioGroupKeyDown}
+          role="radiogroup"
         >
           {['yes', 'limited', 'no'].map((value, index) =>
             <CustomRadio
