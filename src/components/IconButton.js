@@ -71,11 +71,12 @@ type Props = {
   caption: string,
   activeColor: ?string,
   hoverColor: ?string,
+  ariaLabel: ?string,
 };
 
 
 export default function CategoryButton(props: Props) {
-  return (<StyledDiv hoverColor={props.hoverColor} activeColor={props.activeColor}>
+  return (<StyledDiv hoverColor={props.hoverColor} activeColor={props.activeColor} aria-label={props.ariaLabel}>
     <Circle>
       {props.iconComponent}
     </Circle>

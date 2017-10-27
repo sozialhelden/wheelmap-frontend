@@ -69,7 +69,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
 
     if (prevState.isExpanded && !this.state.isExpanded) {
       this.shareButton.focus();
-    }    
+    }
   }
 
   render() {
@@ -109,6 +109,8 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     const expandButton = <button
       ref={shareButton => this.shareButton = shareButton}
       className={'link-button expand-button full-width-button'}
+      aria-label={`Expand Share Menu`}
+      aria-expanded={this.state.isExpanded}
       onClick={() => this.toggle(true)}>
         {shareButtonCaption}
       </button>;
@@ -120,29 +122,31 @@ class ExpandableShareButtons extends React.Component<Props, State> {
         ref={collapseButton => this.collapseButton = collapseButton}
         className={'link-button collapse-button'}
         onClick={() => this.toggle(false)}
+        aria-expanded={this.state.isExpanded}
+        aria-label={`Collapse Share Menu`}
       >
         <ChevronLeft />
       </button>
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
-        <FacebookShareButton url={url} quote={pageDescription}>
-          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" />
+        <FacebookShareButton url={url} quote={pageDescription} aria-label="Facebook">
+          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" ariaLabel="Facebook"/>
         </FacebookShareButton>
 
         <TwitterShareButton url={url} title={sharedObjectTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
-          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" />
+          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" ariaLabel="Twitter"/>
         </TwitterShareButton>
 
         <TelegramShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" />
+          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" ariaLabel="Telegram"/>
         </TelegramShareButton>
 
         <a href={mailToLink}>
-          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" />
+          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" ariaLabel="Email"/>
         </a>
 
         <WhatsappShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" />
+          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" ariaLabel="Whatsapp"/>
         </WhatsappShareButton>
       </footer>
     </div>);
