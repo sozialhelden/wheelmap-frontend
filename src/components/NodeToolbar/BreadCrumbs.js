@@ -60,7 +60,7 @@ class BreadCrumbs extends React.Component<Props, State> {
       .map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
 
     return (
-      <section className={this.props.className}>
+      <section className={this.props.className} id="node-categories">
         {breadCrumbs}
       </section>
     );

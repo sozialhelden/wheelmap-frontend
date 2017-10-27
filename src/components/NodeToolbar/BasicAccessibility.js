@@ -45,7 +45,7 @@ function BasicAccessibility(props) {
     return null;
   }
 
-  return (<section className={`basic-accessibility ${props.className}`}>
+  return (<section className={`basic-accessibility ${props.className}`} id="basic-accessibility">
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
     <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
     <footer><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>

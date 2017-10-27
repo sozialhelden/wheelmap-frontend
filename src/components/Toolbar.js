@@ -15,6 +15,7 @@ type Props = {
   inert?: boolean,
   role?: string,
   ariaLabel?: string,
+  ariaDescribedBy?: string,
   minimalHeight?: number,
   isSwipeable?: boolean,
   isModal?: boolean,
@@ -239,6 +240,7 @@ class Toolbar extends React.Component<Props, State> {
         aria-hidden={this.props.inert}
         role={this.props.role}
         aria-label={this.props.ariaLabel}
+        aria-describedby={this.props.ariaDescribedBy}
       >
         {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
         {this.props.children}
