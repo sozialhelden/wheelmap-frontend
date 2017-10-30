@@ -45,14 +45,16 @@ function Onboarding(props: Props) {
     className={props.className}
     isVisible={props.isVisible}
     onClose={props.onClose}
+    ariaDescribedBy='wheelmap-claim-onboarding wheelmap-icon-descriptions'
+    ariaLabel={`Wheelmap Onboarding`}
   >
     <header>
-      <Logo className="logo" alt=""/>
-      <p>{claim}</p>
+      <Logo className="logo" aria-hidden={true}/>
+      <p id="wheelmap-claim-onboarding">{claim}</p>
     </header>
 
     <section>
-      <ul>
+      <ul id="wheelmap-icon-descriptions">
         <li className="ac-marker-green">
           <Icon overriddenColor="green" category={{ _id: 'other' }} isBig />
           <header>{accessibilityName('yes')}</header>

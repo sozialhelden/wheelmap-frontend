@@ -9,6 +9,8 @@ type Props = {
   onClose: (() => {}),
   isVisible: boolean,
   className: string,
+  ariaLabel: string,
+  ariaDescribedBy: string,
   isKeyboardShown: boolean,
   isRenderedIfInvisible: boolean,
   children: React.Node,
@@ -24,7 +26,13 @@ function ModalDialog(props: Props) {
   const hasKeyboard = props.isKeyboardShown;
 
   return (
-    <div className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}>
+    <section
+      className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}
+      role="dialog"
+      aria-modal={true}
+      aria-label={props.ariaLabel}
+      aria-describedby={props.ariaDescribedBy}
+    >
       <div className={'modal-dialog-fullscreen-overlay'} onClick={props.onClose} aria-hidden='true' />
       <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
         <div className={'modal-dialog-content'}>
@@ -36,7 +44,7 @@ function ModalDialog(props: Props) {
           {props.children}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
