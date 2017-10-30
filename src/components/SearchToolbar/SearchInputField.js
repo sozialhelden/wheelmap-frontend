@@ -56,7 +56,6 @@ class SearchInputField extends React.Component<Props> {
     return (<input
       ref={input => this.input = input}
       value={value}
-      autoFocus={hasBigViewport()}
       onChange={onChange}
       disabled={disabled}
       tabIndex={hidden ? -1 : 0}

@@ -154,6 +154,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
     if (this.props.searchQuery) {
       this.sendSearchRequest(this.props.searchQuery);
     }
+
+    if (!this.props.hidden) {
+      this.focus();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
