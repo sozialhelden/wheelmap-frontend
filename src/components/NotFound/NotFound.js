@@ -2,6 +2,7 @@
 
 import { t } from '../../lib/i18n';
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ModalDialog from '../ModalDialog';
@@ -16,35 +17,59 @@ type Props = {
   onClose: (() => void),
 }
 
-function NotFound(props: Props) {
-  const classList = [
-    props.className,
-    'not-found-page',
-  ].filter(Boolean);
+class NotFound extends React.Component<Props> {
+  manageFocus = ({nativeEvent}) => {
+    if (nativeEvent.key === 'Tab') {
+      nativeEvent.preventDefault();
+    }
+  }
 
-  // translator: Shown as header text on the error page.
-  const headerText = t`Error`;
-  // translator: Shown as apology text / description on the error page.
-  const apologyText = t`Sorry, that shouldn\'t have happened!`;
-  // translator: Shown on the error page.
-  const returnHomeButtonCaption = t`Return Home`;
+  componentDidUpdate() {
+    if (this.props.isVisible) {
+      this.focus();
+    }
+  }
 
-  return (<ModalDialog className={classList.join(' ')} isVisible={props.isVisible}>
-    <header>
-      <Logo className="logo" />
-      <h1>{headerText}</h1>
-    </header>
+  focus() {
+    this.closeButton.focus();
+  }
 
-    <section>
-      <p>{apologyText}</p>
-    </section>
+  render() {
+    const classList = [
+      this.props.className,
+      'not-found-page',
+    ].filter(Boolean);
 
-    <footer>
-      <Link to="/" className="button-cta-close" onClick={props.onClose}>
-        {returnHomeButtonCaption} <ChevronRight />
-      </Link>
-    </footer>
-  </ModalDialog>);
+    // translator: Shown as header text on the error page.
+    const headerText = t`Error`;
+    // translator: Shown as apology text / description on the error page.
+    const apologyText = t`Sorry, that shouldn\'t have happened!`;
+    // translator: Shown on the error page.
+    const returnHomeButtonCaption = t`Return Home`;
+
+    return (<ModalDialog className={classList.join(' ')} isVisible={this.props.isVisible}>
+      <header>
+        <Logo className="logo" />
+        <h1>{headerText}</h1>
+      </header>
+
+      <section>
+        <p>{apologyText}</p>
+      </section>
+
+      <footer>
+        <Link
+          to="/"
+          className="button-cta-close focus-ring"
+          onClick={this.props.onClose}
+          onKeyDown={this.manageFocus}
+          ref={button => this.closeButton = findDOMNode(button)}
+        >
+          {returnHomeButtonCaption} <ChevronRight />
+        </Link>
+      </footer>
+    </ModalDialog>);
+  }
 }
 
 
@@ -104,6 +129,11 @@ const StyledNotFound = styled(NotFound)`
       cursor: pointer;
       > svg {
         margin-left: 10px;
+      }
+
+      &.focus-ring {
+        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+        transition: box-shadow 0.2s;
       }
     }
   }

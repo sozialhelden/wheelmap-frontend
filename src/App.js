@@ -352,7 +352,7 @@ class FeatureLoader extends React.Component<Props, State> {
       {isLocalizationLoaded ? <SearchToolbar
         ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
-        hidden={isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible}
+        hidden={isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible || this.state.isNotFoundVisible}
         category={category}
         searchQuery={searchQuery}
         onChangeSearchQuery={(newSearchQuery) => {
