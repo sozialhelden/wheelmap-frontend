@@ -253,7 +253,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     if (isLoading) {
       contentBelowSearchField =
         <div>
-          <span style={{position: 'absolute', left: '-99999px'}} aria-live="assertive">
+          <span className="sr-only" aria-live="assertive">
             Searching
           </span>
           <Dots size={20} />
