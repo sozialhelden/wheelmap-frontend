@@ -72,6 +72,10 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     }
   }
 
+  focus() {
+    this.shareButton.focus();
+  }
+
   render() {
     const { feature, featureId } = this.props;
 

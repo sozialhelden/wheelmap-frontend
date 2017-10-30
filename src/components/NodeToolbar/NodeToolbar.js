@@ -23,7 +23,7 @@ import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature } from '../../lib/Feature';
-
+import { isWheelmapFeatureId } from '../../lib/Feature';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 9px;
@@ -118,6 +118,9 @@ class NodeToolbar extends React.Component<Props, State> {
     if (this.nodeFooter) {
       this.nodeFooter.focus();
       this.shouldBeFocused = false;
+    } else if (this.shareButton) {
+      this.shareButton.focus();
+      this.shouldBeFocused = false;
     } else {
       this.shouldBeFocused = true;
     }
@@ -125,7 +128,11 @@ class NodeToolbar extends React.Component<Props, State> {
 
   manageFocus(prevProps, prevState) {
     if (prevProps.isEditMode && !this.props.isEditMode) {
-      this.nodeFooter.focus();
+      if (this.nodeFooter) {
+        this.nodeFooter.focus();
+      } else if (this.shareButton) {
+        this.shareButton.focus();
+      }
     }
 
     if (prevState.isReportMode && !this.state.isReportMode) {
@@ -200,14 +207,19 @@ class NodeToolbar extends React.Component<Props, State> {
             <BasicAccessibility properties={properties} />
             <AccessibilityDetails details={accessibility} />
             <AccessibilityExtraInfo properties={properties} />
-            <NodeFooter
-              ref={nodeFooter => this.nodeFooter = nodeFooter}
-              feature={this.props.feature}
-              featureId={this.props.featureId}
-              category={this.state.category}
-              parentCategory={this.state.parentCategory}
-            />
+            {
+              this.props.featureId && isWheelmapFeatureId(this.props.featureId) ? (
+                <NodeFooter
+                  ref={nodeFooter => (this.nodeFooter = nodeFooter)}
+                  feature={this.props.feature}
+                  featureId={this.props.featureId}
+                  category={this.state.category}
+                  parentCategory={this.state.parentCategory}
+                />
+              ) : null
+            }
             <ShareButtons
+              innerRef={shareButton => this.shareButton = shareButton}
               feature={this.props.feature}
               featureId={this.props.featureId}
               category={this.state.category}

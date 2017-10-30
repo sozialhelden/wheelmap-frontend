@@ -155,16 +155,15 @@ export default class NodeFooter extends React.Component<Props> {
 
     return (
       <StyledFooter>
-        {(isWheelmap && featureId) ?
-          <div className="wheelmap-links">
-            {contributionLink}
-            <a
-              ref={detailsLink => this.detailsLink = detailsLink}
-              className="link-button"
-              href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
-              {detailsButtonCaption}
-            </a>
-          </div> : null}
+        <div className="wheelmap-links">
+          {contributionLink}
+          <a
+            ref={detailsLink => this.detailsLink = detailsLink}
+            className="link-button"
+            href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
+            {detailsButtonCaption}
+          </a>
+        </div>
       </StyledFooter>
     );
   }
