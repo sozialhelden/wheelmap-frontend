@@ -23,19 +23,7 @@ type Props = {
   ariaRole: string,
 };
 
-
-function hasBigViewport() {
-  return window.innerHeight > 512 && window.innerWidth > 512;
-}
-
-
 class SearchInputField extends React.Component<Props> {
-  componentDidMount() {
-    if (hasBigViewport) {
-      this.focus();
-    }
-  }
-
   focus() {
     this.input.focus();
   }
