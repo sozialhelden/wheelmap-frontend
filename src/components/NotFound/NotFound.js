@@ -47,28 +47,34 @@ class NotFound extends React.Component<Props> {
     // translator: Shown on the error page.
     const returnHomeButtonCaption = t`Return Home`;
 
-    return (<ModalDialog className={classList.join(' ')} isVisible={this.props.isVisible}>
-      <header>
-        <Logo className="logo" />
-        <h1>{headerText}</h1>
-      </header>
+    return (
+      <ModalDialog
+        className={classList.join(' ')}
+        isVisible={this.props.isVisible}
+        ariaDescribedBy='wheelmap-error-text wheelmap-apology-text'
+        ariaLabel={`Error`}
+      >
+        <header>
+          <Logo className="logo" aria-hidden={true} />
+          <h1 id="wheelmap-error-text">{headerText}</h1>
+        </header>
 
-      <section>
-        <p>{apologyText}</p>
-      </section>
+        <section>
+          <p id="wheelmap-apology-text">{apologyText}</p>
+        </section>
 
-      <footer>
-        <Link
-          to="/"
-          className="button-cta-close focus-ring"
-          onClick={this.props.onClose}
-          onKeyDown={this.manageFocus}
-          ref={button => this.closeButton = findDOMNode(button)}
-        >
-          {returnHomeButtonCaption} <ChevronRight />
-        </Link>
-      </footer>
-    </ModalDialog>);
+        <footer>
+          <Link
+            to="/"
+            className="button-cta-close focus-ring"
+            onClick={this.props.onClose}
+            onKeyDown={this.manageFocus}
+            ref={button => this.closeButton = findDOMNode(button)}
+          >
+            {returnHomeButtonCaption} <ChevronRight />
+          </Link>
+        </footer>
+      </ModalDialog>);
   }
 }
 
