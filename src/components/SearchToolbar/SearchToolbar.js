@@ -251,14 +251,23 @@ export default class SearchToolbar extends React.Component<Props, State> {
     let contentBelowSearchField = null;
 
     if (isLoading) {
-      contentBelowSearchField = <Dots size={20} />;
+      contentBelowSearchField =
+        <div>
+          <span style={{position: 'absolute', left: '-99999px'}} aria-live="assertive">
+            Searching
+          </span>
+          <Dots size={20} />
+        </div>;
     } else if (searchResults) {
-      contentBelowSearchField = (<SearchResults
-        searchResults={searchResults}
-        onSelectCoordinate={this.props.onSelectCoordinate}
-        hidden={this.props.hidden}
-        onSelect={() => this.clearSearchOnSmallViewports()}
-      />);
+      contentBelowSearchField =
+        <div aria-live="assertive">
+          <SearchResults
+            searchResults={searchResults}
+            onSelectCoordinate={this.props.onSelectCoordinate}
+            hidden={this.props.hidden}
+            onSelect={() => this.clearSearchOnSmallViewports()}
+          />
+        </div>;
     } else if (categoryMenuIsVisible) {
       contentBelowSearchField = (<CategoryMenu
         hidden={this.props.hidden}
