@@ -53,7 +53,7 @@ const PositionedCloseButton = styled.button`
 `
 
 const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
-  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown}>
+  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown} aria-label={`Close Dialog`}>
     <CloseIcon {...restProps} />
   </PositionedCloseButton>
 
@@ -99,7 +99,8 @@ class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
 
   render() {
     const { currentFilterName, value } = this.props;
-    const RadioButton = currentFilterName === value ? RadioButtonSelected : RadioButtonUnselected;
+    const isRadioButtonSelected = currentFilterName === value;
+    const RadioButton = isRadioButtonSelected ? RadioButtonSelected : RadioButtonUnselected;
     return (
       <div>
         <Radio
@@ -108,8 +109,10 @@ class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           ref={radioButtonInstance => this.radioButton = findDOMNode(radioButtonInstance)}
+          role="radio"
+          aria-checked={isRadioButtonSelected}
         />
-        <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} />
+        <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} aria-hidden={true} />
       </div>
     );
   }
@@ -189,6 +192,9 @@ class FilterToolbar extends React.Component<Props, State> {
         minimalHeight={75}
         isSwipeable={false}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
+        role="dialog"
+        ariaLabel={`Accessibility Filter Dialog`}
+        ariaModal={true}
       >
         <CloseButton
           closeButtonRef={closeButton => this.closeButton = closeButton}
@@ -200,6 +206,7 @@ class FilterToolbar extends React.Component<Props, State> {
         <section>
           <RadioGroup
             name="accessibility-filter"
+            role="radiogroup"
             selectedValue={filterName}
             onChange={(f) => {
               const filter = {
@@ -218,22 +225,22 @@ class FilterToolbar extends React.Component<Props, State> {
           >
             <label htmlFor="all">
               <CustomRadio currentFilterName={filterName} value="all" />
-              <span className="icon"><AllAccessibilitiesIcon /></span>
+              <span className="icon" aria-hidden={true}><AllAccessibilitiesIcon /></span>
               <span className="caption">{allCaption}</span>
             </label>
             <label htmlFor="partial">
               <CustomRadio currentFilterName={filterName} value="partial" />
-              <span className="icon"><AtLeastPartialAccessibilityIcon /></span>
+              <span className="icon" aria-hidden={true}><AtLeastPartialAccessibilityIcon /></span>
               <span className="caption">{atLeastPartialCaption}</span>
             </label>
             <label htmlFor="full">
               <CustomRadio currentFilterName={filterName} value="full" />
-              <span className="icon"><FullAccessibilityIcon /></span>
+              <span className="icon" aria-hidden={true}><FullAccessibilityIcon /></span>
               <span className="caption">{fullyCaption}</span>
             </label>
             <label htmlFor="unknown">
               <CustomRadio currentFilterName={filterName} value="unknown" />
-              <span className="icon"><UnknownAccessibilityIcon /></span>
+              <span className="icon" aria-hidden={true}><UnknownAccessibilityIcon /></span>
               <span className="caption">{unknownCaption}</span>
             </label>
           </RadioGroup>
