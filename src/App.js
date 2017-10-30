@@ -308,7 +308,7 @@ class FeatureLoader extends React.Component<Props, State> {
       /> : null}
 
       <Map
-        ref={(map) => { this.map = map; }}
+        ref={(map) => { this.map = map; window.map = map; }}
         history={this.props.history}
         onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
         lat={lat ? parseFloat(lat) : null}
