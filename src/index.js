@@ -12,7 +12,17 @@ import 'wicg-focus-ring'
 import registerServiceWorker from './registerServiceWorker';
 
 if (process.env.NODE_ENV === 'development') {
-  a11y(React, { ReactDOM: ReactDOM });
+  const options = {
+    ReactDOM: ReactDOM,
+    filterFn: name => {
+      // ignore a11y checks on components. e.g. if the component that breaks a rule is not under our control
+      const ignoreList = ["ShareButton"];
+      const nameInIgnoreList = ignoreList.indexOf(name) !== -1
+      return !nameInIgnoreList;
+    }
+  }
+
+  a11y(React, options);
 }
 
 ReactDOM.render(
