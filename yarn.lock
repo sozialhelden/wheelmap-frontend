@@ -358,6 +358,10 @@ aws4@^1.2.1, aws4@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
+axe-core@~2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-2.3.1.tgz#be87acabe8c2c6a979761ea7c2b423791fb32f3f"
+
 axobject-query@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-0.1.0.tgz#62f59dbc59c9f9242759ca349960e7a2fe3c36c0"
@@ -5745,6 +5749,12 @@ react-activity@^1.1.2:
   resolved "https://registry.yarnpkg.com/react-activity/-/react-activity-1.1.2.tgz#e0e32c6334ea9fac1674274476df29bd92780603"
   dependencies:
     prop-types "^15.5.8"
+
+react-axe@^2.1.7:
+  version "2.1.7"
+  resolved "https://registry.yarnpkg.com/react-axe/-/react-axe-2.1.7.tgz#1641839ca97607164ae24c837b526b39cf7da170"
+  dependencies:
+    axe-core "~2.3.1"
 
 react-dev-utils@^4.0.1:
   version "4.0.1"

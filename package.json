@@ -26,6 +26,7 @@
     "react": "^15.4.2",
     "react-a11y": "^0.3.4",
     "react-activity": "^1.1.2",
+    "react-axe": "^2.1.7",
     "react-dom": "^15.4.2",
     "react-fastclick": "^3.0.2",
     "react-radio-group": "^3.0.2",
