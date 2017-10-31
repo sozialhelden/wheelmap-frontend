@@ -11,7 +11,6 @@ import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
 import {
   hasAccessibleToilet,
-  isWheelmapFeatureId,
   isWheelchairAccessible,
 } from '../../lib/Feature';
 
@@ -102,7 +101,6 @@ export default class NodeFooter extends React.Component<Props> {
 
   render() {
     const { feature, featureId } = this.props;
-    const isWheelmap = isWheelmapFeatureId(featureId);
 
     let editHint = null;
     let needsContribution = false;
