@@ -294,22 +294,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         role="search"
       >
         <header>
-          {(this.props.searchQuery || this.props.category) ? <CloseLink
-            history={this.props.history}
-            className='close-link'
-            onClick={() => {
-              this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
-              if (this.input instanceof HTMLInputElement) {
-                this.input.value = '';
-                if (!this.props.category) {
-                  this.searchInputField.blur();
-                }
-              }
-              setTimeout(() => this.ensureFullVisibility(), 100);
-              if (this.props.onClose) this.props.onClose();
-            }}
-            innerRef={closeLink => this.closeLink = closeLink}
-          /> : null}
+          <SearchIcon className="search-icon" />
 
           <SearchInputField
             innerRef={searchInputField => this.searchInputField = searchInputField}
@@ -344,8 +329,22 @@ export default class SearchToolbar extends React.Component<Props, State> {
             ariaRole="searchbox"
           />
 
-          <SearchIcon className="search-icon" />
-
+          {(this.props.searchQuery || this.props.category) ? <CloseLink
+            history={this.props.history}
+            className='close-link'
+            onClick={() => {
+              this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
+              if (this.input instanceof HTMLInputElement) {
+                this.input.value = '';
+                if (!this.props.category) {
+                  this.searchInputField.blur();
+                }
+              }
+              setTimeout(() => this.ensureFullVisibility(), 100);
+              if (this.props.onClose) this.props.onClose();
+            }}
+            innerRef={closeLink => this.closeLink = closeLink}
+          /> : null}
         </header>
 
         { contentBelowSearchField }
