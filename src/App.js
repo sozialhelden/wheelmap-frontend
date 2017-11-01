@@ -348,11 +348,12 @@ class FeatureLoader extends React.Component<Props, State> {
     const searchToolbarIsInert = searchToolbarIsHidden || this.state.isMainMenuOpen;
 
     return (<div className={classList.join(' ')}>
-      {isLocalizationLoaded ? <MainMenu
+      <MainMenu
         className="main-menu"
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
         isEditMode={isEditMode}
-      /> : null}
+        isLocalizationLoaded={isLocalizationLoaded}
+      />
 
       {isLocalizationLoaded ? <SearchToolbar
         ref={searchToolbar => this.searchToolbar = searchToolbar}

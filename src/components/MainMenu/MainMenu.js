@@ -18,6 +18,7 @@ type Props = {
   className: string,
   onToggle: ((isMainMenuOpen: boolean) => void),
   isEditMode: boolean,
+  isLocalizationLoaded: boolean,
 };
 
 
@@ -68,7 +69,7 @@ class MainMenu extends React.Component<Props, State> {
 
   componentDidUpdate(_, prevState) {
     if (this.state.isMenuVisible) {
-      this.setupFocusTrap()
+      this.setupFocusTrap();
 
       if (!prevState.isMenuVisible) {
         this.focusFirstMenuElement();
@@ -88,13 +89,17 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   setupFocusTrap() {
-    this.homeLink.addEventListener('keydown', this.focusToLastElement);
-    this.addPlaceLink.addEventListener('keydown', this.focusToFirstElement);
+    if (this.homeLink && this.addPlaceLink) {
+      this.homeLink.addEventListener('keydown', this.focusToLastElement);
+      this.addPlaceLink.addEventListener('keydown', this.focusToFirstElement);
+    }
   }
 
   tearDownFocusTrap() {
-    this.homeLink.removeEventListener('keydown', this.focusToLastElement);
-    this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);
+    if (this.homeLink && this.addPlaceLink) {
+      this.homeLink.removeEventListener('keydown', this.focusToLastElement);
+      this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);      
+    }
   }
 
   focusToFirstElement(event) {
@@ -127,7 +132,11 @@ class MainMenu extends React.Component<Props, State> {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isEditMode } = this.props;
+    const { isEditMode, isLocalizationLoaded } = this.props;
+
+    if (!isLocalizationLoaded) {
+      return <nav className={classList.join(' ')}></nav>
+    }
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
