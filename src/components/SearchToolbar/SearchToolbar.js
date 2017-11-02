@@ -230,8 +230,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
   focus() {
     if (hasBigViewport()) {
       this.searchInputField.focus();
-    } else {
-      this.toolbar.focus();
     }
   }
 

@@ -218,10 +218,6 @@ class Toolbar extends React.Component<Props, State> {
     };
   }
 
-  focus() {
-    this.scrollElement.focus();
-  }
-
   render() {
     const classNames = [
       'toolbar',
