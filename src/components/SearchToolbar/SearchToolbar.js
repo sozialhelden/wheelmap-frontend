@@ -236,17 +236,20 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   render() {
+    const { searchQuery } = this.props;
+
     const {
       isLoading,
-      searchQuery,
       searchResults,
       searchFieldIsFocused,
       isCategoryFocused,
     } = this.state;
 
     const isSearchFieldFocusedAndEmpty = searchFieldIsFocused && !searchQuery
-    const categoryMenuIsVisible =
-      !this.props.category && (isCategoryFocused || isSearchFieldFocusedAndEmpty);
+
+    const categoryNotSelected = !Boolean(this.props.category);
+
+    const categoryMenuIsVisible = isSearchFieldFocusedAndEmpty || (categoryNotSelected && isCategoryFocused);
 
     let contentBelowSearchField = null;
 
