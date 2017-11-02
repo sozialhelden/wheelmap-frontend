@@ -273,7 +273,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
       contentBelowSearchField = (<CategoryMenu
         hidden={this.props.hidden}
         onFocus={() => this.setState({ isCategoryFocused: true })}
-        onBlur={() =>this.setState({ isCategoryFocused: false })}
+        onBlur={() => setTimeout(() => this.setState({ isCategoryFocused: false }))}
       />);
     }
 
