@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
+import { t } from '../../i18n';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 
@@ -98,7 +99,7 @@ class MainMenu extends React.Component<Props, State> {
   tearDownFocusTrap() {
     if (this.homeLink && this.addPlaceLink) {
       this.homeLink.removeEventListener('keydown', this.focusToLastElement);
-      this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);      
+      this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);
     }
   }
 
@@ -140,7 +141,7 @@ class MainMenu extends React.Component<Props, State> {
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} aria-label={`Home`}>
+        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} aria-label={t`Home`}>
           <Logo className="logo" width={123} height={30} />
         </a>
       </div>
@@ -158,7 +159,7 @@ class MainMenu extends React.Component<Props, State> {
         onClick={() => this.toggleMenu()}
         tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
         aria-hidden={!this.state.isMenuButtonVisible}
-        aria-label={`Menü`}
+        aria-label={t`Menu`}
         aria-haspopup="true"
         aria-expanded={this.state.isMenuVisible}
         aria-controls="main-menu"

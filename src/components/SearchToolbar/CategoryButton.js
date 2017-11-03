@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import IconButton from '../IconButton';
 import * as icons from '../icons/mainCategories';
 import colors from '../../lib/colors';
+import { t } from '../../lib/i18n';
 
 type Props = {
   name: string,
@@ -56,7 +57,7 @@ export default function CategoryButton(props: Props) {
     onKeyDown={props.onKeyDown}
     tabIndex={props.hidden ? -1 : 0}
     role="button"
-    aria-label={`${props.name} Filter`}
+    aria-label={t`${props.name} Filter`}
   >
     <IconButton iconComponent={<SvgComponent />} caption={props.name} />
   </StyledNavLink>);

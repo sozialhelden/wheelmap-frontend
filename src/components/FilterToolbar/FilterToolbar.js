@@ -53,7 +53,7 @@ const PositionedCloseButton = styled.button`
 `
 
 const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
-  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown} aria-label={`Close Dialog`}>
+  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown} aria-label={t`Close Dialog`}>
     <CloseIcon {...restProps} />
   </PositionedCloseButton>
 
@@ -193,7 +193,7 @@ class FilterToolbar extends React.Component<Props, State> {
         isSwipeable={false}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
-        ariaLabel={`Accessibility Filter Dialog`}
+        ariaLabel={t`Accessibility Filter Dialog`}
         ariaModal={true}
       >
         <CloseButton

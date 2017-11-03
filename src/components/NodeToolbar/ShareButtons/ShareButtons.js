@@ -113,7 +113,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     const expandButton = <button
       ref={shareButton => this.shareButton = shareButton}
       className={'link-button expand-button full-width-button'}
-      aria-label={`Expand Share Menu`}
+      aria-label={t`Expand Share Menu`}
       aria-expanded={this.state.isExpanded}
       onClick={() => this.toggle(true)}>
         {shareButtonCaption}
@@ -127,13 +127,13 @@ class ExpandableShareButtons extends React.Component<Props, State> {
         className={'link-button collapse-button'}
         onClick={() => this.toggle(false)}
         aria-expanded={this.state.isExpanded}
-        aria-label={`Collapse Share Menu`}
+        aria-label={t`Collapse Share Menu`}
       >
         <ChevronLeft />
       </button>
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
-        <FacebookShareButton url={url} quote={pageDescription} aria-label="Facebook">
+        <FacebookShareButton url={url} quote={pageDescription}>
           <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" ariaLabel="Facebook"/>
         </FacebookShareButton>
 

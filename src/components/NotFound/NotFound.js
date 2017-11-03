@@ -52,7 +52,7 @@ class NotFound extends React.Component<Props> {
         className={classList.join(' ')}
         isVisible={this.props.isVisible}
         ariaDescribedBy='wheelmap-error-text wheelmap-apology-text'
-        ariaLabel={`Error`}
+        ariaLabel={t`Error`}
       >
         <header>
           <Logo className="logo" aria-hidden={true} />

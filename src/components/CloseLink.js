@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import CloseIcon from './icons/actions/Close';
 import { getQueryParams } from '../lib/queryParams';
+import { t } from '../lib/i18n';
 
 type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;
@@ -52,7 +53,7 @@ class CloseLink extends React.Component<Props> {
         onClick={this.onClick}
         onKeyDown={this.onKeyDown}
         role='button'
-        aria-label={`close`}
+        aria-label={t`Clear Search`}
       >
         <CloseIcon />
       </Link>

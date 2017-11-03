@@ -146,7 +146,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         aria-modal="true"
         aria-labelledby="wheelchair-accessibility-header"
       >
-        <header id="wheelchair-accessibility-header">How wheelchair accessible is this place?</header>
+        <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
 
         <StyledRadioGroup
           name="accessibility"
