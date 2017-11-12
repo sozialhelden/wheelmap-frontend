@@ -29,7 +29,6 @@ function ModalDialog(props: Props) {
     <section
       className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}
       role="dialog"
-      aria-modal={true}
       aria-label={props.ariaLabel}
       aria-describedby={props.ariaDescribedBy}
     >
