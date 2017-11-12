@@ -101,7 +101,9 @@ export default class NodeHeader extends React.Component<Props, void> {
       get(categoryOrParentCategory, `translations._id.${currentLocale.slice(0, 2)}`) ||
       get(categoryOrParentCategory, `translations._id.${defaultLocale}`);
 
-    const placeName = (<PlaceName>
+    const ariaLabel = properties.name ? `${properties.name}, ${categoryName}` : categoryName;
+
+    const placeName = (<PlaceName aria-label={ariaLabel}>
       {categoryOrParentCategory ?
         <Icon properties={properties} category={categoryOrParentCategory} ariaHidden={true}/>
         : null
