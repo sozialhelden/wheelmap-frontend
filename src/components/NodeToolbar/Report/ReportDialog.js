@@ -144,7 +144,6 @@ class ReportDialog extends React.Component<Props, State> {
         className={this.props.className}
         role="dialog"
         aria-labelledby="report-dialog-header"
-        aria-modal="true"
       >
         <header id='report-dialog-header'>{reportIssueHeader}</header>
 

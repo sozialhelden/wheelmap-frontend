@@ -61,7 +61,6 @@ export default class ReportProblemButton extends React.Component<Props> {
     return (
       <section
         role="dialog"
-        aria-modal="true"
         aria-labelledby="apology-and-solution"
       >
         <p id="apology-and-solution">{apologyAndSolution}</p>

@@ -39,7 +39,6 @@ export default class ReportProblemButton extends React.Component<Props> {
     return (
       <section
         role="dialog"
-        aria-modal="true"
         aria-labelledby="osm-hint osm-edit-hint osm-login-hint"
       >
         <p id="osm-hint">{osmHint}</p>

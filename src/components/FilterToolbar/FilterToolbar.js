@@ -194,7 +194,6 @@ class FilterToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
         ariaLabel={t`Accessibility Filter Dialog`}
-        ariaModal={true}
       >
         <CloseButton
           closeButtonRef={closeButton => this.closeButton = closeButton}

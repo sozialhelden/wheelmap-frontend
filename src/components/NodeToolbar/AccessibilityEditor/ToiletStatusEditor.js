@@ -138,7 +138,6 @@ class ToiletStatusEditor extends React.Component<Props, State> {
       <section
         className={classList.join(' ')}
         role="dialog"
-        aria-modal="true"
         aria-labelledby="toilet-status-editor-header"
       >
         <header id="toilet-status-editor-header">{headerText}</header>

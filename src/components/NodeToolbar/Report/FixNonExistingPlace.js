@@ -48,7 +48,6 @@ export default class ReportProblemButton extends React.Component<Props> {
     return (
       <section
         role="dialog"
-        aria-modal="true"
         aria-labelledby="osm-remove-hint osm-permanently-closed-hint osm-login-hint"
       >
         <p id="osm-remove-hint">{osmRemoveHint}</p>
