@@ -143,7 +143,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
       <section
         className={classList.join(' ')}
         role="dialog"
-        aria-modal="true"
         aria-labelledby="wheelchair-accessibility-header"
       >
         <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
