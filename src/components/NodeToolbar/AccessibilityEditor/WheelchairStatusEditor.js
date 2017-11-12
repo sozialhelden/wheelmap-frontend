@@ -154,6 +154,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
           className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
           onKeyDown={this.onRadioGroupKeyDown}
           role="radiogroup"
+          aria-label={t`Wheelchair Accessibility`}
         >
           {['yes', 'limited', 'no'].map((value, index) =>
             <CustomRadio
