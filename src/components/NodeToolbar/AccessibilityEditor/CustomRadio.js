@@ -57,12 +57,11 @@ export default class CustomRadio extends React.Component<Props, State> {
           onBlur={this.onBlur}
           ref={radioButtonInstance => this.radioButton = findDOMNode(radioButtonInstance)}
           aria-label={this.props.caption}
-          aria-describedby={this.props.description}
         />
         <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} aria-hidden={true}/>
         <span className="caption" aria-hidden={true}>{this.props.caption}</span>
       </header>
-      {this.props.description ? <footer aria-hidden={true}>{this.props.description}</footer> : null}
+      {this.props.description ? <footer>{this.props.description}</footer> : null}
     </label>);
   }
 }
