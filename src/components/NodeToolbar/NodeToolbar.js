@@ -163,7 +163,6 @@ class NodeToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
         ariaLabel={this.props.feature.properties.name}
-        ariaDescribedBy="node-address basic-accessibility"
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}

@@ -125,7 +125,7 @@ export default class NodeHeader extends React.Component<Props, void> {
           parentCategory={this.props.parentCategory}
         /> : null}
 
-        {addressString ? <address id="node-address">{addressString}</address> : null }
+        {addressString ? <address>{addressString}</address> : null }
 
         <SourceLink properties={properties} />
 

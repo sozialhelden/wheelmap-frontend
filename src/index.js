@@ -11,7 +11,7 @@ import 'wicg-focus-ring'
 
 import registerServiceWorker from './registerServiceWorker';
 
-const a11yAuditActive = false;
+const a11yAuditActive = true;
 
 if (process.env.NODE_ENV === 'development' && a11yAuditActive) {
   axe(React, ReactDOM, 1000);

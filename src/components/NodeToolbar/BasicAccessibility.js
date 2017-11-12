@@ -12,6 +12,7 @@ import {
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 import colors from '../../lib/colors';
+import { hsl } from 'd3-color';
 
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
@@ -45,7 +46,7 @@ function BasicAccessibility(props) {
     return null;
   }
 
-  return (<section className={`basic-accessibility ${props.className}`} id="basic-accessibility">
+  return (<section className={`basic-accessibility ${props.className}`}>
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
     <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
     <footer><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
@@ -67,7 +68,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       font-weight: bold;
     }
     &.accessibility-yes {
-      color: ${colors.positiveColor};
+      color: ${hsl(colors.positiveColor).darker(1.2)};
       svg {
         margin: 0 10px 0 5px;
       }
@@ -79,7 +80,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       color: ${colors.warningColor};
     }
     &.accessibility-no {
-      color: ${colors.negativeColor};
+      color: ${hsl(colors.negativeColor).darker(0.8)};
     }
   }
 
