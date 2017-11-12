@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import { RadioGroup } from 'react-radio-group';
 import colors from '../../../lib/colors';
+import { hsl } from 'd3-color';
 
 const StyledRadioGroup = styled(RadioGroup)`
   margin-top: 1em;
@@ -22,7 +23,7 @@ const StyledRadioGroup = styled(RadioGroup)`
   &.yes label.yes {
     background-color: ${colors.positiveBackgroundColorTransparent};
     > header span {
-      color: ${colors.positiveColor};
+      color: ${hsl(colors.positiveColor).darker(1.6)};
     }
   }
 
@@ -33,7 +34,7 @@ const StyledRadioGroup = styled(RadioGroup)`
   &.limited label.limited {
     background-color: ${colors.warningBackgroundColorTransparent};
     > header span {
-      color: ${colors.warningColor};
+      color: ${hsl(colors.warningColor).darker(1.6)};
     }
   }
 
@@ -44,7 +45,7 @@ const StyledRadioGroup = styled(RadioGroup)`
   &.no label.no {
     background-color: ${colors.negativeBackgroundColorTransparent};
     > header span {
-      color: ${colors.negativeColor};
+      color: ${hsl(colors.negativeColor).darker(1.6)};
     }
   }
 
