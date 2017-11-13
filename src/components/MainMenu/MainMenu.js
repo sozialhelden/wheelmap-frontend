@@ -265,7 +265,7 @@ const StyledMainMenu = styled(MainMenu)`
       color: ${colors.darkLinkColor};
     }
     &:hover, &:focus {
-      color: ${colors.linkColor};
+      color: ${colors.linkColorDarker};
       background-color: ${colors.linkBackgroundColorTransparent};
     }
     &:active {
@@ -277,11 +277,10 @@ const StyledMainMenu = styled(MainMenu)`
   .add-place-link {
     font-weight: 500;
     white-space: nowrap;
-    &, &:visited {
-      color: ${colors.primaryColor};
+    &, &:visited, &:hover, &:focus {
+      color: ${colors.primaryColorDarker};
     }
     &:hover, &:focus {
-      color: ${hsl(colors.primaryColor).darker(1)};
       background-color: ${hsl(colors.primaryColor).brighter(1.7)};
     }
     &:active {
