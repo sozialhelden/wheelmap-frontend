@@ -185,15 +185,15 @@ const StyledOnboarding = styled(Onboarding)`
         }
 
         &.ac-marker-green {
-          color: ${hsl(colors.markerBackground.green).darker(1.4)};
+          color: ${colors.positiveColorDarker};
         }
 
         &.ac-marker-yellow {
-          color: ${hsl(colors.markerBackground.yellow).darker(1.4)};
+          color: ${colors.warningColorDarker};
         }
 
         &.ac-marker-red {
-          color: ${hsl(colors.markerBackground.red).darker(1.4)};
+          color: ${colors.negativeColorDarker};
         }
 
         &.ac-marker-gray {
