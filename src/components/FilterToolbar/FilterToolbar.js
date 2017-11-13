@@ -206,6 +206,7 @@ class FilterToolbar extends React.Component<Props, State> {
           <RadioGroup
             name="accessibility-filter"
             role="radiogroup"
+            aria-label={t`Wheelchair Accessibility Filter`}
             selectedValue={filterName}
             onChange={(f) => {
               const filter = {
