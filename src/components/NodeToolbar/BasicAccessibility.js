@@ -12,8 +12,6 @@ import {
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 import colors from '../../lib/colors';
-import { hsl } from 'd3-color';
-
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
   const description = accessibilityName(accessibility);
@@ -68,7 +66,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       font-weight: bold;
     }
     &.accessibility-yes {
-      color: ${hsl(colors.positiveColor).darker(1.2)};
+      color: ${colors.positiveColorDarker};
       svg {
         margin: 0 10px 0 5px;
       }
@@ -77,10 +75,10 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       }
     }
     &.accessibility-limited {
-      color: ${colors.warningColor};
+      color: ${colors.warningColorDarker};
     }
     &.accessibility-no {
-      color: ${hsl(colors.negativeColor).darker(0.8)};
+      color: ${colors.negativeColorDarker};
     }
   }
 

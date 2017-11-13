@@ -25,6 +25,7 @@ const colors = {
   positiveColorDarker: '#4d790b',
   positiveBackgroundColorTransparent: 'rgba(126, 197, 18, 0.1)',
   warningColor: 'rgb(243, 158, 59)',
+  warningColorDarker: '#a85e0b',
   warningBackgroundColorTransparent: 'rgba(243, 158, 59, 0.1)',
   negativeColor: 'rgb(245, 75, 75)',
   negativeColorDarker: '#d40c0c',
