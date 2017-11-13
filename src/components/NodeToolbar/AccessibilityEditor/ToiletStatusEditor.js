@@ -209,6 +209,7 @@ const StyledToiletStatusEditor = styled(ToiletStatusEditor)`
   footer {
     .link-button {
       margin: 0;
+      color: ${colors.linkColorDarker}
     }
     .link-button + .link-button {
       margin-left: 10px;
@@ -223,14 +224,14 @@ const StyledToiletStatusEditor = styled(ToiletStatusEditor)`
 
       &.yes {
         &:hover, &:active, &:focus {
-          color: ${colors.positiveColor};
+          color: ${colors.positiveColorDarker};
           background-color: ${colors.positiveBackgroundColorTransparent};
         }
       }
 
       &.no {
         &:hover, &:active, &:focus {
-          color: ${colors.negativeColor};
+          color: ${colors.negativeColorDarker};
           background-color: ${colors.negativeBackgroundColorTransparent};
         }
       }
