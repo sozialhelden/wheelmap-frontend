@@ -230,7 +230,7 @@ const StyledMainMenu = styled(MainMenu)`
 
   .claim {
     font-weight: lighter;
-    opacity: 0.4;
+    opacity: 0.6;
     transition: opacity 0.3s ease-out;
     @media (max-width: 1280px) {
       font-size: 80%;
