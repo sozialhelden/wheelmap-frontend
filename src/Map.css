@@ -367,7 +367,7 @@ body.is-touch-device .leaflet-filter-button {
 }
 
 .leaflet-marker-icon.focus-ring {
-  border-radius: 100%;
+  border-radius: 4px;
   box-shadow: 0px 0px 0px 6px #4469E1;
   transition: box-shadow 0.2s;
 }

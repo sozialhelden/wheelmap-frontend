@@ -50,7 +50,9 @@ const mediumIconStyles = css`
 const smallIconStyles = css`
   width: ${props => (props.accessibility === 'unknown' ? '23px' : '19px')};
   height: ${props => (props.accessibility === 'unknown' ? '23px' : '19px')};
-
+  top: ${props => (props.accessibility === 'unknown' ? '-2px' : '0')};
+  left: ${props => (props.accessibility === 'unknown' ? '-2px' : '0')};
+  
   svg {
     width: 15px;
     height: 15px;
