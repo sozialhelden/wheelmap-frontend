@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components';
 import * as React from 'react';
 import type { NodeProperties } from '../lib/Feature';
 import type { YesNoLimitedUnknown } from '../lib/Feature';
+import getIconNameForProperties from './Map/getIconNameForProperties';
 import { getColorForWheelchairAccessibility } from '../lib/colors';
 import * as icons from './icons/categories';
 
@@ -49,7 +50,20 @@ const middleIconStyles = css`
     height: 20px;
     left: 5px;
 
-    top: ${props => props.accessibility === 'unknown' ? '5px' : '5px'}
+    top: ${props => props.accessibility === 'unknown' ? '5px' : '5px'};
+  }
+`;
+
+const smallIconStyles = css`
+  width: ${props => props.accessibility === 'unknown' ? '23px' : '19px'};
+  height: ${props => props.accessibility === 'unknown' ? '23px' : '19px'};
+
+  svg {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    left: ${props => props.accessibility === 'unknown' ? '4px' : '2px'};
+    top: ${props => props.accessibility === 'unknown' ? '4px' : '2px'};
   }
 `;
 
@@ -95,7 +109,7 @@ const StyledIconImage = styled('figure')`
     } else if (props.isMiddle) {
       return middleIconStyles;
     } else {
-      return bigIconStyles;
+      return smallIconStyles;
     }
   }}
 `;
@@ -107,6 +121,9 @@ type Props = {
   overriddenColor: 'red' | 'yellow' | 'green' | 'gray' | void,
   className: ?string,
   isBig: ?boolean,
+  isMiddle: ?boolean,
+  isSmall: ?boolean,
+  shadowed: ?boolean,
   ariaHidden: ?boolean,
 };
 
@@ -118,12 +135,13 @@ export default function Icon({
   className,
   isBig,
   isMiddle,
+  isSmall,
   withArrow,
   shadowed,
   ariaHidden,
 }: Props) {
-  const color = overriddenColor || getColorForWheelchairAccessibility(properties);
-  const categoryName = category._id === '2nd_hand' ? 'second_hand' : category._id;
+  // What the hack! This logic is all over the place unfortunately
+  const categoryName = properties ? getIconNameForProperties(properties) : (category._id === '2nd_hand' ? 'second_hand' : category._id);
   const CategoryIconComponent = icons[categoryName || 'undefined'] || null;
 
   let iconShape;
@@ -162,13 +180,13 @@ export default function Icon({
     if (shadowed) {
       switch (accessibility) {
         case 'yes':
-          iconShape = circleWithArrowShadowed;
+          iconShape = circleShadowed;
           break;
         case 'limited':
-          iconShape = hexagonWithArrowShadowed;
+          iconShape = hexagonShadowed;
           break;
         case 'no':
-          iconShape = squareWithArrowShadowed;
+          iconShape = squareShadowed;
           break;
         default:
           iconShape = diamondShadowed;
@@ -197,6 +215,7 @@ export default function Icon({
       aria-hidden={ariaHidden}
       isBig={isBig}
       isMiddle={isMiddle}
+      isSmall={isSmall}
       accessibility={accessibility}
     >
       <img src={iconShape} alt="" />

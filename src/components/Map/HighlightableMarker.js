@@ -5,7 +5,9 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import * as categoryIcons from '../icons/categories';
 import MarkerIcon from './MarkerIcon';
+import NewIcon from '../NewIcon';
 import type { Feature } from '../../lib/Feature';
+import { isWheelchairAccessible } from '../../lib/Feature';
 import getIconNameForProperties from './getIconNameForProperties';
 
 
@@ -63,13 +65,16 @@ export default class HighlightableMarker extends L.Marker {
     const iconName = getIconNameForProperties(this.options.feature.properties);
 
     const IconComponent = categoryIcons[iconName || 'place'];
+
+    const accessibility = isWheelchairAccessible(this.options.feature.properties);
+
     const bigMarkerDiv = document.createElement('div');
     bigMarkerDiv.className = 'ac-big-icon-marker';
     if (animated) bigMarkerDiv.className += ' animated';
     markerEl.appendChild(bigMarkerDiv);
     markerEl.classList.add('ac-marker-current');
     if (IconComponent) {
-      ReactDOM.render(<IconComponent />, bigMarkerDiv);
+      ReactDOM.render(<NewIcon accessibility={accessibility} properties={this.options.feature.properties} category={iconName} isBig={true} shadowed={true} withArrow={true} ariaHidden={true} />, bigMarkerDiv)
     }
     return true;
   }

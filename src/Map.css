@@ -168,17 +168,14 @@ body.is-touch-device .leaflet-filter-button {
 
 .ac-big-icon-marker {
   position: absolute;
-  width: 50px;
-  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 30px;
   z-index: 200;
   transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 1px 1px rgba(0, 0, 0, 0.4);
-  left: -15px;
-  top: -20px;
+  left: -19px;
+  top: -25px;
 }
 
 .ac-big-icon-marker.animated {
@@ -190,21 +187,7 @@ body.is-touch-device .leaflet-filter-button {
   height: 30px;
 }
 
-.ac-big-icon-marker:after {
-  content: "";
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  transform: rotate(45deg);
-  top: calc(100% - 6px);
-  left: 50%;
-  margin-left: -5px;
-  box-shadow: 1px 1px 0px rgba(0, 0, 0, 0.2);
-  z-index: -100;
-}
-
-.ac-marker-gray .ac-big-icon-marker,
-.ac-marker-gray .ac-big-icon-marker:after {
+.ac-marker-gray .ac-big-icon-marker {
   background-color: #e6e4e0;
 }
 
@@ -263,7 +246,7 @@ body.is-touch-device .leaflet-filter-button {
   pointer-events: none !important;
 }
 
-.ac-marker-current > svg {
+.ac-marker-current > figure {
   opacity: 0;
 }
 
