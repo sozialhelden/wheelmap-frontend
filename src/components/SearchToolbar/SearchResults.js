@@ -13,7 +13,7 @@ import type { WheelmapFeature } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
 import ToolbarLink from '../ToolbarLink';
 import PlaceName from '../PlaceName';
-import NewIcon from '../NewIcon';
+import Icon from '../Icon';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 
 
@@ -261,7 +261,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
       >
         <PlaceName>
           {categoryOrParentCategory ?
-            <NewIcon accessibility={accessibility} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} isMedium={true} ariaHidden={true}/>
+            <Icon accessibility={accessibility} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} isMedium ariaHidden={true}/>
             : null
           }
           {placeName}

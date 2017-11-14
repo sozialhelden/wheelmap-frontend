@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import * as categoryIcons from '../icons/categories';
 import getIconNameForProperties from './getIconNameForProperties';
 import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
-import NewIcon from '../NewIcon';
+import Icon from '../Icon';
 
 
 // Extend Leaflet-icon to support colors and category images
@@ -41,8 +41,19 @@ export default class MarkerIcon extends L.Icon {
     const iconName = getIconNameForProperties(properties) || 'place';
     const accessibility = isWheelchairAccessible(properties);
     const IconComponent = categoryIcons[iconName];
+
     if (IconComponent) {
-      ReactDOM.render(<NewIcon accessibility={accessibility} properties={properties} category={iconName} isSmall={true} shadowed={true} ariaHidden={true} />, link)
+      ReactDOM.render(
+        <Icon
+          accessibility={accessibility}
+          properties={properties}
+          category={iconName}
+          isSmall
+          shadowed
+          ariaHidden={true}
+        />,
+        link,
+      );
     }
 
     link.addEventListener('click', (event: MouseEvent) => {

@@ -9,7 +9,7 @@ import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
-import NewIcon from '../NewIcon';
+import Icon from '../Icon';
 
 
 type Props = {
@@ -56,22 +56,22 @@ function Onboarding(props: Props) {
     <section>
       <ul id="wheelmap-icon-descriptions">
         <li className="ac-marker-green">
-          <NewIcon accessibility="yes" category={{ _id: 'other' }} isBig withArrow shadowed />
+          <Icon accessibility="yes" category={{ _id: 'other' }} isBig withArrow shadowed />
           <header>{accessibilityName('yes')}</header>
           <footer>{accessibilityDescription('yes')}</footer>
         </li>
         <li className="ac-marker-yellow">
-          <NewIcon accessibility="limited" category={{ _id: 'other' }} isBig withArrow shadowed />
+          <Icon accessibility="limited" category={{ _id: 'other' }} isBig withArrow shadowed />
           <header>{accessibilityName('limited')}</header>
           <footer>{accessibilityDescription('limited')}</footer>
         </li>
         <li className="ac-marker-red">
-          <NewIcon accessibility="no" category={{ _id: 'other' }} isBig withArrow shadowed />
+          <Icon accessibility="no" category={{ _id: 'other' }} isBig withArrow shadowed />
           <header>{accessibilityName('no')}</header>
           <footer>{accessibilityDescription('no')}</footer>
         </li>
         <li className="ac-marker-gray">
-          <NewIcon accessibility="unknown" category={{ _id: 'other' }} isBig withArrow shadowed />
+          <Icon accessibility="unknown" category={{ _id: 'other' }} isBig withArrow shadowed />
           <header>{accessibilityName('unknown')}</header>
           <footer>{unknownAccessibilityIncentiveText}</footer>
         </li>

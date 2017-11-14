@@ -12,7 +12,7 @@ import type {
   AccessibilityCloudProperties,
 } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
-import NewIcon from '../NewIcon';
+import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
@@ -107,7 +107,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const accessibility = isWheelchairAccessible(properties);
     const placeName = (<PlaceName aria-label={ariaLabel}>
       {categoryOrParentCategory ?
-        <NewIcon accessibility={accessibility} category={categoryOrParentCategory} isMedium={true} ariaHidden={true}/>
+        <Icon accessibility={accessibility} category={categoryOrParentCategory} isMedium ariaHidden={true}/>
         : null
       }
       {(properties.name || categoryName || t`Unnamed place`).replace(/(\w)\/(\w)/g, '$1 / $2')}
