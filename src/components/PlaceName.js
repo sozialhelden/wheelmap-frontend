@@ -11,6 +11,10 @@ const PlaceName = styled.h1`
   flex-direction: row;
   align-items: center;
   word-break: break-word;
+
+  figure {
+    margin-right: 10px;
+  }
 `;
 
 export default PlaceName;

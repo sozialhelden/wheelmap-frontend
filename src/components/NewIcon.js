@@ -1,6 +1,6 @@
 // @flow
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as React from 'react';
 import type { NodeProperties } from '../lib/Feature';
 import type { YesNoLimitedUnknown } from '../lib/Feature';
@@ -25,6 +25,34 @@ import squareWithArrowShadowed from './icons/squareWithArrowShadowed.svg';
 import diamond from './icons/diamond.svg';
 import diamondShadowed from './icons/diamondShadowed.svg';
 
+const bigIconStyles = css`
+  width: 60px;
+  height: 60px;
+
+  svg {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    left: 15px;
+
+    top: ${props => props.accessibility === 'unknown' ? '15px' : '12px'}
+  }
+`;
+
+const middleIconStyles = css`
+  width: 30px;
+  height: 30px;
+
+  svg {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 5px;
+
+    top: ${props => props.accessibility === 'unknown' ? '5px' : '5px'}
+  }
+`;
+
 const StyledIconImage = styled('figure')`
   position: relative;
   display: inline-block;
@@ -34,38 +62,7 @@ const StyledIconImage = styled('figure')`
   padding: 0;
   border-radius: 1em;
   vertical-align: middle;
-  margin-right: 0.5em;
   box-sizing: border-box;
-
-  svg {
-    width: 1em;
-    height: 1em;
-    margin: 0.25em;
-    vertical-align: middle;
-  }
-
-  &.ac-marker-gray {
-    box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
-  }
-
-  width: ${props => {
-    if (props.isBig) {
-      return '60px';
-    }
-    if (props.isMiddle) {
-      return '40px';
-    }
-    return '20px';
-  }} !important;
-  height: ${props => {
-    if (props.isBig) {
-      return '60px';
-    }
-    if (props.isMiddle) {
-      return '40px';
-    }
-    return '20px';
-  }} !important;
 
   img {
     position: absolute;
@@ -76,19 +73,31 @@ const StyledIconImage = styled('figure')`
   }
 
   svg {
-    width: 30px;
-    height: 30px;
-    ${'' /* opacity: 0.6; */}
-    margin: 0;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    top: 45%;
-
     g {
-      fill: white;
+      fill: ${props => props.accessibility === 'unknown' ? '#69615b' : '#ffffff'}
     }
   }
+
+  ${'' /* svg {
+    width: 1em;
+    height: 1em;
+    margin: 0.25em;
+    vertical-align: middle;
+  } */}
+
+  ${'' /* &.ac-marker-gray {
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+  } */}
+
+  ${props => {
+    if (props.isBig) {
+      return bigIconStyles;
+    } else if (props.isMiddle) {
+      return middleIconStyles;
+    } else {
+      return bigIconStyles;
+    }
+  }}
 `;
 
 type Props = {
@@ -184,10 +193,11 @@ export default function Icon({
   if (!CategoryIconComponent) debugger;
   return (
     <StyledIconImage
-      className={`${className || ''} ${isBig ? 'ac-big-icon-marker' : ''}`}
+      className={`${className || ''}`}
       aria-hidden={ariaHidden}
       isBig={isBig}
       isMiddle={isMiddle}
+      accessibility={accessibility}
     >
       <img src={iconShape} alt="" />
       {CategoryIconComponent ? <CategoryIconComponent /> : null}
