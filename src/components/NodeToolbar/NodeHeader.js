@@ -107,7 +107,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const accessibility = isWheelchairAccessible(properties);
     const placeName = (<PlaceName aria-label={ariaLabel}>
       {categoryOrParentCategory ?
-        <NewIcon accessibility={accessibility} category={categoryOrParentCategory} isMiddle={true} ariaHidden={true}/>
+        <NewIcon accessibility={accessibility} category={categoryOrParentCategory} isMedium={true} ariaHidden={true}/>
         : null
       }
       {(properties.name || categoryName || t`Unnamed place`).replace(/(\w)\/(\w)/g, '$1 / $2')}

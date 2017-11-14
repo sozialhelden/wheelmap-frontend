@@ -5,7 +5,6 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import * as categoryIcons from '../icons/categories';
 import getIconNameForProperties from './getIconNameForProperties';
-import { getColorForWheelchairAccessibility } from '../../lib/colors';
 import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 import NewIcon from '../NewIcon';
 
