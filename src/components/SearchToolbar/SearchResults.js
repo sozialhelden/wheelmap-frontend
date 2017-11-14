@@ -10,9 +10,11 @@ import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
 import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
 import type { WheelmapFeature } from '../../lib/Feature';
+import { isWheelchairAccessible } from '../../lib/Feature';
 import ToolbarLink from '../ToolbarLink';
 import PlaceName from '../PlaceName';
 import Icon from '../Icon';
+import NewIcon from '../NewIcon';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 
 
@@ -236,6 +238,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     const categoryOrParentCategory = this.state.category || this.state.parentCategory;
     const wheelmapFeature = this.state.wheelmapFeature;
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
+    const accessibility = isWheelchairAccessible(wheelmapFeatureProperties);
     const href = this.getHref();
     const hasWheelmapId = Boolean(wheelmapFeature);
     const isHashLink = !hasWheelmapId;
@@ -259,7 +262,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
       >
         <PlaceName>
           {categoryOrParentCategory ?
-            <Icon properties={wheelmapFeatureProperties} category={categoryOrParentCategory} />
+            <NewIcon accessibility={accessibility} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} isMiddle={true} ariaHidden={true}/>
             : null
           }
           {placeName}
