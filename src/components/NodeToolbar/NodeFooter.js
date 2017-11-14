@@ -24,7 +24,7 @@ const StyledFooter = styled.footer`
       transform: translate3d(-2px, 0, 0);
     }
     100% {
-      opacity: 0.5;
+      opacity: 1.0;
       transform: translate3d(0, 0, 0);
     }
   }
