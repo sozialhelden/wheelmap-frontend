@@ -137,7 +137,7 @@ export default class Map extends React.Component<Props, State> {
     let unitSystem = this.props.unitSystem;
     if (!unitSystem) {
       // derive unitSystem from locale
-      const locale = window.navigator.language;
+      const locale = window.navigator.languages[0] || window.navigator.language;
       unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
     }
 
