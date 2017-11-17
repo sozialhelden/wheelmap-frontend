@@ -37,6 +37,7 @@ const bigIconStyles = css`
 const mediumIconStyles = css`
   width: 30px;
   height: 30px;
+  min-width: 30px;
 
   svg {
     width: 20px;
