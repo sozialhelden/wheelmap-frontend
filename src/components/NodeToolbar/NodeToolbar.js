@@ -168,7 +168,6 @@ class NodeToolbar extends React.Component<Props, State> {
           history={this.props.history}
           onClick={() => {
             this.toggleReportMode(false);
-            this.props.history.goBack();
             if (this.props.onClose) this.props.onClose();
           }}
         />}
