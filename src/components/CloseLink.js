@@ -31,12 +31,6 @@ class CloseLink extends React.Component<Props> {
     this.props.history.push(`/beta#?${queryString.stringify(params)}`);
   }
 
-  onKeyDown = event => {
-    if (event.nativeEvent.key === 'Enter' || event.nativeEvent.key === ' ') {
-      this.onClick(event);
-    }
-  }
-
   focus() {
     const linkElement = ReactDOM.findDOMNode(this.linkInstance)
     linkElement.focus();
@@ -51,7 +45,6 @@ class CloseLink extends React.Component<Props> {
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.onClick}
-        onKeyDown={this.onKeyDown}
         role='button'
         aria-label={t`Clear Search`}
       >
