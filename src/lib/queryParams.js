@@ -15,5 +15,5 @@ export function setQueryParams(history: RouterHistory, newParams: {}) {
   keysToDelete.forEach(key => delete changedParams[key]);
   const newString = queryString.stringify(changedParams);
   const newHash = `#?${newString}`;
-  history.replace({ hash: newHash });
+  history.replace({ search: history.location.search, hash: newHash });
 }
