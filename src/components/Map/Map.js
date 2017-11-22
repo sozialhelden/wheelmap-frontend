@@ -54,6 +54,7 @@ type Props = {
   locateOnStart?: boolean,
   className: ?string,
   onMapMounted?: ((map: L.Map) => void),
+  unitSystem?: 'metric' | 'imperial',
 }
 
 
@@ -133,13 +134,17 @@ export default class Map extends React.Component<Props, State> {
     map.on('moveend', () => this.onMoveEnd());
     map.on('zoomend', () => this.onMoveEnd());
 
-    const locale = window.navigator.language;
-    const isImperial = locale === 'en' || locale === 'en-GB' || locale === 'en-US';
+    let unitSystem = this.props.unitSystem;
+    if (!unitSystem) {
+      // derive unitSystem from locale
+      const locale = window.navigator.languages[0] || window.navigator.language;
+      unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
+    }
 
     L.control.scale({
       maxWidth: 70,
-      metric: !isImperial,
-      imperial: isImperial,
+      metric: unitSystem === 'metric',
+      imperial: unitSystem === 'imperial',
     }).addTo(map);
 
     addLocateControlToMap(map);
