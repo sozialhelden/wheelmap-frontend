@@ -5,7 +5,7 @@ import { tWithLocale, addLocale } from 'c-3po';
 import { i18nCache } from './cache/I18nCache';
 
 
-export const defaultLocale = 'en_US';
+export const defaultLocale = 'en-US';
 export let currentLocale = defaultLocale;
 
 
@@ -37,8 +37,9 @@ export function expandedPreferredLocales() {
 
 // Wraps c-3po's translation function using a fallback strategy for missing strings
 export function t(...args) {
-  for (const locale in expandedPreferredLocales()) {
-    const translatedString = tWithLocale(locale, ...args);
+  const locales = expandedPreferredLocales();
+  for (let i = 0; i < locales.length; i++) {
+    const translatedString = tWithLocale(locales[i], ...args);
     if (translatedString) return translatedString;
   }
   return args[0]; // return the untranslated string as last option
