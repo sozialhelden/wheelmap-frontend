@@ -2,6 +2,7 @@
 
 import get from 'lodash/get';
 import pick from 'lodash/pick';
+import omit from 'lodash/omit';
 import * as React from 'react';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
@@ -412,7 +413,7 @@ class FeatureLoader extends React.Component<Props, State> {
       </div>) : null}
 
       <Map
-        ref={(map) => { this.map = map; }}
+        ref={(map) => { this.map = map; window.map = map; }}
         history={this.props.history}
         onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
         lat={lat ? parseFloat(lat) : null}
@@ -446,14 +447,13 @@ class FeatureLoader extends React.Component<Props, State> {
     </div>);
   }
 
-  onMoveEndHandler(...params) {
-    const moveProps = params[0];
-    console.log('Setting query params after moving to', moveProps);
-    setQueryParams(this.props.history, ...params);
+  onMoveEndHandler(state) {
+    console.log('Setting query params after moving to', state);
+    setQueryParams(this.props.history, omit(state, 'bbox'));
 
-    saveState('map.lastZoom', String(moveProps.zoom));
-    saveState('map.lastCenter.lat', String(moveProps.lat));
-    saveState('map.lastCenter.lon', String(moveProps.lon));
+    saveState('map.lastZoom', String(state.zoom));
+    saveState('map.lastCenter.lat', String(state.lat));
+    saveState('map.lastCenter.lon', String(state.lon));
     saveState('map.lastMoveDate', new Date().toString());
   }
 }

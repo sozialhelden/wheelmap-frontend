@@ -13,8 +13,8 @@ import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
 import Categories from '../../lib/Categories';
 import SearchInputField from './SearchInputField';
-import { globalFetchManager } from '../../lib/FetchManager';
-import type { SearchResultCollection } from './SearchResults';
+import searchPlaces from '../../lib/searchPlaces';
+import type { SearchResultCollection } from '../../lib/searchPlaces';
 
 
 type Props = {
@@ -136,8 +136,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
     isLoading: false,
   };
 
-  queryIndex: number = 0;
-
   toolbar: ?React.Element<typeof Toolbar>;
   input: HTMLInputElement;
 
@@ -192,28 +190,14 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
   sendSearchRequest(query: string): void {
     if (!query || query.length < 3) {
-      this.setState({ searchResults: null });
+      this.setState({ searchResults: null, isLoading: false });
       return;
     }
 
-    const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
-    const { lat, lon } = this.props;
-    let locationBiasedUrl = url;
-    if (typeof lat === 'number' && typeof lon === 'number') {
-      locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
-    }
-    this.queryIndex += 1;
-    const queryIndex = this.queryIndex;
     this.setState({ isLoading: true });
-    globalFetchManager.fetch(locationBiasedUrl).then((response) => {
-      if (queryIndex !== this.queryIndex) {
-        // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
-        // allow to cancel a request yet.
-        return;
-      }
-      response.json().then((featureCollection) => {
-        this.setState({ searchResults: featureCollection, isLoading: false });
-      });
+
+    searchPlaces(query, this.props).then((featureCollection) => {
+      this.setState({ searchResults: featureCollection, isLoading: false });
     });
   }
 

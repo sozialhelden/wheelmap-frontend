@@ -4,7 +4,6 @@ import { t } from '../../lib/i18n';
 import styled from 'styled-components';
 import uniq from 'lodash/uniq';
 import * as React from 'react';
-import type { GeometryObject } from 'geojson-flow';
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
@@ -16,31 +15,7 @@ import PlaceName from '../PlaceName';
 import Icon from '../Icon';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 
-
-export type SearchResultProperties = {
-  city?: ?any,
-  country?: ?any,
-  name?: ?any,
-  osm_id?: ?any,
-  osm_key?: ?any,
-  osm_type?: ?any,
-  osm_value?: ?any,
-  postcode?: ?any,
-  state?: ?any,
-  housenumber?: ?any,
-  street?: ?any,
-};
-
-
-export type SearchResultFeature = {
-  geometry: GeometryObject,
-  properties: SearchResultProperties,
-};
-
-
-export type SearchResultCollection = {
-  features: SearchResultFeature[],
-};
+import type { SearchResultFeature, SearchResultCollection } from '../../lib/searchPlaces';
 
 
 type SearchResultProps = {
