@@ -1,8 +1,8 @@
 # Translators:
-# ferit yazgan <ferityazgan@gmail.com>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: ferit yazgan <ferityazgan@gmail.com>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Turkish (https://www.transifex.com/sozialhelden/teams/16671/tr/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: tr\n"

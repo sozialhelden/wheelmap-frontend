@@ -1,5 +1,4 @@
 # Translators:
-# Ben <benlarcher@gmail.com>, 2017
 # Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""

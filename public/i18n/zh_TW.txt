@@ -1,6 +1,4 @@
 # Translators:
-# Supaplex <bejokeup@gmail.com>, 2017
-# Hu Kenneth <Kenneth_hu@livemail.tw>, 2017
 # Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""

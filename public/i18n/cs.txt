@@ -1,8 +1,8 @@
 # Translators:
-# Jiří Vírava <appukonrad@gmail.com>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Jiří Vírava <appukonrad@gmail.com>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Czech (https://www.transifex.com/sozialhelden/teams/16671/cs/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: cs\n"

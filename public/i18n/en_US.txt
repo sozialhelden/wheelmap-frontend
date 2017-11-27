@@ -1,8 +1,12 @@
-# 
+# Translators:
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Language-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:81
 msgid "${ categoryName } on Wheelmap"

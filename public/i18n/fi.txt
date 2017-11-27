@@ -1,8 +1,8 @@
 # Translators:
-# Riku Seppälä <riku.seppala@kymp.net>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Riku Seppälä <riku.seppala@kymp.net>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Finnish (https://www.transifex.com/sozialhelden/teams/16671/fi/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: fi\n"

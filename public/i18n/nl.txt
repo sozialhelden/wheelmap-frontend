@@ -1,8 +1,8 @@
 # Translators:
-# Heimen Stoffels <vistausss@outlook.com>, 2017
+# Sebastian Felix Zappe <hypo@me.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>, 2017\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
 "Language-Team: Dutch (https://www.transifex.com/sozialhelden/teams/16671/nl/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: nl\n"
