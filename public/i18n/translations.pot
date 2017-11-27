@@ -462,7 +462,7 @@ msgid "Unnamed place"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:31
-msgid "Find out Use the link below for details about the place and editing.how"
+msgid "Use the link below for details about the place and editing."
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157

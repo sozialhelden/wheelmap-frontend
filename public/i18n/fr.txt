@@ -438,7 +438,7 @@ msgid "Unnamed place"
 msgstr "Lieu sans nom"
 
 #: src/components/NodeToolbar/Report/strings.js:31
-msgid "Find out Use the link below for details about the place and editing.how"
+msgid "Use the link below for details about the place and editing."
 msgstr "Utilisez le lien ci-dessous pour voir ou modifier le lieu."
 
 #: src/lib/Feature.js:270

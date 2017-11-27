@@ -433,7 +433,7 @@ msgid "Unnamed place"
 msgstr "Unbenannter Ort"
 
 #: src/components/NodeToolbar/Report/strings.js:31
-msgid "Find out Use the link below for details about the place and editing.how"
+msgid "Use the link below for details about the place and editing."
 msgstr "Benutze den Link unten, um den Ort zu verändern."
 
 #: src/lib/Feature.js:270
