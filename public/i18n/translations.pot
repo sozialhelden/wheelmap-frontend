@@ -478,7 +478,7 @@ msgid "Wheelchair-height toilet seat"
 msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:49
-msgid "Wheelmap Onboarding"
+msgid "Wheelmap start screen"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:11
