@@ -168,7 +168,7 @@ class FilterToolbar extends React.Component<Props, State> {
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
 
     // translator: Shown at the top of the filter toolbar
-    const headerText = t`Which places do you want to see?`;
+    const headerText = t`Which places do you want to find?`;
 
     // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see, plural
     const allCaption = t`All`;

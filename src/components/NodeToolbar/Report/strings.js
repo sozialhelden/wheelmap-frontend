@@ -16,7 +16,7 @@ export default function strings() {
     // translator: Explains that you need to go to OSM to mark a place as closed.
     osmPermanentlyClosedHint: t`If the place closed permanently, you can tag the place as ‘disused’ on OpenStreetMap.`,
     // translator: Link caption to the explanatory article that shows how to mark a place as closed.
-    osmPermanentlyClosedHowtoLinkCaption: t`See how`,
+    osmPermanentlyClosedHowtoLinkCaption: t`Find out how`,
     // translator: Points the user to OSM for changing place details
     osmEditHint: t`Did you know you can change this place’s information on OpenStreetMap directly?`,
     // translator: Explains that you have to log in before editing places on OSM and that edits don't get propagated back directly
@@ -28,7 +28,7 @@ export default function strings() {
     // translator: Gives credits to the external organization this place comes from. The organization's name is mentioned after this text.
     externalDataHint: t`Information about this place has kindly been provided by another organization`,
     // translator: Explains how to reach the place details on the external page the place comes from (for example Jaccede).
-    useLinkExplanation: t`Use the link below to see or change the place.`,
+    useLinkExplanation: t`Use the link below for details about the place and editing.`,
     // translator: Explains that edits don't get propagated back to Wheelmap directly after editing
     editingDelayExplanation: t`(Note that it can take a while until the place is updated on Wheelmap after editing.)`,
     // translator: Button caption in report dialog

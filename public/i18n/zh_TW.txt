@@ -335,7 +335,7 @@ msgid "Search place or address"
 msgstr "搜尋地名或地址"
 
 #: src/components/NodeToolbar/Report/strings.js:19
-msgid "See how"
+msgid "Find out how"
 msgstr "看看如何"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:73
@@ -413,7 +413,7 @@ msgid "Unnamed place"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:31
-msgid "Use the link below to see or change the place."
+msgid "Find out Use the link below for details about the place and editing.how"
 msgstr "使用下面的鏈接查看或更改地點。"
 
 #: src/lib/Feature.js:270

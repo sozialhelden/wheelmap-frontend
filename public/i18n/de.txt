@@ -351,7 +351,7 @@ msgid "Search place or address"
 msgstr "Ort oder Adresse suchen"
 
 #: src/components/NodeToolbar/Report/strings.js:19
-msgid "See how"
+msgid "Find out how"
 msgstr "So geht’s…"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:73
@@ -433,7 +433,7 @@ msgid "Unnamed place"
 msgstr "Unbenannter Ort"
 
 #: src/components/NodeToolbar/Report/strings.js:31
-msgid "Use the link below to see or change the place."
+msgid "Find out Use the link below for details about the place and editing.how"
 msgstr "Benutze den Link unten, um den Ort zu verändern."
 
 #: src/lib/Feature.js:270
