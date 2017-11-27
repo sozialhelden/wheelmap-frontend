@@ -46,7 +46,7 @@ function Onboarding(props: Props) {
     isVisible={props.isVisible}
     onClose={props.onClose}
     ariaDescribedBy='wheelmap-claim-onboarding wheelmap-icon-descriptions'
-    ariaLabel={t`Wheelmap Onboarding`}
+    ariaLabel={t`Wheelmap start screen`}
   >
     <header>
       <Logo className="logo" aria-hidden={true}/>
