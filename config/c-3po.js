@@ -5,7 +5,9 @@ const c3poConfig = {
 };
 
 if (extract) {
-  c3poConfig.extract = { output: 'public/i18n/translations.pot', location: 'full' };
+  const output = 'public/i18n/translations.pot';
+  console.log('Extracting translations to', output, '…');
+  c3poConfig.extract = { output, location: 'full' };
 }
 
 if (locale) {
