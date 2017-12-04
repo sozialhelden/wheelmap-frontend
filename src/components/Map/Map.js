@@ -55,6 +55,7 @@ type Props = {
   className: ?string,
   onMapMounted?: ((map: L.Map) => void),
   unitSystem?: 'metric' | 'imperial',
+  isLocalizationLoaded: boolean,
 }
 
 
@@ -121,15 +122,6 @@ export default class Map extends React.Component<Props, State> {
       zoomControl: false,
     });
 
-    // translator: Shown in the attributon bar at the bottom (followed by the ‘Sozialhelden’ logo)
-    const aProjectBy = t`A project by`;
-
-    // translator: Shown in the attributon bar at the bottom
-    const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
-
-    map.attributionControl.setPrefix(null);
-    map.attributionControl.addAttribution(`<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de">${sozialheldenLogoHTML}</a></span>`);
-
     if (!map) {
       throw new Error('Could not initialize map component.');
     }
@@ -164,7 +156,6 @@ export default class Map extends React.Component<Props, State> {
     addLocateControlToMap(map);
 
     L.tileLayer(this.props.mapboxTileUrl, {
-      attribution: mapboxOSMAttribution,
       maxZoom: this.props.maxZoom,
       id: 'accessibility-cloud',
     }).addTo(map);
@@ -221,7 +212,6 @@ export default class Map extends React.Component<Props, State> {
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
     });
 
-
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
   }
 
@@ -246,6 +236,22 @@ export default class Map extends React.Component<Props, State> {
     }
   }
 
+  addAttribution() {
+    const map = this.map;
+    if (!map) return;
+
+    // translator: Shown in the attributon bar at the bottom (followed by the ‘Sozialhelden’ logo)
+    const aProjectBy = t`A project by`;
+
+    const sozialheldenAttribution = `<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de">${sozialheldenLogoHTML}</a></span>`;
+
+    // translator: Shown in the attributon bar at the bottom
+    const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
+
+    map.attributionControl.setPrefix(null);
+    map.attributionControl.addAttribution(sozialheldenAttribution);
+    map.attributionControl.addAttribution(mapboxOSMAttribution);
+  }
 
   componentWillReceiveProps(newProps: Props) {
     const map = this.map;
@@ -258,6 +264,10 @@ export default class Map extends React.Component<Props, State> {
       if (map.getZoom() < this.props.minZoomWithSetCategory) {
         map.setZoom(this.props.minZoomWithSetCategory, { animate: true });
       }
+    }
+
+    if (!this.props.isLocalizationLoaded && newProps.isLocalizationLoaded) {
+      this.addAttribution()
     }
 
     const accessibilityFilterChanged = !isEqual(this.props.accessibilityFilter.sort(), newProps.accessibilityFilter.sort());

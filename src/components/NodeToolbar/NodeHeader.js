@@ -1,7 +1,5 @@
 // @flow
 
-import { t } from '../../lib/i18n';
-import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -11,14 +9,14 @@ import type {
   WheelmapProperties,
   AccessibilityCloudProperties,
 } from '../../lib/Feature';
-import { isWheelchairAccessible } from '../../lib/Feature';
+import { isWheelchairAccessible, categoryNameFor, placeNameFor } from '../../lib/Feature';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
-import { currentLocale, defaultLocale } from '../../lib/i18n';
+import { t } from '../../lib/i18n';
 
 
 const StyledNodeHeader = styled.header`
@@ -61,7 +59,7 @@ function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
     </span>);
   }
   return (<a className="phone-number link-button" href={`tel:${phoneNumber}`}>
-    Call {phoneNumber}
+    {t`Call ${phoneNumber}`}
   </a>);
 }
 
@@ -97,20 +95,17 @@ export default class NodeHeader extends React.Component<Props, void> {
     const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
-    const categoryOrParentCategory = this.props.category || this.props.parentCategory;
-    let categoryName = get(categoryOrParentCategory, `translations._id.${currentLocale}`) ||
-      get(categoryOrParentCategory, `translations._id.${currentLocale.slice(0, 2)}`) ||
-      get(categoryOrParentCategory, `translations._id.${defaultLocale}`);
-
-    const ariaLabel = properties.name ? `${properties.name}, ${categoryName}` : categoryName;
-
+    const { category, parentCategory } = this.props;
+    let categoryName = categoryNameFor(category || parentCategory);
+    const placeName = placeNameFor(properties, category || parentCategory);
+    const ariaLabel = placeName ? `${placeName}, ${categoryName}` : categoryName;
     const accessibility = isWheelchairAccessible(properties);
-    const placeName = (<PlaceName aria-label={ariaLabel}>
-      {categoryOrParentCategory ?
-        <Icon accessibility={accessibility} category={categoryOrParentCategory} isMedium ariaHidden={true}/>
+    const placeNameElement = (<PlaceName aria-label={ariaLabel}>
+      {categoryName ?
+        <Icon accessibility={accessibility} category={category || parentCategory} isMedium ariaHidden={true}/>
         : null
       }
-      {(properties.name || categoryName || t`Unnamed place`).replace(/(\w)\/(\w)/g, '$1 / $2')}
+      {placeName}
     </PlaceName>);
 
     if (this.props.showOnlyBasics) {
@@ -119,7 +114,7 @@ export default class NodeHeader extends React.Component<Props, void> {
 
     return (
       <StyledNodeHeader>
-        {placeName}
+        {placeNameElement}
 
         {properties.name ? <StyledBreadCrumbs
           properties={properties}

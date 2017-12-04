@@ -426,6 +426,7 @@ class FeatureLoader extends React.Component<Props, State> {
         toiletFilter={this.toiletFilter()}
         pointToLayer={this.createMarkerFromFeature}
         locateOnStart={shouldLocateOnStart}
+        isLocalizationLoaded={isLocalizationLoaded}
         {...config}
       />
 

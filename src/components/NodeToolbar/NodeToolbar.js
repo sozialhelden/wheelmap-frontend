@@ -23,7 +23,7 @@ import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature } from '../../lib/Feature';
-import { isWheelmapFeatureId } from '../../lib/Feature';
+import { placeNameFor, isWheelmapFeatureId } from '../../lib/Feature';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 9px;
@@ -56,13 +56,20 @@ const StyledToolbar = styled(Toolbar)`
 class NodeToolbar extends React.Component<Props, State> {
   props: Props;
   state = { category: null, parentCategory: null, isReportMode: false };
-  toolbar: ?React.Element<typeof Toolbar>;
+  toolbar: ?React.ElementRef<typeof Toolbar>;
+  nodeFooter: ?React.ElementRef<typeof NodeFooter>;
+  reportDialog: ?React.ElementRef<typeof ReportDialog>;
+  accessibilityEditor: ?React.ElementRef<typeof AccessibilityEditor>;
+  shareButton: ?React.ElementRef<'button'>;
+  reportModeButton: ?React.ElementRef<'button'>;
+
+  shouldBeFocused: ?boolean;
 
   componentDidMount() {
     this.fetchCategory(this.props);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
     // element (the node toolbar's close link) was not rendered yet. See this.focus().
     if (this.shouldBeFocused) {
@@ -126,7 +133,7 @@ class NodeToolbar extends React.Component<Props, State> {
     }
   }
 
-  manageFocus(prevProps, prevState) {
+  manageFocus(prevProps: Props, prevState: State) {
     if (prevProps.isEditMode && !this.props.isEditMode) {
       if (this.nodeFooter) {
         this.nodeFooter.focus();
@@ -136,7 +143,9 @@ class NodeToolbar extends React.Component<Props, State> {
     }
 
     if (prevState.isReportMode && !this.state.isReportMode) {
-      this.reportModeButton.focus();
+      if (this.reportModeButton) {
+        this.reportModeButton.focus();
+      }
     }
   }
 
@@ -162,7 +171,7 @@ class NodeToolbar extends React.Component<Props, State> {
         isModal={this.props.isEditMode || this.state.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
-        ariaLabel={this.props.feature.properties.name}
+        ariaLabel={placeNameFor(this.props.feature.properties)}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
@@ -204,7 +213,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
           return (<div>
             <BasicAccessibility properties={properties} />
-            <AccessibilityDetails details={accessibility} />
+            <AccessibilityDetails details={accessibility} locale={window.navigator.language} />
             <AccessibilityExtraInfo properties={properties} />
             {
               this.props.featureId && isWheelmapFeatureId(this.props.featureId) ? (

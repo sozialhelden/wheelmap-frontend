@@ -6,7 +6,8 @@ import FeatureCache from './FeatureCache';
 export default class AccessibilityCloudFeatureCache extends
   FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
-    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?appToken=27be4b5216aced82122d7cf8f69e4a07`);
+    const locale = window.navigator.language;
+    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?appToken=27be4b5216aced82122d7cf8f69e4a07&locale=${locale}`);
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {

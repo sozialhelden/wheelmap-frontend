@@ -4,7 +4,10 @@ import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 
 import type { GeometryObject } from 'geojson-flow';
-import { t } from './i18n';
+import { t, translatedStringFromObject } from './i18n';
+
+import type { Category } from './Categories';
+import type { LocalizedString } from './i18n';
 
 export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
 export type YesNoUnknown = "yes" | "no" | "unknown";
@@ -50,12 +53,11 @@ export type WheelmapProperties = {
   housenumber: ?string,
   lat: number,
   lon: number,
-  name: ?string,
+  name: ?LocalizedString,
   phone: ?string,
   photo_ids: ?(number | string)[],
   postcode: ?string,
   sponsor: ?string,
-  category: ?string,
   icon: ?string,
   region: ?string,
   street: ?string,
@@ -88,11 +90,12 @@ export type WheelmapLightweightFeatureCollection = {
 
 export type AccessibilityCloudProperties = {
   _id: string,
-  name?: string,
+  name?: ?LocalizedString,
   accessibility?: MinimalAccessibility,
   category?: string,
   address?: { city?: string, full?: string, postal_code?: string } | string,
   infoPageUrl?: string,
+  editPageUrl?: string,
 };
 
 
@@ -271,3 +274,14 @@ export const accessibleToiletDescription = (useImperialUnits: boolean) => [
   t`Folding grab rails`,
   t`Accessible hand basin`,
 ];
+
+export function categoryNameFor(category: Category): ?string {
+  if (!category) return null;
+  const translationsObject = category.translations;
+  const idObject = translationsObject ? translationsObject._id : null;
+  return translatedStringFromObject(idObject);
+}
+
+export function placeNameFor(properties: NodeProperties, category: Category): string {
+  return translatedStringFromObject(properties.name) || categoryNameFor(category) || t`Unnamed place`;
+}

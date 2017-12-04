@@ -6,6 +6,7 @@ import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import colors from '../../lib/colors';
 import ChevronRight from './ChevronRight';
+import { t } from '../../lib/i18n';
 
 
 type Props = {
@@ -53,9 +54,9 @@ class SourceLink extends React.Component<Props, State> {
     const sourceNameString = String(sourceName);
 
     // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
-    const unknownSourceNameCaption = 'Details';
+    const unknownSourceNameCaption = t`Details`;
     // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
-    const knownSourceNameCaption = `View this place on ${sourceNameString}`;
+    const knownSourceNameCaption = t`View this place on ${sourceNameString}`;
 
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
