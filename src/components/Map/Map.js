@@ -102,10 +102,8 @@ export default class Map extends React.Component<Props, State> {
 
   updateTabIndexes() {
     this.map.eachLayer(layer => {
-      if (layer.getElement) {
-
+      if (layer.getElement && layer.getLatLng) {
         const isInViewport = this.map.getBounds().contains(layer.getLatLng());
-
         const layerElement = layer.getElement();
         layerElement.setAttribute('tabindex', isInViewport ? 0 : -1)
       }
