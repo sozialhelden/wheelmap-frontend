@@ -8,15 +8,19 @@ msgstr ""
 "Language: mn\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:81
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } Wheelmap дээрх "
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
 msgstr "Wheelmap дээрх ${ placeName }"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
+#: src/components/SearchToolbar/CategoryButton.js:60
+msgid "${ props.name } Filter"
+msgstr ""
+
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nЭнэ холбоос дээр дарж үүнийг нээ: ${ url }"
 
@@ -44,7 +48,7 @@ msgid ""
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
 
-#: src/components/Map/Map.js:125
+#: src/components/Map/Map.js:244
 msgid "A project by"
 msgstr "Уг төсөл нь "
 
@@ -52,7 +56,7 @@ msgstr "Уг төсөл нь "
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:272
+#: src/lib/Feature.js:276
 msgid "Accessible hand basin"
 msgstr "Хүртээмжтэй гарын угаалтуур "
 
@@ -81,6 +85,10 @@ msgstr "Буцах "
 msgid "Bonus karma points!"
 msgstr "Урамшуулал карма оноонууд  "
 
+#: src/components/NodeToolbar/NodeHeader.js:62
+msgid "Call ${ phoneNumber }"
+msgstr ""
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
 msgid "Cancel"
 msgstr "Буцах "
@@ -97,11 +105,11 @@ msgstr "Газарзүйн зураглал дээр үзүүлсэн газру
 msgid "Clear Search"
 msgstr ""
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:273
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Шалны талбай ≥ 150 см өргөн "
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:273
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Шалны талбай ≥ 59 инч өргөн"
 
@@ -130,6 +138,7 @@ msgid "Continue"
 msgstr "Үргэлжлүүлэх "
 
 #: src/components/NodeToolbar/NodeFooter.js:112
+#: src/components/NodeToolbar/SourceLink.js:57
 msgid "Details"
 msgstr "Нарийвчлал"
 
@@ -141,11 +150,11 @@ msgstr ""
 "Та энэхүү газрын мэдээллийг OpenStreetMap дээр шууд өөрчлөх боломжтой гэдгээ"
 " мэдэх үү?"
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:272
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Хаалганы дотор өргөн ≥ 35 инч "
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:272
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Хаалганы дотор өргөн ≥ 90 см"
 
@@ -157,11 +166,11 @@ msgstr "Энэ газрыг OpenStreetMap дээр засварлах "
 msgid "Education"
 msgstr "Боловсрол "
 
-#: src/lib/Feature.js:248
+#: src/lib/Feature.js:252
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Орох гарах гарц нь хэд хэдэн гишгүүртэй, өрөөнүүд хүртээмжгүй"
 
-#: src/lib/Feature.js:246
+#: src/lib/Feature.js:250
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -169,7 +178,7 @@ msgstr ""
 "Орох гарах гарц нь хамгийн ихдээ нэг гишгүүртэй. 7см / 3 инч өндөртэй, ихэнх"
 " өрөөнүүд нь гишгүүргүй. "
 
-#: src/lib/Feature.js:243
+#: src/lib/Feature.js:247
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Орох гарах гарц гишгүүргүй, бүх өрөө гишгүүргүй "
 
@@ -190,11 +199,15 @@ msgstr "Түгээмэл Асуулт Хариулт"
 msgid "Find out about this place’s accessibility."
 msgstr "Энэ газрын хүртээмжийн тухай хайж олох "
 
+#: src/components/NodeToolbar/Report/strings.js:19
+msgid "Find out how"
+msgstr ""
+
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
 msgstr ""
 
-#: src/lib/Feature.js:271
+#: src/lib/Feature.js:275
 msgid "Folding grab rails"
 msgstr "Эвхэгддэг бариул "
 
@@ -202,11 +215,11 @@ msgstr "Эвхэгддэг бариул "
 msgid "Food & Drinks"
 msgstr "Хоол хүнс ба Уух зүйлс "
 
-#: src/lib/Feature.js:228
+#: src/lib/Feature.js:232
 msgid "Fully"
 msgstr "Бүрэн байдлаар "
 
-#: src/lib/Feature.js:213
+#: src/lib/Feature.js:217
 msgid "Fully wheelchair accessible"
 msgstr "Тэргэнцэрт бүрэн хүртээмжтэй "
 
@@ -214,7 +227,7 @@ msgstr "Тэргэнцэрт бүрэн хүртээмжтэй "
 msgid "Get involved"
 msgstr "Оролцох"
 
-#: src/lib/Feature.js:258
+#: src/lib/Feature.js:262
 msgid "Has a wheelchair accessible toilet."
 msgstr "Тэргэнцэрт хүртээмжтэй ариун цэврийн өрөөтэй."
 
@@ -292,7 +305,7 @@ msgstr "Энэ газартай холбоотой ямар нэгэн асуу�
 msgid "Leisure"
 msgstr "Чөлөөт цаг "
 
-#: src/components/Map/Map.js:419
+#: src/components/Map/Map.js:429
 msgid "Map"
 msgstr ""
 
@@ -333,15 +346,15 @@ msgstr "Мэдээ"
 msgid "No"
 msgstr "Үгүй "
 
-#: src/lib/Feature.js:260
+#: src/lib/Feature.js:264
 msgid "No wheelchair accessible toilet."
 msgstr "Тэргэнцэрт хүртээмжгүй ариун цэврийн өрөө."
 
-#: src/lib/Feature.js:232
+#: src/lib/Feature.js:236
 msgid "Not at all"
 msgstr "Бүгд биш "
 
-#: src/lib/Feature.js:217
+#: src/lib/Feature.js:221
 msgid "Not wheelchair accessible"
 msgstr "Тэргэнцэрт хүртээмжгүй "
 
@@ -362,11 +375,11 @@ msgid "Only show places with a wheelchair accessible toilet"
 msgstr ""
 "Зөвхөн тэргэнцэрт хүртээмжтэй ариун цэврийн өрөөтэй газруудыг харуулах "
 
-#: src/lib/Feature.js:230
+#: src/lib/Feature.js:234
 msgid "Partially"
 msgstr "Хэсэгчилсэн байдлаар"
 
-#: src/lib/Feature.js:215
+#: src/lib/Feature.js:219
 msgid "Partially wheelchair accessible"
 msgstr "Тэргэнцэрт хэсэгчилсэн хүртээмжтэй "
 
@@ -378,7 +391,7 @@ msgstr "Миний хувь нэмэр оруулж чадах газрууд "
 msgid "Press"
 msgstr "Хэвлэх"
 
-#: src/components/NodeToolbar/NodeToolbar.js:148
+#: src/components/NodeToolbar/NodeToolbar.js:157
 msgid "Report an Issue"
 msgstr "Асуудлыг тайлагнах "
 
@@ -392,10 +405,6 @@ msgstr "Хаяг эсвэл газраар хайх"
 
 #: src/components/SearchToolbar/SearchResults.js:262
 msgid "Search results"
-msgstr ""
-
-#: src/components/NodeToolbar/Report/strings.js:19
-msgid "Find out how"
 msgstr ""
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
@@ -459,11 +468,11 @@ msgstr "Тээврийн үйлчилгээ "
 msgid "Travel guide"
 msgstr "Аялалын хөтөч"
 
-#: src/lib/Feature.js:234
+#: src/lib/Feature.js:238
 msgid "Unknown"
 msgstr "Тодорхойгүй "
 
-#: src/lib/Feature.js:219
+#: src/lib/Feature.js:223
 msgid "Unknown status"
 msgstr "Тодорхойгүй төлөв "
 
@@ -471,12 +480,16 @@ msgstr "Тодорхойгүй төлөв "
 msgid "Unnamed"
 msgstr "Нэр бүртгэгдээгүй "
 
-#: src/components/NodeToolbar/NodeHeader.js:113
+#: src/lib/Feature.js:289
 msgid "Unnamed place"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceLink.js:59
+msgid "View this place on ${ sourceNameString }"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
@@ -487,7 +500,7 @@ msgstr ""
 msgid "Wheelchair Accessibility Filter"
 msgstr ""
 
-#: src/lib/Feature.js:270
+#: src/lib/Feature.js:274
 msgid "Wheelchair-height toilet seat"
 msgstr "Ариун цэврийн өрөөний суултуурын тэргэнцэртэй харьцах өндөр "
 
@@ -531,7 +544,7 @@ msgstr "[Wheelmap] холбоотой асуудал ${ categoryName } Wheelmap 
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap дээр байгаа асуудалтай газрууд "
 
-#: src/components/Map/Map.js:128
+#: src/components/Map/Map.js:249
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"

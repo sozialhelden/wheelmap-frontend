@@ -9,15 +9,19 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:81
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } Wheelmap'te."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } Wheelmap.org'da."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
+#: src/components/SearchToolbar/CategoryButton.js:60
+msgid "${ props.name } Filter"
+msgstr ""
+
+#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nAçmak için bu bağlantıyı tıklayın: ${ url }"
 
@@ -47,7 +51,7 @@ msgstr ""
 "Sozialhelden,\\n\\nMekanla ilgili yanlış bir şeyler var: ${ url "
 "}\\n\\nSorun:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 
-#: src/components/Map/Map.js:125
+#: src/components/Map/Map.js:244
 msgid "A project by"
 msgstr "Proje"
 
@@ -55,7 +59,7 @@ msgstr "Proje"
 msgid "Accessibility Filter Dialog"
 msgstr "Erişilebilirlik Filtresi İletişim Kutusu"
 
-#: src/lib/Feature.js:272
+#: src/lib/Feature.js:276
 msgid "Accessible hand basin"
 msgstr "Ulaşılabilir lavabo"
 
@@ -84,6 +88,10 @@ msgstr "Geri"
 msgid "Bonus karma points!"
 msgstr "Bonus karma puan!"
 
+#: src/components/NodeToolbar/NodeHeader.js:62
+msgid "Call ${ phoneNumber }"
+msgstr ""
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
 msgid "Cancel"
 msgstr "İptal"
@@ -100,11 +108,11 @@ msgstr "Haritada gösterilen yerleri değiştir"
 msgid "Clear Search"
 msgstr "Aramayı Temizle"
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:273
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Açık alan 150 cm'den geniş"
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:273
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Açık alan 59 inç'ten geniş"
 
@@ -133,6 +141,7 @@ msgid "Continue"
 msgstr "Devam et"
 
 #: src/components/NodeToolbar/NodeFooter.js:112
+#: src/components/NodeToolbar/SourceLink.js:57
 msgid "Details"
 msgstr "Detaylar"
 
@@ -144,11 +153,11 @@ msgstr ""
 "OpenStreetMap'te bu mekanın bilgilerini doğrudan değiştirebileceğinizi "
 "biliyor muydunuz?"
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:272
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Kapıların iç genişliği 35 inç'ten büyük"
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:272
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Kapıların iç genişliği 90 cm'den büyük"
 
@@ -160,11 +169,11 @@ msgstr "Bu mekanı OpenStreetMap üzerinde düzenle"
 msgid "Education"
 msgstr "Eğitim"
 
-#: src/lib/Feature.js:248
+#: src/lib/Feature.js:252
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Girişte bir veya birkaç basamak var, odalar erişilebilir değil."
 
-#: src/lib/Feature.js:246
+#: src/lib/Feature.js:250
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -172,7 +181,7 @@ msgstr ""
 "Girişte yüksekliği maksimum 7 cm veya 3 inç olan bir basamak var, odaların "
 "çoğuna girişte basamak yok."
 
-#: src/lib/Feature.js:243
+#: src/lib/Feature.js:247
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Girişte basamak yok, tüm odalara girişte basamak yok."
 
@@ -193,11 +202,15 @@ msgstr "SSS"
 msgid "Find out about this place’s accessibility."
 msgstr "Bu mekanın erişilebilirliği hakkında bilgi edinin."
 
+#: src/components/NodeToolbar/Report/strings.js:19
+msgid "Find out how"
+msgstr "Nasıl yapıldığını gör"
+
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
 msgstr "Tekerlekli sandalye erişimine uygun mekanları bul"
 
-#: src/lib/Feature.js:271
+#: src/lib/Feature.js:275
 msgid "Folding grab rails"
 msgstr "Çift taraflı tutma yerleri"
 
@@ -205,11 +218,11 @@ msgstr "Çift taraflı tutma yerleri"
 msgid "Food & Drinks"
 msgstr "Yiyecek & İçecek"
 
-#: src/lib/Feature.js:228
+#: src/lib/Feature.js:232
 msgid "Fully"
 msgstr "Tamamen"
 
-#: src/lib/Feature.js:213
+#: src/lib/Feature.js:217
 msgid "Fully wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine tamamen uygun"
 
@@ -217,7 +230,7 @@ msgstr "Tekerlekli sandalye erişimine tamamen uygun"
 msgid "Get involved"
 msgstr "Siz de katılın"
 
-#: src/lib/Feature.js:258
+#: src/lib/Feature.js:262
 msgid "Has a wheelchair accessible toilet."
 msgstr "Tekerlekli sandalye erişimine uygun bir tuvalet var."
 
@@ -295,7 +308,7 @@ msgstr "Bu mekanla ilgili bir sorun mu var?"
 msgid "Leisure"
 msgstr "Boş vakit"
 
-#: src/components/Map/Map.js:419
+#: src/components/Map/Map.js:429
 msgid "Map"
 msgstr "Harita"
 
@@ -335,15 +348,15 @@ msgstr "Haberler"
 msgid "No"
 msgstr "Hayır"
 
-#: src/lib/Feature.js:260
+#: src/lib/Feature.js:264
 msgid "No wheelchair accessible toilet."
 msgstr "Tuvalet tekerlekli sandalye erişimine uygun değil"
 
-#: src/lib/Feature.js:232
+#: src/lib/Feature.js:236
 msgid "Not at all"
 msgstr "Hiç değil"
 
-#: src/lib/Feature.js:217
+#: src/lib/Feature.js:221
 msgid "Not wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine uygun değil"
 
@@ -363,11 +376,11 @@ msgstr "Tekerlekli sandalye erişimine uygun"
 msgid "Only show places with a wheelchair accessible toilet"
 msgstr "Sadece tekerlekli sandalye erişimine uygun tuvaletleri göster"
 
-#: src/lib/Feature.js:230
+#: src/lib/Feature.js:234
 msgid "Partially"
 msgstr "Kısmen"
 
-#: src/lib/Feature.js:215
+#: src/lib/Feature.js:219
 msgid "Partially wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine kısmen uygun"
 
@@ -379,7 +392,7 @@ msgstr "Katkıda bulunabileceğim mekanlar"
 msgid "Press"
 msgstr "Basın"
 
-#: src/components/NodeToolbar/NodeToolbar.js:148
+#: src/components/NodeToolbar/NodeToolbar.js:157
 msgid "Report an Issue"
 msgstr "Bir sorun bildir"
 
@@ -394,10 +407,6 @@ msgstr "Mekan veya adres ara"
 #: src/components/SearchToolbar/SearchResults.js:262
 msgid "Search results"
 msgstr "Arama sonuçları"
-
-#: src/components/NodeToolbar/Report/strings.js:19
-msgid "Find out how"
-msgstr "Nasıl yapıldığını gör"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
@@ -459,11 +468,11 @@ msgstr "Toplu Taşıma"
 msgid "Travel guide"
 msgstr "Gezi rehberi"
 
-#: src/lib/Feature.js:234
+#: src/lib/Feature.js:238
 msgid "Unknown"
 msgstr "Belirsiz"
 
-#: src/lib/Feature.js:219
+#: src/lib/Feature.js:223
 msgid "Unknown status"
 msgstr "Durumu belirsiz"
 
@@ -471,7 +480,7 @@ msgstr "Durumu belirsiz"
 msgid "Unnamed"
 msgstr "İsimsiz"
 
-#: src/components/NodeToolbar/NodeHeader.js:113
+#: src/lib/Feature.js:289
 msgid "Unnamed place"
 msgstr "Adı belirsiz mekan"
 
@@ -481,6 +490,10 @@ msgstr ""
 "Yer ve düzenleme hakkında ayrıntılı bilgi için aşağıdaki bağlantıyı "
 "kullanın."
 
+#: src/components/NodeToolbar/SourceLink.js:59
+msgid "View this place on ${ sourceNameString }"
+msgstr ""
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
 msgid "Wheelchair Accessibility"
 msgstr "Tekerlekli Sandalye Erişilebilirliği"
@@ -489,7 +502,7 @@ msgstr "Tekerlekli Sandalye Erişilebilirliği"
 msgid "Wheelchair Accessibility Filter"
 msgstr "Tekerlekli Sandalye Erişilebilirliği Filtresi"
 
-#: src/lib/Feature.js:270
+#: src/lib/Feature.js:274
 msgid "Wheelchair-height toilet seat"
 msgstr "Tekerlekli sandalye yüksekliğinde klozet"
 
@@ -534,7 +547,7 @@ msgstr "[Wheelmap] Wheelpmap'te ${ categoryName } kategorisiyle ilgili sorun"
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap'te bir mekanla ilgili sorun"
 
-#: src/components/Map/Map.js:128
+#: src/components/Map/Map.js:249
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
