@@ -1,8 +1,10 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2017
+# Silke Georgi <silkemariageorgi@gmail.com>, 2017
+# Christoph <developers@sozialhelden.de>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Last-Translator: Christoph <developers@sozialhelden.de>, 2017\n"
 "Language-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: en_US\n"
@@ -42,9 +44,9 @@ msgid ""
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
-"(Please only write in English or German.)\\n\\nLiebe Sozialhelden,\\n\\nAn "
-"diesem Ort ist etwas falsch: ${ url }\\n\\nDas Problem ist:\\n\\nMein "
-"Browser:\\n\\n${ navigator.userAgent }"
+"(Please only write in English or German.)\\n\\nDear "
+"Sozialhelden,\\n\\nSomething is wrong about this place: ${ url }\\n\\nThe "
+"problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
 
 #: src/components/Map/Map.js:125
 msgid "A project by"
@@ -52,11 +54,11 @@ msgstr "A project by"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr "Rollstuhlgerechtigkeits-Filter"
+msgstr "Wheelchair accessibility filter dialogue"
 
 #: src/lib/Feature.js:272
 msgid "Accessible hand basin"
-msgstr "Accessible hand basin"
+msgstr "Accessible sink"
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
@@ -93,11 +95,11 @@ msgstr "Change"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr "Change which places are shown on the map"
+msgstr "Change the type of places shown on the map"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
-msgstr "Suche löschen"
+msgstr "Clear search"
 
 #: src/lib/Feature.js:269
 msgid "Clear floor space ≥ 150 cm wide"
@@ -109,11 +111,11 @@ msgstr "Clear floor space ≥ 59 inch wide"
 
 #: src/components/FilterToolbar/FilterToolbar.js:56
 msgid "Close Dialog"
-msgstr "Dialog schließen"
+msgstr "Close dialogue"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
 msgid "Collapse Share Menu"
-msgstr "Teilen-Menü zuklappen"
+msgstr "Close share menu"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:122
 msgid "Confirm"
@@ -140,16 +142,16 @@ msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
 "directly?"
 msgstr ""
-"Did you know you can change this place’s information on OpenStreetMap "
+"Did you know that you can change this place’s information on OpenStreetMap "
 "directly?"
 
 #: src/lib/Feature.js:268
 msgid "Doorways’ inner width ≥ 35 inch"
-msgstr "Doorways’ inner width ≥ 35 inch"
+msgstr "Doorways' inner width ≥ 35 inch"
 
 #: src/lib/Feature.js:268
 msgid "Doorways’ inner width ≥ 90 cm"
-msgstr "Doorways’ inner width ≥ 90 cm"
+msgstr "Doorways' inner width ≥ 90 cm"
 
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
@@ -182,7 +184,7 @@ msgstr "Error"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr "Teilen-Menü ausklappen"
+msgstr "Expand share menu"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
@@ -190,11 +192,11 @@ msgstr "FAQ"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
 msgid "Find out about this place’s accessibility."
-msgstr "Find out about this place’s accessibility."
+msgstr "Learn more out about the accessibility of this place."
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr "Rollstuhlgerechte Orte finden"
+msgstr "Find wheelchair accessible places"
 
 #: src/lib/Feature.js:271
 msgid "Folding grab rails"
@@ -238,7 +240,7 @@ msgstr "Hotels"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:148
 msgid "How wheelchair accessible is this place?"
-msgstr "Wie rollstuhlgerecht ist dieser Ort?"
+msgstr "How wheelchair accessible is this place?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:130
 msgid "I don’t know"
@@ -265,7 +267,7 @@ msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
-"If the place closed permanently, you can tag the place as ‘disused’ on "
+"If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 
 #: src/components/MainMenu/strings.js:19
@@ -298,15 +300,15 @@ msgstr "Leisure"
 
 #: src/components/Map/Map.js:419
 msgid "Map"
-msgstr "Karte"
+msgstr "Map"
 
 #: src/components/Onboarding/Onboarding.js:29
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
 msgstr ""
-"Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
-" with our traffic light system:"
+"Mark and find wheelchair accessible places — worldwide and for free. It’s "
+"easy with our traffic light system:"
 
 #: src/components/NodeToolbar/NodeFooter.js:109
 msgid "Mark this place"
@@ -314,11 +316,11 @@ msgstr "Mark this place"
 
 #: src/components/MainMenu/MainMenu.js:162
 msgid "Menu"
-msgstr "Menü"
+msgstr "Menu"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
-msgstr "Misc"
+msgstr "Miscellaneous"
 
 #: src/lib/Categories.js:66
 msgid "Money"
@@ -374,7 +376,7 @@ msgstr "Partially wheelchair accessible"
 
 #: src/components/FilterToolbar/FilterToolbar.js:180
 msgid "Places that I can contribute to"
-msgstr "Places that I can contribute to"
+msgstr "Places that I can contribute information to"
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
@@ -382,23 +384,23 @@ msgstr "Press"
 
 #: src/components/NodeToolbar/NodeToolbar.js:148
 msgid "Report an Issue"
-msgstr "Report an Issue"
+msgstr "Report an issue"
 
 #: src/components/NotFound/NotFound.js:48
 msgid "Return Home"
-msgstr "Return Home"
+msgstr "Back to start page"
 
 #: src/components/SearchToolbar/SearchInputField.js:49
 msgid "Search place or address"
-msgstr "Search place or address"
+msgstr "Search for place or address"
 
 #: src/components/SearchToolbar/SearchResults.js:262
 msgid "Search results"
-msgstr "Suchergebnisse"
+msgstr "Search results"
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr "So geht's"
+msgstr "This is how it works"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
@@ -424,7 +426,7 @@ msgstr "Source:"
 
 #: src/lib/Categories.js:68
 msgid "Sport"
-msgstr "Sport"
+msgstr "Sports"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -478,15 +480,15 @@ msgstr "Unnamed place"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
-msgstr "Use the link below for details about the place and editing."
+msgstr "Use the link below for details about the place and for editing."
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
 msgid "Wheelchair Accessibility"
-msgstr "Rollstuhlgerechtigkeit"
+msgstr "Wheelchair accessibility"
 
 #: src/components/FilterToolbar/FilterToolbar.js:209
 msgid "Wheelchair Accessibility Filter"
-msgstr "Filter nach Rollstuhlgerechtigkeit"
+msgstr "Wheelchair accessibility filter"
 
 #: src/lib/Feature.js:270
 msgid "Wheelchair-height toilet seat"

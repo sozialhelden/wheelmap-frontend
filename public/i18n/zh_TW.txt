@@ -1,8 +1,9 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2017
+# Supaplex <bejokeup@gmail.com>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Last-Translator: Supaplex <bejokeup@gmail.com>, 2017\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/sozialhelden/teams/16671/zh_TW/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: zh_TW\n"
@@ -45,7 +46,7 @@ msgstr "這專案是由"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr ""
+msgstr "無障礙篩選器對話"
 
 #: src/lib/Feature.js:272
 msgid "Accessible hand basin"
@@ -171,7 +172,7 @@ msgstr "錯誤"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr ""
+msgstr "展開分享選單"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
@@ -183,7 +184,7 @@ msgstr "了解這個地方的無障礙通道。"
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr ""
+msgstr "尋找有無障礙設施的地方"
 
 #: src/lib/Feature.js:271
 msgid "Folding grab rails"
@@ -219,7 +220,7 @@ msgstr "通過標記地方得到幫助！"
 
 #: src/components/MainMenu/MainMenu.js:144
 msgid "Home"
-msgstr ""
+msgstr "家"
 
 #: src/lib/Categories.js:56
 msgid "Hotels"
@@ -227,7 +228,7 @@ msgstr "旅館"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:148
 msgid "How wheelchair accessible is this place?"
-msgstr ""
+msgstr "這個地方的無障礙狀況如何？"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:130
 msgid "I don’t know"
@@ -283,7 +284,7 @@ msgstr "休閒"
 
 #: src/components/Map/Map.js:419
 msgid "Map"
-msgstr ""
+msgstr "地圖"
 
 #: src/components/Onboarding/Onboarding.js:29
 msgid ""
@@ -297,7 +298,7 @@ msgstr "標記這個地方"
 
 #: src/components/MainMenu/MainMenu.js:162
 msgid "Menu"
-msgstr ""
+msgstr "選單"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
@@ -377,11 +378,11 @@ msgstr "搜尋地名或地址"
 
 #: src/components/SearchToolbar/SearchResults.js:262
 msgid "Search results"
-msgstr ""
+msgstr "搜尋結果"
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr ""
+msgstr "尋找為什麼"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
@@ -455,7 +456,7 @@ msgstr "未命名"
 
 #: src/components/NodeToolbar/NodeHeader.js:113
 msgid "Unnamed place"
-msgstr ""
+msgstr "未命名的地方"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."

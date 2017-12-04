@@ -1,8 +1,9 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2017
+# Christoph <developers@sozialhelden.de>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Last-Translator: Christoph <developers@sozialhelden.de>, 2017\n"
 "Language-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: de\n"
@@ -26,7 +27,7 @@ msgid ""
 "editing.)"
 msgstr ""
 "(Es kann danach eine Weile dauern, bis der Ort auch auf Wheelmap "
-"aktualisiert wird)"
+"aktualisiert wird.)"
 
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
@@ -52,7 +53,7 @@ msgstr "Ein Projekt von"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr "Rollstuhlgerechtigkeits-Filter-Dialog"
+msgstr "Filter-Dialog zur Rollstuhlgerechtigkeit"
 
 #: src/lib/Feature.js:272
 msgid "Accessible hand basin"
@@ -93,7 +94,7 @@ msgstr "Ändern"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr "Ändern, welche Orte auf der Karte angezeigt werden"
+msgstr "Ändere, welche Orte auf der Karte angezeigt werden"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
@@ -140,7 +141,7 @@ msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
 "directly?"
 msgstr ""
-"Wusstest Du, dass Du diesen Ort auf OpenStreetMap direkt editieren kannst?"
+"Wusstest du, dass du diesen Ort auf OpenStreetMap direkt bearbeiten kannst?"
 
 #: src/lib/Feature.js:268
 msgid "Doorways’ inner width ≥ 35 inch"
@@ -152,7 +153,7 @@ msgstr "Türdurchgang ≥ 90 cm breit"
 
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
-msgstr "Diesen Ort auf OpenStreetMap editieren"
+msgstr "Diesen Ort auf OpenStreetMap bearbeiten"
 
 #: src/lib/Categories.js:60
 msgid "Education"
@@ -189,7 +190,7 @@ msgstr "FAQ"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
 msgid "Find out about this place’s accessibility."
-msgstr "Finde heraus, wie zugänglich dieser Ort ist."
+msgstr "Erfahre, wie zugänglich dieser Ort ist."
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
@@ -225,7 +226,7 @@ msgstr "Gesundheit"
 
 #: src/components/Onboarding/Onboarding.js:31
 msgid "Help out by marking places!"
-msgstr "Hilf’ mit, indem du Orte markierst!"
+msgstr "Hilf mit, indem du Orte markierst!"
 
 #: src/components/MainMenu/MainMenu.js:144
 msgid "Home"
@@ -264,8 +265,8 @@ msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
-"Wenn der Ort permanent geschlossen ist, kannst du auf OpenStreetMap das Tag "
-"‚disused‘ verwenden."
+"Wenn der Ort dauerhaft geschlossen ist, kannst du auf OpenStreetMap die "
+"Kennzeichnung ‚disused‘ verwenden."
 
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
@@ -273,7 +274,7 @@ msgstr "Impressum"
 
 #: src/components/NodeToolbar/NodeFooter.js:118
 msgid "Improve your karma!"
-msgstr "Verbessere Dein Karma!"
+msgstr "Verbessere dein Karma!"
 
 #: src/components/NodeToolbar/Report/strings.js:29
 msgid ""
@@ -373,7 +374,7 @@ msgstr "Teilweise rollstuhlgerecht"
 
 #: src/components/FilterToolbar/FilterToolbar.js:180
 msgid "Places that I can contribute to"
-msgstr "Orte, bei denen ich mithelfen kann"
+msgstr "Orte zum Mithelfen"
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
@@ -411,7 +412,7 @@ msgstr "Einkaufen"
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
-"Das tut uns leid! Schreib’ uns einfach, damit wir Dir helfen können, das "
+"Das tut uns leid! Schreib’ uns einfach, damit wir dir helfen können, das "
 "Problem zu beheben."
 
 #: src/components/NotFound/NotFound.js:46
@@ -467,7 +468,7 @@ msgstr "Unbekannt"
 
 #: src/lib/Feature.js:219
 msgid "Unknown status"
-msgstr "Unbekannter Zustand"
+msgstr "Unbekannter Status"
 
 #: src/components/SearchToolbar/SearchResults.js:204
 msgid "Unnamed"
@@ -480,7 +481,7 @@ msgstr "Unbenannter Ort"
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
 msgstr ""
-"Benutze den folgenden Link für Details über den Ort und zum Editieren."
+"Benutze den folgenden Link für Details über den Ort und zum Bearbeiten."
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
 msgid "Wheelchair Accessibility"
@@ -520,7 +521,8 @@ msgstr "Du kannst die Position dieses Ortes auf OpenStreetMap verändern."
 
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
-msgstr "Du kannst nicht existierende Orte auf OpenStreetMap löschen."
+msgstr ""
+"Du kannst Orte, die nicht mehr existieren, auf OpenStreetMap kennzeichnen."
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"

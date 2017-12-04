@@ -1,8 +1,9 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2017
+# Staffan Brodén <b_online@comhem.se>, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2017\n"
+"Last-Translator: Staffan Brodén <b_online@comhem.se>, 2017\n"
 "Language-Team: Swedish (https://www.transifex.com/sozialhelden/teams/16671/sv/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: sv\n"
@@ -42,6 +43,9 @@ msgid ""
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
+"(Vänligen skriv enbart på Engelska eller Tyska.)\\n\\nHi "
+"Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
+"problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 
 #: src/components/Map/Map.js:125
 msgid "A project by"
@@ -49,7 +53,7 @@ msgstr "Ett projekt av"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr ""
+msgstr "Dialogruta urval tillgänglighetsnivåer"
 
 #: src/lib/Feature.js:272
 msgid "Accessible hand basin"
@@ -94,7 +98,7 @@ msgstr "Ändra vilka platser som visas på kartan"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
-msgstr ""
+msgstr "Nollställ sökning"
 
 #: src/lib/Feature.js:269
 msgid "Clear floor space ≥ 150 cm wide"
@@ -106,11 +110,11 @@ msgstr "Fritt golvutrymme ≥ 59 tum brett"
 
 #: src/components/FilterToolbar/FilterToolbar.js:56
 msgid "Close Dialog"
-msgstr ""
+msgstr "Stäng rutan"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
 msgid "Collapse Share Menu"
-msgstr ""
+msgstr "Minimera Dela-menyn"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:122
 msgid "Confirm"
@@ -178,7 +182,7 @@ msgstr "FEL!"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr ""
+msgstr "Utöka Dela-menyn"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
@@ -190,7 +194,7 @@ msgstr "Ta reda på denna platsens tillgänglighet."
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr ""
+msgstr "Sök rullstolstillgängliga platser"
 
 #: src/lib/Feature.js:271
 msgid "Folding grab rails"
@@ -226,7 +230,7 @@ msgstr "Hjälp till med att markera platser!"
 
 #: src/components/MainMenu/MainMenu.js:144
 msgid "Home"
-msgstr ""
+msgstr "Startsidan"
 
 #: src/lib/Categories.js:56
 msgid "Hotels"
@@ -234,7 +238,7 @@ msgstr "Hotell"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:148
 msgid "How wheelchair accessible is this place?"
-msgstr ""
+msgstr "Hur rullstolstillgänglig är denna plats?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:130
 msgid "I don’t know"
@@ -293,7 +297,7 @@ msgstr "Fritid"
 
 #: src/components/Map/Map.js:419
 msgid "Map"
-msgstr ""
+msgstr "Karta"
 
 #: src/components/Onboarding/Onboarding.js:29
 msgid ""
@@ -309,7 +313,7 @@ msgstr "Markera denna plats"
 
 #: src/components/MainMenu/MainMenu.js:162
 msgid "Menu"
-msgstr ""
+msgstr "Meny"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
@@ -389,11 +393,11 @@ msgstr "Sök plats eller adress"
 
 #: src/components/SearchToolbar/SearchResults.js:262
 msgid "Search results"
-msgstr ""
+msgstr "Sökresultat"
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr ""
+msgstr "Lär dig hur"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
@@ -469,19 +473,19 @@ msgstr "Namnlös"
 
 #: src/components/NodeToolbar/NodeHeader.js:113
 msgid "Unnamed place"
-msgstr ""
+msgstr "Ej namngiven plats"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
-msgstr ""
+msgstr "Använd länken nedan för detaljer om platsen, och redigering"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
 msgid "Wheelchair Accessibility"
-msgstr ""
+msgstr "Rullstolstillgänglighet"
 
 #: src/components/FilterToolbar/FilterToolbar.js:209
 msgid "Wheelchair Accessibility Filter"
-msgstr ""
+msgstr "Urval tillgänglighetsnivåer"
 
 #: src/lib/Feature.js:270
 msgid "Wheelchair-height toilet seat"
@@ -489,7 +493,7 @@ msgstr "Toalett med sits i rullstolshöjd"
 
 #: src/components/Onboarding/Onboarding.js:49
 msgid "Wheelmap start screen"
-msgstr ""
+msgstr "Wheelmaps startsida"
 
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
@@ -501,7 +505,7 @@ msgstr "Wheelmap.org"
 
 #: src/components/FilterToolbar/FilterToolbar.js:171
 msgid "Which places do you want to find?"
-msgstr ""
+msgstr "Vilka platser vill du hitta?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:124
 msgid "Yes"
