@@ -2,6 +2,8 @@
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
+import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 
 import type { GeometryObject } from 'geojson-flow';
 import { t, translatedStringFromObject } from './i18n';
@@ -53,7 +55,7 @@ export type WheelmapProperties = {
   housenumber: ?string,
   lat: number,
   lon: number,
-  name: ?LocalizedString,
+  name?: ?LocalizedString,
   phone: ?string,
   photo_ids: ?(number | string)[],
   postcode: ?string,
@@ -285,3 +287,30 @@ export function categoryNameFor(category: Category): ?string {
 export function placeNameFor(properties: NodeProperties, category: Category): string {
   return translatedStringFromObject(properties.name) || categoryNameFor(category) || t`Unnamed place`;
 }
+
+
+function isDefined(x): boolean {
+  return typeof x !== 'undefined' &&
+    x !== null &&
+    !(isArray(x) && x.length === 0) &&
+    !(isPlainObject(x) && Object.keys(x).length === 0);
+}
+
+export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
+  if (isPlainObject(something) && something instanceof Object) {
+    const result = {};
+    Object.keys(something)
+      .filter(key => isDefined(something[key]))
+      .filter(key => !(key.match(/Localized$/) && !isDefined(something[key.replace(/Localized$/, '')])))
+      .forEach((key) => {
+        const value = removeNullAndUndefinedFields(something[key]);
+        if (isDefined(value)) result[key] = value;
+      });
+    return Object.keys(result).length > 0 ? result : undefined;
+  } else if (something instanceof Array) {
+    const result = something.filter(isDefined).map(removeNullAndUndefinedFields);
+    return result.length ? result : undefined; // filter out empty arrays
+  }
+  return something;
+}
+

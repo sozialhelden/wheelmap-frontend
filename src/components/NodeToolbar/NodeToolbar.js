@@ -2,6 +2,7 @@
 
 import { t } from '../../lib/i18n';
 import * as React from 'react';
+import omit from 'lodash/omit';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
@@ -22,8 +23,19 @@ import BasicAccessibility from './BasicAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
-import type { Feature } from '../../lib/Feature';
-import { placeNameFor, isWheelmapFeatureId } from '../../lib/Feature';
+import type { Feature, MinimalAccessibility } from '../../lib/Feature';
+import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
+
+function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
+  // These attributes have a better representation in the UI than the basic tree structure would provide.
+  const paths = [
+    'partiallyAccessibleWith.wheelchair',
+    'accessibleWith.wheelchair',
+    'areas.0.restrooms.0.isAccessibleWithWheelchair',
+    'areas.0.entrances.0.isLevel',
+  ];
+  return removeNullAndUndefinedFields(removeNullAndUndefinedFields(omit(properties, paths)));
+}
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 9px;
@@ -152,6 +164,7 @@ class NodeToolbar extends React.Component<Props, State> {
   render() {
     const properties = this.props.feature && this.props.feature.properties;
     const accessibility = properties ? properties.accessibility : null;
+    const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
 
     // translator: Button caption shown in the place toolbar
     const reportButtonCaption = t`Report an Issue`;
@@ -213,7 +226,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
           return (<div>
             <BasicAccessibility properties={properties} />
-            <AccessibilityDetails details={accessibility} locale={window.navigator.language} />
+            <AccessibilityDetails details={filteredAccessibility} locale={window.navigator.language} />
             <AccessibilityExtraInfo properties={properties} />
             {
               this.props.featureId && isWheelmapFeatureId(this.props.featureId) ? (
