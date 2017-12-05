@@ -65,6 +65,7 @@ type State = {
   lat: ?string,
   lon: ?string,
   zoom: ?string,
+  includeSources: ?string,
   isFilterToolbarVisible: boolean,
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
@@ -101,6 +102,7 @@ class FeatureLoader extends React.Component<Props, State> {
     fetching: false,
     toilet: null,
     status: null,
+    includeSources: null,
     lat: null,
     lon: null,
     zoom: null,
@@ -263,6 +265,7 @@ class FeatureLoader extends React.Component<Props, State> {
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
+      if (!feature.properties.name) debugger
       const currentlyShownId = this.featureId(this.props);
       const idProperties = [feature.id, feature.properties.id, feature._id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);

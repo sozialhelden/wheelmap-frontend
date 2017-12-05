@@ -438,6 +438,9 @@ export default class Map extends React.Component<Props, State> {
     if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = this.props.wheelmapApiKey;
     const categoryName = props.category;
+    if (!wheelmapApiKey) {
+      return null;
+    }
     if (categoryName) {
       const category = Categories.wheelmapRootCategoryWithName(categoryName);
       if (!category) {
