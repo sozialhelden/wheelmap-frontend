@@ -12,6 +12,8 @@ import { t } from '../../lib/i18n';
 type Props = {
   properties: AccessibilityCloudProperties,
   className: string,
+  knownSourceNameCaption: ((string) => string),
+  propertyName: 'infoPageUrl' | 'editPageUrl',
 };
 
 type State = {
@@ -30,9 +32,15 @@ class SourceLink extends React.Component<Props, State> {
       return;
     }
     dataSourceCache
-      .getDataSourceWithId(props.properties.sourceId)
+      .getDataSourceWithId(String(props.properties.sourceId))
       .then(
-        (source) => { this.setState({ sourceName: source.name }); },
+        (source) => {
+          if (source && typeof source.name === 'string') {
+            this.setState({ sourceName: source.name });
+          } else {
+            this.setState(defaultState);
+          }
+      },
         () => { this.setState(defaultState); },
       );
   }
@@ -47,21 +55,20 @@ class SourceLink extends React.Component<Props, State> {
 
   render() {
     const { properties, className } = this.props;
-    const infoPageUrl = properties.infoPageUrl;
-    if (!infoPageUrl) return null;
+    const href = properties[this.props.propertyName];
+    if (!href) return null;
 
     const sourceName = this.state.sourceName;
     const sourceNameString = String(sourceName);
 
     // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
     const unknownSourceNameCaption = t`Details`;
-    // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
-    const knownSourceNameCaption = t`View this place on ${sourceNameString}`;
+    const knownSourceNameCaption = this.props.knownSourceNameCaption(sourceNameString);
 
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
-    return (<a href={infoPageUrl} className={`${className} link-button`}>
-      {caption} <ChevronRight color={colors.linkColor} />
+    return (<a href={href} className={`${className} link-button`}>
+      {caption}&nbsp;<ChevronRight color={colors.linkColor} />
     </a>);
   }
 }

@@ -112,6 +112,26 @@ export default class NodeHeader extends React.Component<Props, void> {
       return <StyledNodeHeader>{placeName}</StyledNodeHeader>;
     }
 
+    const captions = {
+      // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
+      infoPageUrl: (sourceNameString) => t`Open on ${sourceNameString}`,
+      // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
+      editPageUrl: (sourceNameString) => t`Improve on ${sourceNameString}`,
+    };
+
+    const sourceLinks = ['infoPageUrl', 'editPageUrl'].map((propertyName) => {
+      return <SourceLink
+        key={propertyName}
+        properties={properties}
+        knownSourceNameCaption={captions[propertyName]}
+        propertyName={propertyName}
+      />;
+    });
+
+    if (properties.infoPageUrl === properties.editPageUrl) {
+      sourceLinks.shift();
+    }
+
     return (
       <StyledNodeHeader>
         {placeNameElement}
@@ -124,7 +144,7 @@ export default class NodeHeader extends React.Component<Props, void> {
 
         {addressString ? <address>{addressString}</address> : null }
 
-        <SourceLink properties={properties} />
+        {sourceLinks}
 
         {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
 
