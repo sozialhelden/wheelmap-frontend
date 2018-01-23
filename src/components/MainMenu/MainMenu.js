@@ -257,7 +257,7 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   .nav-link {
-    padding: 10px 16px;
+    padding: 10px;
     box-sizing: border-box;
     border-radius: 4px;
 
