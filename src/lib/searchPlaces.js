@@ -39,15 +39,17 @@ let queryIndex: number = 0;
 
 export default function searchPlaces(query: string, { lat, lon }: { lat?: ?number, lon?: ?number }): Promise<?SearchResultCollection> {
   const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
-  let locationBiasedUrl = url;
-  if (typeof lat === 'number' && typeof lon === 'number') {
-    locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
-  }
+  // For now, no location bias anymore: It seems to sort irrelevant results to the top
+  // so you are not able to find New York anymore when entering 'New York', for example
+  // let locationBiasedUrl = url;
+  // if (typeof lat === 'number' && typeof lon === 'number') {
+  //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
+  // }
 
   queryIndex += 1;
   const runningQueryIndex = queryIndex;
 
-  return globalFetchManager.fetch(locationBiasedUrl).then((response) => {
+  return globalFetchManager.fetch(url).then((response) => {
     if (runningQueryIndex !== queryIndex) {
       // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
       // allow to cancel a request yet.
