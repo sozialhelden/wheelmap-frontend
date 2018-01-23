@@ -4,6 +4,7 @@ import { t } from '../../lib/i18n';
 import styled from 'styled-components';
 import uniq from 'lodash/uniq';
 import * as React from 'react';
+import config from '../../lib/config';
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
@@ -149,6 +150,8 @@ class SearchResult extends React.Component<SearchResultProps, State> {
 
 
   fetchWheelmapNode(props: SearchResultProps = this.props) {
+    if (!config.wheelmapApiKey) return;
+
     const searchResultProperties = props.result.properties;
     const osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
     this.setState({

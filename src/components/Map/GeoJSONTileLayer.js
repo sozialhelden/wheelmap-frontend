@@ -255,15 +255,17 @@ class GeoJSONTileLayer extends TileLayer {
         return;
       }
       let geoJSON;
+      let response = null;
       try {
-        geoJSON = featureCollectionFromResponse(JSON.parse(this.responseText));
+        response = JSON.parse(this.responseText);
+        geoJSON = featureCollectionFromResponse(response);
       } catch (e) {
         console.log("Could not parse FeatureCollection JSON.");
         return;
       }
       const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
-      tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
 
+      tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON, response);
       const layerGroup = L.layerGroup(tileLayer.options);
       const markers = filteredGeoJSON.features.map(
         tileLayer._markerFromFeature.bind(tileLayer, layerGroup)

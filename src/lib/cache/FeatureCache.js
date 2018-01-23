@@ -1,13 +1,17 @@
 // @flow
 
-import type { Feature, FeatureCollection } from "../Feature";
-import { globalFetchManager } from "../FetchManager";
-import EventTarget, { CustomEvent } from "../EventTarget";
+import type { Feature, FeatureCollection } from '../Feature';
+import { globalFetchManager } from '../FetchManager';
+import EventTarget, { CustomEvent } from '../EventTarget';
+import get from 'lodash/get';
 
-type FeatureCacheEvent = Event & {
+type FeatureCacheEvent<T> = Event & {
   target: FeatureCache, // eslint-disable-line no-use-before-define
-  feature: Feature
+  feature: T,
 };
+
+type PropertyPath = string;
+type PropertyValue = any;
 
 /**
  * Base clase for a cache of GeoJSON features (cached by id). Subclass this and override the
@@ -15,10 +19,23 @@ type FeatureCacheEvent = Event & {
  */
 
 export default class FeatureCache<
-  FeatureType: Class<Feature>,
-  FeatureCollectionType: Class<FeatureCollection>
-> extends EventTarget<FeatureCacheEvent> {
+  FeatureType: Class<*>,
+  FeatureCollectionType: Class<FeatureCollection<FeatureType>>,
+> extends EventTarget<FeatureCacheEvent<FeatureType>> {
   cache: { [string]: ?FeatureType } = {};
+
+  // For each indexed property path, this object saves an index map.
+  // For each value that is found in an object at the given path, this index saves a set
+  // of objects that have this value at the given path.
+  indexMaps: { [PropertyPath]: { [PropertyValue]: Set<any> } } = {};
+
+  constructor(indexedPropertyPaths: string[] = []) {
+    super();
+
+    indexedPropertyPaths.forEach(indexedPath => {
+      this.indexMaps[indexedPath] = {};
+    });
+  }
 
   /**
    * Injects a given GeoJSON Feature into the cache, firing add &
@@ -60,10 +77,23 @@ export default class FeatureCache<
    *     - _id
    *     - properties._id
    */
-  cacheFeature(feature: FeatureType): void {
+  cacheFeature(feature: FeatureType, response: ?{}): void {
     const featureId = this.constructor.getIdForFeature(feature);
     if (!featureId) return;
+    const oldFeature = this.cache[featureId];
     this.cache[featureId] = feature;
+    Object.keys(this.indexMaps).forEach(path => {
+      const value = get(feature, path);
+      if (this.indexMaps[path][value] instanceof Set) {
+        if (oldFeature) {
+          this.indexMaps[path][value].delete(oldFeature);
+        }
+      } else {
+        this.indexMaps[path][value] = new Set();
+      }
+      
+      this.indexMaps[path][value].add(feature);
+    });
   }
 
   static getIdForFeature(feature: FeatureType): string {
@@ -77,11 +107,11 @@ export default class FeatureCache<
    * @param {FeatureCollection} geoJSON A GeoJSON-compatible FeatureCollection that includes all
    *   features that should be cached.
    */
-  cacheGeoJSON(geoJSON: FeatureCollectionType): void {
+  cacheGeoJSON(geoJSON: FeatureCollectionType, response: ?{}): void {
     if (!geoJSON || !geoJSON.features) {
       return;
     }
-    geoJSON.features.forEach(feature => this.cacheFeature(feature));
+    geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
   }
 
   fetchFeature(
@@ -94,7 +124,7 @@ export default class FeatureCache<
         return this.constructor
           .getFeatureFromResponse(response)
           .then(feature => {
-            this.cacheFeature(feature);
+            this.cacheFeature(feature, response);
             resolve(feature);
             const changeEvent = new CustomEvent("change", {
               target: this,
@@ -108,6 +138,13 @@ export default class FeatureCache<
       }
       return reject(response);
     }, reject);
+  }
+
+  getIndexedFeatures(propertyPath: PropertyPath, value: PropertyValue): Set<FeatureType> {
+    const indexMap = this.indexMaps[propertyPath];
+    if (!indexMap) return new Set();
+    debugger
+    return indexMap[value];
   }
 
   /**

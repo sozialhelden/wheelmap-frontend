@@ -8,6 +8,8 @@ import isPlainObject from 'lodash/isPlainObject';
 import type { GeometryObject } from 'geojson-flow';
 import { t, translatedStringFromObject } from './i18n';
 
+import type { EquipmentInfo } from './EquipmentInfo';
+import type { Disruption } from './Disruption';
 import type { Category } from './Categories';
 import type { LocalizedString } from './i18n';
 
@@ -79,16 +81,6 @@ export type WheelmapFeature = {
 
 export type WheelmapLightweightFeature = $Supertype<WheelmapFeature>;
 
-export type WheelmapFeatureCollection = {
-  type: 'FeatureCollection',
-  features: WheelmapFeature[],
-};
-
-
-export type WheelmapLightweightFeatureCollection = {
-  type: 'FeatureCollection',
-  features: WheelmapLightweightFeature[],
-};
 
 export type AccessibilityCloudProperties = {
   _id: string,
@@ -106,16 +98,20 @@ export type AccessibilityCloudFeature = {
   name: ?string,
   geometry: ?GeometryObject,
   properties: AccessibilityCloudProperties,
+  equipmentInfos: EquipmentInfo[],
+  disruptions: Disruption[],
 }
 
-export type AccessibilityCloudFeatureCollection = {
+export type FeatureCollection<T> = {
   type: 'FeatureCollection',
-  features: AccessibilityCloudFeature[],
-}
+  features: T[],
+};
+export type AccessibilityCloudFeatureCollection = FeatureCollection<AccessibilityCloudFeature>;
+export type WheelmapFeatureCollection = FeatureCollection<WheelmapFeature>;
+export type WheelmapLightweightFeatureCollection = FeatureCollection<WheelmapLightweightFeature>;
 
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
-export type FeatureCollection = AccessibilityCloudFeatureCollection | WheelmapFeatureCollection;
 
 export function getFeatureId(feature: Feature) {
   if (!feature) return null;

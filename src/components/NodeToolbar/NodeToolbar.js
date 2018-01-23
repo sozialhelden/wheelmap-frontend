@@ -22,6 +22,7 @@ import LicenseHint from './LicenseHint';
 import BasicAccessibility from './BasicAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
+import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
@@ -224,12 +225,15 @@ class NodeToolbar extends React.Component<Props, State> {
             />);
           }
 
+          const isWheelmapFeature = isWheelmapFeatureId(this.props.featureId);
+
           return (<div>
             <BasicAccessibility properties={properties} />
             <AccessibilityDetails details={filteredAccessibility} locale={window.navigator.language} />
             <AccessibilityExtraInfo properties={properties} />
+            {isWheelmapFeature ? null : <EquipmentOverview feature={this.props.feature} />}
             {
-              this.props.featureId && isWheelmapFeatureId(this.props.featureId) ? (
+              (this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter
                   ref={nodeFooter => (this.nodeFooter = nodeFooter)}
                   feature={this.props.feature}
