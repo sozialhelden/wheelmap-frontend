@@ -235,6 +235,13 @@ body.is-touch-device .leaflet-filter-button {
   transform: scale3d(1, 1, 1);
   opacity: 1;
 }
+.ac-marker svg g,
+.ac-marker svg polygon,
+.ac-marker svg path,
+.ac-marker svg circle,
+.ac-marker svg rect {
+  fill: white;
+}
 
 
 .ac-marker-current {
