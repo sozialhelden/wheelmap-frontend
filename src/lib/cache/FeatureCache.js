@@ -21,7 +21,37 @@ export default class FeatureCache<
   cache: { [string]: ?FeatureType } = {};
 
   /**
-   * Caches a given GeoJSON Feature by id.
+   * Injects a given GeoJSON Feature into the cache, firing add &
+   *
+   * @param {Feature} feature A GeoJSON-compatible Feature to cache. Must include an id in one of
+   *   the following paths:
+   *     - id
+   *     - properties.id
+   *     - _id
+   *     - properties._id
+   */
+  injectFeature(feature: FeatureType): void {
+    const featureId = this.constructor.getIdForFeature(feature);
+    if (!featureId) return;
+    let event: CustomEvent;
+
+    if (this.cache[featureId]) {
+      event = new CustomEvent("change", {
+        target: this,
+        feature
+      });
+    } else {
+      event = new CustomEvent("add", {
+        target: this,
+        feature
+      });
+    }
+    this.cache[featureId] = feature;
+    this.dispatchEvent(event);
+  }
+
+  /**
+   * Caches a given GeoJSON Feature by id. Will not fire change/add events.
    *
    * @param {Feature} feature A GeoJSON-compatible Feature to cache. Must include an id in one of
    *   the following paths:
@@ -42,7 +72,7 @@ export default class FeatureCache<
   }
 
   /**
-   * Caches all features in a given GeoJSON FeatureCollection by id.
+   * Caches all features in a given GeoJSON FeatureCollection by id. Will not fire change/add events.
    *
    * @param {FeatureCollection} geoJSON A GeoJSON-compatible FeatureCollection that includes all
    *   features that should be cached.
