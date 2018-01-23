@@ -30,12 +30,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import L from 'leaflet';
-import 'leaflet.markercluster/dist/leaflet.markercluster';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
+import L from "leaflet";
+import "leaflet.markercluster/dist/leaflet.markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import geoTileToBbox from './geoTileToBbox';
-import highlightMarker from './highlightMarker';
+import geoTileToBbox from "./geoTileToBbox";
+import highlightMarker from "./highlightMarker";
 
 const TileLayer = L.TileLayer;
 
@@ -46,9 +46,10 @@ class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
-    options.featureCache.addEventListener('change', (event) => {
+    options.featureCache.addEventListener("change", event => {
       const feature = event.feature;
-      const featureId = feature.id || feature.properties.id || feature.properties._id;
+      const featureId =
+        feature.id || feature.properties.id || feature.properties._id;
       const existingMarker = this._idsToShownLayers[featureId];
 
       if (existingMarker) {
@@ -67,32 +68,44 @@ class GeoJSONTileLayer extends TileLayer {
 
   _filterFeatureCollection(featureCollection, filterFn) {
     const result = {
-      type: 'FeatureCollection',
-      features: featureCollection.features.filter(filterFn),
+      type: "FeatureCollection",
+      features: featureCollection.features.filter(filterFn)
     };
     return result;
   }
 
   _removeFilteredFeatures(featureCollection) {
-    return this._filterFeatureCollection(featureCollection, this.options.filter || (i => true));
+    return this._filterFeatureCollection(
+      featureCollection,
+      this.options.filter || (i => true)
+    );
   }
 
   _removeShownFeatures(featureCollection) {
-    console.log('Filtering from', Object.keys(this._idsToShownLayers).length, 'cached layers');
+    console.log(
+      "Filtering from",
+      Object.keys(this._idsToShownLayers).length,
+      "cached layers"
+    );
     const result = this._filterFeatureCollection(
       featureCollection,
-      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id],
+      feature =>
+        !this._idsToShownLayers[feature.properties._id || feature.properties.id]
     );
     return result;
   }
 
   _reset() {
-    console.log('Resetting tile layer, emptying _idsToShownLayers');
+    console.log("Resetting tile layer, emptying _idsToShownLayers");
     if (this._tiles) {
-      Object.keys(this._tiles).map(k => this._tiles[k]).forEach(tile => tile.request.abort());
+      Object.keys(this._tiles)
+        .map(k => this._tiles[k])
+        .forEach(tile => tile.request.abort());
     }
     // TileLayer.prototype._reset.apply(this, arguments);
-    Object.keys(this._idsToShownLayers).forEach(id => delete this._idsToShownLayers[id]);
+    Object.keys(this._idsToShownLayers).forEach(
+      id => delete this._idsToShownLayers[id]
+    );
     this._layerGroup.clearLayers();
     this._loadedTileUrls = {};
   }
@@ -108,9 +121,11 @@ class GeoJSONTileLayer extends TileLayer {
     const tile = this._tiles[key];
 
     tile.request.abort();
-    this.fire('tileunload', { tile });
+    this.fire("tileunload", { tile });
     delete this._loadedTileUrls[tile.url];
-    if (tile.layer != null) { this._layerGroup.removeLayer(tile.layer); }
+    if (tile.layer != null) {
+      this._layerGroup.removeLayer(tile.layer);
+    }
 
     delete this._tiles[key];
   }
@@ -126,11 +141,11 @@ class GeoJSONTileLayer extends TileLayer {
   getTileUrl(coords) {
     if (!this._url) return null;
     const data = {
-      r: L.Browser.retina ? '@2x' : '',
+      r: L.Browser.retina ? "@2x" : "",
       s: this._getSubdomain(coords),
       x: coords.x,
       y: coords.y,
-      z: this._getZoomForUrl(),
+      z: this._getZoomForUrl()
     };
     data.bbox = geoTileToBbox(data);
     if (this._map && !this._map.options.crs.infinite) {
@@ -138,7 +153,7 @@ class GeoJSONTileLayer extends TileLayer {
       if (this.options.tms) {
         data.y = invertedY;
       }
-      data['-y'] = invertedY;
+      data["-y"] = invertedY;
     }
 
     return L.Util.template(this._url, L.extend(data, this.options));
@@ -155,7 +170,8 @@ class GeoJSONTileLayer extends TileLayer {
       }
       return existingMarker;
     }
-    const pointToLayerFn = this.options.pointToLayer || this.constructor.pointToLayer;
+    const pointToLayerFn =
+      this.options.pointToLayer || this.constructor.pointToLayer;
     const marker = pointToLayerFn(feature, latlng);
     marker.feature = feature;
 
@@ -163,9 +179,9 @@ class GeoJSONTileLayer extends TileLayer {
     if (String(id) === this.highlightedMarkerId) {
       const highlightFn = () => {
         highlightMarker(marker);
-        marker.off('add', highlightFn);
+        marker.off("add", highlightFn);
       };
-      marker.on('add', highlightFn);
+      marker.on("add", highlightFn);
     }
     return marker;
   }
@@ -179,10 +195,9 @@ class GeoJSONTileLayer extends TileLayer {
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
     tile.url = url;
 
-
-    this.fire('tileloadstart', {
+    this.fire("tileloadstart", {
       tile,
-      url,
+      url
     });
 
     if (this._loadedTileUrls[url]) {
@@ -194,13 +209,14 @@ class GeoJSONTileLayer extends TileLayer {
 
     this._loadedTileUrls[url] = true;
 
-    const featureCollectionFromResponse = this.options.featureCollectionFromResponse || (r => r);
+    const featureCollectionFromResponse =
+      this.options.featureCollectionFromResponse || (r => r);
 
     tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
-    tile.request.open('GET', url, true);
-    tile.request.setRequestHeader('Accept', 'application/json');
+    tile.request.open("GET", url, true);
+    tile.request.setRequestHeader("Accept", "application/json");
 
-    tile.request.addEventListener('load', function load() {
+    tile.request.addEventListener("load", function load() {
       if (!this.responseText || this.status >= 400) {
         return;
       }
@@ -208,14 +224,16 @@ class GeoJSONTileLayer extends TileLayer {
       try {
         geoJSON = featureCollectionFromResponse(JSON.parse(this.responseText));
       } catch (e) {
-        console.log('Could not parse FeatureCollection JSON.');
+        console.log("Could not parse FeatureCollection JSON.");
         return;
       }
       const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
       tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
-      const markers = filteredGeoJSON.features.map(feature => tileLayer.pointToLayer(feature));
+      const markers = filteredGeoJSON.features.map(feature =>
+        tileLayer.pointToLayer(feature)
+      );
       const layerGroup = L.layerGroup(tileLayer.options);
-      markers.forEach((marker) => {
+      markers.forEach(marker => {
         layerGroup.addLayer(marker);
         marker.layerGroup = layerGroup;
       });
@@ -223,7 +241,9 @@ class GeoJSONTileLayer extends TileLayer {
       tile.layer = layerGroup;
       tileLayer._tileOnLoad(tile, url);
     });
-    tile.request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
+    tile.request.addEventListener("error", () =>
+      tileLayer._tileOnError(tile, url)
+    );
     tile.request.send();
 
     tile.el = {}; // eslint-disable-line no-param-reassign
@@ -234,16 +254,16 @@ class GeoJSONTileLayer extends TileLayer {
 
     this._layerGroup.addLayer(tile.layer);
 
-    this.fire('tileload', {
+    this.fire("tileload", {
       tile,
-      url,
+      url
     });
   }
 
   _tileOnError(tile, url) {
-    this.fire('tileerror', {
+    this.fire("tileerror", {
       tile,
-      url,
+      url
     });
   }
 
