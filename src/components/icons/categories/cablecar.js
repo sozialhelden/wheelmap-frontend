@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Cablecar(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Cablecar = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M13 6H8V3.6a1 1 0 0 0 .42-.46l5.08-.64a.5.5 0 0 0 0-1l-5.22.65a1 1 0 0 0-.78-.4 1 1 0 0 0-.92.62L1.5 3a.5.5 0 0 0 0 1l5.22-.65c.077.1.172.185.28.25V6H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1zm-6 6H3V8h4v4zm5 0H8V8h4v4z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>cablecar</title>
+export default Cablecar;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="cablecar" fill="#000000">
-          <g transform="translate(1.000000, 1.000000)" id="Layer_1">
-            <g>
-              <path d="M12,5 L7,5 L7,2.6 C7.1854,2.4953 7.3325,2.3341 7.42,2.14 L12.5,1.5 C12.7761,1.5 13,1.2761 13,1 C13,0.7239 12.7761,0.5 12.5,0.5 L7.28,1.15 C7.0954,0.9037 6.8077,0.7562 6.5,0.75 C6.0963,0.752 5.7334,0.9966 5.58,1.37 L0.5,2 C0.2239,2 0,2.2239 0,2.5 C0,2.7761 0.2239,3 0.5,3 L5.72,2.35 C5.7967,2.4503 5.8917,2.5351 6,2.6 L6,5 L1,5 C0.4477,5 0,5.4477 0,6 L0,13 C0,13.5523 0.4477,14 1,14 L12,14 C12.5523,14 13,13.5523 13,13 L13,6 C13,5.4477 12.5523,5 12,5 Z M6,11 L2,11 L2,7 L6,7 L6,11 Z M11,11 L7,11 L7,7 L11,7 L11,11 Z" id="Shape" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

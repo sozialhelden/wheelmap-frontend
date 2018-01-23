@@ -265,7 +265,6 @@ class FeatureLoader extends React.Component<Props, State> {
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
-      if (!feature.properties.name) debugger
       const currentlyShownId = this.featureId(this.props);
       const idProperties = [feature.id, feature.properties.id, feature._id, feature.properties._id];
       const fetchedId = String(idProperties.filter(Boolean)[0]);

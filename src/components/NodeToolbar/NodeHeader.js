@@ -102,7 +102,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const accessibility = isWheelchairAccessible(properties);
     const placeNameElement = (<PlaceName aria-label={ariaLabel}>
       {categoryName ?
-        <Icon accessibility={accessibility} category={category || parentCategory} isMedium ariaHidden={true}/>
+        <Icon accessibility={accessibility} category={category || parentCategory} size='medium' ariaHidden={true}/>
         : null
       }
       {placeName}

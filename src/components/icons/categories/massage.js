@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Massage(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Massage = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M7 1c-.6 0-1 .4-1 1v4H2c-.6 0-1 .4-1 1v1c0 .6.4 1 1 1h4v4c0 .6.4 1 1 1h1c.6 0 1-.4 1-1V9h4c.6 0 1-.4 1-1V7c0-.6-.4-1-1-1H9V2c0-.6-.4-1-1-1H7z"
+      fill="#010101"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>massage</title>
+export default Massage;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="massage" fill="#010101">
-          <g id="hospital" transform="translate(1.000000, 1.000000)">
-            <g id="svg4619">
-              <path d="M6,0 C5.4,0 5,0.4 5,1 L5,5 L1,5 C0.4,5 0,5.4 0,6 L0,7 C0,7.6 0.4,8 1,8 L5,8 L5,12 C5,12.6 5.4,13 6,13 L7,13 C7.6,13 8,12.6 8,12 L8,8 L12,8 C12.6,8 13,7.6 13,7 L13,6 C13,5.4 12.6,5 12,5 L8,5 L8,1 C8,0.4 7.6,0 7,0 L6,0 Z" id="rect4194" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

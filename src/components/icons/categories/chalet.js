@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Chalet(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Chalet = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M2 15V8l5.5-4L13 8v7H2zm4-5h3v5H6v-5zm7.695-2.604l.61-.792-6.808-5.237L.19 7.107l.618.786 6.694-5.26 6.192 4.763z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>chalet</title>
+export default Chalet;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="chalet" fill="#000000">
-          <path d="M2,15 L2,8 L7.5,4 L13,8 L13,15 L2,15 Z M6,10 L9,10 L9,15 L6,15 L6,10 Z M13.6951446,7.39631199 L14.3048554,6.60368801 L7.49674674,1.36668136 L0.191089224,7.10684083 L0.808910776,7.89315917 L7.50325326,2.63331864 L13.6951446,7.39631199 Z" id="Combined-Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}

@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 const PlaceName = styled.h1`
-  margin: 0.25em 30px 0.5em 0;
+  margin: 0 30px 0.5em 0;
   font-size: 20px;
   line-height: 1;
   font-weight: 400;
@@ -13,7 +13,8 @@ const PlaceName = styled.h1`
   word-break: break-word;
 
   figure {
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-left: -5px;
   }
 `;
 

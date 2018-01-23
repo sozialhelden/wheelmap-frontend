@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Guest_house(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const GuestHouse = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M14 7H1a11.431 11.431 0 0 1 1-4h11a11.429 11.429 0 0 1 1 4zM3 8h9v6h-1V9H8v5H3V8zm1 3h3V9H4v2z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>guest_house</title>
+export default GuestHouse;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="guest_house" fill="#000000">
-          <g transform="translate(1.000000, 3.000000)" id="Layer_1">
-            <g>
-              <path d="M13,4 L0,4 C0.0881,2.6171 0.427,1.2617 1,0 L12,0 C12.5731,1.2617 12.9119,2.6171 13,4 Z M2,5 L11,5 L11,11 L10,11 L10,6 L7,6 L7,11 L2,11 L2,5 Z M3,8 L6,8 L6,6 L3,6 L3,8 Z" id="Shape" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

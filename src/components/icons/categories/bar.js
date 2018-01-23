@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Bar(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Bar = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M7.535 1c-2 0-7 .25-6.5.75l6 6.25v4c0 1-3 .5-3 2h7c0-1.5-3-1-3-2V8l6-6.25c.5-.5-4.5-.75-6.5-.75zm0 1c2.5 0 4.75.25 4.75.25l-.75.75h-8l-.75-.75S5.035 2 7.535 2z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>bar</title>
+export default Bar;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="bar" fill="#000000">
-          <path d="M7.53493446,1 C5.53493446,1 0.53493446,1.25 1.03493446,1.75 L7.03493446,8 L7.03493446,12 C7.03493446,13 4.03493446,12.5 4.03493446,14 L11.0349345,14 C11.0349345,12.5 8.03493446,13 8.03493446,12 L8.03493446,8 L14.0349345,1.75 C14.5349345,1.25 9.53493446,1 7.53493446,1 Z M7.53493446,2 C10.0349345,2 12.2849345,2.25 12.2849345,2.25 L11.5349345,3 L3.53493446,3 L2.78493446,2.25 C2.78493446,2.25 5.03493446,2 7.53493446,2 Z" id="path4" />
-        </g>
-      </g>
-    </svg>
-  );
-}

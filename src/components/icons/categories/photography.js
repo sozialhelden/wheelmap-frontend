@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Photography(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Photography = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M6 2c-.554 0-.752.504-1 1l-.5 1h-2C1.669 4 1 4.669 1 5.5v5c0 .831.669 1.5 1.5 1.5h10c.831 0 1.5-.669 1.5-1.5v-5c0-.831-.669-1.5-1.5-1.5h-2L10 3c-.25-.5-.446-1-1-1H6zM2.5 5a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1zm5 0a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm0 1.5a1.5 1.5 0 0 0 0 3 1.5 1.5 0 0 0 0-3z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>photography</title>
+export default Photography;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="photography" fill="#000000">
-          <g transform="translate(1.000000, 2.000000)" id="svg4619">
-            <g>
-              <path d="M5,0 C4.446,0 4.2478,0.5045 4,1 L3.5,2 L1.5,2 C0.669,2 0,2.669 0,3.5 L0,8.5 C0,9.331 0.669,10 1.5,10 L11.5,10 C12.331,10 13,9.331 13,8.5 L13,3.5 C13,2.669 12.331,2 11.5,2 L9.5,2 L9,1 C8.75,0.5 8.554,0 8,0 L5,0 Z M1.5,3 C1.7761,3 2,3.2239 2,3.5 C2,3.7761 1.7761,4 1.5,4 C1.2239,4 1,3.7761 1,3.5 C1,3.2239 1.2239,3 1.5,3 Z M6.5,3 C8.1569,3 9.5,4.3431 9.5,6 C9.5,7.6569 8.1569,9 6.5,9 C4.8431,9 3.5,7.6569 3.5,6 C3.5,4.3431 4.8431,3 6.5,3 Z M6.5,4.5 C5.6716,4.5 5,5.1716 5,6 L5,6 C5,6.8284 5.6716,7.5 6.5,7.5 L6.5,7.5 C7.3284,7.5 8,6.8284 8,6 L8,6 C8,5.1716 7.3284,4.5 6.5,4.5 L6.5,4.5 Z" id="rect7143" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

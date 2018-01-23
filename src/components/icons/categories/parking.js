@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Parking(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Parking = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M11.85 8.37a5.1 5.1 0 0 1-3.31 1H5.79V14H3V1h5.72a4.63 4.63 0 0 1 3.13 1A3.88 3.88 0 0 1 13 5.12a4 4 0 0 1-1.15 3.25zM9.75 3.7a2.25 2.25 0 0 0-1.47-.43H5.79v3.82h2.49a2.13 2.13 0 0 0 1.47-.47c.38-.395.57-.935.52-1.48a1.77 1.77 0 0 0-.52-1.44z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>parking</title>
+export default Parking;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="parking" fill="#000000">
-          <g transform="translate(3.000000, 0.000000)" id="Layer_1">
-            <g>
-              <path d="M8.85,8.37 C7.8968,9.0786 6.7261,9.4323 5.54,9.37 L2.79,9.37 L2.79,14 L0,14 L0,1 L5.72,1 C6.8505,0.9395 7.964,1.2952 8.85,2 C9.6821,2.8147 10.1043,3.9601 10,5.12 C10.1271,6.3214 9.7045,7.5159 8.85,8.37 Z M6.75,3.7 C6.3254,3.3892 5.8052,3.237 5.28,3.27 L2.79,3.27 L2.79,7.09 L5.28,7.09 C5.8115,7.1226 6.336,6.9549 6.75,6.62 C7.1295,6.2253 7.3193,5.6854 7.27,5.14 C7.324,4.606 7.1327,4.0763 6.75,3.7 Z" id="Shape" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

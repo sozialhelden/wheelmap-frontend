@@ -49,29 +49,29 @@ function Onboarding(props: Props) {
     ariaLabel={t`Wheelmap start screen`}
   >
     <header>
-      <Logo className="logo" aria-hidden={true}/>
+      <Logo className="logo" ariaHidden={true}/>
       <p id="wheelmap-claim-onboarding">{claim}</p>
     </header>
 
     <section>
       <ul id="wheelmap-icon-descriptions">
-        <li className="ac-marker-green">
-          <Icon accessibility="yes" category={{ _id: 'other' }} isBig withArrow shadowed />
+        <li className="ac-marker-yes">
+          <Icon accessibility="yes" category={{ _id: 'other' }} size='big' withArrow shadowed />
           <header>{accessibilityName('yes')}</header>
           <footer>{accessibilityDescription('yes')}</footer>
         </li>
-        <li className="ac-marker-yellow">
-          <Icon accessibility="limited" category={{ _id: 'other' }} isBig withArrow shadowed />
+        <li className="ac-marker-limited">
+          <Icon accessibility="limited" category={{ _id: 'other' }} size='big' withArrow shadowed />
           <header>{accessibilityName('limited')}</header>
           <footer>{accessibilityDescription('limited')}</footer>
         </li>
-        <li className="ac-marker-red">
-          <Icon accessibility="no" category={{ _id: 'other' }} isBig withArrow shadowed />
+        <li className="ac-marker-no">
+          <Icon accessibility="no" category={{ _id: 'other' }} size='big' withArrow shadowed />
           <header>{accessibilityName('no')}</header>
           <footer>{accessibilityDescription('no')}</footer>
         </li>
-        <li className="ac-marker-gray">
-          <Icon accessibility="unknown" category={{ _id: 'other' }} isBig withArrow shadowed />
+        <li className="ac-marker-unknown">
+          <Icon accessibility="unknown" category={{ _id: 'other' }} size='big' withArrow shadowed />
           <header>{accessibilityName('unknown')}</header>
           <footer>{unknownAccessibilityIncentiveText}</footer>
         </li>
@@ -104,21 +104,16 @@ const StyledOnboarding = styled(Onboarding)`
   .modal-dialog-content {
     display: flex;
     flex-direction: row;
+    max-width: 90%;
     padding: 15px;
     overflow: auto;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
 
     .logo {
-      width: 200px;
-    }
-
-    @media (max-width: 768px) {
-      > header {
-        .logo {
-          width: 150px;
-        }
-      }
+      width: 250px;
+      height: auto;
     }
 
     @media (max-width: 1199px) {
@@ -133,6 +128,8 @@ const StyledOnboarding = styled(Onboarding)`
     @media (min-width: 1200px) {
       justify-content: center;
       align-items: center;
+      max-width: 1200px;
+
       > header, footer {
         flex: 1;
         display: flex;
@@ -145,8 +142,6 @@ const StyledOnboarding = styled(Onboarding)`
         flex: 2;
       }
     }
-
-    max-width: 1200px;
 
     ul {
       display: flex;
@@ -179,27 +174,28 @@ const StyledOnboarding = styled(Onboarding)`
           text-align: left !important;
           padding: 0 10px !important;
           figure {
+            margin-right: 10px;
             width: 40px;
             height: 40px;
           }
         }
 
-        &.ac-marker-green {
+        &.ac-marker-yes {
           color: ${colors.positiveColorDarker};
         }
 
-        &.ac-marker-yellow {
+        &.ac-marker-limited {
           color: ${colors.warningColorDarker};
         }
 
-        &.ac-marker-red {
+        &.ac-marker-no {
           color: ${colors.negativeColorDarker};
         }
 
-        &.ac-marker-gray {
-          color: ${hsl(colors.markerBackground.gray).darker(2)};
+        &.ac-marker-unknown {
+          color: ${colors.markers.foreground.unknown};
           .ac-big-icon-marker {
-            background-color: ${colors.markerBackground.gray};
+            background-color: ${colors.markers.background.unknown};
           }
         }
 

@@ -174,8 +174,8 @@ body.is-touch-device .leaflet-filter-button {
   border-radius: 30px;
   z-index: 200;
   transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
-  left: -19px;
-  top: -25px;
+  left: -17.5px;
+  top: -17.5px;
 }
 
 .ac-big-icon-marker.animated {

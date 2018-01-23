@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Camping(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Camping = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M7 1.5l-5.5 9H1c-1 0-1 1-1 1v1s0 1 1 1h13c1 0 1-1 1-1v-1s0-1-1-1h-.5L8 1.5c-.2-.4-.8-.4-1 0zM7.5 5l3.2 5.5H4.2L7.5 5z"
+      fill="#010101"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>camping</title>
+export default Camping;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="camping" fill="#010101">
-          <path d="M7,1.5 L1.5,10.5 L1,10.5 C0,10.5 0,11.5 0,11.5 L0,12.5 C0,12.5 0,13.5 1,13.5 L14,13.5 C15,13.5 15,12.5 15,12.5 L15,11.5 C15,11.5 15,10.5 14,10.5 L13.5,10.5 L8,1.5 C7.8,1.1 7.2,1.1 7,1.5 Z M7.5,5 L10.7,10.5 L4.2,10.5 L7.5,5 Z" id="rect3335" />
-        </g>
-      </g>
-    </svg>
-  );
-}
