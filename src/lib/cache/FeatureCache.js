@@ -91,7 +91,7 @@ export default class FeatureCache<
       } else {
         this.indexMaps[path][value] = new Set();
       }
-      
+
       this.indexMaps[path][value].add(feature);
     });
   }
@@ -143,7 +143,6 @@ export default class FeatureCache<
   getIndexedFeatures(propertyPath: PropertyPath, value: PropertyValue): Set<FeatureType> {
     const indexMap = this.indexMaps[propertyPath];
     if (!indexMap) return new Set();
-    debugger
     return indexMap[value];
   }
 
