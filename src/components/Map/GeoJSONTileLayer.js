@@ -36,6 +36,8 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from "./geoTileToBbox";
 import highlightMarker from "./highlightMarker";
+import { Feature } from "../../lib/Feature";
+import { CustomEvent } from "../../lib/EventTarget";
 
 const TileLayer = L.TileLayer;
 
@@ -46,24 +48,56 @@ class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
-    options.featureCache.addEventListener("change", event => {
-      const feature = event.feature;
-      const featureId =
-        feature.id || feature.properties.id || feature.properties._id;
-      const existingMarker = this._idsToShownLayers[featureId];
+    options.featureCache.addEventListener(
+      "change",
+      this._onCachedFeatureChanged
+    );
+    options.featureCache.addEventListener("add", this._onCachedFeatureAdded);
+  }
 
-      if (existingMarker) {
-        const layerGroup = existingMarker.layerGroup;
-        if (layerGroup) {
-          existingMarker.remove();
-          delete this._idsToShownLayers[featureId];
-          const marker = this.pointToLayer(feature);
-          layerGroup.addLayer(marker);
-          marker.layerGroup = layerGroup;
-          this._map.addLayer(marker);
-        }
+  _onCachedFeatureChanged = (event: CustomEvent & { feature: Feature }) => {
+    const feature = event.feature;
+    this._updateFeature(feature);
+  };
+
+  _onCachedFeatureAdded = (event: CustomEvent & { feature: Feature }) => {
+    const feature = event.feature;
+    this._updateFeature(feature, { allowAdding: true });
+  };
+
+  _updateFeature(
+    feature: Feature,
+    { allowAdding }: { allowAdding: boolean } = {}
+  ) {
+    const featureId: string =
+      feature.id || feature.properties.id || feature.properties._id;
+
+    const existingMarker = this._idsToShownLayers[featureId];
+    if (existingMarker) {
+      // recreate existing marker on the same layer
+      const layerGroup = existingMarker.layerGroup;
+      if (layerGroup) {
+        existingMarker.remove();
+        delete this._idsToShownLayers[featureId];
+
+        const marker = this._markerFromFeature(layerGroup, feature);
+        this._map.addLayer(marker);
+        this._idsToShownLayers[featureId] = marker;
       }
-    });
+    } else if (allowAdding) {
+      // create a new layer for this marker
+      const newLayerGroup = L.layerGroup(this.options);
+      const newMarker = this._markerFromFeature(newLayerGroup, feature);
+      this._map.addLayer(newMarker);
+      this._idsToShownLayers[featureId] = newMarker;
+    }
+  }
+
+  _markerFromFeature(layerGroup: L.LayerGroup, feature: Feature) {
+    const marker = this.pointToLayer(feature);
+    layerGroup.addLayer(marker);
+    marker.layerGroup = layerGroup;
+    return marker;
   }
 
   _filterFeatureCollection(featureCollection, filterFn) {
@@ -229,14 +263,11 @@ class GeoJSONTileLayer extends TileLayer {
       }
       const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
       tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON);
-      const markers = filteredGeoJSON.features.map(feature =>
-        tileLayer.pointToLayer(feature)
-      );
+
       const layerGroup = L.layerGroup(tileLayer.options);
-      markers.forEach(marker => {
-        layerGroup.addLayer(marker);
-        marker.layerGroup = layerGroup;
-      });
+      const markers = filteredGeoJSON.features.map(
+        tileLayer._markerFromFeature.bind(tileLayer, layerGroup)
+      );
       // eslint-disable-next-line no-param-reassign
       tile.layer = layerGroup;
       tileLayer._tileOnLoad(tile, url);
