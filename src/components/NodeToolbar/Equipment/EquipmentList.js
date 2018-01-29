@@ -2,19 +2,20 @@
 
 import * as React from 'react';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo'
-import EquipmentIcon from './EquipmentIcon'
+import EquipmentItem from './EquipmentItem'
 import styled from 'styled-components';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
+  className: string,
 };
 
 
 function EquipmentList(props: Props) {
-  return (<ul>
+  return (<ul className={props.className}>
     {Array
       .from(props.equipmentInfos)
-      .map(equipmentInfo => <EquipmentIcon
+      .map(equipmentInfo => <EquipmentItem
         equipmentInfo={equipmentInfo}
         key={equipmentInfo.properties && equipmentInfo.properties._id}
       />)}
@@ -22,4 +23,7 @@ function EquipmentList(props: Props) {
 }
 
 export default styled(EquipmentList)`
+  margin: 0.25em -1em;
+  padding: 0.5em 1em;
+  background-color: rgba(246, 75, 74, 0.08);
 `;
