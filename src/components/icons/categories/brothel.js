@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Brothel(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Brothel = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M8 6h2V5H8V4H7v1H6c-.556 0-1 .447-1 .999v1.002c0 .556.447.999.999.999H7v1H5v1h2v1h1v-1h1.491c.559 0 1.009-.447 1.009-.999V7.999A.996.996 0 0 0 9.501 7H8V6zM7 6H6v1h1V6zm1 3h1.5V8H8v1zm5.906-1.25c-1.17 2.25-4.299 5.31-6.068 6.94a.5.5 0 0 1-.67 0C5.388 13.06 2.26 10 1.09 7.75-1.48 2.8 4.999-.95 7.498 4c2.5-4.95 8.978-1.2 6.408 3.75z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>brothel</title>
+export default Brothel;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd" transform="translate(0, 1)">
-        <g id="brothel" fill="#000000">
-          <path d="M8,5 L10,5 L10,4 L8,4 L8,3 L7,3 L7,4 L5.99980749,4 C5.44371665,4 5,4.44724809 5,4.99895656 L5,6.00104344 C5,6.55733967 5.44713136,7 5.99869585,7 L7,7 L7,8 L5,8 L5,9 L7,9 L7,10 L8,10 L8,9 L9.49121523,9 C10.0499119,9 10.5,8.55275191 10.5,8.00104344 L10.5,6.99895656 C10.5,6.44266033 10.0528686,6 9.50130415,6 L8,6 L8,5 Z M7,5 L6,5 L6,6 L7,6 L7,5 Z M8,8 L9.5,8 L9.5,7 L8,7 L8,8 Z M13.9062897,6.75 C12.7366133,9 9.60747923,12.06 7.83796889,13.69 C7.64772154,13.8618 7.3584016,13.8618 7.16815424,13.69 C5.38864667,12.06 2.25951257,9 1.08983624,6.75 C-1.47945278,1.8 4.99875456,-1.95 7.49806295,3 C9.99737134,-1.95 16.4755787,1.8 13.9062897,6.75 Z" id="Combined-Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}

@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Post_office(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const PostOffice = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M14 6.5V12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6.5a.5.5 0 0 1 .5-.5.49.49 0 0 1 .21 0l5.79 4 5.8-4a.488.488 0 0 1 .2 0 .5.5 0 0 1 .5.5zM1.25 3.92l.08.08L7.5 8l6.19-4h.06a.49.49 0 0 0 .25-.5.5.5 0 0 0-.5-.5h-12a.5.5 0 0 0-.5.5.49.49 0 0 0 .25.42z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>post_office</title>
+export default PostOffice;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="post_office" fill="#000000">
-          <g transform="translate(1.000000, 3.000000)" id="Layer_1">
-            <g>
-              <path d="M13,3.5 L13,9 C13,9.5523 12.5523,10 12,10 L1,10 C0.4477,10 0,9.5523 0,9 L0,3.5 C0,3.2239 0.2239,3 0.5,3 C0.5692,2.9848 0.6408,2.9848 0.71,3 L0.71,3 L6.5,7 L12.3,3 L12.3,3 C12.366,2.9862 12.434,2.9862 12.5,3 C12.7761,3 13,3.2239 13,3.5 Z M0.25,0.92 L0.25,0.92 L0.33,1 L6.5,5 L12.69,1 L12.69,1 L12.75,1 L12.75,1 C12.9296,0.9019 13.0292,0.7025 13,0.5 C13,0.2239 12.7761,0 12.5,0 L0.5,0 C0.2239,0 0,0.2239 0,0.5 C0.0026,0.6745 0.0978,0.8345 0.25,0.92 Z" id="Shape" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

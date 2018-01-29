@@ -80,7 +80,7 @@ export default class HighlightableMarker extends L.Marker {
           accessibility={accessibility}
           properties={this.options.feature.properties}
           category={iconName}
-          isBig
+          size='big'
           shadowed
           withArrow
           ariaHidden={true}

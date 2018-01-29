@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Townhall(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Townhall = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M12.5 13H12v-.5c0-.3-.2-.5-.5-.5H11V7h1l1-2c-1 .1-2 .1-3 0-.8-.6-1.4-1.2-2-2v-.5c0-.3-.2-.5-.5-.5s-.5.2-.5.5V3c-.6.8-1.2 1.4-2 2-1 .1-2 .1-3 0l1 2h1v5h-.5c-.3 0-.5.2-.5.5v.5h-.5c-.3 0-.5.2-.5.5v.5h11v-.5c0-.3-.2-.5-.5-.5zM7 12H5V7h2v5zm3 0H8V7h2v5z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>townhall</title>
+export default Townhall;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="townhall" fill="#000000">
-          <path d="M12.5,13 L12,13 L12,12.5 C12,12.2 11.8,12 11.5,12 L11,12 L11,7 L12,7 L13,5 C12,5.1 11,5.1 10,5 C9.2,4.4 8.6,3.8 8,3 L8,2.5 C8,2.2 7.8,2 7.5,2 C7.2,2 7,2.2 7,2.5 L7,3 C6.4,3.8 5.8,4.4 5,5 C4,5.1 3,5.1 2,5 L3,7 L4,7 L4,12 L3.5,12 C3.2,12 3,12.2 3,12.5 L3,13 L2.5,13 C2.2,13 2,13.2 2,13.5 L2,14 L13,14 L13,13.5 C13,13.2 12.8,13 12.5,13 Z M7,12 L5,12 L5,7 L7,7 L7,12 Z M10,12 L8,12 L8,7 L10,7 L10,12 Z" id="Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}

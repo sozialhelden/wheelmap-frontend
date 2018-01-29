@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Employment_agency(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const EmploymentAgency = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M3 2v11h5v-3h3v3h1V2H3zm4 10H4v-2h3v2zm0-3H4V7h3v2zm0-3H4V4h3v2zm4 3H8V7h3v2zm0-3H8V4h3v2z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>employment_agency</title>
+export default EmploymentAgency;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="employment_agency" fill="#000000">
-          <path d="M3,2 L3,13 L8,13 L8,10 L11,10 L11,13 L12,13 L12,2 L3,2 Z M7,12 L4,12 L4,10 L7,10 L7,12 Z M7,9 L4,9 L4,7 L7,7 L7,9 Z M7,6 L4,6 L4,4 L7,4 L7,6 Z M11,9 L8,9 L8,7 L11,7 L11,9 Z M11,6 L8,6 L8,4 L11,4 L11,6 Z" id="Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}

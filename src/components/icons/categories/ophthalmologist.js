@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Ophthalmologist(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Ophthalmologist = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M7 1c-.6 0-1 .4-1 1v4H2c-.6 0-1 .4-1 1v1c0 .6.4 1 1 1h4v4c0 .6.4 1 1 1h1c.6 0 1-.4 1-1V9h4c.6 0 1-.4 1-1V7c0-.6-.4-1-1-1H9V2c0-.6-.4-1-1-1H7z"
+      fill="#010101"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>ophthalmologist</title>
+export default Ophthalmologist;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="ophthalmologist" fill="#010101">
-          <path d="M7,1 C6.4,1 6,1.4 6,2 L6,6 L2,6 C1.4,6 1,6.4 1,7 L1,8 C1,8.6 1.4,9 2,9 L6,9 L6,13 C6,13.6 6.4,14 7,14 L8,14 C8.6,14 9,13.6 9,13 L9,9 L13,9 C13.6,9 14,8.6 14,8 L14,7 C14,6.4 13.6,6 13,6 L9,6 L9,2 C9,1.4 8.6,1 8,1 L7,1 Z" id="rect4194" />
-        </g>
-      </g>
-    </svg>
-  );
-}

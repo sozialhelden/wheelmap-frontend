@@ -21,10 +21,10 @@ export default class MarkerIcon extends L.Icon {
     const defaults = {
       number: '',
       shadowUrl: null,
-      iconSize: new L.Point(19, 19),
-      iconAnchor: new L.Point(11, 11),
-      popupAnchor: new L.Point(11, 11),
-      tooltipAnchor: new L.Point(11, 37),
+      iconSize: new L.Point(25, 25),
+      iconAnchor: new L.Point(12.5, 14),
+      popupAnchor: new L.Point(12.5, 12.5),
+      tooltipAnchor: new L.Point(12.5, 37),
       onClick: ((featureId: string) => {}),
       hrefForFeatureId: ((featureId: string) => null),
     };
@@ -48,7 +48,7 @@ export default class MarkerIcon extends L.Icon {
           accessibility={accessibility}
           properties={properties}
           category={iconName}
-          isSmall
+          size='small'
           shadowed
           ariaHidden={true}
         />,

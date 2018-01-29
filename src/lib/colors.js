@@ -33,75 +33,68 @@ const colors = {
   negativeBackgroundColorTransparent: 'rgba(245, 75, 75, 0.1)',
   neutralColor: 'rgb(88, 87, 83)',
   neutralBackgroundColorTransparent: 'rgba(88, 87, 83, 0.11)',
-  markerBackground: {
-    green: '#7ec512',
-    yellow: '#f39e3b',
-    red: '#f54b4b',
-    gray: '#e6e4e0',
-  },
-};
-
-export type MarkerColor = 'red' | 'yellow' | 'green' | 'gray';
-export const markerColors: MarkerColor[] = ['red', 'yellow', 'green', 'gray'];
-
-
-export function getColorForWheelchairAccessibilityValue(
-  isAccessible: YesNoLimitedUnknown,
-): MarkerColor {
-  switch (isAccessible) {
-    case 'yes': return 'green';
-    case 'limited': return 'yellow';
-    case 'no': return 'red';
-    default: return 'gray';
+  markers: {
+    background: {
+      yes: '#7ec512',
+      limited: '#f39e3b',
+      no: '#f54b4b',
+      unknown: '#e6e4e0',
+    },
+    foreground: {
+      yes: '#fff',
+      limited: '#fff',
+      no: '#fff',
+      unknown: '#69615b',
+    },
   }
-}
+};
 
 
 export function getHTMLColorForWheelchairAccessibilityValue(
   isAccessible: YesNoLimitedUnknown,
-): MarkerColor {
-  return colors.markerBackground[getColorForWheelchairAccessibilityValue(isAccessible)];
+): string {
+  return colors.markers.background[isAccessible];
 }
 
 
-export function getColorForWheelchairAccessibility(properties: NodeProperties): MarkerColor {
-  return getColorForWheelchairAccessibilityValue(isWheelchairAccessible(properties));
+export function getColorForWheelchairAccessibility(properties: NodeProperties): string {
+  return isWheelchairAccessible(properties);
 }
 
 
-const interpolateYellowGreen = interpolateLab(
-  colors.markerBackground.yellow,
-  colors.markerBackground.green,
+const interpolateYesLimited = interpolateLab(
+  colors.markers.background.limited,
+  colors.markers.background.yes,
 );
 
 const definedAccessibilityColorScale = scaleLinear().domain([0, 0.2, 0.4, 0.6, 0.8, 1]).range([
-  colors.markerBackground.red,
-  colors.markerBackground.yellow,
-  interpolateYellowGreen(0.25),
-  interpolateYellowGreen(0.5),
-  interpolateYellowGreen(0.75),
-  colors.markerBackground.green,
+  colors.markers.background.no,
+  colors.markers.background.limited,
+  interpolateYesLimited(0.25),
+  interpolateYesLimited(0.5),
+  interpolateYesLimited(0.75),
+  colors.markers.background.yes,
 ]);
 
 export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
   if (!propertiesArray || propertiesArray.length === 0) {
-    return colors.markerBackground.gray;
+    return colors.markers.background.unknown;
   }
-  const colorValues = propertiesArray.map(getColorForWheelchairAccessibility);
-  const undefinedCount = colorValues.filter(c => c === 'gray').length;
-  const definedCount = colorValues.length - undefinedCount;
+  const accessibilityValues = propertiesArray.map(isWheelchairAccessible);
+  const undefinedCount = accessibilityValues.filter(c => c === 'unknown').length;
+  const definedCount = accessibilityValues.length - undefinedCount;
   if (definedCount === 0) {
-    return colors.markerBackground.gray;
+    return colors.markers.background.unknown;
   }
-  const ratingForColor = color => ({ gray: 0, red: 0, yellow: 0.5, green: 1 }[color]);
-  const reduceFn = (acc, color) => acc + ratingForColor(color);
-  const totalRatingForDefined = reduce(colorValues, reduceFn, 0);
+  const ratingForAccessibility = accessibility => ({ unknown: 0, no: 0, limited: 0.5, yes: 1 }[accessibility]);
+  const reduceFn = (acc, accessibility) => acc + ratingForAccessibility(accessibility);
+  const totalRatingForDefined = reduce(accessibilityValues, reduceFn, 0);
   const averageRatingForDefined = totalRatingForDefined / definedCount;
-  const averageColorForDefined = definedAccessibilityColorScale(averageRatingForDefined);
-  const definedRatio = definedCount / colorValues.length;
-  // Don't take gray values into account that much
+  const averageAccessibilityForDefined = definedAccessibilityColorScale(averageRatingForDefined);
+  const definedRatio = definedCount / accessibilityValues.length;
+  // Don't take unknown values into account that much
   const clampedDefinedRatio = Math.min(1.0, 0.5 + (definedRatio));
-  return interpolateLab(colors.markerBackground.gray, averageColorForDefined)(clampedDefinedRatio);
+  return interpolateLab(colors.markers.background.unknown, averageAccessibilityForDefined)(clampedDefinedRatio);
 }
 
 

@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Food(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Food = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M3.5 0l-1 5.5c-.146.805 1.781 1.181 1.75 2L4 14c-.038 1 1 1 1 1s1.038 0 1-1l-.25-6.5c-.031-.818 1.733-1.18 1.75-2L6.5 0H6l.25 4-.75.5L5.25 0h-.5L4.5 4.5 3.75 4 4 0h-.5zM12 0c-.736 0-1.964.655-2.455 1.637C9.135 2.373 9 4.018 9 5v2.5c0 .818 1.09 1 1.5 1L10 14c-.09.996 1 1 1 1s1 0 1-1V0z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>food</title>
+export default Food;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="food" fill="#000000">
-          <g transform="translate(2.000000, 0.000000)" id="svg4619">
-            <g>
-              <path d="M1.5,0 L0.5,5.5 C0.3536,6.305 2.2815,6.681 2.25,7.5 L2,14 C1.9616,14.9993 3,15 3,15 C3,15 4.0384,14.9993 4,14 L3.75,7.5 C3.7186,6.6824 5.4834,6.3192 5.5,5.5 L4.5,0 L4,0 L4.25,4 L3.5,4.5 L3.25,0 L2.75,0 L2.5,4.5 L1.75,4 L2,0 L1.5,0 Z M10,0 C9.2636,0 8.0358,0.6549 7.5449,1.6367 C7.1358,2.3731 7,4.0182 7,5 L7,7.5 C7,8.3182 8.0909,8.5 8.5,8.5 L8,14 C7.9095,14.9959 9,15 9,15 C9,15 10,15 10,14 L10,0 Z" id="path11774" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

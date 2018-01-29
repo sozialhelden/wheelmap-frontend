@@ -1,21 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Driving_school(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const DrivingSchool = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M14 8a1.5 1.5 0 0 0-1.15-1.45l-1.39-3.24A.5.5 0 0 0 11 3H4a.5.5 0 0 0-.44.28L2.15 6.54A1.5 1.5 0 0 0 1 8v3.5h1v1a1 1 0 1 0 2 0v-1h7v1a1 1 0 1 0 2 0v-1h1V8zM4.3 4h6.4l1.05 2.5h-8.5L4.3 4zM3 10a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm9 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>driving_school</title>
+export default DrivingSchool;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="driving_school" fill="#000000">
-          <g transform="translate(1.000000, 3.000000)" id="Layer_1">
-            <g>
-              <path d="M13,5 C12.996,4.3096 12.5213,3.7111 11.85,3.55 L10.46,0.31 L10.46,0.31 L10.46,0.31 L10.46,0.31 C10.3833,0.1233 10.2019,0.001 10,0 L3,0 C2.8124,0.0034 2.6425,0.1115 2.56,0.28 L2.56,0.28 L2.56,0.28 L2.56,0.28 L1.15,3.54 C0.475,3.702 -0.0006,4.3059 0,5 L0,8.5 L1,8.5 L1,9.5 C1,10.0523 1.4477,10.5 2,10.5 C2.5523,10.5 3,10.0523 3,9.5 L3,8.5 L10,8.5 L10,9.5 C10,10.0523 10.4477,10.5 11,10.5 C11.5523,10.5 12,10.0523 12,9.5 L12,8.5 L13,8.5 L13,5 Z M3.3,1 L9.7,1 L10.75,3.5 L2.25,3.5 L3.3,1 Z M2,7 C1.4477,7 1,6.5523 1,6 C1,5.4477 1.4477,5 2,5 C2.5523,5 3,5.4477 3,6 C3,6.5523 2.5523,7 2,7 Z M11,7 C10.4477,7 10,6.5523 10,6 C10,5.4477 10.4477,5 11,5 C11.5523,5 12,5.4477 12,6 C12,6.5523 11.5523,7 11,7 Z" id="Shape" />
-            </g>
-          </g>
-        </g>
-      </g>
-    </svg>
-  );
-}

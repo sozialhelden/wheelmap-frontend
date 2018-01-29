@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Tailor(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Tailor = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M3.5 1L0 4v3h2.9l.1 7h9V7h3V4l-3.5-3H10L7.5 5 5 1z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>tailor</title>
+export default Tailor;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="tailor" fill="#000000">
-          <polygon id="rect4181-0-0" points="3.5 1 0 4 0 7 2.9 7 3 14 12 14 12 7 15 7 15 4 11.5 1 10 1 7.5 5 5 1" />
-        </g>
-      </g>
-    </svg>
-  );
-}

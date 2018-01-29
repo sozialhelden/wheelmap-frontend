@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function Tattoo(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+const Tattoo = props => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M7 12.972V5.95a2.5 2.5 0 1 1 1 0v7.022C10.667 12.667 12 10 12 10l1 1s-1.5 3-5.5 3c-3.24 0-4.84-2.297-5.33-3.17L1 12V9h3l-1 1s1.333 2.667 4 2.972zM7.5 5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM11 9h3v3l-3-3z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
 
-      <title>tattoo</title>
+export default Tattoo;
 
-
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="tattoo" fill="#000000">
-          <path d="M7,12.9716851 L7,5.94999094 C5.85887984,5.71835578 5,4.70947896 5,3.5 C5,2.11928813 6.11928813,1 7.5,1 C8.88071187,1 10,2.11928813 10,3.5 C10,4.70947896 9.14112016,5.71835578 8,5.94999094 L8,12.9716851 C10.6666667,12.6666667 12,10 12,10 L13,11 C13,11 11.5,14 7.5,14 C4.25972591,14 2.65997935,11.7032615 2.16918443,10.8308156 L1,12 L1,9 L4,9 L3,10 C3.00006386,10.0001277 4.3333972,12.666674 7,12.9716851 Z M7.5,5 C8.32842712,5 9,4.32842712 9,3.5 C9,2.67157288 8.32842712,2 7.5,2 C6.67157288,2 6,2.67157288 6,3.5 C6,4.32842712 6.67157288,5 7.5,5 Z M11,9 L14,9 L14,12 L11,9 Z" id="Combined-Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}
