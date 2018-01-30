@@ -1,10 +1,10 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2017
 # Silke Georgi <silkemariageorgi@gmail.com>, 2017
-# Christoph <developers@sozialhelden.de>, 2017
+# Christoph, 2017
 msgid ""
 msgstr ""
-"Last-Translator: Christoph <developers@sozialhelden.de>, 2017\n"
+"Last-Translator: Christoph, 2017\n"
 "Language-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: en_US\n"

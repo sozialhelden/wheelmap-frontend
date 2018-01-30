@@ -15,11 +15,11 @@ msgstr "${ categoryName } Wheelmap дээр"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
-msgstr "Wheelmap.org вэбсайт дээр ${ placeName }"
+msgstr "${ placeName } Wheelmap.org вэбсайт дээр "
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr "'{}' Шүүлтүүр "
+msgstr "${ props.name } Шүүлтүүр "
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
@@ -37,8 +37,8 @@ msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
 " until the place is updated on Wheelmap.)"
 msgstr ""
-"(Та эхлээд нэвтрэх шаардлагатай, харин Wheelmap дээр газрууд сэргээгдэн гарч"
-" иртэл хэсэг хугацаа авах болно.)"
+"(Та эхлээд нэвтрэх шаардлагатай, харин Wheelmap дээр газруудыг харуулах "
+"хүртэл хэсэг хугацаа авах болно.)"
 
 #: src/components/NodeToolbar/Report/strings.js:40
 msgid ""
@@ -48,7 +48,7 @@ msgid ""
 msgstr ""
 "(Зөвхөн Англи болон Герман хэл дээр бичнэ үү.)\\n\\nСайн уу Socialhelden, "
 "\\n\\nэнд ямар нэгэн алдаа гарлаа: '{}'\\n\\nАсуудал нь:\\n\\nИнтернэт "
-"хөтөч:\\n\\n'{}'"
+"хөтөч:\\n\\n${ navigator.userAgent }"
 
 #: src/components/Map/Map.js:244
 msgid "A project by"
@@ -76,7 +76,7 @@ msgstr "Бүгд "
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
-msgstr "Наад зах нь хэсэгчилсэн тэргэнцэрт хүртээмжтэй "
+msgstr "Наад зах нь тэргэнцэрт хэсэгчилсэн хүртээмжтэй "
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:134
 #: src/components/NodeToolbar/Report/strings.js:27
@@ -89,7 +89,7 @@ msgstr "Үйлдлийн урамшуулал оноонууд  "
 
 #: src/components/NodeToolbar/NodeHeader.js:62
 msgid "Call ${ phoneNumber }"
-msgstr "Дуудлага '{}'"
+msgstr "Дуудлага ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
 msgid "Cancel"
@@ -133,7 +133,7 @@ msgstr "Холбоо барих"
 
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid "Contact the Wheelmap support team"
-msgstr "Wheelmap -ийн дэмжлэгийн багтай холбогдох "
+msgstr "Wheelmap тусламжийн багтай холбогдох "
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:128
 msgid "Continue"
@@ -494,7 +494,7 @@ msgstr ""
 
 #: src/components/NodeToolbar/SourceLink.js:59
 msgid "View this place on ${ sourceNameString }"
-msgstr "Газрыг дараах байдлаар харуул '{}'"
+msgstr "Газрыг дараах байдлаар харуул ${ sourceNameString }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
 msgid "Wheelchair Accessibility"
@@ -538,11 +538,11 @@ msgstr "Та оршин байхаа болисон газруудыг OpenStree
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] холбоотой асуудал ${ placeName } Wheelmap дээрх"
+msgstr "[Wheelmap] Wheelmap дээрх ${ placeName } асуудал"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] холбоотой асуудал ${ categoryName } Wheelmap дээрх"
+msgstr "[Wheelmap] Wheelmap дээрх ${ categoryName } асуудал"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
