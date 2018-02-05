@@ -16,6 +16,7 @@ import {
   yesNoUnknownArray,
   hasAccessibleToilet,
   wheelmapFeatureCollectionFromResponse,
+  accessibilityCloudFeatureCollectionFromResponse,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
@@ -110,6 +111,23 @@ export default class Map extends React.Component<Props, State> {
     })
   }
 
+  createMarkerClusterGroup() {
+    return new L.MarkerClusterGroup({
+      maxClusterRadius(zoom) {
+        const radius = 15 + (((1.5 ** (18 - zoom)) - 1) * 10);
+        return Math.round(Math.max(15, Math.min(radius, 120)));
+      },
+      iconCreateFunction(cluster) {
+        const propertiesArray = cluster
+          .getAllChildMarkers()
+          .map(marker => marker.feature.properties);
+        return new ClusterIcon({ propertiesArray });
+      },
+      animate: true,
+      chunkedLoading: true,
+    });
+  }
+
   componentDidMount() {
     const initialCenter = this.props.lat && this.props.lon ? [this.props.lat, this.props.lon] : this.props.defaultStartCenter;
     const map: L.Map = L.map(this.mapElement, {
@@ -132,7 +150,7 @@ export default class Map extends React.Component<Props, State> {
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
     if (this.props.locateOnStart) {
-      map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: true });
+      map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: false });
     }
 
     map.on('moveend', () => this.onMoveEnd());
@@ -158,20 +176,7 @@ export default class Map extends React.Component<Props, State> {
       id: 'accessibility-cloud',
     }).addTo(map);
 
-    const markerClusterGroup = new L.MarkerClusterGroup({
-      maxClusterRadius(zoom) {
-        const radius = 15 + (((1.5 ** (18 - zoom)) - 1) * 10);
-        return Math.round(Math.max(15, Math.min(radius, 120)));
-      },
-      iconCreateFunction(cluster) {
-        const propertiesArray = cluster
-          .getAllChildMarkers()
-          .map(marker => marker.feature.properties);
-        return new ClusterIcon({ propertiesArray });
-      },
-      animate: true,
-      chunkedLoading: true,
-    });
+    const markerClusterGroup = this.createMarkerClusterGroup()
 
     // markerClusterGroup.on('clusterclick', (cluster) => {
     //   const markers = cluster.layer.getAllChildMarkers();
@@ -198,6 +203,7 @@ export default class Map extends React.Component<Props, State> {
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
+      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
       pointToLayer: this.props.pointToLayer,
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,

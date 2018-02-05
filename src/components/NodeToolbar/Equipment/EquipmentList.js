@@ -25,5 +25,4 @@ function EquipmentList(props: Props) {
 export default styled(EquipmentList)`
   margin: 0.25em -1em;
   padding: 0.5em 1em;
-  background-color: rgba(246, 75, 74, 0.08);
 `;

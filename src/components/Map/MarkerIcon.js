@@ -41,7 +41,6 @@ export default class MarkerIcon extends L.Icon {
     const iconName = getIconNameForProperties(properties) || 'place';
     const accessibility = isWheelchairAccessible(properties);
     const IconComponent = categoryIcons[iconName];
-
     if (IconComponent) {
       ReactDOM.render(
         <Icon

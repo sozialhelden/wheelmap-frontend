@@ -158,6 +158,24 @@ export function wheelmapFeatureCollectionFromResponse(
   };
 }
 
+export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
+  if (!response) return;
+  if (response.features instanceof Array) {
+    if (
+      response &&
+      response.related &&
+      response.related.equipmentInfos
+    ) {
+      response.features = response.features.concat(
+        Object
+          .keys(response.related.equipmentInfos)
+          .map(_id => response.related.equipmentInfos[_id])
+      );
+    }
+  }
+  return response;
+}
+
 export function hasAccessibleToilet(
   properties: WheelmapProperties | AccessibilityCloudProperties,
 ): YesNoUnknown {
@@ -194,6 +212,9 @@ export function hasAccessibleToilet(
 }
 
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
+  if (properties && properties.category === 'elevator') {
+    return properties.isWorking ? 'yes' : 'no';
+  }
   const isAccessible = get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair');
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');

@@ -81,7 +81,9 @@ export default function Icon({
     : category._id === '2nd_hand' ? 'second_hand' : category._id;
   const CategoryIconComponent = icons[categoryName || 'undefined'] || null;
   const MarkerComponent = markers[`${accessibility}${withArrow ? 'With' : 'Without'}Arrow`];
-
+  if (typeof CategoryIconComponent === 'object') {
+    debugger;
+  }
   return (
     <StyledIconContainer
       size={size}
