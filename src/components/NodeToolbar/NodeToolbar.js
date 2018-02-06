@@ -231,7 +231,7 @@ class NodeToolbar extends React.Component<Props, State> {
             <BasicAccessibility properties={properties} />
             <AccessibilityDetails details={filteredAccessibility} locale={window.navigator.language} />
             <AccessibilityExtraInfo properties={properties} />
-            {isWheelmapFeature ? null : <EquipmentOverview feature={this.props.feature} />}
+            {isWheelmapFeature ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} />}
             {
               (this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter

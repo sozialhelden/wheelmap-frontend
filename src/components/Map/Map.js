@@ -383,7 +383,8 @@ export default class Map extends React.Component<Props, State> {
         this.wheelmapTileLayer.highlightMarkerWithId(String(props.featureId));
       }
       if (this.accessibilityCloudTileLayer) {
-        this.accessibilityCloudTileLayer.highlightMarkerWithId(String(props.featureId));
+        const _id = props.equipmentInfoId ? String(props.equipmentInfoId) : String(props.featureId);
+        this.accessibilityCloudTileLayer.highlightMarkerWithId(_id);
       }
     } else {
       removeCurrentHighlightedMarker();

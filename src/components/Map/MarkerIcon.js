@@ -6,14 +6,15 @@ import ReactDOM from 'react-dom';
 import * as categoryIcons from '../icons/categories';
 import getIconNameForProperties from './getIconNameForProperties';
 import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
+import type { NodeProperties } from '../../lib/Feature';
 import { translatedStringFromObject } from '../../lib/i18n';
 import Icon from '../Icon';
 
 // Extend Leaflet-icon to support colors and category images
 
 type Options = typeof L.Icon.options & {
-  onClick: ((featureId: string) => void),
-  hrefForFeatureId: ((featureId: string) => ?string),
+  onClick: ((featureId: string, properties: ?NodeProperties) => void),
+  hrefForFeature: ((featureId: string) => ?string),
 };
 
 export default class MarkerIcon extends L.Icon {
@@ -25,8 +26,8 @@ export default class MarkerIcon extends L.Icon {
       iconAnchor: new L.Point(12.5, 14),
       popupAnchor: new L.Point(12.5, 12.5),
       tooltipAnchor: new L.Point(12.5, 37),
-      onClick: ((featureId: string) => {}),
-      hrefForFeatureId: ((featureId: string) => null),
+      onClick: ((featureId: string, properties: ?NodeProperties) => {}),
+      hrefForFeature: ((featureId: string) => null),
     };
 
     super(Object.assign(defaults, options));
@@ -36,7 +37,7 @@ export default class MarkerIcon extends L.Icon {
     const link = document.createElement('a');
     const properties = this.options.feature.properties;
     const featureId = properties.id || properties._id;
-    link.href = this.options.hrefForFeatureId(featureId);
+    link.href = this.options.hrefForFeature(featureId);
 
     const iconName = getIconNameForProperties(properties) || 'place';
     const accessibility = isWheelchairAccessible(properties);
@@ -57,7 +58,7 @@ export default class MarkerIcon extends L.Icon {
 
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
-      this.options.onClick(featureId);
+      this.options.onClick(featureId, properties);
     });
     this._setIconStyles(link, 'icon');
 

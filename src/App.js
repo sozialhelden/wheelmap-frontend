@@ -25,13 +25,16 @@ import config from './lib/config';
 import colors from './lib/colors';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
+
 import type {
   Feature,
   WheelmapFeature,
   AccessibilityCloudFeature,
   YesNoLimitedUnknown,
-  YesNoUnknown
+  YesNoUnknown,
+  NodeProperties,
 } from './lib/Feature';
+
 import {
   isWheelmapFeatureId,
   yesNoLimitedUnknownArray,
@@ -91,7 +94,13 @@ function updateTouchCapability() {
   }
 }
 
-function hrefForFeatureId(featureId: string) {
+function hrefForFeature(featureId: string, properties: ?NodeProperties) {
+  if (properties) {
+    const placeInfoId = properties.placeInfoId;
+    if (placeInfoId && includes(['elevator', 'escalator'], properties.category)) {
+      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
+    }
+  }
   return `/beta/nodes/${featureId}`;
 }
 
@@ -118,9 +127,9 @@ class FeatureLoader extends React.Component<Props, State> {
   map: ?any;
 
 
-  onMarkerClick = (featureId: string) => {
+  onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     const params = getQueryParams();
-    const href = hrefForFeatureId(featureId);
+    const href = hrefForFeature(featureId, properties);
     this.props.history.push(`${href}#?${queryString.stringify(params)}`);
   };
 
@@ -130,7 +139,7 @@ class FeatureLoader extends React.Component<Props, State> {
     if (!properties) return null;
     return new HighlightableMarker(latlng, {
       onClick: this.onMarkerClick,
-      hrefForFeatureId,
+      hrefForFeature,
       feature,
     });
   }
@@ -237,11 +246,12 @@ class FeatureLoader extends React.Component<Props, State> {
   routeInformation(props: Props = this.props): ?RouteInformation {
     const location = props.location;
     const allowedResourceNames = ['nodes', 'categories', 'search'];
-    const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?/i);
+    const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i);
     if (match) {
       if (match[1] && !includes(allowedResourceNames, match[1])) return null;
       return {
         featureId: match[1] === 'nodes' ? match[2] : null,
+        equipmentInfoId: (match[1] === 'nodes' && match[3] === 'equipment') ? match[4] : null,
         category: match[1] === 'categories' ? match[2] : null,
         searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
         isEditMode: (match[3] === 'edit'),
@@ -326,7 +336,7 @@ class FeatureLoader extends React.Component<Props, State> {
   render() {
     const routeInformation = this.routeInformation();
 
-    const { featureId, isEditMode, searchQuery } = routeInformation || {};
+    const { featureId, isEditMode, searchQuery, equipmentInfoId } = routeInformation || {};
     const { isLocalizationLoaded } = this.state;
     const category = this.state.category;
     const isNodeRoute = Boolean(featureId);
@@ -423,6 +433,7 @@ class FeatureLoader extends React.Component<Props, State> {
         zoom={zoom ? parseFloat(zoom) : null}
         category={category}
         featureId={featureId}
+        equipmentInfoId={equipmentInfoId}
         feature={this.state.feature}
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
