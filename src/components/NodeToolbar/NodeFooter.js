@@ -94,8 +94,6 @@ export default class NodeFooter extends React.Component<Props> {
   focus() {
     if (this.contributionLink) {
       this.contributionLink.focus()
-    } else {
-      this.detailsLink.focus();
     }
   }
 
@@ -155,12 +153,6 @@ export default class NodeFooter extends React.Component<Props> {
       <StyledFooter>
         <div className="wheelmap-links">
           {contributionLink}
-          <a
-            ref={detailsLink => this.detailsLink = detailsLink}
-            className="link-button"
-            href={`https://www.wheelmap.org/de/nodes/${featureId}`}>
-            {detailsButtonCaption}
-          </a>
         </div>
       </StyledFooter>
     );
