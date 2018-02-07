@@ -16,7 +16,7 @@ type Props = {
 
 
 function EquipmentList(props: Props) {
-  return (<nav className={props.className}>
+  return (<div className={props.className} role="region">
     {Array
       .from(props.equipmentInfos)
       .map(equipmentInfo => <EquipmentItem
@@ -25,7 +25,7 @@ function EquipmentList(props: Props) {
         key={equipmentInfo.properties && equipmentInfo.properties._id}
         history={props.history}
       />)}
-  </nav>);
+  </div>);
 }
 
 export default styled(EquipmentList)`
