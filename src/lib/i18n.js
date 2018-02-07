@@ -15,9 +15,9 @@ export const defaultLocale = 'en-US';
 
 
 function removeEmptyTranslations(locale) {
-  debugger
   if (!locale.translations) return locale;
   const translations = locale.translations[""];
+  if (!translations) return locale;
   const missingKeys = Object.keys(translations).filter(translationKey => {
     const translation = translations[translationKey];
     if (!translation) return true;
