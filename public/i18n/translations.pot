@@ -73,6 +73,10 @@ msgstr ""
 msgid "All"
 msgstr ""
 
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:53
+msgid "All elevators and escalators"
+msgstr ""
+
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
 msgstr ""
@@ -413,14 +417,6 @@ msgstr ""
 
 #: src/lib/Categories.js:48
 msgid "Shopping"
-msgstr ""
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:51
-msgid "Show all elevators"
-msgstr ""
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:51
-msgid "Show elevators"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:37
