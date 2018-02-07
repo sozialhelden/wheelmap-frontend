@@ -5,7 +5,7 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "c-3po": "git://github.com/opyh/c-3po.git#v0.5.8-with-fallback",
+    "c-3po": "0.7.3",
     "cors": "^2.8.1",
     "d3-color": "^1.0.3",
     "d3-interpolate": "^1.1.5",

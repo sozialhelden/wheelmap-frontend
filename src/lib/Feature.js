@@ -1,4 +1,5 @@
 // @flow
+import { t } from 'c-3po';
 import get from 'lodash/get';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
@@ -6,7 +7,7 @@ import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 
 import type { GeometryObject } from 'geojson-flow';
-import { t, translatedStringFromObject } from './i18n';
+import { translatedStringFromObject } from './i18n';
 
 import type { EquipmentInfo } from './EquipmentInfo';
 import type { Disruption } from './Disruption';

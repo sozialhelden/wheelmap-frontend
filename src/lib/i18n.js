@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import difference from 'lodash/difference';
 import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
-import { tWithLocale, addLocale } from 'c-3po';
+import { useLocales, addLocale } from 'c-3po';
 import { i18nCache } from './cache/I18nCache';
 
 export type LocalizedString = string | {
@@ -12,14 +12,12 @@ export type LocalizedString = string | {
 };
 
 export const defaultLocale = 'en-US';
-export let currentLocale = defaultLocale;
 
 
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
+  console.log('Loaded locale', locale, localization);
   addLocale(locale, localization);
-  // useLocale(locale);
-  currentLocale = locale;
   return localization;
 }
 
@@ -29,6 +27,8 @@ function loadLocalizationFromPOFile(locale, poFile) {
 function localeWithoutCountry(locale: string): string {
   return locale.substring(0, 2);
 }
+
+export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]);
 
 
 // Returns an expanded list of preferred locales.
@@ -41,15 +41,6 @@ export function expandedPreferredLocales() {
   return uniq(flatten(locales.map(l => [l, localeWithoutCountry(l)])));
 }
 
-// Wraps c-3po's translation function using a fallback strategy for missing strings
-export function t(...args) {
-  const locales = expandedPreferredLocales();
-  for (let i = 0; i < locales.length; i++) {
-    const translatedString = tWithLocale(locales[i], ...args);
-    if (translatedString) return translatedString;
-  }
-  return args[0]; // return the untranslated string as last option
-}
 
 export function translatedStringFromObject(string: ?LocalizedString): ?string {
   if (!string) return null;
@@ -89,18 +80,25 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
   }))
   .then(() => {
     const missingLocales = difference(locales, loadedLocales);
-    missingLocales.forEach(missingLocale => {
+    return Promise.all(missingLocales.map(missingLocale => {
       if (missingLocale.length === 2) {
         // missing locale might be loaded with a country suffix, find out and duplicate if possible
         const replacementLocale = loadedLocales
           .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
           console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
-          i18nCache.getLocalization(replacementLocale).then(result => {
+          return i18nCache.getLocalization(replacementLocale).then(result => {
             loadLocalizationFromPOFile(missingLocale, result);
           });
         }
       }
-    });
+      return null;
+    })
+    .filter(Boolean));
+  })
+  .then(() => {
+    console.log('Using locales', locales);
+    currentLocales = locales;
+    useLocales(locales);
   });
 }

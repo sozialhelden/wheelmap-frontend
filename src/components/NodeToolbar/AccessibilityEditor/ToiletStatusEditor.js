@@ -1,9 +1,9 @@
 // @flow
 
-import { currentLocale } from '../../../lib/i18n';
+import { currentLocales } from '../../../lib/i18n';
 import * as React from 'react';
 import styled from 'styled-components';
-import { t } from '../../../lib/i18n';
+import { t } from 'c-3po';
 import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
@@ -132,7 +132,7 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     // translator: Header for the toilet accessibility checklist (while marking toilet status)
     const toiletAccessibilityExplanationHeader = t`This means:`;
 
-    const useImperialUnits = currentLocale === 'en' || Boolean(currentLocale.match(/(UK|US)$/));
+    const useImperialUnits = currentLocales[0] === 'en' || Boolean(currentLocales[0].match(/(UK|US)$/));
 
     return (
       <section

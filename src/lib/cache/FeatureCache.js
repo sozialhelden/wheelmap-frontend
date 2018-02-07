@@ -1,6 +1,6 @@
 // @flow
 
-import type { Feature, FeatureCollection } from '../Feature';
+import type { FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 import EventTarget, { CustomEvent } from '../EventTarget';
 import get from 'lodash/get';

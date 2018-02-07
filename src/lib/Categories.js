@@ -1,7 +1,7 @@
 // @flow
 
 import { globalFetchManager } from './FetchManager';
-import { t } from './i18n';
+import { t } from 'c-3po';
 
 
 export type ACCategory = {

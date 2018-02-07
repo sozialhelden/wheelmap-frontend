@@ -5,11 +5,11 @@ import * as React from 'react';
 import queryString from 'query-string';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import type { RouterHistory } from 'react-router-dom';
-import { getQueryParams, setQueryParams } from '../../../lib/queryParams';
+import { getQueryParams } from '../../../lib/queryParams';
 import * as equipmentIcons from '../../icons/equipment';
 import colors from '../../../lib/colors';
 import get from 'lodash/get';
-import { t } from '../../../lib/i18n';
+import { t } from 'c-3po';
 import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
 
 type Props = {

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import sortBy from 'lodash/sortBy';
-import { t } from '../../../lib/i18n';
+import { t } from 'c-3po';
 import type { RouterHistory } from 'react-router-dom';
 import EquipmentList from './EquipmentList'
 import type { AccessibilityCloudFeature } from '../../../lib/Feature';

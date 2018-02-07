@@ -1,7 +1,7 @@
 // @flow
 
 import L from 'leaflet';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';

@@ -16,7 +16,7 @@ import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 
 
 const StyledNodeHeader = styled.header`

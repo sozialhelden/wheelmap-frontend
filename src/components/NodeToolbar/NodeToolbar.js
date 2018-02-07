@@ -1,13 +1,11 @@
 // @flow
 
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 import * as React from 'react';
 import omit from 'lodash/omit';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
-
-import 'accessibility-cloud-widget/src/app.css';
 
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';

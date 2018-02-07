@@ -7,7 +7,7 @@ import {
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
 
-import { t } from '../../../lib/i18n';
+import { t } from 'c-3po';
 import type { Feature } from '../../../lib/Feature';
 
 import strings from './strings';
