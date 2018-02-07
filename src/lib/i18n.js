@@ -14,10 +14,26 @@ export type LocalizedString = string | {
 export const defaultLocale = 'en-US';
 
 
+function removeEmptyTranslations(locale) {
+  debugger
+  if (!locale.translations) return locale;
+  const translations = locale.translations[""];
+  const missingKeys = Object.keys(translations).filter(translationKey => {
+    const translation = translations[translationKey];
+    if (!translation) return true;
+    if (!translation.msgstr) return true;
+    if (translation.msgstr.length === 0) return true;
+    if (translation.msgstr.length === 1 && translation.msgstr[0] === "") return true;
+  });
+  missingKeys.forEach(key => delete translations[key]);
+  return locale;
+}
+
+
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
   console.log('Loaded locale', locale, localization);
-  addLocale(locale, localization);
+  addLocale(locale, removeEmptyTranslations(localization));
   return localization;
 }
 
