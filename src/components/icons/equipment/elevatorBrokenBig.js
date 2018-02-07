@@ -17,18 +17,9 @@ const ElevatorBrokenBig = props => (
         fillRule="nonzero"
       />
       <path
-        fillOpacity={0.8}
+        fillOpacity={0.9}
         fill="#F54B4B"
-        d="M15.014 1.498l1.918 1.152L3.457 25.075 1.54 23.923z"
-      />
-      <rect
-        strokeOpacity={0.172}
-        stroke="#000"
-        x={0.5}
-        y={0.5}
-        width={26}
-        height={26}
-        rx={2}
+        d="M14.335 1.09l3.275 1.968L4.135 25.483.861 23.515z"
       />
     </g>
   </svg>
