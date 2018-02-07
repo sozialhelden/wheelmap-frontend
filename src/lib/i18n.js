@@ -32,7 +32,7 @@ function removeEmptyTranslations(locale) {
 
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
-  console.log('Loaded locale', locale, localization);
+  // console.log('Loaded locale', locale, localization);
   addLocale(locale, removeEmptyTranslations(localization));
   return localization;
 }
@@ -102,7 +102,7 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
         const replacementLocale = loadedLocales
           .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
-          console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
+          // console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
           return i18nCache.getLocalization(replacementLocale).then(result => {
             loadLocalizationFromPOFile(missingLocale, result);
           });
@@ -113,7 +113,7 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
     .filter(Boolean));
   })
   .then(() => {
-    console.log('Using locales', locales);
+    // console.log('Using locales', locales);
     currentLocales = locales;
     useLocales(locales);
   });
