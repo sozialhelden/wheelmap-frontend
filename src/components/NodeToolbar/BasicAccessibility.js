@@ -44,11 +44,12 @@ function BasicAccessibility(props) {
     return null;
   }
 
-  return (<section className={`basic-accessibility ${props.className}`}>
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+  return (<summary className={`basic-accessibility ${props.className}`}>
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
     <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
     <footer><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
-  </section>);
+  </summary>);
 }
 
 const StyledBasicAccessibility = styled(BasicAccessibility)`

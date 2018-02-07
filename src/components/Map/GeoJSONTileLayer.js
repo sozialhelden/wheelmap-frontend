@@ -36,7 +36,6 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from "./geoTileToBbox";
 import highlightMarker from "./highlightMarker";
-import { Feature } from "../../lib/Feature";
 import { CustomEvent } from "../../lib/EventTarget";
 
 const TileLayer = L.TileLayer;
@@ -267,7 +266,7 @@ class GeoJSONTileLayer extends TileLayer {
 
       tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON, response);
       const layerGroup = L.layerGroup(tileLayer.options);
-      const markers = filteredGeoJSON.features.map(
+      filteredGeoJSON.features.forEach(
         tileLayer._markerFromFeature.bind(tileLayer, layerGroup)
       );
       // eslint-disable-next-line no-param-reassign

@@ -13,8 +13,8 @@ import getIconNameForProperties from './getIconNameForProperties';
 
 type Options = typeof L.Marker.Options & {
   feature: Feature,
-  onClick: ((featureId: string) => void),
-  hrefForFeatureId: ((featureId: string) => string),
+  onClick: ((featureId: string, properties: ?NodeProperties) => void),
+  hrefForFeature: ((featureId: string) => string),
 };
 
 
@@ -22,7 +22,7 @@ export default class HighlightableMarker extends L.Marker {
   constructor(latlng: L.LatLng, options: Options) {
     const defaults: Options = {
       icon: new MarkerIcon({
-        hrefForFeatureId: options.hrefForFeatureId,
+        hrefForFeature: options.hrefForFeature,
         onClick: options.onClick,
         feature: options.feature,
       }),

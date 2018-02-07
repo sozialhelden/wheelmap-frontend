@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 

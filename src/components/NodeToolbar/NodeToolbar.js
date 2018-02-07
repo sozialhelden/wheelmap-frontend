@@ -1,13 +1,11 @@
 // @flow
 
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 import * as React from 'react';
 import omit from 'lodash/omit';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
-
-import 'accessibility-cloud-widget/src/app.css';
 
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
@@ -26,6 +24,7 @@ import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
 function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
   // These attributes have a better representation in the UI than the basic tree structure would provide.
@@ -46,6 +45,7 @@ const PositionedCloseLink = styled(CloseLink)`
 type Props = {
   feature: Feature,
   featureId: string | number,
+  equipmentInfoId: string | number,
   hidden: boolean,
   isEditMode: boolean,
   onReportModeToggle: ?((isReportMode: boolean) => void),
@@ -78,9 +78,12 @@ class NodeToolbar extends React.Component<Props, State> {
 
   shouldBeFocused: ?boolean;
 
+
   componentDidMount() {
     this.fetchCategory(this.props);
+    this.fetchFeature(this.props);
   }
+
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
@@ -92,8 +95,10 @@ class NodeToolbar extends React.Component<Props, State> {
     this.manageFocus(prevProps, prevState);
   }
 
+
   componentWillReceiveProps(nextProps: Props) {
     this.fetchCategory(nextProps);
+    this.fetchFeature(nextProps);
     if (nextProps.featureId !== this.props.featureId) {
       this.toggleReportMode(false);
     }
@@ -103,6 +108,19 @@ class NodeToolbar extends React.Component<Props, State> {
   toggleReportMode(isReportMode: boolean) {
     this.setState({ isReportMode });
     if (this.props.onReportModeToggle) this.props.onReportModeToggle(isReportMode);
+  }
+
+
+  fetchFeature(props: Props) {
+    if (props.equipmentInfoId) {
+      equipmentInfoCache
+        .getFeature(props.equipmentInfoId)
+        .then(equipmentInfo => this.setState({ equipmentInfo }));
+    }
+
+    if (props.feature) {
+      this.setState({ feature: props.feature });
+    }
   }
 
 
@@ -163,13 +181,8 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const properties = this.props.feature && this.props.feature.properties;
-    const accessibility = properties ? properties.accessibility : null;
-    const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
-
-    // translator: Button caption shown in the place toolbar
-    const reportButtonCaption = t`Report an Issue`;
-
+    const feature = this.state.feature;
+    const properties = feature && feature.properties;
     if (!properties) {
       return (<StyledToolbar
         hidden={this.props.hidden}
@@ -178,6 +191,12 @@ class NodeToolbar extends React.Component<Props, State> {
         <Dots size={20} />
       </StyledToolbar>);
     }
+
+    const accessibility = properties ? properties.accessibility : null;
+    const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
+
+    // translator: Button caption shown in the place toolbar
+    const reportButtonCaption = t`Report an Issue`;
 
     return (
       <StyledToolbar
@@ -229,9 +248,9 @@ class NodeToolbar extends React.Component<Props, State> {
 
           return (<div>
             <BasicAccessibility properties={properties} />
-            <AccessibilityDetails details={filteredAccessibility} locale={window.navigator.language} />
+            <AccessibilityDetails details={filteredAccessibility} />
             <AccessibilityExtraInfo properties={properties} />
-            {isWheelmapFeature ? null : <EquipmentOverview feature={this.props.feature} />}
+            {isWheelmapFeature ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} />}
             {
               (this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter

@@ -6,7 +6,7 @@ import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import colors from '../../lib/colors';
 import ChevronRight from './ChevronRight';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 
 
 type Props = {

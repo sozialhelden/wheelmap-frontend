@@ -16,7 +16,7 @@ import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 
 
 const StyledNodeHeader = styled.header`
@@ -142,7 +142,7 @@ export default class NodeHeader extends React.Component<Props, void> {
           parentCategory={this.props.parentCategory}
         /> : null}
 
-        {addressString ? <address>{addressString}</address> : null }
+        {addressString ? <address role="none">{addressString}</address> : null }
 
         {sourceLinks}
 

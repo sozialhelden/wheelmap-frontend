@@ -1,7 +1,7 @@
 // @flow
 
 import L from 'leaflet';
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
@@ -383,7 +383,8 @@ export default class Map extends React.Component<Props, State> {
         this.wheelmapTileLayer.highlightMarkerWithId(String(props.featureId));
       }
       if (this.accessibilityCloudTileLayer) {
-        this.accessibilityCloudTileLayer.highlightMarkerWithId(String(props.featureId));
+        const _id = props.equipmentInfoId ? String(props.equipmentInfoId) : String(props.featureId);
+        this.accessibilityCloudTileLayer.highlightMarkerWithId(_id);
       }
     } else {
       removeCurrentHighlightedMarker();

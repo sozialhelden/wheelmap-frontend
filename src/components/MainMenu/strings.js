@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from '../../lib/i18n';
+import { t } from 'c-3po';
 
 
 export default function strings() {

@@ -1,11 +1,11 @@
 // @flow
 
-import type { Feature, FeatureCollection } from '../Feature';
+import type { FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 import EventTarget, { CustomEvent } from '../EventTarget';
 import get from 'lodash/get';
 
-type FeatureCacheEvent<T> = Event & {
+type FeatureCacheEvent<T> = CustomEvent & {
   target: FeatureCache, // eslint-disable-line no-use-before-define
   feature: T,
 };
@@ -51,19 +51,14 @@ export default class FeatureCache<
     const featureId = this.constructor.getIdForFeature(feature);
     if (!featureId) return;
     let event: CustomEvent;
-
-    if (this.cache[featureId]) {
-      event = new CustomEvent("change", {
-        target: this,
-        feature
-      });
-    } else {
-      event = new CustomEvent("add", {
-        target: this,
-        feature
-      });
-    }
+    const oldFeature = this.cache[featureId];
+    const eventName = oldFeature ? "change" : "add";
+    event = new CustomEvent(eventName, {
+      target: this,
+      feature
+    });
     this.cache[featureId] = feature;
+    this.updateIndexMap(feature, oldFeature);
     this.dispatchEvent(event);
   }
 
@@ -82,6 +77,10 @@ export default class FeatureCache<
     if (!featureId) return;
     const oldFeature = this.cache[featureId];
     this.cache[featureId] = feature;
+    this.updateIndexMap(feature, oldFeature);
+  }
+
+  updateIndexMap(feature: FeatureType, oldFeature: ?FeatureType) {
     Object.keys(this.indexMaps).forEach(path => {
       const value = get(feature, path);
       if (this.indexMaps[path][value] instanceof Set) {
