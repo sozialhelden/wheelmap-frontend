@@ -36,6 +36,8 @@ export default class EquipmentOverview extends React.Component<Props, State> {
       .filter(e => e.properties && (e.properties.category === 'elevator' || e.properties.isWorking === false));
     const brokenEquipmentInfos = equipmentInfos.filter(e => e.properties && e.properties.isWorking === false);
 
+    if (equipmentInfos.length === 0) return null;
+
     return <div>
       <EquipmentList
         isExpanded={this.state.expanded}
@@ -48,7 +50,7 @@ export default class EquipmentOverview extends React.Component<Props, State> {
           className="link-button expand-button full-width-button"
           onClick={() => this.setState({ expanded: true })}
         >
-          {brokenEquipmentInfos.length ? t`Show all elevators` : t`Show elevators`}
+          {t`All elevators and escalators`}
         </button> : null}
     </div>;
   }
