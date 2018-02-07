@@ -20,6 +20,9 @@ type Props = {
   onToggle: ((isMainMenuOpen: boolean) => void),
   isEditMode: boolean,
   isLocalizationLoaded: boolean,
+  lat: string,
+  lon: string,
+  zoom: string,
 };
 
 
@@ -133,7 +136,7 @@ class MainMenu extends React.Component<Props, State> {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isEditMode, isLocalizationLoaded } = this.props;
+    const { isEditMode, isLocalizationLoaded, lat, lon, zoom } = this.props;
 
     if (!isLocalizationLoaded) {
       return <nav className={classList.join(' ')}></nav>
@@ -187,7 +190,7 @@ class MainMenu extends React.Component<Props, State> {
         <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{faq}</a>
         <a
           className="nav-link add-place-link"
-          href="/nodes/new"
+          href={`https://www.openstreetmap.org/edit?editor=id#map=${zoom}/${lat}/${lon}`}
           ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
           tabIndex={isEditMode ? -1 : 0}
           role="menuitem"

@@ -356,6 +356,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
         isEditMode={isEditMode}
         isLocalizationLoaded={isLocalizationLoaded}
+        { ...{lat, lon, zoom}}
       />
 
       {isLocalizationLoaded ? <SearchToolbar
