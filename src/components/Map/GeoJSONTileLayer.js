@@ -31,12 +31,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import L from "leaflet";
+import includes from 'lodash/includes';
 import "leaflet.markercluster/dist/leaflet.markercluster";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import geoTileToBbox from "./geoTileToBbox";
-import highlightMarker from "./highlightMarker";
+import highlightMarkers from "./highlightMarkers";
 import { CustomEvent } from "../../lib/EventTarget";
+
 
 const TileLayer = L.TileLayer;
 
@@ -198,8 +200,8 @@ class GeoJSONTileLayer extends TileLayer {
     const id = feature.properties._id || feature.properties.id;
     const existingMarker = this._idsToShownLayers[id];
     if (existingMarker) {
-      if (String(id) === this.highlightedMarkerId) {
-        highlightMarker(existingMarker);
+      if (includes(this.highlightedMarkerIds, String(id))) {
+        highlightMarkers([existingMarker], false);
       }
       return existingMarker;
     }
@@ -209,9 +211,9 @@ class GeoJSONTileLayer extends TileLayer {
     marker.feature = feature;
 
     this._idsToShownLayers[id] = marker;
-    if (String(id) === this.highlightedMarkerId) {
+    if (includes(this.highlightedMarkerIds, String(id))) {
       const highlightFn = () => {
-        highlightMarker(marker);
+        highlightMarkers([marker], false);
         marker.off("add", highlightFn);
       };
       marker.on("add", highlightFn);
@@ -299,11 +301,11 @@ class GeoJSONTileLayer extends TileLayer {
     });
   }
 
-  highlightMarkerWithId(id: string) {
-    const marker = this._idsToShownLayers[id];
-    this.highlightedMarkerId = id;
-    if (!marker) return;
-    highlightMarker(marker);
+  highlightMarkersWithIds(ids: string[]) {
+    const markers = ids.map(id => this._idsToShownLayers[id]).filter(Boolean);
+    this.highlightedMarkerIds = ids;
+    if (!markers.length) return;
+    highlightMarkers(markers);
   }
 }
 

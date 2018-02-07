@@ -165,7 +165,7 @@ export default class FeatureCache<
     return this.getFeature(id);
   }
 
-  /** @private */ getCachedFeature(id: string): ?FeatureType {
+  /** @protected */ getCachedFeature(id: string): ?FeatureType {
     return this.cache[id];
   }
 

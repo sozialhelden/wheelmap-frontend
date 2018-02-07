@@ -213,8 +213,10 @@ export function hasAccessibleToilet(
 }
 
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
-  if (properties && properties.category === 'elevator') {
-    return properties.isWorking ? 'yes' : 'no';
+  if (properties) {
+    if (properties.category === 'elevator' || properties.category === 'escalator') {
+      return properties.isWorking ? 'yes' : 'no';
+    }
   }
   const isAccessible = get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair');

@@ -5,6 +5,7 @@ import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import * as React from 'react';
 
 import 'leaflet.locatecontrol/src/L.Control.Locate';
@@ -24,12 +25,13 @@ import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import isApplePlatform from '../../lib/isApplePlatform';
 import addLocateControlToMap from './addLocateControlToMap';
-import { removeCurrentHighlightedMarker } from './highlightMarker';
+import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
 
 type Props = {
@@ -380,14 +382,18 @@ export default class Map extends React.Component<Props, State> {
   updateHighlightedMarker(props: Props) {
     if (props.featureId) {
       if (this.wheelmapTileLayer) {
-        this.wheelmapTileLayer.highlightMarkerWithId(String(props.featureId));
+        this.wheelmapTileLayer.highlightMarkersWithIds([String(props.featureId)]);
       }
-      if (this.accessibilityCloudTileLayer) {
-        const _id = props.equipmentInfoId ? String(props.equipmentInfoId) : String(props.featureId);
-        this.accessibilityCloudTileLayer.highlightMarkerWithId(_id);
+      const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
+      if (accessibilityCloudTileLayer) {
+        let ids = [String(props.featureId)];
+        if (typeof props.equipmentInfoId === 'string') {
+          ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
+        }
+        accessibilityCloudTileLayer.highlightMarkersWithIds(ids);
       }
     } else {
-      removeCurrentHighlightedMarker();
+      highlightMarkers([]);
     }
   }
 
