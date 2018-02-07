@@ -1,6 +1,7 @@
 // @flow
 
 import uniq from 'lodash/uniq';
+import difference from 'lodash/difference';
 import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
 import { tWithLocale, addLocale } from 'c-3po';
@@ -71,9 +72,12 @@ export function translatedStringFromObject(string: ?LocalizedString): ?string {
 export function loadExistingLocalizationByPreference(locales = expandedPreferredLocales()): Promise<*> {
   if (locales.length === 0) return Promise.resolve(null);
 
+  const loadedLocales = [];
+
   return Promise.all(locales.map(locale => {
     return i18nCache.getLocalization(locale).then(result => {
       loadLocalizationFromPOFile(locale, result);
+      loadedLocales.push(locale);
     },
     (response) => {
       console.log('Error while loading translation:', response);
@@ -82,5 +86,21 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
       }
     }
   );
-  }));
+  }))
+  .then(() => {
+    const missingLocales = difference(locales, loadedLocales);
+    missingLocales.forEach(missingLocale => {
+      if (missingLocale.length === 2) {
+        // missing locale might be loaded with a country suffix, find out and duplicate if possible
+        const replacementLocale = loadedLocales
+          .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
+        if (replacementLocale) {
+          console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
+          i18nCache.getLocalization(replacementLocale).then(result => {
+            loadLocalizationFromPOFile(missingLocale, result);
+          });
+        }
+      }
+    });
+  });
 }
