@@ -399,6 +399,7 @@ class FeatureLoader extends React.Component<Props, State> {
           feature={this.state.feature}
           hidden={this.state.isFilterToolbarVisible}
           featureId={featureId}
+          equipmentInfoId={equipmentInfoId}
           isEditMode={isEditMode}
           onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
           // onClose={() => { this.setState({ category: null }); }}

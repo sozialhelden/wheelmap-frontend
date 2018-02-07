@@ -4,7 +4,6 @@ import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } f
 import config from '../config';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
-import { disruptionCache } from './DisruptionCache';
 
 type CacheMap = {
   [string]: FeatureCache<*, *>
@@ -12,14 +11,13 @@ type CacheMap = {
 
 const caches: CacheMap = {
   equipmentInfos: equipmentInfoCache,
-  disruptions: disruptionCache,
 }
 
 export default class AccessibilityCloudFeatureCache extends
   FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
     const locale = window.navigator.language;
-    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?includeRelated=equipmentInfos,equipmentInfos.disruptions,disruptions&appToken=${config.accessibilityCloudAppToken}&locale=${locale}`);
+    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?includeRelated=equipmentInfos&appToken=${config.accessibilityCloudAppToken}&locale=${locale}`);
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {

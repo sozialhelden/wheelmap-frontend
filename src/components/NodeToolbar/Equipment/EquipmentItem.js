@@ -32,16 +32,20 @@ function EquipmentItem(props: Props) {
   };
   const href = (placeInfoId && _id) ? `/beta/nodes/${placeInfoId}/equipment/${_id}` : '#';
 
+  const showOnMap = (event) => {
+    const { geometry } = equipmentInfo;
+    const [lat, lon] = normalizeCoordinates(geometry.coordinates);
+    const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
+    props.history.push(`${href}#?${queryString.stringify(params)}`);
+    event.preventDefault();
+  };
+
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
   return (<button
     className={`link-button full-width-button ${props.className}`}
-    onClick={(event) => {
-      const { geometry } = equipmentInfo;
-      const [lat, lon] = normalizeCoordinates(geometry.coordinates);
-      const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
-      props.history.push(`${href}#?${queryString.stringify(params)}`);
-      event.preventDefault();
-    }}>
-    <EquipmentIcon className="icon" aria-label={ariaLabel} />
+    onKeyPress={(event) => { if (event.keyCode === 13) { showOnMap(event); } }}
+    onClick={showOnMap}>
+    <EquipmentIcon className="icon" aria-label={ariaLabel[category] || ''} />
     <span className="name">
       {properties.description}
     </span>
