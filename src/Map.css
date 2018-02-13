@@ -127,6 +127,7 @@ body.is-touch-device .leaflet-filter-button {
 
   .leaflet-bottom.leaflet-left {
     bottom: 80px;
+    z-index: 999;
   }
 
   .leaflet-left .leaflet-control-scale {
