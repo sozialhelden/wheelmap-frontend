@@ -35,8 +35,9 @@ export default class MarkerIcon extends L.Icon {
 
   createIcon() {
     const link = document.createElement('a');
-    const properties = this.options.feature.properties;
-    const featureId = properties.id || properties._id;
+    const feature = this.options.feature;
+    const properties = feature.properties;
+    const featureId = properties.id || properties._id || feature._id;
     link.href = this.options.hrefForFeature(featureId);
 
     const iconName = getIconNameForProperties(properties) || 'place';

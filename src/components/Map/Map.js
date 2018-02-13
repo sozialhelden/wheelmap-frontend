@@ -45,6 +45,7 @@ type Props = {
   toiletFilter: YesNoUnknown[],
   accessibilityCloudTileUrl: string,
   accessibilityCloudAppToken: string,
+  accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
   wheelmapApiKey: string,
   mapboxTileUrl: string,

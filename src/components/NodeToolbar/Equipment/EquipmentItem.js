@@ -25,8 +25,9 @@ function EquipmentIconWrapper(
   { history: RouterHistory, equipmentInfo: EquipmentInfo, count: number, isCountHidden: boolean }
 ) {
   const properties = equipmentInfo.properties;
+  const _id = equipmentInfo._id;
   if (!properties) return null;
-  const { isWorking, _id, category } = properties;
+  const { isWorking, category } = properties;
 
   const ariaLabel: { [string]: string } = {
     elevator: t`elevator`,
@@ -50,7 +51,7 @@ function EquipmentItem(props: Props) {
   const equipmentInfos = props.equipmentInfos;
   const description = get(equipmentInfos[0], ['properties', 'description']);
   const { history, isExpanded } = props;
-  const _ids = equipmentInfos.map(e => get(e, ['properties', '_id'])).sort();
+  const _ids = equipmentInfos.map(e => get(e, '_id')).sort();
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
   const hasBrokenEquipment = broken.length > 0;

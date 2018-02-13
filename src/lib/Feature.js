@@ -173,6 +173,15 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
           .map(_id => response.related.equipmentInfos[_id])
       );
     }
+    const equipmentInfosEmbeddedInFeatures = response.features
+      .map(feature => feature.properties.equipmentInfos)
+      .filter(Boolean)
+      .reduce((prev, next) => Object.assign(prev, next), {});
+    response.features = response.features.concat(
+      Object.keys(equipmentInfosEmbeddedInFeatures)
+        .map(key => equipmentInfosEmbeddedInFeatures[key])
+        .map(feature => Object.assign(feature, { type: 'Feature' }))
+    );
   }
   return response;
 }

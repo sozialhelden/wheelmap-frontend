@@ -6,6 +6,7 @@ export type CategoryString = 'elevator' | 'escalator' | 'switch' | 'sitemap' | '
 export type EquipmentInfo = {
   type: 'Feature',
   geometry: Point,
+  _id?: string,
   properties: {
     _id?: string,
     originalId?: string,

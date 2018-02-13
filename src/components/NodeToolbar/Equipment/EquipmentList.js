@@ -27,7 +27,7 @@ function EquipmentList(props: Props) {
         equipmentInfos={sortBy(equipmentInfos, 'properties.isWorking')}
         isExpanded={props.isExpanded}
         placeInfoId={props.placeInfoId}
-        key={equipmentInfos.map(e => get(e, ['properties', '_id'])).join(',')}
+        key={equipmentInfos.map(e => get(e, '_id')).join(',')}
         history={props.history}
       />)}
   </div>);

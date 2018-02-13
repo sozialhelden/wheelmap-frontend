@@ -114,13 +114,13 @@ export default class Categories {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static fetchOnce(options: { accessibilityCloudAppToken: string, wheelmapApiKey: string, wheelmapApiBaseUrl: string }) {
+  static fetchOnce(options: { accessibilityCloudBaseUrl: string, accessibilityCloudAppToken: string, wheelmapApiKey: string, wheelmapApiBaseUrl: string }) {
     if (this.fetchPromise) return this.fetchPromise;
 
     const countryCode = navigator.language.substr(0, 2);
 
     function acCategoriesFetch() {
-      const url = `https://www.accessibility.cloud/categories.json?appToken=${options.accessibilityCloudAppToken}`;
+      const url = `${options.accessibilityCloudBaseUrl}/categories.json?appToken=${options.accessibilityCloudAppToken}`;
       return globalFetchManager.fetch(url)
         .then(response => response.json())
         .then(json => Categories.generateSynonymCache(json.results || []));

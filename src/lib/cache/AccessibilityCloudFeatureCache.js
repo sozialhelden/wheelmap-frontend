@@ -17,7 +17,7 @@ export default class AccessibilityCloudFeatureCache extends
   FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
     const locale = window.navigator.language;
-    return this.fetch(`https://www.accessibility.cloud/place-infos/${id}.json?includeRelated=equipmentInfos&appToken=${config.accessibilityCloudAppToken}&locale=${locale}`);
+    return this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${locale}`);
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {
@@ -25,15 +25,15 @@ export default class AccessibilityCloudFeatureCache extends
   }
 
   cacheFeature(feature: AccessibilityCloudFeature, response: any): void {
-    if (response.related) {
-      // Cache and index related objects in their respective caches
-      Object.keys(caches).forEach((collectionName) => {
-        const cache = caches[collectionName];
-        const idsToDocuments = response.related[collectionName];
+    // Cache and index related objects in their respective caches
+    Object.keys(caches).forEach((collectionName) => {
+      const cache = caches[collectionName];
+      const idsToDocuments = feature.properties && feature.properties[collectionName];
+      if (idsToDocuments) {
         const ids = Object.keys(idsToDocuments || {});
         ids.forEach(_id => cache.cacheFeature(idsToDocuments[_id]));
-      });
-    }
+      }
+    });
 
     super.cacheFeature(feature, response);
   }

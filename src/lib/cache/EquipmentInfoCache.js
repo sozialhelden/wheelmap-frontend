@@ -7,7 +7,7 @@ import config from '../config';
 
 export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, EquipmentInfoFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
-    const url = `https://www.accessibility.cloud/equipment-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}`;
+    const url = `${config.accessibilityCloudBaseUrl}/equipment-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}`;
     return this.fetch(url);
   }
 
@@ -29,7 +29,7 @@ export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, Equi
     const equipmentInfosWithSameDescription = equipmentInfos.filter(e => {
       return (get(e, ['properties', 'description']) === description);
     });
-    return equipmentInfosWithSameDescription.map(e => get(e, ['properties', '_id']));
+    return equipmentInfosWithSameDescription.map(e => get(e, '_id'));
   }
 }
 
