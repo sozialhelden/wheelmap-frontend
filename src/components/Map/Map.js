@@ -104,9 +104,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   updateTabIndexes() {
-    this.map.eachLayer(layer => {
+    const map = this.map;
+    if (!map) return;
+    map.eachLayer(layer => {
       if (layer.getElement && layer.getLatLng) {
-        const isInViewport = this.map.getBounds().contains(layer.getLatLng());
+        const isInViewport = map.getBounds().contains(layer.getLatLng());
         const layerElement = layer.getElement();
         layerElement.setAttribute('tabindex', isInViewport ? 0 : -1)
       }
@@ -285,9 +287,9 @@ export default class Map extends React.Component<Props, State> {
     const toiletFilterChanged = !isEqual(this.props.toiletFilter.sort(), newProps.toiletFilter.sort());
     if (accessibilityFilterChanged || toiletFilterChanged) {
       setTimeout(() => {
-        this.accessibilityCloudTileLayer._reset();
+        if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
-        this.accessibilityCloudTileLayer._update(map.getCenter());
+        if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._update(map.getCenter());
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
     }
@@ -428,7 +430,7 @@ export default class Map extends React.Component<Props, State> {
   }, 500);
 
   focus() {
-    this.mapElement.focus();
+    if (this.mapElement) this.mapElement.focus();
   }
 
   render() {
