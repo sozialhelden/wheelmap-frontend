@@ -226,6 +226,11 @@ export default class Map extends React.Component<Props, State> {
   componentWillUnmount() {
     if (!this.map) return;
     this.map.off();
+    delete this.map;
+    delete this.mapElement;
+    delete this.featureLayer;
+    delete this.wheelmapTileLayer;
+    delete this.accessibilityCloudTileLayer;
   }
 
   removeLayersNotVisibleInZoomLevel() {
