@@ -221,6 +221,11 @@ export default class Map extends React.Component<Props, State> {
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
   }
 
+  componentWillUnmount() {
+    if (!this.map) return;
+    this.map.off();
+  }
+
   removeLayersNotVisibleInZoomLevel() {
     const map: L.Map = this.map;
     const featureLayer = this.featureLayer;
