@@ -1,12 +1,24 @@
 import React from "react";
 
 const UnknownWithoutArrow = props => (
-  <svg viewBox="0 0 25 25" width="1em" height="1em" {...props}>
-    <path
-      d="M0 12.5L12.5 0l6.308 6.306 6.198 6.197L12.501 25z"
-      fill="#E6E4E0"
-      fillRule="evenodd"
-    />
+  <svg
+    viewBox="0 0 25 25"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+    width="1em"
+    height="1em"
+    {...props}
+  >
+    <defs>
+      <path id="a" d="M3.663 3.66h17.678l.001 8.919v8.764l-17.678-.005z" />
+    </defs>
+    <g transform="rotate(-45 12.503 12.501)" fill="none" fillRule="evenodd">
+      <use fill="#E6E4E0" xlinkHref="#a" />
+      <path
+        strokeOpacity={0.25}
+        stroke="#000"
+        d="M4.163 4.16v16.678l16.68.005L20.84 4.16H4.163z"
+      />
+    </g>
   </svg>
 );
 
