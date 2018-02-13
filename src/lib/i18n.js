@@ -2,6 +2,7 @@
 
 import uniq from 'lodash/uniq';
 import difference from 'lodash/difference';
+import intersection from 'lodash/intersection';
 import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
 import { useLocales, addLocale } from 'c-3po';
@@ -32,7 +33,7 @@ function removeEmptyTranslations(locale) {
 
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
-  // console.log('Loaded locale', locale, localization);
+  console.log('Loaded locale', locale, localization);
   addLocale(locale, removeEmptyTranslations(localization));
   return localization;
 }
@@ -84,6 +85,7 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
   return Promise.all(locales.map(locale => {
     return i18nCache.getLocalization(locale).then(result => {
       loadLocalizationFromPOFile(locale, result);
+      console.log('Loaded translation', locale);
       loadedLocales.push(locale);
     },
     (response) => {
@@ -102,9 +104,10 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
         const replacementLocale = loadedLocales
           .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
-          // console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
+          console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
           return i18nCache.getLocalization(replacementLocale).then(result => {
             loadLocalizationFromPOFile(missingLocale, result);
+            loadedLocales.push(missingLocale);
           });
         }
       }
@@ -113,8 +116,9 @@ export function loadExistingLocalizationByPreference(locales = expandedPreferred
     .filter(Boolean));
   })
   .then(() => {
-    // console.log('Using locales', locales);
-    currentLocales = locales;
-    useLocales(locales);
+    const localesToUse = intersection(locales, loadedLocales);
+    console.log('Using locales', localesToUse, '(requested:', locales, ')');
+    currentLocales = localesToUse;
+    useLocales(localesToUse);
   });
 }
