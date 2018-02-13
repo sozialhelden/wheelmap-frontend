@@ -106,9 +106,6 @@ export default class NodeFooter extends React.Component<Props> {
     // translator: Button caption in the place toolbar
     let editButtonCaption = t`Mark this place`;
 
-    // translator: Button caption in the place toolbar. Button navigates to Wheelmap classic.
-    const detailsButtonCaption = t`Details`;
-
     if (feature && feature.properties) {
       const properties = feature.properties;
 

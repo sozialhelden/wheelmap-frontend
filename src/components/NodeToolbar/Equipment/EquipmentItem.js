@@ -26,7 +26,7 @@ function EquipmentIconWrapper(
 ) {
   const properties = equipmentInfo.properties;
   if (!properties) return null;
-  const { isWorking, _id, category, placeInfoId } = properties;
+  const { isWorking, _id, category } = properties;
 
   const ariaLabel: { [string]: string } = {
     elevator: t`elevator`,

@@ -5,7 +5,6 @@ import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
-import get from 'lodash/get';
 import * as React from 'react';
 
 import 'leaflet.locatecontrol/src/L.Control.Locate';

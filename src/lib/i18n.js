@@ -25,6 +25,7 @@ function removeEmptyTranslations(locale) {
     if (!translation.msgstr) return true;
     if (translation.msgstr.length === 0) return true;
     if (translation.msgstr.length === 1 && translation.msgstr[0] === "") return true;
+    return false;
   });
   missingKeys.forEach(key => delete translations[key]);
   return locale;
@@ -77,7 +78,7 @@ export function translatedStringFromObject(string: ?LocalizedString): ?string {
 }
 
 
-export function loadExistingLocalizationByPreference(locales = expandedPreferredLocales()): Promise<*> {
+export function loadExistingLocalizationByPreference(locales: string[] = expandedPreferredLocales()): Promise<*> {
   if (locales.length === 0) return Promise.resolve(null);
 
   const loadedLocales = [];
