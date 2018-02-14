@@ -314,7 +314,7 @@ export function categoryNameFor(category: Category): ?string {
 }
 
 export function placeNameFor(properties: NodeProperties, category: Category): string {
-  return translatedStringFromObject(properties.name) || categoryNameFor(category) || t`Unnamed place`;
+  return (properties && translatedStringFromObject(properties.name)) || categoryNameFor(category) || t`Unnamed place`;
 }
 
 

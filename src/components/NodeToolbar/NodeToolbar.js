@@ -2,11 +2,11 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
+import get from 'lodash/get';
 import omit from 'lodash/omit';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
-
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
 
@@ -204,7 +204,7 @@ class NodeToolbar extends React.Component<Props, State> {
         isModal={this.props.isEditMode || this.state.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
-        ariaLabel={placeNameFor(this.props.feature.properties, this.state.category)}
+        ariaLabel={placeNameFor(get(this.props, 'feature.properties'), this.state.category)}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
