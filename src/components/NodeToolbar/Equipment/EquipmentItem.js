@@ -50,6 +50,7 @@ function EquipmentIconWrapper(
 function EquipmentItem(props: Props) {
   const equipmentInfos = props.equipmentInfos;
   const description = get(equipmentInfos[0], ['properties', 'description']);
+  const shortDescription = get(equipmentInfos[0], ['properties', 'shortDescription']);
   const { history, isExpanded } = props;
   const _ids = equipmentInfos.map(e => get(e, '_id')).sort();
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
@@ -82,7 +83,7 @@ function EquipmentItem(props: Props) {
       }
       return null;
     }).filter(Boolean)}
-    <span className="name">{description}</span>
+    <span className="name" aria-label={description}>{shortDescription}</span>
   </button>);
 }
 
@@ -98,7 +99,7 @@ const StyledEquipmentItem = styled(EquipmentItem)`
   flex-direction: row;
   align-items: center;
 
-  height: 2.5em;
+  min-height: 2.5em;
   margin: 0.25em -1em;
   padding: 0 0.5em !important;
   color: ${colors.textColor};

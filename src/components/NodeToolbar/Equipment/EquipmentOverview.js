@@ -52,30 +52,35 @@ class EquipmentOverview extends React.Component<Props, State> {
     const workingEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
       !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
     )
-
     if (equipmentInfos.length === 0) return null;
 
+    const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
+    const hasWorkingEquipment = workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
+    const shouldBeExpandable = hasWorkingEquipment && !this.state.expanded;
+
     return <div className={this.props.className}>
-      <EquipmentList
+      {hasBrokenEquipment ? <EquipmentList
         equipmentInfoArrays={brokenEquipmentInfoArrays}
         history={this.props.history}
         placeInfoId={placeInfoId}
       >
         <header>{t`Disruptions at this location`}</header>
-      </EquipmentList>
+      </EquipmentList> : null}
 
       {this.state.expanded ? <EquipmentList
         isExpanded={this.state.expanded}
         equipmentInfoArrays={workingEquipmentInfoArrays}
         history={this.props.history}
         placeInfoId={placeInfoId}
-      /> :
+      /> : null}
+
+      {shouldBeExpandable ?
         <button
           className="link-button expand-button full-width-button"
           onClick={() => this.setState({ expanded: true })}
         >
           {t`All elevators and escalators`}
-        </button>}
+        </button> : null}
     </div>;
   }
 }
