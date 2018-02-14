@@ -261,7 +261,7 @@ const StyledToolbar = styled(Toolbar)`
   margin: 10px;
   padding: 12px 15px 5px 15px;
   box-sizing: border-box;
-  z-index: 1000;
+  z-index: 1001;
   overflow: auto;
   transform: translate3d(0, 0);
 
