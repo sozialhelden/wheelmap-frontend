@@ -9,9 +9,41 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/lib/getHumanEnumeration.js:26
+msgid " and "
+msgstr " und "
+
+#: src/lib/getHumanEnumeration.js:20
+msgid " or "
+msgstr " oder "
+
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } auf Wheelmap"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
+msgid "${ count } broken elevator"
+msgid_plural "${ count } broken elevators"
+msgstr[0] "${ count } blockierter Aufzug"
+msgstr[1] "${ count } kaputte Aufzüge"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
+msgid "${ count } broken escalator"
+msgid_plural "${ count } broken escalators"
+msgstr[0] "${ count } blockierte Rolltreppe"
+msgstr[1] "${ count } blockierte Rolltreppen"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
+msgid "${ count } working elevator"
+msgid_plural "${ count } working elevators"
+msgstr[0] "${ count } Aufzug in Betrieb"
+msgstr[1] "${ count } Aufzüge in Betrieb"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
+msgid "${ count } working escalator"
+msgid_plural "${ count } working escalators"
+msgstr[0] "${ count } Rolltreppe in Betrieb"
+msgstr[1] "${ count } Rolltreppen in Betrieb"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -51,7 +83,15 @@ msgstr ""
 "Sozialhelden,\\n\\nan diesem Ort ist etwas falsch: ${ url }\\n\\nDas Problem"
 " ist:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 
-#: src/components/Map/Map.js:250
+#: src/lib/getHumanEnumeration.js:24
+msgid ", and "
+msgstr " und "
+
+#: src/lib/getHumanEnumeration.js:18
+msgid ", or "
+msgstr " oder "
+
+#: src/components/Map/Map.js:262
 msgid "A project by"
 msgstr "Ein Projekt von"
 
@@ -59,7 +99,7 @@ msgstr "Ein Projekt von"
 msgid "Accessibility Filter Dialog"
 msgstr "Filter-Dialog zur Rollstuhlgerechtigkeit"
 
-#: src/lib/Feature.js:297
+#: src/lib/Feature.js:306
 msgid "Accessible hand basin"
 msgstr "Unterfahrbares Waschbecken"
 
@@ -67,7 +107,7 @@ msgstr "Unterfahrbares Waschbecken"
 msgid "Add missing place"
 msgstr "Fehlenden Ort hinzufügen"
 
-#: src/components/NodeToolbar/NodeFooter.js:132
+#: src/components/NodeToolbar/NodeFooter.js:129
 msgid "Add toilet status"
 msgstr "Toilette markieren"
 
@@ -75,7 +115,7 @@ msgstr "Toilette markieren"
 msgid "All"
 msgstr "Alle"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:77
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:82
 msgid "All elevators and escalators"
 msgstr "Alle Aufzüge und Fahrtreppen"
 
@@ -88,7 +128,7 @@ msgstr "Teilweise rollstuhlgerecht oder besser"
 msgid "Back"
 msgstr "Zurück"
 
-#: src/components/NodeToolbar/NodeFooter.js:119
+#: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
 msgstr "Bonus-Karma-Punkte!"
 
@@ -112,11 +152,11 @@ msgstr "Ändere, welche Orte auf der Karte angezeigt werden"
 msgid "Clear Search"
 msgstr "Suche löschen"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:303
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Bewegungsflächen ≥ 150 cm breit"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:303
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Bewegungsflächen ≥ 59 Zoll breit"
 
@@ -144,7 +184,6 @@ msgstr "Wheelmap-Team kontaktieren"
 msgid "Continue"
 msgstr "Weiter"
 
-#: src/components/NodeToolbar/NodeFooter.js:110
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
 msgstr "Details"
@@ -156,15 +195,15 @@ msgid ""
 msgstr ""
 "Wusstest du, dass du diesen Ort auf OpenStreetMap direkt bearbeiten kannst?"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:64
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:67
 msgid "Disruptions at this location"
 msgstr "Störungen vor Ort"
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:302
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Türdurchgang ≥ 35 Zoll breit"
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:302
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Türdurchgang ≥ 90 cm breit"
 
@@ -176,11 +215,11 @@ msgstr "Diesen Ort auf OpenStreetMap bearbeiten"
 msgid "Education"
 msgstr "Bildung"
 
-#: src/lib/Feature.js:273
+#: src/lib/Feature.js:282
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Eingang hat eine oder mehrere Stufen, Räume sind nicht zugänglich."
 
-#: src/lib/Feature.js:271
+#: src/lib/Feature.js:280
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -188,7 +227,7 @@ msgstr ""
 "Eingang hat eine Stufe mit ≤ 7 cm / 3 Zoll Höhe, die meisten Räume sind "
 "stufenlos erreichbar."
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:277
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Eingang ohne Stufen, alle Räume ohne Stufen."
 
@@ -217,7 +256,7 @@ msgstr "So geht’s"
 msgid "Find wheelchair accessible places"
 msgstr "Rollstuhlgerechte Orte finden"
 
-#: src/lib/Feature.js:296
+#: src/lib/Feature.js:305
 msgid "Folding grab rails"
 msgstr "Stützklappgriffe o.ä."
 
@@ -225,11 +264,11 @@ msgstr "Stützklappgriffe o.ä."
 msgid "Food & Drinks"
 msgstr "Essen & Trinken"
 
-#: src/lib/Feature.js:253
+#: src/lib/Feature.js:262
 msgid "Fully"
 msgstr "Voll"
 
-#: src/lib/Feature.js:238
+#: src/lib/Feature.js:247
 msgid "Fully wheelchair accessible"
 msgstr "Voll rollstuhlgerecht"
 
@@ -237,7 +276,7 @@ msgstr "Voll rollstuhlgerecht"
 msgid "Get involved"
 msgstr "Mitmachen"
 
-#: src/lib/Feature.js:283
+#: src/lib/Feature.js:292
 msgid "Has a wheelchair accessible toilet."
 msgstr "Hat eine rollstuhlgerechte Toilette."
 
@@ -297,7 +336,7 @@ msgstr "Impressum"
 msgid "Improve on ${ sourceNameString }"
 msgstr "Auf ${ sourceNameString } verbessern"
 
-#: src/components/NodeToolbar/NodeFooter.js:116
+#: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
 msgstr "Verbessere dein Karma!"
 
@@ -321,7 +360,7 @@ msgstr "Gibt es ein Problem mit diesem Ort?"
 msgid "Leisure"
 msgstr "Freizeit"
 
-#: src/components/Map/Map.js:440
+#: src/components/Map/Map.js:452
 msgid "Map"
 msgstr "Karte"
 
@@ -362,15 +401,15 @@ msgstr "News"
 msgid "No"
 msgstr "Nein"
 
-#: src/lib/Feature.js:285
+#: src/lib/Feature.js:294
 msgid "No wheelchair accessible toilet."
 msgstr "Keine rollstuhlgerechte Toilette."
 
-#: src/lib/Feature.js:257
+#: src/lib/Feature.js:266
 msgid "Not at all"
 msgstr "Gar nicht"
 
-#: src/lib/Feature.js:242
+#: src/lib/Feature.js:251
 msgid "Not wheelchair accessible"
 msgstr "Nicht rollstuhlgerecht"
 
@@ -394,11 +433,11 @@ msgstr "Nur Orte mit rollstuhlgerechter Toilette anzeigen"
 msgid "Open on ${ sourceNameString }"
 msgstr "Öffnen auf ${ sourceNameString }"
 
-#: src/lib/Feature.js:255
+#: src/lib/Feature.js:264
 msgid "Partially"
 msgstr "Teilweise"
 
-#: src/lib/Feature.js:240
+#: src/lib/Feature.js:249
 msgid "Partially wheelchair accessible"
 msgstr "Teilweise rollstuhlgerecht"
 
@@ -488,11 +527,11 @@ msgstr "Verkehr"
 msgid "Travel guide"
 msgstr "Reiseführer"
 
-#: src/lib/Feature.js:259
+#: src/lib/Feature.js:268
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/lib/Feature.js:244
+#: src/lib/Feature.js:253
 msgid "Unknown status"
 msgstr "Unbekannter Status"
 
@@ -500,7 +539,7 @@ msgstr "Unbekannter Status"
 msgid "Unnamed"
 msgstr "Unbenannt"
 
-#: src/lib/Feature.js:308
+#: src/lib/Feature.js:317
 msgid "Unnamed place"
 msgstr "Unbenannter Ort"
 
@@ -517,7 +556,7 @@ msgstr "Rollstuhlgerechtigkeit"
 msgid "Wheelchair Accessibility Filter"
 msgstr "Filter nach Rollstuhlgerechtigkeit"
 
-#: src/lib/Feature.js:295
+#: src/lib/Feature.js:304
 msgid "Wheelchair-height toilet seat"
 msgstr "WC-Becken mit höherem Sitz"
 
@@ -563,15 +602,7 @@ msgstr "[Wheelmap] Problem mit ${ categoryName } auf Wheelmap"
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Problem mit einem Ort auf Wheelmap"
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:32
-msgid "elevator"
-msgstr "Aufzug"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:33
-msgid "escalator"
-msgstr "Fahrtreppe"
-
-#: src/components/Map/Map.js:255
+#: src/components/Map/Map.js:267
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"

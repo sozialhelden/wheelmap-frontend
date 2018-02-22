@@ -8,9 +8,41 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: src/lib/getHumanEnumeration.js:26
+msgid " and "
+msgstr ""
+
+#: src/lib/getHumanEnumeration.js:20
+msgid " or "
+msgstr ""
+
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } a Wheelmap"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
+msgid "${ count } broken elevator"
+msgid_plural "${ count } broken elevators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
+msgid "${ count } broken escalator"
+msgid_plural "${ count } broken escalators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
+msgid "${ count } working elevator"
+msgid_plural "${ count } working elevators"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
+msgid "${ count } working escalator"
+msgid_plural "${ count } working escalators"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -43,7 +75,15 @@ msgid ""
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
 
-#: src/components/Map/Map.js:250
+#: src/lib/getHumanEnumeration.js:24
+msgid ", and "
+msgstr ""
+
+#: src/lib/getHumanEnumeration.js:18
+msgid ", or "
+msgstr ""
+
+#: src/components/Map/Map.js:262
 msgid "A project by"
 msgstr "Un projecte de"
 
@@ -51,7 +91,7 @@ msgstr "Un projecte de"
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:297
+#: src/lib/Feature.js:306
 msgid "Accessible hand basin"
 msgstr "Rentamans accessible"
 
@@ -59,7 +99,7 @@ msgstr "Rentamans accessible"
 msgid "Add missing place"
 msgstr "Afegeix lloc desaparegut"
 
-#: src/components/NodeToolbar/NodeFooter.js:132
+#: src/components/NodeToolbar/NodeFooter.js:129
 msgid "Add toilet status"
 msgstr "Afegeix estat del vàter "
 
@@ -67,7 +107,7 @@ msgstr "Afegeix estat del vàter "
 msgid "All"
 msgstr "Tot"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:77
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:82
 msgid "All elevators and escalators"
 msgstr ""
 
@@ -80,7 +120,7 @@ msgstr "Com a mínim parcialment accessible amb cadira de rodes"
 msgid "Back"
 msgstr "Torna"
 
-#: src/components/NodeToolbar/NodeFooter.js:119
+#: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
 msgstr "Punts de bonificació de karma!"
 
@@ -104,11 +144,11 @@ msgstr "Canvia quins llocs és mostraran en el mapa"
 msgid "Clear Search"
 msgstr "Esborra recerca"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:303
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Espai lliure a terra  ≥ 150 cm d'amplada"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:303
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Espai lliure a terra ≥ 59 cm d'amplada"
 
@@ -136,7 +176,6 @@ msgstr "Poseu-bus en el contacte amb l'equip de contacte de Wheelmap"
 msgid "Continue"
 msgstr "Continua"
 
-#: src/components/NodeToolbar/NodeFooter.js:110
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
 msgstr "Detalls"
@@ -148,15 +187,15 @@ msgid ""
 msgstr ""
 "Saps com canviar la informació d'aquest lloc a OpenStreetMap directament?"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:64
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:67
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:302
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Ample interior de la porta  ≥ 35 polzades"
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:302
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Ample interior de la porta ≥ 90 cm"
 
@@ -168,12 +207,12 @@ msgstr "Edita aquest lloc a OpenStreetMap"
 msgid "Education"
 msgstr "Educació"
 
-#: src/lib/Feature.js:273
+#: src/lib/Feature.js:282
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
 "L'entrada té un graó o diversos graons, les habitacions no són accessibles."
 
-#: src/lib/Feature.js:271
+#: src/lib/Feature.js:280
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -181,7 +220,7 @@ msgstr ""
 "L'entrada té un graó amb una alçada max. 7 cm / 3 polzades, la majoria "
 "d'habitacions són sense graons."
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:277
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Entrada sense graons, totes les habitacions sense graons"
 
@@ -210,7 +249,7 @@ msgstr "Descobreix que"
 msgid "Find wheelchair accessible places"
 msgstr "Trobar llocs accessibles amb cadira de rodes"
 
-#: src/lib/Feature.js:296
+#: src/lib/Feature.js:305
 msgid "Folding grab rails"
 msgstr "Baranes plegables"
 
@@ -218,11 +257,11 @@ msgstr "Baranes plegables"
 msgid "Food & Drinks"
 msgstr "Menjar i Begudes"
 
-#: src/lib/Feature.js:253
+#: src/lib/Feature.js:262
 msgid "Fully"
 msgstr "Plenament"
 
-#: src/lib/Feature.js:238
+#: src/lib/Feature.js:247
 msgid "Fully wheelchair accessible"
 msgstr "Plenament accesible amb cadira de rodes"
 
@@ -230,7 +269,7 @@ msgstr "Plenament accesible amb cadira de rodes"
 msgid "Get involved"
 msgstr "Involucrar-se"
 
-#: src/lib/Feature.js:283
+#: src/lib/Feature.js:292
 msgid "Has a wheelchair accessible toilet."
 msgstr "Te un vàter accessible amb cadira de rodes."
 
@@ -290,7 +329,7 @@ msgstr "Peu de pagina"
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeFooter.js:116
+#: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
 msgstr "Millora el teu karma!"
 
@@ -314,7 +353,7 @@ msgstr "Hi ha un problema amb aquest lloc?"
 msgid "Leisure"
 msgstr "Oci"
 
-#: src/components/Map/Map.js:440
+#: src/components/Map/Map.js:452
 msgid "Map"
 msgstr "Mapa"
 
@@ -355,15 +394,15 @@ msgstr "Noticies"
 msgid "No"
 msgstr "No"
 
-#: src/lib/Feature.js:285
+#: src/lib/Feature.js:294
 msgid "No wheelchair accessible toilet."
 msgstr "Sense vàter accessible amb cadira de rodes"
 
-#: src/lib/Feature.js:257
+#: src/lib/Feature.js:266
 msgid "Not at all"
 msgstr "No tots"
 
-#: src/lib/Feature.js:242
+#: src/lib/Feature.js:251
 msgid "Not wheelchair accessible"
 msgstr "No es accessible amb cadira de rodes "
 
@@ -387,11 +426,11 @@ msgstr "Mostrar només llocs amb vàters accessibles amb cadira de rodes"
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:255
+#: src/lib/Feature.js:264
 msgid "Partially"
 msgstr "Parcialment"
 
-#: src/lib/Feature.js:240
+#: src/lib/Feature.js:249
 msgid "Partially wheelchair accessible"
 msgstr "Accessible amb cadira de rodes parcialment"
 
@@ -477,11 +516,11 @@ msgstr "Transport"
 msgid "Travel guide"
 msgstr "Guia de viatge"
 
-#: src/lib/Feature.js:259
+#: src/lib/Feature.js:268
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/lib/Feature.js:244
+#: src/lib/Feature.js:253
 msgid "Unknown status"
 msgstr "Estat desconegut"
 
@@ -489,7 +528,7 @@ msgstr "Estat desconegut"
 msgid "Unnamed"
 msgstr "Sense nom"
 
-#: src/lib/Feature.js:308
+#: src/lib/Feature.js:317
 msgid "Unnamed place"
 msgstr "Lloc sense nom"
 
@@ -506,7 +545,7 @@ msgstr "Accessible amb cadira de rodes"
 msgid "Wheelchair Accessibility Filter"
 msgstr "Flexibilitat accessibilitat amb cadira de rodes"
 
-#: src/lib/Feature.js:295
+#: src/lib/Feature.js:304
 msgid "Wheelchair-height toilet seat"
 msgstr "Seient del vàter adaptat per cadira de rodes"
 
@@ -551,15 +590,7 @@ msgstr ""
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:32
-msgid "elevator"
-msgstr ""
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:33
-msgid "escalator"
-msgstr ""
-
-#: src/components/Map/Map.js:255
+#: src/components/Map/Map.js:267
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
