@@ -9,8 +9,9 @@ import { getQueryParams } from '../../../lib/queryParams';
 import * as equipmentIcons from '../../icons/equipment';
 import colors from '../../../lib/colors';
 import get from 'lodash/get';
-import { t } from 'c-3po';
+import { ngettext, msgid } from 'c-3po';
 import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
+import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
@@ -29,26 +30,33 @@ function EquipmentIconWrapper(
   if (!properties) return null;
   const { isWorking, category } = properties;
 
-  const ariaLabel: { [string]: string } = {
-    elevator: t`elevator`,
-    escalator: t`escalator`,
+  const ariaLabels: { [string]: { [string]: string } } = {
+    true: {
+      elevator: ngettext(msgid`${count} working elevator`, `${count} working elevators`, count),
+      escalator: ngettext(msgid`${count} working escalator`, `${count} working escalators`, count),
+    },
+    false: {
+      elevator: ngettext(msgid`${count} broken elevator`, `${count} broken elevators`, count),
+      escalator: ngettext(msgid`${count} broken escalator`, `${count} broken escalators`, count),
+    },
   };
+  const ariaLabel = category ? (ariaLabels[String(isWorking)][category] || '') : null;
 
   const iconName = `${category || 'elevator'}${isWorking ? 'Working' : 'Broken'}Big`;
   const EquipmentIcon = equipmentIcons[iconName] || (() => null);
 
-  return (<figure className={isWorking ? 'is-working' : 'is-broken'}>
+  return (<figure className={isWorking ? 'is-working' : 'is-broken'} title={ariaLabel} aria-label={ariaLabel}>
     { !isCountHidden ? <span className="badge">{count}</span> : null }
     <EquipmentIcon
       key={_id}
       className="icon"
-      aria-label={category ? (ariaLabel[category] || '') : null}
     />
   </figure>);
 }
 
 function EquipmentItem(props: Props) {
   const equipmentInfos = props.equipmentInfos;
+  const longDescription = get(equipmentInfos[0], ['properties', 'longDescription']);
   const description = get(equipmentInfos[0], ['properties', 'description']);
   const shortDescription = get(equipmentInfos[0], ['properties', 'shortDescription']);
   const { history, isExpanded } = props;
@@ -56,7 +64,6 @@ function EquipmentItem(props: Props) {
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
   const hasBrokenEquipment = broken.length > 0;
-  const isCountHidden = working.length + broken.length <= 2;
 
   const href = (props.placeInfoId && _ids) ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
 
@@ -75,15 +82,16 @@ function EquipmentItem(props: Props) {
     onKeyPress={(event) => { if (event.keyCode === 13) { showOnMap(event); } }}
     onClick={showOnMap}
   >
-    {[working, broken].map((infos, index) => {
+    {getHumanEnumeration([working, broken].map((infos, index) => {
       const count = infos.length;
       if (count) {
         const equipmentInfo = infos[0];
-        return <EquipmentIconWrapper key={index} {...{ count, isCountHidden, history, equipmentInfo }} />
+        return <EquipmentIconWrapper key={index} {...{ count, isCountHidden: (infos.length <= 1), history, equipmentInfo }} />
       }
       return null;
-    }).filter(Boolean)}
-    <span className="name" aria-label={description}>{shortDescription}</span>
+    })
+    .filter(Boolean), 'and')}
+    <span className="name" aria-label={longDescription || description}>{shortDescription || description}</span>
   </button>);
 }
 
@@ -119,6 +127,12 @@ const StyledEquipmentItem = styled(EquipmentItem)`
     margin: -0.25em;
     height: 2em;
     width: auto;
+  }
+
+  .conjunction {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
   }
 
   figure {
