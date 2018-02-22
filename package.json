@@ -35,10 +35,11 @@
     "react-share": "^1.15.1",
     "react-swipeable": "^4.0.1",
     "react-transition-group": "^1.1.1",
+    "source-map-explorer": "^1.5.0",
     "style-loader": "0.18.2",
     "styled-components": "^2.1.2",
     "underscore.string": "^3.3.4",
-    "whatwg-fetch": "2.0.3",
+    "unfetch": "^3.0.0",
     "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown"
   },
   "devDependencies": {
@@ -92,6 +93,7 @@
   "scripts": {
     "start": "extract=1 node scripts/start.js",
     "build": "extract=1 BABEL_DISABLE_CACHE=1 node scripts/build.js",
+    "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
     "build-staging": "REACT_APP_ENV=staging node scripts/build.js",
     "deploy-staging": "npm run pull-translations && npm run push-translations && npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
