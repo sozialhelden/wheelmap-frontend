@@ -91,6 +91,7 @@ export type AccessibilityCloudProperties = {
   address?: { city?: string, full?: string, postal_code?: string } | string,
   infoPageUrl?: string,
   editPageUrl?: string,
+  isWorking?: boolean,
 };
 
 
@@ -224,7 +225,7 @@ export function hasAccessibleToilet(
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
   if (properties) {
     if (properties.category === 'elevator' || properties.category === 'escalator') {
-      return properties.isWorking ? 'yes' : 'no';
+      return { true: 'yes', false: 'no' }[properties.isWorking] || 'unknown';
     }
   }
   const isAccessible = get(properties, 'wheelchair') ||

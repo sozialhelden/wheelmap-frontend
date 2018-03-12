@@ -39,10 +39,20 @@ function EquipmentIconWrapper(
       elevator: ngettext(msgid`${count} broken elevator`, `${count} broken elevators`, count),
       escalator: ngettext(msgid`${count} broken escalator`, `${count} broken escalators`, count),
     },
+    undefined: {
+      elevator: ngettext(msgid`${count} elevator with unknown status`, `${count} elevators with unknown status`, count),
+      escalator: ngettext(msgid`${count} escalator with unknown status`, `${count} escalators with unknown status`, count),
+    },
   };
   const ariaLabel = category ? (ariaLabels[String(isWorking)][category] || '') : null;
 
-  const iconName = `${category || 'elevator'}${isWorking ? 'Working' : 'Broken'}Big`;
+  const workingStringPart = {
+    true: 'Working',
+    false: 'Broken',
+    undefined: 'Unknown',
+  }[String(isWorking)];
+
+  const iconName = `${category || 'elevator'}${workingStringPart}Big`;
   const EquipmentIcon = equipmentIcons[iconName] || (() => null);
 
   return (<figure className={isWorking ? 'is-working' : 'is-broken'} title={ariaLabel} aria-label={ariaLabel}>
@@ -63,6 +73,7 @@ function EquipmentItem(props: Props) {
   const _ids = equipmentInfos.map(e => get(e, '_id')).sort();
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
+  const unknown = equipmentInfos.filter(e => typeof get(e, ['properties', 'isWorking']) === 'undefined');
   const hasBrokenEquipment = broken.length > 0;
 
   const href = (props.placeInfoId && _ids) ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
@@ -82,7 +93,7 @@ function EquipmentItem(props: Props) {
     onKeyPress={(event) => { if (event.keyCode === 13) { showOnMap(event); } }}
     onClick={showOnMap}
   >
-    {getHumanEnumeration([working, broken].map((infos, index) => {
+    {getHumanEnumeration([working, broken, unknown].map((infos, index) => {
       const count = infos.length;
       if (count) {
         const equipmentInfo = infos[0];
