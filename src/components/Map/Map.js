@@ -1,14 +1,15 @@
 // @flow
 
 import L from 'leaflet';
+import "leaflet.markercluster/dist/leaflet.markercluster-src";
+import { BasemapLayer } from 'esri-leaflet/src/EsriLeaflet';
 import { t } from 'c-3po';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-
-import 'leaflet.locatecontrol/src/L.Control.Locate';
 import sozialheldenLogoHTML from './SozialheldenLogo';
+import { getQueryParams } from '../../lib/queryParams';
 
 import {
   isWheelchairAccessible,
@@ -32,6 +33,9 @@ import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityClo
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
+
+
+window.L = L;
 
 type Props = {
   featureId?: ?string,
@@ -175,10 +179,17 @@ export default class Map extends React.Component<Props, State> {
 
     addLocateControlToMap(map);
 
-    L.tileLayer(this.props.mapboxTileUrl, {
-      maxZoom: this.props.maxZoom,
-      id: 'accessibility-cloud',
-    }).addTo(map);
+    const basemapLayer = getQueryParams().esri === 'true' ?
+      new BasemapLayer('Streets', {
+        detectRetina: true,
+      })
+    :
+      L.tileLayer(this.props.mapboxTileUrl, {
+        maxZoom: this.props.maxZoom,
+        id: 'accessibility-cloud',
+      });
+
+    map.addLayer(basemapLayer);
 
     const markerClusterGroup = this.createMarkerClusterGroup()
 

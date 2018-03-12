@@ -1,9 +1,15 @@
 // @flow
 
 import L from 'leaflet';
+import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
+import 'leaflet.locatecontrol';
+
+window.L = L;
+
+const LocateControl = L.Control.Locate;
 
 export default function addLocateControlToMap(map: L.Map) {
-  L.control.locate({
+  new LeafletLocateControl({
     position: 'topright',
     icon: 'leaflet-icon-locate',
     iconLoading: 'leaflet-icon-locate-loading',
