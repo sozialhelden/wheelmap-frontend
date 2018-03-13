@@ -2,6 +2,7 @@
 
 import { globalFetchManager } from './FetchManager';
 import { t } from 'c-3po';
+import { translatedStringFromObject } from './i18n';
 
 
 export type ACCategory = {
@@ -151,4 +152,11 @@ export default class Categories {
 
     return this.fetchPromise;
   }
+}
+
+export function categoryNameFor(category: Category): ?string {
+  if (!category) return null;
+  const translationsObject = category.translations;
+  const idObject = translationsObject ? translationsObject._id : null;
+  return translatedStringFromObject(idObject);
 }

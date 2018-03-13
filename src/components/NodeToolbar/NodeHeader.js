@@ -9,7 +9,8 @@ import type {
   WheelmapProperties,
   AccessibilityCloudProperties,
 } from '../../lib/Feature';
-import { isWheelchairAccessible, categoryNameFor, placeNameFor } from '../../lib/Feature';
+import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
+import { categoryNameFor } from '../../lib/Categories';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';

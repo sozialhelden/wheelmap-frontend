@@ -1,6 +1,9 @@
 // @flow
 import type { Point } from 'geojson-flow';
 import type { FeatureCollection } from './Feature';
+import { translatedStringFromObject } from './i18n';
+import { categoryNameFor } from './Categories';
+
 export type CategoryString = 'elevator' | 'escalator' | 'switch' | 'sitemap' | 'vending-machine' | 'intercom' | 'power-outlet';
 
 export type DisruptionProperties = {
@@ -36,19 +39,21 @@ export type EquipmentInfoProperties = {
   description?: string,
   shortDescription?: string,
   longDescription?: string,
-  hasRaisedText?: boolean,
-  isBraille?: boolean,
-  hasSpeech?: boolean,
-  isHighContrast?: boolean,
-  hasLargePrint?: boolean,
-  isVoiceActivated?: boolean,
-  hasHeadPhoneJack?: boolean,
-  isEasyToUnderstand?: boolean,
-  hasDoorsInBothDirections?: boolean,
-  heightOfControls?: number,
-  doorWidth?: number,
-  cabinWidth?: number,
-  cabinLength?: number,
+  accessibility: {
+    hasRaisedText?: boolean,
+    isBraille?: boolean,
+    hasSpeech?: boolean,
+    isHighContrast?: boolean,
+    hasLargePrint?: boolean,
+    isVoiceActivated?: boolean,
+    hasHeadPhoneJack?: boolean,
+    isEasyToUnderstand?: boolean,
+    hasDoorsInBothDirections?: boolean,
+    heightOfControls?: number,
+    doorWidth?: number,
+    cabinWidth?: number,
+    cabinLength?: number,
+  },
   isWorking?: boolean,
   lastUpdate?: string,
   lastDisruptionProperties?: DisruptionProperties,
@@ -62,3 +67,15 @@ export type EquipmentInfo = {
 };
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<EquipmentInfo>;
+
+export function equipmentInfoNameFor(properties: EquipmentProperties, isAriaLabel: boolean): string {
+  const unknownName = t`Unnamed facility`;
+  if (!properties) return unknownName;
+  let description = properties.description;
+  if (isAriaLabel) {
+    description = properties.longDescription || description;
+  } else {
+    description = properties.shortDescription || description;
+  }
+  return (translatedStringFromObject(description)) || categoryNameFor(properties.category) || unknownName;
+}

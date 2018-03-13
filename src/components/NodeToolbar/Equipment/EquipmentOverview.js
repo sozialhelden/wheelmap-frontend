@@ -39,6 +39,12 @@ class EquipmentOverview extends React.Component<Props, State> {
     expanded: false,
   };
 
+  componentWillReceiveProps(newProps: Props) {
+    if (this.props.feature !== newProps.feature || newProps.currentEquipmentInfoId !== this.props.currentEquipmentInfoId) {
+      this.setState({ expanded: false });
+    }
+  }
+
   render() {
     if (!this.props.feature) return null;
     const placeInfoId = this.props.feature._id || this.props.feature.properties._id;

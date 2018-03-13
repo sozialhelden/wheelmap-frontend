@@ -5,13 +5,13 @@ import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
-
 import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
 
 import type { EquipmentInfo } from './EquipmentInfo';
 import type { Disruption } from './Disruption';
 import type { Category } from './Categories';
+import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';
 
 export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
@@ -307,17 +307,10 @@ export const accessibleToiletDescription = (useImperialUnits: boolean) => [
   t`Accessible hand basin`,
 ];
 
-export function categoryNameFor(category: Category): ?string {
-  if (!category) return null;
-  const translationsObject = category.translations;
-  const idObject = translationsObject ? translationsObject._id : null;
-  return translatedStringFromObject(idObject);
-}
 
 export function placeNameFor(properties: NodeProperties, category: Category): string {
   return (properties && translatedStringFromObject(properties.name)) || categoryNameFor(category) || t`Unnamed place`;
 }
-
 
 function isDefined(x): boolean {
   return typeof x !== 'undefined' &&

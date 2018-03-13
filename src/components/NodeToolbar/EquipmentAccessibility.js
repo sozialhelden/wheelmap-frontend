@@ -5,7 +5,9 @@ import { currentLocales } from '../../lib/i18n';
 import * as React from 'react';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
-import type { EquipmentInfo, EquipmentInfoProperties } from '../../lib/EquipmentInfo';
+import AccessibilityDetails from './AccessibilityDetails';
+import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+
 
 
 function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {
@@ -34,8 +36,6 @@ function lastUpdateString(
     return `Unfortunately there is no information when this status was last updated.`;
   }
 
-  const dateOptions = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-  const dateString = lastUpdate.toLocaleDateString(currentLocales, dateOptions);
   const translatedEquipmentCategory = {
     escalator: t`escalator`,
     elevator: t`elevator`,
@@ -43,14 +43,32 @@ function lastUpdateString(
     undefined: t`facility`,
   }[String(category)];
 
+  const now = new Date();
+  const today = t`today`;
+  const yesterday = t`yesterday`;
+  const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
+  const isShortAgo = (now - lastUpdate) < twoDaysInMilliseconds;
+  const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
+  const fullDateOptions = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+
+  let dateString = lastUpdate.toLocaleDateString(currentLocales, fullDateOptions);
   if (isExistingInformationOutdated(lastUpdate)) {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // Translators: Shown for equipment when the last known status information is too old.
     return t`The last thing we know is that this ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;
   } else {
+    if (isShortAgo) {
+      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+      dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(currentLocales, timeOptions)}`;
+    }
     // Translators: Shown next to equipment status.
-    return t`Last update: ${dateString}`;
+    return t`Last update ${dateString}.`;
   }
+}
+
+
+function capitalizeFirstLetter(string): string {
+  return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
 
@@ -58,6 +76,7 @@ type Props = {
   equipmentInfo: EquipmentInfo,
   className: string,
 };
+
 
 function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo) return null;
@@ -68,12 +87,14 @@ function EquipmentAccessibility(props: Props) {
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
   const isWorking = properties.isWorking;
+  const accessibility = properties.accessibility;
 
   return (<summary className={`equipment-accessibility ${props.className}`}>
     <header className={`working-status working-status-${String(properties.isWorking)}`}>
-      {equipmentStatusTitle(properties.isWorking, isOutdated)}
+      {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
     </header>
     <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
+    {accessibility ? <AccessibilityDetails details={accessibility} /> : null}
   </summary>);
 }
 

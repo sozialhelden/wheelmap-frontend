@@ -196,7 +196,7 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const feature = this.state.equipmentInfo || this.state.feature;
+    const feature = (this.props.equipmentInfoId && this.state.equipmentInfo) || this.state.feature;
     const isEquipment = !!this.props.equipmentInfoId;
 
     const properties = feature && feature.properties;
@@ -268,7 +268,7 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? <EquipmentAccessibility equipmentInfo={this.state.equipmentInfo} /> : <BasicPlaceAccessibility properties={properties} />}
             <AccessibilityDetails details={filteredAccessibility} />
             <AccessibilityExtraInfo properties={properties} />
-            {isWheelmapFeature ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} />}
+            {isWheelmapFeature ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId}/>}
             {
               (this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter
@@ -290,7 +290,7 @@ class NodeToolbar extends React.Component<Props, State> {
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
               }}
             />
-            <button
+            {isEquipment ? null : <button
               ref={reportModeButton => this.reportModeButton = reportModeButton}
               className="link-button full-width-button"
               onClick={() => {
@@ -298,7 +298,7 @@ class NodeToolbar extends React.Component<Props, State> {
               }}
             >
               {reportButtonCaption}
-            </button>
+            </button>}
             <LicenseHint properties={properties} />
           </div>);
         })()}
