@@ -68,12 +68,6 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     }
     &.accessibility-yes {
       color: ${colors.positiveColorDarker};
-      svg {
-        margin: 0 10px 0 5px;
-      }
-      polygon#checkmark {
-        fill: ${colors.positiveColor};
-      }
     }
     &.accessibility-limited {
       color: ${colors.warningColorDarker};

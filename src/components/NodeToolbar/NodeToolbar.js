@@ -17,8 +17,10 @@ import NodeFooter from './NodeFooter';
 import ShareButtons from './ShareButtons/ShareButtons';
 import ReportDialog from './Report/ReportDialog';
 import LicenseHint from './LicenseHint';
-import BasicAccessibility from './BasicAccessibility';
+import BasicPlaceAccessibility from './BasicPlaceAccessibility';
+import EquipmentAccessibility from './EquipmentAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
+import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
@@ -80,7 +82,9 @@ class NodeToolbar extends React.Component<Props, State> {
 
 
   componentDidMount() {
-    this.fetchCategory(this.props);
+    if (!this.props.equipmentInfoId) {
+      this.fetchCategory(this.props.feature);
+    }
     this.fetchFeature(this.props);
   }
 
@@ -97,10 +101,13 @@ class NodeToolbar extends React.Component<Props, State> {
 
 
   componentWillReceiveProps(nextProps: Props) {
-    this.fetchCategory(nextProps);
     this.fetchFeature(nextProps);
     if (nextProps.featureId !== this.props.featureId) {
       this.toggleReportMode(false);
+      this.setState({ equipmentInfo: null });
+    }
+    if (!nextProps.equipmentInfoId) {
+      this.fetchCategory(nextProps.feature);
     }
   }
 
@@ -115,7 +122,16 @@ class NodeToolbar extends React.Component<Props, State> {
     if (props.equipmentInfoId) {
       equipmentInfoCache
         .getFeature(props.equipmentInfoId)
-        .then(equipmentInfo => this.setState({ equipmentInfo }));
+        .then(equipmentInfo => {
+          if (typeof equipmentInfo !== 'object') return;
+          if (
+            equipmentInfo.properties &&
+            equipmentInfo.properties.placeInfoId &&
+            equipmentInfo.properties.placeInfoId !== props.featureId
+          ) return;
+          this.setState({ equipmentInfo });
+          this.fetchCategory(equipmentInfo);
+        });
     }
 
     if (props.feature) {
@@ -124,8 +140,7 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
 
-  fetchCategory(props: Props = this.props) {
-    const feature = props.feature;
+  fetchCategory(feature: Feature) {
     if (!feature) {
       this.setState({ category: null });
       return;
@@ -181,7 +196,9 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const feature = this.state.feature;
+    const feature = this.state.equipmentInfo || this.state.feature;
+    const isEquipment = !!this.props.equipmentInfoId;
+
     const properties = feature && feature.properties;
     if (!properties) {
       return (<StyledToolbar
@@ -215,7 +232,7 @@ class NodeToolbar extends React.Component<Props, State> {
         />}
 
         <NodeHeader
-          feature={this.props.feature}
+          feature={feature}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
           showOnlyBasics={this.props.isEditMode || this.state.isReportMode}
@@ -247,7 +264,8 @@ class NodeToolbar extends React.Component<Props, State> {
           const isWheelmapFeature = isWheelmapFeatureId(this.props.featureId);
 
           return (<div>
-            <BasicAccessibility properties={properties} />
+            <AccessibleDescription properties={properties} />
+            {isEquipment ? <EquipmentAccessibility equipmentInfo={this.state.equipmentInfo} /> : <BasicPlaceAccessibility properties={properties} />}
             <AccessibilityDetails details={filteredAccessibility} />
             <AccessibilityExtraInfo properties={properties} />
             {isWheelmapFeature ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} />}

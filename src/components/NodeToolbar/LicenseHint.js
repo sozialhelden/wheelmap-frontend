@@ -33,6 +33,7 @@ class LicenseHint extends React.Component<Props, State> {
       .getDataSourceWithId(newProps.properties.sourceId)
       .then(
         (source) => {
+          if (typeof source !== 'object') return;
           this.setState({ source });
           if (typeof source.licenseId === 'string') {
             return licenseCache.getLicenseWithId(source.licenseId);
@@ -51,14 +52,20 @@ class LicenseHint extends React.Component<Props, State> {
     if (!source) return null;
     const license = this.state.license;
     if (!license) return null;
-    if (typeof license.websiteURL !== 'string') return null;
 
     // translator: License hint on the place toolbar.
     const sourceCaption = t`Source:`;
 
+    let licenseLinkOrName = license.shortName;
+    if (typeof license.websiteURL === 'string') {
+      licenseLinkOrName = <a href={license.websiteURL}>{license.shortName}</a>;
+    }
+    let sourceLinkOrName = source.name;
+    if (typeof source.originWebsiteURL === 'string') {
+      sourceLinkOrName = <a href={source.originWebsiteURL}>{source.name}</a>;
+    }
     return (<p className={this.props.className}>
-      {sourceCaption} {source.name} —
-      <a href={license.websiteURL}>{license.shortName}</a>
+      {sourceCaption} {sourceLinkOrName} — {licenseLinkOrName}
     </p>);
   }
 }
