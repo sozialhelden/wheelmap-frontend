@@ -239,7 +239,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
       >
         <PlaceName>
           {categoryOrParentCategory ?
-            <Icon accessibility={accessibility} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} size='medium' ariaHidden={true}/>
+            <Icon accessibility={wheelmapFeature ? accessibility : null} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} size='medium' ariaHidden={true}/>
             : null
           }
           {placeName}

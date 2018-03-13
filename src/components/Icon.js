@@ -12,7 +12,7 @@ type Size = 'big' | 'medium' | 'small';
 
 
 type Props = {
-  accessibility: YesNoLimitedUnknown,
+  accessibility: ?YesNoLimitedUnknown,
   properties: ?NodeProperties,
   category: Category,
   className: ?string,
@@ -49,7 +49,9 @@ const StyledIconContainer = styled('figure')`
       top: 0;
       left: 0;
       g, polygon, path, circle, rect {
-        fill: ${props => (colors.markers.background[props.accessibility])};
+        fill: ${props => (props.accessibility ? colors.markers.background[props.accessibility] : 'white')};
+        stroke: ${props => (props.accessibility ? 'transparent' : '#999')};
+        stroke-width: ${props => (props.accessibility ? '0' : '1')};
       }
     }
     &.icon {
@@ -58,7 +60,7 @@ const StyledIconContainer = styled('figure')`
       top: 20%;
       left: 20%;
       g, polygon, path, circle, rect {
-        fill: ${props => (colors.markers.foreground[props.accessibility])};
+        fill: ${props => (props.accessibility ? colors.markers.foreground[props.accessibility] : '#888')};
       }
     }
   }
@@ -91,7 +93,7 @@ export default function Icon({
       aria-hidden={ariaHidden}
       accessibility={accessibility}
     >
-      {MarkerComponent ? <MarkerComponent className="background" /> : null}
+      {(accessibility && MarkerComponent) ? <MarkerComponent className="background" /> : null}
       {CategoryIconComponent ? <CategoryIconComponent className="icon"/> : null}
     </StyledIconContainer>
   );
