@@ -12,7 +12,6 @@ const UnknownWithoutArrow = props => (
       <path id="a" d="M3.663 3.66h17.678l.001 8.919v8.764l-17.678-.005z" />
     </defs>
     <g transform="rotate(-45 12.503 12.501)" fill="none" fillRule="evenodd">
-      <use fill="#E6E4E0" xlinkHref="#a" />
       <path
         strokeOpacity={0.25}
         stroke="#000"
