@@ -36,6 +36,22 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
+msgid "${ count } elevator with unknown status"
+msgid_plural "${ count } elevators with unknown status"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
+msgid "${ count } escalator with unknown status"
+msgid_plural "${ count } escalators with unknown status"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
@@ -93,7 +109,7 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:262
+#: src/components/Map/Map.js:271
 msgid "A project by"
 msgstr "Проект"
 
@@ -101,7 +117,7 @@ msgstr "Проект"
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:306
+#: src/lib/Feature.js:307
 msgid "Accessible hand basin"
 msgstr ""
 
@@ -117,7 +133,7 @@ msgstr "Добавить состояние туалета"
 msgid "All"
 msgstr "Все"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:82
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr ""
 
@@ -134,7 +150,7 @@ msgstr "Назад"
 msgid "Bonus karma points!"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:62
+#: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
 msgstr "Набрать ${ phoneNumber }"
 
@@ -154,11 +170,11 @@ msgstr ""
 msgid "Clear Search"
 msgstr "Очистить поиск"
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:304
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr ""
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:304
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr ""
 
@@ -196,15 +212,15 @@ msgid ""
 "directly?"
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:67
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:302
+#: src/lib/Feature.js:303
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Внутренняя ширина дверных проемов ≥ 90 см"
 
-#: src/lib/Feature.js:302
+#: src/lib/Feature.js:303
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Внутренняя ширина дверных проемов ≥ 90 см"
 
@@ -212,15 +228,15 @@ msgstr "Внутренняя ширина дверных проемов ≥ 90 �
 msgid "Edit this place on OpenStreetMap"
 msgstr ""
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr "Обучение"
 
-#: src/lib/Feature.js:282
+#: src/lib/Feature.js:283
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Вход имеет ступеньку или несколько ступенек, номера не доступны."
 
-#: src/lib/Feature.js:280
+#: src/lib/Feature.js:281
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -228,7 +244,7 @@ msgstr ""
 "Вход имеет одну ступеньку с максимальной высотой 7 см, в большинстве номеров"
 " нет ступеней."
 
-#: src/lib/Feature.js:277
+#: src/lib/Feature.js:278
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Вход без ступенек, все номера без ступеней."
 
@@ -257,19 +273,19 @@ msgstr ""
 msgid "Find wheelchair accessible places"
 msgstr ""
 
-#: src/lib/Feature.js:305
+#: src/lib/Feature.js:306
 msgid "Folding grab rails"
 msgstr ""
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr ""
 
-#: src/lib/Feature.js:262
+#: src/lib/Feature.js:263
 msgid "Fully"
 msgstr ""
 
-#: src/lib/Feature.js:247
+#: src/lib/Feature.js:248
 msgid "Fully wheelchair accessible"
 msgstr ""
 
@@ -277,11 +293,11 @@ msgstr ""
 msgid "Get involved"
 msgstr ""
 
-#: src/lib/Feature.js:292
+#: src/lib/Feature.js:293
 msgid "Has a wheelchair accessible toilet."
 msgstr ""
 
-#: src/lib/Categories.js:64
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr ""
 
@@ -289,11 +305,11 @@ msgstr ""
 msgid "Help out by marking places!"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.js:147
+#: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
 msgstr ""
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr "Гостиницы"
 
@@ -331,7 +347,7 @@ msgstr ""
 msgid "Imprint"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:119
+#: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
@@ -353,11 +369,15 @@ msgstr ""
 msgid "Is there an issue with this place?"
 msgstr ""
 
-#: src/lib/Categories.js:54
+#: src/components/NodeToolbar/EquipmentAccessibility.js:65
+msgid "Last update ${ dateString }."
+msgstr ""
+
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:452
+#: src/components/Map/Map.js:461
 msgid "Map"
 msgstr "Карта"
 
@@ -371,15 +391,15 @@ msgstr ""
 msgid "Mark this place"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.js:165
+#: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
 msgstr "Меню"
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr ""
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr "Финансы"
 
@@ -396,19 +416,19 @@ msgstr "Новости"
 msgid "No"
 msgstr "Нет"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:295
 msgid "No wheelchair accessible toilet."
 msgstr "Туалет не доступен на кресле-каталке."
 
-#: src/lib/Feature.js:266
+#: src/lib/Feature.js:267
 msgid "Not at all"
 msgstr ""
 
-#: src/lib/Feature.js:251
+#: src/lib/Feature.js:252
 msgid "Not wheelchair accessible"
 msgstr ""
 
-#: src/lib/Categories.js:62
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr ""
 
@@ -424,15 +444,15 @@ msgstr ""
 msgid "Only show places with a wheelchair accessible toilet"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:117
+#: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:264
+#: src/lib/Feature.js:265
 msgid "Partially"
 msgstr "Частично"
 
-#: src/lib/Feature.js:249
+#: src/lib/Feature.js:250
 msgid "Partially wheelchair accessible"
 msgstr ""
 
@@ -444,7 +464,7 @@ msgstr ""
 msgid "Press"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeToolbar.js:199
+#: src/components/NodeToolbar/NodeToolbar.js:221
 msgid "Report an Issue"
 msgstr ""
 
@@ -464,7 +484,7 @@ msgstr "Результаты поиска"
 msgid "Share"
 msgstr "Поделиться"
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr "Магазины"
 
@@ -481,9 +501,15 @@ msgstr ""
 msgid "Source:"
 msgstr "Источник:"
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:69
 msgid "Sport"
 msgstr "Спорт"
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:58
+msgid ""
+"The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
+"lastStatus } on ${ dateString }."
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -506,11 +532,11 @@ msgstr ""
 msgid "This means:"
 msgstr ""
 
-#: src/lib/Categories.js:58
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr "Туризм"
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr "Транспорт"
 
@@ -518,11 +544,11 @@ msgstr "Транспорт"
 msgid "Travel guide"
 msgstr ""
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:269
 msgid "Unknown"
 msgstr ""
 
-#: src/lib/Feature.js:253
+#: src/lib/Feature.js:254
 msgid "Unknown status"
 msgstr ""
 
@@ -530,7 +556,11 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: src/lib/Feature.js:317
+#: src/lib/EquipmentInfo.js:85
+msgid "Unnamed facility"
+msgstr ""
+
+#: src/lib/Feature.js:312
 msgid "Unnamed place"
 msgstr ""
 
@@ -546,7 +576,7 @@ msgstr ""
 msgid "Wheelchair Accessibility Filter"
 msgstr ""
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:305
 msgid "Wheelchair-height toilet seat"
 msgstr ""
 
@@ -591,9 +621,41 @@ msgstr ""
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr ""
 
-#: src/components/Map/Map.js:267
+#: src/components/NodeToolbar/EquipmentAccessibility.js:41
+msgid "elevator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:40
+msgid "escalator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:43
+msgid "facility"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:16
+msgid "in operation"
+msgstr ""
+
+#: src/components/Map/Map.js:276
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
 "BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:18
+msgid "out of order"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:47
+msgid "today"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:20
+msgid "unknown status"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:48
+msgid "yesterday"
 msgstr ""

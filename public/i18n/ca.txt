@@ -32,6 +32,18 @@ msgid_plural "${ count } broken escalators"
 msgstr[0] ""
 msgstr[1] ""
 
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
+msgid "${ count } elevator with unknown status"
+msgid_plural "${ count } elevators with unknown status"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
+msgid "${ count } escalator with unknown status"
+msgid_plural "${ count } escalators with unknown status"
+msgstr[0] ""
+msgstr[1] ""
+
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
@@ -83,7 +95,7 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:262
+#: src/components/Map/Map.js:271
 msgid "A project by"
 msgstr "Un projecte de"
 
@@ -91,7 +103,7 @@ msgstr "Un projecte de"
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:306
+#: src/lib/Feature.js:307
 msgid "Accessible hand basin"
 msgstr "Rentamans accessible"
 
@@ -107,7 +119,7 @@ msgstr "Afegeix estat del vàter "
 msgid "All"
 msgstr "Tot"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:82
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr ""
 
@@ -124,7 +136,7 @@ msgstr "Torna"
 msgid "Bonus karma points!"
 msgstr "Punts de bonificació de karma!"
 
-#: src/components/NodeToolbar/NodeHeader.js:62
+#: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
 msgstr "Trucar ${ phoneNumber }"
 
@@ -144,11 +156,11 @@ msgstr "Canvia quins llocs és mostraran en el mapa"
 msgid "Clear Search"
 msgstr "Esborra recerca"
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:304
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Espai lliure a terra  ≥ 150 cm d'amplada"
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:304
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Espai lliure a terra ≥ 59 cm d'amplada"
 
@@ -187,15 +199,15 @@ msgid ""
 msgstr ""
 "Saps com canviar la informació d'aquest lloc a OpenStreetMap directament?"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:67
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:302
+#: src/lib/Feature.js:303
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Ample interior de la porta  ≥ 35 polzades"
 
-#: src/lib/Feature.js:302
+#: src/lib/Feature.js:303
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Ample interior de la porta ≥ 90 cm"
 
@@ -203,16 +215,16 @@ msgstr "Ample interior de la porta ≥ 90 cm"
 msgid "Edit this place on OpenStreetMap"
 msgstr "Edita aquest lloc a OpenStreetMap"
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr "Educació"
 
-#: src/lib/Feature.js:282
+#: src/lib/Feature.js:283
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
 "L'entrada té un graó o diversos graons, les habitacions no són accessibles."
 
-#: src/lib/Feature.js:280
+#: src/lib/Feature.js:281
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
@@ -220,7 +232,7 @@ msgstr ""
 "L'entrada té un graó amb una alçada max. 7 cm / 3 polzades, la majoria "
 "d'habitacions són sense graons."
 
-#: src/lib/Feature.js:277
+#: src/lib/Feature.js:278
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Entrada sense graons, totes les habitacions sense graons"
 
@@ -249,19 +261,19 @@ msgstr "Descobreix que"
 msgid "Find wheelchair accessible places"
 msgstr "Trobar llocs accessibles amb cadira de rodes"
 
-#: src/lib/Feature.js:305
+#: src/lib/Feature.js:306
 msgid "Folding grab rails"
 msgstr "Baranes plegables"
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr "Menjar i Begudes"
 
-#: src/lib/Feature.js:262
+#: src/lib/Feature.js:263
 msgid "Fully"
 msgstr "Plenament"
 
-#: src/lib/Feature.js:247
+#: src/lib/Feature.js:248
 msgid "Fully wheelchair accessible"
 msgstr "Plenament accesible amb cadira de rodes"
 
@@ -269,11 +281,11 @@ msgstr "Plenament accesible amb cadira de rodes"
 msgid "Get involved"
 msgstr "Involucrar-se"
 
-#: src/lib/Feature.js:292
+#: src/lib/Feature.js:293
 msgid "Has a wheelchair accessible toilet."
 msgstr "Te un vàter accessible amb cadira de rodes."
 
-#: src/lib/Categories.js:64
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr "Salut"
 
@@ -281,11 +293,11 @@ msgstr "Salut"
 msgid "Help out by marking places!"
 msgstr "Ajuda marcant llocs!"
 
-#: src/components/MainMenu/MainMenu.js:147
+#: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
 msgstr "Casa"
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr "Hotel"
 
@@ -325,7 +337,7 @@ msgstr ""
 msgid "Imprint"
 msgstr "Peu de pagina"
 
-#: src/components/NodeToolbar/NodeHeader.js:119
+#: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
@@ -349,11 +361,15 @@ msgstr "El vàter és accessible ?"
 msgid "Is there an issue with this place?"
 msgstr "Hi ha un problema amb aquest lloc?"
 
-#: src/lib/Categories.js:54
+#: src/components/NodeToolbar/EquipmentAccessibility.js:65
+msgid "Last update ${ dateString }."
+msgstr ""
+
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr "Oci"
 
-#: src/components/Map/Map.js:452
+#: src/components/Map/Map.js:461
 msgid "Map"
 msgstr "Mapa"
 
@@ -369,15 +385,15 @@ msgstr ""
 msgid "Mark this place"
 msgstr "Marca aquest lloc"
 
-#: src/components/MainMenu/MainMenu.js:165
+#: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
 msgstr "Menú"
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr "Miscel·lani"
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr "Diners"
 
@@ -394,19 +410,19 @@ msgstr "Noticies"
 msgid "No"
 msgstr "No"
 
-#: src/lib/Feature.js:294
+#: src/lib/Feature.js:295
 msgid "No wheelchair accessible toilet."
 msgstr "Sense vàter accessible amb cadira de rodes"
 
-#: src/lib/Feature.js:266
+#: src/lib/Feature.js:267
 msgid "Not at all"
 msgstr "No tots"
 
-#: src/lib/Feature.js:251
+#: src/lib/Feature.js:252
 msgid "Not wheelchair accessible"
 msgstr "No es accessible amb cadira de rodes "
 
-#: src/lib/Categories.js:62
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr "Oficial"
 
@@ -422,15 +438,15 @@ msgstr "Es totalment accessible amb cadira de rodes"
 msgid "Only show places with a wheelchair accessible toilet"
 msgstr "Mostrar només llocs amb vàters accessibles amb cadira de rodes"
 
-#: src/components/NodeToolbar/NodeHeader.js:117
+#: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:264
+#: src/lib/Feature.js:265
 msgid "Partially"
 msgstr "Parcialment"
 
-#: src/lib/Feature.js:249
+#: src/lib/Feature.js:250
 msgid "Partially wheelchair accessible"
 msgstr "Accessible amb cadira de rodes parcialment"
 
@@ -442,7 +458,7 @@ msgstr "Llocs als quals puc contribuir"
 msgid "Press"
 msgstr "Premsa"
 
-#: src/components/NodeToolbar/NodeToolbar.js:199
+#: src/components/NodeToolbar/NodeToolbar.js:221
 msgid "Report an Issue"
 msgstr "Reportar un problema"
 
@@ -462,7 +478,7 @@ msgstr "Buscar resultats"
 msgid "Share"
 msgstr "Compartir"
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr "Comprar"
 
@@ -479,9 +495,15 @@ msgstr "Ho sentim, això no hauria d'haver passat."
 msgid "Source:"
 msgstr "Font:"
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:69
 msgid "Sport"
 msgstr "Esport:"
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:58
+msgid ""
+"The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
+"lastStatus } on ${ dateString }."
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -504,11 +526,11 @@ msgstr "L'estat del vàters es erroni o inexistent"
 msgid "This means:"
 msgstr "Això significa:"
 
-#: src/lib/Categories.js:58
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr "Turisme"
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr "Transport"
 
@@ -516,11 +538,11 @@ msgstr "Transport"
 msgid "Travel guide"
 msgstr "Guia de viatge"
 
-#: src/lib/Feature.js:268
+#: src/lib/Feature.js:269
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/lib/Feature.js:253
+#: src/lib/Feature.js:254
 msgid "Unknown status"
 msgstr "Estat desconegut"
 
@@ -528,7 +550,11 @@ msgstr "Estat desconegut"
 msgid "Unnamed"
 msgstr "Sense nom"
 
-#: src/lib/Feature.js:317
+#: src/lib/EquipmentInfo.js:85
+msgid "Unnamed facility"
+msgstr ""
+
+#: src/lib/Feature.js:312
 msgid "Unnamed place"
 msgstr "Lloc sense nom"
 
@@ -545,7 +571,7 @@ msgstr "Accessible amb cadira de rodes"
 msgid "Wheelchair Accessibility Filter"
 msgstr "Flexibilitat accessibilitat amb cadira de rodes"
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:305
 msgid "Wheelchair-height toilet seat"
 msgstr "Seient del vàter adaptat per cadira de rodes"
 
@@ -590,9 +616,41 @@ msgstr ""
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr ""
 
-#: src/components/Map/Map.js:267
+#: src/components/NodeToolbar/EquipmentAccessibility.js:41
+msgid "elevator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:40
+msgid "escalator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:43
+msgid "facility"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:16
+msgid "in operation"
+msgstr ""
+
+#: src/components/Map/Map.js:276
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
 "BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:18
+msgid "out of order"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:47
+msgid "today"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:20
+msgid "unknown status"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:48
+msgid "yesterday"
 msgstr ""
