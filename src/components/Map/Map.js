@@ -180,9 +180,7 @@ export default class Map extends React.Component<Props, State> {
     addLocateControlToMap(map);
 
     const basemapLayer = getQueryParams().esri === 'true' ?
-      new BasemapLayer('Streets', {
-        detectRetina: true,
-      })
+      new BasemapLayer('Streets')
     :
       L.tileLayer(this.props.mapboxTileUrl, {
         maxZoom: this.props.maxZoom,
