@@ -51,8 +51,6 @@ const StyledIconContainer = styled('figure')`
       left: 0;
       g, polygon, path, circle, rect {
         fill: ${props => (props.accessibility ? colors.markers.background[props.accessibility] : 'white')};
-        stroke: ${props => (props.accessibility ? 'transparent' : '#999')};
-        stroke-width: ${props => (props.accessibility ? '0' : '1')};
       }
     }
     &.icon {
