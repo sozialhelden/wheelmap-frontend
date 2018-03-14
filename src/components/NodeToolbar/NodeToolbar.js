@@ -16,6 +16,7 @@ import NodeHeader from './NodeHeader';
 import NodeFooter from './NodeFooter';
 import ShareButtons from './ShareButtons/ShareButtons';
 import ReportDialog from './Report/ReportDialog';
+import PhoneNumberLink from './PhoneNumberLink';
 import LicenseHint from './LicenseHint';
 import BasicPlaceAccessibility from './BasicPlaceAccessibility';
 import EquipmentAccessibility from './EquipmentAccessibility';
@@ -25,6 +26,7 @@ import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
+import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
@@ -47,7 +49,7 @@ const PositionedCloseLink = styled(CloseLink)`
 type Props = {
   feature: Feature,
   featureId: string | number,
-  equipmentInfoId: string | number,
+  equipmentInfoId: string,
   hidden: boolean,
   isEditMode: boolean,
   onReportModeToggle: ?((isReportMode: boolean) => void),
@@ -60,6 +62,8 @@ type State = {
   category: ?Category,
   parentCategory: ?Category,
   isReportMode: boolean,
+  equipmentInfo: ?EquipmentInfo,
+  feature: ?Feature,
 };
 
 
@@ -70,7 +74,7 @@ const StyledToolbar = styled(Toolbar)`
 
 class NodeToolbar extends React.Component<Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null, isReportMode: false };
+  state = { category: null, parentCategory: null, isReportMode: false, feature: null, equipmentInfo: null };
   toolbar: ?React.ElementRef<typeof Toolbar>;
   nodeFooter: ?React.ElementRef<typeof NodeFooter>;
   reportDialog: ?React.ElementRef<typeof ReportDialog>;
@@ -196,9 +200,9 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const feature = (this.props.equipmentInfoId && this.state.equipmentInfo) || this.state.feature;
     const isEquipment = !!this.props.equipmentInfoId;
 
+    const feature = this.state.feature;
     const properties = feature && feature.properties;
     if (!properties) {
       return (<StyledToolbar
@@ -211,9 +215,11 @@ class NodeToolbar extends React.Component<Props, State> {
 
     const accessibility = properties ? properties.accessibility : null;
     const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
+    const phoneNumber = properties.phoneNumber || properties.phone;
 
     // translator: Button caption shown in the place toolbar
     const reportButtonCaption = t`Report an Issue`;
+    const placeName = placeNameFor(get(this.props, 'feature.properties'), this.state.category);
 
     return (
       <StyledToolbar
@@ -221,7 +227,7 @@ class NodeToolbar extends React.Component<Props, State> {
         isModal={this.props.isEditMode || this.state.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
-        ariaLabel={placeNameFor(get(this.props, 'feature.properties'), this.state.category)}
+        ariaLabel={placeName}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
@@ -232,14 +238,16 @@ class NodeToolbar extends React.Component<Props, State> {
         />}
 
         <NodeHeader
-          feature={feature}
+          feature={this.props.feature}
+          equipmentInfo={this.state.equipmentInfo}
+          equipmentInfoId={this.props.equipmentInfoId}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
           showOnlyBasics={this.props.isEditMode || this.state.isReportMode}
         />
 
         {(() => {
-          if (this.state.isReportMode) {
+          if (this.state.isReportMode && !isEquipment) {
             return (<ReportDialog
               innerRef={reportDialog => this.reportDialog = reportDialog}
               feature={this.props.feature}
@@ -250,7 +258,7 @@ class NodeToolbar extends React.Component<Props, State> {
             />);
           }
 
-          if (this.props.isEditMode) {
+          if (this.props.isEditMode && !isEquipment) {
             return (<AccessibilityEditor
               innerRef={accessibilityEditor => this.accessibilityEditor = accessibilityEditor}
               feature={this.props.feature}
@@ -264,13 +272,25 @@ class NodeToolbar extends React.Component<Props, State> {
           const isWheelmapFeature = isWheelmapFeatureId(this.props.featureId);
 
           return (<div>
-            <AccessibleDescription properties={properties} />
+            {isEquipment ? null : <AccessibleDescription properties={properties} />}
             {isEquipment ? <EquipmentAccessibility equipmentInfo={this.state.equipmentInfo} /> : <BasicPlaceAccessibility properties={properties} />}
-            <AccessibilityDetails details={filteredAccessibility} />
-            <AccessibilityExtraInfo properties={properties} />
+            {isEquipment ? null : <AccessibilityDetails details={filteredAccessibility} />}
+            {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
             {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId}/>}
-            {
-              (this.props.featureId && isWheelmapFeature) ? (
+
+            {isEquipment ? <a
+              className="link-button"
+              href={`/nodes/${this.props.featureId}`}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                this.props.history.push(`/nodes/${this.props.featureId}`);
+              }}
+            >
+              {placeName}
+            </a> : null }
+
+            {(this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter
                   ref={nodeFooter => (this.nodeFooter = nodeFooter)}
                   feature={this.props.feature}
@@ -278,8 +298,8 @@ class NodeToolbar extends React.Component<Props, State> {
                   category={this.state.category}
                   parentCategory={this.state.parentCategory}
                 />
-              ) : null
-            }
+              ) : null}
+
             <ShareButtons
               innerRef={shareButton => this.shareButton = shareButton}
               feature={this.props.feature}
@@ -290,6 +310,7 @@ class NodeToolbar extends React.Component<Props, State> {
                 if (this.toolbar) this.toolbar.ensureFullVisibility();
               }}
             />
+
             {isEquipment ? null : <button
               ref={reportModeButton => this.reportModeButton = reportModeButton}
               className="link-button full-width-button"
@@ -299,6 +320,9 @@ class NodeToolbar extends React.Component<Props, State> {
             >
               {reportButtonCaption}
             </button>}
+
+            {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
+
             <LicenseHint properties={properties} />
           </div>);
         })()}

@@ -1,8 +1,9 @@
 // @flow
 
+import { t } from 'c-3po';
+import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-
 import type {
   Feature,
   NodeProperties,
@@ -10,14 +11,17 @@ import type {
   AccessibilityCloudProperties,
 } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
+import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+
 import { categoryNameFor } from '../../lib/Categories';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
+import PhoneNumberLink from './PhoneNumberLink';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
-import { t } from 'c-3po';
+import { isEquipmentAccessible, equipmentInfoNameFor } from '../../lib/EquipmentInfo';
 
 
 const StyledNodeHeader = styled.header`
@@ -47,22 +51,13 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 
 type Props = {
   feature: Feature,
+  equipmentInfoId: ?string,
+  equipmentInfo: ?EquipmentInfo,
   category: ?Category,
   parentCategory: ?Category,
   showOnlyBasics: boolean,
 };
 
-
-function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
-  if (window.navigator.userAgent.match(/iPhone/)) {
-    return (<span className="phone-number">
-      {phoneNumber}
-    </span>);
-  }
-  return (<a className="phone-number link-button" href={`tel:${phoneNumber}`}>
-    {t`Call ${phoneNumber}`}
-  </a>);
-}
 
 export default class NodeHeader extends React.Component<Props, void> {
   static getAddressForWheelmapProperties(properties: WheelmapProperties): ?string {
@@ -86,6 +81,7 @@ export default class NodeHeader extends React.Component<Props, void> {
 
 
   render() {
+    const isEquipment = !!this.props.equipmentInfoId;
     const feature = this.props.feature;
     if (!feature) return null;
     const properties = feature.properties;
@@ -98,10 +94,17 @@ export default class NodeHeader extends React.Component<Props, void> {
     const description: ?string = properties.wheelchair_description;
     const { category, parentCategory } = this.props;
     let categoryName = categoryNameFor(category || parentCategory);
-    const placeName = placeNameFor(properties, category || parentCategory);
-    const ariaLabel = placeName ? `${placeName}, ${categoryName}` : categoryName;
-    const accessibility = isWheelchairAccessible(properties);
-    const placeNameElement = (<PlaceName aria-label={ariaLabel}>
+
+    let placeName = placeNameFor(properties, category || parentCategory);
+    let ariaLabel = placeName ? `${placeName}, ${categoryName}` : categoryName;
+    if (isEquipment) {
+      placeName = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), false);
+      ariaLabel = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), true);
+    }
+
+    const accessibility = isEquipment ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties'])) : isWheelchairAccessible(properties);
+    const hasLongName = placeName && placeName.length > 50;
+    const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
       {categoryName ?
         <Icon accessibility={accessibility} category={category || parentCategory} size='medium' ariaHidden={true}/>
         : null
@@ -133,28 +136,37 @@ export default class NodeHeader extends React.Component<Props, void> {
       sourceLinks.shift();
     }
 
+    const descriptionElement = description ? <p className="description">“{description}”</p> : null;
+
+    const categoryElement = properties.name ? <StyledBreadCrumbs
+      properties={properties}
+      category={this.props.category}
+      parentCategory={this.props.parentCategory}
+    /> : null;
+
+    const placeWebsiteLink = (typeof placeWebsiteUrl === 'string') ?
+      <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
+      : null;
+
+    if (isEquipment) {
+      return (
+        <StyledNodeHeader>
+          {placeNameElement}
+          {categoryElement}
+          {descriptionElement}
+        </StyledNodeHeader>
+      );
+    }
+
     return (
       <StyledNodeHeader>
         {placeNameElement}
-
-        {properties.name ? <StyledBreadCrumbs
-          properties={properties}
-          category={this.props.category}
-          parentCategory={this.props.parentCategory}
-        /> : null}
-
+        {categoryElement}
         {addressString ? <address role="none">{addressString}</address> : null }
-
         {sourceLinks}
-
         {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
-
-        {description ? <p className="description">“{description}”</p> : null}
-
-        {typeof placeWebsiteUrl === 'string' ?
-          <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
-          : null
-        }
+        {descriptionElement}
+        {placeWebsiteLink}
       </StyledNodeHeader>
     );
   }

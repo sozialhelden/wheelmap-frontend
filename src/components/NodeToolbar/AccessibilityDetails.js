@@ -16,6 +16,14 @@ function formatName(name: string, properties: {}): string {
 function formatValue(value: mixed): string {
   if (value === true) return t`Yes`;
   if (value === false) return t`No`;
+  if (
+    isPlainObject(value) &&
+    value && typeof value === 'object' &&
+    typeof value.unit === 'string'
+    && typeof value.value === 'number'
+  ) {
+    return `${value.value || '?'} ${value.unit}`;
+  }
   return String(value);
 }
 
@@ -54,7 +62,7 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     // between the previous attribute value and the attribute name.
     const capitalizedName = capitalizeFirstLetter(name);
 
-    if (value && (value instanceof Array || isPlainObject(value))) {
+    if (value && (value instanceof Array || isPlainObject(value) && !value.unit)) {
       return [
         <dt data-key={key}>{capitalizedName}</dt>,
         <dd><AccessibilityDetails isNested={true} details={value} /></dd>,
@@ -144,10 +152,6 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
       clear: left;
       margin: 0;
       padding: 0;
-  }
-
-  > dt {
-    margin-top: 0.5em;
   }
 
   dt[data-key] {

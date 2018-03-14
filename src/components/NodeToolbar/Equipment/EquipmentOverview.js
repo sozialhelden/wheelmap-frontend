@@ -64,7 +64,8 @@ class EquipmentOverview extends React.Component<Props, State> {
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
     const hasWorkingEquipment = workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
-    const shouldBeExpandable = hasWorkingEquipment && !this.state.expanded;
+    const shouldBeExpandable = equipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
+    const isExpanded = this.state.expanded || equipmentInfos.length <= 2;
 
     return <div className={this.props.className}>
       {hasBrokenEquipment ? <EquipmentList
@@ -75,8 +76,8 @@ class EquipmentOverview extends React.Component<Props, State> {
         <header>{t`Disruptions at this location`}</header>
       </EquipmentList> : null}
 
-      {this.state.expanded ? <EquipmentList
-        isExpanded={this.state.expanded}
+      {isExpanded ? <EquipmentList
+        isExpanded={isExpanded}
         equipmentInfoArrays={workingEquipmentInfoArrays}
         history={this.props.history}
         placeInfoId={placeInfoId}

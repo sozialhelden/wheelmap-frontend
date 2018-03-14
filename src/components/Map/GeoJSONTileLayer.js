@@ -82,6 +82,7 @@ class GeoJSONTileLayer extends TileLayer {
         delete this._idsToShownLayers[featureId];
 
         const marker = this._markerFromFeature(layerGroup, feature);
+        if (!marker) return;
         this._map.addLayer(marker);
         this._idsToShownLayers[featureId] = marker;
       }
@@ -89,6 +90,7 @@ class GeoJSONTileLayer extends TileLayer {
       // create a new layer for this marker
       const newLayerGroup = L.layerGroup(this.options);
       const newMarker = this._markerFromFeature(newLayerGroup, feature);
+      if (!newMarker) return;
       this._map.addLayer(newMarker);
       this._idsToShownLayers[featureId] = newMarker;
     }
@@ -96,6 +98,7 @@ class GeoJSONTileLayer extends TileLayer {
 
   _markerFromFeature(layerGroup: L.LayerGroup, feature: Feature) {
     const marker = this.pointToLayer(feature);
+    if (!marker) return;
     layerGroup.addLayer(marker);
     marker.layerGroup = layerGroup;
     return marker;
@@ -208,6 +211,8 @@ class GeoJSONTileLayer extends TileLayer {
     const pointToLayerFn =
       this.options.pointToLayer || this.constructor.pointToLayer;
     const marker = pointToLayerFn(feature, latlng);
+    if (!marker) return;
+
     marker.feature = feature;
 
     this._idsToShownLayers[id] = marker;

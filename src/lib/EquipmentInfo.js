@@ -1,10 +1,23 @@
 // @flow
+import { t } from 'c-3po';
+import get from 'lodash/get';
 import type { Point } from 'geojson-flow';
 import type { FeatureCollection } from './Feature';
 import { translatedStringFromObject } from './i18n';
 import { categoryNameFor } from './Categories';
+import { YesNoLimitedUnknown } from './Feature';
+
 
 export type CategoryString = 'elevator' | 'escalator' | 'switch' | 'sitemap' | 'vending-machine' | 'intercom' | 'power-outlet';
+export const CategoryStrings: CategoryString[] = [
+  'elevator',
+  'escalator',
+  'switch',
+  'sitemap',
+  'vending-machine',
+  'intercom',
+  'power-outlet',
+];
 
 export type DisruptionProperties = {
   originalId?: string,
@@ -78,4 +91,16 @@ export function equipmentInfoNameFor(properties: EquipmentProperties, isAriaLabe
     description = properties.shortDescription || description;
   }
   return (translatedStringFromObject(description)) || categoryNameFor(properties.category) || unknownName;
+}
+
+export function isEquipmentAccessible(properties: EquipmentInfoProperties): ?YesNoLimitedUnknown {
+  if (!properties) {
+    return null;
+  }
+
+  return {
+    true: 'yes',
+    false: 'no',
+    undefined: 'unknown',
+  }[String(properties.isWorking)];
 }

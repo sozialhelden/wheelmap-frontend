@@ -37,10 +37,12 @@ import type {
 
 import {
   isWheelmapFeatureId,
+  isWheelmapFeature,
   yesNoLimitedUnknownArray,
-  yesNoUnknownArray
+  yesNoUnknownArray,
 } from './lib/Feature';
 
+import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
@@ -137,6 +139,8 @@ class FeatureLoader extends React.Component<Props, State> {
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
     if (!properties) return null;
+    if (!isWheelmapFeature(feature) && !properties.accessibility && !includes(EquipmentCategoryStrings, properties.category)) return null;
+
     return new HighlightableMarker(latlng, {
       onClick: this.onMarkerClick,
       hrefForFeature,

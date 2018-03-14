@@ -308,8 +308,8 @@ export const accessibleToiletDescription = (useImperialUnits: boolean) => [
 ];
 
 
-export function placeNameFor(properties: NodeProperties, category: Category): string {
-  return (properties && translatedStringFromObject(properties.name)) || categoryNameFor(category) || t`Unnamed place`;
+export function placeNameFor(properties: NodeProperties, category: ?Category): string {
+  return (properties && translatedStringFromObject(properties.name)) || (category && categoryNameFor(category)) || t`Unnamed place`;
 }
 
 function isDefined(x): boolean {
