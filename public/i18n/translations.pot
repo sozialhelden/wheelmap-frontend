@@ -101,9 +101,7 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:279
-#: src/components/Map/Map.js:281
-#: src/components/Map/Map.js:284
+#: src/components/Map/Map.js:271
 msgid "A project by"
 msgstr ""
 
@@ -127,7 +125,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:82
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr ""
 
@@ -144,7 +142,7 @@ msgstr ""
 msgid "Bonus karma points!"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:62
+#: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
 msgstr ""
 
@@ -206,7 +204,7 @@ msgid ""
 "directly?"
 msgstr ""
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:67
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
 msgstr ""
 
@@ -222,7 +220,7 @@ msgstr ""
 msgid "Edit this place on OpenStreetMap"
 msgstr ""
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr ""
 
@@ -269,7 +267,7 @@ msgstr ""
 msgid "Folding grab rails"
 msgstr ""
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr ""
 
@@ -289,7 +287,7 @@ msgstr ""
 msgid "Has a wheelchair accessible toilet."
 msgstr ""
 
-#: src/lib/Categories.js:64
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr ""
 
@@ -297,11 +295,11 @@ msgstr ""
 msgid "Help out by marking places!"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.js:147
+#: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
 msgstr ""
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr ""
 
@@ -339,7 +337,7 @@ msgstr ""
 msgid "Imprint"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:119
+#: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
@@ -361,13 +359,15 @@ msgstr ""
 msgid "Is there an issue with this place?"
 msgstr ""
 
-#: src/lib/Categories.js:54
+#: src/components/NodeToolbar/EquipmentAccessibility.js:65
+msgid "Last update ${ dateString }."
+msgstr ""
+
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:469
-#: src/components/Map/Map.js:471
-#: src/components/Map/Map.js:474
+#: src/components/Map/Map.js:461
 msgid "Map"
 msgstr ""
 
@@ -381,15 +381,15 @@ msgstr ""
 msgid "Mark this place"
 msgstr ""
 
-#: src/components/MainMenu/MainMenu.js:165
+#: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
 msgstr ""
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr ""
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Not wheelchair accessible"
 msgstr ""
 
-#: src/lib/Categories.js:62
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Only show places with a wheelchair accessible toilet"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:117
+#: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
@@ -454,7 +454,7 @@ msgstr ""
 msgid "Press"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeToolbar.js:199
+#: src/components/NodeToolbar/NodeToolbar.js:221
 msgid "Report an Issue"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr ""
 
@@ -490,8 +490,14 @@ msgstr ""
 msgid "Source:"
 msgstr ""
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:69
 msgid "Sport"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:58
+msgid ""
+"The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
+"lastStatus } on ${ dateString }."
 msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
@@ -514,11 +520,11 @@ msgstr ""
 msgid "This means:"
 msgstr ""
 
-#: src/lib/Categories.js:58
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr ""
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr ""
 
@@ -538,7 +544,11 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: src/lib/Feature.js:318
+#: src/lib/EquipmentInfo.js:85
+msgid "Unnamed facility"
+msgstr ""
+
+#: src/lib/Feature.js:312
 msgid "Unnamed place"
 msgstr ""
 
@@ -599,12 +609,42 @@ msgstr ""
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr ""
 
-#: src/components/Map/Map.js:284
-#: src/components/Map/Map.js:286
-#: src/components/Map/Map.js:289
+#: src/components/NodeToolbar/EquipmentAccessibility.js:41
+msgid "elevator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:40
+msgid "escalator"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:43
+msgid "facility"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:16
+msgid "in operation"
+msgstr ""
+
+#: src/components/Map/Map.js:276
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a "
 "href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
 "Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:18
+msgid "out of order"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:47
+msgid "today"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:20
+msgid "unknown status"
+msgstr ""
+
+#: src/components/NodeToolbar/EquipmentAccessibility.js:48
+msgid "yesterday"
 msgstr ""
