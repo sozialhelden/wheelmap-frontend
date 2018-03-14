@@ -7,6 +7,7 @@ import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'c-3po';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
+import { Dots } from 'react-activity';
 import strings from './strings';
 
 
@@ -125,21 +126,24 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const classList = [
-      this.props.className,
-      this.state.isMenuVisible ? 'is-open' : null,
-      'main-menu',
-    ].filter(Boolean);
-
-
     const {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
     const { isEditMode, isLocalizationLoaded, lat, lon, zoom } = this.props;
 
+    const classList = [
+      this.props.className,
+      this.state.isMenuVisible ? 'is-open' : null,
+      isLocalizationLoaded ? 'is-loaded' : null,
+      'main-menu',
+    ].filter(Boolean);
+
     if (!isLocalizationLoaded) {
-      return <nav className={classList.join(' ')}></nav>
+      return <nav className={classList.join(' ')}>
+        <Logo className="logo" width={123} height={30} />
+        <Dots />
+      </nav>
     }
 
     return (<nav className={classList.join(' ')}>
@@ -221,14 +225,16 @@ const StyledMainMenu = styled(MainMenu)`
 
   .home-link {
     margin-right: 1em;
-
     a {
       display: inline-block;
+      line-height: 0;
+      vertical-align: middle;
     }
   }
 
   .logo {
     height: 30px;
+    margin-left: -5px;
   }
 
   .claim {
@@ -363,7 +369,7 @@ const StyledMainMenu = styled(MainMenu)`
 
     .nav-link, .home-link {
       height: 44px;
-      padding: 2px 10px;
+      padding: 4px 2px;
       box-sizing: border-box;
     }
 
@@ -408,6 +414,25 @@ const StyledMainMenu = styled(MainMenu)`
     padding: 2px 10px 10px 5px;
     &, button.menu {
       height: 44px;
+    }
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  &:not(.is-loaded) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 0 15px 0 20px; */
+    padding: 9px 15px 11px 20px
+  }
+
+  &.is-loaded {
+    > *:not(.home-link):not(.logo) {
+      animation: fadeIn 1s ease-out;
     }
   }
 `;
