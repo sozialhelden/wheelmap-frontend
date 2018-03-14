@@ -73,6 +73,8 @@ const StyledToolbar = styled(Toolbar)`
   .close-link {
     top: 5px;
     right: 8px;
+    position: absolute;
+    background-color: transparent;
     display: flex;
     flex-direction: row-reverse;
     &.has-open-category {

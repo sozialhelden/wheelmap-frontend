@@ -294,15 +294,19 @@ const StyledToolbar = styled(Toolbar)`
     width: calc(100% - 20px);
     min-width: 250px;
     /* handle to signalize you can resize by swiping */
+    border-top: white 8px solid;
     .grab-handle {
       display: block;
+      position: absolute;
       margin: -5px auto 0 auto;
-      left: 50%;
+      top: 9px;
+      left: calc(50% - 20px);
       width: 44px;
       height: 5px;
       border-radius: 2.5px;
       background-color: rgba(0, 0, 0, 0.2);
       margin-bottom: 0.5em;
+      transform: translateZ(0);
     }
   }
 

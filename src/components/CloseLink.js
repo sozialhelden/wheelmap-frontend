@@ -55,14 +55,19 @@ class CloseLink extends React.Component<Props> {
 }
 
 const StyledCloseLink = styled(CloseLink)`
-  display: block;
-  position: absolute;
+  display: inline-block;
+  position: sticky;
+  float: right;
   padding: 16px;
   font-size: 30px;
   color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(251, 250, 249, 0.8);
+  border: 1px rgba(0, 0, 0, 0.01) solid;
+  border-radius: 31px;
   text-decoration: none;
   text-align: center;
   z-index: 1;
+  transform: translateZ(0);
 
   > svg {
     display: block;

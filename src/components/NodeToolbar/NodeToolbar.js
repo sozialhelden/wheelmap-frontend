@@ -40,8 +40,8 @@ function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessib
 }
 
 const PositionedCloseLink = styled(CloseLink)`
-  top: 9px;
-  right: 0;
+  top: 5px;
+  margin: -2px;
 `;
 
 type Props = {
