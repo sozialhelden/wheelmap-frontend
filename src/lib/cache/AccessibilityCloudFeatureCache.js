@@ -17,7 +17,7 @@ export default class AccessibilityCloudFeatureCache extends
   FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
     const locale = window.navigator.language;
-    return this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${locale}`);
+    return this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${locale}&includePlacesWithoutAccessibility=1`);
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {
