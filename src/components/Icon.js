@@ -37,6 +37,7 @@ const StyledIconContainer = styled('figure')`
   margin: 0;
 
   width: ${props => width(props.size)}px;
+  min-width: ${props => width(props.size)}px;
   height: ${props => width(props.size)}px;
   font-size: ${props => width(props.size)}px;
   line-height: 1;
