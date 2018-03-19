@@ -5,10 +5,9 @@ import styled from 'styled-components';
 import * as React from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import { licenseCache } from '../../lib/cache/LicenseCache';
-import type { AccessibilityCloudProperties } from '../../lib/Feature';
 
 type Props = {
-  properties: AccessibilityCloudProperties,
+  sourceId: ?string,
   className: string,
 };
 
@@ -24,15 +23,16 @@ class LicenseHint extends React.Component<Props, State> {
   state = defaultState;
 
   componentWillReceiveProps(newProps: Props) {
-    if (!newProps.properties || typeof newProps.properties.sourceId !== 'string') {
+    if (!newProps || typeof newProps.sourceId !== 'string') {
       this.setState(defaultState);
       return;
     }
 
     dataSourceCache
-      .getDataSourceWithId(newProps.properties.sourceId)
+      .getDataSourceWithId(newProps.sourceId)
       .then(
         (source) => {
+          if (!source) return;
           if (typeof source !== 'object') return;
           this.setState({ source });
           if (typeof source.licenseId === 'string') {
@@ -53,28 +53,23 @@ class LicenseHint extends React.Component<Props, State> {
     const license = this.state.license;
     if (!license) return null;
 
-    // translator: License hint on the place toolbar.
-    const sourceCaption = t`Source:`;
-
     let licenseLinkOrName = license.shortName;
     if (typeof license.websiteURL === 'string') {
-      licenseLinkOrName = <a href={license.websiteURL}>{license.shortName}</a>;
+      licenseLinkOrName = license.shortName === '?' ? null : <a href={license.websiteURL}>{license.shortName}</a>;
     }
     let sourceLinkOrName = source.name;
     if (typeof source.originWebsiteURL === 'string') {
       sourceLinkOrName = <a href={source.originWebsiteURL}>{source.name}</a>;
     }
-    return (<p className={this.props.className}>
-      {sourceCaption} {sourceLinkOrName} — {licenseLinkOrName}
-    </p>);
+    return (<li className={this.props.className}>
+      {sourceLinkOrName} {licenseLinkOrName ? <span>({licenseLinkOrName})</span> : null}
+    </li>);
   }
 }
 
 
 const StyledLicenseHint = styled(LicenseHint)`
-  margin-top: .5em;
-  font-size: 80%;
-  opacity: 0.5;
+
 `;
 
 

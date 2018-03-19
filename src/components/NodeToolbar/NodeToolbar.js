@@ -1,8 +1,10 @@
 // @flow
 
 import { t } from 'c-3po';
+
 import * as React from 'react';
 import get from 'lodash/get';
+import uniq from 'lodash/uniq';
 import omit from 'lodash/omit';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -70,6 +72,21 @@ type State = {
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
+  p.sources {
+    margin-top: .5em;
+    font-size: 80%;
+    opacity: 0.5;
+
+    ul, li {
+      display: inline;
+      margin: 0;
+      padding: 0;
+    }
+
+    li + li:before {
+      content: ', ';
+    }
+  }
 `;
 
 
@@ -200,6 +217,28 @@ class NodeToolbar extends React.Component<Props, State> {
     }
   }
 
+  sourceIds(): string[] {
+    const feature = this.props.feature;
+    if (!feature) return [];
+
+    const properties = feature.properties;
+    if (!properties) return [];
+
+    const idsToEquipmentInfos = typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
+    const equipmentInfos = idsToEquipmentInfos ? Object
+      .keys(idsToEquipmentInfos)
+      .map(_id => idsToEquipmentInfos[_id]) : [];
+    const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.sourceId'));
+    const disruptionSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId'));
+    const placeSourceId = properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
+
+    return uniq([
+      placeSourceId,
+      ...equipmentInfoSourceIds,
+      ...disruptionSourceIds,
+    ].filter(Boolean));
+  }
+
   render() {
     const isEquipment = !!this.props.equipmentInfoId;
 
@@ -221,6 +260,10 @@ class NodeToolbar extends React.Component<Props, State> {
     // translator: Button caption shown in the place toolbar
     const reportButtonCaption = t`Report an Issue`;
     const placeName = placeNameFor(get(this.props, 'feature.properties'), this.state.category);
+
+    const sourceIds = this.sourceIds();
+    // translator: Prefix for the sources on the place toolbar
+    const sourceCaption = t`Source:`;
 
     return (
       <StyledToolbar
@@ -324,7 +367,12 @@ class NodeToolbar extends React.Component<Props, State> {
 
             {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
 
-            <LicenseHint properties={properties} />
+            <p className="sources">
+              {sourceIds.length ? `${sourceCaption} ` : null}
+              <ul>
+                {sourceIds.map(sourceId => <LicenseHint key={sourceId} sourceId={sourceId} />)}
+              </ul>
+            </p>
           </div>);
         })()}
       </StyledToolbar>
