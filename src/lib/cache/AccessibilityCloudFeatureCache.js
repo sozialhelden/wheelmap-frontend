@@ -4,6 +4,7 @@ import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } f
 import config from '../config';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
+import { currentLocales, loadExistingLocalizationByPreference } from '../i18n';
 
 type CacheMap = {
   [string]: FeatureCache<*, *>
@@ -16,8 +17,8 @@ const caches: CacheMap = {
 export default class AccessibilityCloudFeatureCache extends
   FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
-    const locale = window.navigator.language;
-    return this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${locale}&includePlacesWithoutAccessibility=1`);
+    return loadExistingLocalizationByPreference()
+      .then(() => this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`))
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {

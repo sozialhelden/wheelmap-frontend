@@ -15,7 +15,7 @@ const config = {
   wheelmapApiKey: queryParams.includeSourceIds ? null : process.env.REACT_APP_WHEELMAP_API_KEY,
   accessibilityCloudAppToken: process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN,
   accessibilityCloudBaseUrl: process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
-  accessibilityCloudTileUrl: `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL}/place-infos?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}&locale=${window.navigator.language}&includePlacesWithoutAccessibility=1`,
+  accessibilityCloudTileUrl: (locale) => `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}&locale=${locale}&includePlacesWithoutAccessibility=1`,
   wheelmapApiBaseUrl: '',  // don't prefix anything - use relative urls, make request to server that hosts the page
 };
 

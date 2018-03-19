@@ -10,6 +10,7 @@ import debounce from 'lodash/debounce';
 import * as React from 'react';
 import sozialheldenLogoHTML from './SozialheldenLogo';
 import { getQueryParams } from '../../lib/queryParams';
+import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
 
 import {
   isWheelchairAccessible,
@@ -47,7 +48,7 @@ type Props = {
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  accessibilityCloudTileUrl: string,
+  accessibilityCloudTileUrl: (() => string),
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -212,15 +213,19 @@ export default class Map extends React.Component<Props, State> {
       });
     }
 
-    const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl;
-    this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
-      featureCache: accessibilityCloudFeatureCache,
-      layerGroup: markerClusterGroup,
-      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-      pointToLayer: this.props.pointToLayer,
-      filter: this.isFeatureVisible.bind(this),
-      maxZoom: this.props.maxZoom,
+    loadExistingLocalizationByPreference().then(() => {
+      const locale = currentLocales[0];
+      const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
+      this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
+        featureCache: accessibilityCloudFeatureCache,
+        layerGroup: markerClusterGroup,
+        featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
+        pointToLayer: this.props.pointToLayer,
+        filter: this.isFeatureVisible.bind(this),
+        maxZoom: this.props.maxZoom,
+      });
     });
+
 
     Categories.fetchOnce(this.props).then(() => {
       this.updateFeatureLayerVisibility();

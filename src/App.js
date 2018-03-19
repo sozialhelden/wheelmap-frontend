@@ -158,7 +158,7 @@ class FeatureLoader extends React.Component<Props, State> {
     this.onHashUpdate();
     window.addEventListener('resize', this.resizeListener);
     this.resizeListener();
-    loadExistingLocalizationByPreference()
+    await loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }));
   }
 

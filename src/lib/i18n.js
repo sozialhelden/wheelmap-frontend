@@ -48,7 +48,6 @@ function localeWithoutCountry(locale: string): string {
 
 export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]);
 
-
 // Returns an expanded list of preferred locales.
 export function expandedPreferredLocales() {
   // Note that some browsers don't support navigator.languages

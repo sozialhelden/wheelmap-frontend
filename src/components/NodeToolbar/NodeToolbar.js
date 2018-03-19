@@ -23,6 +23,7 @@ import EquipmentAccessibility from './EquipmentAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
+import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
@@ -213,7 +214,7 @@ class NodeToolbar extends React.Component<Props, State> {
       </StyledToolbar>);
     }
 
-    const accessibility = properties ? properties.accessibility : null;
+    const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
     const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
     const phoneNumber = properties.phoneNumber || properties.phone;
 
