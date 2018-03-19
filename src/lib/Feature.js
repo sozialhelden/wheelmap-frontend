@@ -88,10 +88,24 @@ export type AccessibilityCloudProperties = {
   name?: ?LocalizedString,
   accessibility?: MinimalAccessibility,
   category?: string,
-  address?: { city?: string, full?: string, postal_code?: string } | string,
+  address?: {
+    full?: string,
+    postcode?: string,
+    city?: string,
+    postal_code?: string,
+    street?: string,
+    housenumber?: number | string,
+    city?: string,
+    county?: string,
+    country?: string,
+  } | string,
   infoPageUrl?: string,
   editPageUrl?: string,
+  equipmentInfos: { [string]: EquipmentInfo },
   isWorking?: boolean,
+  phone: ?string,
+  phoneNumber: ?string,
+  phoneNumber: ?string,
 };
 
 
@@ -100,8 +114,6 @@ export type AccessibilityCloudFeature = {
   name: ?string,
   geometry: ?GeometryObject,
   properties: AccessibilityCloudProperties,
-  equipmentInfos: EquipmentInfo[],
-  disruptions: Disruption[],
 }
 
 export type FeatureCollection<T> = {
