@@ -12,11 +12,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr " and "
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr " or "
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
@@ -25,38 +25,38 @@ msgstr "${ categoryName } on Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } broken elevator"
+msgstr[1] "${ count } broken elevators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } broken escalator"
+msgstr[1] "${ count } broken escalators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator with unknown status"
+msgstr[1] "${ count } elevators with unknown status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator with unknown status"
+msgstr[1] "${ count } escalators with unknown status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } working elevator"
+msgstr[1] "${ count } working elevators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } working escalator"
+msgstr[1] "${ count } working escalators"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -64,7 +64,7 @@ msgstr "${ placeName } on Wheelmap.org"
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Filter"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
@@ -98,11 +98,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr ", and "
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
+msgstr ", or "
 
 #: src/components/Map/Map.js:271
 msgid "A project by"
@@ -130,7 +130,7 @@ msgstr "All"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
-msgstr ""
+msgstr "All elevators and escalators"
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
@@ -147,7 +147,7 @@ msgstr "Bonus karma points!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Call ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
 msgid "Cancel"
@@ -211,7 +211,7 @@ msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
-msgstr ""
+msgstr "Disruptions at this location"
 
 #: src/lib/Feature.js:303
 msgid "Doorways’ inner width ≥ 35 inch"
@@ -348,7 +348,7 @@ msgstr "Imprint"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "Improve on ${ sourceNameString }"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
@@ -372,7 +372,7 @@ msgstr "Is there an issue with this place?"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:65
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Last update ${ dateString }."
 
 #: src/lib/Categories.js:55
 msgid "Leisure"
@@ -449,7 +449,7 @@ msgstr "Only show places with a wheelchair accessible toilet"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "Open on ${ sourceNameString }"
 
 #: src/lib/Feature.js:265
 msgid "Partially"
@@ -514,6 +514,8 @@ msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"Last known status: ${ translatedEquipmentCategory } was ${ lastStatus } on "
+"${ dateString }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -563,7 +565,7 @@ msgstr "Unnamed"
 
 #: src/lib/EquipmentInfo.js:85
 msgid "Unnamed facility"
-msgstr ""
+msgstr "Unnamed facility"
 
 #: src/lib/Feature.js:312
 msgid "Unnamed place"
@@ -628,19 +630,19 @@ msgstr "[Wheelmap] Problem with a place on Wheelmap"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:41
 msgid "elevator"
-msgstr ""
+msgstr "elevator"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:40
 msgid "escalator"
-msgstr ""
+msgstr "escalator"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:43
 msgid "facility"
-msgstr ""
+msgstr "facility"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:16
 msgid "in operation"
-msgstr ""
+msgstr "in operation"
 
 #: src/components/Map/Map.js:276
 msgid ""
@@ -654,16 +656,16 @@ msgstr ""
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:18
 msgid "out of order"
-msgstr ""
+msgstr "out of order"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:47
 msgid "today"
-msgstr ""
+msgstr "today"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:20
 msgid "unknown status"
-msgstr ""
+msgstr "unknown status"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:48
 msgid "yesterday"
-msgstr ""
+msgstr "yesterday"
