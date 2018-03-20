@@ -1,5 +1,7 @@
 {
   "name": "wheelmap-react",
+  "displayName": "Wheelmap",
+
   "version": "1.5.1",
   "homepage": "https://wheelmap.org/beta/",
   "main": "lib/App.js",
@@ -44,6 +46,10 @@
     "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown"
   },
   "devDependencies": {
+    "cordova-android": "^7.0.0",
+    "cordova-ios": "^4.5.4",
+    "cordova-plugin-whitelist": "^1.3.3",
+
     "autoprefixer": "7.1.2",
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
@@ -150,6 +156,15 @@
       "web.jsx",
       "jsx",
       "node"
+    ]
+  },
+  "cordova": {
+    "plugins": {
+        "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+        "ios",
+        "android"
     ]
   }
 }

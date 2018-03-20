@@ -17,9 +17,17 @@ if (process.env.NODE_ENV === 'development' && a11yAuditActive) {
   axe(React, ReactDOM, 1000);
 }
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root'),
-);
+function startApp() {
+  ReactDOM.render(
+    <App />,
+    document.getElementById('root'),
+  );
+}
+
+if (window.cordova) {
+  document.addEventListener('deviceready', startApp, false);
+} else {
+  startApp();
+}
 
 registerServiceWorker();
