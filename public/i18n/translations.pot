@@ -101,7 +101,7 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:271
+#: src/components/Map/Map.js:276
 msgid "A project by"
 msgstr ""
 
@@ -109,7 +109,7 @@ msgstr ""
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:307
+#: src/lib/Feature.js:319
 msgid "Accessible hand basin"
 msgstr ""
 
@@ -162,11 +162,11 @@ msgstr ""
 msgid "Clear Search"
 msgstr ""
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:316
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr ""
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:316
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr ""
 
@@ -208,11 +208,11 @@ msgstr ""
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:315
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr ""
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:315
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr ""
 
@@ -224,17 +224,17 @@ msgstr ""
 msgid "Education"
 msgstr ""
 
-#: src/lib/Feature.js:283
+#: src/lib/Feature.js:295
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
 
-#: src/lib/Feature.js:281
+#: src/lib/Feature.js:293
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are "
 "without steps."
 msgstr ""
 
-#: src/lib/Feature.js:278
+#: src/lib/Feature.js:290
 msgid "Entrance without steps, all rooms without steps."
 msgstr ""
 
@@ -263,7 +263,7 @@ msgstr ""
 msgid "Find wheelchair accessible places"
 msgstr ""
 
-#: src/lib/Feature.js:306
+#: src/lib/Feature.js:318
 msgid "Folding grab rails"
 msgstr ""
 
@@ -271,11 +271,11 @@ msgstr ""
 msgid "Food & Drinks"
 msgstr ""
 
-#: src/lib/Feature.js:263
+#: src/lib/Feature.js:275
 msgid "Fully"
 msgstr ""
 
-#: src/lib/Feature.js:248
+#: src/lib/Feature.js:260
 msgid "Fully wheelchair accessible"
 msgstr ""
 
@@ -283,7 +283,7 @@ msgstr ""
 msgid "Get involved"
 msgstr ""
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:305
 msgid "Has a wheelchair accessible toilet."
 msgstr ""
 
@@ -367,7 +367,7 @@ msgstr ""
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:461
+#: src/components/Map/Map.js:466
 msgid "Map"
 msgstr ""
 
@@ -406,15 +406,15 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: src/lib/Feature.js:295
+#: src/lib/Feature.js:307
 msgid "No wheelchair accessible toilet."
 msgstr ""
 
-#: src/lib/Feature.js:267
+#: src/lib/Feature.js:279
 msgid "Not at all"
 msgstr ""
 
-#: src/lib/Feature.js:252
+#: src/lib/Feature.js:264
 msgid "Not wheelchair accessible"
 msgstr ""
 
@@ -438,11 +438,11 @@ msgstr ""
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:265
+#: src/lib/Feature.js:277
 msgid "Partially"
 msgstr ""
 
-#: src/lib/Feature.js:250
+#: src/lib/Feature.js:262
 msgid "Partially wheelchair accessible"
 msgstr ""
 
@@ -454,7 +454,7 @@ msgstr ""
 msgid "Press"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeToolbar.js:221
+#: src/components/NodeToolbar/NodeToolbar.js:261
 msgid "Report an Issue"
 msgstr ""
 
@@ -486,7 +486,7 @@ msgstr ""
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr ""
 
-#: src/components/NodeToolbar/LicenseHint.js:57
+#: src/components/NodeToolbar/NodeToolbar.js:266
 msgid "Source:"
 msgstr ""
 
@@ -532,11 +532,11 @@ msgstr ""
 msgid "Travel guide"
 msgstr ""
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:281
 msgid "Unknown"
 msgstr ""
 
-#: src/lib/Feature.js:254
+#: src/lib/Feature.js:266
 msgid "Unknown status"
 msgstr ""
 
@@ -548,7 +548,7 @@ msgstr ""
 msgid "Unnamed facility"
 msgstr ""
 
-#: src/lib/Feature.js:312
+#: src/lib/Feature.js:324
 msgid "Unnamed place"
 msgstr ""
 
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Wheelchair Accessibility Filter"
 msgstr ""
 
-#: src/lib/Feature.js:305
+#: src/lib/Feature.js:317
 msgid "Wheelchair-height toilet seat"
 msgstr ""
 
@@ -625,7 +625,7 @@ msgstr ""
 msgid "in operation"
 msgstr ""
 
-#: src/components/Map/Map.js:276
+#: src/components/Map/Map.js:281
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a "

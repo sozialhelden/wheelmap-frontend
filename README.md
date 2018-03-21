@@ -22,3 +22,10 @@ To deploy the application:
 - Add hostnames for the staging/production systems to your `/etc/hosts`
 - Log in once on the staging/production server
 - Deploy the application with `yarn deploy-staging` or `yarn deploy-production`.
+
+## Setting up / building the Cordova app
+
+```bash
+cordova prepare
+cordova build
+```

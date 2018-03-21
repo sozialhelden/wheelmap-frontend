@@ -22,7 +22,11 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <allow-navigation href="https://www.wheelmap.org" />
+    <allow-navigation href="http://www.wheelmap.org" />
+    <allow-navigation href="https://wheelmap.org" />
+    <allow-navigation href="http://wheelmap.org" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^7.0.0" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
 </widget>
