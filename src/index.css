@@ -6,6 +6,11 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
+body {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
+
 /*
 Focus ring styling is disabled by default and instead we are using the :focus-ring polyfill. The
 :focus-ring pseudo selector is a future browser standard that differentiates between mouse

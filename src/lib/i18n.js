@@ -88,10 +88,8 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
       // console.log('Loaded translation', locale);
       loadedLocales.push(locale);
     },
-    (response) => {
-      if (response.status !== 404) {
-        throw new Error('Error while loading translation');
-      }
+    (error) => {
+      console.log('Error while loading translation', error);
     }
   );
   }))

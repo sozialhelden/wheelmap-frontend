@@ -49,7 +49,7 @@ export default function searchPlaces(query: string, { lat, lon }: { lat?: ?numbe
   queryIndex += 1;
   const runningQueryIndex = queryIndex;
 
-  return globalFetchManager.fetch(url).then((response) => {
+  return globalFetchManager.fetch(url, { cordova: true }).then((response) => {
     if (runningQueryIndex !== queryIndex) {
       // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
       // allow to cancel a request yet.

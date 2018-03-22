@@ -121,21 +121,21 @@ export default class Categories {
 
     function acCategoriesFetch() {
       const url = `${options.accessibilityCloudBaseUrl}/categories.json?appToken=${options.accessibilityCloudAppToken}`;
-      return globalFetchManager.fetch(url)
+      return globalFetchManager.fetch(url, { cordova: true })
         .then(response => response.json())
         .then(json => Categories.generateSynonymCache(json.results || []));
     }
     
     function wheelmapCategoriesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url, { mode: 'no-cors' })
+      return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true })
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url, { mode: 'no-cors' })
+      return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true })
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.node_types || []));
     }

@@ -38,6 +38,7 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import geoTileToBbox from "./geoTileToBbox";
 import highlightMarkers from "./highlightMarkers";
 import { CustomEvent } from "../../lib/EventTarget";
+import fetchViaCordova from "../../lib/fetchViaCordova";
 
 
 const TileLayer = L.TileLayer;
@@ -252,18 +253,11 @@ class GeoJSONTileLayer extends TileLayer {
     const featureCollectionFromResponse =
       this.options.featureCollectionFromResponse || (r => r);
 
-    tile.request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
-    tile.request.open("GET", url, true);
-    tile.request.setRequestHeader("Accept", "application/json");
-
-    tile.request.addEventListener("load", function load() {
-      if (!this.responseText || this.status >= 400) {
-        return;
-      }
+    const loadGeoJSON = (responseText) => {
       let geoJSON;
       let response = null;
       try {
-        response = JSON.parse(this.responseText);
+        response = JSON.parse(responseText);
         geoJSON = featureCollectionFromResponse(response);
       } catch (e) {
         console.log("Could not parse FeatureCollection JSON.");
@@ -279,11 +273,27 @@ class GeoJSONTileLayer extends TileLayer {
       // eslint-disable-next-line no-param-reassign
       tile.layer = layerGroup;
       tileLayer._tileOnLoad(tile, url);
-    });
-    tile.request.addEventListener("error", () =>
-      tileLayer._tileOnError(tile, url)
-    );
-    tile.request.send();
+    };
+
+    tile.request = { abort() {} };
+    if (window.cordova && this.options.cordova) {
+      const options = { headers: { Accept: 'application/json' } };
+      fetchViaCordova(url, options)
+        .then(r => r.text())
+        .then(responseText => loadGeoJSON(responseText))
+        .catch(error => tileLayer._tileOnError(tile, url))
+    } else {
+      const request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
+      tile.request = request;
+      request.open("GET", url, true);
+      request.setRequestHeader("Accept", "application/json");
+      request.addEventListener("load", function load() {
+        if (!this.responseText || this.status >= 400) return;
+        loadGeoJSON(this.responseText);
+      });
+      request.addEventListener("error", () => tileLayer._tileOnError(tile, url));
+      request.send();
+    }
 
     tile.el = {}; // eslint-disable-line no-param-reassign
   }

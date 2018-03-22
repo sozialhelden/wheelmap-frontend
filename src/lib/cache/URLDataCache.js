@@ -17,6 +17,8 @@ export default class URLDataCache<T> {
             resolve(fetchedData);
           }, reject);
         }
+        const error = new Error(response.statusText)
+        error.response = response
         return reject(response);
       },
       reject,
@@ -54,7 +56,7 @@ export default class URLDataCache<T> {
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected */ static fetch(url: string): Promise<Response> {
-    return globalFetchManager.fetch(url);
+  /** @protected */ static fetch(url: string, options?: {}): Promise<Response> {
+    return globalFetchManager.fetch(url, options);
   }
 }

@@ -9,7 +9,7 @@ import includes from 'lodash/includes';
 import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
 import type { RouterHistory, Location } from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
 
 import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
@@ -532,6 +532,8 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 `;
 
 function App() {
+  const Router = window.cordova ? HashRouter : BrowserRouter;
+
   return (<Router>
     <Route path="/" component={StyledFeatureLoader} />
   </Router>);

@@ -209,7 +209,7 @@ export default class FeatureCache<
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected @abstract */ static fetch(url: string): Promise<Response> {
-    return globalFetchManager.fetch(url);
+  /** @protected @abstract */ static fetch(url: string, options?: {}): Promise<Response> {
+    return globalFetchManager.fetch(url, options);
   }
 }

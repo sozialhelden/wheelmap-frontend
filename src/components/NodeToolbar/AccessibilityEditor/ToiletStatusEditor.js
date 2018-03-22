@@ -85,6 +85,7 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     const options = {
       method: 'POST',
       body: formData,
+      cordova: true,
     };
 
     wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });

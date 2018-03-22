@@ -7,7 +7,7 @@ import config from '../config';
 
 export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, WheelmapFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
-    return this.fetch(`/api/nodes/${id}?api_key=${config.wheelmapApiKey}`);
+    return this.fetch(`/api/nodes/${id}?api_key=${config.wheelmapApiKey}`, { cordova: true });
   }
 
   static getIdForFeature(feature: WheelmapFeature): string {

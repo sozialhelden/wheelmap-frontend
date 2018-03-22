@@ -210,6 +210,7 @@ export default class Map extends React.Component<Props, State> {
         pointToLayer: this.props.pointToLayer,
         filter: this.isFeatureVisible.bind(this),
         maxZoom: this.props.maxZoom,
+        cordova: true,
       });
     }
 

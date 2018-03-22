@@ -8,7 +8,7 @@ import config from '../config';
 export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, EquipmentInfoFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
     const url = `${config.accessibilityCloudBaseUrl}/equipment-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}`;
-    return this.fetch(url);
+    return this.fetch(url, { cordova: true });
   }
 
   static getIdForFeature(feature: EquipmentInfo): string {

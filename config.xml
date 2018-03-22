@@ -13,6 +13,7 @@
     <access origin="https://accessibility-cloud.freetls.fastly.net" />
     <access origin="https://api.mapbox.com" />
     <access origin="https://www.accessibility.cloud" />
+    <access origin="https://photon.komoot.de" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -36,6 +37,8 @@
         <variable name="XWALK_MODE" value="embedded" />
         <variable name="XWALK_MULTIPLEAPK" value="true" />
     </plugin>
+    <plugin name="cordova-plugin-wkwebview-engine" spec="^1.1.4" />
+    <plugin name="cordova-plugin-statusbar" spec="~2.3.0" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^7.0.0" />
 </widget>
