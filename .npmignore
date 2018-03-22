@@ -11,10 +11,27 @@
 
 # built npm module code
 
-# misc
+# Mac
 .DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IntelliJ IDEA files
+*.iml
+.idea
+
+# Misc
 .env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Cordova
+/platforms/
+/plugins/
+/www/
+resources/signing
+*.xcuserdatad
 
