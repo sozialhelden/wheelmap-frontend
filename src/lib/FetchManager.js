@@ -1,6 +1,7 @@
 // @flow
 
 import EventTarget, { CustomEvent } from './EventTarget';
+import fetch from '../lib/fetch';
 
 export default class FetchManager extends EventTarget {
   lastError = null;

@@ -3,7 +3,6 @@
 import { globalFetchManager } from './FetchManager';
 import { t } from 'c-3po';
 import { translatedStringFromObject } from './i18n';
-import config from './config';
 
 export type ACCategory = {
   _id: string,
@@ -129,14 +128,14 @@ export default class Categories {
     
     function wheelmapCategoriesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url)
+      return globalFetchManager.fetch(url, { mode: 'no-cors' })
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url)
+      return globalFetchManager.fetch(url, { mode: 'no-cors' })
         .then(response => response.json())
         .then(json => Categories.loadCategories(json.node_types || []));
     }

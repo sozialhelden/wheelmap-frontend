@@ -9,7 +9,7 @@ if (typeof Promise === 'undefined') {
 }
 
 // fetch() polyfill for making API calls.
-require('unfetch/polyfill');
+// require('unfetch/polyfill');
 
 // Object.assign() is commonly used with React.
 // It will use the native implementation if it's present and isn't buggy.

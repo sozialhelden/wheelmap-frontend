@@ -1,5 +1,6 @@
 // @flow
 
+import fetch from '../../../lib/fetch';
 import { currentLocales } from '../../../lib/i18n';
 import * as React from 'react';
 import styled from 'styled-components';

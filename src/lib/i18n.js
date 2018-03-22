@@ -85,11 +85,10 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
   return Promise.all(locales.map(locale => {
     return i18nCache.getLocalization(locale).then(result => {
       loadLocalizationFromPOFile(locale, result);
-      console.log('Loaded translation', locale);
+      // console.log('Loaded translation', locale);
       loadedLocales.push(locale);
     },
     (response) => {
-      console.log('Error while loading translation:', response);
       if (response.status !== 404) {
         throw new Error('Error while loading translation');
       }
@@ -104,7 +103,7 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
         const replacementLocale = loadedLocales
           .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
-          console.log('Replaced requested', missingLocale, 'locale with data from ', replacementLocale);
+          console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
           return i18nCache.getLocalization(replacementLocale).then(result => {
             loadLocalizationFromPOFile(missingLocale, result);
             loadedLocales.push(missingLocale);

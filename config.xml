@@ -8,7 +8,11 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <access origin="*" />
+    <access origin="https://wheelmap.org" />
+    <access origin="https://staging.wheelmap.org" />
+    <access origin="https://accessibility-cloud.freetls.fastly.net" />
+    <access origin="https://api.mapbox.com" />
+    <access origin="https://www.accessibility.cloud" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -22,11 +26,16 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="cordova-plugin-whitelist" spec="1" />
-    <allow-navigation href="https://www.wheelmap.org" />
-    <allow-navigation href="http://www.wheelmap.org" />
-    <allow-navigation href="https://wheelmap.org" />
-    <allow-navigation href="http://wheelmap.org" />
+    <plugin name="cordova-plugin-whitelist" spec="~1.3.3" />
+    <plugin name="cordova-plugin-advanced-http" spec="^1.11.1" />
+    <plugin name="cordova-plugin-browsersync" spec="^1.1.0" />
+    <plugin name="cordova-plugin-crosswalk-webview" spec="^2.4.0">
+        <variable name="XWALK_VERSION" value="23+" />
+        <variable name="XWALK_LITEVERSION" value="xwalk_core_library_canary:17+" />
+        <variable name="XWALK_COMMANDLINE" value="--disable-pull-to-refresh-effect" />
+        <variable name="XWALK_MODE" value="embedded" />
+        <variable name="XWALK_MULTIPLEAPK" value="true" />
+    </plugin>
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="^7.0.0" />
 </widget>

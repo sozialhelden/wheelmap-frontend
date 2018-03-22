@@ -1,10 +1,11 @@
 // @flow
 
 import URLDataCache from './URLDataCache';
+import config from '../config';
 
 export default class I18nCache extends URLDataCache<?{}> {
   getLocalization(locale: string): Promise<?{}> {
-    const url = `/beta/i18n/${locale.replace('-', '_')}.txt`;
+    const url = `${process.env.PUBLIC_URL}/i18n/${locale.replace('-', '_')}.txt`;
     return this.getData(url);
   }
 

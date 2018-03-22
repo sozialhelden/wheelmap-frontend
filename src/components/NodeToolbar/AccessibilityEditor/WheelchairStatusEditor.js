@@ -5,6 +5,7 @@ import * as React from 'react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import { t } from 'c-3po';
+import fetch from '../../../lib/fetch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
