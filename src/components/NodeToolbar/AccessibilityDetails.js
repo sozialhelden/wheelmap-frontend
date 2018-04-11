@@ -62,7 +62,7 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     // between the previous attribute value and the attribute name.
     const capitalizedName = capitalizeFirstLetter(name);
 
-    if (value && (value instanceof Array || isPlainObject(value) && !value.unit)) {
+    if (value && ((value instanceof Array) || (isPlainObject(value) && !value.unit))) {
       return [
         <dt data-key={key}>{capitalizedName}</dt>,
         <dd><AccessibilityDetails isNested={true} details={value} /></dd>,

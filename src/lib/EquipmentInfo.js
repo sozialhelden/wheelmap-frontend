@@ -1,6 +1,5 @@
 // @flow
 import { t } from 'c-3po';
-import get from 'lodash/get';
 import type { Point } from 'geojson-flow';
 import type { FeatureCollection } from './Feature';
 import { translatedStringFromObject } from './i18n';

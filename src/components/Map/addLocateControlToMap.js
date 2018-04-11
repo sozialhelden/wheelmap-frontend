@@ -6,7 +6,6 @@ import 'leaflet.locatecontrol';
 
 window.L = L;
 
-const LocateControl = L.Control.Locate;
 
 export default function addLocateControlToMap(map: L.Map) {
   new LeafletLocateControl({

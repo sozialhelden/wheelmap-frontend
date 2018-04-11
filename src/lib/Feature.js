@@ -9,7 +9,6 @@ import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
 
 import type { EquipmentInfo } from './EquipmentInfo';
-import type { Disruption } from './Disruption';
 import type { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';

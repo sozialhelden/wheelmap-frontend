@@ -21,7 +21,7 @@ import BreadCrumbs from './BreadCrumbs';
 import PhoneNumberLink from './PhoneNumberLink';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
-import { isEquipmentAccessible, equipmentInfoNameFor } from '../../lib/EquipmentInfo';
+import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 
 
 const StyledNodeHeader = styled.header`

@@ -25,7 +25,6 @@ import EquipmentAccessibility from './EquipmentAccessibility';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
-import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
