@@ -11,11 +11,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr "ve"
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr "veya"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
@@ -24,38 +24,38 @@ msgstr "${ categoryName } Wheelmap'te."
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } arızalı asansör"
+msgstr[1] "${ count } arızalı asansör"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } arızalı yürüyen merdiven"
+msgstr[1] "${ count } arızalı yürüyen merdiven"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count }  yürüyen merdivenin durumu bilinmiyor"
+msgstr[1] "${ count } yürüyen merdivenin durumu bilinmiyor"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } yürüyen merdivenin durumu bilinmiyor"
+msgstr[1] "${ count } yürüyen merdivenin durumu bilinmiyor"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } asansör düzgün çalışıyor"
+msgstr[1] "${ count } asansör düzgün çalışıyor"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } yürüyen merdiven düzgün çalışıyor"
+msgstr[1] "${ count } yürüyen merdiven düzgün çalışıyor"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -63,7 +63,7 @@ msgstr "${ placeName } Wheelmap.org'da."
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Filtre"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
@@ -97,11 +97,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr ", ve  "
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
+msgstr ", veya "
 
 #: src/components/Map/Map.js:271
 msgid "A project by"
@@ -146,7 +146,7 @@ msgstr "Bonus karma puan!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Ara ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
 msgid "Cancel"
@@ -347,7 +347,7 @@ msgstr "Yayıncı"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "${ sourceNameString } üzerinde geliştir"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
@@ -369,7 +369,7 @@ msgstr "Bu mekanla ilgili bir sorun mu var?"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:65
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Son güncelleme ${ dateString }."
 
 #: src/lib/Categories.js:55
 msgid "Leisure"
@@ -446,7 +446,7 @@ msgstr "Sadece tekerlekli sandalye erişimine uygun tuvaletleri göster"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "${ sourceNameString } üzerinde aç"
 
 #: src/lib/Feature.js:265
 msgid "Partially"
@@ -511,6 +511,8 @@ msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"${ translatedEquipmentCategory }  hakkında ${ dateString } tarihindeki son "
+"bilgimiz:  ${ lastStatus }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -560,7 +562,7 @@ msgstr "İsimsiz"
 
 #: src/lib/EquipmentInfo.js:85
 msgid "Unnamed facility"
-msgstr ""
+msgstr "İsimsiz tesis"
 
 #: src/lib/Feature.js:312
 msgid "Unnamed place"
@@ -636,11 +638,11 @@ msgstr "yürüyen merdiven"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:43
 msgid "facility"
-msgstr ""
+msgstr "tesis"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:16
 msgid "in operation"
-msgstr ""
+msgstr "çalışır durumda"
 
 #: src/components/Map/Map.js:276
 msgid ""
@@ -654,16 +656,16 @@ msgstr ""
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:18
 msgid "out of order"
-msgstr ""
+msgstr "arızalı"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:47
 msgid "today"
-msgstr ""
+msgstr "bugün"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:20
 msgid "unknown status"
-msgstr ""
+msgstr "durumu bilinmiyor"
 
 #: src/components/NodeToolbar/EquipmentAccessibility.js:48
 msgid "yesterday"
-msgstr ""
+msgstr "dün"
