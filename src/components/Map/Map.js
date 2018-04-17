@@ -8,7 +8,7 @@ import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
-import sozialheldenLogoHTML from './SozialheldenLogo';
+import SozialheldenLogo from './SozialheldenLogo';
 import { getQueryParams } from '../../lib/queryParams';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
 
@@ -172,11 +172,11 @@ export default class Map extends React.Component<Props, State> {
       unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
     }
 
-    L.control.scale({
-      maxWidth: 70,
-      metric: unitSystem === 'metric',
-      imperial: unitSystem === 'imperial',
-    }).addTo(map);
+    // L.control.scale({
+    //   maxWidth: 70,
+    //   metric: unitSystem === 'metric',
+    //   imperial: unitSystem === 'imperial',
+    // }).addTo(map);
 
     addLocateControlToMap(map);
 
@@ -273,17 +273,9 @@ export default class Map extends React.Component<Props, State> {
     const map = this.map;
     if (!map) return;
 
-    // translator: Shown in the attributon bar at the bottom (followed by the ‘Sozialhelden’ logo)
-    const aProjectBy = t`A project by`;
-
-    const sozialheldenAttribution = `<span class="hide-on-small-viewports">${aProjectBy}&nbsp;<a href="https://www.sozialhelden.de">${sozialheldenLogoHTML}</a></span>`;
-
-    // translator: Shown in the attributon bar at the bottom
-    const mapboxOSMAttribution = t`map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>`;
-
     map.attributionControl.setPrefix(null);
-    map.attributionControl.addAttribution(sozialheldenAttribution);
-    map.attributionControl.addAttribution(mapboxOSMAttribution);
+    // map.attributionControl.addAttribution(sozialheldenAttribution);
+    // map.attributionControl.addAttribution(mapboxOSMAttribution);
   }
 
   componentWillReceiveProps(newProps: Props) {
@@ -465,7 +457,19 @@ export default class Map extends React.Component<Props, State> {
         ref={el => (this.mapElement = el)}
         role="main"
         aria-label={t`Map`}
-      />
+      >
+        <a href="http://mapbox.com/about/maps" className='mapbox-wordmark' target="_blank" rel="noopener noreferrer">Mapbox</a>
+        <span className="mapbox-attribution-container">
+        <span className="sozialhelden-logo-container">
+          <a href="https://www.sozialhelden.de"><SozialheldenLogo /> | </a>
+        </span>
+        <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
+          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
+          <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
+            <strong>Improve this map</strong>
+          </a>
+        </span>
+      </section>
     );
   }
 
