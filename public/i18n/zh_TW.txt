@@ -90,7 +90,7 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:271
+#: src/components/Map/Map.js:277
 msgid "A project by"
 msgstr "這專案是由"
 
@@ -98,7 +98,7 @@ msgstr "這專案是由"
 msgid "Accessibility Filter Dialog"
 msgstr "無障礙篩選器對話"
 
-#: src/lib/Feature.js:307
+#: src/lib/Feature.js:322
 msgid "Accessible hand basin"
 msgstr "無障礙手盆"
 
@@ -122,7 +122,7 @@ msgstr ""
 msgid "At least partially wheelchair accessible"
 msgstr "至少有部分輪椅通道"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:134
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Back"
 msgstr "上一步"
@@ -135,11 +135,11 @@ msgstr "獎金積分！"
 msgid "Call ${ phoneNumber }"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
 msgid "Cancel"
 msgstr "取消"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
 msgid "Change"
 msgstr "修改"
 
@@ -151,11 +151,11 @@ msgstr "更改地圖上顯示的地點"
 msgid "Clear Search"
 msgstr ""
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "乾淨地板空間≥150公分寬"
 
-#: src/lib/Feature.js:304
+#: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "乾淨地板空間≥59寸寬"
 
@@ -167,7 +167,7 @@ msgstr ""
 msgid "Collapse Share Menu"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:122
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
 msgid "Confirm"
 msgstr "確認"
 
@@ -179,7 +179,7 @@ msgstr "聯繫"
 msgid "Contact the Wheelmap support team"
 msgstr "聯繫Wheelmap客服團隊"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:128
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
 msgid "Continue"
 msgstr "繼續"
 
@@ -197,11 +197,11 @@ msgstr "你知道你可以直接在OpenStreetMap上更改這個地方的資訊�
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "門口內部寬度≥35寸"
 
-#: src/lib/Feature.js:303
+#: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "門口內部寬度≥90寸"
 
@@ -209,21 +209,21 @@ msgstr "門口內部寬度≥90寸"
 msgid "Edit this place on OpenStreetMap"
 msgstr "在OpenStreetMap上編輯這個地方"
 
-#: src/lib/Categories.js:61
+#: src/lib/Categories.js:60
 msgid "Education"
 msgstr "教育"
 
-#: src/lib/Feature.js:283
+#: src/lib/Feature.js:298
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "入口有一步或幾步，房間不可進入。"
 
-#: src/lib/Feature.js:281
+#: src/lib/Feature.js:296
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
 msgstr "入口有一步，最大7厘米/ 3英寸的高度，大部分房間都沒有台階。"
 
-#: src/lib/Feature.js:278
+#: src/lib/Feature.js:293
 msgid "Entrance without steps, all rooms without steps."
 msgstr "入口沒有階梯，所有的房間也沒有階梯。"
 
@@ -252,19 +252,19 @@ msgstr "尋找為什麼"
 msgid "Find wheelchair accessible places"
 msgstr "尋找有無障礙設施的地方"
 
-#: src/lib/Feature.js:306
+#: src/lib/Feature.js:321
 msgid "Folding grab rails"
 msgstr "無障礙扶手"
 
-#: src/lib/Categories.js:51
+#: src/lib/Categories.js:50
 msgid "Food & Drinks"
 msgstr "食物&飲料"
 
-#: src/lib/Feature.js:263
+#: src/lib/Feature.js:278
 msgid "Fully"
 msgstr "額滿"
 
-#: src/lib/Feature.js:248
+#: src/lib/Feature.js:263
 msgid "Fully wheelchair accessible"
 msgstr "完全輪椅通道"
 
@@ -272,11 +272,11 @@ msgstr "完全輪椅通道"
 msgid "Get involved"
 msgstr "參與其中"
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:308
 msgid "Has a wheelchair accessible toilet."
 msgstr "有輪椅無障礙廁所。"
 
-#: src/lib/Categories.js:65
+#: src/lib/Categories.js:64
 msgid "Health"
 msgstr "健康"
 
@@ -288,15 +288,15 @@ msgstr "通過標記地方得到幫助！"
 msgid "Home"
 msgstr "家"
 
-#: src/lib/Categories.js:57
+#: src/lib/Categories.js:56
 msgid "Hotels"
 msgstr "旅館"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:148
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
 msgid "How wheelchair accessible is this place?"
 msgstr "這個地方的無障礙狀況如何？"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:130
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
 msgid "I don’t know"
 msgstr "我不知道"
 
@@ -340,7 +340,7 @@ msgid ""
 "organization"
 msgstr "關這個地方的信息是由另一個組織提供"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:121
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "這裡的廁所是否輪椅通道？"
 
@@ -348,15 +348,15 @@ msgstr "這裡的廁所是否輪椅通道？"
 msgid "Is there an issue with this place?"
 msgstr "這個地方有問題嗎？"
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:65
+#: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr ""
 
-#: src/lib/Categories.js:55
+#: src/lib/Categories.js:54
 msgid "Leisure"
 msgstr "休閒"
 
-#: src/components/Map/Map.js:461
+#: src/components/Map/Map.js:467
 msgid "Map"
 msgstr "地圖"
 
@@ -374,11 +374,11 @@ msgstr "標記這個地方"
 msgid "Menu"
 msgstr "選單"
 
-#: src/lib/Categories.js:71
+#: src/lib/Categories.js:70
 msgid "Misc"
 msgstr "其它"
 
-#: src/lib/Categories.js:67
+#: src/lib/Categories.js:66
 msgid "Money"
 msgstr "錢"
 
@@ -391,23 +391,23 @@ msgid "News"
 msgstr "新消息"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:18
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:127
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
 msgid "No"
 msgstr " 不行"
 
-#: src/lib/Feature.js:295
+#: src/lib/Feature.js:310
 msgid "No wheelchair accessible toilet."
 msgstr "沒有輪椅無障礙廁所。"
 
-#: src/lib/Feature.js:267
+#: src/lib/Feature.js:282
 msgid "Not at all"
 msgstr "不完全是"
 
-#: src/lib/Feature.js:252
+#: src/lib/Feature.js:267
 msgid "Not wheelchair accessible"
 msgstr "沒有輪椅通道"
 
-#: src/lib/Categories.js:63
+#: src/lib/Categories.js:62
 msgid "Official"
 msgstr "官方的"
 
@@ -427,11 +427,11 @@ msgstr "只顯示輪椅無障礙廁所的地方"
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:265
+#: src/lib/Feature.js:280
 msgid "Partially"
 msgstr "部分"
 
-#: src/lib/Feature.js:250
+#: src/lib/Feature.js:265
 msgid "Partially wheelchair accessible"
 msgstr "部分輪椅通道"
 
@@ -443,7 +443,7 @@ msgstr "我可以貢獻的地方"
 msgid "Press"
 msgstr "新聞"
 
-#: src/components/NodeToolbar/NodeToolbar.js:221
+#: src/components/NodeToolbar/NodeToolbar.js:260
 msgid "Report an Issue"
 msgstr "回報問題"
 
@@ -463,7 +463,7 @@ msgstr "搜尋結果"
 msgid "Share"
 msgstr "分享"
 
-#: src/lib/Categories.js:49
+#: src/lib/Categories.js:48
 msgid "Shopping"
 msgstr "購物"
 
@@ -476,15 +476,15 @@ msgstr "對不起！只需告知我們一聲，我們就可以幫你解決問題
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "抱歉,這不應該發生的"
 
-#: src/components/NodeToolbar/LicenseHint.js:57
+#: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Source:"
 msgstr "來源"
 
-#: src/lib/Categories.js:69
+#: src/lib/Categories.js:68
 msgid "Sport"
 msgstr "運動"
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:58
+#: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
@@ -507,15 +507,15 @@ msgstr "該地點被標記為'${ accessibilityDescription }'，但這是錯誤�
 msgid "The place’s toilet status is wrong or missing."
 msgstr "該地方的廁所狀態是錯誤的或缺失的。"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:133
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
 msgid "This means:"
 msgstr "這意思是"
 
-#: src/lib/Categories.js:59
+#: src/lib/Categories.js:58
 msgid "Tourism"
 msgstr "旅遊"
 
-#: src/lib/Categories.js:53
+#: src/lib/Categories.js:52
 msgid "Transport"
 msgstr "交通工具"
 
@@ -523,11 +523,11 @@ msgstr "交通工具"
 msgid "Travel guide"
 msgstr "旅行指南"
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:284
 msgid "Unknown"
 msgstr "未知"
 
-#: src/lib/Feature.js:254
+#: src/lib/Feature.js:269
 msgid "Unknown status"
 msgstr "未知"
 
@@ -535,11 +535,11 @@ msgstr "未知"
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/lib/EquipmentInfo.js:85
+#: src/lib/EquipmentInfo.js:82
 msgid "Unnamed facility"
 msgstr ""
 
-#: src/lib/Feature.js:312
+#: src/lib/Feature.js:327
 msgid "Unnamed place"
 msgstr "未命名的地方"
 
@@ -547,7 +547,7 @@ msgstr "未命名的地方"
 msgid "Use the link below for details about the place and editing."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Wheelchair Accessibility"
 msgstr ""
 
@@ -555,7 +555,7 @@ msgstr ""
 msgid "Wheelchair Accessibility Filter"
 msgstr ""
 
-#: src/lib/Feature.js:305
+#: src/lib/Feature.js:320
 msgid "Wheelchair-height toilet seat"
 msgstr "輪椅高度馬桶座"
 
@@ -576,7 +576,7 @@ msgid "Which places do you want to find?"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:17
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:124
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
 msgid "Yes"
 msgstr "可以"
 
@@ -600,23 +600,23 @@ msgstr "[Wheelmap] Wheelmap上的$ ${ categoryName }問題"
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上的一個地方有問題"
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:41
+#: src/lib/EquipmentInfo.js:137
 msgid "elevator"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:40
+#: src/lib/EquipmentInfo.js:136
 msgid "escalator"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:43
+#: src/lib/EquipmentInfo.js:139
 msgid "facility"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:16
+#: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr ""
 
-#: src/components/Map/Map.js:276
+#: src/components/Map/Map.js:282
 msgid ""
 "map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
@@ -626,18 +626,18 @@ msgstr ""
 "contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
 "BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:18
+#: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:47
+#: src/lib/EquipmentInfo.js:143
 msgid "today"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:20
+#: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr ""
 
-#: src/components/NodeToolbar/EquipmentAccessibility.js:48
+#: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
 msgstr ""
