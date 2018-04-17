@@ -25,38 +25,38 @@ msgstr "${ categoryName } on Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator out of service"
+msgstr[1] "${ count } elevators out of service"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator out of service"
+msgstr[1] "${ count } escalators out of service"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator with unknown status"
+msgstr[1] "${ count } elevators with unknown status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator with unknown status"
+msgstr[1] "${ count } escalators with unknown status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } working elevator"
+msgstr[1] "${ count } working elevators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } working escalator"
+msgstr[1] "${ count } working escalators"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -93,7 +93,7 @@ msgid ""
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
 "(Please only write in English or German.)\\n\\nDear "
-"Sozialhelden,\\n\\nSomething is wrong about this place: ${ url }\\n\\nThe "
+"Sozialhelden,\\n\\nSomething about this place is wrong: ${ url }\\n\\nThe "
 "problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
 
 #: src/lib/getHumanEnumeration.js:24
@@ -159,7 +159,7 @@ msgstr "Change"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr "Change the type of places shown on the map"
+msgstr "Change the types of places shown on the map"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
@@ -500,7 +500,7 @@ msgstr ""
 
 #: src/components/NotFound/NotFound.js:46
 msgid "Sorry, that shouldn\\'t have happened!"
-msgstr "Sorry, that shouldn\\'t have happened!"
+msgstr "Sorry, that shouldn't have happened!"
 
 #: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Source:"
@@ -524,7 +524,7 @@ msgstr "The place does not exist."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:54
 msgid "The place is in the wrong position."
-msgstr "The place is in the wrong position."
+msgstr "The place is at the wrong position."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:29
 msgid ""

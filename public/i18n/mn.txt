@@ -24,38 +24,38 @@ msgstr "${ categoryName } Wheelmap дээр"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } эвдэрсэн цахилгаан шат"
+msgstr[1] "${ count } эвдэрсэн цахилгаан шат"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } эвдэрсэн урсдаг цахилгаан шат"
+msgstr[1] "${ count } эвдэрсэн урсдаг цахилгаан шат"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } төлөв нь үл мэдэгдэх цахилгаан шат"
+msgstr[1] "${ count } төлөв нь үл мэдэгдэх цахилгаан шат"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } төлөв нь үл мэдэгдэх урсдаг цахилгаан шат"
+msgstr[1] "${ count } төлөв нь үл мэдэгдэх урсдаг цахилгаан шат"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ажиллаж буй цахилгаан шат"
+msgstr[1] "${ count } ажиллаж буй цахилгаан шат"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ажиллаж буй урсдаг цахилгаан шат "
+msgstr[1] "${ count } ажиллаж буй урсдаг цахилгаан шат "
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"

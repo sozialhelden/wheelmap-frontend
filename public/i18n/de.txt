@@ -24,38 +24,38 @@ msgstr "${ categoryName } auf Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Aufzug außer Betrieb"
+msgstr[1] "${ count } Aufzüge außer Betrieb"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Fahrtreppe außer Betrieb"
+msgstr[1] "${ count } Fahrtreppen außer Betrieb"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Aufzug mit unbekanntem Status"
+msgstr[1] "${ count } Aufzüge mit unbekanntem Status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Fahrtreppe mit unbekanntem Status"
+msgstr[1] "${ count } Fahrtreppen mit unbekanntem Status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Aufzug in Betrieb"
+msgstr[1] "${ count } Aufzüge in Betrieb"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } Fahrtreppe in Betrieb"
+msgstr[1] "${ count } Fahrtreppen in Betrieb"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -142,7 +142,7 @@ msgstr "Zurück"
 
 #: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
-msgstr "Extra Engagement!"
+msgstr "Jetzt Superheld*in werden!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
@@ -476,7 +476,7 @@ msgstr "Zurück zur Startseite"
 
 #: src/components/SearchToolbar/SearchInputField.js:49
 msgid "Search place or address"
-msgstr "Ort oder Adresse suchen"
+msgstr "Such nach Ort oder Adresse"
 
 #: src/components/SearchToolbar/SearchResults.js:265
 msgid "Search results"
@@ -617,7 +617,7 @@ msgstr "Du kannst die Position dieses Ortes auf OpenStreetMap verändern."
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr ""
-"Du kannst Orte, die nicht mehr existieren, auf OpenStreetMap kennzeichnen."
+"Du kannst Orte, die nicht mehr existieren, auf OpenStreetMap entfernen."
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
