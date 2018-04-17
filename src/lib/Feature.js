@@ -1,6 +1,7 @@
 // @flow
 import { t } from 'c-3po';
 import get from 'lodash/get';
+import pick from 'lodash/pick';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import isArray from 'lodash/isArray';
@@ -9,6 +10,7 @@ import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
 
 import type { EquipmentInfo } from './EquipmentInfo';
+import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';
@@ -236,7 +238,9 @@ export function hasAccessibleToilet(
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
   if (properties) {
     if (properties.category === 'elevator' || properties.category === 'escalator') {
-      return { true: 'yes', false: 'no' }[properties.isWorking] || 'unknown';
+      const result = isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
+      // debugger
+      return result;
     }
   }
   const isAccessible = get(properties, 'wheelchair') ||
