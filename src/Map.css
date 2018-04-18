@@ -3,17 +3,25 @@ body.is-touch-device .leaflet-control-zoom {
 }
 
 body.is-touch-device .leaflet-filter-button {
-  top: 110px;
+  top: 0;
+  top: constant(safe-area-inset-top);
+  top: env(safe-area-inset-top);
+  margin-top: 110px;
 }
 
 @media (max-width: 1024px) {
   .leaflet-control-container .leaflet-top {
-    top: 50px;
+    top: 0px;
+    top: constant(safe-area-inset-top);
+    top: env(safe-area-inset-top);
+    margin-top: 50px;
   }
 }
 
 .leaflet-container {
   flex: 1;
+  height: 100vh;
+  width: 100vw;
 }
 
 .leaflet-container.focus-ring::after {
@@ -349,6 +357,8 @@ body.is-touch-device .leaflet-filter-button {
 
 .mapbox-attribution-container {
   bottom: 0;
+  bottom: constant(safe-area-inset-bottom);
+  bottom: env(safe-area-inset-bottom);
   right: 0;
   position: absolute;
   display: block;
@@ -367,7 +377,11 @@ body.is-touch-device .leaflet-filter-button {
   height: 20px;
   width: 65px;
   left: 10px;
+  left: constant(safe-area-inset-left);
+  left: env(safe-area-inset-left);
   bottom: 10px;
+  bottom: constant(safe-area-inset-bottom);
+  bottom: env(safe-area-inset-bottom);
   text-indent: -9999px;
   z-index: 1000;
   overflow: hidden;

@@ -1,11 +1,5 @@
 @import '../node_modules/react-activity/dist/react-activity.css';
 
-html, body, #root, .app-container {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-}
 
 .app-container {
   position: relative;
@@ -25,6 +19,7 @@ body, button, input, select, textarea {
   /* Mix of the two system font stacks used by GitHub and Medium. */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+
 
 .ac-result-list, .ac-list {
   list-style-type: none;

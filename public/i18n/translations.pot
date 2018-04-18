@@ -234,8 +234,8 @@ msgstr ""
 msgid "Entrance without steps, all rooms without steps."
 msgstr ""
 
-#: src/components/NotFound/NotFound.js:44
-#: src/components/NotFound/NotFound.js:55
+#: src/components/NotFound/NotFound.js:45
+#: src/components/NotFound/NotFound.js:56
 msgid "Error"
 msgstr ""
 
@@ -455,7 +455,7 @@ msgstr ""
 msgid "Report an Issue"
 msgstr ""
 
-#: src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:49
 msgid "Return Home"
 msgstr ""
 
@@ -479,7 +479,7 @@ msgstr ""
 msgid "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
 
-#: src/components/NotFound/NotFound.js:46
+#: src/components/NotFound/NotFound.js:47
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr ""
 

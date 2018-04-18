@@ -86,6 +86,8 @@ const StyledToolbar = styled(Toolbar)`
     &.search-field-is-focused {
       position: fixed;
       top: 0;
+      padding-top: constant(safe-area-inset-top);
+      padding-top: env(safe-area-inset-top);
       width: 100%;
       max-height: 100%;
       right: 0;

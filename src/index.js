@@ -30,4 +30,8 @@ if (window.cordova) {
   startApp();
 }
 
+// Don't let the body scroll.
+document.body.addEventListener("touchmove", (e) => e.preventDefault(), false);
+document.addEventListener("touchmove", (e) => e.preventDefault(), false);
+
 registerServiceWorker();

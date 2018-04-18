@@ -15,6 +15,7 @@ type Props = {
   className: string,
   isVisible: boolean,
   onClose: (() => void),
+  errorText: ?string,
 }
 
 class NotFound extends React.Component<Props> {
@@ -58,6 +59,10 @@ class NotFound extends React.Component<Props> {
           <Logo className="logo" aria-hidden={true} />
           <h1 id="wheelmap-error-text">{headerText}</h1>
         </header>
+
+        {this.props.errorText ? <section>
+          <pre id="error-text">{this.props.errorText}</pre>
+        </section> : null}
 
         <section>
           <p id="wheelmap-apology-text">{apologyText}</p>
@@ -142,6 +147,10 @@ const StyledNotFound = styled(NotFound)`
         transition: box-shadow 0.2s;
       }
     }
+  }
+
+  .error-text {
+    opacity: 0.7;
   }
 `;
 

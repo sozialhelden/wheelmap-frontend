@@ -248,6 +248,8 @@ class Toolbar extends React.Component<Props, State> {
 const StyledToolbar = styled(Toolbar)`
   position: fixed;
   left: 0;
+  left: constant(safe-area-inset-left);
+  left: env(safe-area-inset-left);
   width: 320px;
   min-width: 320px;
   top: 50px;
@@ -260,6 +262,7 @@ const StyledToolbar = styled(Toolbar)`
   }
   margin: 10px;
   padding: 12px 15px 5px 15px;
+
   box-sizing: border-box;
   z-index: 1001;
   overflow: auto;
