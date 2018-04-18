@@ -46,6 +46,12 @@ const StyledFooter = styled.footer`
 
   .link-button {
     color: ${colors.linkColor};
+
+    > span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
   }
 
   .edit-link-button {

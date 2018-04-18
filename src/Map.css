@@ -358,7 +358,7 @@ body.is-touch-device .leaflet-filter-button {
 }
 
 .mapbox-attribution-container .sozialhelden-logo {
-  vertical-align: text-bottom;
+  vertical-align: bottom;
 }
 
 .mapbox-wordmark {
