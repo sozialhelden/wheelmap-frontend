@@ -9,7 +9,7 @@ export default function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }
       {phoneNumber}
     </span>);
   }
-  return (<a className="phone-number link-button" href={`tel:${phoneNumber}`}>
+  return (<a className="phone-number link-button" href={`tel:${phoneNumber.replace(/[^\d+]/g, '')}`}>
     {t`Call ${phoneNumber}`}
   </a>);
 }
