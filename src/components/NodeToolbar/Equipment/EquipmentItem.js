@@ -82,7 +82,11 @@ function EquipmentItem(props: Props) {
     const { geometry } = equipmentInfos[0];
     const [lat, lon] = normalizeCoordinates(geometry.coordinates);
     const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
-    history.push(`${href}#?${queryString.stringify(params)}`);
+    if (window.cordova) {
+      history.push(`${href}?${queryString.stringify(params)}`);
+    } else {
+      history.push(`${href}#?${queryString.stringify(params)}`);
+    }
     event.preventDefault();
   };
 

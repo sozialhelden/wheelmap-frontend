@@ -75,6 +75,7 @@ type State = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
+  lastError: ?string,
   isReportMode: boolean,
   category: ?string,
   isLocalizationLoaded: boolean,
@@ -124,6 +125,7 @@ class FeatureLoader extends React.Component<Props, State> {
     isLocalizationLoaded: false,
     isMainMenuOpen: false,
     isReportMode: false,
+    lastError: null,
   };
 
   map: ?any;
@@ -181,7 +183,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const routeInformation = this.routeInformation(props);
     if (!routeInformation) {
-      this.setState({ isNotFoundVisible: true });
+      this.setState({ isNotFoundVisible: true, lastError: null });
       return;
     }
 
@@ -288,7 +290,7 @@ class FeatureLoader extends React.Component<Props, State> {
       const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
       this.setState({ feature, lat, lon, fetching: false });
     }, (reason) => {
-      this.setState({ feature: null, fetching: false, isNotFoundVisible: true });
+      this.setState({ feature: null, fetching: false, isNotFoundVisible: true, lastError: reason });
     });
   }
 
@@ -463,6 +465,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onClose={() => {
           this.setState({ isNotFoundVisible: false });
         }}
+        errorText={this.state.lastError}
       />
     </div>);
   }

@@ -234,7 +234,6 @@ const StyledMainMenu = styled(MainMenu)`
 
   .logo {
     height: 30px;
-    margin-left: -5px;
   }
 
   .claim {
@@ -300,7 +299,11 @@ const StyledMainMenu = styled(MainMenu)`
   button.menu {
     position: fixed;
     top: 0;
+    top: constant(safe-area-inset-top);
+    top: env(safe-area-inset-top);
     right: 0;
+    right: constant(safe-area-inset-right);
+    right: env(safe-area-inset-right);
     width: 60px;
     height: 50px;
     display: flex;
@@ -337,6 +340,8 @@ const StyledMainMenu = styled(MainMenu)`
   @media (max-width: ${menuButtonVisibilityBreakpoint}px) {
     position: absolute;
     top: 0;
+    top: constant(safe-area-inset-top);
+    top: env(safe-area-inset-top);
     left: 0;
     right: 0;
     padding: 5px 10px 10px 10px;

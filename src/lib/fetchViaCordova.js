@@ -43,7 +43,7 @@ export default function fetchViaCordova(url, options) {
     };
 
     window.cordova.plugin.http.sendRequest(url, requestOptions, function(response) {
-      console.log(response);
+      console.log('Fetching via Cordova:', url, requestOptions, response);
       const responseObject = {
 				ok: (response.status >= 200 && response.status < 300),
 				status: response.status,
@@ -62,6 +62,7 @@ export default function fetchViaCordova(url, options) {
 			};
       resolve(responseObject);
     }, function(response) {
+      debugger
       reject(response.error, response);
     });
 	});
