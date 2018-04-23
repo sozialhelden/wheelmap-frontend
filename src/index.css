@@ -2,6 +2,10 @@ html {
   background-color: #E6E4E0;
 }
 
+body {
+  position: fixed;
+}
+
 html, body {
   -webkit-tap-highlight-color: transparent;
 }
@@ -22,6 +26,19 @@ body {
   padding-top: env(safe-area-inset-top);
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom); */
+}
+
+body:before {
+  content: ' ';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  height: 0;
+  height: constant(safe-area-inset-top);
+  height: env(safe-area-inset-top);
+  z-index: 401;
 }
 
 /*
