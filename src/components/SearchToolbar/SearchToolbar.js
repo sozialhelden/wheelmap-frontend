@@ -330,6 +330,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
                 }
               }
               setTimeout(() => this.ensureFullVisibility(), 100);
+              setTimeout(() => this.ensureFullVisibility(), 500);
               if (this.props.onClose) this.props.onClose();
             }}
             innerRef={closeLink => this.closeLink = closeLink}
