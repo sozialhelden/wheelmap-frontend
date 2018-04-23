@@ -1,6 +1,8 @@
-# 
+# Translators:
+# Developers, 2018
 msgid ""
 msgstr ""
+"Last-Translator: Developers, 2018\n"
 "Language-Team: Greek (https://www.transifex.com/sozialhelden/teams/16671/el/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: el\n"
@@ -8,75 +10,82 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr "και"
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr "ή"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "${ categoryName } σε Wheelmap"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ανελκυστήρας εκτός λειτουργίας"
+msgstr[1] "${ count } ανελκυστήρες εκτός λειτουργίας"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } κυλιόμενη σκάλα εκτός λειτουργίας"
+msgstr[1] "${ count } κυλιόμενες σκάλες εκτός λειτουργίας"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ανελκυστήρας σε άγνωστη κατάσταση"
+msgstr[1] "${ count } ανελκυστήρες σε άγνωστη κατάσταση"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } κυλιόμενη σκάλα χωρίς άγνωστη κατάσταση"
+msgstr[1] "${ count } κυλιόμενες σκάλες σε άγνωστη κατάσταση"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ανελκυστήρας σε λειτουργία"
+msgstr[1] "${ count } ανελκυστήρες σε λειτουργία"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } κυλιόμενη σκάλα σε λειτουργία"
+msgstr[1] "${ count } κυλιόμενες σκάλες σε λειτουργία"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
-msgstr ""
+msgstr "${ placeName } στο Wheelmap.org"
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Φίλτρο"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr ""
+"${ sharedObjectTitle }\\n\\nΚάντε κλικ σε αυτόν τον σύνδεσμο για να το "
+"ανοίξετε: ${ url }"
 
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
 msgstr ""
+"(Σημειώστε ότι απαιτείται κάποιος χρόνος μέχρι να γίνει ενημέρωση της "
+"τοποθεσίας στο Wheelmap, μετά την επεξεργασία)."
 
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
 " until the place is updated on Wheelmap.)"
 msgstr ""
+"(Σημειώστε ότι θα πρέπει πρώτα να συνδεθείτε για να προχωρήσετε σε αυτό. "
+"Απαιτείται κάποιος χρόνος μέχρι να γίνει ενημέρωση της τοποθεσίας στο "
+"Wheelmap)."
 
 #: src/components/NodeToolbar/Report/strings.js:40
 msgid ""
@@ -84,560 +93,574 @@ msgid ""
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
+"(Παρακαλούμε, γράψτε μόνο σε Αγγλικά ή Γερμανικά.)\\n\\nΧαίρετε "
+"Sozialhelden,\\n\\nυπάρχει κάποιο πρόβλημα με αυτό το μέρος: ${ url "
+"}\\n\\nΤο πρόβλημα είναι:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr ", και"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr ""
+msgstr ", ή"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr ""
+msgstr "Διάλογος Φίλτρου Προσβασιμότητας"
 
 #: src/lib/Feature.js:322
 msgid "Accessible hand basin"
-msgstr ""
+msgstr "Προσβάσιμος νιπτήρας"
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
-msgstr ""
+msgstr "Προσθήκη μέρους που λείπει"
 
 #: src/components/NodeToolbar/NodeFooter.js:129
 msgid "Add toilet status"
-msgstr ""
+msgstr "Προσθήκη κατάστασης τουαλέτας"
 
 #: src/components/FilterToolbar/FilterToolbar.js:174
 msgid "All"
-msgstr ""
+msgstr "Όλα"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
-msgstr ""
+msgstr "Όλοι οι ανελκυστήρες και οι κυλιόμενες σκάλες"
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
-msgstr ""
+msgstr "Τουλάχιστον εν μέρει προσβάσιμο σε αναπηρικά αμαξίδια"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Back"
-msgstr ""
+msgstr "Πίσω"
 
 #: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
-msgstr ""
+msgstr "Μπόνους κάρμα πόντοι!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Καλέστε στο ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
 msgid "Change"
-msgstr ""
+msgstr "Αλλαγή"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr ""
+msgstr "Αλλάξτε όποια μέρη εμφανίζονται στον χάρτη"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
-msgstr ""
+msgstr "Εκκαθάριση Αναζήτησης"
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 150 cm wide"
-msgstr ""
+msgstr "Ελεύθερος χώρος δαπέδου ≥ πλάτος 150εκ."
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 59 inch wide"
-msgstr ""
+msgstr "Ελεύθερη επιφάνεια δαπέδου ≥ 150εκ. πλάτος"
 
 #: src/components/FilterToolbar/FilterToolbar.js:56
 msgid "Close Dialog"
-msgstr ""
+msgstr "Κλείσιμο διαλόγου"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
 msgid "Collapse Share Menu"
-msgstr ""
+msgstr "Σύμπτυξη Μενού Κοινοποίησης"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
 msgid "Confirm"
-msgstr ""
+msgstr "Επιβεβαίωση"
 
 #: src/components/MainMenu/strings.js:17
 msgid "Contact"
-msgstr ""
+msgstr "Επικοινωνία"
 
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid "Contact the Wheelmap support team"
-msgstr ""
+msgstr "Επικοινωνήστε με την ομάδα υποστήριξης του Wheelmap"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
 msgid "Continue"
-msgstr ""
+msgstr "Συνέχεια"
 
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
-msgstr ""
+msgstr "Λεπτομέρειες"
 
 #: src/components/NodeToolbar/Report/strings.js:21
 msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
 "directly?"
 msgstr ""
+"Γνωρίζετε ότι μπορείτε να αλλάξετε τις πληροφορίες αυτού του μέρους "
+"απευθείας στο OpenStreetMap directly;"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
-msgstr ""
+msgstr "Αναστάτωση σε αυτή την τοποθεσία"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 35 inch"
-msgstr ""
+msgstr "Εσωτερικό πλάτος πόρτας εισόδου ≥ 90εκ."
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 90 cm"
-msgstr ""
+msgstr "Εσωτερικό πλάτος πόρτας εισόδου ≥ 90εκ."
 
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
-msgstr ""
+msgstr "Επεξεργασία αυτού του μέρος στο OpenStreetMap"
 
 #: src/lib/Categories.js:60
 msgid "Education"
-msgstr ""
+msgstr "Εκπαίδευση"
 
 #: src/lib/Feature.js:298
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
+"Η είσοδος έχει ένα ή αρκετά σκαλοπάτια και τα δωμάτια δεν είναι προσβάσιμα."
 
 #: src/lib/Feature.js:296
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
 msgstr ""
+"Η είσοδος έχει ένα σκαλοπάτι με μέγιστο ύψος επτά εκατοστά, ενώ τα "
+"περισσότερα δωμάτια δεν έχουν σκαλοπάτια."
 
 #: src/lib/Feature.js:293
 msgid "Entrance without steps, all rooms without steps."
 msgstr ""
+"Η είσοδος δεν έχει σκαλοπάτια και επίσης όλα τα δωμάτια δεν έχουν "
+"σκαλοπάτια."
 
 #: src/components/NotFound/NotFound.js:44
 #: src/components/NotFound/NotFound.js:55
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr ""
+msgstr "Επέκταση Μενού Κοινοποίησης"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
-msgstr ""
+msgstr "Συχνές Ερωτήσεις"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
 msgid "Find out about this place’s accessibility."
-msgstr ""
+msgstr "Μάθετε για την προσβασιμότητα αυτού του μέρους!"
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr ""
+msgstr "Μάθετε πώς"
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr ""
+msgstr "Εύρεση τοποθεσιών προσβάσιμες σε αναπηρικά αμαξίδια"
 
 #: src/lib/Feature.js:321
 msgid "Folding grab rails"
-msgstr ""
+msgstr "Πτυσσόμενες λαβές στήριξης"
 
 #: src/lib/Categories.js:50
 msgid "Food & Drinks"
-msgstr ""
+msgstr "Φαγητό & Ποτό"
 
 #: src/lib/Feature.js:278
 msgid "Fully"
-msgstr ""
+msgstr "Πλήρως"
 
 #: src/lib/Feature.js:263
 msgid "Fully wheelchair accessible"
-msgstr ""
+msgstr "Πλήρως προσβάσιμο σε αναπηρικά αμαξίδια"
 
 #: src/components/MainMenu/strings.js:11
 msgid "Get involved"
-msgstr ""
+msgstr "Συμμετάσχετε"
 
 #: src/lib/Feature.js:308
 msgid "Has a wheelchair accessible toilet."
-msgstr ""
+msgstr "Έχει τουαλέτα προσβάσιμη σε αναπηρικά αμαξίδια."
 
 #: src/lib/Categories.js:64
 msgid "Health"
-msgstr ""
+msgstr "Υγεία"
 
 #: src/components/Onboarding/Onboarding.js:30
 msgid "Help out by marking places!"
-msgstr ""
+msgstr "Βοηθήστε, επισημαίνοντας μέρη!"
 
 #: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
-msgstr ""
+msgstr "Κεντρική Σελίδα"
 
 #: src/lib/Categories.js:56
 msgid "Hotels"
-msgstr ""
+msgstr "Ξενοδοχεία"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
 msgid "How wheelchair accessible is this place?"
-msgstr ""
+msgstr "Σε τι βαθμό είναι το μέρος προσβάσιμο σε αναπηρικά αμαξίδια;"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
 msgid "I don’t know"
-msgstr ""
+msgstr "Δεν γνωρίζω"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
 msgid "I found a place on Wheelmap: ${ url }"
-msgstr ""
+msgstr "Βρήκα ένα μέρος στο Wheelmap: ${ url }"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
 msgid "I found a place on Wheelmap…"
-msgstr ""
+msgstr "Βρήκα ένα μέρος στο Wheelmap…"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
 msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr ""
+msgstr "Βρήκα αυτό το μέρος στο Wheelmap: ${ placeName }"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:42
 msgid "I have more information about this place."
-msgstr ""
+msgstr "Έχω περισσότερες πληροφορίες για αυτό το μέρος."
 
 #: src/components/NodeToolbar/Report/strings.js:17
 msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
+"Εάν το μέρος έχει κλείσει μόνιμα, μπορείτε να του προσθέσετε την ετικέτα "
+"«εκτός λειτουργίας» στο OpenStreetMap."
 
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
-msgstr ""
+msgstr "Αποτύπωμα"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "Βελτίωση σε ${ sourceNameString }"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
-msgstr ""
+msgstr "Βελτιώστε το κάρμα σας!"
 
 #: src/components/NodeToolbar/Report/strings.js:29
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
-msgstr ""
+msgstr "Πληροφορίες για αυτό το μέρος έχουν δοθεί από άλλον οργανισμό."
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
 msgid "Is the toilet here wheelchair accessible?"
-msgstr ""
+msgstr "Είναι η τουαλέτα προσβάσιμη σε αναπηρικά αμαξίδια;"
 
 #: src/components/NodeToolbar/Report/strings.js:9
 msgid "Is there an issue with this place?"
-msgstr ""
+msgstr "Υπάρχει πρόβλημα με αυτό το μέρος;"
 
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Τελευταία ενημέρωση ${ dateString }."
 
 #: src/lib/Categories.js:54
 msgid "Leisure"
-msgstr ""
+msgstr "Ελεύθερος χρόνος"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
-msgstr ""
+msgstr "Χάρτης"
 
 #: src/components/Onboarding/Onboarding.js:28
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
 msgstr ""
+"Σημειώστε και βρείτε μέρα προσβάσιμα σε αναπηρικά αμαξίδια, σε όλο τον "
+"κόσμο, δωρεάν. Η διαδικασία είναι εύκολη και γρήγορη με το σύστημά μας:"
 
 #: src/components/NodeToolbar/NodeFooter.js:107
 msgid "Mark this place"
-msgstr ""
+msgstr "Σημειώστε αυτό το μέρος"
 
 #: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
-msgstr ""
+msgstr "Μενού"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
-msgstr ""
+msgstr "Διάφορα"
 
 #: src/lib/Categories.js:66
 msgid "Money"
-msgstr ""
+msgstr "Χρήματα"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:60
 msgid "My problem isn’t listed here…"
-msgstr ""
+msgstr "Το πρόβλημά μου δεν βρίσκεται σε αυτή τη λίστα..."
 
 #: src/components/MainMenu/strings.js:13
 msgid "News"
-msgstr ""
+msgstr "Ειδήσεις"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:18
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
 msgid "No"
-msgstr ""
+msgstr "Όχι"
 
 #: src/lib/Feature.js:310
 msgid "No wheelchair accessible toilet."
-msgstr ""
+msgstr "Δεν υπάρχει τουαλέτα προσβάσιμη σε αναπηρικά αμαξίδια."
 
 #: src/lib/Feature.js:282
 msgid "Not at all"
-msgstr ""
+msgstr "Καθόλου"
 
 #: src/lib/Feature.js:267
 msgid "Not wheelchair accessible"
-msgstr ""
+msgstr "Δεν είναι προσβάσιμο σε αναπηρικά αμαξίδια"
 
 #: src/lib/Categories.js:62
 msgid "Official"
-msgstr ""
+msgstr "Επίσημο"
 
 #: src/components/Onboarding/Onboarding.js:32
 msgid "Okay, let’s go!"
-msgstr ""
+msgstr "Ωραία, ας ξεκινήσουμε!"
 
 #: src/components/FilterToolbar/FilterToolbar.js:183
 msgid "Only fully wheelchair accessible"
-msgstr ""
+msgstr "Μόνο πλήρως προσβάσιμα σε αναπηρικά αμαξίδια"
 
 #: src/components/FilterToolbar/FilterToolbar.js:186
 msgid "Only show places with a wheelchair accessible toilet"
-msgstr ""
+msgstr "Μόνο μέρη που έχουν τουαλέτα προσβάσιμη σε αναπηρικά αμαξίδια"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "Άνοιγμα σε ${ sourceNameString }"
 
 #: src/lib/Feature.js:280
 msgid "Partially"
-msgstr ""
+msgstr "Εν μέρει"
 
 #: src/lib/Feature.js:265
 msgid "Partially wheelchair accessible"
-msgstr ""
+msgstr "Εν μέρει προσβάσιμο σε αναπηρικά αμαξίδια"
 
 #: src/components/FilterToolbar/FilterToolbar.js:180
 msgid "Places that I can contribute to"
-msgstr ""
+msgstr "Μέρη στα οποία μπορώ να συνεισφέρω"
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
-msgstr ""
+msgstr "Τύπος"
 
 #: src/components/NodeToolbar/NodeToolbar.js:260
 msgid "Report an Issue"
-msgstr ""
+msgstr "Αναφορά προβλήματος"
 
 #: src/components/NotFound/NotFound.js:48
 msgid "Return Home"
-msgstr ""
+msgstr "Επιστροφή σε Αρχική Σελίδα"
 
 #: src/components/SearchToolbar/SearchInputField.js:49
 msgid "Search place or address"
-msgstr ""
+msgstr "Αναζήτηση τοποθεσίας ή διεύθυνσης"
 
 #: src/components/SearchToolbar/SearchResults.js:265
 msgid "Search results"
-msgstr ""
+msgstr "Αναζήτηση αποτελεσμάτων"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
-msgstr ""
+msgstr "Κοινοποίηση"
 
 #: src/lib/Categories.js:48
 msgid "Shopping"
-msgstr ""
+msgstr "Αγορές"
 
 #: src/components/NodeToolbar/Report/strings.js:37
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
+"Λυπούμαστε! Στείλτε μας μήνυμα ώστε να μπορέσουμε να διορθώσουμε το "
+"πρόβλημα."
 
 #: src/components/NotFound/NotFound.js:46
 msgid "Sorry, that shouldn\\'t have happened!"
-msgstr ""
+msgstr "Λυπούμαστε, αυτό δεν θα έπρεπε να έχει συμβεί!"
 
 #: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Source:"
-msgstr ""
+msgstr "Πηγή:"
 
 #: src/lib/Categories.js:68
 msgid "Sport"
-msgstr ""
+msgstr "Σπορ"
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"Το τελευταίο που γνωρίζουμε είναι ότι αυτό το ${ translatedEquipmentCategory"
+" } ήταν ${ lastStatus } στις ${ dateString }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
-msgstr ""
+msgstr "Αυτό το μέρος δεν υπάρχει."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:54
 msgid "The place is in the wrong position."
-msgstr ""
+msgstr "Το μέρος είναι σε λανθασμένη τοποθεσία."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:29
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
+"Το μέρος έχει σημειωθεί ως ‘${ accessibilityDescription }’, αλλά αυτό είναι "
+"εσφαλμένο!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:36
 msgid "The place’s toilet status is wrong or missing."
 msgstr ""
+"Η κατάσταση της τουαλέτας στην τοποθεσία είναι εσφαλμένη ή δεν υπάρχει."
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
 msgid "This means:"
-msgstr ""
+msgstr "Αυτό σημαίνει:"
 
 #: src/lib/Categories.js:58
 msgid "Tourism"
-msgstr ""
+msgstr "Τουρισμός"
 
 #: src/lib/Categories.js:52
 msgid "Transport"
-msgstr ""
+msgstr "Μετακίνηση"
 
 #: src/components/MainMenu/strings.js:9
 msgid "Travel guide"
-msgstr ""
+msgstr "Ταξιδιωτικός οδηγός"
 
 #: src/lib/Feature.js:284
 msgid "Unknown"
-msgstr ""
+msgstr "Άγνωστο"
 
 #: src/lib/Feature.js:269
 msgid "Unknown status"
-msgstr ""
+msgstr "Άγνωστη κατάσταση"
 
 #: src/components/SearchToolbar/SearchResults.js:207
 msgid "Unnamed"
-msgstr ""
+msgstr "Χωρίς ονομασία"
 
 #: src/lib/EquipmentInfo.js:82
 msgid "Unnamed facility"
-msgstr ""
+msgstr "Εγκατάσταση χωρίς ονομασία"
 
 #: src/lib/Feature.js:327
 msgid "Unnamed place"
-msgstr ""
+msgstr "Μέρος χωρίς ονομασία"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
 msgstr ""
+"Χρησιμοποιήστε τον παρακάτω σύνδεσμο για στοιχεία σχετικά με το μέρος, καθώς"
+" και για επεξεργασία."
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Wheelchair Accessibility"
-msgstr ""
+msgstr "Προσβασιμότητα σε Αναπηρικά Αμαξίδια"
 
 #: src/components/FilterToolbar/FilterToolbar.js:209
 msgid "Wheelchair Accessibility Filter"
-msgstr ""
+msgstr "Φίλτρο Προσβασιμότητας σε Αναπηρικά Αμαξίδια"
 
 #: src/lib/Feature.js:320
 msgid "Wheelchair-height toilet seat"
-msgstr ""
+msgstr "Κάθισμα τουαλέτας σε ύψος αναπηρικού αμαξιδίου"
 
 #: src/components/Onboarding/Onboarding.js:48
 msgid "Wheelmap start screen"
-msgstr ""
+msgstr "Οθόνη εκκίνησης Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr ""
+"Το Wheelmap χρησιμοποιεί δεδομένα από το OpenStreetMap για να παρουσιάζει "
+"μέρη."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
 msgid "Wheelmap.org"
-msgstr ""
+msgstr "Wheelmap.org"
 
 #: src/components/FilterToolbar/FilterToolbar.js:171
 msgid "Which places do you want to find?"
-msgstr ""
+msgstr "Ποια μέρη θέλετε να βρείτε;"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:17
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
 msgid "Yes"
-msgstr ""
+msgstr "Ναι"
 
 #: src/components/NodeToolbar/Report/strings.js:15
 msgid "You can change this place’s position on OpenStreetMap."
-msgstr ""
+msgstr "Μπορείτε να αλλάξετε τη θέση αυτού του μέρους στο OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
-msgstr ""
+msgstr "Μπορείτε να αφαιρέσετε μέρη που δεν υπάρχουν στο OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Πρόβλημα με ${ placeName } στο Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Πρόβλημα με ${ categoryName } στο Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Πρόβλημα με τοποθεσία στο Wheelmap"
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
-msgstr ""
+msgstr "ανελκυστήρας"
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
-msgstr ""
+msgstr "κυλιόμενη σκάλα"
 
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
-msgstr ""
+msgstr "εγκατάσταση"
 
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
-msgstr ""
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
+msgstr "σε λειτουργία"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
-msgstr ""
+msgstr "εκτός λειτουργίας"
 
 #: src/lib/EquipmentInfo.js:143
 msgid "today"
-msgstr ""
+msgstr "σήμερα"
 
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
-msgstr ""
+msgstr "άγνωστη κατάσταση"
 
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
-msgstr ""
+msgstr "χθες"

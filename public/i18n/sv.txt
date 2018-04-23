@@ -1,9 +1,10 @@
 # Translators:
-# Sebastian Felix Zappe <hypo@me.com>, 2018
 # Staffan Brodén, 2018
+# Sebastian Felix Zappe <hypo@me.com>, 2018
+# Developers, 2018
 msgid ""
 msgstr ""
-"Last-Translator: Staffan Brodén, 2018\n"
+"Last-Translator: Developers, 2018\n"
 "Language-Team: Swedish (https://www.transifex.com/sozialhelden/teams/16671/sv/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: sv\n"
@@ -11,11 +12,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr "och"
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr "eller"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
@@ -24,38 +25,38 @@ msgstr "${ categoryName } i Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } trasig hiss"
+msgstr[1] "${ count } trasiga hissar"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } trasig rulltrappa"
+msgstr[1] "${ count } trasiga rulltrappor"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } hiss med okänd status"
+msgstr[1] "${ count } hissar med okänd status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rulltrappa med okänd status"
+msgstr[1] "${ count } rulltrappor med okänd status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } fungerande hiss"
+msgstr[1] "${ count } fungerande hissar"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } fungerande rulltrappa"
+msgstr[1] "${ count } fungerande rulltrappor"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -63,7 +64,7 @@ msgstr "${ placeName } i Wheelmap.org"
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Filtrera"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
@@ -97,15 +98,11 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr ", och"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr "Ett projekt av"
+msgstr ", eller"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
@@ -129,7 +126,7 @@ msgstr "Alla"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
-msgstr ""
+msgstr "Alla hissar och rulltrappor"
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
@@ -146,7 +143,7 @@ msgstr "Bonus karma poäng!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Ring ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
 msgid "Cancel"
@@ -210,7 +207,7 @@ msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
-msgstr ""
+msgstr "Avbrott på den här platsen"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 35 inch"
@@ -346,7 +343,7 @@ msgstr "Om oss"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "Förbättra på ${ sourceNameString }"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
@@ -369,13 +366,13 @@ msgstr "Är det nåt fel med den här platsen?"
 
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Senaste uppdatering ${ dateString }."
 
 #: src/lib/Categories.js:54
 msgid "Leisure"
 msgstr "Fritid"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr "Karta"
 
@@ -446,7 +443,7 @@ msgstr "Enbart platser med rullstolsanpassad toalett"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "Öppna på ${ sourceNameString }"
 
 #: src/lib/Feature.js:280
 msgid "Partially"
@@ -510,6 +507,8 @@ msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"Det senaste vi vet är att den här ${ translatedEquipmentCategory } var ${ "
+"lastStatus } ${ dateString }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
@@ -560,7 +559,7 @@ msgstr "Namnlös"
 
 #: src/lib/EquipmentInfo.js:82
 msgid "Unnamed facility"
-msgstr ""
+msgstr "Onämnd inrättning"
 
 #: src/lib/Feature.js:327
 msgid "Unnamed place"
@@ -625,43 +624,32 @@ msgstr "[Wheelmap] Problem med en plats i Wheelmap"
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
-msgstr ""
+msgstr "hiss"
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
-msgstr ""
+msgstr "rulltrappa"
 
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
-msgstr ""
+msgstr "inrättning"
 
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
-msgstr ""
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
-"kartdata &copy;<a "
-"href=\"http://openstreetmap.org\">OpenStreetMap</a>delaktiga,<a "
-"href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
-"Illustrationer © <a href=\"http://mapbox.com\">Mapbox</a>"
+msgstr "i drift"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
-msgstr ""
+msgstr "ur funktion"
 
 #: src/lib/EquipmentInfo.js:143
 msgid "today"
-msgstr ""
+msgstr "idag"
 
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
-msgstr ""
+msgstr "okänd status"
 
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
-msgstr ""
+msgstr "igår"

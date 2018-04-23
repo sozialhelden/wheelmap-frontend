@@ -1,9 +1,9 @@
 # Translators:
+# Developers, 2018
 # Sebastian Felix Zappe <hypo@me.com>, 2018
-# Christoph, 2018
 msgid ""
 msgstr ""
-"Last-Translator: Christoph, 2018\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: de\n"
@@ -54,8 +54,8 @@ msgstr[1] "${ count } Aufzüge in Betrieb"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] "${ count } Fahrtreppe in Betrieb"
-msgstr[1] "${ count } Fahrtreppen in Betrieb"
+msgstr[0] "${ count } Rolltreppe in Betrieb"
+msgstr[1] "${ count } Rolltreppen in Betrieb"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -102,10 +102,6 @@ msgstr " und "
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr " oder "
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr "Ein Projekt von"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
@@ -377,7 +373,7 @@ msgstr "Letztes Update am ${ dateString }."
 msgid "Leisure"
 msgstr "Freizeit"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr "Karte"
 
@@ -646,16 +642,6 @@ msgstr "Einrichtung"
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "in Betrieb"
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
-"Kartendaten © <a href=\"http://openstreetmap.org\">OpenStreetMap</a>, <a "
-"href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
-"Bilddaten © <a href=\"http://mapbox.com\">Mapbox</a>"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
