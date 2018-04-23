@@ -59,7 +59,7 @@ export default class MarkerIcon extends L.Icon {
       );
     }
 
-    link.addEventListener('click', (event: MouseEvent) => {
+    link.addEventListener('mousedown', (event: MouseEvent) => {
       event.preventDefault();
       this.options.onClick(featureId, properties);
     });
