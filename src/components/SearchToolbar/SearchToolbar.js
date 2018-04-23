@@ -86,14 +86,14 @@ const StyledToolbar = styled(Toolbar)`
     &.search-field-is-focused {
       position: fixed;
       top: 0;
-      padding-top: constant(safe-area-inset-top);
-      padding-top: env(safe-area-inset-top);
       width: 100%;
       max-height: 100%;
       right: 0;
       left: 0;
       margin: 0;
       padding: 12px 15px;
+      padding: max(constant(safe-area-inset-top), 6px) max(constant(safe-area-inset-right), 15px) 12px max(constant(safe-area-inset-left), 15px);
+      padding: max(env(safe-area-inset-top), 6px) max(env(safe-area-inset-right), 15px) 12px max(env(safe-area-inset-left), 15px);
       transform: translate3d(0, 0, 0) !important;
       z-index: 1000000000;
       border-radius: 0;
