@@ -113,7 +113,7 @@ msgstr ""
 msgid "Add missing place"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeFooter.js:129
+#: src/components/NodeToolbar/NodeFooter.js:135
 msgid "Add toilet status"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeFooter.js:116
+#: src/components/NodeToolbar/NodeFooter.js:122
 msgid "Bonus karma points!"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr ""
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeFooter.js:113
+#: src/components/NodeToolbar/NodeFooter.js:119
 msgid "Improve your karma!"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgid ""
 "easy with our traffic light system:"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeFooter.js:107
+#: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Mark this place"
 msgstr ""
 

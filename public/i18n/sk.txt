@@ -1,6 +1,8 @@
-# 
+# Translators:
+# Developers, 2018
 msgid ""
 msgstr ""
+"Last-Translator: Developers, 2018\n"
 "Language-Team: Slovak (https://www.transifex.com/sozialhelden/teams/16671/sk/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: sk\n"
@@ -8,81 +10,86 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr "a"
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr "alebo"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "${ categoryName } na stránke Wheelmap"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } pokazený výťah"
+msgstr[1] "${ count } pokazených výťahov"
+msgstr[2] "${ count } pokazených výťahov"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } pokazený eskalátor"
+msgstr[1] "${ count } pokazených eskalátorov"
+msgstr[2] "${ count } pokazených eskalátorov"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } výťah s neznámym stavom"
+msgstr[1] "${ count } výťahov s neznámym stavom"
+msgstr[2] "${ count } výťahov s neznámym stavom"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } eskalátor s neznámym stavom"
+msgstr[1] "${ count } eskalátorov s neznámym stavom"
+msgstr[2] "${ count } eskalátorov s neznámym stavom"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } fungujúci výťah"
+msgstr[1] "${ count } fungujúcich výťahov"
+msgstr[2] "${ count } fungujúcich výťahov"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "${ count } fungujúci eskalátor"
+msgstr[1] "${ count } fungujúcich eskalátorov"
+msgstr[2] "${ count } fungujúcich eskalátorov"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
-msgstr ""
+msgstr "${ placeName } na stránke Wheelmap.org"
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Filter"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr ""
+msgstr "${ sharedObjectTitle }\\n\\nNa otvorenie kliknite na odkaz: ${ url }"
 
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
 msgstr ""
+"(Vezmite, prosím, do úvahy, že môže chvíľu trvať, kým bude po úprave miesto "
+"na stránke Wheelmap aktualizované.)"
 
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
 " until the place is updated on Wheelmap.)"
 msgstr ""
+"(Prosím, vezmite do úvahy, že nato, aby ste toto mohli urobiť sa musíte sa "
+"najskôr prihlásiť, a že môže chvíľu trvať, kým bude miesto aktualizované na "
+"stránke Wheelmap.)"
 
 #: src/components/NodeToolbar/Report/strings.js:40
 msgid ""
@@ -90,560 +97,568 @@ msgid ""
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
+"(Prosím, píšte iba po anglicky alebo po nemecky.)\\n\\nAhojte sociálni "
+"hrdinovia,\\n\\ns týmto miestom je problém: ${ url }\\n\\nJe to tento "
+"problém:\\n\\nPrehliadač:\\n\\n${ navigator.userAgent }"
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr "a"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr ""
+msgstr "alebo"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr ""
+msgstr "Dialóg filtru prístupnosti"
 
 #: src/lib/Feature.js:322
 msgid "Accessible hand basin"
-msgstr ""
+msgstr "Prístupné umývadlo"
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
-msgstr ""
+msgstr "Pridať chýbajúce miesto"
 
 #: src/components/NodeToolbar/NodeFooter.js:129
 msgid "Add toilet status"
-msgstr ""
+msgstr "Pridať stav WC"
 
 #: src/components/FilterToolbar/FilterToolbar.js:174
 msgid "All"
-msgstr ""
+msgstr "Všetko"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
-msgstr ""
+msgstr "Všetky výťahy a eskalátory"
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
-msgstr ""
+msgstr "Aspoň čiastočne prístupné pre vozíčkarov"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Back"
-msgstr ""
+msgstr "Naspäť"
 
 #: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
-msgstr ""
+msgstr "Bonusové karma body!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Zavolajte na tel.č. ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
 msgid "Change"
-msgstr ""
+msgstr "Zmeniť"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr ""
+msgstr "Zmeniť, ktoré miesta sa zobrazujú na mape"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
-msgstr ""
+msgstr "Vymazať vyhľadávanie"
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 150 cm wide"
-msgstr ""
+msgstr "Prázdny priestor na podlahe  ≥ 150 cm široký"
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 59 inch wide"
-msgstr ""
+msgstr "Prázdny priestor na podlahe  ≥ 59 palcov široký"
 
 #: src/components/FilterToolbar/FilterToolbar.js:56
 msgid "Close Dialog"
-msgstr ""
+msgstr "Zatvoriť dialóg"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
 msgid "Collapse Share Menu"
-msgstr ""
+msgstr "Zbaliť menu zdieľania"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
 msgid "Confirm"
-msgstr ""
+msgstr "Potvrdiť"
 
 #: src/components/MainMenu/strings.js:17
 msgid "Contact"
-msgstr ""
+msgstr "Kontakt"
 
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid "Contact the Wheelmap support team"
-msgstr ""
+msgstr "Kontaktujte tím podpory stránky Wheelmap"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
 msgid "Continue"
-msgstr ""
+msgstr "Pokračovať"
 
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
-msgstr ""
+msgstr "Podrobnosti"
 
 #: src/components/NodeToolbar/Report/strings.js:21
 msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
 "directly?"
 msgstr ""
+"Vedeli ste, že môžete meniť informácie o tomto mieste priamo na mape "
+"OpenStreetMap?"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
-msgstr ""
+msgstr "Narušenia povrchu na tomto mieste"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 35 inch"
-msgstr ""
+msgstr "Vnútorná šírka vchodu ≥ 35 palcov"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 90 cm"
-msgstr ""
+msgstr "Vnútorná šírka dverí ≥ 90 cm"
 
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
-msgstr ""
+msgstr "Upraviť toto miesto na mape OpenStreetMap"
 
 #: src/lib/Categories.js:60
 msgid "Education"
-msgstr ""
+msgstr "Vzdelávanie"
 
 #: src/lib/Feature.js:298
 msgid "Entrance has a step or several steps, rooms are not accessible."
-msgstr ""
+msgstr "Vchod má jeden alebo viac schodov, miestnosti nie sú prístupné."
 
 #: src/lib/Feature.js:296
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
 msgstr ""
+"Vchod má jeden schod s výškou max. 7 cm / 3 palce, väčšina miestností je bez"
+" schodov."
 
 #: src/lib/Feature.js:293
 msgid "Entrance without steps, all rooms without steps."
-msgstr ""
+msgstr "Vchod bez schodov, všetky miestnosti bez schodov"
 
 #: src/components/NotFound/NotFound.js:44
 #: src/components/NotFound/NotFound.js:55
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr ""
+msgstr "Rozbaliť ponuku zdieľania"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
-msgstr ""
+msgstr "Častlo kladené otázky"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
 msgid "Find out about this place’s accessibility."
-msgstr ""
+msgstr "Zistiť nakoľko je toto miesto prístupné."
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr ""
+msgstr "Zistite ako"
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr ""
+msgstr "Nájsť miesta prístupné pre vozíčkarov"
 
 #: src/lib/Feature.js:321
 msgid "Folding grab rails"
-msgstr ""
+msgstr "Sklápacie zábradlie"
 
 #: src/lib/Categories.js:50
 msgid "Food & Drinks"
-msgstr ""
+msgstr "Jedlo a pitie"
 
 #: src/lib/Feature.js:278
 msgid "Fully"
-msgstr ""
+msgstr "Úplne"
 
 #: src/lib/Feature.js:263
 msgid "Fully wheelchair accessible"
-msgstr ""
+msgstr "Úplne prístupné pre vozíčkarov"
 
 #: src/components/MainMenu/strings.js:11
 msgid "Get involved"
-msgstr ""
+msgstr "Zapojte sa"
 
 #: src/lib/Feature.js:308
 msgid "Has a wheelchair accessible toilet."
-msgstr ""
+msgstr "Má WC prístupné pre vozíčkarov."
 
 #: src/lib/Categories.js:64
 msgid "Health"
-msgstr ""
+msgstr "Zdravie"
 
 #: src/components/Onboarding/Onboarding.js:30
 msgid "Help out by marking places!"
-msgstr ""
+msgstr "Pomôžte označením miest!"
 
 #: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
-msgstr ""
+msgstr "Domov"
 
 #: src/lib/Categories.js:56
 msgid "Hotels"
-msgstr ""
+msgstr "Hotely"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
 msgid "How wheelchair accessible is this place?"
-msgstr ""
+msgstr "Nakoľko je toto miesto prístupné pre vozíčkarov?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
 msgid "I don’t know"
-msgstr ""
+msgstr "Neviem"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
 msgid "I found a place on Wheelmap: ${ url }"
-msgstr ""
+msgstr "Našiel som miesto na stŕnke Wheelmap:${ url }"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
 msgid "I found a place on Wheelmap…"
-msgstr ""
+msgstr "Našiel som miesto cez stránku Wheelmap..."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
 msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr ""
+msgstr "Toto miesto som našiel cez stránku Wheelmap: ${ placeName }"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:42
 msgid "I have more information about this place."
-msgstr ""
+msgstr "Mám viac informácii o tomto mieste"
 
 #: src/components/NodeToolbar/Report/strings.js:17
 msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
+"Ak je miesto trvalo zatvorené, môžete ho na mape OpenStreetMap označiť ako "
+"\"mimo prevázdky\"."
 
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
-msgstr ""
+msgstr "Stopa"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "Zlepšiť na ${ sourceNameString }"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
-msgstr ""
+msgstr "Zlepšite si karmu!"
 
 #: src/components/NodeToolbar/Report/strings.js:29
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
-msgstr ""
+msgstr "Informácie o tomto mieste nám láskavo poskytla iná organizácia"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
 msgid "Is the toilet here wheelchair accessible?"
-msgstr ""
+msgstr "Je WC na tomto mieste prístupné pre vozíčkarov?"
 
 #: src/components/NodeToolbar/Report/strings.js:9
 msgid "Is there an issue with this place?"
-msgstr ""
+msgstr "Je s týmto miestom nejaký problém?"
 
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Posledná aktualizácia ${ dateString }."
 
 #: src/lib/Categories.js:54
 msgid "Leisure"
-msgstr ""
+msgstr "Voľný čas"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
-msgstr ""
+msgstr "Mapa"
 
 #: src/components/Onboarding/Onboarding.js:28
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
 msgstr ""
+"Označte a nájdite miesta prístupné pre vozíčkarov na celom svete zadarmo. S "
+"našim semaforovým systémom je to jednoduché:"
 
 #: src/components/NodeToolbar/NodeFooter.js:107
 msgid "Mark this place"
-msgstr ""
+msgstr "Označiť toto miesto"
 
 #: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
-msgstr ""
+msgstr "Ponuka"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
-msgstr ""
+msgstr "Rôzne"
 
 #: src/lib/Categories.js:66
 msgid "Money"
-msgstr ""
+msgstr "Peniaze"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:60
 msgid "My problem isn’t listed here…"
-msgstr ""
+msgstr "Môj problém tu nie je uvedený..."
 
 #: src/components/MainMenu/strings.js:13
 msgid "News"
-msgstr ""
+msgstr "Novinky"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:18
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: src/lib/Feature.js:310
 msgid "No wheelchair accessible toilet."
-msgstr ""
+msgstr "Žiadne WC prístupné pre vozíčkarov"
 
 #: src/lib/Feature.js:282
 msgid "Not at all"
-msgstr ""
+msgstr "Vôbec nie"
 
 #: src/lib/Feature.js:267
 msgid "Not wheelchair accessible"
-msgstr ""
+msgstr "Nie je prístupné pre vozíčkarov"
 
 #: src/lib/Categories.js:62
 msgid "Official"
-msgstr ""
+msgstr "Oficiálne"
 
 #: src/components/Onboarding/Onboarding.js:32
 msgid "Okay, let’s go!"
-msgstr ""
+msgstr "Okej, poďme!"
 
 #: src/components/FilterToolbar/FilterToolbar.js:183
 msgid "Only fully wheelchair accessible"
-msgstr ""
+msgstr "Iba úplne prístupné pre vozíčkarov"
 
 #: src/components/FilterToolbar/FilterToolbar.js:186
 msgid "Only show places with a wheelchair accessible toilet"
-msgstr ""
+msgstr "Zobrazovať iba miesta s WC prístupným pre vozíčkarov"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "Otvoriť v ${ sourceNameString }"
 
 #: src/lib/Feature.js:280
 msgid "Partially"
-msgstr ""
+msgstr "Čiastočne"
 
 #: src/lib/Feature.js:265
 msgid "Partially wheelchair accessible"
-msgstr ""
+msgstr "Čiastočne prístupné pre vozíčkarov"
 
 #: src/components/FilterToolbar/FilterToolbar.js:180
 msgid "Places that I can contribute to"
-msgstr ""
+msgstr "Miesta, ku ktorým môžem prispieť"
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
-msgstr ""
+msgstr "Stlačiť"
 
 #: src/components/NodeToolbar/NodeToolbar.js:260
 msgid "Report an Issue"
-msgstr ""
+msgstr "Nahlásiť problém"
 
 #: src/components/NotFound/NotFound.js:48
 msgid "Return Home"
-msgstr ""
+msgstr "Vrátiť sa domov"
 
 #: src/components/SearchToolbar/SearchInputField.js:49
 msgid "Search place or address"
-msgstr ""
+msgstr "Vyhľadať miesto alebo adresu"
 
 #: src/components/SearchToolbar/SearchResults.js:265
 msgid "Search results"
-msgstr ""
+msgstr "Prehľadávať výsledky"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
-msgstr ""
+msgstr "Zdieľať"
 
 #: src/lib/Categories.js:48
 msgid "Shopping"
-msgstr ""
+msgstr "NAkupovanie"
 
 #: src/components/NodeToolbar/Report/strings.js:37
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
+"Ospravedlňuje sa! Napíšte nám správu, aby sme vám pomohli vyriešiť tento "
+"problém."
 
 #: src/components/NotFound/NotFound.js:46
 msgid "Sorry, that shouldn\\'t have happened!"
-msgstr ""
+msgstr "Prepáčte, to sa nemalo stať!"
 
 #: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Source:"
-msgstr ""
+msgstr "Zdroj:"
 
 #: src/lib/Categories.js:68
 msgid "Sport"
-msgstr ""
+msgstr "Šport"
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"Posledné, čo vieme je, že  ${ translatedEquipmentCategory } bola ${ "
+"lastStatus } dňa ${ dateString }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
-msgstr ""
+msgstr "Toto miesto neexistuje."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:54
 msgid "The place is in the wrong position."
-msgstr ""
+msgstr "Toto miesto má nesprávnu polohu."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:29
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
+"Toto miesto je označené ako ‘${ accessibilityDescription }’, ale toto "
+"označenie je nesprávne!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:36
 msgid "The place’s toilet status is wrong or missing."
-msgstr ""
+msgstr "Stav WC na tomto mieste je nesprávny alebo chýba."
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
 msgid "This means:"
-msgstr ""
+msgstr "Toto znamená:"
 
 #: src/lib/Categories.js:58
 msgid "Tourism"
-msgstr ""
+msgstr "Cestovný ruch"
 
 #: src/lib/Categories.js:52
 msgid "Transport"
-msgstr ""
+msgstr "Doprava"
 
 #: src/components/MainMenu/strings.js:9
 msgid "Travel guide"
-msgstr ""
+msgstr "Cestovný sprievodca"
 
 #: src/lib/Feature.js:284
 msgid "Unknown"
-msgstr ""
+msgstr "Neznámy"
 
 #: src/lib/Feature.js:269
 msgid "Unknown status"
-msgstr ""
+msgstr "Neznámy stav"
 
 #: src/components/SearchToolbar/SearchResults.js:207
 msgid "Unnamed"
-msgstr ""
+msgstr "Bez mena"
 
 #: src/lib/EquipmentInfo.js:82
 msgid "Unnamed facility"
-msgstr ""
+msgstr "Zariadenie bez mena"
 
 #: src/lib/Feature.js:327
 msgid "Unnamed place"
-msgstr ""
+msgstr "Miesto bez názvu"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
 msgstr ""
+"Použite odkaz nižšie na zobrazenie a upravovanie podrobností o mieste."
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Wheelchair Accessibility"
-msgstr ""
+msgstr "Prístupnosť pre vozíčkarov"
 
 #: src/components/FilterToolbar/FilterToolbar.js:209
 msgid "Wheelchair Accessibility Filter"
-msgstr ""
+msgstr "Filter prístupnosti pre vozíčkarov"
 
 #: src/lib/Feature.js:320
 msgid "Wheelchair-height toilet seat"
-msgstr ""
+msgstr "Sedadlo WC s výškou vozíčka"
 
 #: src/components/Onboarding/Onboarding.js:48
 msgid "Wheelmap start screen"
-msgstr ""
+msgstr "Začiatočná obrazovka na stránke wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr ""
+"Stránka Wheelmap používa na zobrazenie miest údaje z mapy OpenStreetMap."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
 msgid "Wheelmap.org"
-msgstr ""
+msgstr "Wheelmap.org"
 
 #: src/components/FilterToolbar/FilterToolbar.js:171
 msgid "Which places do you want to find?"
-msgstr ""
+msgstr "Aké miesta chcete nájsť?"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:17
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
 msgid "Yes"
-msgstr ""
+msgstr "Áno"
 
 #: src/components/NodeToolbar/Report/strings.js:15
 msgid "You can change this place’s position on OpenStreetMap."
-msgstr ""
+msgstr "Môžete zmeniť polohu tohto miesta na mape OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
-msgstr ""
+msgstr "Neexustujúce miesta môžete odstrániť z mapy OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problém s ${ placeName } na stránke Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problém s ${ categoryName } na stránke Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problém s miestom na stránke Wheelmap"
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
-msgstr ""
+msgstr "výťah"
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
-msgstr ""
+msgstr "eskalátor"
 
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
-msgstr ""
+msgstr "zariadenie"
 
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
-msgstr ""
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
+msgstr "v prevádzke"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
-msgstr ""
+msgstr "mimo prevádzky"
 
 #: src/lib/EquipmentInfo.js:143
 msgid "today"
-msgstr ""
+msgstr "dnes"
 
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
-msgstr ""
+msgstr "neznámy stav"
 
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
-msgstr ""
+msgstr "včera"

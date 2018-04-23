@@ -103,10 +103,6 @@ msgstr ", ve  "
 msgid ", or "
 msgstr ", veya "
 
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr "Proje"
-
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
 msgstr "Erişilebilirlik Filtresi İletişim Kutusu"
@@ -375,7 +371,7 @@ msgstr "Son güncelleme ${ dateString }."
 msgid "Leisure"
 msgstr "Boş vakit"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr "Harita"
 
@@ -643,16 +639,6 @@ msgstr "tesis"
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "çalışır durumda"
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
-"harita verisi &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"katkıda bulunanlar, <a href=\"http://creativecommons.org/licenses/by-sa/2.0"
-"/\">CC-BY-SA</a>, Görüntüler © <a href=\"http://mapbox.com\">Mapbox</a>"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"

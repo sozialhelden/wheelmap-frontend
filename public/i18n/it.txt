@@ -1,6 +1,8 @@
-# 
+# Translators:
+# Developers, 2018
 msgid ""
 msgstr ""
+"Last-Translator: Developers, 2018\n"
 "Language-Team: Italian (https://www.transifex.com/sozialhelden/teams/16671/it/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: it\n"
@@ -8,75 +10,79 @@ msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr ""
+msgstr "e"
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr ""
+msgstr "oppure"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
 msgid "${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "${ categoryName } su Wheelmap"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ascensore rotto"
+msgstr[1] "${ count } ascensori rotti"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } montacarichi rotto"
+msgstr[1] "${ count } montacarichi rotti"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ascensori con stato sconosciuto"
+msgstr[1] "${ count } ascensori con stato sconosciuto"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } montacarichi con stato sconosciuto"
+msgstr[1] "${ count } montacarichi con stato sconosciuto"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } ascensore funzionante"
+msgstr[1] "${ count } ascensori funzionanti"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } montacarichi funzionante"
+msgstr[1] "${ count } montacarichi fuzionanti"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
-msgstr ""
+msgstr "${ placeName } su Wheelmap.org"
 
 #: src/components/SearchToolbar/CategoryButton.js:60
 msgid "${ props.name } Filter"
-msgstr ""
+msgstr "${ props.name } Filtro"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr ""
+msgstr "${ sharedObjectTitle }\\n\\nClicca su questo link per aprirlo: ${ url }"
 
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
 msgstr ""
+"(Attenzione, è possibile che dopo le modifiche possa passare un po' di tempo"
+" prima dell'aggiornamento su Wheelmap.)"
 
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
 " until the place is updated on Wheelmap.)"
 msgstr ""
+"(Tenere presente che prima di poter fare questo è necessario accedere, e che"
+" potrebbe passare del tempo prima che il luogo venga aggiornato su Wheelmap)"
 
 #: src/components/NodeToolbar/Report/strings.js:40
 msgid ""
@@ -84,560 +90,566 @@ msgid ""
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
+"(Scrivere solo in inglese o tedesco)\\n\\nSalve Sozialhelden,\\n\\nqualcosa "
+"non va con questo luogo: ${ url }\\n\\nil problema è:\\n\\nBrowser:\\n\\n${ "
+"navigator.userAgent }"
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
-msgstr ""
+msgstr ", e"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ""
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr ""
+msgstr ", o"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
-msgstr ""
+msgstr "Dialogo Filtro Accessibilità"
 
 #: src/lib/Feature.js:322
 msgid "Accessible hand basin"
-msgstr ""
+msgstr "Lavandino accessibile"
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
-msgstr ""
+msgstr "Aggiungi luogo mancante"
 
 #: src/components/NodeToolbar/NodeFooter.js:129
 msgid "Add toilet status"
-msgstr ""
+msgstr "Aggiungi stato servizi"
 
 #: src/components/FilterToolbar/FilterToolbar.js:174
 msgid "All"
-msgstr ""
+msgstr "tutto"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
-msgstr ""
+msgstr "Tutte gli ascensori e montacarichi"
 
 #: src/components/FilterToolbar/FilterToolbar.js:177
 msgid "At least partially wheelchair accessible"
-msgstr ""
+msgstr "Almeno parzialmente accessibile in sedia a rotelle"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Back"
-msgstr ""
+msgstr "Indietro"
 
 #: src/components/NodeToolbar/NodeFooter.js:116
 msgid "Bonus karma points!"
-msgstr ""
+msgstr "Punti Karma bonus!"
 
 #: src/components/NodeToolbar/PhoneNumberLink.js:13
 msgid "Call ${ phoneNumber }"
-msgstr ""
+msgstr "Chiama ${ phoneNumber }"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
 msgid "Cancel"
-msgstr ""
+msgstr "Cancella"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
 msgid "Change"
-msgstr ""
+msgstr "Cambia"
 
 #: src/components/FilterToolbar/FilterButton.js:97
 msgid "Change which places are shown on the map"
-msgstr ""
+msgstr "Cambia i luoghi mostrati sulla mappa"
 
 #: src/components/CloseLink.js:49
 msgid "Clear Search"
-msgstr ""
+msgstr "Cancella Ricerca"
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 150 cm wide"
-msgstr ""
+msgstr "Spazio libero a terra maggiore o uguale a 150 centimetri"
 
 #: src/lib/Feature.js:319
 msgid "Clear floor space ≥ 59 inch wide"
-msgstr ""
+msgstr "Spazio libero a terra maggiore o uguale a 59 pollici"
 
 #: src/components/FilterToolbar/FilterToolbar.js:56
 msgid "Close Dialog"
-msgstr ""
+msgstr "Chiudi finestra di dialogo"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
 msgid "Collapse Share Menu"
-msgstr ""
+msgstr "Chiudi menu condivisione"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
 msgid "Confirm"
-msgstr ""
+msgstr "Conferma"
 
 #: src/components/MainMenu/strings.js:17
 msgid "Contact"
-msgstr ""
+msgstr "Contatta"
 
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid "Contact the Wheelmap support team"
-msgstr ""
+msgstr "Contatta il team di supporto di Wheelmap"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
 msgid "Continue"
-msgstr ""
+msgstr "Continua"
 
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
-msgstr ""
+msgstr "Dettagli"
 
 #: src/components/NodeToolbar/Report/strings.js:21
 msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
 "directly?"
 msgstr ""
+"Sapevi che puoi cambiare le informazioni su questo luogo direttamente da "
+"OpenStreetMap?"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
 msgid "Disruptions at this location"
-msgstr ""
+msgstr "Problemi in questo luogo"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 35 inch"
-msgstr ""
+msgstr "Larghezza interna della porta maggire o uguale a 35 pollici"
 
 #: src/lib/Feature.js:318
 msgid "Doorways’ inner width ≥ 90 cm"
-msgstr ""
+msgstr "Larghezza interna porta maggiore di 90 cm"
 
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
-msgstr ""
+msgstr "Modifica questo luogo su OpenStreetMap"
 
 #: src/lib/Categories.js:60
 msgid "Education"
-msgstr ""
+msgstr "Educazione"
 
 #: src/lib/Feature.js:298
 msgid "Entrance has a step or several steps, rooms are not accessible."
-msgstr ""
+msgstr "L'ingresso ha uno o più gradini, le stanze non sono accessibili."
 
 #: src/lib/Feature.js:296
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
 " steps."
 msgstr ""
+"L'entrata ha uno scalino con al massimo 7 cm /3 pollici di altezza, la "
+"maggior parte delle stanze non ha scalini."
 
 #: src/lib/Feature.js:293
 msgid "Entrance without steps, all rooms without steps."
-msgstr ""
+msgstr "Ingresso e stanze prive di scalini."
 
 #: src/components/NotFound/NotFound.js:44
 #: src/components/NotFound/NotFound.js:55
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
 msgid "Expand Share Menu"
-msgstr ""
+msgstr "Espandi menu condivisione"
 
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
 msgid "Find out about this place’s accessibility."
-msgstr ""
+msgstr "Scopri l'accessibilità di questo luogo."
 
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
-msgstr ""
+msgstr "Scopri come"
 
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
-msgstr ""
+msgstr "Trova luoghi accessibili in sedia a rotelle"
 
 #: src/lib/Feature.js:321
 msgid "Folding grab rails"
-msgstr ""
+msgstr "Corrimano pieghevoli"
 
 #: src/lib/Categories.js:50
 msgid "Food & Drinks"
-msgstr ""
+msgstr "Cibo e bevande"
 
 #: src/lib/Feature.js:278
 msgid "Fully"
-msgstr ""
+msgstr "Completamente"
 
 #: src/lib/Feature.js:263
 msgid "Fully wheelchair accessible"
-msgstr ""
+msgstr "Completamente accessibile in sedia a rotelle"
 
 #: src/components/MainMenu/strings.js:11
 msgid "Get involved"
-msgstr ""
+msgstr "Partecipa"
 
 #: src/lib/Feature.js:308
 msgid "Has a wheelchair accessible toilet."
-msgstr ""
+msgstr "Ha servizi accessibili in sedia a rotelle"
 
 #: src/lib/Categories.js:64
 msgid "Health"
-msgstr ""
+msgstr "Salute "
 
 #: src/components/Onboarding/Onboarding.js:30
 msgid "Help out by marking places!"
-msgstr ""
+msgstr "Aiuta segnando i luoghi!"
 
 #: src/components/MainMenu/MainMenu.js:151
 msgid "Home"
-msgstr ""
+msgstr "Casa"
 
 #: src/lib/Categories.js:56
 msgid "Hotels"
-msgstr ""
+msgstr "Hotel"
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
 msgid "How wheelchair accessible is this place?"
-msgstr ""
+msgstr "Quanto è accessibile in sedia a rotelle questo luogo?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
 msgid "I don’t know"
-msgstr ""
+msgstr "Non lo so"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
 msgid "I found a place on Wheelmap: ${ url }"
-msgstr ""
+msgstr "Ho trovato un posto su Wheelmap: ${ url }"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
 msgid "I found a place on Wheelmap…"
-msgstr ""
+msgstr "Ho scoperto un luogo su Wheelmap..."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
 msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr ""
+msgstr "Ho trovato questo posto su Wheelmap: ${ placeName }"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:42
 msgid "I have more information about this place."
-msgstr ""
+msgstr "Ho ulteriori informazioni su questo luogo"
 
 #: src/components/NodeToolbar/Report/strings.js:17
 msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
+"Se il luogo non è chiuso permanentemente, puoi segnalarlo come \"in disuso\""
+" su OpenStreetMap"
 
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
-msgstr ""
+msgstr "Impronta"
 
 #: src/components/NodeToolbar/NodeHeader.js:123
 msgid "Improve on ${ sourceNameString }"
-msgstr ""
+msgstr "Migliora su ${ sourceNameString }"
 
 #: src/components/NodeToolbar/NodeFooter.js:113
 msgid "Improve your karma!"
-msgstr ""
+msgstr "Migliora il tuo karma!"
 
 #: src/components/NodeToolbar/Report/strings.js:29
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
 msgstr ""
+"Informazioni su questo luogo sono state gentilmente offerte da un'altra "
+"organizzazione"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
 msgid "Is the toilet here wheelchair accessible?"
-msgstr ""
+msgstr "Il bagno di questo luogo è accessibile in sedia a rotelle?"
 
 #: src/components/NodeToolbar/Report/strings.js:9
 msgid "Is there an issue with this place?"
-msgstr ""
+msgstr "Ci sono problemi con questo luogo?"
 
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr ""
+msgstr "Ultimo aggiornamento ${ dateString }."
 
 #: src/lib/Categories.js:54
 msgid "Leisure"
-msgstr ""
+msgstr "Divertimento"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
-msgstr ""
+msgstr "Mappa"
 
 #: src/components/Onboarding/Onboarding.js:28
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
 msgstr ""
+"Segnala e trova luoghi accessibili alle sedie a rotelle in tutto il mondo e "
+"gratuitamente. È facile con il nostro sistema di semafori:"
 
 #: src/components/NodeToolbar/NodeFooter.js:107
 msgid "Mark this place"
-msgstr ""
+msgstr "Segna questo luogo"
 
 #: src/components/MainMenu/MainMenu.js:169
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: src/lib/Categories.js:70
 msgid "Misc"
-msgstr ""
+msgstr "Varie"
 
 #: src/lib/Categories.js:66
 msgid "Money"
-msgstr ""
+msgstr "Denaro"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:60
 msgid "My problem isn’t listed here…"
-msgstr ""
+msgstr "Il mio problema non è tra questi..."
 
 #: src/components/MainMenu/strings.js:13
 msgid "News"
-msgstr ""
+msgstr "Notizie"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:18
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: src/lib/Feature.js:310
 msgid "No wheelchair accessible toilet."
-msgstr ""
+msgstr "Nessun servizio accessibile in sedia a rotelle."
 
 #: src/lib/Feature.js:282
 msgid "Not at all"
-msgstr ""
+msgstr "Per niente"
 
 #: src/lib/Feature.js:267
 msgid "Not wheelchair accessible"
-msgstr ""
+msgstr "Non accessibile in sedia a rotelle"
 
 #: src/lib/Categories.js:62
 msgid "Official"
-msgstr ""
+msgstr "Ufficiale"
 
 #: src/components/Onboarding/Onboarding.js:32
 msgid "Okay, let’s go!"
-msgstr ""
+msgstr "Ok, andiamo!"
 
 #: src/components/FilterToolbar/FilterToolbar.js:183
 msgid "Only fully wheelchair accessible"
-msgstr ""
+msgstr "Solo completamente accessibili a sedie a rotelle"
 
 #: src/components/FilterToolbar/FilterToolbar.js:186
 msgid "Only show places with a wheelchair accessible toilet"
-msgstr ""
+msgstr "Mostra solo luoghi con servizi accessibili in sedia a rotelle"
 
 #: src/components/NodeToolbar/NodeHeader.js:121
 msgid "Open on ${ sourceNameString }"
-msgstr ""
+msgstr "Apri su ${ sourceNameString }"
 
 #: src/lib/Feature.js:280
 msgid "Partially"
-msgstr ""
+msgstr "Parzialmente"
 
 #: src/lib/Feature.js:265
 msgid "Partially wheelchair accessible"
-msgstr ""
+msgstr "Parzialmente accessibile in sedia a rotelle"
 
 #: src/components/FilterToolbar/FilterToolbar.js:180
 msgid "Places that I can contribute to"
-msgstr ""
+msgstr "Luoghi a cui posso contribuire"
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
-msgstr ""
+msgstr "Stampa"
 
 #: src/components/NodeToolbar/NodeToolbar.js:260
 msgid "Report an Issue"
-msgstr ""
+msgstr "Segnala un problema"
 
 #: src/components/NotFound/NotFound.js:48
 msgid "Return Home"
-msgstr ""
+msgstr "Ritorna alla Home"
 
 #: src/components/SearchToolbar/SearchInputField.js:49
 msgid "Search place or address"
-msgstr ""
+msgstr "Cerca luogo o indirizzo"
 
 #: src/components/SearchToolbar/SearchResults.js:265
 msgid "Search results"
-msgstr ""
+msgstr "Cerca risultati"
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
 msgid "Share"
-msgstr ""
+msgstr "Condividi"
 
 #: src/lib/Categories.js:48
 msgid "Shopping"
-msgstr ""
+msgstr "Shopping"
 
 #: src/components/NodeToolbar/Report/strings.js:37
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
-msgstr ""
+msgstr "Spiacenti! Scrivici in modo da aiutarci a risolvere il problema."
 
 #: src/components/NotFound/NotFound.js:46
 msgid "Sorry, that shouldn\\'t have happened!"
-msgstr ""
+msgstr "Spiacenti, non sarebbe dovuto succedere!"
 
 #: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Source:"
-msgstr ""
+msgstr "Fonte:"
 
 #: src/lib/Categories.js:68
 msgid "Sport"
-msgstr ""
+msgstr "Sport"
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
+"L'ultima nostra informazione è che questo ${ translatedEquipmentCategory } è"
+" stato ${ lastStatus } il ${ dateString }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:48
 msgid "The place does not exist."
-msgstr ""
+msgstr "Il luogo non esiste"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:54
 msgid "The place is in the wrong position."
-msgstr ""
+msgstr "Il luogo è nella posizione sbagliata."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:29
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
+"Il luogo è segnato come ‘${ accessibilityDescription }’, ma l'informazione è"
+" errata!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:36
 msgid "The place’s toilet status is wrong or missing."
-msgstr ""
+msgstr "Lo stato dei servizi è mancante o errato"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
 msgid "This means:"
-msgstr ""
+msgstr "Questo significa:"
 
 #: src/lib/Categories.js:58
 msgid "Tourism"
-msgstr ""
+msgstr "Turismo"
 
 #: src/lib/Categories.js:52
 msgid "Transport"
-msgstr ""
+msgstr "Trasporto"
 
 #: src/components/MainMenu/strings.js:9
 msgid "Travel guide"
-msgstr ""
+msgstr "Guida viaggi"
 
 #: src/lib/Feature.js:284
 msgid "Unknown"
-msgstr ""
+msgstr "Sconosciuto"
 
 #: src/lib/Feature.js:269
 msgid "Unknown status"
-msgstr ""
+msgstr "Stato sconosciuto"
 
 #: src/components/SearchToolbar/SearchResults.js:207
 msgid "Unnamed"
-msgstr ""
+msgstr "Senza nome"
 
 #: src/lib/EquipmentInfo.js:82
 msgid "Unnamed facility"
-msgstr ""
+msgstr "Edificio senza nome"
 
 #: src/lib/Feature.js:327
 msgid "Unnamed place"
-msgstr ""
+msgstr "Luogo senza nome"
 
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid "Use the link below for details about the place and editing."
-msgstr ""
+msgstr "Usa il link qui stotto per dettagli sul luogo e modifiche."
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Wheelchair Accessibility"
-msgstr ""
+msgstr "Accessibilità in sedia a rotelle"
 
 #: src/components/FilterToolbar/FilterToolbar.js:209
 msgid "Wheelchair Accessibility Filter"
-msgstr ""
+msgstr "Filtro Accessibilità in Sedia a Rotelle"
 
 #: src/lib/Feature.js:320
 msgid "Wheelchair-height toilet seat"
-msgstr ""
+msgstr "Seduta dei bagni ad altezza sedia a rotelle"
 
 #: src/components/Onboarding/Onboarding.js:48
 msgid "Wheelmap start screen"
-msgstr ""
+msgstr "Schermata iniziale di Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
-msgstr ""
+msgstr "Wheelmap usa dati da OpenStreetMap per mostrare i luoghi."
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
 msgid "Wheelmap.org"
-msgstr ""
+msgstr "Wheelmap.org"
 
 #: src/components/FilterToolbar/FilterToolbar.js:171
 msgid "Which places do you want to find?"
-msgstr ""
+msgstr "Queli luoghi desideri trovare?"
 
 #: src/components/NodeToolbar/AccessibilityDetails.js:17
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: src/components/NodeToolbar/Report/strings.js:15
 msgid "You can change this place’s position on OpenStreetMap."
-msgstr ""
+msgstr "Puoi cambiare la posizione di questo luogo su OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
-msgstr ""
+msgstr "Puoi rimuovere luoghi inesistenti su OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:44
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problema con ${ placeName } su Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problema con un ${ categoryName } su Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr ""
+msgstr "[Wheelmap] Problema con un luogo su Wheelmap"
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
-msgstr ""
+msgstr "ascensore"
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
-msgstr ""
+msgstr "montacarichi"
 
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
-msgstr ""
+msgstr "edificio"
 
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
-msgstr ""
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
+msgstr "in funzione"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
-msgstr ""
+msgstr "fuori servizio"
 
 #: src/lib/EquipmentInfo.js:143
 msgid "today"
-msgstr ""
+msgstr "oggi"
 
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
-msgstr ""
+msgstr "stato sconosciuto"
 
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
-msgstr ""
+msgstr "ieri"

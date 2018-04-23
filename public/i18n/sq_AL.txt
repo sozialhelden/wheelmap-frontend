@@ -93,10 +93,6 @@ msgstr ""
 msgid ", or "
 msgstr ""
 
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr ""
-
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
 msgstr ""
@@ -359,7 +355,7 @@ msgstr ""
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr ""
 
@@ -617,13 +613,6 @@ msgstr ""
 
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
-msgstr ""
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
 msgstr ""
 
 #: src/lib/EquipmentInfo.js:99

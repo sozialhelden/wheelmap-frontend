@@ -1,10 +1,10 @@
 # Translators:
+# Developers, 2018
 # Silke Georgi <silkemariageorgi@gmail.com>, 2018
 # Sebastian Felix Zappe <hypo@me.com>, 2018
-# Christoph, 2018
 msgid ""
 msgstr ""
-"Last-Translator: Christoph, 2018\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
 "Language-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: en_US\n"
@@ -25,14 +25,14 @@ msgstr "${ categoryName } on Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] "${ count } elevator out of service"
-msgstr[1] "${ count } elevators out of service"
+msgstr[0] "${ count } broken elevator"
+msgstr[1] "${ count } broken elevators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] "${ count } escalator out of service"
-msgstr[1] "${ count } escalators out of service"
+msgstr[0] "${ count } broken escalator"
+msgstr[1] "${ count } broken escalators"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
@@ -93,7 +93,7 @@ msgid ""
 "problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
 msgstr ""
 "(Please only write in English or German.)\\n\\nDear "
-"Sozialhelden,\\n\\nSomething about this place is wrong: ${ url }\\n\\nThe "
+"Sozialhelden,\\n\\nsomething about this place is wrong: ${ url }\\n\\nThe "
 "problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
 
 #: src/lib/getHumanEnumeration.js:24
@@ -103,10 +103,6 @@ msgstr ", and "
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr ", or "
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr "A project by"
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
@@ -232,7 +228,7 @@ msgstr "Education"
 #: src/lib/Feature.js:298
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
-"Entrance has a high step or several steps, none of the rooms is accessible."
+"Entrance has a high step or several steps, none of the rooms are accessible."
 
 #: src/lib/Feature.js:296
 msgid ""
@@ -379,7 +375,7 @@ msgstr "Last update ${ dateString }."
 msgid "Leisure"
 msgstr "Leisure"
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr "Map"
 
@@ -644,16 +640,6 @@ msgstr "facility"
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "in operation"
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"

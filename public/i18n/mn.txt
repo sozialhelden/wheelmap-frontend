@@ -24,38 +24,38 @@ msgstr "${ categoryName } Wheelmap дээр"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] "${ count } эвдэрсэн цахилгаан шат"
-msgstr[1] "${ count } эвдэрсэн цахилгаан шат"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] "${ count } эвдэрсэн урсдаг цахилгаан шат"
-msgstr[1] "${ count } эвдэрсэн урсдаг цахилгаан шат"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] "${ count } төлөв нь үл мэдэгдэх цахилгаан шат"
-msgstr[1] "${ count } төлөв нь үл мэдэгдэх цахилгаан шат"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] "${ count } төлөв нь үл мэдэгдэх урсдаг цахилгаан шат"
-msgstr[1] "${ count } төлөв нь үл мэдэгдэх урсдаг цахилгаан шат"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] "${ count } ажиллаж буй цахилгаан шат"
-msgstr[1] "${ count } ажиллаж буй цахилгаан шат"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] "${ count } ажиллаж буй урсдаг цахилгаан шат "
-msgstr[1] "${ count } ажиллаж буй урсдаг цахилгаан шат "
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
 msgid "${ placeName } on Wheelmap.org"
@@ -101,10 +101,6 @@ msgstr ", мөн"
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr ", эсвэл"
-
-#: src/components/Map/Map.js:277
-msgid "A project by"
-msgstr "Уг төсөл нь "
 
 #: src/components/FilterToolbar/FilterToolbar.js:196
 msgid "Accessibility Filter Dialog"
@@ -374,7 +370,7 @@ msgstr "Сүүлд хийгдсэн шинэчлэл ${ dateString }"
 msgid "Leisure"
 msgstr "Чөлөөт цаг "
 
-#: src/components/Map/Map.js:467
+#: src/components/Map/Map.js:459
 msgid "Map"
 msgstr "Газрын зураг "
 
@@ -644,17 +640,6 @@ msgstr "Байгууламж "
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "үйл ажиллагаа явагдаж байна"
-
-#: src/components/Map/Map.js:282
-msgid ""
-"map data &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> "
-"contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-"
-"BY-SA</a>, Imagery © <a href=\"http://mapbox.com\">Mapbox</a>"
-msgstr ""
-"газарзүйн мэдээлэл &хуулбар <a "
-"href=\"http://openstreetmap.org\">OpenStreetMap</a> хамтрагчид, <a "
-"href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, "
-"Зураглал <a href=\"http://mapbox.com\">Газарзүйн зураглалын хайрцаг</a>"
 
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
