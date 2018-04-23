@@ -416,7 +416,9 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   @media (max-height: 400px) {
-    padding: 2px 10px 10px 5px;
+    padding: 2px 10px 2px 10px;
+    padding-left: constant(safe-area-inset-left);
+    padding-left: env(safe-area-inset-left);
     &, button.menu {
       height: 44px;
     }

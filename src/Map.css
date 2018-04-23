@@ -6,7 +6,11 @@ body.is-touch-device .leaflet-filter-button {
   top: 0;
   top: constant(safe-area-inset-top);
   top: env(safe-area-inset-top);
+  right: 0;
+  right: constant(safe-area-inset-right);
+  right: env(safe-area-inset-right);
   margin-top: 110px;
+  margin-right: 10px;
 }
 
 @media (max-width: 1024px) {
@@ -15,6 +19,11 @@ body.is-touch-device .leaflet-filter-button {
     top: constant(safe-area-inset-top);
     top: env(safe-area-inset-top);
     margin-top: 50px;
+  }
+  .leaflet-control-container .leaflet-right {
+    right: 0px;
+    right: constant(safe-area-inset-right);
+    right: env(safe-area-inset-right);
   }
 }
 
@@ -357,9 +366,11 @@ body.is-touch-device .leaflet-filter-button {
 
 .mapbox-attribution-container {
   bottom: 0;
+  right: 0;
+  right: constant(safe-area-inset-right);
+  right: env(safe-area-inset-right);
   bottom: constant(safe-area-inset-bottom);
   bottom: env(safe-area-inset-bottom);
-  right: 0;
   position: absolute;
   display: block;
   padding: 5px 10px 5px 2px;
@@ -377,11 +388,7 @@ body.is-touch-device .leaflet-filter-button {
   height: 20px;
   width: 65px;
   left: 10px;
-  left: constant(safe-area-inset-left);
-  left: env(safe-area-inset-left);
   bottom: 10px;
-  bottom: constant(safe-area-inset-bottom);
-  bottom: env(safe-area-inset-bottom);
   text-indent: -9999px;
   z-index: 1000;
   overflow: hidden;
@@ -395,14 +402,20 @@ body.is-touch-device .leaflet-filter-button {
 
 @media (max-width: 500px), (max-height: 500px) {
   .mapbox-attribution-container {
-    font-size: 8px;
+    font-size: 9px;
     padding: 3px;
   }
   .mapbox-attribution-container .sozialhelden-logo-container {
     display: none;
   }
   .mapbox-wordmark {
-    left: 5px;
-    bottom: 3px;
+    left: 0;
+    bottom: 0;
+    left: constant(safe-area-inset-left);
+    left: env(safe-area-inset-left);
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    margin-left: 5px;
+    margin-bottom: 3px;
   }
 }
