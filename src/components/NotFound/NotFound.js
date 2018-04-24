@@ -15,7 +15,7 @@ type Props = {
   className: string,
   isVisible: boolean,
   onClose: (() => void),
-  errorText: ?string,
+  reason: ?string | Response | Error,
 }
 
 class NotFound extends React.Component<Props> {
@@ -36,13 +36,24 @@ class NotFound extends React.Component<Props> {
   }
 
   render() {
+    if (!this.props.isVisible) return null;
+
     const classList = [
       this.props.className,
       'not-found-page',
     ].filter(Boolean);
 
     // translator: Shown as header text on the error page.
-    const headerText = t`Error`;
+    const errorText = t`Error`;
+
+    // translator: Shown as header text on the error page when the URL is not found.
+    const notFoundText = t`It seems this place is not on Wheelmap.`;
+
+    const isNotFound = this.props.error &&
+      this.props.error instanceof Response &&
+      this.props.error.status === 404;
+    const headerText = isNotFound ? notFoundText : errorText;
+
     // translator: Shown as apology text / description on the error page.
     const apologyText = t`Sorry, that shouldn\'t have happened!`;
     // translator: Shown on the error page.
@@ -60,8 +71,8 @@ class NotFound extends React.Component<Props> {
           <h1 id="wheelmap-error-text">{headerText}</h1>
         </header>
 
-        {this.props.errorText ? <section>
-          <pre id="error-text">{this.props.errorText}</pre>
+        {this.props.error && !isNotFound ? <section>
+          <p id="error-text">{String(this.props.error)}</p>
         </section> : null}
 
         <section>

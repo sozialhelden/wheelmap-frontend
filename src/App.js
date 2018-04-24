@@ -183,7 +183,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const routeInformation = this.routeInformation(props);
     if (!routeInformation) {
-      this.setState({ isNotFoundVisible: true, lastError: null });
+      this.setState({ isNotFoundVisible: true, lastError: 'Route not found.' });
       return;
     }
 
@@ -290,7 +290,11 @@ class FeatureLoader extends React.Component<Props, State> {
       const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
       this.setState({ feature, lat, lon, fetching: false });
     }, (reason) => {
-      this.setState({ feature: null, fetching: false, isNotFoundVisible: true, lastError: reason });
+      let error = null;
+      if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
+        error = reason;
+      }
+      this.setState({ feature: null, fetching: false, isNotFoundVisible: true, lastError: error });
     });
   }
 
@@ -465,7 +469,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onClose={() => {
           this.setState({ isNotFoundVisible: false });
         }}
-        errorText={this.state.lastError}
+        error={this.state.lastError}
       />
     </div>);
   }
