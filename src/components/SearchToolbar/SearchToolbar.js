@@ -211,6 +211,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
       this.setState({ categoryMenuIsVisible: false, searchResults: null });
       if (this.input instanceof HTMLInputElement) {
         this.input.value = '';
+        this.input.blur();
       }
     }
   }
@@ -308,7 +309,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
             }}
             onBlur={() => {
               this.ensureFullVisibility();
-              setTimeout(() => this.setState({ searchFieldIsFocused: false }), 300);
+              setTimeout(() => {
+                this.setState({ searchFieldIsFocused: false });
+                this.ensureFullVisibility();
+              }, 300);
             }}
             onChange={(event) => {
               this.input = event.target;
