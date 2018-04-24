@@ -192,11 +192,18 @@ class Toolbar extends React.Component<Props, State> {
 
   getStops(): number[] {
     const minimalTopPosition = this.getMinimalTopPosition();
-    return uniq([
+    const stops = uniq([
       minimalTopPosition,
       Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
       this.state.viewportSize.height - (this.props.minimalHeight || 0),
     ]);
+    return stops;
+  }
+
+
+  isCollapsed() {
+    const stops = this.getStops();
+    return this.state.topOffset === stops[stops.length - 1];
   }
 
 
@@ -245,7 +252,21 @@ class Toolbar extends React.Component<Props, State> {
         aria-label={this.props.ariaLabel}
         aria-describedby={this.props.ariaDescribedBy}
       >
-        {(this.props.isSwipeable && !this.props.isModal) ? <div className="grab-handle" /> : null}
+        {(this.props.isSwipeable && !this.props.isModal) ?
+          <button
+            className="grab-handle"
+            aria-hidden="true"
+            onClick={() => {
+              if (this.isCollapsed()) {
+                this.ensureFullVisibility();
+              } else {
+                const stops = this.getStops();
+                const offset = stops[stops.length - 1];
+                this.setState({ lastTopOffset: offset, topOffset: offset });
+              }
+            }}
+            />
+          : null}
         {this.props.children}
       </section>
     </Swipeable>);
@@ -302,6 +323,8 @@ const StyledToolbar = styled(Toolbar)`
 
   .grab-handle {
     display: none;
+    border: none;
+    outline: none;
   }
 
 
@@ -311,17 +334,26 @@ const StyledToolbar = styled(Toolbar)`
     /* handle to signalize you can resize by swiping */
     border-top: white 8px solid;
     .grab-handle {
-      display: block;
-      position: absolute;
-      margin: -5px auto 0 auto;
-      top: 9px;
-      left: calc(50% - 20px);
-      width: 44px;
-      height: 5px;
-      border-radius: 2.5px;
-      background-color: rgba(0, 0, 0, 0.2);
-      margin-bottom: 0.5em;
+      margin: -10px 0 -20px 0;
+      padding: 15px;
       transform: translateZ(0);
+      position: relative;
+      width: 100%;
+      height: 10px;
+      display: block;
+      background-color: transparent;
+      &:before {
+        display: block;
+        position: absolute;
+        margin: 0 auto;
+        top: 0px;
+        left: calc(50% - 20px);
+        content: '';
+        width: 44px;
+        height: 5px;
+        border-radius: 2.5px;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
     }
   }
 
