@@ -157,7 +157,7 @@ body.is-touch-device .leaflet-filter-button {
 }
 
 .ac-big-icon-marker.animated {
-  animation: popUp 0.3s ease-out;
+  animation: popUp 0.15s ease-out;
 }
 
 .ac-big-icon-marker svg {
