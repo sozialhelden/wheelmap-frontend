@@ -6,6 +6,7 @@ import debounce from 'lodash/debounce';
 import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
+import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
@@ -51,6 +52,7 @@ const StyledToolbar = styled(Toolbar)`
   display: flex;
   flex-direction: column;
   padding: 0;
+  border-top: none;
 
   > header, .search-results {
     padding: 12px 15px 5px 15px;
@@ -83,6 +85,12 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   @media (max-width: 512px), (max-height: 512px) {
+    &.toolbar-iphone-x {
+      border-bottom:
+      input, input:focus {
+        background-color: white;
+      }
+    }
     &.search-field-is-focused {
       position: fixed;
       top: 0;
@@ -92,8 +100,12 @@ const StyledToolbar = styled(Toolbar)`
       left: 0;
       margin: 0;
       padding: 12px 15px;
-      padding: max(constant(safe-area-inset-top), 6px) max(constant(safe-area-inset-right), 15px) 12px max(constant(safe-area-inset-left), 15px);
-      padding: max(env(safe-area-inset-top), 6px) max(env(safe-area-inset-right), 15px) 12px max(env(safe-area-inset-left), 15px);
+      padding-right: max(constant(safe-area-inset-right), 15px);
+      padding-left: max(constant(safe-area-inset-left), 15px);
+      padding-right: max(env(safe-area-inset-right), 15px);
+      padding-left: max(env(safe-area-inset-left), 15px);
+      margin-top: constant(safe-area-inset-top);
+      margin-top: env(safe-area-inset-top);
       transform: translate3d(0, 0, 0) !important;
       z-index: 1000000000;
       border-radius: 0;
@@ -281,6 +293,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         minimalHeight={75}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         isSwipeable={false}
+        enableTransitions={false}
         role="search"
       >
         <header>

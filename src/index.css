@@ -34,11 +34,12 @@ body:before {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.75);
+  background-color: rgba(0, 0, 0, 0.25);
   height: 0;
   height: constant(safe-area-inset-top);
   height: env(safe-area-inset-top);
   z-index: 401;
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /*
