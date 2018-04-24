@@ -58,7 +58,7 @@ export default class MarkerIcon extends L.Icon {
         link,
       );
     }
-
+    link.style.touchAction = 'none';
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
       this.options.onClick(featureId, properties);
