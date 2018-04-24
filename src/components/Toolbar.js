@@ -201,9 +201,9 @@ class Toolbar extends React.Component<Props, State> {
   }
 
 
-  isCollapsed() {
+  isFullyExpanded() {
     const stops = this.getStops();
-    return this.state.topOffset === stops[stops.length - 1];
+    return this.state.topOffset === stops[0];
   }
 
 
@@ -223,7 +223,7 @@ class Toolbar extends React.Component<Props, State> {
     const { enableTransitions } = this.props;
     return {
       touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: (isSwiping || !enableTransitions) ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
+      transition: enableTransitions ? (isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`) : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
@@ -257,12 +257,12 @@ class Toolbar extends React.Component<Props, State> {
             className="grab-handle"
             aria-hidden="true"
             onClick={() => {
-              if (this.isCollapsed()) {
-                this.ensureFullVisibility();
-              } else {
+              if (this.isFullyExpanded()) {
                 const stops = this.getStops();
                 const offset = stops[stops.length - 1];
                 this.setState({ lastTopOffset: offset, topOffset: offset });
+              } else {
+                this.ensureFullVisibility();
               }
             }}
             />
@@ -292,8 +292,8 @@ const StyledToolbar = styled(Toolbar)`
   padding: 12px 15px 5px 15px;
 
   &.toolbar-iphone-x {
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
   }
 
   box-sizing: border-box;
@@ -304,7 +304,7 @@ const StyledToolbar = styled(Toolbar)`
   font-size: 16px;
   border-radius: 5px;
 
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
   background-color: ${colors.colorizedBackgroundColor};
   outline: none;
 
@@ -342,6 +342,7 @@ const StyledToolbar = styled(Toolbar)`
       height: 10px;
       display: block;
       background-color: transparent;
+      touch-action: none;
       &:before {
         display: block;
         position: absolute;

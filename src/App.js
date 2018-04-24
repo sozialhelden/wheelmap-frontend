@@ -384,7 +384,6 @@ class FeatureLoader extends React.Component<Props, State> {
         history={this.props.history}
         hidden={searchToolbarIsHidden}
         inert={searchToolbarIsInert}
-        enableTransitions={false}
         category={category}
         searchQuery={searchQuery}
         onChangeSearchQuery={(newSearchQuery) => {
