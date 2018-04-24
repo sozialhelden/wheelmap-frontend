@@ -2,10 +2,10 @@
 <widget id="org.wheelmap.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wheelmap</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Find wheelchair-accessible places.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="bugs@wheelmap.org" href="https://wheelmap.org">
+        Sozialhelden e.V.
     </author>
     <content src="index.html" />
     <access origin="https://wheelmap.org" />
@@ -14,6 +14,7 @@
     <access origin="https://api.mapbox.com" />
     <access origin="https://www.accessibility.cloud" />
     <access origin="https://photon.komoot.de" />
+    <access origin="http://localhost:3000" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
