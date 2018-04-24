@@ -1,6 +1,7 @@
 // @flow
 import { hsl } from 'd3-color';
 import uniq from 'lodash/uniq';
+import includes from 'lodash/includes';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import Swipeable from 'react-swipeable';
@@ -221,8 +222,11 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   render() {
+    const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
+    const isIphoneX = window.device && window.device.model && includes(xModels, window.device.model);
     const classNames = [
       'toolbar',
+      isIphoneX ? 'toolbar-iphone-x' : null,
       this.props.hidden ? 'toolbar-hidden' : null,
       this.props.isModal ? 'toolbar-is-modal' : null,
       this.props.className,
@@ -265,6 +269,11 @@ const StyledToolbar = styled(Toolbar)`
   }
   margin: 10px;
   padding: 12px 15px 5px 15px;
+
+  &.toolbar-iphone-x {
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
 
   box-sizing: border-box;
   z-index: 1001;
