@@ -19,6 +19,7 @@ type Props = {
   minimalHeight?: number,
   isSwipeable?: boolean,
   isModal?: boolean,
+  enableTransitions?: boolean,
 };
 
 
@@ -40,7 +41,8 @@ class Toolbar extends React.Component<Props, State> {
     minimalHeight: 130,
     isSwipeable: true,
     isModal: false,
-    role: ''
+    role: '',
+    enableTransitions: true,
   };
 
   props: Props;
@@ -210,9 +212,10 @@ class Toolbar extends React.Component<Props, State> {
 
     const defaultTransitions = 'opacity 0.3s ease-out';
     const isSwiping = this.state.isSwiping;
+    const { enableTransitions } = this.props;
     return {
       touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: isSwiping ? defaultTransitions : `${defaultTransitions}`,
+      transition: (isSwiping || !enableTransitions) ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
