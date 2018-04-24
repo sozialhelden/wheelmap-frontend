@@ -212,7 +212,7 @@ class Toolbar extends React.Component<Props, State> {
     const isSwiping = this.state.isSwiping;
     return {
       touchAction: lastTopOffset === 0 ? 'inherit' : 'none',
-      transition: isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`,
+      transition: isSwiping ? defaultTransitions : `${defaultTransitions}`,
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
