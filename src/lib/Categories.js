@@ -3,6 +3,7 @@
 import { globalFetchManager } from './FetchManager';
 import { t } from 'c-3po';
 import { translatedStringFromObject } from './i18n';
+import ResponseError from './ResponseError';
 
 export type ACCategory = {
   _id: string,
@@ -119,24 +120,33 @@ export default class Categories {
 
     const countryCode = navigator.language.substr(0, 2);
 
+    const responseHandler = (response) => {
+      if (!response.ok) {
+        // translator: Shown when there was an error while loading category data from the backend.
+        const errorText = t`Error while loading categories from server`;
+        throw new ResponseError(errorText, response);
+      }
+      return response.json();
+    };
+
     function acCategoriesFetch() {
       const url = `${options.accessibilityCloudBaseUrl}/categories.json?appToken=${options.accessibilityCloudAppToken}`;
       return globalFetchManager.fetch(url, { cordova: true })
-        .then(response => response.json())
+        .then(responseHandler)
         .then(json => Categories.generateSynonymCache(json.results || []));
     }
     
     function wheelmapCategoriesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
       return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true })
-        .then(response => response.json())
+        .then(responseHandler)
         .then(json => Categories.loadCategories(json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
       const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
       return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true })
-        .then(response => response.json())
+        .then(responseHandler)
         .then(json => Categories.loadCategories(json.node_types || []));
     }
 

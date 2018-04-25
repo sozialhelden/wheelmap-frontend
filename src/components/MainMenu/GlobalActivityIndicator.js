@@ -12,7 +12,10 @@ export default class GlobalActivityIndicator extends React.Component<void, State
   state = { isShown: false };
 
   updateState = debounce(() => {
-    this.setState({ isShown: globalFetchManager.isLoading() });
+    this.setState({
+      isShown: globalFetchManager.isLoading(),
+      lastError: globalFetchManager.lastError,
+    });
   }, 1000);
 
   componentDidMount() {

@@ -15,6 +15,7 @@
     <access origin="https://www.accessibility.cloud" />
     <access origin="https://photon.komoot.de" />
     <access origin="http://localhost:3000" />
+    <allow-navigation href="http://localhost:*/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -41,6 +42,10 @@
     <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
     <plugin name="cordova-plugin-browsersync" spec="~0.1.7" />
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>Location access is used to show where you are on the map.</string>
+    </edit-config>
     <engine name="android" spec="^7.0.0" />
     <engine name="ios" spec="^4.5.4" />
 </widget>

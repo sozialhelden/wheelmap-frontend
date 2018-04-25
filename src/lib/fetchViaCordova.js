@@ -61,10 +61,7 @@ export default function fetchViaCordova(url, options) {
 				}
 			};
       resolve(responseObject);
-    }, function(response) {
-      debugger
-      reject(response.error, response);
-    });
+    }, reject);
 	});
 }
 

@@ -4,6 +4,8 @@ import FeatureCache from './FeatureCache';
 import { convertResponseToWheelmapFeature } from '../Feature';
 import type { WheelmapFeature, WheelmapFeatureCollection } from '../Feature';
 import config from '../config';
+import { t } from 'c-3po';
+import ResponseError from '../ResponseError';
 
 export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, WheelmapFeatureCollection> {
   static fetchFeature(id): Promise<Response> {
@@ -15,6 +17,11 @@ export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, 
   }
 
   static getFeatureFromResponse(response): Promise<WheelmapFeature> {
+    if (!response.ok) {
+      // translator: Shown when there was an error while loading a place.
+      const errorText = t`Could not load this place.`;
+      throw new ResponseError(errorText, response);
+    }
     return response.json().then(responseJson => convertResponseToWheelmapFeature(responseJson.node));
   }
 }

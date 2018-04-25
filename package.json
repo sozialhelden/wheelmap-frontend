@@ -12,6 +12,7 @@
     "cordova-android": "^7.0.0",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-geolocation": "^4.0.1",
     "cors": "^2.8.1",
     "csp-parse": "0.0.2",
     "d3-color": "^1.0.3",
@@ -190,7 +191,8 @@
       },
       "cordova-plugin-wkwebview-engine": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-device": {}
+      "cordova-plugin-device": {},
+      "cordova-plugin-geolocation": {}
     },
     "platforms": [
       "android",

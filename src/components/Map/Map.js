@@ -45,6 +45,7 @@ type Props = {
   lon?: ?number,
   zoom?: ?number,
   onMoveEnd?: (({ zoom: number, lat: number, lon: number, bbox: L.LatLngBounds }) => void),
+  onError?: ((error: ?Error | string) => void),
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -235,6 +236,8 @@ export default class Map extends React.Component<Props, State> {
       map.on('moveend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
+    }).catch(error => {
+      this.props.onError(error);
     });
 
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
