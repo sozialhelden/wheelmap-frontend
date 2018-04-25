@@ -48,7 +48,7 @@ function Onboarding(props: Props) {
     ariaLabel={t`Wheelmap start screen`}
   >
     <header>
-      <Logo className="logo" ariaHidden={true}/>
+      <Logo className="logo" aria-hidden={true}/>
       <p id="wheelmap-claim-onboarding">{claim}</p>
     </header>
 
