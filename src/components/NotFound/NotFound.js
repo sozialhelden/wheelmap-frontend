@@ -1,6 +1,7 @@
 // @flow
 
 import { t } from 'c-3po';
+import get from 'lodash/get';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
@@ -49,15 +50,49 @@ class NotFound extends React.Component<Props> {
     // translator: Shown as header text on the error page when the URL is not found.
     const notFoundText = t`It seems this place is not on Wheelmap.`;
 
+    // translator: Shown when device is offline.
+    const offlineText = t`It seems we’re offline!`;
+
     const isNotFound = this.props.error &&
       this.props.error instanceof Response &&
       this.props.error.status === 404;
-    const headerText = isNotFound ? notFoundText : errorText;
+
+    debugger
+    const isOffline = get(this.props, 'error.response.status') === 3;
+
+    const shouldShowApology = !isNotFound && !isOffline;
+
+    let headerText = errorText;
+    if (isNotFound) headerText = notFoundText;
+    if (isOffline) headerText = offlineText;
 
     // translator: Shown as apology text / description on the error page.
     const apologyText = t`Sorry, that shouldn\'t have happened!`;
     // translator: Shown on the error page.
     const returnHomeButtonCaption = t`Return Home`;
+    // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
+    const retryCaption = t`Retry`;
+
+    const returnHomeLink = (
+      <Link
+        to="/"
+        className="button-cta-close focus-ring"
+        onClick={this.props.onClose}
+        onKeyDown={this.manageFocus}
+        ref={button => this.closeButton = findDOMNode(button)}
+      >
+        {returnHomeButtonCaption} <ChevronRight />
+      </Link>
+    );
+
+    const reloadButton = (
+      <button
+        className="button-cta-close focus-ring"
+        onClick={() => window.location.reload(true)}
+      >
+        {retryCaption}
+      </button>
+    );
 
     return (
       <ModalDialog
@@ -71,24 +106,16 @@ class NotFound extends React.Component<Props> {
           <h1 id="wheelmap-error-text">{headerText}</h1>
         </header>
 
-        {this.props.error && !isNotFound ? <section>
-          <p id="error-text">{String(this.props.error)}</p>
+        {this.props.error && !isNotFound && !isOffline ? <section>
+          <p id="error-text">{String(this.props.error).substring(0, 140)}</p>
         </section> : null}
 
-        <section>
+        {shouldShowApology ? <section>
           <p id="wheelmap-apology-text">{apologyText}</p>
-        </section>
+        </section> : null}
 
         <footer>
-          <Link
-            to="/"
-            className="button-cta-close focus-ring"
-            onClick={this.props.onClose}
-            onKeyDown={this.manageFocus}
-            ref={button => this.closeButton = findDOMNode(button)}
-          >
-            {returnHomeButtonCaption} <ChevronRight />
-          </Link>
+          {isOffline ? reloadButton : returnHomeLink}
         </footer>
       </ModalDialog>);
   }

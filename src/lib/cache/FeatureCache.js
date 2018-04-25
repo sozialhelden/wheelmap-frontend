@@ -4,6 +4,8 @@ import type { FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 import EventTarget, { CustomEvent } from '../EventTarget';
 import get from 'lodash/get';
+import { t } from 'c-3po';
+import ResponseError from '../ResponseError';
 
 type FeatureCacheEvent<T> = CustomEvent & {
   target: FeatureCache, // eslint-disable-line no-use-before-define
@@ -170,6 +172,11 @@ export default class FeatureCache<
   }
 
   static getFeatureFromResponse(response: Response): Promise<FeatureType> {
+    if (!response.ok) {
+      // translator: Shown when there was an error while loading a place.
+      const errorText = t`Could not load this place.`;
+      throw new ResponseError(errorText, response);
+    }
     return response.json();
   }
 

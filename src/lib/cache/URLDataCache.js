@@ -1,5 +1,7 @@
 // @flow
 import { globalFetchManager } from '../FetchManager';
+import { t } from 'c-3po';
+import ResponseError from '../ResponseError';
 
 
 // Provides a WhatWG-fetch-like API to make HTTP requests.
@@ -48,6 +50,11 @@ export default class URLDataCache<T> {
 
 
   static getDataFromResponse(response: Response): Promise<T> {
+    if (!response.ok) {
+      // translator: Shown when there was an error while loading a place.
+      const errorText = t`Error while loading data from server.`;
+      throw new ResponseError(errorText, response);
+    }
     return response.json();
   }
 

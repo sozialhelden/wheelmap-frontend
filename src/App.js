@@ -155,6 +155,10 @@ class FeatureLoader extends React.Component<Props, State> {
     updateTouchCapability();
   };
 
+  onError = (error) => {
+    this.setState({ isNotFoundVisible: true, lastError: error });
+  }
+
 
   async componentWillMount() {
     this.onHashUpdate();
@@ -440,6 +444,7 @@ class FeatureLoader extends React.Component<Props, State> {
         ref={(map) => { this.map = map; window.map = map; }}
         history={this.props.history}
         onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
+        onError={this.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}

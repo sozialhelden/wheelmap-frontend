@@ -138,7 +138,7 @@ msgstr ""
 msgid "Bonus karma points!"
 msgstr ""
 
-#: src/components/NodeToolbar/PhoneNumberLink.js:13
+#: src/components/NodeToolbar/PhoneNumberLink.js:8
 msgid "Call ${ phoneNumber }"
 msgstr ""
 
@@ -154,7 +154,7 @@ msgstr ""
 msgid "Change which places are shown on the map"
 msgstr ""
 
-#: src/components/CloseLink.js:49
+#: src/components/CloseLink.js:53
 msgid "Clear Search"
 msgstr ""
 
@@ -190,6 +190,11 @@ msgstr ""
 msgid "Continue"
 msgstr ""
 
+#: src/lib/cache/FeatureCache.js:177
+#: src/lib/cache/WheelmapFeatureCache.js:22
+msgid "Could not load this place."
+msgstr ""
+
 #: src/components/NodeToolbar/SourceLink.js:65
 msgid "Details"
 msgstr ""
@@ -217,6 +222,7 @@ msgid "Edit this place on OpenStreetMap"
 msgstr ""
 
 #: src/lib/Categories.js:60
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr ""
 
@@ -235,8 +241,29 @@ msgid "Entrance without steps, all rooms without steps."
 msgstr ""
 
 #: src/components/NotFound/NotFound.js:45
+#: src/components/NotFound/NotFound.js:47
+#: src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:56
+#: src/components/NotFound/NotFound.js:62
+#: src/components/NotFound/NotFound.js:65
+#: src/components/NotFound/NotFound.js:66
+#: src/components/NotFound/NotFound.js:67
+#: src/components/NotFound/NotFound.js:68
+#: src/components/NotFound/NotFound.js:75
+#: src/components/NotFound/NotFound.js:76
+#: src/components/NotFound/NotFound.js:77
+#: src/components/NotFound/NotFound.js:78
+#: src/components/NotFound/NotFound.js:79
+#: src/components/NotFound/NotFound.js:102
 msgid "Error"
+msgstr ""
+
+#: src/lib/Categories.js:126
+msgid "Error while loading categories from server"
+msgstr ""
+
+#: src/lib/cache/URLDataCache.js:55
+msgid "Error while loading data from server."
 msgstr ""
 
 #: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
@@ -264,6 +291,7 @@ msgid "Folding grab rails"
 msgstr ""
 
 #: src/lib/Categories.js:50
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr ""
 
@@ -284,6 +312,7 @@ msgid "Has a wheelchair accessible toilet."
 msgstr ""
 
 #: src/lib/Categories.js:64
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr ""
 
@@ -296,6 +325,7 @@ msgid "Home"
 msgstr ""
 
 #: src/lib/Categories.js:56
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr ""
 
@@ -355,11 +385,22 @@ msgstr ""
 msgid "Is there an issue with this place?"
 msgstr ""
 
+#: src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:50
+#: src/components/NotFound/NotFound.js:51
+msgid "It seems this place is not on Wheelmap."
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:54
+msgid "It seems we’re offline!"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr ""
 
 #: src/lib/Categories.js:54
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr ""
 
@@ -383,10 +424,12 @@ msgid "Menu"
 msgstr ""
 
 #: src/lib/Categories.js:70
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr ""
 
 #: src/lib/Categories.js:66
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr ""
 
@@ -403,6 +446,11 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+#: src/components/NotFound/NotFound.js:53
+#: src/components/NotFound/NotFound.js:54
+msgid "No internet connection"
+msgstr ""
+
 #: src/lib/Feature.js:310
 msgid "No wheelchair accessible toilet."
 msgstr ""
@@ -416,6 +464,7 @@ msgid "Not wheelchair accessible"
 msgstr ""
 
 #: src/lib/Categories.js:62
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr ""
 
@@ -455,7 +504,21 @@ msgstr ""
 msgid "Report an Issue"
 msgstr ""
 
+#: src/components/NotFound/NotFound.js:74
+msgid "Retry"
+msgstr ""
+
 #: src/components/NotFound/NotFound.js:49
+#: src/components/NotFound/NotFound.js:55
+#: src/components/NotFound/NotFound.js:58
+#: src/components/NotFound/NotFound.js:59
+#: src/components/NotFound/NotFound.js:60
+#: src/components/NotFound/NotFound.js:61
+#: src/components/NotFound/NotFound.js:68
+#: src/components/NotFound/NotFound.js:69
+#: src/components/NotFound/NotFound.js:70
+#: src/components/NotFound/NotFound.js:71
+#: src/components/NotFound/NotFound.js:72
 msgid "Return Home"
 msgstr ""
 
@@ -472,6 +535,7 @@ msgid "Share"
 msgstr ""
 
 #: src/lib/Categories.js:48
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr ""
 
@@ -480,6 +544,16 @@ msgid "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
 
 #: src/components/NotFound/NotFound.js:47
+#: src/components/NotFound/NotFound.js:53
+#: src/components/NotFound/NotFound.js:56
+#: src/components/NotFound/NotFound.js:57
+#: src/components/NotFound/NotFound.js:58
+#: src/components/NotFound/NotFound.js:59
+#: src/components/NotFound/NotFound.js:66
+#: src/components/NotFound/NotFound.js:67
+#: src/components/NotFound/NotFound.js:68
+#: src/components/NotFound/NotFound.js:69
+#: src/components/NotFound/NotFound.js:70
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr ""
 
@@ -488,6 +562,7 @@ msgid "Source:"
 msgstr ""
 
 #: src/lib/Categories.js:68
+#: src/lib/Categories.js:69
 msgid "Sport"
 msgstr ""
 
@@ -518,10 +593,12 @@ msgid "This means:"
 msgstr ""
 
 #: src/lib/Categories.js:58
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr ""
 
 #: src/lib/Categories.js:52
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr ""
 
