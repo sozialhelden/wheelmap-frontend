@@ -434,7 +434,7 @@ const StyledMainMenu = styled(MainMenu)`
     justify-content: space-between;
     align-items: center;
     /* padding: 0 15px 0 20px; */
-    padding: 9px 15px 11px 20px
+    padding: 9px 15px 11px 8px
   }
 
   &.is-loaded {
