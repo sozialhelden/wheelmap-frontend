@@ -25,7 +25,7 @@ import toPairs from 'lodash/toPairs';
 */
 
 export default function fetchViaCordova(url, options) {
-  if (!window.cordova) {
+  if (!window.cordova || !window.cordova.plugin) {
     throw new Error('This method should only be used inside a cordova app.');
   }
 
