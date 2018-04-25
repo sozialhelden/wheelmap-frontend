@@ -28,11 +28,7 @@ class CloseLink extends React.Component<Props> {
     }
     event.preventDefault();
     const params = getQueryParams();
-    if (window.cordova) {
-      this.props.history.push(`/beta?${queryString.stringify(params)}`);
-    } else {
-      this.props.history.push(`/beta#?${queryString.stringify(params)}`);
-    }
+    this.props.history.push({ pathname: '/beta', search: queryString.stringify(params) });
   }
 
   focus() {

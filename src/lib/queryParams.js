@@ -4,7 +4,11 @@ import queryString from 'query-string';
 import type { RouterHistory } from 'react-router-dom';
 
 export function getQueryParams() {
-  return queryString.parse(window.location.hash.replace(/^#?\/?\??/, ''));
+  const result = {};
+  if (window.location.hash.match(/\?/)) {
+    Object.assign(result, queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, '')));
+  }
+  return result;
 }
 
 
@@ -14,6 +18,7 @@ export function setQueryParams(history: RouterHistory, newParams: {}) {
   const keysToDelete = Object.keys(changedParams).filter(key => changedParams[key] === null);
   keysToDelete.forEach(key => delete changedParams[key]);
   const newString = queryString.stringify(changedParams);
-  const newHash = `#?${newString}`;
-  history.replace({ search: history.location.search, hash: newHash });
+  const location = { pathname: history.location.pathname, search: `?${newString}` };
+  const href = history.createHref(location);
+  history.replace(location);
 }

@@ -4,8 +4,6 @@ import unfetch from 'unfetch';
 export default function(url, options) {
 	options = options || {};
 
-	debugger
-
 	// If we're running in a cordova app and it has http, make our lives easier by using native HTTP
 	// connections.
 	if (window.cordova && options.cordova === true) {

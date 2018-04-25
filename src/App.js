@@ -133,8 +133,12 @@ class FeatureLoader extends React.Component<Props, State> {
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     const params = getQueryParams();
-    const href = hrefForFeature(featureId, properties);
-    this.props.history.push(`${href}#?${queryString.stringify(params)}`);
+    const pathname = hrefForFeature(featureId, properties);
+    // const newHref = `${href}${hashOrNothing}?${queryString.stringify(params)}`;
+    const location = { pathname, search: queryString.stringify(params) };
+    const newHref = this.props.history.createHref(location);
+    debugger
+    this.props.history.push(location);
   };
 
 
@@ -209,7 +213,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
 
   onHashUpdate = () => {
-    console.log("Restored state", savedState);
+    if (this.hashUpdateDisabled) return;
     let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
     if (savedState.map.lastZoom) {
       baseParams.zoom = savedState.map.lastZoom;
@@ -220,10 +224,10 @@ class FeatureLoader extends React.Component<Props, State> {
       baseParams.lon = lastCenter[1];
     }
 
-    const params = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
-    console.log('Hash updated:', params);
-
-    this.setState(params);
+    console.log("Previous state:", baseParams);
+    const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
+    console.log('Next state:', nextState);
+    this.setState(nextState);
   }
 
 
@@ -545,6 +549,7 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 
 function App() {
   const Router = window.cordova ? HashRouter : BrowserRouter;
+  // const Router = HashRouter;
 
   return (<Router>
     <Route path="/" component={StyledFeatureLoader} />
