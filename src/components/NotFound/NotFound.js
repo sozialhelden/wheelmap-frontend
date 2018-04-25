@@ -57,7 +57,6 @@ class NotFound extends React.Component<Props> {
       this.props.error instanceof Response &&
       this.props.error.status === 404;
 
-    debugger
     const isOffline = get(this.props, 'error.response.status') === 3;
 
     const shouldShowApology = !isNotFound && !isOffline;
