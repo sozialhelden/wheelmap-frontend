@@ -323,12 +323,12 @@ export default class Map extends React.Component<Props, State> {
     this.setState({ toiletFilter: props.toiletFilter });
 
     if (props.lat && props.lon) {
-      // const overriddenCoordinates = normalizeCoordinates([props.lat, props.lon]);
-      // if (!isSamePosition(overriddenCoordinates, [this.state.lat, this.state.lon])) {
-      //   console.log('Panning to', overriddenCoordinates, 'because params override existing state coordinates', [this.state.lat, this.state.lon]);
-      //   this.setState({ lat: overriddenCoordinates[0], lon: overriddenCoordinates[1] });
-      //   map.panTo(overriddenCoordinates);
-      // }
+      const overriddenCoordinates = normalizeCoordinates([props.lat, props.lon]);
+      if (!isSamePosition(overriddenCoordinates, [this.state.lat, this.state.lon])) {
+        console.log('Panning to', overriddenCoordinates, 'because params override existing state coordinates', [this.state.lat, this.state.lon]);
+        this.setState({ lat: overriddenCoordinates[0], lon: overriddenCoordinates[1] });
+        map.panTo(overriddenCoordinates);
+      }
     } else {
       const feature = props.feature;
       if (feature &&
