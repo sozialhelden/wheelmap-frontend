@@ -27,6 +27,8 @@ import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
+import ThumbnailList from './Photos/ThumbnailList';
+
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
@@ -88,6 +90,9 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
+const FullWidthSection = styled.div`
+  margin: 5px -15px -15px -15px;
+`;
 
 class NodeToolbar extends React.Component<Props, State> {
   props: Props;
@@ -334,7 +339,6 @@ class NodeToolbar extends React.Component<Props, State> {
             </a> : null }
 
 
-
             {(this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter
                   ref={nodeFooter => (this.nodeFooter = nodeFooter)}
@@ -367,6 +371,10 @@ class NodeToolbar extends React.Component<Props, State> {
             </button>}
 
             {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
+
+            {isWheelmapFeature && <FullWidthSection>
+              <ThumbnailList featureId={this.props.featureId} />
+            </FullWidthSection>}
 
             <p className="sources">
               {sourceIds.length ? `${sourceCaption} ` : null}
