@@ -21,6 +21,7 @@ import type { SearchResultFeature, SearchResultCollection } from '../../lib/sear
 
 type SearchResultProps = {
   result: SearchResultFeature,
+  history: RouterHistory,
   onSelect: (() => void),
   hidden: boolean,
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
@@ -192,11 +193,11 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     const feature = this.getFeature();
     const coordinates = normalizedCoordinatesForFeature(feature);
     const wheelmapId = feature && feature.properties && feature.properties.id;
-    const prefix = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
+    const pathname = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
     const hasWheelmapId = Boolean(wheelmapId);
     const zoom = getZoomLevel(hasWheelmapId);
-    const suffix = coordinates ? `#?zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
-    return `${prefix}${suffix}`;
+    const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
+    return this.props.history.createHref({ pathname, search });
   }
 
 
@@ -253,6 +254,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
 
 type Props = {
   searchResults: SearchResultCollection,
+  history: RouterHistory,
   className: string,
   onSelect: (() => void),
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
@@ -269,6 +271,7 @@ function SearchResults(props: Props) {
       onSelect={props.onSelect}
       onSelectCoordinate={props.onSelectCoordinate}
       hidden={props.hidden}
+      history={props.history}
     />))}
   </ul>);
 }

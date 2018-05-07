@@ -333,6 +333,8 @@ class NodeToolbar extends React.Component<Props, State> {
               {placeName}
             </a> : null }
 
+
+
             {(this.props.featureId && isWheelmapFeature) ? (
                 <NodeFooter
                   ref={nodeFooter => (this.nodeFooter = nodeFooter)}
