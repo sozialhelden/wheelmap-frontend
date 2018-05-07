@@ -376,6 +376,7 @@ body.is-touch-device .leaflet-filter-button {
   padding: 5px 10px 5px 2px;
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.8);
+  -webkit-backgrop: filter(10px);
 }
 
 .mapbox-attribution-container .sozialhelden-logo {
