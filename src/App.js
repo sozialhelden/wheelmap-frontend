@@ -137,7 +137,6 @@ class FeatureLoader extends React.Component<Props, State> {
     // const newHref = `${href}${hashOrNothing}?${queryString.stringify(params)}`;
     const location = { pathname, search: queryString.stringify(params) };
     const newHref = this.props.history.createHref(location);
-    debugger
     this.props.history.push(location);
   };
 

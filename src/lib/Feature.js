@@ -125,6 +125,24 @@ export type AccessibilityCloudFeatureCollection = FeatureCollection<Accessibilit
 export type WheelmapFeatureCollection = FeatureCollection<WheelmapFeature>;
 export type WheelmapLightweightFeatureCollection = FeatureCollection<WheelmapLightweightFeature>;
 
+export type WheelmapImage = {
+  type: string,
+  width: number,
+  height: number,
+  url: string,
+};
+
+export type WheelmapPhoto = {
+  id: number,
+  taken_on: number,
+  images: WheelmapImage[],
+};
+
+export type WheelmapFeaturePhotos = {
+  photos: WheelmapPhoto[],
+};
+
+
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 

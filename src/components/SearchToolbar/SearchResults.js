@@ -219,7 +219,8 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     const accessibility = isWheelchairAccessible(wheelmapFeatureProperties);
     const href = this.getHref();
     const hasWheelmapId = Boolean(wheelmapFeature);
-    const isHashLink = !hasWheelmapId;
+    const isHashLink = false;
+
     return (<li>
       <HashLinkOrRouterLink
         to={href}

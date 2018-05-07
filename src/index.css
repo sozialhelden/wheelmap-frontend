@@ -66,3 +66,7 @@ focus ring in the latter case.
   height:1px;
   overflow:hidden;
 }
+
+#lightboxBackdrop {
+  -webkit-backdrop-filter: blur(20px);
+}
