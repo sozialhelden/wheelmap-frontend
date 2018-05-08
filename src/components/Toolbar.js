@@ -39,7 +39,7 @@ type State = {
 class Toolbar extends React.Component<Props, State> {
   static defaultProps = {
     hidden: false,
-    minimalHeight: 130,
+    minimalHeight: 145,
     isSwipeable: true,
     isModal: false,
     role: '',
