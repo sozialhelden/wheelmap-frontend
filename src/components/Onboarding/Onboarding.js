@@ -153,7 +153,7 @@ const StyledOnboarding = styled(Onboarding)`
       @media (max-width: 768px) {
         margin: 10px 0 !important;
       }
-      @media (max-width: 400px) {
+      @media (max-width: 414px) {
         flex-direction: column !important;
       }
 
@@ -166,17 +166,24 @@ const StyledOnboarding = styled(Onboarding)`
         align-items: center;
         text-align: center;
         background-color: transparent;
+        overflow-x: hidden;
+        overflow-wrap: break-word;        
 
-        @media (max-width: 400px) {
+        @media (max-width: 414px) {
           height: 4em;
           flex-direction: row !important;
           text-align: left !important;
           padding: 0 10px !important;
+
           figure {
             margin-right: 10px;
             width: 40px;
             height: 40px;
           }
+        }
+
+        &:not(:last-child) {
+          margin-right: 5px;
         }
 
         figure {
@@ -205,6 +212,7 @@ const StyledOnboarding = styled(Onboarding)`
 
         header {
           margin-bottom: 10px;
+          max-width: 100%;
           @media (max-width: 768px) {
             margin-bottom: 0px !important;
             flex: 1;
