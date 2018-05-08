@@ -7472,12 +7472,6 @@ react-photo-gallery@^6.0.25:
   dependencies:
     prop-types "~15.6.0"
 
-react-portal@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-4.1.5.tgz#6665d4d2a92d47d6f8b07a6529e26fc52d5cccde"
-  dependencies:
-    prop-types "^15.5.8"
-
 react-prop-toggle@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-prop-toggle/-/react-prop-toggle-1.0.2.tgz#8b0b7e74653606b1427cfcf6c4eaa9198330568e"
