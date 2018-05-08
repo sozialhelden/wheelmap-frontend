@@ -124,8 +124,9 @@ export default class Map extends React.Component<Props, State> {
   createMarkerClusterGroup() {
     return new L.MarkerClusterGroup({
       maxClusterRadius(zoom) {
-        const radius = 15 + (((1.5 ** (18 - zoom)) - 1) * 10);
-        return Math.round(Math.max(15, Math.min(radius, 120)));
+        // choose cluster size dependant of the click region
+        const radius = 40 + (((1.5 ** (18 - zoom)) - 1) * 10);
+        return Math.round(Math.max(40, Math.min(radius, 120)));
       },
       iconCreateFunction(cluster) {
         const propertiesArray = cluster
