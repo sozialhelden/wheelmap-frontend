@@ -10,6 +10,8 @@ import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
+import Icon from '../../Icon';
+import getIconNameForProperties from '../../Map/getIconNameForProperties';
 
 type Props = {
   featureId: number,
@@ -141,6 +143,10 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
     const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
 
+    const properties = this.props.feature.properties;
+    const categoryId = properties && ((properties.node_type && properties.node_type.identifier) || properties.category);
+    const category = categoryId ? { _id: categoryId } : { _id: 'other' };
+
     return (
       <section
         className={classList.join(' ')}
@@ -170,6 +176,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
                   this.toBeFocusedRadioButton = radioButton;
                 }
               }}
+              children={<Icon accessibility={value} category={category} size='small' withArrow shadowed />}
               shownValue={value}
               currentValue={wheelchairAccessibility}
               caption={shortAccessibilityName(value)}
@@ -208,6 +215,12 @@ const StyledWheelchairStatusEditor = styled(WheelchairStatusEditor)`
     flex-direction: row;
     align-items: stretch;
     justify-content: space-between;
+  }
+
+  figure {
+    margin-right: 8px;
+    top: 0;
+    left: 0;
   }
 `;
 

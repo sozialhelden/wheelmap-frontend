@@ -80,14 +80,6 @@ const StyledRadioGroup = styled(RadioGroup)`
       opacity: 0;
       box-sizing: border-box;
     }
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      margin-right: 8px;
-    }
     .radio-button {
       margin-right: 8px;
 
