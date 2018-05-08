@@ -179,6 +179,11 @@ const StyledOnboarding = styled(Onboarding)`
           }
         }
 
+        figure {
+          top: 0;
+          left: 0;
+        }
+
         &.ac-marker-yes {
           color: ${colors.positiveColorDarker};
         }
