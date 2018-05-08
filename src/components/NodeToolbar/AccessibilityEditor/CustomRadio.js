@@ -12,6 +12,7 @@ type Props = {
   shownValue: string,
   description: ?string,
   caption: ?string,
+  children: ?React.Node,
 };
 
 type State = {
@@ -59,6 +60,7 @@ export default class CustomRadio extends React.Component<Props, State> {
           aria-label={this.props.caption}
         />
         <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} aria-hidden={true}/>
+        {this.props.children}
         <span className="caption" aria-hidden={true}>{this.props.caption}</span>
       </header>
       {this.props.description ? <footer>{this.props.description}</footer> : null}
