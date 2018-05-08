@@ -79,6 +79,7 @@ class ThumbnailList extends React.Component<Props, State> {
         <Gallery
           photos={this.state.photos}
           onClick={this.openLightbox}
+          columns={Math.min(this.state.photos.length, 3)}
         />
         <Lightbox images={this.state.photos}
           onClose={this.closeLightbox}
