@@ -41,6 +41,9 @@ const StyledIconContainer = styled('figure')`
   height: ${props => width(props.size)}px;
   font-size: ${props => width(props.size)}px;
   line-height: 1;
+  
+  left: calc(50% - ${props => width(props.size)/2}px);
+  top: calc(50% - ${props => width(props.size)/2}px);
 
   svg {
     position: absolute;
