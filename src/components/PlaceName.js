@@ -16,6 +16,8 @@ const PlaceName = styled.h1`
   figure {
     margin-right: 5px;
     margin-left: -5px;
+    left: 0;
+    top: 0;
   }
 `;
 
