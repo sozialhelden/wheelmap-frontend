@@ -364,6 +364,7 @@ msgid "Leisure"
 msgstr ""
 
 #: src/components/Map/Map.js:459
+#: src/components/Map/Map.js:460
 msgid "Map"
 msgstr ""
 

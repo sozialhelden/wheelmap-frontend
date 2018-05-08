@@ -226,6 +226,8 @@ export default class Map extends React.Component<Props, State> {
         maxZoom: this.props.maxZoom,
       });
     });
+    // ensure that the map property is set so that wmp can inject places immediately
+    this.accessibilityCloudTileLayer._map = this.map;
 
 
     Categories.fetchOnce(this.props).then(() => {
