@@ -22,10 +22,11 @@ platform :ios do
   lane :beta do
     # ensure_git_branch branch: 'master'
     match(type: "appstore")
-    increment_version_number_in_plist(xcodeproj: xcodeproj)
-    increment_build_number_in_plist(xcodeproj: xcodeproj)
-    commit_version_bump(xcodeproj: xcodeproj)
-    push_to_git_remote
+    # increment_version_number_in_plist(xcodeproj: xcodeproj)
+    # increment_build_number_in_plist(xcodeproj: xcodeproj)
+    # commit_version_bump(xcodeproj: xcodeproj)
+    # push_to_git_remote
+    ensure_git_status_clean
     cordova(platform: 'ios')
     ensure_git_status_clean
     zip(

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wheelmap</name>
     <description>
         Find wheelchair-accessible places.
@@ -40,6 +40,7 @@
         <string>Location access is used to show where you are on the map.</string>
     </edit-config>
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <hook src="scripts/incrementBuildNum.js --inc-version" type="before_prepare" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="~7.0.0" />
 </widget>
