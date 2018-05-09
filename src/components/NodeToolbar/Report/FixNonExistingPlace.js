@@ -1,41 +1,51 @@
 // @flow
 import * as React from 'react';
 import strings from './strings';
-import generateOsmEditUrl from './generateOsmEditUrl';
+import { generateOsmEditUrl, generateOsmNoteUrl } from './generateOsmUrls';
+import type { Feature } from '../../../lib/Feature';
 
 
 type Props = {
+  feature: Feature,
   featureId: number,
   onClose: (() => void),
 };
 
 
 export default class ReportProblemButton extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-
-    this.trapFocus = this.trapFocus.bind(this);
-  }
+  howToLink: ?HTMLElement
+  editLink: ?HTMLElement
+  noteLink: ?HTMLElement
+  backButton: ?HTMLElement
 
   componentDidMount() {
-    this.editLink.focus();
+    this.editLink && this.editLink.focus();
   }
 
-  trapFocus({nativeEvent}) {
+  trapFocus = ({nativeEvent}: {nativeEvent: Event}) => {
     if (nativeEvent.target === this.howToLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.backButton.focus();
+      this.editLink && this.editLink.focus();
+    }
+    if (nativeEvent.target === this.editLink && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.noteLink && this.noteLink.focus();
+    }
+    if (nativeEvent.target === this.noteLink && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton && this.backButton.focus();
     }
     if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.howToLink.focus();
+      this.howToLink && this.howToLink.focus();
     }
   }
 
   render() {
     if (!this.props.featureId) return null;
 
-    const url = generateOsmEditUrl(this.props.featureId);
+    const editUrl = generateOsmEditUrl(this.props.featureId);
+    const noteUrl = generateOsmNoteUrl(this.props.feature);
 
     const {
       osmRemoveHint,
@@ -43,6 +53,7 @@ export default class ReportProblemButton extends React.Component<Props> {
       osmPermanentlyClosedHowtoLinkCaption,
       osmLoginHint,
       editButtonCaption,
+      noteButtonCaption,
       backButtonCaption,
     } = strings();
 
@@ -61,8 +72,20 @@ export default class ReportProblemButton extends React.Component<Props> {
           </a>
         )</p>
         <p className="subtle" id="osm-login-hint">{osmLoginHint}</p>
-        <a href={url} className="link-button" ref={editLink => this.editLink = editLink} onKeyDown={this.trapFocus}>
+        <a 
+          href={editUrl} 
+          className="link-button" 
+          ref={editLink => this.editLink = editLink} 
+          onKeyDown={this.trapFocus}>
           {editButtonCaption}
+        </a>
+        <a
+          href={noteUrl}
+          className="link-button"
+          ref={noteLink => this.noteLink = noteLink}
+          onKeyDown={this.trapFocus}
+        >
+          {noteButtonCaption}
         </a>
         <button
           className="link-button negative-button"
