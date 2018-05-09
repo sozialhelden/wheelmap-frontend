@@ -20,7 +20,7 @@ type Options = typeof L.Icon.options & {
 export default class MarkerIcon extends L.Icon {
   constructor(options: Options) {
     // increased tap region for icons, rendered size might differ
-    const size = 80;
+    const size = 60;
     const defaults = {
       number: '',
       shadowUrl: null,
@@ -30,6 +30,7 @@ export default class MarkerIcon extends L.Icon {
       tooltipAnchor: new L.Point(size * .5, size * .5 + 25),
       onClick: ((featureId: string, properties: ?NodeProperties) => {}),
       hrefForFeature: ((featureId: string) => null),
+      className: 'marker-icon',
     };
 
     super(Object.assign(defaults, options));

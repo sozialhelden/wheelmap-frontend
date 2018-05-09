@@ -112,11 +112,6 @@ body.is-touch-device .leaflet-filter-button {
   }
 }
 
-.marker-cluster {
-  background-clip: padding-box;
-  border-radius: 500px;
-}
-
 .ac-marker {
   border-radius: 10px;
   background-color: #e6e4e0;
@@ -154,6 +149,10 @@ body.is-touch-device .leaflet-filter-button {
   transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
   left: calc(50% - 30px);
   top: calc(50% - 30px);
+}
+
+.marker-icon {
+  border-radius: 100%;
 }
 
 .ac-big-icon-marker.animated {
@@ -247,6 +246,15 @@ body.is-touch-device .leaflet-filter-button {
   align-items: center;
 }
 
+/* increase click region of marker clusters */
+.ac-marker-cluster::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border: 25px transparent solid;
+  border-radius: 100%;
+}
 
 .ac-marker-cluster.over-fifty {
   margin-left: -13px !important;
