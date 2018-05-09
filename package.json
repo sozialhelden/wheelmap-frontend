@@ -1,7 +1,7 @@
 {
   "name": "wheelmap-react",
   "displayName": "Wheelmap",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "homepage": "https://wheelmap.org/beta/",
   "main": "lib/App.js",
   "license": "MIT",
@@ -129,7 +129,7 @@
     "build-staging": "REACT_APP_ENV=staging node scripts/build.js",
     "deploy-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "deploy-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",
-    "deploy-cordova-beta": "scripts/incrementBuildNum.js --inc",
+    "deploy-cordova-beta": "npm version patch; bundle exec fastlane ios beta --env=production",
     "version": "cordova-version-sync",
     "flow": "flow",
     "server": "server",
