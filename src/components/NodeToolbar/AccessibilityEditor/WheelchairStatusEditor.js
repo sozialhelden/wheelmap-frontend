@@ -11,7 +11,9 @@ import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLigh
 import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
 import Icon from '../../Icon';
+
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
+import Categories from '../../../lib/Categories';
 
 type Props = {
   featureId: number,
@@ -24,6 +26,7 @@ type Props = {
 
 type State = {
   wheelchairAccessibility: YesNoLimitedUnknown,
+  categoryId: string,
 };
 
 
@@ -32,14 +35,16 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
   state = {
     wheelchairAccessibility: 'unknown',
+    categoryId: 'other'
   };
 
   constructor(props) {
     super(props);
     const wheelchairAccessibility = this.wheelchairAccessibility(props);
     if (wheelchairAccessibility) {
-      this.state = { wheelchairAccessibility };
+      this.state = { wheelchairAccessibility, categoryId: 'other' };
     }
+    this.fetchCategory(this.props.feature);
 
     this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
     this.onRadioGroupKeyDown = this.onRadioGroupKeyDown.bind(this);
@@ -50,6 +55,28 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
       return null;
     }
     return props.feature.properties.wheelchair;
+  }
+
+  fetchCategory(feature: WheelmapFeature) {
+    if (!feature) {
+      return;
+    }
+    const properties = feature.properties;
+    if (!properties) {
+      return;
+    }
+
+    const categoryId =
+      (properties.node_type && properties.node_type.identifier) || properties.category;
+
+    if (!categoryId) {
+      return;
+    }
+
+    Categories.getCategory(categoryId).then(() => {
+      const iconId = getIconNameForProperties(properties);
+      this.setState({categoryId: iconId});
+    })
   }
 
   componentWillReceiveProps(props: Props) {
@@ -143,10 +170,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
     const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
 
-    const properties = this.props.feature.properties;
-    const categoryId = properties && ((properties.node_type && properties.node_type.identifier) || properties.category);
-    const category = categoryId ? { _id: categoryId } : { _id: 'other' };
-
     return (
       <section
         className={classList.join(' ')}
@@ -176,7 +199,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
                   this.toBeFocusedRadioButton = radioButton;
                 }
               }}
-              children={<Icon accessibility={value} category={category} size='small' withArrow shadowed />}
+              children={<Icon accessibility={value} category={{ _id: this.state.categoryId }} size='small' withArrow shadowed />}
               shownValue={value}
               currentValue={wheelchairAccessibility}
               caption={shortAccessibilityName(value)}
