@@ -60,9 +60,9 @@ platform :android do
       platform: 'android',
       keystore_path: '../certificates/keystores/sozialhelden.keystore',
       keystore_alias: 'sozialhelden',
-      keystore_password: 'password'
+      keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
     )
     ensure_git_status_clean
-    supply(apk: ENV['CORDOVA_ANDROID_RELEASE_BUILD_PATH'], track: 'alpha')
+    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'alpha')
   end
 end
