@@ -27,7 +27,7 @@ platform :ios do
     # commit_version_bump(xcodeproj: xcodeproj)
     # push_to_git_remote
     cordova(platform: 'ios')
-    commit_version_bump(xcodeproj: xcodeproj)
+    commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/ios/Wheelmap/Wheelmap-Info.plist platforms/ios/Wheelmap/config.xml])
     zip(
       path: "platforms/ios/build/device/Wheelmap.app.dSYM",
       output_path: "platforms/ios/build/device/Wheelmap.app.dSYM.zip",
