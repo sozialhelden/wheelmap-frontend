@@ -42,4 +42,5 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <engine name="ios" spec="^4.5.4" />
     <engine name="android" spec="~7.0.0" />
+    <hook src="scripts/incrementBuildNum.js" type="before_build"/>
 </widget>

@@ -1,0 +1,66 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+update_fastlane
+
+# default_platform(:ios)
+
+xcodeproj = "platforms/ios/Wheelmap.xcodeproj"
+
+
+platform :ios do
+  desc "Push a new beta build to TestFlight and HockeyApp"
+  lane :beta do
+    # ensure_git_branch branch: 'master'
+    match(type: "appstore")
+    cordova(platform: 'ios')
+    commit_version_bump(xcodeproj: xcodeproj)
+    push_to_git_remote
+    ensure_git_status_clean
+    zip(
+      path: "platforms/ios/build/device/Wheelmap.app.dSYM",
+      output_path: "platforms/ios/build/device/Wheelmap.app.dSYM.zip",
+      verbose: false
+    )
+    hockey(
+      api_token: ENV["HOCKEY_API_TOKEN"],
+      ipa: 'platforms/ios/build/device/Wheelmap.ipa'
+    )
+    upload_to_testflight(
+      ipa: './platforms/ios/build/device/Wheelmap.ipa'
+    )
+  end
+end
+
+platform :android do
+  # def increment_version_code(gradle_build)
+  #   sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  # end
+
+  desc "Push a new alpha build to Google Play Store"
+  lane :alpha do
+    # increment_version_code gradle_build: 'platforms/android/app/build.gradle'
+    # commit_version_bump(xcodeproj: xcodeproj)
+    # commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json])
+    # push_to_git_remote
+    ensure_git_status_clean
+
+    cordova(
+      platform: 'android',
+      keystore_path: '../certificates/keystores/sozialhelden.keystore',
+      keystore_alias: 'sozialhelden',
+      keystore_password: 'password'
+    )
+
+    supply(apk: ENV['CORDOVA_ANDROID_RELEASE_BUILD_PATH'], track: 'alpha')
+  end
+end

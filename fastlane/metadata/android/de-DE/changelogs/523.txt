@@ -1,0 +1,1 @@
+Wheelmap funktioniert nun mit der neuen Version des Tango Core, d.g. die Augmented Reality Funktionen gehen wieder. Wenn Du ein "Google Tango"-fähiges Gerät hast, dann kannst du es verwenden um die Orte zu vermessen (Türbreite, Stufenhöhe, Rampensteigung und Platz im WC).

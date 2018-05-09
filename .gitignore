@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 
 # testing
 /coverage
@@ -24,15 +24,56 @@ Desktop.ini
 .idea
 
 # Misc
-.env
+.env*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Cordova
-/platforms/
+# Cordova iOS
+platforms/ios/build/
+platforms/ios/www/
+platforms/ios/*/Plugins/
+platforms/ios/cordova/console.log
+*.xcuserdatad
+Products
+*.ipa
+*.dSYM.zip
+*.dSYM
+platforms/ios/*.xcarchive
+
+
+# Cordova Android
+platforms/android/assets/www
+platforms/android/bin
+platforms/android/gen
+platforms/android/local.properties
+platforms/android/ant-build
+platforms/android/ant-gen
+platforms/android/CordovaLib/ant-build
+platforms/android/CordovaLib/ant-gen
+platforms/android/CordovaLib/bin
+platforms/android/CordovaLib/gen
+platforms/android/CordovaLib/local.properties
+platforms/android/.gradle
+build
+buildOutputCleanup
+
+# Cordova general
 /plugins/
-/www/
+www
 resources/signing
 *.xcuserdatad
 
+# Fastlane / Ruby
+/vendor/bundle/
+
+fastlane/report.xml
+
+# deliver temporary files
+fastlane/Preview.html
+
+# snapshot generated screenshots
+fastlane/screenshots
+
+# scan temporary files
+fastlane/test_output

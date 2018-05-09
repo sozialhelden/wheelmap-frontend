@@ -1,0 +1,2 @@
+- Rollstuhlgerechte WCs separat markieren, suchen und finden
+- RTL (right-to-left) Sprachunterstützung

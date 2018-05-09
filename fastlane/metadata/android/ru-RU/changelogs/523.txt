@@ -1,0 +1,1 @@
+We updated the app so it works with the newest version of Tango Core. This means that the Augmented Reality feature works again. If you have a "Google Tango"-enabled device you can use it to take measurements at the places you visit (door width, step height, slope of ramps and clear floor space in restrooms).

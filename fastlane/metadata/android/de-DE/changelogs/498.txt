@@ -1,0 +1,3 @@
+- Hausnummer können nun Zeichen enthalten die keine Zahlen sind. 12A, 13/1 usw. geht jetzt.
+- Wir haben die Bedienbarkeit der Ortungsfunktion verbessert
+- Weitere keinere Bugs gefixt.

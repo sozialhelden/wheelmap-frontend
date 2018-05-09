@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="CordovaHttpPlugin">
+        <param name="android-package" value="com.synconset.cordovahttp.CordovaHttpPlugin" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>Wheelmap</name>
+    <description>
+        Find wheelchair-accessible places.
+    </description>
+    <author email="bugs@wheelmap.org" href="https://wheelmap.org">
+        Sozialhelden e.V.
+    </author>
+    <content src="index.html" />
+    <access origin="https://wheelmap.org" />
+    <access origin="https://staging.wheelmap.org" />
+    <access origin="https://accessibility-cloud.freetls.fastly.net" />
+    <access origin="https://api.mapbox.com" />
+    <access origin="https://www.accessibility.cloud" />
+    <access origin="https://photon.komoot.de" />
+    <access origin="http://localhost:3000" />
+    <allow-navigation href="http://localhost:*/*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>Location access is used to show where you are on the map.</string>
+    </edit-config>
+    <allow-intent href="market:*" />
+    <preference name="loglevel" value="DEBUG" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+</widget>
