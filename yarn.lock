@@ -2194,10 +2194,6 @@ cordova-plugin-browsersync@^1.1.0:
     plist "^1.1.0"
     q "^1.4.1"
 
-cordova-plugin-crosswalk-webview@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/cordova-plugin-crosswalk-webview/-/cordova-plugin-crosswalk-webview-2.4.0.tgz#90717bc4315c92d3182782fcba6b7ad89e532311"
-
 cordova-plugin-device@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/cordova-plugin-device/-/cordova-plugin-device-2.0.2.tgz#fc08f3722e67eef7b6c67bfc99a83df6add0baba"
