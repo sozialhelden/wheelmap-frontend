@@ -28,7 +28,7 @@ platform :ios do
     # push_to_git_remote
     ensure_git_status_clean
     cordova(platform: 'ios')
-    ensure_git_status_clean
+    commit_version_bump(xcodeproj: xcodeproj)
     zip(
       path: "platforms/ios/build/device/Wheelmap.app.dSYM",
       output_path: "platforms/ios/build/device/Wheelmap.app.dSYM.zip",
