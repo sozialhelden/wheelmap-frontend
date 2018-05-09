@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import strings from './strings';
+import generateOsmEditUrl from './generateOsmEditUrl';
 
 type Props = {
   featureId: number,
@@ -8,7 +9,7 @@ type Props = {
 };
 
 export default class ReportProblemButton extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.trapFocus = this.trapFocus.bind(this);
@@ -32,7 +33,7 @@ export default class ReportProblemButton extends React.Component<Props> {
   render() {
     if (!this.props.featureId) return null;
 
-    const url = `https://www.openstreetmap.org/edit?node=${this.props.featureId}`;
+    const url = generateOsmEditUrl(this.props.featureId);
 
     const { osmHint, osmEditHint, osmLoginHint, editButtonCaption, backButtonCaption } = strings();
 
