@@ -10,7 +10,7 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-update_fastlane
+# update_fastlane
 
 # default_platform(:ios)
 
@@ -22,9 +22,11 @@ platform :ios do
   lane :beta do
     # ensure_git_branch branch: 'master'
     match(type: "appstore")
-    cordova(platform: 'ios')
+    increment_version_number_in_plist(xcodeproj: xcodeproj)
+    increment_build_number_in_plist(xcodeproj: xcodeproj)
     commit_version_bump(xcodeproj: xcodeproj)
     push_to_git_remote
+    cordova(platform: 'ios')
     ensure_git_status_clean
     zip(
       path: "platforms/ios/build/device/Wheelmap.app.dSYM",
@@ -60,7 +62,7 @@ platform :android do
       keystore_alias: 'sozialhelden',
       keystore_password: 'password'
     )
-
+    ensure_git_status_clean
     supply(apk: ENV['CORDOVA_ANDROID_RELEASE_BUILD_PATH'], track: 'alpha')
   end
 end
