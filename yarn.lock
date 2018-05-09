@@ -2517,6 +2517,10 @@ cordova-serve@^2.0.0:
     open "0.0.5"
     shelljs "^0.5.3"
 
+cordova-version-sync@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/cordova-version-sync/-/cordova-version-sync-1.0.3.tgz#d2f44857de2efd0ea25e550777a03979cd561a00"
+
 cordova@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/cordova/-/cordova-8.0.0.tgz#2e8446d9493caafd870b1090785e7f03e2ae6a43"

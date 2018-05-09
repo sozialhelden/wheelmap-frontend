@@ -23,7 +23,7 @@ Desktop.ini
 .idea
 
 # Misc
-.env
+.env*
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
