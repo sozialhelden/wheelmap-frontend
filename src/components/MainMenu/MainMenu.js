@@ -9,6 +9,7 @@ import { t } from 'c-3po';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
 import strings from './strings';
+import type { RouterHistory } from 'react-router-dom';
 
 
 type State = {
@@ -24,8 +25,8 @@ type Props = {
   lat: string,
   lon: string,
   zoom: string,
+  history: RouterHistory,
 };
-
 
 function MenuIcon(props) {
   return (<svg className="menu-icon" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" alt="Toggle menu" {...props}>
@@ -125,6 +126,10 @@ class MainMenu extends React.Component<Props, State> {
     this.firstMenuElement.focus();
   }
 
+  returnHome =  () => {
+    this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
+  }
+
   render() {
     const {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
@@ -141,16 +146,23 @@ class MainMenu extends React.Component<Props, State> {
 
     if (!isLocalizationLoaded) {
       return <nav className={classList.join(' ')}>
-        <Logo className="logo" width={123} height={30} />
+        <button className="btn-unstyled">
+          <Logo className="logo" width={123} height={30} />
+        </button>
         <Dots />
       </nav>
     }
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <a href="/beta" ref={homeLink => this.homeLink = homeLink} tabIndex={isEditMode ? -1 : 0} aria-label={t`Home`}>
+        <button 
+          className="btn-unstyled" 
+          onClick={this.returnHome} 
+          ref={homeLink => this.homeLink = homeLink} 
+          tabIndex={isEditMode ? -1 : 0} 
+          aria-label={t`Home`}>
           <Logo className="logo" width={123} height={30} />
-        </a>
+        </button>
       </div>
 
       <div className="claim">
@@ -162,7 +174,7 @@ class MainMenu extends React.Component<Props, State> {
       <div className="flexible-separator" />
 
       <button
-        className="menu"
+        className="btn-unstyled menu"
         onClick={() => this.toggleMenu()}
         tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
         aria-hidden={!this.state.isMenuButtonVisible}
@@ -296,6 +308,12 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
+  button.btn-unstyled {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
   button.menu {
     position: fixed;
     top: 0;
@@ -309,9 +327,6 @@ const StyledMainMenu = styled(MainMenu)`
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
-    background: transparent;
-    cursor: pointer;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease-out;

@@ -119,7 +119,7 @@ class FeatureLoader extends React.Component<Props, State> {
     lon: null,
     zoom: null,
     isFilterToolbarVisible: false,
-    isOnboardingVisible: isOnboardingVisible(),
+    isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
     isLocalizationLoaded: false,
@@ -162,6 +162,13 @@ class FeatureLoader extends React.Component<Props, State> {
     this.setState({ isNotFoundVisible: true, lastError: error });
   }
 
+  constructor(props: Props) {
+    super(props);
+
+    if (isOnboardingVisible()) {
+      this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
+    }
+  }
 
   async componentWillMount() {
     this.onHashUpdate();
@@ -186,6 +193,11 @@ class FeatureLoader extends React.Component<Props, State> {
 
     if (this.featureId(props) !== this.featureId(this.props)) {
       this.setState({ isFilterToolbarVisible: false });
+    }
+
+    const state = this.props.history.location.state;
+    if (state) {
+      this.setState({ isOnboardingVisible: !!state.isOnboardingVisible });
     }
 
     const routeInformation = this.routeInformation(props);
@@ -383,6 +395,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
         isEditMode={isEditMode}
         isLocalizationLoaded={isLocalizationLoaded}
+        history={this.props.history}
         { ...{lat, lon, zoom}}
       />
 
@@ -467,7 +480,7 @@ class FeatureLoader extends React.Component<Props, State> {
         isVisible={this.state.isOnboardingVisible}
         onClose={() => {
           saveOnboardingFlag();
-          this.setState({ isOnboardingVisible: false });
+          this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
           this.searchToolbar.focus();
         }}
       />
