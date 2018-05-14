@@ -61,7 +61,7 @@ platform :android do
       keystore_alias: 'sozialhelden',
       keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
       )
-    commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/ios/Wheelmap/Wheelmap-Info.plist platforms/ios/Wheelmap/config.xml])
+    commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
     supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta')
   end
