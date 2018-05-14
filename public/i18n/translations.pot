@@ -105,7 +105,6 @@ msgstr ""
 msgid "Accessibility Filter Dialog"
 msgstr ""
 
-#: src/lib/Feature.js:322
 #: src/lib/Feature.js:340
 msgid "Accessible hand basin"
 msgstr ""
@@ -130,7 +129,7 @@ msgstr ""
 msgid "At least partially wheelchair accessible"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:165
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Back"
 msgstr ""
@@ -143,11 +142,11 @@ msgstr ""
 msgid "Call ${ phoneNumber }"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:162
 msgid "Cancel"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:156
 msgid "Change"
 msgstr ""
 
@@ -159,12 +158,10 @@ msgstr ""
 msgid "Clear Search"
 msgstr ""
 
-#: src/lib/Feature.js:319
 #: src/lib/Feature.js:337
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr ""
 
-#: src/lib/Feature.js:319
 #: src/lib/Feature.js:337
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr ""
@@ -177,7 +174,7 @@ msgstr ""
 msgid "Collapse Share Menu"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:153
 msgid "Confirm"
 msgstr ""
 
@@ -189,7 +186,7 @@ msgstr ""
 msgid "Contact the Wheelmap support team"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Continue"
 msgstr ""
 
@@ -212,12 +209,10 @@ msgstr ""
 msgid "Disruptions at this location"
 msgstr ""
 
-#: src/lib/Feature.js:318
 #: src/lib/Feature.js:336
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr ""
 
-#: src/lib/Feature.js:318
 #: src/lib/Feature.js:336
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr ""
@@ -230,19 +225,16 @@ msgstr ""
 msgid "Education"
 msgstr ""
 
-#: src/lib/Feature.js:298
 #: src/lib/Feature.js:316
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
 
-#: src/lib/Feature.js:296
 #: src/lib/Feature.js:314
 msgid ""
 "Entrance has one step with max. 7 cm / 3 inch height, most rooms are "
 "without steps."
 msgstr ""
 
-#: src/lib/Feature.js:293
 #: src/lib/Feature.js:311
 msgid "Entrance without steps, all rooms without steps."
 msgstr ""
@@ -280,7 +272,6 @@ msgstr ""
 msgid "Find wheelchair accessible places"
 msgstr ""
 
-#: src/lib/Feature.js:321
 #: src/lib/Feature.js:339
 msgid "Folding grab rails"
 msgstr ""
@@ -289,12 +280,10 @@ msgstr ""
 msgid "Food & Drinks"
 msgstr ""
 
-#: src/lib/Feature.js:278
 #: src/lib/Feature.js:296
 msgid "Fully"
 msgstr ""
 
-#: src/lib/Feature.js:263
 #: src/lib/Feature.js:281
 msgid "Fully wheelchair accessible"
 msgstr ""
@@ -303,7 +292,6 @@ msgstr ""
 msgid "Get involved"
 msgstr ""
 
-#: src/lib/Feature.js:308
 #: src/lib/Feature.js:326
 msgid "Has a wheelchair accessible toilet."
 msgstr ""
@@ -324,7 +312,7 @@ msgstr ""
 msgid "Hotels"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:179
 msgid "How wheelchair accessible is this place?"
 msgstr ""
 
@@ -359,7 +347,6 @@ msgid "Imprint"
 msgstr ""
 
 #: src/components/NodeToolbar/NodeHeader.js:123
-#: src/components/NodeToolbar/NodeHeader.js:124
 msgid "Improve on ${ sourceNameString }"
 msgstr ""
 
@@ -397,8 +384,7 @@ msgstr ""
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:462
-#: src/components/Map/Map.js:463
+#: src/components/Map/Map.js:466
 msgid "Map"
 msgstr ""
 
@@ -437,17 +423,14 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: src/lib/Feature.js:310
 #: src/lib/Feature.js:328
 msgid "No wheelchair accessible toilet."
 msgstr ""
 
-#: src/lib/Feature.js:282
 #: src/lib/Feature.js:300
 msgid "Not at all"
 msgstr ""
 
-#: src/lib/Feature.js:267
 #: src/lib/Feature.js:285
 msgid "Not wheelchair accessible"
 msgstr ""
@@ -469,16 +452,13 @@ msgid "Only show places with a wheelchair accessible toilet"
 msgstr ""
 
 #: src/components/NodeToolbar/NodeHeader.js:121
-#: src/components/NodeToolbar/NodeHeader.js:122
 msgid "Open on ${ sourceNameString }"
 msgstr ""
 
-#: src/lib/Feature.js:280
 #: src/lib/Feature.js:298
 msgid "Partially"
 msgstr ""
 
-#: src/lib/Feature.js:265
 #: src/lib/Feature.js:283
 msgid "Partially wheelchair accessible"
 msgstr ""
@@ -491,8 +471,6 @@ msgstr ""
 msgid "Press"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeToolbar.js:260
-#: src/components/NodeToolbar/NodeToolbar.js:262
 #: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "Report an Issue"
 msgstr ""
@@ -509,7 +487,6 @@ msgstr ""
 msgid "Search place or address"
 msgstr ""
 
-#: src/components/SearchToolbar/SearchResults.js:267
 #: src/components/SearchToolbar/SearchResults.js:268
 msgid "Search results"
 msgstr ""
@@ -530,8 +507,6 @@ msgstr ""
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr ""
 
-#: src/components/NodeToolbar/NodeToolbar.js:265
-#: src/components/NodeToolbar/NodeToolbar.js:267
 #: src/components/NodeToolbar/NodeToolbar.js:270
 msgid "Source:"
 msgstr ""
@@ -578,12 +553,10 @@ msgstr ""
 msgid "Travel guide"
 msgstr ""
 
-#: src/lib/Feature.js:284
 #: src/lib/Feature.js:302
 msgid "Unknown"
 msgstr ""
 
-#: src/lib/Feature.js:269
 #: src/lib/Feature.js:287
 msgid "Unknown status"
 msgstr ""
@@ -596,7 +569,6 @@ msgstr ""
 msgid "Unnamed facility"
 msgstr ""
 
-#: src/lib/Feature.js:327
 #: src/lib/Feature.js:345
 msgid "Unnamed place"
 msgstr ""
@@ -605,7 +577,7 @@ msgstr ""
 msgid "Use the link below for details about the place and editing."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:188
 msgid "Wheelchair Accessibility"
 msgstr ""
 
@@ -613,7 +585,6 @@ msgstr ""
 msgid "Wheelchair Accessibility Filter"
 msgstr ""
 
-#: src/lib/Feature.js:320
 #: src/lib/Feature.js:338
 msgid "Wheelchair-height toilet seat"
 msgstr ""
