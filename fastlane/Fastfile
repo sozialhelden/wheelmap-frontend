@@ -54,14 +54,14 @@ platform :android do
     # commit_version_bump(xcodeproj: xcodeproj)
     # commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json])
     # push_to_git_remote
-    ensure_git_status_clean
 
     cordova(
       platform: 'android',
       keystore_path: '../certificates/keystores/sozialhelden.keystore',
       keystore_alias: 'sozialhelden',
       keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
-    )
+      )
+    commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/ios/Wheelmap/Wheelmap-Info.plist platforms/ios/Wheelmap/config.xml])
     ensure_git_status_clean
     supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta')
   end
