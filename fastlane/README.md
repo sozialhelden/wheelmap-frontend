@@ -25,9 +25,9 @@ Push a new beta build to TestFlight and HockeyApp
 ----
 
 ## Android
-### android alpha
+### android beta
 ```
-fastlane android alpha
+fastlane android beta
 ```
 Push a new alpha build to Google Play Store
 

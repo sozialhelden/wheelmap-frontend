@@ -49,7 +49,7 @@ platform :android do
   # end
 
   desc "Push a new alpha build to Google Play Store"
-  lane :alpha do
+  lane :beta do
     # increment_version_code gradle_build: 'platforms/android/app/build.gradle'
     # commit_version_bump(xcodeproj: xcodeproj)
     # commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json])
@@ -63,6 +63,6 @@ platform :android do
       keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
     )
     ensure_git_status_clean
-    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'alpha')
+    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta')
   end
 end
