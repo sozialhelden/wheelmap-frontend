@@ -9,7 +9,7 @@
     </author>
     <content src="index.html" />
     <access origin="https://wheelmap.org" />
-    <access origin="https://staging.wheelmap.org" />
+    <access origin="https://*.wheelmap.org" />
     <access origin="https://accessibility-cloud.freetls.fastly.net" />
     <access origin="https://api.mapbox.com" />
     <access origin="https://www.accessibility.cloud" />
