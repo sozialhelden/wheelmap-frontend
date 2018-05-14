@@ -63,6 +63,6 @@ platform :android do
       )
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
-    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta')
+    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta', package_name: 'org.wheelmap.android.online')
   end
 end
