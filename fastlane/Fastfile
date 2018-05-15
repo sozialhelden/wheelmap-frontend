@@ -62,10 +62,14 @@ platform :android do
       keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
       )
 
+    apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release.apk';
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
-    supply(apk: './platforms/android/app/build/outputs/apk/release/app-release.apk', track: 'beta', package_name: 'org.wheelmap.android.online')
-
+    hockey(
+      api_token: ENV["HOCKEY_API_TOKEN"],
+      apk: apk_file_name,
+      )
+    supply(apk: apk_file_name, track: 'beta', package_name: 'org.wheelmap.android.online')
     slack(
       message: "Android beta successfully released!",
       username: "buildbot",
