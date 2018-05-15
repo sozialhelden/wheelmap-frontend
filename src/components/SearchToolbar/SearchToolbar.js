@@ -40,7 +40,7 @@ type State = {
 
 
 function isOnSmallViewport() {
-  return window.innerWidth < 512;
+  return window.innerWidth <= 512;
 }
 
 function hasBigViewport() {

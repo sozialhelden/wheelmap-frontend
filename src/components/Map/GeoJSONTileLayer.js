@@ -46,6 +46,7 @@ const TileLayer = L.TileLayer;
 class GeoJSONTileLayer extends TileLayer {
   _idsToShownLayers = {};
   _loadedTileUrls = {};
+  highlightedMarkerIds = [];
 
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
@@ -158,7 +159,6 @@ class GeoJSONTileLayer extends TileLayer {
 
   _removeTile(key) {
     const tile = this._tiles[key];
-
     tile.request.abort();
     this.fire("tileunload", { tile });
     delete this._loadedTileUrls[tile.url];
@@ -203,9 +203,11 @@ class GeoJSONTileLayer extends TileLayer {
     const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
     const id = feature._id || feature.properties._id || feature.properties.id;
     const existingMarker = this._idsToShownLayers[id];
+
     if (existingMarker) {
       if (includes(this.highlightedMarkerIds, String(id))) {
-        highlightMarkers([existingMarker], false);
+        // delay, as the element is not ready yet behind
+        setTimeout(() => highlightMarkers([existingMarker], false, false), 10);
       }
       return existingMarker;
     }
@@ -219,7 +221,8 @@ class GeoJSONTileLayer extends TileLayer {
     this._idsToShownLayers[id] = marker;
     if (includes(this.highlightedMarkerIds, String(id))) {
       const highlightFn = () => {
-        highlightMarkers([marker], false);
+        // delay, as the element is not ready yet behind
+        setTimeout(() => highlightMarkers([marker], false, true), 10);
         marker.off("add", highlightFn);
       };
       marker.on("add", highlightFn);

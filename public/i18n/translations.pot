@@ -380,6 +380,10 @@ msgstr ""
 msgid "Last update ${ dateString }."
 msgstr ""
 
+#: src/components/NodeToolbar/Report/strings.js:27
+msgid "Leave a note on OpenStreetMap"
+msgstr ""
+
 #: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr ""

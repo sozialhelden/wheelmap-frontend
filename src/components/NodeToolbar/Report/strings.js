@@ -24,6 +24,8 @@ export default function strings() {
     // translator: Button caption in report dialog
     editButtonCaption: t`Edit this place on OpenStreetMap`,
     // translator: Button caption in report dialog
+    noteButtonCaption: t`Leave a note on OpenStreetMap`,
+    // translator: Button caption in report dialog
     backButtonCaption: t`Back`,
     // translator: Gives credits to the external organization this place comes from. The organization's name is mentioned after this text.
     externalDataHint: t`Information about this place has kindly been provided by another organization`,

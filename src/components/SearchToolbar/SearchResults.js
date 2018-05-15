@@ -221,7 +221,8 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     const hasWheelmapId = Boolean(wheelmapFeature);
     const isHashLink = false;
 
-    return (<li>
+
+    return (<li className={`osm-category-${result.properties.osm_key || 'unknown'}-${result.properties.osm_value || 'unknown'}`}>
       <HashLinkOrRouterLink
         to={href}
         className="link-button"
@@ -257,6 +258,7 @@ type Props = {
   searchResults: SearchResultCollection,
   history: RouterHistory,
   className: string,
+  hidden: ?boolean,
   onSelect: (() => void),
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
 };
@@ -271,7 +273,7 @@ function SearchResults(props: Props) {
       key={id(result)}
       onSelect={props.onSelect}
       onSelectCoordinate={props.onSelectCoordinate}
-      hidden={props.hidden}
+      hidden={!!props.hidden}
       history={props.history}
     />))}
   </ul>);
@@ -297,6 +299,21 @@ const StyledSearchResults = styled(SearchResults)`
 
     address {
       font-size: 16px !important;
+    }
+  }
+
+  .osm-category-place-borough,
+  .osm-category-place-suburb,
+  .osm-category-place-village,
+  .osm-category-place-hamlet,
+  .osm-category-place-town,
+  .osm-category-place-city,
+  .osm-category-place-county,
+  .osm-category-place-state,
+  .osm-category-place-country,
+  .osm-category-boundary-administrative {
+    h1 {
+      font-weight: 600;
     }
   }
 `;

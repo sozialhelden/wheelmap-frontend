@@ -213,7 +213,7 @@ class Toolbar extends React.Component<Props, State> {
     let topOffset = this.state.topOffset || this.state.lastTopOffset;
     topOffset = Math.max(this.getMinimalTopPosition(), topOffset);
     const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
-    const isBigViewport = this.state.viewportSize.width >= 512;
+    const isBigViewport = this.state.viewportSize.width > 512;
     if (isLandscape || isBigViewport) {
       topOffset = 0;
     }
