@@ -46,7 +46,6 @@ platform :ios do
       channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true, # Optional, defaults to true.
       payload: {  # Optional, lets you specify any number of your own Slack attachments.
-        "Build Date" => Time.new.to_s,
         "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
         "Version" => JSON.parse(IO.read("../package.json"))["version"],
       },
@@ -92,7 +91,6 @@ platform :android do
       channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true, # Optional, defaults to true.
       payload: {  # Optional, lets you specify any number of your own Slack attachments.
-        "Build Date" => Time.new.to_s,
         "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
         "Version" => JSON.parse(IO.read("../package.json"))["version"],
       },
