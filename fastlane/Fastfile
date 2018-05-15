@@ -34,7 +34,7 @@ platform :ios do
       verbose: false
     )
     hockey(
-      api_token: ENV["HOCKEY_API_TOKEN"],
+      api_token: ENV["HOCKEY_API_TOKEN_IOS"],
       ipa: 'platforms/ios/build/device/Wheelmap.ipa'
     )
     upload_to_testflight(
@@ -66,7 +66,7 @@ platform :android do
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
     hockey(
-      api_token: ENV["HOCKEY_API_TOKEN"],
+      api_token: ENV["HOCKEY_API_TOKEN_ANDROID"],
       apk: apk_file_name,
       )
     supply(apk: apk_file_name, track: 'beta', package_name: 'org.wheelmap.android.online')
