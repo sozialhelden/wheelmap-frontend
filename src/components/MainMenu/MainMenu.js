@@ -312,6 +312,8 @@ const StyledMainMenu = styled(MainMenu)`
     border: none;
     background: transparent;
     cursor: pointer;
+    margin: 0;
+    padding: 0;
   }
 
   button.menu {
