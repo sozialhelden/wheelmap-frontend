@@ -17,11 +17,11 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>4.1.5</string>
+    <string>4.1.10</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>4.1.5</string>
+    <string>4.1.10</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -34,9 +34,10 @@
           <true/>
         </dict>
         <key>wheelmap.org</key>
-        <dict/>
-        <key>staging.wheelmap.org</key>
-        <dict/>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
         <key>accessibility-cloud.freetls.fastly.net</key>
         <dict/>
         <key>api.mapbox.com</key>
