@@ -40,6 +40,22 @@ platform :ios do
     upload_to_testflight(
       ipa: './platforms/ios/build/device/Wheelmap.ipa'
     )
+    slack(
+      message: "Pushed a beta build to Testflight and HockeyApp! You can be a beta tester by opening the URL below on your iPhone/iPad, or by registering as beta tester with your email address.",
+      username: "buildbot",
+      channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
+      success: true, # Optional, defaults to true.
+      payload: {  # Optional, lets you specify any number of your own Slack attachments.
+        "Build Date" => Time.new.to_s,
+        "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        "Version" => JSON.parse(IO.read("../package.json"))["version"],
+      },
+      default_payloads: [:git_branch, :git_author], # Optional, lets you specify a whitelist of default payloads to include. Pass an empty array to suppress all the default payloads.
+            # Don't add this key, or pass nil, if you want all the default payloads. The available default payloads are: `lane`, `test_result`, `git_branch`, `git_author`, `last_git_commit_message`, `last_git_commit_hash`.
+      attachment_properties: { # Optional, lets you specify any other properties available for attachments in the slack API (see https://api.slack.com/docs/attachments).
+          # This hash is deep merged with the existing properties set using the other properties above. This allows your own fields properties to be appended to the existing fields that were created using the `payload` property for instance.
+      }
+    )
   end
 end
 
@@ -71,13 +87,14 @@ platform :android do
       )
     supply(apk: apk_file_name, track: 'beta', package_name: 'org.wheelmap.android.online')
     slack(
-      message: "Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by by opening <https://play.google.com/apps/testing/org.wheelmap.android.online> on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.",
+      message: "Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening <https://play.google.com/apps/testing/org.wheelmap.android.online> on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.",
       username: "buildbot",
       channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true, # Optional, defaults to true.
       payload: {  # Optional, lets you specify any number of your own Slack attachments.
         "Build Date" => Time.new.to_s,
-        "APK download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        "Version" => JSON.parse(IO.read("../package.json"))["version"],
       },
       default_payloads: [:git_branch, :git_author], # Optional, lets you specify a whitelist of default payloads to include. Pass an empty array to suppress all the default payloads.
             # Don't add this key, or pass nil, if you want all the default payloads. The available default payloads are: `lane`, `test_result`, `git_branch`, `git_author`, `last_git_commit_message`, `last_git_commit_hash`.
