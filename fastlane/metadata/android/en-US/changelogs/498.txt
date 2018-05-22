@@ -1,0 +1,3 @@
+- house numbers can now contain non-numeric characters. Because we learnt they often do!
+- We improved the "locate me" function.
+- Fixed some more minor bugs.

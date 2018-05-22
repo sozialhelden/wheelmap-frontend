@@ -1,0 +1,2 @@
+Wheelmap liebt <3 Augmented Reality!
+In dieser Version haben wir eine Messfunktion für Geräte hinzugefügt, die die Google Tango Platfom unterstützen (wie zB das Lenovo Phab 2 Pro). Mit der Tiefenerfassungstechnologie von Tango kannst Du jetzt die Breite einer Tür, die Höhe einer Stufe, den Winkel einer Rampe und die Platz um eine Toilette herum messen, indem Du einfach ein Foto machst!

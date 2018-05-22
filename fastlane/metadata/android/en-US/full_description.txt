@@ -1,0 +1,20 @@
+The Wheelmap Android App is the mobile app for Wheelmap.org, an open, free and global online map for wheelchair-accessible places provided by Sozialhelden e.V. 
+
+With the Wheelmap Android app users can find and mark accessible and less accessible public places on a virtual map. 
+
+With the provided information mobility-impaired people can easily find out which underground stations, restaurants, cafes or clubs around them are accessible and which are not. This increases their mobility and participation in society, creating more public awareness for their needs and rights. 
+
+Everyone can get engaged and help by marking the wheelchair accessibility of public places with the easy traffic light system. 
+
+Green = Fully wheelchair-accessible
+Yellow = Limited accessibility
+Red = Not wheelchair-accessible
+
+Places that are not yet marked have a grey tag and can be quickly and easily marked by everyone. 
+
+Wheelmap is based on OpenStreetMap and works similar to Wikipedia - everyone can contribute to improving the accumulated data. The app draws its information directly from the net. All data is always up to date. 
+
+Note: 
+- To search for places and to mark the accessibility status of an existing place, no registration is required. 
+
+Wheelmap was developed by the non-profit organisation Sozialhelden e.V.. It's Sozialhelden's aim to address social challenges with innovative approaches.

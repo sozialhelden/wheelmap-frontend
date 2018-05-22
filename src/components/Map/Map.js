@@ -227,7 +227,7 @@ export default class Map extends React.Component<Props, State> {
         filter: this.isFeatureVisible.bind(this),
         maxZoom: this.props.maxZoom,
       });
-      
+
       // ensure that the map property is set so that wmp can inject places immediately
       this.accessibilityCloudTileLayer._map = this.map;
     });
@@ -239,7 +239,11 @@ export default class Map extends React.Component<Props, State> {
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
     }).catch(error => {
-      this.props.onError(error);
+      const onError = this.props.onError;
+      if (onError) {
+        const wrappedError = new Error(`Could not load categories: ${String(error)}.`);
+        onError(wrappedError);
+      }
     });
 
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());

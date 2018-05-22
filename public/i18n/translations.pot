@@ -67,7 +67,6 @@ msgid ""
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:33
-#: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
@@ -80,7 +79,6 @@ msgid ""
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:40
-#: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n"
 "\\n"
@@ -131,13 +129,8 @@ msgstr ""
 msgid "At least partially wheelchair accessible"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:137
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:138
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:164
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:165
 #: src/components/NodeToolbar/Report/strings.js:27
-#: src/components/NodeToolbar/Report/strings.js:29
 msgid "Back"
 msgstr ""
 
@@ -149,18 +142,10 @@ msgstr ""
 msgid "Call ${ phoneNumber }"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:134
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:135
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:161
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:162
 msgid "Cancel"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:128
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:129
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:155
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:156
 msgid "Change"
 msgstr ""
@@ -189,10 +174,6 @@ msgstr ""
 msgid "Collapse Share Menu"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:126
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:152
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:153
 msgid "Confirm"
 msgstr ""
@@ -202,14 +183,9 @@ msgid "Contact"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:35
-#: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:131
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:132
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:158
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
 msgid "Continue"
 msgstr ""
@@ -329,13 +305,6 @@ msgid "Help out by marking places!"
 msgstr ""
 
 #: src/components/MainMenu/MainMenu.js:151
-#: src/components/MainMenu/MainMenu.js:155
-#: src/components/MainMenu/MainMenu.js:156
-#: src/components/MainMenu/MainMenu.js:158
-#: src/components/MainMenu/MainMenu.js:159
-#: src/components/MainMenu/MainMenu.js:160
-#: src/components/MainMenu/MainMenu.js:161
-#: src/components/MainMenu/MainMenu.js:163
 msgid "Home"
 msgstr ""
 
@@ -343,14 +312,7 @@ msgstr ""
 msgid "Hotels"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:151
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:154
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:156
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:157
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:158
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:179
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:184
 msgid "How wheelchair accessible is this place?"
 msgstr ""
 
@@ -393,7 +355,6 @@ msgid "Improve your karma!"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:29
-#: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
@@ -427,7 +388,6 @@ msgstr ""
 msgid "Leisure"
 msgstr ""
 
-#: src/components/Map/Map.js:465
 #: src/components/Map/Map.js:466
 msgid "Map"
 msgstr ""
@@ -443,13 +403,6 @@ msgid "Mark this place"
 msgstr ""
 
 #: src/components/MainMenu/MainMenu.js:169
-#: src/components/MainMenu/MainMenu.js:173
-#: src/components/MainMenu/MainMenu.js:174
-#: src/components/MainMenu/MainMenu.js:176
-#: src/components/MainMenu/MainMenu.js:177
-#: src/components/MainMenu/MainMenu.js:178
-#: src/components/MainMenu/MainMenu.js:179
-#: src/components/MainMenu/MainMenu.js:181
 msgid "Menu"
 msgstr ""
 
@@ -551,7 +504,6 @@ msgid "Shopping"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:37
-#: src/components/NodeToolbar/Report/strings.js:39
 msgid "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
 
@@ -626,18 +578,10 @@ msgid "Unnamed place"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:31
-#: src/components/NodeToolbar/Report/strings.js:33
 msgid "Use the link below for details about the place and editing."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:160
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:163
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:165
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:166
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:167
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:188
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:193
 msgid "Wheelchair Accessibility"
 msgstr ""
 
@@ -679,17 +623,14 @@ msgid "You can remove non-existing places on OpenStreetMap."
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:44
-#: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:46
-#: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:48
-#: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr ""
 

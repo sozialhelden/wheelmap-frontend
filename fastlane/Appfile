@@ -1,0 +1,18 @@
+for_platform :ios do
+  app_identifier "de.sozialhelden.wheelmap.iphone"
+end
+
+for_platform :android do
+  app_identifier "org.wheelmap.android.online"
+end
+
+apple_id("sozialhelden")
+
+itc_team_id("422407") # iTunes Connect Team ID
+team_id("LY797X36V6") # Developer Portal Team ID
+
+# Check the certificates repo out to ../certificates to use this.
+json_key_file "../certificates/service-accounts/api-8644901965606643512-927895-225e72039f99.json"
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

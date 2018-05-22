@@ -19,7 +19,7 @@ const isLocalhost = Boolean(
 );
 
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator && !window.location.href.match(/^file:/)) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -100,7 +100,7 @@ function checkValidServiceWorker(swUrl) {
 }
 
 export function unregister() {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && !window.location.href.match(/^file:/)) {
     navigator.serviceWorker.ready.then((registration) => {
       registration.unregister();
     });
