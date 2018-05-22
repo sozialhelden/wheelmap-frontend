@@ -79,11 +79,10 @@ export default function Icon({
   shadowed,
   ariaHidden,
 }: Props) {
-  // TODO Taner: unsure if this is a clean way to do this
   const categoryName = properties
     ? getIconNameForProperties(properties)
     : category._id === '2nd_hand' ? 'second_hand' : category._id;
-  const CategoryIconComponent = icons[categoryName || 'undefined'] || null;
+  const CategoryIconComponent = icons[categoryName || 'undefined'] || icons['undefined'];
   const MarkerComponent = markers[`${accessibility}${withArrow ? 'With' : 'Without'}Arrow`];
   if (typeof CategoryIconComponent === 'object') {
     debugger;
