@@ -1,6 +1,7 @@
 // @flow
 
 import { globalFetchManager } from './FetchManager';
+import { currentLocales } from './i18n';
 
 import type { GeometryObject } from 'geojson-flow';
 
@@ -38,7 +39,7 @@ let queryIndex: number = 0;
 // place by name (and optionally latitude / longitude).
 
 export default function searchPlaces(query: string, { lat, lon }: { lat?: ?number, lon?: ?number }): Promise<?SearchResultCollection> {
-  const url = `https://photon.komoot.de/api/?q=${query}&limit=30`;
+  const url = `https://photon.komoot.de/api/?q=${query}&limit=30&lang=${currentLocales[0]}`;
   // For now, no location bias anymore: It seems to sort irrelevant results to the top
   // so you are not able to find New York anymore when entering 'New York', for example
   // let locationBiasedUrl = url;
