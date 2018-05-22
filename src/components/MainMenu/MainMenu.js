@@ -146,9 +146,11 @@ class MainMenu extends React.Component<Props, State> {
 
     if (!isLocalizationLoaded) {
       return <nav className={classList.join(' ')}>
-        <button className="btn-unstyled">
-          <Logo className="logo" width={123} height={30} />
-        </button>
+        <div className="home-link">
+          <button className="btn-unstyled home-button" disabled>
+            <Logo className="logo" width={123} height={30} />
+          </button>
+        </div>
         <Dots />
       </nav>
     }
@@ -156,7 +158,7 @@ class MainMenu extends React.Component<Props, State> {
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
         <button 
-          className="btn-unstyled" 
+          className="btn-unstyled home-button"
           onClick={this.returnHome} 
           ref={homeLink => this.homeLink = homeLink} 
           tabIndex={isEditMode ? -1 : 0} 
@@ -224,7 +226,7 @@ openMenuHoverColor.opacity = 0.5;
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   height: 50px;
-  padding: 9px 5px 11px 20px;
+  padding: 0;
   background-color: rgba(254, 254, 254, 0.95);
   display: flex;
   flex-direction: row;
@@ -235,17 +237,9 @@ const StyledMainMenu = styled(MainMenu)`
   transition: height 0.3s ease-out;
   overflow: auto;
 
-  .home-link {
-    margin-right: 1em;
-    a {
-      display: inline-block;
-      line-height: 0;
-      vertical-align: middle;
-    }
-  }
-
   .logo {
     height: 30px;
+    margin-left: 10px;
   }
 
   .claim {
@@ -272,7 +266,6 @@ const StyledMainMenu = styled(MainMenu)`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    align-items: flex-start;
     justify-content: space-between;
   }
 
@@ -314,6 +307,8 @@ const StyledMainMenu = styled(MainMenu)`
     cursor: pointer;
     margin: 0;
     padding: 0;
+    min-width: 50px;
+    min-height: 50px;
   }
 
   button.menu {
@@ -361,10 +356,8 @@ const StyledMainMenu = styled(MainMenu)`
     top: env(safe-area-inset-top);
     left: 0;
     right: 0;
-    padding: 5px 10px 10px 10px;
 
     flex-wrap: wrap;
-    align-items: flex-start;
 
     button.menu {
       opacity: 1;
@@ -375,23 +368,17 @@ const StyledMainMenu = styled(MainMenu)`
       display: none;
     }
 
+    .home-button {
+      padding-left: 1em;
+    }
+
     .nav-link {
+      height: 44px;
+      padding-left: 1em;
       width: 50%;
-      max-width: 220px;
+      max-width: 240px;
       display: none;
       align-items: center;
-    }
-
-    .home-link {
-      width: 100%;
-      a {
-        display: inline-block;
-      }
-    }
-
-    .nav-link, .home-link {
-      height: 44px;
-      padding: 4px 2px;
       box-sizing: border-box;
     }
 
@@ -448,10 +435,12 @@ const StyledMainMenu = styled(MainMenu)`
 
   &:not(.is-loaded) {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    /* padding: 0 15px 0 20px; */
-    padding: 9px 15px 11px 8px
+    justify-content: space-between;
+    padding: 0;
+    .rai-activity-indicator {
+      margin-right: 15px;
+    }
   }
 
   &.is-loaded {
