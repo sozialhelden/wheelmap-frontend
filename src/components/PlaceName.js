@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 const PlaceName = styled.h1`
-  margin: 0 30px 0.5em 0;
+  margin: 0 30px 0.25em 0;
   line-height: 1;
   font-weight: 400;
   display: flex;
@@ -15,7 +15,7 @@ const PlaceName = styled.h1`
 
   figure {
     margin-right: 5px;
-    margin-left: -5px;
+    margin-left: -3px;
     left: 0;
     top: 0;
   }
