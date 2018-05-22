@@ -14,54 +14,8 @@ import AtLeastPartialAccessibilityIcon from '../icons/accessibility/AtLeastParti
 import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 
+import MapButton from '../MapButton';
 
-const StyledButton = styled.button`
-  width: 40px;
-  min-height: 40px;
-  padding: 0;
-  background-color: white;
-  border-radius: 4px;
-  outline: none;
-  border: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  position: fixed;
-  top: 200px;
-  right: 10px;
-  z-index: 500;
-  cursor: pointer;
-  &:hover, &:focus {
-    background-color: ${colors.linkBackgroundColor};
-  }
-  header, footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-  }
-  footer {
-    position: absolute;
-    top: 40px;
-    svg {
-      margin-top: 4px;
-      margin-left: 4px;
-    }
-  }
-  header {
-    span {
-      width: 22px;
-      height: 22px;
-      border: 1px solid rgba(0, 0, 0, 0.75);
-      border-radius: 11px;
-      box-sizing: border-box;
-      color: rgba(0, 0, 0, 0.75);
-    }
-    svg {
-      width: 28px;
-    }
-  }
-`;
 
 type Props = {
   className?: string,
@@ -96,7 +50,7 @@ class FilterButton extends React.Component<Props, void> {
     // translator: Tooltip shown on the filter button
     const filterButtonHint = t`Change which places are shown on the map`;
 
-    return (<StyledButton
+    return (<MapButton
       innerRef={button => this.button = button}
       className={`${this.props.className} leaflet-filter-button`}
       title={filterButtonHint}
@@ -109,7 +63,7 @@ class FilterButton extends React.Component<Props, void> {
 
       {isEqual(this.props.toiletFilter, ['yes']) ? <footer><ToiletStatusAccessibleIcon /></footer> : null}
 
-    </StyledButton>);
+    </MapButton>);
   }
 }
 

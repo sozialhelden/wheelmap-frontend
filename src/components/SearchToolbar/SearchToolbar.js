@@ -7,6 +7,7 @@ import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
 import colors from '../../lib/colors';
+import { isOnSmallViewport, hasBigViewport } from '../../lib/ViewportSize';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
@@ -18,7 +19,7 @@ import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 
 
-type Props = {
+export type Props = {
   history: RouterHistory,
   hidden: boolean,
   inert: boolean,
@@ -37,15 +38,6 @@ type State = {
   isCategoryFocused: boolean,
   isLoading: boolean;
 };
-
-
-function isOnSmallViewport() {
-  return window.innerWidth <= 512;
-}
-
-function hasBigViewport() {
-  return window.innerHeight > 512 && window.innerWidth > 512;
-}
 
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
@@ -70,6 +62,9 @@ const StyledToolbar = styled(Toolbar)`
     top: 20px;
     left: 22px;
     pointer-events: none;
+    width: 15px;
+    height: 15px;
+    opacity: 0.5;
   }
 
   .close-link {
@@ -91,39 +86,38 @@ const StyledToolbar = styled(Toolbar)`
         background-color: white;
       }
     }
-    &.search-field-is-focused {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      max-height: 100%;
-      right: 0;
-      left: 0;
-      margin: 0;
-      padding: 12px 15px;
-      padding-right: max(constant(safe-area-inset-right), 15px);
-      padding-left: max(constant(safe-area-inset-left), 15px);
-      padding-right: max(env(safe-area-inset-right), 15px);
-      padding-left: max(env(safe-area-inset-left), 15px);
-      margin-top: constant(safe-area-inset-top);
-      margin-top: env(safe-area-inset-top);
-      transform: translate3d(0, 0, 0) !important;
-      z-index: 1000000000;
-      border-radius: 0;
-      > header, .search-results, .category-menu {
-        padding: 0
-      }
-      .search-icon {
-        top: 8px;
-        left: 8px;
-      }
-      .close-link {
-        top: -6px;
-        right: -5px;
-      }
-      @media (max-height: 400px) {
-        .category-button {
-          flex-basis: 16.666666% !important;
-        }
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-height: 100%;
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding: 12px 15px;
+    padding-right: max(constant(safe-area-inset-right), 15px);
+    padding-left: max(constant(safe-area-inset-left), 15px);
+    padding-right: max(env(safe-area-inset-right), 15px);
+    padding-left: max(env(safe-area-inset-left), 15px);
+    margin-top: constant(safe-area-inset-top);
+    margin-top: env(safe-area-inset-top);
+    transform: translate3d(0, 0, 0) !important;
+    z-index: 1000000000;
+    border-radius: 0;
+    > header, .search-results, .category-menu {
+      padding: 0
+    }
+    .search-icon {
+      top: 8px;
+      left: 8px;
+    }
+    .close-link {
+      top: -6px;
+      right: -5px;
+    }
+    @media (max-height: 400px) {
+      .category-button {
+        flex-basis: 16.666666% !important;
       }
     }
   }
@@ -218,20 +212,22 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
 
-  clearSearchOnSmallViewports() {
-    if (isOnSmallViewport()) {
-      this.setState({ categoryMenuIsVisible: false, searchResults: null });
-      if (this.input instanceof HTMLInputElement) {
-        this.input.value = '';
-        this.input.blur();
-      }
+  clearSearch() {
+    this.setState({ categoryMenuIsVisible: false, searchResults: null });
+    if (this.input instanceof HTMLInputElement) {
+      this.input.value = '';
+      this.input.blur();
     }
   }
 
   focus() {
-    if (hasBigViewport()) {
+    // if (hasBigViewport()) {
       this.searchInputField.focus();
-    }
+    // }
+  }
+
+  blur() {
+    this.searchInputField.blur();
   }
 
   render() {
@@ -268,7 +264,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             onSelectCoordinate={this.props.onSelectCoordinate}
             hidden={this.props.hidden}
             history={this.props.history}
-            onSelect={() => this.clearSearchOnSmallViewports()}
+            onSelect={() => this.clearSearch()}
           />
         </div>;
     } else if (categoryMenuIsVisible) {
@@ -276,7 +272,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         hidden={this.props.hidden}
         history={this.props.history}
         onFocus={() => this.setState({ isCategoryFocused: true })}
-        onBlur={() => setTimeout(() => this.setState({ isCategoryFocused: false }))}
+        onBlur={() => { setTimeout(() => this.setState({ isCategoryFocused: false })) }}
       />);
     }
 
@@ -299,7 +295,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         role="search"
       >
         <header>
-          <SearchIcon className="search-icon" />
+          <SearchIcon />
 
           <SearchInputField
             innerRef={searchInputField => this.searchInputField = searchInputField}
@@ -314,13 +310,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
             }}
             onFocus={(event) => {
               this.input = event.target;
-              setTimeout(() => {
-                this.setState({ searchFieldIsFocused: true });
-                window.scrollTo(0, 0);
-                this.setState({ categoryMenuIsVisible: true });
-                setTimeout(() => {
-                }, 100);
-              }, 300);
+              this.setState({ searchFieldIsFocused: true });
+              window.scrollTo(0, 0);
+              this.setState({ categoryMenuIsVisible: true });
             }}
             onBlur={() => {
               this.ensureFullVisibility();
@@ -337,7 +329,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             ariaRole="searchbox"
           />
 
-          {(this.props.searchQuery || this.props.category) ? <CloseLink
+          {(this.props.searchQuery || this.props.category || searchFieldIsFocused) ? <CloseLink
             history={this.props.history}
             className='close-link'
             onClick={() => {
@@ -345,11 +337,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
               if (this.input instanceof HTMLInputElement) {
                 this.input.value = '';
                 if (!this.props.category) {
-                  this.searchInputField.blur();
+                  this.input.blur();
                 }
               }
-              setTimeout(() => this.ensureFullVisibility(), 100);
-              setTimeout(() => this.ensureFullVisibility(), 500);
               if (this.props.onClose) this.props.onClose();
             }}
             innerRef={closeLink => this.closeLink = closeLink}
