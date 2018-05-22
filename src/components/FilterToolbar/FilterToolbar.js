@@ -325,7 +325,7 @@ const StyledFilterToolbar = styled(FilterToolbar)`
       margin-right: 8px;
     }
     .radio-button {
-      margin-right: 8px;
+      margin: 8px;
     }
     .caption {
       flex: 1;
