@@ -24,11 +24,15 @@ type Props = {
 };
 
 class SearchInputField extends React.Component<Props> {
+  input: ?HTMLInputElement;
+
   focus() {
+    if (!this.input) return;
     this.input.focus();
   }
 
   blur() {
+    if (!this.input) return;
     this.input.blur();
   }
 

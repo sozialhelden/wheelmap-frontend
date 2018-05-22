@@ -91,12 +91,13 @@ type RouteInformation = {
 };
 
 function updateTouchCapability() {
-  if (!document.body) return;
+  const body = document.body;
+  if (!body) return;
 
   if (isTouchDevice()) {
-    document.body.classList.add('is-touch-device');
+    body.classList.add('is-touch-device');
   } else {
-    document.body.classList.remove('is-touch-device');
+    body.classList.remove('is-touch-device');
   }
 }
 
