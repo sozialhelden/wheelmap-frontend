@@ -17,6 +17,7 @@ import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import FilterButton from './components/FilterToolbar/FilterButton';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import SearchButton from './components/SearchToolbar/SearchButton';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
@@ -25,6 +26,7 @@ import config from './lib/config';
 import colors from './lib/colors';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
+import { isOnSmallViewport, hasBigViewport } from './lib/ViewportSize';
 
 import type {
   Feature,
@@ -79,6 +81,7 @@ type State = {
   isReportMode: boolean,
   category: ?string,
   isLocalizationLoaded: boolean,
+  isSearchBarVisible: boolean,
 };
 
 type RouteInformation = {
@@ -118,6 +121,7 @@ class FeatureLoader extends React.Component<Props, State> {
     lat: null,
     lon: null,
     zoom: null,
+    isSearchBarVisible: hasBigViewport(),
     isFilterToolbarVisible: false,
     isOnboardingVisible: false,
     isNotFoundVisible: false,
@@ -129,6 +133,11 @@ class FeatureLoader extends React.Component<Props, State> {
   };
 
   map: ?any;
+
+  filterButton: ?FilterButton;
+  lastFocusedElement: ?HTMLElement;
+  nodeToolbar: ?NodeToolbar;
+  searchToolbar: ?SearchToolbar;
 
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -343,23 +352,33 @@ class FeatureLoader extends React.Component<Props, State> {
     const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
     const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
 
-    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible) {
+    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible && this.filterButton) {
       this.filterButton.focus();
       return;
     }
 
-    if (nodeToolbarDidDisappear && !this.state.isFilterToolbarVisible) {
+    if (nodeToolbarDidDisappear && !this.state.isFilterToolbarVisible && this.lastFocusedElement) {
       this.lastFocusedElement.focus();
     }
 
-    if (nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) {
+    if ((nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) && this.nodeToolbar) {
       this.lastFocusedElement = document.activeElement;
       this.nodeToolbar.focus();
     }
 
-    if (this.state.category && !prevState.category) {
+    if (this.state.category && !prevState.category && this.map) {
       this.map.focus();
     }
+  }
+
+  openSearch() {
+    this.setState({ isSearchBarVisible: true }, () => {
+      setTimeout(() => {
+        if (this.searchToolbar) {
+          this.searchToolbar.focus();
+        }
+      }, 100);
+    });
   }
 
   render() {
@@ -378,6 +397,7 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
       this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
+      this.state.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
       this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
@@ -388,6 +408,7 @@ class FeatureLoader extends React.Component<Props, State> {
       isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible || this.state.isNotFoundVisible;
 
     const searchToolbarIsInert = searchToolbarIsHidden || this.state.isMainMenuOpen;
+    const isSearchButtonVisible = !this.state.isSearchBarVisible;
 
     return (<div className={classList.join(' ')}>
       <MainMenu
@@ -399,10 +420,10 @@ class FeatureLoader extends React.Component<Props, State> {
         { ...{lat, lon, zoom}}
       />
 
-      {isLocalizationLoaded ? <SearchToolbar
+      {isLocalizationLoaded && <SearchToolbar
         ref={searchToolbar => this.searchToolbar = searchToolbar}
         history={this.props.history}
-        hidden={searchToolbarIsHidden}
+        hidden={!this.state.isSearchBarVisible}
         inert={searchToolbarIsInert}
         category={category}
         searchQuery={searchQuery}
@@ -419,32 +440,34 @@ class FeatureLoader extends React.Component<Props, State> {
           if (coords) {
             this.setState(coords);
           }
+          this.setState({ isSearchBarVisible: false });
         }}
-        onClose={() => { this.setState({ category: null }); }}
-      /> : null }
+        onClose={() => { this.setState({ category: null, isSearchBarVisible: false }); }}
+      /> }
 
-      {(isNodeRoute && isLocalizationLoaded) ? (<div className="node-toolbar">
+      {isLocalizationLoaded && !this.state.isSearchBarVisible && (<div className="node-toolbar">
         <NodeToolbar
           ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
           history={this.props.history}
           feature={this.state.feature}
-          hidden={this.state.isFilterToolbarVisible}
+          hidden={this.state.isFilterToolbarVisible || !isNodeRoute}
           featureId={featureId}
           equipmentInfoId={equipmentInfoId}
           isEditMode={isEditMode}
           onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
-          // onClose={() => { this.setState({ category: null }); }}
         />
-      </div>) : null}
+      </div>)}
 
-      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) ? <FilterButton
+      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && <FilterButton
         ref={filterButton => this.filterButton = filterButton}
         accessibilityFilter={this.accessibilityFilter()}
         toiletFilter={this.toiletFilter()}
         onClick={() => this.toggleFilterToolbar()}
-      /> : null}
+        top={200}
+        right={10}
+      />}
 
-      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) ? (<div className="filter-toolbar">
+      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && (<div className="filter-toolbar">
         <FilterToolbar
           accessibilityFilter={this.accessibilityFilter()}
           toiletFilter={this.toiletFilter()}
@@ -454,7 +477,13 @@ class FeatureLoader extends React.Component<Props, State> {
             this.setState(filter);
           }}
         />
-      </div>) : null}
+      </div>)}
+
+      {isSearchButtonVisible && <SearchButton
+        onClick={e => { e.stopPropagation(); this.openSearch(); }}
+        top={60}
+        left={10}
+      />}
 
       <Map
         ref={(map) => { this.map = map; window.map = map; }}
@@ -481,7 +510,7 @@ class FeatureLoader extends React.Component<Props, State> {
         onClose={() => {
           saveOnboardingFlag();
           this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
-          this.searchToolbar.focus();
+          if (this.searchToolbar) this.searchToolbar.focus();
         }}
       />
 
