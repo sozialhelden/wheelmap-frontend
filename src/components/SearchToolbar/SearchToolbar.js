@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
+import { t } from 'c-3po';
 
 import colors from '../../lib/colors';
 import { isOnSmallViewport, hasBigViewport } from '../../lib/ViewportSize';
@@ -332,6 +333,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
           {(this.props.searchQuery || this.props.category || searchFieldIsFocused) ? <CloseLink
             history={this.props.history}
             className='close-link'
+            ariaLabel={t`Clear Search`}
             onClick={() => {
               this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
               if (this.input instanceof HTMLInputElement) {
