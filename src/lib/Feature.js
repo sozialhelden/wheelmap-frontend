@@ -148,11 +148,14 @@ export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature) {
   if (!feature) return null;
-  if (feature.id) return feature.id;
-  if (!feature.properties) return null;
-  const result = feature.properties.id || feature.properties._id;
-  if (result) return String(result);
-  return null;
+  const idProperties = [
+    typeof feature.id === 'number' && feature.id,
+    typeof feature._id === 'string' && feature._id,
+    feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
+    feature.properties && typeof feature.properties._id === 'string' && feature.properties._id
+  ];
+  const result = idProperties.filter(Boolean)[0];
+  return result ? String(result) : null;
 }
 
 function isNumeric(id: string | number | null) {
