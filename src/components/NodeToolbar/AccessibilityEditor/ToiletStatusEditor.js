@@ -5,6 +5,7 @@ import { currentLocales } from '../../../lib/i18n';
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'c-3po';
+import CloseLink from '../../CloseLink';
 import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
@@ -18,6 +19,7 @@ type Props = {
   className: string,
   onSave: ?((newValue: YesNoUnknown) => void),
   onClose: ?(() => void),
+  inline: ?boolean 
 };
 
 
@@ -49,7 +51,10 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
   escapeHandler(event) {
     if (event.key === 'Escape') {
-      this.props.onClose();
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose();
+        event.preventDefault();
+      }
     }
   }
 
@@ -64,6 +69,15 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     const toiletAccessibility = this.toiletAccessibility(props);
     if (toiletAccessibility) {
       this.setState({ toiletAccessibility });
+    }
+  }
+
+  closeButtonClick = (event) => {
+    if (typeof this.props.onClose === 'function') {
+      this.props.onClose();
+      // prevent clicking the next close button as well
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 
@@ -98,20 +112,16 @@ class ToiletStatusEditor extends React.Component<Props, State> {
   }
 
   trapFocus({nativeEvent}) {
-    if (nativeEvent.target === this.noButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    // allow looping through elements
+    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+      nativeEvent.preventDefault();
+      this.backButton.focus();
+    }
+    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
       this.unknownButton.focus();
     }
-    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
-      nativeEvent.preventDefault();
-      this.noButton.focus();
-    }
   }
-
-  // obsolete???
-  // focus() {
-  //   this.unknownButton.focus();
-  // }
 
   render() {
     const classList = [
@@ -131,8 +141,14 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     // translator: Caption for the ‘I don’t know’ radio button (while marking toilet status)
     const unknownCaption = t`I don’t know`;
 
+    // translator: Caption for the ‘no toilet’ radio button (while marking toilet status)
+    const noToiletCaption = t`No toilet`;
+
     // translator: Header for the toilet accessibility checklist (while marking toilet status)
     const toiletAccessibilityExplanationHeader = t`This means:`;
+
+    // translator: Button caption shown while editing a place’s toilet status
+    const backButtonCaption = t`Back`;
 
     const useImperialUnits = currentLocales[0] === 'en' || Boolean(currentLocales[0].match(/(UK|US)$/));
 
@@ -143,6 +159,12 @@ class ToiletStatusEditor extends React.Component<Props, State> {
         aria-labelledby="toilet-status-editor-header"
       >
         <header id="toilet-status-editor-header">{headerText}</header>
+        {!this.props.inline && <CloseLink 
+          className='close-link' 
+          onClick={this.closeButtonClick}
+          innerRef={closeButton => this.closeButton = closeButton}
+          onKeyDown={this.trapFocus}
+          />}
 
         <footer>
           <button
@@ -157,6 +179,8 @@ class ToiletStatusEditor extends React.Component<Props, State> {
           <button
             className="link-button yes"
             onClick={() => this.save('yes')}
+            ref={yesButton => this.yesButton = yesButton}
+            onKeyDown={this.trapFocus}
           >
             {yesCaption}
           </button>
@@ -170,6 +194,15 @@ class ToiletStatusEditor extends React.Component<Props, State> {
             {noCaption}
           </button>
 
+          <button
+            className="link-button no-toilet"
+            onClick={() => { if (typeof this.props.onClose === 'function') this.props.onClose();}}
+            ref={noToiletButton => this.noToiletButton = noToiletButton}
+            onKeyDown={this.trapFocus}
+          >
+            {noToiletCaption}
+          </button>
+
         </footer>
 
         <p className="subtle">{toiletAccessibilityExplanationHeader}</p>
@@ -177,6 +210,17 @@ class ToiletStatusEditor extends React.Component<Props, State> {
         <ul className="subtle">
           {accessibleToiletDescription(useImperialUnits).map(text => <li key={text}>{text}</li>)}
         </ul>
+        <footer>
+          <button
+            className={`link-button`}
+            onClick={this.props.onClose}
+            ref={backButton => this.backButton = backButton}
+            onKeyDown={this.trapFocus}
+          >
+            {backButtonCaption}
+          </button>
+        </footer>
+
       </section>
     );
   }
@@ -238,6 +282,15 @@ const StyledToiletStatusEditor = styled(ToiletStatusEditor)`
         }
       }
     }
+  }
+
+  .close-link {
+    top: 5px;
+    right: 8px;
+    position: absolute;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row-reverse;
   }
 `;
 
