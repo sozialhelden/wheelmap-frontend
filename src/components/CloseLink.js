@@ -11,6 +11,7 @@ import { t } from 'c-3po';
 type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
+type KeyDownHandler = (el: HTMLElement, ev: KeyboardEvent) => void;
 
 type Props = {
   className: string,
@@ -18,6 +19,7 @@ type Props = {
   onClick: ClickHandler,
   onFocus: FocusHandler,
   onBlur: BlurHandler,
+  onKeyDown: KeyDownHandler,
 }
 
 class CloseLink extends React.Component<Props> {
@@ -46,6 +48,7 @@ class CloseLink extends React.Component<Props> {
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.onClick}
+        onKeyDown={this.props.onKeyDown}
         role='button'
         aria-label={this.props.ariaLabel || t`Close`}
       >
