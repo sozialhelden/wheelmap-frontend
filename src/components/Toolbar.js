@@ -304,7 +304,7 @@ const StyledToolbar = styled(Toolbar)`
   font-size: 16px;
   border-radius: 5px;
 
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
   background-color: ${colors.colorizedBackgroundColor};
   outline: none;
 
