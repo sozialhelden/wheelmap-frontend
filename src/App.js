@@ -45,6 +45,7 @@ import {
   isWheelmapFeature,
   yesNoLimitedUnknownArray,
   yesNoUnknownArray,
+  getFeatureId,
 } from './lib/Feature';
 
 import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
@@ -68,6 +69,7 @@ type Props = {
 
 
 type State = {
+  featureId: ?number | string,
   feature?: ?Feature,
   fetching: boolean,
   toilet: ?string,
@@ -96,6 +98,39 @@ type RouteInformation = {
   equipmentInfoId: ?string,
 };
 
+function getRouteInformation(props: Props): ?RouteInformation {
+  const location = props.location;
+  const allowedResourceNames = ['nodes', 'categories', 'search'];
+  const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i);
+  if (match) {
+    if (match[1] && !includes(allowedResourceNames, match[1])) return null;
+    return {
+      featureId: match[1] === 'nodes' ? match[2] : null,
+      equipmentInfoId: (match[1] === 'nodes' && match[3] === 'equipment') ? match[4] : null,
+      category: match[1] === 'categories' ? match[2] : null,
+      searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
+      isEditMode: (match[3] === 'edit'),
+    };
+  }
+  return null;
+}
+
+
+function getFeatureIdFromProps(props: Props): ?string {
+  const { featureId } = getRouteInformation(props) || {};
+  return featureId ? String(featureId) : null;
+}
+
+
+function featureIdHasChanged(newProps: Props, prevState: State) {
+  const result = String(getFeatureIdFromProps(newProps)) !== String(prevState.featureId);
+  if (result) {
+    console.log('Feature id has changed:', newProps, prevState);
+  }
+  return result;
+}
+
+
 function updateTouchCapability() {
   const body = document.body;
   if (!body) return;
@@ -107,6 +142,7 @@ function updateTouchCapability() {
   }
 }
 
+
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
   if (properties && typeof properties.placeInfoId === 'string') {
     if (includes(['elevator', 'escalator'], properties.category)) {
@@ -115,6 +151,7 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   }
   return `/beta/nodes/${featureId}`;
 }
+
 
 class FeatureLoader extends React.Component<Props, State> {
   props: Props;
@@ -136,6 +173,7 @@ class FeatureLoader extends React.Component<Props, State> {
     isMainMenuOpen: false,
     isReportMode: false,
     lastError: null,
+    featureId: null,
   };
 
   map: ?any;
@@ -197,51 +235,54 @@ class FeatureLoader extends React.Component<Props, State> {
     }
   }
 
-  async componentWillMount() {
+
+  async componentDidMount(): Promise<void> {
     this.onHashUpdate();
     window.addEventListener('resize', this.resizeListener);
     this.resizeListener();
     await loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }))
-  }
-
-
-  componentDidMount() {
     window.addEventListener('hashchange', this.onHashUpdate);
-    this.updateStateFromProps(this.props);
+    this.fetchFeature(getFeatureIdFromProps(this.props));
   }
 
 
   componentDidUpdate(prevProps, prevState) {
     this.manageFocus(prevProps, prevState);
+    if (featureIdHasChanged(this.props, prevState)) {
+      this.fetchFeature(getFeatureIdFromProps(this.props));
+    }
   }
 
 
-  updateStateFromProps(props: Props) {
-    this.fetchFeature(props);
+  static getDerivedStateFromProps(newProps: Props, prevState: State): State {
+    const result: $Shape<State> = {};
 
-    if (this.featureId(props) !== this.featureId(this.props)) {
-      this.setState({ isFilterToolbarVisible: false });
+    if (featureIdHasChanged(newProps, prevState)) {
+      result.isFilterToolbarVisible = false;
+      result.featureId = getFeatureIdFromProps(newProps);
     }
 
-    const state = this.props.history.location.state;
+    const state = newProps.history.location.state;
     if (state) {
-      this.setState({ isOnboardingVisible: !!state.isOnboardingVisible });
+      result.isOnboardingVisible = !!state.isOnboardingVisible;
     }
 
-    const routeInformation = this.routeInformation(props);
+    const routeInformation = getRouteInformation(newProps);
+
     if (!routeInformation) {
-      this.setState({ isNotFoundVisible: true, lastError: 'Route not found.' });
-      return;
+      Object.assign(result, {
+        isNotFoundVisible: true,
+        lastError: 'Route not found.',
+      });
+      return result;
     }
 
     if (routeInformation.category) {
-      this.setState({ category: routeInformation.category });
+      result.category = routeInformation.category;
     }
-  }
 
-  componentWillReceiveProps(newProps: Props): void {
-    this.updateStateFromProps(newProps);
+    return result;
   }
 
 
@@ -296,55 +337,24 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
-  featureId(props: Props = this.props): ?string {
-    const routeInformation = this.routeInformation(props);
-    return routeInformation ? routeInformation.featureId : null;
-  }
-
-
-  routeInformation(props: Props = this.props): ?RouteInformation {
-    const location = props.location;
-    const allowedResourceNames = ['nodes', 'categories', 'search'];
-    const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i);
-    if (match) {
-      if (match[1] && !includes(allowedResourceNames, match[1])) return null;
-      return {
-        featureId: match[1] === 'nodes' ? match[2] : null,
-        equipmentInfoId: (match[1] === 'nodes' && match[3] === 'equipment') ? match[4] : null,
-        category: match[1] === 'categories' ? match[2] : null,
-        searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
-        isEditMode: (match[3] === 'edit'),
-      };
-    }
-    return null;
-  }
-
-
-  fetchFeature(props: Props): void {
-    const id = this.featureId(props);
-    if (!id) {
-      this.setState({ feature: null });
+  fetchFeature(featureId: ?string): void {
+    if (!featureId) {
+      this.setState({ feature: null, featureId });
       return;
     }
-    this.setState({ fetching: true });
-    const isWheelmap = isWheelmapFeatureId(id);
+    this.setState({ fetching: true, featureId });
+    const isWheelmap = isWheelmapFeatureId(featureId);
     if (isWheelmap) {
-      this.setState({ feature: wheelmapLightweightFeatureCache.getCachedFeature(id) });
+      this.setState({ feature: wheelmapLightweightFeatureCache.getCachedFeature(featureId) });
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
+    cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
-      const currentlyShownId = this.featureId(this.props);
-      const idProperties = [
-        typeof feature.id === 'number' && feature.id,
-        typeof feature._id === 'string' && feature._id,
-        feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
-        feature.properties && typeof feature.properties._id === 'string' && feature.properties._id
-      ];
-      const fetchedId = String(idProperties.filter(Boolean)[0]);
+      const currentlyShownId = getFeatureId(this.props);
+      const fetchedId = getFeatureId(feature);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
-      if (fetchedId !== currentlyShownId) return;
+      if (currentlyShownId && fetchedId !== currentlyShownId) return;
       const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
       this.setState({ feature, lat, lon, fetching: false });
     }, (reason) => {
@@ -361,19 +371,18 @@ class FeatureLoader extends React.Component<Props, State> {
     this.setState({ isFilterToolbarVisible: !this.state.isFilterToolbarVisible });
   }
 
-  manageFocus(prevProps, prevState) {
+
+  manageFocus(prevProps: Props, prevState: State) {
     // focus to and from nodeToolbar
     let wasNodeToolbarDisplayed: boolean;
     let isNodeToolbarDisplayed: boolean;
 
-    const routeInformation = this.routeInformation();
-    const { featureId } = routeInformation || {};
+    const featureId = getFeatureIdFromProps(this.props);
     const isNodeRoute = Boolean(featureId);
     const { isLocalizationLoaded, isFilterToolbarVisible } = this.state;
     isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded && !isFilterToolbarVisible;
 
-    const prevRouteInformation = this.routeInformation(prevProps);
-    const { featureId: prevFeatureId } = prevRouteInformation || {};
+    const prevFeatureId = getFeatureIdFromProps(prevProps);
     const wasNodeRoute = Boolean(prevFeatureId);
     const { isLocalizationLoaded: wasLocalizationLoaded, isFilterToolbarVisible: wasFilterToolbarVisible } = prevState;
     wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded && !wasFilterToolbarVisible;
@@ -530,7 +539,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
 
   render() {
-    const routeInformation = this.routeInformation();
+    const routeInformation = getRouteInformation(this.props);
 
     const { featureId, isEditMode, searchQuery, equipmentInfoId } = routeInformation || {};
     const { isLocalizationLoaded } = this.state;
@@ -546,6 +555,7 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
       this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
       this.state.isSearchBarVisible ? 'is-search-bar-visible' : null,
+      this.state.feature ? 'is-node-toolbar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
       this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
@@ -560,8 +570,6 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.state.isMainMenuOpen;
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
-    const isNodeToolbarDisplayed: boolean = isLocalizationLoaded &&
-      !(this.state.isOnSmallViewport && this.state.isSearchBarVisible);
 
     const map = <Map
       ref={(map) => { this.map = map; window.map = map; }}
@@ -586,7 +594,7 @@ class FeatureLoader extends React.Component<Props, State> {
     return (<div className={classList.join(' ')}>
       {this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom })}
       {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
-      {isNodeToolbarDisplayed && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
+      {this.state.feature && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
       {isSearchButtonVisible && this.renderSearchButton()}
