@@ -7,8 +7,6 @@ import colors from '../../lib/colors';
 import { t } from 'c-3po';
 
 
-
-
 type Props = {
   onChange: ?((event: UIEvent) => void),
   onBlur: ?((event: UIEvent) => void),
@@ -22,6 +20,7 @@ type Props = {
   hidden: boolean,
   ariaRole: string,
 };
+
 
 class SearchInputField extends React.Component<Props> {
   input: ?HTMLInputElement;
@@ -75,12 +74,12 @@ const StyledSearchInputField = styled(SearchInputField)`
   width: 100%;
   box-sizing: border-box;
   font-size: 1em;
-  line-height: 2.5em;
+  line-height: 3.5em;
   padding: 0px 0 0 2.5em;
   border: none;
   border-radius: 0;
   background-color: transparent;
-  margin: 0 0 0.5em 0;
+  margin: 0;
   
   ${props => props.disabled ? 'cursor: pointer;' : ''}
 
@@ -89,7 +88,7 @@ const StyledSearchInputField = styled(SearchInputField)`
   &:focus, &.focus-ring {
     outline: none;
     box-shadow: none;
-    background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)};
+    /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
   }
 
   &::-webkit-input-placeholder,

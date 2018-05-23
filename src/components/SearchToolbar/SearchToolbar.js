@@ -48,25 +48,23 @@ const StyledToolbar = styled(Toolbar)`
   border-top: none;
   border-radius: 3px;
 
-  > header {
-    padding: 5px;
-  }
-
   .search-results {
-    padding: 12px 15px 5px 15px;
-  }
-
-  .search-results {
-    padding-top: 0;
+    padding: 0 10px 5px 10px;
   }
 
   > header {
-    position: relative;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
   }
 
   .search-icon {
     position: absolute;
-    top: 1em;
+    /* center vertically */
+    top: 50%;
+    transform: translate(0, -50%);
     left: 1em;
     pointer-events: none;
     width: 1em;
@@ -75,9 +73,10 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   .close-link {
-    top: 5px;
-    right: 8px;
     position: absolute;
+    right: 0px;
+    top: 50%;
+    transform: translate(0, -50%);
     background-color: transparent;
     display: flex;
     flex-direction: row-reverse;
@@ -100,7 +99,6 @@ const StyledToolbar = styled(Toolbar)`
     right: 0;
     left: 0;
     margin: 0;
-    padding: 12px 15px;
     padding-right: max(constant(safe-area-inset-right), 15px);
     padding-left: max(constant(safe-area-inset-left), 15px);
     padding-right: max(env(safe-area-inset-right), 15px);
@@ -110,17 +108,15 @@ const StyledToolbar = styled(Toolbar)`
     transform: translate3d(0, 0, 0) !important;
     z-index: 1000000000;
     border-radius: 0;
+
     > header, .search-results, .category-menu {
       padding: 0
     }
-    .search-icon {
-      top: 8px;
-      left: 8px;
+
+    .search-results .link-button {
+      margin: 0;
     }
-    .close-link {
-      top: -6px;
-      right: -5px;
-    }
+
     @media (max-height: 400px) {
       .category-button {
         flex-basis: 16.666666% !important;
