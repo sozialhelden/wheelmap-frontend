@@ -45,10 +45,16 @@ const StyledToolbar = styled(Toolbar)`
   flex-direction: column;
   padding: 0;
   border-top: none;
+  border-radius: 3px;
 
-  > header, .search-results {
+  > header {
+    padding: 5px;
+  }
+
+  .search-results {
     padding: 12px 15px 5px 15px;
   }
+
   .search-results {
     padding-top: 0;
   }
@@ -59,11 +65,11 @@ const StyledToolbar = styled(Toolbar)`
 
   .search-icon {
     position: absolute;
-    top: 20px;
-    left: 22px;
+    top: 1em;
+    left: 1em;
     pointer-events: none;
-    width: 15px;
-    height: 15px;
+    width: 1em;
+    height: 1em;
     opacity: 0.5;
   }
 
@@ -81,7 +87,6 @@ const StyledToolbar = styled(Toolbar)`
 
   @media (max-width: 512px), (max-height: 512px) {
     &.toolbar-iphone-x {
-      border-bottom:
       input, input:focus {
         background-color: white;
       }
@@ -147,7 +152,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
   };
 
   toolbar: ?React.Element<typeof Toolbar>;
-  input: HTMLInputElement;
+  input: ?HTMLInputElement;
+  searchInputField: ?HTMLInputElement;
+
 
   handleSearchInputChange = debounce(() => {
     if (!(this.input instanceof HTMLInputElement)) return;
@@ -221,12 +228,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   focus() {
-    // if (hasBigViewport()) {
-      this.searchInputField.focus();
-    // }
+    if (!this.searchInputField) return;
+    this.searchInputField.focus();
   }
 
   blur() {
+    if (!this.searchInputField) return;
     this.searchInputField.blur();
   }
 
@@ -305,6 +312,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
             hidden={this.props.hidden}
             onClick={() => {
               if (this.props.category) {
+                this.setState({ searchFieldIsFocused: true });
+                window.scrollTo(0, 0);
                 this.setState({ categoryMenuIsVisible: true });
               }
             }}

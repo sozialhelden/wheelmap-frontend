@@ -75,12 +75,14 @@ const StyledSearchInputField = styled(SearchInputField)`
   width: 100%;
   box-sizing: border-box;
   font-size: 1em;
-  line-height: 2em;
-  padding: 0 0 0 1.8em;
+  line-height: 2.5em;
+  padding: 0px 0 0 2.5em;
   border: none;
-  background-color: #ddd;
-  border-radius: 0.3em;
+  border-radius: 0;
+  background-color: transparent;
   margin: 0 0 0.5em 0;
+  
+  ${props => props.disabled ? 'cursor: pointer;' : ''}
 
   transition: width 0.3s ease-out, height 0.3s ease-out;
 

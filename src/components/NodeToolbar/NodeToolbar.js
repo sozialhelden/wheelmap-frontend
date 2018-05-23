@@ -51,9 +51,9 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 
 type Props = {
-  feature: Feature,
-  featureId: string | number,
-  equipmentInfoId: string,
+  feature: ?Feature,
+  featureId: ?string | number,
+  equipmentInfoId: ?string,
   hidden: boolean,
   isEditMode: boolean,
   onReportModeToggle: ?((isReportMode: boolean) => void),
