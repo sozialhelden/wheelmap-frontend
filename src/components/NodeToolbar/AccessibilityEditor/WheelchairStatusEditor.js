@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
+import CloseLink from '../../CloseLink';
 import { t } from 'c-3po';
 import fetch from '../../../lib/fetch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
@@ -177,7 +178,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         aria-labelledby="wheelchair-accessibility-header"
       >
         <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
-
+        <CloseLink className='close-link' onClick={this.props.onClose} />
         <StyledRadioGroup
           name="accessibility"
           selectedValue={wheelchairAccessibility}
@@ -244,6 +245,15 @@ const StyledWheelchairStatusEditor = styled(WheelchairStatusEditor)`
     margin-right: 8px;
     top: 0;
     left: 0;
+  }
+
+  .close-link {
+    top: 5px;
+    right: 8px;
+    position: absolute;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row-reverse;
   }
 `;
 
