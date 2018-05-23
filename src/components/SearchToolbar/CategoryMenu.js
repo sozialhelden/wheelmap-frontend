@@ -11,11 +11,21 @@ const Container = styled.div`
   z-index: 1000;
   top: 50px;
   width: 100%;
-  margin-bottom: 10px;
+  padding: 10px 0;
   > * {
     flex: 80px;
-    @media (max-width: 320px) {
+    @media (max-width: 512px) {
       flex: 60px;
+    }
+    @media (max-width: 320px) {
+      flex: 50px;
+      .circle {
+        width: 30px;
+        height: 30px;
+      }
+      .caption {
+        font-size: 65%;
+      }
     }
   }
 `;
