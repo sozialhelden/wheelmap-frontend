@@ -136,6 +136,7 @@ class ReportDialog extends React.Component<Props, State> {
         feature={feature}
         featureId={featureId}
         onClose={this.props.onClose}
+        inline={true}
       />);
     }
 

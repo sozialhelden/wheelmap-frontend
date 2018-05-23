@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
+import CloseLink from '../../CloseLink';
 import { t } from 'c-3po';
 import fetch from '../../../lib/fetch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
@@ -21,6 +22,7 @@ type Props = {
   className: string,
   onSave: ?((YesNoLimitedUnknown) => void),
   onClose: (() => void),
+  inline: ?boolean 
 };
 
 
@@ -28,7 +30,6 @@ type State = {
   wheelchairAccessibility: YesNoLimitedUnknown,
   categoryId: string,
 };
-
 
 class WheelchairStatusEditor extends React.Component<Props, State> {
   props: Props;
@@ -108,6 +109,15 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     }
   }
 
+  closeButtonClick = (event) => {
+    if (typeof this.props.onClose === 'function') {
+      this.props.onClose();
+      // prevent clicking the next close button as well
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   save(value: YesNoLimitedUnknown) {
     // Don't override existing values. If somebody does not know the new toilet status, we trust
     // the last information we have.
@@ -177,6 +187,10 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         aria-labelledby="wheelchair-accessibility-header"
       >
         <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
+        {!this.props.inline && <CloseLink 
+          className='close-link' 
+          onClick={this.closeButtonClick}
+          />}
 
         <StyledRadioGroup
           name="accessibility"
@@ -244,6 +258,15 @@ const StyledWheelchairStatusEditor = styled(WheelchairStatusEditor)`
     margin-right: 8px;
     top: 0;
     left: 0;
+  }
+
+  .close-link {
+    top: 5px;
+    right: 8px;
+    position: absolute;
+    background-color: transparent;
+    display: flex;
+    flex-direction: row-reverse;
   }
 `;
 

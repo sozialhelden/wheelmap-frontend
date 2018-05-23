@@ -14,6 +14,7 @@ type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
 
 type Props = {
   className: string,
+  ariaLabel: ?string,
   onClick: ClickHandler,
   onFocus: FocusHandler,
   onBlur: BlurHandler,
@@ -46,7 +47,7 @@ class CloseLink extends React.Component<Props> {
         onFocus={this.props.onFocus}
         onClick={this.onClick}
         role='button'
-        aria-label={t`Clear Search`}
+        aria-label={this.props.ariaLabel || t`Close`}
       >
         <CloseIcon />
       </Link>
