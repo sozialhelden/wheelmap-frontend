@@ -175,13 +175,12 @@ class FeatureLoader extends React.Component<Props, State> {
 
 
   onMoveEndHandler = (state) => {
-    // console.log('Setting query params after moving to', state);
-    // setQueryParams(this.props.history, omit(state, 'bbox'));
-
-    saveState('map.lastZoom', String(state.zoom));
-    saveState('map.lastCenter.lat', String(state.lat));
-    saveState('map.lastCenter.lon', String(state.lon));
-    saveState('map.lastMoveDate', new Date().toString());
+    saveState({
+      'map.lastZoom': String(state.zoom),
+      'map.lastCenter.lat': String(state.lat),
+      'map.lastCenter.lon': String(state.lon),
+      'map.lastMoveDate': new Date().toString(),
+    });
   }
 
 

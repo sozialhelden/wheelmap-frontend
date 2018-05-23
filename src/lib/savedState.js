@@ -14,6 +14,7 @@ const savedState = {
 
 export default savedState;
 
-export function saveState(key: string, value: string) {
-  localStorage.setItem(`wheelmap.${key}`, value);
+export function saveState(state: { [string]: string }) {
+  Object.keys(state)
+    .forEach(key => localStorage.setItem(`wheelmap.${key}`, state[key]));
 }
