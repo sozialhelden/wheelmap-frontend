@@ -2,7 +2,6 @@
 
 import get from 'lodash/get';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import * as React from 'react';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
@@ -26,7 +25,7 @@ import config from './lib/config';
 import colors from './lib/colors';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
-import { isOnSmallViewport, hasBigViewport } from './lib/ViewportSize';
+import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type {
   Feature,
@@ -36,6 +35,10 @@ import type {
   YesNoUnknown,
   NodeProperties,
 } from './lib/Feature';
+
+import type {
+  EquipmentInfoProperties,
+} from './lib/EquipmentInfo';
 
 import {
   isWheelmapFeatureId,
@@ -82,12 +85,15 @@ type State = {
   category: ?string,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
+  isOnSmallViewport: boolean,
 };
 
 type RouteInformation = {
   featureId: ?string,
   category: ?string,
   isEditMode: boolean,
+  searchQuery: ?string,
+  equipmentInfoId: ?string,
 };
 
 function updateTouchCapability() {
@@ -101,11 +107,10 @@ function updateTouchCapability() {
   }
 }
 
-function hrefForFeature(featureId: string, properties: ?NodeProperties) {
-  if (properties) {
-    const placeInfoId = properties.placeInfoId;
-    if (placeInfoId && includes(['elevator', 'escalator'], properties.category)) {
-      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
+function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
+  if (properties && typeof properties.placeInfoId === 'string') {
+    if (includes(['elevator', 'escalator'], properties.category)) {
+      return `/beta/nodes/${properties.placeInfoId}/equipment/${featureId}`;
     }
   }
   return `/beta/nodes/${featureId}`;
@@ -144,9 +149,8 @@ class FeatureLoader extends React.Component<Props, State> {
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     const params = getQueryParams();
     const pathname = hrefForFeature(featureId, properties);
-    // const newHref = `${href}${hashOrNothing}?${queryString.stringify(params)}`;
+    // const newHref = this.props.history.createHref(location);
     const location = { pathname, search: queryString.stringify(params) };
-    const newHref = this.props.history.createHref(location);
     this.props.history.push(location);
   };
 
@@ -166,11 +170,25 @@ class FeatureLoader extends React.Component<Props, State> {
 
   resizeListener = () => {
     updateTouchCapability();
+    this.updateViewportSizeState();
   };
+
+
+  onMoveEndHandler = (state) => {
+    // console.log('Setting query params after moving to', state);
+    // setQueryParams(this.props.history, omit(state, 'bbox'));
+
+    saveState('map.lastZoom', String(state.zoom));
+    saveState('map.lastCenter.lat', String(state.lat));
+    saveState('map.lastCenter.lon', String(state.lon));
+    saveState('map.lastMoveDate', new Date().toString());
+  }
+
 
   onError = (error) => {
     this.setState({ isNotFoundVisible: true, lastError: error });
   }
+
 
   constructor(props: Props) {
     super(props);
@@ -185,7 +203,7 @@ class FeatureLoader extends React.Component<Props, State> {
     window.addEventListener('resize', this.resizeListener);
     this.resizeListener();
     await loadExistingLocalizationByPreference()
-      .then(() => this.setState({ isLocalizationLoaded: true }));
+      .then(() => this.setState({ isLocalizationLoaded: true }))
   }
 
 
@@ -194,9 +212,11 @@ class FeatureLoader extends React.Component<Props, State> {
     this.updateStateFromProps(this.props);
   }
 
+
   componentDidUpdate(prevProps, prevState) {
     this.manageFocus(prevProps, prevState);
   }
+
 
   updateStateFromProps(props: Props) {
     this.fetchFeature(props);
@@ -249,6 +269,11 @@ class FeatureLoader extends React.Component<Props, State> {
     const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
     console.log('Next state:', nextState);
     this.setState(nextState);
+  }
+
+
+  updateViewportSizeState() {
+    this.setState({ isOnSmallViewport: isOnSmallViewport() });
   }
 
 
@@ -311,7 +336,12 @@ class FeatureLoader extends React.Component<Props, State> {
     cache.getFeature(id).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
       const currentlyShownId = this.featureId(this.props);
-      const idProperties = [feature.id, feature.properties.id, feature._id, feature.properties._id];
+      const idProperties = [
+        typeof feature.id === 'number' && feature.id,
+        typeof feature._id === 'string' && feature._id,
+        feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
+        feature.properties && typeof feature.properties._id === 'string' && feature.properties._id
+      ];
       const fetchedId = String(idProperties.filter(Boolean)[0]);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
@@ -372,6 +402,7 @@ class FeatureLoader extends React.Component<Props, State> {
     }
   }
 
+  
   openSearch() {
     this.setState({ isSearchBarVisible: true }, () => {
       setTimeout(() => {
@@ -381,6 +412,125 @@ class FeatureLoader extends React.Component<Props, State> {
       }, 100);
     });
   }
+
+
+  renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode }) {
+    return <div className="node-toolbar">
+      <NodeToolbar
+        ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
+        history={this.props.history}
+        feature={this.state.feature}
+        hidden={this.state.isFilterToolbarVisible || !isNodeRoute}
+        featureId={featureId}
+        equipmentInfoId={equipmentInfoId}
+        isEditMode={isEditMode}
+        onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
+      />
+    </div>;
+  }
+
+
+  renderSearchToolbar({ isInert, category, searchQuery, lat, lon }) {
+    return <SearchToolbar
+      ref={searchToolbar => this.searchToolbar = searchToolbar}
+      history={this.props.history}
+      hidden={!this.state.isSearchBarVisible}
+      inert={isInert}
+      category={category}
+      searchQuery={searchQuery}
+      onChangeSearchQuery={(newSearchQuery) => {
+        if (!newSearchQuery || newSearchQuery.length === 0) {
+          this.props.history.replace('/beta/', null);
+          return;
+        }
+        this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
+      }}
+      lat={lat ? parseFloat(lat) : null}
+      lon={lon ? parseFloat(lon) : null}
+      onSelectCoordinate={(coords: ?{ lat: number, lon: number }) => {
+        if (coords) {
+          this.setState(coords);
+        }
+        this.setState({ isSearchBarVisible: isOnSmallViewport() && false });
+      }}
+      onClose={() => { this.setState({
+        category: null,
+        isSearchBarVisible: isOnSmallViewport() && false,
+      }); }}
+    />;
+  }
+
+
+  renderSearchButton() {
+    return <SearchButton
+      onClick={e => { e.stopPropagation(); this.openSearch(); }}
+      top={60}
+      left={10}
+    />;
+  }
+
+
+  renderOnboarding() {
+    return <Onboarding
+      isVisible={this.state.isOnboardingVisible}
+      onClose={() => {
+        saveOnboardingFlag();
+        this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
+        if (this.searchToolbar) this.searchToolbar.focus();
+      }}
+    />;
+  }
+
+
+  renderNotFound() {
+    return <NotFound
+      isVisible={this.state.isNotFoundVisible}
+      onClose={() => {
+        this.setState({ isNotFoundVisible: false });
+      }}
+      error={this.state.lastError}
+    />;
+  }
+
+
+  renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom }) {
+    return <MainMenu
+      className="main-menu"
+      onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
+      isEditMode={isEditMode}
+      isLocalizationLoaded={isLocalizationLoaded}
+      history={this.props.history}
+      { ...{lat, lon, zoom}}
+    />;
+  }
+
+
+  renderFilterButton() {
+    return <FilterButton
+      ref={filterButton => this.filterButton = filterButton}
+      accessibilityFilter={this.accessibilityFilter()}
+      toiletFilter={this.toiletFilter()}
+      onClick={() => this.toggleFilterToolbar()}
+      top={200}
+      right={10}
+    />;
+  }
+
+
+  renderFilterToolbar() {
+    return <div className="filter-toolbar">
+      <FilterToolbar
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
+        onFilterChanged={(filter) => {
+          setQueryParams(this.props.history, filter);
+          this.setState(filter);
+        }}
+      />
+    </div>;
+  }
+
 
   render() {
     const routeInformation = this.routeInformation();
@@ -406,135 +556,50 @@ class FeatureLoader extends React.Component<Props, State> {
     const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const searchToolbarIsHidden =
-      isNodeRoute || this.state.isFilterToolbarVisible || this.state.isOnboardingVisible || this.state.isNotFoundVisible;
+      (isNodeRoute && this.state.isOnSmallViewport) ||
+      this.state.isFilterToolbarVisible ||
+      this.state.isOnboardingVisible ||
+      this.state.isNotFoundVisible;
 
-    const searchToolbarIsInert = searchToolbarIsHidden || this.state.isMainMenuOpen;
-    const isSearchButtonVisible = !this.state.isSearchBarVisible;
+    const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.state.isMainMenuOpen;
+    const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
+    const isNodeToolbarDisplayed: boolean = isLocalizationLoaded &&
+      !(this.state.isOnSmallViewport && this.state.isSearchBarVisible);
+
+    const map = <Map
+      ref={(map) => { this.map = map; window.map = map; }}
+      history={this.props.history}
+      onMoveEnd={this.onMoveEndHandler}
+      onError={this.onError}
+      lat={lat ? parseFloat(lat) : null}
+      lon={lon ? parseFloat(lon) : null}
+      zoom={zoom ? parseFloat(zoom) : null}
+      category={category}
+      featureId={featureId}
+      equipmentInfoId={equipmentInfoId}
+      feature={this.state.feature}
+      accessibilityFilter={this.accessibilityFilter()}
+      toiletFilter={this.toiletFilter()}
+      pointToLayer={this.createMarkerFromFeature}
+      locateOnStart={shouldLocateOnStart}
+      isLocalizationLoaded={isLocalizationLoaded}
+      {...config}
+    />;
 
     return (<div className={classList.join(' ')}>
-      <MainMenu
-        className="main-menu"
-        onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
-        isEditMode={isEditMode}
-        isLocalizationLoaded={isLocalizationLoaded}
-        history={this.props.history}
-        { ...{lat, lon, zoom}}
-      />
-
-      {isLocalizationLoaded && <SearchToolbar
-        ref={searchToolbar => this.searchToolbar = searchToolbar}
-        history={this.props.history}
-        hidden={!this.state.isSearchBarVisible}
-        inert={searchToolbarIsInert}
-        category={category}
-        searchQuery={searchQuery}
-        onChangeSearchQuery={(newSearchQuery) => {
-          if (!newSearchQuery || newSearchQuery.length === 0) {
-            this.props.history.replace('/beta/', null);
-            return;
-          }
-          this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
-        }}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        onSelectCoordinate={(coords: ?{ lat: number, lon: number }) => {
-          if (coords) {
-            this.setState(coords);
-          }
-          this.setState({ isSearchBarVisible: false });
-        }}
-        onClose={() => { this.setState({ category: null, isSearchBarVisible: false }); }}
-      /> }
-
-      {isLocalizationLoaded && !this.state.isSearchBarVisible && (<div className="node-toolbar">
-        <NodeToolbar
-          ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
-          history={this.props.history}
-          feature={this.state.feature}
-          hidden={this.state.isFilterToolbarVisible || !isNodeRoute}
-          featureId={featureId}
-          equipmentInfoId={equipmentInfoId}
-          isEditMode={isEditMode}
-          onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
-        />
-      </div>)}
-
-      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && <FilterButton
-        ref={filterButton => this.filterButton = filterButton}
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        onClick={() => this.toggleFilterToolbar()}
-        top={200}
-        right={10}
-      />}
-
-      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && (<div className="filter-toolbar">
-        <FilterToolbar
-          accessibilityFilter={this.accessibilityFilter()}
-          toiletFilter={this.toiletFilter()}
-          onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
-          onFilterChanged={(filter) => {
-            setQueryParams(this.props.history, filter);
-            this.setState(filter);
-          }}
-        />
-      </div>)}
-
-      {isSearchButtonVisible && <SearchButton
-        onClick={e => { e.stopPropagation(); this.openSearch(); }}
-        top={60}
-        left={10}
-      />}
-
-      <Map
-        ref={(map) => { this.map = map; window.map = map; }}
-        history={this.props.history}
-        onMoveEnd={(...args) => { this.onMoveEndHandler(...args) }}
-        onError={this.onError}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        zoom={zoom ? parseFloat(zoom) : null}
-        category={category}
-        featureId={featureId}
-        equipmentInfoId={equipmentInfoId}
-        feature={this.state.feature}
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        pointToLayer={this.createMarkerFromFeature}
-        locateOnStart={shouldLocateOnStart}
-        isLocalizationLoaded={isLocalizationLoaded}
-        {...config}
-      />
-
-      <Onboarding
-        isVisible={this.state.isOnboardingVisible}
-        onClose={() => {
-          saveOnboardingFlag();
-          this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
-          if (this.searchToolbar) this.searchToolbar.focus();
-        }}
-      />
-
-      <NotFound
-        isVisible={this.state.isNotFoundVisible}
-        onClose={() => {
-          this.setState({ isNotFoundVisible: false });
-        }}
-        error={this.state.lastError}
-      />
+      {this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom })}
+      {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
+      {isNodeToolbarDisplayed && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
+      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
+      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
+      {isSearchButtonVisible && this.renderSearchButton()}
+      {map}
+      {this.renderOnboarding()}
+      {this.renderNotFound()}
     </div>);
   }
-
-  onMoveEndHandler(state) {
-    // console.log('Setting query params after moving to', state);
-    // setQueryParams(this.props.history, omit(state, 'bbox'));
-
-    saveState('map.lastZoom', String(state.zoom));
-    saveState('map.lastCenter.lat', String(state.lat));
-    saveState('map.lastCenter.lon', String(state.lon));
-    saveState('map.lastMoveDate', new Date().toString());
-  }
 }
+
 
 const StyledFeatureLoader = styled(FeatureLoader)`
   a {
