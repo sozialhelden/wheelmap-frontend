@@ -74,6 +74,7 @@ type State = {
   zoom?: number,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  showZoomInfo?: boolean,
 };
 
 
@@ -101,10 +102,18 @@ export default class Map extends React.Component<Props, State> {
       this.props.minZoomWithSetCategory,
       this.props.minZoomWithoutSetCategory,
     );
+    
     const onMoveEnd = this.props.onMoveEnd;
-    if (!(typeof onMoveEnd === 'function')) return;
-    const bbox = map.getBounds();
-    onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+    if (typeof onMoveEnd === 'function') {
+      const bbox = map.getBounds();
+      onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+    }
+
+    const minimalZoomLevelForFeatures = this.props.category ?
+      this.props.minZoomWithSetCategory :
+      this.props.minZoomWithoutSetCategory;
+    const showZoomInfo = this.map ? this.map.getZoom() < minimalZoomLevelForFeatures : false;
+    this.setState({showZoomInfo});
 
     this.updateTabIndexes();
   }
@@ -272,10 +281,12 @@ export default class Map extends React.Component<Props, State> {
 
     if (this.props.category) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
+        console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
       }
     }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
+      console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
   }
@@ -315,6 +326,14 @@ export default class Map extends React.Component<Props, State> {
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._update(map.getCenter());
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
+    }
+  }
+
+  zoomIn = (event: Event) => {
+    if (this.map) {
+      this.map.zoomIn();
+      event.stopPropagation();
+      event.preventDefault();
     }
   }
 
@@ -456,6 +475,20 @@ export default class Map extends React.Component<Props, State> {
     if (this.mapElement) this.mapElement.focus();
   }
 
+  renderZoomInfo() {
+    // translator: Shown when zoomed out to far
+    const zoomCaption = t`Zoom closer to see more places`;
+    const showZoomInfo = this.state.showZoomInfo;
+
+    return showZoomInfo && 
+        (<a className="zoom-info-block" 
+            onKeyDown={this.zoomIn}
+            onClick={this.zoomIn} 
+            role="button"
+            tabIndex={-1}
+            aria-label={zoomCaption}>{zoomCaption}</a>);
+  }
+
   render() {
     const className = [
       isApplePlatform() ? 'is-apple-platform' : null,
@@ -469,6 +502,7 @@ export default class Map extends React.Component<Props, State> {
         role="main"
         aria-label={t`Map`}
       >
+        {this.renderZoomInfo()}
         <a href="http://mapbox.com/about/maps" className='mapbox-wordmark' target="_blank" rel="noopener noreferrer">Mapbox</a>
         <span className="mapbox-attribution-container">
         <span className="sozialhelden-logo-container">
