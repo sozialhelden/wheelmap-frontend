@@ -59,7 +59,7 @@ const StyledDiv = styled.div`
 `;
 
 const Caption = styled.div.attrs({ className: 'caption' })`
-  font-size: 0.70em;
+  font-size: 0.80em;
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.2;
   margin-top: 0.5em;
