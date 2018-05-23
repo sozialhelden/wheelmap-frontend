@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import type { NodeProperties, YesNoLimitedUnknown } from '../lib/Feature';
+import type { Category } from '../lib/Categories';
 import getIconNameForProperties from './Map/getIconNameForProperties';
 import colors from '../lib/colors';
 import * as icons from './icons/categories';
@@ -83,7 +84,7 @@ export default function Icon({
     ? getIconNameForProperties(properties)
     : category._id === '2nd_hand' ? 'second_hand' : category._id;
   const CategoryIconComponent = icons[categoryName || 'undefined'] || icons['undefined'];
-  const MarkerComponent = markers[`${accessibility}${withArrow ? 'With' : 'Without'}Arrow`];
+  const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
   if (typeof CategoryIconComponent === 'object') {
     debugger;
   }
