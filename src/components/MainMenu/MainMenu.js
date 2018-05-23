@@ -233,7 +233,7 @@ const StyledMainMenu = styled(MainMenu)`
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
   transition: height 0.3s ease-out;
   overflow: auto;
 
