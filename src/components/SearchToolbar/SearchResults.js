@@ -283,7 +283,6 @@ function SearchResults(props: Props) {
 const StyledSearchResults = styled(SearchResults)`
   list-style-type: none;
   margin: 0;
-  padding: 0;
 
   li {
     padding: 0;
