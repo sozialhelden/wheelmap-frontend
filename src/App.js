@@ -511,8 +511,6 @@ class FeatureLoader extends React.Component<Props, State> {
       accessibilityFilter={this.accessibilityFilter()}
       toiletFilter={this.toiletFilter()}
       onClick={() => this.toggleFilterToolbar()}
-      top={200}
-      right={10}
     />;
   }
 
