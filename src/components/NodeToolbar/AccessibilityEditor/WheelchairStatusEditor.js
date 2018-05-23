@@ -22,6 +22,7 @@ type Props = {
   className: string,
   onSave: ?((YesNoLimitedUnknown) => void),
   onClose: (() => void),
+  inline: ?boolean 
 };
 
 
@@ -29,7 +30,6 @@ type State = {
   wheelchairAccessibility: YesNoLimitedUnknown,
   categoryId: string,
 };
-
 
 class WheelchairStatusEditor extends React.Component<Props, State> {
   props: Props;
@@ -109,6 +109,15 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     }
   }
 
+  closeButtonClick = (event) => {
+    if (typeof this.props.onClose === 'function') {
+      this.props.onClose();
+      // prevent clicking the next close button as well
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
   save(value: YesNoLimitedUnknown) {
     // Don't override existing values. If somebody does not know the new toilet status, we trust
     // the last information we have.
@@ -178,7 +187,11 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         aria-labelledby="wheelchair-accessibility-header"
       >
         <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
-        <CloseLink className='close-link' onClick={this.props.onClose} />
+        {!this.props.inline && <CloseLink 
+          className='close-link' 
+          onClick={this.closeButtonClick}
+          />}
+
         <StyledRadioGroup
           name="accessibility"
           selectedValue={wheelchairAccessibility}
