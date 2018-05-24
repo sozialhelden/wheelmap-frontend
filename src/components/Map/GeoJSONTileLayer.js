@@ -47,6 +47,7 @@ class GeoJSONTileLayer extends TileLayer {
   _idsToShownLayers = {};
   _loadedTileUrls = {};
   highlightedMarkerIds = [];
+  highlightLayer: L.Layer = null;
 
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
@@ -201,31 +202,24 @@ class GeoJSONTileLayer extends TileLayer {
   pointToLayer(feature) {
     const geometry = feature.geometry;
     const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
-    const id = feature._id || feature.properties._id || feature.properties.id;
+    const id = String(feature._id || feature.properties._id || feature.properties.id);
     const existingMarker = this._idsToShownLayers[id];
 
     if (existingMarker) {
-      if (includes(this.highlightedMarkerIds, String(id))) {
-        // delay, as the element is not ready yet behind
-        setTimeout(() => highlightMarkers([existingMarker], false, false), 10);
+      if (includes(this.highlightedMarkerIds, id)) {
+        highlightMarkers(this.highlightLayer, [existingMarker], false, false);
       }
       return existingMarker;
     }
-    const pointToLayerFn =
-      this.options.pointToLayer || this.constructor.pointToLayer;
+    
+    const pointToLayerFn = this.options.pointToLayer || this.constructor.pointToLayer;
     const marker = pointToLayerFn(feature, latlng);
     if (!marker) return;
 
     marker.feature = feature;
-
     this._idsToShownLayers[id] = marker;
-    if (includes(this.highlightedMarkerIds, String(id))) {
-      const highlightFn = () => {
-        // delay, as the element is not ready yet behind
-        setTimeout(() => highlightMarkers([marker], false, true), 10);
-        marker.off("add", highlightFn);
-      };
-      marker.on("add", highlightFn);
+    if (includes(this.highlightedMarkerIds, id)) {
+      highlightMarkers(this.highlightLayer, [marker], false, true);
     }
     return marker;
   }
@@ -319,11 +313,17 @@ class GeoJSONTileLayer extends TileLayer {
     });
   }
 
-  highlightMarkersWithIds(ids: string[]) {
+  highlightMarkersWithIds(highlightLayer: L.Layer, ids: string[]) {
     const markers = ids.map(id => this._idsToShownLayers[id]).filter(Boolean);
     this.highlightedMarkerIds = ids;
+    this.highlightLayer = highlightLayer;
     if (!markers.length) return;
-    highlightMarkers(markers);
+    highlightMarkers(highlightLayer, markers);
+  }
+
+  resetHighlights() 
+  {
+    this.highlightedMarkerIds = [];
   }
 }
 
