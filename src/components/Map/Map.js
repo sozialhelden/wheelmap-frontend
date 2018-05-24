@@ -92,6 +92,7 @@ export default class Map extends React.Component<Props, State> {
   featureLayer: ?L.LayerGroup;
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
+  highLightLayer: ?L.Layer;
 
   onMoveEnd() {
     const map = this.map;
@@ -201,6 +202,9 @@ export default class Map extends React.Component<Props, State> {
 
     map.addLayer(basemapLayer);
 
+    this.highLightLayer = new L.LayerGroup();
+    map.addLayer(this.highLightLayer);
+
     const markerClusterGroup = this.createMarkerClusterGroup()
 
     // markerClusterGroup.on('clusterclick', (cluster) => {
@@ -239,11 +243,12 @@ export default class Map extends React.Component<Props, State> {
 
       // ensure that the map property is set so that wmp can inject places immediately
       this.accessibilityCloudTileLayer._map = this.map;
+      this.updateFeatureLayerVisibility(this.props);
     });
 
 
     Categories.fetchOnce(this.props).then(() => {
-      this.updateFeatureLayerVisibility();
+      this.updateFeatureLayerVisibility(this.props);
       map.on('moveend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomstart', () => { this.removeLayersNotVisibleInZoomLevel(); });
@@ -262,6 +267,7 @@ export default class Map extends React.Component<Props, State> {
     if (!this.map) return;
     this.map.off();
     delete this.map;
+    delete this.highLightLayer;
     delete this.mapElement;
     delete this.featureLayer;
     delete this.wheelmapTileLayer;
@@ -431,7 +437,7 @@ export default class Map extends React.Component<Props, State> {
   updateHighlightedMarker(props: Props) {
     if (props.featureId) {
       if (this.wheelmapTileLayer) {
-        this.wheelmapTileLayer.highlightMarkersWithIds([String(props.featureId)]);
+        this.wheelmapTileLayer.highlightMarkersWithIds(this.highLightLayer, [String(props.featureId)]);
       }
       const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
       if (accessibilityCloudTileLayer) {
@@ -439,10 +445,14 @@ export default class Map extends React.Component<Props, State> {
         if (typeof props.equipmentInfoId === 'string') {
           ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
         }
-        accessibilityCloudTileLayer.highlightMarkersWithIds(ids);
+        accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
     } else {
-      highlightMarkers([]);
+      if (this.wheelmapTileLayer) 
+        this.wheelmapTileLayer.resetHighlights();
+      if (this.accessibilityCloudTileLayer) 
+        this.accessibilityCloudTileLayer.resetHighlights();
+      highlightMarkers(this.highLightLayer, []);
     }
   }
 
