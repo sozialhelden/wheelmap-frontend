@@ -498,7 +498,7 @@ export default class Map extends React.Component<Props, State> {
             onClick={this.zoomIn} 
             role="button"
             tabIndex={-1}
-            aria-label={zoomCaption}>{zoomCaption}</a>);
+            aria-label={zoomCaption}><span>{zoomCaption}</span></a>);
   }
 
   render() {

@@ -400,55 +400,84 @@ body.is-touch-device .leaflet-filter-button {
 }
 
 .zoom-info-block {
-  margin-top: 67.5px;
+  display: inline-flex;
   position: absolute;
+  right: 60px;
+  top: 10px;
+  max-width: 100px; /* Ensure the block does not overlap the search bar */
   z-index: 2000;
   border-radius: 4px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.7);
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  display: inline-flex;
-  padding: 2px 5px;
-  right: 60px;
-  top: 0;
+  background-color: rgb(86,105,140);
   cursor: pointer;
-  max-width: 200px;
   text-align: center;
 }
 
-@media (max-width: 500px), (max-height: 500px) {
-  .zoom-info-block {
-    max-width: 150px;
-  }
+.zoom-info-block span {
+  padding: 4px 8px;
+  background: rgb(86,105,140);
+  color: white;
+  z-index: 1;
+  border-radius: 4px;
+  font-size: .9rem;
+  font-weight: 300;
+  text-shadow: 0 0px 1px rgba(0,0,0,0.5);
 }
 
 
 /* only show nose with zoom buttons */
-body.is-touch-device .zoom-info-block {
-  margin-top: 60px;
-}
 
 body:not(.is-touch-device) .zoom-info-block::before,
 body:not(.is-touch-device) .zoom-info-block::after  {
   content: '';
   position: absolute;
   border-style: solid;
-  border-color: #ccc;
+  border-color: rgba(0, 0, 0, 0.15);
   display: block;
   width: 0;
-  top: 7px;
   left: 100%;
   border-width: 7px 0 7px 7px;
-  border-top-color: transparent !important; 
+  border-top-color: transparent !important;
   border-bottom-color: transparent !important;
 }
 
+body:not(.is-touch-device) .zoom-info-block::before {
+  filter: blur(2px);
+  top: 16px;
+}
+
 body:not(.is-touch-device) .zoom-info-block::after {
-  border-color: #fff;
-  top: 5px;
+  border-color: rgb(86,105,140);
+  top: 14px;
   border-width: 5px 0 5px 5px;
 }
+
+
+@media (max-width: 1024px) {
+  .zoom-info-block {
+    top: 60px;
+  }
+}
+
+
+@media (max-width: 500px), (max-height: 500px) {
+  /* On small viewports, move button down to make space for category view */
+  .zoom-info-block {
+    max-width: 150px;
+    top: unset;
+    right: unset;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .zoom-info-block::before,
+  .zoom-info-block::after {
+    opacity: 0;
+  }
+}
+
 
 @media (max-width: 500px), (max-height: 500px) {
   .mapbox-attribution-container {
