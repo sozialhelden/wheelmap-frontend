@@ -62,7 +62,7 @@ class SearchInputField extends React.Component<Props> {
       onBlur={onBlur}
       onClick={onClick}
       className={`search-input ${className}`}
-      placeholder={value === '' ? defaultPlaceholder : null}
+      placeholder={!Boolean(value) ? defaultPlaceholder : null}
       aria-label={defaultPlaceholder}
       role={ariaRole}
       />);
