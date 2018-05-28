@@ -160,7 +160,7 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
 
   dd {
       /*background-color: rgba(0, 255, 0, 0.1);*/
-      margin-left: 1em;
+      margin-left: .5em;
       display: table-cell;
       padding: 0 0 0 0.3em;
   }
