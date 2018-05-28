@@ -41,6 +41,7 @@ type State = {
   isLoading: boolean;
 };
 
+
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
   display: flex;
@@ -109,6 +110,15 @@ const StyledToolbar = styled(Toolbar)`
     transform: translate3d(0, 0, 0) !important;
     z-index: 1000000000;
     border-radius: 0;
+
+    &.is-category-selected {
+      top: 60px;
+      left: 10px;
+      width: calc(100% - 70px);
+      max-height: 100%;
+      max-width: 320px;
+      margin: 0;
+    }
 
     > header, .search-results, .category-menu {
       padding: 0
@@ -297,7 +307,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     const className = [
       'search-toolbar',
-      searchFieldIsFocused ? 'search-field-is-focused' : null,
+      this.props.category && 'is-category-selected',
+      searchFieldIsFocused && 'search-field-is-focused',
     ].filter(Boolean).join(' ');
 
     return (
