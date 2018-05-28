@@ -418,7 +418,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
   
   openSearch() {
-    this.setState({ isSearchBarVisible: true }, () => {
+    this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
       setTimeout(() => {
         if (this.searchToolbar) {
           this.searchToolbar.focus();
