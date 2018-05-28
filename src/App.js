@@ -428,6 +428,11 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
+  closeSearch() {
+    this.setState({ isSearchBarVisible: false, isSearchToolbarExpanded: false });
+  }
+
+
   renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode }) {
     return <div className="node-toolbar">
       <NodeToolbar
@@ -585,6 +590,7 @@ class FeatureLoader extends React.Component<Props, State> {
       ref={(map) => { this.map = map; window.map = map; }}
       history={this.props.history}
       onMoveEnd={this.onMoveEndHandler}
+      onClick={() => this.closeSearch()}
       onError={this.onError}
       lat={lat ? parseFloat(lat) : null}
       lon={lon ? parseFloat(lon) : null}
