@@ -6,17 +6,17 @@ import { globalFetchManager } from '../../lib/FetchManager';
 
 type State = {
   isShown: boolean;
+  lastError: ?Error;
 }
 
 export default class GlobalActivityIndicator extends React.Component<void, State> {
   state = { isShown: false };
 
   updateState = debounce(() => {
-    this.setState({
-      isShown: globalFetchManager.isLoading(),
-      lastError: globalFetchManager.lastError,
-    });
-  }, 1000);
+    const isShown = globalFetchManager.isLoading();
+    const lastError = globalFetchManager.lastError;
+    this.setState({ isShown, lastError });
+  }, 50, { maxWait: 50, leading: true });
 
   componentDidMount() {
     globalFetchManager.addEventListener('start', this.updateState);
