@@ -88,6 +88,7 @@ type State = {
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
+  isSearchToolbarExpanded: boolean,
 };
 
 type RouteInformation = {
@@ -178,6 +179,7 @@ class FeatureLoader extends React.Component<Props, State> {
     lastError: null,
     featureId: null,
     isOnSmallViewport: false,
+    isSearchToolbarExpanded: false,
   };
 
   map: ?any;
@@ -416,7 +418,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
   
   openSearch() {
-    this.setState({ isSearchBarVisible: true }, () => {
+    this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
       setTimeout(() => {
         if (this.searchToolbar) {
           this.searchToolbar.focus();
@@ -469,8 +471,9 @@ class FeatureLoader extends React.Component<Props, State> {
         category: null,
       }); }}
       onClose={() => { this.setState({
-        isSearchBarVisible: isOnSmallViewport() && false,
+        isSearchBarVisible: hasBigViewport(),
       }); }}
+      onToggle={(isSearchToolbarExpanded) => this.setState({ isSearchToolbarExpanded })}
     />;
   }
 
@@ -552,6 +555,7 @@ class FeatureLoader extends React.Component<Props, State> {
     const category = this.state.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom } = this.state;
+    const isNodeToolbarVisible = this.state.feature && !this.state.isSearchToolbarExpanded;
 
     const classList = [
       'app-container',
@@ -561,7 +565,7 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
       this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
       this.state.isSearchBarVisible ? 'is-search-bar-visible' : null,
-      this.state.feature ? 'is-node-toolbar-visible' : null,
+      isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
       this.state.isReportMode ? 'is-report-mode' : null,
     ].filter(Boolean);
@@ -600,7 +604,7 @@ class FeatureLoader extends React.Component<Props, State> {
     return (<div className={classList.join(' ')}>
       {this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom })}
       {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
-      {this.state.feature && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
+      {isNodeToolbarVisible && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
       {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
       {isSearchButtonVisible && this.renderSearchButton()}
