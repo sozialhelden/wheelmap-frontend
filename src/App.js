@@ -69,7 +69,7 @@ type Props = {
 
 
 type State = {
-  featureId: ?number | string,
+  featureId: ?string,
   feature?: ?Feature,
   fetching: boolean,
   toilet: ?string,
@@ -123,11 +123,13 @@ function getFeatureIdFromProps(props: Props): ?string {
 
 
 function featureIdHasChanged(newProps: Props, prevState: State) {
-  const result = String(getFeatureIdFromProps(newProps)) !== String(prevState.featureId);
-  if (result) {
+  const oldFeatureId = prevState.featureId;
+  const newFeatureId = getFeatureIdFromProps(newProps);
+  const isDifferent = oldFeatureId !== newFeatureId;
+  if (isDifferent) {
     console.log('Feature id has changed:', newProps, prevState);
   }
-  return result;
+  return isDifferent;
 }
 
 
@@ -352,7 +354,7 @@ class FeatureLoader extends React.Component<Props, State> {
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
       if (!feature) return;
-      const currentlyShownId = getFeatureId(this.props);
+      const currentlyShownId = getFeatureIdFromProps(this.props);
       const fetchedId = getFeatureId(feature);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
