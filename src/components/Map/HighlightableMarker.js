@@ -19,6 +19,8 @@ type Options = typeof L.Marker.Options & {
 
 
 export default class HighlightableMarker extends L.Marker {
+  highlightedMarker: L.Marker | null = null;
+
   constructor(latlng: L.LatLng, options: Options) {
     const defaults: Options = {
       icon: new MarkerIcon({
@@ -31,64 +33,41 @@ export default class HighlightableMarker extends L.Marker {
   }
 
 
-  unhighlight() {
-    const markerEl = this.getElement();
-    if (!markerEl) {
-      return;
+  unhighlight(highLightLayer: L.Layer) {
+    if (this.highlightedMarker && highLightLayer) {
+      highLightLayer.removeLayer(this.highlightedMarker);
+      this.highlightedMarker = null;
     }
-    markerEl.classList.remove('ac-marker-current');
-    const bigMarkerDiv = markerEl.getElementsByClassName('ac-big-icon-marker')[0];
-    if (bigMarkerDiv) {
-      ReactDOM.unmountComponentAtNode(bigMarkerDiv);
-      markerEl.removeChild(bigMarkerDiv);
-    }
+    this.setOpacity(1.0);
   }
 
-
-  // Appends a big marker div as child element to the given marker's element.
-  // Returns `false` if the marker already was removed from the map, true if ther marker has been
-  // appended (or was appended already).
-  highlight(animated: boolean): boolean {
-    const markerEl = this.getElement();
-
-    if (!markerEl) {
-      // Parent marker element already removed from map
-      return false;
-    }
-
-    if (markerEl.querySelector('.ac-big-icon-marker')) {
-      // Big marker child <div> already appended
+  highlight(highLightLayer: L.Layer, animated: boolean): boolean {
+    if (!this.highlightedMarker && highLightLayer) {
+      const options = this.options;
+      this.highlightedMarker = new L.Marker(this.getLatLng(), {
+        zIndexOffset: 100,
+        icon: new MarkerIcon({
+          hrefForFeature: options.hrefForFeature,
+          onClick: options.onClick,
+          feature: options.feature,
+          withArrow: true,
+          shadowed: true,
+          size: 'big',
+          ariaHidden: true,
+          iconAnchorOffset: L.point(0, 20),
+          className: 'marker-icon highlighted-marker',
+        })});
+      if (animated) {
+        this.highlightedMarker.on('add', (n) => { 
+          n.target.getElement().classList.add("animated");
+        });
+      }
+      highLightLayer.addLayer(this.highlightedMarker);
+      this.setOpacity(0.0);
       return true;
     }
-    if (!this.options.feature) return false;
 
-    const iconName = getIconNameForProperties(this.options.feature.properties);
-
-    const IconComponent = categoryIcons[iconName || 'place'];
-
-    const accessibility = isWheelchairAccessible(this.options.feature.properties);
-
-    const bigMarkerDiv = document.createElement('div');
-    bigMarkerDiv.className = 'ac-big-icon-marker';
-    if (animated) bigMarkerDiv.className += ' animated';
-    markerEl.appendChild(bigMarkerDiv);
-    markerEl.classList.add('ac-marker-current');
-
-    if (IconComponent) {
-      ReactDOM.render(
-        <Icon
-          accessibility={accessibility}
-          properties={this.options.feature.properties}
-          category={iconName}
-          size='big'
-          shadowed
-          withArrow
-          ariaHidden={true}
-        />,
-        bigMarkerDiv,
-      );
-    }
-    
-    return true;
+    this.setOpacity(0.0);
+    return false;
   }
 }

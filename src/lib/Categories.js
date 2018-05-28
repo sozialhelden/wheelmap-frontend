@@ -37,7 +37,7 @@ type SynonymCache = {
 
 
 export default class Categories {
-  static synonymCache: SynonymCache;
+  static synonymCache: SynonymCache = {};
   static idsToWheelmapCategories = {};
   static wheelmapCategoryNamesToCategories = {};
   static wheelmapRootCategoryNamesToCategories = {};

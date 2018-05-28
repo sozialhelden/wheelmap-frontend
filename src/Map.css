@@ -130,36 +130,26 @@ body.is-touch-device .leaflet-filter-button {
 
 @keyframes popUp {
   0% {
-    transform: scale3d(0.7, 0.7, 0.7) translate3d(0, -5px, 0);
-    /* background-color: black; */
+    transform: scale3d(0.3, 0.3, 0.3) translate3d(0, -5px, 0);
+  }
+  50% {
+    transform: scale3d(.75, .75, .75) translate3d(0, -20px, 0);
   }
   100% {
-    transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
-    /* background-color: white; */
+    transform: scale3d(1, 1, 1) translate3d(0, 0px, 0);
   }
-}
-
-.ac-big-icon-marker {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 30px;
-  z-index: 200;
-  transform: scale3d(1, 1, 1) translate3d(0, -20px, 0);
-  left: calc(50% - 30px);
-  top: calc(50% - 30px);
 }
 
 .marker-icon {
   border-radius: 100%;
 }
 
-.ac-big-icon-marker.animated {
-  animation: popUp 0.15s ease-out;
+.highlighted-marker.animated figure {
+  animation: popUp 0.2s ease;
+  transform: scale3d(1, 1, 1) translate3d(0, 0px, 0);
 }
 
-.ac-big-icon-marker svg {
+.highlighted-marker svg {
   width: 30px;
   height: 30px;
 }

@@ -21,16 +21,19 @@ export default class MarkerIcon extends L.Icon {
   constructor(options: Options) {
     // increased tap region for icons, rendered size might differ
     const size = 60;
+    const iconAnchorOffset = options.iconAnchorOffset || L.point(0, 0);
     const defaults = {
       number: '',
       shadowUrl: null,
       iconSize: new L.Point(size, size),
-      iconAnchor: new L.Point(size * .5, size * .5 + 1.5),
+      iconAnchor: new L.Point(size * .5 + iconAnchorOffset.x, size * .5 + 1.5 + iconAnchorOffset.y),
       popupAnchor: new L.Point(size * .5, size * .5),
       tooltipAnchor: new L.Point(size * .5, size * .5 + 25),
       onClick: ((featureId: string, properties: ?NodeProperties) => {}),
       hrefForFeature: ((featureId: string) => null),
       className: 'marker-icon',
+      size: 'small',
+      withArrow: false,
     };
 
     super(Object.assign(defaults, options));
@@ -52,9 +55,10 @@ export default class MarkerIcon extends L.Icon {
           accessibility={accessibility}
           properties={properties}
           category={iconName}
-          size='small'
+          size={this.options.size}
+          withArrow={this.options.withArrow}
           shadowed
-          ariaHidden={true}
+          ariaHidden={this.options.ariaHidden}
         />,
         link,
       );
