@@ -31,7 +31,8 @@ export type Props = {
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
   onClose: ?(() => void),
-  onResetCategory: ?(() => void)
+  onResetCategory: ?(() => void),
+  onToggle: ((isSearchToolbarExpanded: boolean) => void),
 };
 
 type State = {
@@ -39,6 +40,7 @@ type State = {
   searchFieldIsFocused: boolean,
   isCategoryFocused: boolean,
   isLoading: boolean;
+  categoryMenuIsVisible: boolean,
 };
 
 
@@ -157,6 +159,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     searchResults: null,
     isCategoryFocused: false,
     isLoading: false,
+    categoryMenuIsVisible: false,
   };
 
   toolbar: ?React.Element<typeof Toolbar>;
@@ -333,7 +336,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
               }
               this.setState({ searchFieldIsFocused: true });
               window.scrollTo(0, 0);
-              this.setState({ categoryMenuIsVisible: true });
+              this.setState({ categoryMenuIsVisible: true }, () => {
+                if (this.props.onToggle) this.props.onToggle(true);
+              });
             }}
             onFocus={(event) => {
               this.input = event.target;
@@ -363,6 +368,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             onClick={() => {
               this.resetSearch();
               if (this.props.onClose) this.props.onClose();
+              if (this.props.onToggle) this.props.onToggle(false);
             }}
             innerRef={closeLink => this.closeLink = closeLink}
           /> : null}
