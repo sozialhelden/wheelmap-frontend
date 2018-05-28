@@ -144,9 +144,10 @@ function updateTouchCapability() {
 
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string') {
+  if (properties && typeof properties.placeInfoId === 'string' ) {
+    const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/beta/nodes/${properties.placeInfoId}/equipment/${featureId}`;
+      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
     }
   }
   return `/beta/nodes/${featureId}`;
@@ -174,6 +175,7 @@ class FeatureLoader extends React.Component<Props, State> {
     isReportMode: false,
     lastError: null,
     featureId: null,
+    isOnSmallViewport: false,
   };
 
   map: ?any;
