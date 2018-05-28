@@ -465,8 +465,10 @@ class FeatureLoader extends React.Component<Props, State> {
         }
         this.setState({ isSearchBarVisible: isOnSmallViewport() && false });
       }}
-      onClose={() => { this.setState({
+      onResetCategory={() => { this.setState({
         category: null,
+      }); }}
+      onClose={() => { this.setState({
         isSearchBarVisible: isOnSmallViewport() && false,
       }); }}
     />;

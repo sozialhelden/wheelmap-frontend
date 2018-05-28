@@ -31,6 +31,7 @@ export type Props = {
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
   onClose: ?(() => void),
+  onResetCategory: ?(() => void)
 };
 
 type State = {
@@ -234,6 +235,18 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.searchInputField.blur();
   }
 
+  resetSearch() {
+    this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false }, () => {
+      if (this.input instanceof HTMLInputElement) {
+        this.input.value = '';
+        // if (!this.props.category) {
+        //   this.input.blur();
+        // }
+      }
+      if (this.props.onResetCategory) this.props.onResetCategory();
+    });
+  }
+
   render() {
     const { searchQuery } = this.props;
 
@@ -305,14 +318,14 @@ export default class SearchToolbar extends React.Component<Props, State> {
             innerRef={searchInputField => this.searchInputField = searchInputField}
             searchQuery={this.props.category ? '' : this.props.searchQuery}
             placeholder={placeholder}
-            disabled={Boolean(this.props.category)}
             hidden={this.props.hidden}
             onClick={() => {
               if (this.props.category) {
-                this.setState({ searchFieldIsFocused: true });
-                window.scrollTo(0, 0);
-                this.setState({ categoryMenuIsVisible: true });
+                this.resetSearch();
               }
+              this.setState({ searchFieldIsFocused: true });
+              window.scrollTo(0, 0);
+              this.setState({ categoryMenuIsVisible: true });
             }}
             onFocus={(event) => {
               this.input = event.target;
@@ -329,7 +342,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             }}
             onChange={(event) => {
               this.input = event.target;
-              this.props.onChangeSearchQuery(event.target.value);
+              this.props.onChangeSearchQuery(this.input.value);
               this.handleSearchInputChange(event);
             }}
             ariaRole="searchbox"
@@ -340,13 +353,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             className='close-link'
             ariaLabel={t`Clear Search`}
             onClick={() => {
-              this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false });
-              if (this.input instanceof HTMLInputElement) {
-                this.input.value = '';
-                if (!this.props.category) {
-                  this.input.blur();
-                }
-              }
+              this.resetSearch();
               if (this.props.onClose) this.props.onClose();
             }}
             innerRef={closeLink => this.closeLink = closeLink}
