@@ -249,9 +249,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false }, () => {
       if (this.input instanceof HTMLInputElement) {
         this.input.value = '';
-        // if (!this.props.category) {
-        //   this.input.blur();
-        // }
       }
       if (this.props.onResetCategory) this.props.onResetCategory();
     });
