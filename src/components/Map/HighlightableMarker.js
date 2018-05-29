@@ -1,14 +1,8 @@
 // @flow
 
 import L from 'leaflet';
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import * as categoryIcons from '../icons/categories';
 import MarkerIcon from './MarkerIcon';
-import Icon from '../Icon';
 import type { Feature } from '../../lib/Feature';
-import { isWheelchairAccessible } from '../../lib/Feature';
-import getIconNameForProperties from './getIconNameForProperties';
 
 
 type Options = typeof L.Marker.Options & {
