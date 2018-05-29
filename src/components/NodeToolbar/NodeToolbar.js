@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import { Dots } from 'react-activity';
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
+import { generateShowOnOsmUrl } from './Report/generateOsmUrls';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -264,6 +265,11 @@ class NodeToolbar extends React.Component<Props, State> {
     const reportButtonCaption = t`Report an Issue`;
     const placeName = placeNameFor(get(this.props, 'feature.properties'), this.state.category);
 
+
+    // translator: Button caption shown in the place toolbar
+    const showOnOsmCaption = t`Show on OpenStreetMap`;
+    const showOnOsmLink = generateShowOnOsmUrl(feature);
+
     const sourceIds = this.sourceIds();
     // translator: Prefix for the sources on the place toolbar
     const sourceCaption = t`Source:`;
@@ -368,6 +374,13 @@ class NodeToolbar extends React.Component<Props, State> {
             >
               {reportButtonCaption}
             </button>}
+
+            {showOnOsmLink && <a
+              className="link-button"
+              href={showOnOsmLink}
+            >
+              {showOnOsmCaption}
+            </a>}
 
             {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
 
