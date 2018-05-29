@@ -72,9 +72,6 @@ type Props = {
 
 
 type State = {
-  lat?: number,
-  lon?: number,
-  zoom?: number,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   showZoomInfo?: boolean,
@@ -153,11 +150,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const initialCenter = this.props.lat && this.props.lon ? [this.props.lat, this.props.lon] : this.props.defaultStartCenter;
+    const initialMapState = this.getMapStateFromProps(this.props);
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
-      center: initialCenter,
-      zoom: this.props.zoom || (this.props.maxZoom - 1),
+      center: initialMapState.center,
+      zoom: initialMapState.zoom,
       minZoom: 2,
       zoomControl: false,
     });
@@ -353,43 +350,12 @@ export default class Map extends React.Component<Props, State> {
     if (!this.map) {
       return;
     }
-    const map: L.Map = this.map;
 
     this.setState({ accessibilityFilter: props.accessibilityFilter });
     this.setState({ toiletFilter: props.toiletFilter });
 
-    if (props.lat && props.lon) {
-      const overriddenCoordinates = normalizeCoordinates([props.lat, props.lon]);
-      if (!isSamePosition(overriddenCoordinates, [this.state.lat, this.state.lon])) {
-        console.log('Panning to', overriddenCoordinates, 'because params override existing state coordinates', [this.state.lat, this.state.lon]);
-        this.setState({ lat: overriddenCoordinates[0], lon: overriddenCoordinates[1] });
-        map.panTo(overriddenCoordinates);
-      }
-    } else {
-      const feature = props.feature;
-      if (feature &&
-        feature.geometry &&
-        feature.geometry.type === 'Point' &&
-        feature.geometry.coordinates instanceof Array) {
-        const coords = feature.geometry.coordinates;
-        const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
-        const state = this.state;
-        if (featureCoordinates && !isSamePosition(featureCoordinates, [state.lat, state.lon])) {
-          if (!map.getBounds().pad(-5).contains(featureCoordinates) || !state.lat) {
-            console.log('Panning to', featureCoordinates, 'because PoI position is new', [state.lat, state.lon]);
-            this.setState({ lat: featureCoordinates[0], lon: featureCoordinates[1] });
-            map.panTo(featureCoordinates);
-          }
-        }
-      }
-    }
-
-    if (props.zoom && this.state.zoom !== props.zoom) {
-      console.log('Zooming to', props.zoom, 'because params override existing zoom', this.state.zoom);
-
-      this.setState({ zoom: props.zoom });
-      map.setZoom(props.zoom);
-    }
+    const mapState = this.getMapStateFromProps(props);
+    this.updateMapCenter(mapState.center, mapState.zoom, props.padding, this.state);
 
     Categories.fetchOnce(props).then(() => {
       this.updateFeatureLayerVisibility(props);
@@ -438,6 +404,86 @@ export default class Map extends React.Component<Props, State> {
     this.updateHighlightedMarker(props);
   }, 100);
 
+
+  // calculate bounds with variable pixel padding
+  calculateBoundsWithPadding(padding: Padding) {
+    const map: L.Map = this.map;
+    const mapSize = map.getSize();
+    const zoom = map.getZoom();
+    const corner1 = map.containerPointToLatLng(new L.Point(
+      padding.left, padding.top), zoom);
+    const corner2 = map.containerPointToLatLng(new L.Point(
+      mapSize.x - padding.right, 
+      mapSize.y - padding.bottom), zoom);
+    const bounds = L.latLngBounds([corner1, corner2]);
+    return bounds;
+  }
+
+  offsetCoordsWithPadding(coords: L.LatLng, padding: Padding) {
+    const map: L.Map = this.map;
+    const mapSize = map.getSize();
+    const mCenter = mapSize.divideBy(2);
+    const vCenter = new L.Point(
+      padding.right + (mapSize.x - padding.right - padding.left)/2,
+      padding.top + (mapSize.y - padding.top - padding.bottom)/2,
+    );
+    const offset = mCenter.subtract(vCenter);
+    const zoom = map.getZoom();
+    var point = map.project(coords, zoom);
+    point = point.add(offset);
+    return map.unproject(point, zoom);
+  }
+
+  updateMapCenter(coords: [number, number], zoom: number, padding: ?Padding, state: State) {
+    const map: L.Map = this.map;
+    const center = map.getCenter();
+
+    const actualPadding = padding || {top: 10, left: 10, right: 10, bottom: 10};
+    const targetCoords = this.offsetCoordsWithPadding(coords, actualPadding);
+    if (targetCoords && !isSamePosition(targetCoords, [center.lat, center.lng])) {
+      const bounds = this.calculateBoundsWithPadding(actualPadding);
+      const isWithinBounds = bounds.contains(targetCoords);
+      if (!isWithinBounds) {
+        // animate if old map center is within sight
+        const shouldAnimate = map.getBounds().contains(targetCoords);
+        map.flyTo(targetCoords, zoom, {
+          animate: shouldAnimate
+        });
+      }
+    }
+    else if (zoom !== map.getZoom()) {
+      map.setZoomAround([center.lat, center.lng], zoom);
+    }
+  }
+
+  getMapStateFromProps(props: Props) {
+    // use old settings for anything but the initial
+    const map = this.map;
+    let fallbackZoom = props.maxZoom - 1;
+    let fallbackCenter = props.defaultStartCenter;
+    if (map) {
+      const center = map.getCenter();
+      fallbackCenter = [center.lat, center.lng];
+      fallbackZoom = map.getZoom();
+    }    
+
+    const zoom = props.zoom || fallbackZoom;
+    
+    // use the feature coordinates
+    const feature = props.feature;
+    if (feature &&
+      feature.geometry &&
+      feature.geometry.type === 'Point' &&
+      feature.geometry.coordinates instanceof Array) {
+      const coords = feature.geometry.coordinates;
+      const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
+      return { center: featureCoordinates || fallbackCenter, zoom };
+    }
+
+    // use the initial zoom/lat/lon props
+    let coords = (props.lat && props.lon) ? normalizeCoordinates([props.lat, props.lon]) : fallbackCenter;
+    return { center: coords, zoom };
+  }
 
   updateHighlightedMarker(props: Props) {
     if (props.featureId) {
