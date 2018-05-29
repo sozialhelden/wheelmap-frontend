@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import colors from '../../lib/colors';
 import isEqual from 'lodash/isEqual';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { getFilterNameForFilterList } from './FilterModel';
+import { getFilterNameForFilterList } from './AccessibilityFilterModel';
 
 import AllAccessibilitiesIcon from '../icons/accessibility/AllAccessibilities';
 import UnknownAccessibilityIcon from '../icons/accessibility/UnknownAccessibility';

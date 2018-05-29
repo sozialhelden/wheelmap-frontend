@@ -1,17 +1,13 @@
 // @flow
 
 import { t } from 'c-3po';
-import styled from 'styled-components';
-import isEqual from 'lodash/isEqual';
-import includes from 'lodash/includes';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
-import { RadioGroup, Radio } from 'react-radio-group';
+import isEqual from 'lodash/isEqual';
+import styled from 'styled-components';
+import includes from 'lodash/includes';
+import { RadioGroup } from 'react-radio-group';
 
 import CloseIcon from '../icons/actions/Close';
-
-import RadioButtonUnselected from '../icons/ui-elements/RadioButtonUnselected';
-import RadioButtonSelected from '../icons/ui-elements/RadioButtonSelected';
 
 import AllAccessibilitiesIcon from '../icons/accessibility/AllAccessibilities';
 import UnknownAccessibilityIcon from '../icons/accessibility/UnknownAccessibility';
@@ -21,15 +17,20 @@ import ToiletStatusIcon from '../icons/accessibility/ToiletStatus';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 
 import Toolbar from '../Toolbar';
+import CustomRadio from './CustomRadio';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { getFiltersForNamedFilter, getFilterNameForFilterList } from './FilterModel';
-import type { FilterName } from './FilterModel';
+import { getFiltersForNamedFilter, getFilterNameForFilterList } from './AccessibilityFilterModel';
+import type { FilterName } from './AccessibilityFilterModel';
 
-type Props = {
-  className: string,
-  hidden: boolean,
+
+export type PlaceFilter = {
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+};
+
+type Props = PlaceFilter & {
+  className: string,
+  hidden: boolean,
   onCloseClicked: (() => void),
   onFilterChanged: ((filter: PlaceFilter) => void),
 };
@@ -57,68 +58,7 @@ const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
     <CloseIcon {...restProps} />
   </PositionedCloseButton>
 
-type CustomRadioProps = {
-  currentFilterName: string,
-  value: string,
-}
-
-type CustomRadioState = {
-  isFocused: boolean,
-}
-
-class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
-  state = {
-    isFocused: false
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-  }
-
-  componentDidMount() {
-    const { currentFilterName, value } = this.props;
-    if (currentFilterName === value) {
-      this.radioButton.focus();
-    }
-  }
-
-  onFocus() {
-    this.setState({ isFocused: true})
-  }
-
-  onBlur() {
-    this.setState({ isFocused: false})
-  }
-
-  focus() {
-    this.radioButton.focus();
-  }
-
-  render() {
-    const { currentFilterName, value } = this.props;
-    const isRadioButtonSelected = currentFilterName === value;
-    const RadioButton = isRadioButtonSelected ? RadioButtonSelected : RadioButtonUnselected;
-    return (
-      <div>
-        <Radio
-          id={value}
-          value={value}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          ref={radioButtonInstance => this.radioButton = findDOMNode(radioButtonInstance)}
-          role="radio"
-          aria-checked={isRadioButtonSelected}
-        />
-        <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} aria-hidden={true} />
-      </div>
-    );
-  }
-}
-
-class FilterSelector extends React.Component<Props, State> {
+class AccessibilityFilterMenu extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
   toolbar: ?React.Element<typeof Toolbar>;
 
@@ -275,7 +215,7 @@ class FilterSelector extends React.Component<Props, State> {
   }
 }
 
-const StyledFilterSelector = styled(FilterSelector)`
+const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
   header {
     display: flex;
     flex-direction: row;
@@ -331,4 +271,4 @@ const StyledFilterSelector = styled(FilterSelector)`
   }
 `;
 
-export default StyledFilterSelector;
+export default StyledAccessibilityFilterMenu;
