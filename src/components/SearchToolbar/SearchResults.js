@@ -10,7 +10,7 @@ import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
 import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
 import type { WheelmapFeature } from '../../lib/Feature';
-import { isWheelchairAccessible } from '../../lib/Feature';
+import { isWheelchairAccessible, Feature } from '../../lib/Feature';
 import ToolbarLink from '../ToolbarLink';
 import PlaceName from '../PlaceName';
 import Icon from '../Icon';
@@ -37,8 +37,13 @@ type State = {
 };
 
 
-function getZoomLevel(hasWheelmapId: boolean) {
-  return hasWheelmapId ? 18 : 16;
+function getZoomLevel(hasWheelmapId: boolean, category: ?Category) {
+  // is a wheelmap place or a known POI category
+  if (hasWheelmapId || category) {
+    return 18;
+  }
+
+  return 16;
 }
 
 
@@ -183,6 +188,9 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     return this.state.wheelmapFeature || this.props.result;
   }
 
+  getCategory() {
+    return this.state.category || this.state.parentCategory;
+  }
 
   getCoordinates(): ?[number, number] {
     const feature = this.getFeature();
@@ -195,7 +203,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
     const wheelmapId = feature && feature.properties && feature.properties.id;
     const pathname = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
     const hasWheelmapId = Boolean(wheelmapId);
-    const zoom = getZoomLevel(hasWheelmapId);
+    const zoom = getZoomLevel(hasWheelmapId, this.getCategory());
     const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
     return this.props.history.createHref({ pathname, search });
   }
@@ -234,7 +242,7 @@ class SearchResult extends React.Component<SearchResultProps, State> {
             this.props.onSelectCoordinate({
               lat: coordinates[1],
               lon: coordinates[0],
-              zoom: getZoomLevel(hasWheelmapId),
+              zoom: getZoomLevel(hasWheelmapId, categoryOrParentCategory),
             });
           }
           this.props.onSelect();
