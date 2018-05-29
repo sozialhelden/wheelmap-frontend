@@ -7,8 +7,10 @@ import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 import { t } from 'c-3po';
 
-import colors from '../../lib/colors';
-import { isOnSmallViewport, hasBigViewport } from '../../lib/ViewportSize';
+import { setQueryParams } from '../../lib/queryParams';
+import { isOnSmallViewport } from '../../lib/ViewportSize';
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
@@ -18,6 +20,7 @@ import Categories from '../../lib/Categories';
 import SearchInputField from './SearchInputField';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
+import FilterSelector from './FilterSelector';
 
 
 export type Props = {
@@ -28,6 +31,9 @@ export type Props = {
   searchQuery: ?string,
   lat: ?number,
   lon: ?number,
+  accessibilityFilter: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[],
+
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
   onClose: ?(() => void),
@@ -259,6 +265,22 @@ export default class SearchToolbar extends React.Component<Props, State> {
       if (this.props.onResetCategory) this.props.onResetCategory();
     });
   }
+
+
+  renderFilterToolbar() {
+    return <div className="filter-selector">
+      <FilterSelector
+        accessibilityFilter={this.accessibilityFilter()}
+        toiletFilter={this.toiletFilter()}
+        onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
+        onFilterChanged={(filter) => {
+          setQueryParams(this.props.history, filter);
+          this.setState(filter);
+        }}
+      />
+    </div>;
+  }
+
 
   render() {
     const { searchQuery } = this.props;

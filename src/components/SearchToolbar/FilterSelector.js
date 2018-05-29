@@ -118,7 +118,7 @@ class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
   }
 }
 
-class FilterToolbar extends React.Component<Props, State> {
+class FilterSelector extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
   toolbar: ?React.Element<typeof Toolbar>;
 
@@ -275,17 +275,7 @@ class FilterToolbar extends React.Component<Props, State> {
   }
 }
 
-const StyledFilterToolbar = styled(FilterToolbar)`
-  top: 190px;
-  @media (max-width: 768px) {
-    top: 0px;
-    max-height: calc(100% - 20px);
-  }
-
-  left: auto;
-  right: 0px;
-  padding-bottom: 10px;
-
+const StyledFilterSelector = styled(FilterSelector)`
   header {
     display: flex;
     flex-direction: row;
@@ -341,4 +331,4 @@ const StyledFilterToolbar = styled(FilterToolbar)`
   }
 `;
 
-export default StyledFilterToolbar;
+export default StyledFilterSelector;
