@@ -267,6 +267,9 @@ class FeatureLoader extends React.Component<Props, State> {
     if (featureIdHasChanged(newProps, prevState)) {
       result.isFilterToolbarVisible = false;
       result.featureId = getFeatureIdFromProps(newProps);
+      if (!result.featureId) {
+        result.feature = null;
+      }
     }
 
     const state = newProps.history.location.state;
@@ -345,30 +348,30 @@ class FeatureLoader extends React.Component<Props, State> {
 
   fetchFeature(featureId: ?string): void {
     if (!featureId) {
-      this.setState({ feature: null, featureId });
+      this.setState({ feature: null, lat: null, lon: null, zoom: null, featureId });
       return;
     }
     this.setState({ fetching: true, featureId });
     const isWheelmap = isWheelmapFeatureId(featureId);
     if (isWheelmap) {
-      this.setState({ feature: wheelmapLightweightFeatureCache.getCachedFeature(featureId) });
+      this.setState({ feature: wheelmapLightweightFeatureCache.getCachedFeature(featureId), lat: null, lon: null, zoom: null });
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
-      if (!feature) return;
+      if (!feature) 
+        return;
       const currentlyShownId = getFeatureIdFromProps(this.props);
       const fetchedId = getFeatureId(feature);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (currentlyShownId && fetchedId !== currentlyShownId) return;
-      const [lon, lat] = get(feature, 'geometry.coordinates') || [this.state.lon, this.state.lat];
-      this.setState({ feature, lat, lon, fetching: false });
+      this.setState({ feature, lat: null, lon: null, zoom: null, fetching: false });
     }, (reason) => {
       let error = null;
       if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
         error = reason;
       }
-      this.setState({ feature: null, fetching: false, isNotFoundVisible: true, lastError: error });
+      this.setState({ feature: null, lat: null, lon: null, zoom: null, fetching: false, isNotFoundVisible: true, lastError: error });
     });
   }
 
@@ -551,6 +554,10 @@ class FeatureLoader extends React.Component<Props, State> {
     </div>;
   }
 
+  getMapPadding() {
+    const bottom = this.state.feature ? 250 : 50;
+    return { left: 50, right: 50, top: 50, bottom };
+  }
 
   render() {
     const routeInformation = getRouteInformation(this.props);
@@ -604,6 +611,7 @@ class FeatureLoader extends React.Component<Props, State> {
       pointToLayer={this.createMarkerFromFeature}
       locateOnStart={shouldLocateOnStart}
       isLocalizationLoaded={isLocalizationLoaded}
+      padding={this.getMapPadding()}
       {...config}
     />;
 
