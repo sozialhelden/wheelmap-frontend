@@ -45,6 +45,7 @@ type Props = {
   lon?: ?number,
   zoom?: ?number,
   onMoveEnd?: (({ zoom: number, lat: number, lon: number, bbox: L.LatLngBounds }) => void),
+  onClick?: (() => void),
   onError?: ((error: ?Error | string) => void),
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -163,6 +164,7 @@ export default class Map extends React.Component<Props, State> {
       throw new Error('Could not initialize map component.');
     }
 
+    map.on('click', () => { if (this.props.onClick) this.props.onClick(); });
     this.map = map;
     if (this.props.onMapMounted) {
       this.props.onMapMounted(map);
@@ -493,9 +495,9 @@ export default class Map extends React.Component<Props, State> {
     const showZoomInfo = this.state.showZoomInfo;
 
     return showZoomInfo && 
-        (<a className="zoom-info-block" 
+        (<a className="zoom-info-block"
             onKeyDown={this.zoomIn}
-            onClick={this.zoomIn} 
+            onClick={this.zoomIn}
             role="button"
             tabIndex={-1}
             aria-label={zoomCaption}><span>{zoomCaption}</span></a>);

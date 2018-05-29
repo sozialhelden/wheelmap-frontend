@@ -192,6 +192,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
     if (searchFieldShouldBecomeFocused) {
       this.focus();
     }
+    if (!prevProps.category && this.props.category) {
+      this.props.onToggle(false);
+    }
   }
 
   componentWillReceiveProps(newProps: Props) {
