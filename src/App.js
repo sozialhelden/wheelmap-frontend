@@ -1,6 +1,5 @@
 // @flow
 
-import get from 'lodash/get';
 import pick from 'lodash/pick';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -14,10 +13,8 @@ import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
-import FilterButton from './components/FilterToolbar/FilterButton';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import SearchButton from './components/SearchToolbar/SearchButton';
-import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
@@ -79,7 +76,6 @@ type State = {
   lon: ?string,
   zoom: ?string,
   includeSources: ?string,
-  isFilterToolbarVisible: boolean,
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
@@ -170,7 +166,6 @@ class FeatureLoader extends React.Component<Props, State> {
     lon: null,
     zoom: null,
     isSearchBarVisible: hasBigViewport(),
-    isFilterToolbarVisible: false,
     isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
@@ -185,7 +180,6 @@ class FeatureLoader extends React.Component<Props, State> {
 
   map: ?any;
 
-  filterButton: ?FilterButton;
   lastFocusedElement: ?HTMLElement;
   nodeToolbar: ?NodeToolbar;
   searchToolbar: ?SearchToolbar;
@@ -275,7 +269,6 @@ class FeatureLoader extends React.Component<Props, State> {
     const result: $Shape<State> = {};
 
     if (featureIdHasChanged(newProps, prevState)) {
-      result.isFilterToolbarVisible = false;
       result.featureId = getFeatureIdFromProps(newProps);
       if (!result.featureId || (prevState.feature && prevState.feature.id != result.featureId)) {
         result.feature = null;
@@ -386,11 +379,6 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
-  toggleFilterToolbar() {
-    this.setState({ isFilterToolbarVisible: !this.state.isFilterToolbarVisible });
-  }
-
-
   manageFocus(prevProps: Props, prevState: State) {
     // focus to and from nodeToolbar
     let wasNodeToolbarDisplayed: boolean;
@@ -398,24 +386,19 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const featureId = getFeatureIdFromProps(this.props);
     const isNodeRoute = Boolean(featureId);
-    const { isLocalizationLoaded, isFilterToolbarVisible } = this.state;
-    isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded && !isFilterToolbarVisible;
+    const { isLocalizationLoaded } = this.state;
+    isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded;
 
     const prevFeatureId = getFeatureIdFromProps(prevProps);
     const wasNodeRoute = Boolean(prevFeatureId);
-    const { isLocalizationLoaded: wasLocalizationLoaded, isFilterToolbarVisible: wasFilterToolbarVisible } = prevState;
-    wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded && !wasFilterToolbarVisible;
+    const { isLocalizationLoaded: wasLocalizationLoaded } = prevState;
+    wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded;
 
     const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
     const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
     const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
 
-    if (prevState.isFilterToolbarVisible && !this.state.isFilterToolbarVisible && this.filterButton) {
-      this.filterButton.focus();
-      return;
-    }
-
-    if (nodeToolbarDidDisappear && !this.state.isFilterToolbarVisible && this.lastFocusedElement) {
+    if (nodeToolbarDidDisappear && this.lastFocusedElement) {
       this.lastFocusedElement.focus();
     }
 
@@ -452,7 +435,7 @@ class FeatureLoader extends React.Component<Props, State> {
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
         history={this.props.history}
         feature={this.state.feature}
-        hidden={this.state.isFilterToolbarVisible || !isNodeRoute}
+        hidden={!isNodeRoute}
         featureId={featureId}
         equipmentInfoId={equipmentInfoId}
         isEditMode={isEditMode}
@@ -472,6 +455,8 @@ class FeatureLoader extends React.Component<Props, State> {
       inert={isInert}
       category={category}
       searchQuery={searchQuery}
+      accessibilityFilter={this.accessibilityFilter()}
+      toiletFilter={this.toiletFilter()}
       onChangeSearchQuery={(newSearchQuery) => {
         if (!newSearchQuery || newSearchQuery.length === 0) {
           this.props.history.replace('/beta/', null);
@@ -567,6 +552,7 @@ class FeatureLoader extends React.Component<Props, State> {
     </div>;
   }
 
+
   getMapPadding() {
     const hasPanel = !!this.state.feature;
     const isPortrait = window.innerWidth < window.innerHeight;
@@ -584,7 +570,6 @@ class FeatureLoader extends React.Component<Props, State> {
     const routeInformation = getRouteInformation(this.props);
     const { isEditMode } = routeInformation || {};
     const isActive =
-      (this.state.isFilterToolbarVisible && this.state.isLocalizationLoaded) ||
       this.state.isMainMenuOpen ||
       this.state.isOnboardingVisible ||
       this.state.isNotFoundVisible ||
@@ -594,7 +579,6 @@ class FeatureLoader extends React.Component<Props, State> {
     return <FullscreenBackdrop
       onClick={() => {
         this.setState({
-          isFilterToolbarVisible: false,
           isMainMenuOpen: false,
           isOnboardingVisible: false,
           isNotFoundVisible: false,
@@ -633,7 +617,6 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.state.isNotFoundVisible ? 'is-dialog-visible' : null,
       this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
-      this.state.isFilterToolbarVisible ? 'is-dialog-visible is-filter-toolbar-visible' : null,
       this.state.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
@@ -644,12 +627,10 @@ class FeatureLoader extends React.Component<Props, State> {
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
-      this.state.isFilterToolbarVisible ||
       this.state.isOnboardingVisible ||
       this.state.isNotFoundVisible;
 
     const isMainMenuInBackground =
-      this.state.isFilterToolbarVisible ||
       this.state.isOnboardingVisible ||
       this.state.isNotFoundVisible ||
       isEditMode ||
@@ -690,12 +671,10 @@ class FeatureLoader extends React.Component<Props, State> {
         {isMainMenuInBackground && mainMenu}
         {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
         {isNodeToolbarVisible && !isNodeToolbarModal && nodeToolbar}
-        {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
         {isSearchButtonVisible && this.renderSearchButton()}
         {map}
       </div>
       {this.renderFullscreenBackdrop()}
-      {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
       {this.renderOnboarding()}
       {this.renderNotFound()}
@@ -720,7 +699,7 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     }
   }
 
-  &.is-dialog-visible, &.is-filter-toolbar-visible, &.is-edit-mode, &.is-report-mode, &.is-main-menu-open {
+  &.is-dialog-visible, &.is-edit-mode, &.is-report-mode, &.is-main-menu-open {
     > .behind-backdrop {
       .toolbar {
         z-index: 999;
@@ -735,12 +714,6 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 
   &.is-edit-mode, &.is-report-mode {
     .node-toolbar, .toolbar {
-      z-index: 1001;
-    }
-  }
-
-  &.is-filter-toolbar-visible {
-    .filter-toolbar, .toolbar  {
       z-index: 1001;
     }
   }
