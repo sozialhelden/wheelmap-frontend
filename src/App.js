@@ -675,6 +675,7 @@ class FeatureLoader extends React.Component<Props, State> {
     const nodeToolbar = this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode, isReportMode });
 
     return (<div className={classList.join(' ')}>
+      {!isMainMenuInBackground && mainMenu}
       <div className="behind-backdrop">
         {isMainMenuInBackground && mainMenu}
         {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
@@ -685,7 +686,6 @@ class FeatureLoader extends React.Component<Props, State> {
       </div>
       {this.renderFullscreenBackdrop()}
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
-      {!isMainMenuInBackground && mainMenu}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
       {this.renderOnboarding()}
       {this.renderNotFound()}

@@ -29,9 +29,15 @@ body.is-touch-device .leaflet-filter-button {
 
 .leaflet-container {
   flex: 1;
-  height: 100vh;
   width: 100vw;
+  height: calc(100vh - 50px);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+@media (max-width: 1024px) {
+  .leaflet-container {
+    height: 100vh;
+  }
 }
 
 .leaflet-container.focus-ring::after {
