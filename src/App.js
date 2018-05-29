@@ -267,6 +267,9 @@ class FeatureLoader extends React.Component<Props, State> {
     if (featureIdHasChanged(newProps, prevState)) {
       result.isFilterToolbarVisible = false;
       result.featureId = getFeatureIdFromProps(newProps);
+      if (!result.featureId) {
+        result.feature = null;
+      }
     }
 
     const state = newProps.history.location.state;
