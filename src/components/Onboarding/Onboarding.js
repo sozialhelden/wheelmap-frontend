@@ -119,8 +119,8 @@ const StyledOnboarding = styled(Onboarding)`
       flex-direction: column !important;
       > footer, > header {
         text-align: center;
-        width: 75%;
-        margin: 0 12.5%;
+        max-width: 500px;
+        align-self: center;
       }
     }
 

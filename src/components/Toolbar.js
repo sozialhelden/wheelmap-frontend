@@ -297,7 +297,6 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   box-sizing: border-box;
-  z-index: 1001;
   overflow: auto;
   transform: translate3d(0, 0);
 

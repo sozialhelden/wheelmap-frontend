@@ -56,7 +56,8 @@ type Props = {
   equipmentInfoId: ?string,
   hidden: boolean,
   isEditMode: boolean,
-  onReportModeToggle: ?((isReportMode: boolean) => void),
+  isReportMode: boolean,
+  onOpenReportMode: ?(() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
 };
@@ -65,7 +66,6 @@ type Props = {
 type State = {
   category: ?Category,
   parentCategory: ?Category,
-  isReportMode: boolean,
   equipmentInfo: ?EquipmentInfo,
   feature: ?Feature,
 };
@@ -102,7 +102,7 @@ const FullWidthSection = styled.div`
 
 class NodeToolbar extends React.Component<Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null, isReportMode: false, feature: null, equipmentInfo: null };
+  state = { category: null, parentCategory: null, feature: null, equipmentInfo: null };
   toolbar: ?React.ElementRef<typeof Toolbar>;
   nodeFooter: ?React.ElementRef<typeof NodeFooter>;
   reportDialog: ?React.ElementRef<typeof ReportDialog>;
@@ -134,19 +134,12 @@ class NodeToolbar extends React.Component<Props, State> {
 
   componentWillReceiveProps(nextProps: Props) {
     this.fetchFeature(nextProps);
-    if (nextProps.featureId !== this.props.featureId) {
-      this.toggleReportMode(false);
+    if (this.props.featureId && (nextProps.featureId !== this.props.featureId)) {
       this.setState({ equipmentInfo: null });
     }
     if (!nextProps.equipmentInfoId) {
       this.fetchCategory(nextProps.feature);
     }
-  }
-
-
-  toggleReportMode(isReportMode: boolean) {
-    this.setState({ isReportMode });
-    if (this.props.onReportModeToggle) this.props.onReportModeToggle(isReportMode);
   }
 
 
@@ -220,7 +213,7 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    if (prevState.isReportMode && !this.state.isReportMode) {
+    if (prevProps.isReportMode && !this.props.isReportMode) {
       if (this.reportModeButton) {
         this.reportModeButton.focus();
       }
@@ -278,7 +271,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <StyledToolbar
         hidden={this.props.hidden}
-        isModal={this.props.isEditMode || this.state.isReportMode}
+        isModal={this.props.isEditMode || this.props.isReportMode}
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
         ariaLabel={placeName}
@@ -286,7 +279,7 @@ class NodeToolbar extends React.Component<Props, State> {
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
           onClick={() => {
-            this.toggleReportMode(false);
+            console.log('Node toolbar close link clicked');
             if (this.props.onClose) this.props.onClose();
           }}
         />}
@@ -297,17 +290,17 @@ class NodeToolbar extends React.Component<Props, State> {
           equipmentInfoId={this.props.equipmentInfoId}
           category={this.state.category}
           parentCategory={this.state.parentCategory}
-          showOnlyBasics={this.props.isEditMode || this.state.isReportMode}
+          showOnlyBasics={this.props.isEditMode || this.props.isReportMode}
         />
 
         {(() => {
-          if (this.state.isReportMode && !isEquipment) {
+          if (this.props.isReportMode && !isEquipment) {
             return (<ReportDialog
               innerRef={reportDialog => this.reportDialog = reportDialog}
               feature={this.props.feature}
               featureId={this.props.featureId}
               onClose={() => {
-                this.toggleReportMode(false);
+                if (this.props.onClose) this.props.onClose();
               }}
             />);
           }
@@ -370,7 +363,7 @@ class NodeToolbar extends React.Component<Props, State> {
               ref={reportModeButton => this.reportModeButton = reportModeButton}
               className="link-button full-width-button"
               onClick={() => {
-                this.toggleReportMode(true);
+                if (this.props.onOpenReportMode) this.props.onOpenReportMode();
               }}
             >
               {reportButtonCaption}

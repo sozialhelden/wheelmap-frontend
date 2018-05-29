@@ -20,6 +20,7 @@ import SearchButton from './components/SearchToolbar/SearchButton';
 import FilterToolbar from './components/FilterToolbar/FilterToolbar';
 import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding, { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
+import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
@@ -228,6 +229,12 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
+  onMapClickHandler = () => {
+    this.closeSearch();
+    this.setState({ isMainMenuOpen: false });
+  }
+
+  
   onError = (error) => {
     this.setState({ isNotFoundVisible: true, lastError: error });
   }
@@ -436,7 +443,7 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
-  renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode }) {
+  renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode, isReportMode }) {
     return <div className="node-toolbar">
       <NodeToolbar
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
@@ -446,7 +453,9 @@ class FeatureLoader extends React.Component<Props, State> {
         featureId={featureId}
         equipmentInfoId={equipmentInfoId}
         isEditMode={isEditMode}
-        onReportModeToggle={(isReportMode) => { this.setState({ isReportMode }); }}
+        isReportMode={isReportMode}
+        onClose={() => { if (isReportMode) { this.setState({ isReportMode: false }) }}}
+        onOpenReportMode={(isReportMode) => { this.setState({ isReportMode: true }) }}
       />
     </div>;
   }
@@ -521,6 +530,7 @@ class FeatureLoader extends React.Component<Props, State> {
   renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom }) {
     return <MainMenu
       className="main-menu"
+      isOpen={this.state.isMainMenuOpen}
       onToggle={isMainMenuOpen => this.setState({ isMainMenuOpen })}
       isEditMode={isEditMode}
       isLocalizationLoaded={isLocalizationLoaded}
@@ -559,23 +569,61 @@ class FeatureLoader extends React.Component<Props, State> {
     return { left: 50, right: 50, top: 50, bottom };
   }
 
+  renderFullscreenBackdrop() {
+    const routeInformation = getRouteInformation(this.props);
+    const { isEditMode } = routeInformation || {};
+    const isActive =
+      (this.state.isFilterToolbarVisible && this.state.isLocalizationLoaded) ||
+      this.state.isMainMenuOpen ||
+      this.state.isOnboardingVisible ||
+      this.state.isNotFoundVisible ||
+      isEditMode ||
+      this.state.isReportMode;
+
+    return <FullscreenBackdrop
+      onClick={() => {
+        console.log('backdrop clicked');
+        this.setState({
+          isFilterToolbarVisible: false,
+          isMainMenuOpen: false,
+          isOnboardingVisible: false,
+          isNotFoundVisible: false,
+          isReportMode: false,
+        });
+        if (this.isEditMode()) {
+          this.props.history.push(`/nodes/${routeInformation.featureId}`);
+        }
+      }}
+      isActive={isActive}
+    />;
+  }
+
+
+  isEditMode() {
+    const routeInformation = getRouteInformation(this.props);
+    const { isEditMode } = routeInformation || {};
+    return isEditMode;
+  }
+
+
   render() {
     const routeInformation = getRouteInformation(this.props);
 
-    const { featureId, isEditMode, searchQuery, equipmentInfoId } = routeInformation || {};
+    const { featureId, searchQuery, equipmentInfoId } = routeInformation || {};
     const { isLocalizationLoaded } = this.state;
     const category = this.state.category;
     const isNodeRoute = Boolean(featureId);
-    const { lat, lon, zoom } = this.state;
+    const isEditMode = this.isEditMode();
+    const { lat, lon, zoom, isReportMode } = this.state;
     const isNodeToolbarVisible = this.state.feature && !this.state.isSearchToolbarExpanded;
 
     const classList = [
       'app-container',
       this.props.className,
       this.state.isOnboardingVisible ? 'is-dialog-visible' : null,
+      this.state.isNotFoundVisible ? 'is-dialog-visible' : null,
       this.state.isMainMenuOpen ? 'is-main-menu-open' : null,
-      this.state.isFilterToolbarVisible ? 'is-filter-toolbar-visible' : null,
-      this.state.isNotFoundVisible ? 'is-on-not-found-page' : null,
+      this.state.isFilterToolbarVisible ? 'is-dialog-visible is-filter-toolbar-visible' : null,
       this.state.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
@@ -590,14 +638,22 @@ class FeatureLoader extends React.Component<Props, State> {
       this.state.isOnboardingVisible ||
       this.state.isNotFoundVisible;
 
+    const isMainMenuInBackground =
+      this.state.isFilterToolbarVisible ||
+      this.state.isOnboardingVisible ||
+      this.state.isNotFoundVisible ||
+      isEditMode ||
+      this.state.isReportMode;
+
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.state.isMainMenuOpen;
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
+    const isNodeToolbarModal = isReportMode || isEditMode;
 
     const map = <Map
       ref={(map) => { this.map = map; window.map = map; }}
       history={this.props.history}
       onMoveEnd={this.onMoveEndHandler}
-      onClick={() => this.closeSearch()}
+      onClick={this.onMapClickHandler}
       onError={this.onError}
       lat={lat ? parseFloat(lat) : null}
       lon={lon ? parseFloat(lon) : null}
@@ -615,14 +671,22 @@ class FeatureLoader extends React.Component<Props, State> {
       {...config}
     />;
 
+    const mainMenu = this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom });
+    const nodeToolbar = this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode, isReportMode });
+
     return (<div className={classList.join(' ')}>
-      {this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom })}
-      {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
-      {isNodeToolbarVisible && this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode })}
-      {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
+      <div className="behind-backdrop">
+        {isMainMenuInBackground && mainMenu}
+        {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
+        {isNodeToolbarVisible && !isNodeToolbarModal && nodeToolbar}
+        {(isLocalizationLoaded && !this.state.isFilterToolbarVisible) && this.renderFilterButton()}
+        {isSearchButtonVisible && this.renderSearchButton()}
+        {map}
+      </div>
+      {this.renderFullscreenBackdrop()}
       {(this.state.isFilterToolbarVisible && isLocalizationLoaded) && this.renderFilterToolbar()}
-      {isSearchButtonVisible && this.renderSearchButton()}
-      {map}
+      {!isMainMenuInBackground && mainMenu}
+      {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
       {this.renderOnboarding()}
       {this.renderNotFound()}
     </div>);
@@ -636,49 +700,44 @@ const StyledFeatureLoader = styled(FeatureLoader)`
     text-decoration: none;
   }
 
-  &.is-dialog-visible {
-    > *:not(.modal-dialog) {
+  > * {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  > .behind-backdrop {
+    .toolbar {
+      z-index: 1001;
+    }
+  }
+
+  &.is-dialog-visible, &.is-filter-toolbar-visible, &.is-edit-mode, &.is-report-mode, &.is-main-menu-open {
+    > .behind-backdrop {
+      .toolbar {
+        z-index: 999;
+      }
       filter: blur(5px);
+      transform: scale3d(0.995, 0.995, 1);
       &, * {
         pointer-events: none;
       }
     }
   }
 
-  &.is-main-menu-open {
-    > *:not(.main-menu) {
-      filter: blur(5px);
-      &, * {
-        pointer-events: none;
-      }
+  &.is-edit-mode, &.is-report-mode {
+    .node-toolbar {
+      z-index: 1001;
     }
   }
 
   &.is-filter-toolbar-visible {
-    > *:not(.filter-toolbar) {
-      filter: blur(5px);
-      &, * {
-        pointer-events: none;
-      }
+    .filter-toolbar {
+      z-index: 1001;
     }
   }
 
-  &.is-report-mode:not(.is-on-not-found-page),
-  &.is-edit-mode:not(.is-on-not-found-page) {
-    > *:not(.node-toolbar) {
-      filter: blur(5px);
-      &, * {
-        pointer-events: none;
-      }
-    }
-  }
-
-  &.is-on-not-found-page {
-    > *:not(.not-found-page) {
-      filter: blur(5px);
-      &, * {
-        pointer-events: none;
-      }
+  &.is-main-menu-open {
+    > .main-menu {
+      z-index: 1001;
     }
   }
 `;
