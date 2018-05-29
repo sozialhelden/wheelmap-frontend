@@ -549,6 +549,10 @@ class FeatureLoader extends React.Component<Props, State> {
     </div>;
   }
 
+  getMapPadding() {
+    const bottom = this.state.feature ? 250 : 50;
+    return { left: 50, right: 50, top: 50, bottom };
+  }
 
   render() {
     const routeInformation = getRouteInformation(this.props);
@@ -601,6 +605,7 @@ class FeatureLoader extends React.Component<Props, State> {
       pointToLayer={this.createMarkerFromFeature}
       locateOnStart={shouldLocateOnStart}
       isLocalizationLoaded={isLocalizationLoaded}
+      padding={this.getMapPadding()}
       {...config}
     />;
 

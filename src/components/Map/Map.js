@@ -38,6 +38,8 @@ import { globalFetchManager } from '../../lib/FetchManager';
 
 window.L = L;
 
+type Padding = {top: number, left: number, right: number, bottom: number};
+
 type Props = {
   featureId?: ?string,
   feature?: ?Feature,
@@ -61,6 +63,7 @@ type Props = {
   defaultStartCenter: [number, number],
   pointToLayer: ((feature: Feature, latlng: [number, number]) => ?L.Marker),
   locateOnStart?: boolean,
+  padding: ?Padding,
   className: ?string,
   onMapMounted?: ((map: L.Map) => void),
   unitSystem?: 'metric' | 'imperial',
