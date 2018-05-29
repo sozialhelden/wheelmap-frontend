@@ -464,6 +464,9 @@ class FeatureLoader extends React.Component<Props, State> {
         }
         this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
       }}
+      onFilterChanged={(filter) => {
+        setQueryParams(this.props.history, filter);
+      }}
       lat={lat ? parseFloat(lat) : null}
       lon={lon ? parseFloat(lon) : null}
       onSelectCoordinate={(coords: ?{ lat: number, lon: number }) => {

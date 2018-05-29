@@ -7,9 +7,7 @@ import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 import { t } from 'c-3po';
 
-import { setQueryParams } from '../../lib/queryParams';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -20,10 +18,11 @@ import Categories from '../../lib/Categories';
 import SearchInputField from './SearchInputField';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
-import FilterSelector from './FilterSelector';
+import AccessibilityFilterMenu from './AccessibilityFilterMenu';
+import type { PlaceFilter } from './AccessibilityFilterMenu';
 
 
-export type Props = {
+export type Props = PlaceFilter & {
   history: RouterHistory,
   hidden: boolean,
   inert: boolean,
@@ -31,22 +30,21 @@ export type Props = {
   searchQuery: ?string,
   lat: ?number,
   lon: ?number,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-
   onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
   onChangeSearchQuery: ((newSearchQuery: string) => void),
+  onFilterChanged: ((filter: PlaceFilter) => void),
   onClose: ?(() => void),
   onResetCategory: ?(() => void),
   onToggle: ((isSearchToolbarExpanded: boolean) => void),
 };
+
 
 type State = {
   searchResults: ?SearchResultCollection,
   searchFieldIsFocused: boolean,
   isCategoryFocused: boolean,
   isLoading: boolean;
-  categoryMenuIsVisible: boolean,
+  filterIsVisible: boolean,
 };
 
 
@@ -165,7 +163,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     searchResults: null,
     isCategoryFocused: false,
     isLoading: false,
-    categoryMenuIsVisible: false,
+    filterIsVisible: false,
   };
 
   toolbar: ?React.Element<typeof Toolbar>;
@@ -193,7 +191,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const searchFieldShouldBecomeFocused = !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
     if (searchFieldShouldBecomeFocused) {
       this.focus();
@@ -208,12 +206,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
       const hasCategory = Boolean(newProps.category);
       if (hasCategory) {
         if (isOnSmallViewport()) {
-          this.setState({ categoryMenuIsVisible: false, searchFieldIsFocused: false });
+          this.setState({ filterIsVisible: false, searchFieldIsFocused: false });
           if (this.input) this.input.blur();
         }
         this.ensureFullVisibility();
       } else {
-        this.setState({ categoryMenuIsVisible: false });
+        this.setState({ filterIsVisible: false });
       }
     }
   }
@@ -240,7 +238,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   clearSearch() {
-    this.setState({ categoryMenuIsVisible: false, searchResults: null });
+    this.setState({ filterIsVisible: false, searchResults: null });
     if (this.input instanceof HTMLInputElement) {
       this.input.value = '';
       this.input.blur();
@@ -269,14 +267,11 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
   renderFilterToolbar() {
     return <div className="filter-selector">
-      <FilterSelector
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
+      <AccessibilityFilterMenu
+        accessibilityFilter={this.props.accessibilityFilter}
+        toiletFilter={this.props.toiletFilter}
         onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
-        onFilterChanged={(filter) => {
-          setQueryParams(this.props.history, filter);
-          this.setState(filter);
-        }}
+        onFilterChanged={this.props.onFilterChanged}
       />
     </div>;
   }
@@ -296,7 +291,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     const categoryNotSelected = !Boolean(this.props.category);
 
-    const categoryMenuIsVisible = isSearchFieldFocusedAndEmpty || (categoryNotSelected && isCategoryFocused);
+    const filterIsVisible = isSearchFieldFocusedAndEmpty || (categoryNotSelected && isCategoryFocused);
 
     let contentBelowSearchField = null;
 
@@ -319,7 +314,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             onSelect={() => this.clearSearch()}
           />
         </div>;
-    } else if (categoryMenuIsVisible) {
+    } else if (filterIsVisible) {
       contentBelowSearchField = (<CategoryMenu
         hidden={this.props.hidden}
         history={this.props.history}
@@ -361,7 +356,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
               }
               this.setState({ searchFieldIsFocused: true });
               window.scrollTo(0, 0);
-              this.setState({ categoryMenuIsVisible: true }, () => {
+              this.setState({ filterIsVisible: true }, () => {
                 if (this.props.onToggle) this.props.onToggle(true);
               });
             }}
@@ -369,7 +364,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
               this.input = event.target;
               this.setState({ searchFieldIsFocused: true });
               window.scrollTo(0, 0);
-              this.setState({ categoryMenuIsVisible: true });
+              this.setState({ filterIsVisible: true });
             }}
             onBlur={() => {
               this.ensureFullVisibility();
