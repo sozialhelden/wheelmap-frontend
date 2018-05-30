@@ -731,13 +731,13 @@ const StyledFeatureLoader = styled(FeatureLoader)`
   }
 
   &.is-edit-mode, &.is-report-mode {
-    .node-toolbar {
+    .node-toolbar, .toolbar {
       z-index: 1001;
     }
   }
 
   &.is-filter-toolbar-visible {
-    .filter-toolbar {
+    .filter-toolbar, .toolbar  {
       z-index: 1001;
     }
   }
