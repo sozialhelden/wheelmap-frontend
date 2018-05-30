@@ -363,7 +363,7 @@ export default class Map extends React.Component<Props, State> {
 
 
   updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
-    console.log('Update feature layer visibility...');
+    // console.log('Update feature layer visibility...');
     const map: L.Map = this.map;
     const featureLayer = this.featureLayer;
     const wheelmapTileLayer = this.wheelmapTileLayer;
@@ -375,11 +375,11 @@ export default class Map extends React.Component<Props, State> {
 
     if (map.getZoom() >= minimalZoomLevelForFeatures) {
       if (!map.hasLayer(featureLayer)) {
-        console.log('Show feature layer...');
+        // console.log('Show feature layer...');
         map.addLayer(featureLayer);
       }
     } else if (map.hasLayer(featureLayer)) {
-      console.log('Hide feature layer...');
+      // console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
 
@@ -388,14 +388,14 @@ export default class Map extends React.Component<Props, State> {
     if (!this.props.category) {
       minimalZoomLevelForFeatures = this.props.minZoomWithoutSetCategory;
       if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
-        console.log('Show AC layer...');
+        // console.log('Show AC layer...');
         featureLayer.addLayer(this.accessibilityCloudTileLayer);
         accessibilityCloudTileLayer._update(map.getCenter());
       }
     }
 
     if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
-      console.log('Show wheelmap layer...');
+      // console.log('Show wheelmap layer...');
       featureLayer.addLayer(wheelmapTileLayer);
       wheelmapTileLayer._update(map.getCenter());
     }
