@@ -274,7 +274,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
 
     // translator: Button caption shown in the place toolbar
-    const showOnOsmCaption = t`Show on OpenStreetMap`;
+    const showOnOsmCaption = t`Open on OpenStreetMap`;
     const showOnOsmLink = generateShowOnOsmUrl(feature);
 
     const sourceIds = this.sourceIds();
