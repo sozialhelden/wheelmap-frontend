@@ -129,7 +129,7 @@ function featureIdHasChanged(newProps: Props, prevState: State) {
   const newFeatureId = getFeatureIdFromProps(newProps);
   const isDifferent = oldFeatureId !== newFeatureId;
   if (isDifferent) {
-    console.log('Feature id has changed:', newProps, prevState);
+    console.log('Feature id has changed:', oldFeatureId, "->", newFeatureId, newProps, prevState);
   }
   return isDifferent;
 }
@@ -256,14 +256,17 @@ class FeatureLoader extends React.Component<Props, State> {
     await loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }))
     window.addEventListener('hashchange', this.onHashUpdate);
-    this.fetchFeature(getFeatureIdFromProps(this.props));
+    
+    if (this.state.featureId && !this.state.feature && !this.state.fetching) {
+      this.fetchFeature(this.state.featureId);
+    }
   }
 
 
   componentDidUpdate(prevProps, prevState) {
     this.manageFocus(prevProps, prevState);
-    if (featureIdHasChanged(this.props, prevState)) {
-      this.fetchFeature(getFeatureIdFromProps(this.props));
+    if (this.state.featureId && !this.state.feature && !this.state.fetching) {
+      this.fetchFeature(this.state.featureId);
     }
   }
 
@@ -274,7 +277,7 @@ class FeatureLoader extends React.Component<Props, State> {
     if (featureIdHasChanged(newProps, prevState)) {
       result.isFilterToolbarVisible = false;
       result.featureId = getFeatureIdFromProps(newProps);
-      if (!result.featureId) {
+      if (!result.featureId || (prevState.feature && prevState.feature.id != result.featureId)) {
         result.feature = null;
       }
     }
@@ -355,7 +358,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
   fetchFeature(featureId: ?string): void {
     if (!featureId) {
-      this.setState({ feature: null, lat: null, lon: null, zoom: null, featureId });
+      this.setState({ featureId: null, feature: null, lat: null, lon: null, zoom: null });
       return;
     }
     this.setState({ fetching: true, featureId });
@@ -378,7 +381,7 @@ class FeatureLoader extends React.Component<Props, State> {
       if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
         error = reason;
       }
-      this.setState({ feature: null, lat: null, lon: null, zoom: null, fetching: false, isNotFoundVisible: true, lastError: error });
+      this.setState({ featureId: null, feature: null, lat: null, lon: null, zoom: null, fetching: false, isNotFoundVisible: true, lastError: error });
     });
   }
 
@@ -568,13 +571,13 @@ class FeatureLoader extends React.Component<Props, State> {
     const hasPanel = !!this.state.feature;
     const isPortrait = window.innerWidth < window.innerHeight;
     if (hasBigViewport()) {
-      return { left: hasPanel ? 400 : 32, right: 32, top: 32, bottom: 64 };
+      return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
     }
 
     if (isPortrait) {
-      return { left: 32, right: 32, top: 32, bottom: hasPanel ? 256 : 64 };
+      return { left: 32, right: 32, top: 82, bottom: hasPanel ? 256 : 64 };
     }
-    return { left: hasPanel ? 400 : 32, right: 32, top: 32, bottom: 64 };
+    return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
   }
 
   renderFullscreenBackdrop() {
