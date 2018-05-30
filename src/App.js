@@ -565,8 +565,16 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
   getMapPadding() {
-    const bottom = this.state.feature ? 250 : 50;
-    return { left: 50, right: 50, top: 50, bottom };
+    const hasPanel = !!this.state.feature;
+    const isPortrait = window.innerWidth < window.innerHeight;
+    if (hasBigViewport()) {
+      return { left: hasPanel ? 400 : 32, right: 32, top: 32, bottom: 64 };
+    }
+
+    if (isPortrait) {
+      return { left: 32, right: 32, top: 32, bottom: hasPanel ? 256 : 64 };
+    }
+    return { left: hasPanel ? 400 : 32, right: 32, top: 32, bottom: 64 };
   }
 
   renderFullscreenBackdrop() {

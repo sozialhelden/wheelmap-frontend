@@ -423,7 +423,7 @@ export default class Map extends React.Component<Props, State> {
     const mapSize = map.getSize();
     const mCenter = mapSize.divideBy(2);
     const vCenter = new L.Point(
-      padding.right + (mapSize.x - padding.right - padding.left)/2,
+      padding.left + (mapSize.x - padding.right - padding.left)/2,
       padding.top + (mapSize.y - padding.top - padding.bottom)/2,
     );
     const offset = mCenter.subtract(vCenter);
