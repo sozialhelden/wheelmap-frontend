@@ -33,6 +33,7 @@ import ThumbnailList from './Photos/ThumbnailList';
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
+import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
 function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
@@ -265,6 +266,7 @@ class NodeToolbar extends React.Component<Props, State> {
     const reportButtonCaption = t`Report an Issue`;
     const placeName = placeNameFor(get(this.props, 'feature.properties'), this.state.category);
 
+    const openInMaps = generateMapsUrl(feature, placeName);
 
     // translator: Button caption shown in the place toolbar
     const showOnOsmCaption = t`Open on OpenStreetMap`;
@@ -374,6 +376,13 @@ class NodeToolbar extends React.Component<Props, State> {
             >
               {reportButtonCaption}
             </button>}
+            
+            {openInMaps && <a
+              className="link-button"
+              href={openInMaps.url}
+            >
+              {openInMaps.caption}
+            </a>}
 
             {showOnOsmLink && <a
               className="link-button"
