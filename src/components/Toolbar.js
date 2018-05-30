@@ -298,6 +298,9 @@ const StyledToolbar = styled(Toolbar)`
 
   box-sizing: border-box;
   overflow: auto;
+  overflow-x: hidden;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
   transform: translate3d(0, 0);
 
   font-size: 16px;
