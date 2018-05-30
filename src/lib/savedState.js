@@ -9,6 +9,7 @@ const savedState = {
     lastMoveDateString,
     lastMoveDate: lastMoveDateString && new Date(lastMoveDateString),
     lastZoom: localStorage.getItem('wheelmap.map.lastZoom'),
+    locate: localStorage.getItem('wheelmap.map.locate') == 'true',
   }
 };
 

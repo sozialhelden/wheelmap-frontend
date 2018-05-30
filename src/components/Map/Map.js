@@ -173,9 +173,12 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-    if (this.props.locateOnStart) {
-      map.locate({ setView: true, maxZoom: this.props.maxZoom, enableHighAccuracy: false });
-    }
+    map.locate({ 
+      setView: this.props.locateOnStart,
+      watch: true,
+      maxZoom: this.props.maxZoom,
+      enableHighAccuracy: false,
+    });
 
     map.on('moveend', () => this.onMoveEnd());
     map.on('zoomend', () => this.onMoveEnd());
