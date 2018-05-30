@@ -582,7 +582,6 @@ class FeatureLoader extends React.Component<Props, State> {
 
     return <FullscreenBackdrop
       onClick={() => {
-        console.log('backdrop clicked');
         this.setState({
           isFilterToolbarVisible: false,
           isMainMenuOpen: false,
