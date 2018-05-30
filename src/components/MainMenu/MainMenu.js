@@ -13,7 +13,6 @@ import type { RouterHistory } from 'react-router-dom';
 
 
 type State = {
-  isMenuVisible: boolean,
   isMenuButtonVisible: boolean,
 };
 
@@ -21,6 +20,7 @@ type Props = {
   className: string,
   onToggle: ((isMainMenuOpen: boolean) => void),
   isEditMode: boolean,
+  isOpen: boolean,
   isLocalizationLoaded: boolean,
   lat: string,
   lon: string,
@@ -43,7 +43,6 @@ const menuButtonVisibilityBreakpoint = 1024;
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuVisible: false,
     isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
   boundOnResize: (() => void);
@@ -73,11 +72,11 @@ class MainMenu extends React.Component<Props, State> {
     window.removeEventListener('resize', this.boundOnResize);
   }
 
-  componentDidUpdate(_, prevState) {
+  componentDidUpdate(prevProps, _) {
     if (this.state.isMenuVisible) {
       this.setupFocusTrap();
 
-      if (!prevState.isMenuVisible) {
+      if (!prevProps.isOpen) {
         this.focusFirstMenuElement();
       }
     } else {
@@ -86,12 +85,7 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   toggleMenu() {
-    const newState = !this.state.isMenuVisible;
-    this.setState({
-      isMenuVisible: newState,
-    });
-
-    this.props.onToggle(newState);
+    this.props.onToggle(!this.props.isOpen);
   }
 
   setupFocusTrap() {
@@ -139,7 +133,7 @@ class MainMenu extends React.Component<Props, State> {
 
     const classList = [
       this.props.className,
-      this.state.isMenuVisible ? 'is-open' : null,
+      this.props.isOpen ? 'is-open' : null,
       isLocalizationLoaded ? 'is-loaded' : null,
       'main-menu',
     ].filter(Boolean);
@@ -182,10 +176,10 @@ class MainMenu extends React.Component<Props, State> {
         aria-hidden={!this.state.isMenuButtonVisible}
         aria-label={t`Menu`}
         aria-haspopup="true"
-        aria-expanded={this.state.isMenuVisible}
+        aria-expanded={this.props.isOpen}
         aria-controls="main-menu"
       >
-        {this.state.isMenuVisible ? <CloseIcon /> : <MenuIcon />}
+        {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
       </button>
 
       <div id="main-menu" role="menu">
@@ -383,7 +377,6 @@ const StyledMainMenu = styled(MainMenu)`
     }
 
     &.is-open {
-      background-color: rgba(254, 254, 254, 0.9);
       height: auto;
       .nav-link {
         display: flex;
