@@ -319,12 +319,6 @@ export default class Map extends React.Component<Props, State> {
 
     this.navigate(newProps);
 
-    // Without this, the map would be empty when navigating to a category
-    if (this.props.category !== newProps.category) {
-      if (map.getZoom() < this.props.minZoomWithSetCategory) {
-        map.setZoom(this.props.minZoomWithSetCategory, { animate: true });
-      }
-    }
 
     if (!this.props.isLocalizationLoaded && newProps.isLocalizationLoaded) {
       this.addAttribution()
@@ -443,6 +437,8 @@ export default class Map extends React.Component<Props, State> {
     const map: L.Map = this.map;
     const center = map.getCenter();
 
+    let moved = false;
+
     const actualPadding = padding || {top: 10, left: 10, right: 10, bottom: 10};
     const targetCoords = this.offsetCoordsWithPadding(coords, actualPadding);
     if (targetCoords && !isSamePosition(targetCoords, [center.lat, center.lng])) {
@@ -451,13 +447,18 @@ export default class Map extends React.Component<Props, State> {
       if (!isWithinBounds) {
         // animate if old map center is within sight
         const shouldAnimate = map.getBounds().contains(targetCoords);
+        moved = true;
         map.flyTo(targetCoords, zoom, {
           animate: shouldAnimate
         });
       }
     }
-    else if (zoom !== map.getZoom()) {
-      map.setZoomAround([center.lat, center.lng], zoom);
+    
+    if (!moved && zoom !== map.getZoom()) {
+      moved = true;
+      map.setZoom(zoom, {
+        animate: true
+      });      
     }
   }
 
@@ -470,9 +471,15 @@ export default class Map extends React.Component<Props, State> {
       const center = map.getCenter();
       fallbackCenter = [center.lat, center.lng];
       fallbackZoom = map.getZoom();
-    }    
+    }
 
-    const zoom = props.zoom || fallbackZoom;
+    let overrideZoom = props.zoom;
+    // Prevent the map from being empty when navigating to a new category
+    if (props.category && this.props.category != props.category) {
+      overrideZoom = Math.min(props.minZoomWithSetCategory || 20, props.zoom || props.minZoomWithSetCategory);
+    }
+
+    const zoom = overrideZoom || fallbackZoom;
     
     // use the feature coordinates
     const feature = props.feature;
