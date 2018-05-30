@@ -34,7 +34,6 @@ function removeEmptyTranslations(locale) {
 
 function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
-  console.log('Loaded locale', locale, localization);
   addLocale(locale, removeEmptyTranslations(localization));
   return localization;
 }
@@ -88,8 +87,10 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
       // console.log('Loaded translation', locale);
       loadedLocales.push(locale);
     },
-    (error) => {
-      console.log('Error while loading translation', error);
+    (response) => {
+      if (response.status !== 404) {
+        console.log('Error loading translation:', response);
+      }
     }
   );
   }))
@@ -101,7 +102,7 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
         const replacementLocale = loadedLocales
           .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
-          console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
+          // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
           return i18nCache.getLocalization(replacementLocale).then(result => {
             loadLocalizationFromPOFile(missingLocale, result);
             loadedLocales.push(missingLocale);
@@ -114,7 +115,7 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
   })
   .then(() => {
     const localesToUse = intersection(locales, loadedLocales);
-    console.log('Using locales', localesToUse, '(requested:', locales, ')');
+    // console.log('Using locales', localesToUse, '(requested:', locales, ')');
     currentLocales = localesToUse;
     useLocales(localesToUse);
   });

@@ -137,7 +137,7 @@ class GeoJSONTileLayer extends TileLayer {
   }
 
   _reset() {
-    console.log("Resetting tile layer, emptying _idsToShownLayers");
+    // console.log("Resetting tile layer, emptying _idsToShownLayers");
     if (this._tiles) {
       Object.keys(this._tiles)
         .map(k => this._tiles[k])
