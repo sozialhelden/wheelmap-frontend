@@ -19,7 +19,6 @@ const Circle = styled.div.attrs({ className: 'circle' })`
 const StyledDiv = styled.div`
   display: flex;
   flex-basis: 25%;
-  flex-direction: column;
   align-items: center;
   box-sizing: border-box;
   padding: 10px 0;
@@ -59,10 +58,8 @@ const StyledDiv = styled.div`
 `;
 
 const Caption = styled.div.attrs({ className: 'caption' })`
-  font-size: 0.80em;
   color: rgba(0, 0, 0, 0.8);
   line-height: 1.2;
-  margin-top: 0.5em;
 `;
 
 
@@ -72,14 +69,16 @@ type Props = {
   activeColor: ?string,
   hoverColor: ?string,
   ariaLabel: ?string,
+  isHorizontal: boolean,
+  className: string,
 };
 
 
 export default function CategoryButton(props: Props) {
-  return (<StyledDiv hoverColor={props.hoverColor} activeColor={props.activeColor} aria-label={props.ariaLabel}>
+  return (<StyledDiv className={props.className} hoverColor={props.hoverColor} activeColor={props.activeColor} aria-label={props.ariaLabel}>
     <Circle>
       {props.iconComponent}
     </Circle>
-    <Caption>{props.caption}</Caption>
+    <Caption isHorizontal={props.isHorizontal}>{props.caption}</Caption>
   </StyledDiv>);
 }
