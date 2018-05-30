@@ -7,6 +7,8 @@ export function getQueryParams() {
   const result = {};
   if (window.location.hash.match(/\?/)) {
     Object.assign(result, queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, '')));
+  } else if (window.location.search.match(/\?/)) {
+    Object.assign(result, queryString.parse(window.location.search.replace(/^\?/, '')));
   }
   return result;
 }

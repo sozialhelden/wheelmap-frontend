@@ -35,6 +35,33 @@ type SynonymCache = {
   [string]: ACCategory,
 };
 
+export const translatedRootCategoryNames = {
+  // translator: Root category
+  shopping: t`Shopping`,
+  // translator: Root category
+  food: t`Food & Drinks`,
+  // translator: Root category
+  public_transfer: t`Transport`,
+  // translator: Root category
+  leisure: t`Leisure`,
+  // translator: Root category
+  accommodation: t`Hotels`,
+  // translator: Root category
+  tourism: t`Tourism`,
+  // translator: Root category
+  education: t`Education`,
+  // translator: Root category
+  government: t`Official`,
+  // translator: Root category
+  health: t`Health`,
+  // translator: Root category
+  money_post: t`Money`,
+  // translator: Root category
+  sport: t`Sport`,
+  // translator: Root category
+  misc: t`Misc`,
+};
+
 
 export default class Categories {
   static synonymCache: SynonymCache = {};
@@ -44,32 +71,7 @@ export default class Categories {
   static fetchPromise: ?Promise<*>;
 
   static getTranslatedRootCategoryNames() {
-    return {
-      // translator: Root category
-      shopping: t`Shopping`,
-      // translator: Root category
-      food: t`Food & Drinks`,
-      // translator: Root category
-      public_transfer: t`Transport`,
-      // translator: Root category
-      leisure: t`Leisure`,
-      // translator: Root category
-      accommodation: t`Hotels`,
-      // translator: Root category
-      tourism: t`Tourism`,
-      // translator: Root category
-      education: t`Education`,
-      // translator: Root category
-      government: t`Official`,
-      // translator: Root category
-      health: t`Health`,
-      // translator: Root category
-      money_post: t`Money`,
-      // translator: Root category
-      sport: t`Sport`,
-      // translator: Root category
-      misc: t`Misc`,
-    };
+    return translatedRootCategoryNames;
   }
 
   static getCategory(idOrSynonym): Promise<ACCategory> {

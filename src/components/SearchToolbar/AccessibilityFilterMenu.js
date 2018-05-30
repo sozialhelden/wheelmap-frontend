@@ -18,15 +18,9 @@ import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAcces
 
 import Toolbar from '../Toolbar';
 import CustomRadio from './CustomRadio';
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { getFiltersForNamedFilter, getFilterNameForFilterList } from './AccessibilityFilterModel';
-import type { FilterName } from './AccessibilityFilterModel';
+import type { FilterName, PlaceFilter } from './AccessibilityFilterModel';
 
-
-export type PlaceFilter = {
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-};
 
 type Props = PlaceFilter & {
   className: string,
@@ -60,55 +54,20 @@ const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
 
 class AccessibilityFilterMenu extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
-  toolbar: ?React.Element<typeof Toolbar>;
+  toolbar: ?React.ElementRef<typeof Toolbar>;
+  toiletCheckbox: ?React.ElementRef<'input'>;
+  closeButton: ?React.ElementRef<typeof CloseButton>;
 
   state = {
     filterName: 'all',
     toiletCheckboxFocused: false,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.trapFocus = this.trapFocus.bind(this);
-    this.escapeHandler = this.escapeHandler.bind(this);
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.escapeHandler);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.escapeHandler);
-  }
-
-  escapeHandler(event) {
-    if (event.key === 'Escape') {
-      this.props.onCloseClicked();
-    }
-  }
-
-  trapFocus({nativeEvent}) {
-    if (nativeEvent.target === this.toiletCheckbox && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
-      nativeEvent.preventDefault();
-      this.closeButton.focus();
-    }
-
-    if (nativeEvent.target === this.closeButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
-      nativeEvent.preventDefault();
-      this.toiletCheckbox.focus();
-    }
-  }
-
   render() {
     const accessibilityFilter = this.props.accessibilityFilter;
     const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
-    // const shouldShowToiletFilter = (f) => includes(['partial', 'full'], f);
-    const shouldShowToiletFilter = () => true;
     const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
 
-    // translator: Shown at the top of the filter toolbar
-    const headerText = t`Which places do you want to find?`;
 
     // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see, plural
     const allCaption = t`All`;
@@ -126,22 +85,10 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
     const toiletFilterCaption = t`Only show places with a wheelchair accessible toilet`;
 
     return (
-      <Toolbar
+      <section
         className={this.props.className}
-        hidden={this.props.hidden}
-        minimalHeight={75}
-        isSwipeable={false}
-        innerRef={(toolbar) => { this.toolbar = toolbar; }}
-        role="dialog"
-        ariaLabel={t`Accessibility Filter Dialog`}
+        aria-label={t`Accessibility Filter Dialog`}
       >
-        <CloseButton
-          closeButtonRef={closeButton => this.closeButton = closeButton}
-          onClick={this.props.onCloseClicked}
-          onKeyDown={this.trapFocus}
-          className="close-icon"
-        />
-        <header>{headerText}</header>
         <section>
           <RadioGroup
             name="accessibility-filter"
@@ -151,16 +98,10 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
             onChange={(f) => {
               const filter = {
                 status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
-                toilet: shouldShowToiletFilter(f) && isToiletFilterEnabled ? 'yes' : null,
+                toilet: isToiletFilterEnabled ? 'yes' : null,
               };
               filter.toilet = null;
               this.props.onFilterChanged(filter);
-              setTimeout(() => {
-                if (this.toolbar) {
-                  this.toolbar.onResize();
-                  if (this.toolbar) this.toolbar.ensureFullVisibility();
-                }
-              }, 120);
             }}
           >
             <label htmlFor="all">
@@ -185,7 +126,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
             </label>
           </RadioGroup>
         </section>
-        <section className={shouldShowToiletFilter(filterName) ? '' : 'section-hidden'}>
+        <section>
           <label htmlFor="toilet-filter">
             <input
               ref={toiletCheckbox => this.toiletCheckbox = toiletCheckbox }
@@ -202,7 +143,6 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
               checked={isToiletFilterEnabled}
               onFocus={() => this.setState({toiletCheckboxFocused: true})}
               onBlur={() => this.setState({toiletCheckboxFocused: false})}
-              onKeyDown={this.trapFocus}
             />
             <span className={`icon${ this.state.toiletCheckboxFocused ? ' focus-ring' : ''}`}>
               {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
@@ -210,7 +150,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
             <span className="caption">{toiletFilterCaption}</span>
           </label>
         </section>
-      </Toolbar>
+      </section>
     );
   }
 }

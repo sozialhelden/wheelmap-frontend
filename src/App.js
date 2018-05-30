@@ -88,6 +88,7 @@ type State = {
   isSearchToolbarExpanded: boolean,
 };
 
+
 type RouteInformation = {
   featureId: ?string,
   category: ?string,
@@ -95,6 +96,7 @@ type RouteInformation = {
   searchQuery: ?string,
   equipmentInfoId: ?string,
 };
+
 
 function getRouteInformation(props: Props): ?RouteInformation {
   const location = props.location;
@@ -108,6 +110,8 @@ function getRouteInformation(props: Props): ?RouteInformation {
       category: match[1] === 'categories' ? match[2] : null,
       searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
       isEditMode: (match[3] === 'edit'),
+      toilet: parseQueryParams(location.search).toilet,
+      status: parseQueryParams(location.search).status,
     };
   }
   return null;
@@ -124,9 +128,6 @@ function featureIdHasChanged(newProps: Props, prevState: State) {
   const oldFeatureId = prevState.featureId;
   const newFeatureId = getFeatureIdFromProps(newProps);
   const isDifferent = oldFeatureId !== newFeatureId;
-  if (isDifferent) {
-    console.log('Feature id has changed:', oldFeatureId, "->", newFeatureId, newProps, prevState);
-  }
   return isDifferent;
 }
 
@@ -175,7 +176,7 @@ class FeatureLoader extends React.Component<Props, State> {
     lastError: null,
     featureId: null,
     isOnSmallViewport: false,
-    isSearchToolbarExpanded: false,
+    isSearchToolbarExpanded: true,
   };
 
   map: ?any;
@@ -290,10 +291,7 @@ class FeatureLoader extends React.Component<Props, State> {
       return result;
     }
 
-    if (routeInformation.category) {
-      result.category = routeInformation.category;
-    }
-
+    Object.assign(result, pick(routeInformation, 'category', 'toilet', 'status'));
     return result;
   }
 
@@ -412,7 +410,7 @@ class FeatureLoader extends React.Component<Props, State> {
     }
   }
 
-  
+
   openSearch() {
     this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
       setTimeout(() => {
@@ -473,15 +471,21 @@ class FeatureLoader extends React.Component<Props, State> {
         if (coords) {
           this.setState(coords);
         }
-        this.setState({ isSearchBarVisible: isOnSmallViewport() && false });
+        this.setState({ isSearchBarVisible: !isOnSmallViewport() });
       }}
       onResetCategory={() => { this.setState({
         category: null,
+        isSearchToolbarExpanded: true,
+      }); }}
+      onClick={() => { this.setState({
+        isSearchBarVisible: true,
+        isSearchToolbarExpanded: true,
       }); }}
       onClose={() => { this.setState({
         isSearchBarVisible: hasBigViewport(),
+        isSearchToolbarExpanded: false,
       }); }}
-      onToggle={(isSearchToolbarExpanded) => this.setState({ isSearchToolbarExpanded })}
+      isExpanded={this.state.isSearchToolbarExpanded}
     />;
   }
 
@@ -568,6 +572,7 @@ class FeatureLoader extends React.Component<Props, State> {
     }
     return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
   }
+
 
   renderFullscreenBackdrop() {
     const routeInformation = getRouteInformation(this.props);

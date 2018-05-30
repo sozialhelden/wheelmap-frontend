@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 import IconButton from '../IconButton';
 import * as icons from '../icons/mainCategories';
+import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'c-3po';
 
@@ -15,6 +16,7 @@ type Props = {
   id: string,
   className: string,
   hidden: boolean,
+  showCloseButton: boolean,
   onFocus: ((event: UIEvent) => void),
   onBlur: ((event: UIEvent) => void),
   onKeyDown: ((event: UIEvent) => void),
@@ -41,24 +43,55 @@ const StyledNavLink = styled(NavLink)`
       }
     }
   }
+
+  &.is-horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1em;
+    .icon-button {
+      flex: 1;
+      .caption {
+        margin-left: 1em;
+      }
+    }
+  }
+
+  &:not(.is-horizontal) {
+    flex-direction: column;
+    .icon-button {
+      flex-direction: column;
+      .caption {
+        font-size: 0.80em;
+        margin-top: 0.5em;
+      }
+    }
+  }
 `;
 
 
 export default function CategoryButton(props: Props) {
-  const url = `/beta/categories/${props.id}`;
+  const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
   const SvgComponent = icons[props.id || 'undefined'];
 
   return (<StyledNavLink
     activeClassName="active"
     to={url}
-    className={props.className}
+    className={`${props.className} ${props.showCloseButton ? 'is-horizontal' : ''}`}
     onFocus={(props.onFocus)}
     onBlur={props.onBlur}
     onKeyDown={props.onKeyDown}
     tabIndex={props.hidden ? -1 : 0}
     role="button"
-    aria-label={t`${props.name} Filter`}
+    aria-label={props.showCloseButton ? t`Remove ${props.name} Filter` : props.name}
   >
-    <IconButton iconComponent={<SvgComponent />} caption={props.name} />
+    <IconButton
+      isHorizontal={props.showCloseButton}
+      iconComponent={<SvgComponent />}
+      caption={props.name}
+      className="icon-button"
+    />
+    {props.showCloseButton && <CloseIcon />}
   </StyledNavLink>);
 }

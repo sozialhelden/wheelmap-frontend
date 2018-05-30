@@ -6,10 +6,11 @@ import { Radio } from 'react-radio-group';
 
 import RadioButtonUnselected from '../icons/ui-elements/RadioButtonUnselected';
 import RadioButtonSelected from '../icons/ui-elements/RadioButtonSelected';
+import type { FilterName } from './AccessibilityFilterModel';
 
 
 type CustomRadioProps = {
-  currentFilterName: string,
+  currentFilterName: FilterName,
   value: string,
 }
 
