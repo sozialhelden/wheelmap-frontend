@@ -40,8 +40,7 @@ export default class ClusterIcon extends L.Icon {
       div.innerHTML = String(propertiesArray.length);
     }
 
-    const backgroundColor = d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
-    div.style.backgroundColor = backgroundColor;
+    div.style.backgroundColor = this.options.backgroundColor || d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
     const count = propertiesArray.length;
     this._setIconStyles(div, 'icon');
 

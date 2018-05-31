@@ -133,6 +133,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   createMarkerClusterGroup() {
+    const map = this;
     return new L.MarkerClusterGroup({
       maxClusterRadius(zoom) {
         // choose cluster size dependant of the click region
@@ -143,7 +144,11 @@ export default class Map extends React.Component<Props, State> {
         const propertiesArray = cluster
           .getAllChildMarkers()
           .map(marker => marker.feature.properties);
-        return new ClusterIcon({ propertiesArray });
+        const options = { propertiesArray };
+        if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
+          options.backgroundColor = 'rgb(171, 167, 160)';
+        }
+        return new ClusterIcon(options);
       },
       animate: true,
       chunkedLoading: true,
