@@ -6,6 +6,7 @@ import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import { RadioGroup } from 'react-radio-group';
+import type { Category } from '../../lib/Categories';
 
 import CloseIcon from '../icons/actions/Close';
 
@@ -15,6 +16,7 @@ import AtLeastPartialAccessibilityIcon from '../icons/accessibility/AtLeastParti
 import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
 import ToiletStatusIcon from '../icons/accessibility/ToiletStatus';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
+import Icon from '../Icon';
 
 import Toolbar from '../Toolbar';
 import CustomRadio from './CustomRadio';
@@ -27,6 +29,7 @@ type Props = PlaceFilter & {
   hidden: boolean,
   onCloseClicked: (() => void),
   onFilterChanged: ((filter: PlaceFilter) => void),
+  category: string,
 };
 
 type DefaultProps = {};
@@ -84,6 +87,8 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
     // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places with a wheelchair accessible toilet are shown.
     const toiletFilterCaption = t`Only show places with a wheelchair accessible toilet`;
 
+    const category = this.props.category;
+
     return (
       <section
         className={this.props.className}
@@ -106,26 +111,33 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
           >
             <label htmlFor="all">
               <CustomRadio currentFilterName={filterName} value="all" />
-              <span className="icon" aria-hidden={true}><AllAccessibilitiesIcon /></span>
+              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
+              <Icon accessibility={'limited'} category={category} size="medium" ariaHidden={true} />
+              <Icon accessibility={'no'} category={category} size="medium" ariaHidden={true} />
               <span className="caption">{allCaption}</span>
             </label>
+
             <label htmlFor="partial">
               <CustomRadio currentFilterName={filterName} value="partial" />
-              <span className="icon" aria-hidden={true}><AtLeastPartialAccessibilityIcon /></span>
+              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
+              <Icon accessibility={'limited'} category={category} size="medium" ariaHidden={true} />
               <span className="caption">{atLeastPartialCaption}</span>
             </label>
+
             <label htmlFor="full">
               <CustomRadio currentFilterName={filterName} value="full" />
-              <span className="icon" aria-hidden={true}><FullAccessibilityIcon /></span>
+              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
               <span className="caption">{fullyCaption}</span>
             </label>
+
             <label htmlFor="unknown">
               <CustomRadio currentFilterName={filterName} value="unknown" />
-              <span className="icon" aria-hidden={true}><UnknownAccessibilityIcon /></span>
+              <Icon accessibility={'unknown'} category={category} size="medium" ariaHidden={true} />
               <span className="caption">{unknownCaption}</span>
             </label>
           </RadioGroup>
         </section>
+
         <section>
           <label htmlFor="toilet-filter">
             <input

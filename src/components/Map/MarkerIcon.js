@@ -58,6 +58,7 @@ export default class MarkerIcon extends L.Icon {
           size={this.options.size}
           withArrow={this.options.withArrow}
           shadowed
+          centered
           ariaHidden={this.options.ariaHidden}
         />,
         link,

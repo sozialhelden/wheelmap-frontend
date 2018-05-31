@@ -4,9 +4,10 @@ import { hsl } from 'd3-color';
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
+import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 import IconButton from '../IconButton';
-import * as icons from '../icons/mainCategories';
+import Icon from '../Icon';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'c-3po';
@@ -17,9 +18,10 @@ type Props = {
   className: string,
   hidden: boolean,
   showCloseButton: boolean,
-  onFocus: ((event: UIEvent) => void),
-  onBlur: ((event: UIEvent) => void),
-  onKeyDown: ((event: UIEvent) => void),
+  accessibility?: YesNoLimitedUnknown,
+  onFocus?: ((event: UIEvent) => void),
+  onBlur?: ((event: UIEvent) => void),
+  onKeyDown?: ((event: UIEvent) => void),
 };
 
 
@@ -73,7 +75,13 @@ const StyledNavLink = styled(NavLink)`
 
 export default function CategoryButton(props: Props) {
   const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
-  const SvgComponent = icons[props.id || 'undefined'];
+
+  const icon = <Icon
+    accessibility={props.accessibility}
+    category={props.id || 'undefined'}
+    size="medium"
+    ariaHidden={true}
+  />
 
   return (<StyledNavLink
     activeClassName="active"
@@ -88,10 +96,11 @@ export default function CategoryButton(props: Props) {
   >
     <IconButton
       isHorizontal={props.showCloseButton}
-      iconComponent={<SvgComponent />}
       caption={props.name}
       className="icon-button"
-    />
+    >
+      {icon}
+    </IconButton>
     {props.showCloseButton && <CloseIcon />}
   </StyledNavLink>);
 }

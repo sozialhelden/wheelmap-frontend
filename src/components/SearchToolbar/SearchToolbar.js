@@ -249,6 +249,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
         onFilterChanged={this.props.onFilterChanged}
+        category={this.props.category}
       />
     </div>;
   }
@@ -300,7 +301,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
       />
     </div>;
   }
-
 
   renderLoadingIndicator() {
     return <div>
