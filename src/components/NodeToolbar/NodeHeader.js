@@ -106,7 +106,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const hasLongName = placeName && placeName.length > 50;
     const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
       {categoryName ?
-        <Icon accessibility={accessibility} category={category || parentCategory} size='medium' ariaHidden={true}/>
+        <Icon accessibility={accessibility} category={category || parentCategory} size='medium' ariaHidden={true} centered />
         : null
       }
       {placeName}

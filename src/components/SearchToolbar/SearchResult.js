@@ -255,7 +255,7 @@ export default class SearchResult extends React.Component<Props, State> {
       >
         <PlaceName>
           {categoryOrParentCategory ?
-            <Icon accessibility={wheelmapFeature ? accessibility : null} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} size='medium' ariaHidden={true}/>
+            <Icon accessibility={wheelmapFeature ? accessibility : null} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} size='medium' centered ariaHidden={true}/>
             : null
           }
           {placeName}

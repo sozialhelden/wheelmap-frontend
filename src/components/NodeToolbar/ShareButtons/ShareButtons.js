@@ -6,6 +6,7 @@ import { ShareButtons } from 'react-share';
 import { t } from 'c-3po';
 import colors from '../../../lib/colors';
 import IconButton from '../../IconButton';
+import { interpolateLab } from 'd3-interpolate';
 
 import type { Feature } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
@@ -134,23 +135,33 @@ class ExpandableShareButtons extends React.Component<Props, State> {
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
         <FacebookShareButton url={url} quote={pageDescription}>
-          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} iconComponent={<FacebookIcon />} caption="Facebook" ariaLabel="Facebook"/>
+          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
+            <FacebookIcon />
+          </IconButton>
         </FacebookShareButton>
 
         <TwitterShareButton url={url} title={sharedObjectTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
-          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} iconComponent={<TwitterIcon />} caption="Twitter" ariaLabel="Twitter"/>
+          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
+            <TwitterIcon />
+          </IconButton>
         </TwitterShareButton>
 
         <TelegramShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} iconComponent={<TelegramIcon />} caption="Telegram" ariaLabel="Telegram"/>
+          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
+            <TelegramIcon />
+          </IconButton>
         </TelegramShareButton>
 
         <a href={mailToLink}>
-          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} iconComponent={<EmailIcon />} caption="Email" ariaLabel="Email"/>
+          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} caption="Email" ariaLabel="Email">
+            <EmailIcon />
+          </IconButton>
         </a>
 
         <WhatsappShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} iconComponent={<WhatsAppIcon />} caption="Whatsapp" ariaLabel="Whatsapp"/>
+          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
+            <WhatsAppIcon />
+          </IconButton>
         </WhatsappShareButton>
       </footer>
     </div>);
@@ -203,6 +214,38 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
       background-color: ${colors.linkBackgroundColorTransparent};
       outline: none;
       border: none;
+    }
+
+    .icon-button {
+      .circle {
+        background-color: ${colors.tonedDownSelectedColor};
+      }
+      &.active {
+        font-weight: bold;
+        .circle {
+          background-color: ${props => props.activeColor || colors.selectedColor};
+        }
+      }
+      @media (hover), (-moz-touch-enabled: 0) {
+        &:not(.active):hover .circle {
+          background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+        }
+      }
+      &:focus {
+        outline: none;
+        .circle {
+          background-color: ${colors.selectedColor};
+        }
+      }
+    }
+
+    svg {
+      width: 21px;
+      height: 21px;
+      opacity: 0.95;
+      g {
+        fill: white;
+      }
     }
 
     @media (hover), (-moz-touch-enabled: 0) {

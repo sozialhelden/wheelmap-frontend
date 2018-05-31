@@ -227,7 +227,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
                   this.toBeFocusedRadioButton = radioButton;
                 }
               }}
-              children={<Icon accessibility={value} category={{ _id: this.state.categoryId }} size='small' withArrow shadowed />}
+              children={<Icon accessibility={value} category={{ _id: this.state.categoryId }} size='small' withArrow shadowed centered />}
               shownValue={value}
               currentValue={wheelchairAccessibility}
               caption={shortAccessibilityName(value)}

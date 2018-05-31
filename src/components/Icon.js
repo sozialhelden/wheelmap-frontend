@@ -14,13 +14,14 @@ type Size = 'big' | 'medium' | 'small';
 
 type Props = {
   accessibility: ?YesNoLimitedUnknown,
-  properties: ?NodeProperties,
-  category: Category,
-  className: ?string,
+  properties?: ?NodeProperties,
+  category: ?string,
+  className?: ?string,
   size: Size,
-  withArrow: ?boolean,
-  shadowed: ?boolean,
-  ariaHidden: ?boolean,
+  withArrow?: ?boolean,
+  centered?: ?boolean,
+  shadowed?: ?boolean,
+  ariaHidden?: ?boolean,
 };
 
 
@@ -42,9 +43,9 @@ const StyledIconContainer = styled('figure')`
   height: ${props => width(props.size)}px;
   font-size: ${props => width(props.size)}px;
   line-height: 1;
-  
-  left: calc(50% - ${props => width(props.size)/2}px);
-  top: calc(50% - ${props => width(props.size)/2}px);
+
+  ${props => props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : ''}
+  ${props => props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''}
 
   svg {
     position: absolute;
@@ -79,11 +80,14 @@ export default function Icon({
   withArrow,
   shadowed,
   ariaHidden,
+  centered,
 }: Props) {
-  const categoryName = properties
-    ? getIconNameForProperties(properties)
-    : category._id === '2nd_hand' ? 'second_hand' : category._id;
-  const CategoryIconComponent = icons[categoryName || 'undefined'] || icons['undefined'];
+  let iconName = properties ? getIconNameForProperties(properties) : category;
+  if (iconName === '2nd_hand') {
+    iconName = 'second_hand';
+  }
+
+  const CategoryIconComponent = icons[iconName || 'undefined'] || icons['undefined'];
   const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
   if (typeof CategoryIconComponent === 'object') {
     debugger;
@@ -94,9 +98,12 @@ export default function Icon({
       className={className}
       aria-hidden={ariaHidden}
       accessibility={accessibility}
+      centered={centered}
     >
       {(accessibility && MarkerComponent) ? <MarkerComponent className="background" /> : null}
       {CategoryIconComponent ? <CategoryIconComponent className="icon"/> : null}
     </StyledIconContainer>
   );
 }
+
+StyledIconContainer.displayName = 'StyledIconContainer';
