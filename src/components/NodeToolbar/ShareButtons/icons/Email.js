@@ -3,7 +3,7 @@ import * as React from 'react';
 export default function Email(props) {
   return (
     <svg width={46} height={34} viewBox="0 0 46 34" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <title>EmailIcon</title>
+      
       <g transform="translate(-18 -24.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx={40} cy={40} r={40} />
         <path fill="#FFF" d="M20.7 26.35v29.3h40.6v-29.3z" />

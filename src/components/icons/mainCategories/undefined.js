@@ -4,7 +4,7 @@ export default function Misc(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
 
-      <title>other</title>
+      
 
 
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">

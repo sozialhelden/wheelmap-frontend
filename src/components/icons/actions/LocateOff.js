@@ -4,7 +4,7 @@ export default function LocateOff(props) {
   return (
     <svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" {...props}>
       {/* Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch */}
-      <title>locate-off</title>
+      
 
 
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
