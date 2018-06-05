@@ -3,7 +3,7 @@ import * as React from 'react';
 export default function TelegramIcon(props) {
   return (
     <svg width={46} height={40} viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <title>TelegramIcon</title>
+      
       <g transform="translate(-17 -20.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx={40} cy={40} r={40} />
         <path d="M59.956 20.863c1.594-.623 3.243.773 2.893 2.448l-7.152 34.184c-.334 1.603-2.217 2.325-3.537 1.355l-10.795-7.924-5.503 5.619c-.967.986-2.635.584-3.05-.73l-3.97-12.604L18.2 40.068c-1.398-.412-1.48-2.357-.124-2.888l41.88-16.317z" fill="#FFF" />

@@ -4,7 +4,7 @@ export default function Search(props) {
   return (
     <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
       {/* Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch */}
-      <title>search</title>
+      
 
 
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd" opacity="0.283061594">
