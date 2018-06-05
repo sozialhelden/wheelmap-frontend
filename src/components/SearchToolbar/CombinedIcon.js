@@ -21,11 +21,6 @@ type Props = {
   className: string,
 }
 
-const evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
-evenMoreTransparentLinkColor.opacity *= 0.5;
-
-const halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
-
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null;
