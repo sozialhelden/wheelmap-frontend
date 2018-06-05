@@ -14,7 +14,7 @@ import type { WheelmapFeature } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
-import type { SearchResultFeature, SearchResultCollection } from '../../lib/searchPlaces';
+import type { SearchResultFeature } from '../../lib/searchPlaces';
 
 import ToolbarLink from '../ToolbarLink';
 import PlaceName from '../PlaceName';
