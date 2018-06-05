@@ -176,7 +176,7 @@ class FeatureLoader extends React.Component<Props, State> {
     lastError: null,
     featureId: null,
     isOnSmallViewport: false,
-    isSearchToolbarExpanded: true,
+    isSearchToolbarExpanded: false,
   };
 
   map: ?any;
