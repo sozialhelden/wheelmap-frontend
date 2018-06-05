@@ -45,6 +45,7 @@ type Props = {
 export default function CategoryMenu(props: Props) {
   const names = props.category ? { [props.category]: Categories.translatedWheelmapRootCategoryName(props.category) } : translatedRootCategoryNames;
   const lastIndex = Object.keys(names).length - 1;
+  const showCloseButton = Boolean(props.category);
 
   return (
     <Container className="category-menu">
@@ -52,8 +53,8 @@ export default function CategoryMenu(props: Props) {
         hidden={props.hidden}
         history={props.history}
         onFocus={props.onFocus}
-        showCloseButton={Boolean(props.category)}
-        hasCircle={!isFiltered(props.accessibilityFilter)}
+        showCloseButton={showCloseButton}
+        hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)}
         accessibilityFilter={props.accessibilityFilter}
         toiletFilter={props.toiletFilter}
         onKeyDown={({nativeEvent}) => {
