@@ -51,7 +51,7 @@ import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
-import { getQueryParams, setQueryParams } from './lib/queryParams';
+import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
 import parseQueryParams from './lib/parseQueryParams';
 import isTouchDevice from './lib/isTouchDevice';
 
@@ -463,7 +463,7 @@ class FeatureLoader extends React.Component<Props, State> {
         this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
       }}
       onFilterChanged={(filter) => {
-        setQueryParams(this.props.history, filter);
+        this.props.history.replace(newLocationWithReplacedQueryParams(this.props.history, filter));
       }}
       lat={lat ? parseFloat(lat) : null}
       lon={lon ? parseFloat(lon) : null}

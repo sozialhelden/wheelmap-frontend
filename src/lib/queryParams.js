@@ -13,14 +13,12 @@ export function getQueryParams() {
   return result;
 }
 
-
-export function setQueryParams(history: RouterHistory, newParams: {}) {
+export function newLocationWithReplacedQueryParams(history: RouterHistory, newParams: {}) {
   const params = getQueryParams();
   const changedParams = Object.assign(params, newParams);
   const keysToDelete = Object.keys(changedParams).filter(key => changedParams[key] === null);
   keysToDelete.forEach(key => delete changedParams[key]);
   const newString = queryString.stringify(changedParams);
   const location = { pathname: history.location.pathname, search: `?${newString}` };
-  const href = history.createHref(location);
-  history.replace(location);
+  return location;
 }
