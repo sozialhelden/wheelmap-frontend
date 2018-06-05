@@ -4,6 +4,7 @@ import get from 'lodash/get';
 import pick from 'lodash/pick';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
+import isEqual from 'lodash/isEqual';
 import isArray from 'lodash/isArray';
 import isPlainObject from 'lodash/isPlainObject';
 import type { GeometryObject } from 'geojson-flow';
@@ -21,6 +22,23 @@ export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'];
 Object.freeze(yesNoLimitedUnknownArray);
 export const yesNoUnknownArray = ['yes', 'no', 'unknown'];
 Object.freeze(yesNoUnknownArray);
+
+
+
+function sortedIsEqual(array1, array2): boolean {
+  return isEqual([].concat(array1).sort(), [].concat(array2).sort());
+}
+
+/**
+ * @returns `true` if the given array of accessibility values is actually filtering PoIs
+ * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
+ */
+
+export function isFiltered(accessibilities: ?YesNoLimitedUnknown[]) {
+  return accessibilities &&
+    !isEqual(accessibilities, []) &&
+    !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray);
+}
 
 
 // TODO: Create flowtype definition for AC format and re-use it here
