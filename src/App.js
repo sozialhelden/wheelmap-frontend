@@ -271,8 +271,9 @@ class FeatureLoader extends React.Component<Props, State> {
 
     if (featureIdHasChanged(newProps, prevState)) {
       result.featureId = getFeatureIdFromProps(newProps);
-      if (!result.featureId || (prevState.feature && prevState.feature.id != result.featureId)) {
+      if (!result.featureId || (prevState.feature && prevState.feature.id !== result.featureId)) {
         result.feature = null;
+        result.isSearchToolbarExpanded = false;
       }
     }
 
