@@ -195,12 +195,6 @@ export default class Map extends React.Component<Props, State> {
       unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
     }
 
-    // L.control.scale({
-    //   maxWidth: 70,
-    //   metric: unitSystem === 'metric',
-    //   imperial: unitSystem === 'imperial',
-    // }).addTo(map);
-
     addLocateControlToMap(map);
 
     const basemapLayer = getQueryParams().esri === 'true' ?
