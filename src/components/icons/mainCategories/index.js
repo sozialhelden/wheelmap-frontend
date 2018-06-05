@@ -11,3 +11,4 @@ export { default as public_transfer } from './public_transfer';
 export { default as shopping } from './shopping';
 export { default as sport } from './sport';
 export { default as tourism } from './tourism';
+export { default as undefined } from './undefined';
