@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="25px" height="25px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
     <title>limitedWithoutArrow</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="limitedWithoutArrow" fill="#FC9B32">
-            <polygon points="12.5173945 1 22.0610684 6.5100427 22.0610684 17.5301282 12.5173945 23.0401709 2.97372056 17.5301282 2.97372056 6.5100427"></polygon>
-        </g>
+    <g id="limitedWithoutArrow" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon fill="#FC9B32" transform="translate(12.518116, 12.367091) rotate(-30.000000) translate(-12.518116, -12.367091) " points="12.5181157 0.816305187 22.5213899 6.59169822 22.5213899 18.1424843 12.5181157 23.9178774 2.51484151 18.1424843 2.51484151 6.59169822"></polygon>
     </g>
 </svg>
