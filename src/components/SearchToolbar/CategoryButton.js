@@ -119,13 +119,11 @@ const StyledNavLink = styled(NavLink)`
 
 function urlForFilters({ history, id, accessibilityFilter, toiletFilter, showCloseButton }) {
   const queryParams = getQueryParams();
-  const shouldAppendStatusParameter = !showCloseButton && isFiltered(accessibilityFilter);
-  const newQueryParams: { [string]: ?string } = Object.assign({}, queryParams, {
-    status: shouldAppendStatusParameter ? (accessibilityFilter || []).sort().join('.') : null,
-  });
-  if (toiletFilter && toiletFilter.length) {
-    newQueryParams.toilet = showCloseButton ? null : (toiletFilter || []).sort().join('.');
-  }
+  const hasStatusParameter = isFiltered(accessibilityFilter);
+  const hasToiletParameter = toiletFilter && toiletFilter.length;
+  const status = hasStatusParameter ? (accessibilityFilter || []).sort().join('.') : null;
+  const toilet = hasToiletParameter ? (toiletFilter || []).sort().join('.') : null;
+  const newQueryParams: { [string]: ?string } = Object.assign({}, queryParams, { status, toilet });
   const location = newLocationWithReplacedQueryParams(history, newQueryParams);
   location.pathname = showCloseButton ? `/beta` : `/beta/categories/${id}`;
   return location;
