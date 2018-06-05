@@ -133,6 +133,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
               toiletFilter={availableFilters[key].toiletFilter}
               caption={availableFilters[key].caption}
               category={category}
+              isMainCategory
               showCloseButton={shownFilterKeys.length === 1}
               onKeyDown={({nativeEvent}) => {
                 const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;

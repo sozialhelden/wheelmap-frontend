@@ -22,6 +22,7 @@ type Props = {
   toiletFilter: YesNoUnknown[],
   caption: string,
   category: string,
+  isMainCategory?: boolean,
   onFocus?: ((event: UIEvent) => void),
   onBlur?: ((event: UIEvent) => void),
   onKeyDown?: ((event: UIEvent) => void),
@@ -39,6 +40,13 @@ const StyledNavLink = styled(NavLink)`
   align-items: center;
   justify-content: space-between;
   padding: 0.25em 1em;
+
+  svg.icon {
+    width: 21px;
+    height: 21px;
+    top: initial;
+    left: initial;
+  }
 
   &.active {
     background-color: ${evenMoreTransparentLinkColor};
@@ -73,7 +81,7 @@ function urlForFilters({ history, accessibilityFilter, toiletFilter, showCloseBu
 export default function AccessibilityFilterButton(props: Props) {
   const caption = props.caption;
   const href = urlForFilters(props);
-  const { toiletFilter, accessibilityFilter } = props;
+  const { toiletFilter, accessibilityFilter, category, isMainCategory } = props;
   return (<StyledNavLink
     to={href}
     className={`${props.className} ${props.showCloseButton ? 'is-horizontal' : ''}`}
@@ -84,7 +92,7 @@ export default function AccessibilityFilterButton(props: Props) {
     role="button"
     aria-label={props.showCloseButton ? t`Remove ${caption} Filter` : caption}
   >
-    <CombinedIcon {...{ toiletFilter, accessibilityFilter }} />
+    <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
     <span className="caption">{caption}</span>
     {props.showCloseButton && <CloseIcon />}
   </StyledNavLink>);
