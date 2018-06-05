@@ -3,10 +3,10 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import type { NodeProperties, YesNoLimitedUnknown } from '../lib/Feature';
-import type { Category } from '../lib/Categories';
 import getIconNameForProperties from './Map/getIconNameForProperties';
 import colors from '../lib/colors';
-import * as icons from './icons/categories';
+import * as categoryIcons from './icons/categories';
+import * as mainCategoryIcons from './icons/mainCategories';
 import * as markers from './icons/markers';
 
 type Size = 'big' | 'medium' | 'small';
@@ -16,12 +16,15 @@ type Props = {
   accessibility: ?YesNoLimitedUnknown,
   properties?: ?NodeProperties,
   category: ?string,
+  isMainCategory?: boolean,
   className?: ?string,
   size: Size,
   withArrow?: ?boolean,
   centered?: ?boolean,
   shadowed?: ?boolean,
   ariaHidden?: ?boolean,
+  foregroundColor?: ?string,
+  backgroundColor?: ?string,
 };
 
 
@@ -55,7 +58,7 @@ const StyledIconContainer = styled('figure')`
       top: 0;
       left: 0;
       g, polygon, path, circle, rect {
-        fill: ${props => (props.accessibility ? colors.markers.background[props.accessibility] : 'white')};
+        fill: ${props => (props.accessibility ? colors.markers.background[props.accessibility] : (props.backgroundColor || 'white'))};
       }
     }
     &.icon {
@@ -64,7 +67,7 @@ const StyledIconContainer = styled('figure')`
       top: 20%;
       left: 20%;
       g, polygon, path, circle, rect {
-        fill: ${props => (props.accessibility ? colors.markers.foreground[props.accessibility] : '#888')};
+        fill: ${props => (props.accessibility ? colors.markers.foreground[props.accessibility] : (props.foregroundColor || '#888'))};
       }
     }
   }
@@ -75,6 +78,7 @@ export default function Icon({
   accessibility,
   properties,
   category,
+  isMainCategory,
   className,
   size,
   withArrow,
@@ -86,7 +90,7 @@ export default function Icon({
   if (iconName === '2nd_hand') {
     iconName = 'second_hand';
   }
-
+  const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
   const CategoryIconComponent = icons[iconName || 'undefined'] || icons['undefined'];
   const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
   if (typeof CategoryIconComponent === 'object') {

@@ -93,7 +93,9 @@ export default class NodeHeader extends React.Component<Props, void> {
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
     const description: ?string = properties.wheelchair_description;
     const { category, parentCategory } = this.props;
-    let categoryName = categoryNameFor(category || parentCategory);
+    const shownCategory = category || parentCategory;
+    let categoryName = shownCategory && categoryNameFor(shownCategory);
+    const shownCategoryId = shownCategory && shownCategory._id;
 
     let placeName = placeNameFor(properties, category || parentCategory);
     let ariaLabel = placeName ? `${placeName}, ${categoryName}` : categoryName;
@@ -106,7 +108,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const hasLongName = placeName && placeName.length > 50;
     const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
       {categoryName ?
-        <Icon accessibility={accessibility} category={category || parentCategory} size='medium' ariaHidden={true} centered />
+        <Icon accessibility={accessibility} category={shownCategoryId} size='medium' ariaHidden={true} centered />
         : null
       }
       {placeName}

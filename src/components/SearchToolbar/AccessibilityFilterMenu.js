@@ -4,40 +4,32 @@ import { t } from 'c-3po';
 import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
-import includes from 'lodash/includes';
-import { RadioGroup } from 'react-radio-group';
-import type { Category } from '../../lib/Categories';
-
 import CloseIcon from '../icons/actions/Close';
-
-import AllAccessibilitiesIcon from '../icons/accessibility/AllAccessibilities';
-import UnknownAccessibilityIcon from '../icons/accessibility/UnknownAccessibility';
-import AtLeastPartialAccessibilityIcon from '../icons/accessibility/AtLeastPartialAccessibility';
-import FullAccessibilityIcon from '../icons/accessibility/FullAccessibility';
-import ToiletStatusIcon from '../icons/accessibility/ToiletStatus';
-import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
-import Icon from '../Icon';
+import type { RouterHistory } from 'react-router-dom';
 
 import Toolbar from '../Toolbar';
-import CustomRadio from './CustomRadio';
-import { getFiltersForNamedFilter, getFilterNameForFilterList } from './AccessibilityFilterModel';
-import type { FilterName, PlaceFilter } from './AccessibilityFilterModel';
+import AccessibilityFilterButton from './AccessibilityFilterButton';
+import type { PlaceFilter } from './AccessibilityFilterModel';
+import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 
 type Props = PlaceFilter & {
+  history: RouterHistory,
   className: string,
   hidden: boolean,
   onCloseClicked: (() => void),
+  onBlur: (() => void),
   onFilterChanged: ((filter: PlaceFilter) => void),
   category: string,
+  accessibilities: YesNoLimitedUnknown[],
 };
 
 type DefaultProps = {};
 
 type State = {
-  filterName: FilterName,
   toiletCheckboxFocused: boolean,
 };
+
 
 const PositionedCloseButton = styled.button`
   position: absolute;
@@ -48,12 +40,69 @@ const PositionedCloseButton = styled.button`
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
-`
+`;
+
 
 const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
   <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown} aria-label={t`Close Dialog`}>
     <CloseIcon {...restProps} />
-  </PositionedCloseButton>
+  </PositionedCloseButton>;
+
+
+const availableFilters = {
+  // all: {
+  //   // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see', plural
+  //   caption: t`All`,
+  //   accessibilityFilter: ['yes', 'limited', 'no', 'unknown'],
+  //   toiletFilter: [],
+  // },
+  atLeastPartial: {
+    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+    caption: t`At least partially wheelchair accessible`,
+    accessibilityFilter: ['yes', 'limited'],
+    toiletFilter: [],
+  },
+  atLeastPartialWithWC: {
+    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+    caption: t`At least partially wheelchair accessible + WC`,
+    accessibilityFilter: ['yes', 'limited'],
+    toiletFilter: ['yes'],
+  },
+  fully: {
+    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+    caption: t`Only fully wheelchair accessible`,
+    accessibilityFilter: ['yes'],
+    toiletFilter: [],
+  },
+  fullyWithWC: {
+    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+    caption: t`Only fully wheelchair accessible + WC`,
+    accessibilityFilter: ['yes'],
+    toiletFilter: ['yes'],
+  },
+  unknown: {
+    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+    caption: t`Places that I can contribute to`,
+    accessibilityFilter: ['unknown'],
+    toiletFilter: [],
+  },
+  notAccessible: {
+    // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
+    caption: t`Only places that are not accessible`,
+    accessibilityFilter: ['no'],
+    toiletFilter: [],
+  },
+};
+
+
+function findFilterKey({ toiletFilter, accessibilityFilter }) {
+  return Object.keys(availableFilters).find(key => {
+    const filter = availableFilters[key];
+    const requestedToiletFilter = isEqual(toiletFilter, ['yes', 'no', 'unknown']) ? [] : toiletFilter;
+    return isEqual(requestedToiletFilter, filter.toiletFilter) && isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
+  });
+}
+
 
 class AccessibilityFilterMenu extends React.Component<Props, State> {
   static defaultProps: DefaultProps;
@@ -62,105 +111,40 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
   closeButton: ?React.ElementRef<typeof CloseButton>;
 
   state = {
-    filterName: 'all',
     toiletCheckboxFocused: false,
   };
 
   render() {
-    const accessibilityFilter = this.props.accessibilityFilter;
-    const filterName = accessibilityFilter ? getFilterNameForFilterList(accessibilityFilter) : 'all';
-    const isToiletFilterEnabled = isEqual(this.props.toiletFilter, ['yes']);
-
-
-    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see, plural
-    const allCaption = t`All`;
-
-    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
-    const atLeastPartialCaption = t`At least partially wheelchair accessible`;
-
-    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
-    const unknownCaption = t`Places that I can contribute to`;
-
-    // translator: Radio button caption on the filter toolbar. Answer to the question which places you want to see
-    const fullyCaption = t`Only fully wheelchair accessible`;
-
-    // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places with a wheelchair accessible toilet are shown.
-    const toiletFilterCaption = t`Only show places with a wheelchair accessible toilet`;
-
-    const category = this.props.category;
+    const { accessibilityFilter, toiletFilter } = this.props;
+    const category = this.props.category || 'undefined';
+    const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
+    const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
+    const lastIndex = shownFilterKeys.length - 1;
 
     return (
       <section
         className={this.props.className}
-        aria-label={t`Accessibility Filter Dialog`}
+        aria-label={t`Wheelchair Accessibility Filter`}
       >
-        <section>
-          <RadioGroup
-            name="accessibility-filter"
-            role="radiogroup"
-            aria-label={t`Wheelchair Accessibility Filter`}
-            selectedValue={filterName}
-            onChange={(f) => {
-              const filter = {
-                status: f === 'all' ? null : getFiltersForNamedFilter(f).join('.'),
-                toilet: isToiletFilterEnabled ? 'yes' : null,
-              };
-              filter.toilet = null;
-              this.props.onFilterChanged(filter);
-            }}
-          >
-            <label htmlFor="all">
-              <CustomRadio currentFilterName={filterName} value="all" />
-              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
-              <Icon accessibility={'limited'} category={category} size="medium" ariaHidden={true} />
-              <Icon accessibility={'no'} category={category} size="medium" ariaHidden={true} />
-              <span className="caption">{allCaption}</span>
-            </label>
-
-            <label htmlFor="partial">
-              <CustomRadio currentFilterName={filterName} value="partial" />
-              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
-              <Icon accessibility={'limited'} category={category} size="medium" ariaHidden={true} />
-              <span className="caption">{atLeastPartialCaption}</span>
-            </label>
-
-            <label htmlFor="full">
-              <CustomRadio currentFilterName={filterName} value="full" />
-              <Icon accessibility={'yes'} category={category} size="medium" ariaHidden={true} />
-              <span className="caption">{fullyCaption}</span>
-            </label>
-
-            <label htmlFor="unknown">
-              <CustomRadio currentFilterName={filterName} value="unknown" />
-              <Icon accessibility={'unknown'} category={category} size="medium" ariaHidden={true} />
-              <span className="caption">{unknownCaption}</span>
-            </label>
-          </RadioGroup>
-        </section>
-
-        <section>
-          <label htmlFor="toilet-filter">
-            <input
-              ref={toiletCheckbox => this.toiletCheckbox = toiletCheckbox }
-              onChange={(event) => {
-                const value = event.target.checked;
-                const filter = { toilet: (value === true) ? 'yes' : null };
-                if (value && includes(['all', 'unknown'], filterName)) {
-                  filter.status = 'yes.limited';
+        <section className="accessibility-filter">
+          {shownFilterKeys.map((key, index) => (
+            <AccessibilityFilterButton
+              accessibilityFilter={availableFilters[key].accessibilityFilter}
+              toiletFilter={availableFilters[key].toiletFilter}
+              caption={availableFilters[key].caption}
+              category={category}
+              showCloseButton={shownFilterKeys.length === 1}
+              onKeyDown={({nativeEvent}) => {
+                const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
+                const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
+                if(tabPressedOnLastButton || shiftTabPressedOnFirstButton) {
+                  this.props.onBlur();
                 }
-                this.props.onFilterChanged(filter);
               }}
-              type="checkbox"
-              id="toilet-filter"
-              checked={isToiletFilterEnabled}
-              onFocus={() => this.setState({toiletCheckboxFocused: true})}
-              onBlur={() => this.setState({toiletCheckboxFocused: false})}
-            />
-            <span className={`icon${ this.state.toiletCheckboxFocused ? ' focus-ring' : ''}`}>
-              {isToiletFilterEnabled ? <ToiletStatusAccessibleIcon /> : <ToiletStatusIcon />}
-            </span>
-            <span className="caption">{toiletFilterCaption}</span>
-          </label>
+              history={this.props.history}
+              key={key}
+              className="category-button"
+            />))}
         </section>
       </section>
     );
@@ -182,38 +166,37 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
     overflow: hidden;
     transition: opacity 0.1s ease-out, max-height 0.1s ease-out;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
     &.section-hidden {
       max-height: 0;
       opacity: 0;
     }
   }
 
-  label {
+  button, label {
     display: flex;
     margin: 1em 0;
     align-items: center;
+    font-size: 1rem;
     cursor: pointer;
-    input {
-      width: 0;
-      height: 0;
-      opacity: 0;
-    }
+
     .icon {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 40px;
-      height: 40px;
       margin-right: 8px;
+      &.toilet-filter-icon {
+        width: 40px;
+        height: 40px;
+      }
     }
-    .radio-button {
-      margin: 8px;
-    }
+
     .caption {
       flex: 1;
-    }
-    &:focus {
-      background-color: yellow;
+      text-align: left;
     }
   }
 

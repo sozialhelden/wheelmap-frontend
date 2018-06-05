@@ -114,7 +114,7 @@ const StyledToolbar = styled(Toolbar)`
     z-index: 1000000000;
     border-radius: 0;
 
-    &.is-category-selected {
+    &:not(.is-expanded) {
       top: 60px;
       left: 10px;
       width: calc(100% - 70px);
@@ -223,15 +223,18 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
+
   focus() {
     if (!this.searchInputField) return;
     this.searchInputField.focus();
   }
 
+
   blur() {
     if (!this.searchInputField) return;
     this.searchInputField.blur();
   }
+
 
   resetSearch() {
     this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false }, () => {
@@ -240,18 +243,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
       }
       if (this.props.onResetCategory) this.props.onResetCategory();
     });
-  }
-
-
-  renderAccessibilityFilterToolbar() {
-    return <div className="filter-selector">
-      <AccessibilityFilterMenu
-        accessibilityFilter={this.props.accessibilityFilter}
-        toiletFilter={this.props.toiletFilter}
-        onFilterChanged={this.props.onFilterChanged}
-        category={this.props.category}
-      />
-    </div>;
   }
 
 
@@ -312,15 +303,35 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
 
+  renderCategoryMenu() {
+    return <CategoryMenu
+      hidden={this.props.hidden}
+      history={this.props.history}
+      onFocus={() => this.setState({ isCategoryFocused: true })}
+      onBlur={() => { setTimeout(() => this.setState({ isCategoryFocused: false })) }}
+      category={this.props.category}
+      accessibilityFilter={this.props.accessibilityFilter}
+    />
+  }
+
+
+  renderAccessibilityFilterToolbar() {
+    return <div className="filter-selector">
+      <AccessibilityFilterMenu
+        accessibilityFilter={this.props.accessibilityFilter}
+        toiletFilter={this.props.toiletFilter}
+        onFilterChanged={this.props.onFilterChanged}
+        category={this.props.category}
+        history={this.props.history}
+        onBlur={() => { setTimeout(() => this.setState({ isCategoryFocused: false })) }}
+      />
+    </div>;
+  }
+
+
   renderFilters() {
     return <React.Fragment>
-      <CategoryMenu
-        hidden={this.props.hidden}
-        history={this.props.history}
-        onFocus={() => this.setState({ isCategoryFocused: true })}
-        onBlur={() => { setTimeout(() => this.setState({ isCategoryFocused: false })) }}
-        category={this.props.category}
-      />
+      {this.renderCategoryMenu()}
       {this.renderAccessibilityFilterToolbar()}
     </React.Fragment>;
   }
@@ -341,8 +352,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   render() {
-    const { searchQuery } = this.props;
-
     const {
       isLoading,
       searchResults,
@@ -364,7 +373,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     const className = [
       'search-toolbar',
-      this.props.category && 'is-category-selected',
+      this.props.isExpanded && 'is-expanded',
     ].filter(Boolean).join(' ');
 
     return (
@@ -385,8 +394,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
           {(this.props.searchQuery || this.props.category || searchFieldIsFocused) && this.renderCloseLink()}
         </header>
-
-        { contentBelowSearchField }
+        <section>
+          { contentBelowSearchField }
+        </section>
       </StyledToolbar>
     );
   }

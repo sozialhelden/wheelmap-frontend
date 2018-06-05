@@ -1,16 +1,21 @@
 // @flow
 
+import { t } from 'c-3po';
 import { hsl } from 'd3-color';
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import type { YesNoLimitedUnknown } from '../../lib/Feature';
+import { interpolateLab } from 'd3-interpolate';
+import type { RouterHistory } from 'react-router-dom';
 
-import IconButton from '../IconButton';
-import Icon from '../Icon';
-import CloseIcon from '../icons/actions/Close';
+import CombinedIcon from './CombinedIcon';
 import colors from '../../lib/colors';
-import { t } from 'c-3po';
+import IconButton from '../IconButton';
+import CloseIcon from '../icons/actions/Close';
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { getQueryParams, newLocationWithReplacedQueryParams } from '../../lib/queryParams';
+import { isFiltered } from '../../lib/Feature';
+
 
 type Props = {
   name: string,
@@ -18,18 +23,53 @@ type Props = {
   className: string,
   hidden: boolean,
   showCloseButton: boolean,
-  accessibility?: YesNoLimitedUnknown,
+  hasCircle?: boolean,
+  accessibilityFilter?: YesNoLimitedUnknown[],
+  toiletFilter?: YesNoUnknown[],
   onFocus?: ((event: UIEvent) => void),
   onBlur?: ((event: UIEvent) => void),
   onKeyDown?: ((event: UIEvent) => void),
+  history: RouterHistory,
 };
 
 
 const evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
 evenMoreTransparentLinkColor.opacity *= 0.5;
 
+const halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
+
+
 const StyledNavLink = styled(NavLink)`
   border-radius: 5px;
+
+  figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .circle {
+    background-color: ${colors.tonedDownSelectedColor};
+  }
+
+  .icon-button .accessibilities {
+    justify-content: center;
+  }
+
+  .circle {
+    svg.icon {
+      g, path, circle, rect {
+        fill: white;
+      }
+    }
+  }
+  
+  svg.icon {
+    width: 21px;
+    height: 21px;
+    top: initial;
+    left: initial;
+  }
 
   &.active {
     background-color: ${evenMoreTransparentLinkColor};
@@ -37,8 +77,12 @@ const StyledNavLink = styled(NavLink)`
       background-color: ${colors.selectedColor};
     }
   }
+
   &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
+    .circle {
+      background-color: ${halfTonedDownSelectedColor};
+    }
     &.active {
       .circle {
         background-color: ${colors.darkSelectedColor};
@@ -73,12 +117,32 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 
-export default function CategoryButton(props: Props) {
-  const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
+function urlForFilters({ history, id, accessibilityFilter, toiletFilter, showCloseButton }) {
+  const queryParams = getQueryParams();
+  const shouldAppendStatusParameter = !showCloseButton && isFiltered(accessibilityFilter);
+  const newQueryParams: { [string]: ?string } = Object.assign({}, queryParams, {
+    status: shouldAppendStatusParameter ? (accessibilityFilter || []).sort().join('.') : null,
+  });
+  if (toiletFilter && toiletFilter.length) {
+    newQueryParams.toilet = showCloseButton ? null : (toiletFilter || []).sort().join('.');
+  }
+  const location = newLocationWithReplacedQueryParams(history, newQueryParams);
+  location.pathname = showCloseButton ? `/beta` : `/beta/categories/${id}`;
+  return location;
+}
 
-  const icon = <Icon
-    accessibility={props.accessibility}
+
+export default function CategoryButton(props: Props) {
+  // const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
+  const url = urlForFilters(props);
+
+  const shownAccessibilities = isFiltered(props.accessibilityFilter) ? props.accessibilityFilter : [];
+
+  const icon = <CombinedIcon
+    accessibilityFilter={shownAccessibilities}
+    toiletFilter={props.toiletFilter}
     category={props.id || 'undefined'}
+    isMainCategory
     size="medium"
     ariaHidden={true}
   />
@@ -98,6 +162,7 @@ export default function CategoryButton(props: Props) {
       isHorizontal={props.showCloseButton}
       caption={props.name}
       className="icon-button"
+      hasCircle={props.hasCircle}
     >
       {icon}
     </IconButton>
