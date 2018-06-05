@@ -535,31 +535,6 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
-  renderFilterButton() {
-    return <FilterButton
-      ref={filterButton => this.filterButton = filterButton}
-      accessibilityFilter={this.accessibilityFilter()}
-      toiletFilter={this.toiletFilter()}
-      onClick={() => this.toggleFilterToolbar()}
-    />;
-  }
-
-
-  renderFilterToolbar() {
-    return <div className="filter-toolbar">
-      <FilterToolbar
-        accessibilityFilter={this.accessibilityFilter()}
-        toiletFilter={this.toiletFilter()}
-        onCloseClicked={() => this.setState({ isFilterToolbarVisible: false })}
-        onFilterChanged={(filter) => {
-          setQueryParams(this.props.history, filter);
-          this.setState(filter);
-        }}
-      />
-    </div>;
-  }
-
-
   getMapPadding() {
     const hasPanel = !!this.state.feature;
     const isPortrait = window.innerWidth < window.innerHeight;
