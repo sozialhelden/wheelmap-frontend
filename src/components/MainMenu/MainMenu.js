@@ -219,7 +219,6 @@ openMenuHoverColor.opacity = 0.5;
 
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
-  height: 50px;
   padding: 0;
   background-color: rgba(254, 254, 254, 0.95);
   display: flex;
@@ -228,8 +227,7 @@ const StyledMainMenu = styled(MainMenu)`
   align-items: center;
   z-index: 1000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
-  transition: height 0.3s ease-out;
-  overflow: auto;
+  overflow: hidden;
 
   .logo {
     height: 30px;
@@ -261,6 +259,8 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
+    opacity: 0.0;
+    transition: opacity 0.5s ease-out;
   }
 
   .nav-link {
@@ -377,10 +377,13 @@ const StyledMainMenu = styled(MainMenu)`
     }
 
     &.is-open {
-      height: auto;
       .nav-link {
         display: flex;
       }
+      #main-menu {
+        opacity: 1.0;
+      }
+
       button.menu {
         svg {
           width: 16px;
@@ -422,8 +425,12 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
   &:not(.is-loaded) {
