@@ -74,7 +74,7 @@ const StyledSearchInputField = styled(SearchInputField)`
   width: 100%;
   box-sizing: border-box;
   font-size: 1em;
-  line-height: 3.5em;
+  line-height: 50px;
   padding: 0px 0 0 2.5em;
   border: none;
   border-radius: 0;
