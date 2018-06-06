@@ -333,8 +333,9 @@ const StyledToolbar = styled(Toolbar)`
   @media (max-width: 512px) {
     width: calc(100% - 20px);
     min-width: 250px;
-    /* handle to signalize you can resize by swiping */
-    border-top: white 8px solid;
+
+    border-top: ${colors.colorizedBackgroundColor} 8px solid;
+
     .grab-handle {
       margin: -10px 0 -20px 0;
       padding: 15px;
