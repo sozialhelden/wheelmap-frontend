@@ -67,7 +67,7 @@ const StyledSearchButton = styled(SearchButton)`
   font-size: 1.2rem;
 
   width: auto;
-  max-width: calc(100vw - 70px);
+  max-width: calc(100vw - 80px);
   min-height: 50px;
 
   .breadcrumb-chevron {

@@ -123,7 +123,7 @@ const StyledToolbar = styled(Toolbar)`
     &:not(.is-expanded) {
       top: 60px;
       left: 10px;
-      width: calc(100% - 70px);
+      width: calc(100% - 80px);
       max-height: 100%;
       max-width: 320px;
       margin: 0;
