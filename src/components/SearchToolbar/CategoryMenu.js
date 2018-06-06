@@ -55,8 +55,8 @@ export default function CategoryMenu(props: Props) {
         onFocus={props.onFocus}
         showCloseButton={showCloseButton}
         hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)}
-        accessibilityFilter={showCloseButton ? [] : props.accessibilityFilter}
-        toiletFilter={showCloseButton ? [] : props.toiletFilter}
+        accessibilityFilter={props.accessibilityFilter}
+        toiletFilter={props.toiletFilter}
         onKeyDown={({nativeEvent}) => {
           const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
           const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
