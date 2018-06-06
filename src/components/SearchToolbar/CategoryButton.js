@@ -128,7 +128,7 @@ export default function CategoryButton(props: Props) {
   // const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
   const url = urlForFilters(props);
 
-  const shownAccessibilities = isFiltered(props.accessibilityFilter) ? props.accessibilityFilter : [];
+  const shownAccessibilities = !props.showCloseButton && isFiltered(props.accessibilityFilter) ? props.accessibilityFilter : [];
 
   const icon = <CombinedIcon
     accessibilityFilter={shownAccessibilities}
