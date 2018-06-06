@@ -39,7 +39,8 @@ const StyledNavLink = styled(NavLink)`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0.25em 1em;
+  padding: 0.5em 1em;
+  min-height: 3rem;
 
   svg.icon {
     width: 21px;
@@ -48,7 +49,12 @@ const StyledNavLink = styled(NavLink)`
     left: initial;
   }
 
-  &.active {
+  .caption {
+    flex: 1;
+    color: ${colors.darkSelectedColor};
+  }
+
+  &.is-active {
     background-color: ${evenMoreTransparentLinkColor};
     .circle {
       background-color: ${colors.selectedColor};
@@ -57,7 +63,7 @@ const StyledNavLink = styled(NavLink)`
 
   &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
-    &.active {
+    &.is-active {
       .circle {
         background-color: ${colors.darkSelectedColor};
       }
@@ -84,7 +90,7 @@ export default function AccessibilityFilterButton(props: Props) {
   const { toiletFilter, accessibilityFilter, category, isMainCategory } = props;
   return (<StyledNavLink
     to={href}
-    className={`${props.className} ${props.showCloseButton ? 'is-horizontal' : ''}`}
+    className={`${props.className} ${props.showCloseButton ? 'is-horizontal' : ''} ${props.isActive ? 'is-active' : ''}`}
     onFocus={(props.onFocus)}
     onBlur={props.onBlur}
     onKeyDown={props.onKeyDown}
@@ -94,6 +100,6 @@ export default function AccessibilityFilterButton(props: Props) {
   >
     <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
     <span className="caption">{caption}</span>
-    {props.showCloseButton && <CloseIcon />}
+    {props.showCloseButton && <CloseIcon className='close-icon' />}
   </StyledNavLink>);
 }

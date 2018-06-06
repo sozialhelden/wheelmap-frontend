@@ -1,13 +1,10 @@
 // @flow
 
 import * as React from 'react';
-import { hsl } from 'd3-color';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
-import { interpolateLab } from 'd3-interpolate';
 
 import Icon from '../Icon';
-import colors from '../../lib/colors';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
 import { isFiltered } from '../../lib/Feature';
@@ -42,7 +39,7 @@ function CombinedIcon(props: Props) {
 const StyledCombinedIcon = styled(CombinedIcon)`
   display: flex;
   flex-direction: row;
-  width: 70px;
+  width: 75px;
   align-items: center;
 
   figure {
@@ -64,7 +61,7 @@ const StyledCombinedIcon = styled(CombinedIcon)`
   }
 
   figure + figure {
-    margin-left: -31px;
+    margin-left: -36px;
   }
 
   figure:nth-child(1) {
@@ -82,7 +79,7 @@ const StyledCombinedIcon = styled(CombinedIcon)`
 
   figure.toilet-icon {
     z-index: 3;
-    margin-left: -22px;
+    margin-left: -13px;
   }
 
   figure.add-stroke svg.background {

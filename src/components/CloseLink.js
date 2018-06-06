@@ -44,7 +44,7 @@ class CloseLink extends React.Component<Props> {
       <Link
         to="/beta/"
         ref={linkInstance => this.linkInstance = linkInstance}
-        className={this.props.className}
+        className={`close-link ${this.props.className || ''}`}
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.onClick}
