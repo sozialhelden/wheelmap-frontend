@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
+import { Dots } from 'react-activity';
 
 import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
@@ -503,9 +504,13 @@ class FeatureLoader extends React.Component<Props, State> {
   }
 
 
-  renderOnboarding() {
+  renderOnboarding({ isLocalizationLoaded }) {
+    if (!isLocalizationLoaded && this.state.isOnboardingVisible) {
+      return <Dots size={36} color={colors.colorizedBackgroundColor} />;
+    }
+
     return <Onboarding
-      isVisible={this.state.isOnboardingVisible}
+      isVisible={isLocalizationLoaded && this.state.isOnboardingVisible}
       onClose={() => {
         saveOnboardingFlag();
         this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
@@ -663,7 +668,7 @@ class FeatureLoader extends React.Component<Props, State> {
       </div>
       {this.renderFullscreenBackdrop()}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
-      {this.renderOnboarding()}
+      {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);
   }
@@ -678,6 +683,16 @@ const StyledFeatureLoader = styled(FeatureLoader)`
 
   > * {
     transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  }
+
+  > .rai-activity-indicator {
+    display: inline-block;
+    font-size: 36px;
+    line-height: 0;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
   }
 
   > .behind-backdrop {
@@ -695,6 +710,9 @@ const StyledFeatureLoader = styled(FeatureLoader)`
       transform: scale3d(0.99, 0.99, 1);
       @media (max-width: 512px), (max-height: 512px) {
         transform: scale3d(0.9, 0.9, 1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        transform: scale3d(1, 1, 1);
       }
       &, * {
         pointer-events: none;

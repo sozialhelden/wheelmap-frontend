@@ -88,6 +88,52 @@ function Onboarding(props: Props) {
 
 
 const StyledOnboarding = styled(Onboarding)`
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes appear {
+    0% {
+      transform: scale3d(1.2, 1.2, 1);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale3d(1, 1, 1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes highlight {
+    0% {
+      transform: scale3d(1, 1, 1);
+      background-color: ${colors.linkColor};
+    }
+
+    5% {
+      transform: scale3d(1.05, 1.05, 1);
+      background-color: ${colors.linkColorDarker};
+    }
+
+    10% {
+      transform: scale3d(1, 1, 1);
+      background-color: ${colors.linkColorDarker};
+    }
+
+    100% {
+      transform: scale3d(1, 1, 1);
+      background-color: ${colors.linkColor};
+    }
+  }
+
+
+
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 90%;
   }
@@ -103,12 +149,16 @@ const StyledOnboarding = styled(Onboarding)`
   .modal-dialog-content {
     display: flex;
     flex-direction: row;
-    max-width: 90%;
+    max-width: 80%;
     padding: 15px;
     overflow: auto;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 30px rgba(0,0,0,0.15), 0 2px 5px rgba(0,0,0,0.3);
+    animation: appear .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    @media (prefers-reduced-motion: reduce) {
+      animation: fadeIn .5s linear;
+    }
 
     .logo {
       width: 250px;
@@ -252,6 +302,8 @@ const StyledOnboarding = styled(Onboarding)`
         box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
         transition: box-shadow 0.2s;
       }
+
+      animation: highlight 5s linear infinite;
     }
 
     .ac-big-icon-marker {
