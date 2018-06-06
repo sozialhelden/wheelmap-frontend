@@ -39,7 +39,6 @@ function CombinedIcon(props: Props) {
 const StyledCombinedIcon = styled(CombinedIcon)`
   display: flex;
   flex-direction: row;
-  width: 75px;
   align-items: center;
 
   figure {
@@ -79,7 +78,7 @@ const StyledCombinedIcon = styled(CombinedIcon)`
 
   figure.toilet-icon {
     z-index: 3;
-    margin-left: -13px;
+    margin: 0 0 0 -13px;
   }
 
   figure.add-stroke svg.background {

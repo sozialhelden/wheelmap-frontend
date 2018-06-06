@@ -8,7 +8,7 @@ const MapButton = styled.button`
   min-height: 40px;
   padding: 0;
   background-color: white;
-  border-radius: 3px;
+  border-radius: 2px;
   outline: none;
   border: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);

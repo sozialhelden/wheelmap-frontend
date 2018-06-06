@@ -98,6 +98,7 @@ const StyledNavLink = styled(NavLink)`
     .icon-button {
       flex-direction: column;
       .accessibilities {
+        width: 75px;
         justify-content: center;
       }
       .caption {
