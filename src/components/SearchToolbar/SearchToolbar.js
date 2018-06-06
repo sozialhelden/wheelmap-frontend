@@ -396,7 +396,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
           {this.renderSearchInputField()}
 
-          {(this.props.searchQuery || this.props.category || searchFieldIsFocused) && this.renderCloseLink()}
+          {(this.props.searchQuery || searchFieldIsFocused) && this.renderCloseLink()}
         </header>
         <section>
           { contentBelowSearchField }
