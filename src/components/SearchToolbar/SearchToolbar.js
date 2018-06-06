@@ -13,6 +13,7 @@ import SearchIcon from './SearchIcon';
 import colors from '../../lib/colors';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
+import { isFiltered } from '../../lib/Feature';
 import SearchInputField from './SearchInputField';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
@@ -308,6 +309,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   renderCategoryMenu() {
+    if (!this.props.category && !this.props.isExpanded) return null;
+
     return <CategoryMenu
       hidden={this.props.hidden}
       history={this.props.history}
@@ -320,6 +323,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   renderAccessibilityFilterToolbar() {
+    if (!isFiltered(this.props.accessibilityFilter) && !this.props.isExpanded) return null;
+
     return <div className="filter-selector">
       <AccessibilityFilterMenu
         accessibilityFilter={this.props.accessibilityFilter}
@@ -362,16 +367,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
       searchFieldIsFocused,
     } = this.state;
 
-    // const isSearchFieldFocusedAndEmpty = searchFieldIsFocused && !Boolean(searchQuery)
-    const filterIsVisible = this.props.isExpanded; // && isSearchFieldFocusedAndEmpty;
-
     let contentBelowSearchField = null;
 
     if (isLoading) {
       contentBelowSearchField = this.renderLoadingIndicator();
     } else if (searchResults) {
       contentBelowSearchField = this.renderSearchResults(searchResults);
-    } else if (filterIsVisible) {
+    } else {
       contentBelowSearchField = this.renderFilters();
     }
 
