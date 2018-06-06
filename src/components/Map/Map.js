@@ -24,7 +24,7 @@ import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
-import isApplePlatform from '../../lib/isApplePlatform';
+import isAndroidPlatform from '../../lib/isAndroidPlatform';
 import addLocateControlToMap from './addLocateControlToMap';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
@@ -563,7 +563,7 @@ export default class Map extends React.Component<Props, State> {
 
   render() {
     const className = [
-      isApplePlatform() ? 'is-apple-platform' : null,
+      isAndroidPlatform() ? 'is-android-platform' : null,
       this.props.className,
     ].filter(Boolean).join(' ');
 

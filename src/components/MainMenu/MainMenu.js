@@ -313,7 +313,7 @@ const StyledMainMenu = styled(MainMenu)`
     right: 0;
     right: constant(safe-area-inset-right);
     right: env(safe-area-inset-right);
-    width: 60px;
+    width: 70px;
     height: 50px;
     display: flex;
     align-items: center;
