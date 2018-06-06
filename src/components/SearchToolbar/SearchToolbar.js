@@ -242,7 +242,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
       if (this.input instanceof HTMLInputElement) {
         this.input.value = '';
       }
-      if (this.props.onResetCategory) this.props.onResetCategory();
     });
   }
 
