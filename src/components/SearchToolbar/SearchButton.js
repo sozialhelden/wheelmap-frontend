@@ -23,7 +23,7 @@ type Props = {
 // translator: Shown in collapsed search/filter combi button when there is no category filter set
 const allPlacesCaption = t`All places`;
 
-const Caption = styled.div.attrs({ class: 'caption' })`
+const Caption = styled.div.attrs({ className: 'caption' })`
   display: flex;
   flex-direction: row;
   align-items: center;
