@@ -10,6 +10,7 @@ import { t } from 'c-3po';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
+import colors from '../../lib/colors';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
 import SearchInputField from './SearchInputField';
@@ -62,7 +63,7 @@ const StyledToolbar = styled(Toolbar)`
     top: 0;
     background: white;
     z-index: 1;
-    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+    border-bottom: 1px ${colors.horizontalRuleColor} solid;
   }
 
   .search-icon {

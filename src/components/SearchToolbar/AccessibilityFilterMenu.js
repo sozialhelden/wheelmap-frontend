@@ -6,8 +6,8 @@ import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
 import CloseIcon from '../icons/actions/Close';
 import type { RouterHistory } from 'react-router-dom';
-
 import Toolbar from '../Toolbar';
+import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
@@ -134,6 +134,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
               caption={availableFilters[key].caption}
               category={category}
               isMainCategory
+              isActive={currentFilterKey}
               showCloseButton={shownFilterKeys.length === 1}
               onKeyDown={({nativeEvent}) => {
                 const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
@@ -144,7 +145,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
               }}
               history={this.props.history}
               key={key}
-              className="category-button"
+              className="accessibility-filter-button"
             />))}
         </section>
       </section>
@@ -153,6 +154,8 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
+  border-top: 1px solid ${colors.horizontalRuleColor};
+
   header {
     display: flex;
     flex-direction: row;
@@ -163,7 +166,6 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
 
   section {
     opacity: 1;
-    max-height: 300px;
     overflow: hidden;
     transition: opacity 0.1s ease-out, max-height 0.1s ease-out;
     box-sizing: border-box;
@@ -204,6 +206,10 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
   .radio-button.focus-ring {
     border-radius: 100%;
     box-shadow: 0px 0px 0px 2px #4469E1;
+  }
+
+  .close-icon {
+    margin-left: 1em;
   }
 `;
 

@@ -1,11 +1,9 @@
 // @flow
 
 import { t } from 'c-3po';
-import { hsl } from 'd3-color';
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { interpolateLab } from 'd3-interpolate';
 import type { RouterHistory } from 'react-router-dom';
 
 import CombinedIcon from './CombinedIcon';
@@ -32,13 +30,6 @@ type Props = {
   history: RouterHistory,
 };
 
-
-const evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
-evenMoreTransparentLinkColor.opacity *= 0.5;
-
-const halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
-
-
 const StyledNavLink = styled(NavLink)`
   border-radius: 5px;
 
@@ -50,10 +41,6 @@ const StyledNavLink = styled(NavLink)`
 
   .circle {
     background-color: ${colors.tonedDownSelectedColor};
-  }
-
-  .icon-button .accessibilities {
-    justify-content: center;
   }
 
   .circle {
@@ -72,7 +59,7 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.active {
-    background-color: ${evenMoreTransparentLinkColor};
+    background-color: ${colors.evenMoreTransparentLinkColor};
     .circle {
       background-color: ${colors.selectedColor};
     }
@@ -81,14 +68,15 @@ const StyledNavLink = styled(NavLink)`
   &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
     .circle {
-      background-color: ${halfTonedDownSelectedColor};
+      background-color: ${colors.halfTonedDownSelectedColor};
     }
     &.active {
       .circle {
-        background-color: ${colors.darkSelectedColor};
+        background-color: ${colors.tonedDownSelectedColor};
       }
     }
   }
+
 
   &.is-horizontal {
     display: flex;
@@ -96,10 +84,11 @@ const StyledNavLink = styled(NavLink)`
     align-items: center;
     justify-content: space-between;
     padding: 0 1em;
+    min-height: 3rem;
     .icon-button {
       flex: 1;
       .caption {
-        margin-left: 1em;
+        color: ${colors.darkSelectedColor};
       }
     }
   }
@@ -108,9 +97,13 @@ const StyledNavLink = styled(NavLink)`
     flex-direction: column;
     .icon-button {
       flex-direction: column;
+      .accessibilities {
+        justify-content: center;
+      }
       .caption {
         font-size: 0.80em;
         margin-top: 0.5em;
+        color: ${colors.darkSelectedColor};
       }
     }
   }

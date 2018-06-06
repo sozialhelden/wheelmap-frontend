@@ -5,6 +5,7 @@ import { scaleLinear } from 'd3-scale';
 import { interpolateLab } from 'd3-interpolate';
 import type { NodeProperties, YesNoLimitedUnknown } from './Feature';
 import { isWheelchairAccessible } from './Feature';
+import { hsl } from 'd3-color';
 
 const colors = {
   primaryColor: '#79B63E',
@@ -23,6 +24,9 @@ const colors = {
   selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',
   darkSelectedColor: '#04536d',
+  halfTonedDownSelectedColor: null, // calculated below
+  evenMoreTransparentLinkColor: null, // calculated below
+  horizontalRuleColor: null, // calculated below
   positiveColor: 'rgb(126, 197, 18)',
   positiveColorDarker: '#4d790b',
   positiveBackgroundColorTransparent: 'rgba(126, 197, 18, 0.1)',
@@ -47,8 +51,16 @@ const colors = {
       no: '#fff',
       unknown: '#69615b',
     },
-  }
+  },
 };
+
+
+
+colors.evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
+colors.evenMoreTransparentLinkColor.opacity *= 0.5;
+colors.halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
+colors.horizontalRuleColor = interpolateLab(colors.tonedDownSelectedColor, 'rgba(255, 255, 255, 0.5)')(0.6);
+
 
 
 export function getHTMLColorForWheelchairAccessibilityValue(
