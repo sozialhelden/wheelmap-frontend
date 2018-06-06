@@ -81,6 +81,8 @@ const StyledToolbar = styled(Toolbar)`
     top: 50px;
   }
 
+  max-height: calc(100% - 135px);
+
   p.sources {
     margin-top: .5em;
     font-size: 80%;

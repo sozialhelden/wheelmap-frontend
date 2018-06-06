@@ -424,7 +424,7 @@ class FeatureLoader extends React.Component<Props, State> {
 
 
   closeSearch() {
-    this.setState({ isSearchBarVisible: false, isSearchToolbarExpanded: false });
+    this.setState({ isSearchBarVisible: hasBigViewport(), isSearchToolbarExpanded: false });
   }
 
 
@@ -494,6 +494,9 @@ class FeatureLoader extends React.Component<Props, State> {
   renderSearchButton() {
     return <SearchButton
       onClick={e => { e.stopPropagation(); this.openSearch(); }}
+      category={this.state.category}
+      toiletFilter={this.toiletFilter()}
+      accessibilityFilter={this.accessibilityFilter()}
       top={60}
       left={10}
     />;
@@ -689,7 +692,10 @@ const StyledFeatureLoader = styled(FeatureLoader)`
         z-index: 999;
       }
       filter: blur(5px);
-      transform: scale3d(0.995, 0.995, 1);
+      transform: scale3d(0.99, 0.99, 1);
+      @media (max-width: 512px), (max-height: 512px) {
+        transform: scale3d(0.9, 0.9, 1);
+      }
       &, * {
         pointer-events: none;
       }

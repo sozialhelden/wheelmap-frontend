@@ -64,7 +64,7 @@ const StyledToolbar = styled(Toolbar)`
     top: 0;
     background: white;
     z-index: 1;
-    border-bottom: 1px ${colors.horizontalRuleColor} solid;
+    border-bottom: 1px ${colors.borderColor} solid;
   }
 
   .search-icon {

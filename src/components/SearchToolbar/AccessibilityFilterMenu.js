@@ -154,7 +154,7 @@ class AccessibilityFilterMenu extends React.Component<Props, State> {
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
-  border-top: 1px solid ${colors.horizontalRuleColor};
+  border-top: 1px solid ${colors.borderColor};
 
   header {
     display: flex;

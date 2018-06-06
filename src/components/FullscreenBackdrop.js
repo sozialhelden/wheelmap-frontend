@@ -4,7 +4,7 @@
 import styled from 'styled-components';
 
 const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop' })`
-  backdrop-filter: blur(10px);
+  /* backdrop-filter: blur(10px); */
   position: fixed;
   top: 0;
   left: 0;
