@@ -55,22 +55,22 @@ function Onboarding(props: Props) {
     <section>
       <ul id="wheelmap-icon-descriptions">
         <li className="ac-marker-yes">
-          <Icon accessibility="yes" category={{ _id: 'other' }} size='big' withArrow shadowed centered/>
+          <Icon accessibility="yes" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
           <header>{accessibilityName('yes')}</header>
           <footer>{accessibilityDescription('yes')}</footer>
         </li>
         <li className="ac-marker-limited">
-          <Icon accessibility="limited" category={{ _id: 'other' }} size='big' withArrow shadowed centered/>
+          <Icon accessibility="limited" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
           <header>{accessibilityName('limited')}</header>
           <footer>{accessibilityDescription('limited')}</footer>
         </li>
         <li className="ac-marker-no">
-          <Icon accessibility="no" category={{ _id: 'other' }} size='big' withArrow shadowed centered/>
+          <Icon accessibility="no" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
           <header>{accessibilityName('no')}</header>
           <footer>{accessibilityDescription('no')}</footer>
         </li>
         <li className="ac-marker-unknown">
-          <Icon accessibility="unknown" category={{ _id: 'other' }} size='big' withArrow shadowed centered/>
+          <Icon accessibility="unknown" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
           <header>{accessibilityName('unknown')}</header>
           <footer>{unknownAccessibilityIncentiveText}</footer>
         </li>
