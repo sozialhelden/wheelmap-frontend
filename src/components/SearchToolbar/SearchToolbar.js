@@ -272,8 +272,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
         }, 300);
       }}
       onChange={(event) => {
-        this.input = event.target;
-        this.props.onChangeSearchQuery(this.input.value);
+        const input = event.target;
+        this.input = input;
+        this.props.onChangeSearchQuery(input.value);
+        if (input.value && !this.state.searchResults) {
+          this.setState({ isLoading: true });
+        }
         this.handleSearchInputChange(event);
       }}
       ariaRole="searchbox"
