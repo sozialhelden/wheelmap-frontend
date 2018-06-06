@@ -49,6 +49,10 @@ const StyledNavLink = styled(NavLink)`
     left: initial;
   }
 
+  .accessibilities {
+    width: 70px;
+  }
+
   .caption {
     flex: 1;
     color: ${colors.darkSelectedColor};
