@@ -41,9 +41,7 @@ const StyledNavLink = styled(NavLink)`
 
   .circle {
     background-color: ${colors.tonedDownSelectedColor};
-  }
-
-  .circle {
+    margin: 2.5px;
     svg.icon {
       g, path, circle, rect {
         fill: white;
@@ -87,6 +85,9 @@ const StyledNavLink = styled(NavLink)`
     min-height: 3rem;
     .icon-button {
       flex: 1;
+      .accessibilities {
+        width: 70px;
+      }
       .caption {
         color: ${colors.darkSelectedColor};
       }
@@ -98,7 +99,6 @@ const StyledNavLink = styled(NavLink)`
     .icon-button {
       flex-direction: column;
       .accessibilities {
-        width: 75px;
         justify-content: center;
       }
       .caption {

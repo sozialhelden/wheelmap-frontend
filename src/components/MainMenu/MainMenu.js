@@ -432,7 +432,7 @@ const StyledMainMenu = styled(MainMenu)`
     justify-content: space-between;
     padding: 0;
     .rai-activity-indicator {
-      margin-right: 15px;
+      margin-right: 20px;
     }
   }
 
