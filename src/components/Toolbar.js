@@ -186,7 +186,7 @@ class Toolbar extends React.Component<Props, State> {
         parseFloat(style.marginBottom) +
         (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
-    return Math.max(0, this.state.viewportSize.height - toolbarHeight - 60);
+    return Math.max(60, this.state.viewportSize.height - toolbarHeight - 60);
   }
 
 

@@ -76,7 +76,7 @@ type State = {
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
 
-  top: 115px;
+  top: 50px;
   max-height: calc(100% - 135px);
 
   p.sources {
