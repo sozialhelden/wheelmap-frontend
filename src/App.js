@@ -406,10 +406,6 @@ class FeatureLoader extends React.Component<Props, State> {
       this.lastFocusedElement = document.activeElement;
       this.nodeToolbar.focus();
     }
-
-    if (this.state.category && !prevState.category && this.map) {
-      this.map.focus();
-    }
   }
 
 
