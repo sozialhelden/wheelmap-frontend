@@ -69,6 +69,7 @@ type Props = {
   onMapMounted?: ((map: L.Map) => void),
   unitSystem?: 'metric' | 'imperial',
   isLocalizationLoaded: boolean,
+  hideHints?: boolean,
 }
 
 
@@ -448,7 +449,8 @@ export default class Map extends React.Component<Props, State> {
         const shouldAnimate = map.getBounds().contains(targetCoords);
         moved = true;
         map.flyTo(targetCoords, zoom, {
-          animate: shouldAnimate
+          animate: shouldAnimate,
+          noMoveStart: true,
         });
       }
     }
@@ -550,15 +552,14 @@ export default class Map extends React.Component<Props, State> {
   renderZoomInfo() {
     // translator: Shown when zoomed out to far
     const zoomCaption = t`Zoom closer to see more places`;
-    const showZoomInfo = this.state.showZoomInfo;
+    const isHidden = this.props.hideHints || !this.state.showZoomInfo;
 
-    return showZoomInfo && 
-        (<a className="zoom-info-block"
-            onKeyDown={this.zoomIn}
-            onClick={this.zoomIn}
-            role="button"
-            tabIndex={-1}
-            aria-hidden><span>{zoomCaption}</span></a>);
+    return <a className={`zoom-info-block ${isHidden ? 'is-hidden' : ''}`}
+      onKeyDown={this.zoomIn}
+      onClick={this.zoomIn}
+      role="button"
+      tabIndex={-1}
+      aria-hidden><span>{zoomCaption}</span></a>;
   }
 
   render() {
