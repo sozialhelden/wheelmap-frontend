@@ -2,8 +2,6 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
-import uniq from 'lodash/uniq';
-import styled from 'styled-components';
 
 import config from '../../lib/config';
 import Categories from '../../lib/Categories';

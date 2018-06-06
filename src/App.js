@@ -647,6 +647,7 @@ class FeatureLoader extends React.Component<Props, State> {
       locateOnStart={shouldLocateOnStart}
       isLocalizationLoaded={isLocalizationLoaded}
       padding={this.getMapPadding()}
+      hideHints={isOnSmallViewport() && (isNodeToolbarVisible || this.state.isMainMenuOpen )}
       {...config}
     />;
 
