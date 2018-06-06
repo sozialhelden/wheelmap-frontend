@@ -67,6 +67,10 @@ const StyledToolbar = styled(Toolbar)`
     border-bottom: 1px ${colors.borderColor} solid;
   }
 
+  > section {
+    overflow: auto;
+  }
+
   .search-icon {
     position: absolute;
     /* center vertically */
