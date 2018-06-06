@@ -68,7 +68,7 @@ const StyledSearchButton = styled(SearchButton)`
 
   width: auto;
   max-width: calc(100vw - 70px);
-  min-height: 40px;
+  min-height: 50px;
 
   .breadcrumb-chevron {
     width: 24px;
@@ -80,7 +80,7 @@ const StyledSearchButton = styled(SearchButton)`
   svg.search-icon {
     width: 20px;
     height: 20px;
-    margin-left: 10px;
+    margin-left: 0.75rem;
     path {
       fill: #334455;
     }
