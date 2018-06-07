@@ -34,8 +34,8 @@ function sortedIsEqual(array1, array2): boolean {
  * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
  */
 
-export function isFiltered(accessibilities: ?YesNoLimitedUnknown[]) {
-  return accessibilities &&
+export function isFiltered(accessibilities: ?YesNoLimitedUnknown[]): boolean {
+  return !!accessibilities &&
     !isEqual(accessibilities, []) &&
     !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray);
 }
