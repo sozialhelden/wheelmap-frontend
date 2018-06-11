@@ -285,13 +285,14 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
   const isAccessible = get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair');
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
+
   switch (isAccessible) {
     case 'yes':
     case true: return 'yes';
     case 'limited': return 'limited';
     case 'no':
     case false: return isPartiallyAccessible ? 'limited' : 'no';
-    default: return 'unknown';
+    default: return isPartiallyAccessible ? 'limited' : 'unknown';
   }
 }
 
