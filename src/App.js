@@ -11,12 +11,11 @@ import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
 import { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
 import config from './lib/config';
-import colors from './lib/colors';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
-import MainView from './MainView';
+import MainView, { UnstyledMainView } from './MainView';
 
 import type {
   Feature,
@@ -145,7 +144,7 @@ class Loader extends React.Component<Props, State> {
   map: ?any;
 
   lastFocusedElement: ?HTMLElement;
-  mainView: ?React.ElementRef<MainView>;
+  mainView: UnstyledMainView;
   _asyncRequest: Promise<*>;
 
 
@@ -158,16 +157,17 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount() {
     this.onHashUpdate();
     window.addEventListener('hashchange', this.onHashUpdate);
 
-    await loadExistingLocalizationByPreference()
+    loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }))
-
-    if (this.state.featureId && !this.state.feature) {
-      this.fetchFeature(this.state.featureId);
-    }
+      .then(() => {
+        if (this.state.featureId && !this.state.feature) {
+          this.fetchFeature(this.state.featureId);
+        }
+      });
   }
 
   componentWillUnmount() {
@@ -187,7 +187,6 @@ class Loader extends React.Component<Props, State> {
   static getDerivedStateFromProps(props: Props, state: State): State {
     const routeInformation = getRouteInformation(props) || {};
     const {
-      featureId,
       equipmentInfoId,
       category,
       searchQuery,
@@ -373,7 +372,7 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isNotFoundVisible: true, lastError: error });
   };
 
-  onSelectCoordinate = (coords: ?{ lat: number, lon: number }) => {
+  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
     if (coords) {
       this.setState(coords);
     }
@@ -484,6 +483,8 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
+
+      innerRef={(mainView) => { this.mainView = mainView; }}
     />);
   }
 }
