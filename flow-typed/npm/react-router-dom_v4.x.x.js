@@ -1,5 +1,5 @@
-// flow-typed signature: 4d8e947f2e396ef2f26ecbd1ed7f04ab
-// flow-typed version: 97d98ab83e/react-router-dom_v4.x.x/flow_>=v0.53.x
+// flow-typed signature: 44479ed57ebec473b14bd2c4e606dccc
+// flow-typed version: 83f1c5c51e/react-router-dom_v4.x.x/flow_>=v0.53.x <=v0.62.x
 
 declare module "react-router-dom" {
   declare export class BrowserRouter extends React$Component<{
@@ -18,6 +18,7 @@ declare module "react-router-dom" {
   }> {}
 
   declare export class Link extends React$Component<{
+    className?: string,
     to: string | LocationShape,
     replace?: boolean,
     children?: React$Node
@@ -85,7 +86,8 @@ declare module "react-router-dom" {
   declare export type ContextRouter = {|
     history: RouterHistory,
     location: Location,
-    match: Match
+    match: Match,
+    staticContext?: StaticRouterContext
   |};
 
   declare export type GetUserConfirmation = (
@@ -118,7 +120,7 @@ declare module "react-router-dom" {
   }> {}
 
   declare export class Prompt extends React$Component<{
-    message: string | ((location: Location) => string | true),
+    message: string | ((location: Location) => string | boolean),
     when?: boolean
   }> {}
 
