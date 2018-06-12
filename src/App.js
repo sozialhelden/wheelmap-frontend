@@ -290,6 +290,7 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
+  // TODO: Re-enable and adapt this when UX flows are stable again
 
   // manageFocus(prevProps: Props, prevState: State) {
   //   // focus to and from nodeToolbar
