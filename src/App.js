@@ -444,7 +444,6 @@ class Loader extends React.Component<Props, State> {
   };
 
   render() {
-    const routeInformation = getRouteInformation(this.props);
     const isNodeRoute = Boolean(this.state.featureId);
     const isEditMode = this.isEditMode();
     const isNodeToolbarVisible = this.state.feature && !this.state.isSearchToolbarExpanded;
