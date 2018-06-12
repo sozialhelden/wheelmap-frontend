@@ -1,23 +1,25 @@
 // @flow
 
+import { t } from 'c-3po';
+import * as React from 'react';
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
-import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
-import { t } from 'c-3po';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
-import colors from '../../lib/colors';
+import ChevronRight from '../ChevronRight';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
-import { isFiltered } from '../../lib/Feature';
 import SearchInputField from './SearchInputField';
+import AccessibilityFilterMenu from './AccessibilityFilterMenu';
+
+import colors from '../../lib/colors';
+import { isFiltered } from '../../lib/Feature';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
-import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 
 
@@ -36,6 +38,7 @@ export type Props = PlaceFilter & {
   onClick: (() => void),
   onResetCategory: ?(() => void),
   isExpanded: boolean,
+  hasGoButton: boolean,
 };
 
 
@@ -46,6 +49,32 @@ type State = {
   isLoading: boolean;
 };
 
+
+const StyledChevronRight = styled(ChevronRight)`
+  height: 1rem;
+  vertical-align: bottom;
+  opacity: 0.5;
+  g, polygon, rect, circle, path {
+    fill: white;
+  }
+`;
+
+const GoButton = styled.button`
+  min-width: 4rem;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  line-height: 1rem;
+
+  color: white;
+  background-color: ${colors.linkColor};
+  &:hover {
+    background-color: ${colors.linkColorDarker};
+  }
+  &:active {
+    background-color: ${colors.darkLinkColor};
+  }
+`;
 
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
@@ -61,10 +90,14 @@ const StyledToolbar = styled(Toolbar)`
 
   > header {
     position: sticky;
+    display: flex;
+    flex-direction: row;
     top: 0;
-    background: white;
+    height: 50px;
+    min-height: 50px;
     z-index: 1;
     border-bottom: 1px ${colors.borderColor} solid;
+    background: white;
   }
 
   > section {
@@ -363,6 +396,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
     />;
   }
 
+  renderGoButton() {
+    // translator: button shown next to the search bar
+    const caption = t`Go!`;
+    return <GoButton onClick={this.props.onClose}>
+      {caption} <StyledChevronRight />
+    </GoButton>;
+  }
 
   render() {
     const {
@@ -399,10 +439,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
       >
         <header>
           <SearchIcon />
-
           {this.renderSearchInputField()}
-
-          {(this.props.searchQuery || searchFieldIsFocused) && this.renderCloseLink()}
+          {this.props.searchQuery && this.renderCloseLink()}
+          {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
         </header>
         <section>
           { contentBelowSearchField }

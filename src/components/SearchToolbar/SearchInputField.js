@@ -71,7 +71,7 @@ class SearchInputField extends React.Component<Props> {
 
 const StyledSearchInputField = styled(SearchInputField)`
   display: block;
-  width: 100%;
+  flex: 1;
   box-sizing: border-box;
   font-size: 1em;
   line-height: 50px;
