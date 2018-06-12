@@ -377,7 +377,7 @@ class Loader extends React.Component<Props, State> {
 
   onMapClick = () => {
     this.closeSearch();
-    this.setState({ isMainMenuOpen: false });
+    this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
