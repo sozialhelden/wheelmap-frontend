@@ -476,7 +476,7 @@ export default class Map extends React.Component<Props, State> {
 
     let overrideZoom = props.zoom;
     // Prevent the map from being empty when navigating to a new category
-    if (props.category && this.props.category !== props.category) {
+    if (props.category && this.props.category != props.category) {
       overrideZoom = Math.min(props.minZoomWithSetCategory || 20, props.zoom || props.minZoomWithSetCategory);
     }
 
