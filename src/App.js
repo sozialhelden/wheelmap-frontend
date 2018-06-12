@@ -36,6 +36,7 @@ import {
   yesNoLimitedUnknownArray,
   yesNoUnknownArray,
   getFeatureId,
+  isFiltered,
 } from './lib/Feature';
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
@@ -225,7 +226,7 @@ class Loader extends React.Component<Props, State> {
 
     if (featureIdHasChanged || equipmentIdHasChanged) {
       result.isSearchToolbarExpanded = false;
-      if (isOnSmallViewport()) {
+      if (category || isFiltered(accessibilityFilter)) {
         result.isSearchBarVisible = false;
       }
     }
