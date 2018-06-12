@@ -81,7 +81,6 @@ const StyledToolbar = styled(Toolbar)`
 
   @media (max-width: 512px), (max-height: 512px) {
     top: 50px;
-    max-height: calc(100% - 65px);
   }
  
   p.sources {
