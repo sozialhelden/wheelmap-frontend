@@ -5,7 +5,7 @@ import * as React from 'react';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import colors from '../../lib/colors';
-import ChevronRight from './ChevronRight';
+import ChevronRight from '../ChevronRight';
 import { t } from 'c-3po';
 
 

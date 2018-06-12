@@ -269,6 +269,7 @@ class MainView extends React.Component<Props, State> {
       onClick={this.props.onClickSearchToolbar}
       onClose={this.props.onCloseSearchToolbar}
       isExpanded={this.props.isSearchToolbarExpanded}
+      hasGoButton={this.state.isOnSmallViewport}
     />;
   }
 
@@ -415,7 +416,7 @@ class MainView extends React.Component<Props, State> {
         {isMainMenuInBackground && mainMenu}
         {isLocalizationLoaded && this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
         {isNodeToolbarVisible && !isNodeToolbarModal && nodeToolbar}
-        {this.props.isSearchButtonVisible && this.renderSearchButton()}
+        {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
         {map}
       </div>
       {this.renderFullscreenBackdrop()}
