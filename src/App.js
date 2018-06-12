@@ -196,7 +196,8 @@ class Loader extends React.Component<Props, State> {
 
     const result: $Shape<State> = {
       equipmentInfoId,
-      category: state.category || category, // keep category if you just click on a feature
+      // keep category if you just click on a feature
+      category: featureId ? (state.category || category) : category,
       searchQuery,
       isEditMode,
       toiletFilter,
