@@ -203,8 +203,10 @@ class Loader extends React.Component<Props, State> {
       accessibilityFilter,
     };
 
+    const featureIdHasChanged = state.featureId !== featureId;
+    const equipmentIdHasChanged = state.equipmentInfoId !== equipmentInfoId;
 
-    if (state.featureId !== featureId) {
+    if (featureIdHasChanged) {
       // Store prevId in state so we can compare when props change.
       result.featureId = featureId;
       // Clear out previously-loaded data (so we don't render stale stuff).
@@ -219,9 +221,11 @@ class Loader extends React.Component<Props, State> {
           zoom: null
         });
       }
+    }
 
+    if (featureIdHasChanged || equipmentIdHasChanged) {
+      result.isSearchToolbarExpanded = false;
       if (isOnSmallViewport()) {
-        result.isSearchToolbarExpanded = false;
         result.isSearchBarVisible = false;
       }
     }
