@@ -11,12 +11,11 @@ import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
 import { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
 import config from './lib/config';
-import colors from './lib/colors';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
-import MainView from './MainView';
+import MainView, { UnstyledMainView } from './MainView';
 
 import type {
   Feature,
@@ -146,7 +145,7 @@ class Loader extends React.Component<Props, State> {
   map: ?any;
 
   lastFocusedElement: ?HTMLElement;
-  mainView: ?React.ElementRef<MainView>;
+  mainView: UnstyledMainView;
   _asyncRequest: Promise<*>;
 
 
@@ -392,7 +391,7 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isNotFoundVisible: true, lastError: error });
   };
 
-  onSelectCoordinate = (coords: ?{ lat: number, lon: number }) => {
+  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
     if (coords) {
       this.setState(coords);
     }
@@ -503,6 +502,8 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
+
+      innerRef={(mainView) => { this.mainView = mainView; }}
     />);
   }
 }
