@@ -1,10 +1,12 @@
 // @flow
 
+import pick from 'lodash/pick';
 import * as React from 'react';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import queryString from 'query-string';
 import type { RouterHistory, Location } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
 import { Dots } from 'react-activity';
 
 import Map from './components/Map/Map';
@@ -19,6 +21,7 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
+import savedState from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type {
@@ -69,7 +72,6 @@ type Props = {
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
-  shouldLocateOnStart: boolean,
 
   onSelectCoordinate: (() => void),
   onResetCategory: (() => void),
@@ -173,7 +175,7 @@ class MainView extends React.Component<Props, State> {
   }
 
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  componentDidUpdate(prevProps, prevState) {
     // this.manageFocus(prevProps, prevState);
   }
 
@@ -188,11 +190,6 @@ class MainView extends React.Component<Props, State> {
     this.setState({ isOnSmallViewport: isOnSmallViewport() });
   }
 
-  focusSearchToolbar() {
-    if (this.searchToolbar) {
-      this.searchToolbar.focus();
-    }
-  }
 
   // manageFocus(prevProps: Props, prevState: State) {
   //   // focus to and from nodeToolbar
@@ -224,7 +221,7 @@ class MainView extends React.Component<Props, State> {
   // }
 
 
-  renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }: $Shape<Props>, isNodeRoute: boolean) {
+  renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode, isReportMode }) {
     return <div className="node-toolbar">
       <NodeToolbar
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
@@ -242,7 +239,7 @@ class MainView extends React.Component<Props, State> {
   }
 
 
-  renderSearchToolbar({ category, searchQuery, lat, lon }: $Shape<Props>, isInert: boolean) {
+  renderSearchToolbar({ isInert, category, searchQuery, lat, lon }) {
     return <SearchToolbar
       ref={searchToolbar => this.searchToolbar = searchToolbar}
       history={this.props.history}
@@ -285,7 +282,7 @@ class MainView extends React.Component<Props, State> {
   }
 
 
-  renderOnboarding({ isLocalizationLoaded }: { isLocalizationLoaded: boolean }) {
+  renderOnboarding({ isLocalizationLoaded }) {
     if (!isLocalizationLoaded && this.props.isOnboardingVisible) {
       return <Dots size={36} color={colors.colorizedBackgroundColor} />;
     }
@@ -306,7 +303,7 @@ class MainView extends React.Component<Props, State> {
   }
 
 
-  renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
+  renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom }) {
     return <MainMenu
       className="main-menu"
       isOpen={this.props.isMainMenuOpen}
@@ -407,13 +404,13 @@ class MainView extends React.Component<Props, State> {
     />;
 
     const mainMenu = this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom });
-    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }, isNodeRoute);
+    const nodeToolbar = this.renderNodeToolbar({ isNodeRoute, featureId, equipmentInfoId, isEditMode, isReportMode });
 
     return (<div className={classList.join(' ')}>
       {!isMainMenuInBackground && mainMenu}
       <div className="behind-backdrop">
         {isMainMenuInBackground && mainMenu}
-        {isLocalizationLoaded && this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
+        {isLocalizationLoaded && this.renderSearchToolbar({ isInert: searchToolbarIsInert, category, searchQuery, lat, lon })}
         {isNodeToolbarVisible && !isNodeToolbarModal && nodeToolbar}
         {this.props.isSearchButtonVisible && this.renderSearchButton()}
         {map}
@@ -486,4 +483,3 @@ const StyledMainView = styled(MainView)`
 `;
 
 export default StyledMainView;
-export { MainView as UnstyledMainView };
