@@ -47,29 +47,29 @@ class MainMenu extends React.Component<Props, State> {
   };
   boundOnResize: (() => void);
 
-  onResize() {
+  onResize = () => {
     if (window.innerWidth > menuButtonVisibilityBreakpoint) {
-      this.setState({ isMenuVisible: false, isMenuButtonVisible: false });
-      this.props.onToggle(false);
+      this.setState({ isMenuButtonVisible: false });
     } else {
       this.setState({ isMenuButtonVisible: true });
+      this.props.onToggle(false);
     }
   }
 
   constructor(props: Props) {
     super(props);
-    this.boundOnResize = this.onResize.bind(this);
     this.focusToLastElement = this.focusToLastElement.bind(this);
     this.focusToFirstElement = this.focusToFirstElement.bind(this);
     this.focusFirstMenuElement = this.focusFirstMenuElement.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.boundOnResize);
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.boundOnResize);
+    window.removeEventListener('resize', this.onResize);
   }
 
   componentDidUpdate(prevProps, _) {
@@ -133,7 +133,7 @@ class MainMenu extends React.Component<Props, State> {
 
     const classList = [
       this.props.className,
-      this.props.isOpen ? 'is-open' : null,
+      (this.props.isOpen || !this.state.isMenuButtonVisible) ? 'is-open' : null,
       isLocalizationLoaded ? 'is-loaded' : null,
       'main-menu',
     ].filter(Boolean);
@@ -263,6 +263,12 @@ const StyledMainMenu = styled(MainMenu)`
     transition: opacity 0.5s ease-out;
   }
 
+  &.is-open {
+    #main-menu {
+      opacity: 1.0;
+    }
+  }
+
   .nav-link {
     padding: 10px;
     box-sizing: border-box;
@@ -379,9 +385,6 @@ const StyledMainMenu = styled(MainMenu)`
     &.is-open {
       .nav-link {
         display: flex;
-      }
-      #main-menu {
-        opacity: 1.0;
       }
 
       button.menu {
