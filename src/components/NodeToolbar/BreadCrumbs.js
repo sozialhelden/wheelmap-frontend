@@ -3,7 +3,7 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import ChevronRight from './ChevronRight';
+import ChevronRight from '../ChevronRight';
 import Categories from  '../../lib/Categories';
 import { currentLocales } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
