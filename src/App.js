@@ -344,14 +344,6 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-
-  isEditMode() {
-    const routeInformation = getRouteInformation(this.props);
-    const { isEditMode } = routeInformation || {};
-    return isEditMode;
-  }
-
-
   onClickSearchButton = e => { e.stopPropagation(); this.openSearch(); };
 
   onToggleMainMenu = () => this.setState({ isMainMenuOpen: !this.state.isMainMenuOpen });
@@ -404,8 +396,10 @@ class Loader extends React.Component<Props, State> {
       isNotFoundVisible: false,
       isReportMode: false,
     });
-    if (this.isEditMode()) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
+    if (this.state.isEditMode) {
+      if (this.state.featureId) {
+        this.props.history.push(`/nodes/${this.state.featureId}`);
+      }
     }
   };
 
@@ -434,9 +428,7 @@ class Loader extends React.Component<Props, State> {
   };
 
   render() {
-    const routeInformation = getRouteInformation(this.props);
     const isNodeRoute = Boolean(this.state.featureId);
-    const isEditMode = this.isEditMode();
     const isNodeToolbarVisible = this.state.feature && !this.state.isSearchToolbarExpanded;
 
     const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
@@ -448,7 +440,6 @@ class Loader extends React.Component<Props, State> {
       location: this.props.location,
 
       isNodeRoute,
-      isEditMode,
       isNodeToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
