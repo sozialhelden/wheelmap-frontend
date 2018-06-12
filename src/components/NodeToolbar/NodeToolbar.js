@@ -265,7 +265,7 @@ class NodeToolbar extends React.Component<Props, State> {
     const phoneNumber = properties.phoneNumber || properties.phone;
 
     // translator: Button caption shown in the place toolbar
-    const reportButtonCaption = t`Report an Issue`;
+    const reportButtonCaption = t`Edit`;
     const placeName = placeNameFor(get(this.props, 'feature.properties'), this.state.category);
 
     const openInMaps = generateMapsUrl(feature, placeName);
