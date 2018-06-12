@@ -18,7 +18,7 @@ esproposal.decorators=ignore
 suppress_type=$FlowFixMe
 
 [ignore]
-lib/.*
+<PROJECT_ROOT>/lib/.*
 vendor/.*
 .*/node_modules/styled-components/src/no-parser/.*
 .*/node_modules/styled-components/src/.*test.*
