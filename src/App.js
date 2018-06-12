@@ -158,16 +158,13 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-  async componentDidMount(): Promise<void> {
+  componentDidMount() {
     this.onHashUpdate();
     window.addEventListener('hashchange', this.onHashUpdate);
 
-    await loadExistingLocalizationByPreference()
+    loadExistingLocalizationByPreference()
       .then(() => this.setState({ isLocalizationLoaded: true }))
 
-    if (this.state.featureId && !this.state.feature) {
-      this.fetchFeature(this.state.featureId);
-    }
   }
 
   componentWillUnmount() {
@@ -207,14 +204,26 @@ class Loader extends React.Component<Props, State> {
     };
 
 
-    if (state.featureId !== routeInformation.featureId) {
+    if (state.featureId !== featureId) {
       // Store prevId in state so we can compare when props change.
-      result.featureId = routeInformation.featureId;
+      result.featureId = featureId;
       // Clear out previously-loaded data (so we don't render stale stuff).
       result.feature = null;
 
-      result.isSearchToolbarExpanded = false;
-      result.isSearchBarVisible = false;
+      if (isWheelmapFeatureId(featureId)) {
+        const feature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
+        Object.assign(result, {
+          feature,
+          lat: null,
+          lon: null,
+          zoom: null
+        });
+      }
+
+      if (isOnSmallViewport()) {
+        result.isSearchToolbarExpanded = false;
+        result.isSearchBarVisible = false;
+      }
     }
 
     const locationState = props.history.location.state;
@@ -254,16 +263,12 @@ class Loader extends React.Component<Props, State> {
 
   fetchFeature(featureId: string): void {
     const isWheelmap = isWheelmapFeatureId(featureId);
-    if (isWheelmap) {
-      const feature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
-      this.setState({ feature, lat: null, lon: null, zoom: null });
-    }
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     this._asyncRequest = cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
-      if (!feature) 
+      if (!feature)
         return;
       const currentlyShownId = getFeatureIdFromProps(this.props);
       const fetchedId = getFeatureId(feature);
