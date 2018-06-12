@@ -1,7 +1,7 @@
 import React from "react";
 
 const BreadcrumbChevron = props => (
-  <svg width="0.6em" height="1em" viewBox="0 0 30 44" className="breadcrumb-chevron" alt="" {...props}>
+  <svg viewBox="0 0 30 50" width="30px" height="50px" {...props}>
     <defs>
       <linearGradient
         x1="30.93%"
@@ -15,11 +15,19 @@ const BreadcrumbChevron = props => (
         <stop offset="100%" />
       </linearGradient>
     </defs>
-    <path
-      d="M14.375 43.375h-14v-43h14L26 21.5 14.375 43.375z"
-      fill="url(#a)"
-      fillRule="evenodd"
-    />
+    <g fill="none" fillRule="evenodd">
+      <path
+        fillOpacity={0.3}
+        fill="url(#a)"
+        d="M17.143 50H0V0h17.143l12.571 25z"
+        transform="translate(-9)"
+      />
+      <path
+        fillOpacity={0.2}
+        fill="#000"
+        d="M8.139 0h1.285l12.572 25L9.424 50H8.14L20.71 25z"
+      />
+    </g>
   </svg>
 );
 
