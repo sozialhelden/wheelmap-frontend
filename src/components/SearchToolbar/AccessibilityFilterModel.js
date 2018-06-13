@@ -1,6 +1,5 @@
 // @flow
 
-import isEqual from 'lodash/isEqual';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 export type PlaceFilterParams = {

@@ -11,13 +11,13 @@ import colors from '../../lib/colors';
 import IconButton from '../IconButton';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { getQueryParams, newLocationWithReplacedQueryParams } from '../../lib/queryParams';
 import { isFiltered } from '../../lib/Feature';
+import urlForFilters from './urlForFilters';
 
 
 type Props = {
   name: string,
-  id: string,
+  category: string,
   className: string,
   hidden: boolean,
   showCloseButton: boolean,
@@ -111,29 +111,19 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 
-function urlForFilters({ history, id, accessibilityFilter, toiletFilter, showCloseButton }) {
-  const queryParams = getQueryParams();
-  const hasStatusParameter = isFiltered(accessibilityFilter);
-  const hasToiletParameter = toiletFilter && toiletFilter.length;
-  const status = hasStatusParameter ? (accessibilityFilter || []).sort().join('.') : null;
-  const toilet = hasToiletParameter ? (toiletFilter || []).sort().join('.') : null;
-  const newQueryParams: { [string]: ?string } = Object.assign({}, queryParams, { status, toilet });
-  const location = newLocationWithReplacedQueryParams(history, newQueryParams);
-  location.pathname = showCloseButton ? `/beta` : `/beta/categories/${id}`;
-  return location;
-}
-
-
 export default function CategoryButton(props: Props) {
-  // const url = props.showCloseButton ? `/beta` : `/beta/categories/${props.id}`;
-  const url = urlForFilters(props);
+  const { history, category, accessibilityFilter, toiletFilter, showCloseButton } = props;
+  const url = urlForFilters({ history, accessibilityFilter, toiletFilter, category: showCloseButton ? null : category });
 
-  const shownAccessibilities = !props.showCloseButton && isFiltered(props.accessibilityFilter) ? props.accessibilityFilter : [];
+  let shownAccessibilities = accessibilityFilter;
+  if (showCloseButton || !isFiltered(accessibilityFilter)) {
+    shownAccessibilities = [];
+  }
 
   const icon = <CombinedIcon
     accessibilityFilter={shownAccessibilities}
-    toiletFilter={props.toiletFilter}
-    category={props.id || 'undefined'}
+    toiletFilter={toiletFilter}
+    category={category || 'undefined'}
     isMainCategory
     size="medium"
     ariaHidden={true}
@@ -142,22 +132,22 @@ export default function CategoryButton(props: Props) {
   return (<StyledNavLink
     activeClassName="active"
     to={url}
-    className={`${props.className} ${props.showCloseButton ? 'is-horizontal' : ''}`}
+    className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
     onFocus={(props.onFocus)}
     onBlur={props.onBlur}
     onKeyDown={props.onKeyDown}
     tabIndex={props.hidden ? -1 : 0}
     role="button"
-    aria-label={props.showCloseButton ? t`Remove ${props.name} Filter` : props.name}
+    aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
   >
     <IconButton
-      isHorizontal={props.showCloseButton}
+      isHorizontal={showCloseButton}
       caption={props.name}
       className="icon-button"
       hasCircle={props.hasCircle}
     >
       {icon}
     </IconButton>
-    {props.showCloseButton && <CloseIcon />}
+    {showCloseButton && <CloseIcon />}
   </StyledNavLink>);
 }
