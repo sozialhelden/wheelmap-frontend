@@ -1,20 +1,23 @@
 // @flow
 
-import styled from 'styled-components';
+import { t } from 'c-3po';
 import * as React from 'react';
+import styled from 'styled-components';
+
+import fetch from '../../../lib/fetch';
+import config from '../../../lib/config';
+import Categories from '../../../lib/Categories';
+import getIconNameForProperties from '../../Map/getIconNameForProperties';
+import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
+import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
+import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
+import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
+
+import Icon from '../../Icon';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
-import { t } from 'c-3po';
-import fetch from '../../../lib/fetch';
-import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
-import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
-import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
-import Icon from '../../Icon';
 
-import getIconNameForProperties from '../../Map/getIconNameForProperties';
-import Categories from '../../../lib/Categories';
 
 type Props = {
   featureId: number,
@@ -128,23 +131,34 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
     const featureId = this.props.featureId;
 
-    const formData = new FormData();
-    formData.append('wheelchair', value);
-    formData.append('_method', 'PUT');
+    let formData = null;
 
+    formData = new FormData();
+    formData.append('wheelchair', value);
     const options = {
-      method: 'POST',
-      body: formData,
+      method: 'PUT',
+      body: window.cordova ? { wheelchair: value } : formData,
       cordova: true,
+      serializer: 'urlencoded',
     };
 
-    wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
-    wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
+    if (wheelmapFeatureCache.getCachedFeature(String(featureId))) {
+      wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
+    }
+    if (wheelmapLightweightFeatureCache.getCachedFeature(String(featureId))) {
+      wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair: value });
+    }
 
-    fetch(`/nodes/${featureId}/update_wheelchair.js`, options);
-
-    if (typeof this.props.onSave === 'function') this.props.onSave(value);
-    if (typeof this.props.onClose === 'function') this.props.onClose();
+    fetch(`${config.wheelmapApiBaseUrl}/nodes/${featureId}/update_wheelchair.js`, options)
+      .then(() => {
+        setTimeout(() => {
+          if (typeof this.props.onSave === 'function') this.props.onSave(value);
+          if (typeof this.props.onClose === 'function') this.props.onClose();
+        });
+      })
+      .catch((e) => {
+        window.alert(t`Sorry, could not mark this place because of an error: ${e}`);
+      });
   }
 
   render() {
