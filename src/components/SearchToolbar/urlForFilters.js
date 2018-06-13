@@ -25,6 +25,6 @@ export default function urlForFilters({ history, category, accessibilityFilter, 
   Object.assign(newQueryParams, { status, toilet });
 
   const location = newLocationWithReplacedQueryParams(history, newQueryParams);
-  location.pathname = category ? `/beta/categories/${category}` : `/beta`;
+  location.pathname = (category && category !== 'undefined') ? `/beta/categories/${category}` : `/beta`;
   return location;
 }
