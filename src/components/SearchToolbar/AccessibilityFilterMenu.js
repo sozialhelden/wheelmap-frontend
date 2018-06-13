@@ -120,13 +120,6 @@ function AccessibilityFilterMenu(props: Props) {
             isMainCategory
             isActive={currentFilterKey}
             showCloseButton={shownFilterKeys.length === 1}
-            onKeyDown={({nativeEvent}) => {
-              const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
-              const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
-              if(tabPressedOnLastButton || shiftTabPressedOnFirstButton) {
-                props.onBlur();
-              }
-            }}
             history={props.history}
             key={key}
             className="accessibility-filter-button"
