@@ -24,12 +24,6 @@ type Props = PlaceFilter & {
   accessibilities: YesNoLimitedUnknown[],
 };
 
-type DefaultProps = {};
-
-type State = {
-  toiletCheckboxFocused: boolean,
-};
-
 
 const PositionedCloseButton = styled.button`
   position: absolute;
@@ -104,53 +98,42 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 }
 
 
-class AccessibilityFilterMenu extends React.Component<Props, State> {
-  static defaultProps: DefaultProps;
-  toolbar: ?React.ElementRef<typeof Toolbar>;
-  toiletCheckbox: ?React.ElementRef<'input'>;
-  closeButton: ?React.ElementRef<typeof CloseButton>;
+function AccessibilityFilterMenu(props: Props) {
+  const { accessibilityFilter, toiletFilter } = props;
+  const category = props.category || 'undefined';
+  const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
+  const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
+  const lastIndex = shownFilterKeys.length - 1;
 
-  state = {
-    toiletCheckboxFocused: false,
-  };
-
-  render() {
-    const { accessibilityFilter, toiletFilter } = this.props;
-    const category = this.props.category || 'undefined';
-    const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
-    const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
-    const lastIndex = shownFilterKeys.length - 1;
-
-    return (
-      <section
-        className={this.props.className}
-        aria-label={t`Wheelchair Accessibility Filter`}
-      >
-        <section className="accessibility-filter">
-          {shownFilterKeys.map((key, index) => (
-            <AccessibilityFilterButton
-              accessibilityFilter={availableFilters[key].accessibilityFilter}
-              toiletFilter={availableFilters[key].toiletFilter}
-              caption={availableFilters[key].caption}
-              category={category}
-              isMainCategory
-              isActive={currentFilterKey}
-              showCloseButton={shownFilterKeys.length === 1}
-              onKeyDown={({nativeEvent}) => {
-                const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
-                const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
-                if(tabPressedOnLastButton || shiftTabPressedOnFirstButton) {
-                  this.props.onBlur();
-                }
-              }}
-              history={this.props.history}
-              key={key}
-              className="accessibility-filter-button"
-            />))}
-        </section>
+  return (
+    <section
+      className={props.className}
+      aria-label={t`Wheelchair Accessibility Filter`}
+    >
+      <section className="accessibility-filter">
+        {shownFilterKeys.map((key, index) => (
+          <AccessibilityFilterButton
+            accessibilityFilter={availableFilters[key].accessibilityFilter}
+            toiletFilter={availableFilters[key].toiletFilter}
+            caption={availableFilters[key].caption}
+            category={category}
+            isMainCategory
+            isActive={currentFilterKey}
+            showCloseButton={shownFilterKeys.length === 1}
+            onKeyDown={({nativeEvent}) => {
+              const tabPressedOnLastButton = index === lastIndex && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey;
+              const shiftTabPressedOnFirstButton = index === 0 && nativeEvent.key === 'Tab' && nativeEvent.shiftKey;
+              if(tabPressedOnLastButton || shiftTabPressedOnFirstButton) {
+                props.onBlur();
+              }
+            }}
+            history={props.history}
+            key={key}
+            className="accessibility-filter-button"
+          />))}
       </section>
-    );
-  }
+    </section>
+  );
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
