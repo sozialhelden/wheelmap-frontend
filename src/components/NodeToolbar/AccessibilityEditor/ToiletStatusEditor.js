@@ -1,17 +1,19 @@
 // @flow
 
-import fetch from '../../../lib/fetch';
-import { currentLocales } from '../../../lib/i18n';
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'c-3po';
-import CloseLink from '../../CloseLink';
+
+import fetch from '../../../lib/fetch';
+import colors from '../../../lib/colors';
+import config from '../../../lib/config';
+import { currentLocales } from '../../../lib/i18n';
 import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
-import colors from '../../../lib/colors';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 
+import CloseLink from '../../CloseLink';
 
 type Props = {
   featureId: number,
@@ -94,21 +96,31 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
     const formData = new FormData();
     formData.append('toilet', value);
-    formData.append('_method', 'PUT');
 
     const options = {
-      method: 'POST',
-      body: formData,
+      method: 'PUT',
+      body: window.cordova ? { toilet: value } : formData,
       cordova: true,
+      serializer: 'urlencoded',
     };
 
-    wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
-    wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
+    if (wheelmapFeatureCache.getCachedFeature(String(featureId))) {
+      wheelmapFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
+    }
+    if (wheelmapLightweightFeatureCache.getCachedFeature(String(featureId))) {
+      wheelmapLightweightFeatureCache.updateFeatureAttribute(String(featureId), { wheelchair_toilet: value });
+    }
 
-    fetch(`/nodes/${featureId}/update_toilet.js`, options);
-
-    if (typeof this.props.onSave === 'function') this.props.onSave(value);
-    if (typeof this.props.onClose === 'function') this.props.onClose();
+    fetch(`${config.wheelmapApiBaseUrl}/nodes/${featureId}/update_toilet.js`, options)
+      .then(() => {
+        setTimeout(() => {
+          if (typeof this.props.onClose === 'function') this.props.onClose();
+          if (typeof this.props.onSave === 'function') this.props.onSave(value);
+        }, 50);
+      })
+      .catch((e) => {
+        window.alert(t`Sorry, could not mark this place because of an error: ${e}`);
+      });
   }
 
   trapFocus({nativeEvent}) {
