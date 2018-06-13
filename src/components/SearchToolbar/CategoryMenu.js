@@ -49,7 +49,7 @@ export default function CategoryMenu(props: Props) {
 
   return (
     <Container className="category-menu">
-      {Object.keys(names).map((id, index) => (<CategoryButton
+      {Object.keys(names).map((category, index) => (<CategoryButton
         hidden={props.hidden}
         history={props.history}
         onFocus={props.onFocus}
@@ -64,10 +64,10 @@ export default function CategoryMenu(props: Props) {
             props.onBlur();
           }
         }}
-        key={id}
+        key={category}
         className="category-button"
-        name={names[id]}
-        id={id}
+        name={names[category]}
+        category={category}
       />))}
     </Container>
   );
