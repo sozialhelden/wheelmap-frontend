@@ -31,7 +31,7 @@ const env = getClientEnvironment(publicUrl);
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for development.
 if (env.stringified['process.env'].NODE_ENV !== '"development"') {
-  throw new Error('Cordova builds must have NODE_ENV=development.');
+  throw new Error(`Cordova builds must have NODE_ENV=development but found ${env.stringified['process.env'].NODE_ENV}`);
 }
 
 // Note: defined here because it will be used more than once.
@@ -59,7 +59,7 @@ module.exports = {
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
     // The build folder.
-    path: paths.appBuildCordova,
+    path: paths.appBuild,
     // Generated JS file names (with nested folders).
     // There will be one main bundle, and one file per asynchronous chunk.
     // We don't currently advertise code splitting but Webpack supports it.
