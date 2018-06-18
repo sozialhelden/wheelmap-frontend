@@ -232,6 +232,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
     if (searchFieldShouldBecomeFocused) {
       this.focus();
     }
+
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      this.sendSearchRequest(this.props.searchQuery);
+    }
   }
 
   ensureFullVisibility() {
@@ -240,7 +244,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  sendSearchRequest(query: string): void {
+  sendSearchRequest(query: ?string): void {
     if (!query || query.length < 3) {
       this.setState({ searchResults: null, isLoading: false });
       return;
