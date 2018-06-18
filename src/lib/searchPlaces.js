@@ -29,9 +29,8 @@ export type SearchResultFeature = {
 
 export type SearchResultCollection = {
   features: SearchResultFeature[],
+  error?: Error,
 };
-
-
 
 let queryIndex: number = 0;
 
@@ -67,5 +66,8 @@ export default function searchPlaces(query: string, { lat, lon }: { lat?: ?numbe
       return null;
     }
     return response.json();
+  }).catch(error => {
+    // handle error & forward to results
+    return {features: [], error };
   });
 }

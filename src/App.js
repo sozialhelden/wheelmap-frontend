@@ -224,6 +224,10 @@ class Loader extends React.Component<Props, State> {
       }
     }
 
+    if (searchQuery && searchQuery.length > 0) {
+      result.isSearchBarVisible = true;
+    }
+
     if (featureIdHasChanged || equipmentIdHasChanged) {
       result.isSearchToolbarExpanded = false;
       if (category || isFiltered(accessibilityFilter)) {
