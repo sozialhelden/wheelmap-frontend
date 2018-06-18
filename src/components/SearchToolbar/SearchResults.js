@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
+import colors from '../../lib/colors';
 
 import SearchResult from './SearchResult';
 
@@ -83,7 +84,7 @@ const StyledSearchResults = styled(SearchResults)`
     overflow: hidden;
     padding: 20px;
     font-weight: 400;
-    background-color: #ffbab2;
+    background-color: ${colors.negativeBackgroundColorTransparent};
   }
 
   .osm-category-place-borough,
