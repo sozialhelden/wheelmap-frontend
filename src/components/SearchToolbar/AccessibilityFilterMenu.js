@@ -4,9 +4,7 @@ import { t } from 'c-3po';
 import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
-import CloseIcon from '../icons/actions/Close';
 import type { RouterHistory } from 'react-router-dom';
-import Toolbar from '../Toolbar';
 import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
@@ -23,25 +21,6 @@ type Props = PlaceFilter & {
   category: string,
   accessibilities: YesNoLimitedUnknown[],
 };
-
-
-const PositionedCloseButton = styled.button`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  padding: 5px;
-  padding: 10px;
-  border: none;
-  background-color: rgba(0, 0, 0, 0);
-  cursor: pointer;
-`;
-
-
-const CloseButton = ({onClick, onKeyDown, closeButtonRef, ...restProps}) =>
-  <PositionedCloseButton innerRef={closeButtonRef} onClick={onClick} onKeyDown={onKeyDown} aria-label={t`Close Dialog`}>
-    <CloseIcon {...restProps} />
-  </PositionedCloseButton>;
-
 
 const availableFilters = {
   // all: {
@@ -103,7 +82,6 @@ function AccessibilityFilterMenu(props: Props) {
   const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
-  const lastIndex = shownFilterKeys.length - 1;
 
   return (
     <section

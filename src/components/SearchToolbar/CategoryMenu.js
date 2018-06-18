@@ -44,7 +44,6 @@ type Props = {
 
 export default function CategoryMenu(props: Props) {
   const names = props.category ? { [props.category]: Categories.translatedWheelmapRootCategoryName(props.category) } : translatedRootCategoryNames;
-  const lastIndex = Object.keys(names).length - 1;
   const showCloseButton = Boolean(props.category);
 
   return (

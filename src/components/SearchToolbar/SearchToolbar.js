@@ -408,7 +408,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
     const {
       isLoading,
       searchResults,
-      searchFieldIsFocused,
     } = this.state;
 
     let contentBelowSearchField = null;
