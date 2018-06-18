@@ -25,8 +25,8 @@ export function generateBingMapsUrl(feature: Feature, placeName: string) {
 
 export function generateMapsUrl(feature: Feature, placeName: string) {
   const isBingMaps = navigator.appVersion.match(/Win/);
-  const isAppleMaps = navigator.appVersion.match(/Mac/) ||
-    ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform);
+  const isAppleMaps = navigator.platform.match(/Mac/) ||
+    ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
 
   if (isBingMaps) {
     // translator: Button caption shown in the place toolbar
