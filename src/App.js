@@ -226,11 +226,12 @@ class Loader extends React.Component<Props, State> {
 
     if (searchQuery && searchQuery.length > 0) {
       result.isSearchBarVisible = true;
-    }
-
-    if (featureIdHasChanged || equipmentIdHasChanged) {
+      result.isSearchToolbarExpanded = true;
+    } else if (featureIdHasChanged || equipmentIdHasChanged) {
       result.isSearchToolbarExpanded = false;
-      if (category || isFiltered(accessibilityFilter)) {
+
+      // always minify search bar on small viewport or when filtered
+      if (state.isOnSmallViewport || category || isFiltered(accessibilityFilter)) {
         result.isSearchBarVisible = false;
       }
     }
