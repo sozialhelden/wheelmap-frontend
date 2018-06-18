@@ -479,7 +479,6 @@ class Loader extends React.Component<Props, State> {
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isNotFoundVisible: this.state.isNotFoundVisible,
-      isEditMode: this.state.isEditMode,
       isReportMode: this.state.isReportMode,
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isSearchBarVisible: this.state.isSearchBarVisible,
