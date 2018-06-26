@@ -175,7 +175,7 @@ class Loader extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // this.manageFocus(prevProps, prevState);
+    this.manageFocus(prevProps, prevState);
     if (!this.state.feature && this.state.featureId) {
       this.fetchFeature(this.state.featureId);
     }
@@ -295,36 +295,44 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
+
   // TODO: Re-enable and adapt this when UX flows are stable again
 
-  // manageFocus(prevProps: Props, prevState: State) {
-  //   // focus to and from nodeToolbar
-  //   let wasNodeToolbarDisplayed: boolean;
-  //   let isNodeToolbarDisplayed: boolean;
+  manageFocus(prevProps: Props, prevState: State) {
+    const prevFeatureId = getFeatureIdFromProps(prevProps);
+    const featureId = getFeatureIdFromProps(this.props);
+    const featureIdHasChanged = prevFeatureId !== featureId;
 
-  //   const featureId = getFeatureIdFromProps(this.props);
-  //   const isNodeRoute = Boolean(featureId);
-  //   const { isLocalizationLoaded } = this.state;
-  //   isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded;
+    const wasNodeToolbarDisplayed = this.isNodeToolbarDisplayed(prevState);
+    const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed(this.state);
+    const wasSearchToolbarDisplayed = prevState.isSearchBarVisible;
+    const isSearchToolbarDisplayed = this.state.isSearchBarVisible;
 
-  //   const prevFeatureId = getFeatureIdFromProps(prevProps);
-  //   const wasNodeRoute = Boolean(prevFeatureId);
-  //   const { isLocalizationLoaded: wasLocalizationLoaded } = prevState;
-  //   wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded;
+    const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
+    const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
+    const searchToolbarDidDisappear = wasSearchToolbarDisplayed && !isSearchToolbarDisplayed;
+    const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
 
-  //   const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
-  //   const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
-  //   const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
+    if ((nodeToolbarDidDisappear || searchToolbarDidDisappear)) {
+      console.log('Focusing', this.lastFocusedElement);
+      window.document.activeElement.blur();
+      if (this.lastFocusedElement) this.lastFocusedElement.focus();
+    }
 
-  //   if (nodeToolbarDidDisappear && this.lastFocusedElement) {
-  //     this.lastFocusedElement.focus();
-  //   }
+    if ((nodeToolbarDidAppear || featureIdHasChanged) && this.mainView.nodeToolbar) {
+      this.lastFocusedElement = document.activeElement;
+      console.log('Saving last focused element:', this.lastFocusedElement);
+      console.log('Focusing', this.mainView.nodeToolbar);
+      this.mainView.nodeToolbar.focus();
+    }
 
-  //   if ((nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) && this.nodeToolbar) {
-  //     this.lastFocusedElement = document.activeElement;
-  //     this.nodeToolbar.focus();
-  //   }
-  // }
+    if (searchToolbarDidAppear && this.mainView.searchToolbar) {
+      this.lastFocusedElement = document.activeElement;
+      console.log('Saving last focused element:', this.lastFocusedElement);
+      console.log('Focusing', this.mainView.searchToolbar);
+      this.mainView.searchToolbar.focus();
+    }
+  }
 
 
   openSearch() {
@@ -451,10 +459,14 @@ class Loader extends React.Component<Props, State> {
     });
   };
 
+  isNodeToolbarDisplayed(state = this.state) {
+    return state.feature && !state.isSearchToolbarExpanded;
+  }
+
   render() {
     const isNodeRoute = Boolean(this.state.featureId);
     const isEditMode = this.isEditMode();
-    const isNodeToolbarVisible = this.state.feature && !this.state.isSearchToolbarExpanded;
+    const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
     const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
@@ -466,7 +478,7 @@ class Loader extends React.Component<Props, State> {
 
       isNodeRoute,
       isEditMode,
-      isNodeToolbarVisible,
+      isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
       
@@ -484,9 +496,9 @@ class Loader extends React.Component<Props, State> {
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isNotFoundVisible: this.state.isNotFoundVisible,
+      isSearchBarVisible: this.state.isSearchBarVisible,
       isReportMode: this.state.isReportMode,
       isLocalizationLoaded: this.state.isLocalizationLoaded,
-      isSearchBarVisible: this.state.isSearchBarVisible,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
     }
