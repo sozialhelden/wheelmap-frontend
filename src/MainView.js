@@ -194,35 +194,17 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
-  // manageFocus(prevProps: Props, prevState: State) {
-  //   // focus to and from nodeToolbar
-  //   let wasNodeToolbarDisplayed: boolean;
-  //   let isNodeToolbarDisplayed: boolean;
+  focusNodeToolbar() {
+    if (this.nodeToolbar) {
+      this.nodeToolbar.focus();
+    }
+  }
 
-  //   const featureId = this.props.featureId;
-  //   const isNodeRoute = Boolean(featureId);
-  //   const { isLocalizationLoaded } = this.props;
-  //   isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded;
-
-  //   const prevFeatureId = prevProps.featureId;
-  //   const wasNodeRoute = Boolean(prevFeatureId);
-  //   const { isLocalizationLoaded: wasLocalizationLoaded } = prevProps;
-  //   wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded;
-
-  //   const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
-  //   const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
-  //   const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
-
-  //   if (nodeToolbarDidDisappear && this.lastFocusedElement) {
-  //     this.lastFocusedElement.focus();
-  //   }
-
-  //   if ((nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) && this.nodeToolbar) {
-  //     this.lastFocusedElement = document.activeElement;
-  //     this.nodeToolbar.focus();
-  //   }
-  // }
-
+  focusMap() {
+    if (this.map) {
+      this.map.focus();
+    }
+  }
 
   renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }: $Shape<Props>, isNodeRoute: boolean) {
     return <div className="node-toolbar">
