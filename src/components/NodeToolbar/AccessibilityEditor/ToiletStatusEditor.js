@@ -44,7 +44,7 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
-    this.unknownButton.focus();
+    this.noButton.focus();
   }
 
   componentWillUnmount() {
