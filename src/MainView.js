@@ -75,7 +75,7 @@ type Props = {
   onResetCategory: (() => void),
   onClickSearchToolbar: (() => void),
   onCloseSearchToolbar: (() => void),
-  onClickSearchButton: (() => void),
+  onClickSearchButton: ((event: UIEvent) => void),
   onCloseNotFoundDialog: (() => void),
   onToggleMainMenu: (() => void),
   onClickFullscreenBackdrop: (() => void),
@@ -276,7 +276,7 @@ class MainView extends React.Component<Props, State> {
 
   renderSearchButton() {
     return <SearchButton
-      onClick={this.props.onClickSearchButton}
+      onClick={(event) => setTimeout(() => this.props.onClickSearchButton(event), 10)}
       category={this.props.category}
       toiletFilter={this.props.toiletFilter}
       accessibilityFilter={this.props.accessibilityFilter}
