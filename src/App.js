@@ -394,6 +394,7 @@ class Loader extends React.Component<Props, State> {
   onMapClick = () => {
     this.closeSearch();
     this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
+    this.mainView.focusMap();
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -431,7 +432,7 @@ class Loader extends React.Component<Props, State> {
       isReportMode: false,
     });
     if (this.isEditMode()) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
+      this.props.history.push(`/nodes/${String(this.state.featureId)}`);
     }
   };
 
@@ -457,6 +458,7 @@ class Loader extends React.Component<Props, State> {
       isSearchBarVisible: hasBigViewport(),
       isSearchToolbarExpanded: false,
     });
+    if (this.mainView) this.mainView.focusMap();
   };
 
   isNodeToolbarDisplayed(state = this.state) {
