@@ -69,6 +69,10 @@ const StyledSearchButton = styled(SearchButton)`
   width: auto;
   max-width: calc(100vw - 80px);
   min-height: 50px;
+  margin-top: constant(safe-area-inset-top);
+  margin-top: env(safe-area-inset-top);
+  margin-left: constant(safe-area-inset-left);
+  margin-left: env(safe-area-inset-left);
 
   .breadcrumb-chevron {
     width: 24px;
