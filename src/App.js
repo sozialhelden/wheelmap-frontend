@@ -292,34 +292,34 @@ class Loader extends React.Component<Props, State> {
 
   // TODO: Re-enable and adapt this when UX flows are stable again
 
-  // manageFocus(prevProps: Props, prevState: State) {
-  //   // focus to and from nodeToolbar
-  //   let wasNodeToolbarDisplayed: boolean;
-  //   let isNodeToolbarDisplayed: boolean;
+  manageFocus(prevProps: Props, prevState: State) {
+    // focus to and from nodeToolbar
+    let wasNodeToolbarDisplayed: boolean;
+    let isNodeToolbarDisplayed: boolean;
 
-  //   const featureId = getFeatureIdFromProps(this.props);
-  //   const isNodeRoute = Boolean(featureId);
-  //   const { isLocalizationLoaded } = this.state;
-  //   isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded;
+    const featureId = getFeatureIdFromProps(this.props);
+    const isNodeRoute = Boolean(featureId);
+    const { isLocalizationLoaded } = this.state;
+    isNodeToolbarDisplayed = isNodeRoute && isLocalizationLoaded;
 
-  //   const prevFeatureId = getFeatureIdFromProps(prevProps);
-  //   const wasNodeRoute = Boolean(prevFeatureId);
-  //   const { isLocalizationLoaded: wasLocalizationLoaded } = prevState;
-  //   wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded;
+    const prevFeatureId = getFeatureIdFromProps(prevProps);
+    const wasNodeRoute = Boolean(prevFeatureId);
+    const { isLocalizationLoaded: wasLocalizationLoaded } = prevState;
+    wasNodeToolbarDisplayed = wasNodeRoute && wasLocalizationLoaded;
 
-  //   const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
-  //   const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
-  //   const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
+    const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
+    const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
+    const nodeToolbarIsDiplayedAndDidUpdate = isNodeToolbarDisplayed && prevFeatureId !== featureId;
 
-  //   if (nodeToolbarDidDisappear && this.lastFocusedElement) {
-  //     this.lastFocusedElement.focus();
-  //   }
+    if (nodeToolbarDidDisappear && this.lastFocusedElement) {
+      this.lastFocusedElement.focus();
+    }
 
-  //   if ((nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) && this.nodeToolbar) {
-  //     this.lastFocusedElement = document.activeElement;
-  //     this.nodeToolbar.focus();
-  //   }
-  // }
+    if ((nodeToolbarDidAppear || nodeToolbarIsDiplayedAndDidUpdate) && this.nodeToolbar) {
+      this.lastFocusedElement = document.activeElement;
+      this.mainView.focusNodeToolbar();
+    }
+  }
 
 
   openSearch() {
@@ -381,6 +381,7 @@ class Loader extends React.Component<Props, State> {
   onMapClick = () => {
     this.closeSearch();
     this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
+    this.mainView.focusMap();
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -418,7 +419,7 @@ class Loader extends React.Component<Props, State> {
       isReportMode: false,
     });
     if (this.isEditMode()) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
+      this.props.history.push(`/nodes/${String(this.state.featureId)}`);
     }
   };
 
@@ -444,6 +445,7 @@ class Loader extends React.Component<Props, State> {
       isSearchBarVisible: hasBigViewport(),
       isSearchToolbarExpanded: false,
     });
+    if (this.mainView) this.mainView.focusMap();
   };
 
   render() {
