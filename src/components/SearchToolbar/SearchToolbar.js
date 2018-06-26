@@ -143,10 +143,10 @@ const StyledToolbar = styled(Toolbar)`
     right: 0;
     left: 0;
     margin: 0;
-    padding-right: max(constant(safe-area-inset-right), 15px);
-    padding-left: max(constant(safe-area-inset-left), 15px);
-    padding-right: max(env(safe-area-inset-right), 15px);
-    padding-left: max(env(safe-area-inset-left), 15px);
+    padding-right: max(constant(safe-area-inset-right), 0px);
+    padding-left: max(constant(safe-area-inset-left), 0px);
+    padding-right: max(env(safe-area-inset-right), 0px);
+    padding-left: max(env(safe-area-inset-left), 0px);
     margin-top: constant(safe-area-inset-top);
     margin-top: env(safe-area-inset-top);
     transform: translate3d(0, 0, 0) !important;

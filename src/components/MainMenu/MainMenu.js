@@ -425,6 +425,9 @@ const StyledMainMenu = styled(MainMenu)`
     &, button.menu {
       height: 44px;
     }
+    &.is-open {
+      height: auto;
+    }
   }
 
   @keyframes fadeIn {

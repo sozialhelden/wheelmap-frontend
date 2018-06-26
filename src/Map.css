@@ -480,6 +480,8 @@ body:not(.is-touch-device) .zoom-info-block::after {
     top: unset;
     right: unset;
     bottom: 30px;
+    margin-bottom: constant(safe-area-inset-bottom);
+    margin-bottom: env(safe-area-inset-bottom);
     left: 50%;
     transform-origin: center center;
     transform: translate(-50%, 0);
