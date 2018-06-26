@@ -150,9 +150,6 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     // translator: Caption for the ‘no’ radio button (while marking toilet status)
     const noCaption = t`No`;
 
-    // translator: Caption for the ‘I don’t know’ radio button (while marking toilet status)
-    const unknownCaption = t`I don’t know`;
-
     // translator: Caption for the ‘no toilet’ radio button (while marking toilet status)
     const noToiletCaption = t`No toilet`;
 
@@ -179,15 +176,6 @@ class ToiletStatusEditor extends React.Component<Props, State> {
           />}
 
         <footer>
-          <button
-            className="link-button unknown"
-            onClick={() => this.save('unknown')}
-            ref={unknownButton => this.unknownButton = unknownButton}
-            onKeyDown={this.trapFocus}
-            >
-              {unknownCaption}
-          </button>
-
           <button
             className="link-button yes"
             onClick={() => this.save('yes')}
