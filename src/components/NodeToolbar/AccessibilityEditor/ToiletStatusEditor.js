@@ -36,28 +36,21 @@ class ToiletStatusEditor extends React.Component<Props, State> {
     toiletAccessibility: 'unknown',
   };
 
-  constructor(props) {
-    super(props);
-    this.trapFocus = this.trapFocus.bind(this);
-    this.escapeHandler = this.escapeHandler.bind(this);
-  }
+  noButton: ?HTMLButtonElement;
+  yesButton: ?HTMLButtonElement;
+  noToiletButton: ?HTMLButtonElement;
+  backButton: ?HTMLButtonElement;
+  closeButton: ?HTMLButtonElement;
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
-    this.noButton.focus();
+    if (this.noButton) {
+      this.noButton.focus();
+    }
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.escapeHandler);
-  }
-
-  escapeHandler(event) {
-    if (event.key === 'Escape') {
-      if (typeof this.props.onClose === 'function') {
-        this.props.onClose();
-        event.preventDefault();
-      }
-    }
   }
 
   toiletAccessibility(props: Props = this.props): ?YesNoUnknown {
@@ -123,15 +116,24 @@ class ToiletStatusEditor extends React.Component<Props, State> {
       });
   }
 
-  trapFocus({nativeEvent}) {
+  escapeHandler = (event: KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose();
+        event.preventDefault();
+      }
+    }
+  }
+
+  trapFocus = ({nativeEvent}) => {
     // allow looping through elements
-    if (nativeEvent.target === this.unknownButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+    if (nativeEvent.target === this.yesButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.backButton.focus();
+      if (this.backButton) this.backButton.focus();
     }
     if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.unknownButton.focus();
+      if (this.yesButton) this.yesButton.focus();
     }
   }
 
