@@ -6,7 +6,7 @@ import includes from 'lodash/includes';
 import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
 import type { RouterHistory, Location } from 'react-router-dom';
-import { BrowserRouter, HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 
 import { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
@@ -517,8 +517,7 @@ class Loader extends React.Component<Props, State> {
 
 
 function App() {
-  const Router = window.cordova ? HashRouter : BrowserRouter;
-  // const Router = HashRouter;
+  const Router = window.cordova ? MemoryRouter : BrowserRouter;
 
   return (<Router>
     <Route path="/" component={Loader} />
