@@ -40,6 +40,36 @@ type State = {
 }
 
 
+const StyledIconButton = styled(IconButton)`
+  flex-direction: column;
+
+  .caption {
+    font-size: 80%;
+    margin-top: 0.3em;
+  }
+  .circle {
+    background-color: ${colors.tonedDownSelectedColor};
+  }
+  &.active {
+    font-weight: bold;
+    .circle {
+      background-color: ${props => props.activeColor || colors.selectedColor};
+    }
+  }
+  @media (hover), (-moz-touch-enabled: 0) {
+    &:not(.active):hover .circle {
+      background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+    }
+  }
+  &:focus {
+    outline: none;
+    .circle {
+      background-color: ${colors.selectedColor};
+    }
+  }
+`;
+
+
 class ExpandableShareButtons extends React.Component<Props, State> {
   props: Props;
 
@@ -135,33 +165,33 @@ class ExpandableShareButtons extends React.Component<Props, State> {
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
         <FacebookShareButton url={url} quote={pageDescription}>
-          <IconButton hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
+          <StyledIconButton isHorizontal={false} hasCircle={true} hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
             <FacebookIcon />
-          </IconButton>
+          </StyledIconButton>
         </FacebookShareButton>
 
         <TwitterShareButton url={url} title={sharedObjectTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
-          <IconButton hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
+          <StyledIconButton isHorizontal={false} hasCircle={true} hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
             <TwitterIcon />
-          </IconButton>
+          </StyledIconButton>
         </TwitterShareButton>
 
         <TelegramShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
+          <StyledIconButton isHorizontal={false} hasCircle={true} hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
             <TelegramIcon />
-          </IconButton>
+          </StyledIconButton>
         </TelegramShareButton>
 
         <a href={mailToLink}>
-          <IconButton hoverColor={'#57C4AA'} activeColor={'#57C4AA'} caption="Email" ariaLabel="Email">
+          <StyledIconButton isHorizontal={false} hasCircle={true} hoverColor={'#57C4AA'} activeColor={'#57C4AA'} caption="Email" ariaLabel="Email">
             <EmailIcon />
-          </IconButton>
+          </StyledIconButton>
         </a>
 
         <WhatsappShareButton url={url} title={sharedObjectTitle}>
-          <IconButton hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
+          <StyledIconButton isHorizontal={false} hasCircle={true} hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
             <WhatsAppIcon />
-          </IconButton>
+          </StyledIconButton>
         </WhatsappShareButton>
       </footer>
     </div>);
@@ -214,29 +244,6 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
       background-color: ${colors.linkBackgroundColorTransparent};
       outline: none;
       border: none;
-    }
-
-    .icon-button {
-      .circle {
-        background-color: ${colors.tonedDownSelectedColor};
-      }
-      &.active {
-        font-weight: bold;
-        .circle {
-          background-color: ${props => props.activeColor || colors.selectedColor};
-        }
-      }
-      @media (hover), (-moz-touch-enabled: 0) {
-        &:not(.active):hover .circle {
-          background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
-        }
-      }
-      &:focus {
-        outline: none;
-        .circle {
-          background-color: ${colors.selectedColor};
-        }
-      }
     }
 
     svg {
