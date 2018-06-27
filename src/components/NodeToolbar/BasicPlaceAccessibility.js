@@ -53,9 +53,23 @@ function BasicAccessibility(props) {
 }
 
 const StyledBasicAccessibility = styled(BasicAccessibility)`
+  margin: 0 -0.5em;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  position: relative;
 
+  &:before {
+    display: block;
+    position: absolute;
+    content: " ";
+    top: -8px;
+    left: 1em;
+    width: 12px;
+    height: 8px;
+    background: url(../NoseDetailsContainer.svg) no-repeat;
+  }
+  
   > * {
     margin: 1em 0em;
   }
@@ -86,16 +100,16 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     &.accessibility-toilet span {
       display: flex;
       flex-direction: row-reverse;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
 
       svg {
         margin-right: 0.5em;
       }
 
-      .span {
-        color: red;
-        margin-left: 0.5em;  
+      span {
+        font-weight: bold;
+        color: ${colors.positiveColorDarker};
       }
     }
     color: rgba(0, 0, 0, 0.6);
