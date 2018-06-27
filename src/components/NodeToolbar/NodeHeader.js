@@ -27,14 +27,19 @@ import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/Equipment
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
+
+  a.place-website-url,
+  a.phone-number.link-button {
+    margin-left: 2em;
+  }
    
   a.place-website-url {
     display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    margin-left: 2em;
   }
+
   
   .description {
     word-break: break-word;
