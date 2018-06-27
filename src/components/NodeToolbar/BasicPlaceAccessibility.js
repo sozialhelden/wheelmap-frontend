@@ -47,13 +47,14 @@ function BasicAccessibility(props) {
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   return (<summary className={`basic-accessibility ${props.className}`}>
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
+    <footer className='accessibility-description'><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
     <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
-    <footer><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
   </summary>);
 }
 
 const StyledBasicAccessibility = styled(BasicAccessibility)`
-  padding-bottom: 10px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
 
   > * {
     margin: 1em 0em;
@@ -63,6 +64,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
   }
 
   header {
+    margin: 0.25em 0 0 0;
     &.accessibility-wheelchair {
       font-weight: bold;
     }
@@ -78,11 +80,23 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
   }
 
   footer {
+    &.accessibility-description {
+      margin-top: 0.25em;
+    }
     &.accessibility-toilet span {
       display: flex;
-      flex-direction: row;
+      flex-direction: row-reverse;
       justify-content: space-between;
       align-items: center;
+
+      svg {
+        margin-right: 0.5em;
+      }
+
+      .span {
+        color: red;
+        margin-left: 0.5em;  
+      }
     }
     color: rgba(0, 0, 0, 0.6);
   }

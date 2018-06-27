@@ -26,25 +26,28 @@ import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/Equipment
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
-
+   
   a.place-website-url {
     display: block;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-left: 2em;
   }
-
+  
   .description {
     word-break: break-word;
   }
-
+  
   address {
-    margin-bottom: 0.5em;
+    /* margin-bottom: 0.5em; */
+    margin-left: 2.6em;
   }
 `;
 
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
+  margin-left: 2.6em;
   margin-bottom: 0.5em;
 `;
 
