@@ -329,7 +329,6 @@ const StyledToolbar = styled(Toolbar)`
     outline: none;
   }
 
-
   @media (max-width: 512px) {
     width: calc(100% - 20px);
     min-width: 250px;
@@ -360,7 +359,6 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
   }
-
 
   .link-button {
     display: block;

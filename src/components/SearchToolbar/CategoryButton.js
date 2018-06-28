@@ -81,7 +81,7 @@ const StyledNavLink = styled(NavLink)`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1em;
+    padding: 0 1em 0 1.3em;
     min-height: 3rem;
     .icon-button {
       flex: 1;

@@ -48,9 +48,9 @@ function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessib
 }
 
 const PositionedCloseLink = styled(CloseLink)`
-  top: 5px;
   margin: -5px -16px -2px -2px; /* move close button to the same position as in search toolbar */
 `;
+PositionedCloseLink.displayName = 'PositionedCloseLink';
 
 type Props = {
   feature: ?Feature,

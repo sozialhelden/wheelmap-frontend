@@ -15,6 +15,7 @@ import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 
 import { categoryNameFor } from '../../lib/Categories';
 import Icon from '../Icon';
+import Address from './Address';
 import PlaceName from '../PlaceName';
 import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
@@ -27,6 +28,11 @@ import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/Equipment
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
 
+  a.place-website-url,
+  a.phone-number.link-button {
+    margin-left: 2em;
+  }
+   
   a.place-website-url {
     display: block;
     overflow: hidden;
@@ -34,17 +40,20 @@ const StyledNodeHeader = styled.header`
     text-overflow: ellipsis;
   }
 
+  
   .description {
     word-break: break-word;
   }
-
+  
   address {
-    margin-bottom: 0.5em;
+    /* margin-bottom: 0.5em; */
+    margin-left: 2.6em;
   }
 `;
 
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
+  margin-left: 2.6em;
   margin-bottom: 0.5em;
 `;
 
@@ -164,7 +173,7 @@ export default class NodeHeader extends React.Component<Props, void> {
       <StyledNodeHeader>
         {placeNameElement}
         {categoryElement}
-        {addressString ? <address role="none">{addressString}</address> : null }
+        {addressString ? <Address role="none">{addressString}</Address> : null }
         {sourceLinks}
         {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
         {descriptionElement}

@@ -29,7 +29,6 @@ const StyledFooter = styled.footer`
     }
   }
 
-
   .edit-hint {
     margin: -10px;
     padding: 0.25em 0.5em;
