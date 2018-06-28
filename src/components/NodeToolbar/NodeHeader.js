@@ -39,8 +39,11 @@ const StyledNodeHeader = styled.header`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    padding-left: 0;
     padding-bottom: 0;
+  }
+
+  a.place-website-url, a.phone-number {
+    padding-left: 0;
   }
 
   
