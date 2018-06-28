@@ -18,6 +18,8 @@ const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
 
 const StyledFooter = styled.footer`
+  margin-top: 1rem;
+
   @keyframes slideIn {
     0% {
       opacity: 0;

@@ -44,16 +44,21 @@ function BasicAccessibility(props) {
     return null;
   }
 
+  const toiletAccessibilityIsKnown = toiletAccessibility !== 'unknown';
+  const description: ?string = props.properties.wheelchair_description;
+  const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
+
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   return (<summary className={`basic-accessibility ${props.className}`}>
     <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
     <footer className='accessibility-description'><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
-    <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer>
+    { toiletAccessibilityIsKnown && <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer> }
+    { description && descriptionElement }
   </summary>);
 }
 
 const StyledBasicAccessibility = styled(BasicAccessibility)`
-  margin: 0 -0.5em;
+  margin: 1rem -0.5rem;
   padding: 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 4px;
@@ -71,14 +76,19 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
   }
   
   > * {
-    margin: 1em 0em;
+    margin: 1rem 0;
   }
   > *:last-child {
-    margin-bottom: inherit;
+    margin-bottom: 0;
   }
 
   header {
-    margin: 0.25em 0 0 0;
+    :first-child {
+      margin: 0;
+    }
+    &:not(:first-child) {
+      margin: 0.25rem 0 0 0;
+    }
     &.accessibility-wheelchair {
       font-weight: bold;
     }
@@ -95,7 +105,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
 
   footer {
     &.accessibility-description {
-      margin-top: 0.25em;
+      margin-top: 0.25rem;
     }
     &.accessibility-toilet span {
       display: flex;
@@ -104,7 +114,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
       align-items: center;
 
       svg {
-        margin-right: 0.5em;
+        margin-right: 0.5rem;
       }
 
       span {
