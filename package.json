@@ -128,7 +128,7 @@
     "deploy-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "deploy-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",
     "deploy-ios-beta": "npm version patch; bundle exec fastlane ios beta --env=production",
-    "deploy-android-beta": "npm version patch; bundle exec fastlane android beta --env=production",
+    "deploy-android-beta": "npm version patch; CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\\://services.gradle.org/distributions/gradle-4.4-all.zip bundle exec fastlane android beta --env=production",
     "version": "cordova-version-sync",
     "flow": "flow",
     "server": "server",
