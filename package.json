@@ -51,7 +51,9 @@
     "styled-components": "^2.1.2",
     "underscore.string": "^3.3.4",
     "unfetch": "^3.0.0",
-    "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown"
+    "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown",
+    "cordova-ios": "^4.5.4",
+    "cordova-android": "~7.0.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
