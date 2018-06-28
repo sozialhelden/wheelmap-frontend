@@ -77,7 +77,7 @@ platform :android do
       keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
       )
 
-    apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk';
+    apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release.apk';
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
     hockey(
