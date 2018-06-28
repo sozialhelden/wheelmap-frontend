@@ -124,9 +124,9 @@ class Loader extends React.Component<Props, State> {
     toiletFilter: [],
     accessibilityFilter: [],
 
-    lat: null,
-    lon: null,
-    zoom: null,
+    lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
+    lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
+    zoom: savedState.map.lastZoom || null,
 
     isSearchBarVisible: hasBigViewport(),
     isOnboardingVisible: false,
