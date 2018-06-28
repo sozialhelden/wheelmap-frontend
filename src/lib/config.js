@@ -7,7 +7,7 @@ if (queryParams.includeSourceIds) {
 }
 const config = {
   locateTimeout: 60 * 60 * 1000,
-  defaultStartCenter: [51.505, -0.09],
+  defaultStartCenter: [52.5173, -13.3877],
   maxZoom: 20,
   minZoomWithSetCategory: queryParams.includeSourceIds ? 8 : 13,
   minZoomWithoutSetCategory: 16,
