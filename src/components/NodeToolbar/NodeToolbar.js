@@ -286,7 +286,7 @@ class NodeToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
         ariaLabel={placeName}
-        startTopOffset={hasBigViewport() ? 0 : (window.innerHeight / 2)}
+        startTopOffset={hasBigViewport() ? 0 : (0.4 * window.innerHeight)}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
