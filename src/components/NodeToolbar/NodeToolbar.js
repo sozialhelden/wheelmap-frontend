@@ -329,8 +329,8 @@ class NodeToolbar extends React.Component<Props, State> {
           const isWheelmapFeature = isWheelmapFeatureId(this.props.featureId);
 
           return (<div>
-            {isEquipment ? null : <AccessibleDescription properties={properties} />}
             {isEquipment ? <EquipmentAccessibility equipmentInfo={this.state.equipmentInfo} /> : <BasicPlaceAccessibility properties={properties} />}
+            {isEquipment ? null : <AccessibleDescription properties={properties} />}
             {isEquipment ? null : <AccessibilityDetails details={filteredAccessibility} />}
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
             {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId}/>}
@@ -399,12 +399,12 @@ class NodeToolbar extends React.Component<Props, State> {
               <ThumbnailList featureId={this.props.featureId} />
             </FullWidthSection>}
 
-            <p className="sources">
+            <footer className="sources">
               {sourceIds.length ? `${sourceCaption} ` : null}
               <ul>
                 {sourceIds.map(sourceId => <LicenseHint key={sourceId} sourceId={sourceId} />)}
               </ul>
-            </p>
+            </footer>
           </div>);
         })()}
       </StyledToolbar>

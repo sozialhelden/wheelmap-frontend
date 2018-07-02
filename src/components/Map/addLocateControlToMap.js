@@ -16,8 +16,8 @@ export default function addLocateControlToMap(map: L.Map) {
     iconLoading: 'leaflet-icon-locate-loading',
     showPopup: false,
     // do not follow user
-    setView: false, 
-    clickBehavior: { 
+    setView: false,
+    clickBehavior: {
       // only disable when pos is on screen
       inView: 'stop', 
       outOfView: 'setView' 
@@ -37,10 +37,11 @@ export default function addLocateControlToMap(map: L.Map) {
       title: t`Show me where I am`,
     },
     locateOptions: {
-      enableHighAccuracy: true,
+      enableHighAccuracy: false,
       watch: true,
       // do not follow user 2
-      setView: false, 
+      setView: false,
+      maxZoom: 17,
     },
   }).addTo(map);
   

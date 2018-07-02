@@ -29,8 +29,9 @@ const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
 
   a.place-website-url,
-  a.phone-number.link-button {
-    margin-left: 2em;
+  a.phone-number.link-button,
+  address {
+    margin-left: 42px;
   }
    
   a.place-website-url {
@@ -38,23 +39,23 @@ const StyledNodeHeader = styled.header`
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-bottom: 0;
+  }
+
+  a.place-website-url, a.phone-number {
+    padding-left: 0;
   }
 
   
   .description {
     word-break: break-word;
   }
-  
-  address {
-    /* margin-bottom: 0.5em; */
-    margin-left: 2.6em;
-  }
 `;
 
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
-  margin-left: 2.6em;
-  margin-bottom: 0.5em;
+  margin-left: 42px;
+  margin-bottom: 0.5rem;
 `;
 
 
@@ -100,7 +101,7 @@ export default class NodeHeader extends React.Component<Props, void> {
 
     const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
     const phoneNumber: ?string = properties.phoneNumber || properties.phone;
-    const description: ?string = properties.wheelchair_description;
+
     const { category, parentCategory } = this.props;
     const shownCategory = category || parentCategory;
     let categoryName = shownCategory && categoryNameFor(shownCategory);
@@ -147,8 +148,6 @@ export default class NodeHeader extends React.Component<Props, void> {
       sourceLinks.shift();
     }
 
-    const descriptionElement = description ? <p className="description">“{description}”</p> : null;
-
     const categoryElement = properties.name ? <StyledBreadCrumbs
       properties={properties}
       category={this.props.category}
@@ -164,7 +163,6 @@ export default class NodeHeader extends React.Component<Props, void> {
         <StyledNodeHeader>
           {placeNameElement}
           {categoryElement}
-          {descriptionElement}
         </StyledNodeHeader>
       );
     }
@@ -176,7 +174,6 @@ export default class NodeHeader extends React.Component<Props, void> {
         {addressString ? <Address role="none">{addressString}</Address> : null }
         {sourceLinks}
         {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
-        {descriptionElement}
         {placeWebsiteLink}
       </StyledNodeHeader>
     );
