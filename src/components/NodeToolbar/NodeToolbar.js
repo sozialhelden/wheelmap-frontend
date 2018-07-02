@@ -35,6 +35,7 @@ import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
 import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import { hasBigViewport } from '../../lib/ViewportSize';
 
 function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
   // These attributes have a better representation in the UI than the basic tree structure would provide.
@@ -285,6 +286,7 @@ class NodeToolbar extends React.Component<Props, State> {
         innerRef={(toolbar) => { this.toolbar = toolbar; }}
         role="dialog"
         ariaLabel={placeName}
+        startTopOffset={hasBigViewport() ? 0 : (window.innerHeight / 2)}
       >
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}

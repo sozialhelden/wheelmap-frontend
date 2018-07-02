@@ -21,6 +21,7 @@ type Props = {
   isSwipeable?: boolean,
   isModal?: boolean,
   enableTransitions?: boolean,
+  startTopOffset?: number,
 };
 
 
@@ -35,6 +36,15 @@ type State = {
   }
 };
 
+
+/**
+ * A toolbar that shows as a card that you can swipe up and down on small viewports, and that has
+ * a fixed position on bigger viewports.
+ *
+ * Automatically becomes scrollable when fully visible.
+ *
+ * Can be modal and is not swipeable then.
+*/
 
 class Toolbar extends React.Component<Props, State> {
   static defaultProps = {
@@ -74,9 +84,10 @@ class Toolbar extends React.Component<Props, State> {
 
 
   componentDidMount() {
-    this.onResize();
+    console.log('Toolbar did mount.');
+    this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
-    setTimeout(() => this.onResize(), 500);
+    setTimeout(() => this.onResize(this.props.startTopOffset), 500);
   }
 
 
@@ -87,12 +98,15 @@ class Toolbar extends React.Component<Props, State> {
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.isModal !== this.props.isModal) {
+      console.log('Toolbar became modal.');
       this.ensureFullVisibility();
     }
   }
 
 
+  /** Moves the toolbar to show as much of its content as possible. */
   ensureFullVisibility() {
+    console.log('Ensuring full toolbar visibility');
     setTimeout(() => {
       this.setState({ topOffset: 0 });
       this.onResize();
@@ -100,7 +114,7 @@ class Toolbar extends React.Component<Props, State> {
   }
 
 
-  onResize() {
+  onResize(preferredTopOffset: number = this.state.topOffset) {
     this.setState({
       viewportSize: {
         width: window.innerWidth,
@@ -108,7 +122,7 @@ class Toolbar extends React.Component<Props, State> {
       },
     });
 
-    const topOffset = this.getNearestStopForTopOffset();
+    const topOffset = this.getNearestStopForTopOffset(preferredTopOffset);
     this.setState({
       topOffset,
       lastTopOffset: topOffset,
@@ -152,7 +166,7 @@ class Toolbar extends React.Component<Props, State> {
       });
       return;
     }
-    const newStop = this.getNearestStopForTopOffset();
+    const newStop = this.getNearestStopForTopOffset(this.state.topOffset);
     this.setState({
       lastTopOffset: newStop,
       topOffset: 0,
@@ -160,8 +174,9 @@ class Toolbar extends React.Component<Props, State> {
   }
 
 
-  getNearestStopForTopOffset(): number {
-    const topOffset = this.state.topOffset;
+  /** @returns the next preferred stop position */
+
+  getNearestStopForTopOffset(topOffset: number): number {
     const stops = this.getStops();
     function distanceTo(position) {
       return Math.abs(position - topOffset);
@@ -174,11 +189,14 @@ class Toolbar extends React.Component<Props, State> {
         result = stop;
       }
     });
+    console.log('Nearest offset for preferred offset', topOffset, 'is', result, '- stops:', stops);
     return result;
   }
 
 
-  getMinimalTopPosition(): number {
+  /** @returns the maximal top position for the toolbar to stay interactable. */
+
+  getMaximalTopPosition(): number {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
@@ -190,11 +208,13 @@ class Toolbar extends React.Component<Props, State> {
   }
 
 
+  /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
+
   getStops(): number[] {
-    const minimalTopPosition = this.getMinimalTopPosition();
+    const maximalTopPosition = this.getMaximalTopPosition();
     const stops = uniq([
-      minimalTopPosition,
-      Math.max(minimalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
+      maximalTopPosition,
+      Math.max(maximalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
       this.state.viewportSize.height - (this.props.minimalHeight || 0),
     ]);
     return stops;
@@ -211,7 +231,7 @@ class Toolbar extends React.Component<Props, State> {
     const lastTopOffset = this.state.lastTopOffset;
 
     let topOffset = this.state.topOffset || this.state.lastTopOffset;
-    topOffset = Math.max(this.getMinimalTopPosition(), topOffset);
+    topOffset = Math.max(this.getMaximalTopPosition(), topOffset);
     const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
     const isBigViewport = this.state.viewportSize.width > 512;
     if (isLandscape || isBigViewport) {
@@ -222,11 +242,12 @@ class Toolbar extends React.Component<Props, State> {
     const isSwiping = this.state.isSwiping;
     const { enableTransitions } = this.props;
     return {
-      touchAction: lastTopOffset === this.getMinimalTopPosition() ? 'inherit' : 'none',
+      touchAction: lastTopOffset === this.getMaximalTopPosition() ? 'inherit' : 'none',
       transition: enableTransitions ? (isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`) : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
+
 
   render() {
     const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
