@@ -87,7 +87,7 @@ class Toolbar extends React.Component<Props, State> {
     console.log('Toolbar did mount.');
     this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
-    setTimeout(() => this.onResize(this.props.startTopOffset), 500);
+    setTimeout(() => this.onResize(this.props.startTopOffset), 100);
   }
 
 
