@@ -84,7 +84,6 @@ class Toolbar extends React.Component<Props, State> {
 
 
   componentDidMount() {
-    console.log('Toolbar did mount.');
     this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
     setTimeout(() => this.onResize(this.props.startTopOffset), 100);
@@ -98,7 +97,6 @@ class Toolbar extends React.Component<Props, State> {
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.isModal !== this.props.isModal) {
-      console.log('Toolbar became modal.');
       this.ensureFullVisibility();
     }
   }
@@ -106,7 +104,6 @@ class Toolbar extends React.Component<Props, State> {
 
   /** Moves the toolbar to show as much of its content as possible. */
   ensureFullVisibility() {
-    console.log('Ensuring full toolbar visibility');
     setTimeout(() => {
       this.setState({ topOffset: 0 });
       this.onResize();
@@ -189,7 +186,6 @@ class Toolbar extends React.Component<Props, State> {
         result = stop;
       }
     });
-    console.log('Nearest offset for preferred offset', topOffset, 'is', result, '- stops:', stops);
     return result;
   }
 
