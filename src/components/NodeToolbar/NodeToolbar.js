@@ -291,7 +291,6 @@ class NodeToolbar extends React.Component<Props, State> {
         {this.props.isEditMode ? null : <PositionedCloseLink
           history={this.props.history}
           onClick={() => {
-            console.log('Node toolbar close link clicked');
             if (this.props.onClose) this.props.onClose();
           }}
         />}
