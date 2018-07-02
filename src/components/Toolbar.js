@@ -196,7 +196,7 @@ class Toolbar extends React.Component<Props, State> {
 
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
-  getMaximalTopPosition(): number {
+  getTopmostPosition(): number {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
@@ -211,7 +211,7 @@ class Toolbar extends React.Component<Props, State> {
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
 
   getStops(): number[] {
-    const maximalTopPosition = this.getMaximalTopPosition();
+    const maximalTopPosition = this.getTopmostPosition();
     const stops = uniq([
       maximalTopPosition,
       Math.max(maximalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
@@ -231,7 +231,7 @@ class Toolbar extends React.Component<Props, State> {
     const lastTopOffset = this.state.lastTopOffset;
 
     let topOffset = this.state.topOffset || this.state.lastTopOffset;
-    topOffset = Math.max(this.getMaximalTopPosition(), topOffset);
+    topOffset = Math.max(this.getTopmostPosition(), topOffset);
     const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
     const isBigViewport = this.state.viewportSize.width > 512;
     if (isLandscape || isBigViewport) {
@@ -242,7 +242,7 @@ class Toolbar extends React.Component<Props, State> {
     const isSwiping = this.state.isSwiping;
     const { enableTransitions } = this.props;
     return {
-      touchAction: lastTopOffset === this.getMaximalTopPosition() ? 'inherit' : 'none',
+      touchAction: lastTopOffset === this.getTopmostPosition() ? 'inherit' : 'none',
       transition: enableTransitions ? (isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`) : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
