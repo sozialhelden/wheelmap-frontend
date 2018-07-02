@@ -312,22 +312,17 @@ class Loader extends React.Component<Props, State> {
     const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
 
     if ((nodeToolbarDidDisappear || searchToolbarDidDisappear)) {
-      console.log('Focusing', this.lastFocusedElement);
       window.document.activeElement.blur();
       if (this.lastFocusedElement) this.lastFocusedElement.focus();
     }
 
     if ((nodeToolbarDidAppear || featureIdHasChanged) && this.mainView.nodeToolbar) {
       this.lastFocusedElement = document.activeElement;
-      console.log('Saving last focused element:', this.lastFocusedElement);
-      console.log('Focusing', this.mainView.nodeToolbar);
       this.mainView.nodeToolbar.focus();
     }
 
     if (searchToolbarDidAppear && this.mainView.searchToolbar) {
       this.lastFocusedElement = document.activeElement;
-      console.log('Saving last focused element:', this.lastFocusedElement);
-      console.log('Focusing', this.mainView.searchToolbar);
       this.mainView.searchToolbar.focus();
     }
   }
