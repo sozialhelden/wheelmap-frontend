@@ -14,6 +14,7 @@
     "d3-interpolate": "^1.1.5",
     "d3-scale": "^1.0.6",
     "elementtree": "^0.1.7",
+    "es6-set": "^0.1.5",
     "es6-symbol": "^3.1.1",
     "esri-leaflet": "^2.1.4",
     "fast-levenshtein": "^2.0.6",

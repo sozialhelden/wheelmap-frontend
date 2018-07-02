@@ -16,3 +16,4 @@ if (typeof Promise === 'undefined') {
 Object.assign = require('object-assign');
 
 require('es6-symbol/implement');
+require('es6-set/implement');
