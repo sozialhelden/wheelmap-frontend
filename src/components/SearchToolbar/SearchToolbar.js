@@ -255,7 +255,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.setState({ isLoading: true });
 
     searchPlaces(query, this.props).then((featureCollection) => {
-      this.setState({ searchResults: featureCollection, isLoading: false });
+      this.setState({ searchResults: featureCollection || this.state.searchResults, isLoading: false });
     });
   }
 
@@ -423,7 +423,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     let contentBelowSearchField = null;
 
-    if (isLoading) {
+    if (!searchResults && isLoading) {
       contentBelowSearchField = this.renderLoadingIndicator();
     } else if (searchResults) {
       contentBelowSearchField = this.renderSearchResults(searchResults);
