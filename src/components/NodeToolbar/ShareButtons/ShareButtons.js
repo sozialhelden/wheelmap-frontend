@@ -78,6 +78,8 @@ class ExpandableShareButtons extends React.Component<Props, State> {
   };
 
   toggle(isExpanded) {
+    const hasChanged = isExpanded !== this.state.isExpanded;
+    if (!hasChanged) return;
     this.setState({ isExpanded });
     if (this.props.onToggle) this.props.onToggle();
   }
