@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
+import colors from '../../lib/colors';
 
 import SearchResult from './SearchResult';
 
@@ -24,7 +25,19 @@ type Props = {
 function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
   const features = uniq(props.searchResults.features, id);
+
+  const failedLoading = !!props.searchResults.error;
+  const hasNoResults = !failedLoading && features.length === 0;
+
+  // translator: Text in search results when nothing was found
+  const noResultsFoundCaption = t`No results found.`;
+
+  // translator: Text in search results when an error occurred
+  const searchErrorCaption = t`Failed loading results. Please try again later`;
+
   return (<ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
+    {failedLoading && <li className="error-result">{searchErrorCaption}</li>} 
+    {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>} 
     {features.map(result => (<SearchResult
       result={result}
       key={id(result)}
@@ -55,7 +68,24 @@ const StyledSearchResults = styled(SearchResults)`
 
     address {
       font-size: 16px !important;
+      color: rgba(0, 0, 0, 0.6);
     }
+  }
+
+  li.no-result {
+    text-align: center;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  li.error-result {
+    text-align: center;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 20px;
+    font-weight: 400;
+    background-color: ${colors.negativeBackgroundColorTransparent};
   }
 
   .osm-category-place-borough,

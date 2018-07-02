@@ -14,9 +14,10 @@ import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
-import ToolbarLink from '../ToolbarLink';
-import PlaceName from '../PlaceName';
 import Icon from '../Icon';
+import Address from '../NodeToolbar/Address';
+import PlaceName from '../PlaceName';
+import ToolbarLink from '../ToolbarLink';
 
 
 type Props = {
@@ -258,7 +259,7 @@ export default class SearchResult extends React.Component<Props, State> {
           }
           {placeName}
         </PlaceName>
-        {address ? <address>{address}</address> : null}
+        {address ? <Address role="none">{address}</Address> : null }
       </HashLinkOrRouterLink>
     </li>);
   }

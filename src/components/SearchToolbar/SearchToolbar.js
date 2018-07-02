@@ -21,6 +21,7 @@ import { isFiltered } from '../../lib/Feature';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
+import { isOnSmallViewport } from '../../lib/ViewportSize';
 
 
 export type Props = PlaceFilter & {
@@ -205,6 +206,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
   input: ?React.ElementRef<'input'>;
   searchInputField: ?React.ElementRef<'input'>;
   closeLink: ?React.ElementRef<typeof CloseLink>;
+  goButton: ?React.ElementRef<'button'>;
 
 
   handleSearchInputChange = debounce(() => {
@@ -232,6 +234,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
     if (searchFieldShouldBecomeFocused) {
       this.focus();
     }
+
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      this.sendSearchRequest(this.props.searchQuery);
+    }
   }
 
   ensureFullVisibility() {
@@ -240,7 +246,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  sendSearchRequest(query: string): void {
+  sendSearchRequest(query: ?string): void {
     if (!query || query.length < 3) {
       this.setState({ searchResults: null, isLoading: false });
       return;
@@ -264,8 +270,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   focus() {
-    if (!this.searchInputField) return;
-    this.searchInputField.focus();
+    if (isOnSmallViewport()) {
+      if (!this.goButton) return;
+      this.goButton.focus();
+    } else {
+      if (!this.searchInputField) return;
+      this.searchInputField.focus();
+    }
   }
 
 
@@ -399,7 +410,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
   renderGoButton() {
     // translator: button shown next to the search bar
     const caption = t`Go!`;
-    return <GoButton onClick={this.props.onClose}>
+    return <GoButton innerRef={(button) => this.goButton = button} onClick={this.props.onClose}>
       {caption} <StyledChevronRight />
     </GoButton>;
   }

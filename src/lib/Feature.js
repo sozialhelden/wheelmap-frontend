@@ -345,7 +345,7 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?s
 export function toiletDescription(accessibility: YesNoUnknown): ?string {
   switch (accessibility) {
     // translator: Long toilet accessibility description on place toolbar if the toilet IS accessible
-    case 'yes': return t`Has a wheelchair accessible toilet.`;
+    case 'yes': return t`Wheelchair accessible toilet`;
     // translator: Long toilet accessibility description on place toolbar if the toilet is NOT accessible
     case 'no': return t`No wheelchair accessible toilet.`;
     case 'unknown':
