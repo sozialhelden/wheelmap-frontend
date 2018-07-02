@@ -75,7 +75,7 @@ type Props = {
   onResetCategory: (() => void),
   onClickSearchToolbar: (() => void),
   onCloseSearchToolbar: (() => void),
-  onClickSearchButton: ((event: UIEvent) => void),
+  onClickSearchButton: (() => void),
   onCloseNotFoundDialog: (() => void),
   onToggleMainMenu: (() => void),
   onClickFullscreenBackdrop: (() => void),
@@ -258,7 +258,12 @@ class MainView extends React.Component<Props, State> {
 
   renderSearchButton() {
     return <SearchButton
-      onClick={(event) => setTimeout(() => this.props.onClickSearchButton(event), 10)}
+      onClick={(event) => {
+        event.stopPropagation();
+        // Using setTimeout to prevent touch-up events from hovering components
+        // in the search toolbar
+        setTimeout(() => this.props.onClickSearchButton(), 10);
+      }}
       category={this.props.category}
       toiletFilter={this.props.toiletFilter}
       accessibilityFilter={this.props.accessibilityFilter}
