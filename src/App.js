@@ -295,9 +295,7 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-
-  // TODO: Re-enable and adapt this when UX flows are stable again
-
+  
   manageFocus(prevProps: Props, prevState: State) {
     const prevFeatureId = getFeatureIdFromProps(prevProps);
     const featureId = getFeatureIdFromProps(this.props);
@@ -394,6 +392,7 @@ class Loader extends React.Component<Props, State> {
   onMapClick = () => {
     this.closeSearch();
     this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
+    this.mainView.focusMap();
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -431,7 +430,7 @@ class Loader extends React.Component<Props, State> {
       isReportMode: false,
     });
     if (this.isEditMode()) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
+      this.props.history.push(`/nodes/${String(this.state.featureId)}`);
     }
   };
 
@@ -457,6 +456,7 @@ class Loader extends React.Component<Props, State> {
       isSearchBarVisible: hasBigViewport(),
       isSearchToolbarExpanded: false,
     });
+    if (this.mainView) this.mainView.focusMap();
   };
 
   isNodeToolbarDisplayed(state = this.state) {
