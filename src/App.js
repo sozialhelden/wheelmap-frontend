@@ -376,7 +376,7 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-  onClickSearchButton = e => { e.stopPropagation(); this.openSearch(); };
+  onClickSearchButton = () => this.openSearch();
 
   onToggleMainMenu = (isMainMenuOpen) => {
     this.setState({ isMainMenuOpen });
