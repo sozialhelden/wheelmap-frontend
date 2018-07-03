@@ -18,6 +18,7 @@ export type Props = {
 
 
 type State = {
+  enteredCaptchaValue?: string,
 };
 
 // TODO: Move into potential GoButton-component
@@ -81,18 +82,10 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   state = {
   };
 
-  toolbar: ?React.Element<typeof Toolbar>;
   inputField: ?HTMLInputElement;
-  // inputField: ?React.ElementRef<'input'>;
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
 
-
-  handleInputChange = () => {
-    // if (!(this.input instanceof HTMLInputElement)) return;
-    // const query = this.input.value;
-    // this.sendSearchRequest(query);
-  };
 
   componentDidMount() {
     if (!this.props.hidden) {
@@ -103,43 +96,25 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   componentDidUpdate(prevProps: Props, prevState: State) {
   }
 
-
   focus() {
-    if (!this.inputField)
-      return;
-
-    this.inputField.focus();
+    this.inputField && this.inputField.focus();
   }
-
-
-  blur() {
-    if (!this.inputField)
-      return;
-
-    this.inputField.blur();
-  }
-
 
   renderInputField() {
     return <input type="text"
       ref={inputField => this.inputField = inputField}
       onFocus={(event) => {
-        // this.input = event.target;
-        // this.setState({ searchFieldIsFocused: true });
         window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
       }}
-      onChange={this.handleInputChange}
+      onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
     />;
   }
 
-
-
-
   renderBackLink() {
     return <button
-      // history={this.props.history}
       className='close-link'
-      aria-label={t`Go back`}
+      // translator: Button caption in photo upload captcha dialog
+      aria-label={t`Back`}
       onClick={() => {
         if (this.props.onClose) this.props.onClose();
       }}
@@ -148,7 +123,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   renderGoButton() {
-    // translator: button shown next to the search bar
+    // translator: button shown next to the captcha text input field
     const caption = t`Go!`;
     return <GoButton innerRef={(button) => this.goButton = button} onClick={this.props.onClose}>
       {caption} <StyledChevronRight />
@@ -158,13 +133,12 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   render() {
     const contentBelowSearchField = <section>
       Dragons be here
-      </section>;
+    </section>;
 
     return (
       <StyledToolbar
         className='captcha-toolbar'
         hidden={this.props.hidden}
-        innerRef={(toolbar) => { this.toolbar = toolbar; }}
         isSwipeable={false}
         isModal
       >
