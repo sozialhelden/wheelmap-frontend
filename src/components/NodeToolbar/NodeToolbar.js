@@ -37,6 +37,39 @@ import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { hasBigViewport } from '../../lib/ViewportSize';
 
+
+/**
+ * # Notes on implementing the upload photo feature
+ * 
+ * - MainView
+ *   ...
+ *   - [x] NodeToolbar
+ *    - [x] BasicAccessibility <- component with details on a Feature's a11y
+ *    - ...
+ *    - [ ] PhotoUploadButton <- Needs to be tabbable
+ *      - [ ] Name
+ *      - [.] MotivationHint
+ *    - [x] ThumbnailList <- Photowall with
+ *      - [x] Gallery
+ *      - [x] Lightbox
+ *    - [ ] UploadConfirmation
+ *    - [x] NodeFooter
+ *      - [ ] LinkList <- list of blue utility links
+ *      - [ ] ButtonList  <- With icons
+ * 
+ *  - [ ] UploadPhotoInstructionsToolbar <- does not need to be modal, but could be
+ *    - [.] CloseLink <- Could be named "CloseButton"
+ *    - header <- check styles in other components
+ *    - ul
+ *       - li
+ * 
+ *    - [ ] Checkbox
+ *    - [.] CTA-Buttons <- look at AccessibilityEditor
+ *      - [.] button.link-button button.negative-button "Cancel"
+ *      - [.] button.link-button button.primary.button "Continue"
+ *   - [?] UploadPhotoCaptcha <- Henrik is working on this. Needs audio / speech accessibility
+ */
+
 function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
   // These attributes have a better representation in the UI than the basic tree structure would provide.
   const paths = [
@@ -262,7 +295,7 @@ class NodeToolbar extends React.Component<Props, State> {
     }
 
     const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
-    const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
+    const filteredAccessibility = accessibility ? filterAccessibility(accessibility) : null;
     const phoneNumber = properties.phoneNumber || properties.phone;
 
     // translator: Button caption shown in the place toolbar
@@ -334,7 +367,7 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? null : <AccessibleDescription properties={properties} />}
             {isEquipment ? null : <AccessibilityDetails details={filteredAccessibility} />}
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
-            {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId}/>}
+            {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId} />}
 
             {isEquipment ? <a
               className="link-button"
@@ -346,18 +379,18 @@ class NodeToolbar extends React.Component<Props, State> {
               }}
             >
               {placeName}
-            </a> : null }
+            </a> : null}
 
 
             {(this.props.featureId && isWheelmapFeature) ? (
-                <NodeFooter
-                  ref={nodeFooter => (this.nodeFooter = nodeFooter)}
-                  feature={this.props.feature}
-                  featureId={this.props.featureId}
-                  category={this.state.category}
-                  parentCategory={this.state.parentCategory}
-                />
-              ) : null}
+              <NodeFooter
+                ref={nodeFooter => (this.nodeFooter = nodeFooter)}
+                feature={this.props.feature}
+                featureId={this.props.featureId}
+                category={this.state.category}
+                parentCategory={this.state.parentCategory}
+              />
+            ) : null}
 
             <ShareButtons
               innerRef={shareButton => this.shareButton = shareButton}
@@ -379,7 +412,7 @@ class NodeToolbar extends React.Component<Props, State> {
             >
               {reportButtonCaption}
             </button>}
-            
+
             {openInMaps && <a
               className="link-button"
               href={openInMaps.url}
