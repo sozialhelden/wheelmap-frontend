@@ -11,6 +11,7 @@ import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 import { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
 
 import config from './lib/config';
+import isTouchDevice from './lib/isTouchDevice';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
@@ -116,6 +117,9 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   return `/beta/nodes/${featureId}`;
 }
 
+function isStickySearchBarSupported() {
+  return hasBigViewport() && !isTouchDevice();
+}
 
 class Loader extends React.Component<Props, State> {
   props: Props;
@@ -128,7 +132,7 @@ class Loader extends React.Component<Props, State> {
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
 
-    isSearchBarVisible: hasBigViewport(),
+    isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
@@ -338,7 +342,7 @@ class Loader extends React.Component<Props, State> {
 
 
   closeSearch() {
-    this.setState({ isSearchBarVisible: hasBigViewport(), isSearchToolbarExpanded: false });
+    this.setState({ isSearchBarVisible: isStickySearchBarSupported(), isSearchToolbarExpanded: false });
   }
 
 
@@ -405,7 +409,7 @@ class Loader extends React.Component<Props, State> {
     if (coords) {
       this.setState(coords);
     }
-    this.setState({ isSearchBarVisible: !isOnSmallViewport() });
+    this.setState({ isSearchBarVisible: isStickySearchBarSupported() });
   };
 
   onResetCategory = () => {
@@ -448,7 +452,7 @@ class Loader extends React.Component<Props, State> {
 
   onCloseSearchToolbar = () => {
     this.setState({
-      isSearchBarVisible: hasBigViewport(),
+      isSearchBarVisible: isStickySearchBarSupported(),
       isSearchToolbarExpanded: false,
     });
     if (this.mainView) this.mainView.focusMap();
