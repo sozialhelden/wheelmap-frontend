@@ -29,7 +29,8 @@ import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import ThumbnailList from './Photos/ThumbnailList';
-import PhotoUploadButton from './Photos/PhotoUploadButton';
+import PhotoUploadButton from '../PhotoUpload/PhotoUploadButton';
+import PhotoUploadConfirmation from '../PhotoUpload/PhotoUploadConfirmation';
 
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
@@ -345,6 +346,7 @@ class NodeToolbar extends React.Component<Props, State> {
                 <ThumbnailList featureId={this.props.featureId} />
                 { /* FIXME: only show this component if no images have been uploaded */}
                 <PhotoUploadButton />
+                <PhotoUploadConfirmation />
               </section>
             }
 
