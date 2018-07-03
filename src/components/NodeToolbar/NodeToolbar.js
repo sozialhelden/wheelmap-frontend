@@ -340,7 +340,14 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
             {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId} />}
 
-            <PhotoUploadButton />
+            {isWheelmapFeature &&
+              <section>
+                <ThumbnailList featureId={this.props.featureId} />
+                { /* FIXME: only show this component if no images have been uploaded */}
+                <PhotoUploadButton />
+              </section>
+            }
+
             {isEquipment ? <a
               className="link-button"
               href={`/nodes/${this.props.featureId}`}
@@ -401,9 +408,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
             {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
 
-            {isWheelmapFeature && <FullWidthSection>
-              <ThumbnailList featureId={this.props.featureId} />
-            </FullWidthSection>}
+
 
             <footer className="sources">
               {sourceIds.length ? `${sourceCaption} ` : null}
