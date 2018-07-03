@@ -59,22 +59,122 @@ const StyledToolbar = styled(Toolbar)`
   border-radius: 3px;
   z-index: 1000;
 
-
-  /* Restyle CloseLink component in ToolBar */
+  /* TODO: Restyle CloseLink component in ToolBar */
   .close-link {
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    transform: translate(0, -50%);
+    min-width: 4rem;
+    outline: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1rem;
+    color: ${colors.linkColor};
     background-color: transparent;
+
+    &:hover {
+      background-color: ${colors.linkBackgroundColor};
+    }
+    &:active {
+      background-color: transparent;
+    }
+  }
+
+  > header {
+    position: sticky;
     display: flex;
-    flex-direction: row-reverse;
-    &.has-open-category {
-      left: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    height: 50px;
+    min-height: 50px;
+    z-index: 1;
+    border-bottom: 1px ${colors.borderColor} solid;
+    background: white;
+
+    > input {
+      font-size: 1em;
+      flex-grow: 1;
+      margin: 6px 20px 6px 0;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1px solid ${colors.linkColor};
+    }
+  }
+
+  > section {
+    overflow: auto;
+  }
+
+  @media (max-width: 512px), (max-height: 512px) {
+    &.toolbar-iphone-x {
+      input, input:focus {
+        background-color: white;
+      }
+    }
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-height: 100%;
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding-right: max(constant(safe-area-inset-right), 0px);
+    padding-left: max(constant(safe-area-inset-left), 0px);
+    padding-right: max(env(safe-area-inset-right), 0px);
+    padding-left: max(env(safe-area-inset-left), 0px);
+    margin-top: constant(safe-area-inset-top);
+    margin-top: env(safe-area-inset-top);
+    transform: translate3d(0, 0, 0) !important;
+    z-index: 1000000000;
+    border-radius: 0;
+
+    &:not(.is-expanded) {
+      top: 60px;
+      left: 10px;
+      width: calc(100% - 80px);
+      max-height: 100%;
+      max-width: 320px;
+      margin: 0;
+    }
+
+    > header, .search-results, .category-menu {
+      padding: 0
+    }
+
+    .search-results .link-button {
+      margin: 0;
+    }
+
+    @media (max-height: 400px) {
+      .category-button {
+        flex-basis: 16.666666% !important;
+      }
     }
   }
 `;
 
+/* TODO: prepare stylable component 
+const contentBelowSearchField = styled.button`
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    padding: 1em;
+    text-align: center;
+  
+    .captcha-content {
+    }
+
+    h3.captcha-help {
+    }
+    
+    small.captcha-explanation {
+
+    }
+  }
+`;
+*/
 
 export default class PhotoUploadCaptchaToolbar extends React.Component<Props, State> {
   props: Props;
@@ -131,8 +231,12 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   render() {
-    const contentBelowSearchField = <section>
-      Dragons be here
+    const contentBelowSearchField = <section classname='captcha-container'>
+      <div classname='captcha-content'>
+        Captcha Container
+      </div>
+      <h3 classname='captcha-help'>{t`Please type these characters.`}</h3>
+      <small classname='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
     </section>;
 
     return (
