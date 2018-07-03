@@ -13,6 +13,7 @@ import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
+import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
@@ -73,6 +74,7 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
 
   onSelectCoordinate: (() => void),
@@ -133,7 +135,7 @@ class MainView extends React.Component<Props, State> {
   nodeToolbar: ?NodeToolbar;
   searchToolbar: ?SearchToolbar;
   photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
-
+  photoUploadInstructionsToolbar: ?PhotoUploadInstructionsToolbar;
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     const params = getQueryParams();
@@ -142,7 +144,6 @@ class MainView extends React.Component<Props, State> {
     const location = { pathname, search: queryString.stringify(params) };
     this.props.history.push(location);
   };
-
 
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
@@ -350,6 +351,16 @@ class MainView extends React.Component<Props, State> {
     />
   }
 
+  renderPhotoUploadInstructionsToolbar() {
+    return <PhotoUploadInstructionsToolbar
+      ref={photoUploadInstructionsToolbar => this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar}
+      history={this.props.history}
+      hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
+      onClose={() => { console.log("instructions.onClosed") }}
+      onCompleted={() => { console.log("instructions.onCompleted") }}
+    />
+  }
+
   render() {
     const { featureId, searchQuery, equipmentInfoId } = this.props;
     const { isLocalizationLoaded } = this.props;
@@ -423,6 +434,7 @@ class MainView extends React.Component<Props, State> {
       {this.renderFullscreenBackdrop()}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
       {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+      {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);
