@@ -3,13 +3,13 @@
 import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
+import storage from 'local-storage-fallback';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
 import Icon from '../Icon';
-
 
 type Props = {
   className: string,
@@ -327,9 +327,9 @@ export default StyledOnboarding;
 
 
 export function saveOnboardingFlag() {
-  localStorage.setItem('wheelmap.onboardingCompleted', 'true');
+  storage.setItem('wheelmap.onboardingCompleted', 'true');
 }
 
 export function isOnboardingVisible() {
-  return localStorage.getItem('wheelmap.onboardingCompleted') !== 'true';
+  return storage.getItem('wheelmap.onboardingCompleted') !== 'true';
 }
