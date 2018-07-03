@@ -12,10 +12,13 @@ import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
+
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding, { isOnboardingVisible } from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
+
 
 import config from './lib/config';
 import colors from './lib/colors';
@@ -23,9 +26,9 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type {
   Feature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  NodeProperties,
+    YesNoLimitedUnknown,
+    YesNoUnknown,
+    NodeProperties,
 } from './lib/Feature';
 
 import type {
@@ -69,6 +72,7 @@ type Props = {
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
+  isPhotoUploadCaptchaToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
 
   onSelectCoordinate: (() => void),
@@ -106,7 +110,7 @@ function updateTouchCapability() {
 
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string' ) {
+  if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
@@ -128,6 +132,7 @@ class MainView extends React.Component<Props, State> {
   lastFocusedElement: ?HTMLElement;
   nodeToolbar: ?NodeToolbar;
   searchToolbar: ?SearchToolbar;
+  photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
 
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -302,7 +307,7 @@ class MainView extends React.Component<Props, State> {
       isEditMode={isEditMode}
       isLocalizationLoaded={isLocalizationLoaded}
       history={this.props.history}
-      { ...{lat, lon, zoom}}
+      {...{ lat, lon, zoom }}
     />;
   }
 
@@ -335,6 +340,15 @@ class MainView extends React.Component<Props, State> {
     />;
   }
 
+  renderPhotoUploadCaptchaToolbar() {
+    return <PhotoUploadCaptchaToolbar
+      ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar}
+      history={this.props.history}
+      hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
+      onClose={() => { console.log("captcha.onClosed") }}
+      onCompleted={() => { console.log("captcha.onCompleted") }}
+    />
+  }
 
   render() {
     const { featureId, searchQuery, equipmentInfoId } = this.props;
@@ -390,7 +404,7 @@ class MainView extends React.Component<Props, State> {
       locateOnStart={this.props.shouldLocateOnStart}
       isLocalizationLoaded={isLocalizationLoaded}
       padding={this.getMapPadding()}
-      hideHints={this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen )}
+      hideHints={this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)}
       {...config}
     />;
 
@@ -408,6 +422,7 @@ class MainView extends React.Component<Props, State> {
       </div>
       {this.renderFullscreenBackdrop()}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
+      {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);

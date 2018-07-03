@@ -19,11 +19,11 @@ import MainView, { UnstyledMainView } from './MainView';
 
 import type {
   Feature,
-  WheelmapFeature,
-  AccessibilityCloudFeature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  NodeProperties,
+    WheelmapFeature,
+    AccessibilityCloudFeature,
+    YesNoLimitedUnknown,
+    YesNoUnknown,
+    NodeProperties,
 } from './lib/Feature';
 
 import type {
@@ -107,7 +107,7 @@ function getFeatureIdFromProps(props: Props): ?string {
 
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string' ) {
+  if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
@@ -295,7 +295,7 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-  
+
   manageFocus(prevProps: Props, prevState: State) {
     const prevFeatureId = getFeatureIdFromProps(prevProps);
     const featureId = getFeatureIdFromProps(this.props);
@@ -431,7 +431,7 @@ class Loader extends React.Component<Props, State> {
 
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
 
-  onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) }};
+  onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
 
   onCloseOnboarding = () => {
     saveOnboardingFlag();
@@ -476,7 +476,7 @@ class Loader extends React.Component<Props, State> {
       isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
-      
+
       featureId: this.state.featureId,
       equipmentInfoId: this.state.equipmentInfoId,
       feature: this.state.feature,
@@ -496,6 +496,7 @@ class Loader extends React.Component<Props, State> {
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
+      isPhotoUploadCaptchaToolbarVisible: false,
     }
 
     return (<MainView
