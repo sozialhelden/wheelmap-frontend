@@ -2,7 +2,6 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
-import { Dots } from 'react-activity';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
@@ -57,6 +56,7 @@ const StyledToolbar = styled(Toolbar)`
   padding: 0;
   border-top: none;
   border-radius: 3px;
+  z-index: 1000;
 
 
   /* Restyle CloseLink component in ToolBar */
@@ -95,10 +95,6 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   };
 
   componentDidMount() {
-    if (this.toolbar instanceof Toolbar) {
-      this.toolbar.ensureFullVisibility();
-    }
-
     if (!this.props.hidden) {
       this.focus(); // Focus input field on start
     }

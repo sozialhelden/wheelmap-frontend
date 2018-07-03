@@ -496,7 +496,7 @@ class Loader extends React.Component<Props, State> {
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
-      isPhotoUploadCaptchaToolbarVisible: false,
+      isPhotoUploadCaptchaToolbarVisible: true,
     }
 
     return (<MainView
