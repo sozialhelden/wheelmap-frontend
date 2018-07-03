@@ -29,6 +29,7 @@ import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 import ThumbnailList from './Photos/ThumbnailList';
+import PhotoUploadButton from './Photos/PhotoUploadButton';
 
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
@@ -369,6 +370,7 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
             {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId} />}
 
+            <PhotoUploadButton />
             {isEquipment ? <a
               className="link-button"
               href={`/nodes/${this.props.featureId}`}
