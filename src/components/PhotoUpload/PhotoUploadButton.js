@@ -33,8 +33,9 @@ class PhotoUploadButton extends React.Component<Props, State> {
         onClick={this.onClick} 
         className={`${className} link-button`}
         aria-label={t`Upload images`} >
-        {t`Upload images`}
-        <span className='motivation-hint'> {t`Motivational Message`}</span>
+        <span className='button-icon'></span>
+        <span className='button-label'>{t`Upload images`}</span>
+        <span className='motivation-hint'> {t`Your Good Deed!`}</span>
       </button>
     );
   }
@@ -48,13 +49,34 @@ class PhotoUploadButton extends React.Component<Props, State> {
 }
 
 const StyledPhotoUploadButton = styled(PhotoUploadButton)`
-  /* TODO: Add styling*/
-  border:1px solid teal !important;
+  display: inline-block;
+  /* padding-left: 24px !important; */
+  font-weight: 500;
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  span.button-icon {
+    margin-right: 0.5rem;
+  }
+
+  span.button-label {
+    align-self: flex-start; 
+    padding: 4px;
+    color: ${colors.linkColor};
+  }
+
   span.motivation-hint {
+    font-size: 0.9em;
+    display: inline-block;
+    position: relative; */
+    right: 0;
+    margin-left: 16px;
+    padding: 4px;
     color:white;
-    background-color:black;
+    background-color: ${colors.linkColor};
   }
 `;
-
 
 export default StyledPhotoUploadButton;

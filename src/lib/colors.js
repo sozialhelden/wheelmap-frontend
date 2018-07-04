@@ -21,6 +21,7 @@ const colors = {
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',
+  coldBackgroundColor: '#eaeef2',
   selectedColor: '#51a6ff',
   selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',

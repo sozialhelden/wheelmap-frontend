@@ -29,19 +29,35 @@ class PhotoUploadConfirmation extends React.Component<Props, State> {
     const { className } = this.props;
     const href = "/";  // TDB: Implement this
 
-    return (<span href={href} className={`${className}`}>
-      {t`Thank you for work. You contribution will be visible after a quick check.`}
-    </span>);
+    return (<div href={href} className={`${className}`}>
+      <small>{t`Thank you for work. You contribution will be visible after a quick check.`}</small>
+    </div>);
   }
 }
 
 const StyledPhotoUploadConfirmation = styled(PhotoUploadConfirmation)`
-  /* TODO: Add styling*/
-  border:1px solid teal !important;
-  span.motivation-hint {
-    color:white;
-    background-color:black;
-  }
+  /* TODO: implement and style use-case: upload in progress upload successful, upload error, report successful */
+
+  position: relative;
+  margin: 0px -6px 10px -6px;
+  padding: 8px 8px 8px 54px;
+  border-radius: 0 0 4px 4px;
+  background: ${colors.coldBackgroundColor};
+
+
+  /* USECASE: report successful / upload-error
+  color: ${colors.negativeColor};
+  */
+
+  &:before {
+    content: ' ';
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+    background: yellow; /* debug only */
+  }  
 `;
 
 
