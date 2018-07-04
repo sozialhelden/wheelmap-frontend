@@ -2,6 +2,7 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
+import colors from '../../lib/colors';
 import { t } from 'c-3po';
 
 type Props = {
