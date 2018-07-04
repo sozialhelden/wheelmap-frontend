@@ -40,6 +40,7 @@ import {
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
+import { accessibilityCloudImageCache } from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
@@ -432,9 +433,23 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
-  onStartPhotoUploadFlow = () => { this.setState({ isSearchBarVisible: false, isPhotoUploadInstructionsToolbarVisible: true }) };
+  onStartPhotoUploadFlow = () => {
+    // start requesting captcha early
+    accessibilityCloudImageCache.getCaptcha();
+    
+    this.setState({ 
+      isSearchBarVisible: false,
+       isPhotoUploadInstructionsToolbarVisible: true
+    });
+  };
 
-  onAbortPhotoUploadFlow = () => { this.setState({ isSearchBarVisible: !isOnSmallViewport(), isPhotoUploadInstructionsToolbarVisible: false, isPhotoUploadCaptchaToolbarVisible: false }) };
+  onAbortPhotoUploadFlow = () => { 
+    this.setState({ 
+      isSearchBarVisible: !isOnSmallViewport(), 
+      isPhotoUploadInstructionsToolbarVisible: false, 
+      isPhotoUploadCaptchaToolbarVisible: false 
+    });
+  };
 
   onContinuePhotoUploadFlow = (files: FileList) => {
     if (files.length === 0) {
