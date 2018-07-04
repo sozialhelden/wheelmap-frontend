@@ -3,12 +3,15 @@
 import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
+import { Dots } from 'react-activity';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import ChevronRight from '../ChevronRight';
 
 import colors from '../../lib/colors';
+
+import { accessibilityCloudImageCache } from '../../lib/cache/AccessibilityCloudImageCache';
 
 export type Props = {
   hidden: boolean,
@@ -19,6 +22,9 @@ export type Props = {
 
 type State = {
   enteredCaptchaValue?: string,
+  waitingForCaptcha: boolean;
+  captchaError?: boolean | null;
+  captcha: string | null;
 };
 
 // TODO: Move into potential GoButton-component
@@ -180,20 +186,64 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   props: Props;
 
   state = {
+    waitingForCaptcha: false,
+    captchaError: null,
+    captcha: null,
   };
 
   inputField: ?HTMLInputElement;
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
-
+  checkCaptchaTimer: number | null;
 
   componentDidMount() {
     if (!this.props.hidden) {
+      this.startTimer();
       this.focus(); // Focus input field on start
+    }
+
+    accessibilityCloudImageCache.getCaptcha().then(captcha => {
+      this.setState({waitingForCaptcha: false, captcha, captchaError: false});
+    }).catch(e => {
+      this.setState({captchaError: true});
+    });
+  }
+
+  componentWillUnmount() {
+    this.clearTimer();
+  }
+
+  componentWillReceiveProps(nextProps: Props) {
+    if (!nextProps.hidden) {
+      this.startTimer();
+    } else if (nextProps.hidden) {
+      this.clearTimer();
     }
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
+  startTimer() {
+    if (!this.checkCaptchaTimer) {
+      this.refreshCaptcha();
+      this.checkCaptchaTimer = setInterval(this.refreshCaptcha, 5000);
+    }
+  }
+  
+  clearTimer() {
+    if (this.checkCaptchaTimer !== null) {
+      clearInterval(this.checkCaptchaTimer);
+      this.checkCaptchaTimer = null;
+    }
+  }
+
+  refreshCaptcha() {
+    if (!accessibilityCloudImageCache.hasValidCaptcha) {
+      this.setState({waitingForCaptcha: true, captchaError: false});
+      accessibilityCloudImageCache.getCaptcha().then(captcha => {
+        this.setState({waitingForCaptcha: false, captcha });
+      }).catch(e => {
+        this.setState({captchaError: true});
+      });
+    }
   }
 
   focus() {
@@ -213,7 +263,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   renderBackLink() {
     return <button
       className='close-link'
-      // translator: Button caption in photo upload captcha dialog
+      // translator: Button caption in photo captcha dialog
       aria-label={t`Back`}
       onClick={() => {
         if (this.props.onClose) this.props.onClose();
@@ -231,13 +281,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   render() {
-    const contentBelowSearchField = <section className='captcha-container'>
-      <div className='captcha-content'>
-        Captcha Container
-      </div>
-      <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
-      <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
-    </section>;
+    const { captcha, waitingForCaptcha, captchaError } = this.state;
 
     return (
       <StyledToolbar
@@ -251,9 +295,15 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
           {this.renderInputField()}
           {this.renderGoButton()}
         </header>
-        <section>
-          {contentBelowSearchField}
-        </section>
+        <section className='captcha-container'>
+          <div className='captcha-content'>
+            {captcha && <section dangerouslySetInnerHTML={{__html: captcha}} /> }
+            {waitingForCaptcha && <Dots /> }
+          </div>
+          {captchaError && <h3 className='captcha-error'>{t`Could not reach captcha server.`}</h3>}
+          <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
+          <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
+      </section>
       </StyledToolbar>
     );
   }
