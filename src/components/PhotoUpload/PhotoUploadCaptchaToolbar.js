@@ -231,12 +231,12 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   render() {
-    const contentBelowSearchField = <section classname='captcha-container'>
-      <div classname='captcha-content'>
+    const contentBelowSearchField = <section className='captcha-container'>
+      <div className='captcha-content'>
         Captcha Container
       </div>
-      <h3 classname='captcha-help'>{t`Please type these characters.`}</h3>
-      <small classname='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
+      <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
+      <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
     </section>;
 
     return (
