@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import ChevronRight from '../ChevronRight';
+import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
 
@@ -21,6 +22,11 @@ type State = {
   enteredInstructionsValue?: string,
 };
 
+const StyledCheckmarkIcon = styled(CheckmarkIcon)`
+  path { 
+    fill: ${props => props.color};
+  }
+`;
 
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
@@ -75,54 +81,85 @@ const StyledToolbar = styled(Toolbar)`
     justify-content: space-around;
 
     ul {
-      padding-left 0;
+      padding-left: 0;
       list-style: none;
 
       li {
         position: relative;
-        margin-bottom: 2rem;
+        margin-bottom: 0.8rem;
       
         p,
         small {
+          display: inline-block;
           color: ${colors.primaryColorBrighter};
         }
 
         p {
           font-weight: 600;
           margin-bottom: 0.5rem;
+          margin-top: 0.5rem;
         }
 
         ul.photo-examples {
           padding-left: 0;
-          display: flex;         
+          display: flex;
+          flex-wrap: wrap;     
 
           li {
             font-weight: 400;
             padding-right: 10px;
             margin-bottom: 0;
-
-            &.:last-child {
+            
+            &:last-child {
               padding-right: 0;
             }
 
             .placeholder-image {
               content: ' ';
-              width: 98px;
-              height: 98px;
-              background-size: contain; 
+              min-width: 72px;
+              max-width: 98px;
+              min-height: 72px;
+              max-height: 98px;
+              background-size: cover; 
               background-color: #EEE;
             } 
             
             .entrance-image { background-image: url('/images/placeholder-entrance@3x.png'); }
             .sitemap-image { background-image: url('/images/placeholder-sitemap@3x.png'); }
             .toilet-image { background-image: url('/images/placeholder-toilet@3x.png'); }
+          
+            small {
+              font-size: 0.8rem;
+              padding-left: 0;
+            }
           }
         }
       }
       
       li.with-checkmark {
-        margin-left: 24px;
 
+        p,
+        small,
+        ul {
+          padding-left: 24px;
+        }
+                
+        span {
+          display: flex;
+          position: relative;
+
+          > svg {
+            position: absolute;
+            top: 0.3rem;
+            left: -4px;
+            display: inline-block;
+            font-size: 1.7rem;
+          } 
+        }
+
+        p {
+
+        }
         &:before {
           content: ' ';
           position: absolute;
@@ -145,7 +182,6 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
   }
-
 
   > footer {
     display: flex;
@@ -215,7 +251,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         <section>
           <ul>
             <li className='with-checkmark'>
-              <p>{t`...are interesting for accessibility.`}</p>
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...are interesting for accessibility.`}</p></span>
               <ul className='photo-examples'>
                 <li>
                   <div className='placeholder-image entrance-image'></div>
@@ -232,16 +268,16 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               </ul>
             </li>
             <li className='with-checkmark'>
-              <p>{t`...I made them myself. `}</p>
-              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a Creative Commons-License (CC).`}</small>
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...I made them myself. `}</p></span>
+              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a Creative Commons-License (CC).`}</small>{/* TODO: add link to CC */}
             </li>
             <li className='with-checkmark'>
-              <p>{t`...do not contain any persons.`}</p>
-              <small>{t`For identifiable persons, written consent must be obtained in accordance with the DSGVO.`}</small>
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...do not contain any persons.`}</p></span>
+              <small>{t`For identifiable persons, written consent must be obtained in accordance with the DSGVO.`}</small>{/* TODO: add link to DSGVO */}
             </li>
             <li className='with-checkbox'>
               <input type='checkbox' id='confirm'/>
-              {/* <label for='confirm'>{t`...meet the terms of use.`}</label> TODO: fix label of checkbox, add link*/}
+              {/* <label for='confirm'>{t`...meet the terms of use.`}</label> TODO: fix label of checkbox, add link to terms of use*/}
               {/* <p>{t`...meet the terms of use.`}</p> */}
               <small>{t`I can read them here.`}</small>
             </li>
