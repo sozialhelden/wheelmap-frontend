@@ -11,7 +11,7 @@ import convertWheelmapPhotosToLightboxPhotos from './convertWheelmapPhotosToLigh
 import type { WheelmapFeaturePhotos } from '../../../lib/Feature';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
-import PhotoUploadConfirmation from '../../PhotoUpload/PhotoUploadConfirmation';
+import PhotoNotifcation from '../../NodeToolbar/Photos/PhotoNotification';
 
 type Props = {
   featureId: string,
@@ -55,7 +55,8 @@ class PhotoSection extends React.Component<Props, State> {
 
           if (photos.length > 0) {
             photos.push({
-              src: addPhotoEntry
+              src: addPhotoEntry,
+              width: 100,
             });
           }
           this.setState({ photos });
@@ -120,7 +121,7 @@ class PhotoSection extends React.Component<Props, State> {
             onClick={this.props.onPhotoUploadFlowStarted} 
           /> 
         }
-        <PhotoUploadConfirmation />
+        <PhotoNotifcation notificationType='waitingForReview' />
       </section>
     )
   }
