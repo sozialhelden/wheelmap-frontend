@@ -341,7 +341,10 @@ class NodeToolbar extends React.Component<Props, State> {
 
             { /* photo block */ }
             {isWheelmapFeature &&
-              <PhotoSection featureId={this.props.featureId} />
+              <PhotoSection 
+                featureId={this.props.featureId} 
+                onPhotoUploadFlowStarted={() => {console.log("onPhotoUploadFlowStarted");}}
+                />
             }
 
             {isEquipment ? <a
