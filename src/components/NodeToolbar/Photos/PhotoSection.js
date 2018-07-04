@@ -8,6 +8,9 @@ import Lightbox from 'react-images';
 import { wheelmapFeaturePhotosCache } from '../../../lib/cache/WheelmapFeaturePhotosCache';
 import convertWheelmapPhotosToLightboxPhotos from './convertWheelmapPhotosToLightboxPhotos';
 
+import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
+import PhotoUploadConfirmation from '../../PhotoUpload/PhotoUploadConfirmation';
+
 type Props = {
   featureId: string,
 };
@@ -18,8 +21,7 @@ type State = {
   currentImageIndex: number,
 };
 
-
-class ThumbnailList extends React.Component<Props, State> {
+class PhotoSection extends React.Component<Props, State> {
   state = {
     isLightboxOpen: false,
     photos: [],
@@ -74,8 +76,10 @@ class ThumbnailList extends React.Component<Props, State> {
   }
 
   render() {
+    const hasPhotos = this.state.photos.length > 0;
+
     return (
-      <div>
+      <section>
         <Gallery
           photos={this.state.photos}
           onClick={this.openLightbox}
@@ -88,12 +92,15 @@ class ThumbnailList extends React.Component<Props, State> {
           currentImage={this.state.currentImageIndex}
           isOpen={this.state.isLightboxOpen}
         />
-      </div>
+        { /* FIXME: only show this component if no images have been uploaded */}
+        {!hasPhotos && <PhotoUploadButton /> }
+        <PhotoUploadConfirmation />
+      </section>
     )
   }
 }
 
-const StyledThumbnailList = styled(ThumbnailList)`
+const StyledThumbnailList = styled(PhotoSection)`
   .react-photo-gallery--gallery {
     img {
       object-fit: cover;

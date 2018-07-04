@@ -28,9 +28,7 @@ import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
-import ThumbnailList from './Photos/ThumbnailList';
-import PhotoUploadButton from '../PhotoUpload/PhotoUploadButton';
-import PhotoUploadConfirmation from '../PhotoUpload/PhotoUploadConfirmation';
+import PhotoSection from './Photos/PhotoSection';
 
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
@@ -341,13 +339,9 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
             {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId} />}
 
+            { /* photo block */ }
             {isWheelmapFeature &&
-              <section>
-                <ThumbnailList featureId={this.props.featureId} />
-                { /* FIXME: only show this component if no images have been uploaded */}
-                <PhotoUploadButton />
-                <PhotoUploadConfirmation />
-              </section>
+              <PhotoSection featureId={this.props.featureId} />
             }
 
             {isEquipment ? <a
