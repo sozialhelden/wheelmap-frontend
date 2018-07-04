@@ -37,7 +37,7 @@ import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
 import { userAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
-import { hasOpenedLocationHelp } from '../../lib/savedState';
+import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors from '../../lib/colors';
 
 window.L = L;
@@ -296,7 +296,19 @@ export default class Map extends React.Component<Props, State> {
       onLocationError: (error: any) => {
         if (error && error.type && error.type === 'locationerror' && error.code && error.code === 1) {
           // System does not allow to use location services
-          this.setState({ showLocationNotAllowedHint: true });
+          debugger
+          if (!hasOpenedLocationHelp()) {
+            // If you open location help once, do not show this hint again until you click the
+            // location button
+            this.setState({ showLocationNotAllowedHint: true });
+          }
+        }
+      },
+      onClick: () => {
+        saveState({ hasOpenedLocationHelp: 'false' });
+        if (this.state.showLocationNotAllowedHint) {
+          goToLocationSettings();
+          this.setState({ showLocationNotAllowedHint: false });
         }
       },
     });
@@ -582,7 +594,7 @@ export default class Map extends React.Component<Props, State> {
       onActivate={this.zoomIn}
       caption={caption}
       ariaHidden
-      topPosition={60}
+      topPosition={10}
       color={colors.notificationBackgroundColor}
     />;
   }
@@ -598,11 +610,14 @@ export default class Map extends React.Component<Props, State> {
 
     return <NotificationButton
       isHidden={isHidden}
-      onActivate={goToLocationSettings}
+      onActivate={() => {
+        goToLocationSettings();
+        this.setState({ showLocationNotAllowedHint: false });
+      }}
       caption={caption}
       ariaHidden
-      topPosition={170}
-      color={colors.positiveColor}
+      topPosition={120}
+      color={colors.notificationBackgroundColor}
     />;
   }
 

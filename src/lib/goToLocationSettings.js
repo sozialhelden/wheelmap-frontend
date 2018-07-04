@@ -6,7 +6,7 @@ import { saveState } from './savedState';
 // Open location settings or show the user how to open them
 
 export default function goToLocationSettings() {
-  saveState({ hasOpenedLocationSettings: true });
+  saveState({ hasOpenedLocationHelp: 'true' });
 
   if (window.cordova) {
     if (userAgent.os.name === 'Android') {
@@ -28,7 +28,7 @@ export default function goToLocationSettings() {
   const supportURL = supportURLs[userAgent.browser.name];
 
   if (supportURL) {
-    window.location.href = supportURL;
+    window.open(supportURL, '_blank');
     return;
   }
 

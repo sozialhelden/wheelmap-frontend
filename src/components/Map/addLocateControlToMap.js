@@ -14,7 +14,7 @@ type Options = {
   onLocationError: ((error: any) => void),
 };
 
-export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError }: Options) {
+export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError, onClick }: Options) {
   const control = new LeafletLocateControl({
     onLocationError,
     position: 'topright',
@@ -53,6 +53,7 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
   L.DomEvent.on(control._link, 'click', () => {
     savedState.map.locate = control._active;
     saveState({ 'map.locate': savedState.map.locate ? 'true' : 'false' });
+    onClick();
   });
 
   // re-enable last state

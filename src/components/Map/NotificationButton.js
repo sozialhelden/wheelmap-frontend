@@ -1,10 +1,9 @@
 // @flow
 
 import * as React from 'react';
+import includes from 'lodash/includes';
 import styled from 'styled-components';
 import { isTouchDevice } from '../../lib/userAgent';
-import colors from '../../lib/colors';
-
 
 type Props = {
   caption: string,
@@ -19,14 +18,17 @@ type Props = {
 
 function NotificationButton(props: Props) {
   const classNames = [
-    'zoom-info-block',
     props.isHidden && 'is-hidden',
     isTouchDevice() && 'is-touch-device',
     props.className,
   ].filter(Boolean);
 
   return <a className={classNames.join(' ')}
-    onKeyDown={props.onActivate}
+    onKeyDown={(event) => {
+      if (includes(['Enter', ' '], event.key)) {
+        props.onActivate();
+      }
+    }}
     onClick={props.onActivate}
     role="button"
     tabIndex={-1}
@@ -41,7 +43,7 @@ const StyledNotificationButton = styled(NotificationButton)`
   display: inline-flex;
   position: absolute;
   right: 70px;
-  top: 10px;
+  top: ${props => props.topPosition}px;
   max-width: 100px; /* Ensure the block does not overlap the search bar */
   z-index: 1000;
   border-radius: 4px;
@@ -58,6 +60,7 @@ const StyledNotificationButton = styled(NotificationButton)`
   &.is-hidden {
     opacity: 0;
     transform: scale3d(1.3, 1.3, 1.3);
+    pointer-events: none;
   }
 
   span {
@@ -103,7 +106,7 @@ const StyledNotificationButton = styled(NotificationButton)`
   }
 
   @media (max-width: 1024px) {
-    top: ${props => props.topPosition}px;
+    top: ${props => props.topPosition + 50}px;
   }
 
   @media (max-width: 500px), (max-height: 500px) {
