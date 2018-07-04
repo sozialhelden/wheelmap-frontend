@@ -77,6 +77,8 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
 };
 
 
@@ -140,6 +142,8 @@ class Loader extends React.Component<Props, State> {
     featureId: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+    isPhotoUploadCaptchaToolbarVisible: false,
+    isPhotoUploadInstructionsToolbarVisible: false,
   };
 
   map: ?any;
@@ -361,7 +365,6 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-
   isEditMode() {
     const routeInformation = getRouteInformation(this.props);
     const { isEditMode } = routeInformation || {};
@@ -429,6 +432,8 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
+  onStartPhotoUploadFlow = () => { this.setState({ isPhotoUploadInstructionsToolbarVisible: true }) };
+
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
 
   onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
@@ -455,7 +460,10 @@ class Loader extends React.Component<Props, State> {
   };
 
   isNodeToolbarDisplayed(state = this.state) {
-    return state.feature && !state.isSearchToolbarExpanded;
+    return state.feature && 
+           !state.isSearchToolbarExpanded && 
+           !state.isPhotoUploadCaptchaToolbarVisible && 
+           !state.isPhotoUploadInstructionsToolbarVisible;
   }
 
   render() {
@@ -496,8 +504,8 @@ class Loader extends React.Component<Props, State> {
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
-      isPhotoUploadCaptchaToolbarVisible: true,
-      isPhotoUploadInstructionsToolbarVisible: true,
+      isPhotoUploadCaptchaToolbarVisible: this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
+      isPhotoUploadInstructionsToolbarVisible: this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
     }
 
     return (<MainView
@@ -518,6 +526,7 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
+      onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
 
       innerRef={(mainView) => { this.mainView = mainView; }}
     />);

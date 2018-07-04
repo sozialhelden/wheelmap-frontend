@@ -64,6 +64,7 @@ type Props = {
   isEditMode: boolean,
   isReportMode: boolean,
   onOpenReportMode: ?(() => void),
+  onStartPhotoUploadFlow: (() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
 };
@@ -343,7 +344,7 @@ class NodeToolbar extends React.Component<Props, State> {
             {isWheelmapFeature &&
               <PhotoSection 
                 featureId={this.props.featureId} 
-                onPhotoUploadFlowStarted={() => {console.log("onPhotoUploadFlowStarted");}}
+                onStartPhotoUploadFlow={() => { this.props.onStartPhotoUploadFlow(); }}
                 />
             }
 

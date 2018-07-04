@@ -15,7 +15,7 @@ import PhotoNotifcation from '../../NodeToolbar/Photos/PhotoNotification';
 
 type Props = {
   featureId: string,
-  onPhotoUploadFlowStarted: () => void; 
+  onStartPhotoUploadFlow: () => void; 
 };
 
 type State = {
@@ -68,7 +68,7 @@ class PhotoSection extends React.Component<Props, State> {
   thumbnailSelected = (event: UIEvent, obj: { index: number }) => {
     // the last element is always the upload photo element
     if (obj.index === this.state.photos.length - 1) {
-      this.props.onPhotoUploadFlowStarted();
+      this.props.onStartPhotoUploadFlow();
     } else {
       this.openLightbox(event, obj);
     }
@@ -119,7 +119,7 @@ class PhotoSection extends React.Component<Props, State> {
         />
         {!hasPhotos && 
           <PhotoUploadButton 
-            onClick={this.props.onPhotoUploadFlowStarted} 
+            onClick={this.props.onStartPhotoUploadFlow} 
           /> 
         }
         <PhotoNotifcation notificationType='waitingForReview' />

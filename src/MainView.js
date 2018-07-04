@@ -73,6 +73,7 @@ type Props = {
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
+  isNodeToolbarDisplayed: boolean,
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
@@ -91,6 +92,7 @@ type Props = {
   onCloseNodeToolbar: (() => void),
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
+  onStartPhotoUploadFlow: (() => void),
 };
 
 
@@ -225,6 +227,7 @@ class MainView extends React.Component<Props, State> {
         isReportMode={isReportMode}
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
+        onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
       />
     </div>;
   }
@@ -368,7 +371,7 @@ class MainView extends React.Component<Props, State> {
     const isNodeRoute = Boolean(featureId);
     const isEditMode = this.props.isEditMode;
     const { lat, lon, zoom, isReportMode } = this.props;
-    const isNodeToolbarVisible = this.props.feature && !this.props.isSearchToolbarExpanded;
+    const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = [
       'app-container',
