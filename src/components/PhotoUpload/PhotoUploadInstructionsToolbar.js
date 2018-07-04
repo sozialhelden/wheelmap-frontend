@@ -188,6 +188,11 @@ const StyledToolbar = styled(Toolbar)`
     flex-direction: row;
     justify-content: space-between;
   }
+
+  input.hidden-file-input {
+    visibility: hidden;
+    display: none;
+  }
 `;
 
 export default class PhotoUploadInstructionsToolbar extends React.Component<Props, State> {
@@ -285,7 +290,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         </section>
         <footer>
           <button className='link-button negative-button'>{t`Cancel`}</button>
-          <button className='link-button primary-button'>{t`Continue`}</button>
+          <label className='link-button primary-button' htmlFor="photo-file-upload">{t`Continue`}</label>
+          <input type='file' id="photo-file-upload" accept='image/*' name='continue-upload' className='hidden-file-input' />
         </footer>
       </StyledToolbar>
     );
