@@ -57,6 +57,7 @@ class PhotoSection extends React.Component<Props, State> {
             photos.push({
               src: addPhotoEntry,
               width: 100,
+              height: 100,
             });
           }
           this.setState({ photos });
