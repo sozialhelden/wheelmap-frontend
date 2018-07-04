@@ -1,5 +1,6 @@
 export { default as checkmark } from './checkmark';
 export { default as chevron-right } from './chevron-right';
+export { default as cta-photo-upload } from './cta-photo-upload';
 export { default as locate-off } from './locate-off';
 export { default as locate-on } from './locate-on';
 export { default as problem } from './problem';
