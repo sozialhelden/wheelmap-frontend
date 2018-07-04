@@ -160,6 +160,17 @@ export type WheelmapFeaturePhotos = {
   photos: WheelmapPhoto[],
 };
 
+export type AccessibilityCloudImage = {
+  _id: string,
+  isoDate: string,
+  url: string,
+  mimeType: string,
+};
+
+export type AccessibilityCloudImages = {
+  totalCount: number,
+  images: AccessibilityCloudImage[],
+};
 
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
