@@ -10,7 +10,7 @@ type Props = {
 };
 
 type State = {
-  sourceName: ?string;
+  sourceName?: string;
 };
 
 const defaultState: State = {};
