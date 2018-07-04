@@ -541,6 +541,7 @@ class Loader extends React.Component<Props, State> {
   onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
 
   onCloseOnboarding = () => {
+    saveState({ onboardingCompleted: 'true' });
     this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
     if (this.mainView) this.mainView.focusSearchToolbar();
   };
