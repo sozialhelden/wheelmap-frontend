@@ -14,11 +14,12 @@ import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
-import Onboarding, { isOnboardingVisible } from './components/Onboarding/Onboarding';
+import Onboarding from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
+import { isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type {
@@ -39,7 +40,7 @@ import {
 import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
 
 import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
-import isTouchDevice from './lib/isTouchDevice';
+import { isTouchDevice } from './lib/userAgent';
 
 
 type Props = {
@@ -85,6 +86,7 @@ type Props = {
   onCloseNodeToolbar: (() => void),
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
+  onClickCurrentMarkerIcon?: ((Feature) => void),
 };
 
 
@@ -161,7 +163,7 @@ class MainView extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (isOnboardingVisible()) {
+    if (isFirstStart()) {
       this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     }
   }
@@ -219,6 +221,7 @@ class MainView extends React.Component<Props, State> {
         isReportMode={isReportMode}
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
+        onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
       />
     </div>;
   }

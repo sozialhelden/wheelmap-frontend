@@ -40,6 +40,12 @@ function Onboarding(props: Props) {
     buttonElement.focus();
   }
 
+  const onClose = (event) => {
+    // Prevent that touch up opens a link underneath the primary button after closing
+    // the onboarding dialog
+    setTimeout(() => props.onClose(), 10);
+  };
+
   return (<ModalDialog
     className={props.className}
     isVisible={props.isVisible}
@@ -78,7 +84,7 @@ function Onboarding(props: Props) {
     </section>
 
     <footer>
-      <button className="button-cta-close focus-ring" onClick={props.onClose} ref={manageFocus} >
+      <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus} >
         {startButtonCaption}
         <ChevronRight />
       </button>
@@ -324,12 +330,3 @@ const StyledOnboarding = styled(Onboarding)`
 `;
 
 export default StyledOnboarding;
-
-
-export function saveOnboardingFlag() {
-  storage.setItem('wheelmap.onboardingCompleted', 'true');
-}
-
-export function isOnboardingVisible() {
-  return storage.getItem('wheelmap.onboardingCompleted') !== 'true';
-}

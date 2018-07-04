@@ -5,22 +5,27 @@ import L from 'leaflet';
 import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol';
 
-import savedState, { saveState } from '../../lib/savedState';
+import savedState, { saveState, isFirstStart } from '../../lib/savedState';
 
 window.L = L;
 
-export default function addLocateControlToMap(map: L.Map) {
+type Options = {
+  locateOnStart: boolean,
+  onLocationError: ((error: any) => void),
+};
+
+export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError }: Options) {
   const control = new LeafletLocateControl({
+    onLocationError,
     position: 'topright',
     icon: 'leaflet-icon-locate',
     iconLoading: 'leaflet-icon-locate-loading',
     showPopup: false,
-    // do not follow user
-    setView: false,
+    setView: 'untilPan', // can be overridden by <Map />
     clickBehavior: {
-      // only disable when pos is on screen
-      inView: 'stop', 
-      outOfView: 'setView' 
+      // only disable when position is on screen
+      inView: 'stop',
+      outOfView: 'setView'
     },
     circleStyle: {
       color: '#1fabd9',
@@ -39,8 +44,7 @@ export default function addLocateControlToMap(map: L.Map) {
     locateOptions: {
       enableHighAccuracy: false,
       watch: true,
-      // do not follow user 2
-      setView: false,
+      setView: locateOnStart,
       maxZoom: 17,
     },
   }).addTo(map);
@@ -52,7 +56,9 @@ export default function addLocateControlToMap(map: L.Map) {
   });
 
   // re-enable last state
-  if (savedState.map.locate) {
+  if (savedState.map.locate || locateOnStart) {
     control.start();
   }
+
+  return control;
 }

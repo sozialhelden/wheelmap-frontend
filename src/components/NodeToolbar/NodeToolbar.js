@@ -63,6 +63,7 @@ type Props = {
   onOpenReportMode: ?(() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
+  onClickCurrentMarkerIcon?: ((Feature) => void)
 };
 
 
@@ -83,7 +84,7 @@ const StyledToolbar = styled(Toolbar)`
   @media (max-width: 512px), (max-height: 512px) {
     top: 50px;
   }
- 
+
   p.sources {
     margin-top: .5em;
     font-size: 80%;
@@ -302,6 +303,7 @@ class NodeToolbar extends React.Component<Props, State> {
           category={this.state.category}
           parentCategory={this.state.parentCategory}
           showOnlyBasics={this.props.isEditMode || this.props.isReportMode}
+          onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
         />
 
         {(() => {
