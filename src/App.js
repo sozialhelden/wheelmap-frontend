@@ -432,7 +432,17 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
-  onStartPhotoUploadFlow = () => { this.setState({ isPhotoUploadInstructionsToolbarVisible: true }) };
+  onStartPhotoUploadFlow = () => { this.setState({ isSearchBarVisible: false, isPhotoUploadInstructionsToolbarVisible: true }) };
+
+  onAbortPhotoUploadFlow = () => { this.setState({ isSearchBarVisible: !isOnSmallViewport(), isPhotoUploadInstructionsToolbarVisible: false, isPhotoUploadCaptchaToolbarVisible: false }) };
+
+  onContinuePhotoUploadFlow = (files: FileList) => {
+    if (files.length === 0) {
+      this.onAbortPhotoUploadFlow();
+      return;
+    }
+    this.setState({ isSearchBarVisible: false, isPhotoUploadInstructionsToolbarVisible: false, isPhotoUploadCaptchaToolbarVisible: true }) 
+  }
 
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
 
@@ -527,6 +537,8 @@ class Loader extends React.Component<Props, State> {
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
+      onAbortPhotoUploadFlow={this.onAbortPhotoUploadFlow}
+      onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
 
       innerRef={(mainView) => { this.mainView = mainView; }}
     />);

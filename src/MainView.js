@@ -92,7 +92,10 @@ type Props = {
   onCloseNodeToolbar: (() => void),
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
+
   onStartPhotoUploadFlow: (() => void),
+  onAbortPhotoUploadFlow: (() => void),
+  onContinuePhotoUploadFlow: ((files: FileList) => void),
 };
 
 
@@ -228,6 +231,7 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
+        onContinuePhotoUploadFlow={this.props.onContinuePhotoUploadFlow}
       />
     </div>;
   }
@@ -336,6 +340,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible ||
       this.props.isEditMode ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
       this.props.isReportMode;
 
     return <FullscreenBackdrop
@@ -349,7 +355,7 @@ class MainView extends React.Component<Props, State> {
       ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar}
       history={this.props.history}
       hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
-      onClose={() => { console.log("captcha.onClosed") }}
+      onClose={this.props.onAbortPhotoUploadFlow}
       onCompleted={() => { console.log("captcha.onCompleted") }}
     />
   }
@@ -359,8 +365,8 @@ class MainView extends React.Component<Props, State> {
       ref={photoUploadInstructionsToolbar => this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar}
       history={this.props.history}
       hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
-      onClose={() => { console.log("instructions.onClosed") }}
-      onCompleted={() => { console.log("instructions.onCompleted") }}
+      onClose={this.props.onAbortPhotoUploadFlow}
+      onCompleted={this.props.onContinuePhotoUploadFlow}
     />
   }
 
@@ -387,6 +393,8 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible;
 

@@ -14,7 +14,7 @@ import colors from '../../lib/colors';
 export type Props = {
   hidden: boolean,
   onClose: ?(() => void),
-  onCompleted: ?(() => void),
+  onCompleted: ?((files: FileList) => void),
 };
 
 
@@ -205,28 +205,10 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
 
-
   componentDidMount() {
-    if (!this.props.hidden) {
-      this.focus(); // Focus input field on start
-    }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-  }
-
-  focus() {
-    this.inputField && this.inputField.focus();
-  }
-
-  renderInputField() {
-    return <input type="text"
-      ref={inputField => this.inputField = inputField}
-      onFocus={(event) => {
-        window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
-      }}
-      onChange={event => this.setState({ enteredInstructionsValue: event.target.value })}
-    />;
   }
 
   renderCloseLink() {
@@ -234,11 +216,32 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       className='close-link'
       // translator: Button caption in photo upload Instructions dialog
       aria-label={t`Back`}
-      onClick={() => {
-        if (this.props.onClose) this.props.onClose();
-      }}
+      onClick={this.onClose}
       ref={backLink => this.backLink = backLink}
     >← </button>;
+  }
+
+
+  onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
+    const input = event.currentTarget;
+    var files = input.files;
+
+    if (!files || files.length === 0) {
+      if (this.props.onClose) {
+        this.props.onClose();
+      }
+    } else {
+      if (this.props.onCompleted) {
+        this.props.onCompleted(files);
+      }
+    }
+  }
+
+  onClose = (event: UIEvent) => {
+    if (this.props.onClose) {
+      this.props.onClose();
+      event.preventDefault();
+    }
   }
 
   render() {
@@ -289,9 +292,19 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           </ul>
         </section>
         <footer>
-          <button className='link-button negative-button'>{t`Cancel`}</button>
-          <label className='link-button primary-button' htmlFor="photo-file-upload">{t`Continue`}</label>
-          <input type='file' id="photo-file-upload" accept='image/*' name='continue-upload' className='hidden-file-input' />
+          <button className='link-button negative-button' onClick={this.onClose}>{t`Cancel`}</button>
+          <label className='link-button primary-button' htmlFor="photo-file-upload" >
+            {t`Continue`}
+          </label>
+          <input 
+            ref={(input => {this.inputField = input})}
+            type='file'
+            id="photo-file-upload"
+            multiple={false}
+            accept='image/*'
+            onChange={this.onFileInputChanged}
+            name='continue-upload'
+            className='hidden-file-input' />
         </footer>
       </StyledToolbar>
     );
