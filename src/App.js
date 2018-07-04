@@ -13,6 +13,7 @@ import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
+import { isTouchDevice } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
