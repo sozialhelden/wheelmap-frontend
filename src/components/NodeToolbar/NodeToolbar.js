@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { Dots } from 'react-activity';
 import Categories from '../../lib/Categories';
 import type { Category } from '../../lib/Categories';
-import { generateShowOnOsmUrl } from './Report/generateOsmUrls';
+import { generateShowOnOsmUrl } from '../../lib/generateOsmUrls';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';

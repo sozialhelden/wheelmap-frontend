@@ -377,6 +377,12 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
+  p {
+    line-height: 1.5;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
   .link-button {
     display: block;
     font-size: 16px;
