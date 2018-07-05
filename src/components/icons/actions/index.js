@@ -1,8 +1,8 @@
-export { default as checkmark } from './checkmark';
-export { default as chevron-right } from './chevron-right';
-export { default as cta-photo-upload } from './cta-photo-upload';
-export { default as locate-off } from './locate-off';
-export { default as locate-on } from './locate-on';
-export { default as problem } from './problem';
-export { default as search } from './search';
-export { default as share } from './share';
+export { default as CheckmarkIcon } from './CheckmarkIcon';
+export { default as ChevronRight } from './ChevronRight';
+export { default as LocateOff } from './LocateOff';
+export { default as LocateOn } from './LocateOn';
+export { default as PenIcon } from './PenIcon';
+export { default as Problem } from './Problem';
+export { default as Search } from './Search';
+export { default as Share } from './Share';
