@@ -97,8 +97,10 @@ type Props = {
   onStartPhotoUploadFlow: (() => void),
   onAbortPhotoUploadFlow: (() => void),
   onContinuePhotoUploadFlow: ((photos: FileList) => void),
-  onFinishPhotoUploadFlow: ((photos: FileList) => void),
+  onFinishPhotoUploadFlow: ((photos: FileList, captchaSolution: string) => void),
   photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean,
 };
 
 
@@ -360,6 +362,8 @@ class MainView extends React.Component<Props, State> {
       onClose={this.props.onAbortPhotoUploadFlow}
       onCompleted={this.props.onFinishPhotoUploadFlow}
       photosMarkedForUpload={this.props.photosMarkedForUpload}
+      waitingForPhotoUpload={this.props.waitingForPhotoUpload}
+      photoCaptchaFailed={this.props.photoCaptchaFailed}
     />
   }
 

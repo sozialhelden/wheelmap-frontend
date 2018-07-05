@@ -40,7 +40,7 @@ import {
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
-import { accessibilityCloudImageCache } from './lib/cache/AccessibilityCloudImageCache';
+import { accessibilityCloudImageCache, InvalidCaptchaReason } from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
@@ -79,9 +79,12 @@ type State = {
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
 
+  // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean, 
 };
 
 
@@ -443,6 +446,7 @@ class Loader extends React.Component<Props, State> {
     
     this.setState({ 
       isSearchBarVisible: false,
+      waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: true,
       photosMarkedForUpload: null,
     });
@@ -450,10 +454,12 @@ class Loader extends React.Component<Props, State> {
 
   onAbortPhotoUploadFlow = () => { 
     this.setState({ 
-      isSearchBarVisible: !isOnSmallViewport(), 
+      isSearchBarVisible: !isOnSmallViewport(),
+      waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: false, 
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
+      photoCaptchaFailed: false,
     });
   };
 
@@ -463,11 +469,42 @@ class Loader extends React.Component<Props, State> {
       return;
     }
     this.setState({ 
-      isSearchBarVisible: false, 
+      isSearchBarVisible: false,
       isPhotoUploadInstructionsToolbarVisible: false, 
       isPhotoUploadCaptchaToolbarVisible: true,
       photosMarkedForUpload: photos,
     });
+  }
+
+  onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
+    console.log("onFinishPhotoUploadFlow");
+    const featureId = this.state.featureId;
+
+    if (!featureId) {
+      console.error("No feature found, aborting upload");
+      this.onAbortPhotoUploadFlow();
+      return;
+    }
+
+    this.setState({ 
+      waitingForPhotoUpload: true,
+    });
+
+    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
+      .then(() => {
+        console.log("Succeeded upload");
+        this.onAbortPhotoUploadFlow();
+      }).catch((reason) => {
+        console.error("Failed upload", reason);
+        if (reason === InvalidCaptchaReason) {
+          this.setState({ 
+            waitingForPhotoUpload: false,
+            photoCaptchaFailed: true,
+          });
+        } else {
+          this.onAbortPhotoUploadFlow("upload-failed");
+        }
+      });
   }
 
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
@@ -541,13 +578,18 @@ class Loader extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
 
+      // photo feature
       isPhotoUploadCaptchaToolbarVisible: this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible: this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
       photosMarkedForUpload: this.state.photosMarkedForUpload,
+      waitingForPhotoUpload: this.state.waitingForPhotoUpload,
+      photoCaptchaFailed: this.state.photoCaptchaFailed,
     }
 
     return (<MainView
       {...extraProps}
+
+      innerRef={(mainView) => { this.mainView = mainView; }}
 
       onClickSearchButton={this.onClickSearchButton}
       onToggleMainMenu={this.onToggleMainMenu}
@@ -565,12 +607,11 @@ class Loader extends React.Component<Props, State> {
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
 
+      // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
       onAbortPhotoUploadFlow={this.onAbortPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
-      onFinishPhotoUploadFlow={(photos: FileList) => console.log("asaasasasas ffinished", photos)}
-
-      innerRef={(mainView) => { this.mainView = mainView; }}
+      onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
     />);
   }
 }
