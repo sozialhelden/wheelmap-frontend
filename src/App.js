@@ -486,13 +486,18 @@ class Loader extends React.Component<Props, State> {
       this.onExitPhotoUploadFlow();
       return;
     }
-    this.setState({ 
-      isSearchBarVisible: false,
-      isPhotoUploadInstructionsToolbarVisible: false, 
-      isPhotoUploadCaptchaToolbarVisible: true,
-      photosMarkedForUpload: photos,
-      photoCaptchaFailed: false,
-    });
+    if (accessibilityCloudImageCache.hasSolvedCaptcha()) {
+      console.log("reusing existing solution", accessibilityCloudImageCache.captchaSolution);
+      this.onFinishPhotoUploadFlow(photos, accessibilityCloudImageCache.captchaSolution || '');
+    } else {
+      this.setState({ 
+        isSearchBarVisible: false,
+        isPhotoUploadInstructionsToolbarVisible: false, 
+        isPhotoUploadCaptchaToolbarVisible: true,
+        photosMarkedForUpload: photos,
+        photoCaptchaFailed: false,
+      });
+    }
   }
 
   onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {

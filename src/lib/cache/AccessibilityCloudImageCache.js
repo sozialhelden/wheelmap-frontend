@@ -33,6 +33,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
         }
       ).then((response: Response) => {
         if (response.ok) {
+          if (this.lastCaptcha) {
+            this.captchaSolution = captchaSolution;
+          }
           resolve(true);
         } else {
           response.json()
@@ -75,6 +78,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
             }
             response.text().then((captcha) => {
               this.lastCaptcha = captcha;
+              this.captchaSolution = null;
               resolve(this.lastCaptcha);
             }).catch(reject);
           } else {
@@ -84,10 +88,10 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
       }
     })
 
-    const resetCaptcha = () => {
+    const resetCaptchaRequest = () => {
       this.captchaRequest = null;
     };
-    promise.then(resetCaptcha, resetCaptcha);
+    promise.then(resetCaptchaRequest, resetCaptchaRequest);
     this.captchaRequest = promise;
 
     return promise;
@@ -96,6 +100,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   resetCaptcha() {
     if (!this.captchaRequest) {
       this.lastCaptcha = null;
+      this.captchaSolution = null;
     }
     return this.getCaptcha({ headers: { 'pragma': 'no-cache', 'cache-control': 'no-cache' }, cache: "reload" });
   }
@@ -105,9 +110,14 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return !isCaptchaExpired && this.lastCaptcha;
   }
 
+  hasSolvedCaptcha() {
+    return this.hasValidCaptcha() && this.captchaSolution;
+  }
+
   lastCaptcha: string | null = null;
   captchaExpirationTime: number = 0;
-  captchaRequest: Promise<string> | null;
+  captchaRequest: Promise<string> | null = null;
+  captchaSolution: string | null = null;
 }
 
 export const accessibilityCloudImageCache = new AccessibilityCloudImageCache();
