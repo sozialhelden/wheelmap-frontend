@@ -340,6 +340,8 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     const { captcha, waitingForCaptcha, captchaError } = this.state;
     const { waitingForPhotoUpload, photoCaptchaFailed } = this.props;
 
+    const mailHref = `mailto:photos@wheelmap.org?subject=${t`Wheelmap Photo Upload`}&body=${t`Hi Wheelmap Team, I made a photo of the following place:`}`;
+
     return (
       <StyledToolbar
         className='captcha-toolbar'
@@ -359,10 +361,13 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
               {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} />}
               {captcha && this.renderForceRefreshButton()}
               {waitingForCaptcha && <div>{t`Loading captcha`}<Dots /></div>}
-            </div>            
+            </div>
+            <small className='captcha-explanation'>{t`Then we know you're not a machine.`}</small>
             {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
             {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
-            <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
+            <section>
+              <small className='captcha-addon'><a href={mailHref}>{t`If you cannot solve our captchas, please contribute your photo via email!`}</a></small>
+            </section>
           </section>
         }
         {waitingForPhotoUpload && 
