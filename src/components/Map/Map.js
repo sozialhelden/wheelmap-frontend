@@ -296,7 +296,6 @@ export default class Map extends React.Component<Props, State> {
       onLocationError: (error: any) => {
         if (error && error.type && error.type === 'locationerror' && error.code && error.code === 1) {
           // System does not allow to use location services
-          debugger
           if (!hasOpenedLocationHelp()) {
             // If you open location help once, do not show this hint again until you click the
             // location button

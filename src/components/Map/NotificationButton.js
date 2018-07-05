@@ -74,9 +74,6 @@ const StyledNotificationButton = styled(NotificationButton)`
     text-shadow: 0 0px 1px rgba(0,0,0,0.5);
   }
 
-
-  /* only show nose with zoom buttons */
-
   &:not(.is-touch-device) {
     ::before {
       border-color: rgba(0, 0, 0, 0.15);
