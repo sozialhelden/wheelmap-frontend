@@ -1,13 +1,10 @@
-import * as React from 'react';
+import React from "react";
 
-export default function ChevronRight(props) {
-  return (
-    <svg width="5px" height="12px" viewBox="0 0 5 12" version="1.1" {...props}>
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="chevron-right" fill="#000000">
-          <polygon points="0 0 1 0 5 5.5 1 11.3333333 0 11.3333333 4 5.5" />
-        </g>
-      </g>
-    </svg>
-  );
-}
+const ChevronRight = props => (
+  <svg viewBox="0 0 5 12" width="1em" height="1em" {...props}>
+    <path d="M0 0h1l4 5.5-4 5.833H0L4 5.5z" fill="#000" fillRule="evenodd" />
+  </svg>
+);
+
+export default ChevronRight;
+

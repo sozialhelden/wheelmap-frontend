@@ -1,15 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function LocateOn(props) {
-  return (
-    <svg width="23px" height="23px" viewBox="0 0 23 23" version="1.1" {...props}>
-      {/* Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch */}
-      
+const LocateOn = props => (
+  <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+    <path
+      d="M24.707 3L11.773 23l-.004-7.062-7.062-.004z"
+      fillRule="nonzero"
+      fill="#39ABDB"
+    />
+  </svg>
+);
 
+export default LocateOn;
 
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="locate-on" />
-      </g>
-    </svg>
-  );
-}

@@ -1,17 +1,14 @@
-import * as React from 'react';
+import React from "react";
 
-export default function LocateOff(props) {
-  return (
-    <svg width="17px" height="16px" viewBox="0 0 17 16" version="1.1" {...props}>
-      {/* Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch */}
-      
+const LocateOff = props => (
+  <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+    <path
+      d="M5.784 14.437l3.484.002.002 3.484 6.381-9.867-9.867 6.38zM20.707 3L7.773 23l-.004-7.062-7.062-.004L20.707 3z"
+      fillRule="nonzero"
+      fill="#000"
+    />
+  </svg>
+);
 
+export default LocateOff;
 
-      <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
-        <g id="locate-off" transform="translate(0.006139, -3.362133)" fillRule="nonzero" fill="#000000">
-          <path d="M3.7053377,12.8233426 L7.23756857,12.8255507 L7.23977673,16.3577816 L13.7092769,6.35384241 L3.7053377,12.8233426 Z M16.7011655,3.3619538 L6.35404116,19.3619538 L6.3505095,13.7126098 L0.701165482,13.7090781 L16.7011655,3.3619538 Z" id="Combined-Shape" />
-        </g>
-      </g>
-    </svg>
-  );
-}
