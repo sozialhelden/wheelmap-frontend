@@ -66,6 +66,7 @@ type Props = {
   category: ?Category,
   parentCategory: ?Category,
   showOnlyBasics: boolean,
+  onClickCurrentMarkerIcon?: ((Feature) => void),
 };
 
 
@@ -89,6 +90,9 @@ export default class NodeHeader extends React.Component<Props, void> {
     return this.getAddressForWheelmapProperties(((properties: any): WheelmapProperties));
   }
 
+  onClickCurrentMarkerIcon = () => {
+    this.props.onClickCurrentMarkerIcon(this.props.feature);
+  }
 
   render() {
     const isEquipment = !!this.props.equipmentInfoId;
@@ -118,7 +122,7 @@ export default class NodeHeader extends React.Component<Props, void> {
     const hasLongName = placeName && placeName.length > 50;
     const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
       {categoryName ?
-        <Icon accessibility={accessibility} category={shownCategoryId} size='medium' ariaHidden={true} centered />
+        <Icon accessibility={accessibility} category={shownCategoryId} size='medium' ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />
         : null
       }
       {placeName}

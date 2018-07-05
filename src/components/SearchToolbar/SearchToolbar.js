@@ -453,7 +453,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
           {this.props.searchQuery && this.renderCloseLink()}
           {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
         </header>
-        <section>
+        <section onTouchStart={() => this.blur()}>
           { contentBelowSearchField }
         </section>
       </StyledToolbar>

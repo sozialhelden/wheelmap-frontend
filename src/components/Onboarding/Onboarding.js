@@ -3,13 +3,13 @@
 import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
+import storage from 'local-storage-fallback';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
 import Icon from '../Icon';
-
 
 type Props = {
   className: string,
@@ -39,6 +39,12 @@ function Onboarding(props: Props) {
     buttonElement.addEventListener('keydown', preventTabbing);
     buttonElement.focus();
   }
+
+  const onClose = (event) => {
+    // Prevent that touch up opens a link underneath the primary button after closing
+    // the onboarding dialog
+    setTimeout(() => props.onClose(), 10);
+  };
 
   return (<ModalDialog
     className={props.className}
@@ -78,7 +84,7 @@ function Onboarding(props: Props) {
     </section>
 
     <footer>
-      <button className="button-cta-close focus-ring" onClick={props.onClose} ref={manageFocus} >
+      <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus} >
         {startButtonCaption}
         <ChevronRight />
       </button>
@@ -324,12 +330,3 @@ const StyledOnboarding = styled(Onboarding)`
 `;
 
 export default StyledOnboarding;
-
-
-export function saveOnboardingFlag() {
-  localStorage.setItem('wheelmap.onboardingCompleted', 'true');
-}
-
-export function isOnboardingVisible() {
-  return localStorage.getItem('wheelmap.onboardingCompleted') !== 'true';
-}

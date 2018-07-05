@@ -25,6 +25,7 @@ type Props = {
   ariaHidden?: ?boolean,
   foregroundColor?: ?string,
   backgroundColor?: ?string,
+  onClick?: (() => void),
 };
 
 
@@ -85,6 +86,7 @@ export default function Icon({
   shadowed,
   ariaHidden,
   centered,
+  onClick,
 }: Props) {
   let iconName = properties ? getIconNameForProperties(properties) : category;
   if (iconName === '2nd_hand') {
@@ -103,6 +105,7 @@ export default function Icon({
       aria-hidden={ariaHidden}
       accessibility={accessibility}
       centered={centered}
+      onClick={onClick}
     >
       {(accessibility && MarkerComponent) ? <MarkerComponent className="background" /> : null}
       {CategoryIconComponent ? <CategoryIconComponent className="icon"/> : null}

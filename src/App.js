@@ -1,6 +1,7 @@
 // @flow
 
 import pick from 'lodash/pick';
+import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import queryString from 'query-string';
@@ -8,12 +9,11 @@ import initReactFastclick from 'react-fastclick';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 
-import { saveOnboardingFlag, isOnboardingVisible } from './components/Onboarding/Onboarding';
-
 import config from './lib/config';
-import savedState, { saveState } from './lib/savedState';
+import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
+import { isTouchDevice } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -124,6 +124,9 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   return `/beta/nodes/${featureId}`;
 }
 
+function isStickySearchBarSupported() {
+  return hasBigViewport() && !isTouchDevice();
+}
 
 class Loader extends React.Component<Props, State> {
   props: Props;
@@ -136,7 +139,7 @@ class Loader extends React.Component<Props, State> {
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
 
-    isSearchBarVisible: hasBigViewport(),
+    isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
@@ -164,7 +167,7 @@ class Loader extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (isOnboardingVisible()) {
+    if (isFirstStart()) {
       this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     }
   }
@@ -350,7 +353,7 @@ class Loader extends React.Component<Props, State> {
 
 
   closeSearch() {
-    this.setState({ isSearchBarVisible: hasBigViewport(), isSearchToolbarExpanded: false });
+    this.setState({ isSearchBarVisible: isStickySearchBarSupported(), isSearchToolbarExpanded: false });
   }
 
 
@@ -396,9 +399,11 @@ class Loader extends React.Component<Props, State> {
   };
 
   onMapClick = () => {
-    this.closeSearch();
-    this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
-    this.mainView.focusMap();
+    if (this.state.isSearchToolbarExpanded) {
+      this.closeSearch();
+      this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
+      this.mainView.focusMap();
+    }
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
@@ -406,6 +411,15 @@ class Loader extends React.Component<Props, State> {
     const pathname = hrefForFeature(featureId, properties);
     const location = { pathname, search: queryString.stringify(params) };
     this.props.history.push(location);
+  };
+
+  // Pan back to currently shown feature when marker in details panel is tapped/clicked
+  onClickCurrentMarkerIcon = (feature: Feature) => {
+    if (!feature) return;
+    this.setState({
+      lat: get(feature, 'geometry.coordinates.1'),
+      lon: get(feature, 'geometry.coordinates.0'),
+    });
   };
 
   onError = (error) => {
@@ -416,7 +430,7 @@ class Loader extends React.Component<Props, State> {
     if (coords) {
       this.setState(coords);
     }
-    this.setState({ isSearchBarVisible: !isOnSmallViewport() });
+    this.setState({ isSearchBarVisible: isStickySearchBarSupported() });
   };
 
   onResetCategory = () => {
@@ -513,7 +527,7 @@ class Loader extends React.Component<Props, State> {
   onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
 
   onCloseOnboarding = () => {
-    saveOnboardingFlag();
+    saveState({ onboardingCompleted: true });
     this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
     if (this.mainView) this.mainView.focusSearchToolbar();
   };
@@ -527,7 +541,7 @@ class Loader extends React.Component<Props, State> {
 
   onCloseSearchToolbar = () => {
     this.setState({
-      isSearchBarVisible: hasBigViewport(),
+      isSearchBarVisible: isStickySearchBarSupported(),
       isSearchToolbarExpanded: false,
     });
     if (this.mainView) this.mainView.focusMap();
@@ -545,7 +559,9 @@ class Loader extends React.Component<Props, State> {
     const isEditMode = this.isEditMode();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
-    const shouldLocateOnStart = +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
+    const shouldLocateOnStart =
+      !isNodeRoute &&
+      +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
 
@@ -597,6 +613,7 @@ class Loader extends React.Component<Props, State> {
       onMoveEnd={this.onMoveEnd}
       onMapClick={this.onMapClick}
       onMarkerClick={this.onMarkerClick}
+      onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
       onError={this.onError}
       onSelectCoordinate={this.onSelectCoordinate}
       onResetCategory={this.onResetCategory}
