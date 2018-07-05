@@ -17,8 +17,8 @@ export type Props = {
   hidden: boolean,
   photosMarkedForUpload: FileList | null,
   onClose: ?(() => void),
-  onCompleted: ?((photos: FileList) => void),
-  waitingForUpload?: boolean;
+  onCompleted: ?((photos: FileList, captchaSolution: string) => void),
+  waitingForPhotoUpload?: boolean;
 };
 
 
@@ -196,7 +196,7 @@ const contentBelowSearchField = styled.button`
 export default class PhotoUploadCaptchaToolbar extends React.Component<Props, State> {
   props: Props;
 
-  state = {
+  state: State = {
     waitingForCaptcha: false,
     captchaError: null,
     captcha: null,
@@ -262,7 +262,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   renderInputField() {
-    const isInputDisabled = this.canSubmit();
+    const isInputDisabled = !this.canEnter();
     return (
       <input type="text"
         ref={inputField => this.inputField = inputField}
@@ -290,7 +290,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   renderGoButton() {
     // translator: button shown next to the captcha text input field
     const caption = t`Go!`;
-    const isGoDisabled = this.canSubmit();
+    const isGoDisabled = !this.canSubmit();
     return (
       <GoButton 
         innerRef={(button) => this.goButton = button} 
@@ -304,7 +304,11 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
   onFinishPhotoUploadFlow = (event: UIEvent) => {
     if (this.props.onCompleted && this.props.photosMarkedForUpload) {
-      this.props.onCompleted(this.props.photosMarkedForUpload);
+      if (!this.state.enteredCaptchaValue) {
+        return;
+      }
+
+      this.props.onCompleted(this.props.photosMarkedForUpload, this.state.enteredCaptchaValue);
       event.preventDefault();
       event.stopPropagation();
     } else if (this.props.onClose) {
@@ -314,8 +318,14 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     }
   }
 
+  canEnter() {
+    return !this.props.waitingForPhotoUpload && !this.state.captchaError && !this.state.waitingForCaptcha;
+  }
+
   canSubmit() {
-    return this.props.waitingForUpload || this.state.captchaError || this.state.waitingForCaptcha;
+    const value = this.state.enteredCaptchaValue;
+    const isValueOkay = value ? value.length > 0 : false;
+    return this.canEnter() && isValueOkay;
   }
 
   render() {
