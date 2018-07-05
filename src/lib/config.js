@@ -7,7 +7,8 @@ if (queryParams.includeSourceIds) {
 }
 const config = {
   locateTimeout: 60 * 60 * 1000,
-  defaultStartCenter: [52.5173, -13.3877],
+  // If no location is known, start at the Cologne cathedral landmark
+  defaultStartCenter: [50.94133042185295, 6.957112947082502],
   maxZoom: 20,
   minZoomWithSetCategory: queryParams.includeSourceIds ? 8 : 13,
   minZoomWithoutSetCategory: 16,

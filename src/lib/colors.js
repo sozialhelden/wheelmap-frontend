@@ -38,6 +38,7 @@ const colors = {
   negativeBackgroundColorTransparent: 'rgba(245, 75, 75, 0.1)',
   neutralColor: 'rgb(88, 87, 83)',
   neutralBackgroundColorTransparent: 'rgba(88, 87, 83, 0.11)',
+  notificationBackgroundColor: 'rgb(86, 105, 140)',
   markers: {
     background: {
       yes: '#7ec512',

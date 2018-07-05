@@ -11,6 +11,7 @@ import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
 import { getQueryParams } from '../../lib/queryParams';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
+import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
 
 import {
   isWheelchairAccessible,
@@ -24,8 +25,8 @@ import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
-import isAndroidPlatform from '../../lib/isAndroidPlatform';
 import addLocateControlToMap from './addLocateControlToMap';
+import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
@@ -34,7 +35,10 @@ import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityClo
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
-
+import { userAgent } from '../../lib/userAgent';
+import NotificationButton from './NotificationButton';
+import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
+import colors from '../../lib/colors';
 
 window.L = L;
 
@@ -70,6 +74,7 @@ type Props = {
   unitSystem?: 'metric' | 'imperial',
   isLocalizationLoaded: boolean,
   hideHints?: boolean,
+  onLocationError: ((error: any) => void),
 }
 
 
@@ -77,6 +82,7 @@ type State = {
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   showZoomInfo?: boolean,
+  showLocationNotAllowedHint: boolean,
 };
 
 
@@ -88,6 +94,7 @@ export default class Map extends React.Component<Props, State> {
   state: State = {
     accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
     toiletFilter: [].concat(yesNoUnknownArray),
+    showLocationNotAllowedHint: false,
   };
   map: ?L.Map;
   mapElement: ?HTMLElement;
@@ -95,6 +102,7 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   highLightLayer: ?L.Layer;
+  locateControl: ?LeafletLocateControl;
 
   onMoveEnd() {
     const map = this.map;
@@ -179,13 +187,6 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
-    map.locate({ 
-      setView: this.props.locateOnStart,
-      watch: true,
-      maxZoom: this.props.maxZoom,
-      enableHighAccuracy: false,
-    });
-
     map.on('moveend', () => this.onMoveEnd());
     map.on('zoomend', () => this.onMoveEnd());
 
@@ -196,7 +197,7 @@ export default class Map extends React.Component<Props, State> {
       unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
     }
 
-    addLocateControlToMap(map);
+    this.setupLocateMeButton(map);
 
     const basemapLayer = getQueryParams().esri === 'true' ?
       new BasemapLayer('Streets')
@@ -268,6 +269,37 @@ export default class Map extends React.Component<Props, State> {
     delete this.accessibilityCloudTileLayer;
   }
 
+
+  componentDidUpdate() {
+    if (this.locateControl) {
+      // If a single feature is shown, do not pan the view when a new location comes in.
+      // If no feature is shown, follow the user's location until they pan the view themselves.
+      this.locateControl.options.setView = this.props.featureId ? 'once' : 'untilPan';
+    }
+  }
+
+  setupLocateMeButton(map: L.Map) {
+    this.locateControl = addLocateControlToMap(map, {
+      locateOnStart: this.props.locateOnStart || false,
+      onLocationError: (error: any) => {
+        if (error && error.type && error.type === 'locationerror' && error.code && error.code === 1) {
+          // System does not allow to use location services
+          if (!hasOpenedLocationHelp()) {
+            // If you open location help once, do not show this hint again until you click the
+            // location button
+            this.setState({ showLocationNotAllowedHint: true });
+          }
+        }
+      },
+      onClick: () => {
+        saveState({ hasOpenedLocationHelp: 'false' });
+        if (this.state.showLocationNotAllowedHint) {
+          goToLocationSettings();
+          this.setState({ showLocationNotAllowedHint: false });
+        }
+      },
+    });
+  }    
 
   setupWheelmapTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
     const wheelmapTileUrl = this.wheelmapTileUrl();
@@ -535,6 +567,7 @@ export default class Map extends React.Component<Props, State> {
     return hasMatchingA11y && hasMatchingToilet;
   }
 
+
   updateFeatureLayerSourceUrls = debounce((props: Props = this.props) => {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     if (!wheelmapTileLayer) return;
@@ -549,26 +582,53 @@ export default class Map extends React.Component<Props, State> {
     }
   }, 500);
 
+
   focus() {
     if (this.mapElement) this.mapElement.focus();
   }
 
+
   renderZoomInfo() {
     // translator: Shown when zoomed out to far
-    const zoomCaption = t`Zoom closer to see more places`;
-    const isHidden = this.props.hideHints || !this.state.showZoomInfo;
-
-    return <a className={`zoom-info-block ${isHidden ? 'is-hidden' : ''}`}
-      onKeyDown={this.zoomIn}
-      onClick={this.zoomIn}
-      role="button"
-      tabIndex={-1}
-      aria-hidden><span>{zoomCaption}</span></a>;
+    const caption = t`Zoom closer to see more places`;
+    return <NotificationButton
+      isHidden={this.props.hideHints || !this.state.showZoomInfo}
+      onActivate={this.zoomIn}
+      caption={caption}
+      ariaHidden
+      topPosition={10}
+      color={colors.notificationBackgroundColor}
+    />;
   }
+
+
+  renderGeolocationError() {
+    // translator: Shown next to the locate-me button when location services are not enabled
+    const caption = t`Turn on location services`;
+    const isHidden =
+      this.props.hideHints ||
+      !this.state.showLocationNotAllowedHint ||
+      hasOpenedLocationHelp();
+
+    return <NotificationButton
+      isHidden={isHidden}
+      onActivate={() => {
+        goToLocationSettings();
+        this.setState({ showLocationNotAllowedHint: false });
+      }}
+      caption={caption}
+      ariaHidden
+      topPosition={120}
+      color={colors.notificationBackgroundColor}
+    />;
+  }
+
 
   render() {
     const className = [
-      isAndroidPlatform() ? 'is-android-platform' : null,
+      (userAgent.os.name 
+       
+       'Android') ? 'is-android-platform' : null,
       this.props.className,
     ].filter(Boolean).join(' ');
 
@@ -580,6 +640,7 @@ export default class Map extends React.Component<Props, State> {
         aria-label={t`Map`}
       >
         {this.renderZoomInfo()}
+        {this.renderGeolocationError()}
         <a href="http://mapbox.com/about/maps" className='mapbox-wordmark' target="_blank" rel="noopener noreferrer">Mapbox</a>
         <span className="mapbox-attribution-container">
         <span className="sozialhelden-logo-container">
