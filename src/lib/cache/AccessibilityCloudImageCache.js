@@ -32,6 +32,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<?Accessib
               resolve(this.lastCaptcha);
             }).catch(reject);
           } else {
+            console.error("Failed loading captcha");
             reject();
           }
         }).catch(reject);

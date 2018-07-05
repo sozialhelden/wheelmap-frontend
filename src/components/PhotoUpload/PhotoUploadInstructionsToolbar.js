@@ -14,7 +14,7 @@ import colors from '../../lib/colors';
 export type Props = {
   hidden: boolean,
   onClose: ?(() => void),
-  onCompleted: ?((files: FileList) => void),
+  onCompleted: ?((photos: FileList) => void),
 };
 
 

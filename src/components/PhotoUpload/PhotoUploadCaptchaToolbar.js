@@ -15,8 +15,9 @@ import { accessibilityCloudImageCache } from '../../lib/cache/AccessibilityCloud
 
 export type Props = {
   hidden: boolean,
+  photosMarkedForUpload: FileList | null,
   onClose: ?(() => void),
-  onCompleted: ?(() => void),
+  onCompleted: ?((photos: FileList) => void),
 };
 
 
@@ -237,9 +238,9 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
   refreshCaptcha() {
     if (!accessibilityCloudImageCache.hasValidCaptcha) {
-      this.setState({waitingForCaptcha: true, captchaError: false});
+      this.setState({waitingForCaptcha: true});
       accessibilityCloudImageCache.getCaptcha().then(captcha => {
-        this.setState({waitingForCaptcha: false, captcha });
+        this.setState({waitingForCaptcha: false, captcha, captchaError: false });
       }).catch(e => {
         this.setState({captchaError: true});
       });
@@ -275,9 +276,21 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   renderGoButton() {
     // translator: button shown next to the captcha text input field
     const caption = t`Go!`;
-    return <GoButton innerRef={(button) => this.goButton = button} onClick={this.props.onClose}>
+    return <GoButton innerRef={(button) => this.goButton = button} onClick={this.onFinishPhotoUploadFlow}>
       {caption} <StyledChevronRight />
     </GoButton>;
+  }
+
+  onFinishPhotoUploadFlow = (event: UIEvent) => {
+    if (this.props.onCompleted && this.props.photosMarkedForUpload) {
+      this.props.onCompleted(this.props.photosMarkedForUpload);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (this.props.onClose) {
+      this.props.onClose();
+      event.preventDefault();
+      event.stopPropagation();
+    }
   }
 
   render() {

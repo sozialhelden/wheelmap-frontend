@@ -78,8 +78,10 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
+  photosMarkedForUpload: FileList | null,
 };
 
 
@@ -143,8 +145,10 @@ class Loader extends React.Component<Props, State> {
     featureId: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+
     isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
+    photosMarkedForUpload: null,
   };
 
   map: ?any;
@@ -439,7 +443,8 @@ class Loader extends React.Component<Props, State> {
     
     this.setState({ 
       isSearchBarVisible: false,
-       isPhotoUploadInstructionsToolbarVisible: true
+      isPhotoUploadInstructionsToolbarVisible: true,
+      photosMarkedForUpload: null,
     });
   };
 
@@ -447,16 +452,22 @@ class Loader extends React.Component<Props, State> {
     this.setState({ 
       isSearchBarVisible: !isOnSmallViewport(), 
       isPhotoUploadInstructionsToolbarVisible: false, 
-      isPhotoUploadCaptchaToolbarVisible: false 
+      isPhotoUploadCaptchaToolbarVisible: false,
+      photosMarkedForUpload: null,
     });
   };
 
-  onContinuePhotoUploadFlow = (files: FileList) => {
-    if (files.length === 0) {
+  onContinuePhotoUploadFlow = (photos: FileList) => {
+    if (photos.length === 0) {
       this.onAbortPhotoUploadFlow();
       return;
     }
-    this.setState({ isSearchBarVisible: false, isPhotoUploadInstructionsToolbarVisible: false, isPhotoUploadCaptchaToolbarVisible: true }) 
+    this.setState({ 
+      isSearchBarVisible: false, 
+      isPhotoUploadInstructionsToolbarVisible: false, 
+      isPhotoUploadCaptchaToolbarVisible: true,
+      photosMarkedForUpload: photos,
+    });
   }
 
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
@@ -529,8 +540,10 @@ class Loader extends React.Component<Props, State> {
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
+
       isPhotoUploadCaptchaToolbarVisible: this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible: this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
+      photosMarkedForUpload: this.state.photosMarkedForUpload,
     }
 
     return (<MainView
@@ -551,9 +564,11 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
+
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
       onAbortPhotoUploadFlow={this.onAbortPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
+      onFinishPhotoUploadFlow={(photos: FileList) => console.log("asaasasasas ffinished", photos)}
 
       innerRef={(mainView) => { this.mainView = mainView; }}
     />);

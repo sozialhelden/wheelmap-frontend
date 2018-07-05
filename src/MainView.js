@@ -74,8 +74,6 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
-  isPhotoUploadCaptchaToolbarVisible: boolean,
-  isPhotoUploadInstructionsToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
 
   onSelectCoordinate: (() => void),
@@ -93,9 +91,14 @@ type Props = {
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
 
+  // photo feature
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
   onStartPhotoUploadFlow: (() => void),
   onAbortPhotoUploadFlow: (() => void),
-  onContinuePhotoUploadFlow: ((files: FileList) => void),
+  onContinuePhotoUploadFlow: ((photos: FileList) => void),
+  onFinishPhotoUploadFlow: ((photos: FileList) => void),
+  photosMarkedForUpload: FileList | null,
 };
 
 
@@ -231,7 +234,6 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-        onContinuePhotoUploadFlow={this.props.onContinuePhotoUploadFlow}
       />
     </div>;
   }
@@ -356,7 +358,8 @@ class MainView extends React.Component<Props, State> {
       history={this.props.history}
       hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
       onClose={this.props.onAbortPhotoUploadFlow}
-      onCompleted={() => { console.log("captcha.onCompleted") }}
+      onCompleted={this.props.onFinishPhotoUploadFlow}
+      photosMarkedForUpload={this.props.photosMarkedForUpload}
     />
   }
 
