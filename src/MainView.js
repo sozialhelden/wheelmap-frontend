@@ -379,6 +379,7 @@ class MainView extends React.Component<Props, State> {
       ref={photoUploadInstructionsToolbar => this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar}
       history={this.props.history}
       hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
+      waitingForPhotoUpload={this.props.waitingForPhotoUpload}
       onClose={this.props.onAbortPhotoUploadFlow}
       onCompleted={this.props.onContinuePhotoUploadFlow}
     />
