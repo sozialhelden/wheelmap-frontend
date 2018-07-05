@@ -30,17 +30,17 @@ export function generateMapsUrl(feature: Feature, placeName: string) {
 
   if (isBingMaps) {
     // translator: Button caption shown in the place toolbar
-    const caption = t`Open in Bing Maps`;
+    const caption = t`Open on Bing Maps`;
     return {url: generateBingMapsUrl(feature, placeName), caption};
   }
 
   if (isAppleMaps) {
     // translator: Button caption shown in the place toolbar
-    const caption = t`Open in Apple Maps`;
+    const caption = t`Open on Apple Maps`;
     return {url: generateAppleMapsUrl(feature, placeName), caption};
   }
 
   // translator: Button caption shown in the place toolbar
-  const caption = t`Open in Maps App`;
+  const caption = t`Open with Maps App`;
   return {url: generateGeoUrl(feature, placeName), caption};
 }

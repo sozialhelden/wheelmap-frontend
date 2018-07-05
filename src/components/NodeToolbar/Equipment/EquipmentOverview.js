@@ -16,7 +16,7 @@ type Props = {
   feature: AccessibilityCloudFeature,
   history: RouterHistory,
   className: string,
-  currentEquipmentInfoId: ?string,
+  equipmentInfoId: ?string,
 };
 
 type State = {
@@ -40,7 +40,7 @@ class EquipmentOverview extends React.Component<Props, State> {
   };
 
   componentWillReceiveProps(newProps: Props) {
-    if (this.props.feature !== newProps.feature || newProps.currentEquipmentInfoId !== this.props.currentEquipmentInfoId) {
+    if (this.props.feature !== newProps.feature || newProps.equipmentInfoId !== this.props.equipmentInfoId) {
       this.setState({ expanded: false });
     }
   }
@@ -51,7 +51,7 @@ class EquipmentOverview extends React.Component<Props, State> {
     const equipmentInfoSet = equipmentInfosForFeatureId(placeInfoId);
     if (!equipmentInfoSet) return null;
     const equipmentInfos = sortBy([...equipmentInfoSet.values()], ['properties.category', 'properties.description'])
-      .filter(equipmentInfo => equipmentInfo._id !== this.props.currentEquipmentInfoId);
+      .filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
     const equipmentInfoArrays = groupEquipmentByName(equipmentInfos);
 
     const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>

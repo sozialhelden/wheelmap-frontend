@@ -14,10 +14,11 @@ import {
   isWheelchairAccessible,
 } from '../../lib/Feature';
 
+
 const editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 editHintBackgroundColor.s -= 0.5;
 
-const StyledFooter = styled.footer`
+const StyledEditLinks = styled.footer`
   margin-top: 1rem;
 
   @keyframes slideIn {
@@ -92,12 +93,12 @@ const StyledFooter = styled.footer`
 
 
 type Props = {
-  feature: Feature,
+  feature: ?Feature,
   featureId: string | number | null,
 };
 
 
-export default class NodeFooter extends React.Component<Props> {
+export default class EditLinks extends React.Component<Props> {
   focus() {
     if (this.contributionLink) {
       this.contributionLink.focus()
@@ -154,11 +155,11 @@ export default class NodeFooter extends React.Component<Props> {
     }
 
     return (
-      <StyledFooter>
+      <StyledEditLinks>
         <div className="wheelmap-links">
           {contributionLink}
         </div>
-      </StyledFooter>
+      </StyledEditLinks>
     );
   }
 }

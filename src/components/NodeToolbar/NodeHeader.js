@@ -17,9 +17,7 @@ import { categoryNameFor } from '../../lib/Categories';
 import Icon from '../Icon';
 import Address from './Address';
 import PlaceName from '../PlaceName';
-import SourceLink from './SourceLink';
 import BreadCrumbs from './BreadCrumbs';
-import PhoneNumberLink from './PhoneNumberLink';
 import type { Category } from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
@@ -60,7 +58,7 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 
 
 type Props = {
-  feature: Feature,
+  feature: ?Feature,
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
@@ -91,7 +89,9 @@ export default class NodeHeader extends React.Component<Props, void> {
   }
 
   onClickCurrentMarkerIcon = () => {
-    this.props.onClickCurrentMarkerIcon(this.props.feature);
+    const feature = this.props.feature;
+    if (!feature) return;
+    this.props.onClickCurrentMarkerIcon(feature);
   }
 
   render() {
@@ -102,9 +102,6 @@ export default class NodeHeader extends React.Component<Props, void> {
     if (!properties) return null;
     const address = this.constructor.getAddressForProperties(properties);
     const addressString = address ? address.replace(/,$/, '').replace(/^,/, '') : null;
-
-    const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
-    const phoneNumber: ?string = properties.phoneNumber || properties.phone;
 
     const { category, parentCategory } = this.props;
     const shownCategory = category || parentCategory;
@@ -132,35 +129,11 @@ export default class NodeHeader extends React.Component<Props, void> {
       return <StyledNodeHeader>{placeName}</StyledNodeHeader>;
     }
 
-    const captions = {
-      // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
-      infoPageUrl: (sourceNameString) => t`Open on ${sourceNameString}`,
-      // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
-      editPageUrl: (sourceNameString) => t`Improve on ${sourceNameString}`,
-    };
-
-    const sourceLinks = ['infoPageUrl', 'editPageUrl'].map((propertyName) => {
-      return <SourceLink
-        key={propertyName}
-        properties={properties}
-        knownSourceNameCaption={captions[propertyName]}
-        propertyName={propertyName}
-      />;
-    });
-
-    if (properties.infoPageUrl === properties.editPageUrl) {
-      sourceLinks.shift();
-    }
-
     const categoryElement = properties.name ? <StyledBreadCrumbs
       properties={properties}
       category={this.props.category}
       parentCategory={this.props.parentCategory}
     /> : null;
-
-    const placeWebsiteLink = (typeof placeWebsiteUrl === 'string') ?
-      <a className="place-website-url link-button" href={placeWebsiteUrl}>{placeWebsiteUrl}</a>
-      : null;
 
     if (isEquipment) {
       return (
@@ -176,9 +149,6 @@ export default class NodeHeader extends React.Component<Props, void> {
         {placeNameElement}
         {categoryElement}
         {addressString ? <Address role="none">{addressString}</Address> : null }
-        {sourceLinks}
-        {phoneNumber ? <PhoneNumberLink phoneNumber={phoneNumber} /> : null}
-        {placeWebsiteLink}
       </StyledNodeHeader>
     );
   }
