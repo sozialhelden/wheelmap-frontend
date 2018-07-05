@@ -3,6 +3,7 @@
 import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
+import { Dots } from 'react-activity';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -12,6 +13,7 @@ import colors from '../../lib/colors';
 
 export type Props = {
   hidden: boolean,
+  waitingForPhotoUpload?: boolean;
   onClose: ?(() => void),
   onCompleted: ?((photos: FileList) => void),
 };
@@ -248,6 +250,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
 
   render() {
     const { guidelinesAccepted } = this.state;
+    const { waitingForPhotoUpload } = this.props;
+    const canSubmit = guidelinesAccepted && !waitingForPhotoUpload;
 
     return (
       <StyledToolbar
@@ -304,9 +308,10 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           </button>
           <label 
             className='link-button primary-button' 
-            disabled={!guidelinesAccepted}  
+            disabled={!canSubmit}
             htmlFor="photo-file-upload">
-            {t`Continue`}
+            {t`Continue`} 
+            {waitingForPhotoUpload && <Dots />}
           </label>
           <input 
             ref={(input => {this.inputField = input})}
@@ -315,7 +320,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             multiple={false}
             accept='image/*'
             onChange={this.onFileInputChanged}
-            disabled={!guidelinesAccepted}
+            disabled={!canSubmit}
             name='continue-upload'
             className='hidden-file-input' />
         </footer>
