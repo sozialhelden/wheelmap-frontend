@@ -626,9 +626,7 @@ export default class Map extends React.Component<Props, State> {
 
   render() {
     const className = [
-      (userAgent.os.name 
-       
-       'Android') ? 'is-android-platform' : null,
+      (userAgent.os.name === 'Android') ? 'is-android-platform' : null,
       this.props.className,
     ].filter(Boolean).join(' ');
 
