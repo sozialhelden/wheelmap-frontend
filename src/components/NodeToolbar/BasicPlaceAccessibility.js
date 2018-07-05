@@ -72,7 +72,7 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     left: 1em;
     width: 12px;
     height: 8px;
-    background: url(../NoseDetailsContainer.svg) no-repeat;
+    background: url(../NoseDetailsContainer.svg) no-repeat; /* TODO: decide on outline vs. color & add nose */
   }
   
   > * {

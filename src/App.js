@@ -19,11 +19,11 @@ import MainView, { UnstyledMainView } from './MainView';
 
 import type {
   Feature,
-  WheelmapFeature,
-  AccessibilityCloudFeature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  NodeProperties,
+    WheelmapFeature,
+    AccessibilityCloudFeature,
+    YesNoLimitedUnknown,
+    YesNoUnknown,
+    NodeProperties,
 } from './lib/Feature';
 
 import type {
@@ -40,6 +40,7 @@ import {
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
+import { accessibilityCloudImageCache, InvalidCaptchaReason } from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
@@ -77,6 +78,13 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+
+  // photo feature
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
+  photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean, 
 };
 
 
@@ -107,7 +115,7 @@ function getFeatureIdFromProps(props: Props): ?string {
 
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string' ) {
+  if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
@@ -143,6 +151,10 @@ class Loader extends React.Component<Props, State> {
     featureId: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+
+    isPhotoUploadCaptchaToolbarVisible: false,
+    isPhotoUploadInstructionsToolbarVisible: false,
+    photosMarkedForUpload: null,
   };
 
   map: ?any;
@@ -298,7 +310,7 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-  
+
   manageFocus(prevProps: Props, prevState: State) {
     const prevFeatureId = getFeatureIdFromProps(prevProps);
     const featureId = getFeatureIdFromProps(this.props);
@@ -362,7 +374,6 @@ class Loader extends React.Component<Props, State> {
     console.log('Next state:', nextState);
     // this.setState(nextState);
   }
-
 
 
   isEditMode() {
@@ -443,9 +454,77 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
+  onStartPhotoUploadFlow = () => {
+    // start requesting captcha early
+    accessibilityCloudImageCache.getCaptcha();
+    
+    this.setState({ 
+      isSearchBarVisible: false,
+      waitingForPhotoUpload: false,
+      isPhotoUploadInstructionsToolbarVisible: true,
+      photosMarkedForUpload: null,
+    });
+  };
+
+  onExitPhotoUploadFlow = (reason: string = "aborted") => { 
+    this.setState({ 
+      isSearchBarVisible: !isOnSmallViewport(),
+      waitingForPhotoUpload: false,
+      isPhotoUploadInstructionsToolbarVisible: false,
+      isPhotoUploadCaptchaToolbarVisible: false,
+      photosMarkedForUpload: null,
+      photoCaptchaFailed: false,
+    });
+  };
+
+  onContinuePhotoUploadFlow = (photos: FileList) => {
+    if (photos.length === 0) {
+      this.onExitPhotoUploadFlow();
+      return;
+    }
+    this.setState({ 
+      isSearchBarVisible: false,
+      isPhotoUploadInstructionsToolbarVisible: false, 
+      isPhotoUploadCaptchaToolbarVisible: true,
+      photosMarkedForUpload: photos,
+      photoCaptchaFailed: false,
+    });
+  }
+
+  onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
+    console.log("onFinishPhotoUploadFlow");
+    const featureId = this.state.featureId;
+
+    if (!featureId) {
+      console.error("No feature found, aborting upload");
+      this.onExitPhotoUploadFlow("invalid-state");
+      return;
+    }
+
+    this.setState({ 
+      waitingForPhotoUpload: true,
+    });
+
+    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
+      .then(() => {
+        console.log("Succeeded upload");
+        this.onExitPhotoUploadFlow("success");
+      }).catch((reason) => {
+        console.error("Failed upload", reason);
+        if (reason === InvalidCaptchaReason) {
+          this.setState({ 
+            waitingForPhotoUpload: false,
+            photoCaptchaFailed: true,
+          });
+        } else {
+          this.onExitPhotoUploadFlow("upload-failed");
+        }
+      });
+  }
+
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
 
-  onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) }};
+  onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
 
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: true });
@@ -469,7 +548,10 @@ class Loader extends React.Component<Props, State> {
   };
 
   isNodeToolbarDisplayed(state = this.state) {
-    return state.feature && !state.isSearchToolbarExpanded;
+    return state.feature && 
+           !state.isSearchToolbarExpanded && 
+           !state.isPhotoUploadCaptchaToolbarVisible && 
+           !state.isPhotoUploadInstructionsToolbarVisible;
   }
 
   render() {
@@ -492,7 +574,7 @@ class Loader extends React.Component<Props, State> {
       isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
-      
+
       featureId: this.state.featureId,
       equipmentInfoId: this.state.equipmentInfoId,
       feature: this.state.feature,
@@ -512,10 +594,19 @@ class Loader extends React.Component<Props, State> {
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
+
+      // photo feature
+      isPhotoUploadCaptchaToolbarVisible: this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
+      isPhotoUploadInstructionsToolbarVisible: this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
+      photosMarkedForUpload: this.state.photosMarkedForUpload,
+      waitingForPhotoUpload: this.state.waitingForPhotoUpload,
+      photoCaptchaFailed: this.state.photoCaptchaFailed,
     }
 
     return (<MainView
       {...extraProps}
+
+      innerRef={(mainView) => { this.mainView = mainView; }}
 
       onClickSearchButton={this.onClickSearchButton}
       onToggleMainMenu={this.onToggleMainMenu}
@@ -534,7 +625,11 @@ class Loader extends React.Component<Props, State> {
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
 
-      innerRef={(mainView) => { this.mainView = mainView; }}
+      // photo feature
+      onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
+      onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
+      onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
+      onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
     />);
   }
 }

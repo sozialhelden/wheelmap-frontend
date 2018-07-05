@@ -10,6 +10,7 @@ import { hsl } from 'd3-color';
 const colors = {
   primaryColor: '#79B63E',
   primaryColorDarker: '#4d7227',
+  primaryColorBrighter: 'rgba(0, 0, 0, 0.7)',
   secondaryColor: '#8B6A43',
   darkLinkColor: '#455668',
   linkColor: '#2e6ce0',
@@ -20,6 +21,7 @@ const colors = {
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',
+  coldBackgroundColor: '#eaeef2',
   selectedColor: '#51a6ff',
   selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',

@@ -28,7 +28,7 @@ import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
-import ThumbnailList from './Photos/ThumbnailList';
+import PhotoSection from './Photos/PhotoSection';
 
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
@@ -36,6 +36,9 @@ import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from 
 import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { hasBigViewport } from '../../lib/ViewportSize';
+
+
+
 
 function filterAccessibility(properties: MinimalAccessibility): ?MinimalAccessibility {
   // These attributes have a better representation in the UI than the basic tree structure would provide.
@@ -61,6 +64,7 @@ type Props = {
   isEditMode: boolean,
   isReportMode: boolean,
   onOpenReportMode: ?(() => void),
+  onStartPhotoUploadFlow: (() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
   onClickCurrentMarkerIcon?: ((Feature) => void)
@@ -263,7 +267,7 @@ class NodeToolbar extends React.Component<Props, State> {
     }
 
     const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
-    const filteredAccessibility = accessibility ? filterAccessibility(accessibility): null;
+    const filteredAccessibility = accessibility ? filterAccessibility(accessibility) : null;
     const phoneNumber = properties.phoneNumber || properties.phone;
 
     // translator: Button caption shown in the place toolbar
@@ -336,7 +340,15 @@ class NodeToolbar extends React.Component<Props, State> {
             {isEquipment ? null : <AccessibleDescription properties={properties} />}
             {isEquipment ? null : <AccessibilityDetails details={filteredAccessibility} />}
             {isEquipment ? null : <AccessibilityExtraInfo properties={properties} />}
-            {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId}/>}
+            {(isWheelmapFeature || isEquipment) ? null : <EquipmentOverview history={this.props.history} feature={this.props.feature} currentEquipmentInfoId={this.props.equipmentInfoId} />}
+
+            { /* photo block */ }
+            {isWheelmapFeature &&
+              <PhotoSection 
+                featureId={this.props.featureId} 
+                onStartPhotoUploadFlow={() => { this.props.onStartPhotoUploadFlow(); }}
+                />
+            }
 
             {isEquipment ? <a
               className="link-button"
@@ -348,18 +360,18 @@ class NodeToolbar extends React.Component<Props, State> {
               }}
             >
               {placeName}
-            </a> : null }
+            </a> : null}
 
 
             {(this.props.featureId && isWheelmapFeature) ? (
-                <NodeFooter
-                  ref={nodeFooter => (this.nodeFooter = nodeFooter)}
-                  feature={this.props.feature}
-                  featureId={this.props.featureId}
-                  category={this.state.category}
-                  parentCategory={this.state.parentCategory}
-                />
-              ) : null}
+              <NodeFooter
+                ref={nodeFooter => (this.nodeFooter = nodeFooter)}
+                feature={this.props.feature}
+                featureId={this.props.featureId}
+                category={this.state.category}
+                parentCategory={this.state.parentCategory}
+              />
+            ) : null}
 
             <ShareButtons
               innerRef={shareButton => this.shareButton = shareButton}
@@ -381,7 +393,7 @@ class NodeToolbar extends React.Component<Props, State> {
             >
               {reportButtonCaption}
             </button>}
-            
+
             {openInMaps && <a
               className="link-button"
               href={openInMaps.url}
@@ -398,9 +410,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
             {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
 
-            {isWheelmapFeature && <FullWidthSection>
-              <ThumbnailList featureId={this.props.featureId} />
-            </FullWidthSection>}
+
 
             <footer className="sources">
               {sourceIds.length ? `${sourceCaption} ` : null}

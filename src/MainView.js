@@ -12,10 +12,14 @@ import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
+import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
+
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
+
 
 import config from './lib/config';
 import colors from './lib/colors';
@@ -24,9 +28,9 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type {
   Feature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  NodeProperties,
+    YesNoLimitedUnknown,
+    YesNoUnknown,
+    NodeProperties,
 } from './lib/Feature';
 
 import type {
@@ -70,6 +74,7 @@ type Props = {
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
+  isNodeToolbarDisplayed: boolean,
   shouldLocateOnStart: boolean,
 
   onSelectCoordinate: (() => void),
@@ -87,6 +92,17 @@ type Props = {
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
   onClickCurrentMarkerIcon?: ((Feature) => void),
+  
+  // photo feature
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
+  onStartPhotoUploadFlow: (() => void),
+  onAbortPhotoUploadFlow: (() => void),
+  onContinuePhotoUploadFlow: ((photos: FileList) => void),
+  onFinishPhotoUploadFlow: ((photos: FileList, captchaSolution: string) => void),
+  photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean,
 };
 
 
@@ -108,7 +124,7 @@ function updateTouchCapability() {
 
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string' ) {
+  if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
@@ -130,7 +146,8 @@ class MainView extends React.Component<Props, State> {
   lastFocusedElement: ?HTMLElement;
   nodeToolbar: ?NodeToolbar;
   searchToolbar: ?SearchToolbar;
-
+  photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
+  photoUploadInstructionsToolbar: ?PhotoUploadInstructionsToolbar;
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     const params = getQueryParams();
@@ -139,7 +156,6 @@ class MainView extends React.Component<Props, State> {
     const location = { pathname, search: queryString.stringify(params) };
     this.props.history.push(location);
   };
-
 
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
@@ -221,6 +237,7 @@ class MainView extends React.Component<Props, State> {
         isReportMode={isReportMode}
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
+        onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
       />
     </div>;
@@ -305,7 +322,7 @@ class MainView extends React.Component<Props, State> {
       isEditMode={isEditMode}
       isLocalizationLoaded={isLocalizationLoaded}
       history={this.props.history}
-      { ...{lat, lon, zoom}}
+      {...{ lat, lon, zoom }}
     />;
   }
 
@@ -330,6 +347,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible ||
       this.props.isEditMode ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
       this.props.isReportMode;
 
     return <FullscreenBackdrop
@@ -338,6 +357,28 @@ class MainView extends React.Component<Props, State> {
     />;
   }
 
+  renderPhotoUploadCaptchaToolbar() {
+    return <PhotoUploadCaptchaToolbar
+      ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar}
+      history={this.props.history}
+      hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
+      onClose={this.props.onAbortPhotoUploadFlow}
+      onCompleted={this.props.onFinishPhotoUploadFlow}
+      photosMarkedForUpload={this.props.photosMarkedForUpload}
+      waitingForPhotoUpload={this.props.waitingForPhotoUpload}
+      photoCaptchaFailed={this.props.photoCaptchaFailed}
+    />
+  }
+
+  renderPhotoUploadInstructionsToolbar() {
+    return <PhotoUploadInstructionsToolbar
+      ref={photoUploadInstructionsToolbar => this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar}
+      history={this.props.history}
+      hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
+      onClose={this.props.onAbortPhotoUploadFlow}
+      onCompleted={this.props.onContinuePhotoUploadFlow}
+    />
+  }
 
   render() {
     const { featureId, searchQuery, equipmentInfoId } = this.props;
@@ -346,7 +387,7 @@ class MainView extends React.Component<Props, State> {
     const isNodeRoute = Boolean(featureId);
     const isEditMode = this.props.isEditMode;
     const { lat, lon, zoom, isReportMode } = this.props;
-    const isNodeToolbarVisible = this.props.feature && !this.props.isSearchToolbarExpanded;
+    const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = [
       'app-container',
@@ -362,6 +403,8 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible;
 
@@ -393,7 +436,7 @@ class MainView extends React.Component<Props, State> {
       locateOnStart={this.props.shouldLocateOnStart}
       isLocalizationLoaded={isLocalizationLoaded}
       padding={this.getMapPadding()}
-      hideHints={this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen )}
+      hideHints={this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)}
       {...config}
     />;
 
@@ -411,6 +454,8 @@ class MainView extends React.Component<Props, State> {
       </div>
       {this.renderFullscreenBackdrop()}
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
+      {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+      {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);

@@ -144,6 +144,7 @@
     "compile-markers": "basedir=src/components/icons/markers npm run compile-svg-directory",
     "compile-equipment-icons": "basedir=src/components/icons/equipment npm run compile-svg-directory",
     "compile-category-icons": "basedir=src/components/icons/categories npm run compile-svg-directory",
+    "compile-action-icons": "basedir=src/components/icons/actions npm run compile-svg-directory",
     "compile-svgs": "npm run compile-category-icons; npm run compile-markers; npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js; ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg"
   },

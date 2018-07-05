@@ -18,6 +18,17 @@ The app itself is a [React.js](https://facebook.github.io/react/) application, a
 
 The web server serves the app as static page, running on the same domain as the backend API.
 
+
+### Recompile SVG
+All svg-graphics have to be converted to react JS components, e.g. with...
+
+```
+yarn compile-svgs
+```
+
+Check the `package.json` defines additional yarn tasks that can speed up this task.
+
+
 ## Website deployment
 
 To deploy the web application:

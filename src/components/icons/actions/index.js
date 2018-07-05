@@ -1,4 +1,8 @@
-export { default as ChevronRight } from './actions/ChevronRight.js';
-export { default as LocateOff } from './actions/LocateOff.js';
-export { default as LocateOn } from './actions/LocateOn.js';
-export { default as Search } from './actions/Search.js';
+export { default as checkmark } from './checkmark';
+export { default as chevron-right } from './chevron-right';
+export { default as cta-photo-upload } from './cta-photo-upload';
+export { default as locate-off } from './locate-off';
+export { default as locate-on } from './locate-on';
+export { default as problem } from './problem';
+export { default as search } from './search';
+export { default as share } from './share';
