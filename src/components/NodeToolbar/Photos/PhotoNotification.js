@@ -9,7 +9,7 @@ import ProblemIcon from '../../icons/actions/ProblemIcon';
 
 type Props = {
   className: string,
-  notificationType: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
+  notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
   uploadProgress?: number,  // between 0 and 100
 };
 
@@ -46,30 +46,39 @@ class PhotoNotifcation extends React.Component<Props, State> {
 
   render() {
     const { className, notificationType, uploadProgress } = this.props;
+    const usedType = notificationType || 'none';
 
-    const uploadProgressMode = notificationType === 'uploadProgress';
-    const uploadFailedMode = notificationType === 'uploadFailed';
-    const reportedMode = notificationType === 'reported';
-    const waitingForReviewMode = notificationType === 'waitingForReview';
+    const notificationComponents = {
+      uploadProgress: (
+        <small>
+          <progress max={100} value={uploadProgress || 0} />
+          {t`Upload in Progress...`}
+        </small>
+      ),
+      uploadFailed: (
+        <small>
+          <StyledProblemIcon color={colors.negativeColor} />
+          {t`Upload failed: server error or file-format not supported`}
+        </small>
+      ),
+      reported: (
+        <small>
+          <StyledCheckmarkIcon color={colors.negativeColor} />
+          {t`Thanks for reporting this photo. We will take a look.`}
+        </small>
+      ),
+      waitingForReview: (
+        <small>
+          <StyledCheckmarkIcon color={colors.primaryColorBrighter} />
+          {t`Thank you for your work. Your contribution will be visible after a quick check.`}
+        </small>
+      ),
+      none: null,
+    };
 
     return (
-      <div className={`${className} notification-mode-${notificationType}`}>
-        {uploadProgressMode && <small>
-          <progress max={100} value={uploadProgress || 0} />
-          {t`Upload in Progress...`}</small>
-        }
-        {uploadFailedMode && <small>
-          <StyledProblemIcon color={colors.negativeColor} />
-          {t`Upload failed: server error or file-format not supported`}</small>
-        }
-        {reportedMode && <small>
-          <StyledCheckmarkIcon color={colors.negativeColor} />
-          {t`Thanks for reporting this photo. We will take a look.`}</small>
-        }
-        {waitingForReviewMode && <small>
-          <StyledCheckmarkIcon color={colors.primaryColorBrighter} />
-          {t`Thank you for your work. Your contribution will be visible after a quick check.`}</small>
-        }
+      <div className={`${className} notification-mode-${usedType}`}>
+        {notificationComponents[usedType]}
       </div>
     );
   }
