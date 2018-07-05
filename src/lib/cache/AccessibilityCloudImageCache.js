@@ -51,17 +51,22 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return uploadPromise;
   }
   
-  getCaptcha() : Promise<string> {
+  getCaptcha(fetchParams?: any) : Promise<string> {
     let promise = this.captchaRequest;
     if (promise) return promise;
 
-    const url = `${config.accessibilityCloudBaseUrl}/captcha.svg?appToken=${config.accessibilityCloudAppToken}`
+    let cacheBuster = '';
+    if (fetchParams && fetchParams.cache === "reload") {
+      cacheBuster = `random=${Math.random()}${this.captchaExpirationTime}`;
+    }
+
     promise = new Promise((resolve, reject) => {
       if (this.hasValidCaptcha() && this.lastCaptcha) {
         resolve(this.lastCaptcha);
       } else {
-        console.log("requesting new captcha");
         this.lastCaptcha = null;
+        const url = `${config.accessibilityCloudBaseUrl}/captcha.svg?${cacheBuster}&appToken=${config.accessibilityCloudAppToken}`
+        console.log("Requesting new captcha");
         return this.constructor.fetch(url).then((response: Response) => {
           if (response.ok) {
             const expires = response.headers.get('expires');
@@ -73,10 +78,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
               resolve(this.lastCaptcha);
             }).catch(reject);
           } else {
-            console.error("Failed loading captcha");
             reject();
           }
-        }).catch(reject);
+        }).catch(reject).catch(console.error);
       }
     })
 
@@ -84,8 +88,16 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
       this.captchaRequest = null;
     };
     promise.then(resetCaptcha, resetCaptcha);
+    this.captchaRequest = promise;
 
     return promise;
+  }
+
+  resetCaptcha() {
+    if (!this.captchaRequest) {
+      this.lastCaptcha = null;
+    }
+    return this.getCaptcha({ headers: { 'pragma': 'no-cache', 'cache-control': 'no-cache' }, cache: "reload" });
   }
 
   hasValidCaptcha() {

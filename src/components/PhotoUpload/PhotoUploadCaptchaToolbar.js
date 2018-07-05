@@ -183,30 +183,6 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-/* TODO: prepare stylable component 
-const contentBelowSearchField = styled.button`
-    overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    padding: 1em;
-    text-align: center;
-  
-    .captcha-content {
-    }
-
-    h3.captcha-help {
-    }
-    
-    small.captcha-explanation {
-
-    }
-  }
-`;
-*/
-
 export default class PhotoUploadCaptchaToolbar extends React.Component<Props, State> {
   props: Props;
 
@@ -260,8 +236,8 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     }
   }
 
-  refreshCaptcha() {
-    if (!accessibilityCloudImageCache.hasValidCaptcha) {
+  refreshCaptcha = () => {
+    if (!accessibilityCloudImageCache.hasValidCaptcha()) {
       this.setState({waitingForCaptcha: true});
       accessibilityCloudImageCache.getCaptcha().then(captcha => {
         this.setState({waitingForCaptcha: false, captcha, captchaError: false });
@@ -314,6 +290,24 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         {caption} <StyledChevronRight />
       </GoButton>
     );
+  }  
+  
+  renderForceRefreshButton() {
+    // translator: button shown next to the captcha 
+    const caption = t`Refresh!`;
+    const isGoDisabled = !this.canEnter();
+    return (
+      <button onClick={this.onForceRefreshCaptcha} disabled={isGoDisabled}>
+        {caption}
+      </button>
+    );
+  }
+
+  onForceRefreshCaptcha = () => {
+    this.clearTimer();
+    accessibilityCloudImageCache.resetCaptcha();
+    this.refreshCaptcha();
+    this.startTimer();
   }
 
   onFinishPhotoUploadFlow = (event: UIEvent) => {
@@ -362,8 +356,9 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
           <section className='captcha-container'>
             <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
             <div className='captcha-content'>
-              {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} /> }
-              {waitingForCaptcha && <div>{t`Loading captcha`}<Dots /></div> }
+              {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} />}
+              {captcha && this.renderForceRefreshButton()}
+              {waitingForCaptcha && <div>{t`Loading captcha`}<Dots /></div>}
             </div>            
             {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
             {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
