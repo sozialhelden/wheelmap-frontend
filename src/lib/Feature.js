@@ -191,14 +191,29 @@ function isNumeric(id: string | number | null) {
   return String(id).match(/^-?\d+$/);
 }
 
-export function isWheelmapFeatureId(id: string | number | null) {
-  return isNumeric(id);
+export function isWheelmapFeatureId(id: string | number | null | void) {
+  return typeof id !== 'undefined' && isNumeric(id);
 }
 
 export function isWheelmapFeature(feature: Feature) {
   return feature && feature.properties && feature.properties.id && isNumeric(feature.id);
 }
 
+// This is just for typecasting.
+export function wheelmapFeatureFrom(feature: ?Feature): ?WheelmapFeature {
+  if (feature && isWheelmapFeature(feature)) {
+    return ((feature: any): WheelmapFeature);
+  }
+  return null;
+}
+
+// This is just for typecasting.
+export function accessibilityCloudFeatureFrom(feature: ?Feature): ?AccessibilityCloudFeature {
+  if (feature && !isWheelmapFeature(feature)) {
+    return ((feature: any): AccessibilityCloudFeature);
+  }
+  return null;
+}
 
 export function convertResponseToWheelmapFeature(node: WheelmapProperties): WheelmapFeature {
   return {

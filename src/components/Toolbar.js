@@ -71,7 +71,6 @@ class Toolbar extends React.Component<Props, State> {
     },
   };
 
-
   onWindowResize = debounce(() => {
     this.onResize();
   }, 200);
@@ -86,7 +85,9 @@ class Toolbar extends React.Component<Props, State> {
   componentDidMount() {
     this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
-    setTimeout(() => this.onResize(this.props.startTopOffset), 100);
+    setTimeout(() => {
+      this.onResize(this.props.startTopOffset);
+    }, 100);
   }
 
 

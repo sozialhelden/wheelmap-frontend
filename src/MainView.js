@@ -11,6 +11,7 @@ import { Dots } from 'react-activity';
 import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
+import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
@@ -231,7 +232,7 @@ class MainView extends React.Component<Props, State> {
 
   renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }: $Shape<Props>, isNodeRoute: boolean) {
     return <div className="node-toolbar">
-      <NodeToolbar
+      <NodeToolbarFeatureLoader
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
         history={this.props.history}
         feature={this.props.feature}
