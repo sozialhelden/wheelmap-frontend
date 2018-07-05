@@ -7,14 +7,14 @@ import config from '../config';
 export const InvalidCaptchaReason = "invalid-captcha";
 export const UnknownReason = "unknown";
 
-export default class AccessibilityCloudImageCache extends URLDataCache<?AccessibilityCloudImages> {
+export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   
-  getPhotosForFeature(featureId: string): Promise<?AccessibilityCloudImages> {
+  getPhotosForFeature(featureId: string): Promise<AccessibilityCloudImages | null> {
     return this.getImage("place", featureId);
   }
 
-  getImage(context: string, objectId: string): Promise<?AccessibilityCloudImages> {
-    return this.getData(`${config.accessibilityCloudBaseUrl}/images?context=${context}&objectId=${objectId}&appToken=${config.accessibilityCloudAppToken}`);
+  getImage(context: string, objectId: string): Promise<AccessibilityCloudImages | null> {
+    return this.getData(`${config.accessibilityCloudBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${config.accessibilityCloudAppToken}`);
   }
 
   uploadPhotoForFeature(featureId: string, images: FileList, captchaSolution: string): Promise<boolean> {
