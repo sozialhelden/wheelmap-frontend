@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
-import ChevronRight from '../ChevronRight';
 import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
@@ -19,7 +18,7 @@ export type Props = {
 
 
 type State = {
-  enteredInstructionsValue?: string,
+  guidelinesAccepted?: boolean,
 };
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
@@ -193,23 +192,23 @@ const StyledToolbar = styled(Toolbar)`
     visibility: hidden;
     display: none;
   }
+  
+  .link-button[disabled] {
+    opacity: 0.8;
+    background-color: ${colors.neutralBackgroundColor};
+  }
 `;
 
 export default class PhotoUploadInstructionsToolbar extends React.Component<Props, State> {
   props: Props;
 
-  state = {
+  state: State = {
+    guidelinesAccepted: false
   };
 
   inputField: ?HTMLInputElement;
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
-
-  componentDidMount() {
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-  }
 
   renderCloseLink() {
     return <button
@@ -220,7 +219,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       ref={backLink => this.backLink = backLink}
     >← </button>;
   }
-
 
   onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
@@ -244,7 +242,13 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   }
 
+  onGuidelinesAcceptedChanged = () => {
+    this.setState({ guidelinesAccepted: !this.state.guidelinesAccepted });
+  }
+
   render() {
+    const { guidelinesAccepted } = this.state;
+
     return (
       <StyledToolbar
         className='photoupload-instructions-toolbar'
@@ -254,12 +258,12 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       >
         <header>
           {this.renderCloseLink()}
-          <h3>{t`The following images...`}</h3>
+          <h3>{t`The following images…`}</h3>
         </header>
         <section>
           <ul>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...are interesting for accessibility.`}</p></span>
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…are interesting for accessibility.`}</p></span>
               <ul className='photo-examples'>
                 <li>
                   <div className='placeholder-image entrance-image'></div>
@@ -276,24 +280,32 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               </ul>
             </li>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...I made them myself. `}</p></span>
-              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a Creative Commons-License (CC).`}</small>{/* TODO: add link to CC */}
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…were made by myself. `}</p></span>
+              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a Creative Commons-License (CC).`}
+              <a href="">{t`Read More`}</a></small> {/* TODO: add link to CC */}
             </li>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`...do not contain any persons.`}</p></span>
-              <small>{t`For identifiable persons, written consent must be obtained in accordance with the DSGVO.`}</small>{/* TODO: add link to DSGVO */}
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…do not contain any persons.`}</p></span>
+              <small>{t`For identifiable persons, written consent must be obtained in accordance with the DSGVO.`}<br/>
+              <a href="">{t`Read More`}</a></small> {/* TODO: add link to DSGVO */}
             </li>
             <li className='with-checkbox'>
-              <input type='checkbox' id='confirm'/>
-              {/* <label for='confirm'>{t`...meet the terms of use.`}</label> TODO: fix label of checkbox, add link to terms of use*/}
-              {/* <p>{t`...meet the terms of use.`}</p> */}
-              <small>{t`I can read them here.`}</small>
+              <input type='checkbox' id='confirm' checked={guidelinesAccepted} onChange={this.onGuidelinesAcceptedChanged} />
+              <label htmlFor='confirm'>{t`…meet our guidelines.`}</label><br/>
+              <small><a href="https://news.wheelmap.org/datenschutzerklaerung/">{t`Read More`}</a></small> {/* TODO: add link to guidelines */}
             </li>
           </ul>
         </section>
         <footer>
-          <button className='link-button negative-button' onClick={this.onClose}>{t`Cancel`}</button>
-          <label className='link-button primary-button' htmlFor="photo-file-upload" >
+          <button 
+            className='link-button negative-button' 
+            onClick={this.onClose}>
+            {t`Cancel`}
+          </button>
+          <label 
+            className='link-button primary-button' 
+            disabled={!guidelinesAccepted}  
+            htmlFor="photo-file-upload">
             {t`Continue`}
           </label>
           <input 
@@ -303,6 +315,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             multiple={false}
             accept='image/*'
             onChange={this.onFileInputChanged}
+            disabled={!guidelinesAccepted}
             name='continue-upload'
             className='hidden-file-input' />
         </footer>
