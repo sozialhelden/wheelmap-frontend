@@ -52,7 +52,7 @@ class PhotoSection extends React.Component<Props, State> {
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.featureId !== this.props.featureId) {
       this.fetchPhotos(nextProps);
-      this.setState({ photos: [] });
+      this.setState({ photos: [], lightBoxPhotos: [], acPhotos: [], wmPhotos: [] });
     }
   }
 
