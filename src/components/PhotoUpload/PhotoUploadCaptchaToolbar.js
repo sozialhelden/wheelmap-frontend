@@ -19,6 +19,7 @@ export type Props = {
   onClose: ?(() => void),
   onCompleted: ?((photos: FileList, captchaSolution: string) => void),
   waitingForPhotoUpload?: boolean;
+  photoCaptchaFailed?: boolean; 
 };
 
 
@@ -118,6 +119,19 @@ const StyledToolbar = styled(Toolbar)`
 
   > section {
     overflow: auto;
+  }
+
+  .captcha-error {
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    background: #f5cdcd7a;
+    border-radius: 10px;
+    border: red dotted 1px;
+  }
+
+  .captcha-holder {
+    text-align: center;
   }
 
   @media (max-width: 512px), (max-height: 512px) {
@@ -330,6 +344,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
   render() {
     const { captcha, waitingForCaptcha, captchaError } = this.state;
+    const { waitingForPhotoUpload, photoCaptchaFailed } = this.props;
 
     return (
       <StyledToolbar
@@ -343,15 +358,23 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
           {this.renderInputField()}
           {this.renderGoButton()}
         </header>
-        <section className='captcha-container'>
-          <div className='captcha-content'>
-            {captcha && <section dangerouslySetInnerHTML={{__html: captcha}} /> }
-            {waitingForCaptcha && <Dots /> }
-          </div>
-          {captchaError && <h3 className='captcha-error'>{t`Could not reach captcha server.`}</h3>}
-          <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
-          <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
-      </section>
+        {!waitingForPhotoUpload && 
+          <section className='captcha-container'>
+            <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
+            <div className='captcha-content'>
+              {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} /> }
+              {waitingForCaptcha && <div>{t`Loading captcha`}<Dots /></div> }
+            </div>            
+            {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
+            {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
+            <small className='captcha-explanation'>{t`Then we know you're not a machine..`}</small>
+          </section>
+        }
+        {waitingForPhotoUpload && 
+          <section className='starting-upload-container'>
+            <div>{t`Starting upload`}<Dots /></div>
+          </section>
+        }
       </StyledToolbar>
     );
   }
