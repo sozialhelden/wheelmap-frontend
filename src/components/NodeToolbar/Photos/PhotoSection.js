@@ -19,6 +19,8 @@ import PhotoNotifcation from '../../NodeToolbar/Photos/PhotoNotification';
 
 type Props = {
   featureId: string,
+  className: string,
+  photoFlowNotification?: string;
   onStartPhotoUploadFlow: () => void; 
 };
 
@@ -133,38 +135,40 @@ class PhotoSection extends React.Component<Props, State> {
 
   render() {
     const hasPhotos = this.state.photos.length > 0;
+    const { photoFlowNotification, onStartPhotoUploadFlow, className } = this.props;
+    const { photos, lightBoxPhotos, currentImageIndex } = this.state;
 
     return (
-      <section>
+      <section className={className}>
         <Gallery
-          photos={this.state.photos}
+          photos={photos}
           onClick={this.thumbnailSelected}
-          columns={Math.min(this.state.photos.length, 3)}
+          columns={Math.min(photos.length, 3)}
         />
-        <Lightbox images={this.state.lightBoxPhotos}
+        <Lightbox images={lightBoxPhotos}
           onClose={this.closeLightbox}
           onClickPrev={this.gotoPrevious}
           onClickNext={this.gotoNext}
-          currentImage={this.state.currentImageIndex}
+          currentImage={currentImageIndex}
           isOpen={this.state.isLightboxOpen}
         />
         {!hasPhotos && 
           <PhotoUploadButton 
-            onClick={this.props.onStartPhotoUploadFlow} 
+            onClick={onStartPhotoUploadFlow} 
           /> 
         }
-        <PhotoNotifcation notificationType='waitingForReview' />
+        {photoFlowNotification && <PhotoNotifcation notificationType={photoFlowNotification} />}
       </section>
     )
   }
 }
 
-const StyledThumbnailList = styled(PhotoSection)`
+const StyledPhotoSection = styled(PhotoSection)`
   .react-photo-gallery--gallery {
     img {
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 `;
 
-export default StyledThumbnailList;
+export default StyledPhotoSection;

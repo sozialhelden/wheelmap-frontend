@@ -107,6 +107,7 @@ type Props = {
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
   photoCaptchaFailed?: boolean,
+  photoFlowNotification?: string, 
 };
 
 
@@ -239,10 +240,11 @@ class MainView extends React.Component<Props, State> {
         equipmentInfoId={equipmentInfoId}
         isEditMode={isEditMode}
         isReportMode={isReportMode}
+        photoFlowNotification={this.props.photoFlowNotification}
         onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-        onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
+        onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}        
       />
     </div>;
   }

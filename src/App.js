@@ -85,7 +85,8 @@ type State = {
   isPhotoUploadInstructionsToolbarVisible: boolean,
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
-  photoCaptchaFailed?: boolean, 
+  photoCaptchaFailed?: boolean,
+  photoFlowNotification?: string, 
 };
 
 
@@ -154,6 +155,7 @@ class Loader extends React.Component<Props, State> {
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
 
+    // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
     photosMarkedForUpload: null,
@@ -304,7 +306,7 @@ class Loader extends React.Component<Props, State> {
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (currentlyShownId && fetchedId !== currentlyShownId) return;
-      this.setState({ feature, lat: null, lon: null, zoom: null });
+      this.setState({ feature, lat: null, lon: null, zoom: null, photoFlowNotification: undefined });
     }, (reason) => {
       let error = null;
       if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
@@ -616,6 +618,7 @@ class Loader extends React.Component<Props, State> {
       photosMarkedForUpload: this.state.photosMarkedForUpload,
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
+      photoFlowNotification: this.state.photoFlowNotification,
     }
 
     return (<MainView
