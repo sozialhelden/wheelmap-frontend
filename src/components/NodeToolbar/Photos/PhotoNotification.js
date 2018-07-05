@@ -56,7 +56,7 @@ class PhotoNotifcation extends React.Component<Props, State> {
       <div className={`${className} notification-mode-${notificationType}`}>
         {uploadProgressMode && <small>
           <progress max={100} value={uploadProgress || 0} />
-          {t`Upload in Progress..`}</small>
+          {t`Upload in Progress...`}</small>
         }
         {uploadFailedMode && <small>
           <StyledProblemIcon color={colors.negativeColor} />
@@ -68,7 +68,7 @@ class PhotoNotifcation extends React.Component<Props, State> {
         }
         {waitingForReviewMode && <small>
           <StyledCheckmarkIcon color={colors.primaryColorBrighter} />
-          {t`Thank you for work. You contribution will be visible after a quick check.`}</small>
+          {t`Thank you for your work. Your contribution will be visible after a quick check.`}</small>
         }
       </div>
     );

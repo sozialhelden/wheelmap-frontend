@@ -452,11 +452,11 @@ class Loader extends React.Component<Props, State> {
     });
   };
 
-  onAbortPhotoUploadFlow = () => { 
+  onExitPhotoUploadFlow = (reason: string = "aborted") => { 
     this.setState({ 
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
-      isPhotoUploadInstructionsToolbarVisible: false, 
+      isPhotoUploadInstructionsToolbarVisible: false,
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
       photoCaptchaFailed: false,
@@ -465,7 +465,7 @@ class Loader extends React.Component<Props, State> {
 
   onContinuePhotoUploadFlow = (photos: FileList) => {
     if (photos.length === 0) {
-      this.onAbortPhotoUploadFlow();
+      this.onExitPhotoUploadFlow();
       return;
     }
     this.setState({ 
@@ -473,6 +473,7 @@ class Loader extends React.Component<Props, State> {
       isPhotoUploadInstructionsToolbarVisible: false, 
       isPhotoUploadCaptchaToolbarVisible: true,
       photosMarkedForUpload: photos,
+      photoCaptchaFailed: false,
     });
   }
 
@@ -482,7 +483,7 @@ class Loader extends React.Component<Props, State> {
 
     if (!featureId) {
       console.error("No feature found, aborting upload");
-      this.onAbortPhotoUploadFlow();
+      this.onExitPhotoUploadFlow("invalid-state");
       return;
     }
 
@@ -493,7 +494,7 @@ class Loader extends React.Component<Props, State> {
     accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
       .then(() => {
         console.log("Succeeded upload");
-        this.onAbortPhotoUploadFlow();
+        this.onExitPhotoUploadFlow("success");
       }).catch((reason) => {
         console.error("Failed upload", reason);
         if (reason === InvalidCaptchaReason) {
@@ -502,7 +503,7 @@ class Loader extends React.Component<Props, State> {
             photoCaptchaFailed: true,
           });
         } else {
-          this.onAbortPhotoUploadFlow("upload-failed");
+          this.onExitPhotoUploadFlow("upload-failed");
         }
       });
   }
@@ -609,7 +610,7 @@ class Loader extends React.Component<Props, State> {
 
       // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
-      onAbortPhotoUploadFlow={this.onAbortPhotoUploadFlow}
+      onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
       onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
     />);
