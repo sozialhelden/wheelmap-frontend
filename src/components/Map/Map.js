@@ -222,20 +222,6 @@ export default class Map extends React.Component<Props, State> {
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
 
-    const wheelmapTileUrl = this.wheelmapTileUrl();
-
-    if (wheelmapTileUrl) {
-      this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
-        featureCache: wheelmapLightweightFeatureCache,
-        layerGroup: markerClusterGroup,
-        featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-        pointToLayer: this.props.pointToLayer,
-        filter: this.isFeatureVisible.bind(this),
-        maxZoom: this.props.maxZoom,
-        cordova: true,
-      });
-    }
-
     loadExistingLocalizationByPreference().then(() => {
       const locale = currentLocales[0];
       const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
@@ -255,6 +241,7 @@ export default class Map extends React.Component<Props, State> {
 
 
     Categories.fetchOnce(this.props).then(() => {
+      this.setupWheelmapTileLayer(markerClusterGroup);
       this.updateFeatureLayerVisibility(this.props);
       map.on('moveend', () => { this.updateFeatureLayerVisibility(); });
       map.on('zoomend', () => { this.updateFeatureLayerVisibility(); });
@@ -281,6 +268,7 @@ export default class Map extends React.Component<Props, State> {
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
   }
+
 
   componentDidUpdate() {
     if (this.locateControl) {
@@ -311,6 +299,21 @@ export default class Map extends React.Component<Props, State> {
         }
       },
     });
+  }    
+
+  setupWheelmapTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
+    const wheelmapTileUrl = this.wheelmapTileUrl();
+    if (wheelmapTileUrl) {
+      this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
+        featureCache: wheelmapLightweightFeatureCache,
+        layerGroup: markerClusterGroup,
+        featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
+        pointToLayer: this.props.pointToLayer,
+        filter: this.isFeatureVisible.bind(this),
+        maxZoom: this.props.maxZoom,
+        cordova: true,
+      });
+    }
   }
 
 
@@ -623,7 +626,9 @@ export default class Map extends React.Component<Props, State> {
 
   render() {
     const className = [
-      (userAgent.os.name === 'Android') ? 'is-android-platform' : null,
+      (userAgent.os.name 
+       
+       'Android') ? 'is-android-platform' : null,
       this.props.className,
     ].filter(Boolean).join(' ');
 
