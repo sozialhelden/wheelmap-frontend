@@ -18,6 +18,7 @@ export type Props = {
   photosMarkedForUpload: FileList | null,
   onClose: ?(() => void),
   onCompleted: ?((photos: FileList) => void),
+  waitingForUpload?: boolean;
 };
 
 
@@ -25,7 +26,7 @@ type State = {
   enteredCaptchaValue?: string,
   waitingForCaptcha: boolean;
   captchaError?: boolean | null;
-  captcha: string | null;
+  captcha: string | null;  
 };
 
 // TODO: Move into potential GoButton-component
@@ -53,6 +54,10 @@ const GoButton = styled.button`
   }
   &:active {
     background-color: ${colors.darkLinkColor};
+  }
+  &[disabled] {
+    opacity: 0.8;
+    background-color: ${colors.neutralBackgroundColor};
   }
 `;
 
@@ -103,6 +108,11 @@ const StyledToolbar = styled(Toolbar)`
       border: none;
       border-radius: 0;
       border-bottom: 1px solid ${colors.linkColor};
+
+      &[disabled] {
+        opacity: 0.8;
+        border-bottom: 1px solid ${colors.neutralBackgroundColor};
+      }
     }
   }
 
@@ -252,13 +262,17 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   }
 
   renderInputField() {
-    return <input type="text"
-      ref={inputField => this.inputField = inputField}
-      onFocus={(event) => {
-        window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
-      }}
-      onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
-    />;
+    const isInputDisabled = this.canSubmit();
+    return (
+      <input type="text"
+        ref={inputField => this.inputField = inputField}
+        onFocus={(event) => {
+          window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
+        }}
+        disabled={isInputDisabled}
+        onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
+      />
+    );
   }
 
   renderBackLink() {
@@ -276,9 +290,16 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   renderGoButton() {
     // translator: button shown next to the captcha text input field
     const caption = t`Go!`;
-    return <GoButton innerRef={(button) => this.goButton = button} onClick={this.onFinishPhotoUploadFlow}>
-      {caption} <StyledChevronRight />
-    </GoButton>;
+    const isGoDisabled = this.canSubmit();
+    return (
+      <GoButton 
+        innerRef={(button) => this.goButton = button} 
+        onClick={this.onFinishPhotoUploadFlow}
+        disabled={isGoDisabled}
+        >
+        {caption} <StyledChevronRight />
+      </GoButton>
+    );
   }
 
   onFinishPhotoUploadFlow = (event: UIEvent) => {
@@ -291,6 +312,10 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
       event.preventDefault();
       event.stopPropagation();
     }
+  }
+
+  canSubmit() {
+    return this.props.waitingForUpload || this.state.captchaError || this.state.waitingForCaptcha;
   }
 
   render() {
