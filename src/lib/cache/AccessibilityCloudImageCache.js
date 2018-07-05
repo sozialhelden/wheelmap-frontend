@@ -9,11 +9,11 @@ export const UnknownReason = "unknown";
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   
-  getPhotosForFeature(featureId: string): Promise<AccessibilityCloudImages | null> {
+  getPhotosForFeature(featureId: string): Promise<?AccessibilityCloudImages> {
     return this.getImage("place", featureId);
   }
 
-  getImage(context: string, objectId: string): Promise<AccessibilityCloudImages | null> {
+  getImage(context: string, objectId: string): Promise<?AccessibilityCloudImages> {
     return this.getData(`${config.accessibilityCloudBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${config.accessibilityCloudAppToken}`);
   }
 
