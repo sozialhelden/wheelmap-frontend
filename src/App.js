@@ -233,6 +233,7 @@ class Loader extends React.Component<Props, State> {
       result.featureId = featureId;
       // Clear out previously-loaded data (so we don't render stale stuff).
       result.feature = null;
+      result.photoFlowNotification = undefined;
 
       if (isWheelmapFeatureId(featureId)) {
         const feature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
@@ -306,7 +307,7 @@ class Loader extends React.Component<Props, State> {
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (currentlyShownId && fetchedId !== currentlyShownId) return;
-      this.setState({ feature, lat: null, lon: null, zoom: null, photoFlowNotification: undefined });
+      this.setState({ feature, lat: null, lon: null, zoom: null });
     }, (reason) => {
       let error = null;
       if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
@@ -472,7 +473,7 @@ class Loader extends React.Component<Props, State> {
     });
   };
 
-  onExitPhotoUploadFlow = (reason: string = "aborted") => { 
+  onExitPhotoUploadFlow = (notifcation?: string) => { 
     this.setState({ 
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
@@ -480,6 +481,7 @@ class Loader extends React.Component<Props, State> {
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
       photoCaptchaFailed: false,
+      photoFlowNotification: notifcation,
     });
   };
 
@@ -498,6 +500,7 @@ class Loader extends React.Component<Props, State> {
         isPhotoUploadCaptchaToolbarVisible: true,
         photosMarkedForUpload: photos,
         photoCaptchaFailed: false,
+        photoFlowNotification: undefined,
       });
     }
   }
@@ -507,19 +510,20 @@ class Loader extends React.Component<Props, State> {
     const featureId = this.state.featureId;
 
     if (!featureId) {
-      console.error("No feature found, aborting upload");
-      this.onExitPhotoUploadFlow("invalid-state");
+      console.error("No feature found, aborting upload!");
+      this.onExitPhotoUploadFlow();
       return;
     }
 
     this.setState({ 
       waitingForPhotoUpload: true,
+      photoFlowNotification: "uploadProgress",
     });
 
     accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
       .then(() => {
         console.log("Succeeded upload");
-        this.onExitPhotoUploadFlow("success");
+        this.onExitPhotoUploadFlow("waitingForReview");
       }).catch((reason) => {
         console.error("Failed upload", reason);
         if (reason === InvalidCaptchaReason) {
@@ -528,7 +532,7 @@ class Loader extends React.Component<Props, State> {
             photoCaptchaFailed: true,
           });
         } else {
-          this.onExitPhotoUploadFlow("upload-failed");
+          this.onExitPhotoUploadFlow("uploadFailed");
         }
       });
   }
