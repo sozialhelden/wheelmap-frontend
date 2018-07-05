@@ -74,6 +74,7 @@ type State = {
   isNotFoundVisible: boolean;
   isEditMode: boolean,
   isReportMode: boolean,
+  isCreateMode: boolean,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
@@ -147,6 +148,7 @@ class Loader extends React.Component<Props, State> {
     isMainMenuOpen: false,
     isReportMode: false,
     isEditMode: false,
+    isCreateMode: false,
     lastError: null,
     featureId: null,
     isOnSmallViewport: false,
@@ -204,6 +206,7 @@ class Loader extends React.Component<Props, State> {
       category,
       searchQuery,
       isEditMode,
+      isCreateMode,
     } = routeInformation;
 
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
@@ -215,6 +218,7 @@ class Loader extends React.Component<Props, State> {
       category: featureId ? (state.category || category) : category,
       searchQuery,
       isEditMode,
+      isCreateMode,
       toiletFilter,
       accessibilityFilter,
     };
@@ -547,6 +551,12 @@ class Loader extends React.Component<Props, State> {
     if (this.mainView) this.mainView.focusMap();
   };
 
+  onCloseCreatePlaceDialog = () => {
+    this.setState({
+      isCreateMode: false,
+    });
+  };
+
   isNodeToolbarDisplayed(state = this.state) {
     return state.feature && 
            !state.isSearchToolbarExpanded && 
@@ -591,6 +601,7 @@ class Loader extends React.Component<Props, State> {
       isNotFoundVisible: this.state.isNotFoundVisible,
       isSearchBarVisible: this.state.isSearchBarVisible,
       isReportMode: this.state.isReportMode,
+      isCreateMode: this.state.isCreateMode,
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
@@ -624,6 +635,7 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
+      onCloseCreatePlaceDialog={this.onCloseCreatePlaceDialog}
 
       // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}

@@ -202,7 +202,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     isLoading: false,
   };
 
-  toolbar: ?React.Element<typeof Toolbar>;
+  toolbar: ?React.ElementRef<typeof Toolbar>;
   input: ?React.ElementRef<'input'>;
   searchInputField: ?React.ElementRef<'input'>;
   closeLink: ?React.ElementRef<typeof CloseLink>;

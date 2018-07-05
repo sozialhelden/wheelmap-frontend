@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import strings from './strings';
-import { generateOsmEditUrl, generateOsmNoteUrl } from './generateOsmUrls';
+import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/generateOsmUrls';
 import type { Feature } from '../../../lib/Feature';
 
 

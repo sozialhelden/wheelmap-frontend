@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import Logo from '../../lib/Logo';
@@ -9,6 +10,7 @@ import { t } from 'c-3po';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
 import strings from './strings';
+import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 
 
@@ -45,7 +47,11 @@ class MainMenu extends React.Component<Props, State> {
   state: State = {
     isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
+
   boundOnResize: (() => void);
+  firstMenuElement: ?HTMLLinkElement;
+  homeButton: ?HTMLButtonElement;
+  addPlaceLink: ?React.ElementRef<typeof Link>;
 
   onResize = () => {
     if (window.innerWidth > menuButtonVisibilityBreakpoint) {
@@ -54,13 +60,6 @@ class MainMenu extends React.Component<Props, State> {
       this.setState({ isMenuButtonVisible: true });
       this.props.onToggle(false);
     }
-  }
-
-  constructor(props: Props) {
-    super(props);
-    this.focusToLastElement = this.focusToLastElement.bind(this);
-    this.focusToFirstElement = this.focusToFirstElement.bind(this);
-    this.focusFirstMenuElement = this.focusFirstMenuElement.bind(this);
   }
 
   componentDidMount() {
@@ -89,35 +88,52 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   setupFocusTrap() {
-    if (this.homeLink && this.addPlaceLink) {
-      this.homeLink.addEventListener('keydown', this.focusToLastElement);
-      this.addPlaceLink.addEventListener('keydown', this.focusToFirstElement);
+    if (this.homeButton && this.addPlaceLink) {
+      this.homeButton.addEventListener('keydown', this.focusToLastElement);
+      const link = ReactDOM.findDOMNode(this.addPlaceLink);
+      if (link) {
+        link.addEventListener('keydown', this.focusToFirstElement);
+      }
     }
   }
 
   tearDownFocusTrap() {
-    if (this.homeLink && this.addPlaceLink) {
-      this.homeLink.removeEventListener('keydown', this.focusToLastElement);
-      this.addPlaceLink.removeEventListener('keydown', this.focusToFirstElement);
+    if (this.homeButton) {
+      this.homeButton.removeEventListener('keydown', this.focusToLastElement);
+    }
+    if (this.addPlaceLink) {
+      const link = ReactDOM.findDOMNode(this.addPlaceLink);
+      if (link) {
+        link.removeEventListener('keydown', this.focusToFirstElement);
+      }
     }
   }
 
-  focusToFirstElement(event) {
+  focusToFirstElement = (event: KeyboardEvent) => {
     if (event.key === 'Tab' && !event.shiftKey) {
       event.preventDefault();
-      this.homeLink.focus();
+      if (this.homeButton) {
+        this.homeButton.focus();
+      }
     }
   }
 
-  focusToLastElement(event) {
+  focusToLastElement = (event: KeyboardEvent) => {
     if (event.key === 'Tab' && event.shiftKey) {
       event.preventDefault();
-      this.addPlaceLink.focus();
+      if (this.addPlaceLink) {
+        const linkElement = ReactDOM.findDOMNode(this.addPlaceLink)
+        if (linkElement && typeof linkElement.focus === 'function') {
+          linkElement.focus();
+        }
+      }
     }
   }
 
-  focusFirstMenuElement() {
-    this.firstMenuElement.focus();
+  focusFirstMenuElement = () => {
+    if (this.firstMenuElement) {
+      this.firstMenuElement.focus();
+    }
   }
 
   returnHome =  () => {
@@ -154,7 +170,7 @@ class MainMenu extends React.Component<Props, State> {
         <button 
           className="btn-unstyled home-button"
           onClick={this.returnHome} 
-          ref={homeLink => this.homeLink = homeLink} 
+          ref={homeButton => this.homeButton = homeButton}
           tabIndex={isEditMode ? -1 : 0} 
           aria-label={t`Home`}>
           <Logo className="logo" width={123} height={30} />
@@ -200,15 +216,15 @@ class MainMenu extends React.Component<Props, State> {
         <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{contact}</a>
         <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{imprint}</a>
         <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{faq}</a>
-        <a
+        <Link
           className="nav-link add-place-link"
-          href={`https://www.openstreetmap.org/edit?editor=id#map=${zoom}/${lat}/${lon}`}
+          to="/beta/nodes/new"
           ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
           tabIndex={isEditMode ? -1 : 0}
           role="menuitem"
         >
           {addMissingPlace}
-        </a>
+        </Link>
       </div>
     </nav>);
   }
@@ -282,22 +298,15 @@ const StyledMainMenu = styled(MainMenu)`
       background-color: ${colors.linkBackgroundColorTransparent};
     }
     &:active {
-      color: ${colors.primaryColor};
-      background-color: ${hsl(colors.primaryColor).brighter(1.7)};
+      color: ${colors.linkColor};
+      background-color: ${hsl(colors.linkColor).brighter(1.7)};
     }
   }
 
   .add-place-link {
     font-weight: 500;
-    white-space: nowrap;
-    &, &:visited, &:hover, &:focus {
-      color: ${colors.primaryColorDarker};
-    }
-    &:hover, &:focus {
-      background-color: ${hsl(colors.primaryColor).brighter(1.7)};
-    }
-    &:active {
-      color: ${hsl(colors.primaryColor).darker(2)};
+    &, &:visited {
+      color: ${colors.linkColor};
     }
   }
 
@@ -358,6 +367,10 @@ const StyledMainMenu = styled(MainMenu)`
     right: 0;
 
     flex-wrap: wrap;
+
+    #main-menu {
+      padding-bottom: .5rem;
+    }
 
     button.menu {
       opacity: 1;

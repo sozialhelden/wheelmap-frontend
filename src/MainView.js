@@ -3,6 +3,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
+import uniq from 'lodash/uniq';
 import queryString from 'query-string';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { Dots } from 'react-activity';
@@ -14,6 +15,7 @@ import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
+import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
@@ -70,6 +72,7 @@ type Props = {
   lastError: ?string,
   isEditMode: boolean,
   isReportMode: boolean,
+  isCreateMode: boolean,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
@@ -92,7 +95,8 @@ type Props = {
   onOpenReportMode: (() => void),
   onCloseOnboarding: (() => void),
   onClickCurrentMarkerIcon?: ((Feature) => void),
-  
+  onCloseCreatePlaceDialog: (() => void),
+
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
@@ -380,6 +384,15 @@ class MainView extends React.Component<Props, State> {
     />
   }
 
+  renderCreateDialog() {
+    return <CreatePlaceDialog
+      hidden={!this.props.isCreateMode}
+      onClose={this.props.onCloseCreatePlaceDialog}
+      lat={this.props.lat}
+      lon={this.props.lon}
+    />;
+  }
+
   render() {
     const { featureId, searchQuery, equipmentInfoId } = this.props;
     const { isLocalizationLoaded } = this.props;
@@ -389,17 +402,18 @@ class MainView extends React.Component<Props, State> {
     const { lat, lon, zoom, isReportMode } = this.props;
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
-    const classList = [
+    const classList = uniq([
       'app-container',
       this.props.className,
       this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
+      this.props.isCreateMode ? 'is-dialog-visible' : null,
       this.props.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.props.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
       isEditMode ? 'is-edit-mode' : null,
       this.props.isReportMode ? 'is-report-mode' : null,
-    ].filter(Boolean);
+    ]).filter(Boolean);
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
@@ -412,7 +426,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible ||
       isEditMode ||
-      this.props.isReportMode;
+      this.props.isReportMode ||
+      this.props.isCreateMode;
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
     const isNodeToolbarModal = isReportMode || isEditMode;
@@ -456,6 +471,7 @@ class MainView extends React.Component<Props, State> {
       {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
       {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
       {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
+      {this.props.isCreateMode && this.renderCreateDialog()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);
