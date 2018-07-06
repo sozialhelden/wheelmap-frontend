@@ -1,6 +1,5 @@
 // @flow
 
-import { t } from 'c-3po';
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';

@@ -145,7 +145,7 @@ class MainMenu extends React.Component<Props, State> {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isEditMode, isLocalizationLoaded, lat, lon, zoom } = this.props;
+    const { isEditMode, isLocalizationLoaded } = this.props;
 
     const classList = [
       this.props.className,
