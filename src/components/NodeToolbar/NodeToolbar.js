@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import get from 'lodash/get';
-import pick from 'lodash/pick';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 

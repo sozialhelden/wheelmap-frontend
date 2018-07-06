@@ -3,7 +3,6 @@
 import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
-import storage from 'local-storage-fallback';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';

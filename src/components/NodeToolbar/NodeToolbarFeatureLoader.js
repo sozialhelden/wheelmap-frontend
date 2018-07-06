@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
-import styled from 'styled-components';
 
-import Toolbar from '../Toolbar';
-import CloseLink from '../CloseLink';
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
