@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 import { t } from 'c-3po';
+import colors from '../../lib/colors';
 
 
 function formatName(name: string, properties: {}): string {
@@ -111,11 +112,13 @@ AccessibilityDetails.defaultProps = { className: null, locale: null };
 
 
 const StyledAccessibilityDetails = styled(AccessibilityDetails)`
-  width: 100%;
   box-sizing: border-box;
   line-height: 1.3;
   font-weight: 300;
   color: #444;
+  background-color: ${colors.coldBackgroundColor};
+  margin: 0 -10px -10px -10px !important;
+  padding: 10px !important;
 
   ul {
     list-style: none;

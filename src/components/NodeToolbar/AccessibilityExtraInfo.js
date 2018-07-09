@@ -44,7 +44,7 @@ class AccessibilityExtraInfo extends React.Component<Props, State> {
 
 
 const StyledAccessibilityExtraInfo = styled(AccessibilityExtraInfo)`
-  margin-top: 1em;
+  margin-top: -10px !important;
   font-size: 80%;
   opacity: 0.5;
 `;

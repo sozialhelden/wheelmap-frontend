@@ -59,14 +59,7 @@ class AccessibilityEditor extends React.Component<Props, State> {
     const isInToiletEditingMode = this.state.isInToiletEditingMode;
 
     if (isInToiletEditingMode) {
-      return (<ToiletStatusEditor
-        innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
-        className={className}
-        featureId={this.props.featureId}
-        feature={this.props.feature}
-        onSave={(newValue: YesNoUnknown) => this.props.onClose()}
-        onClose={this.props.onClose}
-      />);
+
     }
 
     return (<WheelchairStatusEditor

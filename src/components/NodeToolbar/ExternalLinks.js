@@ -15,6 +15,7 @@ import LicenseHint from './LicenseHint';
 import PhoneNumberLink from './PhoneNumberLink';
 import { placeNameFor, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import styled from 'styled-components';
+import openButtonCaption from '../../lib/openButtonCaption';
 
 
 type Props = {
@@ -25,7 +26,6 @@ type Props = {
   history: RouterHistory,
 };
 
-
 const captions = {
   // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
   infoPageUrl: (sourceNameString) => t`Open on ${sourceNameString}`,
@@ -34,7 +34,7 @@ const captions = {
   // translator: Button caption shown in the PoI details panel
   editButton: t`Edit`,
   // translator: Button caption shown in the PoI details panel
-  showOnOsm: t`Open on OpenStreetMap`,
+  showOnOsm: openButtonCaption('OpenStreetMaps'),
   // translator: Prefix for the sources on the PoI details panel
   source: t`Source:`,
 };
@@ -112,7 +112,7 @@ export default function ExternalLinks(props: Props) {
 
   const placeName = placeNameFor(get(props, 'feature.properties'), props.category);
   const openInMaps = generateMapsUrl(feature, placeName);
-  const showOnOsmLink = generateShowOnOsmUrl(feature);
+  const showOnOsmUrl = generateShowOnOsmUrl(feature);
   const placeWebsiteLink = (typeof placeWebsiteUrl === 'string') &&
     <NonBreakingLink className="place-website-url link-button" href={placeWebsiteUrl}>
       {placeWebsiteUrl}
@@ -133,8 +133,7 @@ export default function ExternalLinks(props: Props) {
     </button>}
 
     {openInMaps && <a className="link-button" href={openInMaps.url}>{openInMaps.caption}</a>}
-    {showOnOsmLink && <a className="link-button" href={showOnOsmLink}>{captions.showOnOsm}</a>}
-    {(isEquipment && phoneNumber) ? <PhoneNumberLink phoneNumber={String(phoneNumber)} /> : null}
+    {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">{captions.showOnOsm}</a>}
     <Sources {...props} />
   </React.Fragment>;
 }

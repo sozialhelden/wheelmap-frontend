@@ -159,7 +159,7 @@ const StyledEquipmentItem = styled(EquipmentItem)`
     &:last-of-type {
       margin-right: 0.75em;
     }
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border: 1px solid ${colors.borderColor};
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.2rem;
     padding: 0.25rem;
