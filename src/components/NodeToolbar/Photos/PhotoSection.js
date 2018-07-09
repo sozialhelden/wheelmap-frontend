@@ -45,6 +45,8 @@ class PhotoSection extends React.Component<Props, State> {
     currentImageIndex: 0,
   };
 
+  gallery: Gallery | null = null;
+
   componentDidMount() {
     this.fetchPhotos(this.props);
   }
@@ -72,7 +74,10 @@ class PhotoSection extends React.Component<Props, State> {
       });
     }
 
-    this.setState({ photos: mergedPhotos });
+    this.setState({ photos: mergedPhotos }, () => {
+      const g : any = (this.gallery);
+      g.handleResize();
+    });
   }
 
   handlePhotoError = (e) => {
@@ -141,6 +146,7 @@ class PhotoSection extends React.Component<Props, State> {
     return (
       <section className={className}>
         <Gallery
+          ref={g => this.gallery = g}
           photos={photos}
           onClick={this.thumbnailSelected}
           columns={Math.min(photos.length, 3)}
