@@ -96,7 +96,7 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
-  > header {
+  header {
     position: sticky;
     display: flex;
     flex-direction: row;
@@ -108,29 +108,38 @@ const StyledToolbar = styled(Toolbar)`
     border-bottom: 1px ${colors.borderColor} solid;
     background: white;
 
-    > input {
-      flex:1;
+    form {
+      flex: 1;
       min-width: 100px;
-      font-size: 1em;
+      padding: 0;
+      margin: 0;
       margin: 6px 10px 6px 0;
-      border: none;
-      border-radius: 0;
-      border-bottom: 1px solid ${colors.linkColor};
-      
-      &.focus-ring {
-        outline: none;
-        box-shadow: none;
-        /* border-bottom: none; */
-      }
+      display: block;
 
-      &[disabled] {
-        opacity: 0.8;
-        border-bottom: 1px solid ${colors.neutralBackgroundColor};
+      input {
+        font-size: 1em;
+        border: none;
+        border-radius: 0;
+        border-bottom: 1px solid ${colors.linkColor};
+        width: 100%;
+        height: 2em;
+        padding: 0;
+        
+        &.focus-ring {
+          outline: none;
+          box-shadow: none;
+          /* border-bottom: none; */
+        }
+
+        &[disabled] {
+          opacity: 0.8;
+          border-bottom: 1px solid ${colors.neutralBackgroundColor};
+        }
       }
     }
   }
 
-  > section.captcha-container {
+  section.captcha-container {
     overflow: auto;
 
     section.captcha-error {
@@ -156,6 +165,10 @@ const StyledToolbar = styled(Toolbar)`
 
       > .captcha-holder {
         text-align: center;
+
+        svg {
+          transform: scale(1.5);
+        }
       }
 
       > button {
@@ -223,55 +236,6 @@ const StyledToolbar = styled(Toolbar)`
         padding: 0 0.5rem 0 0.5rem;
         font-size: 2em;
         }
-      }
-    }
-  }
-
-
-  @media (max-width: 512px), (max-height: 512px) {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    max-height: 100%;
-    right: 0;
-    left: 0;
-    margin: 0;
-    padding-right: max(constant(safe-area-inset-right), 0px);
-    padding-left: max(constant(safe-area-inset-left), 0px);
-    padding-right: max(env(safe-area-inset-right), 0px);
-    padding-left: max(env(safe-area-inset-left), 0px);
-    margin-top: constant(safe-area-inset-top);
-    margin-top: env(safe-area-inset-top);
-    transform: translate3d(0, 0, 0) !important;
-    z-index: 1000000000;
-    border-radius: 0;
-
-    &.toolbar-iphone-x {
-      input, input:focus {
-        background-color: white;
-      }
-    }
-
-    &:not(.is-expanded) {
-      top: 60px;
-      left: 10px;
-      width: calc(100% - 80px);
-      max-height: 100%;
-      max-width: 320px;
-      margin: 0;
-    }
-
-    > header, .search-results, .category-menu {
-      padding: 0
-    }
-
-    .search-results .link-button {
-      margin: 0;
-    }
-
-    @media (max-height: 400px) {
-      .category-button {
-        flex-basis: 16.666666% !important;
       }
     }
   }
@@ -348,14 +312,18 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   renderInputField() {
     const isInputDisabled = !this.canEnter();
     return (
-      <input type="text"
-        ref={inputField => this.inputField = inputField}
-        onFocus={(event) => {
-          window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
-        }}
-        disabled={isInputDisabled}
-        onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
-      />
+      <form onSubmit={this.onFinishPhotoUploadFlow}>
+        <input type="text"
+          ref={inputField => this.inputField = inputField}
+          onFocus={(event) => {
+            window.scrollTo(0, 0);  // Fix iOS mobile safari viewport out of screen bug
+          }}
+          disabled={isInputDisabled}
+          onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
+          value={this.state.enteredCaptchaValue || ''}
+          field="captcha-solution"
+        />
+      </form>
     );
   }
 
@@ -407,9 +375,10 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   onFinishPhotoUploadFlow = (event: UIEvent) => {
     if (this.props.onCompleted && this.props.photosMarkedForUpload) {
       if (!this.state.enteredCaptchaValue) {
+        event.preventDefault();
+        event.stopPropagation();
         return;
       }
-
       this.props.onCompleted(this.props.photosMarkedForUpload, this.state.enteredCaptchaValue);
       event.preventDefault();
       event.stopPropagation();
