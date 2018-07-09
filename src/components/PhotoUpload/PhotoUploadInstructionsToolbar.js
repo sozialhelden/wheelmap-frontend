@@ -57,10 +57,9 @@ const StyledToolbar = styled(Toolbar)`
     .close-link {
       display: inline-block;
       position: sticky;
-      float: right;
-      padding: 0.5rem;
-      font-size: 1.5rem;
-      color: rgba(0, 0, 0, 0.3);
+      font-size: 2rem;
+      padding-bottom: 8px;
+      color: rgba(0, 0, 0, 0.2);
       background-color: rgba(251, 250, 249, 0.8);
       -webkit-backdrop-filter: blur(10px);
       border: 1px rgba(0, 0, 0, 0.01) solid;
@@ -87,7 +86,7 @@ const StyledToolbar = styled(Toolbar)`
 
       li {
         position: relative;
-        margin-bottom: 0.8rem;
+        margin-bottom: 1rem;
       
         p,
         small {
@@ -97,7 +96,7 @@ const StyledToolbar = styled(Toolbar)`
 
         p {
           font-weight: 600;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0.25rem;
           margin-top: 0.5rem;
         }
 
@@ -176,9 +175,14 @@ const StyledToolbar = styled(Toolbar)`
       li.with-checkbox {
         margin-left: 0;
 
-        p,
-        small {
-          padding-left: 10px;
+        label { 
+          padding-left: 6px;
+          font-weight: 600;
+          color: ${colors.primaryColorBrighter};
+        }
+        
+        small { 
+          padding-left: 26px; 
         }
       }
     }
@@ -188,6 +192,10 @@ const StyledToolbar = styled(Toolbar)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    label.link-button {
+      text-align: center;
+    }
   }
 
   input.hidden-file-input {
@@ -216,10 +224,10 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     return <button
       className='close-link'
       // translator: Button caption in photo upload Instructions dialog
-      aria-label={t`Back`}
+      aria-label={t`Close`}
       onClick={this.onClose}
       ref={backLink => this.backLink = backLink}
-    >← </button>;
+    >× </button>;
   }
 
   onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -285,18 +293,18 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             </li>
             <li className='with-checkmark'>
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…were made by myself. `}</p></span>
-              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a Creative Commons-License (CC).`}
-              <a href="">{t`Read More`}</a></small> {/* TODO: add link to CC */}
+              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a `}
+              <a href="">{t`Creative Commons-License (CC)`}</a></small> {/* TODO: add link to CC */}
             </li>
             <li className='with-checkmark'>
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…do not contain any persons.`}</p></span>
-              <small>{t`For identifiable persons, written consent must be obtained in accordance with the DSGVO.`}<br/>
-              <a href="">{t`Read More`}</a></small> {/* TODO: add link to DSGVO */}
+              <small>{t`For identifiable persons, written consent must be obtained in accordance with the `}
+              <a href="">{t`DSGVO`}</a></small> {/* TODO: add link to DSGVO */}
             </li>
             <li className='with-checkbox'>
               <input type='checkbox' id='confirm' checked={guidelinesAccepted} onChange={this.onGuidelinesAcceptedChanged} />
               <label htmlFor='confirm'>{t`…meet our guidelines.`}</label><br/>
-              <small><a href="https://news.wheelmap.org/datenschutzerklaerung/">{t`Read More`}</a></small> {/* TODO: add link to guidelines */}
+              <small>{t`I can read them `}<a href="https://news.wheelmap.org/datenschutzerklaerung/">{t`here`}</a></small> {/* TODO: add link to guidelines */}
             </li>
           </ul>
         </section>
