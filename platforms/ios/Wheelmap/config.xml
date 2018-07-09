@@ -54,6 +54,7 @@
     <access origin="https://www.accessibility.cloud" />
     <access origin="https://photon.komoot.de" />
     <access origin="http://localhost:3000" />
+    <access origin="https://accessibility-cloud-uploads.s3.amazonaws.com" />
     <allow-navigation href="http://localhost:*/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
