@@ -22,7 +22,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
 
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor.fetch(
-        `${config.accessibilityCloudBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`, 
+        `${config.accessibilityCloudUncachedBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`,
         {
           method: "POST",
           headers: {
