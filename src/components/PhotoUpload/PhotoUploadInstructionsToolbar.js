@@ -198,9 +198,17 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
-  input.hidden-file-input {
-    visibility: hidden;
-    display: none;
+  .file-label {
+    position: relative;
+
+    input.hidden-file-input {
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      width: 100%;
+      top: 0;
+      height: 100%;
+    }
   }
   
   .link-button[disabled] {
@@ -229,7 +237,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       ref={backLink => this.backLink = backLink}
     >× </button>;
   }
-
+  
   onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
     var files = input.files;
@@ -315,22 +323,22 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             {t`Cancel`}
           </button>
           <label 
-            className='link-button primary-button' 
+            className='link-button primary-button file-label' 
             disabled={!canSubmit}
             htmlFor="photo-file-upload">
             {t`Continue`} 
             {waitingForPhotoUpload && <Dots />}
+            <input 
+              ref={(input => {this.inputField = input})}
+              type='file'
+              id="photo-file-upload"
+              multiple={false}
+              accept='image/*'
+              onChange={this.onFileInputChanged}
+              disabled={!canSubmit}
+              name='continue-upload'
+              className='hidden-file-input' />
           </label>
-          <input 
-            ref={(input => {this.inputField = input})}
-            type='file'
-            id="photo-file-upload"
-            multiple={false}
-            accept='image/*'
-            onChange={this.onFileInputChanged}
-            disabled={!canSubmit}
-            name='continue-upload'
-            className='hidden-file-input' />
         </footer>
       </StyledToolbar>
     );
