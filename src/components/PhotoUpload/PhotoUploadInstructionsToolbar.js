@@ -10,7 +10,9 @@ import CloseLink from '../CloseLink';
 import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
-
+import entrancePlaceholder from './entrancePlaceholder.png';
+import sitemapPlaceholder from './sitemapPlaceholder.png';
+import toiletPlaceholder from './toiletPlaceholder.png';
 export type Props = {
   hidden: boolean,
   waitingForPhotoUpload?: boolean;
@@ -123,10 +125,10 @@ const StyledToolbar = styled(Toolbar)`
               background-size: cover; 
               background-color: #EEE;
             } 
-            
-            .entrance-image { background-image: url('/images/placeholder-entrance@3x.png'); }
-            .sitemap-image { background-image: url('/images/placeholder-sitemap@3x.png'); }
-            .toilet-image { background-image: url('/images/placeholder-toilet@3x.png'); }
+
+            .entrance-image { background-image: url('${entrancePlaceholder}'); }
+            .sitemap-image { background-image: url('${sitemapPlaceholder}'); }
+            .toilet-image { background-image: url('${toiletPlaceholder}'); }
           
             small {
               font-size: 0.8rem;
