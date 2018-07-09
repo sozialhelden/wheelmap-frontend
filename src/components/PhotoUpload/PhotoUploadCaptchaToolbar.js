@@ -161,11 +161,12 @@ const StyledToolbar = styled(Toolbar)`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 1rem;
+      padding: 1rem 1rem 0 1rem;
 
-      > .captcha-holder {
+      > section.captcha-holder {
+        padding-top: 0.75rem;
         text-align: center;
-
+        
         svg {
           transform: scale(1.5);
         }
