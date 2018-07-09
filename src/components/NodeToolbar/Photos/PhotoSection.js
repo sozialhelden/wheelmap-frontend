@@ -16,6 +16,7 @@ import type { AccessibilityCloudImages } from '../../../lib/Feature';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotifcation from '../../NodeToolbar/Photos/PhotoNotification';
+import colors from '../../../lib/colors';
 
 type Props = {
   featureId: string,
@@ -171,6 +172,12 @@ class PhotoSection extends React.Component<Props, State> {
 
 const StyledPhotoSection = styled(PhotoSection)`
   .react-photo-gallery--gallery {
+    background: ${colors.evenMoreTransparentLinkColor};
+
+    &:hover {
+      background: ${colors.linkBackgroundColorTransparent};
+    }
+
     img {
       object-fit: contain;
     }

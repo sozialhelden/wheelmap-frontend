@@ -196,6 +196,19 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
+  .starting-upload-container > div {
+    padding: 1rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      padding: 1rem 0;
+    }
+  }
+
   section.send-via-email a {
     padding: 12px 8px;
     background: ${colors.coldBackgroundColor};
@@ -458,7 +471,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         }
         {waitingForPhotoUpload && 
           <section className='starting-upload-container'>
-            <div>{t`Starting upload`}<Dots /></div>
+            <div><p>{t`Starting upload`}</p><Dots /></div>
           </section>
         }
       </StyledToolbar>
