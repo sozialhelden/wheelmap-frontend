@@ -255,6 +255,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
   checkCaptchaTimer: number | null;
+  toolbar: ?React.ElementRef<typeof Toolbar>;
 
   componentDidMount() {
     if (!this.props.hidden) {
@@ -276,6 +277,9 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.hidden) {
       this.startTimer();
+      if (this.toolbar) {
+        this.toolbar.ensureFullVisibility();
+      }
     } else if (nextProps.hidden) {
       this.clearTimer();
     }
@@ -412,6 +416,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
+        innerRef={(toolbar) => { this.toolbar = toolbar; }}
       >
         <header>
           {this.renderBackLink()}
