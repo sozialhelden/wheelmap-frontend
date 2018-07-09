@@ -6,6 +6,7 @@ import colors from '../../lib/colors';
 import { t } from 'c-3po';
 
 import CameraIcon from './CameraIcon';
+import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
 type Props = {
   className: string,
@@ -40,12 +41,12 @@ class PhotoUploadButton extends React.Component<Props, State> {
       <button 
         onClick={this.onClick} 
         className={`${className} link-button`}
-        aria-label={t`Upload images`} >
+        aria-label={t`Add images`} >
         <span className='button-icon'>
             <CameraIcon />
         </span>
-        <span className='button-label'>{t`Upload images`}</span>
-        <span className='motivation-hint'> {t`Your Good Deed!`}</span>
+        <span className='button-label'>{t`Add images`}</span>
+        <IncentiveHint>{t`Improve your karma!`}</IncentiveHint>
       </button>
     );
   }
@@ -65,37 +66,19 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  
+  width: calc(100% + 10px);
+  margin: 0 -5px !important;
+  padding: 0 !important;
+
   span.button-icon > svg {
     display: inline-block;
     padding-top: 2px;
     padding-left: 0.2rem;
     font-size: 2em;
   }
-  
+
   span.button-label {
-    width: 100%;
-    padding: 4px 0;
-    margin-left: 0.7rem;    
     color: ${colors.linkColor};
-  }
-  
-  span.motivation-hint {
-    font-size: 0.8rem;
-    display: inline-block;
-    position: relative;
-    right: -4px;
-    min-width: 7rem;
-    padding: 4px 4px 4px 12px;
-    color:white;
-    background: ${colors.linkColor}; /* fallback */
-    background:
-      linear-gradient(115deg, transparent 10px, ${colors.linkColor} 0) top left,
-      linear-gradient(225deg, transparent 0px, ${colors.linkColor} 0) top right,
-      linear-gradient(315deg, transparent 0px, ${colors.linkColor} 0) bottom right,
-      linear-gradient(65deg,  transparent 10px, ${colors.linkColor} 0) bottom left;
-    background-size: 50% 50%;
-    background-repeat: no-repeat;
   }
 `;
 

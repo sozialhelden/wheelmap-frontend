@@ -8,10 +8,13 @@ import {
   accessibilityName,
   accessibilityDescription,
   toiletDescription,
+  isWheelmapFeature,
 } from '../../lib/Feature';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
+import PenIcon from '../icons/actions/PenIcon';
 import colors from '../../lib/colors';
+
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
   const description = accessibilityName(accessibility);
@@ -24,6 +27,7 @@ function AccessibilityName(accessibility: YesNoLimitedUnknown) {
       return null;
   }
 }
+
 
 function ToiletDescription(accessibility: YesNoUnknown) {
   const description = toiletDescription(accessibility);
@@ -47,22 +51,78 @@ function BasicAccessibility(props) {
   const toiletAccessibilityIsKnown = toiletAccessibility !== 'unknown';
   const description: ?string = props.properties.wheelchair_description;
   const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
+  const isEnabled = !isWheelmapFeature(props);
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   return (<summary className={`basic-accessibility ${props.className}`}>
-    <header className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}>{AccessibilityName(wheelchairAccessibility)}</header>
-    <footer className='accessibility-description'><span>{accessibilityDescription(wheelchairAccessibility)}</span></footer>
-    { toiletAccessibilityIsKnown && <footer className={`accessibility-toilet accessibility-${toiletAccessibility}`}>{ToiletDescription(toiletAccessibility)}</footer> }
+    <button
+      className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
+      onClick={props.onClickWheelchairAccessibility}
+    >
+      <header>
+        <span>{AccessibilityName(wheelchairAccessibility)}</span>
+        {isEnabled && <PenIcon className="pen-icon" />}
+      </header>
+
+      <footer className='accessibility-description'>
+        {accessibilityDescription(wheelchairAccessibility)}
+      </footer>
+    </button>
+
+    {toiletAccessibilityIsKnown &&
+      <button
+        className={`accessibility-toilet accessibility-${toiletAccessibility}`}
+        onClick={props.onClickToiletAccessibility}
+      >
+        <header>
+          {ToiletDescription(toiletAccessibility)}
+          {isEnabled && <PenIcon className="pen-icon" />}
+        </header>
+      </button>}
+
     { description && descriptionElement }
+    { props.children }
   </summary>);
 }
 
+
 const StyledBasicAccessibility = styled(BasicAccessibility)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
   margin: 1rem -0.5rem;
   padding: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid ${colors.borderColor};
   border-radius: 4px;
-  position: relative;
+  overflow: hidden;
+
+  > button {
+    margin: -10px;
+    padding: 10px;
+    border: none;
+    outline: none;
+    appearance: none;
+    font-size: 1rem;
+    text-align: inherit;
+    background-color: transparent;
+    cursor: pointer;
+
+    &:hover {
+      &.accessibility-yes {
+        background-color: ${colors.positiveBackgroundColorTransparent};
+      }
+      &.accessibility-limited {
+        background-color: ${colors.warningBackgroundColorTransparent};
+      }
+      &.accessibility-no {
+        background-color: ${colors.negativeBackgroundColorTransparent};
+      }
+    }
+  }
+
+  > button + button {
+    margin-top: calc(-5px + 1rem);
+  }
 
   &:before {
     display: block;
@@ -89,40 +149,59 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
     &:not(:first-child) {
       margin: 0.25rem 0 0 0;
     }
-    &.accessibility-wheelchair {
+  }
+
+  .accessibility-wheelchair, .accessibility-toilet {
+    header {
       font-weight: bold;
-    }
-    &.accessibility-yes {
-      color: ${colors.positiveColorDarker};
-    }
-    &.accessibility-limited {
-      color: ${colors.warningColorDarker};
-    }
-    &.accessibility-no {
-      color: ${colors.negativeColorDarker};
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 
-  footer {
-    &.accessibility-description {
-      margin-top: 0.25rem;
+  .accessibility-yes {
+    color: ${colors.positiveColorDarker};
+    .pen-icon path {
+      fill: ${colors.positiveColorDarker};
+      stroke: ${colors.positiveColorDarker};
     }
-    &.accessibility-toilet span {
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: flex-end;
-      align-items: center;
-
-      svg {
-        margin-right: 0.5rem;
-      }
-
-      span {
-        font-weight: bold;
-        color: ${colors.positiveColorDarker};
-      }
+  }
+  .accessibility-limited {
+    color: ${colors.warningColorDarker};
+    .pen-icon path {
+      fill: ${colors.warningColorDarker};
+      stroke: ${colors.warningColorDarker};
     }
+  }
+  .accessibility-no {
+    color: ${colors.negativeColorDarker};
+    .pen-icon path {
+      fill: ${colors.negativeColorDarker};
+      stroke: ${colors.negativeColorDarker};
+    }
+  }
+
+  .accessibility-description {
+    margin: 0.25rem 0;
     color: rgba(0, 0, 0, 0.6);
+  }
+
+  .accessibility-toilet span {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+
+    svg {
+      margin-right: 0.5rem;
+    }
+
+    span {
+      font-weight: bold;
+      color: ${colors.positiveColorDarker};
+    }
   }
 
   > header > span {

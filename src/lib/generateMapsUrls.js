@@ -1,6 +1,6 @@
 // @flow
-import { t } from 'c-3po';
-import type { Feature } from "./Feature";
+import type { Feature } from './Feature';
+import openButtonCaption from './openButtonCaption';
 
 // see https://developer.android.com/guide/components/intents-common#Maps
 export function generateGeoUrl(feature: Feature, placeName: string) {
@@ -30,17 +30,17 @@ export function generateMapsUrl(feature: Feature, placeName: string) {
 
   if (isBingMaps) {
     // translator: Button caption shown in the place toolbar
-    const caption = t`Open on Bing Maps`;
+    const caption = openButtonCaption('Bing Maps');
     return {url: generateBingMapsUrl(feature, placeName), caption};
   }
 
   if (isAppleMaps) {
     // translator: Button caption shown in the place toolbar
-    const caption = t`Open on Apple Maps`;
+    const caption = openButtonCaption('Apple Maps');
     return {url: generateAppleMapsUrl(feature, placeName), caption};
   }
 
   // translator: Button caption shown in the place toolbar
-  const caption = t`Open with Maps App`;
+  const caption = openButtonCaption('Maps app');
   return {url: generateGeoUrl(feature, placeName), caption};
 }

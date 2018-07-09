@@ -21,11 +21,12 @@ const colors = {
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',
-  coldBackgroundColor: '#eaeef2',
+  coldBackgroundColor: '#ebedef',
   selectedColor: '#51a6ff',
   selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',
   darkSelectedColor: '#04536d',
+  editHintBackgroundColor: null, // calculated below
   halfTonedDownSelectedColor: null, // calculated below
   evenMoreTransparentLinkColor: null, // calculated below
   borderColor: null, // calculated below
@@ -63,6 +64,8 @@ colors.evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent)
 colors.evenMoreTransparentLinkColor.opacity *= 0.5;
 colors.halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
 colors.borderColor = interpolateLab(colors.tonedDownSelectedColor, 'rgba(255, 255, 255, 0.5)')(0.6);
+colors.editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
+colors.editHintBackgroundColor.s -= 0.5;
 
 
 

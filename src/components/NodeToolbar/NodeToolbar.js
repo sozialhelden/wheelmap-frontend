@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -28,6 +29,9 @@ import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import filterAccessibility from '../../lib/filterAccessibility';
 import { placeNameFor, isWheelmapFeatureId } from '../../lib/Feature';
+import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
+import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
+import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -43,9 +47,13 @@ type Props = {
   hidden: boolean,
   isEditMode: boolean,
   isReportMode: boolean,
-  onOpenReportMode: ?(() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
+  onOpenReportMode: ?(() => void),
+  onOpenToiletAccessibility: (() => void),
+  onOpenWheelchairAccessibility: (() => void),
+  onCloseWheelchairAccessibility: (() => void),
+  onCloseToiletAccessibility: (() => void),
   onClickCurrentMarkerIcon?: ((Feature) => void),
 
   // photo feature
@@ -189,14 +197,23 @@ class NodeToolbar extends React.Component<Props> {
 
     const { featureId } = this.props;
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    const footer = isWheelmapFeature ? this.renderPhotoSection() : this.renderEquipmentOverview();
+    const equipmentOverview = !isWheelmapFeature && this.renderEquipmentOverview();
+    const photoSection = isWheelmapFeature && this.renderPhotoSection();
+    const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />
+    const editLinks = isWheelmapFeature && this.renderEditLinks();
 
     return <React.Fragment>
-      <BasicPlaceAccessibility properties={properties} />
-      <AccessibleDescription properties={properties} />
-      <AccessibilityDetails details={filteredAccessibility} />
+      <BasicPlaceAccessibility properties={properties}
+        onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
+        onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+      >
+        {editLinks}
+        {photoSection}
+        <AccessibleDescription properties={properties} />
+        {accessibilityDetails}
+      </BasicPlaceAccessibility>
       <AccessibilityExtraInfo properties={properties} />
-      {footer}
+      {equipmentOverview}
     </React.Fragment>;
   }
 
@@ -241,21 +258,6 @@ class NodeToolbar extends React.Component<Props> {
   }
 
 
-  renderAllNodeDetails() {
-    const { featureId, feature, equipmentInfoId, isReportMode, history } = this.props;
-
-    if (!featureId) return;
-    const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    return <div>
-      {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
-      {this.renderAccessibilitySection()}
-      {featureId && isWheelmapFeature && this.renderEditLinks()}
-      <ExternalLinks {...{ featureId, feature, equipmentInfoId, isReportMode, history }} />
-      {this.renderShareButtons()}
-    </div>;
-  }
-
-
   renderAccessibilityEditor() {
     const { featureId, feature } = this.props;
     return <AccessibilityEditor
@@ -267,6 +269,33 @@ class NodeToolbar extends React.Component<Props> {
         }
       }}
     />;
+  }
+
+  renderToiletAccessibilityEditor() {
+    return (<ToiletStatusEditor
+      // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
+      featureId={this.props.featureId}
+      feature={this.props.feature}
+      onSave={(newValue: YesNoUnknown) => this.props.onCloseToiletAccessibility()}
+      onClose={this.props.onClose}
+    />);
+  }
+
+
+  renderWheelchairAccessibilityEditor() {
+    return (<WheelchairStatusEditor
+      // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
+      featureId={this.props.featureId}
+      feature={this.props.feature}
+      onSave={(newValue: YesNoLimitedUnknown) => {
+        if (includes(['yes', 'limited'], newValue)) {
+          this.props.onOpenToiletAccessibility();
+        } else {
+          this.props.onCloseWheelchairAccessibility();
+        }
+      }}
+      onClose={this.props.onClose}
+    />);
   }
 
 
@@ -282,7 +311,16 @@ class NodeToolbar extends React.Component<Props> {
       return this.renderAccessibilityEditor();
     }
 
-    return this.renderAllNodeDetails();
+    const { feature, equipmentInfoId, isReportMode, history, onOpenReportMode } = this.props;
+
+    if (!featureId) return;
+
+    return <div>
+      {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
+      {this.renderAccessibilitySection()}
+      <ExternalLinks {...{ featureId, feature, equipmentInfoId, isReportMode, onOpenReportMode, history }} />
+      {this.renderShareButtons()}
+    </div>;
   }
 
 
