@@ -109,11 +109,19 @@ const StyledToolbar = styled(Toolbar)`
     background: white;
 
     > input {
+      flex:1;
+      min-width: 100px;
       font-size: 1em;
-      margin: 6px 20px 6px 0;
+      margin: 6px 10px 6px 0;
       border: none;
       border-radius: 0;
       border-bottom: 1px solid ${colors.linkColor};
+      
+      &.focus-ring {
+        outline: none;
+        box-shadow: none;
+        /* border-bottom: none; */
+      }
 
       &[disabled] {
         opacity: 0.8;
@@ -367,7 +375,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   
   renderForceRefreshButton() {
     // translator: button shown next to the captcha 
-    const caption = t`Refresh!`;
+    const caption = t`load new`;
     const isGoDisabled = !this.canEnter();
     return (
       <button onClick={this.onForceRefreshCaptcha} disabled={isGoDisabled}>
