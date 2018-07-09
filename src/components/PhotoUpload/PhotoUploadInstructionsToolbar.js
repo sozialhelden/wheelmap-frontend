@@ -295,12 +295,12 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             <li className='with-checkmark'>
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…were made by myself. `}</p></span>
               <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a `}
-              <a href="">{t`Creative Commons-License (CC)`}</a></small> {/* TODO: add link to CC */}
+              <a href="https://creativecommons.org/licenses/" target="new">{t`Creative Commons-License (CC)`}</a></small> {/* TODO: add link to CC */}
             </li>
             <li className='with-checkmark'>
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…do not contain any persons.`}</p></span>
               <small>{t`For identifiable persons, written consent must be obtained in accordance with the `}
-              <a href="">{t`DSGVO`}</a></small> {/* TODO: add link to DSGVO */}
+              <a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung" target="new">{t`DSGVO`}</a></small> {/* TODO: add link to DSGVO */}
             </li>
             <li className='with-checkbox'>
               <input 
@@ -311,7 +311,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                 value='confirm-guidelines'
                 onChange={this.onGuidelinesAcceptedChanged} />
               <label htmlFor='confirm-guidelines'>{t`…meet our guidelines.`}</label><br/>
-              <small>{t`I can read them `}<a href="https://news.wheelmap.org/datenschutzerklaerung/">{t`here`}</a></small> {/* TODO: add link to guidelines */}
+              <small>{t`I can read them `}<a href="https://news.wheelmap.org/datenschutzerklaerung/" target="new">{t`here`}</a></small> {/* TODO: add link to guidelines */}
             </li>
           </ul>
         </section>
