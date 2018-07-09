@@ -88,7 +88,7 @@ platform :android do
     slack(
       message: "Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening <https://play.google.com/apps/testing/org.wheelmap.android.online> on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.",
       username: "buildbot",
-      slack_url: api_token: ENV["SLACK_URL"],
+      slack_url: ENV["SLACK_URL"],
       channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true, # Optional, defaults to true.
       payload: {  # Optional, lets you specify any number of your own Slack attachments.
