@@ -131,6 +131,10 @@ class NodeToolbar extends React.Component<Props, State> {
       this.fetchCategory(this.props.feature);
     }
     this.fetchFeature(this.props);
+
+    if (this.props.photoFlowNotification) {
+      setTimeout(() => { if (this.toolbar) { this.toolbar.ensureFullVisibility(); }}, 200);
+    }
   }
 
 
