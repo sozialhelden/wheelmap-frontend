@@ -8,6 +8,7 @@ import { Dots } from 'react-activity';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import ChevronRight from '../ChevronRight';
+import CameraIcon from './CameraIcon';
 
 import colors from '../../lib/colors';
 
@@ -62,6 +63,11 @@ const GoButton = styled.button`
   }
 `;
 
+const StyledCameraIcon = styled(CameraIcon)`
+  font-size: 2em;
+
+`;
+
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
@@ -104,7 +110,6 @@ const StyledToolbar = styled(Toolbar)`
 
     > input {
       font-size: 1em;
-      flex-grow: 1;
       margin: 6px 20px 6px 0;
       border: none;
       border-radius: 0;
@@ -117,8 +122,49 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
-  > section {
+  > section.captcha-container {
     overflow: auto;
+
+    section.captcha-error {
+      border-radius: 0;
+      border: none;
+    }
+
+    h3,
+    .captcha-content {
+      padding: 0 1rem;
+    }
+
+    h3 {
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    .captcha-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1rem;
+
+      > .captcha-holder {
+        text-align: center;
+      }
+
+      > button {
+        margin-top: 0.25rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        color: ${colors.linkColor};
+        background: none;
+        border: none;
+      }
+    }
+    
+    small.captcha-explanation {
+      display: block;
+      padding: 0 1rem 1.5rem 1rem;
+      text-align: center;
+    }
   }
 
   .captcha-error {
@@ -130,17 +176,38 @@ const StyledToolbar = styled(Toolbar)`
     border: red dotted 1px;
   }
 
-  .captcha-holder {
+  .loading-captcha {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     text-align: center;
+
+    > div {
+      padding: 0.25rem 0;
+    }
   }
 
-  @media (max-width: 512px), (max-height: 512px) {
-    &.toolbar-iphone-x {
-      input, input:focus {
-        background-color: white;
+  section.send-via-email a {
+    padding: 12px 8px;
+    background: ${colors.coldBackgroundColor};
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    span.button-icon {
+
+      > svg {
+        display: inline-block;
+        padding: 0 0.5rem 0 0.5rem;
+        font-size: 2em;
+        }
       }
     }
+  }
 
+
+  @media (max-width: 512px), (max-height: 512px) {
     position: fixed;
     top: 0;
     width: 100%;
@@ -157,6 +224,12 @@ const StyledToolbar = styled(Toolbar)`
     transform: translate3d(0, 0, 0) !important;
     z-index: 1000000000;
     border-radius: 0;
+
+    &.toolbar-iphone-x {
+      input, input:focus {
+        background-color: white;
+      }
+    }
 
     &:not(.is-expanded) {
       top: 60px;
@@ -356,17 +429,22 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         </header>
         {!waitingForPhotoUpload && 
           <section className='captcha-container'>
-            <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
+            {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
+            {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
             <div className='captcha-content'>
               {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} />}
               {captcha && this.renderForceRefreshButton()}
-              {waitingForCaptcha && <div>{t`Loading captcha`}<Dots /></div>}
+              {waitingForCaptcha && <div className='loading-captcha'>{t`Loading captcha`}<Dots /></div>}
             </div>
+            <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
             <small className='captcha-explanation'>{t`Then we know you're not a machine.`}</small>
-            {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
-            {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
-            <section>
-              <small className='captcha-addon'><a href={mailHref}>{t`If you cannot solve our captchas, please contribute your photo via email!`}</a></small>
+            <section className='send-via-email'>
+              <a href={mailHref}>
+                <span className='button-icon'>
+                  <CameraIcon />
+                </span>
+                <small>{t`If you cannot solve our captchas, please contribute your photo via email!`}</small>
+              </a>
             </section>
           </section>
         }
