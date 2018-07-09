@@ -156,20 +156,6 @@ const StyledToolbar = styled(Toolbar)`
             font-size: 1.7rem;
           } 
         }
-
-        p {
-
-        }
-        &:before {
-          content: ' ';
-          position: absolute;
-          left: -26px;
-          width: 20px;
-          height: 20px;
-          background-size: contain;
-          background-image: url(' ');
-          /* background: yellow; */
-        }
       }
 
       li.with-checkbox {
@@ -179,6 +165,7 @@ const StyledToolbar = styled(Toolbar)`
           padding-left: 6px;
           font-weight: 600;
           color: ${colors.primaryColorBrighter};
+          user-select: none;
         }
         
         small { 
@@ -224,7 +211,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     guidelinesAccepted: false
   };
 
-  inputField: ?HTMLInputElement;
+  fileInput: ?HTMLInputElement;
+  checkBox: ?HTMLInputElement;
   backLink: ?React.ElementRef<typeof CloseLink>;
   goButton: ?React.ElementRef<'button'>;
 
@@ -260,8 +248,13 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   }
 
-  onGuidelinesAcceptedChanged = () => {
-    this.setState({ guidelinesAccepted: !this.state.guidelinesAccepted });
+  onGuidelinesAcceptedChanged = (event: SyntheticEvent<HTMLInputElement>) => {
+    const input = this.checkBox;
+    if (!input) {
+      return;
+    }
+    this.setState({ guidelinesAccepted: input.checked });
+    event.stopPropagation();
   }
 
   render() {
@@ -310,8 +303,14 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               <a href="">{t`DSGVO`}</a></small> {/* TODO: add link to DSGVO */}
             </li>
             <li className='with-checkbox'>
-              <input type='checkbox' id='confirm' checked={guidelinesAccepted} onChange={this.onGuidelinesAcceptedChanged} />
-              <label htmlFor='confirm'>{t`…meet our guidelines.`}</label><br/>
+              <input 
+                ref={cb => this.checkBox = cb}
+                type='checkbox'
+                id='confirm-guidelines'
+                checked={guidelinesAccepted}
+                value='confirm-guidelines'
+                onChange={this.onGuidelinesAcceptedChanged} />
+              <label htmlFor='confirm-guidelines'>{t`…meet our guidelines.`}</label><br/>
               <small>{t`I can read them `}<a href="https://news.wheelmap.org/datenschutzerklaerung/">{t`here`}</a></small> {/* TODO: add link to guidelines */}
             </li>
           </ul>
@@ -329,7 +328,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             {t`Continue`} 
             {waitingForPhotoUpload && <Dots />}
             <input 
-              ref={(input => {this.inputField = input})}
+              ref={(input => {this.fileInput = input})}
               type='file'
               id="photo-file-upload"
               multiple={false}
