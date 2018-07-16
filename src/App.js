@@ -473,7 +473,7 @@ class Loader extends React.Component<Props, State> {
     });
   };
 
-  onExitPhotoUploadFlow = (notifcation?: string) => { 
+  onExitPhotoUploadFlow = (notification?: string) => { 
     this.setState({ 
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
@@ -481,7 +481,7 @@ class Loader extends React.Component<Props, State> {
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
       photoCaptchaFailed: false,
-      photoFlowNotification: notifcation,
+      photoFlowNotification: notification,
     });
   };
 
@@ -491,7 +491,6 @@ class Loader extends React.Component<Props, State> {
       return;
     }
     if (accessibilityCloudImageCache.hasSolvedCaptcha()) {
-      console.log("reusing existing solution", accessibilityCloudImageCache.captchaSolution);
       this.onFinishPhotoUploadFlow(photos, accessibilityCloudImageCache.captchaSolution || '');
     } else {
       this.setState({ 

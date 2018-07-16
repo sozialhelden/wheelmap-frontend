@@ -230,14 +230,10 @@ const StyledToolbar = styled(Toolbar)`
     flex-direction: row;
     justify-content: space-between;
     
-    span.button-icon {
-
-      > svg {
-        display: inline-block;
-        padding: 0 0.5rem 0 0.5rem;
-        font-size: 2em;
-        }
-      }
+    span.button-icon svg {
+      display: inline-block;
+      padding: 0 0.5rem 0 0.5rem;
+      font-size: 2em;
     }
   }
 `;
