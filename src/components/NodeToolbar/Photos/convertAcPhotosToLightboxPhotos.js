@@ -10,5 +10,7 @@ export default function convertAcPhotosToLightboxPhotos(acPhotos: AccessibilityC
     sizes: ['(min-width: 480px) 100px,33vw'],
     width: 1,
     height: 1,
+    imageId: acPhoto._id,
+    source: 'accessibility-cloud',
   }));
 }

@@ -46,6 +46,8 @@ import { getQueryParams } from './lib/queryParams';
 import type { ModalNodeState } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
+import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+
 initReactFastclick();
 
 
@@ -529,11 +531,17 @@ class Loader extends React.Component<Props, State> {
       });
   }
 
+
+  onReportPhoto = (photo: PhotoModel) => {
+    console.log("report photo now!", photo);
+  }
+
   onOpenReportMode = () => {
     if (this.state.featureId) {
       this.props.history.push(`/nodes/${String(this.state.featureId)}/report`);
     }
   }
+
 
   onCloseNodeToolbar = () => {
     const { featureId } = this.state;
@@ -661,6 +669,7 @@ class Loader extends React.Component<Props, State> {
       onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
       onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
+      onReportPhoto={this.onReportPhoto}
     />);
   }
 }
