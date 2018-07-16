@@ -32,7 +32,6 @@ yarn-error.log*
 # Cordova iOS
 /platforms/ios/build/
 /platforms/ios/www/
-/platforms/ios/*/Plugins/
 /platforms/ios/cordova/console.log
 *.xcuserdatad
 Products
