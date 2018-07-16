@@ -21,7 +21,7 @@ type State = {
 type Props = {
   className: string,
   onToggle: ((isMainMenuOpen: boolean) => void),
-  isEditMode: boolean,
+  hideFromFocus: boolean,
   isOpen: boolean,
   isLocalizationLoaded: boolean,
   lat: string,
@@ -145,7 +145,7 @@ class MainMenu extends React.Component<Props, State> {
       travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isEditMode, isLocalizationLoaded } = this.props;
+    const { hideFromFocus, isLocalizationLoaded } = this.props;
 
     const classList = [
       this.props.className,
@@ -171,7 +171,7 @@ class MainMenu extends React.Component<Props, State> {
           className="btn-unstyled home-button"
           onClick={this.returnHome} 
           ref={homeButton => this.homeButton = homeButton}
-          tabIndex={isEditMode ? -1 : 0} 
+          tabIndex={hideFromFocus ? -1 : 0}
           aria-label={t`Home`}>
           <Logo className="logo" width={123} height={30} />
         </button>
@@ -203,24 +203,24 @@ class MainMenu extends React.Component<Props, State> {
           className="nav-link"
           href="https://travelable.info"
           ref={firstMenuElement => this.firstMenuElement = firstMenuElement}
-          tabIndex={isEditMode ? -1 : 0}
+          tabIndex={hideFromFocus ? -1 : 0}
           role="menuitem"
         >
           {travelGuide}
         </a>
-        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={isEditMode ? -1 : 0} role="menuitem" >
+        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >
           {getInvolved}
         </a>
-        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{news}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{press}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{contact}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{imprint}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={isEditMode ? -1 : 0} role="menuitem" >{faq}</a>
+        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{news}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{press}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{contact}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{imprint}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{faq}</a>
         <Link
           className="nav-link add-place-link"
           to="/beta/nodes/new"
           ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
-          tabIndex={isEditMode ? -1 : 0}
+          tabIndex={hideFromFocus ? -1 : 0}
           role="menuitem"
         >
           {addMissingPlace}
