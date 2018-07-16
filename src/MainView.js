@@ -14,9 +14,10 @@ import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
+import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
-import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import HighlightableMarker from './components/Map/HighlightableMarker';
@@ -106,14 +107,17 @@ type Props = {
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   onStartPhotoUploadFlow: (() => void),
-  onReportPhoto: ((photo: PhotoModel) => void),
   onAbortPhotoUploadFlow: (() => void),
   onContinuePhotoUploadFlow: ((photos: FileList) => void),
   onFinishPhotoUploadFlow: ((photos: FileList, captchaSolution: string) => void),
+  onStartReportPhotoFlow: ((photo: PhotoModel) => void),
+  onAbortReportPhotoFlow: ((photo: PhotoModel) => void),
+  onFinishReportPhotoFlow: ((photo: PhotoModel) => void),
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
   photoCaptchaFailed?: boolean,
-  photoFlowNotification?: string, 
+  photoFlowNotification?: string,
+  photoMarkedForReport: PhotoModel | null,
 };
 
 
@@ -250,7 +254,7 @@ class MainView extends React.Component<Props, State> {
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}     
         onClose={this.props.onCloseNodeToolbar}
-        onReportPhoto={this.props.onReportPhoto}
+        onReportPhoto={this.props.onStartReportPhotoFlow}
       />
     </div>;
   }
@@ -390,6 +394,15 @@ class MainView extends React.Component<Props, State> {
       onClose={this.props.onAbortPhotoUploadFlow}
       onCompleted={this.props.onContinuePhotoUploadFlow}
     />
+  }  
+  
+  renderReportPhotoToolbar() {
+    return <ReportPhotoToolbar
+      hidden={!this.props.photoMarkedForReport}
+      photo={this.props.photoMarkedForReport}
+      onClose={this.props.onAbortReportPhotoFlow}
+      onCompleted={this.props.onFinishReportPhotoFlow}
+    />;
   }
 
   renderCreateDialog() {
@@ -427,7 +440,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isPhotoUploadCaptchaToolbarVisible ||
       this.props.isPhotoUploadInstructionsToolbarVisible ||
       this.props.isOnboardingVisible ||
-      this.props.isNotFoundVisible;
+      this.props.isNotFoundVisible ||
+      !!this.props.photoMarkedForReport;
 
     const isMainMenuInBackground =
       this.props.isOnboardingVisible ||
@@ -476,6 +490,7 @@ class MainView extends React.Component<Props, State> {
       {isNodeToolbarVisible && modalNodeState && nodeToolbar}
       {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
       {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
+      {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
       {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}

@@ -87,7 +87,8 @@ type State = {
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
   photoCaptchaFailed?: boolean,
-  photoFlowNotification?: string, 
+  photoFlowNotification?: string,
+  photoMarkedForReport: PhotoModel | null,
 };
 
 
@@ -158,6 +159,7 @@ class Loader extends React.Component<Props, State> {
     isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
     photosMarkedForUpload: null,
+    photoMarkedForReport: null,
   };
 
   map: ?any;
@@ -532,8 +534,23 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-  onReportPhoto = (photo: PhotoModel) => {
-    console.log("report photo now!", photo);
+  onStartReportPhotoFlow = (photo: PhotoModel) => {
+    this.setState({
+      isSearchBarVisible: false,
+      photoMarkedForReport: photo
+    });
+  }
+
+  onFinishReportPhotoFlow = (photo: PhotoModel) => {
+    this.onExitReportPhotoFlow('reported');
+  }
+
+  onExitReportPhotoFlow = (notification?: string) => {
+    this.setState({
+      isSearchBarVisible: !isOnSmallViewport(),
+      photoMarkedForReport: null,
+      photoFlowNotification: notification
+    });
   }
 
   onOpenReportMode = () => {
@@ -587,7 +604,8 @@ class Loader extends React.Component<Props, State> {
     return state.feature && 
            !state.isSearchToolbarExpanded && 
            !state.isPhotoUploadCaptchaToolbarVisible && 
-           !state.isPhotoUploadInstructionsToolbarVisible;
+           !state.isPhotoUploadInstructionsToolbarVisible &&
+           !state.photoMarkedForReport;
   }
 
   render() {
@@ -637,6 +655,7 @@ class Loader extends React.Component<Props, State> {
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
       photoFlowNotification: this.state.photoFlowNotification,
+      photoMarkedForReport: this.state.photoMarkedForReport,
     }
 
     return (<MainView
@@ -669,7 +688,9 @@ class Loader extends React.Component<Props, State> {
       onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
       onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
-      onReportPhoto={this.onReportPhoto}
+      onStartReportPhotoFlow={this.onStartReportPhotoFlow}
+      onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
+      onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
     />);
   }
 }
