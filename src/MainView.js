@@ -51,6 +51,8 @@ import type { ModalNodeState } from './lib/queryParams';
 
 import { isTouchDevice } from './lib/userAgent';
 
+import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+
 
 type Props = {
   className: string,
@@ -104,6 +106,7 @@ type Props = {
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   onStartPhotoUploadFlow: (() => void),
+  onReportPhoto: ((photo: PhotoModel) => void),
   onAbortPhotoUploadFlow: (() => void),
   onContinuePhotoUploadFlow: ((photos: FileList) => void),
   onFinishPhotoUploadFlow: ((photos: FileList, captchaSolution: string) => void),
@@ -245,8 +248,9 @@ class MainView extends React.Component<Props, State> {
         photoFlowNotification={this.props.photoFlowNotification}
         onOpenReportMode={this.props.onOpenReportMode}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-        onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}        
+        onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}     
         onClose={this.props.onCloseNodeToolbar}
+        onReportPhoto={this.props.onReportPhoto}
       />
     </div>;
   }

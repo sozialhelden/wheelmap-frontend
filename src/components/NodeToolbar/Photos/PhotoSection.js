@@ -24,7 +24,8 @@ type Props = {
   featureId: string,
   className: string,
   photoFlowNotification?: string;
-  onStartPhotoUploadFlow: () => void; 
+  onStartPhotoUploadFlow: () => void;
+  onReportPhoto: (photo: PhotoModel) => void;
 };
 
 type State = {
@@ -74,6 +75,8 @@ class PhotoSection extends React.Component<Props, State> {
         sizes: [''],
         width: 1,
         height: 1,
+        imageId: 'invalid-id',
+        source: 'generated',
       });
     }
 
@@ -129,8 +132,15 @@ class PhotoSection extends React.Component<Props, State> {
     });
   }  
   
-  reportImage = (image) => {
-    console.log("Image got reported");
+  reportImage = () => {
+    const { lightBoxPhotos, currentImageIndex } = this.state;
+
+    if (currentImageIndex < 0 || currentImageIndex >= lightBoxPhotos.length ) {
+      console.error("Could not report photo with index", currentImageIndex);
+      return;
+    }
+    const toBeReported = lightBoxPhotos[currentImageIndex];
+    this.props.onReportPhoto(toBeReported);
   }
 
   gotoPrevious = () => {
@@ -146,9 +156,16 @@ class PhotoSection extends React.Component<Props, State> {
   }
 
   renderLightboxControls = (className: string) => {
+    const { lightBoxPhotos, currentImageIndex } = this.state;
+
+    let canReportPhoto = false;
+    if (currentImageIndex >= 0 && currentImageIndex < lightBoxPhotos.length ) {
+      canReportPhoto = lightBoxPhotos[currentImageIndex].source === 'accessibility-cloud';
+    }
+
     return [(
       <section key='lightbox-actions' className={`lightbox-actions ${className}`}>
-        <button onClick={this.reportImage} className="report-image">{t`Report`}</button>
+        <button disabled={!canReportPhoto} onClick={this.reportImage} className="report-image">{t`Report`}</button>
         <button onClick={this.closeLightbox} className="close-lightbox">{t`Close`}</button>
       </section>
     )];
@@ -180,7 +197,6 @@ class PhotoSection extends React.Component<Props, State> {
           closeButtonTitle={t`Close (Esc)`}
           customControls={this.renderLightboxControls(className)}
           theme={{
-
           }}
         />
         {!hasPhotos && 
@@ -207,6 +223,7 @@ const StyledPhotoSection = styled(PhotoSection)`
     }
   }  
   
+  /* lazy workaround for Lightbox putting its nodes higher up in the dom */
   &.lightbox-actions {
     position: absolute;
     bottom: 0;
@@ -221,6 +238,13 @@ const StyledPhotoSection = styled(PhotoSection)`
       color: ${colors.linkColor};
       background: none;
       border: none;
+      cursor: pointer;
+
+      &[disabled] {
+        opacity: 0.8;
+        color: ${colors.textColor};
+        pointer-events: none;
+      }
     }
   }
 `;

@@ -23,11 +23,14 @@ import EquipmentAccessibility from './EquipmentAccessibility';
 import BasicPlaceAccessibility from './BasicPlaceAccessibility';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 
+import type { PhotoModel } from './Photos/PhotoModel';
+
 import type { Feature } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
 import type { ModalNodeState } from '../../lib/queryParams';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+
 import filterAccessibility from '../../lib/filterAccessibility';
 import { placeNameFor, isWheelmapFeatureId } from '../../lib/Feature';
 import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
@@ -61,6 +64,7 @@ type Props = {
 
   // photo feature
   onStartPhotoUploadFlow: (() => void),
+  onReportPhoto: ((photo: PhotoModel) => void),
   photoFlowNotification?: string,
   onClickCurrentMarkerIcon?: ((Feature) => void)
 };
