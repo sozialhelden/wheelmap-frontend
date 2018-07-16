@@ -59,7 +59,6 @@ build
 buildOutputCleanup
 
 # Cordova general
-/plugins/
 www
 resources/signing
 *.xcuserdatad
