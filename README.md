@@ -7,6 +7,21 @@ possible of each other.
 As of August 2017, the Rails application still contains frontend functions that we want to move into
 this React.js application, so the rewrite is not complete yet.
 
+
+## Setup
+
+Prepare the environment
+
+```
+# npm dependencies
+yarn install
+# fastlane dependencies
+bundle install
+# cordova
+npx cordova prepare android
+npx cordova prepare ios
+```
+
 ## Development
 
 We bootstrapped this project with [Create React App](https://github.com/facebookincubator/create-react-app).
@@ -41,8 +56,11 @@ To deploy the web application:
 ## Setting up / building the Cordova apps
 
 ```bash
-cordova prepare
-npm run build-cordova
+npx cordova prepare android ios
+# for ios
+npm run build-ios
+# for android 
+npm run build-android
 ```
 
 Be sure to move Cordova's `package.json` dependencies into `devDependencies` after installation.
