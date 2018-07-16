@@ -15,7 +15,7 @@ import StyledRadioGroup from '../NodeToolbar/AccessibilityEditor/StyledRadioGrou
 import type { PhotoModel } from '../NodeToolbar/Photos/PhotoModel';
 
 
-type ReportOptions = 'wrong-place' | 'outdated' | 'offensive' | 'other';
+export type ReportOptions = 'wrong-place' | 'outdated' | 'offensive' | 'other';
 
 const ReportValues : ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 'other'];
 
@@ -61,7 +61,7 @@ export type Props = {
   hidden: boolean,
   photo: PhotoModel | null,
   onClose: (() => void),
-  onCompleted: ((photo: PhotoModel) => void),
+  onCompleted: ((photo: PhotoModel, reason: ReportOptions) => void),
 };
 
 type State = {
@@ -130,8 +130,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   }
   
   onSubmit = (event: SyntheticEvent<HTMLInputElement>) => {
-    if (this.props.onCompleted && this.props.photo) {
-      this.props.onCompleted(this.props.photo);
+    if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
+      this.props.onCompleted(this.props.photo, this.state.selectedValue);
       event.preventDefault();
     }
   }

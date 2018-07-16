@@ -48,12 +48,37 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
               }
             }).catch(reject);
         }
-      }).catch(reject);
+      }).catch(reject).catch(console.error);
     });
 
     return uploadPromise;
   }
   
+  reportPhoto(photoId: string, reason: string): Promise<boolean> {
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor.fetch(
+        `${config.accessibilityCloudUncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${config.accessibilityCloudAppToken}`,
+        {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+          },
+        }
+      ).then((response: Response) => {
+        if (response.ok) {
+          resolve(true);
+        } else {
+          response.json()
+            .then((json) => {
+              reject(UnknownReason);
+            }).catch(reject);
+        }
+      }).catch(reject).catch(console.error);
+    });
+
+    return uploadPromise;
+  }
+
   getCaptcha(fetchParams?: any) : Promise<string> {
     let promise = this.captchaRequest;
     if (promise) return promise;
