@@ -175,7 +175,8 @@ class NodeToolbar extends React.Component<Props> {
   renderPhotoSection() {
     return <PhotoSection
       featureId={this.props.featureId}
-      onStartPhotoUploadFlow={() => { this.props.onStartPhotoUploadFlow(); }}
+      onReportPhoto={this.props.onReportPhoto}
+      onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
       photoFlowNotification={this.props.photoFlowNotification}
     />;
   }
