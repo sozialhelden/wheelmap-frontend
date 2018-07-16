@@ -12,7 +12,7 @@ export type RouteInformation = {
 
 function getModalNodeState(match: string[]) {
   if (match[1] === 'nodes') {
-    for (let mode of ['edit-toilet-accessibility', 'edit-wheelchair-accessibility']) {
+    for (let mode of ['edit-toilet-accessibility', 'edit-wheelchair-accessibility', 'report']) {
       if (match[3] === mode) {
         return mode;
       }
