@@ -529,7 +529,11 @@ class Loader extends React.Component<Props, State> {
       });
   }
 
-  onOpenReportMode = () => this.setState({ modalNodeState: 'report' });
+  onOpenReportMode = () => {
+    if (this.state.featureId) {
+      this.props.history.push(`/nodes/${String(this.state.featureId)}/report`);
+    }
+  }
 
   onCloseNodeToolbar = () => {
     const { featureId } = this.state;
