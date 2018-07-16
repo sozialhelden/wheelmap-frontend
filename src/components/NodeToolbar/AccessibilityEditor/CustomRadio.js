@@ -8,11 +8,11 @@ import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';
 
 
 type Props = {
-  currentValue: string,
+  currentValue?: ?string,
   shownValue: string,
   description: ?string,
   caption: ?string,
-  children: ?React.Node,
+  children?: ?React.Node,
 };
 
 type State = {
