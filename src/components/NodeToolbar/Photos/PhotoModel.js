@@ -6,4 +6,6 @@ export type PhotoModel = {
   sizes: string[],
   width: number,
   height: number,
+  imageId: string | number,
+  source: 'wheelmap' | 'accessibility-cloud' | 'generated'
 };
