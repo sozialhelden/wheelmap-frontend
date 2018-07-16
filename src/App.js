@@ -205,7 +205,6 @@ class Loader extends React.Component<Props, State> {
       category,
       searchQuery,
       modalNodeState,
-      isCreateMode,
     } = routeInformation;
 
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
@@ -217,7 +216,6 @@ class Loader extends React.Component<Props, State> {
       category: featureId ? (state.category || category) : category,
       searchQuery,
       modalNodeState,
-      isCreateMode,
       toiletFilter,
       accessibilityFilter,
     };
@@ -451,11 +449,9 @@ class Loader extends React.Component<Props, State> {
       isMainMenuOpen: false,
       isOnboardingVisible: false,
       isNotFoundVisible: false,
-      isReportMode: false,
+      modalNodeState: null,
     });
-    if (this.modalNodeState()) {
-      this.props.history.push(`/nodes/${String(this.state.featureId)}`);
-    }
+    this.onCloseNodeToolbar();
   };
 
   onStartPhotoUploadFlow = () => {
@@ -533,9 +529,14 @@ class Loader extends React.Component<Props, State> {
       });
   }
 
-  onOpenReportMode = () => { this.setState({ isReportMode: true }) };
+  onOpenReportMode = () => this.setState({ modalNodeState: 'report' });
 
-  onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
+  onCloseNodeToolbar = () => {
+    const { featureId } = this.state;
+    const path = featureId ? `/nodes/${String(this.state.featureId)}` : '/';
+    this.props.history.push(path);
+    // this.setState({ modalNodeState: null });
+  }
 
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: 'true' });
@@ -558,11 +559,17 @@ class Loader extends React.Component<Props, State> {
     if (this.mainView) this.mainView.focusMap();
   };
 
-  onCloseCreatePlaceDialog = () => {
-    this.setState({
-      isCreateMode: false,
-    });
+  onOpenWheelchairAccessibility = () => {
+    if (this.state.featureId) {
+      this.props.history.push(`${this.state.featureId}/edit-wheelchair-accessibility`);
+    }
   };
+
+  onOpenToiletAccessibility = () => {
+    if (this.state.featureId) {
+      this.props.history.push(`${this.state.featureId}/edit-toilet-accessibility`);
+    }
+  }
 
   isNodeToolbarDisplayed(state = this.state) {
     return state.feature && 
@@ -641,7 +648,9 @@ class Loader extends React.Component<Props, State> {
       onCloseOnboarding={this.onCloseOnboarding}
       onClickSearchToolbar={this.onClickSearchToolbar}
       onCloseSearchToolbar={this.onCloseSearchToolbar}
-      onCloseCreatePlaceDialog={this.onCloseCreatePlaceDialog}
+      onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
+      onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
+      onOpenToiletAccessibility={this.onOpenToiletAccessibility}
 
       // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}

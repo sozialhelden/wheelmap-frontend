@@ -44,14 +44,14 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 
 type Props = {
   properties: NodeProperties,
-  onClickWheelchairAccessibility: (() => void),
-  onClickToiletAccessibility: (() => void),
+  onOpenWheelchairAccessibility: (() => void),
+  onOpenToiletAccessibility: (() => void),
   className: string,
   children: React.Element<*>,
 };
 
 
-function BasicAccessibility(props: Props) {
+function BasicPlaceAccessibility(props: Props) {
   const wheelchairAccessibility = isWheelchairAccessible(props.properties);
   const toiletAccessibility = hasAccessibleToilet(props.properties);
   if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
@@ -70,7 +70,7 @@ function BasicAccessibility(props: Props) {
   return (<summary className={`basic-accessibility ${props.className}`}>
     <button
       className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
-      onClick={props.onClickWheelchairAccessibility}
+      onClick={props.onOpenWheelchairAccessibility}
     >
       <header>
         <span>{AccessibilityName(wheelchairAccessibility)}</span>
@@ -85,7 +85,7 @@ function BasicAccessibility(props: Props) {
     {toiletAccessibilityIsKnown &&
       <button
         className={`accessibility-toilet accessibility-${toiletAccessibility}`}
-        onClick={props.onClickToiletAccessibility}
+        onClick={props.onOpenToiletAccessibility}
       >
         <header>
           {ToiletDescription(toiletAccessibility)}
@@ -99,7 +99,7 @@ function BasicAccessibility(props: Props) {
 }
 
 
-const StyledBasicAccessibility = styled(BasicAccessibility)`
+const StyledBasicPlaceAccessibility = styled(BasicPlaceAccessibility)`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -225,4 +225,4 @@ const StyledBasicAccessibility = styled(BasicAccessibility)`
   }
 `;
 
-export default StyledBasicAccessibility;
+export default StyledBasicPlaceAccessibility;

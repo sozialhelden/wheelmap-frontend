@@ -97,6 +97,8 @@ type Props = {
   onCloseOnboarding: (() => void),
   onClickCurrentMarkerIcon?: ((Feature) => void),
   onCloseCreatePlaceDialog: (() => void),
+  onOpenWheelchairAccessibility: (() => void),
+  onOpenToiletAccessibility: (() => void),
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -237,6 +239,8 @@ class MainView extends React.Component<Props, State> {
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
         history={this.props.history}
         feature={this.props.feature}
+        onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
+        onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
         hidden={!isNodeRoute}
         photoFlowNotification={this.props.photoFlowNotification}
         onOpenReportMode={this.props.onOpenReportMode}
@@ -386,7 +390,7 @@ class MainView extends React.Component<Props, State> {
 
   renderCreateDialog() {
     return <CreatePlaceDialog
-      hidden={!this.props.isCreateMode}
+      hidden={!this.props.modalNodeState === 'create'}
       onClose={this.props.onCloseCreatePlaceDialog}
       lat={this.props.lat}
       lon={this.props.lon}
@@ -398,8 +402,7 @@ class MainView extends React.Component<Props, State> {
     const { isLocalizationLoaded } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
-    const modalNodeState = this.props.modalNodeState;
-    const { lat, lon, zoom, isReportMode } = this.props;
+    const { lat, lon, zoom, modalNodeState } = this.props;
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = uniq([
@@ -407,10 +410,10 @@ class MainView extends React.Component<Props, State> {
       this.props.className,
       this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
-      this.props.isCreateMode ? 'is-dialog-visible' : null,
       this.props.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.props.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
+      modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       this.props.isReportMode ? 'is-report-mode' : null,
     ]).filter(Boolean);
@@ -469,7 +472,7 @@ class MainView extends React.Component<Props, State> {
       {isNodeToolbarVisible && modalNodeState && nodeToolbar}
       {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
       {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
-      {this.props.isCreateMode && this.renderCreateDialog()}
+      {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
       {this.renderOnboarding({ isLocalizationLoaded })}
       {this.renderNotFound()}
     </div>);
