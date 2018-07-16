@@ -103,6 +103,10 @@ type Props = {
   onOpenWheelchairAccessibility: (() => void),
   onOpenToiletAccessibility: (() => void),
 
+  // simple 3-button status editor feature
+  onSelectWheelchairAccessibility: ((value: YesNoLimitedUnknown) => void),
+  presetStatus: YesNoLimitedUnknown,
+
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
@@ -239,15 +243,16 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
-  renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState }: $Shape<Props>, isNodeRoute: boolean) {
+  renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>, isNodeRoute: boolean) {
     return <div className="node-toolbar">
       <NodeToolbarFeatureLoader
-        {...{ featureId, equipmentInfoId, modalNodeState }}
+        {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }}
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
         history={this.props.history}
         feature={this.props.feature}
         onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+        onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
         hidden={!isNodeRoute}
         photoFlowNotification={this.props.photoFlowNotification}
         onOpenReportMode={this.props.onOpenReportMode}
@@ -415,7 +420,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   render() {
-    const { featureId, searchQuery, equipmentInfoId } = this.props;
+    const { featureId, searchQuery, equipmentInfoId, presetStatus } = this.props;
     const { isLocalizationLoaded } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
@@ -475,7 +480,7 @@ class MainView extends React.Component<Props, State> {
     />;
 
     const mainMenu = this.renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom });
-    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState }, isNodeRoute);
+    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState, presetStatus }, isNodeRoute);
 
     return (<div className={classList.join(' ')}>
       {!isMainMenuInBackground && mainMenu}
