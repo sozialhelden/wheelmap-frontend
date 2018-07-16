@@ -541,8 +541,11 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-  onFinishReportPhotoFlow = (photo: PhotoModel) => {
-    this.onExitReportPhotoFlow('reported');
+  onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
+    if (photo.source === 'accessibility-cloud') {
+      accessibilityCloudImageCache.reportPhoto(String(photo.imageId), reason);
+      this.onExitReportPhotoFlow('reported');
+    }
   }
 
   onExitReportPhotoFlow = (notification?: string) => {

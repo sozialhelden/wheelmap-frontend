@@ -112,7 +112,7 @@ type Props = {
   onFinishPhotoUploadFlow: ((photos: FileList, captchaSolution: string) => void),
   onStartReportPhotoFlow: ((photo: PhotoModel) => void),
   onAbortReportPhotoFlow: ((photo: PhotoModel) => void),
-  onFinishReportPhotoFlow: ((photo: PhotoModel) => void),
+  onFinishReportPhotoFlow: ((photo: PhotoModel, reason: string) => void),
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
   photoCaptchaFailed?: boolean,
