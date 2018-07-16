@@ -16,6 +16,11 @@ or alternatively using `brew cask install fastlane`
 
 # Available Actions
 ## iOS
+### ios local
+```
+fastlane ios local
+```
+Create a local iOS build with Cordova
 ### ios beta
 ```
 fastlane ios beta
@@ -25,6 +30,11 @@ Push a new beta build to TestFlight and HockeyApp
 ----
 
 ## Android
+### android local
+```
+fastlane android local
+```
+Create a local Android build with Cordova
 ### android beta
 ```
 fastlane android beta

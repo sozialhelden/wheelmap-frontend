@@ -18,6 +18,12 @@ xcodeproj = "platforms/ios/Wheelmap.xcodeproj"
 
 
 platform :ios do
+  desc "Create a local iOS build with Cordova"
+  lane :local do
+    match(type: "development")
+    cordova(platform: 'ios')
+  end
+
   desc "Push a new beta build to TestFlight and HockeyApp"
   lane :beta do
     # ensure_git_branch branch: 'master'
@@ -58,10 +64,20 @@ platform :ios do
   end
 end
 
+def build_cordova_for_android
+  cordova(
+    platform: 'android',
+    keystore_path: '../certificates/keystores/sozialhelden.keystore',
+    keystore_alias: 'sozialhelden',
+    keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
+    )
+end
+
 platform :android do
-  # def increment_version_code(gradle_build)
-  #   sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
-  # end
+  desc "Create a local Android build with Cordova"
+  lane :local do
+    build_cordova_for_android
+  end
 
   desc "Push a new alpha build to Google Play Store"
   lane :beta do
@@ -70,12 +86,7 @@ platform :android do
     # commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json])
     # push_to_git_remote
 
-    cordova(
-      platform: 'android',
-      keystore_path: '../certificates/keystores/sozialhelden.keystore',
-      keystore_alias: 'sozialhelden',
-      keystore_password: ENV["ANDROID_KEYSTORE_PASSWORD"]
-      )
+    build_cordova_for_android
 
     apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release.apk';
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
