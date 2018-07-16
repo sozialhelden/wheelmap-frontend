@@ -47,6 +47,8 @@ import {
 import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
 
 import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
+import type { ModalNodeState } from './lib/queryParams';
+
 import { isTouchDevice } from './lib/userAgent';
 
 
@@ -71,9 +73,7 @@ type Props = {
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
   lastError: ?string,
-  isEditMode: boolean,
-  isReportMode: boolean,
-  isCreateMode: boolean,
+  modalNodeState: ModalNodeState,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isSearchToolbarExpanded: boolean,
@@ -230,22 +230,19 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
-  renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }: $Shape<Props>, isNodeRoute: boolean) {
+  renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState }: $Shape<Props>, isNodeRoute: boolean) {
     return <div className="node-toolbar">
       <NodeToolbarFeatureLoader
+        {...{ featureId, equipmentInfoId, modalNodeState }}
         ref={nodeToolbar => this.nodeToolbar = nodeToolbar}
         history={this.props.history}
         feature={this.props.feature}
         hidden={!isNodeRoute}
-        featureId={featureId}
-        equipmentInfoId={equipmentInfoId}
-        isEditMode={isEditMode}
-        isReportMode={isReportMode}
         photoFlowNotification={this.props.photoFlowNotification}
-        onClose={this.props.onCloseNodeToolbar}
         onOpenReportMode={this.props.onOpenReportMode}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}        
+        onClose={this.props.onCloseNodeToolbar}
       />
     </div>;
   }
@@ -321,12 +318,12 @@ class MainView extends React.Component<Props, State> {
   }
 
 
-  renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
+  renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
     return <MainMenu
       className="main-menu"
       isOpen={this.props.isMainMenuOpen}
       onToggle={this.props.onToggleMainMenu}
-      hideFromFocus={isEditMode}
+      hideFromFocus={modalNodeState}
       isLocalizationLoaded={isLocalizationLoaded}
       history={this.props.history}
       {...{ lat, lon, zoom }}
@@ -353,10 +350,9 @@ class MainView extends React.Component<Props, State> {
       this.props.isMainMenuOpen ||
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible ||
-      this.props.isEditMode ||
+      this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
-      this.props.isPhotoUploadInstructionsToolbarVisible ||
-      this.props.isReportMode;
+      this.props.isPhotoUploadInstructionsToolbarVisible;
 
     return <FullscreenBackdrop
       onClick={this.props.onClickFullscreenBackdrop}
@@ -402,7 +398,7 @@ class MainView extends React.Component<Props, State> {
     const { isLocalizationLoaded } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
-    const isEditMode = this.props.isEditMode;
+    const modalNodeState = this.props.modalNodeState;
     const { lat, lon, zoom, isReportMode } = this.props;
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
@@ -415,7 +411,7 @@ class MainView extends React.Component<Props, State> {
       this.props.isMainMenuOpen ? 'is-main-menu-open' : null,
       this.props.isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
-      isEditMode ? 'is-edit-mode' : null,
+      modalNodeState ? 'is-modal' : null,
       this.props.isReportMode ? 'is-report-mode' : null,
     ]).filter(Boolean);
 
@@ -429,12 +425,10 @@ class MainView extends React.Component<Props, State> {
     const isMainMenuInBackground =
       this.props.isOnboardingVisible ||
       this.props.isNotFoundVisible ||
-      isEditMode ||
-      this.props.isReportMode ||
-      this.props.isCreateMode;
+      this.props.modalNodeState;
+
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
-    const isNodeToolbarModal = isReportMode || isEditMode;
 
     const map = <Map
       ref={(map) => { this.map = map; window.map = map; }}
@@ -459,20 +453,20 @@ class MainView extends React.Component<Props, State> {
       {...config}
     />;
 
-    const mainMenu = this.renderMainMenu({ isEditMode, isLocalizationLoaded, lat, lon, zoom });
-    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, isEditMode, isReportMode }, isNodeRoute);
+    const mainMenu = this.renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom });
+    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState }, isNodeRoute);
 
     return (<div className={classList.join(' ')}>
       {!isMainMenuInBackground && mainMenu}
       <div className="behind-backdrop">
         {isMainMenuInBackground && mainMenu}
         {isLocalizationLoaded && this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
-        {isNodeToolbarVisible && !isNodeToolbarModal && nodeToolbar}
+        {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
         {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
         {map}
       </div>
       {this.renderFullscreenBackdrop()}
-      {isNodeToolbarVisible && isNodeToolbarModal && nodeToolbar}
+      {isNodeToolbarVisible && modalNodeState && nodeToolbar}
       {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
       {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
       {this.props.isCreateMode && this.renderCreateDialog()}
@@ -509,7 +503,7 @@ const StyledMainView = styled(MainView)`
     }
   }
 
-  &.is-dialog-visible, &.is-edit-mode, &.is-report-mode, &.is-main-menu-open {
+  &.is-dialog-visible, &.is-modal, &.is-main-menu-open {
     > .behind-backdrop {
       .toolbar {
         z-index: 999;
@@ -528,7 +522,7 @@ const StyledMainView = styled(MainView)`
     }
   }
 
-  &.is-edit-mode, &.is-report-mode {
+  &.is-modal {
     .node-toolbar, .toolbar {
       z-index: 1001;
     }

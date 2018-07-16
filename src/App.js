@@ -43,6 +43,7 @@ import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFe
 import { accessibilityCloudImageCache, InvalidCaptchaReason } from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
+import type { ModalNodeState } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
 initReactFastclick();
@@ -72,9 +73,7 @@ type State = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
-  isEditMode: boolean,
-  isReportMode: boolean,
-  isCreateMode: boolean,
+  modalNodeState: ModalNodeState,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
@@ -147,9 +146,7 @@ class Loader extends React.Component<Props, State> {
     category: null,
     isLocalizationLoaded: false,
     isMainMenuOpen: false,
-    isReportMode: false,
-    isEditMode: false,
-    isCreateMode: false,
+    modalNodeState: null,
     lastError: null,
     featureId: null,
     isOnSmallViewport: false,
@@ -207,7 +204,7 @@ class Loader extends React.Component<Props, State> {
       equipmentInfoId,
       category,
       searchQuery,
-      isEditMode,
+      modalNodeState,
       isCreateMode,
     } = routeInformation;
 
@@ -219,7 +216,7 @@ class Loader extends React.Component<Props, State> {
       // keep category if you just click on a feature
       category: featureId ? (state.category || category) : category,
       searchQuery,
-      isEditMode,
+      modalNodeState,
       isCreateMode,
       toiletFilter,
       accessibilityFilter,
@@ -383,10 +380,10 @@ class Loader extends React.Component<Props, State> {
   }
 
 
-  isEditMode() {
+  modalNodeState() {
     const routeInformation = getRouteInformation(this.props);
-    const { isEditMode } = routeInformation || {};
-    return isEditMode;
+    const { modalNodeState } = routeInformation || {};
+    return modalNodeState;
   }
 
 
@@ -456,7 +453,7 @@ class Loader extends React.Component<Props, State> {
       isNotFoundVisible: false,
       isReportMode: false,
     });
-    if (this.isEditMode()) {
+    if (this.modalNodeState()) {
       this.props.history.push(`/nodes/${String(this.state.featureId)}`);
     }
   };
@@ -576,7 +573,7 @@ class Loader extends React.Component<Props, State> {
 
   render() {
     const isNodeRoute = Boolean(this.state.featureId);
-    const isEditMode = this.isEditMode();
+    const modalNodeState = this.modalNodeState();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
     const shouldLocateOnStart =
@@ -590,7 +587,7 @@ class Loader extends React.Component<Props, State> {
       location: this.props.location,
 
       isNodeRoute,
-      isEditMode,
+      modalNodeState,
       isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
@@ -610,8 +607,6 @@ class Loader extends React.Component<Props, State> {
       isMainMenuOpen: this.state.isMainMenuOpen,
       isNotFoundVisible: this.state.isNotFoundVisible,
       isSearchBarVisible: this.state.isSearchBarVisible,
-      isReportMode: this.state.isReportMode,
-      isCreateMode: this.state.isCreateMode,
       isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,

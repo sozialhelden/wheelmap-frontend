@@ -25,6 +25,7 @@ import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
 
 import type { Feature } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
+import type { ModalNodeState } from '../../lib/queryParams';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import filterAccessibility from '../../lib/filterAccessibility';
@@ -48,8 +49,7 @@ type Props = {
   category: ?Category,
   parentCategory: ?Category,
   hidden: boolean,
-  isEditMode: boolean,
-  isReportMode: boolean,
+  modalNodeState: modalNodeState,
   history: RouterHistory,
   onClose?: ?(() => void),
   onOpenReportMode: ?(() => void),
@@ -114,17 +114,11 @@ class NodeToolbar extends React.Component<Props> {
 
   manageFocus(prevProps: Props, prevState: State) {
     // TODO: Re-integrate this into ExternalLinks
-    // if (prevProps.isEditMode && !this.props.isEditMode) {
+    // if (prevProps.modalNodeState && !this.props.modalNodeState) {
     //   if (this.editLinks) {
     //     this.editLinks.focus();
     //   } else if (this.shareButton) {
     //     this.shareButton.focus();
-    //   }
-    // }
-
-    // if (prevProps.isReportMode && !this.props.isReportMode) {
-    //   if (this.reportModeButton) {
-    //     this.reportModeButton.focus();
     //   }
     // }
   }
@@ -169,7 +163,7 @@ class NodeToolbar extends React.Component<Props> {
       category={category}
       parentCategory={parentCategory}
       onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
-      showOnlyBasics={this.props.isEditMode || this.props.isReportMode}
+      showOnlyBasics={this.props.modalNodeState}
     />;
   }
 
@@ -274,6 +268,7 @@ class NodeToolbar extends React.Component<Props> {
     />;
   }
 
+
   renderToiletAccessibilityEditor() {
     return (<ToiletStatusEditor
       // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
@@ -306,12 +301,17 @@ class NodeToolbar extends React.Component<Props> {
     const { featureId } = this.props;
     const isEquipment = this.isEquipment();
 
-    if (this.props.isReportMode && !isEquipment) {
+    if (this.props.modalNodeState === 'report' && !isEquipment) {
       return this.renderReportDialog();
     }
 
-    if (this.props.isEditMode && featureId && !isEquipment) {
-      return this.renderAccessibilityEditor();
+    if (featureId && !isEquipment) {
+      switch (this.props.modalNodeState) {
+        case 'edit-wheelchair-accessibility': return this.renderWheelchairAccessibilityEditor();
+        case 'edit-toilet-accessibility': return this.renderToiletAccessibilityEditor();
+        case 'report': return this.renderAccessibilityEditor();
+        default: break;
+      }
     }
 
     const { feature, equipmentInfoId, isReportMode, history, onOpenReportMode } = this.props;
@@ -328,15 +328,15 @@ class NodeToolbar extends React.Component<Props> {
 
 
   renderCloseLink() {
-    const { history, onClose, isEditMode } = this.props;
-    return isEditMode ? null : <PositionedCloseLink {...{ history, onClose }} />;
+    const { history, onClose, modalNodeState } = this.props;
+    return modalNodeState ? null : <PositionedCloseLink {...{ history, onClose }} />;
   }
 
 
   render() {
     return <StyledToolbar
       hidden={this.props.hidden}
-      isModal={this.props.isEditMode || this.props.isReportMode}
+      isModal={this.props.modalNodeState}
       innerRef={(toolbar) => { this.toolbar = toolbar; }}
       role="dialog"
       ariaLabel={this.placeName()}

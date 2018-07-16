@@ -167,7 +167,7 @@ class MainMenu extends React.Component<Props, State> {
 
     return (<nav className={classList.join(' ')}>
       <div className="home-link">
-        <button 
+        <button
           className="btn-unstyled home-button"
           onClick={this.returnHome} 
           ref={homeButton => this.homeButton = homeButton}
