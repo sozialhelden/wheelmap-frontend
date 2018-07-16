@@ -67,6 +67,7 @@ export default class EditLinks extends React.Component<Props> {
 
     // translator: Button caption in the place toolbar
     let editButtonCaption = t`Mark this place`;
+    let contributionType = 'wheelchair';
 
     if (feature && feature.properties) {
       const properties = feature.properties;
@@ -89,6 +90,7 @@ export default class EditLinks extends React.Component<Props> {
             needsContribution = true;
             // translator: Button caption, shown in the place toolbar
             editButtonCaption = t`Add toilet status`;
+            contributionType = 'toilet';
           }
           break;
         default: break;
@@ -100,7 +102,7 @@ export default class EditLinks extends React.Component<Props> {
       contributionLink = (<Link
         ref={contributionLinkInstance => this.contributionLink = findDOMNode(contributionLinkInstance)}
         className="link-button edit-link-button"
-        to={`/beta/nodes/${featureId}/edit`}
+        to={`/beta/nodes/${featureId}/edit-${contributionType}-accessibility`}
         role="button"
         aria-label={editButtonCaption}
       >
