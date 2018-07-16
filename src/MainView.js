@@ -326,7 +326,7 @@ class MainView extends React.Component<Props, State> {
       className="main-menu"
       isOpen={this.props.isMainMenuOpen}
       onToggle={this.props.onToggleMainMenu}
-      isEditMode={isEditMode}
+      hideFromFocus={isEditMode}
       isLocalizationLoaded={isLocalizationLoaded}
       history={this.props.history}
       {...{ lat, lon, zoom }}
