@@ -10,6 +10,7 @@ import {
   toiletDescription,
   isWheelmapFeature,
 } from '../../lib/Feature';
+import type { NodeProperties } from '../../lib/Feature';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
 import PenIcon from '../icons/actions/PenIcon';
@@ -41,7 +42,16 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 }
 
 
-function BasicAccessibility(props) {
+type Props = {
+  properties: NodeProperties,
+  onClickWheelchairAccessibility: (() => void),
+  onClickToiletAccessibility: (() => void),
+  className: string,
+  children: React.Element<*>,
+};
+
+
+function BasicAccessibility(props: Props) {
   const wheelchairAccessibility = isWheelchairAccessible(props.properties);
   const toiletAccessibility = hasAccessibleToilet(props.properties);
   if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
@@ -49,7 +59,10 @@ function BasicAccessibility(props) {
   }
 
   const toiletAccessibilityIsKnown = toiletAccessibility !== 'unknown';
-  const description: ?string = props.properties.wheelchair_description;
+  let description: ?string = null;
+  if (typeof props.properties.wheelchair_description === 'string') {
+    description = props.properties.wheelchair_description;
+  }
   const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
   const isEnabled = !isWheelmapFeature(props);
 
