@@ -3,6 +3,8 @@
 import queryString from 'query-string';
 import type { RouterHistory } from 'react-router-dom';
 
+export type ModalNodeState = 'create' | 'edit-wheelchair-accessibility' | 'edit-toilet-accessibility' | 'report' | null;
+
 export function getQueryParams() {
   const result = {};
   if (window.location.hash.match(/\?/)) {
@@ -22,3 +24,4 @@ export function newLocationWithReplacedQueryParams(history: RouterHistory, newPa
   const location = { pathname: history.location.pathname, search: `?${newString}` };
   return location;
 }
+

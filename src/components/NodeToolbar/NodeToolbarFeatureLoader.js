@@ -10,6 +10,7 @@ import Categories from '../../lib/Categories';
 import type { Feature } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+import type { ModalNodeState } from '../../lib/queryParams';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
 
@@ -18,7 +19,7 @@ type Props = {
   featureId: ?string | number,
   equipmentInfoId: ?string,
   hidden: boolean,
-  isEditMode: boolean,
+  modalNodeState: ModalNodeState,
   isReportMode: boolean,
   onOpenReportMode: ?(() => void),
   onStartPhotoUploadFlow: (() => void),
