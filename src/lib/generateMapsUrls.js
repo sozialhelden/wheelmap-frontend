@@ -29,18 +29,15 @@ export function generateMapsUrl(feature: Feature, placeName: string) {
     ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
 
   if (isBingMaps) {
-    // translator: Button caption shown in the place toolbar
     const caption = openButtonCaption('Bing Maps');
     return {url: generateBingMapsUrl(feature, placeName), caption};
   }
 
   if (isAppleMaps) {
-    // translator: Button caption shown in the place toolbar
     const caption = openButtonCaption('Apple Maps');
     return {url: generateAppleMapsUrl(feature, placeName), caption};
   }
 
-  // translator: Button caption shown in the place toolbar
   const caption = openButtonCaption('Maps app');
   return {url: generateGeoUrl(feature, placeName), caption};
 }
