@@ -18,6 +18,7 @@ Circle.displayName = 'Circle';
 
 const StyledDiv = styled.div`
   display: flex;
+  flex-direction: ${props => props.isHorizontal ? 'row' : 'column'};
   flex-basis: 25%;
   align-items: center;
   box-sizing: border-box;
@@ -36,7 +37,7 @@ Caption.displayName = 'Caption';
 
 
 type Props = {
-  caption: string,
+  caption: ?string,
   activeColor?: ?string,
   hoverColor?: ?string,
   ariaLabel?: ?string,

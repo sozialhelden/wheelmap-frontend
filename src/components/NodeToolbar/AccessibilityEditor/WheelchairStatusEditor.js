@@ -25,7 +25,8 @@ type Props = {
   className: string,
   onSave: ?((YesNoLimitedUnknown) => void),
   onClose: (() => void),
-  inline: ?boolean 
+  presetStatus: YesNoLimitedUnknown,
+  inline: ?boolean,
 };
 
 
@@ -38,12 +39,13 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    wheelchairAccessibility: 'unknown',
+    wheelchairAccessibility: null,
     categoryId: 'other'
   };
 
   constructor(props) {
     super(props);
+    debugger
     const wheelchairAccessibility = this.wheelchairAccessibility(props);
     if (wheelchairAccessibility) {
       this.state = { wheelchairAccessibility, categoryId: 'other' };
@@ -56,9 +58,13 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
   wheelchairAccessibility(props: Props = this.props): ?YesNoLimitedUnknown {
     if (!props.feature || !props.feature.properties || !props.feature.properties.wheelchair) {
-      return null;
+      return this.props.presetStatus;
     }
-    return props.feature.properties.wheelchair;
+    const featureValue = props.feature.properties.wheelchair;
+    if (featureValue === 'unknown') {
+      return this.props.presetStatus || featureValue;
+    }
+    return featureValue;
   }
 
   fetchCategory(feature: WheelmapFeature) {
@@ -202,7 +208,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
       >
         <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
         {!this.props.inline && <CloseLink 
-          className='close-link' 
+          className='close-link'
           onClick={this.closeButtonClick}
           />}
 

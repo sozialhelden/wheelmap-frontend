@@ -601,7 +601,13 @@ class Loader extends React.Component<Props, State> {
     if (this.state.featureId) {
       this.props.history.push(`${this.state.featureId}/edit-toilet-accessibility`);
     }
-  }
+  };
+
+  onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
+    if (this.state.featureId) {
+      this.props.history.push(`${this.state.featureId}/edit-wheelchair-accessibility?presetStatus=${value}`);
+    }
+  };
 
   isNodeToolbarDisplayed(state = this.state) {
     return state.feature && 
@@ -659,6 +665,9 @@ class Loader extends React.Component<Props, State> {
       photoCaptchaFailed: this.state.photoCaptchaFailed,
       photoFlowNotification: this.state.photoFlowNotification,
       photoMarkedForReport: this.state.photoMarkedForReport,
+
+      // simple 3-button status editor feature
+      presetStatus: getQueryParams().presetStatus || null,
     }
 
     return (<MainView
@@ -685,6 +694,7 @@ class Loader extends React.Component<Props, State> {
       onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
       onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
       onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+      onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
 
       // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}

@@ -171,3 +171,15 @@ export function categoryNameFor(category: Category): ?string {
   const idObject = translationsObject ? translationsObject._id : null;
   return translatedStringFromObject(idObject);
 }
+
+export function getCategoryId(category: ?Category): ?string {
+  if (!category) {
+    return;
+  }
+  if (typeof category.id === 'string') {
+    return category.id;
+  }
+  if (typeof category._id === 'string') {
+    return category._id;
+  }
+}
