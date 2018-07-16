@@ -29,8 +29,8 @@ type Props = {
 
 
 type State = {
-  category: ?Category,
-  parentCategory: ?Category,
+  category: Category | null,
+  parentCategory: Category | null,
   equipmentInfo: ?EquipmentInfo,
   feature: ?Feature,
 };
