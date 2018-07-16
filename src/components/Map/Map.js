@@ -278,6 +278,7 @@ export default class Map extends React.Component<Props, State> {
     }
   }
 
+  
   setupLocateMeButton(map: L.Map) {
     this.locateControl = addLocateControlToMap(map, {
       locateOnStart: this.props.locateOnStart || false,
@@ -314,38 +315,6 @@ export default class Map extends React.Component<Props, State> {
         cordova: true,
       });
     }
-  }
-
-  componentDidUpdate() {
-    if (this.locateControl) {
-      // If a single feature is shown, do not pan the view when a new location comes in.
-      // If no feature is shown, follow the user's location until they pan the view themselves.
-      this.locateControl.options.setView = this.props.featureId ? 'once' : 'untilPan';
-    }
-  }
-
-  setupLocateMeButton(map: L.Map) {
-    this.locateControl = addLocateControlToMap(map, {
-      locateOnStart: this.props.locateOnStart || false,
-      onLocationError: (error: any) => {
-        if (error && error.type && error.type === 'locationerror' && error.code && error.code === 1) {
-          // System does not allow to use location services
-          debugger
-          if (!hasOpenedLocationHelp()) {
-            // If you open location help once, do not show this hint again until you click the
-            // location button
-            this.setState({ showLocationNotAllowedHint: true });
-          }
-        }
-      },
-      onClick: () => {
-        saveState({ hasOpenedLocationHelp: 'false' });
-        if (this.state.showLocationNotAllowedHint) {
-          goToLocationSettings();
-          this.setState({ showLocationNotAllowedHint: false });
-        }
-      },
-    });
   }
 
 
