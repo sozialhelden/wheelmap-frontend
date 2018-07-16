@@ -34,7 +34,7 @@ const StyledProblemIcon = styled(ProblemIcon)`
   } 
 `;
 
-class PhotoNotifcation extends React.Component<Props, State> {
+class PhotoNotification extends React.Component<Props, State> {
   props: Props;
   state: State = defaultState;
 
@@ -84,7 +84,7 @@ class PhotoNotifcation extends React.Component<Props, State> {
   }
 }
 
-const StyledPhotoNotifcation = styled(PhotoNotifcation)`
+const StyledPhotoNotification = styled(PhotoNotification)`
   position: relative;
   margin: 0px -6px 0px -6px;
   padding: 8px;
@@ -136,4 +136,4 @@ const StyledPhotoNotifcation = styled(PhotoNotifcation)`
 `;
 
 
-export default StyledPhotoNotifcation;
+export default StyledPhotoNotification;
