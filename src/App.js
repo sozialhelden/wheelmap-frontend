@@ -45,6 +45,8 @@ import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
+import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+
 initReactFastclick();
 
 
@@ -536,6 +538,10 @@ class Loader extends React.Component<Props, State> {
       });
   }
 
+  onReportPhoto = (photo: PhotoModel) => {
+    console.log("report photo now!", photo);
+  }
+
   onOpenReportMode = () => { this.setState({ isReportMode: true }) };
 
   onCloseNodeToolbar = () => { if (this.state.isReportMode) { this.setState({ isReportMode: false }) } };
@@ -652,6 +658,7 @@ class Loader extends React.Component<Props, State> {
       onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
       onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
       onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
+      onReportPhoto={this.onReportPhoto}
     />);
   }
 }

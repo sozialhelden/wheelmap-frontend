@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react';
+import { t } from 'c-3po';
 import styled from 'styled-components';
 import Gallery from 'react-photo-gallery';
-import type { PhotoModel } from './PhotoModel';
 import Lightbox from 'react-images';
 
 import { wheelmapFeaturePhotosCache } from '../../../lib/cache/WheelmapFeaturePhotosCache';
@@ -14,6 +14,8 @@ import { accessibilityCloudImageCache } from '../../../lib/cache/AccessibilityCl
 import convertAcPhotosToLightboxPhotos from './convertAcPhotosToLightboxPhotos';
 import type { AccessibilityCloudImages } from '../../../lib/Feature';
 
+import type { PhotoModel } from './PhotoModel';
+
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 import colors from '../../../lib/colors';
@@ -22,7 +24,8 @@ type Props = {
   featureId: string,
   className: string,
   photoFlowNotification?: string;
-  onStartPhotoUploadFlow: () => void; 
+  onStartPhotoUploadFlow: () => void;
+  onReportPhoto: (photo: PhotoModel) => void;
 };
 
 type State = {
@@ -72,6 +75,8 @@ class PhotoSection extends React.Component<Props, State> {
         sizes: [''],
         width: 1,
         height: 1,
+        imageId: 'invalid-id',
+        source: 'generated',
       });
     }
 
@@ -125,6 +130,17 @@ class PhotoSection extends React.Component<Props, State> {
       currentImageIndex: 0,
       isLightboxOpen: false,
     });
+  }  
+  
+  reportImage = () => {
+    const { lightBoxPhotos, currentImageIndex } = this.state;
+
+    if (currentImageIndex < 0 || currentImageIndex >= lightBoxPhotos.length ) {
+      console.error("Could not report photo with index", currentImageIndex);
+      return;
+    }
+    const toBeReported = lightBoxPhotos[currentImageIndex];
+    this.props.onReportPhoto(toBeReported);
   }
 
   gotoPrevious = () => {
@@ -137,6 +153,22 @@ class PhotoSection extends React.Component<Props, State> {
     this.setState({
       currentImageIndex: this.state.currentImageIndex + 1,
     });
+  }
+
+  renderLightboxControls = (className: string) => {
+    const { lightBoxPhotos, currentImageIndex } = this.state;
+
+    let canReportPhoto = false;
+    if (currentImageIndex >= 0 && currentImageIndex < lightBoxPhotos.length ) {
+      canReportPhoto = lightBoxPhotos[currentImageIndex].source === 'accessibility-cloud';
+    }
+
+    return [(
+      <section key='lightbox-actions' className={`lightbox-actions ${className}`}>
+        <button disabled={!canReportPhoto} onClick={this.reportImage} className="report-image">{t`Report`}</button>
+        <button onClick={this.closeLightbox} className="close-lightbox">{t`Close`}</button>
+      </section>
+    )];
   }
 
   render() {
@@ -152,12 +184,20 @@ class PhotoSection extends React.Component<Props, State> {
           onClick={this.thumbnailSelected}
           columns={Math.min(photos.length, 3)}
         />
-        <Lightbox images={lightBoxPhotos}
+        <Lightbox
+          images={lightBoxPhotos}
           onClose={this.closeLightbox}
           onClickPrev={this.gotoPrevious}
           onClickNext={this.gotoNext}
           currentImage={currentImageIndex}
           isOpen={this.state.isLightboxOpen}
+          imageCountSeparator={' ' + t`of` + ' '}
+          rightArrowTitle={t`Next (Right arrow key)`}
+          leftArrowTitle={t`Previous (Left arrow key)`}
+          closeButtonTitle={t`Close (Esc)`}
+          customControls={this.renderLightboxControls(className)}
+          theme={{
+          }}
         />
         {!hasPhotos && 
           <PhotoUploadButton 
@@ -180,6 +220,31 @@ const StyledPhotoSection = styled(PhotoSection)`
 
     img {
       object-fit: contain;
+    }
+  }  
+  
+  /* lazy workaround for Lightbox putting its nodes higher up in the dom */
+  &.lightbox-actions {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: ${colors.linkColor};
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      &[disabled] {
+        opacity: 0.8;
+        color: ${colors.textColor};
+        pointer-events: none;
+      }
     }
   }
 `;

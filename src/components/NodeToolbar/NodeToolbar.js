@@ -28,10 +28,13 @@ import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import AccessibilityEditor from './AccessibilityEditor/AccessibilityEditor';
+
 import PhotoSection from './Photos/PhotoSection';
+import type { PhotoModel } from './Photos/PhotoModel';
 
 import type { Feature, MinimalAccessibility } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+
 import { placeNameFor, isWheelmapFeatureId, removeNullAndUndefinedFields } from '../../lib/Feature';
 import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
@@ -70,6 +73,7 @@ type Props = {
 
   // photo feature
   onStartPhotoUploadFlow: (() => void),
+  onReportPhoto: ((photo: PhotoModel) => void),
   photoFlowNotification?: string,
 };
 
@@ -353,8 +357,9 @@ class NodeToolbar extends React.Component<Props, State> {
             {isWheelmapFeature &&
               <PhotoSection 
                 featureId={this.props.featureId} 
-                onStartPhotoUploadFlow={() => { this.props.onStartPhotoUploadFlow(); }}
+                onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
                 photoFlowNotification={this.props.photoFlowNotification}
+                onReportPhoto={this.props.onReportPhoto}
                 />
             }
 
