@@ -19,11 +19,6 @@ type State = {
 
 const defaultState: State = {};
 
-const StyledCameraIcon = styled(CameraIcon)`
-  font-size: 2em;
-
-`;
-
 class PhotoUploadButton extends React.Component<Props, State> {
   props: Props;
   state: State = defaultState;

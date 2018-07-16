@@ -63,11 +63,6 @@ const GoButton = styled.button`
   }
 `;
 
-const StyledCameraIcon = styled(CameraIcon)`
-  font-size: 2em;
-
-`;
-
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
