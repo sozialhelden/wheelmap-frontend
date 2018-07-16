@@ -126,7 +126,7 @@
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
     "build": "extract=1 BABEL_DISABLE_CACHE=1 REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" node scripts/build.js",
-    "webpack-cordova": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"<script src='cordova.js'></script>\" REACT_APP_ENV=development NODE_ENV=development CORDOVA=1 REACT_APP_WHEELMAP_API_BASE_URL=https://wheelmap.org PUBLIC_URL=\"./\" node scripts/build.js",
+    "webpack-cordova": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"<script src='cordova.js'></script>\" REACT_APP_ENV=development NODE_ENV=production CORDOVA=1 REACT_APP_WHEELMAP_API_BASE_URL=https://wheelmap.org PUBLIC_URL=\"./\" node scripts/build.js",
     "build-staging": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" REACT_APP_ENV=staging node scripts/build.js",
     "deploy-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "deploy-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",

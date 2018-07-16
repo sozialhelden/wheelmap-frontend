@@ -30,7 +30,7 @@ const env = getClientEnvironment(publicUrl);
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for development.
-if (env.stringified['process.env'].NODE_ENV !== '"development"') {
+if (env.stringified['process.env'].NODE_ENV !== '"production"') {
   throw new Error(`Cordova builds must have NODE_ENV=development but found ${env.stringified['process.env'].NODE_ENV}`);
 }
 
