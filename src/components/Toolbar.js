@@ -348,10 +348,13 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   @media (max-width: 512px) {
-    width: calc(100% - 20px);
+    width: 100%;
     min-width: 250px;
+    margin: 10px 0 0 0;
 
     border-top: ${colors.colorizedBackgroundColor} 8px solid;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 
     .grab-handle {
       margin: -10px 0 -20px 0;
