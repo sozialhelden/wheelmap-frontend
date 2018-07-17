@@ -35,7 +35,7 @@ import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import { t } from '../../../node_modules/c-3po';
-import SimpleWheelchairAccessibilityEditor from './AccessibilityEditor/SimpleWheelchairAccessibilityEditor';
+import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import { getCategoryId } from '../../lib/Categories';
 
 
@@ -218,7 +218,7 @@ class NodeToolbar extends React.Component<Props> {
         <AccessibleDescription properties={properties} />
         {accessibilityDetails}
       </BasicPlaceAccessibility>
-      {this.renderSimpleWheelchairAccessibilityEditor()}
+      {this.renderInlineWheelchairAccessibilityEditor()}
       <AccessibilityExtraInfo properties={properties} />
       {equipmentOverview}
     </React.Fragment>;
@@ -253,7 +253,7 @@ class NodeToolbar extends React.Component<Props> {
   }
 
 
-  renderSimpleWheelchairAccessibilityEditor() {
+  renderInlineWheelchairAccessibilityEditor() {
     const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
     if (!wheelmapFeature || !wheelmapFeature.properties) {
       return;
@@ -266,7 +266,7 @@ class NodeToolbar extends React.Component<Props> {
       <h4 id="wheelchair-accessibility-header">
         {t`How wheelchair accessible is this place?`}
       </h4>
-      <SimpleWheelchairAccessibilityEditor
+      <InlineWheelchairAccessibilityEditor
         category={getCategoryId(this.props.category)}
         onChange={this.props.onSelectWheelchairAccessibility}
         presetStatus={this.props.presetStatus}
