@@ -12,7 +12,7 @@ export default class URLDataCache<T> {
 
 
   fetch(url: string, resolve: ((data: T) => void), reject: ((response: any) => void)) {
-    this.constructor.fetch(url).then(
+    this.constructor.fetch(url, { cordova: true }).then(
       (response: Response) => {
         if (response.status === 200) {
           return this.constructor.getDataFromResponse(response).then((fetchedData) => {

@@ -42,8 +42,9 @@ export default function fetchViaCordova(url, options) {
       timeout: options.timeout,
     };
 
+    //console.log('Start fetching via Cordova:', url, requestOptions);
     window.cordova.plugin.http.sendRequest(url.replace(/ /g, '%20'), requestOptions, function(response) {
-      console.log('Fetching via Cordova:', url, requestOptions, response);
+      //console.log('Done fetching via Cordova:', url, requestOptions, response);
       const responseObject = {
 				ok: (response.status >= 200 && response.status < 300),
 				status: response.status,

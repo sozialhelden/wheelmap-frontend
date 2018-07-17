@@ -1,7 +1,7 @@
 // @flow
 
 import EventTarget, { CustomEvent } from './EventTarget';
-import fetch from '../lib/fetch';
+import customFetch from '../lib/fetch';
 import L from 'leaflet';
 
 type LayerEvent = Event & {layer: L.Layer, id: ?string, target: L.Layer};
@@ -117,7 +117,7 @@ export default class FetchManager extends EventTarget {
       }
     };
 
-    promise = fetch(input, init)
+    promise = customFetch(input, init)
       .then(removeFromRunningPromises, removeFromRunningPromises)
       .catch(handleError);
     this.runningPromises.set(promise, true);
