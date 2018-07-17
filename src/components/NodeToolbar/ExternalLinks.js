@@ -2,7 +2,6 @@
 
 import { t } from 'c-3po';
 import get from 'lodash/get';
-import uniq from 'lodash/uniq';
 import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
 
@@ -11,7 +10,6 @@ import { generateMapsUrl } from '../../lib/generateMapsUrls';
 import { generateShowOnOsmUrl } from '../../lib/generateOsmUrls';
 
 import SourceLink from './SourceLink';
-import LicenseHint from './LicenseHint';
 import PhoneNumberLink from './PhoneNumberLink';
 import { placeNameFor, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import styled from 'styled-components';
@@ -22,9 +20,9 @@ type Props = {
   feature: ?Feature,
   featureId: ?string | number,
   equipmentInfoId: ?string,
-  isReportMode: boolean,
   history: RouterHistory,
 };
+
 
 const captions = {
   // translator: Button caption in the place toolbar. Navigates to a place's details on an external page.
@@ -35,8 +33,6 @@ const captions = {
   editButton: t`Edit`,
   // translator: Button caption shown in the PoI details panel
   showOnOsm: openButtonCaption('OpenStreetMaps'),
-  // translator: Prefix for the sources on the PoI details panel
-  source: t`Source:`,
 };
 
 
@@ -61,37 +57,6 @@ function ExternalInfoAndEditPageLinks(props: { feature: ?Feature }) {
   return <React.Fragment>{links}</React.Fragment>;
 }
 
-
-function sourceIdsForFeature(feature: ?Feature): string[] {
-  if (!feature) return [];
-
-  const properties = feature.properties;
-  if (!properties) return [];
-
-  const idsToEquipmentInfos = typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
-  const equipmentInfos = idsToEquipmentInfos ? Object
-    .keys(idsToEquipmentInfos)
-    .map(_id => idsToEquipmentInfos[_id]) : [];
-  const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.sourceId'));
-  const disruptionSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId'));
-  const placeSourceId = properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
-
-  return uniq([
-    placeSourceId,
-    ...equipmentInfoSourceIds,
-    ...disruptionSourceIds,
-  ].filter(Boolean));
-}
-
-function Sources(props: Props) {
-  const sourceIds = sourceIdsForFeature(props.feature);
-  return <section className="sources">
-    {sourceIds.length ? `${captions.source} ` : null}
-    <ul>
-      {sourceIds.map(sourceId => <LicenseHint key={sourceId} sourceId={sourceId} />)}
-    </ul>
-  </section>;
-}
 
 const NonBreakingLink = styled.a`
   white-space: nowrap;
@@ -134,6 +99,5 @@ export default function ExternalLinks(props: Props) {
 
     {openInMaps && <a className="link-button" href={openInMaps.url}>{openInMaps.caption}</a>}
     {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">{captions.showOnOsm}</a>}
-    <Sources {...props} />
   </React.Fragment>;
 }
