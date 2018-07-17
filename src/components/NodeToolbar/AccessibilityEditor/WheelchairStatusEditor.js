@@ -25,15 +25,16 @@ type Props = {
   className: string,
   onSave: ?((YesNoLimitedUnknown) => void),
   onClose: (() => void),
-  presetStatus: YesNoLimitedUnknown,
+  presetStatus?: ?YesNoLimitedUnknown,
   inline: ?boolean,
 };
 
 
 type State = {
-  wheelchairAccessibility: YesNoLimitedUnknown,
+  wheelchairAccessibility: ?YesNoLimitedUnknown,
   categoryId: string,
 };
+
 
 class WheelchairStatusEditor extends React.Component<Props, State> {
   props: Props;
@@ -45,7 +46,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
   constructor(props) {
     super(props);
-    debugger
+
     const wheelchairAccessibility = this.wheelchairAccessibility(props);
     if (wheelchairAccessibility) {
       this.state = { wheelchairAccessibility, categoryId: 'other' };

@@ -109,7 +109,7 @@ const Row = styled.section`
   }
 `;
 
-export default function SimpleWheelchairAccessibilityEditor(props: Props) {
+export default function InlineWheelchairAccessibilityEditor(props: Props) {
   return <Row aria-label={t`Wheelchair Accessibility`}>
     {['yes', 'limited', 'no'].map((value, index) =>
       <button
