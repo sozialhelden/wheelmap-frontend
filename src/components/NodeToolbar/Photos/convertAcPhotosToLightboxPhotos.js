@@ -8,8 +8,8 @@ export default function convertAcPhotosToLightboxPhotos(acPhotos: AccessibilityC
     src: acPhoto.url,
     srcSet: [acPhoto.url],
     sizes: ['(min-width: 480px) 100px,33vw'],
-    width: 1,
-    height: 1,
+    width: acPhoto.dimensions ? acPhoto.dimensions.width : 1,
+    height: acPhoto.dimensions ? acPhoto.dimensions.height : 1,
     imageId: acPhoto._id,
     source: 'accessibility-cloud',
   }));

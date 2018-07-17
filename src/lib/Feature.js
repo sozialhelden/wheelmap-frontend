@@ -165,6 +165,10 @@ export type AccessibilityCloudImage = {
   isoDate: string,
   url: string,
   mimeType: string,
+  dimensions: {
+    width: number,
+    height: number,
+  }
 };
 
 export type AccessibilityCloudImages = {
