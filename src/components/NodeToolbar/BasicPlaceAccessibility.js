@@ -64,13 +64,14 @@ function BasicPlaceAccessibility(props: Props) {
     description = props.properties.wheelchair_description;
   }
   const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
-  const isEnabled = !isWheelmapFeature(props);
+  const isEnabled = isWheelmapFeature(props);
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
   return (<summary className={`basic-accessibility ${props.className}`}>
     <button
       className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
       onClick={props.onOpenWheelchairAccessibility}
+      disabled={!isEnabled}
     >
       <header>
         <span>{AccessibilityName(wheelchairAccessibility)}</span>
@@ -86,6 +87,7 @@ function BasicPlaceAccessibility(props: Props) {
       <button
         className={`accessibility-toilet accessibility-${toiletAccessibility}`}
         onClick={props.onOpenToiletAccessibility}
+        disabled={!isEnabled}
       >
         <header>
           {ToiletDescription(toiletAccessibility)}
@@ -118,17 +120,19 @@ const StyledBasicPlaceAccessibility = styled(BasicPlaceAccessibility)`
     font-size: 1rem;
     text-align: inherit;
     background-color: transparent;
-    cursor: pointer;
+    :not(:disabled) {
+      cursor: pointer;
 
-    &:hover {
-      &.accessibility-yes {
-        background-color: ${colors.positiveBackgroundColorTransparent};
-      }
-      &.accessibility-limited {
-        background-color: ${colors.warningBackgroundColorTransparent};
-      }
-      &.accessibility-no {
-        background-color: ${colors.negativeBackgroundColorTransparent};
+      &:hover {
+        &.accessibility-yes {
+          background-color: ${colors.positiveBackgroundColorTransparent};
+        }
+        &.accessibility-limited {
+          background-color: ${colors.warningBackgroundColorTransparent};
+        }
+        &.accessibility-no {
+          background-color: ${colors.negativeBackgroundColorTransparent};
+        }
       }
     }
   }
