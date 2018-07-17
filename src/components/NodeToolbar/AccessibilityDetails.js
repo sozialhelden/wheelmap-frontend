@@ -116,7 +116,6 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
   line-height: 1.3;
   font-weight: 300;
   color: #444;
-  background-color: ${colors.coldBackgroundColor};
   margin: 0 -10px -10px -10px !important;
   padding: 10px !important;
 

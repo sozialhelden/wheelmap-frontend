@@ -234,9 +234,9 @@ class NodeToolbar extends React.Component<Props, State> {
         {photoSection}
         <AccessibleDescription properties={properties} />
         {accessibilityDetails}
+        <AccessibilityExtraInfo properties={properties} />
       </BasicPlaceAccessibility>
       {this.renderInlineWheelchairAccessibilityEditor()}
-      <AccessibilityExtraInfo properties={properties} />
       {equipmentOverview}
     </React.Fragment>;
   }
