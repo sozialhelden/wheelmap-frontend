@@ -21,6 +21,7 @@ import AccessibilityExtraInfo from './AccessibilityExtraInfo';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './EquipmentAccessibility';
 import BasicPlaceAccessibility from './BasicPlaceAccessibility';
+import SourceList from './SourceList';
 
 import type { PhotoModel } from './Photos/PhotoModel';
 
@@ -329,15 +330,16 @@ class NodeToolbar extends React.Component<Props> {
       }
     }
 
-    const { feature, equipmentInfoId, isReportMode, history, onOpenReportMode } = this.props;
-
+    const { feature, equipmentInfoId, history, onOpenReportMode } = this.props;
+    const sourceLinkProps =  { featureId, feature, equipmentInfoId, onOpenReportMode, history };
     if (!featureId) return;
 
     return <div>
       {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
       {this.renderAccessibilitySection()}
-      <ExternalLinks {...{ featureId, feature, equipmentInfoId, isReportMode, onOpenReportMode, history }} />
+      <ExternalLinks {...sourceLinkProps} />
       {this.renderShareButtons()}
+      <SourceList {...sourceLinkProps} />
     </div>;
   }
 
