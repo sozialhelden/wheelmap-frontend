@@ -77,3 +77,7 @@ resources/signing
 # scan temporary files
 /fastlane/test_output
 release-signing.properties
+
+# This contains source translations for transifex.
+# They should always be locally built before pushing and not be commited.
+/public/i18n/translations.pot
