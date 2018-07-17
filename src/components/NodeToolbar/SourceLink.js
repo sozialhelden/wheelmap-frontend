@@ -1,12 +1,10 @@
 // @flow
 
-import styled from 'styled-components';
+import { t } from 'c-3po';
 import * as React from 'react';
+import styled from 'styled-components';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
-import colors from '../../lib/colors';
-import ChevronRight from '../ChevronRight';
-import { t } from 'c-3po';
 
 
 type Props = {
@@ -68,7 +66,7 @@ class SourceLink extends React.Component<Props, State> {
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
     return (<a href={href} className={`${className} link-button`}>
-      {caption}&nbsp;<ChevronRight color={colors.linkColor} />
+      {caption}
     </a>);
   }
 }
