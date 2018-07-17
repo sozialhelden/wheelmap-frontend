@@ -21,17 +21,17 @@ const ReportValues : ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 
 
 function shortReportCaption(reportValue: ReportOptions): ?string {
   switch (reportValue) {
-    // translator: title for a report option where the photo does not match the place
     case 'wrong-place': 
+      // translator: title for a report option where the photo does not match the place
       return t`Wrong Place`;
-    // translator: title for a report option where the photo does not match the current state of the place
     case 'outdated': 
+      // translator: title for a report option where the photo does not match the current state of the place
       return t`Outdated`;
-    // translator: title for a report option where the photo is nsfw
     case 'offensive': 
+      // translator: title for a report option where the photo is nsfw
       return t`Offensive or Inappropriate`;
-    // translator: title for a report option where the photo has another problem
     case 'other': 
+      // translator: title for a report option where the photo has another problem
       return t`Other Problems`;
     default:
       return null;
@@ -40,17 +40,17 @@ function shortReportCaption(reportValue: ReportOptions): ?string {
 
 function reportDescription(reportValue: ReportOptions): ?string {
   switch (reportValue) {
-    // translator: title for a report option where the photo does not match the place
     case 'wrong-place': 
+      // translator: title for a report option where the photo does not match the place
       return t`This photo does not depict the place`;
-    // translator: title for a report option where the photo does not match the current state of the place
     case 'outdated': 
+      // translator: title for a report option where the photo does not match the current state of the place
       return t`This photo does not show the current state of the place`;
-    // translator: title for a report option where the photo is nsfw
     case 'offensive': 
+      // translator: title for a report option where the photo is nsfw
       return t`This photo shows sexually explicit content, depicts violence or is inappropriate in another way.`;
-    // translator: title for a report option where the photo has another problem
     case 'other': 
+      // translator: title for a report option where the photo has another problem
       return t`This photo has other problems or infringes on my copyrights.`;
     default:
       return null;

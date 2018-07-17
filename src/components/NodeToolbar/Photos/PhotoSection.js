@@ -191,9 +191,13 @@ class PhotoSection extends React.Component<Props, State> {
           onClickNext={this.gotoNext}
           currentImage={currentImageIndex}
           isOpen={this.state.isLightboxOpen}
+          // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10 
           imageCountSeparator={' ' + t`of` + ' '}
+          // tranlator: alt info on next image button in lightbox
           rightArrowTitle={t`Next (Right arrow key)`}
+          // tranlator: alt info on previous image button in lightbox
           leftArrowTitle={t`Previous (Left arrow key)`}
+          // tranlator: alt info on close button in lightbox
           closeButtonTitle={t`Close (Esc)`}
           customControls={this.renderLightboxControls(className)}
           theme={{
