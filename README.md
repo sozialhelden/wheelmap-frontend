@@ -79,3 +79,11 @@ To deploy:
 - Run `npm run deploy-android-beta` to upload a public (← ⚠️) PlayStore beta build
 
 Note that each deployment increments the app version's patch level by one.
+
+## Testing
+
+<a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
+
+For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
+
+
