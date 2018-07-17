@@ -54,7 +54,8 @@ function UnstyledSourceList(props: Props) {
 
 
 const SourceList = styled(UnstyledSourceList)`
-  margin-top: .5em;
+  margin: .5rem 0;
+
   font-size: 80%;
   opacity: 0.5;
 
