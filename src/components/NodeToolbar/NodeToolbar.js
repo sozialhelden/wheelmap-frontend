@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { t } from 'c-3po';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';
@@ -9,12 +10,9 @@ import styled from 'styled-components';
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
 import NodeHeader from './NodeHeader';
-import EditLinks from './EditLinks';
 import StyledToolbar from './StyledToolbar';
-import ExternalLinks from './ExternalLinks';
 import ReportDialog from './Report/ReportDialog';
 import PhotoSection from './Photos/PhotoSection';
-import ShareButtons from './ShareButtons/ShareButtons';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilityExtraInfo from './AccessibilityExtraInfo';
@@ -29,15 +27,17 @@ import type { Feature } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+import type { ModalNodeState } from '../../lib/queryParams';
 
 import filterAccessibility from '../../lib/filterAccessibility';
 import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom } from '../../lib/Feature';
 import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
-import { t } from '../../../node_modules/c-3po';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import { getCategoryId } from '../../lib/Categories';
+import IconButtonList from './IconButtonList/IconButtonList';
+import EditLinks from './EditLinks';
 
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -54,7 +54,7 @@ type Props = {
   category: ?Category,
   parentCategory: ?Category,
   hidden: boolean,
-  modalNodeState: modalNodeState,
+  modalNodeState: ModalNodeState,
   history: RouterHistory,
   onClose?: ?(() => void),
   onOpenReportMode: ?(() => void),
@@ -84,13 +84,12 @@ type State = {
 };
 
 
-class NodeToolbar extends React.Component<Props> {
-  props: Props;
-
+class NodeToolbar extends React.Component<Props, State> {
   toolbar: ?React.ElementRef<typeof Toolbar>;
   editLinks: ?React.ElementRef<typeof EditLinks>;
   reportDialog: ?React.ElementRef<typeof ReportDialog>;
   shareButton: ?React.ElementRef<'button'>;
+  accessibilityEditor: ?React.ElementRef<typeof AccessibilityEditor>;
   reportModeButton: ?React.ElementRef<'button'>;
 
   shouldBeFocused: ?boolean;
@@ -115,9 +114,9 @@ class NodeToolbar extends React.Component<Props> {
 
 
   focus() {
-    const elementToFocus = this.editLinks || this.shareButton;
-    if (elementToFocus) elementToFocus.focus();
-    this.shouldBeFocused = !elementToFocus;
+    // const elementToFocus = this.editLinks;
+    // if (elementToFocus) elementToFocus.focus();
+    // this.shouldBeFocused = !elementToFocus;
   }
 
 
@@ -155,6 +154,17 @@ class NodeToolbar extends React.Component<Props> {
   }
 
 
+  renderIconButtonList() {
+    const { feature, featureId, category, parentCategory } = this.props;
+    return <IconButtonList
+      {...{ feature, featureId, category, parentCategory }}
+      onToggle={() => {
+        if (this.toolbar) this.toolbar.ensureFullVisibility();
+      }}
+    />
+  }
+
+
   renderNodeHeader() {
     const {
       feature,
@@ -172,7 +182,7 @@ class NodeToolbar extends React.Component<Props> {
       category={category}
       parentCategory={parentCategory}
       onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
-      showOnlyBasics={this.props.modalNodeState}
+      showOnlyBasics={!!this.props.modalNodeState}
     />;
   }
 
@@ -190,6 +200,12 @@ class NodeToolbar extends React.Component<Props> {
   renderEquipmentOverview() {
     const { history, feature, equipmentInfoId } = this.props;
     return <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
+  }
+
+
+  renderEditLinks() {
+    const { feature, featureId } = this.props;
+    return <EditLinks {...{ feature, featureId }} />
   }
 
 
@@ -276,18 +292,6 @@ class NodeToolbar extends React.Component<Props> {
   }
 
 
-  renderShareButtons() {
-    const { feature, featureId, category, parentCategory } = this.props;
-    return <ShareButtons
-      {...{ feature, featureId, category, parentCategory }}
-      innerRef={shareButton => this.shareButton = shareButton}
-      onToggle={() => {
-        if (this.toolbar) this.toolbar.ensureFullVisibility();
-      }}
-    />;
-  }
-
-
   renderToiletAccessibilityEditor() {
     return (<ToiletStatusEditor
       // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
@@ -337,8 +341,7 @@ class NodeToolbar extends React.Component<Props> {
     return <div>
       {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
       {this.renderAccessibilitySection()}
-      <ExternalLinks {...sourceLinkProps} />
-      {this.renderShareButtons()}
+      {this.renderIconButtonList()}
       <SourceList {...sourceLinkProps} />
     </div>;
   }

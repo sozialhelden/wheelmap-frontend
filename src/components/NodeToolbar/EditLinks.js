@@ -2,16 +2,12 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import colors from '../../lib/colors';
 import type { Feature } from '../../lib/Feature';
-import {
-  hasAccessibleToilet,
-  isWheelchairAccessible,
-} from '../../lib/Feature';
+import { hasAccessibleToilet, isWheelchairAccessible } from '../../lib/Feature';
 import { IncentiveHint } from './IncentiveHint';
 
 
@@ -53,12 +49,6 @@ type Props = {
 
 
 export default class EditLinks extends React.Component<Props> {
-  focus() {
-    if (this.contributionLink) {
-      this.contributionLink.focus()
-    }
-  }
-
   render() {
     const { feature, featureId } = this.props;
 
@@ -100,7 +90,6 @@ export default class EditLinks extends React.Component<Props> {
     let contributionLink = null;
     if (needsContribution && featureId) {
       contributionLink = (<Link
-        ref={contributionLinkInstance => this.contributionLink = findDOMNode(contributionLinkInstance)}
         className="link-button edit-link-button"
         to={`/beta/nodes/${featureId}/edit-${contributionType}-accessibility`}
         role="button"

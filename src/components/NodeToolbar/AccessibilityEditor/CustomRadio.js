@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import { Radio } from 'react-radio-group';
 import RadioButtonUnselected from '../../icons/ui-elements/RadioButtonUnselected';
 import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';
-
 
 type Props = {
   currentValue?: ?string,
@@ -52,7 +52,7 @@ export default class CustomRadio extends React.Component<Props, State> {
           id={id}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          ref={radioButtonInstance => this.radioButton = radioButtonInstance}
+          ref={radioButtonInstance => this.radioButton = findDOMNode(radioButtonInstance)}
           aria-label={this.props.caption}
         />
         <RadioButton className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`} aria-hidden={true}/>

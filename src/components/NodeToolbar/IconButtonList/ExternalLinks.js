@@ -1,19 +1,16 @@
 // @flow
 
 import { t } from 'c-3po';
-import get from 'lodash/get';
 import * as React from 'react';
 import type { RouterHistory } from 'react-router-dom';
-
-import type { Feature } from '../../lib/Feature';
-import { generateMapsUrl } from '../../lib/generateMapsUrls';
-import { generateShowOnOsmUrl } from '../../lib/generateOsmUrls';
-
-import SourceLink from './SourceLink';
-import PhoneNumberLink from './PhoneNumberLink';
-import { placeNameFor, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import styled from 'styled-components';
-import openButtonCaption from '../../lib/openButtonCaption';
+
+import type { Feature } from '../../../lib/Feature';
+import openButtonCaption from '../../../lib/openButtonCaption';
+
+import SourceLink from '../SourceLink';
+import PhoneNumberLink from './PhoneNumberLink';
+import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
 
 
 type Props = {
@@ -31,8 +28,6 @@ const captions = {
   editPageUrl: (sourceNameString) => t`Improve on ${sourceNameString}`,
   // translator: Button caption shown in the PoI details panel
   editButton: t`Edit`,
-  // translator: Button caption shown in the PoI details panel
-  showOnOsm: openButtonCaption('OpenStreetMaps'),
 };
 
 
@@ -64,6 +59,7 @@ const NonBreakingLink = styled.a`
   overflow: hidden;
 `;
 
+
 export default function ExternalLinks(props: Props) {
   const isEquipment = !!props.equipmentInfoId;
   const feature = props.feature;
@@ -75,9 +71,6 @@ export default function ExternalLinks(props: Props) {
   const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
   const phoneNumber: ?string = properties.phoneNumber || properties.phone;
 
-  const placeName = placeNameFor(get(props, 'feature.properties'), props.category);
-  const openInMaps = generateMapsUrl(feature, placeName);
-  const showOnOsmUrl = generateShowOnOsmUrl(feature);
   const placeWebsiteLink = (typeof placeWebsiteUrl === 'string') &&
     <NonBreakingLink className="place-website-url link-button" href={placeWebsiteUrl}>
       {placeWebsiteUrl}
@@ -96,8 +89,5 @@ export default function ExternalLinks(props: Props) {
     >
       {captions.editButton}
     </button>}
-
-    {openInMaps && <a className="link-button" href={openInMaps.url}>{openInMaps.caption}</a>}
-    {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">{captions.showOnOsm}</a>}
   </React.Fragment>;
 }
