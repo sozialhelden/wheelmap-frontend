@@ -52,9 +52,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
       this.state = { wheelchairAccessibility, categoryId: 'other' };
     }
     this.fetchCategory(this.props.feature);
-
-    this.onSaveButtonClick = this.onSaveButtonClick.bind(this);
-    this.onRadioGroupKeyDown = this.onRadioGroupKeyDown.bind(this);
   }
 
   wheelchairAccessibility(props: Props = this.props): ?YesNoLimitedUnknown {
@@ -101,13 +98,13 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
     this.toBeFocusedRadioButton.focus();
   }
 
-  onRadioGroupKeyDown({nativeEvent}) {
+  onRadioGroupKeyDown = ({nativeEvent}) => {
     if(nativeEvent.key === 'Enter') {
       this.onSaveButtonClick();
     }
   }
 
-  onSaveButtonClick() {
+  onSaveButtonClick = () => {
     const wheelchairAccessibility = this.state.wheelchairAccessibility;
     const valueIsDefined = wheelchairAccessibility !== 'unknown';
 
@@ -117,7 +114,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
         this.props.onSave(wheelchairAccessibility);
       }
     }
-  }
+  };
 
   closeButtonClick = (event) => {
     if (typeof this.props.onClose === 'function') {
@@ -217,7 +214,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
           name="accessibility"
           selectedValue={wheelchairAccessibility}
           onChange={(newValue) => { this.setState({ wheelchairAccessibility: newValue }); }}
-          className={`${wheelchairAccessibility} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
+          className={`${String(wheelchairAccessibility)} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
           onKeyDown={this.onRadioGroupKeyDown}
           role="radiogroup"
           aria-label={t`Wheelchair Accessibility`}
