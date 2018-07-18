@@ -9,12 +9,12 @@ import {
   accessibilityDescription,
   toiletDescription,
   isWheelmapFeature,
-} from '../../lib/Feature';
-import type { NodeProperties } from '../../lib/Feature';
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import ToiletStatusAccessibleIcon from '../icons/accessibility/ToiletStatusAccessible';
-import PenIcon from '../icons/actions/PenIcon';
-import colors from '../../lib/colors';
+} from '../../../lib/Feature';
+import type { NodeProperties } from '../../../lib/Feature';
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
+import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
+import PenIcon from '../../icons/actions/PenIcon';
+import colors from '../../../lib/colors';
 
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
@@ -47,35 +47,29 @@ type Props = {
   onOpenWheelchairAccessibility: (() => void),
   onOpenToiletAccessibility: (() => void),
   className: string,
-  children: React.Element<*>,
+  isEditingEnabled: boolean,
 };
 
 
-function BasicPlaceAccessibility(props: Props) {
+function WheelchairAndToiletAccessibility(props: Props) {
+  const { isEditingEnabled } = props;
+
   const wheelchairAccessibility = isWheelchairAccessible(props.properties);
   const toiletAccessibility = hasAccessibleToilet(props.properties);
   if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
     return null;
   }
-
   const toiletAccessibilityIsKnown = toiletAccessibility !== 'unknown';
-  let description: ?string = null;
-  if (typeof props.properties.wheelchair_description === 'string') {
-    description = props.properties.wheelchair_description;
-  }
-  const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
-  const isEnabled = isWheelmapFeature(props);
 
-  // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-  return (<summary className={`basic-accessibility ${props.className}`}>
+  return (<div className={props.className}>
     <button
       className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
       onClick={props.onOpenWheelchairAccessibility}
-      disabled={!isEnabled}
+      disabled={!isEditingEnabled}
     >
       <header>
         <span>{AccessibilityName(wheelchairAccessibility)}</span>
-        {isEnabled && <PenIcon className="pen-icon" />}
+        {isEditingEnabled && <PenIcon className="pen-icon" />}
       </header>
 
       <footer className='accessibility-description'>
@@ -87,29 +81,19 @@ function BasicPlaceAccessibility(props: Props) {
       <button
         className={`accessibility-toilet accessibility-${toiletAccessibility}`}
         onClick={props.onOpenToiletAccessibility}
-        disabled={!isEnabled}
+        disabled={!isEditingEnabled}
       >
         <header>
           {ToiletDescription(toiletAccessibility)}
-          {isEnabled && <PenIcon className="pen-icon" />}
+          {isEditingEnabled && <PenIcon className="pen-icon" />}
         </header>
       </button>}
-
-    { description && descriptionElement }
-    { props.children }
-  </summary>);
+  </div>);
 }
 
 
-const StyledBasicPlaceAccessibility = styled(BasicPlaceAccessibility)`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 1rem 0;
-  padding: .75rem;
-  border: 1px solid ${colors.borderColor};
-  border-radius: 4px;
-  overflow: hidden;
+const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
+  margin: 0;
 
   > button {
     margin: -10px;
