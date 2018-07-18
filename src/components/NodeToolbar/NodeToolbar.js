@@ -15,7 +15,7 @@ import ReportDialog from './Report/ReportDialog';
 import PhotoSection from './Photos/PhotoSection';
 import AccessibilityDetails from './AccessibilityDetails';
 import AccessibleDescription from './AccessibleDescription';
-import AccessibilityExtraInfo from './AccessibilityExtraInfo';
+import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './EquipmentAccessibility';
 import BasicPlaceAccessibility from './BasicPlaceAccessibility';
@@ -202,16 +202,16 @@ class NodeToolbar extends React.Component<Props, State> {
       return <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} />
     }
 
-    const properties = this.props.feature && this.props.feature.properties;
+    const { featureId, history, feature, equipmentInfoId } = this.props;
+    const properties = feature && feature.properties;
     const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
     const filteredAccessibility = accessibility ? filterAccessibility(accessibility) : null;
-
-    const { featureId, history, feature, equipmentInfoId } = this.props;
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    const equipmentOverview = !isWheelmapFeature && <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
+
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
-    const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />;
     const editLinks = isWheelmapFeature && <EditLinks {...{ feature, featureId }} />;
+    const equipmentOverview = !isWheelmapFeature && <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
+    const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />;
 
     return <React.Fragment>
       <BasicPlaceAccessibility properties={properties}
@@ -219,11 +219,11 @@ class NodeToolbar extends React.Component<Props, State> {
         onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
       >
         {editLinks}
-        {photoSection}
         <AccessibleDescription properties={properties} />
         {accessibilityDetails}
-        <AccessibilityExtraInfo properties={properties} />
+        <AccessibilitySourceDisclaimer properties={properties} />
       </BasicPlaceAccessibility>
+      {photoSection}
       {this.renderInlineWheelchairAccessibilityEditor()}
       {equipmentOverview}
     </React.Fragment>;

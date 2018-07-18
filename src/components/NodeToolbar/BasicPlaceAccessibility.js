@@ -105,8 +105,8 @@ const StyledBasicPlaceAccessibility = styled(BasicPlaceAccessibility)`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 1rem -0.5rem;
-  padding: 10px;
+  margin: 1rem 0;
+  padding: .75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
   overflow: hidden;
