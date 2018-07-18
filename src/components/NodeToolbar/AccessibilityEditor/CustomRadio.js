@@ -6,7 +6,6 @@ import { Radio } from 'react-radio-group';
 import RadioButtonUnselected from '../../icons/ui-elements/RadioButtonUnselected';
 import RadioButtonSelected from '../../icons/ui-elements/RadioButtonSelected';
 
-
 type Props = {
   currentValue?: ?string,
   shownValue: string,
@@ -24,23 +23,20 @@ export default class CustomRadio extends React.Component<Props, State> {
     isFocused: false
   }
 
-  constructor(props) {
-    super(props);
+  radioButton: ?Radio;
 
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
-  }
+  onFocus = () => {
+    this.setState({ isFocused: true })
+  };
 
-  onFocus() {
-    this.setState({ isFocused: true})
-  }
-
-  onBlur() {
-    this.setState({ isFocused: false})
-  }
+  onBlur = () => {
+    this.setState({ isFocused: false })
+  };
 
   focus() {
-    this.radioButton.focus();
+    if (this.radioButton) {
+      this.radioButton.focus();
+    }
   }
 
   render() {

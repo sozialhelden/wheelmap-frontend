@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import type { RouterHistory } from 'react-router-dom';
 
 import NodeToolbar from './NodeToolbar';
@@ -12,7 +13,7 @@ import type { Category } from '../../lib/Categories';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import { YesNoLimitedUnknown } from '../../lib/Feature';
+import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 
 type Props = {

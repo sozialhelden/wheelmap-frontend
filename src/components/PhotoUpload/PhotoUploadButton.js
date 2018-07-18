@@ -13,35 +13,23 @@ type Props = {
   onClick?: ((event: UIEvent) => void),
 };
 
-type State = {
-  sourceName?: string;
-};
 
-const defaultState: State = {};
+// translator: Text that incentivizes the user to edit a place's accessibility.
+const hintCaption = t`Improve your karma!`;
 
-class PhotoUploadButton extends React.Component<Props, State> {
-  props: Props;
-  state: State = defaultState;
 
-  componentDidMount() {
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-  }
-
+class PhotoUploadButton extends React.Component<Props> {
   render() {
     const { className } = this.props;
 
     return (
-      <button 
-        onClick={this.onClick} 
-        className={`${className} link-button`}
+      <button
+        onClick={this.onClick}
+        className={`link-button ${className}`}
         aria-label={t`Add images`} >
-        <span className='button-icon'>
-            <CameraIcon />
-        </span>
-        <span className='button-label'>{t`Add images`}</span>
-        <IncentiveHint>{t`Improve your karma!`}</IncentiveHint>
+        <CameraIcon />
+        <span className="button-label">{t`Add images`}</span>
+        <IncentiveHint>{hintCaption}</IncentiveHint>
       </button>
     );
   }
@@ -61,18 +49,17 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: calc(100% + 10px);
-  margin: 0 -5px !important;
-  padding: 0 !important;
 
-  span.button-icon > svg {
-    display: inline-block;
-    padding-top: 2px;
-    padding-left: 0.2rem;
-    font-size: 2em;
+  width: 100%;
+  margin: 0 0rem .5rem !important;
+  padding: 0;
+
+  svg {
+    width: 2em;
+    height: 2em;
   }
 
-  span.button-label {
+  .button-label {
     color: ${colors.linkColor};
   }
 `;

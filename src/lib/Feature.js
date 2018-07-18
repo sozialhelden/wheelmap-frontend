@@ -191,15 +191,15 @@ export function getFeatureId(feature: Feature) {
   return result ? String(result) : null;
 }
 
-function isNumeric(id: string | number | null) {
-  return String(id).match(/^-?\d+$/);
+function isNumeric(id: string | number | null): boolean {
+  return !!String(id).match(/^-?\d+$/);
 }
 
-export function isWheelmapFeatureId(id: string | number | null | void) {
+export function isWheelmapFeatureId(id: string | number | null | void): boolean {
   return typeof id !== 'undefined' && isNumeric(id);
 }
 
-export function isWheelmapFeature(feature: Feature) {
+export function isWheelmapFeature(feature: Feature): boolean {
   return feature && feature.properties && feature.properties.id && isNumeric(feature.id);
 }
 
@@ -305,13 +305,12 @@ export function hasAccessibleToilet(
 }
 
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
-  if (properties) {
-    if (properties.category === 'elevator' || properties.category === 'escalator') {
-      const result = isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
-      // debugger
-      return result;
-    }
+  if (properties.category === 'elevator' || properties.category === 'escalator') {
+    const result = isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
+    // debugger
+    return result;
   }
+
   const isAccessible = get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair');
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');

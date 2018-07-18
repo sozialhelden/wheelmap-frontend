@@ -57,7 +57,7 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.active {
-    background-color: ${colors.evenMoreTransparentLinkColor};
+    background-color: ${colors.coldBackgroundColor};
     .circle {
       background-color: ${colors.selectedColor};
     }

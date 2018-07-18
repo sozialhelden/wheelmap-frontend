@@ -139,11 +139,11 @@ const StyledToolbar = styled(Toolbar)`
       }
       
       li.with-checkmark {
-
         p,
         small,
         ul {
           padding-left: 24px;
+          pointer-events: none;
         }
                 
         span {
@@ -161,9 +161,18 @@ const StyledToolbar = styled(Toolbar)`
       }
 
       li.with-checkbox {
-        margin-left: 0;
+        &, * {
+          cursor: pointer;
+        }
+        margin: -10px;
+        padding: 10px;
+        border-radius: 4px;
 
-        label { 
+        &:hover {
+          background-color: ${colors.linkBackgroundColorTransparent};
+        }
+
+        label {
           padding-left: 6px;
           font-weight: 600;
           color: ${colors.primaryColorBrighter};

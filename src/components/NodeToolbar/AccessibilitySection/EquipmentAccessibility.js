@@ -2,16 +2,17 @@
 
 import * as React from 'react';
 import styled from 'styled-components';
-import colors from '../../lib/colors';
-import AccessibilityDetails from './AccessibilityDetails';
-import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+
+import colors from '../../../lib/colors';
+import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import {
   isExistingInformationOutdated,
   equipmentStatusTitle,
   isEquipmentAccessible,
   lastUpdateString,
-} from  '../../lib/EquipmentInfo';
+} from  '../../../lib/EquipmentInfo';
 
+import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
@@ -36,11 +37,11 @@ function EquipmentAccessibility(props: Props) {
   const accessibility = properties.accessibility;
 
   return (<summary className={`equipment-accessibility ${props.className}`}>
-    <header className={`working-status working-status-${isEquipmentAccessible(properties)}`}>
+    <header className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}>
       {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
     </header>
     <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
-    {accessibility ? <AccessibilityDetails details={accessibility} /> : null}
+    {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
   </summary>);
 }
 

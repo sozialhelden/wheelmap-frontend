@@ -108,7 +108,7 @@ export function isExistingInformationOutdated(lastUpdate: ?Date) {
   return new Date() - lastUpdate > twoHoursInMilliseconds;
 }
 
-export function isEquipmentAccessible(properties: EquipmentInfoProperties): ?YesNoLimitedUnknown {
+export function isEquipmentAccessible(properties: ?EquipmentInfoProperties): ?YesNoLimitedUnknown {
   if (!properties) {
     return null;
   }

@@ -1,11 +1,12 @@
 // @flow
 
+import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
-import { t } from 'c-3po';
-import colors from '../../lib/colors';
+
+import colors from '../../../lib/colors';
 
 
 function formatName(name: string, properties: {}): string {
@@ -41,7 +42,7 @@ function FormatRating({ rating }: { rating: number }) {
 
 function DetailsArray({ className, array }: { className: ?string, array: any[] }) {
   // eslint-disable-next-line react/no-array-index-key
-  const items = array.map((e, i) => <li key={i}><AccessibilityDetails isNested={true} details={e} /></li>);
+  const items = array.map((e, i) => <li key={i}><AccessibilityDetailsTree isNested={true} details={e} /></li>);
   return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
 }
 
@@ -66,7 +67,7 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     if (value && ((value instanceof Array) || (isPlainObject(value) && !value.unit))) {
       return [
         <dt data-key={key}>{capitalizedName}</dt>,
-        <dd><AccessibilityDetails isNested={true} details={value} /></dd>,
+        <dd><AccessibilityDetailsTree isNested={true} details={value} /></dd>,
       ];
     }
     if (key.startsWith('rating')) {
@@ -96,7 +97,7 @@ type Props = {
 };
 
 
-function AccessibilityDetails(props: Props) {
+function AccessibilityDetailsTree(props: Props) {
   const details = props.details;
   if (details instanceof Array) {
     return <DetailsArray className={props.className} array={details} />;
@@ -108,16 +109,15 @@ function AccessibilityDetails(props: Props) {
 }
 
 
-AccessibilityDetails.defaultProps = { className: null, locale: null };
+AccessibilityDetailsTree.defaultProps = { className: null, locale: null };
 
 
-const StyledAccessibilityDetails = styled(AccessibilityDetails)`
+const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   box-sizing: border-box;
   line-height: 1.3;
   font-weight: 300;
   color: #444;
-  background-color: ${colors.coldBackgroundColor};
-  margin: 0 -10px -10px -10px !important;
+  margin: 0 -10px !important;
   padding: 10px !important;
 
   ul {
@@ -206,4 +206,4 @@ const StyledAccessibilityDetails = styled(AccessibilityDetails)`
   }
 `;
 
-export default StyledAccessibilityDetails;
+export default StyledAccessibilityDetailsTree;
