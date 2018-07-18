@@ -5,10 +5,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import colors from '../../lib/colors';
-import type { Feature } from '../../lib/Feature';
-import { hasAccessibleToilet, isWheelchairAccessible } from '../../lib/Feature';
-import { IncentiveHint } from './IncentiveHint';
+import colors from '../../../lib/colors';
+import type { Feature } from '../../../lib/Feature';
+import { hasAccessibleToilet, isWheelchairAccessible } from '../../../lib/Feature';
+import { IncentiveHint } from '../IncentiveHint';
 
 
 const StyledEditLinks = styled.footer`
@@ -85,6 +85,10 @@ export default class EditLinks extends React.Component<Props> {
           break;
         default: break;
       }
+    }
+
+    if (!needsContribution) {
+      return null;
     }
 
     let contributionLink = null;

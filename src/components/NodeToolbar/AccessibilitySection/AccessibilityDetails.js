@@ -1,11 +1,12 @@
 // @flow
 
+import { t } from 'c-3po';
 import * as React from 'react';
 import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
-import { t } from 'c-3po';
-import colors from '../../lib/colors';
+
+import colors from '../../../lib/colors';
 
 
 function formatName(name: string, properties: {}): string {
