@@ -67,12 +67,18 @@ class PhotoSection extends React.Component<Props, State> {
 
     this.setState({ lightBoxPhotos: [].concat(mergedPhotos) });
 
+    let galleryPhotos = [];
     if (mergedPhotos.length > 0) {
+      // use the thumbnail sizes for this
+      galleryPhotos = mergedPhotos.map(p => {
+        return Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
+      });
+
       // add upload more placeholder
-      mergedPhotos.push({
+      galleryPhotos.push({
         src: addPhotoEntry,
         srcSet: [addPhotoEntry],
-        sizes: [''],
+        sizes: ['100 vw'],
         width: 1,
         height: 1,
         imageId: 'invalid-id',
@@ -80,7 +86,7 @@ class PhotoSection extends React.Component<Props, State> {
       });
     }
 
-    this.setState({ photos: mergedPhotos }, () => {
+    this.setState({ photos: galleryPhotos }, () => {
       const g : any = (this.gallery);
       g.handleResize();
     });
