@@ -12,7 +12,7 @@ import {
   lastUpdateString,
 } from  '../../../lib/EquipmentInfo';
 
-import AccessibilityDetails from './AccessibilityDetails';
+import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
@@ -41,7 +41,7 @@ function EquipmentAccessibility(props: Props) {
       {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
     </header>
     <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
-    {accessibility ? <AccessibilityDetails details={accessibility} /> : null}
+    {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
   </summary>);
 }
 

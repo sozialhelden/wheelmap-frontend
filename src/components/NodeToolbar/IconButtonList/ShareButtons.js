@@ -18,6 +18,9 @@ import TelegramIcon from './icons/Telegram';
 import EmailIcon from './icons/Email';
 import WhatsAppIcon from './icons/WhatsApp';
 
+import ShareIcon from '../../icons/actions/ShareIOS';
+
+
 const {
   FacebookShareButton,
   TwitterShareButton,
@@ -147,7 +150,8 @@ class ExpandableShareButtons extends React.Component<Props, State> {
       aria-label={t`Expand Share Menu`}
       aria-expanded={this.state.isExpanded}
       onClick={() => this.toggle(true)}>
-        {shareButtonCaption}
+        <ShareIcon />
+        <span>{shareButtonCaption}</span>
       </button>;
 
     if (!this.state.isExpanded) return expandButton;

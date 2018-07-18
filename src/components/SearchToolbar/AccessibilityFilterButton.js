@@ -29,10 +29,6 @@ type Props = {
 };
 
 
-const evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
-evenMoreTransparentLinkColor.opacity *= 0.5;
-
-
 const StyledNavLink = styled(NavLink)`
   border-radius: 5px;
   display: flex;
@@ -59,7 +55,7 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.is-active {
-    background-color: ${evenMoreTransparentLinkColor};
+    background-color: ${colors.coldBackgroundColor};
     .circle {
       background-color: ${colors.selectedColor};
     }

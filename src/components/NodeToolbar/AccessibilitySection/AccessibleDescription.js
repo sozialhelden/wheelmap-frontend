@@ -15,7 +15,12 @@ type Props = {
 };
 
 
-function AccessibleDescription(props: Props) {
+/**
+ * Places and equipment can have 3 description variants in different lengths, optimized for
+ * visual display and screen readers. This component uses this information to show the visually
+ * most appealing variant and adds an ARIA label that is readable aloud, if possible.
+ */
+export default function AccessibleDescription(props: Props) {
   const properties = props.properties;
   if (!properties) return null;
   const { description, longDescription, shortDescription } = properties;
@@ -28,11 +33,3 @@ function AccessibleDescription(props: Props) {
     {shortDescription || description || longDescription}
   </p>;
 }
-
-
-const StyledAccessibleDescription = styled(AccessibleDescription)`
-
-`;
-
-
-export default StyledAccessibleDescription;

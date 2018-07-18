@@ -1,7 +1,9 @@
 // @flow
 
 import * as React from 'react';
+import includes from 'lodash/includes';
 import styled from 'styled-components';
+import { t } from 'c-3po';
 import {
   isWheelchairAccessible,
   hasAccessibleToilet,
@@ -9,12 +11,31 @@ import {
   accessibilityDescription,
   toiletDescription,
   isWheelmapFeature,
+  Feature,
 } from '../../../lib/Feature';
 import type { NodeProperties } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import PenIcon from '../../icons/actions/PenIcon';
 import colors from '../../../lib/colors';
+import { getCategoryId } from '../../../lib/Categories';
+import UnknownToiletStatusIcon from '../../icons/accessibility/ToiletStatus';
+import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
+
+
+// translator: Text that incentivizes the user to edit a place's toilet accessibility.
+const toiletEditHint = t`Bonus karma points!`;
+
+// translator: Button caption, shown in the place toolbar
+const editButtonCaption = t`Add toilet status`;
+
+// Don't incentivize people to add toilet status to places of these categories
+const placeCategoriesWithoutExtraToiletEntry = [
+  'parking', // because this mostly affects parking lots
+  'tram_stop',
+  'atm',
+  'toilets',
+];
 
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
@@ -30,20 +51,22 @@ function AccessibilityName(accessibility: YesNoLimitedUnknown) {
 }
 
 
+const toiletIcons = {
+  yes: <ToiletStatusAccessibleIcon />,
+  no: <ToiletStatusNotAccessibleIcon />,
+}
+
+
 function ToiletDescription(accessibility: YesNoUnknown) {
-  const description = toiletDescription(accessibility);
-  switch (accessibility) {
-    case 'yes': return <span><span>{description}</span> <ToiletStatusAccessibleIcon /></span>;
-    case 'no': return <span>{description}</span>;
-    case 'unknown':
-    default:
-      return null;
-  }
+  if (!accessibility) return;
+  const description = toiletDescription(accessibility) || editButtonCaption;
+  const icon = toiletIcons[accessibility] || null;
+  return <React.Fragment>{icon} <span>{description}</span></React.Fragment>;
 }
 
 
 type Props = {
-  properties: NodeProperties,
+  feature: Feature,
   onOpenWheelchairAccessibility: (() => void),
   onOpenToiletAccessibility: (() => void),
   className: string,
@@ -51,48 +74,68 @@ type Props = {
 };
 
 
-function WheelchairAndToiletAccessibility(props: Props) {
-  const { isEditingEnabled } = props;
-
-  const wheelchairAccessibility = isWheelchairAccessible(props.properties);
-  const toiletAccessibility = hasAccessibleToilet(props.properties);
-  if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
-    return null;
-  }
-  const toiletAccessibilityIsKnown = toiletAccessibility !== 'unknown';
-
-  return (<div className={props.className}>
-    <button
+class WheelchairAndToiletAccessibility extends React.Component<Props> {
+  renderWheelchairButton(wheelchairAccessibility) {
+    return <button
       className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
-      onClick={props.onOpenWheelchairAccessibility}
-      disabled={!isEditingEnabled}
+      onClick={this.props.onOpenWheelchairAccessibility}
+      disabled={!this.props.isEditingEnabled}
     >
       <header>
         <span>{AccessibilityName(wheelchairAccessibility)}</span>
-        {isEditingEnabled && <PenIcon className="pen-icon" />}
+        {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
       </header>
 
       <footer className='accessibility-description'>
         {accessibilityDescription(wheelchairAccessibility)}
       </footer>
-    </button>
+    </button>;
+  }
 
-    {toiletAccessibilityIsKnown &&
-      <button
-        className={`accessibility-toilet accessibility-${toiletAccessibility}`}
-        onClick={props.onOpenToiletAccessibility}
-        disabled={!isEditingEnabled}
-      >
-        <header>
-          {ToiletDescription(toiletAccessibility)}
-          {isEditingEnabled && <PenIcon className="pen-icon" />}
-        </header>
-      </button>}
-  </div>);
+  renderToiletButton(toiletAccessibility) {
+    return <button
+          className={`accessibility-toilet accessibility-${toiletAccessibility}`}
+          onClick={this.props.onOpenToiletAccessibility}
+          disabled={!this.props.isEditingEnabled}
+        >
+      <header>
+        {ToiletDescription(toiletAccessibility)}
+        {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
+      </header>
+    </button>;
+  }
+
+  render() {
+    const { isEditingEnabled, feature } = this.props;
+    const { properties } = feature || {};
+    if (!properties) {
+      return null;
+    }
+
+    const wheelchairAccessibility = isWheelchairAccessible(properties);
+    const toiletAccessibility = hasAccessibleToilet(properties);
+    if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
+      return null;
+    }
+
+    const category = properties.category;
+    const categoryId = getCategoryId(category);
+    const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
+    const isToiletStatusKnown = toiletAccessibility !== 'unknown';
+    const incentivizeToAddToiletStatus = isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility) && !hasBlacklistedCategory;
+    const isToiletButtonShown = isToiletStatusKnown || incentivizeToAddToiletStatus;
+
+    return (<div className={this.props.className}>
+      {this.renderWheelchairButton(wheelchairAccessibility)}
+      {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
+    </div>);
+  }
 }
 
 
 const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
+  display: flex;
+  flex-direction: column;
   margin: 0;
 
   > button {
@@ -116,6 +159,9 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
         }
         &.accessibility-no {
           background-color: ${colors.negativeBackgroundColorTransparent};
+        }
+        &.accessibility-unknown {
+          background-color: ${colors.linkBackgroundColorTransparent};
         }
       }
     }
@@ -183,25 +229,22 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
       stroke: ${colors.negativeColorDarker};
     }
   }
+  .accessibility-unknown {
+    color: ${colors.linkColor};
+    .pen-icon path {
+      fill: ${colors.linkColor};
+      stroke: ${colors.linkColor};
+    }
+  }
 
   .accessibility-description {
     margin: 0.25rem 0;
     color: rgba(0, 0, 0, 0.6);
   }
 
-  .accessibility-toilet span {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-    align-items: center;
-
+  .accessibility-toilet {
     svg {
       margin-right: 0.5rem;
-    }
-
-    span {
-      font-weight: bold;
-      color: ${colors.positiveColorDarker};
     }
   }
 

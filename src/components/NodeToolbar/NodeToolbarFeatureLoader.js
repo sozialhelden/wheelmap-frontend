@@ -13,7 +13,7 @@ import type { Category } from '../../lib/Categories';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import { YesNoLimitedUnknown } from '../../lib/Feature';
+import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 
 type Props = {

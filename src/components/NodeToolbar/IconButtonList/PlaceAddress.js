@@ -15,7 +15,9 @@ import { generateMapsUrl } from '../../../lib/generateMapsUrls';
 import { generateShowOnOsmUrl } from '../../../lib/generateOsmUrls';
 import { placeNameFor } from '../../../lib/Feature';
 import openButtonCaption from '../../../lib/openButtonCaption';
-import { Category } from '../../../lib/Categories';
+import type { Category } from '../../../lib/Categories';
+import PlaceIcon from '../../icons/actions/Place';
+
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
   if (typeof properties.address === 'string') return properties.address;
@@ -53,9 +55,13 @@ export default class PlaceAddress extends React.Component<Props, void> {
     const addressString = address && address.replace(/,$/, '').replace(/^,/, '');
 
     return <React.Fragment>
-      {openInMaps && <a className="link-button" href={openInMaps.url}>{addressString || openInMaps.caption}</a>}
+      {openInMaps && <a className="link-button" href={openInMaps.url}>
+        <PlaceIcon />
+        <span>{addressString || openInMaps.caption}</span>
+      </a>}
       {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">
-        {openButtonCaption('OpenStreetMaps')}
+        <PlaceIcon />
+        <span>{openButtonCaption('OpenStreetMaps')}</span>
       </a>}
     </React.Fragment>
   }

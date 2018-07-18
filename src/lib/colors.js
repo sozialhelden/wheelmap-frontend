@@ -15,20 +15,21 @@ const colors = {
   darkLinkColor: '#455668',
   linkColor: '#2e6ce0',
   textColor: '#111',
+  textColorTonedDown: null, // calculated below
+  textColorBrighter: 'rgba(16, 16, 16, 0.8)',
   linkColorDarker: '#2163de',
   linkBackgroundColor: 'rgb(218, 241, 255)',
   linkBackgroundColorTransparent: 'rgba(0, 161, 255, 0.1)',
   highlightColor: '#435D75',
   colorizedBackgroundColor: '#fbfaf9',
   neutralBackgroundColor: '#eaeaea',
-  coldBackgroundColor: '#ebedef',
   selectedColor: '#51a6ff',
   selectedColorLight: '#80bdff',
   tonedDownSelectedColor: '#89939e',
   darkSelectedColor: '#04536d',
+  coldBackgroundColor: null, // calculated below
   editHintBackgroundColor: null, // calculated below
   halfTonedDownSelectedColor: null, // calculated below
-  evenMoreTransparentLinkColor: null, // calculated below
   borderColor: null, // calculated below
   positiveColor: 'rgb(126, 197, 18)',
   positiveColorDarker: '#4d790b',
@@ -60,13 +61,13 @@ const colors = {
 
 
 
-colors.evenMoreTransparentLinkColor = hsl(colors.linkBackgroundColorTransparent);
-colors.evenMoreTransparentLinkColor.opacity *= 0.5;
+colors.coldBackgroundColor = hsl(colors.linkBackgroundColorTransparent);
+colors.coldBackgroundColor.opacity *= 0.5;
 colors.halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
 colors.borderColor = interpolateLab(colors.tonedDownSelectedColor, 'rgba(255, 255, 255, 0.5)')(0.6);
 colors.editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 colors.editHintBackgroundColor.s -= 0.5;
-
+colors.textColorTonedDown = interpolateLab(colors.tonedDownSelectedColor, colors.textColor)(0.5);
 
 
 export function getHTMLColorForWheelchairAccessibilityValue(
