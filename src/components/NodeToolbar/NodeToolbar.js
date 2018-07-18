@@ -197,18 +197,6 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
 
-  renderEquipmentOverview() {
-    const { history, feature, equipmentInfoId } = this.props;
-    return <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
-  }
-
-
-  renderEditLinks() {
-    const { feature, featureId } = this.props;
-    return <EditLinks {...{ feature, featureId }} />
-  }
-
-
   renderAccessibilitySection() {
     if (this.isEquipment()) {
       return <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} />
@@ -218,12 +206,12 @@ class NodeToolbar extends React.Component<Props, State> {
     const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
     const filteredAccessibility = accessibility ? filterAccessibility(accessibility) : null;
 
-    const { featureId } = this.props;
+    const { featureId, history, feature, equipmentInfoId } = this.props;
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    const equipmentOverview = !isWheelmapFeature && this.renderEquipmentOverview();
+    const equipmentOverview = !isWheelmapFeature && <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
-    const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />
-    const editLinks = isWheelmapFeature && this.renderEditLinks();
+    const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />;
+    const editLinks = isWheelmapFeature && <EditLinks {...{ feature, featureId }} />;
 
     return <React.Fragment>
       <BasicPlaceAccessibility properties={properties}
@@ -257,16 +245,6 @@ class NodeToolbar extends React.Component<Props, State> {
     >
       {this.placeName()}
     </a>;
-  }
-
-
-  renderEditLinks() {
-    const { feature, featureId, category, parentCategory } = this.props;
-    if (!featureId) return;
-    return <EditLinks
-      {...{ feature, featureId, category, parentCategory }}
-      ref={editLinks => (this.editLinks = editLinks)}
-    />
   }
 
 
