@@ -172,9 +172,12 @@ export function categoryNameFor(category: Category): ?string {
   return translatedStringFromObject(idObject);
 }
 
-export function getCategoryId(category: ?Category): ?string {
+export function getCategoryId(category: ?Category | string): ?string {
   if (!category) {
     return;
+  }
+  if (typeof category === 'string') {
+    return category;
   }
   if (typeof category.id === 'string') {
     return category.id;

@@ -113,9 +113,10 @@ export default function InlineWheelchairAccessibilityEditor(props: Props) {
   return <Row aria-label={t`Wheelchair Accessibility`}>
     {['yes', 'limited', 'no'].map((value, index) =>
       <button
-        ariaLabel={shortAccessibilityName(value)}
+        aria-label={shortAccessibilityName(value)}
         onClick={() => props.onChange(value)}
         className={value}
+        key={value}
       >
         <IconButton
           key={value}

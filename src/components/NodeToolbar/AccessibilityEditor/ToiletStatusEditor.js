@@ -138,11 +138,6 @@ class ToiletStatusEditor extends React.Component<Props, State> {
   }
 
   render() {
-    const classList = [
-      this.props.className,
-      'basic-accessibility-editor',
-    ].filter(Boolean);
-
     // translator: Header for the toilet status prompt. Asks the user if the edited place’s toilet is wheelchair accessible.
     const headerText = t`Is the toilet here wheelchair accessible?`;
 
@@ -165,7 +160,7 @@ class ToiletStatusEditor extends React.Component<Props, State> {
 
     return (
       <section
-        className={classList.join(' ')}
+        className={this.props.className}
         role="dialog"
         aria-labelledby="toilet-status-editor-header"
       >

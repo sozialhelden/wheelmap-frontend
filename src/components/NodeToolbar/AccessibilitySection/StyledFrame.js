@@ -10,12 +10,12 @@ type Props = {
 };
 
 
-const StyledFrame = styled.summary.attrs({ className: 'basic-accessibility' })`
+const StyledFrame = styled.summary`
   position: relative;
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
-  padding: .75rem;
+  padding: .75rem .75rem 2px .75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
   overflow: hidden;

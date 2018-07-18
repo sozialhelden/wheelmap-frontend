@@ -27,7 +27,7 @@ import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
 
 import filterAccessibility from '../../lib/filterAccessibility';
-import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom } from '../../lib/Feature';
+import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom, isWheelchairAccessible } from '../../lib/Feature';
 import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
@@ -149,9 +149,9 @@ class NodeToolbar extends React.Component<Props, State> {
 
 
   renderIconButtonList() {
-    const { feature, featureId, category, parentCategory } = this.props;
+    const { feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode } = this.props;
     return <IconButtonList
-      {...{ feature, featureId, category, parentCategory }}
+      {...{ feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode }}
       onToggle={() => {
         if (this.toolbar) this.toolbar.ensureFullVisibility();
       }}
@@ -241,10 +241,10 @@ class NodeToolbar extends React.Component<Props, State> {
   renderInlineWheelchairAccessibilityEditor() {
     const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
     if (!wheelmapFeature || !wheelmapFeature.properties) {
-      return;
+      return null;
     }
     if (wheelmapFeature.properties.wheelchair !== 'unknown') {
-      return;
+      return null;
     }
 
     return <section>
@@ -282,12 +282,13 @@ class NodeToolbar extends React.Component<Props, State> {
       <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} /> :
       <PlaceAccessibilitySection {...this.props} />;
 
-      featureId
+    const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
     const equipmentOverview = !isWheelmapFeature && <EquipmentOverview {...{ history, feature, equipmentInfoId }} />;
 
     return <div>
       {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
+      {inlineWheelchairAccessibilityEditor}
       {accessibilitySection}
       {photoSection}
       {equipmentOverview}

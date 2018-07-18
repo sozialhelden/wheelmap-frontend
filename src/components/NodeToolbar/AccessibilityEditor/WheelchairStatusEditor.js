@@ -168,11 +168,6 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
   render() {
     const wheelchairAccessibility = this.state.wheelchairAccessibility;
 
-    const classList = [
-      this.props.className,
-      'basic-accessibility-editor',
-    ].filter(Boolean);
-
     const valueHasChanged = wheelchairAccessibility !== this.wheelchairAccessibility();
     const valueIsDefined = wheelchairAccessibility !== 'unknown';
     const hasBeenUnknownBefore = this.wheelchairAccessibility() === 'unknown';
@@ -200,7 +195,7 @@ class WheelchairStatusEditor extends React.Component<Props, State> {
 
     return (
       <section
-        className={classList.join(' ')}
+        className={this.props.className}
         role="dialog"
         aria-labelledby="wheelchair-accessibility-header"
       >

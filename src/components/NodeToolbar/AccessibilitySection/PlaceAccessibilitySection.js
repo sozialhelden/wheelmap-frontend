@@ -2,10 +2,10 @@
 
 import * as React from 'react';
 import { t } from 'c-3po';
+import styled from 'styled-components';
 
-import EditLinks from './EditLinks';
 import StyledFrame from './StyledFrame';
-import AccessibilityDetails from './AccessibilityDetails';
+import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
@@ -15,7 +15,7 @@ import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import { getCategoryId } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
-import { isWheelmapFeatureId, wheelmapFeatureFrom } from '../../../lib/Feature';
+import { isWheelmapFeatureId, wheelmapFeatureFrom, isWheelchairAccessible } from '../../../lib/Feature';
 
 
 type Props = {
@@ -30,31 +30,44 @@ type Props = {
 };
 
 
+const Description = styled.footer.attrs({ className: 'description' })`
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem !important;
+`;
+
+
 export default function PlaceAccessibilitySection(props: Props) {
   const { featureId, feature } = props;
   const properties = feature && feature.properties;
-  const accessibility = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
-  const filteredAccessibility = accessibility ? filterAccessibility(accessibility) : null;
+  const wheelmapFeature = wheelmapFeatureFrom(feature);
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
-  const editLinks = isWheelmapFeature && <EditLinks {...{ feature, featureId }} />;
-  const accessibilityDetails = filteredAccessibility && <AccessibilityDetails details={filteredAccessibility} />;
+  if (
+    wheelmapFeature &&
+    wheelmapFeature.properties &&
+    isWheelchairAccessible(wheelmapFeature.properties) === 'unknown'
+  ) {
+    return null;
+  }
+
+  const accessibilityTree = properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
+  const filteredAccessibilityTree = accessibilityTree ? filterAccessibility(accessibilityTree) : null;
+  const accessibilityDetailsTree = filteredAccessibilityTree && <AccessibilityDetailsTree details={filteredAccessibilityTree} />;
   let description: ?string = null;
   if (properties && typeof properties.wheelchair_description === 'string') {
     description = properties.wheelchair_description;
   }
-  const descriptionElement = description ? <footer className="description">“{description}”</footer> : null;
+  const descriptionElement = description ? <Description>“{description}”</Description> : null;
 
   return <StyledFrame>
     <WheelchairAndToiletAccessibility
       isEditingEnabled={isWheelmapFeature}
-      properties={properties}
+      feature={feature}
       onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
       onOpenToiletAccessibility={props.onOpenToiletAccessibility}
     />
     { description && descriptionElement }
-    {editLinks}
     <AccessibleDescription properties={properties} />
-    {accessibilityDetails}
+    {accessibilityDetailsTree}
     <AccessibilitySourceDisclaimer properties={properties} />
   </StyledFrame>;
 }

@@ -2,9 +2,23 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
+import PhoneIcon from '../../icons/actions/Phone';
+import type { Feature } from '../../../lib/Feature';
 
-export default function PhoneNumberLink({ phoneNumber }: { phoneNumber: string }) {
+type Props = {
+  feature: ?Feature,
+};
+
+export default function PhoneNumberLink(props: Props) {
+  const { feature } = props;
+  const { properties } = feature || {};
+  if (!properties) return null;
+
+  const phoneNumber: ?string = properties.phoneNumber || properties.phone;
+  if (typeof phoneNumber !== 'string') return null;
+
   return (<a className="phone-number link-button" href={`tel:${phoneNumber.replace(/[^\d+]/g, '')}`}>
-    {t`Call ${phoneNumber}`}
+    <PhoneIcon />
+    <span>{t`Call ${phoneNumber}`}</span>
   </a>);
 }
