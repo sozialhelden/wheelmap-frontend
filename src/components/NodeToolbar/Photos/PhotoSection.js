@@ -215,6 +215,8 @@ class PhotoSection extends React.Component<Props, State> {
 }
 
 const StyledPhotoSection = styled(PhotoSection)`
+  margin: .5rem -1rem;
+
   .react-photo-gallery--gallery {
     background: ${colors.evenMoreTransparentLinkColor};
 

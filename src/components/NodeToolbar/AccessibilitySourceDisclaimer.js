@@ -16,7 +16,7 @@ type State = {
 
 const defaultState = { extraInfo: null };
 
-class AccessibilityExtraInfo extends React.Component<Props, State> {
+class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
   props: Props;
   state = defaultState;
 
@@ -43,10 +43,10 @@ class AccessibilityExtraInfo extends React.Component<Props, State> {
 }
 
 
-const StyledAccessibilityExtraInfo = styled(AccessibilityExtraInfo)`
+const StyledAccessibilitySourceDisclaimer = styled(AccessibilitySourceDisclaimer)`
   font-size: 80%;
   opacity: 0.5;
 `;
 
 
-export default StyledAccessibilityExtraInfo;
+export default StyledAccessibilitySourceDisclaimer;
