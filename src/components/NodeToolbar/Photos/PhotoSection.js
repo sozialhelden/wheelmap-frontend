@@ -65,7 +65,15 @@ class PhotoSection extends React.Component<Props, State> {
 
     this.setState({ lightBoxPhotos: [].concat(mergedPhotos) });
 
-    this.setState({ photos: mergedPhotos }, () => {
+    let galleryPhotos = [];
+    if (mergedPhotos.length > 0) {
+      // use the thumbnail sizes for this
+      galleryPhotos = mergedPhotos.map(p => {
+        return Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
+      });
+    }
+
+    this.setState({ photos: galleryPhotos }, () => {
       const g : any = (this.gallery);
       g.handleResize();
     });
