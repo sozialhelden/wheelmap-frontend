@@ -48,7 +48,7 @@ const StyledNavLink = styled(NavLink)`
       }
     }
   }
-  
+
   svg.icon {
     width: 21px;
     height: 21px;
@@ -85,6 +85,7 @@ const StyledNavLink = styled(NavLink)`
     min-height: 3rem;
     .icon-button {
       flex: 1;
+      flex-direction: row;
       .accessibilities {
         width: 70px;
       }
