@@ -47,16 +47,16 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   font-weight: bold;
   display: flex !important;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 
   width: 100%;
   margin: 0 0rem .5rem !important;
-  padding: 0;
+  padding: 10px 1rem !important;
 
   svg {
     width: 2em;
     height: 2em;
+    margin-right: .5rem;
   }
 
   .button-label {
