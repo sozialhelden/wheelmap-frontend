@@ -251,7 +251,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   sendSearchRequest(query: ?string): void {
-    if (!query || query.length < 3) {
+    if (!query || query.length < 2) {
       this.setState({ searchResults: null, isLoading: false });
       return;
     }
