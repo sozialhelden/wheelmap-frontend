@@ -1,6 +1,6 @@
 git_url("git@github.com:sozialhelden/certificates.git")
 
-type("development") # The default type, can be: appstore, adhoc, enterprise or development
+# type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
 
 app_identifier(["de.sozialhelden.wheelmap.iphone"])
 username("raul@sozialhelden.de") # Your Apple Developer Portal username
