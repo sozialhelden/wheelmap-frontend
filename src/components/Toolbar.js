@@ -8,6 +8,7 @@ import Swipeable from 'react-swipeable';
 import * as React from 'react';
 import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
+import { isOnSmallViewport } from '../lib/ViewportSize';
 
 type Props = {
   className: string,
@@ -22,6 +23,7 @@ type Props = {
   isModal?: boolean,
   enableTransitions?: boolean,
   startTopOffset?: number,
+  onScrollable?: ((isScrollable: boolean) => void),
 };
 
 
@@ -132,25 +134,35 @@ class Toolbar extends React.Component<Props, State> {
     if (!this.props.isSwipeable || this.props.isModal) {
       return;
     }
-    if (this.scrollElement && this.scrollElement.scrollTop > 0) {
+    if (this.scrollElement && this.scrollElement.scrollTop > 0 && !this.state.isSwiping) {
       this.setState({ scrollTop: this.state.scrollTop || this.scrollElement.scrollTop });
       return;
     }
 
-    if (this.state.lastTopOffset !== 0) {
+    if (!this.isAtTopmostPosition()) {
       e.preventDefault();
-      e.stopPropagation();
+      // e.stopPropagation();
+      console.log('Prevented scrolling');
+    }
+
+    const topmostPosition = this.getTopmostPosition();
+    const touchTopOffset = this.state.lastTopOffset - deltaY - this.state.scrollTop;
+    const topOffset = Math.max(
+      topmostPosition,
+      touchTopOffset,
+    );
+
+    if (this.scrollElement && touchTopOffset < topmostPosition) {
+      this.scrollElement.scrollTop = topmostPosition - touchTopOffset;
     }
 
     this.setState({ isSwiping: true });
-    this.setState({
-      topOffset: Math.max(0, this.state.lastTopOffset - deltaY - this.state.scrollTop),
-    });
+    this.setState({ topOffset });
   }
 
 
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
-    if (!this.props.isSwipeable || this.props.isModal) {
+    if (!this.props.isSwipeable || this.props.isModal || this.isLandscapePhone()) {
       return;
     }
     this.setState({ isSwiping: false, scrollTop: 0 });
@@ -208,10 +220,13 @@ class Toolbar extends React.Component<Props, State> {
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
 
   getStops(): number[] {
-    const maximalTopPosition = this.getTopmostPosition();
+    const topmostPosition = this.getTopmostPosition();
+    if (this.isLandscapePhone()) {
+      return [topmostPosition];
+    }
     const stops = uniq([
-      maximalTopPosition,
-      Math.max(maximalTopPosition, Math.floor(this.state.viewportSize.height / 2)),
+      topmostPosition,
+      Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)),
       this.state.viewportSize.height - (this.props.minimalHeight || 0),
     ]);
     return stops;
@@ -224,10 +239,20 @@ class Toolbar extends React.Component<Props, State> {
   }
 
 
-  getStyle(): { transform: string, touchAction: string, transition: string } {
+  isAtTopmostPosition() {
+    return (this.state.topOffset || this.state.lastTopOffset) <= this.getTopmostPosition();
+  }
+
+
+  isLandscapePhone() {
+    return isOnSmallViewport() && this.state.viewportSize.width > this.state.viewportSize.height;
+  }
+
+
+  getStyle(): { transform: string, touchAction: string, transition: string, overflowY: string } {
     const lastTopOffset = this.state.lastTopOffset;
 
-    let topOffset = this.state.topOffset || this.state.lastTopOffset;
+    let topOffset = this.state.topOffset || lastTopOffset;
     topOffset = Math.max(this.getTopmostPosition(), topOffset);
     const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
     const isBigViewport = this.state.viewportSize.width > 512;
@@ -238,12 +263,28 @@ class Toolbar extends React.Component<Props, State> {
     const defaultTransitions = 'opacity 0.3s ease-out';
     const isSwiping = this.state.isSwiping;
     const { enableTransitions } = this.props;
+    const isAtTopmostPosition = this.isAtTopmostPosition();
     return {
-      touchAction: lastTopOffset === this.getTopmostPosition() ? 'inherit' : 'none',
+      touchAction: isAtTopmostPosition ? 'inherit' : 'none',
+      overflowY: isAtTopmostPosition ? 'auto' : 'hidden',
       transition: enableTransitions ? (isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`) : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
+
+
+  cancelTouchIfMoving = (event: TouchEvent) => {
+    const isScrollable = this.isAtTopmostPosition();
+    if (this.props.onScrollable) {
+      this.props.onScrollable(isScrollable);
+    }
+    if (isScrollable) {
+      console.log('Did not prevent scrolling');
+      return;
+    }
+    event.preventDefault();
+    console.log('Prevented scrolling');
+  };
 
 
   render() {
@@ -254,6 +295,7 @@ class Toolbar extends React.Component<Props, State> {
       isIphoneX ? 'toolbar-iphone-x' : null,
       this.props.hidden ? 'toolbar-hidden' : null,
       this.props.isModal ? 'toolbar-is-modal' : null,
+      this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null,
       this.props.className,
     ];
     const className = classNames.filter(Boolean).join(' ');
@@ -269,6 +311,8 @@ class Toolbar extends React.Component<Props, State> {
         role={this.props.role}
         aria-label={this.props.ariaLabel}
         aria-describedby={this.props.ariaDescribedBy}
+        data-last-top-offset={this.state.lastTopOffset}
+        onTouchMove={this.cancelTouchIfMoving}
       >
         {(this.props.isSwipeable && !this.props.isModal) ?
           <button
@@ -293,53 +337,54 @@ class Toolbar extends React.Component<Props, State> {
 
 const StyledToolbar = styled(Toolbar)`
   position: fixed;
+
+  user-select: none;
+  -webkit-user-drag: none;
+
+  /* Positioning */
   left: 0;
   left: constant(safe-area-inset-left);
   left: env(safe-area-inset-left);
+  top: 50px;
+  top: calc(50px + constant(safe-area-inset-top));
+  top: calc(50px + env(safe-area-inset-top));
+
+  /* Sizing (more sizing for different viewports below) */
+  box-sizing: border-box;
   width: 320px;
   min-width: 320px;
-  top: 50px;
   max-height: calc(100% - 80px);
+  max-height: calc(100% - 80px - constant(safe-area-inset-top));
+  max-height: calc(100% - 80px - env(safe-area-inset-top));
+
   &.toolbar-is-modal {
     @media (max-height: 512px), (max-width: 512px) {
       top: 0px;
+      top: constant(safe-area-inset-top);
+      top: env(safe-area-inset-top);
       max-height: 100%;
     }
   }
-  margin: 10px;
-  padding: 12px 15px 5px 15px;
-
-  &.toolbar-iphone-x {
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+  @media (max-width: 768px) {
+    width: calc(55%);
+    min-width: 250px;
   }
 
-  box-sizing: border-box;
+  margin: 10px;
+  padding: 12px 15px 5px 15px;
+  outline: none;
+
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
+  background-color: ${colors.colorizedBackgroundColor};
+
   overflow: auto;
   overflow-x: hidden;
   -ms-overflow-style: -ms-autohiding-scrollbar;
+  /* -webkit-overflow-scrolling: touch; */
 
-  transform: translate3d(0, 0);
-
-  font-size: 16px;
-  border-radius: 5px;
-
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
-  background-color: ${colors.colorizedBackgroundColor};
-  outline: none;
-
-  & {
-     -webkit-overflow-scrolling: touch;
-  }
-
-  & { /* switch on 3D acceleration for the panel */
-    transform: scale3d(1, 1, 1);
-  }
-
-  @media (max-width: 768px) {
-    width: width: calc(55%);
-    min-width: 250px;
-  }
+  transform: scale3d(1, 1, 1); /* switch on 3D acceleration for the panel */
 
   .grab-handle {
     display: none;
@@ -357,15 +402,17 @@ const StyledToolbar = styled(Toolbar)`
     border-bottom-right-radius: 0;
 
     .grab-handle {
+      display: block;
+      position: sticky;
+      top: 0;
+      z-index: 4;
+      width: 100%;
+      height: 10px;
       margin: -10px 0 -20px 0;
       padding: 15px;
       transform: translateZ(0);
-      position: relative;
-      width: 100%;
-      height: 10px;
-      display: block;
-      background-color: transparent;
       touch-action: none;
+      background-color: transparent;
       &:before {
         display: block;
         position: absolute;

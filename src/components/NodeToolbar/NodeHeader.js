@@ -13,10 +13,19 @@ import PlaceName from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
 import type { Category } from '../../lib/Categories';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
+import colors from '../../lib/colors';
 
 
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+  background-color: ${colors.colorizedBackgroundColor};
+  margin: 0 -1rem;
+  padding: 0.5rem 1rem 0.1rem;
+  transition: box-shadow 0.3s ease-out;
+  box-shadow: ${props => props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
 `;
 
 
@@ -34,6 +43,7 @@ type Props = {
   parentCategory: ?Category,
   showOnlyBasics: boolean,
   onClickCurrentMarkerIcon?: ((Feature) => void),
+  hasShadow: boolean;
 };
 
 
@@ -85,7 +95,7 @@ export default class NodeHeader extends React.Component<Props> {
     /> : null;
 
     return (
-      <StyledNodeHeader>
+      <StyledNodeHeader hasShadow={this.props.hasShadow}>
         {placeNameElement}
         {categoryElement}
       </StyledNodeHeader>
