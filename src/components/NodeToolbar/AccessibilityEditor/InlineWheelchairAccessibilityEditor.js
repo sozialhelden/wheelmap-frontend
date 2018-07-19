@@ -23,10 +23,14 @@ const Row = styled.section`
 
   button {
     flex: 1;
+
+    margin: 0;
+    padding: .5rem;
     border: 1px solid ${colors.borderColor};
+
+    font-size: 1rem;
     background-color: transparent;
     transition: background-color 0.1s ease-out;
-    font-size: 1rem;
 
     .caption {
       font-weight: 500;
@@ -62,6 +66,10 @@ const Row = styled.section`
       .caption {
         color: white !important;
       }
+    }
+
+    .icon-button {
+      padding: 5px 0;
     }
   }
 
