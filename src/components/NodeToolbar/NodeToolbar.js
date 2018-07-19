@@ -37,6 +37,8 @@ import IconButtonList from './IconButtonList/IconButtonList';
 
 
 const PositionedCloseLink = styled(CloseLink)`
+  top: 0;
+  z-index: 2;
   margin: -5px -16px -2px -2px; /* move close button to the same position as in search toolbar */
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
@@ -77,6 +79,7 @@ type State = {
   parentCategory: ?Category,
   equipmentInfo: ?EquipmentInfo,
   feature: ?Feature,
+  isScrollable: boolean,
 };
 
 
@@ -87,6 +90,13 @@ class NodeToolbar extends React.Component<Props, State> {
   reportModeButton: ?React.ElementRef<'button'>;
 
   shouldBeFocused: ?boolean;
+  state = {
+    category: null,
+    parentCategory: null,
+    equipmentInfo: null,
+    feature: null,
+    isScrollable: false,
+  };
 
 
   componentDidMount() {
@@ -177,6 +187,7 @@ class NodeToolbar extends React.Component<Props, State> {
       parentCategory={parentCategory}
       onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
       showOnlyBasics={!!this.props.modalNodeState}
+      hasShadow={this.state.isScrollable}
     />;
   }
 
@@ -312,6 +323,7 @@ class NodeToolbar extends React.Component<Props, State> {
       role="dialog"
       ariaLabel={this.placeName()}
       startTopOffset={hasBigViewport() ? 0 : (0.4 * window.innerHeight)}
+      onScrollable={isScrollable => this.setState({ isScrollable })}
     >
       {this.renderCloseLink()}
       {this.renderNodeHeader()}
