@@ -17,11 +17,11 @@
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>4.1.39</string>
+    <string>4.1.40</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleVersion</key>
-    <string>4.1.39</string>
+    <string>4.1.40</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>NSAppTransportSecurity</key>
@@ -42,8 +42,11 @@
         <dict/>
         <key>api.mapbox.com</key>
         <dict/>
-        <key>www.accessibility.cloud</key>
-        <dict/>
+        <key>accessibility.cloud</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
         <key>photon.komoot.de</key>
         <dict/>
         <key>accessibility-cloud-uploads.s3.amazonaws.com</key>
