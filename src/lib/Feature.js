@@ -164,6 +164,7 @@ export type AccessibilityCloudImage = {
   _id: string,
   isoDate: string,
   url: string,
+  imagePath: string,
   mimeType: string,
   dimensions: {
     width: number,
