@@ -1,5 +1,5 @@
 export function isOnSmallViewport() {
-  return window.innerWidth <= 512;
+  return window.innerWidth <= 512 || window.innerHeight <= 512;
 }
 
 export function hasBigViewport() {
