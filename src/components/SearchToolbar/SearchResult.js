@@ -228,7 +228,7 @@ export default class SearchResult extends React.Component<Props, State> {
     const categoryOrParentCategory = this.state.category || this.state.parentCategory;
     const wheelmapFeature = this.state.wheelmapFeature;
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
-    const accessibility = isWheelchairAccessible(wheelmapFeatureProperties);
+    const accessibility = wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
     const href = this.getHref();
     const hasWheelmapId = Boolean(wheelmapFeature);
     const isHashLink = false;
@@ -254,7 +254,14 @@ export default class SearchResult extends React.Component<Props, State> {
       >
         <PlaceName>
           {categoryOrParentCategory ?
-            <Icon accessibility={wheelmapFeature ? accessibility : null} properties={wheelmapFeatureProperties} category={categoryOrParentCategory} size='medium' centered ariaHidden={true}/>
+            <Icon
+              accessibility={accessibility || null}
+              properties={wheelmapFeatureProperties}
+              category={categoryOrParentCategory}
+              size='medium'
+              centered
+              ariaHidden={true}
+            />
             : null
           }
           {placeName}
