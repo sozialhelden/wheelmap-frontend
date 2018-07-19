@@ -8,12 +8,5 @@
     <string>app-store</string>
     <key>teamID</key>
     <string>LY797X36V6</string>
-    <key>provisioningProfiles</key>
-    <dict>
-      <key>de.sozialhelden.wheelmap.iphone</key>
-      <string>0be61d12-ea93-48a4-b36b-3544feb6b1bd</string>
-    </dict>
-    <key>signingStyle</key>
-    <string>manual</string>
   </dict>
 </plist>

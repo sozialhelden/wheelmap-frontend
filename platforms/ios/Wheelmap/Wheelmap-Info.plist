@@ -42,8 +42,11 @@
         <dict/>
         <key>api.mapbox.com</key>
         <dict/>
-        <key>www.accessibility.cloud</key>
-        <dict/>
+        <key>accessibility.cloud</key>
+        <dict>
+          <key>NSIncludesSubdomains</key>
+          <true/>
+        </dict>
         <key>photon.komoot.de</key>
         <dict/>
         <key>accessibility-cloud-uploads.s3.amazonaws.com</key>
