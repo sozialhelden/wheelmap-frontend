@@ -61,7 +61,7 @@ export default class PlaceAddress extends React.Component<Props, void> {
       </a>}
       {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">
         <PlaceIcon />
-        <span>{openButtonCaption('OpenStreetMaps')}</span>
+        <span>{openButtonCaption('OpenStreetMap')}</span>
       </a>}
     </React.Fragment>
   }
