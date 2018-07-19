@@ -22,9 +22,17 @@ const Container = styled.div`
     }
     @media (max-width: 320px) {
       flex: 50px;
+      .circle {
+        height: 30px;
+        width: 30px;
+      }
       figure {
         width: 30px;
         height: 30px;
+        svg.icon {
+          width: 18px;
+          height: 18px;
+        }
       }
     }
   }
