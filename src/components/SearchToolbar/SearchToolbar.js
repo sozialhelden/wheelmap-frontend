@@ -75,6 +75,10 @@ const GoButton = styled.button`
   &:active {
     background-color: ${colors.darkLinkColor};
   }
+
+  @media (max-width: 320px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 const StyledToolbar = styled(Toolbar)`
