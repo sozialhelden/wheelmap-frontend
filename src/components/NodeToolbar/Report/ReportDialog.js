@@ -193,7 +193,7 @@ class ReportDialog extends React.Component<Props, State> {
         <button
           className="link-button negative-button"
           ref={backButton => this.backButton = backButton}
-          onClick={this.props.onClose}
+          onClick={this.onClose}
           onKeyDown={this.trapFocus}
         >
           {backButtonCaption}
