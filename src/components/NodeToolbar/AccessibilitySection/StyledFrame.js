@@ -9,7 +9,7 @@ const StyledFrame = styled.summary`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 1rem 0;
+  margin: 0 0 1rem 0;
   padding: .75rem .75rem 2px .75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
@@ -19,10 +19,11 @@ const StyledFrame = styled.summary`
     position: absolute;
     content: " ";
     top: -8px;
-    left: 1em;
+    left: 10px;
     width: 12px;
     height: 8px;
     background: url(${triangle}) no-repeat;
+    z-index: 5;
   }
 
   > * {
