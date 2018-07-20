@@ -159,6 +159,9 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
 
     const canSubmit = !!selectedValue;
 
+    // translator: Screen reader description for the 'report photo' reason choice dialog
+    const ariaLabel = t`Reason for reporting`;
+
     return (
       <StyledToolbar
         className='photoupload-instructions-toolbar'
@@ -179,7 +182,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           className={`${selectedValue ? 'has-selection' : ''} radio-group`}
           onKeyDown={this.onRadioGroupKeyDown}
           role="radiogroup"
-          aria-label={t`Wheelchair Accessibility`}
+          aria-label={ariaLabel}
         >
           {ReportValues.map((value: ReportOptions, index) =>
             <CustomRadio
