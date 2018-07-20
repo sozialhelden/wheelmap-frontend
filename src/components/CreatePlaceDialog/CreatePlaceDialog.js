@@ -195,7 +195,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
         </header>
         <section>
           <p dangerouslySetInnerHTML={{ __html: explanation }}></p>
-          <a className='link-button leave-note-button' href={generateOsmNoteUrlForCoords({ lat, lon })}>
+          <a className='link-button leave-note-button' href={generateOsmNoteUrlForCoords({ lat, lon })} target="_blank">
             <span>{leaveANoteCaption}</span>
             <ChevronRight color={colors.linkColor} />
           </a>
