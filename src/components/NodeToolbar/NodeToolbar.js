@@ -257,9 +257,12 @@ class NodeToolbar extends React.Component<Props, State> {
       return null;
     }
 
+    // translator: Shown as header/title when you edit wheelchair accessibility of a place
+    const header = t`How wheelchair accessible is this place?`;
+
     return <section>
       <h4 id="wheelchair-accessibility-header">
-        {t`How wheelchair accessible is this place?`}
+        {header}
       </h4>
       <InlineWheelchairAccessibilityEditor
         category={getCategoryId(this.props.category)}

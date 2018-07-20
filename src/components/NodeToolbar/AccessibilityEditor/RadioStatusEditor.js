@@ -166,6 +166,9 @@ class RadioStatusEditor extends React.Component<Props, State> {
     const { selectedValue } = this.state;
     const valueIsDefined = selectedValue !== 'unknown';
 
+    // translator: Screen reader description for the accessibility choice buttons in the wheelchair accessibility editor dialog
+    const ariaLabel = t`Wheelchair Accessibility`;
+
     return <StyledRadioGroup
       name="accessibility"
       selectedValue={selectedValue}
@@ -173,7 +176,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       className={`${String(selectedValue)} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
       onKeyDown={this.onRadioGroupKeyDown}
       role="radiogroup"
-      aria-label={t`Wheelchair Accessibility`}
+      aria-label={ariaLabel}
     >
       {this.props.shownStatusOptions.map((value, index) =>
         <CustomRadio

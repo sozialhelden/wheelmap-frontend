@@ -46,6 +46,7 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       }, 50);
     })
     .catch((e) => {
+      // translator: Shown after marking a place did not work, for example because the connection was interrupted
       window.alert(t`Sorry, could not mark this place because of an error: ${e}`);
     });
 }
