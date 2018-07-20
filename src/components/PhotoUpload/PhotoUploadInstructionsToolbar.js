@@ -273,6 +273,16 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     const { waitingForPhotoUpload } = this.props;
     const canSubmit = guidelinesAccepted && !waitingForPhotoUpload;
 
+    const captions = {
+      header: t`The following images…`,
+      content: t`…are interesting for accessibility.`,
+      copyright: t`…are made by myself.`,
+      copyrightDetail: t`I give Sozialhelden e.V. unlimited rights of use and to republish the uploaded images under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" target="_blank">Creative Commons CC-BY-SA license</a>.`,
+      people: t`…do not contain any people.`,
+      peopleDetail: t`For identifiable persons, written consent must be obtained in accordance with <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank">GDPR</a>.`,
+      guidelines: t`…meet <a href="https://news.wheelmap.org/datenschutzerklaerung/" target="_blank">our guidelines</a>.`,
+    };
+
     return (
       <StyledToolbar
         className='photoupload-instructions-toolbar'
@@ -282,12 +292,12 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       >
         <header>
           {this.renderCloseLink()}
-          <h3>{t`The following images…`}</h3>
+          <h3>{captions.header}</h3>
         </header>
         <section>
           <ul>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…are interesting for accessibility.`}</p></span>
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.content}</p></span>
               <ul className='photo-examples'>
                 <li>
                   <div className='placeholder-image entrance-image'></div>
@@ -304,14 +314,12 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               </ul>
             </li>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…were made by myself. `}</p></span>
-              <small>{t`Therefore I can give Wheelmap.org unlimited rights of use in form of a `}
-              <a href="https://creativecommons.org/licenses/" target="new">{t`Creative Commons-License (CC)`}</a></small> {/* TODO: add link to CC */}
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.copyright}</p></span>
+              <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }}></small>
             </li>
             <li className='with-checkmark'>
-              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{t`…do not contain any persons.`}</p></span>
-              <small>{t`For identifiable persons, written consent must be obtained in accordance with the `}
-              <a href="https://de.wikipedia.org/wiki/Datenschutz-Grundverordnung" target="new">{t`DSGVO`}</a></small> {/* TODO: add link to DSGVO */}
+              <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.people}</p></span>
+              <small dangerouslySetInnerHTML={{ __html: captions.peopleDetail }}></small>
             </li>
             <li className='with-checkbox'>
               <input 
@@ -321,19 +329,18 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                 checked={guidelinesAccepted}
                 value='confirm-guidelines'
                 onChange={this.onGuidelinesAcceptedChanged} />
-              <label htmlFor='confirm-guidelines'>{t`…meet our guidelines.`}</label><br/>
-              <small>{t`I can read them `}<a href="https://news.wheelmap.org/datenschutzerklaerung/" target="new">{t`here`}</a></small> {/* TODO: add link to guidelines */}
+              <label htmlFor='confirm-guidelines' dangerouslySetInnerHTML={{ __html: captions.guidelines }} /><br/>
             </li>
           </ul>
         </section>
         <footer>
           <button 
-            className='link-button negative-button' 
+            className='link-button negative-button'
             onClick={this.onClose}>
             {t`Cancel`}
           </button>
           <label 
-            className='link-button primary-button file-label' 
+            className='link-button primary-button file-label'
             disabled={!canSubmit}
             htmlFor="photo-file-upload">
             {t`Continue`} 

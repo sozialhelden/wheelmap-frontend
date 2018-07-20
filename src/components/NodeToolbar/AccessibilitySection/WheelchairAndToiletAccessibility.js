@@ -20,10 +20,6 @@ import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
-
-// translator: Button caption, shown in the place toolbar
-const editButtonCaption = t`Add toilet status`;
-
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
   'parking', // because this mostly affects parking lots
@@ -54,6 +50,8 @@ const toiletIcons = {
 
 function ToiletDescription(accessibility: YesNoUnknown) {
   if (!accessibility) return;
+  // translator: Button caption, shown in the place toolbar
+  const editButtonCaption = t`Add toilet status`;
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
   return <React.Fragment>{icon} <span>{description}</span></React.Fragment>;

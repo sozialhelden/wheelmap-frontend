@@ -108,12 +108,12 @@ const apps: { [string]: AppFunction } = {
     icon: goMapIcon,
   }),
   mapsMeForIOS: () => ({
-    title: 'MAPS.ME in App Store',
+    title: t`MAPS.ME in App Store`,
     href: 'https://itunes.apple.com/app/id510623322',
     icon: mapsMeForIOSIcon,
   }),
   mapsMeForAndroid: () => ({
-    title: 'MAPS.ME in PlayStore',
+    title: t`MAPS.ME in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro',
     icon: mapsMeForAndroidIcon,
   }),

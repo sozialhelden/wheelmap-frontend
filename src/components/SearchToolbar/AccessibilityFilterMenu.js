@@ -22,53 +22,56 @@ type Props = PlaceFilter & {
   accessibilities: YesNoLimitedUnknown[],
 };
 
-const availableFilters = {
-  // all: {
-  //   // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see', plural
-  //   caption: t`All`,
-  //   accessibilityFilter: ['yes', 'limited', 'no', 'unknown'],
-  //   toiletFilter: [],
-  // },
-  atLeastPartial: {
-    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-    caption: t`At least partially wheelchair accessible`,
-    accessibilityFilter: ['yes', 'limited'],
-    toiletFilter: [],
-  },
-  atLeastPartialWithWC: {
-    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-    caption: t`At least partially wheelchair accessible + WC`,
-    accessibilityFilter: ['yes', 'limited'],
-    toiletFilter: ['yes'],
-  },
-  fully: {
-    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-    caption: t`Only fully wheelchair accessible`,
-    accessibilityFilter: ['yes'],
-    toiletFilter: [],
-  },
-  fullyWithWC: {
-    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-    caption: t`Only fully wheelchair accessible + WC`,
-    accessibilityFilter: ['yes'],
-    toiletFilter: ['yes'],
-  },
-  unknown: {
-    // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-    caption: t`Places that I can contribute to`,
-    accessibilityFilter: ['unknown'],
-    toiletFilter: [],
-  },
-  notAccessible: {
-    // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
-    caption: t`Only places that are not accessible`,
-    accessibilityFilter: ['no'],
-    toiletFilter: [],
-  },
+function getAvailableFilters() {
+  return {
+    // all: {
+    //   // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see', plural
+    //   caption: t`All`,
+    //   accessibilityFilter: ['yes', 'limited', 'no', 'unknown'],
+    //   toiletFilter: [],
+    // },
+    atLeastPartial: {
+      // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+      caption: t`At least partially wheelchair accessible`,
+      accessibilityFilter: ['yes', 'limited'],
+      toiletFilter: [],
+    },
+    atLeastPartialWithWC: {
+      // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+      caption: t`At least partially wheelchair accessible + WC`,
+      accessibilityFilter: ['yes', 'limited'],
+      toiletFilter: ['yes'],
+    },
+    fully: {
+      // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+      caption: t`Only fully wheelchair accessible`,
+      accessibilityFilter: ['yes'],
+      toiletFilter: [],
+    },
+    fullyWithWC: {
+      // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+      caption: t`Only fully wheelchair accessible + WC`,
+      accessibilityFilter: ['yes'],
+      toiletFilter: ['yes'],
+    },
+    unknown: {
+      // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+      caption: t`Places that I can contribute to`,
+      accessibilityFilter: ['unknown'],
+      toiletFilter: [],
+    },
+    notAccessible: {
+      // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
+      caption: t`Only places that are not accessible`,
+      accessibilityFilter: ['no'],
+      toiletFilter: [],
+    },
+  };
 };
 
 
 function findFilterKey({ toiletFilter, accessibilityFilter }) {
+  const availableFilters = getAvailableFilters();
   return Object.keys(availableFilters).find(key => {
     const filter = availableFilters[key];
     const requestedToiletFilter = isEqual(toiletFilter, ['yes', 'no', 'unknown']) ? [] : toiletFilter;
@@ -78,6 +81,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 
 
 function AccessibilityFilterMenu(props: Props) {
+  const availableFilters = getAvailableFilters();
   const { accessibilityFilter, toiletFilter } = props;
   const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });

@@ -14,14 +14,13 @@ type Props = {
 };
 
 
-// translator: Text that incentivizes the user to edit a place's accessibility.
-const hintCaption = t`Improve your karma!`;
-
-
 class PhotoUploadButton extends React.Component<Props> {
   render() {
     const { className } = this.props;
 
+    // translator: Text that incentivizes the user to edit a place's accessibility.
+    const hintCaption = t`Improve your karma!`;
+    
     return (
       <button
         onClick={this.onClick}

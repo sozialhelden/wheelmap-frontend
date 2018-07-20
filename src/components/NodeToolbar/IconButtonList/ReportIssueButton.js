@@ -6,10 +6,6 @@ import FlagIcon from '../../icons/actions/Flag';
 import type { Feature } from '../../../lib/Feature';
 
 
-// translator: Button caption shown in the PoI details panel
-const caption = t`Report an issue`;
-
-
 type Props = {
   equipmentInfoId: ?string,
   feature: ?Feature,
@@ -17,6 +13,8 @@ type Props = {
 
 
 export default function ReportIssueButton(props: Props) {
+  // translator: Button caption shown in the PoI details panel
+  const caption = t`Report an issue`;
   return <button
     className="link-button full-width-button"
     onClick={() => {

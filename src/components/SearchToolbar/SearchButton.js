@@ -20,9 +20,6 @@ type Props = {
   toiletFilter: YesNoUnknown[],
 }
 
-// translator: Shown in collapsed search/filter combi button when there is no category filter set
-const allPlacesCaption = t`All places`;
-
 const Caption = styled.div.attrs({ className: 'caption' })`
   display: flex;
   flex-direction: row;
@@ -39,6 +36,8 @@ function SearchButton(props: Props) {
 
   const { toiletFilter, accessibilityFilter, category } = props;
   const isAnyFilterSet = isFiltered(accessibilityFilter) || category;
+  // translator: Shown in collapsed search/filter combi button when there is no category filter set
+  const allPlacesCaption = t`All places`;
 
   return (
     <MapButton
