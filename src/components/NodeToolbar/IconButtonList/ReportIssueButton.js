@@ -9,6 +9,7 @@ import type { Feature } from '../../../lib/Feature';
 type Props = {
   equipmentInfoId: ?string,
   feature: ?Feature,
+  onOpenReportMode?: (() => void),
 };
 
 
@@ -18,7 +19,9 @@ export default function ReportIssueButton(props: Props) {
   return <button
     className="link-button full-width-button"
     onClick={() => {
-      if (typeof props.onOpenReportMode === 'function') props.onOpenReportMode();
+      if (typeof props.onOpenReportMode === 'function') {
+        props.onOpenReportMode();
+      }
     }}
   >
     <FlagIcon />
