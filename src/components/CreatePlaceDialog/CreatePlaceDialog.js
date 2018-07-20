@@ -144,11 +144,11 @@ export default class CreatePlaceDialog extends React.Component<Props> {
     const { lat, lon } = this.props;
 
     const appLinks: App[] = [];
-    if (userAgent.os === 'iOS') {
+    if (userAgent.os.name === 'iOS') {
       appLinks.push(apps.mapsMeForIOS());
       appLinks.push(apps.goMap());
     }
-    if (userAgent.os === 'Android') {
+    if (userAgent.os.name === 'Android') {
       appLinks.push(apps.mapsMeForAndroid());
       appLinks.push(apps.vespucci());
     }
