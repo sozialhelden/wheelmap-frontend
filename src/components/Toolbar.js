@@ -279,11 +279,11 @@ class Toolbar extends React.Component<Props, State> {
       this.props.onScrollable(isScrollable);
     }
     if (isScrollable) {
-      console.log('Did not prevent scrolling');
+      // Do not prevent scrolling
       return;
     }
+    // Prevent native scrolling because we do it ourselves
     event.preventDefault();
-    console.log('Prevented scrolling');
   };
 
 
