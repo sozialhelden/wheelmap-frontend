@@ -170,7 +170,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       name="accessibility"
       selectedValue={selectedValue}
       onChange={(newValue) => { this.setState({ selectedValue: newValue }); }}
-      className={`${String(selectedValue)} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
+      className={`${selectedValue || ''} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
       onKeyDown={this.onRadioGroupKeyDown}
       role="radiogroup"
       aria-label={ariaLabel}
