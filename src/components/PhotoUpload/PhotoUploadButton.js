@@ -59,6 +59,7 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   }
 
   .button-label {
+    text-align: left;
     color: ${colors.linkColor};
   }
 `;
