@@ -165,7 +165,6 @@ class PhotoSection extends React.Component<Props, State> {
   }
 
   render() {
-    const hasPhotos = this.state.photos.length > 0;
     const { photoFlowNotification, onStartPhotoUploadFlow, className } = this.props;
     const { photos, lightBoxPhotos, currentImageIndex } = this.state;
 

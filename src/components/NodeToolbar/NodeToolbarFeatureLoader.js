@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import type { RouterHistory } from 'react-router-dom';
 
 import NodeToolbar from './NodeToolbar';
