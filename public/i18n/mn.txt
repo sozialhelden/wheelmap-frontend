@@ -17,7 +17,7 @@ msgstr "бас"
 msgid " or "
 msgstr "эсвэл"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } Wheelmap дээр"
 
@@ -57,19 +57,15 @@ msgid_plural "${ count } working escalators"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } Wheelmap.org вэбсайт дээр "
 
-#: src/components/SearchToolbar/CategoryButton.js:60
-msgid "${ props.name } Filter"
-msgstr "${ props.name } Шүүлтүүр "
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:143
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nЭнэ холбоос дээр дарж үүнийг нээ: ${ url }"
 
-#: src/components/NodeToolbar/Report/strings.js:33
+#: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
@@ -84,7 +80,7 @@ msgstr ""
 "(Та эхлээд нэвтрэх шаардлагатай, харин Wheelmap дээр газруудыг харуулах "
 "хүртэл хэсэг хугацаа авах болно.)"
 
-#: src/components/NodeToolbar/Report/strings.js:40
+#: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n\\nHi "
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
@@ -102,80 +98,95 @@ msgstr ", мөн"
 msgid ", or "
 msgstr ", эсвэл"
 
-#: src/components/FilterToolbar/FilterToolbar.js:196
-msgid "Accessibility Filter Dialog"
-msgstr "Хүртээмжтэй шүүлтүүрийн харилцах цонх "
-
-#: src/lib/Feature.js:322
+#: src/lib/Feature.js:396
 msgid "Accessible hand basin"
 msgstr "Хүртээмжтэй угаалтуур "
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:181
+msgid "Add a place"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:184
+msgid "Add a place on OpenStreetMap"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:28
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr ""
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
 msgstr "Бүртгэлгүй газрыг нэмэх "
 
-#: src/components/NodeToolbar/NodeFooter.js:129
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
 msgid "Add toilet status"
 msgstr "Ариун цэврийн өрөөний төлөв"
-
-#: src/components/FilterToolbar/FilterToolbar.js:174
-msgid "All"
-msgstr "Бүгд "
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr "Бүх лифт ба урсдаг цахилгаан шат "
 
-#: src/components/FilterToolbar/FilterToolbar.js:177
+#: src/components/SearchToolbar/SearchButton.js:40
+msgid "All places"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
 msgid "At least partially wheelchair accessible"
 msgstr "Наад зах нь тэргэнцэрт хэсэгчилсэн хүртээмжтэй "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
-#: src/components/NodeToolbar/Report/strings.js:27
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
+msgid "At least partially wheelchair accessible + WC"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:56
+#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
 msgid "Back"
 msgstr "Буцах "
 
-#: src/components/NodeToolbar/NodeFooter.js:116
-msgid "Bonus karma points!"
-msgstr "Үйлдлийн урамшуулал оноонууд  "
-
-#: src/components/NodeToolbar/PhoneNumberLink.js:13
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:22
 msgid "Call ${ phoneNumber }"
 msgstr "Дуудлага ${ phoneNumber }"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:53
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:349
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:202
 msgid "Cancel"
 msgstr "Цуцлах "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:47
 msgid "Change"
 msgstr "Өөрчилөх "
 
-#: src/components/FilterToolbar/FilterButton.js:97
-msgid "Change which places are shown on the map"
-msgstr "Газарзүйн зураглал дээр харуулах газруудыг өөрчилөх "
-
-#: src/components/CloseLink.js:49
+#: src/components/SearchToolbar/SearchToolbar.js:404
 msgid "Clear Search"
 msgstr "Тодорхой хайлт "
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Шалны талбай ≥ 150 см өргөн "
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Шалны талбай ≥ 59 инч өргөн"
 
-#: src/components/FilterToolbar/FilterToolbar.js:56
-msgid "Close Dialog"
-msgstr "Харилцах цонхыг хаах"
+#: src/components/CloseLink.js:56
+#: src/components/CreatePlaceDialog/CloseButton.js:31
+#: src/components/NodeToolbar/Photos/PhotoSection.js:153
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+msgid "Close"
+msgstr ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
+#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+msgid "Close (Esc)"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:165
 msgid "Collapse Share Menu"
 msgstr "Хуваалцах цэсийг устгах  "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:44
 msgid "Confirm"
 msgstr "Баталгаажуулах "
 
@@ -183,15 +194,24 @@ msgstr "Баталгаажуулах "
 msgid "Contact"
 msgstr "Холбоо барих"
 
-#: src/components/NodeToolbar/Report/strings.js:35
+#: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr "Wheelmap тусламжийн багтай холбогдох "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:50
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:355
 msgid "Continue"
 msgstr "Үргэлжлүүлэх "
 
-#: src/components/NodeToolbar/SourceLink.js:65
+#: src/components/SearchToolbar/SearchResults.js:36
+msgid "Could not load results. Please try again later!"
+msgstr ""
+
+#: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
+msgid "Could not load this place."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "Нарийвчлал"
 
@@ -207,11 +227,11 @@ msgstr ""
 msgid "Disruptions at this location"
 msgstr "Энэ байршил дахь тасалдал "
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Хаалганы дотор өргөн ≥ 35 инч "
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Хаалганы дотор өргөн ≥ 90 см"
 
@@ -219,32 +239,42 @@ msgstr "Хаалганы дотор өргөн ≥ 90 см"
 msgid "Edit this place on OpenStreetMap"
 msgstr "Энэ газрыг OpenStreetMap дээр засварлах "
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:52
 msgid "Education"
 msgstr "Боловсрол "
 
-#: src/lib/Feature.js:298
+#: src/lib/Feature.js:372
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Орох гарах гарц нь хэд хэдэн гишгүүртэй, өрөөнүүд хүртээмжгүй"
 
-#: src/lib/Feature.js:296
+#: src/lib/Feature.js:368
 msgid ""
-"Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
-" steps."
+"Entrance has one step with max. 3 inch height, most rooms are without steps."
 msgstr ""
-"Орох гарах гарц нь хамгийн ихдээ нэг гишгүүртэй. 7см / 3 инч өндөртэй, ихэнх"
-" өрөөнүүд нь гишгүүргүй. "
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:370
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+
+#: src/lib/Feature.js:364
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Орох гарах гарц гишгүүргүй, бүх өрөө гишгүүргүй "
 
-#: src/components/NotFound/NotFound.js:44
-#: src/components/NotFound/NotFound.js:55
+#: src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:101
 msgid "Error"
 msgstr "Алдаа "
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
+#: src/lib/Categories.js:128
+msgid "Error while loading categories from server"
+msgstr ""
+
+#: src/lib/cache/URLDataCache.js:55
+msgid "Error while loading data from server."
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
 msgid "Expand Share Menu"
 msgstr "Хуваалцах цэсийг өргөтгөх"
 
@@ -252,7 +282,7 @@ msgstr "Хуваалцах цэсийг өргөтгөх"
 msgid "FAQ"
 msgstr "Түгээмэл Асуулт Хариулт"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
 msgid "Find out about this place’s accessibility."
 msgstr "Энэ газрын хүртээмжийн тухай хайж олох "
 
@@ -264,19 +294,27 @@ msgstr "Хэрхэн хайж олох вэ "
 msgid "Find wheelchair accessible places"
 msgstr "Тэргэнцэрт хүртээмжтэй газруудыг хайж олох "
 
-#: src/lib/Feature.js:321
+#: src/lib/Feature.js:395
 msgid "Folding grab rails"
 msgstr "Эвхэгддэг бариул "
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:42
 msgid "Food & Drinks"
 msgstr "Хоол хүнс ба Уух зүйлс "
 
-#: src/lib/Feature.js:278
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:290
+msgid ""
+"For identifiable persons, written consent must be obtained in accordance "
+"with <a "
+"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
+"target=\"_blank\">GDPR</a>."
+msgstr ""
+
+#: src/lib/Feature.js:349
 msgid "Fully"
 msgstr "Бүрэн байдлаар "
 
-#: src/lib/Feature.js:263
+#: src/lib/Feature.js:334
 msgid "Fully wheelchair accessible"
 msgstr "Тэргэнцэрт бүрэн хүртээмжтэй "
 
@@ -284,47 +322,60 @@ msgstr "Тэргэнцэрт бүрэн хүртээмжтэй "
 msgid "Get involved"
 msgstr "Оруулах "
 
-#: src/lib/Feature.js:308
-msgid "Has a wheelchair accessible toilet."
-msgstr "Тэргэнцэрт хүртээмжтэй ариун цэврийн өрөөтэй."
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
+msgid "Go Map!! in App Store"
+msgstr ""
 
-#: src/lib/Categories.js:64
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
+#: src/components/SearchToolbar/SearchToolbar.js:415
+msgid "Go!"
+msgstr ""
+
+#: src/lib/Categories.js:56
 msgid "Health"
 msgstr "Эрүүл мэнд "
 
-#: src/components/Onboarding/Onboarding.js:30
+#: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "Газруудыг тэмдэглэхэд туслах!"
 
-#: src/components/MainMenu/MainMenu.js:151
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Hi Wheelmap Team, I made a photo of the following place:"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:175
 msgid "Home"
 msgstr "Гэр "
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:48
 msgid "Hotels"
 msgstr "Зочид буудал "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
+#: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "How wheelchair accessible is this place?"
 msgstr "Энэ газар тэргэнцэрт хэр хүртээмжтэй вэ?"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
-msgid "I don’t know"
-msgstr "Би мэдэхгүй "
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "Би Wheelmap дээр газар олсон: ${ url }"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr "Би Wheelmap дээр газар олсон..."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "Би энэ газрыг Wheelmap дээр олсон: ${ placeName }"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:42
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:288
+msgid ""
+"I give Sozialhelden e.V. unlimited rights of use and to republish the "
+"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
+"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:44
 msgid "I have more information about this place."
 msgstr "Надад энэ газрын тухай илүү их мэдээлэл байна."
 
@@ -336,25 +387,30 @@ msgstr ""
 "Хэрвээ энэ газар бүр мөсөн хаагдсан бол, та OpenStreetMap дээр "
 "\"Ашиглагдахгүй газар\" гэж тэмдэглэж болно."
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
+msgid ""
+"If you cannot read or enter this, please contribute your photo via email!"
+msgstr ""
+
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
 msgstr "Дардас"
 
-#: src/components/NodeToolbar/NodeHeader.js:123
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:21
 msgid "Improve on ${ sourceNameString }"
 msgstr "Хөгжүүлэлт хийх $ { sourceNameString }"
 
-#: src/components/NodeToolbar/NodeFooter.js:113
+#: src/components/PhotoUpload/PhotoUploadButton.js:22
 msgid "Improve your karma!"
 msgstr "Оноогоо нэмэгдүүлэх"
 
-#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
 msgstr "Энэ газрын мэдээллийг өөр байгууллага оруулсан байна"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "Энэ ариун цэврийн өрөө нь тэргэнцэрт хүртээмжтэй юу?"
 
@@ -362,19 +418,44 @@ msgstr "Энэ ариун цэврийн өрөө нь тэргэнцэрт хү
 msgid "Is there an issue with this place?"
 msgstr "Энэ газартай холбоотой ямар нэгэн асуудал байна уу?"
 
+#: src/components/NotFound/NotFound.js:51
+msgid "It seems this place is not on Wheelmap."
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:54
+msgid "It seems we’re offline!"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr "Сүүлд хийгдсэн шинэчлэл ${ dateString }"
 
-#: src/lib/Categories.js:54
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
+#: src/components/NodeToolbar/Report/strings.js:27
+msgid "Leave a note on OpenStreetMap"
+msgstr ""
+
+#: src/lib/Categories.js:46
 msgid "Leisure"
 msgstr "Чөлөөт цаг "
 
-#: src/components/Map/Map.js:459
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
+msgid "Loading…"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
+msgid "MAPS.ME in App Store"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:116
+msgid "MAPS.ME in PlayStore"
+msgstr ""
+
+#: src/components/Map/Map.js:640
 msgid "Map"
 msgstr "Газрын зураг "
 
-#: src/components/Onboarding/Onboarding.js:28
+#: src/components/Onboarding/Onboarding.js:27
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
@@ -383,23 +464,26 @@ msgstr ""
 " Та үүнийг бидний гэрлэн дохионы системийн тусламжайгаар амархан хийх болно."
 " "
 
-#: src/components/NodeToolbar/NodeFooter.js:107
-msgid "Mark this place"
-msgstr "Энэ газрыг тэмдэглэх "
-
-#: src/components/MainMenu/MainMenu.js:169
+#: src/components/MainMenu/MainMenu.js:193
 msgid "Menu"
 msgstr "Цэс"
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:62
 msgid "Misc"
 msgstr "Бусад "
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:58
 msgid "Money"
 msgstr "Мөнгө "
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:60
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:182
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"there, they will appear here a bit later."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:62
 msgid "My problem isn’t listed here…"
 msgstr "Миний асуудал энэ жагсаалтад байхгүй байна..."
 
@@ -407,100 +491,198 @@ msgstr "Миний асуудал энэ жагсаалтад байхгүй б�
 msgid "News"
 msgstr "Мэдээ"
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:18
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
+#: src/components/NodeToolbar/Photos/PhotoSection.js:180
+msgid "Next (Right arrow key)"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
 msgid "No"
 msgstr "Үгүй "
 
-#: src/lib/Feature.js:310
+#: src/components/SearchToolbar/SearchResults.js:33
+msgid "No results found."
+msgstr ""
+
+#: src/lib/Feature.js:384
 msgid "No wheelchair accessible toilet."
 msgstr "Тэргэнцэрт хүртээмжгүй ариун цэврийн өрөө."
 
-#: src/lib/Feature.js:282
+#: src/lib/Feature.js:353
 msgid "Not at all"
 msgstr "Бүгд биш "
 
-#: src/lib/Feature.js:267
+#: src/lib/Feature.js:338
 msgid "Not wheelchair accessible"
 msgstr "Тэргэнцэрт хүртээмжгүй "
 
-#: src/lib/Categories.js:62
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or Inappropriate"
+msgstr ""
+
+#: src/lib/Categories.js:54
 msgid "Official"
 msgstr "Албан газар "
 
-#: src/components/Onboarding/Onboarding.js:32
+#: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "За, эхэлцгээе !"
 
-#: src/components/FilterToolbar/FilterToolbar.js:183
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
 msgstr "Тэргэнцэрт зөвхөн бүрэн хүртээмжтэй "
 
-#: src/components/FilterToolbar/FilterToolbar.js:186
-msgid "Only show places with a wheelchair accessible toilet"
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
+msgid "Only fully wheelchair accessible + WC"
 msgstr ""
-"Зөвхөн тэргэнцэрт хүртээмжтэй ариун цэврийн өрөөтэй газруудыг харуулах "
 
-#: src/components/NodeToolbar/NodeHeader.js:121
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
+msgid "Only places that are not accessible"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+#: src/lib/openButtonCaption.js:6
 msgid "Open on ${ sourceNameString }"
 msgstr "Нээлттэй байна ${ sourceNameString }"
 
-#: src/lib/Feature.js:280
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other Problems"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr ""
+
+#: src/lib/Feature.js:351
 msgid "Partially"
 msgstr "Хэсэгчилсэн байдлаар"
 
-#: src/lib/Feature.js:265
+#: src/lib/Feature.js:336
 msgid "Partially wheelchair accessible"
 msgstr "Тэргэнцэрт хэсэгчилсэн хүртээмжтэй "
 
-#: src/components/FilterToolbar/FilterToolbar.js:180
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 msgid "Places that I can contribute to"
 msgstr "Миний хувь нэмэр оруулж чадах газрууд "
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
+msgid "Please enter these characters."
+msgstr ""
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
 msgstr "Хэвлэх"
 
-#: src/components/NodeToolbar/NodeToolbar.js:260
-msgid "Report an Issue"
-msgstr "Асуудлыг тайлагнах "
+#: src/components/NodeToolbar/Photos/PhotoSection.js:182
+msgid "Previous (Left arrow key)"
+msgstr ""
 
-#: src/components/NotFound/NotFound.js:48
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+msgid "Reason for reporting"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:92
+msgid "Remove ${ caption } Filter"
+msgstr ""
+
+#: src/components/SearchToolbar/CategoryButton.js:142
+msgid "Remove ${ props.name } Filter"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:152
+msgid "Report"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
+msgid "Report an issue"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:73
+msgid "Retry"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:71
 msgid "Return Home"
 msgstr "Нүүр хуудас руу буцах "
 
-#: src/components/SearchToolbar/SearchInputField.js:49
+#: src/components/SearchToolbar/SearchButton.js:45
+msgid "Search"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchInputField.js:52
 msgid "Search place or address"
 msgstr "Хаяг эсвэл газраар хайх"
 
-#: src/components/SearchToolbar/SearchResults.js:265
+#: src/components/SearchToolbar/SearchResults.js:38
 msgid "Search results"
 msgstr "Үр дүнг хайх"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:208
+msgid "Send"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
+msgid ""
+"Server unreachable. Please retry a bit later, or let us know if the error "
+"persists!"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:126
 msgid "Share"
 msgstr "Хуваалцах "
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:40
 msgid "Shopping"
 msgstr "Дэлгүүр "
 
-#: src/components/NodeToolbar/Report/strings.js:37
+#: src/components/Map/addLocateControlToMap.js:42
+msgid "Show me where I am"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr "Уучлаарай! Асуудлаа тодорхойлж өгвөл бид танд туслаж чадна "
 
-#: src/components/NotFound/NotFound.js:46
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:50
+msgid "Sorry, could not mark this place because of an error: ${ e }"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:69
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "Уучлаарай, ийм зүйл тохиолдох ёсгүй!"
 
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+msgid ""
+"Sorry, this did not work! Please check if all characters are correct, then "
+"retry."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceList.js:45
 msgid "Source:"
 msgstr "Нөөц: "
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:60
 msgid "Sport"
 msgstr "Спорт "
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for your work. Your contribution will be visible after a quick "
+"check."
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thanks for reporting this photo. We will take a look."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Thanks! Starting upload…"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:285
+msgid "The following images…"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
@@ -510,35 +692,63 @@ msgstr ""
 "Бидний мэдэж буй эцсийн байдлаар ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:48
+#: src/components/NodeToolbar/Report/ReportDialog.js:50
 msgid "The place does not exist."
 msgstr "Энэ газар оршин байдаггүй."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:54
+#: src/components/NodeToolbar/Report/ReportDialog.js:56
 msgid "The place is in the wrong position."
 msgstr "Энэ газар буруу байршилд тэмдэглэгдсэн байна."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:29
+#: src/components/NodeToolbar/Report/ReportDialog.js:31
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
 "Энэ газар дараах байдлаар тэмдэглэгдсэн байна '${ accessibilityDescription "
 "}', гэвч энэ нь буруу байна!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:36
+#: src/components/NodeToolbar/Report/ReportDialog.js:38
 msgid "The place’s toilet status is wrong or missing."
 msgstr ""
 "Энэ газрын ариун цэврийн өрөөний төлөв нь буруу эсвэл орхигдсон байна "
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
-msgid "This means:"
-msgstr "Энэ нь дараах утгатай:"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
+msgid "Then we know you're not a machine."
+msgstr ""
 
-#: src/lib/Categories.js:58
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This photo does not depict the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This photo does not show the current state of the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This photo has other problems or infringes on my copyrights."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This photo shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:35
+msgid ""
+"To locate yourself, open browser settings and allow wheelmap.org to use "
+"location services."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+msgid "To report"
+msgstr ""
+
+#: src/lib/Categories.js:50
 msgid "Tourism"
 msgstr "Аялал зуулчлал"
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:44
 msgid "Transport"
 msgstr "Тээврийн үйлчилгээ "
 
@@ -546,15 +756,19 @@ msgstr "Тээврийн үйлчилгээ "
 msgid "Travel guide"
 msgstr "Аялалын хөтөч"
 
-#: src/lib/Feature.js:284
+#: src/components/Map/Map.js:609
+msgid "Turn on location services"
+msgstr ""
+
+#: src/lib/Feature.js:355
 msgid "Unknown"
 msgstr "Тодорхойгүй "
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:340
 msgid "Unknown status"
 msgstr "Тодорхойгүй төлөв "
 
-#: src/components/SearchToolbar/SearchResults.js:207
+#: src/components/SearchToolbar/SearchResult.js:220
 msgid "Unnamed"
 msgstr "Нэр бүртгэгдээгүй "
 
@@ -562,29 +776,54 @@ msgstr "Нэр бүртгэгдээгүй "
 msgid "Unnamed facility"
 msgstr "Нэр өгөгдөөгүй байгууламж "
 
-#: src/lib/Feature.js:327
+#: src/lib/Feature.js:401
 msgid "Unnamed place"
 msgstr "Нэрлэгдээгүй газар "
 
-#: src/components/NodeToolbar/Report/strings.js:31
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:61
+msgid "Upload failed: server error or file-format not supported"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:55
+msgid "Upload in Progress..."
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
+msgid "Use OpenStreetMap web editor"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:33
 msgid "Use the link below for details about the place and editing."
 msgstr ""
 "Газрын тухай дэлгэрэнгүй мэдээлэл харах болон засварлах бол та дараах "
 "холбоосыг ашиглана уу "
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
+msgid "Vespucci in PlayStore"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
 msgid "Wheelchair Accessibility"
 msgstr "Тэргэнцэрт хүртээмжтэй "
 
-#: src/components/FilterToolbar/FilterToolbar.js:209
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair Accessibility Filter"
 msgstr "Тэргэнцэрт хүртээмжтэй байдлаар шүүх  "
 
-#: src/lib/Feature.js:320
+#: src/lib/Feature.js:382
+msgid "Wheelchair accessible toilet"
+msgstr ""
+
+#: src/lib/Feature.js:394
 msgid "Wheelchair-height toilet seat"
 msgstr "Ариун цэврийн өрөөний суултуурын тэргэнцэртэй харьцах өндөр "
 
-#: src/components/Onboarding/Onboarding.js:48
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Wheelmap Photo Upload"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:53
 msgid "Wheelmap start screen"
 msgstr "Wheelmap эхлэл"
 
@@ -592,16 +831,20 @@ msgstr "Wheelmap эхлэл"
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr "Wheelmap нь OpenStreetMap - ийн мэдээллийг дэлгэцэнд харуулдаг"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/FilterToolbar/FilterToolbar.js:171
-msgid "Which places do you want to find?"
-msgstr "Та ямар төрлийн газруудыг хайхыг хүсч байна вэ?"
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:175
+msgid "Which problem do you want to report?"
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:17
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Wrong Place"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
 msgid "Yes"
 msgstr "Тийм "
 
@@ -613,21 +856,33 @@ msgstr "Та энэ газрын байршлийг OpenStreetMap дээр өө�
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "Та оршин байхаа болисон газруудыг OpenStreetMap дээрээс устгаж болно"
 
-#: src/components/NodeToolbar/Report/strings.js:44
+#: src/components/Map/Map.js:595
+msgid "Zoom closer to see more places"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap дээрх ${ placeName } асуудал"
 
-#: src/components/NodeToolbar/Report/strings.js:46
+#: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap дээрх ${ categoryName } асуудал"
 
-#: src/components/NodeToolbar/Report/strings.js:48
+#: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap дээр байгаа асуудалтай газрууд "
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:317
+msgid "access plans"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
 msgstr "Цахилгаан шат"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:313
+msgid "entrances"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
@@ -641,6 +896,14 @@ msgstr "Байгууламж "
 msgid "in operation"
 msgstr "үйл ажиллагаа явагдаж байна"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
+msgid "load new"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:178
+msgid "of"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr "Ашиглалтаас гарсан байна"
@@ -649,6 +912,10 @@ msgstr "Ашиглалтаас гарсан байна"
 msgid "today"
 msgstr "Өнөөдөр"
 
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:321
+msgid "toilets"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr "Тодорхойгүй төлөв"
@@ -656,3 +923,21 @@ msgstr "Тодорхойгүй төлөв"
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
 msgstr "өчигдөр"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:286
+msgid "…are interesting for accessibility."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:287
+msgid "…are made by myself."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:289
+msgid "…do not contain any people."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:291
+msgid ""
+"…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
+"target=\"_blank\">our guidelines</a>."
+msgstr ""
