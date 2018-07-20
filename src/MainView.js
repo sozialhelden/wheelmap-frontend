@@ -102,6 +102,8 @@ type Props = {
   onCloseCreatePlaceDialog: (() => void),
   onOpenWheelchairAccessibility: (() => void),
   onOpenToiletAccessibility: (() => void),
+  onCloseWheelchairAccessibility: (() => void),
+  onCloseToiletAccessibility: (() => void),
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: ((value: YesNoLimitedUnknown) => void),
@@ -253,6 +255,8 @@ class MainView extends React.Component<Props, State> {
         onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
         onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
+        onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility}
+        onCloseToiletAccessibility={this.props.onCloseToiletAccessibility}
         hidden={!isNodeRoute}
         photoFlowNotification={this.props.photoFlowNotification}
         onOpenReportMode={this.props.onOpenReportMode}

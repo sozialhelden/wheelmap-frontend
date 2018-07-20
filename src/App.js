@@ -562,7 +562,6 @@ class Loader extends React.Component<Props, State> {
     }
   }
 
-
   onCloseNodeToolbar = () => {
     const { featureId } = this.state;
     const path = featureId ? `/nodes/${String(this.state.featureId)}` : '/';
@@ -600,6 +599,18 @@ class Loader extends React.Component<Props, State> {
   onOpenToiletAccessibility = () => {
     if (this.state.featureId) {
       this.props.history.push(`${this.state.featureId}/edit-toilet-accessibility`);
+    }
+  };
+
+  onCloseWheelchairAccessibility = () => {
+    if (this.state.featureId) {
+      this.props.history.push(`/nodes/${this.state.featureId}`);
+    }
+  };
+
+  onCloseToiletAccessibility = () => {
+    if (this.state.featureId) {
+      this.props.history.push(`/nodes/${this.state.featureId}`);
     }
   };
 
@@ -695,6 +706,8 @@ class Loader extends React.Component<Props, State> {
       onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
       onOpenToiletAccessibility={this.onOpenToiletAccessibility}
       onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
+      onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
+      onCloseToiletAccessibility={this.onCloseToiletAccessibility}
 
       // photo feature
       onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
