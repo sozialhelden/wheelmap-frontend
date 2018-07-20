@@ -34,8 +34,6 @@ const StyledCheckmarkIcon = styled(CheckmarkIcon)`
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
-  display: flex;
-  flex-direction: column;
   padding: 1rem;
   border-top: none;
   border-radius: 3px;
@@ -50,6 +48,7 @@ const StyledToolbar = styled(Toolbar)`
     flex-direction: row-reverse;
     justify-content: space-between;
     z-index: 1;
+    background-color: ${colors.colorizedBackgroundColor};
 
     h3 {
       margin: 0.75rem 0;
