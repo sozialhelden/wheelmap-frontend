@@ -39,6 +39,7 @@ import { userAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors from '../../lib/colors';
+import useImperialUnits from '../../lib/useImperialUnits';
 
 window.L = L;
 
@@ -194,7 +195,7 @@ export default class Map extends React.Component<Props, State> {
     if (!unitSystem) {
       // derive unitSystem from locale
       const locale = window.navigator.languages[0] || window.navigator.language;
-      unitSystem = locale === 'en' || locale === 'en-GB' || locale === 'en-US' ? 'imperial' : 'metric';
+      unitSystem = useImperialUnits() ? 'imperial' : 'metric';
     }
 
     this.setupLocateMeButton(map);
