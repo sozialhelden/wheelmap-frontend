@@ -70,7 +70,6 @@ const StyledCloseLink = styled(CloseLink)`
   color: rgba(0, 0, 0, 0.3);
   background-color: rgba(251, 250, 249, 0.8);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px rgba(0, 0, 0, 0.01) solid;
   border-radius: 31px;
   text-decoration: none;
   text-align: center;
