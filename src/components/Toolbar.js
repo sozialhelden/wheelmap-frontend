@@ -362,7 +362,10 @@ const StyledToolbar = styled(Toolbar)`
       top: 0px;
       top: constant(safe-area-inset-top);
       top: env(safe-area-inset-top);
-      max-height: 100%;
+      max-height: calc(100% - 120px);
+      max-height: calc(100% - 120px - constant(safe-area-inset-top));
+      max-height: calc(100% - 120px - env(safe-area-inset-top));
+      margin-top: 0;
     }
   }
   @media (max-width: 768px) {
