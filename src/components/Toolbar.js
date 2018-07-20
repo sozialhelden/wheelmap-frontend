@@ -405,7 +405,7 @@ const StyledToolbar = styled(Toolbar)`
       display: block;
       position: sticky;
       top: 0;
-      z-index: 4;
+      z-index: 3;
       width: 100%;
       height: 10px;
       margin: -10px 0 -20px 0;
