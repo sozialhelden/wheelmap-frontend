@@ -8,9 +8,10 @@ import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 
 
-import RadioStatusEditor from './RadioStatusEditor';
 import { saveToiletStatus } from './saveStatus';
-import Icon from '../../Icon';
+import RadioStatusEditor from './RadioStatusEditor';
+import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
+import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
 
 type SaveOptions = {
@@ -49,7 +50,8 @@ export default function ToiletStatusEditor(props: Props) {
   };
 
   const icons = {
-
+    yes: <ToiletStatusAccessibleIcon className="icon" />,
+    no: <ToiletStatusNotAccessibleIcon  className="icon"/>,
   };
 
   return <RadioStatusEditor
@@ -57,7 +59,7 @@ export default function ToiletStatusEditor(props: Props) {
     undefinedStringValue="unknown"
     getValueFromFeature={feature => feature.properties.wheelchair_toilet}
     saveValue={(value) => saveToiletStatus({ ...props, value })}
-    renderChildrenForValue={({ value, categoryId }) => <Icon accessibility={value} category={categoryId} size='medium' withArrow shadowed centered />}
+    renderChildrenForValue={({ value, categoryId }) => icons[value]}
     shownStatusOptions={['yes', 'no']}
     captionForValue={value => captions[value]}
     descriptionForValue={value => descriptions[value]}
