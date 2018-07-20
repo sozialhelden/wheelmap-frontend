@@ -1,7 +1,6 @@
 // @flow
 
 import { t } from 'c-3po';
-import { hsl } from 'd3-color';
 import * as React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';

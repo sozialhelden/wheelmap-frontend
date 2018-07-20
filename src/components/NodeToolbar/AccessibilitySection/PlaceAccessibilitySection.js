@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'c-3po';
 import styled from 'styled-components';
 
 import StyledFrame from './StyledFrame';
@@ -13,7 +12,6 @@ import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility
 import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
-import { getCategoryId } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
 import { isWheelmapFeatureId, wheelmapFeatureFrom, isWheelchairAccessible } from '../../../lib/Feature';
 

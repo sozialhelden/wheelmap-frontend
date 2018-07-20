@@ -11,20 +11,15 @@ import {
   accessibilityDescription,
   toiletDescription,
   isWheelmapFeature,
-  Feature,
 } from '../../../lib/Feature';
-import type { NodeProperties } from '../../../lib/Feature';
+import colors from '../../../lib/colors';
+import PenIcon from '../../icons/actions/PenIcon';
+import type { Feature } from '../../../lib/Feature';
+import { getCategoryId } from '../../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
-import PenIcon from '../../icons/actions/PenIcon';
-import colors from '../../../lib/colors';
-import { getCategoryId } from '../../../lib/Categories';
-import UnknownToiletStatusIcon from '../../icons/accessibility/ToiletStatus';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
-
-// translator: Text that incentivizes the user to edit a place's toilet accessibility.
-const toiletEditHint = t`Bonus karma points!`;
 
 // translator: Button caption, shown in the place toolbar
 const editButtonCaption = t`Add toilet status`;
@@ -106,7 +101,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { isEditingEnabled, feature } = this.props;
+    const { feature } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;

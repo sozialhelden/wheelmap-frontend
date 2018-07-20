@@ -6,8 +6,6 @@ import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 
-import colors from '../../../lib/colors';
-
 
 function formatName(name: string, properties: {}): string {
   const string = properties[`${name}Localized`] || humanizeString(name);

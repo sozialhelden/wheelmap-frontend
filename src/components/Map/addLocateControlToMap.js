@@ -5,7 +5,7 @@ import L from 'leaflet';
 import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol';
 
-import savedState, { saveState, isFirstStart } from '../../lib/savedState';
+import savedState, { saveState } from '../../lib/savedState';
 
 window.L = L;
 

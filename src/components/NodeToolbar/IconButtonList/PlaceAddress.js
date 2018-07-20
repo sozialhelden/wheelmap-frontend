@@ -9,8 +9,6 @@ import type {
 } from '../../../lib/Feature';
 
 import getAddressString from '../../../lib/getAddressString';
-import Address from '../Address';
-import get from 'lodash/get';
 import { generateMapsUrl } from '../../../lib/generateMapsUrls';
 import { generateShowOnOsmUrl } from '../../../lib/generateOsmUrls';
 import { placeNameFor } from '../../../lib/Feature';

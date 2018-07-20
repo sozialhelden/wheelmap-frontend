@@ -26,8 +26,7 @@ import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
 
-import filterAccessibility from '../../lib/filterAccessibility';
-import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom, isWheelchairAccessible } from '../../lib/Feature';
+import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom } from '../../lib/Feature';
 import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';

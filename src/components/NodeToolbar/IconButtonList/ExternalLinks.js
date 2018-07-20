@@ -2,24 +2,15 @@
 
 import { t } from 'c-3po';
 import * as React from 'react';
-import type { RouterHistory } from 'react-router-dom';
-import styled from 'styled-components';
-
-import type { Feature } from '../../../lib/Feature';
-import openButtonCaption from '../../../lib/openButtonCaption';
-
 import SourceLink from '../SourceLink';
 import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
-
-import WorldIcon from '../../icons/actions/World';
-import FlagIcon from '../../icons/actions/Flag';
+import type { Feature } from '../../../lib/Feature';
 
 
 type Props = {
   feature: ?Feature,
   featureId: ?string | number,
   equipmentInfoId: ?string,
-  history: RouterHistory,
 };
 
 
@@ -31,7 +22,7 @@ const captions = {
 };
 
 
-export default function ExternalInfoAndEditPageLinks(props: { feature: ?Feature }) {
+export default function ExternalInfoAndEditPageLinks(props: Props) {
   const acFeature = accessibilityCloudFeatureFrom(props.feature);
   if (!acFeature) return null;
   const properties = acFeature.properties;

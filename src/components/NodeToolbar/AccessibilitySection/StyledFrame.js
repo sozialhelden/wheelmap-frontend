@@ -1,13 +1,7 @@
 // @flow
 
-import * as React from 'react';
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
-
-
-type Props = {
-  children: React.Element<*>,
-};
 
 
 const StyledFrame = styled.summary`
