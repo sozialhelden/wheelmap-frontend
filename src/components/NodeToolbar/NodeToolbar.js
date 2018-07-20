@@ -178,6 +178,10 @@ class NodeToolbar extends React.Component<Props, State> {
       onClickCurrentMarkerIcon
     } = this.props;
 
+    const statesWithIcon = ['edit-toilet-accessibility', 'report'];
+    const isModalStateWithPlaceIcon = includes(statesWithIcon, this.props.modalNodeState);
+    const hasIcon = !this.props.modalNodeState || isModalStateWithPlaceIcon;
+
     return <NodeHeader
       feature={feature}
       equipmentInfo={equipmentInfo}
@@ -185,7 +189,7 @@ class NodeToolbar extends React.Component<Props, State> {
       category={category}
       parentCategory={parentCategory}
       onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
-      hasIcon={!this.props.modalNodeState || includes(['edit-toilet-accessibility', 'report'], this.props.modalNodeState)}
+      hasIcon={hasIcon}
       hasShadow={this.state.isScrollable}
     />;
   }
