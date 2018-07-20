@@ -165,17 +165,6 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
   > button + button {
     margin-top: calc(-5px + 1rem);
   }
-
-  &:before {
-    display: block;
-    position: absolute;
-    content: " ";
-    top: -8px;
-    left: 1em;
-    width: 12px;
-    height: 8px;
-    background: url(../NoseDetailsContainer.svg) no-repeat; /* TODO: decide on outline vs. color & add nose */
-  }
   
   > * {
     margin: 1rem 0;

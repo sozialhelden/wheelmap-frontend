@@ -3,6 +3,7 @@
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
+import triangle from './triangle.svg';
 
 const StyledFrame = styled.summary`
   position: relative;
@@ -12,7 +13,6 @@ const StyledFrame = styled.summary`
   padding: .75rem .75rem 2px .75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
-  overflow: hidden;
 
   &:before {
     display: block;
@@ -22,7 +22,7 @@ const StyledFrame = styled.summary`
     left: 1em;
     width: 12px;
     height: 8px;
-    background: url(../NoseDetailsContainer.svg) no-repeat; /* TODO: decide on outline vs. color & add nose */
+    background: url(${triangle}) no-repeat;
   }
 
   > * {
