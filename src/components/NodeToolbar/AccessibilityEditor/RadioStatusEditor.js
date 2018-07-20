@@ -133,10 +133,12 @@ class RadioStatusEditor extends React.Component<Props, State> {
   }
 
 
-  onSaveButtonClick = () => {
+  onSaveButtonClick = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     const selectedValue = this.state.selectedValue;
     if (selectedValue && selectedValue !== this.props.undefinedStringValue) {
-      this.props.saveValue(selectedValue, {  });
+      this.props.saveValue(selectedValue);
       if (typeof this.props.onSave === 'function') {
         this.props.onSave(selectedValue);
       }
