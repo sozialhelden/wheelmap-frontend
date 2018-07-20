@@ -20,7 +20,7 @@ export type Props = {
   onClose: ?(() => void),
   onCompleted: ?((photos: FileList, captchaSolution: string) => void),
   waitingForPhotoUpload?: boolean;
-  photoCaptchaFailed?: boolean; 
+  photoCaptchaFailed?: boolean;
 };
 
 
@@ -401,6 +401,23 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
     const mailHref = `mailto:photos@wheelmap.org?subject=${t`Wheelmap Photo Upload`}&body=${t`Hi Wheelmap Team, I made a photo of the following place:`}`;
 
+    const captions = {
+      // translator: Shown while loading a captcha from the server. We try to avoid the word 'captcha' because normal users might not know what it means.
+      loading: t`Loading…`,
+      // translator: Shown above the captcha input field before uploading an image. We try to avoid the word 'captcha' because normal users might not know what it means.
+      help: t`Please enter these characters.`,
+      // translator: Shown below the captcha input field before uploading an image. We try to avoid the word 'captcha' because normal users might not know what it means.
+      explanation: t`Then we know you're not a machine.`,
+      // translator: Shown below the captcha input field before uploading an image. We try to avoid the word 'captcha' because normal users might not know what it means.
+      emailHint: t`If you cannot read or enter this, please contribute your photo via email!`,
+      // translator: Shown while uploading an image after user has entered the captcha correctly. We try to avoid the word 'captcha' because normal users might not know what it means.
+      startingUpload: t`Thanks! Starting upload…`,
+      // translator: Error message when captcha could not be loaded. We try to avoid the word 'captcha' because normal users might not know what it means.
+      unreachable: t`Server unreachable. Please retry a bit later, or let us know if the error persists!`,
+      // translator: Error message when captcha was incorrectly entered. We try to avoid the word 'captcha' because normal users might not know what it means.
+      invalid: t`Sorry, this did not work! Please check if all characters are correct, then retry.`,
+    };
+
     return (
       <StyledToolbar
         className='captcha-toolbar'
@@ -416,28 +433,28 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         </header>
         {!waitingForPhotoUpload && 
           <section className='captcha-container'>
-            {captchaError && <section className='captcha-error'>{t`Could not reach captcha server.`}</section>}
-            {photoCaptchaFailed && <section className='captcha-error'>{t`Failed captcha validation.`}</section>}
+            {captchaError && <section className='captcha-error'>{captions.unreachable}</section>}
+            {photoCaptchaFailed && <section className='captcha-error'>{captions.invalid}</section>}
             <div className='captcha-content'>
               {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{__html: captcha}} />}
               {captcha && this.renderForceRefreshButton()}
-              {waitingForCaptcha && <div className='loading-captcha'>{t`Loading captcha`}<Dots /></div>}
+              {waitingForCaptcha && <div className='loading-captcha'>{captions.loading}<Dots /></div>}
             </div>
-            <h3 className='captcha-help'>{t`Please type these characters.`}</h3>
-            <small className='captcha-explanation'>{t`Then we know you're not a machine.`}</small>
+            <h3 className='captcha-help'>{captions.help}</h3>
+            <small className='captcha-explanation'>{captions.explanation}</small>
             <section className='send-via-email'>
               <a href={mailHref}>
                 <span className='button-icon'>
                   <CameraIcon />
                 </span>
-                <small>{t`If you cannot solve our captchas, please contribute your photo via email!`}</small>
+                <small>{captions.emailHint}</small>
               </a>
             </section>
           </section>
         }
         {waitingForPhotoUpload && 
           <section className='starting-upload-container'>
-            <div><p>{t`Starting upload`}</p><Dots /></div>
+            <div><p>{captions.startingUpload}</p><Dots /></div>
           </section>
         }
       </StyledToolbar>
