@@ -33,7 +33,7 @@ function SearchResults(props: Props) {
   const noResultsFoundCaption = t`No results found.`;
 
   // translator: Text in search results when an error occurred
-  const searchErrorCaption = t`Failed loading results. Please try again later`;
+  const searchErrorCaption = t`Could not load results. Please try again later!`;
 
   return (<ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
     {failedLoading && <li className="error-result">{searchErrorCaption}</li>} 
