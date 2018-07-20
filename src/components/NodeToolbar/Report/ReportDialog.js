@@ -8,7 +8,7 @@ import {
 } from '../../../lib/Feature';
 
 import { t } from 'c-3po';
-import type { Feature } from '../../../lib/Feature';
+import type { Feature, NodeProperties } from '../../../lib/Feature';
 
 import strings from './strings';
 import FixComment from './FixComment';
@@ -20,7 +20,9 @@ import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEdito
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 
 
-const issues = properties => [
+type IssueEntry = { className: string, issueText: () => string, component: Class<React.Component<any>> };
+
+const generateIssues = (properties: NodeProperties) : IssueEntry[] => [
   {
     className: 'wrong-wheelchair-accessibility',
     issueText() {
@@ -72,7 +74,7 @@ type Props = {
 };
 
 type State = {
-  SelectedComponentClass: ?Class<Component<*, *>>,
+  SelectedComponentClass: ?Class<React.Component<*, *>>,
 };
 
 class ReportDialog extends React.Component<Props, State> {
@@ -82,16 +84,14 @@ class ReportDialog extends React.Component<Props, State> {
     SelectedComponentClass: null,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.trapFocus = this.trapFocus.bind(this);
-    this.escapeHandler = this.escapeHandler.bind(this);
-  }
+  backButton: HTMLButtonElement | null;
+  firstIssueButton: HTMLButtonElement | null;
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
-    this.firstIssueButton.focus();
+    if (this.firstIssueButton) {
+      this.firstIssueButton.focus();
+    }
   }
 
   componentWillUnmount() {
@@ -107,21 +107,41 @@ class ReportDialog extends React.Component<Props, State> {
     }
   }
 
-  escapeHandler(event) {
+  escapeHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.props.onClose();
+      event.preventDefault();
+      event.stopPropagation();
     }
   }
 
-  trapFocus({nativeEvent}) {
+  trapFocus = ({nativeEvent}) => {
     if (nativeEvent.target === this.firstIssueButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.backButton.focus();
+      if (this.backButton) {
+        this.backButton.focus();
+      }
     }
     if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
-      this.firstIssueButton.focus();
+      if (this.firstIssueButton) {
+        this.firstIssueButton.focus();
+      }
     }
+  }
+
+  onClose = (event: UIEvent) => {
+    if (this.props.onClose) {
+      this.props.onClose();
+      event.preventDefault();
+      event.stopPropagation();      
+    }
+  }
+
+  onSelectComponentClass = (issue: IssueEntry, event: UIEvent) => {
+    this.setState({ SelectedComponentClass: issue.component });
+    event.stopPropagation();
+    event.preventDefault();
   }
 
   render() {
@@ -131,11 +151,14 @@ class ReportDialog extends React.Component<Props, State> {
     const ComponentClass = this.state.SelectedComponentClass;
     const { backButtonCaption, reportIssueHeader } = strings();
 
+    const properties : NodeProperties = feature.properties;
+    const issues = generateIssues(properties);
+
     if (ComponentClass) {
       return (<ComponentClass
         feature={feature}
         featureId={featureId}
-        onClose={this.props.onClose}
+        onClose={this.onClose}
         inline={true}
       />);
     }
@@ -149,7 +172,7 @@ class ReportDialog extends React.Component<Props, State> {
         <header id='report-dialog-header'>{reportIssueHeader}</header>
 
         <ul className="issue-types">
-          {issues(feature.properties).map((issue, index) => (
+          {issues.map((issue, index) => (
             <li key={issue.className} className={issue.className}>
               <button
                 className={`link-button full-width-button ${issue.className}`}
@@ -158,9 +181,7 @@ class ReportDialog extends React.Component<Props, State> {
                     this.firstIssueButton = firstIssueButton
                   }
                 }}
-                onClick={() => {
-                  this.setState({ SelectedComponentClass: issue.component });
-                }}
+                onClick={this.onSelectComponentClass.bind(this, issue)}
                 onKeyDown={this.trapFocus}
               >
                 {issue.issueText()}
