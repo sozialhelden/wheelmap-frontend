@@ -29,7 +29,10 @@ class CloseLink extends React.Component<Props> {
       this.props.onClick(event);
       return;
     }
+
     event.preventDefault();
+    event.stopPropagation();
+    
     const params = getQueryParams();
     this.props.history.push({ pathname: '/beta', search: queryString.stringify(params) });
   }
