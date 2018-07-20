@@ -155,10 +155,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
 
   renderCloseButton() {
-    return !this.props.inline && <CloseLink
-      className='close-link'
-      onClick={this.closeButtonClick}
-    />;
+    return !this.props.inline && <CloseLink onClick={this.closeButtonClick} />;
   }
 
 

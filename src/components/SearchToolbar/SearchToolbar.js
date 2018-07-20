@@ -401,7 +401,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
   renderCloseLink() {
     return <CloseLink
       history={this.props.history}
-      className='close-link'
       ariaLabel={t`Clear Search`}
       onClick={() => {
         this.resetSearch();
