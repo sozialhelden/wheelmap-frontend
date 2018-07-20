@@ -10,6 +10,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
 
+import useImperialUnits from './useImperialUnits';
 import type { EquipmentInfo } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
@@ -362,8 +363,11 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?s
     // translator: Describes criteria for marking places as fully wheelchair accessible on Wheelmap
     case 'yes': return t`Entrance without steps, all rooms without steps.`;
     case 'limited':
-      // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap
-      return t`Entrance has one step with max. 7 cm / 3 inch height, most rooms are without steps.`;
+    return useImperialUnits() ?
+        // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
+        t`Entrance has one step with max. 3 inch height, most rooms are without steps.` :
+        // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
+        t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
     // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
     case 'no': return t`Entrance has a step or several steps, rooms are not accessible.`;
     case 'unknown':

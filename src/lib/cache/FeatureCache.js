@@ -182,7 +182,7 @@ export default class FeatureCache<
 
   updateFeatureAttribute(
     id: string,
-    newProperties: $PropertyType<FeatureType, "properties">
+    newProperties: $Shape<$PropertyType<FeatureType, "properties">>
   ) {
     const feature = this.cache[id];
     if (!feature)
