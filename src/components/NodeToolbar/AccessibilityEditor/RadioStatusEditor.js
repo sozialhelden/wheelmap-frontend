@@ -107,7 +107,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
     Categories.getCategory(categoryId).then(() => {
       const iconId = getIconNameForProperties(properties);
       this.setState({categoryId: iconId});
-    })
+    });
   }
 
 
