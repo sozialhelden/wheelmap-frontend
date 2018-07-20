@@ -61,17 +61,13 @@ class PhotoSection extends React.Component<Props, State> {
   }
 
   combinePhotoSources = () => {
-    const mergedPhotos = ([]).concat(this.state.acPhotos, this.state.wmPhotos);
+    const lightBoxPhotos = ([]).concat(this.state.acPhotos, this.state.wmPhotos);
 
-    this.setState({ lightBoxPhotos: [].concat(mergedPhotos) });
+    this.setState({ lightBoxPhotos: lightBoxPhotos });
 
-    let galleryPhotos = [];
-    if (mergedPhotos.length > 0) {
-      // use the thumbnail sizes for this
-      galleryPhotos = mergedPhotos.map(p => {
-        return Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
-      });
-    }
+    const galleryPhotos = lightBoxPhotos.map(p => {
+      return Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
+    });
 
     this.setState({ photos: galleryPhotos }, () => {
       const g : any = (this.gallery);
@@ -103,12 +99,7 @@ class PhotoSection extends React.Component<Props, State> {
   }
 
   thumbnailSelected = (event: UIEvent, obj: { index: number }) => {
-    // the last element is always the upload photo element
-    if (obj.index === this.state.photos.length - 1) {
-      this.props.onStartPhotoUploadFlow();
-    } else {
-      this.openLightbox(event, obj);
-    }
+    this.openLightbox(event, obj);    
   }
 
   openLightbox = (event: UIEvent, obj: { index: number }) => {
