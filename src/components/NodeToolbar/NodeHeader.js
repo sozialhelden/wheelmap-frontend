@@ -30,7 +30,7 @@ const StyledNodeHeader = styled.header`
 
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
-  margin-left: 42px;
+  margin-left: ${props => props.hasPadding ? '42' : '0'}px;
   margin-bottom: 0.5rem;
 `;
 
@@ -41,7 +41,7 @@ type Props = {
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
   parentCategory: ?Category,
-  showOnlyBasics: boolean,
+  hasIcon: boolean,
   onClickCurrentMarkerIcon?: ((Feature) => void),
   hasShadow: boolean;
 };
@@ -76,22 +76,17 @@ export default class NodeHeader extends React.Component<Props> {
 
     const accessibility = isEquipment ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties'])) : isWheelchairAccessible(properties);
     const hasLongName = placeName && placeName.length > 50;
+    const icon = <Icon accessibility={accessibility} category={categoryName ? shownCategoryId : 'undefined'} size='medium' ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />;
     const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
-      {categoryName ?
-        <Icon accessibility={accessibility} category={shownCategoryId} size='medium' ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />
-        : <Icon accessibility={accessibility} category={'undefined'} size='medium' ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />
-      }
+      {this.props.hasIcon && icon}
       {placeName}
     </PlaceName>);
-
-    if (this.props.showOnlyBasics) {
-      return <StyledNodeHeader>{placeName}</StyledNodeHeader>;
-    }
 
     const categoryElement = properties.name ? <StyledBreadCrumbs
       properties={properties}
       category={this.props.category}
       parentCategory={this.props.parentCategory}
+      hasPadding={this.props.hasIcon}
     /> : null;
 
     return (

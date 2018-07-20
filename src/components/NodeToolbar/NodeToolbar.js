@@ -185,7 +185,7 @@ class NodeToolbar extends React.Component<Props, State> {
       category={category}
       parentCategory={parentCategory}
       onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
-      showOnlyBasics={!!this.props.modalNodeState}
+      hasIcon={!this.props.modalNodeState || includes(['edit-toilet-accessibility', 'report'], this.props.modalNodeState)}
       hasShadow={this.state.isScrollable}
     />;
   }
