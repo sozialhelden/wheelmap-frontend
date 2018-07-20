@@ -18,59 +18,55 @@ msgstr "och"
 msgid " or "
 msgstr "eller"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } i Wheelmap"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] "${ count } trasig hiss"
-msgstr[1] "${ count } trasiga hissar"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] "${ count } trasig rulltrappa"
-msgstr[1] "${ count } trasiga rulltrappor"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] "${ count } hiss med okänd status"
-msgstr[1] "${ count } hissar med okänd status"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] "${ count } rulltrappa med okänd status"
-msgstr[1] "${ count } rulltrappor med okänd status"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] "${ count } fungerande hiss"
-msgstr[1] "${ count } fungerande hissar"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] "${ count } fungerande rulltrappa"
-msgstr[1] "${ count } fungerande rulltrappor"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } i Wheelmap.org"
 
-#: src/components/SearchToolbar/CategoryButton.js:60
-msgid "${ props.name } Filter"
-msgstr "${ props.name } Filtrera"
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:143
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nKlicka länken för att gå dit: ${ url }"
 
-#: src/components/NodeToolbar/Report/strings.js:33
+#: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
@@ -86,7 +82,7 @@ msgstr ""
 "(Man måste logga in först för detta, och det kan ta en stund för platsens "
 "information att uppdateras på Wheelmap efter en ändring gjorts.)"
 
-#: src/components/NodeToolbar/Report/strings.js:40
+#: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n\\nHi "
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
@@ -104,80 +100,95 @@ msgstr ", och"
 msgid ", or "
 msgstr ", eller"
 
-#: src/components/FilterToolbar/FilterToolbar.js:196
-msgid "Accessibility Filter Dialog"
-msgstr "Dialogruta urval tillgänglighetsnivåer"
-
-#: src/lib/Feature.js:322
+#: src/lib/Feature.js:396
 msgid "Accessible hand basin"
 msgstr "Tillgänglighetsanpassat handfat"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:181
+msgid "Add a place"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:184
+msgid "Add a place on OpenStreetMap"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:28
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr ""
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
 msgstr "Lägg till saknad plats"
 
-#: src/components/NodeToolbar/NodeFooter.js:129
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
 msgid "Add toilet status"
 msgstr "Lägg till Status för toalett"
-
-#: src/components/FilterToolbar/FilterToolbar.js:174
-msgid "All"
-msgstr "Alla"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr "Alla hissar och rulltrappor"
 
-#: src/components/FilterToolbar/FilterToolbar.js:177
+#: src/components/SearchToolbar/SearchButton.js:40
+msgid "All places"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
 msgid "At least partially wheelchair accessible"
 msgstr "Åtminstone delvis tillgänglig för rullstol"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
-#: src/components/NodeToolbar/Report/strings.js:27
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
+msgid "At least partially wheelchair accessible + WC"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:56
+#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
 msgid "Back"
 msgstr "Tillbaka"
 
-#: src/components/NodeToolbar/NodeFooter.js:116
-msgid "Bonus karma points!"
-msgstr "Bonus karma poäng!"
-
-#: src/components/NodeToolbar/PhoneNumberLink.js:13
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:22
 msgid "Call ${ phoneNumber }"
 msgstr "Ring ${ phoneNumber }"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:53
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:349
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:202
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:47
 msgid "Change"
 msgstr "Ändra"
 
-#: src/components/FilterToolbar/FilterButton.js:97
-msgid "Change which places are shown on the map"
-msgstr "Ändra vilka platser som visas på kartan"
-
-#: src/components/CloseLink.js:49
+#: src/components/SearchToolbar/SearchToolbar.js:404
 msgid "Clear Search"
 msgstr "Nollställ sökning"
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "Fritt golvutrymme ≥ 150 brett"
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Fritt golvutrymme ≥ 59 tum brett"
 
-#: src/components/FilterToolbar/FilterToolbar.js:56
-msgid "Close Dialog"
-msgstr "Stäng rutan"
+#: src/components/CloseLink.js:56
+#: src/components/CreatePlaceDialog/CloseButton.js:31
+#: src/components/NodeToolbar/Photos/PhotoSection.js:153
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+msgid "Close"
+msgstr ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
+#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+msgid "Close (Esc)"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:165
 msgid "Collapse Share Menu"
 msgstr "Minimera Dela-menyn"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:44
 msgid "Confirm"
 msgstr "Bekräfta"
 
@@ -185,15 +196,24 @@ msgstr "Bekräfta"
 msgid "Contact"
 msgstr "Kontakta"
 
-#: src/components/NodeToolbar/Report/strings.js:35
+#: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr "Kontakta Wheelmaps support"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:50
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:355
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/components/NodeToolbar/SourceLink.js:65
+#: src/components/SearchToolbar/SearchResults.js:36
+msgid "Could not load results. Please try again later!"
+msgstr ""
+
+#: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
+msgid "Could not load this place."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "Uppgifter"
 
@@ -209,11 +229,11 @@ msgstr ""
 msgid "Disruptions at this location"
 msgstr "Avbrott på den här platsen"
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "Dörrarnas öppningar ≥ 35 tum breda"
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "Dörrarnas öppningar ≥ 90 cm breda"
 
@@ -221,31 +241,42 @@ msgstr "Dörrarnas öppningar ≥ 90 cm breda"
 msgid "Edit this place on OpenStreetMap"
 msgstr "Redigera denna plats på OpenStreetMap"
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:52
 msgid "Education"
 msgstr "Utbildning"
 
-#: src/lib/Feature.js:298
+#: src/lib/Feature.js:372
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "Ingången har ett eller flera trappsteg, rummen är inte tillgängliga."
 
-#: src/lib/Feature.js:296
+#: src/lib/Feature.js:368
 msgid ""
-"Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
-" steps."
+"Entrance has one step with max. 3 inch height, most rooms are without steps."
 msgstr ""
-"Ingången har ett trappsteg max 7 cm högt, de flesta rummen är utan steg."
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:370
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+
+#: src/lib/Feature.js:364
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Ingång utan trappsteg, alla rum utan steg."
 
-#: src/components/NotFound/NotFound.js:44
-#: src/components/NotFound/NotFound.js:55
+#: src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:101
 msgid "Error"
 msgstr "FEL!"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
+#: src/lib/Categories.js:128
+msgid "Error while loading categories from server"
+msgstr ""
+
+#: src/lib/cache/URLDataCache.js:55
+msgid "Error while loading data from server."
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
 msgid "Expand Share Menu"
 msgstr "Utöka Dela-menyn"
 
@@ -253,7 +284,7 @@ msgstr "Utöka Dela-menyn"
 msgid "FAQ"
 msgstr "Frågor & Svar"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
 msgid "Find out about this place’s accessibility."
 msgstr "Ta reda på denna platsens tillgänglighet."
 
@@ -265,19 +296,27 @@ msgstr "Lär dig hur"
 msgid "Find wheelchair accessible places"
 msgstr "Sök rullstolstillgängliga platser"
 
-#: src/lib/Feature.js:321
+#: src/lib/Feature.js:395
 msgid "Folding grab rails"
 msgstr "Vikbara handstöd"
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:42
 msgid "Food & Drinks"
 msgstr "Mat&Dryck"
 
-#: src/lib/Feature.js:278
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:290
+msgid ""
+"For identifiable persons, written consent must be obtained in accordance "
+"with <a "
+"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
+"target=\"_blank\">GDPR</a>."
+msgstr ""
+
+#: src/lib/Feature.js:349
 msgid "Fully"
 msgstr "Helt"
 
-#: src/lib/Feature.js:263
+#: src/lib/Feature.js:334
 msgid "Fully wheelchair accessible"
 msgstr "Helt tillgänglig för rullstol"
 
@@ -285,47 +324,60 @@ msgstr "Helt tillgänglig för rullstol"
 msgid "Get involved"
 msgstr "Bli delaktig"
 
-#: src/lib/Feature.js:308
-msgid "Has a wheelchair accessible toilet."
-msgstr "Har en rullstolsanpassad toalett."
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
+msgid "Go Map!! in App Store"
+msgstr ""
 
-#: src/lib/Categories.js:64
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
+#: src/components/SearchToolbar/SearchToolbar.js:415
+msgid "Go!"
+msgstr ""
+
+#: src/lib/Categories.js:56
 msgid "Health"
 msgstr "Hälsa"
 
-#: src/components/Onboarding/Onboarding.js:30
+#: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "Hjälp till med att markera platser!"
 
-#: src/components/MainMenu/MainMenu.js:151
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Hi Wheelmap Team, I made a photo of the following place:"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:175
 msgid "Home"
 msgstr "Startsidan"
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:48
 msgid "Hotels"
 msgstr "Hotell"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
+#: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "How wheelchair accessible is this place?"
 msgstr "Hur rullstolstillgänglig är denna plats?"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
-msgid "I don’t know"
-msgstr "Vet inte"
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "Jag fann en plats i Wheelmap: ${ url }"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr "Jag fann en plats i Wheelmap..."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "Jag fann denna plats i Wheelmap: ${ placeName }"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:42
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:288
+msgid ""
+"I give Sozialhelden e.V. unlimited rights of use and to republish the "
+"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
+"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:44
 msgid "I have more information about this place."
 msgstr "Jag har mer information om den här platsen."
 
@@ -337,26 +389,31 @@ msgstr ""
 "Om verksamheten på platsen helt upphört, kan man markera den som 'Ur "
 "användning\" på OpenStreetMap."
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
+msgid ""
+"If you cannot read or enter this, please contribute your photo via email!"
+msgstr ""
+
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
 msgstr "Om oss"
 
-#: src/components/NodeToolbar/NodeHeader.js:123
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:21
 msgid "Improve on ${ sourceNameString }"
 msgstr "Förbättra på ${ sourceNameString }"
 
-#: src/components/NodeToolbar/NodeFooter.js:113
+#: src/components/PhotoUpload/PhotoUploadButton.js:22
 msgid "Improve your karma!"
 msgstr "Förbättra din karma!"
 
-#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
 msgstr ""
 "Informationen om den här platsen har vänligt delats av en annan organisation"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "Är denna toaletten rullstolsanpassad?"
 
@@ -364,19 +421,44 @@ msgstr "Är denna toaletten rullstolsanpassad?"
 msgid "Is there an issue with this place?"
 msgstr "Är det nåt fel med den här platsen?"
 
+#: src/components/NotFound/NotFound.js:51
+msgid "It seems this place is not on Wheelmap."
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:54
+msgid "It seems we’re offline!"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr "Senaste uppdatering ${ dateString }."
 
-#: src/lib/Categories.js:54
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
+#: src/components/NodeToolbar/Report/strings.js:27
+msgid "Leave a note on OpenStreetMap"
+msgstr ""
+
+#: src/lib/Categories.js:46
 msgid "Leisure"
 msgstr "Fritid"
 
-#: src/components/Map/Map.js:459
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
+msgid "Loading…"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
+msgid "MAPS.ME in App Store"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:116
+msgid "MAPS.ME in PlayStore"
+msgstr ""
+
+#: src/components/Map/Map.js:640
 msgid "Map"
 msgstr "Karta"
 
-#: src/components/Onboarding/Onboarding.js:28
+#: src/components/Onboarding/Onboarding.js:27
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
@@ -384,23 +466,26 @@ msgstr ""
 "Finn och markera rullstolstillgängliga platser–över hela världen och "
 "kostnadsfritt. Det är lätt med vårt trafikljusliknande system:"
 
-#: src/components/NodeToolbar/NodeFooter.js:107
-msgid "Mark this place"
-msgstr "Markera denna plats"
-
-#: src/components/MainMenu/MainMenu.js:169
+#: src/components/MainMenu/MainMenu.js:193
 msgid "Menu"
 msgstr "Meny"
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:62
 msgid "Misc"
 msgstr "Blandat"
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:58
 msgid "Money"
 msgstr "Finans"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:60
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:182
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"there, they will appear here a bit later."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:62
 msgid "My problem isn’t listed here…"
 msgstr "Mitt problem finns inte angivet här..."
 
@@ -408,99 +493,198 @@ msgstr "Mitt problem finns inte angivet här..."
 msgid "News"
 msgstr "Nyheter"
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:18
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
+#: src/components/NodeToolbar/Photos/PhotoSection.js:180
+msgid "Next (Right arrow key)"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
 msgid "No"
 msgstr "Nej"
 
-#: src/lib/Feature.js:310
-msgid "No wheelchair accessible toilet."
-msgstr "Saknar rullstolsanpassad toalett"
+#: src/components/SearchToolbar/SearchResults.js:33
+msgid "No results found."
+msgstr ""
 
-#: src/lib/Feature.js:282
+#: src/lib/Feature.js:384
+msgid "No wheelchair accessible toilet."
+msgstr "Saknar rullstolsanpassad toalett."
+
+#: src/lib/Feature.js:353
 msgid "Not at all"
 msgstr "Inte alls"
 
-#: src/lib/Feature.js:267
+#: src/lib/Feature.js:338
 msgid "Not wheelchair accessible"
 msgstr "Inte tillgänglig för rullstol"
 
-#: src/lib/Categories.js:62
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or Inappropriate"
+msgstr ""
+
+#: src/lib/Categories.js:54
 msgid "Official"
 msgstr "Myndigheter"
 
-#: src/components/Onboarding/Onboarding.js:32
+#: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "OK, kör igång!"
 
-#: src/components/FilterToolbar/FilterToolbar.js:183
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
 msgstr "Enbart fullt tillgängliga"
 
-#: src/components/FilterToolbar/FilterToolbar.js:186
-msgid "Only show places with a wheelchair accessible toilet"
-msgstr "Enbart platser med rullstolsanpassad toalett"
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
+msgid "Only fully wheelchair accessible + WC"
+msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:121
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
+msgid "Only places that are not accessible"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+#: src/lib/openButtonCaption.js:6
 msgid "Open on ${ sourceNameString }"
 msgstr "Öppna på ${ sourceNameString }"
 
-#: src/lib/Feature.js:280
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other Problems"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr ""
+
+#: src/lib/Feature.js:351
 msgid "Partially"
 msgstr "Delvis"
 
-#: src/lib/Feature.js:265
+#: src/lib/Feature.js:336
 msgid "Partially wheelchair accessible"
 msgstr "Delvis tillgänglig för rullstol"
 
-#: src/components/FilterToolbar/FilterToolbar.js:180
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 msgid "Places that I can contribute to"
 msgstr "Platser jag kan komplettera"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
+msgid "Please enter these characters."
+msgstr ""
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
 msgstr "Media"
 
-#: src/components/NodeToolbar/NodeToolbar.js:260
-msgid "Report an Issue"
-msgstr "Rapportera strul"
+#: src/components/NodeToolbar/Photos/PhotoSection.js:182
+msgid "Previous (Left arrow key)"
+msgstr ""
 
-#: src/components/NotFound/NotFound.js:48
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+msgid "Reason for reporting"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:92
+msgid "Remove ${ caption } Filter"
+msgstr ""
+
+#: src/components/SearchToolbar/CategoryButton.js:142
+msgid "Remove ${ props.name } Filter"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:152
+msgid "Report"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
+msgid "Report an issue"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:73
+msgid "Retry"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:71
 msgid "Return Home"
 msgstr "Tillbaka Hem"
 
-#: src/components/SearchToolbar/SearchInputField.js:49
+#: src/components/SearchToolbar/SearchButton.js:45
+msgid "Search"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchInputField.js:52
 msgid "Search place or address"
 msgstr "Sök plats eller adress"
 
-#: src/components/SearchToolbar/SearchResults.js:265
+#: src/components/SearchToolbar/SearchResults.js:38
 msgid "Search results"
 msgstr "Sökresultat"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:208
+msgid "Send"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
+msgid ""
+"Server unreachable. Please retry a bit later, or let us know if the error "
+"persists!"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:126
 msgid "Share"
 msgstr "Dela"
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:40
 msgid "Shopping"
 msgstr "Handla"
 
-#: src/components/NodeToolbar/Report/strings.js:37
+#: src/components/Map/addLocateControlToMap.js:42
+msgid "Show me where I am"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr "Beklagar det där! Skriv en rad till oss så att vi kan fixa strulet."
 
-#: src/components/NotFound/NotFound.js:46
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:50
+msgid "Sorry, could not mark this place because of an error: ${ e }"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:69
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "Beklagar, det där skulle inte ha hänt!"
 
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+msgid ""
+"Sorry, this did not work! Please check if all characters are correct, then "
+"retry."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceList.js:45
 msgid "Source:"
 msgstr "Källa:"
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:60
 msgid "Sport"
 msgstr "Sport"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for your work. Your contribution will be visible after a quick "
+"check."
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thanks for reporting this photo. We will take a look."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Thanks! Starting upload…"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:285
+msgid "The following images…"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
@@ -510,34 +694,62 @@ msgstr ""
 "Det senaste vi vet är att den här ${ translatedEquipmentCategory } var ${ "
 "lastStatus } ${ dateString }."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:48
+#: src/components/NodeToolbar/Report/ReportDialog.js:50
 msgid "The place does not exist."
 msgstr "Platsen finns inte här."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:54
+#: src/components/NodeToolbar/Report/ReportDialog.js:56
 msgid "The place is in the wrong position."
 msgstr "Platsen har getts fel läge."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:29
+#: src/components/NodeToolbar/Report/ReportDialog.js:31
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
 "Den här platsen är angiven som ‘${ accessibilityDescription }’, men det är "
 "fel!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:36
+#: src/components/NodeToolbar/Report/ReportDialog.js:38
 msgid "The place’s toilet status is wrong or missing."
 msgstr "Platsens toalettstatus är fel eller saknas."
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
-msgid "This means:"
-msgstr "Vilket betyder:"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
+msgid "Then we know you're not a machine."
+msgstr ""
 
-#: src/lib/Categories.js:58
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This photo does not depict the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This photo does not show the current state of the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This photo has other problems or infringes on my copyrights."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This photo shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:35
+msgid ""
+"To locate yourself, open browser settings and allow wheelmap.org to use "
+"location services."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+msgid "To report"
+msgstr ""
+
+#: src/lib/Categories.js:50
 msgid "Tourism"
 msgstr "Turism"
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:44
 msgid "Transport"
 msgstr "Transporter"
 
@@ -545,15 +757,19 @@ msgstr "Transporter"
 msgid "Travel guide"
 msgstr "Reseguide"
 
-#: src/lib/Feature.js:284
+#: src/components/Map/Map.js:609
+msgid "Turn on location services"
+msgstr ""
+
+#: src/lib/Feature.js:355
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:340
 msgid "Unknown status"
 msgstr "Okänd tillgänglighet"
 
-#: src/components/SearchToolbar/SearchResults.js:207
+#: src/components/SearchToolbar/SearchResult.js:220
 msgid "Unnamed"
 msgstr "Namnlös"
 
@@ -561,27 +777,52 @@ msgstr "Namnlös"
 msgid "Unnamed facility"
 msgstr "Onämnd inrättning"
 
-#: src/lib/Feature.js:327
+#: src/lib/Feature.js:401
 msgid "Unnamed place"
 msgstr "Ej namngiven plats"
 
-#: src/components/NodeToolbar/Report/strings.js:31
-msgid "Use the link below for details about the place and editing."
-msgstr "Använd länken nedan för detaljer om platsen, och redigering"
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:61
+msgid "Upload failed: server error or file-format not supported"
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:55
+msgid "Upload in Progress..."
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
+msgid "Use OpenStreetMap web editor"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:33
+msgid "Use the link below for details about the place and editing."
+msgstr "Använd länken nedan för detaljer om platsen, och redigering."
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
+msgid "Vespucci in PlayStore"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
 msgid "Wheelchair Accessibility"
 msgstr "Rullstolstillgänglighet"
 
-#: src/components/FilterToolbar/FilterToolbar.js:209
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair Accessibility Filter"
 msgstr "Urval tillgänglighetsnivåer"
 
-#: src/lib/Feature.js:320
+#: src/lib/Feature.js:382
+msgid "Wheelchair accessible toilet"
+msgstr ""
+
+#: src/lib/Feature.js:394
 msgid "Wheelchair-height toilet seat"
 msgstr "Toalett med sits i rullstolshöjd"
 
-#: src/components/Onboarding/Onboarding.js:48
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Wheelmap Photo Upload"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:53
 msgid "Wheelmap start screen"
 msgstr "Wheelmaps startsida"
 
@@ -589,16 +830,20 @@ msgstr "Wheelmaps startsida"
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr "Wheelmap använder data från OpenStreetMap för att visa platser."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/FilterToolbar/FilterToolbar.js:171
-msgid "Which places do you want to find?"
-msgstr "Vilka platser vill du hitta?"
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:175
+msgid "Which problem do you want to report?"
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:17
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Wrong Place"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
 msgid "Yes"
 msgstr "Ja"
 
@@ -610,21 +855,33 @@ msgstr "Du kan ändra den här platsen läge på OpenStreetMap."
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "Du kan ta bort platser som inte längre finns, på OpenStreetMap."
 
-#: src/components/NodeToolbar/Report/strings.js:44
+#: src/components/Map/Map.js:595
+msgid "Zoom closer to see more places"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Problem med ${ placeName } i Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:46
+#: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Problem med en ${ categoryName } i Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:48
+#: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Problem med en plats i Wheelmap"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:317
+msgid "access plans"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
 msgstr "hiss"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:313
+msgid "entrances"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
@@ -638,6 +895,14 @@ msgstr "inrättning"
 msgid "in operation"
 msgstr "i drift"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
+msgid "load new"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:178
+msgid "of"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr "ur funktion"
@@ -646,6 +911,10 @@ msgstr "ur funktion"
 msgid "today"
 msgstr "idag"
 
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:321
+msgid "toilets"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr "okänd status"
@@ -653,3 +922,21 @@ msgstr "okänd status"
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
 msgstr "igår"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:286
+msgid "…are interesting for accessibility."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:287
+msgid "…are made by myself."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:289
+msgid "…do not contain any people."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:291
+msgid ""
+"…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
+"target=\"_blank\">our guidelines</a>."
+msgstr ""

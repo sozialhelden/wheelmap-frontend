@@ -16,53 +16,49 @@ msgstr "および"
 msgid " or "
 msgstr "または"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:100
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "ホイールマップの${ categoryName }"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] "${ count } 台の故障中のエレベーター"
+msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] "${ count } 台の故障中のエスカレーター"
+msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] "${ count }台の状況不明の エレベーター"
+msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] "${ count }台の状況不明のエスカレーター"
+msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] "${ count }台の正常に動いているエレベーター"
+msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] "${ count } 台の正常に動いているエスカレーター"
+msgstr[0] ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:105
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "Wheelmap.org内の${ placeName }"
 
-#: src/components/SearchToolbar/CategoryButton.js:60
-msgid "${ props.name } Filter"
-msgstr "${ props.name }フィルター"
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:109
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:143
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nこのリンクをクリックして開けてください: ${ url }"
 
-#: src/components/NodeToolbar/Report/strings.js:33
+#: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
@@ -75,7 +71,7 @@ msgid ""
 msgstr ""
 "（これを行うにはまずログインが必要なこと、それからこの場所がホイールマップで更新されるまで少し時間がかかる場合があることをご了承ください。）"
 
-#: src/components/NodeToolbar/Report/strings.js:40
+#: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n\\nHi "
 "Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
@@ -93,80 +89,95 @@ msgstr "、そして"
 msgid ", or "
 msgstr "、または"
 
-#: src/components/FilterToolbar/FilterToolbar.js:196
-msgid "Accessibility Filter Dialog"
-msgstr "車椅子対応フィルターダイアログ"
-
-#: src/lib/Feature.js:322
+#: src/lib/Feature.js:396
 msgid "Accessible hand basin"
 msgstr "車椅子対応の洗面台"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:181
+msgid "Add a place"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:184
+msgid "Add a place on OpenStreetMap"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:28
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr ""
 
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
 msgstr "欠けている場所を追加する"
 
-#: src/components/NodeToolbar/NodeFooter.js:129
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
 msgid "Add toilet status"
 msgstr "トイレの状況を追加する"
-
-#: src/components/FilterToolbar/FilterToolbar.js:174
-msgid "All"
-msgstr "すべて"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr "すべてのエレベーターとエスカレーター"
 
-#: src/components/FilterToolbar/FilterToolbar.js:177
+#: src/components/SearchToolbar/SearchButton.js:40
+msgid "All places"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
 msgid "At least partially wheelchair accessible"
 msgstr "少なくとも車椅子一部可"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:136
-#: src/components/NodeToolbar/Report/strings.js:27
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
+msgid "At least partially wheelchair accessible + WC"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:56
+#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
 msgid "Back"
 msgstr "戻る"
 
-#: src/components/NodeToolbar/NodeFooter.js:116
-msgid "Bonus karma points!"
-msgstr "ボーナス宿命ポイント！"
-
-#: src/components/NodeToolbar/PhoneNumberLink.js:13
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:22
 msgid "Call ${ phoneNumber }"
 msgstr "${ phoneNumber }に電話する"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:133
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:53
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:349
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:202
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:127
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:47
 msgid "Change"
 msgstr "変更する"
 
-#: src/components/FilterToolbar/FilterButton.js:97
-msgid "Change which places are shown on the map"
-msgstr "地図にどの場所を表示するかを変更する"
-
-#: src/components/CloseLink.js:49
+#: src/components/SearchToolbar/SearchToolbar.js:404
 msgid "Clear Search"
 msgstr "検索履歴を削除する"
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 150 cm wide"
 msgstr "空いた空間の床面積 ≥ 幅150cm"
 
-#: src/lib/Feature.js:319
+#: src/lib/Feature.js:393
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "空いた空間の床面積 ≥ 幅59インチ"
 
-#: src/components/FilterToolbar/FilterToolbar.js:56
-msgid "Close Dialog"
-msgstr "ダイアログを閉じる"
+#: src/components/CloseLink.js:56
+#: src/components/CreatePlaceDialog/CloseButton.js:31
+#: src/components/NodeToolbar/Photos/PhotoSection.js:153
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+msgid "Close"
+msgstr ""
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:130
+#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+msgid "Close (Esc)"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:165
 msgid "Collapse Share Menu"
 msgstr "共有メニューを折りたたむ"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:124
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:44
 msgid "Confirm"
 msgstr "確認する"
 
@@ -174,15 +185,24 @@ msgstr "確認する"
 msgid "Contact"
 msgstr "連絡先"
 
-#: src/components/NodeToolbar/Report/strings.js:35
+#: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr "ホイールマップサポートチームに連絡する"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:130
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:50
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:355
 msgid "Continue"
 msgstr "続ける"
 
-#: src/components/NodeToolbar/SourceLink.js:65
+#: src/components/SearchToolbar/SearchResults.js:36
+msgid "Could not load results. Please try again later!"
+msgstr ""
+
+#: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
+msgid "Could not load this place."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "詳細"
 
@@ -196,11 +216,11 @@ msgstr "この場所の情報をOpenStreetMapで直接変更できることを�
 msgid "Disruptions at this location"
 msgstr "この場所では交通が停止しているか通行止めになっています。"
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 35 inch"
 msgstr "出入り口の内側の幅≥ 35インチ"
 
-#: src/lib/Feature.js:318
+#: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "出入り口の内側の幅≥ 90 cm"
 
@@ -208,30 +228,42 @@ msgstr "出入り口の内側の幅≥ 90 cm"
 msgid "Edit this place on OpenStreetMap"
 msgstr "この場所をOpenStreetMapで編集する"
 
-#: src/lib/Categories.js:60
+#: src/lib/Categories.js:52
 msgid "Education"
 msgstr "教育"
 
-#: src/lib/Feature.js:298
+#: src/lib/Feature.js:372
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "入口には段が1段から数段あり、部屋は車椅子不可。"
 
-#: src/lib/Feature.js:296
+#: src/lib/Feature.js:368
 msgid ""
-"Entrance has one step with max. 7 cm / 3 inch height, most rooms are without"
-" steps."
-msgstr "入口には最高7cm/3インチの段が1段あり、ほとんどの部屋に段がありません。"
+"Entrance has one step with max. 3 inch height, most rooms are without steps."
+msgstr ""
 
-#: src/lib/Feature.js:293
+#: src/lib/Feature.js:370
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+
+#: src/lib/Feature.js:364
 msgid "Entrance without steps, all rooms without steps."
 msgstr "入り口には段がなく、全部の部屋に段がありません。"
 
-#: src/components/NotFound/NotFound.js:44
-#: src/components/NotFound/NotFound.js:55
+#: src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:101
 msgid "Error"
 msgstr "エラー"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:116
+#: src/lib/Categories.js:128
+msgid "Error while loading categories from server"
+msgstr ""
+
+#: src/lib/cache/URLDataCache.js:55
+msgid "Error while loading data from server."
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
 msgid "Expand Share Menu"
 msgstr "共有メニューを拡張する"
 
@@ -239,7 +271,7 @@ msgstr "共有メニューを拡張する"
 msgid "FAQ"
 msgstr "FAQ（よくある質問）"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:108
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
 msgid "Find out about this place’s accessibility."
 msgstr "この場所が車椅子対応かどうかを確認しましょう。"
 
@@ -251,19 +283,27 @@ msgstr "どうするかを知る"
 msgid "Find wheelchair accessible places"
 msgstr "車椅子対応の場所を見つける"
 
-#: src/lib/Feature.js:321
+#: src/lib/Feature.js:395
 msgid "Folding grab rails"
 msgstr "折り畳み式手すり"
 
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:42
 msgid "Food & Drinks"
 msgstr "食事＆ドリンク"
 
-#: src/lib/Feature.js:278
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:290
+msgid ""
+"For identifiable persons, written consent must be obtained in accordance "
+"with <a "
+"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
+"target=\"_blank\">GDPR</a>."
+msgstr ""
+
+#: src/lib/Feature.js:349
 msgid "Fully"
 msgstr "全面"
 
-#: src/lib/Feature.js:263
+#: src/lib/Feature.js:334
 msgid "Fully wheelchair accessible"
 msgstr "全面車椅子可"
 
@@ -271,47 +311,60 @@ msgstr "全面車椅子可"
 msgid "Get involved"
 msgstr "参加しましょう"
 
-#: src/lib/Feature.js:308
-msgid "Has a wheelchair accessible toilet."
-msgstr "車椅子可のトイレ付き。"
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
+msgid "Go Map!! in App Store"
+msgstr ""
 
-#: src/lib/Categories.js:64
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
+#: src/components/SearchToolbar/SearchToolbar.js:415
+msgid "Go!"
+msgstr ""
+
+#: src/lib/Categories.js:56
 msgid "Health"
 msgstr "ヘルス"
 
-#: src/components/Onboarding/Onboarding.js:30
+#: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "場所に印を付けるお手伝いをしてください！"
 
-#: src/components/MainMenu/MainMenu.js:151
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Hi Wheelmap Team, I made a photo of the following place:"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:175
 msgid "Home"
 msgstr "ホーム"
 
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:48
 msgid "Hotels"
 msgstr "ホテル"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:150
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
+#: src/components/NodeToolbar/NodeToolbar.js:265
 msgid "How wheelchair accessible is this place?"
 msgstr "この場所は車椅子にどれぐらい対応していますか？"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:132
-msgid "I don’t know"
-msgstr "知りません"
-
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:86
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "ホイールマップで場所を見つけました: ${ url }"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:90
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr " Wheelmapで場所を見つけました..."
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:103
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "ホイールマップでこの場所を見つけました: ${ placeName }"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:42
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:288
+msgid ""
+"I give Sozialhelden e.V. unlimited rights of use and to republish the "
+"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
+"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:44
 msgid "I have more information about this place."
 msgstr "私はこの場所に関する情報をもっとたくさん持っています。"
 
@@ -321,25 +374,30 @@ msgid ""
 "OpenStreetMap."
 msgstr "場所が閉館したり廃業している場合は、OpenStreetMapでその場所に「使用されていない」とタグ付けすることができます。"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
+msgid ""
+"If you cannot read or enter this, please contribute your photo via email!"
+msgstr ""
+
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
 msgstr "インプリント"
 
-#: src/components/NodeToolbar/NodeHeader.js:123
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:21
 msgid "Improve on ${ sourceNameString }"
 msgstr "${ sourceNameString }を改善する"
 
-#: src/components/NodeToolbar/NodeFooter.js:113
+#: src/components/PhotoUpload/PhotoUploadButton.js:22
 msgid "Improve your karma!"
 msgstr "宿命を上向きにしましょう！"
 
-#: src/components/NodeToolbar/Report/strings.js:29
+#: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
 msgstr "この場所に関する情報は他の団体のご厚意で提供していただきました"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:123
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "ここのトイレは車椅子可ですか？"
 
@@ -347,41 +405,69 @@ msgstr "ここのトイレは車椅子可ですか？"
 msgid "Is there an issue with this place?"
 msgstr "この場所に何か問題がありますか？"
 
+#: src/components/NotFound/NotFound.js:51
+msgid "It seems this place is not on Wheelmap."
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:54
+msgid "It seems we’re offline!"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr "前回の更新日${ dateString }。"
 
-#: src/lib/Categories.js:54
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
+#: src/components/NodeToolbar/Report/strings.js:27
+msgid "Leave a note on OpenStreetMap"
+msgstr ""
+
+#: src/lib/Categories.js:46
 msgid "Leisure"
 msgstr "レジャー"
 
-#: src/components/Map/Map.js:459
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
+msgid "Loading…"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
+msgid "MAPS.ME in App Store"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:116
+msgid "MAPS.ME in PlayStore"
+msgstr ""
+
+#: src/components/Map/Map.js:640
 msgid "Map"
 msgstr "地図"
 
-#: src/components/Onboarding/Onboarding.js:28
+#: src/components/Onboarding/Onboarding.js:27
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
 " with our traffic light system:"
 msgstr "車椅子可の場所に印を付けたり、車椅子可の場所を見つけましょう—世界中、無料で。当サイトの信号システムなら簡単です："
 
-#: src/components/NodeToolbar/NodeFooter.js:107
-msgid "Mark this place"
-msgstr "この場所に印を付ける"
-
-#: src/components/MainMenu/MainMenu.js:169
+#: src/components/MainMenu/MainMenu.js:193
 msgid "Menu"
 msgstr "メニュー"
 
-#: src/lib/Categories.js:70
+#: src/lib/Categories.js:62
 msgid "Misc"
 msgstr "その他"
 
-#: src/lib/Categories.js:66
+#: src/lib/Categories.js:58
 msgid "Money"
 msgstr "お金"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:60
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:182
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"there, they will appear here a bit later."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:62
 msgid "My problem isn’t listed here…"
 msgstr "私の問題がこのリストに載っていません..."
 
@@ -389,99 +475,198 @@ msgstr "私の問題がこのリストに載っていません..."
 msgid "News"
 msgstr "ニュース"
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:18
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:129
+#: src/components/NodeToolbar/Photos/PhotoSection.js:180
+msgid "Next (Right arrow key)"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
 msgid "No"
 msgstr "いいえ"
 
-#: src/lib/Feature.js:310
+#: src/components/SearchToolbar/SearchResults.js:33
+msgid "No results found."
+msgstr ""
+
+#: src/lib/Feature.js:384
 msgid "No wheelchair accessible toilet."
 msgstr "車椅子不可のトイレ。"
 
-#: src/lib/Feature.js:282
+#: src/lib/Feature.js:353
 msgid "Not at all"
 msgstr "まったくそうではありません"
 
-#: src/lib/Feature.js:267
+#: src/lib/Feature.js:338
 msgid "Not wheelchair accessible"
 msgstr "車椅子不可"
 
-#: src/lib/Categories.js:62
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or Inappropriate"
+msgstr ""
+
+#: src/lib/Categories.js:54
 msgid "Official"
 msgstr "公式"
 
-#: src/components/Onboarding/Onboarding.js:32
+#: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "さあ、行きましょう！"
 
-#: src/components/FilterToolbar/FilterToolbar.js:183
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
 msgstr "全面的に車椅子可のみ"
 
-#: src/components/FilterToolbar/FilterToolbar.js:186
-msgid "Only show places with a wheelchair accessible toilet"
-msgstr "車椅子可のトイレ付きの場所だけを表示する"
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
+msgid "Only fully wheelchair accessible + WC"
+msgstr ""
 
-#: src/components/NodeToolbar/NodeHeader.js:121
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
+msgid "Only places that are not accessible"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+#: src/lib/openButtonCaption.js:6
 msgid "Open on ${ sourceNameString }"
 msgstr "${ sourceNameString }で開ける"
 
-#: src/lib/Feature.js:280
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other Problems"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr ""
+
+#: src/lib/Feature.js:351
 msgid "Partially"
 msgstr "一部"
 
-#: src/lib/Feature.js:265
+#: src/lib/Feature.js:336
 msgid "Partially wheelchair accessible"
 msgstr "車椅子一部可"
 
-#: src/components/FilterToolbar/FilterToolbar.js:180
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 msgid "Places that I can contribute to"
 msgstr "寄稿やお手伝い可能な場所"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
+msgid "Please enter these characters."
+msgstr ""
 
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
 msgstr "押す"
 
-#: src/components/NodeToolbar/NodeToolbar.js:260
-msgid "Report an Issue"
-msgstr "問題を報告する"
+#: src/components/NodeToolbar/Photos/PhotoSection.js:182
+msgid "Previous (Left arrow key)"
+msgstr ""
 
-#: src/components/NotFound/NotFound.js:48
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+msgid "Reason for reporting"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:92
+msgid "Remove ${ caption } Filter"
+msgstr ""
+
+#: src/components/SearchToolbar/CategoryButton.js:142
+msgid "Remove ${ props.name } Filter"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:152
+msgid "Report"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
+msgid "Report an issue"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:73
+msgid "Retry"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:71
 msgid "Return Home"
 msgstr "帰宅"
 
-#: src/components/SearchToolbar/SearchInputField.js:49
+#: src/components/SearchToolbar/SearchButton.js:45
+msgid "Search"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchInputField.js:52
 msgid "Search place or address"
 msgstr "場所または住所を検索する"
 
-#: src/components/SearchToolbar/SearchResults.js:265
+#: src/components/SearchToolbar/SearchResults.js:38
 msgid "Search results"
 msgstr "検索結果"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:92
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:208
+msgid "Send"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
+msgid ""
+"Server unreachable. Please retry a bit later, or let us know if the error "
+"persists!"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:126
 msgid "Share"
 msgstr "共有する"
 
-#: src/lib/Categories.js:48
+#: src/lib/Categories.js:40
 msgid "Shopping"
 msgstr "ショッピング"
 
-#: src/components/NodeToolbar/Report/strings.js:37
+#: src/components/Map/addLocateControlToMap.js:42
+msgid "Show me where I am"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr "すみません！ご連絡いただければ、問題が解決できるようお手伝いさせていただきます。"
 
-#: src/components/NotFound/NotFound.js:46
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:50
+msgid "Sorry, could not mark this place because of an error: ${ e }"
+msgstr ""
+
+#: src/components/NotFound/NotFound.js:69
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "すみません、起こってはならないことでした！"
 
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+msgid ""
+"Sorry, this did not work! Please check if all characters are correct, then "
+"retry."
+msgstr ""
+
+#: src/components/NodeToolbar/SourceList.js:45
 msgid "Source:"
 msgstr "出典："
 
-#: src/lib/Categories.js:68
+#: src/lib/Categories.js:60
 msgid "Sport"
 msgstr "スポーツ"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for your work. Your contribution will be visible after a quick "
+"check."
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thanks for reporting this photo. We will take a look."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Thanks! Starting upload…"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:285
+msgid "The following images…"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:154
 msgid ""
@@ -491,32 +676,60 @@ msgstr ""
 "最新の情報では、この${ translatedEquipmentCategory } は ${ dateString }日に${ lastStatus "
 "} であることが分かっています。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:48
+#: src/components/NodeToolbar/Report/ReportDialog.js:50
 msgid "The place does not exist."
 msgstr "この場所は存在しません。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:54
+#: src/components/NodeToolbar/Report/ReportDialog.js:56
 msgid "The place is in the wrong position."
 msgstr "この場所は位置が間違っています。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:29
+#: src/components/NodeToolbar/Report/ReportDialog.js:31
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr "この場所には‘${ accessibilityDescription }’,という印が付いていますが、間違いです！"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:36
+#: src/components/NodeToolbar/Report/ReportDialog.js:38
 msgid "The place’s toilet status is wrong or missing."
 msgstr "この場所のトイレの状況は情報が間違っているか不足しています。"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:135
-msgid "This means:"
-msgstr "この意味は："
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
+msgid "Then we know you're not a machine."
+msgstr ""
 
-#: src/lib/Categories.js:58
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This photo does not depict the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This photo does not show the current state of the place"
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This photo has other problems or infringes on my copyrights."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This photo shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:35
+msgid ""
+"To locate yourself, open browser settings and allow wheelmap.org to use "
+"location services."
+msgstr ""
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+msgid "To report"
+msgstr ""
+
+#: src/lib/Categories.js:50
 msgid "Tourism"
 msgstr "ツーリズム"
 
-#: src/lib/Categories.js:52
+#: src/lib/Categories.js:44
 msgid "Transport"
 msgstr "交通"
 
@@ -524,15 +737,19 @@ msgstr "交通"
 msgid "Travel guide"
 msgstr "旅行ガイド"
 
-#: src/lib/Feature.js:284
+#: src/components/Map/Map.js:609
+msgid "Turn on location services"
+msgstr ""
+
+#: src/lib/Feature.js:355
 msgid "Unknown"
 msgstr "不明"
 
-#: src/lib/Feature.js:269
+#: src/lib/Feature.js:340
 msgid "Unknown status"
 msgstr "状況不明"
 
-#: src/components/SearchToolbar/SearchResults.js:207
+#: src/components/SearchToolbar/SearchResult.js:220
 msgid "Unnamed"
 msgstr "名前なし"
 
@@ -540,27 +757,52 @@ msgstr "名前なし"
 msgid "Unnamed facility"
 msgstr "名前なしの施設"
 
-#: src/lib/Feature.js:327
+#: src/lib/Feature.js:401
 msgid "Unnamed place"
 msgstr "名前なしの場所"
 
-#: src/components/NodeToolbar/Report/strings.js:31
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:61
+msgid "Upload failed: server error or file-format not supported"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:55
+msgid "Upload in Progress..."
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
+msgid "Use OpenStreetMap web editor"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:33
 msgid "Use the link below for details about the place and editing."
 msgstr "場所および編集に関しての詳細は下記のリンクをご使用ください。"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:159
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
+msgid "Vespucci in PlayStore"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
 msgid "Wheelchair Accessibility"
 msgstr "車椅子の対応"
 
-#: src/components/FilterToolbar/FilterToolbar.js:209
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair Accessibility Filter"
 msgstr "車椅子対応状況フィルター"
 
-#: src/lib/Feature.js:320
+#: src/lib/Feature.js:382
+msgid "Wheelchair accessible toilet"
+msgstr ""
+
+#: src/lib/Feature.js:394
 msgid "Wheelchair-height toilet seat"
 msgstr "車椅子の高さの便座"
 
-#: src/components/Onboarding/Onboarding.js:48
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
+msgid "Wheelmap Photo Upload"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:53
 msgid "Wheelmap start screen"
 msgstr "ホイールマップスタート画面"
 
@@ -568,16 +810,20 @@ msgstr "ホイールマップスタート画面"
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr "ホイールマップは場所の表示にOpenStreetMapのデータを使用しています。"
 
-#: src/components/NodeToolbar/ShareButtons/ShareButtons.js:88
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/FilterToolbar/FilterToolbar.js:171
-msgid "Which places do you want to find?"
-msgstr "どの場所をお探しですか？"
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:175
+msgid "Which problem do you want to report?"
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityDetails.js:17
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:126
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Wrong Place"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
 msgid "Yes"
 msgstr "はい"
 
@@ -589,21 +835,33 @@ msgstr "この場所の位置はOpenStreetMapで変更することができま�
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "存在しない場所はOpenStreetMapで削除できます。"
 
-#: src/components/NodeToolbar/Report/strings.js:44
+#: src/components/Map/Map.js:595
+msgid "Zoom closer to see more places"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] ホイールマップの ${ placeName } 上の問題"
 
-#: src/components/NodeToolbar/Report/strings.js:46
+#: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] ホイールマップでの ${ categoryName } 上の問題"
 
-#: src/components/NodeToolbar/Report/strings.js:48
+#: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap]ホイールマップでの場所上の問題"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:317
+msgid "access plans"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:137
 msgid "elevator"
 msgstr "エレベーター"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:313
+msgid "entrances"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:136
 msgid "escalator"
@@ -617,6 +875,14 @@ msgstr "施設"
 msgid "in operation"
 msgstr "動いている"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
+msgid "load new"
+msgstr ""
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:178
+msgid "of"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr "故障中"
@@ -625,6 +891,10 @@ msgstr "故障中"
 msgid "today"
 msgstr "今日"
 
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:321
+msgid "toilets"
+msgstr ""
+
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr "状況不明"
@@ -632,3 +902,21 @@ msgstr "状況不明"
 #: src/lib/EquipmentInfo.js:144
 msgid "yesterday"
 msgstr "昨日"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:286
+msgid "…are interesting for accessibility."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:287
+msgid "…are made by myself."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:289
+msgid "…do not contain any people."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:291
+msgid ""
+"…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
+"target=\"_blank\">our guidelines</a>."
+msgstr ""
