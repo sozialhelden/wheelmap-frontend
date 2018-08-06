@@ -35,7 +35,7 @@ export type SearchResultCollection = {
 let queryIndex: number = 0;
 
 
-// Search Komot photon (an OSM search provider, https://github.com/komoot/photon) for a given
+// Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
 
 export default function searchPlaces(query: string, { lat, lon }: { lat?: ?number, lon?: ?number }): Promise<?SearchResultCollection> {
@@ -47,7 +47,9 @@ export default function searchPlaces(query: string, { lat, lon }: { lat?: ?numbe
     localeSuffix = `&lang=${languageCode}`;
   }
 
-  const url = `https://photon.komoot.de/api/?q=${query}&limit=30${localeSuffix}`;
+  const encodedQuery = encodeURIComponent(query);
+  
+  const url = `https://photon.komoot.de/api/?q=${encodedQuery}&limit=30${localeSuffix}`;
 
   // For now, no location bias anymore: It seems to sort irrelevant results to the top
   // so you are not able to find New York anymore when entering 'New York', for example
