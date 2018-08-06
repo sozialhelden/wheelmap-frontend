@@ -85,15 +85,20 @@ const StyledToolbar = styled(Toolbar)`
     flex-direction: column;
     top: 0;
     z-index: 1;
+    height: 200px;
 
     .close-link {
       position: absolute;
       right: 0px;
     }
 
+    > div {
+      display: flex;
+    }
+
     img {
-      margin: 0;
-      height: 250px;
+      margin: 0;      
+      width: 100%;
       object-fit: contain;
     }
 
@@ -102,10 +107,18 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
+  > .radio-group {
+    margin-top: 1em;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
   > footer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 50px;
 
     label.link-button {
       text-align: center;
@@ -171,7 +184,9 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
       >
         <header>
           {this.renderCloseLink()}
-          <img src={photo.src} alt={t`To report`} />
+          <div>
+            <img src={photo.src} alt={t`To report`} />
+          </div>
           <h3>{t`Which problem do you want to report?`}</h3>
         </header>
 
