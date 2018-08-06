@@ -37,6 +37,7 @@ body.is-touch-device .leaflet-control-zoom {
   height: 100%;
   z-index: 500;
   position: absolute;
+  pointer-events: none;
 }
 
 .leaflet-icon-locate:before {
