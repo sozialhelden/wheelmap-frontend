@@ -150,6 +150,9 @@ class NodeToolbar extends React.Component<Props, State> {
       innerRef={reportDialog => this.reportDialog = reportDialog}
       feature={this.props.feature}
       featureId={this.props.featureId}
+      onReportComponentChanged={() => {
+        if (this.toolbar) { this.toolbar.ensureFullVisibility(); }
+      }}
       onClose={() => {
         if (this.props.onClose) this.props.onClose();
       }}

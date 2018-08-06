@@ -71,6 +71,7 @@ type Props = {
   className: string,
   onClose: (() => void),
   onCloseButtonChanged: (() => void),
+  onReportComponentChanged: (() => void),
 };
 
 type State = {
@@ -141,7 +142,7 @@ class ReportDialog extends React.Component<Props, State> {
   }
 
   onSelectComponentClass = (issue: IssueEntry, event: UIEvent) => {
-    this.setState({ SelectedComponentClass: issue.component });
+    this.setState({ SelectedComponentClass: issue.component }, this.props.onReportComponentChanged);
     event.stopPropagation();
     event.preventDefault();
   }
