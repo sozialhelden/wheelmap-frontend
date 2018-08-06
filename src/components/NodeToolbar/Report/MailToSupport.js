@@ -10,7 +10,7 @@ type Props = {
   featureId: string | number | null,
   category: ?Category,
   parentCategory: ?Category,
-  onClose: (() => void),
+  onClose: ((event: UIEvent) => void),
 };
 
 

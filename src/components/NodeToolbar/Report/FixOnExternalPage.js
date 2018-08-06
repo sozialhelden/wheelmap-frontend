@@ -7,7 +7,7 @@ import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 
 type Props = {
   feature: Feature,
-  onClose: (() => void),
+  onClose: ((event: UIEvent) => void),
   properties: AccessibilityCloudProperties,
 };
 

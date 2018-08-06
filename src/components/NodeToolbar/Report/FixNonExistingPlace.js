@@ -8,7 +8,7 @@ import type { Feature } from '../../../lib/Feature';
 type Props = {
   feature: Feature,
   featureId: number,
-  onClose: (() => void),
+  onClose: ((event: UIEvent) => void),
 };
 
 

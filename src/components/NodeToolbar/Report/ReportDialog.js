@@ -130,11 +130,13 @@ class ReportDialog extends React.Component<Props, State> {
     }
   }
 
-  onClose = (event: UIEvent) => {
+  onClose = (event: ?UIEvent) => {
     if (this.props.onClose) {
       this.props.onClose();
-      event.preventDefault();
-      event.stopPropagation();      
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
     }
   }
 
