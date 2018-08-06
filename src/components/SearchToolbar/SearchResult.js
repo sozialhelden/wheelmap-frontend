@@ -98,6 +98,7 @@ export default class SearchResult extends React.Component<Props, State> {
     wheelmapFeature: null,
   };
 
+  root: ?React.ElementRef<'a'> = null;
 
   componentDidMount() {
     this.fetchCategory();
@@ -210,8 +211,13 @@ export default class SearchResult extends React.Component<Props, State> {
     const zoom = getZoomLevel(hasWheelmapId, this.getCategory());
     const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
     return this.props.history.createHref({ pathname, search });
+  }  
+  
+  focus() {
+    if (this.root) {
+      this.root.focus();
+    }
   }
-
 
   render() {
     const result = this.props.result;
@@ -234,7 +240,7 @@ export default class SearchResult extends React.Component<Props, State> {
     const isHashLink = false;
 
 
-    return (<li className={`osm-category-${result.properties.osm_key || 'unknown'}-${result.properties.osm_value || 'unknown'}`}>
+    return (<li ref={r => { this.root = r;}} className={`osm-category-${result.properties.osm_key || 'unknown'}-${result.properties.osm_value || 'unknown'}`}>
       <HashLinkOrRouterLink
         to={href}
         className="link-button"

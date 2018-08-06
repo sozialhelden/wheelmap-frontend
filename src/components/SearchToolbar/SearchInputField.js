@@ -8,6 +8,7 @@ import { t } from 'c-3po';
 
 
 type Props = {
+  onSubmit: ?((event: UIEvent) => void),
   onChange: ?((event: UIEvent) => void),
   onBlur: ?((event: UIEvent) => void),
   onFocus: ?((event: UIEvent) => void),
@@ -35,6 +36,13 @@ class SearchInputField extends React.Component<Props> {
     this.input.blur();
   }
 
+  keyPressed = (event: UIEvent) => {
+    if (event.which === 13 && this.props.onSubmit) {
+      this.props.onSubmit(event);
+      event.preventDefault();
+    }
+  }
+
   render() {
     const {
       searchQuery,
@@ -55,12 +63,14 @@ class SearchInputField extends React.Component<Props> {
     return (<input
       ref={input => this.input = input}
       value={value}
+      name="search"
       onChange={onChange}
       disabled={disabled}
       tabIndex={hidden ? -1 : 0}
       onFocus={onFocus}
       onBlur={onBlur}
       onClick={onClick}
+      onKeyPress={this.keyPressed}
       className={`search-input ${className}`}
       placeholder={!Boolean(value) ? defaultPlaceholder : null}
       aria-label={defaultPlaceholder}

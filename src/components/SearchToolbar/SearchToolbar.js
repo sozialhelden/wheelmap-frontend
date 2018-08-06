@@ -13,6 +13,7 @@ import SearchIcon from './SearchIcon';
 import ChevronRight from '../ChevronRight';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
+import SearchResult from './SearchResults';
 import SearchInputField from './SearchInputField';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
@@ -96,13 +97,19 @@ const StyledToolbar = styled(Toolbar)`
   > header {
     position: sticky;
     display: flex;
-    flex-direction: row;
     top: 0;
     height: 50px;
     min-height: 50px;
     z-index: 1;
     border-bottom: 1px ${colors.borderColor} solid;
     background: white;
+
+    > form {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+    }
   }
 
   > section {
@@ -206,11 +213,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
     isLoading: false,
   };
 
-  toolbar: ?React.ElementRef<typeof Toolbar>;
-  input: ?React.ElementRef<'input'>;
-  searchInputField: ?React.ElementRef<'input'>;
-  closeLink: ?React.ElementRef<typeof CloseLink>;
-  goButton: ?React.ElementRef<'button'>;
+  toolbar: ?React.ElementRef<typeof Toolbar> = null;
+  input: ?React.ElementRef<'input'> = null;
+  searchInputField: ?React.ElementRef<'input'> = null;
+  closeLink: ?React.ElementRef<typeof CloseLink> = null;
+  goButton: ?React.ElementRef<'button'> = null;
+  firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
 
   handleSearchInputChange = debounce(() => {
@@ -298,7 +306,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
     });
   }
 
-
   renderSearchInputField() {
     return <SearchInputField
       innerRef={searchInputField => this.searchInputField = searchInputField}
@@ -333,6 +340,14 @@ export default class SearchToolbar extends React.Component<Props, State> {
         }
         this.handleSearchInputChange(event);
       }}
+      onSubmit={() => {
+        this.setState({ searchFieldIsFocused: false }, () => {
+          this.blur();
+          if (this.firstResult) {
+            this.firstResult.focus();
+          }
+        });
+      }}
       ariaRole="searchbox"
     />;
   }
@@ -346,6 +361,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
         hidden={this.props.hidden}
         history={this.props.history}
         onSelect={() => this.clearSearch()}
+        refFirst={(ref) => { this.firstResult = ref; }}
       />
     </div>;
   }
@@ -451,10 +467,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
         role="search"
       >
         <header>
-          <SearchIcon />
-          {this.renderSearchInputField()}
-          {this.props.searchQuery && this.renderCloseLink()}
-          {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
+          <form action="#" method="post" onSubmit={(ev) => { ev.preventDefault(); }}>
+            <SearchIcon />
+            {this.renderSearchInputField()}
+            {this.props.searchQuery && this.renderCloseLink()}
+            {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
+          </form>
         </header>
         <section onTouchStart={() => this.blur()}>
           { contentBelowSearchField }
