@@ -396,6 +396,8 @@ export default class Map extends React.Component<Props, State> {
 
     Categories.fetchOnce(props).then(() => {
       this.updateFeatureLayerVisibility(props);
+    }).catch(e => {
+      
     });
   }
 
