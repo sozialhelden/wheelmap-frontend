@@ -26,6 +26,18 @@ export default class HighlightableMarker extends L.Marker {
     super(latlng, Object.assign(defaults, options));
   }
 
+  updateIcon(feature: Feature) {
+    this.options.feature = feature;
+    this.setIcon(new MarkerIcon({
+        hrefForFeature: this.options.hrefForFeature,
+        onClick: this.options.onClick,
+        feature: feature,
+    }));
+  }
+
+  hasHighlight() {
+    return this.highlightedMarker;
+  }
 
   unhighlight(highLightLayer: L.Layer) {
     if (this.highlightedMarker && highLightLayer) {

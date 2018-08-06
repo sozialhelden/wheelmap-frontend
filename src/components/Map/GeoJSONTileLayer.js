@@ -81,20 +81,20 @@ class GeoJSONTileLayer extends TileLayer {
       // recreate existing marker on the same layer
       const layerGroup = existingMarker.layerGroup;
       if (layerGroup) {
-        existingMarker.remove();
-        delete this._idsToShownLayers[featureId];
+        var hasHighlightMarker = existingMarker.hasHighlight();
 
-        const marker = this._markerFromFeature(layerGroup, feature);
-        if (!marker) return;
-        this._map.addLayer(marker);
-        this._idsToShownLayers[featureId] = marker;
+        existingMarker.unhighlight(this.highlightLayer);
+        existingMarker.updateIcon(feature);
+        if (hasHighlightMarker) {
+          existingMarker.highlight(this.highlightLayer);
+        }
       }
     } else if (allowAdding) {
       // create a new layer for this marker
       const newLayerGroup = L.layerGroup(this.options);
       const newMarker = this._markerFromFeature(newLayerGroup, feature);
       if (!newMarker) return;
-      this._map.addLayer(newMarker);
+      this._layerGroup.addLayer(newLayerGroup);
       this._idsToShownLayers[featureId] = newMarker;
     }
   }
@@ -321,8 +321,7 @@ class GeoJSONTileLayer extends TileLayer {
     highlightMarkers(highlightLayer, markers);
   }
 
-  resetHighlights() 
-  {
+  resetHighlights() {
     this.highlightedMarkerIds = [];
   }
 }

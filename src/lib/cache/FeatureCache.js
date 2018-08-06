@@ -196,7 +196,7 @@ export default class FeatureCache<
     }
     const changeEvent = new CustomEvent("change", { target: this, feature });
     this.dispatchEvent(changeEvent);
-    console.log("Updated feature", feature);
+    console.log("Updated feature", feature, newProperties);
   }
 
   /**
