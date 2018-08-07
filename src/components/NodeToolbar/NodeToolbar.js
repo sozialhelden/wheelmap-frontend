@@ -231,7 +231,10 @@ class NodeToolbar extends React.Component<Props, State> {
       // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
       featureId={this.props.featureId}
       feature={this.props.feature}
-      onSave={(newValue: YesNoUnknown) => this.props.onCloseToiletAccessibility()}
+      onSave={(newValue: YesNoUnknown) => {
+        this.props.onClose();
+        this.props.onCloseToiletAccessibility();
+      }}
       onClose={this.props.onClose}
     />);
   }
@@ -243,6 +246,7 @@ class NodeToolbar extends React.Component<Props, State> {
       featureId={this.props.featureId}
       feature={this.props.feature}
       onSave={(newValue: YesNoLimitedUnknown) => {
+        this.props.onClose();
         if (includes(['yes', 'limited'], newValue)) {
           this.props.onOpenToiletAccessibility();
         } else {
