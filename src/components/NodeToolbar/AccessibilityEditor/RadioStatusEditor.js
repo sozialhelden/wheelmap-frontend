@@ -37,6 +37,7 @@ type Props = {
 type State = {
   selectedValue: ?string,
   categoryId: ?string,
+  busy: boolean,
 };
 
 
@@ -57,9 +58,10 @@ const backButtonCaption = t`Back`;
 
 
 class RadioStatusEditor extends React.Component<Props, State> {
-  state = {
+  state : State = {
     categoryId: 'other',
     selectedValue: null,
+    busy: false,
   };
 
   radioButtonToFocusOnStart: ?React.ElementRef<CustomRadio>;
@@ -139,9 +141,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
     const selectedValue = this.state.selectedValue;
     if (selectedValue && selectedValue !== this.props.undefinedStringValue) {
       this.props.saveValue(selectedValue);
-      if (typeof this.props.onSave === 'function') {
-        this.props.onSave(selectedValue);
-      }
+      this.setState({busy: true});
     }
   };
 
@@ -162,7 +162,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
 
   renderRadioGroup() {
-    const { selectedValue } = this.state;
+    const { selectedValue, busy } = this.state;
     const valueIsDefined = selectedValue !== 'unknown';
 
     // translator: Screen reader description for the accessibility choice buttons in the wheelchair accessibility editor dialog
@@ -180,6 +180,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       {this.props.shownStatusOptions.map((value, index) =>
         <CustomRadio
           key={String(value)}
+          disabled={busy}
           ref={radioButton => {
             const radioButtonIsSelected = value === selectedValue;
             if (radioButtonIsSelected) {
@@ -218,7 +219,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       </button>
       <button
         className="link-button primary-button"
-        disabled={isUnknown}
+        disabled={isUnknown || this.state.busy}
         onClick={this.onSaveButtonClick}
       >
         {saveButtonCaption}

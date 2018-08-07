@@ -488,6 +488,12 @@ const StyledToolbar = styled(Toolbar)`
       box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
       transition: box-shadow 0.2s;
     }
+
+    &[disabled] {
+      opacity: 0.8;
+      color: ${colors.neutralColor};
+      pointer-events: none;
+    }
   }
 
   .negative-button {
@@ -497,8 +503,15 @@ const StyledToolbar = styled(Toolbar)`
         background-color: ${colors.negativeBackgroundColorTransparent};
       }
     }
+    
     &:active {
       background-color: ${hsl(colors.negativeBackgroundColorTransparent).darker(1)};
+    }
+
+    &[disabled] {
+      opacity: 0.8;
+      color: ${colors.neutralColor};
+      pointer-events: none;
     }
   }
 

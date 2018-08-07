@@ -56,6 +56,13 @@ const StyledRadioGroup = styled(RadioGroup)`
     border-radius: 0.25em;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
+
+    &.is-disabled {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
     &[for="toilet-status"] {
       flex-direction: row;
       justify-content: space-between;
@@ -66,17 +73,19 @@ const StyledRadioGroup = styled(RadioGroup)`
       align-items: center;
       font-weight: bold;
     }
+
     footer {
       margin: 0.5em 0 0 0;
       opacity: 0.8;
     }
-    cursor: pointer;
+    
     input {
       width: 0;
       height: 0;
       opacity: 0;
       box-sizing: border-box;
     }
+
     .radio-button {
       margin-right: 8px;
 
@@ -85,9 +94,11 @@ const StyledRadioGroup = styled(RadioGroup)`
         box-shadow: 0px 0px 0px 2px #4469E1;
       }
     }
+
     .caption {
       flex: 1;
     }
+
     &:focus {
       background-color: yellow;
     }
