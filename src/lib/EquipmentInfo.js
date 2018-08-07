@@ -1,5 +1,5 @@
 // @flow
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import type { Point } from 'geojson-flow';
 import type { FeatureCollection, YesNoLimitedUnknown } from './Feature';
 import { categoryNameFor } from './Categories';

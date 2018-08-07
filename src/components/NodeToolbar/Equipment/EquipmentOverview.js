@@ -5,7 +5,7 @@ import * as React from 'react';
 import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import styled from 'styled-components';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import type { RouterHistory } from 'react-router-dom';
 import EquipmentList from './EquipmentList'
 import type { AccessibilityCloudFeature } from '../../../lib/Feature';

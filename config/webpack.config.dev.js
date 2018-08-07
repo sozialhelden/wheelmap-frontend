@@ -11,7 +11,7 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
-const c3poConfig = require('./c-3po');
+const ttagConfig = require('./ttag');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -91,7 +91,7 @@ module.exports = {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
-      'c-3po': process.env.locale ? 'c-3po/dist/mock' : 'c-3po',
+      'ttag': process.env.locale ? 'ttag/dist/mock' : 'ttag',
       'node-fetch': 'whatwg-fetch',
     },
     plugins: [
@@ -155,7 +155,7 @@ module.exports = {
               // directory for faster rebuilds.
               cacheDirectory: true,
               plugins: [
-                ['c-3po', c3poConfig],
+                ['ttag', ttagConfig],
               ],
             },
           },

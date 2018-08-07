@@ -1,7 +1,7 @@
 // @flow
 
 import { globalFetchManager } from './FetchManager';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
 

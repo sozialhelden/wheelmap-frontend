@@ -1,5 +1,5 @@
 // @flow
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 import flatten from 'lodash/flatten';

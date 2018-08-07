@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { ShareButtons } from 'react-share';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import colors from '../../../lib/colors';
 import IconButton from '../../IconButton';
 import { interpolateLab } from 'd3-interpolate';

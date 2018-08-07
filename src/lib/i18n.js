@@ -5,7 +5,7 @@ import difference from 'lodash/difference';
 import intersection from 'lodash/intersection';
 import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
-import { useLocales, addLocale } from 'c-3po';
+import { useLocales, addLocale } from 'ttag';
 import { i18nCache } from './cache/I18nCache';
 
 export type LocalizedString = string | {

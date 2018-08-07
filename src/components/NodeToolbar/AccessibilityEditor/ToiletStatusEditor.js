@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 
 import useImperialUnits from '../../../lib/useImperialUnits';
 import { accessibleToiletDescription } from '../../../lib/Feature';

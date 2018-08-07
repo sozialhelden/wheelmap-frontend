@@ -4,7 +4,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
 import colors from '../../lib/colors';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 
 
 type Props = {

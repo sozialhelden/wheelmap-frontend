@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import styled from 'styled-components';
 import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';

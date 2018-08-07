@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import L from 'leaflet';
 import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
 import 'leaflet.locatecontrol';

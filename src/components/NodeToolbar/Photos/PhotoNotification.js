@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import colors from '../../../lib/colors';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 

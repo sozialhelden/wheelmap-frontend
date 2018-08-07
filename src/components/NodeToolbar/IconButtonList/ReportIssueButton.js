@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import * as React from 'react';
 import FlagIcon from '../../icons/actions/Flag';
 import type { Feature } from '../../../lib/Feature';
