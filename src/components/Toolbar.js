@@ -60,6 +60,9 @@ class Toolbar extends React.Component<Props, State> {
 
   props: Props;
 
+  ensureVisibilityTimeoutId: ?number;
+  startTopOffsetTimeoutId: ?number;
+
   scrollElement: ?HTMLElement;
 
   state = {
@@ -87,7 +90,8 @@ class Toolbar extends React.Component<Props, State> {
   componentDidMount() {
     this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
-    setTimeout(() => {
+    this.startTopOffsetTimeoutId = setTimeout(() => {
+      this.startTopOffsetTimeoutId = undefined;
       this.onResize(this.props.startTopOffset);
     }, 100);
   }
@@ -95,8 +99,15 @@ class Toolbar extends React.Component<Props, State> {
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
+    if (this.ensureVisibilityTimeoutId) {
+      clearTimeout(this.ensureVisibilityTimeoutId);
+      this.ensureVisibilityTimeoutId = undefined;
+    }
+    if (this.startTopOffsetTimeoutId) {
+      clearTimeout(this.startTopOffsetTimeoutId);
+      this.startTopOffsetTimeoutId = undefined;
+    }
   }
-
 
   componentWillReceiveProps(newProps: Props) {
     if (newProps.isModal !== this.props.isModal) {
@@ -107,10 +118,13 @@ class Toolbar extends React.Component<Props, State> {
 
   /** Moves the toolbar to show as much of its content as possible. */
   ensureFullVisibility() {
-    setTimeout(() => {
-      this.setState({ topOffset: 0 });
-      this.onResize();
-    }, 150);
+    if (!this._ensureVisibilityTimeoutId) {
+      this.ensureVisibilityTimeoutId = setTimeout(() => {
+        this.ensureVisibilityTimeoutId = undefined;
+        this.setState({ topOffset: 0 });
+        this.onResize();
+      }, 150);
+    }
   }
 
 
