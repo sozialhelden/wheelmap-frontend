@@ -188,13 +188,18 @@ export default class FeatureCache<
     if (!feature)
       throw new Error("Cannot update a feature that is not in cache.");
 
+
     const existingProperties = feature.properties;
     if (existingProperties) {
       Object.assign(existingProperties, newProperties);
     } else {
       feature.properties = Object.assign({}, newProperties);
     }
-    const changeEvent = new CustomEvent("change", { target: this, feature });
+    
+    // clone object
+    this.cache[id] = Object.assign({}, feature);
+
+    const changeEvent = new CustomEvent("change", { target: this, feature: this.cache[id] });
     this.dispatchEvent(changeEvent);
     console.log("Updated feature", feature, newProperties);
   }
