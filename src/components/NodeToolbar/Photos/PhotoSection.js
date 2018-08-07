@@ -49,7 +49,10 @@ class PhotoSection extends React.Component<Props, State> {
 
   gallery: Gallery | null = null;
 
+  ignoreFetch: ?boolean;
+
   componentDidMount() {
+    this.ignoreFetch = false;
     this.fetchPhotos(this.props);
   }
 
@@ -58,6 +61,10 @@ class PhotoSection extends React.Component<Props, State> {
       this.fetchPhotos(nextProps);
       this.setState({ photos: [], lightBoxPhotos: [], acPhotos: [], wmPhotos: [] });
     }
+  }  
+  
+  componentWillUnmount() {
+    this.ignoreFetch = true;
   }
 
   combinePhotoSources = () => {
@@ -66,7 +73,9 @@ class PhotoSection extends React.Component<Props, State> {
     this.setState({ lightBoxPhotos: lightBoxPhotos });
 
     const galleryPhotos = lightBoxPhotos.map(p => {
-      return Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
+      var clone = Object.assign({}, p, { srcSet: p.thumbnailSrcSet || p.srcSet, sizes: p.thumbnailSizes || p.sizes });
+      delete clone.imageId;
+      return clone;
     });
 
     this.setState({ photos: galleryPhotos }, () => {
@@ -85,6 +94,9 @@ class PhotoSection extends React.Component<Props, State> {
       accessibilityCloudImageCache
         .getPhotosForFeature(props.featureId)
         .then((acPhotos: AccessibilityCloudImages) => {
+          if (this.ignoreFetch) {
+            return;
+          }
           const photos = convertAcPhotosToLightboxPhotos(acPhotos);
           this.setState({ acPhotos: photos }, this.combinePhotoSources);
         }).catch(this.handlePhotoError);
@@ -92,6 +104,9 @@ class PhotoSection extends React.Component<Props, State> {
       wheelmapFeaturePhotosCache
         .getPhotosForFeature(props.featureId)
         .then((wmPhotos: WheelmapFeaturePhotos) => {
+          if (this.ignoreFetch) {
+            return;
+          }
           const photos = convertWheelmapPhotosToLightboxPhotos(wmPhotos);
           this.setState({ wmPhotos: photos }, this.combinePhotoSources);
         }).catch(this.handlePhotoError);
