@@ -1,4 +1,4 @@
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import { userAgent } from '../lib/userAgent';
 import { saveState } from './savedState';
 

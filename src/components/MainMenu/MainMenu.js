@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
 import strings from './strings';

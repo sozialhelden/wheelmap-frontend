@@ -4,7 +4,7 @@ import type { FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 import EventTarget, { CustomEvent } from '../EventTarget';
 import get from 'lodash/get';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
 type FeatureCacheEvent<T> = CustomEvent & {

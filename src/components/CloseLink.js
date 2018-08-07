@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import CloseIcon from './icons/actions/Close';
 import { getQueryParams } from '../lib/queryParams';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 
 type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;

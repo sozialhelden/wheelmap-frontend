@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import CloseIcon from '../icons/actions/Close';

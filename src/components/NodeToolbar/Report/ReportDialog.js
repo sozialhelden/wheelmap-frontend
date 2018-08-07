@@ -7,7 +7,7 @@ import {
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import type { Feature, NodeProperties } from '../../../lib/Feature';
 
 import strings from './strings';

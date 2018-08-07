@@ -3,7 +3,7 @@
 import L from 'leaflet';
 import "leaflet.markercluster/dist/leaflet.markercluster-src";
 import { BasemapLayer } from 'esri-leaflet/src/EsriLeaflet';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';

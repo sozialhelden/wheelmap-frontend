@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
@@ -454,7 +454,10 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         }
         {waitingForPhotoUpload && 
           <section className='starting-upload-container'>
-            <div><p>{captions.startingUpload}</p><Dots /></div>
+            <div>
+              <p>{captions.startingUpload}</p>
+              <Dots />
+            </div>
           </section>
         }
       </StyledToolbar>

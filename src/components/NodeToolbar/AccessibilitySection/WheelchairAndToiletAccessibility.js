@@ -3,7 +3,7 @@
 import * as React from 'react';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import {
   isWheelchairAccessible,
   hasAccessibleToilet,

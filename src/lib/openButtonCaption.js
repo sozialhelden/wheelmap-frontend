@@ -1,4 +1,4 @@
-import { t } from 'c-3po';
+import { t } from 'ttag';
 
 // The naming of `sourceNameString` is to have a consistent translation on transifex for all 'open on ...' links.
 export default function openButtonCaption(sourceNameString) {

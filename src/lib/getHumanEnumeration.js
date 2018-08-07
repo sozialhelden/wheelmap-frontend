@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'c-3po'
+import { t } from 'ttag'
 
 type ConjunctionType = 'and' | 'or';
 
@@ -35,7 +35,7 @@ const conjunctionMap: ConjunctionMap = {
 // easier screen reader accessibility.
 //
 // Inserts a serial comma (‘Oxford’ comma) if appropriate. For this, you need to add localizations
-// to c-3po's locales.
+// to ttag's locales.
 //
 // You can supply your own conjunction used before the last word. If you do that, be sure to
 // translate it!

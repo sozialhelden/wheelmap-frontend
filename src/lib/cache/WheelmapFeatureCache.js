@@ -4,7 +4,7 @@ import FeatureCache from './FeatureCache';
 import { convertResponseToWheelmapFeature } from '../Feature';
 import type { WheelmapFeature, WheelmapFeatureCollection } from '../Feature';
 import config from '../config';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
 export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, WheelmapFeatureCollection> {

@@ -1,4 +1,4 @@
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import fetch from '../../../lib/fetch';
 import config from '../../../lib/config';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';

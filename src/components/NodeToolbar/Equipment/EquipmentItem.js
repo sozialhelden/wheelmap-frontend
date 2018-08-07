@@ -9,7 +9,7 @@ import { getQueryParams } from '../../../lib/queryParams';
 import * as equipmentIcons from '../../icons/equipment';
 import colors from '../../../lib/colors';
 import get from 'lodash/get';
-import { ngettext, msgid } from 'c-3po';
+import { ngettext, msgid } from 'ttag';
 import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
 import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 

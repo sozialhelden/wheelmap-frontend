@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 
 
 export default function strings() {

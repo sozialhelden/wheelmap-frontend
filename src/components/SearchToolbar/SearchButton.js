@@ -3,7 +3,7 @@
 import * as React from 'react';
 import SearchIcon from './SearchIcon';
 import MapButton from '../MapButton';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import styled from 'styled-components';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isFiltered } from '../../lib/Feature';

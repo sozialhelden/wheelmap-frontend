@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';

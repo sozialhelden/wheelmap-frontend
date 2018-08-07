@@ -1,6 +1,6 @@
 // @flow
 
-import { t } from 'c-3po';
+import { t } from 'ttag';
 import * as React from 'react';
 import SourceLink from '../SourceLink';
 import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
