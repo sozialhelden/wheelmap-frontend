@@ -36,26 +36,23 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
     }
   };
 
-  [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
-    if (cache.getCachedFeature(String(featureId))) {
-      cache.updateFeatureAttribute(String(featureId), { [propertyName]: value });
-    }
-  });
-
   return fetch(url, requestOptions)
     .then((response) => {
       if (response.ok) {
-
-        setTimeout(() => {
-          if (typeof options.onClose === 'function') options.onClose();
-          if (typeof options.onSave === 'function') options.onSave(value);
-        }, 50);
         return response.json();
       }
       throw response;
     })
+    .then((json) => {
+      [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
+        if (cache.getCachedFeature(String(featureId))) {
+          cache.updateFeatureAttribute(String(featureId), { [propertyName]: value });
+        }
+      });
+      if (typeof options.onSave === 'function') options.onSave(value);
+    }) 
     .catch((e) => {
-      console.error(e);
+      if (typeof options.onClose === 'function') options.onClose();
       // translator: Shown after marking a place did not work, for example because the connection was interrupted
       window.alert(t`Sorry, could not mark this place because of an error: ${e}`);
     });
