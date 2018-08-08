@@ -16,15 +16,12 @@ import mapsMeForAndroidIcon from './mapsMeForAndroid.png';
 import mapsMeForIOSIcon from './mapsMeForIOS.jpg';
 import vespucciIcon from './vespucci.png';
 
-
-
 export type Props = {
-  hidden: boolean,
-  onClose: ?(() => void),
-  lat: ?string,
-  lon: ?string,
+  hidden: boolean;
+  onClose: ?() => void;
+  lat: ?string;
+  lon: ?string;
 };
-
 
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
@@ -79,7 +76,6 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-
 const AppIcon = styled.img`
   width: 2rem;
   height: 2rem;
@@ -87,46 +83,42 @@ const AppIcon = styled.img`
   margin-right: 0.5rem;
 `;
 
+type App = { title: string; href: string; icon: string; };
+type AppFunction = (coords?: { lat: ?string; lon: ?string; }) => App;
 
-type App = { title: string, href: string, icon: string };
-type AppFunction = (coords?: { lat: ?string, lon: ?string }) => App;
-
-const apps: { [key:string]: AppFunction } = {
+const apps: { [key: string]: AppFunction } = {
   vespucci: () => ({
-    title: t`Vespucci in PlayStore`,
+    title: t`"Vespucci" in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=de.blau.android',
-    icon: vespucciIcon,
+    icon: vespucciIcon
   }),
-  idEditor: (coords) => ({
-    title: t`Use OpenStreetMap web editor`,
+  idEditor: coords => ({
+    title: t`Use the OpenStreetMap web editor.`,
     href: generateOsmEditorUrlForCoords(coords),
-    icon: idEditorIcon,
+    icon: idEditorIcon
   }),
   goMap: () => ({
-    title: t`Go Map!! in App Store`,
+    title: t`“Go Map!!” in App Store`,
     href: 'https://itunes.apple.com/us/app/go-map/id592990211?mt=8',
-    icon: goMapIcon,
+    icon: goMapIcon
   }),
   mapsMeForIOS: () => ({
-    title: t`MAPS.ME in App Store`,
+    title: t`“MAPS.ME” in App Store`,
     href: 'https://itunes.apple.com/app/id510623322',
-    icon: mapsMeForIOSIcon,
+    icon: mapsMeForIOSIcon
   }),
   mapsMeForAndroid: () => ({
-    title: t`MAPS.ME in PlayStore`,
+    title: t`“MAPS.ME” in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro',
-    icon: mapsMeForAndroidIcon,
-  }),
+    icon: mapsMeForAndroidIcon
+  })
 };
-
 
 export default class CreatePlaceDialog extends React.Component<Props> {
   props: Props;
 
-
   addPlaceLink: ?HTMLLinkElement;
   closeLink: ?HTMLLinkElement;
-
 
   componentDidMount() {
     if (!this.props.hidden) {
@@ -134,11 +126,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
     }
   }
 
-
-  focus() {
-
-  }
-
+  focus() {}
 
   appLinks() {
     const { lat, lon } = this.props;
@@ -156,46 +144,34 @@ export default class CreatePlaceDialog extends React.Component<Props> {
     return appLinks;
   }
 
-
   renderAppLinkListElements() {
-    return this.appLinks().map(link =>
-      <li key={link.title}>
-        <a className='link-button' href={link.href} target="_blank">
+    return this.appLinks().map(link => <li key={link.title}>
+        <a className="link-button" href={link.href} target="_blank">
           <AppIcon src={link.icon} alt="" aria-hidden />
           <span>{link.title}</span>
           <ChevronRight color={colors.linkColor} />
         </a>
-      </li>
-    );
+      </li>);
   }
-
 
   render() {
     const { lat, lon } = this.props;
 
-    const className = [
-      'add-place-dialog',
-      this.props.isExpanded && 'is-expanded',
-    ].filter(Boolean).join(' ');
+    const className = ['add-place-dialog', this.props.isExpanded && 'is-expanded'].filter(Boolean).join(' ');
 
-    const header = t`Add a place`;
-    const explanation = t`Most places shown here are from <a href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places there, they will appear here a bit later.`;
+    const header = t`Add a new place`;
+    const explanation = t`Most places shown here are from <a href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places on OSM, they will appear here a bit later.`;
     const leaveANoteCaption = t`Leave a note on OpenStreetMap`;
     const addOSMPlaceHeader = t`Add a place on OpenStreetMap`;
 
-    return (
-      <StyledToolbar
-        className={className}
-        hidden={this.props.hidden}
-        isModal
-      >
+    return <StyledToolbar className={className} hidden={this.props.hidden} isModal>
         <header>
           <h2>{header}</h2>
           <CloseLink onClick={this.props.onClose} />
         </header>
         <section>
           <p dangerouslySetInnerHTML={{ __html: explanation }}></p>
-          <a className='link-button leave-note-button' href={generateOsmNoteUrlForCoords({ lat, lon })} target="_blank">
+          <a className="link-button leave-note-button" href={generateOsmNoteUrlForCoords({ lat, lon })} target="_blank">
             <span>{leaveANoteCaption}</span>
             <ChevronRight color={colors.linkColor} />
           </a>
@@ -204,7 +180,6 @@ export default class CreatePlaceDialog extends React.Component<Props> {
             {this.renderAppLinkListElements()}
           </ul>
         </section>
-      </StyledToolbar>
-    );
+      </StyledToolbar>;
   }
 }

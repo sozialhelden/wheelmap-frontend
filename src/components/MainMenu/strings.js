@@ -2,7 +2,6 @@
 
 import { t } from 'ttag';
 
-
 export default function strings() {
   return {
     // translator: Main menu item
@@ -20,8 +19,8 @@ export default function strings() {
     // translator: Main menu item
     faq: t`FAQ`,
     // translator: Main menu item
-    addMissingPlace: t`Add missing place`,
+    addMissingPlace: t`Add a new place`,
     // translator: Claim in the main menu toolbar, next to the logo
-    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`,
+    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`
   };
 };

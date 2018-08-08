@@ -3,28 +3,23 @@ import { globalFetchManager } from '../FetchManager';
 import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
-
 // Provides a WhatWG-fetch-like API to make HTTP requests.
 // Caches response promises and returns an old promise if one is existing for the same URL.
 
 export default class URLDataCache<T> {
-  cache: { [key:string]: Promise<?T> } = {};
+  cache: { [key: string]: Promise<?T> } = {};
 
-
-  fetch(url: string, resolve: ((data: T) => void), reject: ((response: any) => void)) {
-    this.constructor.fetch(url, { cordova: true }).then(
-      (response: Response) => {
-        if (response.status === 200) {
-          return this.constructor.getDataFromResponse(response).then((fetchedData) => {
-            resolve(fetchedData);
-          }, reject);
-        }
-        const error = new Error(response.statusText)
-        error.response = response
-        return reject(response);
-      },
-      reject,
-    );
+  fetch(url: string, resolve: (data: T) => void, reject: (response: any) => void) {
+    this.constructor.fetch(url, { cordova: true }).then((response: Response) => {
+      if (response.status === 200) {
+        return this.constructor.getDataFromResponse(response).then(fetchedData => {
+          resolve(fetchedData);
+        }, reject);
+      }
+      const error = new Error(response.statusText);
+      error.response = response;
+      return reject(response);
+    }, reject);
   }
 
   /**
@@ -32,7 +27,9 @@ export default class URLDataCache<T> {
    * @param {string} url
    */
   getData(url: string): Promise<?T> {
-    if (!url) return new Promise((resolve, reject) => { reject(null); });
+    if (!url) return new Promise((resolve, reject) => {
+      reject(null);
+    });
 
     let promise = this.cache[url];
     if (promise) return promise;
@@ -43,27 +40,24 @@ export default class URLDataCache<T> {
     return promise;
   }
 
-
-  /** @private */ getCachedPromise(url: string): Promise<?T> {
+  /** @private */getCachedPromise(url: string): Promise<?T> {
     return this.cache[url];
   }
-
 
   static getDataFromResponse(response: Response): Promise<T> {
     if (!response.ok) {
       // translator: Shown when there was an error while loading a place.
-      const errorText = t`Error while loading data from server.`;
+      const errorText = t`Error while loading data.`;
       throw new ResponseError(errorText, response);
     }
     return response.json();
   }
 
-
   /**
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected */ static fetch(url: string, options?: {}): Promise<Response> {
+  /** @protected */static fetch(url: string, options?: {}): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }
 }
