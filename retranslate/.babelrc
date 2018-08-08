@@ -1,7 +1,7 @@
 {
   "plugins": [
     "syntax-jsx",
-    ["./babel-plugin-retranslate/plugin.js", {
+    ["./babel-plugin-retranslate/dist-plugin.js", {
       "replacement": "./public/i18n/de.txt"
     }]
   ]
