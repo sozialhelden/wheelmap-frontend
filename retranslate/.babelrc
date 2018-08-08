@@ -1,11 +1,12 @@
 {
   "plugins": [
-    "syntax-jsx",
-    "syntax-flow",
     "syntax-class-properties",
     "syntax-object-rest-spread",
+    "syntax-jsx",
+    "syntax-flow",
     ["./retranslate/babel-plugin-retranslate/dist-plugin.js", {
-      "replacement": "./public/i18n/de.txt"
-    }]
+      "replacement": "../public/i18n/de.txt"
+    }],
+    "flow-onlyupdateforkeys"
   ]
 }
