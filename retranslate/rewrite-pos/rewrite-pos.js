@@ -1,15 +1,16 @@
 
 import gettextParser from "gettext-parser";
 import * as fs from "fs";
+import * as Path from 'path';
 
-// const originalPot = process.env.ORIGINAL_SOURCE_POT || './public/i18n/translations.pot';
-const retranslateTarget = process.env.NEW_SOURCE_PO || './public/i18n/de.txt';
-const inputDir = process.env.PO_FILES || './public/i18n/*.txt';
+const newSourcePath = process.env.NEW_SOURCE_PO || './public/i18n/de.txt';
+const inputFiles = process.env.PO_FILES || './public/i18n/';
+const extensions = (process.env.PO_EXTENSIONS || '.po,.txt').split(',');
 
-const retranslateContent = fs.readFileSync(retranslateTarget);
-const retranslatePo = gettextParser.po.parse(retranslateContent);
+const newSourceContent = fs.readFileSync(newSourcePath);
+const newSourcePo = gettextParser.po.parse(newSourceContent);
 
-
+// takes two parsed po files & rewrites the ids of the first one based on the new sources translations
 function replaceMsgidWithMsgstr(parsedPo, newSourcePo) {
   for (const contextKey in parsedPo.translations) {
       // handle invalid contexts
@@ -25,10 +26,11 @@ function replaceMsgidWithMsgstr(parsedPo, newSourcePo) {
         continue;
       }
 
-      const newValue = Object.assign({}, newSourcePo.translations[contextKey][key]);
+      const rewriteValue = newSourcePo.translations[contextKey][key];
+      const newValue = Object.assign({}, parsedPo.translations[contextKey][key]);
       // translate base
-      if (newValue.msgstr[0]) {
-        const newKey = newValue.msgstr[0];
+      if (rewriteValue.msgstr[0]) {
+        const newKey = rewriteValue.msgstr[0];
         newValue.msgid = newKey;
         rewrittenContext[newKey] = newValue;
       } else {
@@ -38,8 +40,8 @@ function replaceMsgidWithMsgstr(parsedPo, newSourcePo) {
 
       // retranslate plurals
       if (newValue.msgid_plural) {
-        if (newValue.msgstr[1]) {
-          const newKey = newValue.msgstr[1];
+        if (rewriteValue.msgstr[1]) {
+          const newKey = rewriteValue.msgstr[1];
           newValue.msgid_plural = newKey;
         } else {
           console.warn(`new source plural translation missing for '${newValue.msgid_plural}'`);
@@ -50,8 +52,23 @@ function replaceMsgidWithMsgstr(parsedPo, newSourcePo) {
   }
 }
 
-replaceMsgidWithMsgstr(retranslatePo, retranslatePo);
+// read all files from po folder
+const allPos = fs.readdirSync(inputFiles)
+  .filter(
+      item => fs.statSync(Path.join(inputFiles, item)).isFile() &&
+          extensions.includes(Path.extname(item)))
+  .sort();
+
+// rewrite them all!
+allPos.forEach(po => {
+  const poPath = Path.join(inputFiles, po);
+  const retranslateContent = fs.readFileSync(poPath);
+  const retranslatePo = gettextParser.po.parse(retranslateContent);
+
+  replaceMsgidWithMsgstr(retranslatePo, newSourcePo);
+  var retranslateOutput = gettextParser.po.compile(retranslatePo);
+  fs.writeFileSync(poPath, retranslateOutput);
+});
 
 
-var retranslateOutput = gettextParser.po.compile(retranslatePo);
-fs.writeFileSync('test.po', retranslateOutput);
+
