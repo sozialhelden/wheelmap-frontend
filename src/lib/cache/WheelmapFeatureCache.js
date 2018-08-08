@@ -13,13 +13,13 @@ export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, 
   }
 
   static getIdForFeature(feature: WheelmapFeature): string {
-    return String(feature.id || (feature.properties && feature.properties.id));
+    return String(feature.id || feature.properties && feature.properties.id);
   }
 
   static getFeatureFromResponse(response): Promise<WheelmapFeature> {
     if (!response.ok) {
       // translator: Shown when there was an error while loading a place.
-      const errorText = t`Could not load this place.`;
+      const errorText = t`Konnte diesen Ort nicht laden.`;
       throw new ResponseError(errorText, response);
     }
     return response.json().then(responseJson => convertResponseToWheelmapFeature(responseJson.node));

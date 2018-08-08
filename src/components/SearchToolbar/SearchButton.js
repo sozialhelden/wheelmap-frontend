@@ -11,14 +11,13 @@ import Categories from '../../lib/Categories';
 import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
-
 type Props = {
-  onClick: (() => void),
-  className: string,
-  category: ?string,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-}
+  onClick: () => void;
+  className: string;
+  category: ?string;
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
+};
 
 const Caption = styled.div.attrs({ className: 'caption' })`
   display: flex;
@@ -28,24 +27,14 @@ const Caption = styled.div.attrs({ className: 'caption' })`
 `;
 
 function SearchButton(props: Props) {
-  const classNames = [
-    'btn-unstyled',
-    'search-button',
-    props.className,
-  ];
+  const classNames = ['btn-unstyled', 'search-button', props.className];
 
   const { toiletFilter, accessibilityFilter, category } = props;
   const isAnyFilterSet = isFiltered(accessibilityFilter) || category;
   // translator: Shown in collapsed search/filter combi button when there is no category filter set
-  const allPlacesCaption = t`All places`;
+  const allPlacesCaption = t`Alle Orte`;
 
-  return (
-    <MapButton
-      {...props}
-      aria-label={t`Search`}
-      aria-controls="search"
-      className={classNames.join(' ')}
-    >
+  return <MapButton {...props} aria-label={t`Suchen`} aria-controls="search" className={classNames.join(' ')}>
       <SearchIcon />
 
       <BreadcrumbChevron />
@@ -53,10 +42,9 @@ function SearchButton(props: Props) {
       {isAnyFilterSet && <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory: true }} />}
 
       <Caption>
-        { category ? Categories.translatedWheelmapRootCategoryName(category) : allPlacesCaption }
+        {category ? Categories.translatedWheelmapRootCategoryName(category) : allPlacesCaption}
       </Caption>
-    </MapButton>
-  );
+    </MapButton>;
 }
 
 const StyledSearchButton = styled(SearchButton)`

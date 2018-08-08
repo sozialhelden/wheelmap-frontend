@@ -2,26 +2,25 @@
 
 import { t } from 'c-3po';
 
-
 export default function strings() {
   return {
     // translator: Main menu item
-    travelGuide: t`Travel guide`,
+    travelGuide: t`Reiseführer`,
     // translator: Main menu item
-    getInvolved: t`Get involved`,
+    getInvolved: t`Mitmachen`,
     // translator: Main menu item
     news: t`News`,
     // translator: Main menu item
-    press: t`Press`,
+    press: t`Presse`,
     // translator: Main menu item
-    contact: t`Contact`,
+    contact: t`Kontakt`,
     // translator: Main menu item
-    imprint: t`Imprint`,
+    imprint: t`Impressum`,
     // translator: Main menu item
     faq: t`FAQ`,
     // translator: Main menu item
-    addMissingPlace: t`Add missing place`,
+    addMissingPlace: t`Fehlenden Ort hinzufügen`,
     // translator: Claim in the main menu toolbar, next to the logo
-    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`,
+    findWheelchairAccessiblePlaces: t`Rollstuhlgerechte Orte finden`
   };
 };

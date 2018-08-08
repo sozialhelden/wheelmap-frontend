@@ -20,28 +20,25 @@ import WhatsAppIcon from './icons/WhatsApp';
 
 import ShareIcon from '../../icons/actions/ShareIOS';
 
-
 const {
   FacebookShareButton,
   TwitterShareButton,
   TelegramShareButton,
-  WhatsappShareButton,
+  WhatsappShareButton
 } = ShareButtons;
 
-
 type Props = {
-  feature: Feature,
-  featureId: string | number | null,
-  category: ?Category,
-  parentCategory: ?Category,
-  onToggle: (() => void),
-  className: string,
+  feature: Feature;
+  featureId: string | number | null;
+  category: ?Category;
+  parentCategory: ?Category;
+  onToggle: () => void;
+  className: string;
 };
 
 type State = {
-  isExpanded: boolean;
-}
-
+  isExpanded: boolean
+};
 
 const StyledIconButton = styled(IconButton)`
   .caption {
@@ -70,12 +67,11 @@ const StyledIconButton = styled(IconButton)`
   }
 `;
 
-
 class ExpandableShareButtons extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    isExpanded: false,
+    isExpanded: false
   };
 
   toggle(isExpanded) {
@@ -85,7 +81,6 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     if (this.props.onToggle) this.props.onToggle();
   }
 
-
   componentWillReceiveProps(newProps: Props) {
     if (newProps.featureId !== this.props.featureId) {
       this.toggle(false);
@@ -93,7 +88,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.manageFocus(prevProps, prevState)
+    this.manageFocus(prevProps, prevState);
   }
 
   manageFocus(_, prevState) {
@@ -117,13 +112,13 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     const url = featureId ? `https://wheelmap.org/nodes/${featureId}` : 'https://wheelmap.org';
 
     // translator: Email body used when sharing a place without known name/category via email.
-    let mailBody = t`I found a place on Wheelmap: ${url}`;
+    let mailBody = t`Ich habe einen Ort auf Wheelmap gefunden: ${url}`;
     // translator: Email body used when sharing a place without known name/category via email.// Email subject used for sharing a place via email.
     let mailSubject = t`Wheelmap.org`;
     // translator: First line in an email and shared object title used when sharing a place via email or a social network.
-    let sharedObjectTitle = t`I found a place on Wheelmap…`;
+    let sharedObjectTitle = t`Ich habe einen Ort auf Wheelmap gefunden…`;
     // Shown as button caption in the place toolbar
-    const shareButtonCaption = t`Share`;
+    const shareButtonCaption = t`Teilen`;
 
     if (feature && feature.properties) {
       const properties = feature.properties;
@@ -131,39 +126,28 @@ class ExpandableShareButtons extends React.Component<Props, State> {
       const categoryOrParentCategory = this.props.category || this.props.parentCategory;
       const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
       // translator: Used to describe a place with unknown name, but known category (when sharing)
-      const placeName = properties.name || (categoryName && t`${categoryName} on Wheelmap`);
+      const placeName = properties.name || categoryName && t`${categoryName} auf Wheelmap`;
       if (placeName) {
         // translator: First line in an email and shared object title used when sharing a place via email or a social network.
-        sharedObjectTitle = t`I found this place on Wheelmap: ${placeName}`;
+        sharedObjectTitle = t`Ich habe diesen Ort auf Wheelmap gefunden: ${placeName}`;
         // translator: Email body used when sharing a place with known name via email.// Email subject used for sharing a place via email.
-        mailSubject = t`${placeName} on Wheelmap.org`;
+        mailSubject = t`${placeName} auf Wheelmap.org`;
       }
       // translator: Additional description text for sharing a place in a social network.
-      pageDescription = description || t`Find out about this place’s accessibility.`;
-      mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
+      pageDescription = description || t`Erfahre, wie rollstuhlgerecht dieser Ort ist.`;
+      mailBody = t`${sharedObjectTitle}\n\nZum Öffnen auf diesen Link klicken: ${url}`;
     }
     const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
 
-    const expandButton = <button
-      ref={shareButton => this.shareButton = shareButton}
-      className={'link-button expand-button full-width-button'}
-      aria-label={t`Expand Share Menu`}
-      aria-expanded={this.state.isExpanded}
-      onClick={() => this.toggle(true)}>
+    const expandButton = <button ref={shareButton => this.shareButton = shareButton} className={'link-button expand-button full-width-button'} aria-label={t`Teilen-Menü ausklappen`} aria-expanded={this.state.isExpanded} onClick={() => this.toggle(true)}>
         <ShareIcon />
         <span>{shareButtonCaption}</span>
       </button>;
 
     if (!this.state.isExpanded) return expandButton;
 
-    return (<div className={this.props.className}>
-      <button
-        ref={collapseButton => this.collapseButton = collapseButton}
-        className={'link-button collapse-button'}
-        onClick={() => this.toggle(false)}
-        aria-expanded={this.state.isExpanded}
-        aria-label={t`Collapse Share Menu`}
-      >
+    return <div className={this.props.className}>
+      <button ref={collapseButton => this.collapseButton = collapseButton} className={'link-button collapse-button'} onClick={() => this.toggle(false)} aria-expanded={this.state.isExpanded} aria-label={t`Teilen-Menü zuklappen`}>
         <ChevronLeft />
       </button>
 
@@ -198,7 +182,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
           </StyledIconButton>
         </WhatsappShareButton>
       </footer>
-    </div>);
+    </div>;
   }
 }
 

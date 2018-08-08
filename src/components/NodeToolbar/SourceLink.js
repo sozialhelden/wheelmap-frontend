@@ -7,16 +7,15 @@ import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import WorldIcon from '../icons/actions/World';
 
-
 type Props = {
-  properties: AccessibilityCloudProperties,
-  className: string,
-  knownSourceNameCaption: ((value: string) => string),
-  propertyName: 'infoPageUrl' | 'editPageUrl',
+  properties: AccessibilityCloudProperties;
+  className: string;
+  knownSourceNameCaption: (value: string) => string;
+  propertyName: 'infoPageUrl' | 'editPageUrl';
 };
 
 type State = {
-  sourceName: ?string;
+  sourceName: ?string
 };
 
 const defaultState: State = { sourceName: null };
@@ -30,18 +29,15 @@ class SourceLink extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
-    dataSourceCache
-      .getDataSourceWithId(String(props.properties.sourceId))
-      .then(
-        (source) => {
-          if (source && typeof source.name === 'string') {
-            this.setState({ sourceName: source.name });
-          } else {
-            this.setState(defaultState);
-          }
-      },
-        () => { this.setState(defaultState); },
-      );
+    dataSourceCache.getDataSourceWithId(String(props.properties.sourceId)).then(source => {
+      if (source && typeof source.name === 'string') {
+        this.setState({ sourceName: source.name });
+      } else {
+        this.setState(defaultState);
+      }
+    }, () => {
+      this.setState(defaultState);
+    });
   }
 
   componentDidMount() {
@@ -66,17 +62,15 @@ class SourceLink extends React.Component<Props, State> {
 
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
-    return (<a href={href} className={`${className} link-button`}>
+    return <a href={href} className={`${className} link-button`}>
       <WorldIcon />
       <span>{caption}</span>
-    </a>);
+    </a>;
   }
 }
-
 
 const StyledSourceLink = styled(SourceLink)`
   margin-top: .5em;
 `;
-
 
 export default StyledSourceLink;

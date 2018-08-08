@@ -10,8 +10,8 @@ import savedState, { saveState } from '../../lib/savedState';
 window.L = L;
 
 type Options = {
-  locateOnStart: boolean,
-  onLocationError: ((error: any) => void),
+  locateOnStart: boolean;
+  onLocationError: (error: any) => void;
 };
 
 export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError, onClick }: Options) {
@@ -31,24 +31,24 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
       color: '#1fabd9',
       fillColor: '#1fabd9',
       fillOpacity: 0.1,
-      opacity: 0.25,
+      opacity: 0.25
     },
     markerStyle: {
       color: '#1fabd9',
-      fillColor: '#1fabd9',
+      fillColor: '#1fabd9'
     },
     strings: {
       // translator: Locate button aria-label on the map
-      title: t`Show me where I am`,
+      title: t`An meinen Ort springen`
     },
     locateOptions: {
       enableHighAccuracy: false,
       watch: true,
       setView: locateOnStart,
-      maxZoom: 17,
-    },
+      maxZoom: 17
+    }
   }).addTo(map);
-  
+
   // save state change on click
   L.DomEvent.on(control._link, 'click', () => {
     savedState.map.locate = control._active;

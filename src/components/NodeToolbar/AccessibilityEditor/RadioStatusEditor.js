@@ -11,61 +11,56 @@ import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
 
-
 type Props = {
-  featureId: number,
-  feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  featureId: number;
+  feature: WheelmapFeature // eslint-disable-line react/no-unused-prop-types
 
-  onSave: ?((value: string) => void),
-  onClose: (() => void),
+  ; onSave: ?(value: string) => void;
+  onClose: () => void;
 
-  inline: ?boolean,
-  shownStatusOptions: string[],
-  presetStatus?: ?string,
-  undefinedStringValue: string,
-  renderChildrenForValue: ((value: { value: string, categoryId: string }) => React.Node),
-  getValueFromFeature: ((feature: WheelmapFeature) => string),
-  saveValue: ((selectedValue: string) => Promise<Response>),
-  descriptionForValue: ((value: string) => string),
-  captionForValue: ((value: string) => string),
+  inline: ?boolean;
+  shownStatusOptions: string[];
+  presetStatus?: ?string;
+  undefinedStringValue: string;
+  renderChildrenForValue: (value: { value: string; categoryId: string; }) => React.Node;
+  getValueFromFeature: (feature: WheelmapFeature) => string;
+  saveValue: (selectedValue: string) => Promise<Response>;
+  descriptionForValue: (value: string) => string;
+  captionForValue: (value: string) => string;
 
-  children: React.Node,
-  className: string,
+  children: React.Node;
+  className: string;
 };
-
 
 type State = {
-  selectedValue: ?string,
-  categoryId: ?string,
-  busy: boolean,
+  selectedValue: ?string;
+  categoryId: ?string;
+  busy: boolean;
 };
 
+// translator: Button caption shown while editing a place’s wheelchair status
+const confirmButtonCaption = t`Bestätigen`;
 
 // translator: Button caption shown while editing a place’s wheelchair status
-const confirmButtonCaption = t`Confirm`;
+const changeButtonCaption = t`Ändern`;
 
 // translator: Button caption shown while editing a place’s wheelchair status
-const changeButtonCaption = t`Change`;
+const continueButtonCaption = t`Weiter`;
 
 // translator: Button caption shown while editing a place’s wheelchair status
-const continueButtonCaption = t`Continue`;
+const cancelButtonCaption = t`Abbrechen`;
 
 // translator: Button caption shown while editing a place’s wheelchair status
-const cancelButtonCaption = t`Cancel`;
-
-// translator: Button caption shown while editing a place’s wheelchair status
-const backButtonCaption = t`Back`;
-
+const backButtonCaption = t`Zurück`;
 
 class RadioStatusEditor extends React.Component<Props, State> {
-  state : State = {
+  state: State = {
     categoryId: 'other',
     selectedValue: null,
-    busy: false,
+    busy: false
   };
 
   radioButtonToFocusOnStart: ?React.ElementRef<CustomRadio>;
-
 
   constructor(props) {
     super(props);
@@ -76,7 +71,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
     }
     this.fetchCategory(this.props.feature);
   }
-
 
   selectedValue(props: Props = this.props): ?string {
     if (!props.feature || !props.feature.properties) {
@@ -89,7 +83,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
     return featureValue;
   }
 
-
   fetchCategory(feature: WheelmapFeature) {
     if (!feature) {
       return;
@@ -99,8 +92,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       return;
     }
 
-    const categoryId =
-      (properties.node_type && properties.node_type.identifier) || properties.category;
+    const categoryId = properties.node_type && properties.node_type.identifier || properties.category;
 
     if (!categoryId) {
       return;
@@ -108,10 +100,9 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
     Categories.getCategory(categoryId).then(() => {
       const iconId = getIconNameForProperties(properties);
-      this.setState({categoryId: iconId});
+      this.setState({ categoryId: iconId });
     });
   }
-
 
   componentWillReceiveProps(props: Props) {
     const selectedValue = this.selectedValue(props);
@@ -120,85 +111,61 @@ class RadioStatusEditor extends React.Component<Props, State> {
     }
   }
 
-
   componentDidMount() {
     if (this.radioButtonToFocusOnStart) {
       this.radioButtonToFocusOnStart.focus();
     }
   }
 
-
-  onRadioGroupKeyDown = ({nativeEvent}) => {
-    if(nativeEvent.key === 'Enter') {
+  onRadioGroupKeyDown = ({ nativeEvent }) => {
+    if (nativeEvent.key === 'Enter') {
       this.onSaveButtonClick();
     }
-  }
+  };
 
-
-  onSaveButtonClick = (event) => {
+  onSaveButtonClick = event => {
     event.preventDefault();
     event.stopPropagation();
     const selectedValue = this.state.selectedValue;
     if (selectedValue && selectedValue !== this.props.undefinedStringValue) {
       this.props.saveValue(selectedValue);
-      this.setState({busy: true});
+      this.setState({ busy: true });
     }
   };
 
-
-  closeButtonClick = (event) => {
+  closeButtonClick = event => {
     if (typeof this.props.onClose === 'function') {
       this.props.onClose();
       // prevent clicking the next close button as well
       event.preventDefault();
       event.stopPropagation();
     }
-  }
-
+  };
 
   renderCloseButton() {
     return !this.props.inline && <CloseLink onClick={this.closeButtonClick} />;
   }
-
 
   renderRadioGroup() {
     const { selectedValue, busy } = this.state;
     const valueIsDefined = selectedValue !== 'unknown';
 
     // translator: Screen reader description for the accessibility choice buttons in the wheelchair accessibility editor dialog
-    const ariaLabel = t`Wheelchair Accessibility`;
+    const ariaLabel = t`Rollstuhlgerechtigkeit`;
 
-    return <StyledRadioGroup
-      name="accessibility"
-      selectedValue={selectedValue}
-      onChange={(newValue) => { this.setState({ selectedValue: newValue }); }}
-      className={`${selectedValue || ''} ${valueIsDefined ? 'has-selection' : ''} radio-group`}
-      onKeyDown={this.onRadioGroupKeyDown}
-      role="radiogroup"
-      aria-label={ariaLabel}
-    >
-      {this.props.shownStatusOptions.map((value, index) =>
-        <CustomRadio
-          key={String(value)}
-          disabled={busy}
-          ref={radioButton => {
-            const radioButtonIsSelected = value === selectedValue;
-            if (radioButtonIsSelected) {
-              this.radioButtonToFocusOnStart = radioButton;
-            } else if (index === 0) {
-              this.radioButtonToFocusOnStart = radioButton;
-            }
-          }}
-          children={this.props.renderChildrenForValue({ value, categoryId: this.state.categoryId || 'other' })}
-          shownValue={value ? String(value) : null}
-          currentValue={selectedValue ? String(selectedValue) : null}
-          caption={this.props.captionForValue(value)}
-          description={this.props.descriptionForValue(value)}
-        />
-      )}
+    return <StyledRadioGroup name="accessibility" selectedValue={selectedValue} onChange={newValue => {
+      this.setState({ selectedValue: newValue });
+    }} className={`${selectedValue || ''} ${valueIsDefined ? 'has-selection' : ''} radio-group`} onKeyDown={this.onRadioGroupKeyDown} role="radiogroup" aria-label={ariaLabel}>
+      {this.props.shownStatusOptions.map((value, index) => <CustomRadio key={String(value)} disabled={busy} ref={radioButton => {
+        const radioButtonIsSelected = value === selectedValue;
+        if (radioButtonIsSelected) {
+          this.radioButtonToFocusOnStart = radioButton;
+        } else if (index === 0) {
+          this.radioButtonToFocusOnStart = radioButton;
+        }
+      }} children={this.props.renderChildrenForValue({ value, categoryId: this.state.categoryId || 'other' })} shownValue={value ? String(value) : null} currentValue={selectedValue ? String(selectedValue) : null} caption={this.props.captionForValue(value)} description={this.props.descriptionForValue(value)} />)}
     </StyledRadioGroup>;
   }
-
 
   renderFooter() {
     const valueHasChanged = this.state.selectedValue !== this.selectedValue();
@@ -211,35 +178,22 @@ class RadioStatusEditor extends React.Component<Props, State> {
     if (hasBeenUnknownBefore) saveButtonCaption = continueButtonCaption;
 
     return <footer>
-      <button
-        className={`link-button ${valueHasChanged ? 'negative-button' : ''}`}
-        onClick={this.closeButtonClick}
-      >
+      <button className={`link-button ${valueHasChanged ? 'negative-button' : ''}`} onClick={this.closeButtonClick}>
         {backOrCancelButtonCaption}
       </button>
-      <button
-        className="link-button primary-button"
-        disabled={isUnknown || this.state.busy}
-        onClick={this.onSaveButtonClick}
-      >
+      <button className="link-button primary-button" disabled={isUnknown || this.state.busy} onClick={this.onSaveButtonClick}>
         {saveButtonCaption}
       </button>
     </footer>;
   }
 
   render() {
-    return (
-      <section
-        className={this.props.className}
-        role="dialog"
-        aria-labelledby="wheelchair-accessibility-header"
-      >
+    return <section className={this.props.className} role="dialog" aria-labelledby="wheelchair-accessibility-header">
         {this.props.children}
         {this.renderCloseButton()}
         {this.renderRadioGroup()}
         {this.renderFooter()}
-      </section>
-    );
+      </section>;
   }
 }
 

@@ -11,20 +11,19 @@ import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import Logo from '../../lib/Logo';
 
-
 type Props = {
-  className: string,
-  isVisible: boolean,
-  onClose: (() => void),
-  reason: ?string | Response | Error,
-}
+  className: string;
+  isVisible: boolean;
+  onClose: () => void;
+  reason: ?string | Response | Error;
+};
 
 class NotFound extends React.Component<Props> {
-  manageFocus = ({nativeEvent}) => {
+  manageFocus = ({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
     }
-  }
+  };
 
   componentDidUpdate() {
     if (this.props.isVisible) {
@@ -39,23 +38,18 @@ class NotFound extends React.Component<Props> {
   render() {
     if (!this.props.isVisible) return null;
 
-    const classList = [
-      this.props.className,
-      'not-found-page',
-    ].filter(Boolean);
+    const classList = [this.props.className, 'not-found-page'].filter(Boolean);
 
     // translator: Shown as header text on the error page.
-    const errorText = t`Error`;
+    const errorText = t`Fehler`;
 
     // translator: Shown as header text on the error page when the URL is not found.
-    const notFoundText = t`It seems this place is not on Wheelmap.`;
+    const notFoundText = t`Anscheinend ist dieser Ort nicht auf Wheelmap.`;
 
     // translator: Shown when device is offline.
-    const offlineText = t`It seems we’re offline!`;
+    const offlineText = t`Anscheinend sind wir offline!`;
 
-    const isNotFound = this.props.error &&
-      this.props.error instanceof Response &&
-      this.props.error.status === 404;
+    const isNotFound = this.props.error && this.props.error instanceof Response && this.props.error.status === 404;
 
     const isOffline = get(this.props, 'error.response.status') === 3;
 
@@ -66,40 +60,21 @@ class NotFound extends React.Component<Props> {
     if (isOffline) headerText = offlineText;
 
     // translator: Shown as apology text / description on the error page.
-    const apologyText = t`Sorry, that shouldn\'t have happened!`;
+    const apologyText = t`Sorry, das sollte nicht passieren!`;
     // translator: Shown on the error page.
-    const returnHomeButtonCaption = t`Return Home`;
+    const returnHomeButtonCaption = t`Zurück zur Startseite`;
     // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
-    const retryCaption = t`Retry`;
+    const retryCaption = t`Nochmal versuchen`;
 
-    const returnHomeLink = (
-      <Link
-        to="/"
-        className="button-cta-close focus-ring"
-        onClick={this.props.onClose}
-        onKeyDown={this.manageFocus}
-        ref={button => this.closeButton = findDOMNode(button)}
-      >
+    const returnHomeLink = <Link to="/" className="button-cta-close focus-ring" onClick={this.props.onClose} onKeyDown={this.manageFocus} ref={button => this.closeButton = findDOMNode(button)}>
         {returnHomeButtonCaption} <ChevronRight />
-      </Link>
-    );
+      </Link>;
 
-    const reloadButton = (
-      <button
-        className="button-cta-close focus-ring"
-        onClick={() => window.location.reload(true)}
-      >
+    const reloadButton = <button className="button-cta-close focus-ring" onClick={() => window.location.reload(true)}>
         {retryCaption}
-      </button>
-    );
+      </button>;
 
-    return (
-      <ModalDialog
-        className={classList.join(' ')}
-        isVisible={this.props.isVisible}
-        ariaDescribedBy='wheelmap-error-text wheelmap-apology-text'
-        ariaLabel={t`Error`}
-      >
+    return <ModalDialog className={classList.join(' ')} isVisible={this.props.isVisible} ariaDescribedBy="wheelmap-error-text wheelmap-apology-text" ariaLabel={t`Fehler`}>
         <header>
           <Logo className="logo" aria-hidden={true} />
           <h1 id="wheelmap-error-text">{headerText}</h1>
@@ -116,10 +91,9 @@ class NotFound extends React.Component<Props> {
         <footer>
           {isOffline ? reloadButton : returnHomeLink}
         </footer>
-      </ModalDialog>);
+      </ModalDialog>;
   }
 }
-
 
 const StyledNotFound = styled(NotFound)`
   @media (max-height: 320px), (max-width: 320px) {

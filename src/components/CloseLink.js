@@ -14,13 +14,13 @@ type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type KeyDownHandler = (el: HTMLElement, ev: KeyboardEvent) => void;
 
 type Props = {
-  className: string,
-  ariaLabel: ?string,
-  onClick: ClickHandler,
-  onFocus: FocusHandler,
-  onBlur: BlurHandler,
-  onKeyDown: KeyDownHandler,
-}
+  className: string;
+  ariaLabel: ?string;
+  onClick: ClickHandler;
+  onFocus: FocusHandler;
+  onBlur: BlurHandler;
+  onKeyDown: KeyDownHandler;
+};
 
 class CloseLink extends React.Component<Props> {
 
@@ -32,32 +32,20 @@ class CloseLink extends React.Component<Props> {
 
     event.preventDefault();
     event.stopPropagation();
-    
+
     const params = getQueryParams();
     this.props.history.push({ pathname: '/beta', search: queryString.stringify(params) });
-  }
+  };
 
   focus() {
-    const linkElement = ReactDOM.findDOMNode(this.linkInstance)
+    const linkElement = ReactDOM.findDOMNode(this.linkInstance);
     linkElement.focus();
   }
 
   render() {
-    return(
-      <Link
-        to="/beta/"
-        ref={linkInstance => this.linkInstance = linkInstance}
-        className={`close-link ${this.props.className || ''}`}
-        onBlur={this.props.onBlur}
-        onFocus={this.props.onFocus}
-        onClick={this.onClick}
-        onKeyDown={this.props.onKeyDown}
-        role='button'
-        aria-label={this.props.ariaLabel || t`Close`}
-      >
+    return <Link to="/beta/" ref={linkInstance => this.linkInstance = linkInstance} className={`close-link ${this.props.className || ''}`} onBlur={this.props.onBlur} onFocus={this.props.onFocus} onClick={this.onClick} onKeyDown={this.props.onKeyDown} role="button" aria-label={this.props.ariaLabel || t`Schließen`}>
         <CloseIcon />
-      </Link>
-    )
+      </Link>;
   }
 }
 

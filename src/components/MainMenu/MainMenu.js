@@ -13,31 +13,30 @@ import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 
-
 type State = {
-  isMenuButtonVisible: boolean,
+  isMenuButtonVisible: boolean
 };
 
 type Props = {
-  className: string,
-  onToggle: ((isMainMenuOpen: boolean) => void),
-  hideFromFocus: boolean,
-  isOpen: boolean,
-  isLocalizationLoaded: boolean,
-  lat: string,
-  lon: string,
-  zoom: string,
-  history: RouterHistory,
+  className: string;
+  onToggle: (isMainMenuOpen: boolean) => void;
+  hideFromFocus: boolean;
+  isOpen: boolean;
+  isLocalizationLoaded: boolean;
+  lat: string;
+  lon: string;
+  zoom: string;
+  history: RouterHistory;
 };
 
 function MenuIcon(props) {
-  return (<svg className="menu-icon" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" alt="Toggle menu" {...props}>
+  return <svg className="menu-icon" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" alt="Toggle menu" {...props}>
     <g stroke="none" strokeWidth={1} fillRule="evenodd">
       <rect x="0" y="0" width="25" height="3" />
       <rect x="0" y="7" width="25" height="3" />
       <rect x="0" y="14" width="25" height="3" />
     </g>
-  </svg>);
+  </svg>;
 }
 
 const menuButtonVisibilityBreakpoint = 1024;
@@ -45,10 +44,10 @@ const menuButtonVisibilityBreakpoint = 1024;
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
+    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint
   };
 
-  boundOnResize: (() => void);
+  boundOnResize: () => void;
   firstMenuElement: ?HTMLLinkElement;
   homeButton: ?HTMLButtonElement;
   addPlaceLink: ?React.ElementRef<typeof Link>;
@@ -60,7 +59,7 @@ class MainMenu extends React.Component<Props, State> {
       this.setState({ isMenuButtonVisible: true });
       this.props.onToggle(false);
     }
-  }
+  };
 
   componentDidMount() {
     window.addEventListener('resize', this.onResize);
@@ -116,43 +115,38 @@ class MainMenu extends React.Component<Props, State> {
         this.homeButton.focus();
       }
     }
-  }
+  };
 
   focusToLastElement = (event: KeyboardEvent) => {
     if (event.key === 'Tab' && event.shiftKey) {
       event.preventDefault();
       if (this.addPlaceLink) {
-        const linkElement = ReactDOM.findDOMNode(this.addPlaceLink)
+        const linkElement = ReactDOM.findDOMNode(this.addPlaceLink);
         if (linkElement && typeof linkElement.focus === 'function') {
           linkElement.focus();
         }
       }
     }
-  }
+  };
 
   focusFirstMenuElement = () => {
     if (this.firstMenuElement) {
       this.firstMenuElement.focus();
     }
-  }
+  };
 
-  returnHome =  () => {
+  returnHome = () => {
     this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
-  }
+  };
 
   render() {
     const {
-      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces,
+      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces
     } = strings();
 
     const { hideFromFocus, isLocalizationLoaded } = this.props;
 
-    const classList = [
-      this.props.className,
-      (this.props.isOpen || !this.state.isMenuButtonVisible) ? 'is-open' : null,
-      isLocalizationLoaded ? 'is-loaded' : null,
-      'main-menu',
-    ].filter(Boolean);
+    const classList = [this.props.className, this.props.isOpen || !this.state.isMenuButtonVisible ? 'is-open' : null, isLocalizationLoaded ? 'is-loaded' : null, 'main-menu'].filter(Boolean);
 
     if (!isLocalizationLoaded) {
       return <nav className={classList.join(' ')}>
@@ -162,17 +156,12 @@ class MainMenu extends React.Component<Props, State> {
           </button>
         </div>
         <Dots />
-      </nav>
+      </nav>;
     }
 
-    return (<nav className={classList.join(' ')}>
+    return <nav className={classList.join(' ')}>
       <div className="home-link">
-        <button
-          className="btn-unstyled home-button"
-          onClick={this.returnHome} 
-          ref={homeButton => this.homeButton = homeButton}
-          tabIndex={hideFromFocus ? -1 : 0}
-          aria-label={t`Home`}>
+        <button className="btn-unstyled home-button" onClick={this.returnHome} ref={homeButton => this.homeButton = homeButton} tabIndex={hideFromFocus ? -1 : 0} aria-label={t`Start`}>
           <Logo className="logo" width={123} height={30} />
         </button>
       </div>
@@ -185,48 +174,27 @@ class MainMenu extends React.Component<Props, State> {
 
       <div className="flexible-separator" />
 
-      <button
-        className="btn-unstyled menu"
-        onClick={() => this.toggleMenu()}
-        tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
-        aria-hidden={!this.state.isMenuButtonVisible}
-        aria-label={t`Menu`}
-        aria-haspopup="true"
-        aria-expanded={this.props.isOpen}
-        aria-controls="main-menu"
-      >
+      <button className="btn-unstyled menu" onClick={() => this.toggleMenu()} tabIndex={this.state.isMenuButtonVisible ? 0 : -1} aria-hidden={!this.state.isMenuButtonVisible} aria-label={t`Menü`} aria-haspopup="true" aria-expanded={this.props.isOpen} aria-controls="main-menu">
         {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
       </button>
 
       <div id="main-menu" role="menu">
-        <a
-          className="nav-link"
-          href="https://travelable.info"
-          ref={firstMenuElement => this.firstMenuElement = firstMenuElement}
-          tabIndex={hideFromFocus ? -1 : 0}
-          role="menuitem"
-        >
+        <a className="nav-link" href="https://travelable.info" ref={firstMenuElement => this.firstMenuElement = firstMenuElement} tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
           {travelGuide}
         </a>
-        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >
+        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
           {getInvolved}
         </a>
-        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{news}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{press}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{contact}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{imprint}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={hideFromFocus ? -1 : 0} role="menuitem" >{faq}</a>
-        <Link
-          className="nav-link add-place-link"
-          to="/beta/nodes/new"
-          ref={addPlaceLink => this.addPlaceLink = addPlaceLink}
-          tabIndex={hideFromFocus ? -1 : 0}
-          role="menuitem"
-        >
+        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{news}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{press}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{contact}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{imprint}</a>
+        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{faq}</a>
+        <Link className="nav-link add-place-link" to="/beta/nodes/new" ref={addPlaceLink => this.addPlaceLink = addPlaceLink} tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
           {addMissingPlace}
         </Link>
       </div>
-    </nav>);
+    </nav>;
   }
 }
 

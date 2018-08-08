@@ -6,54 +6,45 @@ import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 
-
 function formatName(name: string, properties: {}): string {
   const string = properties[`${name}Localized`] || humanizeString(name);
   return string.replace(/^Rating /, '');
 }
 
-
 function formatValue(value: mixed): string {
-  if (value === true) return t`Yes`;
-  if (value === false) return t`No`;
-  if (
-    isPlainObject(value) &&
-    value && typeof value === 'object' &&
-    typeof value.unit === 'string'
-    && typeof value.value === 'number'
-  ) {
+  if (value === true) return t`Ja`;
+  if (value === false) return t`Nein`;
+  if (isPlainObject(value) && value && typeof value === 'object' && typeof value.unit === 'string' && typeof value.value === 'number') {
     return `${value.value || '?'} ${value.unit}`;
   }
   return String(value);
 }
 
-
 function FormatRating({ rating }: { rating: number }) {
   const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5);
   const stars = '★★★★★'.slice(5 - between1and5);
-  return (<span aria-label={`${between1and5} stars`}>
+  return <span aria-label={`${between1and5} stars`}>
     <span className="stars" aria-hidden="true">{stars}</span>
     <span className="numeric" aria-hidden="true">{between1and5}/5</span>
-  </span>);
+  </span>;
 }
 
-
-function DetailsArray({ className, array }: { className: ?string, array: any[] }) {
+function DetailsArray({ className, array }: { className: ?string; array: any[]; }) {
   // eslint-disable-next-line react/no-array-index-key
   const items = array.map((e, i) => <li key={i}><AccessibilityDetailsTree isNested={true} details={e} /></li>);
   return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
 }
 
-
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
-
-function DetailsObject(props: { className: ?string, object: {}, isNested?: boolean }) {
+function DetailsObject(props: { className: ?string; object: {}; isNested?: boolean; }) {
   const { className, object, isNested } = props;
-  const properties = Object.keys(object).map((key) => {
-    if (key.match(/Localized/)) { return null; }
+  const properties = Object.keys(object).map(key => {
+    if (key.match(/Localized/)) {
+      return null;
+    }
     const value = object[key];
     const name = formatName(key, object);
 
@@ -62,38 +53,27 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     // between the previous attribute value and the attribute name.
     const capitalizedName = capitalizeFirstLetter(name);
 
-    if (value && ((value instanceof Array) || (isPlainObject(value) && !value.unit))) {
-      return [
-        <dt data-key={key}>{capitalizedName}</dt>,
-        <dd><AccessibilityDetailsTree isNested={true} details={value} /></dd>,
-      ];
+    if (value && (value instanceof Array || isPlainObject(value) && !value.unit)) {
+      return [<dt data-key={key}>{capitalizedName}</dt>, <dd><AccessibilityDetailsTree isNested={true} details={value} /></dd>];
     }
     if (key.startsWith('rating')) {
-      return [
-        <dt className="ac-rating">{capitalizedName}:</dt>,
-        <dd><FormatRating rating={parseFloat(String(value))} /></dd>,
-      ];
+      return [<dt className="ac-rating">{capitalizedName}:</dt>, <dd><FormatRating rating={parseFloat(String(value))} /></dd>];
     }
     const generatedClassName = `ac-${typeof value}`;
     const formattedValue = formatValue(value);
-    return [
-      <dt className={generatedClassName}>{capitalizedName}:</dt>,
-      <dd className={generatedClassName} aria-label={`${formattedValue}!`}>
+    return [<dt className={generatedClassName}>{capitalizedName}:</dt>, <dd className={generatedClassName} aria-label={`${formattedValue}!`}>
         <em>{formattedValue}</em>
-      </dd>,
-    ];
+      </dd>];
   });
   return <dl className={`ac-group ${className || ''}`} role={isNested ? null : "text"}>{properties}</dl>;
 }
 
-
 type Props = {
-  details: any,
-  locale?: ?string,
-  isNested: boolean,
-  className?: ?string,
+  details: any;
+  locale?: ?string;
+  isNested: boolean;
+  className?: ?string;
 };
-
 
 function AccessibilityDetailsTree(props: Props) {
   const details = props.details;
@@ -101,14 +81,12 @@ function AccessibilityDetailsTree(props: Props) {
     return <DetailsArray className={props.className} array={details} />;
   }
   if (isPlainObject(details)) {
-    return <DetailsObject className={props.className} object={details} isNested={props.isNested}/>;
+    return <DetailsObject className={props.className} object={details} isNested={props.isNested} />;
   }
   return <div className={props.className}>{details}</div>;
 }
 
-
 AccessibilityDetailsTree.defaultProps = { className: null, locale: null };
-
 
 const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   box-sizing: border-box;

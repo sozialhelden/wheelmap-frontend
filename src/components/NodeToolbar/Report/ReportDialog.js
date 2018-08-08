@@ -1,11 +1,7 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
-import {
-  accessibilityName,
-  isWheelchairAccessible,
-  isWheelmapFeatureId,
-} from '../../../lib/Feature';
+import { accessibilityName, isWheelchairAccessible, isWheelmapFeatureId } from '../../../lib/Feature';
 
 import { t } from 'c-3po';
 import type { Feature, NodeProperties } from '../../../lib/Feature';
@@ -19,70 +15,61 @@ import FixNonExistingPlace from './FixNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 
+type IssueEntry = { className: string; issueText: () => string; component: Class<React.Component<any>>; };
 
-type IssueEntry = { className: string, issueText: () => string, component: Class<React.Component<any>> };
-
-const generateIssues = (properties: NodeProperties) : IssueEntry[] => [
-  {
-    className: 'wrong-wheelchair-accessibility',
-    issueText() {
-      const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || '';
-      // translator: Shown as issue description in the report dialog
-      return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
-    },
-    component: WheelchairStatusEditor,
-  },
-  (isWheelchairAccessible(properties) !== 'unknown') ? {
-    className: 'wrong-toilet-accessibility',
+const generateIssues = (properties: NodeProperties): IssueEntry[] => [{
+  className: 'wrong-wheelchair-accessibility',
+  issueText() {
+    const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || '';
     // translator: Shown as issue description in the report dialog
-    issueText: () => t`The place’s toilet status is wrong or missing.`,
-    component: ToiletStatusEditor,
-  } : null,
-  {
-    className: 'information-missing',
-    // translator: Shown as issue description in the report dialog
-    issueText: () => t`I have more information about this place.`,
-    component: FixComment,
+    return t`Der Ort ist als ,${accessibilityDescription}‘ markiert, aber das ist falsch!`;
   },
-  {
-    className: 'non-existing-place',
-    // translator: Shown as issue description in the report dialog
-    issueText: () => t`The place does not exist.`,
-    component: FixNonExistingPlace,
-  },
-  {
-    className: 'wrong-position',
-    // translator: Shown as issue description in the report dialog
-    issueText: () => t`The place is in the wrong position.`,
-    component: FixPlacePosition,
-  },
-  {
-    className: 'other-issue',
-    // translator: Shown as issue description in the report dialog
-    issueText: () => t`My problem isn’t listed here…`,
-    component: MailToSupport,
-  },
-].filter(Boolean);
-
+  component: WheelchairStatusEditor
+}, isWheelchairAccessible(properties) !== 'unknown' ? {
+  className: 'wrong-toilet-accessibility',
+  // translator: Shown as issue description in the report dialog
+  issueText: () => t`Der Toilettenstatus hier ist falsch oder fehlt.`,
+  component: ToiletStatusEditor
+} : null, {
+  className: 'information-missing',
+  // translator: Shown as issue description in the report dialog
+  issueText: () => t`Ich habe mehr Informationen zu diesem Ort.`,
+  component: FixComment
+}, {
+  className: 'non-existing-place',
+  // translator: Shown as issue description in the report dialog
+  issueText: () => t`Der Ort existiert nicht.`,
+  component: FixNonExistingPlace
+}, {
+  className: 'wrong-position',
+  // translator: Shown as issue description in the report dialog
+  issueText: () => t`Der Ort ist an der falschen Stelle.`,
+  component: FixPlacePosition
+}, {
+  className: 'other-issue',
+  // translator: Shown as issue description in the report dialog
+  issueText: () => t`Das Problem steht hier nicht…`,
+  component: MailToSupport
+}].filter(Boolean);
 
 type Props = {
-  feature: Feature,
-  featureId: string | number | null,
-  className: string,
-  onClose: (() => void),
-  onCloseButtonChanged: (() => void),
-  onReportComponentChanged: (() => void),
+  feature: Feature;
+  featureId: string | number | null;
+  className: string;
+  onClose: () => void;
+  onCloseButtonChanged: () => void;
+  onReportComponentChanged: () => void;
 };
 
 type State = {
-  SelectedComponentClass: ?Class<React.Component<*, *>>,
+  SelectedComponentClass: ?Class<React.Component<*, *>>
 };
 
 class ReportDialog extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    SelectedComponentClass: null,
+    SelectedComponentClass: null
   };
 
   backButton: HTMLButtonElement | null;
@@ -114,9 +101,9 @@ class ReportDialog extends React.Component<Props, State> {
       event.preventDefault();
       event.stopPropagation();
     }
-  }
+  };
 
-  trapFocus = ({nativeEvent}) => {
+  trapFocus = ({ nativeEvent }) => {
     if (nativeEvent.target === this.firstIssueButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
       if (this.backButton) {
@@ -129,7 +116,7 @@ class ReportDialog extends React.Component<Props, State> {
         this.firstIssueButton.focus();
       }
     }
-  }
+  };
 
   onClose = (event: ?UIEvent) => {
     if (this.props.onClose) {
@@ -139,13 +126,13 @@ class ReportDialog extends React.Component<Props, State> {
         event.stopPropagation();
       }
     }
-  }
+  };
 
   onSelectComponentClass = (issue: IssueEntry, event: UIEvent) => {
     this.setState({ SelectedComponentClass: issue.component }, this.props.onReportComponentChanged);
     event.stopPropagation();
     event.preventDefault();
-  }
+  };
 
   render() {
     const { featureId, feature } = this.props;
@@ -154,57 +141,34 @@ class ReportDialog extends React.Component<Props, State> {
     const ComponentClass = this.state.SelectedComponentClass;
     const { backButtonCaption, reportIssueHeader } = strings();
 
-    const properties : NodeProperties = feature.properties;
+    const properties: NodeProperties = feature.properties;
     const issues = generateIssues(properties);
 
     if (ComponentClass) {
-      return (<ComponentClass
-        feature={feature}
-        featureId={featureId}
-        onClose={this.onClose}
-        inline={true}
-      />);
+      return <ComponentClass feature={feature} featureId={featureId} onClose={this.onClose} inline={true} />;
     }
 
-    return (
-      <div
-        className={this.props.className}
-        role="dialog"
-        aria-labelledby="report-dialog-header"
-      >
-        <header id='report-dialog-header'>{reportIssueHeader}</header>
+    return <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
+        <header id="report-dialog-header">{reportIssueHeader}</header>
 
         <ul className="issue-types">
-          {issues.map((issue, index) => (
-            <li key={issue.className} className={issue.className}>
-              <button
-                className={`link-button full-width-button ${issue.className}`}
-                ref={firstIssueButton => {
-                  if(index === 0) {
-                    this.firstIssueButton = firstIssueButton
-                  }
-                }}
-                onClick={this.onSelectComponentClass.bind(this, issue)}
-                onKeyDown={this.trapFocus}
-              >
+          {issues.map((issue, index) => <li key={issue.className} className={issue.className}>
+              <button className={`link-button full-width-button ${issue.className}`} ref={firstIssueButton => {
+            if (index === 0) {
+              this.firstIssueButton = firstIssueButton;
+            }
+          }} onClick={this.onSelectComponentClass.bind(this, issue)} onKeyDown={this.trapFocus}>
                 {issue.issueText()}
               </button>
-            </li>
-          ))}
+            </li>)}
         </ul>
 
-        <button
-          className="link-button negative-button"
-          ref={backButton => this.backButton = backButton}
-          onClick={this.onClose}
-          onKeyDown={this.trapFocus}
-        >
+        <button className="link-button negative-button" ref={backButton => this.backButton = backButton} onClick={this.onClose} onKeyDown={this.trapFocus}>
           {backButtonCaption}
         </button>
-    </div>);
+    </div>;
   }
 }
-
 
 const StyledReportDialog = styled(ReportDialog)`
   header {

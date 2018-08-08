@@ -2,52 +2,51 @@
 
 import { t } from 'c-3po';
 
-
 export default function strings() {
   return {
     // translator: Header of the report dialog
-    reportIssueHeader: t`Is there an issue with this place?`,
+    reportIssueHeader: t`Gibt es ein Problem mit diesem Ort?`,
     // translator: Explains that Wheelmap's data comes from OpenStreetMap.
-    osmHint: t`Wheelmap uses data from OpenStreetMap to display places.`,
+    osmHint: t`Wheelmap verwendet Daten von OpenStreetMap, um Orte anzuzeigen.`,
     // translator: Explains that you need to go to OSM to remove places.
-    osmRemoveHint: t`You can remove non-existing places on OpenStreetMap.`,
+    osmRemoveHint: t`Du kannst Orte, die nicht mehr existieren, auf OpenStreetMap entfernen.`,
     // translator: Explains that you need to go to OSM to change a place's position on the map.
-    osmPositionHint: t`You can change this place’s position on OpenStreetMap.`,
+    osmPositionHint: t`Du kannst die Position dieses Ortes auf OpenStreetMap verändern.`,
     // translator: Explains that you need to go to OSM to mark a place as closed.
-    osmPermanentlyClosedHint: t`If the place closed permanently, you can tag the place as ‘disused’ on OpenStreetMap.`,
+    osmPermanentlyClosedHint: t`Wenn der Ort dauerhaft geschlossen ist, kannst du auf OpenStreetMap die Kennzeichnung ‚disused‘ verwenden.`,
     // translator: Link caption to the explanatory article that shows how to mark a place as closed.
-    osmPermanentlyClosedHowtoLinkCaption: t`Find out how`,
+    osmPermanentlyClosedHowtoLinkCaption: t`So geht’s`,
     // translator: Points the user to OSM for changing place details
-    osmEditHint: t`Did you know you can change this place’s information on OpenStreetMap directly?`,
+    osmEditHint: t`Wusstest du, dass du diesen Ort auf OpenStreetMap direkt bearbeiten kannst?`,
     // translator: Explains that you have to log in before editing places on OSM and that edits don't get propagated back directly
-    osmLoginHint: t`(Note that you need to log in first to do this, and that it can take a while until the place is updated on Wheelmap.)`,
+    osmLoginHint: t`(Dafür musst du dich auf OpenStreetMap einloggen. Es kann eine Weile dauern, bis der Ort auch auf Wheelmap aktualisiert wird.)`,
     // translator: Button caption in report dialog
-    editButtonCaption: t`Edit this place on OpenStreetMap`,
+    editButtonCaption: t`Diesen Ort auf OpenStreetMap bearbeiten`,
     // translator: Button caption in report dialog
-    noteButtonCaption: t`Leave a note on OpenStreetMap`,
+    noteButtonCaption: t`Notiz auf OpenStreetMap hinterlassen`,
     // translator: Button caption in report dialog
-    backButtonCaption: t`Back`,
+    backButtonCaption: t`Zurück`,
     // translator: Gives credits to the external organization this place comes from. The organization's name is mentioned after this text.
-    externalDataHint: t`Information about this place has kindly been provided by another organization`,
+    externalDataHint: t`Die Informationen über diesen Ort wurden netterweise von einer anderen Organisation zur Verfügung gestellt.`,
     // translator: Explains how to reach the place details on the external page the place comes from (for example Jaccede).
-    useLinkExplanation: t`Use the link below for details about the place and editing.`,
+    useLinkExplanation: t`Benutze den folgenden Link für Details über den Ort und zum Bearbeiten.`,
     // translator: Explains that edits don't get propagated back to Wheelmap directly after editing
-    editingDelayExplanation: t`(Note that it can take a while until the place is updated on Wheelmap after editing.)`,
+    editingDelayExplanation: t`(Es kann danach eine Weile dauern, bis der Ort auch auf Wheelmap aktualisiert wird.)`,
     // translator: Button caption in report dialog
-    contactButtonCaption: t`Contact the Wheelmap support team`,
+    contactButtonCaption: t`Wheelmap-Team kontaktieren`,
     // translator: Apologizes for the issue and mentions that the support team can help you.
-    apologyAndSolution: t`Sorry for that! Just drop us a line so we can help you to fix the issue.`,
+    apologyAndSolution: t`Das tut uns leid! Schreib’ uns einfach, damit wir dir helfen können, das Problem zu beheben.`,
     reportBody(url: string) {
       // translator: Report email body with place URL
-      return t`(Please only write in English or German.)\n\nHi Sozialhelden,\n\nsomething is wrong with this place: ${url}\n\nThe problem is:\n\nBrowser:\n\n${navigator.userAgent}`;
+      return t`(Bitte schreib’ uns auf Englisch oder Deutsch!)\n\nLiebe Sozialhelden,\n\nan diesem Ort ist etwas falsch: ${url}\n\nDas Problem ist:\n\nBrowser:\n\n${navigator.userAgent}`;
     },
     reportSubject(placeName: ?string, categoryName: ?string) {
       // translator: Report email subject if place name is known
-      if (placeName) return t`[Wheelmap] Problem with ${placeName} on Wheelmap`;
+      if (placeName) return t`[Wheelmap] Problem mit ${placeName} auf Wheelmap`;
       // translator: Report email subject if place name is unknown, but place category name (for example ‘toilet’) is known (don't use an indefinite article if it would need to be inflected in the target language)
-      if (categoryName) return t`[Wheelmap] Problem with a ${categoryName} on Wheelmap`;
+      if (categoryName) return t`[Wheelmap] Problem mit ${categoryName} auf Wheelmap`;
       // translator: Report email subject if neither place name nor category name is known
-      return t`[Wheelmap] Problem with a place on Wheelmap`;
-    },
+      return t`[Wheelmap] Problem mit einem Ort auf Wheelmap`;
+    }
   };
 }

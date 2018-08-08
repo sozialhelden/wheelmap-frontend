@@ -11,11 +11,11 @@ import type { Feature } from '../../lib/Feature';
 import LicenseHint from './LicenseHint';
 
 type Props = {
-  feature: ?Feature,
-  featureId: ?string | number,
-  equipmentInfoId: ?string,
-  history: RouterHistory,
-  className: string,
+  feature: ?Feature;
+  featureId: ?string | number;
+  equipmentInfoId: ?string;
+  history: RouterHistory;
+  className: string;
 };
 
 function sourceIdsForFeature(feature: ?Feature): string[] {
@@ -25,24 +25,18 @@ function sourceIdsForFeature(feature: ?Feature): string[] {
   if (!properties) return [];
 
   const idsToEquipmentInfos = typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
-  const equipmentInfos = idsToEquipmentInfos ? Object
-    .keys(idsToEquipmentInfos)
-    .map(_id => idsToEquipmentInfos[_id]) : [];
+  const equipmentInfos = idsToEquipmentInfos ? Object.keys(idsToEquipmentInfos).map(_id => idsToEquipmentInfos[_id]) : [];
   const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.sourceId'));
   const disruptionSourceIds = equipmentInfos.map(equipmentInfo => get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId'));
   const placeSourceId = properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
 
-  return uniq([
-    placeSourceId,
-    ...equipmentInfoSourceIds,
-    ...disruptionSourceIds,
-  ].filter(Boolean));
+  return uniq([placeSourceId, ...equipmentInfoSourceIds, ...disruptionSourceIds].filter(Boolean));
 }
 
 function UnstyledSourceList(props: Props) {
   const sourceIds = sourceIdsForFeature(props.feature);
   // translator: Prefix for the sources on the PoI details panel
-  const prefixCaption = t`Source:`;
+  const prefixCaption = t`Quelle:`;
 
   return <section className={props.className}>
     {sourceIds.length ? `${prefixCaption} ` : null}
@@ -51,7 +45,6 @@ function UnstyledSourceList(props: Props) {
     </ul>
   </section>;
 }
-
 
 const SourceList = styled(UnstyledSourceList)`
   margin: .5rem 0;
@@ -68,6 +61,6 @@ const SourceList = styled(UnstyledSourceList)`
   li + li:before {
     content: ', ';
   }
-}`
+}`;
 
 export default SourceList;

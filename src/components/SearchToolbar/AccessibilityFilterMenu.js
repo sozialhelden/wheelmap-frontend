@@ -10,16 +10,15 @@ import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
-
 type Props = PlaceFilter & {
-  history: RouterHistory,
-  className: string,
-  hidden: boolean,
-  onCloseClicked: (() => void),
-  onBlur: (() => void),
-  onFilterChanged: ((filter: PlaceFilter) => void),
-  category: string,
-  accessibilities: YesNoLimitedUnknown[],
+  history: RouterHistory;
+  className: string;
+  hidden: boolean;
+  onCloseClicked: () => void;
+  onBlur: () => void;
+  onFilterChanged: (filter: PlaceFilter) => void;
+  category: string;
+  accessibilities: YesNoLimitedUnknown[];
 };
 
 function getAvailableFilters() {
@@ -32,53 +31,51 @@ function getAvailableFilters() {
     // },
     atLeastPartial: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-      caption: t`At least partially wheelchair accessible`,
+      caption: t`Teilweise rollstuhlgerecht oder besser`,
       accessibilityFilter: ['yes', 'limited'],
-      toiletFilter: [],
+      toiletFilter: []
     },
     atLeastPartialWithWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-      caption: t`At least partially wheelchair accessible + WC`,
+      caption: t`Teilweise rollstuhlgerecht oder besser + WC`,
       accessibilityFilter: ['yes', 'limited'],
-      toiletFilter: ['yes'],
+      toiletFilter: ['yes']
     },
     fully: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-      caption: t`Only fully wheelchair accessible`,
+      caption: t`Nur voll rollstuhlgerechte Orte`,
       accessibilityFilter: ['yes'],
-      toiletFilter: [],
+      toiletFilter: []
     },
     fullyWithWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-      caption: t`Only fully wheelchair accessible + WC`,
+      caption: t`Nur voll rollstuhlgerechte Orte + WC`,
       accessibilityFilter: ['yes'],
-      toiletFilter: ['yes'],
+      toiletFilter: ['yes']
     },
     unknown: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
-      caption: t`Places that I can contribute to`,
+      caption: t`Orte zum Mithelfen`,
       accessibilityFilter: ['unknown'],
-      toiletFilter: [],
+      toiletFilter: []
     },
     notAccessible: {
       // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
-      caption: t`Only places that are not accessible`,
+      caption: t`Nur Orte, die nicht rollstuhlgerecht sind`,
       accessibilityFilter: ['no'],
-      toiletFilter: [],
-    },
+      toiletFilter: []
+    }
   };
 };
-
 
 function findFilterKey({ toiletFilter, accessibilityFilter }) {
   const availableFilters = getAvailableFilters();
   return Object.keys(availableFilters).find(key => {
     const filter = availableFilters[key];
     const requestedToiletFilter = isEqual(toiletFilter, ['yes', 'no', 'unknown']) ? [] : toiletFilter;
-    return isEqual(requestedToiletFilter, filter.toiletFilter) && isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
+    return isEqual(requestedToiletFilter, filter.toiletFilter) && isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort());
   });
 }
-
 
 function AccessibilityFilterMenu(props: Props) {
   const availableFilters = getAvailableFilters();
@@ -87,28 +84,11 @@ function AccessibilityFilterMenu(props: Props) {
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
 
-  return (
-    <section
-      className={props.className}
-      aria-label={t`Wheelchair Accessibility Filter`}
-    >
+  return <section className={props.className} aria-label={t`Filtern nach Rollstuhlgerechtigkeit`}>
       <section className="accessibility-filter">
-        {shownFilterKeys.map((key, index) => (
-          <AccessibilityFilterButton
-            accessibilityFilter={availableFilters[key].accessibilityFilter}
-            toiletFilter={availableFilters[key].toiletFilter}
-            caption={availableFilters[key].caption}
-            category={category}
-            isMainCategory
-            isActive={currentFilterKey}
-            showCloseButton={shownFilterKeys.length === 1}
-            history={props.history}
-            key={key}
-            className="accessibility-filter-button"
-          />))}
+        {shownFilterKeys.map((key, index) => <AccessibilityFilterButton accessibilityFilter={availableFilters[key].accessibilityFilter} toiletFilter={availableFilters[key].toiletFilter} caption={availableFilters[key].caption} category={category} isMainCategory isActive={currentFilterKey} showCloseButton={shownFilterKeys.length === 1} history={props.history} key={key} className="accessibility-filter-button" />)}
       </section>
-    </section>
-  );
+    </section>;
 }
 
 const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`

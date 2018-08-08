@@ -21,20 +21,20 @@ import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 import colors from '../../../lib/colors';
 
 type Props = {
-  featureId: string,
-  className: string,
+  featureId: string;
+  className: string;
   photoFlowNotification?: string;
   onStartPhotoUploadFlow: () => void;
   onReportPhoto: (photo: PhotoModel) => void;
 };
 
 type State = {
-  isLightboxOpen: boolean,
-  acPhotos: PhotoModel[],
-  wmPhotos: PhotoModel[],
-  photos: PhotoModel[],
-  lightBoxPhotos: PhotoModel[],
-  currentImageIndex: number,
+  isLightboxOpen: boolean;
+  acPhotos: PhotoModel[];
+  wmPhotos: PhotoModel[];
+  photos: PhotoModel[];
+  lightBoxPhotos: PhotoModel[];
+  currentImageIndex: number;
 };
 
 class PhotoSection extends React.Component<Props, State> {
@@ -44,7 +44,7 @@ class PhotoSection extends React.Component<Props, State> {
     wmPhotos: [],
     photos: [],
     lightBoxPhotos: [],
-    currentImageIndex: 0,
+    currentImageIndex: 0
   };
 
   gallery: Gallery | null = null;
@@ -61,14 +61,14 @@ class PhotoSection extends React.Component<Props, State> {
       this.fetchPhotos(nextProps);
       this.setState({ photos: [], lightBoxPhotos: [], acPhotos: [], wmPhotos: [] });
     }
-  }  
-  
+  }
+
   componentWillUnmount() {
     this.ignoreFetch = true;
   }
 
   combinePhotoSources = () => {
-    const lightBoxPhotos = ([]).concat(this.state.acPhotos, this.state.wmPhotos);
+    const lightBoxPhotos = [].concat(this.state.acPhotos, this.state.wmPhotos);
 
     this.setState({ lightBoxPhotos: lightBoxPhotos });
 
@@ -79,136 +79,111 @@ class PhotoSection extends React.Component<Props, State> {
     });
 
     this.setState({ photos: galleryPhotos }, () => {
-      const g : any = (this.gallery);
+      const g: any = this.gallery;
       g.handleResize();
     });
-  }
+  };
 
-  handlePhotoError = (e) => {
+  handlePhotoError = e => {
     // TODO decide to do something
     console.error("Failed downloading images", e);
-  }
+  };
 
   fetchPhotos(props: Props) {
     if (props.featureId) {
-      accessibilityCloudImageCache
-        .getPhotosForFeature(props.featureId)
-        .then((acPhotos: AccessibilityCloudImages) => {
-          if (this.ignoreFetch) {
-            return;
-          }
-          const photos = convertAcPhotosToLightboxPhotos(acPhotos);
-          this.setState({ acPhotos: photos }, this.combinePhotoSources);
-        }).catch(this.handlePhotoError);
+      accessibilityCloudImageCache.getPhotosForFeature(props.featureId).then((acPhotos: AccessibilityCloudImages) => {
+        if (this.ignoreFetch) {
+          return;
+        }
+        const photos = convertAcPhotosToLightboxPhotos(acPhotos);
+        this.setState({ acPhotos: photos }, this.combinePhotoSources);
+      }).catch(this.handlePhotoError);
 
-      wheelmapFeaturePhotosCache
-        .getPhotosForFeature(props.featureId)
-        .then((wmPhotos: WheelmapFeaturePhotos) => {
-          if (this.ignoreFetch) {
-            return;
-          }
-          const photos = convertWheelmapPhotosToLightboxPhotos(wmPhotos);
-          this.setState({ wmPhotos: photos }, this.combinePhotoSources);
-        }).catch(this.handlePhotoError);
+      wheelmapFeaturePhotosCache.getPhotosForFeature(props.featureId).then((wmPhotos: WheelmapFeaturePhotos) => {
+        if (this.ignoreFetch) {
+          return;
+        }
+        const photos = convertWheelmapPhotosToLightboxPhotos(wmPhotos);
+        this.setState({ wmPhotos: photos }, this.combinePhotoSources);
+      }).catch(this.handlePhotoError);
     }
   }
 
   thumbnailSelected = (event: UIEvent, obj: { index: number }) => {
-    this.openLightbox(event, obj);    
-  }
+    this.openLightbox(event, obj);
+  };
 
   openLightbox = (event: UIEvent, obj: { index: number }) => {
     this.setState({
       currentImageIndex: obj.index,
-      isLightboxOpen: true,
+      isLightboxOpen: true
     });
-  }
+  };
 
   closeLightbox = () => {
     this.setState({
       currentImageIndex: 0,
-      isLightboxOpen: false,
+      isLightboxOpen: false
     });
-  }  
-  
+  };
+
   reportImage = () => {
     const { lightBoxPhotos, currentImageIndex } = this.state;
 
-    if (currentImageIndex < 0 || currentImageIndex >= lightBoxPhotos.length ) {
+    if (currentImageIndex < 0 || currentImageIndex >= lightBoxPhotos.length) {
       console.error("Could not report photo with index", currentImageIndex);
       return;
     }
     const toBeReported = lightBoxPhotos[currentImageIndex];
     this.props.onReportPhoto(toBeReported);
-  }
+  };
 
   gotoPrevious = () => {
     this.setState({
-      currentImageIndex: this.state.currentImageIndex - 1,
+      currentImageIndex: this.state.currentImageIndex - 1
     });
-  }
+  };
 
   gotoNext = () => {
     this.setState({
-      currentImageIndex: this.state.currentImageIndex + 1,
+      currentImageIndex: this.state.currentImageIndex + 1
     });
-  }
+  };
 
   renderLightboxControls = (className: string) => {
     const { lightBoxPhotos, currentImageIndex } = this.state;
 
     let canReportPhoto = false;
-    if (currentImageIndex >= 0 && currentImageIndex < lightBoxPhotos.length ) {
+    if (currentImageIndex >= 0 && currentImageIndex < lightBoxPhotos.length) {
       canReportPhoto = lightBoxPhotos[currentImageIndex].source === 'accessibility-cloud';
     }
 
-    return [(
-      <section key='lightbox-actions' className={`lightbox-actions ${className}`}>
-        <button disabled={!canReportPhoto} onClick={this.reportImage} className="report-image">{t`Report`}</button>
-        <button onClick={this.closeLightbox} className="close-lightbox">{t`Close`}</button>
-      </section>
-    )];
-  }
+    return [<section key="lightbox-actions" className={`lightbox-actions ${className}`}>
+        <button disabled={!canReportPhoto} onClick={this.reportImage} className="report-image">{t`Melden`}</button>
+        <button onClick={this.closeLightbox} className="close-lightbox">{t`Schließen`}</button>
+      </section>];
+  };
 
   render() {
     const { photoFlowNotification, onStartPhotoUploadFlow, className } = this.props;
     const { photos, lightBoxPhotos, currentImageIndex } = this.state;
 
-    return (
-      <section className={className}>
-        <Gallery
-          ref={g => this.gallery = g}
-          photos={photos}
-          onClick={this.thumbnailSelected}
-          columns={Math.min(photos.length, 3)}
-        />
-        <Lightbox
-          images={lightBoxPhotos}
-          onClose={this.closeLightbox}
-          onClickPrev={this.gotoPrevious}
-          onClickNext={this.gotoNext}
-          currentImage={currentImageIndex}
-          isOpen={this.state.isLightboxOpen}
-          // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10 
-          imageCountSeparator={' ' + t`of` + ' '}
-          // tranlator: alt info on next image button in lightbox
-          rightArrowTitle={t`Next (Right arrow key)`}
-          // tranlator: alt info on previous image button in lightbox
-          leftArrowTitle={t`Previous (Left arrow key)`}
-          // tranlator: alt info on close button in lightbox
-          closeButtonTitle={t`Close (Esc)`}
-          customControls={this.renderLightboxControls(className)}
-          theme={{
-          }}
-        />
+    return <section className={className}>
+        <Gallery ref={g => this.gallery = g} photos={photos} onClick={this.thumbnailSelected} columns={Math.min(photos.length, 3)} />
+        <Lightbox images={lightBoxPhotos} onClose={this.closeLightbox} onClickPrev={this.gotoPrevious} onClickNext={this.gotoNext} currentImage={currentImageIndex} isOpen={this.state.isLightboxOpen}
+      // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10 
+      imageCountSeparator={' ' + t`von` + ' '}
+      // tranlator: alt info on next image button in lightbox
+      rightArrowTitle={t`Weiter (Pfeil nach rechts)`}
+      // tranlator: alt info on previous image button in lightbox
+      leftArrowTitle={t`Zurück (Pfeil nach links)`}
+      // tranlator: alt info on close button in lightbox
+      closeButtonTitle={t`Schließen (Esc)`} customControls={this.renderLightboxControls(className)} theme={{}} />
 
-        <PhotoUploadButton
-          onClick={onStartPhotoUploadFlow}
-        />
+        <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
 
         {photoFlowNotification && <PhotoNotification notificationType={photoFlowNotification} />}
-      </section>
-    )
+      </section>;
   }
 }
 

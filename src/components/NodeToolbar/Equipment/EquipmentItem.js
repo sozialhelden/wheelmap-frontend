@@ -14,54 +14,48 @@ import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
 import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
-  equipmentInfos: EquipmentInfo[],
-  className: string,
-  history: RouterHistory,
-  placeInfoId: string,
-  isExpanded: boolean,
+  equipmentInfos: EquipmentInfo[];
+  className: string;
+  history: RouterHistory;
+  placeInfoId: string;
+  isExpanded: boolean;
 };
 
-function EquipmentIconWrapper(
-  { history, equipmentInfo, count, isCountHidden } :
-  { history: RouterHistory, equipmentInfo: EquipmentInfo, count: number, isCountHidden: boolean }
-) {
+function EquipmentIconWrapper({ history, equipmentInfo, count, isCountHidden }: { history: RouterHistory; equipmentInfo: EquipmentInfo; count: number; isCountHidden: boolean; }) {
   const properties = equipmentInfo.properties;
   const _id = equipmentInfo._id;
   if (!properties) return null;
   const { isWorking, category } = properties;
 
-  const ariaLabels: { [key:string]: { [key:string]: string } } = {
+  const ariaLabels: { [key: string]: { [key: string]: string } } = {
     true: {
       elevator: ngettext(msgid`${count} working elevator`, `${count} working elevators`, count),
-      escalator: ngettext(msgid`${count} working escalator`, `${count} working escalators`, count),
+      escalator: ngettext(msgid`${count} working escalator`, `${count} working escalators`, count)
     },
     false: {
       elevator: ngettext(msgid`${count} broken elevator`, `${count} broken elevators`, count),
-      escalator: ngettext(msgid`${count} broken escalator`, `${count} broken escalators`, count),
+      escalator: ngettext(msgid`${count} broken escalator`, `${count} broken escalators`, count)
     },
     undefined: {
       elevator: ngettext(msgid`${count} elevator with unknown status`, `${count} elevators with unknown status`, count),
-      escalator: ngettext(msgid`${count} escalator with unknown status`, `${count} escalators with unknown status`, count),
-    },
+      escalator: ngettext(msgid`${count} escalator with unknown status`, `${count} escalators with unknown status`, count)
+    }
   };
-  const ariaLabel = category ? (ariaLabels[String(isWorking)][category] || '') : null;
+  const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null;
 
   const workingStringPart = {
     true: 'Working',
     false: 'Broken',
-    undefined: 'Unknown',
+    undefined: 'Unknown'
   }[String(isWorking)];
 
   const iconName = `${category || 'elevator'}${workingStringPart}Big`;
   const EquipmentIcon = equipmentIcons[iconName] || (() => null);
 
-  return (<figure className={isWorking ? 'is-working' : 'is-broken'} title={ariaLabel} aria-label={ariaLabel}>
-    { !isCountHidden ? <span className="badge">{count}</span> : null }
-    <EquipmentIcon
-      key={_id}
-      className="icon"
-    />
-  </figure>);
+  return <figure className={isWorking ? 'is-working' : 'is-broken'} title={ariaLabel} aria-label={ariaLabel}>
+    {!isCountHidden ? <span className="badge">{count}</span> : null}
+    <EquipmentIcon key={_id} className="icon" />
+  </figure>;
 }
 
 function EquipmentItem(props: Props) {
@@ -76,9 +70,9 @@ function EquipmentItem(props: Props) {
   const unknown = equipmentInfos.filter(e => typeof get(e, ['properties', 'isWorking']) === 'undefined');
   const hasBrokenEquipment = broken.length > 0;
 
-  const href = (props.placeInfoId && _ids) ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
+  const href = props.placeInfoId && _ids ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
 
-  const showOnMap = (event) => {
+  const showOnMap = event => {
     const { geometry } = equipmentInfos[0];
     const [lat, lon] = normalizeCoordinates(geometry.coordinates);
     const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
@@ -91,31 +85,27 @@ function EquipmentItem(props: Props) {
   };
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-  return (<button
-    className={`link-button full-width-button ${props.className} ${(isExpanded && hasBrokenEquipment) ? 'has-broken-equipment' : ''}`}
-    key={description}
-    onKeyPress={(event) => { if (event.keyCode === 13) { showOnMap(event); } }}
-    onClick={showOnMap}
-  >
+  return <button className={`link-button full-width-button ${props.className} ${isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''}`} key={description} onKeyPress={event => {
+    if (event.keyCode === 13) {
+      showOnMap(event);
+    }
+  }} onClick={showOnMap}>
     {getHumanEnumeration([working, broken, unknown].map((infos, index) => {
       const count = infos.length;
       if (count) {
         const equipmentInfo = infos[0];
-        return <EquipmentIconWrapper key={index} {...{ count, isCountHidden: (infos.length <= 1), history, equipmentInfo }} />
+        return <EquipmentIconWrapper key={index} {...{ count, isCountHidden: infos.length <= 1, history, equipmentInfo }} />;
       }
       return null;
-    })
-    .filter(Boolean), 'and')}
+    }).filter(Boolean), 'and')}
     <span className="name" aria-label={longDescription || description}>{shortDescription || description}</span>
-  </button>);
+  </button>;
 }
-
 
 const linkColorFunction = props => {
   if (get(props, 'equipmentInfo.properties.isWorking')) return colors.linkColor;
   return colors.negativeColorDarker;
 };
-
 
 const StyledEquipmentItem = styled(EquipmentItem)`
   display: flex !important;

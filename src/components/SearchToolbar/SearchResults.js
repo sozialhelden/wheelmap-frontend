@@ -11,17 +11,15 @@ import colors from '../../lib/colors';
 
 import SearchResult from './SearchResult';
 
-
 type Props = {
-  searchResults: SearchResultCollection,
-  history: RouterHistory,
-  className: string,
-  hidden: ?boolean,
-  onSelect: (() => void),
-  onSelectCoordinate: ((coords: { lat: number, lon: number, zoom: number }) => void),
-  refFirst: ?((result: ?SearchResult) => void),
+  searchResults: SearchResultCollection;
+  history: RouterHistory;
+  className: string;
+  hidden: ?boolean;
+  onSelect: () => void;
+  onSelectCoordinate: (coords: { lat: number; lon: number; zoom: number; }) => void;
+  refFirst: ?(result: ?SearchResult) => void;
 };
-
 
 function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
@@ -31,26 +29,19 @@ function SearchResults(props: Props) {
   const hasNoResults = !failedLoading && features.length === 0;
 
   // translator: Text in search results when nothing was found
-  const noResultsFoundCaption = t`No results found.`;
+  const noResultsFoundCaption = t`Keine Ergebnisse gefunden.`;
 
   // translator: Text in search results when an error occurred
-  const searchErrorCaption = t`Could not load results. Please try again later!`;
+  const searchErrorCaption = t`Konnte Ergebnisse nicht laden. Probier es später nochmal!`;
 
-  return (<ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
+  return <ul className={`search-results ${props.className}`} aria-label={t`Suchergebnisse`}>
     {failedLoading && <li className="error-result">{searchErrorCaption}</li>} 
     {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>} 
-    {features.map((result, index) => (<SearchResult
-      result={result}
-      key={id(result)}
-      onSelect={props.onSelect}
-      onSelectCoordinate={props.onSelectCoordinate}
-      hidden={!!props.hidden}
-      history={props.history}
-      ref={ref => { if (props.refFirst && index === 0) props.refFirst(ref) }}
-    />))}
-  </ul>);
+    {features.map((result, index) => <SearchResult result={result} key={id(result)} onSelect={props.onSelect} onSelectCoordinate={props.onSelectCoordinate} hidden={!!props.hidden} history={props.history} ref={ref => {
+      if (props.refFirst && index === 0) props.refFirst(ref);
+    }} />)}
+  </ul>;
 }
-
 
 const StyledSearchResults = styled(SearchResults)`
   list-style-type: none;
@@ -105,6 +96,5 @@ const StyledSearchResults = styled(SearchResults)`
     }
   }
 `;
-
 
 export default StyledSearchResults;

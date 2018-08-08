@@ -9,12 +9,10 @@ import IconButton from '../../IconButton';
 import styled from '../../../../node_modules/styled-components';
 import colors from '../../../lib/colors';
 
-
 type Props = {
-  onChange: ((newValue: YesNoLimitedUnknown) => void),
-  category: ?string,
+  onChange: (newValue: YesNoLimitedUnknown) => void;
+  category: ?string;
 };
-
 
 const Row = styled.section`
   display: flex;
@@ -119,23 +117,11 @@ const Row = styled.section`
 
 export default function InlineWheelchairAccessibilityEditor(props: Props) {
   // translator: Screen reader description for the accessibility choice buttons for gray places
-  return <Row aria-label={t`Wheelchair Accessibility`}>
-    {['yes', 'limited', 'no'].map((value, index) =>
-      <button
-        aria-label={shortAccessibilityName(value)}
-        onClick={() => props.onChange(value)}
-        className={value}
-        key={value}
-      >
-        <IconButton
-          key={value}
-          caption={shortAccessibilityName(value)}
-          isHorizontal={false}
-        >
-          <Icon accessibility={value} category={props.category} size='medium' withArrow shadowed />
+  return <Row aria-label={t`Rollstuhlgerechtigkeit`}>
+    {['yes', 'limited', 'no'].map((value, index) => <button aria-label={shortAccessibilityName(value)} onClick={() => props.onChange(value)} className={value} key={value}>
+        <IconButton key={value} caption={shortAccessibilityName(value)} isHorizontal={false}>
+          <Icon accessibility={value} category={props.category} size="medium" withArrow shadowed />
         </IconButton>
-      </button>
-    )}
+      </button>)}
   </Row>;
 }
-
