@@ -1,6 +1,6 @@
 const { extract, locale } = process.env;
 const ttagConfig = {
-  addComments: 'translator:',
+  addComments: ' translator:',
   sortByMsgid: true,
 };
 
