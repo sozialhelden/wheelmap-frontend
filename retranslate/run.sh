@@ -2,8 +2,8 @@
 export NEW_SOURCE_PO=${NEW_SOURCE_PO:-'./public/i18n/en_US.txt'}
 export NODE_ENV=development
 
-# ensure i18n & src folder are reset 
-git checkout -- public/i18n/ src
+# ensure i18n & src folder are clean 
+test -z "$(git status --porcelain src public/i18n)" || (echo "Your repo must be clean. Exiting."; exit 1)
 
 # build plugin
 yarn run babel \
@@ -34,4 +34,4 @@ yarn run babel \
 yarn node retranslate/rewrite-pos/dist-rewrite-pos.js
 
 # ignore all changes on non c-3po files
-ag -L "c-3po" src | xargs git checkout --
+ag -L "ttag" src | xargs git checkout --
