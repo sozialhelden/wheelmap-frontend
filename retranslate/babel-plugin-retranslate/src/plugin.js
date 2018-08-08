@@ -18,7 +18,7 @@ let lookupCache = {};
 
 function fetchTranslationForTemplate(fetchKey, path) {
   if (!parsedGettext) {
-    const pathFromEnv = process.env.TARGET_POT || path;
+    const pathFromEnv = process.env.NEW_SOURCE_PO || path;
     // load po file and store in lookup
     const content = fs.readFileSync(pathFromEnv);
     parsedGettext = gettextParser.po.parse(content);
