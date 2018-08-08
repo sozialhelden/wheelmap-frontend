@@ -20,8 +20,12 @@ yarn run babel \
   retranslate/babel-plugin-retranslate/src/plugin.js \
   -o retranslate/babel-plugin-retranslate/dist-plugin.js
 
+mv retranslate/.babelrc .babelrc
+
 # run plugin on test
 yarn run babel \
   -f .babelrc \
   src \
   --out-dir src
+
+mv .babelrc retranslate/.babelrc
