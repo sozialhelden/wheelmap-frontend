@@ -29,51 +29,54 @@ yarn-debug.log*
 yarn-error.log*
 
 # Cordova iOS
-platforms/ios/build/
-platforms/ios/www/
-platforms/ios/*/Plugins/
-platforms/ios/cordova/console.log
+/platforms/ios/build/
+/platforms/ios/www/
+/platforms/ios/cordova/console.log
 *.xcuserdatad
 Products
 *.ipa
 *.dSYM.zip
 *.dSYM
-platforms/ios/*.xcarchive
+/platforms/ios/*.xcarchive
 
 
 # Cordova Android
-platforms/android/assets/www
-platforms/android/bin
-platforms/android/gen
-platforms/android/local.properties
-platforms/android/ant-build
-platforms/android/ant-gen
-platforms/android/CordovaLib/ant-build
-platforms/android/CordovaLib/ant-gen
-platforms/android/CordovaLib/bin
-platforms/android/CordovaLib/gen
-platforms/android/CordovaLib/local.properties
-platforms/android/.gradle
-build
+/platforms/android/assets/www
+/platforms/android/bin
+/platforms/android/gen
+/platforms/android/local.properties
+/platforms/android/ant-build
+/platforms/android/ant-gen
+/platforms/android/CordovaLib/ant-build
+/platforms/android/CordovaLib/ant-gen
+/platforms/android/CordovaLib/bin
+/platforms/android/CordovaLib/gen
+/platforms/android/CordovaLib/local.properties
+/platforms/android/.gradle
+/platforms/**/build
 buildOutputCleanup
 
 # Cordova general
-/plugins/
-www
+/www
+/platforms/**/app/src/main/assets/www
 resources/signing
 *.xcuserdatad
 
 # Fastlane / Ruby
 /vendor/bundle/
 
-fastlane/report.xml
+/fastlane/report.xml
 
 # deliver temporary files
-fastlane/Preview.html
+/fastlane/Preview.html
 
 # snapshot generated screenshots
-fastlane/screenshots
+/fastlane/screenshots
 
 # scan temporary files
-fastlane/test_output
+/fastlane/test_output
 release-signing.properties
+
+# This contains source translations for transifex.
+# They should always be locally built before pushing and not be commited.
+/public/i18n/translations.pot
