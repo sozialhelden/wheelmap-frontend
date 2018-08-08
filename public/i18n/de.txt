@@ -444,7 +444,7 @@ msgstr "Anscheinend sind wir offline!"
 
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr "Letztes Update am ${ dateString }."
+msgstr "Letztes Update ${ dateString }."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
 #: src/components/NodeToolbar/Report/strings.js:27

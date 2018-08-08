@@ -20,6 +20,8 @@ bundle install
 # cordova
 npx cordova prepare android
 npx cordova prepare ios
+# install transifex tool
+pip install transifex-client 
 ```
 
 ## Development
