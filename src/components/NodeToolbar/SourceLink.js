@@ -11,7 +11,7 @@ import WorldIcon from '../icons/actions/World';
 type Props = {
   properties: AccessibilityCloudProperties,
   className: string,
-  knownSourceNameCaption: ((string) => string),
+  knownSourceNameCaption: ((value: string) => string),
   propertyName: 'infoPageUrl' | 'editPageUrl',
 };
 

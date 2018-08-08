@@ -7,7 +7,7 @@ import { equipmentInfoCache } from './EquipmentInfoCache';
 import { currentLocales, loadExistingLocalizationByPreference } from '../i18n';
 
 type CacheMap = {
-  [string]: FeatureCache<*, *>
+  [key:string]: FeatureCache<*, *>
 };
 
 const caches: CacheMap = {

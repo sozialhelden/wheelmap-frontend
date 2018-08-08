@@ -59,7 +59,7 @@ type Props = {
   onOpenWheelchairAccessibility: (() => void),
   onCloseWheelchairAccessibility: (() => void),
   onCloseToiletAccessibility: (() => void),
-  onClickCurrentMarkerIcon?: ((Feature) => void),
+  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
 
   // Simple 3-button wheelchair status editor
   presetStatus: YesNoLimitedUnknown,
@@ -69,7 +69,7 @@ type Props = {
   onStartPhotoUploadFlow: (() => void),
   onReportPhoto: ((photo: PhotoModel) => void),
   photoFlowNotification?: string,
-  onClickCurrentMarkerIcon?: ((Feature) => void)
+  onClickCurrentMarkerIcon?: ((feature: Feature) => void)
 };
 
 

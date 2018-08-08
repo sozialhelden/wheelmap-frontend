@@ -30,7 +30,7 @@ function EquipmentIconWrapper(
   if (!properties) return null;
   const { isWorking, category } = properties;
 
-  const ariaLabels: { [string]: { [string]: string } } = {
+  const ariaLabels: { [key:string]: { [key:string]: string } } = {
     true: {
       elevator: ngettext(msgid`${count} working elevator`, `${count} working elevators`, count),
       escalator: ngettext(msgid`${count} working escalator`, `${count} working escalators`, count),

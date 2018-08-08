@@ -6,7 +6,7 @@ import { t } from 'ttag'
 type ConjunctionType = 'and' | 'or';
 
 type ConjunctionMap = {
-  [ConjunctionType]: {
+  [key:ConjunctionType]: {
     withSerialComma: React.Node,
     withoutSerialComma: React.Node,
   }

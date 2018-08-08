@@ -42,7 +42,7 @@ type Props = {
   category: ?Category,
   parentCategory: ?Category,
   hasIcon: boolean,
-  onClickCurrentMarkerIcon?: ((Feature) => void),
+  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
   hasShadow: boolean;
 };
 

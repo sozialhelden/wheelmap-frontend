@@ -11,7 +11,7 @@ export type ACCategory = {
   parentIds: string[],
   translations: {
     _id: {
-      [string]: string,
+      [key:string]: string,
     },
   },
   synonyms: string[],
@@ -32,7 +32,7 @@ export type WheelmapCategory = {
 export type Category = WheelmapCategory | ACCategory;
 
 type SynonymCache = {
-  [string]: ACCategory,
+  [key:string]: ACCategory,
 };
 
 
