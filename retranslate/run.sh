@@ -3,7 +3,11 @@ export NEW_SOURCE_PO=${NEW_SOURCE_PO:-'./public/i18n/en_US.txt'}
 export NODE_ENV=development
 
 # ensure i18n & src folder are clean 
-test -z "$(git status --porcelain src public/i18n)" || (echo "Your repo must be clean. Exiting."; exit 1)
+if [ -n "$(git status --porcelain src public/i18n)" ]
+then
+  echo "Your repo must be clean. Exiting."
+  exit 1
+fi
 
 # build plugin
 yarn run babel \
