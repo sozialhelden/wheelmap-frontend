@@ -1,5 +1,12 @@
-yarn run babel -f retranslate/babel-plugin-retranslate/.babelrc retranslate/babel-plugin-retranslate/src/plugin.js -o retranslate/babel-plugin-retranslate/plugin.js 
+# build plugin
+yarn run babel \
+  -f retranslate/babel-plugin-retranslate/.babelrc \
+  retranslate/babel-plugin-retranslate/src/plugin.js \
+  -o retranslate/babel-plugin-retranslate/plugin.js
 
-yarn run babel -f retranslate/.babelrc retranslate/test.js
+export TARGET_POT=${TARGET_POT:-'./public/i18n/en_US.txt'}
 
-# https://stackoverflow.com/questions/5938869/how-to-generate-a-new-pot-template-from-a-translated-po-file
+# run plugin on test
+yarn run babel \
+  -f retranslate/.babelrc \
+  retranslate/test.js
