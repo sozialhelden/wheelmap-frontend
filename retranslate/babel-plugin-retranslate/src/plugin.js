@@ -18,10 +18,11 @@ let lookupCache = {};
 
 function fetchTranslationForTemplate(fetchKey, path) {
   if (!parsedGettext) {
+    const pathFromEnv = process.env.TARGET_POT || path;
     // load po file and store in lookup
-    var content = fs.readFileSync(path);
+    const content = fs.readFileSync(pathFromEnv);
     parsedGettext = gettextParser.po.parse(content);
-    var translations = parsedGettext.translations[''];
+    const translations = parsedGettext.translations[''];
     for (const key in translations) {
       // remove spaces around variables eg. ${ count }
       const cleanedKey = key.replace(/(\$\{\s+)/g, "${").replace(/(\s+})/g, "}");
@@ -61,11 +62,15 @@ const rootVisitor = {
 
           if (translation) {
             // take the first translation and generate the ast from it
-            var newQuasis = generateAstFromTemplateString(translation.msgstr[0]);
+            const firstTranslation = translation.msgstr[0] || translation.msgid;
+            if (translation.msgid) {
+              console.warn(`Could not find translation for \`${currentEntry}\`, using msgid.`);
+            }
+            const newQuasis = generateAstFromTemplateString(firstTranslation);
             // override original value
             path.node.quasi = newQuasis;
           } else {
-            console.warn(`Could not find translation for \`${currentEntry}\`. Ensure your po files are up-to-date and that they contain all strings.`);
+            console.warn(`Could not find translation entry for \`${currentEntry}\`. Ensure your po files are up-to-date and that they contain all strings.`);
           }
         }
       }
