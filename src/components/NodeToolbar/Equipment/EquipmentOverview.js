@@ -7,20 +7,19 @@ import groupBy from 'lodash/groupBy';
 import styled from 'styled-components';
 import { t } from 'ttag';
 import type { RouterHistory } from 'react-router-dom';
-import EquipmentList from './EquipmentList'
+import EquipmentList from './EquipmentList';
 import type { AccessibilityCloudFeature } from '../../../lib/Feature';
 import { equipmentInfoCache } from '../../../lib/cache/EquipmentInfoCache';
 
-
 type Props = {
-  feature: AccessibilityCloudFeature,
-  history: RouterHistory,
-  className: string,
-  equipmentInfoId: ?string,
+  feature: AccessibilityCloudFeature;
+  history: RouterHistory;
+  className: string;
+  equipmentInfoId: ?string;
 };
 
 type State = {
-  expanded: boolean,
+  expanded: boolean
 };
 
 function equipmentInfosForFeatureId(featureId: string): Set<*> {
@@ -29,14 +28,12 @@ function equipmentInfosForFeatureId(featureId: string): Set<*> {
 
 function groupEquipmentByName(equipmentInfos) {
   const groupedEquipmentInfos = groupBy(equipmentInfos, 'properties.description');
-  return Object
-    .keys(groupedEquipmentInfos)
-    .map(description => groupedEquipmentInfos[description]);
+  return Object.keys(groupedEquipmentInfos).map(description => groupedEquipmentInfos[description]);
 }
 
 class EquipmentOverview extends React.Component<Props, State> {
   state = {
-    expanded: false,
+    expanded: false
   };
 
   componentWillReceiveProps(newProps: Props) {
@@ -50,16 +47,11 @@ class EquipmentOverview extends React.Component<Props, State> {
     const placeInfoId = this.props.feature._id || this.props.feature.properties._id;
     const equipmentInfoSet = equipmentInfosForFeatureId(placeInfoId);
     if (!equipmentInfoSet) return null;
-    const equipmentInfos = sortBy([...equipmentInfoSet.values()], ['properties.category', 'properties.description'])
-      .filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
+    const equipmentInfos = sortBy([...equipmentInfoSet.values()], ['properties.category', 'properties.description']).filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
     const equipmentInfoArrays = groupEquipmentByName(equipmentInfos);
 
-    const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
-      equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
-    )
-    const workingEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
-      !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
-    )
+    const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos => equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false));
+    const workingEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos => !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false));
     if (equipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
@@ -68,26 +60,13 @@ class EquipmentOverview extends React.Component<Props, State> {
     const isExpanded = this.state.expanded || equipmentInfos.length <= 2;
 
     return <div className={this.props.className}>
-      {hasBrokenEquipment ? <EquipmentList
-        equipmentInfoArrays={brokenEquipmentInfoArrays}
-        history={this.props.history}
-        placeInfoId={placeInfoId}
-      >
+      {hasBrokenEquipment ? <EquipmentList equipmentInfoArrays={brokenEquipmentInfoArrays} history={this.props.history} placeInfoId={placeInfoId}>
         <header>{t`Disruptions at this location`}</header>
       </EquipmentList> : null}
 
-      {isExpanded ? <EquipmentList
-        isExpanded={isExpanded}
-        equipmentInfoArrays={workingEquipmentInfoArrays}
-        history={this.props.history}
-        placeInfoId={placeInfoId}
-      /> : null}
+      {isExpanded ? <EquipmentList isExpanded={isExpanded} equipmentInfoArrays={workingEquipmentInfoArrays} history={this.props.history} placeInfoId={placeInfoId} /> : null}
 
-      {shouldBeExpandable ?
-        <button
-          className="link-button expand-button full-width-button"
-          onClick={() => this.setState({ expanded: true })}
-        >
+      {shouldBeExpandable ? <button className="link-button expand-button full-width-button" onClick={() => this.setState({ expanded: true })}>
           {t`All elevators and escalators`}
         </button> : null}
     </div>;
