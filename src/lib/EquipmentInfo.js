@@ -98,7 +98,7 @@ export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {
     // translator: An equipment or facility status. This does not mean the facility is broken: It might just be in maintenance! The facility might be an elevator, escalator, switch, sitemap, …
     false: t`out of order`,
     // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
-    undefined: t`unknown operational status`,
+    undefined: t`unknown status`,
   }[String(isOutdated ? undefined : isWorking)];
 }
 
