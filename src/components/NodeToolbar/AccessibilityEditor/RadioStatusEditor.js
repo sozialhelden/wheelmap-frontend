@@ -23,7 +23,7 @@ type Props = {
   shownStatusOptions: string[],
   presetStatus?: ?string,
   undefinedStringValue: string,
-  renderChildrenForValue: (({ value: string, categoryId: string }) => React.Node),
+  renderChildrenForValue: ((value: { value: string, categoryId: string }) => React.Node),
   getValueFromFeature: ((feature: WheelmapFeature) => string),
   saveValue: ((selectedValue: string) => Promise<Response>),
   descriptionForValue: ((value: string) => string),

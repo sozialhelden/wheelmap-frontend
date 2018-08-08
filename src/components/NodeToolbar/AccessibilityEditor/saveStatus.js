@@ -8,7 +8,7 @@ import { YesNoLimitedUnknown } from '../../../lib/Feature';
 type ExternalSaveOptions<T> = {
   featureId: string,
   value: T,
-  onSave: ?((T) => void),
+  onSave: ?((value: T) => void),
   onClose: (() => void),
 };
 

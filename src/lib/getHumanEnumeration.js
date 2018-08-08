@@ -6,7 +6,7 @@ import { t } from 'c-3po'
 type ConjunctionType = 'and' | 'or';
 
 type ConjunctionMap = {
-  [ConjunctionType]: {
+  [key:ConjunctionType]: {
     withSerialComma: React.Node,
     withoutSerialComma: React.Node,
   }

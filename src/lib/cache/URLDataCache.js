@@ -8,7 +8,7 @@ import ResponseError from '../ResponseError';
 // Caches response promises and returns an old promise if one is existing for the same URL.
 
 export default class URLDataCache<T> {
-  cache: { [string]: Promise<?T> } = {};
+  cache: { [key:string]: Promise<?T> } = {};
 
 
   fetch(url: string, resolve: ((data: T) => void), reject: ((response: any) => void)) {

@@ -44,6 +44,7 @@ import useImperialUnits from '../../lib/useImperialUnits';
 window.L = L;
 
 type Padding = {top: number, left: number, right: number, bottom: number};
+type MoveArgs = {zoom: number, lat: number, lon: number, bbox: L.LatLngBounds};
 
 type Props = {
   featureId?: ?string,
@@ -51,7 +52,7 @@ type Props = {
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
-  onMoveEnd?: (({ zoom: number, lat: number, lon: number, bbox: L.LatLngBounds }) => void),
+  onMoveEnd?: ((args: MoveArgs) => void),
   onClick?: (() => void),
   onError?: ((error: ?Error | string) => void),
   category: ?string,

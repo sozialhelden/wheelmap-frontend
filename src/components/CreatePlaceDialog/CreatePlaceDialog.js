@@ -91,7 +91,7 @@ const AppIcon = styled.img`
 type App = { title: string, href: string, icon: string };
 type AppFunction = (coords?: { lat: ?string, lon: ?string }) => App;
 
-const apps: { [string]: AppFunction } = {
+const apps: { [key:string]: AppFunction } = {
   vespucci: () => ({
     title: t`Vespucci in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=de.blau.android',

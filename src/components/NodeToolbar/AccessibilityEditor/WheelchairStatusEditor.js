@@ -12,7 +12,7 @@ import Icon from '../../Icon';
 
 type SaveOptions = {
   featureId: string,
-  onSave: ?((YesNoLimitedUnknown) => void),
+  onSave: ?((value: YesNoLimitedUnknown) => void),
   onClose: (() => void)
 };
 

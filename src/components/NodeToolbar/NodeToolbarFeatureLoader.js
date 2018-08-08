@@ -26,7 +26,7 @@ type Props = {
   onStartPhotoUploadFlow: (() => void),
   history: RouterHistory,
   onClose?: ?(() => void),
-  onClickCurrentMarkerIcon?: ((Feature) => void),
+  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
   onSelectWheelchairAccessibility?: ((newValue: YesNoLimitedUnknown) => void),
 };
 

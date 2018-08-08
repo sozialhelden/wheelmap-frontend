@@ -9,7 +9,7 @@ import { useLocales, addLocale } from 'c-3po';
 import { i18nCache } from './cache/I18nCache';
 
 export type LocalizedString = string | {
-  [string]: string,
+  [key:string]: string,
 };
 
 export const defaultLocale = 'en-US';

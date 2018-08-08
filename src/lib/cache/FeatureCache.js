@@ -24,12 +24,12 @@ export default class FeatureCache<
   FeatureType: Class<*>,
   FeatureCollectionType: Class<FeatureCollection<FeatureType>>,
 > extends EventTarget<FeatureCacheEvent<FeatureType>> {
-  cache: { [string]: ?FeatureType } = {};
+  cache: { [key:string]: ?FeatureType } = {};
 
   // For each indexed property path, this object saves an index map.
   // For each value that is found in an object at the given path, this index saves a set
   // of objects that have this value at the given path.
-  indexMaps: { [PropertyPath]: { [PropertyValue]: Set<any> } } = {};
+  indexMaps: { [key:PropertyPath]: { [key:PropertyValue]: Set<any> } } = {};
 
   constructor(indexedPropertyPaths: string[] = []) {
     super();
@@ -117,7 +117,7 @@ export default class FeatureCache<
 
   fetchFeature(
     id: string,
-    resolve: FeatureType => void,
+    resolve: (feature: FeatureType) => void,
     reject: (response: any) => void
   ) {
     this.constructor.fetchFeature(id).then((response: Response) => {
