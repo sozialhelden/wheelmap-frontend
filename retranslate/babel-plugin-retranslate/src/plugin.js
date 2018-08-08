@@ -63,7 +63,7 @@ const rootVisitor = {
           if (translation) {
             // take the first translation and generate the ast from it
             const firstTranslation = translation.msgstr[0] || translation.msgid;
-            if (translation.msgid) {
+            if (!translation.msgstr[0]) {
               console.warn(`Could not find translation for \`${currentEntry}\`, using msgid.`);
             }
             const newQuasis = generateAstFromTemplateString(firstTranslation);
