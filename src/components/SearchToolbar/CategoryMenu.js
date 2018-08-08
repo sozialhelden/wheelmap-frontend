@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import CategoryButton from './CategoryButton';
 import { isFiltered } from '../../lib/Feature';
-import Categories, { translatedRootCategoryNames } from '../../lib/Categories';
+import Categories from '../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import type { RouterHistory } from 'react-router-dom';
 
@@ -43,7 +43,7 @@ type Props = {
   hidden: boolean,
   onFocus: (() => void),
   onBlur: (() => void),
-  category: ?$Keys<typeof translatedRootCategoryNames>,
+  category: ?string,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
   history: RouterHistory,
@@ -51,7 +51,12 @@ type Props = {
 
 
 export default function CategoryMenu(props: Props) {
-  const names = props.category ? { [props.category]: Categories.translatedWheelmapRootCategoryName(props.category) } : translatedRootCategoryNames;
+  let names = null;
+  if (props.category) {
+    names = { [props.category]: Categories.translatedWheelmapRootCategoryName(props.category) };
+  } else {
+    names = Categories.getTranslatedRootCategoryNames();
+  }
   const showCloseButton = Boolean(props.category);
 
   return (
