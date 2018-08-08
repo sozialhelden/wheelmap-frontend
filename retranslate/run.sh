@@ -29,3 +29,6 @@ yarn run babel \
   --out-dir src
 
 mv .babelrc retranslate/.babelrc
+
+# ignore all changes on non c-3po files
+ag -L "c-3po" src | xargs git checkout --
