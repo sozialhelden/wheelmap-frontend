@@ -120,7 +120,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     let mailBody = t`I found a place on Wheelmap: ${url}`;
     // translator: Email body used when sharing a place without known name/category via email.// Email subject used for sharing a place via email.
     let mailSubject = t`Wheelmap.org`;
-    // translator: First line in an email and shared object title used when sharing a place via email or a social network.
+    // translator: First line in an email and shared object title used when sharing a place via email or a social network and the shared place has no title.
     let sharedObjectTitle = t`I found a place on Wheelmap…`;
     // Shown as button caption in the place toolbar
     const shareButtonCaption = t`Share`;
