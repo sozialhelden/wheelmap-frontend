@@ -337,7 +337,7 @@ export function accessibilityName(accessibility: YesNoLimitedUnknown): ?string {
     // translator: Long accessibility description for no wheelchair accessibility
     case 'no': return t`Not wheelchair accessible`;
     // translator: Long accessibility description for unknown wheelchair accessibility
-    case 'unknown': return t`Unknown accessibility`;
+    case 'unknown': return t`Unknown status`;
     default:
       return null;
   }
