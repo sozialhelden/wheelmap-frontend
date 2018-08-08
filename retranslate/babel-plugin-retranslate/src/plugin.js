@@ -53,7 +53,7 @@ const rootVisitor = {
       TaggedTemplateExpression(path, state) {
         const name = path.node.tag.name;
 
-        // its a TaggedTemplateExpression with the name t
+        // it's a TaggedTemplateExpression with the name t
         if (name === 't') {
           // convert current ast path into something more easily compared
           const currentEntry = generateCodeFromTemplateAst(path.node.quasi);
@@ -64,7 +64,7 @@ const rootVisitor = {
             // take the first translation and generate the ast from it
             const firstTranslation = translation.msgstr[0] || translation.msgid;
             if (!translation.msgstr[0]) {
-              console.warn(`Could not find translation for \`${currentEntry}\`, using msgid.`);
+              console.warn(`Could not find translation for \`${currentEntry}\`, using msgid instead.`);
             }
             const newQuasis = generateAstFromTemplateString(firstTranslation);
             // override original value
