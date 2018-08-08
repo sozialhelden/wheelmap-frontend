@@ -16,7 +16,7 @@ import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatu
 
 type SaveOptions = {
   featureId: string,
-  onSave: ?((YesNoUnknown) => void),
+  onSave: ?((value: YesNoUnknown) => void),
   onClose: (() => void)
 };
 

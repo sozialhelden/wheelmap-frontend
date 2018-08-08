@@ -16,7 +16,7 @@ type Params = {
 
 export default function urlForFilters({ history, category, accessibilityFilter, toiletFilter }: Params) {
   const queryParams = getQueryParams();
-  let newQueryParams: { [string]: ?string } = Object.assign({}, queryParams, { toilet: null, status: null });
+  let newQueryParams: { [key:string]: ?string } = Object.assign({}, queryParams, { toilet: null, status: null });
 
   const hasStatusParameter = accessibilityFilter && isFiltered(accessibilityFilter);
   const hasToiletParameter = toiletFilter && toiletFilter.length;
