@@ -93,12 +93,12 @@ export function equipmentInfoNameFor(properties: EquipmentProperties, isAriaLabe
 
 export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {
   return {
-    // Translators: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
+    // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
     true: t`in operation`,
-    // Translators: An equipment or facility status. This does not mean the facility is broken: It might just be in maintenance! The facility might be an elevator, escalator, switch, sitemap, …
+    // translator: An equipment or facility status. This does not mean the facility is broken: It might just be in maintenance! The facility might be an elevator, escalator, switch, sitemap, …
     false: t`out of order`,
-    // Translators: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
-    undefined: t`unknown status`,
+    // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
+    undefined: t`unknown operational status`,
   }[String(isOutdated ? undefined : isWorking)];
 }
 
@@ -128,14 +128,14 @@ export function lastUpdateString(
   { lastUpdate: ?Date, isWorking: ?boolean, category: ?string, isOutdated: boolean }
 ) {
   if (!lastUpdate) {
-    // Translators: Shown next to equipment status when the system does not know a last update.
+    // translator: Shown next to equipment status when the system does not know a last update.
     return `Unfortunately there is no information when this status was last updated.`;
   }
 
   const translatedEquipmentCategory = {
     escalator: t`escalator`,
     elevator: t`elevator`,
-    // Translators: An equipment or facility whose category we don't know. It might be an elevator, escalator, switch, sitemap, …
+    // translator: An equipment or facility whose category we don't know. It might be an elevator, escalator, switch, sitemap, …
     undefined: t`facility`,
   }[String(category)];
 
@@ -150,14 +150,14 @@ export function lastUpdateString(
   let dateString = lastUpdate.toLocaleDateString(currentLocales, fullDateOptions);
   if (isExistingInformationOutdated(lastUpdate) && typeof isWorking !== 'undefined') {
     const lastStatus = equipmentStatusTitle(isWorking, false);
-    // Translators: Shown for equipment when the last known status information is too old.
+    // translator: Shown for equipment when the last known status information is too old.
     return t`The last thing we know is that this ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;
   } else {
     if (isShortAgo) {
       const timeOptions = { hour: '2-digit', minute: '2-digit' };
       dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(currentLocales, timeOptions)}`;
     }
-    // Translators: Shown next to equipment status.
+    // translator: Shown next to equipment status.
     return t`Last update ${dateString}.`;
   }
 }
