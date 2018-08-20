@@ -26,6 +26,11 @@ Create a local iOS build with Cordova
 fastlane ios beta
 ```
 Push a new beta build to TestFlight and HockeyApp
+### ios screenshots
+```
+fastlane ios screenshots
+```
+Make screenshots for App Store
 
 ----
 

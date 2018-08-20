@@ -21,7 +21,10 @@ platform :ios do
   desc "Create a local iOS build with Cordova"
   lane :local do
     match(type: "development")
-    cordova(platform: 'ios')
+    cordova(
+      platform: 'ios',
+      type: 'development'
+    )
   end
 
   desc "Push a new beta build to TestFlight and HockeyApp"
@@ -61,6 +64,18 @@ platform :ios do
           # This hash is deep merged with the existing properties set using the other properties above. This allows your own fields properties to be appended to the existing fields that were created using the `payload` property for instance.
       }
     )
+  end
+
+  desc "Make screenshots for App Store"
+  lane :screenshots do
+    upload_to_browserstack_app_automate(
+      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: './platforms/ios/build/device/Wheelmap.ipa'
+    )
+    Dir.chdir("..") do
+      sh(['./node_modules/.bin/wdio', './test/conf/parallel.conf.js'])
+    end
   end
 end
 
