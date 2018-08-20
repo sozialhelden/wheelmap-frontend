@@ -31,6 +31,11 @@ Push a new beta build to TestFlight and HockeyApp
 fastlane ios screenshots
 ```
 Make screenshots for App Store
+### ios publish
+```
+fastlane ios publish
+```
+Upload app to App Store
 
 ----
 
