@@ -1,0 +1,13 @@
+Wheelmap est une application pour des personnes en fauteuils roulantsou à déambulateur.
+
+Quels stations de métro sont équipées d'un ascenseur? Est-ce qu'il y ades restaurants, cafés ou clubs qui sont accessibles pour vous?Quels musées ou bibliothèques sont accessibles pour des gens limitésdans leur mobilité et quels endroits ne sont pas accessibles?
+
+En utilisant Wheelmap, tous les utilisateurs d' iPhone et iPod touchpeuvent trouver, ajouter et modifier des endroits accessible ou moinsaccessibles sur un plan virtuel. Vous pouvez aussi trouver desendroits au monde - par exemple pour projeter un voyage.
+
+Wheelmap s'appuie sur OpenStreetMap et fonctionne par analogie avecWikipedia - tout le monde peut contribuer à améliorer les donnéesaccumulées. L'application tire ses informations directement del'internet. Tout les données sont toujours actuelles.
+
+Veuillez noter:
+- pour rechercher des endroits ou modifier le statut d'accessibilitéd'une endroit déjà ajouté, vous ne devez pas vous inscrire.
+- si vous voulez ajouter le statut d'accessibilité d'un endroitnouveau, vous avez besoin d'un compte pour wheelmap.org et pour OpenStreetMap. Tous les deux comptes doivent être connectés dans votre profile sur wheelmap.org. 
+
+Wheelmap était dévéloppé par l' association à but non lucratif SOZIALHELDEN. L'objectiv de SOZIALHELDEN est de s'aborder des enjeuxsociaux dans une manière innovative.
