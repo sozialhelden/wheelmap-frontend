@@ -24,17 +24,21 @@ exports.config = {
   },
 
   capabilities: [
-    // {
-    //   "device": "iPhone 7"
-    // },
+    {
+      "device": "iPhone 6S"
+    },
+    {
+      "device": "iPhone 6"
+    },
     {
       'device': 'iPhone 8',
-      // 'os_version': '11.0'
     },
-    // {
-    //   'device': 'iPad 6th',
-    //   'os_version': '11.3'
-    // }
+    {
+      'device': 'iPhone X',
+    },
+    {
+      'device': 'iPad 6th',
+    },
   ],
 
   logLevel: 'verbose',
