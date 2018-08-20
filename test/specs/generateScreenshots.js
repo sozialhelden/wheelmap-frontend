@@ -83,31 +83,33 @@ describe('Screenshot flow', function () {
     browser.alertAccept();
   });
 
-  it('switches languages', function () {
-    waitAndTapElement(selectors.en_US.startButton);
-    waitAndTapElement(selectors.en_US.searchButton);
-    waitAndTapElement(selectors.en_US.searchInput);
-    browser.element(selectors.en_US.searchInput).keys(`locale:${browser.desiredCapabilities.locale}`);
-    browser.element(selectors.en_US.searchInput).keys(['Enter']);
-    browser.pause(3000); // wait for page to be reloaded
-  });
+  if (browser.desiredCapabilities.locale !== 'en_US') {
+    it('switches languages', function () {
+      waitAndTapElement(selectors.en_US.startButton);
+      waitAndTapElement(selectors.en_US.searchButton);
+      waitAndTapElement(selectors.en_US.searchInput);
+      browser.element(selectors.en_US.searchInput).keys(`locale:${browser.desiredCapabilities.locale}`);
+      browser.element(selectors.en_US.searchInput).keys(['Enter']);
+      browser.pause(3000); // wait for page to be reloaded
+    });
 
-  it('restarts the flow from the onboarding screen', function () {
-    waitAndTapElement(s('homeButton'));
+    it('restarts the flow from the onboarding screen', function () {
+      waitAndTapElement(s('homeButton'));
 
-    // const contexts = browser.contexts();
-    // The app has two contexts, NATIVE_APP and WEBVIEW_n
-    // browser.context(contexts[1]); // switch to webview context
+      // const contexts = browser.contexts();
+      // The app has two contexts, NATIVE_APP and WEBVIEW_n
+      // browser.context(contexts[1]); // switch to webview context
 
-    browser.waitForExist(s('startButton'), 10000);
-    browser.pause(1000); // wait for panel to be animated
-    saveScreenshot("StartScreen");
-  });
+      browser.waitForExist(s('startButton'), 10000);
+      browser.pause(1000); // wait for panel to be animated
+    });
+  }
 
   it('shows places', function () {
+    saveScreenshot("0-StartScreen");
     waitAndTapElement(s('startButton'));
-    browser.pause(1000); // wait for dialog to be gone
-    saveScreenshot("Places");
+    browser.pause(3000); // wait for dialog to be gone
+    saveScreenshot("1-Places");
   });
 
   it('opens a single place\'s details (with nice photos!)', function () {
@@ -115,40 +117,41 @@ describe('Screenshot flow', function () {
     browser.pause(3000); // wait for places to be loaded
     waitAndTapElement(s('placeMarker'), 15, 15);
     waitAndTapElement(s('expandButton'));
-    browser.pause(1000); // wait for panel to be animated
-    saveScreenshot("PlaceDetails");
+    browser.pause(5000); // wait for panel to be animated
+    saveScreenshot("2-PlaceDetails");
   });
 
-  it('switches to edit mode', function () {
-    browser.pause(3000); // wait for images to be loaded
-    waitAndTapElement(s('editButton'));
-    browser.pause(1000); // wait for panel to be animated
-    waitAndTapElement(s('partiallyOption'));
-    browser.pause(1000); // wait for element to be clicked
-    saveScreenshot("EditingStatus");
-    waitAndTapElement(s('cancelButton'))
-  });
+  // it('switches to edit mode', function () {
+  //   waitAndTapElement(s('editButton'));
+  //   browser.pause(1000); // wait for panel to be animated
+  //   waitAndTapElement(s('partiallyOption'));
+  //   browser.pause(1000); // wait for element to be clicked
+  //   saveScreenshot("EditingStatus");
+  //   waitAndTapElement(s('cancelButton'))
+  // });
 
-  it('switches to image adding', function () {
-    waitAndTapElement(s('addImagesButton'))
-    browser.pause(1000); // wait for panel to be animated
-    saveScreenshot("AddImages");
-    waitAndTapElement(s('cancelButton'))
-  });
+  // it('switches to image adding', function () {
+  //   waitAndTapElement(s('addImagesButton'))
+  //   browser.pause(1000); // wait for panel to be animated
+  //   saveScreenshot("AddImages");
+  //   waitAndTapElement(s('cancelButton'))
+  // });
 
   it('filters visible places', function () {
     waitAndTapElement(s('searchButton'))
     waitAndTapElement(s('shoppingButton'))
     waitAndTapElement(s('atLeastPartiallyWheelchairAccessibleButton'))
+    browser.pause(5000); // wait for places to be loaded
+    saveScreenshot("3-Filter");
     waitAndTapElement(s('goButton'))
   });
   
-  it('shows a big train station', function () {
-    // Set device location to Hauptbahnhof, Berlin
-    browser.setGeoLocation({ latitude: 52.5251, longitude: 13.3694, altitude: 70 });
-    waitAndTapElement(s('showMeWhereIAmButton'))
-    browser.execute('mobile: pinch', { scale: 1.3, velocity: 1 });
-    browser.pause(3000); // wait for places to be loaded
-    saveScreenshot("MainStation");
-  });
+  // it('shows a big train station', function () {
+  //   // Set device location to Hauptbahnhof, Berlin
+  //   browser.setGeoLocation({ latitude: 52.5251, longitude: 13.3694, altitude: 70 });
+  //   waitAndTapElement(s('showMeWhereIAmButton'))
+  //   browser.execute('mobile: pinch', { scale: 1.3, velocity: 1 });
+  //   browser.pause(3000); // wait for places to be loaded
+  //   saveScreenshot("MainStation");
+  // });
 });

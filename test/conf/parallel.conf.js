@@ -30,7 +30,7 @@ exports.config = {
   ],
   exclude: [],
 
-  maxInstances: 5,
+  maxInstances: 2,
 
   commonCapabilities: {
     name: 'parallel_appium_test',
