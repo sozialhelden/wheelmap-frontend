@@ -1,7 +1,7 @@
 {
   "name": "wheelmap-react",
   "displayName": "Wheelmap",
-  "version": "4.1.46",
+  "version": "4.1.47",
   "homepage": "https://wheelmap.org/beta/",
   "main": "lib/App.js",
   "license": "MIT",
@@ -130,7 +130,7 @@
     "start-cordova": "REACT_APP_ENV=cordova REACT_APP_WHEELMAP_API_BASE_URL=https://wheelmap.org PUBLIC_URL=\"./\"",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
-    "test-browserstack": "rm test/screenshots/**/*.png; dotenv -e .env.production bundle exec fastlane ios screenshots",
+    "test-browserstack": "dotenv -e .env.production bundle exec fastlane ios screenshots; cp -R fastlane/screenshots/en-US fastlane/screenshots/default",
     "build": "extract=1 BABEL_DISABLE_CACHE=1 REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" node scripts/build.js",
     "webpack-cordova": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"<script src='cordova.js'></script>\" REACT_APP_ENV=development NODE_ENV=production CORDOVA=1 REACT_APP_WHEELMAP_API_BASE_URL=https://wheelmap.org PUBLIC_URL=\"./\" node scripts/build.js",
     "build-staging": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" REACT_APP_ENV=staging node scripts/build.js",
