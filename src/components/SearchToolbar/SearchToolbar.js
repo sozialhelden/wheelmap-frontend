@@ -227,7 +227,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.sendSearchRequest(query);
   },
   1000,
-  { leading: false, trailing: true, maxWait: 1000 },
+  { leading: false, trailing: true, maxWait: 3000 },
   );
 
 
