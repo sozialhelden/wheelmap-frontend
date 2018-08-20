@@ -9,7 +9,6 @@ const { flatten } = require('lodash');
 
 const devices = [
   'iPhone 6S',
-  'iPhone 6',
   'iPhone 8',
   'iPhone X',
   'iPad 6th',
