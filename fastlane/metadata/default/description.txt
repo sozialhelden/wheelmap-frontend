@@ -1,23 +1,37 @@
-Wheelmap is the mobile app for Wheelmap.org, an open, free and global online map for wheelchair-accessible places provided by Sozialhelden e.V. 
+The Wheelmap iPhone App is the mobile app for Wheelmap.org, an open, free and online map of the world for wheelchair-accessible places, provided by the nonprofit organisation Sozialhelden e.V. 
 
-With the app, all iPhone and iPod touch users can find, mark and add accessible and less accessible public places on a virtual map. Users can also upload photos and add comments to places. 
-With the provided information mobility-impaired people can easily find out which underground stations, restaurants, cafes or clubs around them are accessible and which are not. This increases their mobility and participation in society, creating more public awareness for their needs and rights. 
+With the app, you can find, mark and add accessible and less accessible public places on a virtual map with your iPhone oder iPad. You can also upload images and add specific information about places. 
 
-Everyone can get engaged and help by marking the wheelchair accessibility of public places with the easy traffic light system.
+With the information provided, mobility-impaired people can easily find out which underground stations, restaurants, cafés or clubs around them are accessible and which are not. This makes it easier for people in wheelchairs to get around and to participate in society, while at the same time creating more public awareness for their needs and rights. Everyone can get involved and help by marking the wheelchair accessibility of public places. 
 
-Wheelmap is based on OpenStreetMap and works similar to Wikipedia - everyone can contribute to improving the accumulated data. The app draws its information directly from the net. All data is always up to date.
+In a first step, you can mark the general wheelchair accessibility of a place according to a simple traffic light system: 
 
-Note:
-- To search for places and to mark the accessibility status of an existing place, no registration is required.
-- To add a new place or upload photos to a place you need an account for Wheelmap.org and OpenStreetMap. You can only log in to the app with your Wheelmap-Account! 
+Green = fully wheelchair accessible
+The entrance is stepless AND all rooms are accessible without steps.
 
-Registration:
-- Open the app and click on the user symbol (bottom right corner)
-- Click on "Register"
-- Follow the process to set up your OpenStreetMap account
-- In the last step of this process, also set up your Wheelmap account
-- You have to confirm the two accounts by clicking on the confirmation links in the two confirmation emails
-- Log in to the app with your Wheelmap account; log in on Wheelmap.org with your OpenStreetMap account
+Yellow = partially wheelchair accessible
+The entrance is stepless, but not all rooms inside are accessible without steps. OR: The entrance has a small step (up to max. 7 cm height / 3 inches) and the most important rooms inside are accessible without steps. OR: The entrance has one or two steps, but there is a mobile ramp for bridging those steps and the most important rooms are accessible without steps.
+
+Red = not wheelchair accessible
+The entrance has a high step (over 7 cm) or several steps.
+
+The second tagging option applies to the wheelchair accessibility of the WC of a place, which – if available – you can mark in the following way:
+
+Green = toilet is wheelchair accessible
+
+Doorway’s inner width is at least 90 cm (35 in)
+Clear turning space is at least 150 cm × 150 cm (59 x 59 in)
+Wheelchair-height toilet seat
+Foldable grab rails (or something similar)
+Wheelchair accessible sink
+
+Red = toilet is not wheelchair accessible
+
+Locations and toilets that still need to be tagged are marked in grey and can be quickly and easily marked by anyone with a few clicks. No registration or login is required.
+
+In the new version of the app, you can add new locations by entering the address and the exact location directly on OpenStreetMap. The same applies when updating the address or other basic information about a place. 
+
+Wheelmap is based on OpenStreetMap and works similar to Wikipedia - everyone can contribute to improving the collected information. 
 
 
-Wheelmap was developed by the non-profit organisation Sozialhelden e.V.. It's Sozialhelden's aim to address social challenges with innovative approaches.
+Wheelmap was developed by the non-profit organisation Sozialhelden e.V. It is Sozialhelden's aim to address social issues with innovative approaches.
