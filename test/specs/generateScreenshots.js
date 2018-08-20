@@ -28,7 +28,6 @@ function saveScreenshot(name) {
   browser.saveScreenshot(`./fastlane/screenshots/${locale.replace(/_/,'-')}/${device}-${name}.png`);
 }
 
-
 describe('Screenshot flow', function () {
   it('should work', function () {
     // Set device location to a place with nice photos
@@ -56,6 +55,7 @@ describe('Screenshot flow', function () {
 
     waitAndTapElement('~Bunte SchokoWelt Fully wheelchair accessible', 15, 15);
     waitAndTapElement('~Expand panel');
+    browser.pause(1000); // wait for panel to be animated
     saveScreenshot("PlaceDetails");
     browser.pause(3000); // wait for images to be loaded
     waitAndTapElement('~Fully wheelchair accessible Entrance has no steps, and all rooms are accessible without steps.');
@@ -67,7 +67,6 @@ describe('Screenshot flow', function () {
     waitAndTapElement('~Cancel');
     waitAndTapElement('~Add images');
     waitAndTapElement('~Cancel');
-
 
     waitAndTapElement('~Search');
     waitAndTapElement('~Shopping');

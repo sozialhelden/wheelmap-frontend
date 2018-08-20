@@ -23,6 +23,22 @@ import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
+import { newLocationWithReplacedQueryParams } from '../../lib/queryParams';
+
+
+// You can enter debug commands in the search bar, which are handled here.
+function handleInputCommands(history: RouterHistory, commandLine: ?string) {
+  // Enter a command like `locale:de_DE` to set a new locale.
+  const setLocaleCommandMatch = commandLine && commandLine.match(/^locale:(\w\w(?:_\w\w))/);
+  if (setLocaleCommandMatch) {
+    const location = newLocationWithReplacedQueryParams(history, {
+      q: null,
+      locale: setLocaleCommandMatch[1],
+    });
+    history.push(location);
+    window.location.reload();
+  }
+}
 
 
 export type Props = PlaceFilter & {
@@ -222,8 +238,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
 
   handleSearchInputChange = debounce(() => {
-    if (!(this.input instanceof HTMLInputElement)) return;
+    if (!(this.input instanceof HTMLInputElement)) {
+      return;
+    }
     const query = this.input.value;
+    if (query.match(/^locale:/)) {
+      return;
+    }
     this.sendSearchRequest(query);
   },
   1000,
@@ -347,6 +368,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
             this.firstResult.focus();
           }
         });
+        handleInputCommands(this.props.history, this.input && this.input.value);
       }}
       ariaRole="searchbox"
     />;
