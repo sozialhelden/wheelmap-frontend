@@ -1,4 +1,5 @@
 // @flow
+import { t } from 'ttag';
 import { hsl } from 'd3-color';
 import uniq from 'lodash/uniq';
 import includes from 'lodash/includes';
@@ -331,7 +332,7 @@ class Toolbar extends React.Component<Props, State> {
         {(this.props.isSwipeable && !this.props.isModal) ?
           <button
             className="grab-handle"
-            aria-hidden="true"
+            aria-label={this.isFullyExpanded() ? t`Collapse panel` : t`Expand panel`}
             onClick={() => {
               if (this.isFullyExpanded()) {
                 const stops = this.getStops();
