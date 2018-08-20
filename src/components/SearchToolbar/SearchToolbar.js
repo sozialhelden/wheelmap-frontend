@@ -31,11 +31,15 @@ function handleInputCommands(history: RouterHistory, commandLine: ?string) {
   // Enter a command like `locale:de_DE` to set a new locale.
   const setLocaleCommandMatch = commandLine && commandLine.match(/^locale:(\w\w(?:_\w\w))/);
   if (setLocaleCommandMatch) {
-    const location = newLocationWithReplacedQueryParams(history, {
+    let location = newLocationWithReplacedQueryParams(history, {
       q: null,
       locale: setLocaleCommandMatch[1],
     });
-    history.push(location);
+    if (window.cordova) {
+      window.location.hash = location.search;
+    } else {
+      history.push(location);
+    }
     window.location.reload();
   }
 }
