@@ -17,7 +17,7 @@ const devices = [
 
 const locales = [
   'de_DE',
-  'en_US',
+  // 'en_US',
 ];
 
 exports.config = {
