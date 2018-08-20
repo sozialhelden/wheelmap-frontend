@@ -140,6 +140,7 @@
     "build-android": "npm run webpack-cordova && rm ./platforms/android/app/build/outputs/apk/release/app-release.apk; CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\\://services.gradle.org/distributions/gradle-4.4-all.zip bundle exec fastlane android local --env=production",
     "deploy-ios-beta": "rm platforms/ios/build/device/Wheelmap.ipa; npm version patch; bundle exec fastlane ios beta --env=production",
     "deploy-android-beta": "rm ./platforms/android/app/build/outputs/apk/release/app-release.apk; npm version patch; CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\\://services.gradle.org/distributions/gradle-4.4-all.zip bundle exec fastlane android beta --env=production",
+    "deploy-ios-release": "dotenv -e .env.production bundle exec fastlane ios publish",
     "version": "cordova-version-sync",
     "flow": "flow",
     "server": "server",
