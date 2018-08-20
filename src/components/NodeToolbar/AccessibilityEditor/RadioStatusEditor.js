@@ -41,22 +41,6 @@ type State = {
 };
 
 
-// translator: Button caption shown while editing a place’s wheelchair status
-const confirmButtonCaption = t`Confirm`;
-
-// translator: Button caption shown while editing a place’s wheelchair status
-const changeButtonCaption = t`Change`;
-
-// translator: Button caption shown while editing a place’s wheelchair status
-const continueButtonCaption = t`Continue`;
-
-// translator: Button caption shown while editing a place’s wheelchair status
-const cancelButtonCaption = t`Cancel`;
-
-// translator: Button caption shown while editing a place’s wheelchair status
-const backButtonCaption = t`Back`;
-
-
 class RadioStatusEditor extends React.Component<Props, State> {
   state : State = {
     categoryId: 'other',
@@ -201,6 +185,21 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
 
   renderFooter() {
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const confirmButtonCaption = t`Confirm`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const changeButtonCaption = t`Change`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const continueButtonCaption = t`Continue`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const cancelButtonCaption = t`Cancel`;
+
+    // translator: Button caption shown while editing a place’s wheelchair status
+    const backButtonCaption = t`Back`;
+    
     const valueHasChanged = this.state.selectedValue !== this.selectedValue();
     const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
     const hasBeenUnknownBefore = this.selectedValue() === 'unknown';
