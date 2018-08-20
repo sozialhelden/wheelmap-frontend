@@ -5,6 +5,21 @@
 //     }
 //   });
 
+const { flatten } = require('lodash');
+
+const devices = [
+  // 'iPhone 6S',
+  // 'iPhone 6',
+  // 'iPhone 8',
+  'iPhone X',
+  // 'iPad 6th',
+];
+
+const locales = [
+  'de_DE',
+  'en_US',
+];
+
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
@@ -23,23 +38,7 @@ exports.config = {
     'browserstack.debug': true
   },
 
-  capabilities: [
-    {
-      "device": "iPhone 6S"
-    },
-    {
-      "device": "iPhone 6"
-    },
-    {
-      'device': 'iPhone 8',
-    },
-    {
-      'device': 'iPhone X',
-    },
-    {
-      'device': 'iPad 6th',
-    },
-  ],
+  capabilities: flatten(devices.map(device => locales.map(locale => ({ device, locale })))),
 
   logLevel: 'verbose',
   coloredLogs: true,
