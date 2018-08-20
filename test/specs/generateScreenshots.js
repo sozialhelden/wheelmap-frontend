@@ -101,11 +101,11 @@ describe('Screenshot flow', function () {
       // browser.context(contexts[1]); // switch to webview context
 
       browser.waitForExist(s('startButton'), 10000);
-      browser.pause(1000); // wait for panel to be animated
     });
   }
 
   it('shows places', function () {
+    browser.pause(5000); // wait for translations to be loaded
     saveScreenshot("0-StartScreen");
     waitAndTapElement(s('startButton'));
     browser.pause(3000); // wait for dialog to be gone
@@ -113,8 +113,8 @@ describe('Screenshot flow', function () {
   });
 
   it('opens a single place\'s details (with nice photos!)', function () {
-    browser.execute('mobile: pinch', { scale: 1.6, velocity: 1 });
-    browser.pause(3000); // wait for places to be loaded
+    browser.execute('mobile: pinch', { scale: 1.6, velocity: 0.5 });
+    browser.pause(5000); // wait for places to be loaded
     waitAndTapElement(s('placeMarker'), 15, 15);
     waitAndTapElement(s('expandButton'));
     browser.pause(5000); // wait for panel to be animated
@@ -137,14 +137,15 @@ describe('Screenshot flow', function () {
   //   waitAndTapElement(s('cancelButton'))
   // });
 
-  it('filters visible places', function () {
-    waitAndTapElement(s('searchButton'))
-    waitAndTapElement(s('shoppingButton'))
-    waitAndTapElement(s('atLeastPartiallyWheelchairAccessibleButton'))
-    browser.pause(5000); // wait for places to be loaded
-    saveScreenshot("3-Filter");
-    waitAndTapElement(s('goButton'))
-  });
+  // it('filters visible places', function () {
+  //   waitAndTapElement(s('searchButton'))
+  //   waitAndTapElement(s('shoppingButton'))
+  //   waitAndTapElement(s('atLeastPartiallyWheelchairAccessibleButton'))
+  //   browser.execute('mobile: pinch', { scale: 0.25, velocity: 0.5 });
+  //   browser.pause(10000); // wait for places to be loaded
+  //   saveScreenshot("3-Filter");
+  //   waitAndTapElement(s('goButton'))
+  // });
   
   // it('shows a big train station', function () {
   //   // Set device location to Hauptbahnhof, Berlin
