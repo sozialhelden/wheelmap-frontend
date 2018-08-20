@@ -70,7 +70,7 @@ function saveScreenshot(name) {
 
 
 describe('Screenshot flow', function () {
-  it('should work', function () {
+  it('accepts the location alert', function () {
     // Set device location to a place with nice photos
     browser.setGeoLocation({ latitude: 52.5147041, longitude: 13.3904551, altitude: 70 });
 
@@ -81,12 +81,18 @@ describe('Screenshot flow', function () {
     browser.pause(500);
 
     browser.alertAccept();
+  });
 
+  it('switches languages', function () {
+    waitAndTapElement(selectors.en_US.startButton);
     waitAndTapElement(selectors.en_US.searchButton);
     waitAndTapElement(selectors.en_US.searchInput);
     browser.element(selectors.en_US.searchInput).keys(`locale:${browser.desiredCapabilities.locale}`);
     browser.element(selectors.en_US.searchInput).keys(['Enter']);
+    browser.pause(3000); // wait for page to be reloaded
+  });
 
+  it('restarts the flow from the onboarding screen', function () {
     waitAndTapElement(s('homeButton'));
 
     // const contexts = browser.contexts();
@@ -96,36 +102,51 @@ describe('Screenshot flow', function () {
     browser.waitForExist(s('startButton'), 10000);
     browser.pause(1000); // wait for panel to be animated
     saveScreenshot("StartScreen");
+  });
 
+  it('shows places', function () {
     waitAndTapElement(s('startButton'));
     browser.pause(1000); // wait for dialog to be gone
     saveScreenshot("Places");
+  });
 
+  it('opens a single place\'s details (with nice photos!)', function () {
     browser.execute('mobile: pinch', { scale: 1.6, velocity: 1 });
     browser.pause(3000); // wait for places to be loaded
     waitAndTapElement(s('placeMarker'), 15, 15);
     waitAndTapElement(s('expandButton'));
     browser.pause(1000); // wait for panel to be animated
     saveScreenshot("PlaceDetails");
+  });
 
+  it('switches to edit mode', function () {
     browser.pause(3000); // wait for images to be loaded
     waitAndTapElement(s('editButton'));
     browser.pause(1000); // wait for panel to be animated
     waitAndTapElement(s('partiallyOption'));
     browser.pause(1000); // wait for element to be clicked
     saveScreenshot("EditingStatus");
+    waitAndTapElement(s('cancelButton'))
+  });
 
-    waitAndTapElement(s('cancelButton'))
+  it('switches to image adding', function () {
     waitAndTapElement(s('addImagesButton'))
+    browser.pause(1000); // wait for panel to be animated
+    saveScreenshot("AddImages");
     waitAndTapElement(s('cancelButton'))
+  });
+
+  it('filters visible places', function () {
     waitAndTapElement(s('searchButton'))
     waitAndTapElement(s('shoppingButton'))
     waitAndTapElement(s('atLeastPartiallyWheelchairAccessibleButton'))
     waitAndTapElement(s('goButton'))
+  });
+  
+  it('shows a big train station', function () {
     // Set device location to Hauptbahnhof, Berlin
     browser.setGeoLocation({ latitude: 52.5251, longitude: 13.3694, altitude: 70 });
     waitAndTapElement(s('showMeWhereIAmButton'))
-
     browser.execute('mobile: pinch', { scale: 1.3, velocity: 1 });
     browser.pause(3000); // wait for places to be loaded
     saveScreenshot("MainStation");
