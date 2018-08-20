@@ -8,16 +8,16 @@
 const { flatten } = require('lodash');
 
 const devices = [
-  // 'iPhone 6S',
-  // 'iPhone 6',
-  // 'iPhone 8',
+  'iPhone 6S',
+  'iPhone 6',
+  'iPhone 8',
   'iPhone X',
-  // 'iPad 6th',
+  'iPad 6th',
 ];
 
 const locales = [
   'de_DE',
-  // 'en_US',
+  'en_US',
 ];
 
 exports.config = {
@@ -30,7 +30,8 @@ exports.config = {
   ],
   exclude: [],
 
-  maxInstances: 10,
+  maxInstances: 5,
+
   commonCapabilities: {
     name: 'parallel_appium_test',
     build: 'webdriver-browserstack',
