@@ -7,6 +7,7 @@ import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
 import { useLocales, addLocale } from 'ttag';
 import { i18nCache } from './cache/I18nCache';
+import { getQueryParams } from './queryParams';
 
 export type LocalizedString = string | {
   [key:string]: string,
@@ -50,7 +51,11 @@ export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLoc
 // Returns an expanded list of preferred locales.
 export function expandedPreferredLocales() {
   // Note that some browsers don't support navigator.languages
-  const localesPreferredByUser = window.navigator.languages || [];
+  const overriddenLocale = getQueryParams().locale;
+  const localesPreferredByUser = [].concat(window.navigator.languages) || [];
+  if (overriddenLocale) {
+    localesPreferredByUser.unshift(overriddenLocale);
+  }
   const locales = localesPreferredByUser.concat([window.navigator.language, defaultLocale]);
 
   // Try all locales without country code, too
@@ -115,7 +120,6 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
   })
   .then(() => {
     const localesToUse = intersection(locales, loadedLocales);
-    // console.log('Using locales', localesToUse, '(requested:', locales, ')');
     currentLocales = localesToUse;
     useLocales(localesToUse);
   });
