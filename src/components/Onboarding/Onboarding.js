@@ -160,10 +160,7 @@ const StyledOnboarding = styled(Onboarding)`
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
     box-shadow: 0 5px 30px rgba(0,0,0,0.15), 0 2px 5px rgba(0,0,0,0.3);
-    animation: appear .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    @media (prefers-reduced-motion: reduce) {
-      animation: fadeIn .5s linear;
-    }
+    animation: fadeIn .5s linear;
 
     .logo {
       width: 250px;
@@ -307,8 +304,6 @@ const StyledOnboarding = styled(Onboarding)`
         box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
         transition: box-shadow 0.2s;
       }
-
-      animation: highlight 5s linear infinite;
     }
 
     .ac-big-icon-marker {
