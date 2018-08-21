@@ -78,10 +78,8 @@ platform :ios do
     end
   end
 
-  desc "Upload app to App Store"
+  desc "Upload beta build as release to App Store"
   lane :publish do
-    match(type: "appstore")
-    cordova(platform: 'ios')
     upload_to_app_store(
       overwrite_screenshots: true,
       ipa: 'platforms/ios/build/device/Wheelmap.ipa',
