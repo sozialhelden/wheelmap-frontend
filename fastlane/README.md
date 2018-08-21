@@ -35,7 +35,7 @@ Make screenshots for App Store
 ```
 fastlane ios publish
 ```
-Upload app to App Store
+Upload beta build as release to App Store
 
 ----
 
