@@ -1,9 +1,9 @@
-// ['BROWSERSTACK_USERNAME', 'BROWSERSTACK_ACCESS_KEY', 'BROWSERSTACK_APP_ID']
-//   .forEach(variableName => {
-//     if (!process.env[variableName]) {
-//       throw new Error(`Please define ${variableName} as environment variable.`);
-//     }
-//   });
+['BROWSERSTACK_USERNAME', 'BROWSERSTACK_ACCESS_KEY', 'BROWSERSTACK_APP_ID']
+  .forEach(variableName => {
+    if (!process.env[variableName]) {
+      throw new Error(`Please define ${variableName} as environment variable.`);
+    }
+  });
 
 const { flatten } = require('lodash');
 
