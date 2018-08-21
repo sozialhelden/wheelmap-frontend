@@ -11,14 +11,20 @@ msgstr ""
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. Conjunction between two words (like the ‘and’ in ‘humans and animals’).
+#. Please don't forget to include necessary spaces.
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr " and "
+msgstr "and "
 
+#. Conjunction between two words (like the ‘or’ in ‘humans or animals’).
+#. Please don't forget to include necessary spaces.
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
 msgstr " or "
 
+#. Used to describe a place with unknown name, but known category (when
+#. sharing)
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } on Wheelmap"
@@ -26,39 +32,41 @@ msgstr "${ categoryName } on Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] "${ count } elevator out of service"
-msgstr[1] "${ count } elevators out of service"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] "${ count } escalator out of service"
-msgstr[1] "${ count } escalators out of service"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] "${ count } elevator with unknown operational status"
-msgstr[1] "${ count } elevators with unknown operational status"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] "${ count } escalator with unknown operational status"
-msgstr[1] "${ count } escalators with unknown operational status"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] "${ count } elevator in service"
-msgstr[1] "${ count } elevators in service"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] "${ count } escalator in service"
-msgstr[1] "${ count } escalators in service"
+msgstr[0] ""
+msgstr[1] ""
 
+#. Email body used when sharing a place with known name via email.// Email
+#. subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } on Wheelmap.org"
@@ -67,6 +75,8 @@ msgstr "${ placeName } on Wheelmap.org"
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 
+#. Explains that edits don't get propagated back to Wheelmap directly after
+#. editing
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
@@ -75,6 +85,8 @@ msgstr ""
 "(Note that it can take some time after editing until the place is updated on"
 " Wheelmap.)"
 
+#. Explains that you have to log in before editing places on OSM and that
+#. edits don't get propagated back directly
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
@@ -83,6 +95,7 @@ msgstr ""
 "(Note that you need to log in to do this, and that it can take some time "
 "until the place is updated on Wheelmap.)"
 
+#. Report email body with place URL
 #: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n\\nHi "
@@ -93,10 +106,18 @@ msgstr ""
 "Sozialhelden,\\n\\nsomething about this place is wrong: ${ url }\\n\\nThe "
 "problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
 
+#. In a comma-separated serial enumeration, this string is the ', and'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
 msgstr ", and"
 
+#. In a comma-separated serial enumeration, this string is the ', or'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr ", or "
@@ -118,31 +139,40 @@ msgstr "Add a place on OpenStreetMap"
 msgid "Add images"
 msgstr "Add images"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
 msgstr "Add a new place"
 
+#. Button caption, shown in the place toolbar
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
 msgid "Add toilet status"
-msgstr "Add wheelchair accessibility of WC"
+msgstr "Mark wheelchair accessibility of WC"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr "All elevators and escalators"
 
+#. Shown in collapsed search/filter combi button when there is no category
+#. filter set
 #: src/components/SearchToolbar/SearchButton.js:40
 msgid "All places"
 msgstr "All places"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
 msgid "At least partially wheelchair accessible"
 msgstr "Partially wheelchair accessible"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
 msgid "At least partially wheelchair accessible + WC"
 msgstr "Partially accessible with accessible WC"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:56
+#. Button caption in photo captcha dialog
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:201
 #: src/components/NodeToolbar/Report/strings.js:29
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
 msgid "Back"
@@ -152,17 +182,18 @@ msgstr "Back"
 msgid "Call ${ phoneNumber }"
 msgstr "Call ${ phoneNumber }"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:53
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:349
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:202
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:198
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:339
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:217
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:47
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:192
 msgid "Change"
 msgstr "Change"
 
-#: src/components/SearchToolbar/SearchToolbar.js:404
+#: src/components/SearchToolbar/SearchToolbar.js:446
 msgid "Clear Search"
 msgstr "Clear search"
 
@@ -174,14 +205,15 @@ msgstr "Clear turning space ≥ 150 cm wide"
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "Clear turning space ≥ 59 inches wide"
 
+#. Button caption in photo upload Instructions dialog
 #: src/components/CloseLink.js:56
 #: src/components/CreatePlaceDialog/CloseButton.js:31
-#: src/components/NodeToolbar/Photos/PhotoSection.js:153
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+#: src/components/NodeToolbar/Photos/PhotoSection.js:168
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:233
 msgid "Close"
 msgstr "Close"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+#: src/components/NodeToolbar/Photos/PhotoSection.js:199
 msgid "Close (Esc)"
 msgstr "Close (Esc)"
 
@@ -189,35 +221,47 @@ msgstr "Close (Esc)"
 msgid "Collapse Share Menu"
 msgstr "Collapse share menu."
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:44
+#: src/components/Toolbar.js:335
+msgid "Collapse panel"
+msgstr ""
+
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
 msgid "Confirm"
 msgstr "Confirm"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:17
 msgid "Contact"
 msgstr "Contact"
 
+#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr "Contact the Wheelmap support team"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:50
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:355
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:195
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:345
 msgid "Continue"
 msgstr "Continue"
 
-#: src/components/SearchToolbar/SearchResults.js:36
+#. Text in search results when an error occurred
+#: src/components/SearchToolbar/SearchResults.js:37
 msgid "Could not load results. Please try again later!"
 msgstr "No results available. Please try again later!"
 
+#. Shown when there was an error while loading a place.
 #: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
 msgid "Could not load this place."
 msgstr "Could not load this place."
 
+#. Button caption in the place toolbar. Navigates to a place's details on an
+#. external page.
 #: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "Details"
 
+#. Points the user to OSM for changing place detail
 #: src/components/NodeToolbar/Report/strings.js:21
 msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
@@ -230,17 +274,19 @@ msgstr "Disruptions at this location"
 
 #: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 35 inch"
-msgstr "Doorways' inner width ≥ 35 inches."
+msgstr "Doorways' inner width ≥ 35 inches"
 
 #: src/lib/Feature.js:392
 msgid "Doorways’ inner width ≥ 90 cm"
-msgstr "Doorways' inner width ≥ 90 cm."
+msgstr "Doorways' inner width ≥ 90 cm"
 
+#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
 msgstr "Edit this place on OpenStreetMap"
 
-#: src/lib/Categories.js:52
+#. Root category
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr "Education"
 
@@ -249,6 +295,8 @@ msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using imperial unit
 #: src/lib/Feature.js:368
 msgid ""
 "Entrance has one step with max. 3 inch height, most rooms are without steps."
@@ -256,6 +304,8 @@ msgstr ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
 
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using metric unit
 #: src/lib/Feature.js:370
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
@@ -266,15 +316,18 @@ msgstr ""
 msgid "Entrance without steps, all rooms without steps."
 msgstr "Entrance has no steps, and all rooms are accessible without steps."
 
+#. Shown as header text on the error page.
 #: src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:101
 msgid "Error"
 msgstr "Error"
 
-#: src/lib/Categories.js:128
+#. Shown when there was an error while loading category data from the backend.
+#: src/lib/Categories.js:126
 msgid "Error while loading categories from server"
 msgstr "Error while loading place categories."
 
+#. Shown when there was an error while loading a place.
 #: src/lib/cache/URLDataCache.js:55
 msgid "Error while loading data from server."
 msgstr "Error while loading data."
@@ -283,31 +336,41 @@ msgstr "Error while loading data."
 msgid "Expand Share Menu"
 msgstr "Expand share menu"
 
+#: src/components/Toolbar.js:335
+msgid "Expand panel"
+msgstr ""
+
+#. Main menu item
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
 msgstr "FAQ"
 
+#. Additional description text for sharing a place in a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
 msgid "Find out about this place’s accessibility."
-msgstr "Learn more about the accessibility of this place."
+msgstr "Learn more about the accessibility of this place"
 
+#. Link caption to the explanatory article that shows how to mark a place as
+#. closed.
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
 msgstr "Find out how"
 
+#. Claim in the main menu toolbar, next to the logo
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
 msgstr "Find wheelchair accessible places"
 
 #: src/lib/Feature.js:395
 msgid "Folding grab rails"
-msgstr "Folding grab rails"
+msgstr "Foldable grab rails"
 
-#: src/lib/Categories.js:42
+#. Root category
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr "Food & Drinks"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:290
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:281
 msgid ""
 "For identifiable persons, written consent must be obtained in accordance "
 "with <a "
@@ -327,6 +390,7 @@ msgstr "Fully"
 msgid "Fully wheelchair accessible"
 msgstr "Fully wheelchair accessible"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:11
 msgid "Get involved"
 msgstr "Get involved"
@@ -335,15 +399,19 @@ msgstr "Get involved"
 msgid "Go Map!! in App Store"
 msgstr "“Go Map!!” in App Store"
 
+#. button shown next to the search bar
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
-#: src/components/SearchToolbar/SearchToolbar.js:415
+#: src/components/SearchToolbar/SearchToolbar.js:457
 msgid "Go!"
 msgstr "Go"
 
-#: src/lib/Categories.js:56
+#. Root category
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr "Health"
 
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
 #: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "Help out by marking places!"
@@ -356,28 +424,35 @@ msgstr "Hi Wheelmap Team, I have an image of the following place:"
 msgid "Home"
 msgstr "Home"
 
-#: src/lib/Categories.js:48
+#. Root category
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr "Hotels"
 
+#. Shown as header/title when you edit wheelchair accessibility of a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/NodeToolbar/NodeToolbar.js:272
 msgid "How wheelchair accessible is this place?"
 msgstr "How wheelchair accessible is this place?"
 
+#. Email body used when sharing a place without known name/category via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "I found a place on Wheelmap: ${ url }"
 
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr "I found a place on Wheelmap…"
 
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "I found this place on Wheelmap: ${ placeName }"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:288
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:279
 msgid ""
 "I give Sozialhelden e.V. unlimited rights of use and to republish the "
 "uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
@@ -391,6 +466,7 @@ msgstr ""
 msgid "I have more information about this place."
 msgstr "I have more information about this place."
 
+#. Explains that you need to go to OSM to mark a place as closed.
 #: src/components/NodeToolbar/Report/strings.js:17
 msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
@@ -399,12 +475,15 @@ msgstr ""
 "If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
 msgid ""
 "If you cannot read or enter this, please contribute your photo via email!"
 msgstr ""
 "If you cannot read or enter this, please contribute your image via email!"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
 msgstr "Imprint"
@@ -413,10 +492,13 @@ msgstr "Imprint"
 msgid "Improve on ${ sourceNameString }"
 msgstr "Add info on ${ sourceNameString }"
 
+#. Text that incentivizes the user to edit a place's accessibility.
 #: src/components/PhotoUpload/PhotoUploadButton.js:22
 msgid "Improve your karma!"
 msgstr "Your good deed of the day!"
 
+#. Gives credits to the external organization this place comes from. The
+#. organization's name is mentioned after this text.
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
@@ -425,37 +507,46 @@ msgstr ""
 "Information about this place has kindly been provided by another "
 "organization."
 
+#. Header for the toilet status prompt. Asks the user if the edited place’s
+#. toilet is wheelchair accessible.
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "Is the toilet here wheelchair accessible?"
 
+#. Header of the report dialog
 #: src/components/NodeToolbar/Report/strings.js:9
 msgid "Is there an issue with this place?"
 msgstr "Is there a problem with this place?"
 
+#. Shown as header text on the error page when the URL is not found.
 #: src/components/NotFound/NotFound.js:51
 msgid "It seems this place is not on Wheelmap."
 msgstr ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 
+#. Shown when device is offline.
 #: src/components/NotFound/NotFound.js:54
 msgid "It seems we’re offline!"
 msgstr "Sorry, we are offline!"
 
+#. Shown next to equipment status.
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
-msgstr "Last update ${ dateString }."
+msgstr "Last update: ${ dateString }"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
 #: src/components/NodeToolbar/Report/strings.js:27
 msgid "Leave a note on OpenStreetMap"
 msgstr "Leave a note on OpenStreetMap"
 
-#: src/lib/Categories.js:46
+#. Root category
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr "Leisure"
 
+#. Shown while loading a captcha from the server. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
 msgid "Loading…"
 msgstr "Loading..."
@@ -468,10 +559,12 @@ msgstr "“MAPS.ME” in App Store"
 msgid "MAPS.ME in PlayStore"
 msgstr "“MAPS.ME” in PlayStore"
 
-#: src/components/Map/Map.js:640
+#: src/components/Map/Map.js:642
 msgid "Map"
 msgstr "Map"
 
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
 #: src/components/Onboarding/Onboarding.js:27
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
@@ -484,11 +577,13 @@ msgstr ""
 msgid "Menu"
 msgstr "Menu"
 
-#: src/lib/Categories.js:62
+#. Root category
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr "Miscellaneous"
 
-#: src/lib/Categories.js:58
+#. Root category
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr "Money"
 
@@ -506,26 +601,29 @@ msgstr ""
 msgid "My problem isn’t listed here…"
 msgstr "The problem isn’t listed here…"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:13
 msgid "News"
 msgstr "News"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:180
+#: src/components/NodeToolbar/Photos/PhotoSection.js:195
 msgid "Next (Right arrow key)"
 msgstr "Next (right arrow key)"
 
+#. Caption for the ‘no’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
 msgid "No"
 msgstr "No"
 
-#: src/components/SearchToolbar/SearchResults.js:33
+#. Text in search results when nothing was found
+#: src/components/SearchToolbar/SearchResults.js:34
 msgid "No results found."
-msgstr "No results found."
+msgstr "No results found"
 
 #: src/lib/Feature.js:384
 msgid "No wheelchair accessible toilet."
-msgstr "No wheelchair accessible toilet."
+msgstr "No wheelchair accessible toilet"
 
 #: src/lib/Feature.js:353
 msgid "Not at all"
@@ -535,39 +633,52 @@ msgstr "Not at all"
 msgid "Not wheelchair accessible"
 msgstr "Not wheelchair accessible"
 
+#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:32
 msgid "Offensive or Inappropriate"
 msgstr "Offensive or inappropriate"
 
-#: src/lib/Categories.js:54
+#. Root category
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr "Authorities"
 
+#. Button caption shown on the onboarding screen. To visit it, open Wheelmap
+#. in an incognito window.
 #: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "Okay, let’s go!"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
-msgstr "Only fully wheelchair accessible."
+msgstr "Only fully wheelchair accessible"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
 msgid "Only fully wheelchair accessible + WC"
 msgstr "Only fully accessible with accessible WC"
 
+#. Checkbox caption on the filter toolbar. If the checkbox is clicked, only
+#. places that are not wheelchair accessible are shown.
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
 msgid "Only places that are not accessible"
-msgstr "Only places that are not accessible."
+msgstr "Only places that are not accessible"
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
 #: src/lib/openButtonCaption.js:6
 msgid "Open on ${ sourceNameString }"
 msgstr "Open on ${ sourceNameString }"
 
+#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:35
 msgid "Other Problems"
 msgstr "Other problems"
 
+#. title for a report option where the photo does not match the current state
+#. of the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 msgid "Outdated"
 msgstr "Outdated"
@@ -580,25 +691,31 @@ msgstr "Partially"
 msgid "Partially wheelchair accessible"
 msgstr "Partially wheelchair accessible"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 msgid "Places that I can contribute to"
 msgstr "Places that I can contribute information to"
 
+#. Shown above the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
 msgid "Please enter these characters."
 msgstr "Please enter these characters."
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
 msgstr "Press"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:182
+#: src/components/NodeToolbar/Photos/PhotoSection.js:197
 msgid "Previous (Left arrow key)"
 msgstr "Previous (left arrow key)"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+#. Screen reader description for the 'report photo' reason choice dialog
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:176
 msgid "Reason for reporting"
-msgstr "Reason for reporting image."
+msgstr "Reason for reporting image"
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:92
 msgid "Remove ${ caption } Filter"
@@ -608,18 +725,22 @@ msgstr "Remove ${ caption } Filter"
 msgid "Remove ${ props.name } Filter"
 msgstr "Remove ${ props.name } Filter"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:152
+#: src/components/NodeToolbar/Photos/PhotoSection.js:167
 msgid "Report"
 msgstr "Report image"
 
+#. Button caption shown in the PoI details panel
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
 msgid "Report an issue"
 msgstr "Report a problem"
 
+#. Shown as button caption when there is no internet connection. Tapping the
+#. button retries to load the data.
 #: src/components/NotFound/NotFound.js:73
 msgid "Retry"
 msgstr "Retry"
 
+#. Shown on the error page.
 #: src/components/NotFound/NotFound.js:71
 msgid "Return Home"
 msgstr "Return home"
@@ -628,18 +749,21 @@ msgstr "Return home"
 msgid "Search"
 msgstr "Search"
 
-#: src/components/SearchToolbar/SearchInputField.js:52
+#. Placeholder for search input field
+#: src/components/SearchToolbar/SearchInputField.js:60
 msgid "Search place or address"
 msgstr "Search for place or address"
 
-#: src/components/SearchToolbar/SearchResults.js:38
+#: src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
 msgstr "Search results"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:208
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:223
 msgid "Send"
 msgstr "Send"
 
+#. Error message when captcha could not be loaded. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
 msgid ""
 "Server unreachable. Please retry a bit later, or let us know if the error "
@@ -652,28 +776,36 @@ msgstr ""
 msgid "Share"
 msgstr "Share"
 
-#: src/lib/Categories.js:40
+#. Root category
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr "Shopping"
 
+#. Locate button aria-label on the map
 #: src/components/Map/addLocateControlToMap.js:42
 msgid "Show me where I am"
 msgstr "Show me where I am"
 
+#. Apologizes for the issue and mentions that the support team can help you.
 #: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr ""
 "Sorry about that! Just drop us a line so we can help you to fix the problem."
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:50
+#. Shown after marking a place did not work, for example because the
+#. connection was interrupted
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:57
 msgid "Sorry, could not mark this place because of an error: ${ e }"
 msgstr "Sorry, this place could not be marked because of an error: ${ e }"
 
+#. Shown as apology text / description on the error page.
 #: src/components/NotFound/NotFound.js:69
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "Sorry, that should not have happened!"
 
+#. Error message when captcha was incorrectly entered. We try to avoid the
+#. word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
@@ -682,11 +814,13 @@ msgstr ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
 
+#. Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.js:45
 msgid "Source:"
 msgstr "Source:"
 
-#: src/lib/Categories.js:60
+#. Root category
+#: src/lib/Categories.js:69
 msgid "Sport"
 msgstr "Sports"
 
@@ -702,14 +836,18 @@ msgstr ""
 msgid "Thanks for reporting this photo. We will take a look."
 msgstr "Thank you for reporting this image. We will take a look at it."
 
+#. Shown while uploading an image after user has entered the captcha
+#. correctly. We try to avoid the word 'captcha' because normal users might
+#. not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Thanks! Starting upload…"
 msgstr "Thanks! Starting to upload..."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:285
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid "The following images…"
 msgstr "The following images…"
 
+#. Shown for equipment when the last known status information is too old.
 #: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
@@ -726,6 +864,7 @@ msgstr "The place does not exist."
 msgid "The place is in the wrong position."
 msgstr "The place is at the wrong location."
 
+#. Shown as issue description in the report dialog
 #: src/components/NodeToolbar/Report/ReportDialog.js:31
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
@@ -734,24 +873,32 @@ msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:38
 msgid "The place’s toilet status is wrong or missing."
-msgstr "The place’s toilet accessibility is marked wrong or missing."
+msgstr ""
+"The toilet accessibility of the place is marked incorrectly or is missing."
 
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
 msgid "Then we know you're not a machine."
-msgstr "Then we know that you are not a machine."
+msgstr "Then we know that you are human."
 
+#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:45
 msgid "This photo does not depict the place"
 msgstr "This image does not depict this place."
 
+#. title for a report option where the photo does not match the current state
+#. of the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:48
 msgid "This photo does not show the current state of the place"
 msgstr "This image does not show the current state of this place."
 
+#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:54
 msgid "This photo has other problems or infringes on my copyrights."
 msgstr "This image infringes on my copyright or has other problems."
 
+#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:51
 msgid ""
 "This photo shows sexually explicit content, depicts violence or is "
@@ -765,26 +912,30 @@ msgid ""
 "To locate yourself, open browser settings and allow wheelmap.org to use "
 "location services."
 msgstr ""
-"To locate yourself on the map, open browser settings and allow wheelmap.org "
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
 "to use location services."
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
 msgid "To report"
 msgstr "To report"
 
-#: src/lib/Categories.js:50
+#. Root category
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr "Tourism"
 
-#: src/lib/Categories.js:44
+#. Root category
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr "Transport"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:9
 msgid "Travel guide"
 msgstr "Travel guide"
 
-#: src/components/Map/Map.js:609
+#. Shown next to the locate-me button when location services are not enabled
+#: src/components/Map/Map.js:611
 msgid "Turn on location services"
 msgstr "Turn on location services"
 
@@ -796,7 +947,8 @@ msgstr "Unknown"
 msgid "Unknown status"
 msgstr "Unknown accessibility"
 
-#: src/components/SearchToolbar/SearchResult.js:220
+#. Place name shown in search results for places with unknown name / category.
+#: src/components/SearchToolbar/SearchResult.js:226
 msgid "Unnamed"
 msgstr "Unnamed"
 
@@ -810,7 +962,7 @@ msgstr "Unnamed place"
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:61
 msgid "Upload failed: server error or file-format not supported"
-msgstr "Upload failed: server error or file-format not supported."
+msgstr "Upload failed: server error or file-format not supported"
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:55
 msgid "Upload in Progress..."
@@ -818,18 +970,22 @@ msgstr "Upload in progress..."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
 msgid "Use OpenStreetMap web editor"
-msgstr "Use the OpenStreetMap web editor."
+msgstr "Use the OpenStreetMap web editor"
 
+#. Explains how to reach the place details on the external page the place
+#. comes from (for example Jaccede).
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid "Use the link below for details about the place and editing."
 msgstr "Click the link below for details about the place and for editing."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
 msgid "Vespucci in PlayStore"
-msgstr "\"Vespucci\" in PlayStore"
+msgstr "“Vespucci” in PlayStore"
 
+#. Screen reader description for the accessibility choice buttons for gray
+#. place
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:153
 msgid "Wheelchair Accessibility"
 msgstr "Wheelchair accessibility"
 
@@ -853,52 +1009,62 @@ msgstr "Image upload"
 msgid "Wheelmap start screen"
 msgstr "Start screen"
 
+#. Explains that Wheelmap's data comes from OpenStreetMap.
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
-msgstr "Many places on Wheelmap come from OpenStreetMap."
+msgstr "Many places on Wheelmap.org come from OpenStreetMap."
 
+#. Email body used when sharing a place without known name/category via
+#. email.// Email subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:175
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:190
 msgid "Which problem do you want to report?"
 msgstr "Which problem would you like to report?"
 
+#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
 msgid "Wrong Place"
-msgstr "Image shows another place"
+msgstr "Image shows another place."
 
+#. Caption for the ‘yes’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
 msgid "Yes"
 msgstr "Yes"
 
+#. Explains that you need to go to OSM to change a place's position on the
+#. map.
 #: src/components/NodeToolbar/Report/strings.js:15
 msgid "You can change this place’s position on OpenStreetMap."
 msgstr "You can change this place’s location on OpenStreetMap."
 
+#. Explains that you need to go to OSM to remove places.
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "You can remove non-existing places on OpenStreetMap."
 
-#: src/components/Map/Map.js:595
+#. Shown when zoomed out to far
+#: src/components/Map/Map.js:597
 msgid "Zoom closer to see more places"
-msgstr "Zoom in closer to see more places."
+msgstr "Zoom in closer to see more places"
 
 #: src/components/NodeToolbar/Report/strings.js:46
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] Problem with ${ placeName } on Wheelmap."
+msgstr "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:48
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] Problem with a ${ categoryName } on Wheelmap."
+msgstr "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 
+#. Report email subject if neither place name nor category name is known
 #: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr "[Wheelmap] Problem with a place on Wheelmap."
+msgstr "[Wheelmap] Problem with a place on Wheelmap"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:317
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:307
 msgid "access plans"
 msgstr "Site map"
 
@@ -906,7 +1072,7 @@ msgstr "Site map"
 msgid "elevator"
 msgstr "Elevator"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:313
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:303
 msgid "entrances"
 msgstr "Entrances"
 
@@ -914,22 +1080,32 @@ msgstr "Entrances"
 msgid "escalator"
 msgstr "Escalator"
 
+#. An equipment or facility whose category we don't know. It might be an
+#. elevator, escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
 msgstr "Facility"
 
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "In operation"
 
+#. button shown next to the captcha
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
 msgid "load new"
 msgstr "Show different characters"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:178
+#. divider between <currentImageIndex> and <imageCount> in lightbox, such as 1
+#. of 10
+#: src/components/NodeToolbar/Photos/PhotoSection.js:193
 msgid "of"
 msgstr "of"
 
+#. An equipment or facility status. This does not mean the facility is broken:
+#. It might just be in maintenance! The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr "Out of order"
@@ -938,10 +1114,12 @@ msgstr "Out of order"
 msgid "today"
 msgstr "today"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:321
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:311
 msgid "toilets"
 msgstr "toilets"
 
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr "Unknown operational status"
@@ -950,19 +1128,19 @@ msgstr "Unknown operational status"
 msgid "yesterday"
 msgstr "yesterday"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:286
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
 msgid "…are interesting for accessibility."
 msgstr "...give useful information on accessibility."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:287
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:278
 msgid "…are made by myself."
 msgstr "...were taken by me."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:289
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:280
 msgid "…do not contain any people."
-msgstr "...do not show any identifiable persons"
+msgstr "...do not show any identifiable persons."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:291
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:282
 msgid ""
 "…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
 "target=\"_blank\">our guidelines</a>."

@@ -10,14 +10,20 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#. Conjunction between two words (like the ‘and’ in ‘humans and animals’).
+#. Please don't forget to include necessary spaces.
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
 msgstr "和"
 
+#. Conjunction between two words (like the ‘or’ in ‘humans or animals’).
+#. Please don't forget to include necessary spaces.
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
 msgstr "或"
 
+#. Used to describe a place with unknown name, but known category (when
+#. sharing)
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } 在無障礙空間地圖上"
@@ -52,6 +58,8 @@ msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
 msgstr[0] ""
 
+#. Email body used when sharing a place with known name via email.// Email
+#. subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } 在 Wheelmap.org"
@@ -60,18 +68,23 @@ msgstr "${ placeName } 在 Wheelmap.org"
 msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
 msgstr "${ sharedObjectTitle }\\\\n\\n點擊此鏈接打開它：${ url }"
 
+#. Explains that edits don't get propagated back to Wheelmap directly after
+#. editing
 #: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
 "(Note that it can take a while until the place is updated on Wheelmap after "
 "editing.)"
 msgstr "(請注意，編輯後可能需要一段時間才能更新Wheelmap。)"
 
+#. Explains that you have to log in before editing places on OSM and that
+#. edits don't get propagated back directly
 #: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
 "(Note that you need to log in first to do this, and that it can take a while"
 " until the place is updated on Wheelmap.)"
 msgstr "(請注意，您需要首先登錄才能執行此操作，並且可能需要一段時間才能在Wheelmap上更新該地點。)"
 
+#. Report email body with place URL
 #: src/components/NodeToolbar/Report/strings.js:42
 msgid ""
 "(Please only write in English or German.)\\n\\nHi "
@@ -81,10 +94,18 @@ msgstr ""
 "（請用英文或德文撰寫）\\n\\nHi Sozialhelden,\\n\\n這個地方發生錯誤：${ url "
 "}\\n\\n問題是：\\n\\n瀏覽器：\\n\\n${ navigator.userAgent }"
 
+#. In a comma-separated serial enumeration, this string is the ', and'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and "
 msgstr "，以及"
 
+#. In a comma-separated serial enumeration, this string is the ', or'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr "，或"
@@ -106,10 +127,12 @@ msgstr ""
 msgid "Add images"
 msgstr ""
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:23
 msgid "Add missing place"
 msgstr "加入丟失的地方"
 
+#. Button caption, shown in the place toolbar
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
 msgid "Add toilet status"
 msgstr "加入廁所狀況"
@@ -118,19 +141,26 @@ msgstr "加入廁所狀況"
 msgid "All elevators and escalators"
 msgstr "所有的電梯及電扶梯"
 
+#. Shown in collapsed search/filter combi button when there is no category
+#. filter set
 #: src/components/SearchToolbar/SearchButton.js:40
 msgid "All places"
 msgstr ""
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
 msgid "At least partially wheelchair accessible"
 msgstr "至少有部分輪椅通道"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
 msgid "At least partially wheelchair accessible + WC"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:56
+#. Button caption in photo captcha dialog
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:201
 #: src/components/NodeToolbar/Report/strings.js:29
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
 msgid "Back"
@@ -140,17 +170,18 @@ msgstr "上一步"
 msgid "Call ${ phoneNumber }"
 msgstr "撥打${ phoneNumber }"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:53
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:349
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:202
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:198
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:339
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:217
 msgid "Cancel"
 msgstr "取消"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:47
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:192
 msgid "Change"
 msgstr "修改"
 
-#: src/components/SearchToolbar/SearchToolbar.js:404
+#: src/components/SearchToolbar/SearchToolbar.js:446
 msgid "Clear Search"
 msgstr "清除搜尋"
 
@@ -162,14 +193,15 @@ msgstr "乾淨地板空間≥150公分寬"
 msgid "Clear floor space ≥ 59 inch wide"
 msgstr "乾淨地板空間≥59寸寬"
 
+#. Button caption in photo upload Instructions dialog
 #: src/components/CloseLink.js:56
 #: src/components/CreatePlaceDialog/CloseButton.js:31
-#: src/components/NodeToolbar/Photos/PhotoSection.js:153
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+#: src/components/NodeToolbar/Photos/PhotoSection.js:168
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:233
 msgid "Close"
 msgstr ""
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+#: src/components/NodeToolbar/Photos/PhotoSection.js:199
 msgid "Close (Esc)"
 msgstr ""
 
@@ -177,35 +209,47 @@ msgstr ""
 msgid "Collapse Share Menu"
 msgstr "收合共享選單"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:44
+#: src/components/Toolbar.js:335
+msgid "Collapse panel"
+msgstr ""
+
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
 msgid "Confirm"
 msgstr "確認"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:17
 msgid "Contact"
 msgstr "聯繫"
 
+#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:37
 msgid "Contact the Wheelmap support team"
 msgstr "聯繫Wheelmap客服團隊"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:50
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:355
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:195
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:345
 msgid "Continue"
 msgstr "繼續"
 
-#: src/components/SearchToolbar/SearchResults.js:36
+#. Text in search results when an error occurred
+#: src/components/SearchToolbar/SearchResults.js:37
 msgid "Could not load results. Please try again later!"
 msgstr ""
 
+#. Shown when there was an error while loading a place.
 #: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
 msgid "Could not load this place."
 msgstr ""
 
+#. Button caption in the place toolbar. Navigates to a place's details on an
+#. external page.
 #: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "細節"
 
+#. Points the user to OSM for changing place detail
 #: src/components/NodeToolbar/Report/strings.js:21
 msgid ""
 "Did you know you can change this place’s information on OpenStreetMap "
@@ -224,11 +268,13 @@ msgstr "門口內部寬度≥35寸"
 msgid "Doorways’ inner width ≥ 90 cm"
 msgstr "門口內部寬度≥90寸"
 
+#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:25
 msgid "Edit this place on OpenStreetMap"
 msgstr "在OpenStreetMap上編輯這個地方"
 
-#: src/lib/Categories.js:52
+#. Root category
+#: src/lib/Categories.js:61
 msgid "Education"
 msgstr "教育"
 
@@ -236,11 +282,15 @@ msgstr "教育"
 msgid "Entrance has a step or several steps, rooms are not accessible."
 msgstr "入口有一步或幾步，房間不可進入。"
 
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using imperial unit
 #: src/lib/Feature.js:368
 msgid ""
 "Entrance has one step with max. 3 inch height, most rooms are without steps."
 msgstr ""
 
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using metric unit
 #: src/lib/Feature.js:370
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
@@ -250,15 +300,18 @@ msgstr ""
 msgid "Entrance without steps, all rooms without steps."
 msgstr "入口沒有階梯，所有的房間也沒有階梯。"
 
+#. Shown as header text on the error page.
 #: src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:101
 msgid "Error"
 msgstr "錯誤"
 
-#: src/lib/Categories.js:128
+#. Shown when there was an error while loading category data from the backend.
+#: src/lib/Categories.js:126
 msgid "Error while loading categories from server"
 msgstr ""
 
+#. Shown when there was an error while loading a place.
 #: src/lib/cache/URLDataCache.js:55
 msgid "Error while loading data from server."
 msgstr ""
@@ -267,18 +320,27 @@ msgstr ""
 msgid "Expand Share Menu"
 msgstr "展開分享選單"
 
+#: src/components/Toolbar.js:335
+msgid "Expand panel"
+msgstr ""
+
+#. Main menu item
 #: src/components/MainMenu/strings.js:21
 msgid "FAQ"
 msgstr "常見問題"
 
+#. Additional description text for sharing a place in a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
 msgid "Find out about this place’s accessibility."
 msgstr "了解這個地方的無障礙通道。"
 
+#. Link caption to the explanatory article that shows how to mark a place as
+#. closed.
 #: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
 msgstr "尋找為什麼"
 
+#. Claim in the main menu toolbar, next to the logo
 #: src/components/MainMenu/strings.js:25
 msgid "Find wheelchair accessible places"
 msgstr "尋找有無障礙設施的地方"
@@ -287,11 +349,12 @@ msgstr "尋找有無障礙設施的地方"
 msgid "Folding grab rails"
 msgstr "無障礙扶手"
 
-#: src/lib/Categories.js:42
+#. Root category
+#: src/lib/Categories.js:51
 msgid "Food & Drinks"
 msgstr "食物&飲料"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:290
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:281
 msgid ""
 "For identifiable persons, written consent must be obtained in accordance "
 "with <a "
@@ -307,6 +370,7 @@ msgstr "額滿"
 msgid "Fully wheelchair accessible"
 msgstr "完全輪椅通道"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:11
 msgid "Get involved"
 msgstr "參與其中"
@@ -315,15 +379,19 @@ msgstr "參與其中"
 msgid "Go Map!! in App Store"
 msgstr ""
 
+#. button shown next to the search bar
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
-#: src/components/SearchToolbar/SearchToolbar.js:415
+#: src/components/SearchToolbar/SearchToolbar.js:457
 msgid "Go!"
 msgstr ""
 
-#: src/lib/Categories.js:56
+#. Root category
+#: src/lib/Categories.js:65
 msgid "Health"
 msgstr "健康"
 
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
 #: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "通過標記地方得到幫助！"
@@ -336,28 +404,35 @@ msgstr ""
 msgid "Home"
 msgstr "家"
 
-#: src/lib/Categories.js:48
+#. Root category
+#: src/lib/Categories.js:57
 msgid "Hotels"
 msgstr "旅館"
 
+#. Shown as header/title when you edit wheelchair accessibility of a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/NodeToolbar/NodeToolbar.js:272
 msgid "How wheelchair accessible is this place?"
 msgstr "這個地方的無障礙狀況如何？"
 
+#. Email body used when sharing a place without known name/category via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "我在無障礙空間地圖上找到一個地方: ${ url }"
 
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr "我在無障礙空間地圖上找到一個地方"
 
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "我在無障礙空間地圖上找到這個地方 :${ placeName }"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:288
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:279
 msgid ""
 "I give Sozialhelden e.V. unlimited rights of use and to republish the "
 "uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
@@ -368,17 +443,21 @@ msgstr ""
 msgid "I have more information about this place."
 msgstr "關於這個地點我有更多的資訊"
 
+#. Explains that you need to go to OSM to mark a place as closed.
 #: src/components/NodeToolbar/Report/strings.js:17
 msgid ""
 "If the place closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr "如果該地點永久關閉，您可以在OpenStreetMap上將該地點標記為“已廢棄”。"
 
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
 msgid ""
 "If you cannot read or enter this, please contribute your photo via email!"
 msgstr ""
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:19
 msgid "Imprint"
 msgstr "版本說明"
@@ -387,32 +466,41 @@ msgstr "版本說明"
 msgid "Improve on ${ sourceNameString }"
 msgstr "${ sourceNameString }的改善"
 
+#. Text that incentivizes the user to edit a place's accessibility.
 #: src/components/PhotoUpload/PhotoUploadButton.js:22
 msgid "Improve your karma!"
 msgstr "增加你的積分！"
 
+#. Gives credits to the external organization this place comes from. The
+#. organization's name is mentioned after this text.
 #: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization"
 msgstr "關這個地方的信息是由另一個組織提供"
 
+#. Header for the toilet status prompt. Asks the user if the edited place’s
+#. toilet is wheelchair accessible.
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "這裡的廁所是否輪椅通道？"
 
+#. Header of the report dialog
 #: src/components/NodeToolbar/Report/strings.js:9
 msgid "Is there an issue with this place?"
 msgstr "這個地方有問題嗎？"
 
+#. Shown as header text on the error page when the URL is not found.
 #: src/components/NotFound/NotFound.js:51
 msgid "It seems this place is not on Wheelmap."
 msgstr ""
 
+#. Shown when device is offline.
 #: src/components/NotFound/NotFound.js:54
 msgid "It seems we’re offline!"
 msgstr ""
 
+#. Shown next to equipment status.
 #: src/lib/EquipmentInfo.js:161
 msgid "Last update ${ dateString }."
 msgstr "最新更新 ${ dateString }。"
@@ -422,10 +510,13 @@ msgstr "最新更新 ${ dateString }。"
 msgid "Leave a note on OpenStreetMap"
 msgstr ""
 
-#: src/lib/Categories.js:46
+#. Root category
+#: src/lib/Categories.js:55
 msgid "Leisure"
 msgstr "休閒"
 
+#. Shown while loading a captcha from the server. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
 msgid "Loading…"
 msgstr ""
@@ -438,10 +529,12 @@ msgstr ""
 msgid "MAPS.ME in PlayStore"
 msgstr ""
 
-#: src/components/Map/Map.js:640
+#: src/components/Map/Map.js:642
 msgid "Map"
 msgstr "地圖"
 
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
 #: src/components/Onboarding/Onboarding.js:27
 msgid ""
 "Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
@@ -452,11 +545,13 @@ msgstr "在世界各地免費查找輪椅通道的地方。用我們的系統是
 msgid "Menu"
 msgstr "選單"
 
-#: src/lib/Categories.js:62
+#. Root category
+#: src/lib/Categories.js:71
 msgid "Misc"
 msgstr "其它"
 
-#: src/lib/Categories.js:58
+#. Root category
+#: src/lib/Categories.js:67
 msgid "Money"
 msgstr "錢"
 
@@ -471,20 +566,23 @@ msgstr ""
 msgid "My problem isn’t listed here…"
 msgstr "我的問題沒有列在這裡"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:13
 msgid "News"
 msgstr "新消息"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:180
+#: src/components/NodeToolbar/Photos/PhotoSection.js:195
 msgid "Next (Right arrow key)"
 msgstr ""
 
+#. Caption for the ‘no’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
 msgid "No"
 msgstr " 不行"
 
-#: src/components/SearchToolbar/SearchResults.js:33
+#. Text in search results when nothing was found
+#: src/components/SearchToolbar/SearchResults.js:34
 msgid "No results found."
 msgstr ""
 
@@ -500,26 +598,36 @@ msgstr "不完全是"
 msgid "Not wheelchair accessible"
 msgstr "沒有輪椅通道"
 
+#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:32
 msgid "Offensive or Inappropriate"
 msgstr ""
 
-#: src/lib/Categories.js:54
+#. Root category
+#: src/lib/Categories.js:63
 msgid "Official"
 msgstr "官方的"
 
+#. Button caption shown on the onboarding screen. To visit it, open Wheelmap
+#. in an incognito window.
 #: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "好的，出發"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
 msgstr "只有完全輪椅通道"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
 msgid "Only fully wheelchair accessible + WC"
 msgstr ""
 
+#. Checkbox caption on the filter toolbar. If the checkbox is clicked, only
+#. places that are not wheelchair accessible are shown.
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
 msgid "Only places that are not accessible"
 msgstr ""
@@ -529,10 +637,13 @@ msgstr ""
 msgid "Open on ${ sourceNameString }"
 msgstr "在${ sourceNameString }開啟"
 
+#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:35
 msgid "Other Problems"
 msgstr ""
 
+#. title for a report option where the photo does not match the current state
+#. of the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 msgid "Outdated"
 msgstr ""
@@ -545,23 +656,29 @@ msgstr "部分"
 msgid "Partially wheelchair accessible"
 msgstr "部分輪椅通道"
 
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 msgid "Places that I can contribute to"
 msgstr "我可以貢獻的地方"
 
+#. Shown above the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
 msgid "Please enter these characters."
 msgstr ""
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:15
 msgid "Press"
 msgstr "新聞"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:182
+#: src/components/NodeToolbar/Photos/PhotoSection.js:197
 msgid "Previous (Left arrow key)"
 msgstr ""
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+#. Screen reader description for the 'report photo' reason choice dialog
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:176
 msgid "Reason for reporting"
 msgstr ""
 
@@ -573,18 +690,22 @@ msgstr ""
 msgid "Remove ${ props.name } Filter"
 msgstr ""
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:152
+#: src/components/NodeToolbar/Photos/PhotoSection.js:167
 msgid "Report"
 msgstr ""
 
+#. Button caption shown in the PoI details panel
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
 msgid "Report an issue"
 msgstr ""
 
+#. Shown as button caption when there is no internet connection. Tapping the
+#. button retries to load the data.
 #: src/components/NotFound/NotFound.js:73
 msgid "Retry"
 msgstr ""
 
+#. Shown on the error page.
 #: src/components/NotFound/NotFound.js:71
 msgid "Return Home"
 msgstr "回到首頁"
@@ -593,18 +714,21 @@ msgstr "回到首頁"
 msgid "Search"
 msgstr ""
 
-#: src/components/SearchToolbar/SearchInputField.js:52
+#. Placeholder for search input field
+#: src/components/SearchToolbar/SearchInputField.js:60
 msgid "Search place or address"
 msgstr "搜尋地名或地址"
 
-#: src/components/SearchToolbar/SearchResults.js:38
+#: src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
 msgstr "搜尋結果"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:208
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:223
 msgid "Send"
 msgstr ""
 
+#. Error message when captcha could not be loaded. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
 msgid ""
 "Server unreachable. Please retry a bit later, or let us know if the error "
@@ -615,38 +739,48 @@ msgstr ""
 msgid "Share"
 msgstr "分享"
 
-#: src/lib/Categories.js:40
+#. Root category
+#: src/lib/Categories.js:49
 msgid "Shopping"
 msgstr "購物"
 
+#. Locate button aria-label on the map
 #: src/components/Map/addLocateControlToMap.js:42
 msgid "Show me where I am"
 msgstr ""
 
+#. Apologizes for the issue and mentions that the support team can help you.
 #: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "Sorry for that! Just drop us a line so we can help you to fix the issue."
 msgstr "對不起！只需告知我們一聲，我們就可以幫你解決問題。"
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:50
+#. Shown after marking a place did not work, for example because the
+#. connection was interrupted
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:57
 msgid "Sorry, could not mark this place because of an error: ${ e }"
 msgstr ""
 
+#. Shown as apology text / description on the error page.
 #: src/components/NotFound/NotFound.js:69
 msgid "Sorry, that shouldn\\'t have happened!"
 msgstr "抱歉,這不應該發生的"
 
+#. Error message when captcha was incorrectly entered. We try to avoid the
+#. word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
 msgstr ""
 
+#. Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.js:45
 msgid "Source:"
 msgstr "來源"
 
-#: src/lib/Categories.js:60
+#. Root category
+#: src/lib/Categories.js:69
 msgid "Sport"
 msgstr "運動"
 
@@ -660,14 +794,18 @@ msgstr ""
 msgid "Thanks for reporting this photo. We will take a look."
 msgstr ""
 
+#. Shown while uploading an image after user has entered the captcha
+#. correctly. We try to avoid the word 'captcha' because normal users might
+#. not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Thanks! Starting upload…"
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:285
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid "The following images…"
 msgstr ""
 
+#. Shown for equipment when the last known status information is too old.
 #: src/lib/EquipmentInfo.js:154
 msgid ""
 "The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
@@ -683,6 +821,7 @@ msgstr "這地點不存在"
 msgid "The place is in the wrong position."
 msgstr "這地點是錯的"
 
+#. Shown as issue description in the report dialog
 #: src/components/NodeToolbar/Report/ReportDialog.js:31
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
@@ -692,22 +831,29 @@ msgstr "該地點被標記為'${ accessibilityDescription }'，但這是錯誤�
 msgid "The place’s toilet status is wrong or missing."
 msgstr "該地方的廁所狀態是錯誤的或缺失的。"
 
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
 msgid "Then we know you're not a machine."
 msgstr ""
 
+#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:45
 msgid "This photo does not depict the place"
 msgstr ""
 
+#. title for a report option where the photo does not match the current state
+#. of the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:48
 msgid "This photo does not show the current state of the place"
 msgstr ""
 
+#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:54
 msgid "This photo has other problems or infringes on my copyrights."
 msgstr ""
 
+#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:51
 msgid ""
 "This photo shows sexually explicit content, depicts violence or is "
@@ -720,23 +866,27 @@ msgid ""
 "location services."
 msgstr ""
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
 msgid "To report"
 msgstr ""
 
-#: src/lib/Categories.js:50
+#. Root category
+#: src/lib/Categories.js:59
 msgid "Tourism"
 msgstr "旅遊"
 
-#: src/lib/Categories.js:44
+#. Root category
+#: src/lib/Categories.js:53
 msgid "Transport"
 msgstr "交通工具"
 
+#. Main menu item
 #: src/components/MainMenu/strings.js:9
 msgid "Travel guide"
 msgstr "旅行指南"
 
-#: src/components/Map/Map.js:609
+#. Shown next to the locate-me button when location services are not enabled
+#: src/components/Map/Map.js:611
 msgid "Turn on location services"
 msgstr ""
 
@@ -748,7 +898,8 @@ msgstr "未知"
 msgid "Unknown status"
 msgstr "未知"
 
-#: src/components/SearchToolbar/SearchResult.js:220
+#. Place name shown in search results for places with unknown name / category.
+#: src/components/SearchToolbar/SearchResult.js:226
 msgid "Unnamed"
 msgstr "未命名"
 
@@ -772,6 +923,8 @@ msgstr ""
 msgid "Use OpenStreetMap web editor"
 msgstr ""
 
+#. Explains how to reach the place details on the external page the place
+#. comes from (for example Jaccede).
 #: src/components/NodeToolbar/Report/strings.js:33
 msgid "Use the link below for details about the place and editing."
 msgstr "點擊下方連結以了解有關地點和編輯的詳細信息。"
@@ -780,8 +933,10 @@ msgstr "點擊下方連結以了解有關地點和編輯的詳細信息。"
 msgid "Vespucci in PlayStore"
 msgstr ""
 
+#. Screen reader description for the accessibility choice buttons for gray
+#. place
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:153
 msgid "Wheelchair Accessibility"
 msgstr "可通行輪椅"
 
@@ -805,36 +960,45 @@ msgstr ""
 msgid "Wheelmap start screen"
 msgstr "輪椅地圖"
 
+#. Explains that Wheelmap's data comes from OpenStreetMap.
 #: src/components/NodeToolbar/Report/strings.js:11
 msgid "Wheelmap uses data from OpenStreetMap to display places."
 msgstr "Wheelmap使用OpenStreetMap中的資料顯示場所。"
 
+#. Email body used when sharing a place without known name/category via
+#. email.// Email subject used for sharing a place via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:175
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:190
 msgid "Which problem do you want to report?"
 msgstr ""
 
+#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
 msgid "Wrong Place"
 msgstr ""
 
+#. Caption for the ‘yes’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
 msgid "Yes"
 msgstr "可以"
 
+#. Explains that you need to go to OSM to change a place's position on the
+#. map.
 #: src/components/NodeToolbar/Report/strings.js:15
 msgid "You can change this place’s position on OpenStreetMap."
 msgstr "您可以在OpenStreetMap上更改此地點的位置。"
 
+#. Explains that you need to go to OSM to remove places.
 #: src/components/NodeToolbar/Report/strings.js:13
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "您可以刪除OpenStreetMap上不存在的地方。"
 
-#: src/components/Map/Map.js:595
+#. Shown when zoomed out to far
+#: src/components/Map/Map.js:597
 msgid "Zoom closer to see more places"
 msgstr ""
 
@@ -846,11 +1010,12 @@ msgstr "[Wheelmap] Wheelmap上的$ ${ placeName }問題"
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上的$ ${ categoryName }問題"
 
+#. Report email subject if neither place name nor category name is known
 #: src/components/NodeToolbar/Report/strings.js:50
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上的一個地方有問題"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:317
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:307
 msgid "access plans"
 msgstr ""
 
@@ -858,7 +1023,7 @@ msgstr ""
 msgid "elevator"
 msgstr "電梯"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:313
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:303
 msgid "entrances"
 msgstr ""
 
@@ -866,22 +1031,32 @@ msgstr ""
 msgid "escalator"
 msgstr "電扶梯"
 
+#. An equipment or facility whose category we don't know. It might be an
+#. elevator, escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:139
 msgid "facility"
 msgstr "設施"
 
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:97
 msgid "in operation"
 msgstr "操作中"
 
+#. button shown next to the captcha
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
 msgid "load new"
 msgstr ""
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:178
+#. divider between <currentImageIndex> and <imageCount> in lightbox, such as 1
+#. of 10
+#: src/components/NodeToolbar/Photos/PhotoSection.js:193
 msgid "of"
 msgstr ""
 
+#. An equipment or facility status. This does not mean the facility is broken:
+#. It might just be in maintenance! The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:99
 msgid "out of order"
 msgstr "發生故障"
@@ -890,10 +1065,12 @@ msgstr "發生故障"
 msgid "today"
 msgstr "今日"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:321
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:311
 msgid "toilets"
 msgstr ""
 
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:101
 msgid "unknown status"
 msgstr "狀況不明"
@@ -902,19 +1079,19 @@ msgstr "狀況不明"
 msgid "yesterday"
 msgstr "昨日"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:286
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
 msgid "…are interesting for accessibility."
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:287
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:278
 msgid "…are made by myself."
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:289
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:280
 msgid "…do not contain any people."
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:291
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:282
 msgid ""
 "…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
 "target=\"_blank\">our guidelines</a>."
