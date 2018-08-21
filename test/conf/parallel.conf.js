@@ -7,12 +7,21 @@
 
 const { flatten } = require('lodash');
 
-const devices = [
-  'iPhone 6S Plus',
-  'iPhone 8',
-  'iPhone X',
-  'iPad Pro',
-];
+const devicesByPlatform = {
+  ios: [
+    'iPhone 6S Plus',
+    'iPhone 8',
+    'iPhone X',
+    'iPad Pro',
+  ],
+  android: [
+    'Samsung Galaxy S9 Plus',
+    'Google Pixel 2',
+    'Samsung Galaxy Tab S3'
+  ],
+};
+
+const devices = devicesByPlatform[process.env.FASTLANE_PLATFORM_NAME];
 
 const locales = [
   'en_US',
