@@ -1,11 +1,4 @@
-- Completely overhauled app design with simplified navigation and a new base map. 
-- With many more additional places! Now, Wheelmap displays wheelchair accessible places not only from OpenStreetMap, but also from FourSquare, HERE WeGo, Jaccede, AXSMap, and from many more data sources, which are regularly updated. You can still edit places that come from OpenStreetMap, the other entries are edited on the corresponding platforms by the communities of our partners.
-- For many places, Wheelmap now displays more details about accessibility; for example if a place is quiet, if it has automatic doors at the entrance or if there is an induction loop.
-- Wheelmap shows which public elevators and escalators are in operation. Facilities that are not in service are colored red. By tapping on an elevator, you directly see alternative elevators that you can use. This feature is limited to Germany for now, but we are working on solutions to extend it internationally.
-- Places are shown in clusters now when you zoom out: This way you can estimate the overall wheelchair accessibility of a whole city district. 
-- It is now easier to tap on single markers because they do not overlap anymore, and the new layout does not hide markers when changing the zoom level.
-- A faster find-as-you-type search supports fuzzy searches like ‘cafe new york’.
-- New filter presets allow you to hide everything that’s not important for you.
-- A new image upload feature has explanations that should lead to better quality photos of places.
-- Places now have a button to directly open your own default maps application on your phone/tablet at the right location.
-- You can share places on Whatsapp and Telegram now.
+- Completely overhauled app with improved layout
+- Many more additional places with more accessibility details
+- See if public elevators and escalators are in operation
+- Share places on Whatsapp and Telegram
