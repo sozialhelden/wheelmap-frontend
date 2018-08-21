@@ -1,46 +1,53 @@
 // var assert = require('assert');
 // var expect = require('expect');
+const { t, addLocale, useLocales } = require('ttag');
+const { removeEmptyTranslations } = require('../../src/i18n');
+const gettextParser = require('gettext-parser');
+const fs = require('fs');
+const path = require('path');
+const { intersection } = require('lodash');
 
 const locale = browser.desiredCapabilities.locale;
+const loadedLocales = [];
+const poDirPath = './public/i18n';
 
-// TODO: Use translations for this
-const selectors = {
-  en_US: {
-    homeButton: '~Home',
-    startButton: '~Okay, let’s go!',
-    placeMarker: '~Bunte SchokoWelt Fully wheelchair accessible',
-    editButton: '~Fully wheelchair accessible Entrance has no steps, and all rooms are accessible without steps.',
-    expandButton: '~Expand panel',
-    partiallyOption: '~Partially',
-    cancelButton: '~Cancel',
-    addImagesButton: '~Add images',
-    searchButton: '~Search',
-    searchInput: '~Search for place or address',
-    shoppingButton: '~Shopping',
-    atLeastPartiallyWheelchairAccessibleButton: '~At least partially wheelchair accessible',
-    goButton: '~Go!',
-    showMeWhereIAmButton: '~Show me where I am',
-  },
-  de_DE: {
-    homeButton: '~Start',
-    startButton: '~Okay, los geht’s!',
-    placeMarker: '~Bunte SchokoWelt Voll rollstuhlgerecht',
-    editButton: '~Voll rollstuhlgerecht Eingang hat keine Stufen und alle Räume sind ohne Stufen zugänglich.',
-    expandButton: '~Expand panel',
-    partiallyOption: '~Teilweise',
-    cancelButton: '~Abbrechen',
-    addImagesButton: '~Bilder hinzufügen',
-    searchButton: '~Suchen',
-    searchInput: '~Such nach Ort oder Adresse',
-    shoppingButton: '~Einkaufen',
-    atLeastPartiallyWheelchairAccessibleButton: '~Teilweise rollstuhlgerecht oder besser',
-    goButton: '~Los!',
-    showMeWhereIAmButton: '~Show me where I am',
-  },
+function loadLocalizationFromPOFile(locale, poFileContent) {
+  const localization = gettextParser.po.parse(poFileContent);
+  addLocale(locale, removeEmptyTranslations(localization));
+  return localization;
 }
 
+function loadAllLocales() {
+  fs.readDirSync(poDirPath)
+  .forEach(poFilePath => {
+    loadedLocales.push(path.basename(poFilePath, '.po'));
+    const poFileContent = fs.readFileSync(poFilePath);
+    loadLocalizationFromPOFile(poFileContent);
+  });
+}
+
+loadAllLocales();
+useLocales([locale, 'en-US']);
+
+const selectors = {
+  homeButton: t`Home`,
+  startButton: t`Okay, let’s go!`,
+  placeMarker: t`Bunte SchokoWelt Fully wheelchair accessible`,
+  editButton: t`Fully wheelchair accessible` + ' ' + t`Entrance has no steps, and all rooms are accessible without steps.`,
+  expandButton: t`Expand panel`,
+  partiallyOption: t`Partially`,
+  cancelButton: t`Cancel`,
+  addImagesButton: t`Add images`,
+  searchButton: t`Search`,
+  searchInput: t`Search for place or address`,
+  shoppingButton: t`Shopping`,
+  atLeastPartiallyWheelchairAccessibleButton: t`At least partially wheelchair accessible`,
+  goButton: t`Go!`,
+  showMeWhereIAmButton: t`Show me where I am`,
+};
+
 function s(name) {
-  return selectors[locale][name];
+  return '~' + selectors[name];
 }
 
 function waitAndTapElement(selector, width = 0, height = 0) {

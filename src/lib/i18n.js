@@ -16,7 +16,7 @@ export type LocalizedString = string | {
 export const defaultLocale = 'en-US';
 
 
-function removeEmptyTranslations(locale) {
+export function removeEmptyTranslations(locale) {
   if (!locale.translations) return locale;
   const translations = locale.translations[""];
   if (!translations) return locale;
@@ -33,7 +33,7 @@ function removeEmptyTranslations(locale) {
 }
 
 
-function loadLocalizationFromPOFile(locale, poFile) {
+export function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
   addLocale(locale, removeEmptyTranslations(localization));
   return localization;
@@ -42,7 +42,7 @@ function loadLocalizationFromPOFile(locale, poFile) {
 // Returns the locale as language code without country code etc. removed
 // (for example "en" if given "en-GB").
 
-function localeWithoutCountry(locale: string): string {
+export function localeWithoutCountry(locale: string): string {
   return locale.substring(0, 2);
 }
 
