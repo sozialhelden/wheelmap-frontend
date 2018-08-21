@@ -45,6 +45,11 @@ Upload beta build as release to App Store
 fastlane android local
 ```
 Create a local Android build with Cordova
+### android screenshots
+```
+fastlane android screenshots
+```
+Make screenshots for PlayStore
 ### android beta
 ```
 fastlane android beta
