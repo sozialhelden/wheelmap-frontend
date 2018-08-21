@@ -3750,6 +3750,10 @@ eslint-plugin-react@7.1.0:
     has "^1.0.1"
     jsx-ast-utils "^1.4.1"
 
+eslint-plugin-webdriverio@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-webdriverio/-/eslint-plugin-webdriverio-1.0.1.tgz#51fe982fb9d49408ea0dad2fd2ae6e81b89425ce"
+
 eslint-restricted-globals@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/eslint-restricted-globals/-/eslint-restricted-globals-0.1.1.tgz#35f0d5cbc64c2e3ed62e93b4b1a7af05ba7ed4d7"
