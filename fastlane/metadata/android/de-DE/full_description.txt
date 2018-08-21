@@ -1,25 +1,34 @@
-Die Wheelmap Android-App ist die mobile App für Wheelmap.org - der Onlinekarte zum Finden und Markieren rollstuhlgerechter Orte. 
+Wheelmap ist die mobile App für Wheelmap.org – der Onlinekarte zum Finden und Markieren rollstuhlgerechter Orte.
 
-Wie bei Wikipedia kann jeder mitmachen und öffentlich zugängliche Orte entsprechend ihrer Rollstuhlgerechtigkeit markieren - weltweit. Angemeldete Nutzer können darüber hinaus neue Orte zur Karte hinzufügen, Photos zu Orten hochladen und Kommentare zur Rollstuhlgerechtigkeit verfassen.
+Wie bei Wikipedia kannst du selbst mitmachen und öffentlich zugängliche Orte entsprechend ihrer Rollstuhlgerechtigkeit markieren – weltweit. Darüber hinaus kannst du Fotos zu Orten hochladen und Kommentare zur Rollstuhlgerechtigkeit verfassen.
 
-Markiert wird nach dem einfachen Ampelsystem:
+Markiert wird einerseits die generelle Rollstuhlgerechtigkeit des Eingangs und der Innenräume nach einem einfachen Ampelsystem: 
 
-Grün = Rollstuhlgerecht
-Gelb = Eingeschränkt Rollstuhlgerecht
-Rot = Nicht Rollstuhlgerecht
+Grün = rollstuhlgerecht
+Der Zugang ist stufenlos UND alle Innenräume sind stufenlos erreichbar.
 
-Unmarkierte Ort sind grau gekennzeichnet und können von jedem schnell und einfach markiert werden. Die gemeinsam gesammelten Informationen sind frei zugänglich, einfach zu verstehen und können jederzeit geteilt werden. Dadurch können mobilitätseingeschränkte Menschen ihren Alltag besser planen, sind mobiler und können leichter am öffentlichen Leben teilhaben.
+Gelb = teilweise rollstuhlgerecht
+Der Zugang ist stufenlos, aber nicht alle Innenräume sind stufenlos erreichbar. ODER: Der Eingang hat eine kleine Stufe (bis max. 7 cm) und die Innenräume sind stufenlos oder teilweise stufenlos. ODER: Der Eingang hat ein bis zwei Stufen, aber es gibt eine mobile Rampe, die nach Bedarf angelegt werden kann und die Innenräume sind stufenlos oder teilweise stufenlos erreichbar.
 
-Wheelmap.org basiert auf dem freien Kartendienst OpenStreetMap.
 
-Hinweis zur Registrierung:
-- App öffnen und auf das Nutzer-Symbol in der rechten unteren Ecke klicken
-- "Neu registrieren" klicken
-- Dem Registrierungsprozess der OpenStreetMap folgen
-- Im letzten Schritt des Prozesses Wheelmap-Konto anlegen
-- Beide Konten müssen aktiviert werden; dazu den Link in der jeweiligen Aktivierungsmail anklicken
-- In der Android-App mit dem Wheelmap-Account einloggen, auf Wheelmap.org mit dem OpenStreetMap-Account einloggen 
+Rot = nicht rollstuhlgerecht
+Der Eingang hat eine hohe Stufe (über 7 cm) oder mehrere Stufen.
 
-Entwickelt wurde Wheelmap von SOZIALHELDEN e.V., einem gemeinnützigen Verein aus Berlin. Wir haben es uns zur Aufgabe gemacht, soziale Probleme mit innovativen Ideen zu lösen.
+Die zweite Markierungsoption gilt der Rollstuhlgerechtigkeit des WCs, das – falls vorhanden – auf die folgende Weise markiert wird:
 
-Die Android-App wurde gefördert durch das Bundesministerium für Arbeit und Soziales (BMAS).
+Grün = rollstuhlgerecht
+Durchgangsbreite der Tür mind. 90 cm
+Bewegungsflächen mind. 150 cm × 150 cm
+WC-Becken mit höherem Sitz
+Stützklappgriffe o.ä.
+Unterfahrbares Waschbecken
+
+Rot = nicht rollstuhlgerecht
+
+Unmarkierte Orte und Toiletten sind grau gekennzeichnet und können von dir einfach mit ein paar Klicks markiert werden. Dazu brauchst du keine Registrierung und kein Login.
+
+Wenn du neue Orte mit der Adresse und der genauen Geoposition hinzufügen oder Adressdaten bearbeiten willst, wirst du in der neuen Version der Wheelmap direkt zur OpenStreetMap weitergeleitet.
+
+Die gemeinsam gesammelten Informationen sind frei zugänglich, einfach zu verstehen und können jederzeit geteilt werden. Dadurch können mobilitätseingeschränkte Menschen ihren Alltag besser planen, sind mobiler und können leichter am öffentlichen Leben teilhaben.
+
+Entwickelt wurde die Wheelmap vom SOZIALHELDEN e.V., einem gemeinnützigen Verein aus Berlin. Wir haben es uns zur Aufgabe gemacht, soziale Probleme mit innovativen Ideen zu lösen.

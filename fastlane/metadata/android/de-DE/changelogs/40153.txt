@@ -1,0 +1,14 @@
+- Komplett neues App-Design mit vereinfachter Navigation und einer neuen Basiskarte, auf der im Hintergrund wichtige Orte beschriftet sind.
+- Viel mehr zusätzliche Orte! Wheelmap zeigt nun rollstuhlgerechte Orte von OpenStreetMap, FourSquare, HERE WeGo, Jaccede, AXSMap und vielen weiteren Datenquellen an, die regelmäßig aktualisiert werden. Orte von OpenStreetMap kannst du weiterhin markieren, Orte von anderen Datenquellen werden von den Communities der Partner aktualisiert.
+- An vielen Orten zeigt Wheelmap nun mehr Details zur Barrierefreiheit an, z.B. ob ein Ort ruhig ist, automatische Türen existieren, oder eine Induktionsschleife für Hörgeräte zur Verfügung steht.
+- Wheelmap zeigt dir nun in Echtzeit, welche öffentlichen Aufzüge und Fahrtreppen in Betrieb (grün) sind. Aufzüge und Fahrtreppen außer Betrieb werden rot dargestellt, und durch Antippen eines Aufzugs siehst du, welche Aufzüge du alternativ nutzen kannst. Dieses Angebot ist momentan begrenzt auf Einrichtungen der Deutschen Bahn, VBB, KVB und VRR. Wir arbeiten daran, diese Infos in vielen weiteren Regionen anzuzeigen.
+- Orte werden übersichtlicher als vorher in Clustern dargestellt: Dadurch siehst du sofort, welche Gegenden eher rollstuhlgerecht oder eher nicht rollstuhlgerecht sind.
+- Eng beieinander liegende Marker sind nun einfacher einzeln anzutippen. Außerdem bleiben Orte dadurch unabhängig von der aktuellen Zoomstufe sichtbar.
+- Die Suche ist schneller und erlaubt nun ungenauere Eingaben wie ‘Café Schanzenviertel’.
+- Neue vordefinierte Filter erlauben dir, alles zu verstecken, was unwichtig ist.
+- Der neue Foto-Upload kommt mit Erklärungen, die für eine bessere Qualität der Fotos sorgen sollen.
+- Öffne jeden Ort direkt in deiner Karten-App auf dem Telefon/Tablet – oder auf OpenStreetMap.
+- Orte können nun auch auf WhatsApp und Telegram geteilt werden.
+- An nicht rollstuhlgerechten Orten erlaubt Wheelmap nun keine neuen Toilettenmarkierungen mehr, damit andere Nutzer*innen nicht aus Versehen zu einer ‘rollstuhlgerechten’ Toilette geleitet werden, die aufgrund von Stufen am Eingang etc. gar nicht erreichbar ist.
+- Wie bisher kannst du weiterhin die Rollstuhlgerechtigkeit des Eingangs und des WCs markieren und bearbeiten, ohne dass du dich dafür bei der OpenStreetMap einloggen musst. Du möchtest auch Adressen und weitere Ortsinformationen bearbeiten, einen Ort löschen oder neu hinzufügen? Kein Problem! Wheelmap leitet dich nun mit direkten Links in gängige OpenStreetMap-Editoren weiter oder erlaubt dir, einfach auf OpenStreetMap eine Notiz zu hinterlassen, damit sich andere Karten-Profis aus der OpenStreetMap Community darum kümmern können.
+- Im Hintergrund haben wir viele neue Kontakte geknüpft und arbeiten mit vielen Organisationen daran, Daten zur Barrierefreiheit über unsere neue Datenplattform accessibility.cloud zu teilen – unsere Vision ist, dass irgendwann alle Navigations-Apps Rollstuhlgerechtigkeit einbeziehen!
