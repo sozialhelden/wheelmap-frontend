@@ -25,19 +25,18 @@ export function generateBingMapsUrl(feature: Feature, placeName: string) {
 
 export function generateMapsUrl(feature: Feature, placeName: string) {
   const isBingMaps = navigator.appVersion.match(/Win/);
-  const isAppleMaps = navigator.platform.match(/Mac/) ||
-    ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
+  const isAppleMaps = navigator.platform.match(/Mac/) || ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
 
   if (isBingMaps) {
     const caption = openButtonCaption('Bing Maps');
-    return {url: generateBingMapsUrl(feature, placeName), caption};
+    return { url: generateBingMapsUrl(feature, placeName), caption };
   }
 
   if (isAppleMaps) {
     const caption = openButtonCaption('Apple Maps');
-    return {url: generateAppleMapsUrl(feature, placeName), caption};
+    return { url: generateAppleMapsUrl(feature, placeName), caption };
   }
 
   const caption = openButtonCaption('Maps app');
-  return {url: generateGeoUrl(feature, placeName), caption};
+  return { url: generateGeoUrl(feature, placeName), caption };
 }

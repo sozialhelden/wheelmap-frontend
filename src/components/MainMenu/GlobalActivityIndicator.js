@@ -7,7 +7,7 @@ import { globalFetchManager } from '../../lib/FetchManager';
 type State = {
   isShown: boolean;
   lastError?: ?Error;
-}
+};
 
 export default class GlobalActivityIndicator extends React.Component<void, State> {
   state = { isShown: false };

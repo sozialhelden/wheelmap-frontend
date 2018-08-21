@@ -33,37 +33,37 @@ export default function fetchViaCordova(url, options) {
     throw new Error('This method works only with the cordova-plugin-advanced-http plugin. You might want to install it using `cordova plugin add cordova-plugin-advanced-http`.');
   }
 
-	return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     options = options || {};
     const requestOptions = {
       method: options.method || 'get',
-      headers : options.headers || {},
+      headers: options.headers || {},
       data: options.body,
-      timeout: options.timeout,
+      timeout: options.timeout
     };
 
     //console.log('Start fetching via Cordova:', url, requestOptions);
-    window.cordova.plugin.http.sendRequest(url.replace(/ /g, '%20'), requestOptions, function(response) {
+    window.cordova.plugin.http.sendRequest(url.replace(/ /g, '%20'), requestOptions, function (response) {
       //console.log('Done fetching via Cordova:', url, requestOptions, response);
       const responseObject = {
-				ok: (response.status >= 200 && response.status < 300),
-				status: response.status,
-				statusText: response.statusText,
-				url: response.url,
-				clone: () => clone(responseObject),
-				text: () => Promise.resolve(response.data),
-				json: () => Promise.resolve(response.data).then(JSON.parse),
-				blob: () => Promise.resolve(new Blob([response.data])),
-				headers: {
-					keys: () => Object.keys(response.headers),
-					entries: () => toPairs(response.headers),
-					get: n => response.headers[n.toLowerCase()],
-					has: n => n.toLowerCase() in response.headers,
-				}
-			};
+        ok: response.status >= 200 && response.status < 300,
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url,
+        clone: () => clone(responseObject),
+        text: () => Promise.resolve(response.data),
+        json: () => Promise.resolve(response.data).then(JSON.parse),
+        blob: () => Promise.resolve(new Blob([response.data])),
+        headers: {
+          keys: () => Object.keys(response.headers),
+          entries: () => toPairs(response.headers),
+          get: n => response.headers[n.toLowerCase()],
+          has: n => n.toLowerCase() in response.headers
+        }
+      };
       resolve(responseObject);
     }, reject);
-	});
+  });
 }
 
 window.fetchViaCordova = fetchViaCordova;

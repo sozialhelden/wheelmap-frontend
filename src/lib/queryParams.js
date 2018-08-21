@@ -24,4 +24,3 @@ export function newLocationWithReplacedQueryParams(history: RouterHistory, newPa
   const location = { pathname: history.location.pathname, search: `?${newString}` };
   return location;
 }
-

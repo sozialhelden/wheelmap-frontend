@@ -17,9 +17,9 @@ const config = {
   accessibilityCloudAppToken: process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN,
   accessibilityCloudBaseUrl: process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
   accessibilityCloudUncachedBaseUrl: process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL,
-  accessibilityCloudTileUrl: (locale) => `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}&locale=${locale}&includePlacesWithoutAccessibility=1`,
+  accessibilityCloudTileUrl: locale => `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}&locale=${locale}&includePlacesWithoutAccessibility=1`,
   // set this to '' for development - use relative urls, make request to server that hosts the page
-  wheelmapApiBaseUrl: process.env.REACT_APP_WHEELMAP_API_BASE_URL || '',
+  wheelmapApiBaseUrl: process.env.REACT_APP_WHEELMAP_API_BASE_URL || ''
 };
 
 export default config;

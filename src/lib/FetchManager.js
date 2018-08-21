@@ -4,7 +4,7 @@ import EventTarget, { CustomEvent } from './EventTarget';
 import customFetch from '../lib/fetch';
 import L from 'leaflet';
 
-type LayerEvent = Event & {layer: L.Layer, id: ?string, target: L.Layer};
+type LayerEvent = Event & { layer: L.Layer; id: ?string; target: L.Layer; };
 
 export default class FetchManager extends EventTarget {
   lastError: ?Error = null;
@@ -23,12 +23,12 @@ export default class FetchManager extends EventTarget {
 
   registerMap(map: L.Map) {
     // Add listeners for begin and end of load to any layers already on the map
-    map.eachLayer(function(layer) {
-        if (!layer.on) return;
-        layer.on({
-            loading: this._handleLoading,
-            load: this._handleLoad
-        }, this);
+    map.eachLayer(function (layer) {
+      if (!layer.on) return;
+      layer.on({
+        loading: this._handleLoading,
+        load: this._handleLoad
+      }, this);
     }, this);
 
     // When a layer is added to the map, add listeners for begin and end of load
@@ -38,12 +38,12 @@ export default class FetchManager extends EventTarget {
 
   unregisterMap(map: L.Map) {
     // Remove listeners for begin and end of load from all layers
-    map.eachLayer(function(layer) {
-        if (!layer.off) return;
-        layer.off({
-            loading: this.onLayerLoadingStarted,
-            load: this.onLayerLoaded
-        }, this);
+    map.eachLayer(function (layer) {
+      if (!layer.off) return;
+      layer.off({
+        loading: this.onLayerLoadingStarted,
+        load: this.onLayerLoaded
+      }, this);
     }, this);
 
     // Remove layeradd/layerremove listener from map
@@ -54,18 +54,16 @@ export default class FetchManager extends EventTarget {
   }
 
   onLayerAdded(e: LayerEvent) {
-    if (!e.layer || !e.layer.on) 
-      return
+    if (!e.layer || !e.layer.on) return;
 
     e.layer.on({
-     loading: this.onLayerLoadingStarted,
-     load: this.onLayerLoaded
+      loading: this.onLayerLoadingStarted,
+      load: this.onLayerLoaded
     }, this);
   }
 
   onLayerRemoved(e: LayerEvent) {
-    if (!e.layer || !e.layer.off) 
-      return;
+    if (!e.layer || !e.layer.off) return;
 
     e.layer.off({
       loading: this.onLayerLoadingStarted,
@@ -87,18 +85,14 @@ export default class FetchManager extends EventTarget {
 
   getEventTargetId(e: LayerEvent): string {
     if (e.id) {
-        return e.id;
-    }
-    else if (e.layer) {
-        return e.layer._leaflet_id;
+      return e.id;
+    } else if (e.layer) {
+      return e.layer._leaflet_id;
     }
     return e.target._leaflet_id;
   }
 
-  fetch(
-    input: RequestInfo,
-    init?: any,
-  ): Promise<Response> {
+  fetch(input: RequestInfo, init?: any): Promise<Response> {
     let promise = null;
 
     const removeFromRunningPromises = (response: Response) => {
@@ -117,9 +111,7 @@ export default class FetchManager extends EventTarget {
       }
     };
 
-    promise = customFetch(input, init)
-      .then(removeFromRunningPromises, removeFromRunningPromises)
-      .catch(handleError);
+    promise = customFetch(input, init).then(removeFromRunningPromises, removeFromRunningPromises).catch(handleError);
     this.runningPromises.set(promise, true);
     this.dispatchEvent(new CustomEvent('start', { target: this }));
     return promise;

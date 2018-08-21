@@ -12,7 +12,7 @@ export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, Equi
   }
 
   static getIdForFeature(feature: EquipmentInfo): string {
-    return String(feature._id || (feature.properties && feature.properties._id));
+    return String(feature._id || feature.properties && feature.properties._id);
   }
 
   findAllNeighborEquipmentInfos(equipmentInfo: EquipmentInfo): Set<EquipmentInfo> {
@@ -27,13 +27,11 @@ export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, Equi
     const description = get(equipmentInfo, ['properties', 'description']);
     const equipmentInfos = [...this.findAllNeighborEquipmentInfos(equipmentInfo)];
     const equipmentInfosWithSameDescription = equipmentInfos.filter(e => {
-      return (get(e, ['properties', 'description']) === description);
+      return get(e, ['properties', 'description']) === description;
     });
     return equipmentInfosWithSameDescription.map(e => get(e, '_id'));
   }
 }
 
-const indexPaths = [
-  'properties.placeInfoId',
-];
+const indexPaths = ['properties.placeInfoId'];
 export const equipmentInfoCache = new EquipmentInfoCache(indexPaths);

@@ -15,7 +15,6 @@ import type { Category } from '../../lib/Categories';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
 
-
 const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
   position: sticky;
@@ -28,24 +27,21 @@ const StyledNodeHeader = styled.header`
   box-shadow: ${props => props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
 `;
 
-
 const StyledBreadCrumbs = styled(BreadCrumbs)`
   margin-left: ${props => props.hasPadding ? '42' : '0'}px;
   margin-bottom: 0.5rem;
 `;
 
-
 type Props = {
-  feature: ?Feature,
-  equipmentInfoId: ?string,
-  equipmentInfo: ?EquipmentInfo,
-  category: ?Category,
-  parentCategory: ?Category,
-  hasIcon: boolean,
-  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
+  feature: ?Feature;
+  equipmentInfoId: ?string;
+  equipmentInfo: ?EquipmentInfo;
+  category: ?Category;
+  parentCategory: ?Category;
+  hasIcon: boolean;
+  onClickCurrentMarkerIcon?: (feature: Feature) => void;
   hasShadow: boolean;
 };
-
 
 export default class NodeHeader extends React.Component<Props> {
   onClickCurrentMarkerIcon = () => {
@@ -53,7 +49,7 @@ export default class NodeHeader extends React.Component<Props> {
     if (feature && this.props.onClickCurrentMarkerIcon) {
       this.props.onClickCurrentMarkerIcon(feature);
     }
-  }
+  };
 
   render() {
     const isEquipment = !!this.props.equipmentInfoId;
@@ -76,24 +72,17 @@ export default class NodeHeader extends React.Component<Props> {
 
     const accessibility = isEquipment ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties'])) : isWheelchairAccessible(properties);
     const hasLongName = placeName && placeName.length > 50;
-    const icon = <Icon accessibility={accessibility} category={categoryName ? shownCategoryId : 'undefined'} size='medium' ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />;
-    const placeNameElement = (<PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
+    const icon = <Icon accessibility={accessibility} category={categoryName ? shownCategoryId : 'undefined'} size="medium" ariaHidden={true} centered onClick={this.onClickCurrentMarkerIcon} />;
+    const placeNameElement = <PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
       {this.props.hasIcon && icon}
       {placeName}
-    </PlaceName>);
+    </PlaceName>;
 
-    const categoryElement = properties.name ? <StyledBreadCrumbs
-      properties={properties}
-      category={this.props.category}
-      parentCategory={this.props.parentCategory}
-      hasPadding={this.props.hasIcon}
-    /> : null;
+    const categoryElement = properties.name ? <StyledBreadCrumbs properties={properties} category={this.props.category} parentCategory={this.props.parentCategory} hasPadding={this.props.hasIcon} /> : null;
 
-    return (
-      <StyledNodeHeader hasShadow={this.props.hasShadow}>
+    return <StyledNodeHeader hasShadow={this.props.hasShadow}>
         {placeNameElement}
         {categoryElement}
-      </StyledNodeHeader>
-    );
+      </StyledNodeHeader>;
   }
 }

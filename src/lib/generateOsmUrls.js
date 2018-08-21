@@ -3,18 +3,14 @@ import type { Feature } from "./Feature";
 import { isWheelmapFeature } from "./Feature";
 
 function getLatLonFromFeature(feature: Feature) {
-  if (feature &&
-      feature.geometry &&
-      feature.geometry.type === 'Point' &&
-      feature.geometry.coordinates instanceof Array) {
+  if (feature && feature.geometry && feature.geometry.type === 'Point' && feature.geometry.coordinates instanceof Array) {
     return {
-      lat: feature.geometry.coordinates[1], 
-      lon: feature.geometry.coordinates[0], 
+      lat: feature.geometry.coordinates[1],
+      lon: feature.geometry.coordinates[0]
     };
   }
-  return {lat: feature.properties.lat, lon: feature.properties.lon};
+  return { lat: feature.properties.lat, lon: feature.properties.lon };
 }
-
 
 // aligns edit links for ways vs. nodes in osm
 export function generateOsmEditUrl(featureId: number) {
@@ -26,8 +22,7 @@ export function generateOsmEditUrl(featureId: number) {
   return `https://www.openstreetmap.org/edit?node=${featureId}`;
 }
 
-
-type Coords = { lat: ?string, lon: ?string };
+type Coords = { lat: ?string; lon: ?string; };
 
 export function generateOsmNoteUrlForCoords(coords: Coords) {
   if (coords && coords.lat && coords.lon) {
@@ -43,7 +38,6 @@ export function generateOsmEditorUrlForCoords(coords?: Coords) {
   return `https://www.openstreetmap.org/edit`;
 }
 
-
 // aligns note links for ways vs. nodes in osm
 export function generateOsmNoteUrl(feature: Feature) {
   if (!feature || !feature.properties) {
@@ -53,7 +47,6 @@ export function generateOsmNoteUrl(feature: Feature) {
   const coords = getLatLonFromFeature(feature);
   return generateOsmNoteUrlForCoords(coords);
 }
-
 
 export function generateShowOnOsmUrl(feature: Feature) {
   if (!feature || !feature.properties) {

@@ -11,6 +11,6 @@ export default function convertWheelmapPhotosToLightboxPhotos(wheelmapPhotos: Wh
     width: wheelmapPhoto.images.find(i => i.type === 'gallery_ipad_retina').width,
     height: wheelmapPhoto.images.find(i => i.type === 'gallery_ipad_retina').height,
     imageId: wheelmapPhoto.id,
-    source: 'wheelmap',
+    source: 'wheelmap'
   }));
 }

@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 export default function WhatsApp(props) {
-  return (
-    <svg width={49} height={49} viewBox="0 0 49 49" xmlns="http://www.w3.org/2000/svg" {...props}>
+  return <svg width={49} height={49} viewBox="0 0 49 49" xmlns="http://www.w3.org/2000/svg" {...props}>
       
       <g transform="translate(-16.82 -15.247)" fill="none" fillRule="evenodd">
         <circle fill="none" cx="40.263" cy="40.512" r={40} />
@@ -11,6 +10,5 @@ export default function WhatsApp(props) {
           <path d="M35.843 28.284c1.386 2.9 3.531 7.191 0 9.117 1.793 3.792 4.758 6.412 8.624 8.132 1.285-.85 2.129-2.142 3.203-3.203 2.243.877 4.34 1.9 6.16 3.203.187 4.239-3.385 5.806-6.407 5.667-6.374-.293-15.134-8.346-17.248-14.292-1.254-3.527.189-10.275 5.668-8.624z" />
         </g>
       </g>
-    </svg>
-  );
+    </svg>;
 }

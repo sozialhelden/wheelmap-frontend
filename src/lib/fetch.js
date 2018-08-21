@@ -1,7 +1,7 @@
 import fetchViaCordova from './fetchViaCordova';
 import unfetch from 'unfetch';
 
-export default function(url, options) {
+export default function (url, options) {
 	options = options || {};
 
 	// If we're running in a cordova app and it has http, make our lives easier by using native HTTP

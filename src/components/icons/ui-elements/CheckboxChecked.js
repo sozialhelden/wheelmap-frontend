@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export default function AllAccessibilitiesIcon(props) {
-  return (<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" {...props}>
+  return <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" {...props}>
     <defs>
       <rect id="path-1" x="0" y="0" width="24" height="24" rx="4" />
       <filter x="-8.3%" y="-8.3%" width="116.7%" height="116.7%" filterUnits="objectBoundingBox" id="filter-2">
@@ -25,5 +25,5 @@ export default function AllAccessibilitiesIcon(props) {
         </g>
       </g>
     </g>
-  </svg>);
+  </svg>;
 }

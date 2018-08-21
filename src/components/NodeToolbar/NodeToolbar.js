@@ -34,7 +34,6 @@ import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWhe
 import { getCategoryId } from '../../lib/Categories';
 import IconButtonList from './IconButtonList/IconButtonList';
 
-
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
   z-index: 4;
@@ -42,45 +41,42 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
-
 type Props = {
-  feature: ?Feature,
-  featureId: ?string | number,
-  equipmentInfoId: ?string,
-  equipmentInfo: ?EquipmentInfo,
-  category: ?Category,
-  parentCategory: ?Category,
-  hidden: boolean,
-  modalNodeState: ModalNodeState,
-  history: RouterHistory,
-  onClose?: ?(() => void),
-  onOpenReportMode: ?(() => void),
-  onOpenToiletAccessibility: (() => void),
-  onOpenWheelchairAccessibility: (() => void),
-  onCloseWheelchairAccessibility: (() => void),
-  onCloseToiletAccessibility: (() => void),
-  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
+  feature: ?Feature;
+  featureId: ?string | number;
+  equipmentInfoId: ?string;
+  equipmentInfo: ?EquipmentInfo;
+  category: ?Category;
+  parentCategory: ?Category;
+  hidden: boolean;
+  modalNodeState: ModalNodeState;
+  history: RouterHistory;
+  onClose?: ?() => void;
+  onOpenReportMode: ?() => void;
+  onOpenToiletAccessibility: () => void;
+  onOpenWheelchairAccessibility: () => void;
+  onCloseWheelchairAccessibility: () => void;
+  onCloseToiletAccessibility: () => void;
+  onClickCurrentMarkerIcon?: (feature: Feature) => void
 
   // Simple 3-button wheelchair status editor
-  presetStatus: YesNoLimitedUnknown,
-  onSelectWheelchairAccessibility: ((value: YesNoLimitedUnknown) => void),
+  ; presetStatus: YesNoLimitedUnknown;
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void
 
   // photo feature
-  onStartPhotoUploadFlow: (() => void),
-  onReportPhoto: ((photo: PhotoModel) => void),
-  photoFlowNotification?: string,
-  onClickCurrentMarkerIcon?: ((feature: Feature) => void)
+  ; onStartPhotoUploadFlow: () => void;
+  onReportPhoto: (photo: PhotoModel) => void;
+  photoFlowNotification?: string;
+  onClickCurrentMarkerIcon?: (feature: Feature) => void;
 };
-
 
 type State = {
-  category: ?Category,
-  parentCategory: ?Category,
-  equipmentInfo: ?EquipmentInfo,
-  feature: ?Feature,
-  isScrollable: boolean,
+  category: ?Category;
+  parentCategory: ?Category;
+  equipmentInfo: ?EquipmentInfo;
+  feature: ?Feature;
+  isScrollable: boolean;
 };
-
 
 class NodeToolbar extends React.Component<Props, State> {
   toolbar: ?React.ElementRef<typeof Toolbar>;
@@ -94,16 +90,18 @@ class NodeToolbar extends React.Component<Props, State> {
     parentCategory: null,
     equipmentInfo: null,
     feature: null,
-    isScrollable: false,
+    isScrollable: false
   };
-
 
   componentDidMount() {
     if (this.props.photoFlowNotification) {
-      setTimeout(() => { if (this.toolbar) { this.toolbar.ensureFullVisibility(); }}, 200);
+      setTimeout(() => {
+        if (this.toolbar) {
+          this.toolbar.ensureFullVisibility();
+        }
+      }, 200);
     }
   }
-
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
@@ -115,13 +113,11 @@ class NodeToolbar extends React.Component<Props, State> {
     this.manageFocus(prevProps, prevState);
   }
 
-
   focus() {
     // const elementToFocus = this.editLinks;
     // if (elementToFocus) elementToFocus.focus();
     // this.shouldBeFocused = !elementToFocus;
   }
-
 
   manageFocus(prevProps: Props, prevState: State) {
     // TODO: Re-integrate this into ExternalLinks
@@ -134,42 +130,30 @@ class NodeToolbar extends React.Component<Props, State> {
     // }
   }
 
-
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
   }
-
 
   isEquipment() {
     return !!this.props.equipmentInfoId;
   }
 
-
   renderReportDialog() {
-    return (<ReportDialog
-      innerRef={reportDialog => this.reportDialog = reportDialog}
-      feature={this.props.feature}
-      featureId={this.props.featureId}
-      onReportComponentChanged={() => {
-        if (this.toolbar) { this.toolbar.ensureFullVisibility(); }
-      }}
-      onClose={() => {
-        if (this.props.onClose) this.props.onClose();
-      }}
-    />);
+    return <ReportDialog innerRef={reportDialog => this.reportDialog = reportDialog} feature={this.props.feature} featureId={this.props.featureId} onReportComponentChanged={() => {
+      if (this.toolbar) {
+        this.toolbar.ensureFullVisibility();
+      }
+    }} onClose={() => {
+      if (this.props.onClose) this.props.onClose();
+    }} />;
   }
-
 
   renderIconButtonList() {
     const { feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode } = this.props;
-    return <IconButtonList
-      {...{ feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode }}
-      onToggle={() => {
-        if (this.toolbar) this.toolbar.ensureFullVisibility();
-      }}
-    />
+    return <IconButtonList {...{ feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode }} onToggle={() => {
+      if (this.toolbar) this.toolbar.ensureFullVisibility();
+    }} />;
   }
-
 
   renderNodeHeader() {
     const {
@@ -185,79 +169,47 @@ class NodeToolbar extends React.Component<Props, State> {
     const isModalStateWithPlaceIcon = includes(statesWithIcon, this.props.modalNodeState);
     const hasIcon = !this.props.modalNodeState || isModalStateWithPlaceIcon;
 
-    return <NodeHeader
-      feature={feature}
-      equipmentInfo={equipmentInfo}
-      equipmentInfoId={equipmentInfoId}
-      category={category}
-      parentCategory={parentCategory}
-      onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
-      hasIcon={hasIcon}
-      hasShadow={this.state.isScrollable}
-    />;
+    return <NodeHeader feature={feature} equipmentInfo={equipmentInfo} equipmentInfoId={equipmentInfoId} category={category} parentCategory={parentCategory} onClickCurrentMarkerIcon={onClickCurrentMarkerIcon} hasIcon={hasIcon} hasShadow={this.state.isScrollable} />;
   }
-
 
   renderPhotoSection() {
-    return <PhotoSection
-      featureId={this.props.featureId}
-      onReportPhoto={this.props.onReportPhoto}
-      onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-      photoFlowNotification={this.props.photoFlowNotification}
-    />;
+    return <PhotoSection featureId={this.props.featureId} onReportPhoto={this.props.onReportPhoto} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} photoFlowNotification={this.props.photoFlowNotification} />;
   }
-  
 
   renderPlaceNameForEquipment() {
     const { featureId } = this.props;
     if (!featureId) return;
 
-    return <a
-      className="link-button"
-      href={`/nodes/${featureId}`}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        this.props.history.push(`/nodes/${featureId}`);
-      }}
-    >
+    return <a className="link-button" href={`/nodes/${featureId}`} onClick={event => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.props.history.push(`/nodes/${featureId}`);
+    }}>
       {this.placeName()}
     </a>;
   }
 
-
   renderToiletAccessibilityEditor() {
-    return (<ToiletStatusEditor
-      // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
-      featureId={this.props.featureId}
-      feature={this.props.feature}
-      onSave={(newValue: YesNoUnknown) => {
-        this.props.onClose();
-        this.props.onCloseToiletAccessibility();
-      }}
-      onClose={this.props.onClose}
-    />);
+    return <ToiletStatusEditor
+    // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
+    featureId={this.props.featureId} feature={this.props.feature} onSave={(newValue: YesNoUnknown) => {
+      this.props.onClose();
+      this.props.onCloseToiletAccessibility();
+    }} onClose={this.props.onClose} />;
   }
-
 
   renderWheelchairAccessibilityEditor() {
-    return (<WheelchairStatusEditor
-      // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
-      featureId={this.props.featureId}
-      feature={this.props.feature}
-      onSave={(newValue: YesNoLimitedUnknown) => {
-        this.props.onClose();
-        if (includes(['yes', 'limited'], newValue)) {
-          this.props.onOpenToiletAccessibility();
-        } else {
-          this.props.onCloseWheelchairAccessibility();
-        }
-      }}
-      presetStatus={this.props.presetStatus}
-      onClose={this.props.onClose}
-    />);
+    return <WheelchairStatusEditor
+    // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
+    featureId={this.props.featureId} feature={this.props.feature} onSave={(newValue: YesNoLimitedUnknown) => {
+      this.props.onClose();
+      if (includes(['yes', 'limited'], newValue)) {
+        this.props.onOpenToiletAccessibility();
+      } else {
+        this.props.onCloseWheelchairAccessibility();
+      }
+    }} presetStatus={this.props.presetStatus} onClose={this.props.onClose} />;
   }
-
 
   renderInlineWheelchairAccessibilityEditor() {
     const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
@@ -275,14 +227,9 @@ class NodeToolbar extends React.Component<Props, State> {
       <h4 id="wheelchair-accessibility-header">
         {header}
       </h4>
-      <InlineWheelchairAccessibilityEditor
-        category={getCategoryId(this.props.category)}
-        onChange={this.props.onSelectWheelchairAccessibility}
-        presetStatus={this.props.presetStatus}
-      />
+      <InlineWheelchairAccessibilityEditor category={getCategoryId(this.props.category)} onChange={this.props.onSelectWheelchairAccessibility} presetStatus={this.props.presetStatus} />
     </section>;
   }
-
 
   renderContentBelowHeader() {
     const { featureId } = this.props;
@@ -290,21 +237,23 @@ class NodeToolbar extends React.Component<Props, State> {
 
     if (featureId && !isEquipment) {
       switch (this.props.modalNodeState) {
-        case 'edit-wheelchair-accessibility': return this.renderWheelchairAccessibilityEditor();
-        case 'edit-toilet-accessibility': return this.renderToiletAccessibilityEditor();
-        case 'report': return this.renderReportDialog();
-        default: break;
+        case 'edit-wheelchair-accessibility':
+          return this.renderWheelchairAccessibilityEditor();
+        case 'edit-toilet-accessibility':
+          return this.renderToiletAccessibilityEditor();
+        case 'report':
+          return this.renderReportDialog();
+        default:
+          break;
       }
     }
 
     const { feature, equipmentInfoId, history, onOpenReportMode } = this.props;
-    const sourceLinkProps =  { featureId, feature, equipmentInfoId, onOpenReportMode, history };
+    const sourceLinkProps = { featureId, feature, equipmentInfoId, onOpenReportMode, history };
     if (!featureId) return;
 
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
-    const accessibilitySection = isEquipment ?
-      <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} /> :
-      <PlaceAccessibilitySection {...this.props} />;
+    const accessibilitySection = isEquipment ? <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} /> : <PlaceAccessibilitySection {...this.props} />;
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
@@ -321,23 +270,15 @@ class NodeToolbar extends React.Component<Props, State> {
     </div>;
   }
 
-
   renderCloseLink() {
     const { history, onClose, modalNodeState } = this.props;
     return modalNodeState ? null : <PositionedCloseLink {...{ history, onClose }} />;
   }
 
-
   render() {
-    return <StyledToolbar
-      hidden={this.props.hidden}
-      isModal={this.props.modalNodeState}
-      innerRef={(toolbar) => { this.toolbar = toolbar; }}
-      role="dialog"
-      ariaLabel={this.placeName()}
-      startTopOffset={hasBigViewport() ? 0 : (0.4 * window.innerHeight)}
-      onScrollable={isScrollable => this.setState({ isScrollable })}
-    >
+    return <StyledToolbar hidden={this.props.hidden} isModal={this.props.modalNodeState} innerRef={toolbar => {
+      this.toolbar = toolbar;
+    }} role="dialog" ariaLabel={this.placeName()} startTopOffset={hasBigViewport() ? 0 : 0.4 * window.innerHeight} onScrollable={isScrollable => this.setState({ isScrollable })}>
       {this.renderCloseLink()}
       {this.renderNodeHeader()}
       {this.renderContentBelowHeader()}

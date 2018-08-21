@@ -1,120 +1,160 @@
-# Translators:
-# Developers, 2018
 msgid ""
 msgstr ""
 "Last-Translator: Developers, 2018\n"
-"Language-Team: Korean (https://www.transifex.com/sozialhelden/teams/16671/ko/)\n"
+"Language-Team: Korean "
+"(https://www.transifex.com/sozialhelden/teams/16671/ko/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+# Translators:
+# Developers, 2018
+msgid ""
+"Last-Translator: framefield_henrik, 2018\n"
+"Language-Team: English (United States) "
+"(https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+msgstr ""
+"Last-Translator: Developers, 2018\n"
+"Language-Team: Korean "
+"(https://www.transifex.com/sozialhelden/teams/16671/ko/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: src/lib/getHumanEnumeration.js:26
 #. Conjunction between two words (like the ‘and’ in ‘humans and animals’).
 #. Please don't forget to include necessary spaces.
-#: src/lib/getHumanEnumeration.js:26
 msgid " and "
 msgstr "및"
 
+#: src/lib/getHumanEnumeration.js:20
 #. Conjunction between two words (like the ‘or’ in ‘humans or animals’).
 #. Please don't forget to include necessary spaces.
-#: src/lib/getHumanEnumeration.js:20
 msgid " or "
 msgstr "또는"
 
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 #. Used to describe a place with unknown name, but known category (when
 #. sharing)
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
 msgid "${ categoryName } on Wheelmap"
 msgstr "Wheelmap상의 ${ categoryName }"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
-msgid "${ count } broken elevator"
-msgid_plural "${ count } broken elevators"
+msgid "${ count } elevator out of service"
+msgid_plural "${ count } elevators out of service"
 msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
-msgid "${ count } broken escalator"
-msgid_plural "${ count } broken escalators"
+msgid "${ count } escalator out of service"
+msgid_plural "${ count } escalators out of service"
 msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
-msgid "${ count } elevator with unknown status"
-msgid_plural "${ count } elevators with unknown status"
+msgid "${ count } elevator with unknown operational status"
+msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
-msgid "${ count } escalator with unknown status"
-msgid_plural "${ count } escalators with unknown status"
+msgid "${ count } escalator with unknown operational status"
+msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
-msgid "${ count } working elevator"
-msgid_plural "${ count } working elevators"
+msgid "${ count } elevator in service"
+msgid_plural "${ count } elevators in service"
 msgstr[0] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
-msgid "${ count } working escalator"
-msgid_plural "${ count } working escalators"
+msgid "${ count } escalator in service"
+msgid_plural "${ count } escalators in service"
 msgstr[0] ""
 
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 #. Email body used when sharing a place with known name via email.// Email
 #. subject used for sharing a place via email.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:139
 msgid "${ placeName } on Wheelmap.org"
 msgstr "Wheelmap.org상의 ${ placeName }"
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:143
-msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr "${ sharedObjectTitle }\\n\\n열려면 이 링크를 클릭하세요. ${ url }"
+msgid ""
+"${ sharedObjectTitle }\\n"
+"\\n"
+"Click on this link to open it: ${ url }"
+msgstr ""
+"${ sharedObjectTitle }\\n"
+"\\n"
+"열려면 이 링크를 클릭하세요. ${ url }"
 
+#: src/components/NodeToolbar/Report/strings.js:35
 #. Explains that edits don't get propagated back to Wheelmap directly after
 #. editing
-#: src/components/NodeToolbar/Report/strings.js:35
 msgid ""
-"(Note that it can take a while until the place is updated on Wheelmap after "
-"editing.)"
+"(Note that it can take some time after editing until the place is updated "
+"on Wheelmap.)"
 msgstr "(편집 후 Wheelmap에서 해당 장소 업데이트가 적용되기까지 시간이 걸릴 수 있습니다.)"
 
+#: src/components/NodeToolbar/Report/strings.js:23
 #. Explains that you have to log in before editing places on OSM and that
 #. edits don't get propagated back directly
-#: src/components/NodeToolbar/Report/strings.js:23
 msgid ""
-"(Note that you need to log in first to do this, and that it can take a while"
-" until the place is updated on Wheelmap.)"
+"(Note that you need to log in to do this, and that it can take some time "
+"until the place is updated on Wheelmap.)"
 msgstr "(이 작업을 수행하려면 로그인이 필요하며, Wheelmap에서 해당 장소 업데이트가 적용되기까지 시간이 걸릴 수 있습니다.)"
 
-#. Report email body with place URL
 #: src/components/NodeToolbar/Report/strings.js:42
+#. Report email body with place URL
 msgid ""
-"(Please only write in English or German.)\\n\\nHi "
-"Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
-"problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
+"(Please only write in English or German.)\\n"
+"\\n"
+"Dear Sozialhelden,\\n"
+"\\n"
+"something about this place is wrong: ${ url }\\n"
+"\\n"
+"The problem is:\\n"
+"\\n"
+"My browser:\\n"
+"\\n"
+"${ navigator.userAgent }"
 msgstr ""
-"(영어 또는 독일어로만 작성해 주세요.)\\n\\nHi Sozialhelden,\\n\\n이 장소 정보가 잘못되었습니다. ${ url "
-"}\\n\\n문제는 다음과 같습니다.\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
+"(영어 또는 독일어로만 작성해 주세요.)\\n"
+"\\n"
+"Hi Sozialhelden,\\n"
+"\\n"
+"이 장소 정보가 잘못되었습니다. ${ url }\\n"
+"\\n"
+"문제는 다음과 같습니다.\\n"
+"\\n"
+"Browser:\\n"
+"\\n"
+"${ navigator.userAgent }"
 
+#: src/lib/getHumanEnumeration.js:24
 #. In a comma-separated serial enumeration, this string is the ', and'
 #. conjunction before the last word, with a serial comma at the beginning if
 #. the language has a serial comma
 #. (https://en.wikipedia.org/wiki/Serial_comma).
-#: src/lib/getHumanEnumeration.js:24
-msgid ", and "
+msgid ", and"
 msgstr " 및 "
 
+#: src/lib/getHumanEnumeration.js:18
 #. In a comma-separated serial enumeration, this string is the ', or'
 #. conjunction before the last word, with a serial comma at the beginning if
 #. the language has a serial comma
 #. (https://en.wikipedia.org/wiki/Serial_comma).
-#: src/lib/getHumanEnumeration.js:18
 msgid ", or "
 msgstr " 또는"
 
 #: src/lib/Feature.js:396
-msgid "Accessible hand basin"
+msgid "Accessible sink"
 msgstr "장애인 전용 세면대"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:181
-msgid "Add a place"
-msgstr ""
+#: src/components/MainMenu/strings.js:23
+#. Main menu item
+msgid "Add a new place"
+msgstr "누락된 장소 추가"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:184
 msgid "Add a place on OpenStreetMap"
@@ -125,42 +165,35 @@ msgstr ""
 msgid "Add images"
 msgstr ""
 
-#. Main menu item
-#: src/components/MainMenu/strings.js:23
-msgid "Add missing place"
-msgstr "누락된 장소 추가"
-
-#. Button caption, shown in the place toolbar
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:54
-msgid "Add toilet status"
+#. Button caption, shown in the place toolbar
+msgid "Mark wheelchair accessibility of WC"
 msgstr "화장실 상태 추가"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:91
 msgid "All elevators and escalators"
 msgstr "모든 엘리베이터 및 에스컬레이터"
 
+#: src/components/SearchToolbar/SearchButton.js:40
 #. Shown in collapsed search/filter combi button when there is no category
 #. filter set
-#: src/components/SearchToolbar/SearchButton.js:40
 msgid "All places"
 msgstr ""
 
-#. Button caption in the filter toolbar. Answer to the question 'which places
-#. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
-msgid "At least partially wheelchair accessible"
-msgstr "휠체어 부분적 이용 가능 이상"
+#: src/lib/Feature.js:336
+msgid "Partially wheelchair accessible"
+msgstr "휠체어 부분적 이용 가능"
 
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
 #. Button caption in the filter toolbar. Answer to the question 'which places
 #. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
-msgid "At least partially wheelchair accessible + WC"
+msgid "Partially accessible with accessible WC"
 msgstr ""
 
-#. Button caption in photo captcha dialog
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:201
 #: src/components/NodeToolbar/Report/strings.js:29
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:330
+#. Button caption in photo captcha dialog
 msgid "Back"
 msgstr "돌아가기"
 
@@ -174,28 +207,28 @@ msgstr "문의 전화: ${ phoneNumber }"
 msgid "Cancel"
 msgstr "취소"
 
-#. Button caption shown while editing a place’s wheelchair statu
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:192
+#. Button caption shown while editing a place’s wheelchair statu
 msgid "Change"
 msgstr "변경"
 
 #: src/components/SearchToolbar/SearchToolbar.js:446
-msgid "Clear Search"
+msgid "Clear search"
 msgstr "검색 지우기"
 
 #: src/lib/Feature.js:393
-msgid "Clear floor space ≥ 150 cm wide"
+msgid "Clear turning space ≥ 150 cm wide"
 msgstr "장애물 없는 너비 150cm 이상의 평면"
 
 #: src/lib/Feature.js:393
-msgid "Clear floor space ≥ 59 inch wide"
+msgid "Clear turning space ≥ 59 inches wide"
 msgstr "장애물 없는 너비 59인치 이상의 평면"
 
-#. Button caption in photo upload Instructions dialog
 #: src/components/CloseLink.js:56
 #: src/components/CreatePlaceDialog/CloseButton.js:31
 #: src/components/NodeToolbar/Photos/PhotoSection.js:168
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:233
+#. Button caption in photo upload Instructions dialog
 msgid "Close"
 msgstr ""
 
@@ -204,25 +237,25 @@ msgid "Close (Esc)"
 msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:165
-msgid "Collapse Share Menu"
+msgid "Collapse share menu"
 msgstr "공유 메뉴 접기"
 
 #: src/components/Toolbar.js:335
 msgid "Collapse panel"
 msgstr ""
 
-#. Button caption shown while editing a place’s wheelchair statu
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
+#. Button caption shown while editing a place’s wheelchair statu
 msgid "Confirm"
 msgstr "확인"
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:17
+#. Main menu item
 msgid "Contact"
 msgstr "연락처"
 
-#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:37
+#. Button caption in report dialog
 msgid "Contact the Wheelmap support team"
 msgstr "Wheelmap 지원팀에게 문의하기"
 
@@ -231,27 +264,25 @@ msgstr "Wheelmap 지원팀에게 문의하기"
 msgid "Continue"
 msgstr "계속"
 
-#. Text in search results when an error occurred
 #: src/components/SearchToolbar/SearchResults.js:37
-msgid "Could not load results. Please try again later!"
+#. Text in search results when an error occurred
+msgid "No results available. Please try again later!"
 msgstr ""
 
-#. Shown when there was an error while loading a place.
 #: src/lib/cache/FeatureCache.js:177 src/lib/cache/WheelmapFeatureCache.js:22
+#. Shown when there was an error while loading a place.
 msgid "Could not load this place."
 msgstr ""
 
+#: src/components/NodeToolbar/SourceLink.js:64
 #. Button caption in the place toolbar. Navigates to a place's details on an
 #. external page.
-#: src/components/NodeToolbar/SourceLink.js:64
 msgid "Details"
 msgstr "상세정보"
 
-#. Points the user to OSM for changing place detail
 #: src/components/NodeToolbar/Report/strings.js:21
-msgid ""
-"Did you know you can change this place’s information on OpenStreetMap "
-"directly?"
+#. Points the user to OSM for changing place detail
+msgid "You can change this place’s information on OpenStreetMap directly."
 msgstr "OpenStreetMap에서 직접 이 장소에 대한 정보를 변경할 수 있다는 사실을 아셨나요?"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:76
@@ -259,96 +290,96 @@ msgid "Disruptions at this location"
 msgstr "이 위치 봉쇄"
 
 #: src/lib/Feature.js:392
-msgid "Doorways’ inner width ≥ 35 inch"
+msgid "Doorways' inner width ≥ 35 inches"
 msgstr "출구 안쪽 너비 35인치 이상"
 
 #: src/lib/Feature.js:392
-msgid "Doorways’ inner width ≥ 90 cm"
+msgid "Doorways' inner width ≥ 90 cm"
 msgstr "입구 안쪽 너비 90cm 이상"
 
-#. Button caption in report dialog
 #: src/components/NodeToolbar/Report/strings.js:25
+#. Button caption in report dialog
 msgid "Edit this place on OpenStreetMap"
 msgstr "OpenStreetMap에서 이 장소 편집"
 
-#. Root category
 #: src/lib/Categories.js:61
+#. Root category
 msgid "Education"
 msgstr "교육"
 
 #: src/lib/Feature.js:372
-msgid "Entrance has a step or several steps, rooms are not accessible."
+msgid "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "입구에 1단 이상의 계단 있음, 공간 이용 불가능."
 
+#: src/lib/Feature.js:368
 #. Describes criteria for marking places as partially wheelchair accessible on
 #. Wheelmap, using imperial unit
-#: src/lib/Feature.js:368
 msgid ""
-"Entrance has one step with max. 3 inch height, most rooms are without steps."
+"Entrance has one step with max. 3 inches height, most rooms are without "
+"steps."
 msgstr ""
 
+#: src/lib/Feature.js:370
 #. Describes criteria for marking places as partially wheelchair accessible on
 #. Wheelmap, using metric unit
-#: src/lib/Feature.js:370
-msgid ""
-"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgid "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 
 #: src/lib/Feature.js:364
-msgid "Entrance without steps, all rooms without steps."
+msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "입구에 계단 없음, 모든 공간에 계단 없음."
 
-#. Shown as header text on the error page.
 #: src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:101
+#. Shown as header text on the error page.
 msgid "Error"
 msgstr "오류"
 
-#. Shown when there was an error while loading category data from the backend.
 #: src/lib/Categories.js:126
-msgid "Error while loading categories from server"
+#. Shown when there was an error while loading category data from the backend.
+msgid "Error while loading place categories."
 msgstr ""
 
-#. Shown when there was an error while loading a place.
 #: src/lib/cache/URLDataCache.js:55
-msgid "Error while loading data from server."
+#. Shown when there was an error while loading a place.
+msgid "Error while loading data."
 msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
-msgid "Expand Share Menu"
+msgid "Expand share menu"
 msgstr "공유 메뉴 펼치기"
 
 #: src/components/Toolbar.js:335
 msgid "Expand panel"
 msgstr ""
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:21
+#. Main menu item
 msgid "FAQ"
 msgstr "FAQ"
 
-#. Additional description text for sharing a place in a social network.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
-msgid "Find out about this place’s accessibility."
+#. Additional description text for sharing a place in a social network.
+msgid "Learn more about the accessibility of this place"
 msgstr "이 장소의 접근성을 확인해 보세요."
 
+#: src/components/NodeToolbar/Report/strings.js:19
 #. Link caption to the explanatory article that shows how to mark a place as
 #. closed.
-#: src/components/NodeToolbar/Report/strings.js:19
 msgid "Find out how"
 msgstr "방법 찾기"
 
-#. Claim in the main menu toolbar, next to the logo
 #: src/components/MainMenu/strings.js:25
+#. Claim in the main menu toolbar, next to the logo
 msgid "Find wheelchair accessible places"
 msgstr "휠체어로 이용할 수 있는 장소 찾기"
 
 #: src/lib/Feature.js:395
-msgid "Folding grab rails"
+msgid "Foldable grab rails"
 msgstr "접이식 지지대"
 
-#. Root category
 #: src/lib/Categories.js:51
+#. Root category
 msgid "Food & Drinks"
 msgstr "식음료"
 
@@ -368,139 +399,141 @@ msgstr "완전"
 msgid "Fully wheelchair accessible"
 msgstr "휠체어 완전 이용 가능"
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:11
+#. Main menu item
 msgid "Get involved"
 msgstr "참여하기"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
-msgid "Go Map!! in App Store"
+msgid "“Go Map!!” in App Store"
 msgstr ""
 
-#. button shown next to the search bar
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:340
 #: src/components/SearchToolbar/SearchToolbar.js:457
-msgid "Go!"
+#. button shown next to the search bar
+msgid "Go"
 msgstr ""
 
-#. Root category
 #: src/lib/Categories.js:65
+#. Root category
 msgid "Health"
 msgstr "보건"
 
+#: src/components/Onboarding/Onboarding.js:29
 #. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
 #. window.
-#: src/components/Onboarding/Onboarding.js:29
 msgid "Help out by marking places!"
 msgstr "장소 표시를 도와 주세요!"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
-msgid "Hi Wheelmap Team, I made a photo of the following place:"
+msgid "Hi Wheelmap Team, I have an image of the following place:"
 msgstr ""
 
 #: src/components/MainMenu/MainMenu.js:175
 msgid "Home"
 msgstr "홈"
 
-#. Root category
 #: src/lib/Categories.js:57
+#. Root category
 msgid "Hotels"
 msgstr "호텔"
 
-#. Shown as header/title when you edit wheelchair accessibility of a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:38
 #: src/components/NodeToolbar/NodeToolbar.js:272
+#. Shown as header/title when you edit wheelchair accessibility of a place
 msgid "How wheelchair accessible is this place?"
 msgstr "이 장소를 휠체어로 어떻게 이용할 수 있습니까?"
 
-#. Email body used when sharing a place without known name/category via email.
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:120
+#. Email body used when sharing a place without known name/category via email.
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "Wheelmap에서 다음 장소를 찾았습니다. ${ url }"
 
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 #. First line in an email and shared object title used when sharing a place
 #. via email or a social network.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:124
 msgid "I found a place on Wheelmap…"
 msgstr "Wheelmap상의 장소에서 다음 문제를 발견했습니다"
 
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 #. First line in an email and shared object title used when sharing a place
 #. via email or a social network.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "Wheelmap에서 다음 장소를 찾았습니다. ${ placeName }"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:279
 msgid ""
-"I give Sozialhelden e.V. unlimited rights of use and to republish the "
-"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
-"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+"I grant Sozialhelden e.V. unlimited right to use and to republish the "
+"uploaded images under the <a "
+"href=\"https://creativecommons.org/licenses/by-sa/4.0/legalcode\" "
+"target=\"_blank\">Creative Commons CC-BY-SA license</a>."
 msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:44
 msgid "I have more information about this place."
 msgstr "이 장소에 대해 자세한 정보를 알고 있습니다."
 
-#. Explains that you need to go to OSM to mark a place as closed.
 #: src/components/NodeToolbar/Report/strings.js:17
+#. Explains that you need to go to OSM to mark a place as closed.
 msgid ""
-"If the place closed permanently, you can tag the place as ‘disused’ on "
+"If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr "폐업한 장소인 경우, OpenStreetMap에서 해당 장소에 '폐기' 태그를 추가할 수 있습니다."
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
 #. Shown below the captcha input field before uploading an image. We try to
 #. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:412
-msgid ""
-"If you cannot read or enter this, please contribute your photo via email!"
+msgid "If you cannot read or enter this, please contribute your image via email!"
 msgstr ""
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:19
+#. Main menu item
 msgid "Imprint"
 msgstr "인쇄"
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:21
-msgid "Improve on ${ sourceNameString }"
+msgid "Add info on ${ sourceNameString }"
 msgstr "${ sourceNameString } 개선"
 
-#. Text that incentivizes the user to edit a place's accessibility.
 #: src/components/PhotoUpload/PhotoUploadButton.js:22
-msgid "Improve your karma!"
+#. Text that incentivizes the user to edit a place's accessibility.
+msgid "Your good deed of the day!"
 msgstr "덕을 쌓으세요!"
 
+#: src/components/NodeToolbar/Report/strings.js:31
 #. Gives credits to the external organization this place comes from. The
 #. organization's name is mentioned after this text.
-#: src/components/NodeToolbar/Report/strings.js:31
 msgid ""
 "Information about this place has kindly been provided by another "
-"organization"
+"organization."
 msgstr "이 장소에 대한 정보는 다른 기관에서 제공해 주셨습니다"
 
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 #. Header for the toilet status prompt. Asks the user if the edited place’s
 #. toilet is wheelchair accessible.
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:38
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "휠체어로 이용할 수 있는 화장실인가요?"
 
-#. Header of the report dialog
 #: src/components/NodeToolbar/Report/strings.js:9
-msgid "Is there an issue with this place?"
+#. Header of the report dialog
+msgid "Is there a problem with this place?"
 msgstr "이 장소에 문제가 있나요?"
 
-#. Shown as header text on the error page when the URL is not found.
 #: src/components/NotFound/NotFound.js:51
-msgid "It seems this place is not on Wheelmap."
+#. Shown as header text on the error page when the URL is not found.
+msgid ""
+"This URL does not work anymore. If you think the place does exist, you can "
+"use the search to find it."
 msgstr ""
 
-#. Shown when device is offline.
 #: src/components/NotFound/NotFound.js:54
-msgid "It seems we’re offline!"
+#. Shown when device is offline.
+msgid "Sorry, we are offline!"
 msgstr ""
 
-#. Shown next to equipment status.
 #: src/lib/EquipmentInfo.js:161
-msgid "Last update ${ dateString }."
+#. Shown next to equipment status.
+msgid "Last update: ${ dateString }"
 msgstr "최종 업데이트 ${ dateString }."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:183
@@ -508,48 +541,48 @@ msgstr "최종 업데이트 ${ dateString }."
 msgid "Leave a note on OpenStreetMap"
 msgstr ""
 
-#. Root category
 #: src/lib/Categories.js:55
+#. Root category
 msgid "Leisure"
 msgstr "여가"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
 #. Shown while loading a captcha from the server. We try to avoid the word
 #. 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:406
-msgid "Loading…"
+msgid "Loading..."
 msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
-msgid "MAPS.ME in App Store"
+msgid "“MAPS.ME” in App Store"
 msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:116
-msgid "MAPS.ME in PlayStore"
+msgid "“MAPS.ME” in PlayStore"
 msgstr ""
 
 #: src/components/Map/Map.js:642
 msgid "Map"
 msgstr "지도"
 
+#: src/components/Onboarding/Onboarding.js:27
 #. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
 #. window.
-#: src/components/Onboarding/Onboarding.js:27
 msgid ""
-"Mark and find wheelchair accessible places—worldwide and for free. It’s easy"
-" with our traffic light system:"
+"Mark and find wheelchair accessible places — worldwide and for free. It’s "
+"easy with our traffic light system:"
 msgstr "전 세계의 휠체어 이용 가능 장소를 무료로 표시하고 찾으세요. 편의를 위해 다음과 같은 신호등 시스템을 제공합니다."
 
 #: src/components/MainMenu/MainMenu.js:193
 msgid "Menu"
 msgstr "메뉴"
 
-#. Root category
 #: src/lib/Categories.js:71
-msgid "Misc"
+#. Root category
+msgid "Miscellaneous"
 msgstr "기타"
 
-#. Root category
 #: src/lib/Categories.js:67
+#. Root category
 msgid "Money"
 msgstr "금전"
 
@@ -557,35 +590,35 @@ msgstr "금전"
 msgid ""
 "Most places shown here are from <a "
 "href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
-"there, they will appear here a bit later."
+"on OSM, they will appear here a bit later."
 msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:62
-msgid "My problem isn’t listed here…"
+msgid "The problem isn’t listed here…"
 msgstr "목록에 해당사항이 없습니다"
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:13
+#. Main menu item
 msgid "News"
 msgstr "뉴스"
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:195
-msgid "Next (Right arrow key)"
+msgid "Next (right arrow key)"
 msgstr ""
 
-#. Caption for the ‘no’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:44
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:18
+#. Caption for the ‘no’ radio button (while marking toilet status)
 msgid "No"
 msgstr "아니요"
 
-#. Text in search results when nothing was found
 #: src/components/SearchToolbar/SearchResults.js:34
-msgid "No results found."
+#. Text in search results when nothing was found
+msgid "No results found"
 msgstr ""
 
 #: src/lib/Feature.js:384
-msgid "No wheelchair accessible toilet."
+msgid "No wheelchair accessible toilet"
 msgstr "휠체어 이용 가능 화장실 없음."
 
 #: src/lib/Feature.js:353
@@ -596,37 +629,37 @@ msgstr "전혀 아님"
 msgid "Not wheelchair accessible"
 msgstr "휠체어 이용 불가능"
 
-#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:32
-msgid "Offensive or Inappropriate"
+#. title for a report option where the photo is nsfw
+msgid "Offensive or inappropriate"
 msgstr ""
 
-#. Root category
 #: src/lib/Categories.js:63
-msgid "Official"
+#. Root category
+msgid "Authorities"
 msgstr "공식"
 
+#: src/components/Onboarding/Onboarding.js:31
 #. Button caption shown on the onboarding screen. To visit it, open Wheelmap
 #. in an incognito window.
-#: src/components/Onboarding/Onboarding.js:31
 msgid "Okay, let’s go!"
 msgstr "자, 출발할까요!"
 
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 #. Button caption in the filter toolbar. Answer to the question 'which places
 #. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
 msgstr "휠체어 완전 이용 가능만"
 
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
 #. Button caption in the filter toolbar. Answer to the question 'which places
 #. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
-msgid "Only fully wheelchair accessible + WC"
+msgid "Only fully accessible with accessible WC"
 msgstr ""
 
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
 #. Checkbox caption on the filter toolbar. If the checkbox is clicked, only
 #. places that are not wheelchair accessible are shown.
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
 msgid "Only places that are not accessible"
 msgstr ""
 
@@ -635,14 +668,14 @@ msgstr ""
 msgid "Open on ${ sourceNameString }"
 msgstr "${ sourceNameString }에서 열기"
 
-#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:35
-msgid "Other Problems"
+#. title for a report option where the photo has another problem
+msgid "Other problems"
 msgstr ""
 
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 #. title for a report option where the photo does not match the current state
 #. of the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 msgid "Outdated"
 msgstr ""
 
@@ -650,34 +683,30 @@ msgstr ""
 msgid "Partially"
 msgstr "부분적"
 
-#: src/lib/Feature.js:336
-msgid "Partially wheelchair accessible"
-msgstr "휠체어 부분적 이용 가능"
-
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
 #. Button caption in the filter toolbar. Answer to the question 'which places
 #. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
-msgid "Places that I can contribute to"
+msgid "Places that I can contribute information to"
 msgstr "내가 기여할 수 있는 장소"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
 #. Shown above the captcha input field before uploading an image. We try to
 #. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:408
 msgid "Please enter these characters."
 msgstr ""
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:15
+#. Main menu item
 msgid "Press"
 msgstr "보도자료"
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:197
-msgid "Previous (Left arrow key)"
+msgid "Previous (left arrow key)"
 msgstr ""
 
-#. Screen reader description for the 'report photo' reason choice dialog
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:176
-msgid "Reason for reporting"
+#. Screen reader description for the 'report photo' reason choice dialog
+msgid "Reason for reporting image"
 msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:92
@@ -689,32 +718,32 @@ msgid "Remove ${ props.name } Filter"
 msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:167
-msgid "Report"
+msgid "Report image"
 msgstr ""
 
-#. Button caption shown in the PoI details panel
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:18
-msgid "Report an issue"
+#. Button caption shown in the PoI details panel
+msgid "Report a problem"
 msgstr ""
 
+#: src/components/NotFound/NotFound.js:73
 #. Shown as button caption when there is no internet connection. Tapping the
 #. button retries to load the data.
-#: src/components/NotFound/NotFound.js:73
 msgid "Retry"
 msgstr ""
 
-#. Shown on the error page.
 #: src/components/NotFound/NotFound.js:71
-msgid "Return Home"
+#. Shown on the error page.
+msgid "Return home"
 msgstr "홈 화면으로"
 
 #: src/components/SearchToolbar/SearchButton.js:45
 msgid "Search"
 msgstr ""
 
-#. Placeholder for search input field
 #: src/components/SearchToolbar/SearchInputField.js:60
-msgid "Search place or address"
+#. Placeholder for search input field
+msgid "Search for place or address"
 msgstr "장소 또는 주소 검색"
 
 #: src/components/SearchToolbar/SearchResults.js:39
@@ -725,88 +754,87 @@ msgstr "검색 결과"
 msgid "Send"
 msgstr ""
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
 #. Error message when captcha could not be loaded. We try to avoid the word
 #. 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:416
 msgid ""
-"Server unreachable. Please retry a bit later, or let us know if the error "
-"persists!"
+"Server cannot be reached. Please try again later and let us know if the "
+"problem persists!"
 msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:126
 msgid "Share"
 msgstr "공유"
 
-#. Root category
 #: src/lib/Categories.js:49
+#. Root category
 msgid "Shopping"
 msgstr "쇼핑"
 
-#. Locate button aria-label on the map
 #: src/components/Map/addLocateControlToMap.js:42
+#. Locate button aria-label on the map
 msgid "Show me where I am"
 msgstr ""
 
-#. Apologizes for the issue and mentions that the support team can help you.
 #: src/components/NodeToolbar/Report/strings.js:39
-msgid ""
-"Sorry for that! Just drop us a line so we can help you to fix the issue."
+#. Apologizes for the issue and mentions that the support team can help you.
+msgid "Sorry about that! Just drop us a line so we can help you to fix the problem."
 msgstr "죄송합니다. 문제를 알려 주시면 해결을 도와 드리겠습니다."
 
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:57
 #. Shown after marking a place did not work, for example because the
 #. connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:57
-msgid "Sorry, could not mark this place because of an error: ${ e }"
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
 
-#. Shown as apology text / description on the error page.
 #: src/components/NotFound/NotFound.js:69
-msgid "Sorry, that shouldn\\'t have happened!"
+#. Shown as apology text / description on the error page.
+msgid "Sorry, that should not have happened!"
 msgstr "죄송합니다. 저희 실수입니다!"
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
 #. Error message when captcha was incorrectly entered. We try to avoid the
 #. word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
 msgstr ""
 
-#. Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.js:45
+#. Prefix for the sources on the PoI details panel
 msgid "Source:"
 msgstr "출처:"
 
-#. Root category
 #: src/lib/Categories.js:69
-msgid "Sport"
+#. Root category
+msgid "Sports"
 msgstr "스포츠"
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:73
 msgid ""
-"Thank you for your work. Your contribution will be visible after a quick "
-"check."
+"Thank you for contributing. Your image will be visible after we have "
+"checked it."
 msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:67
-msgid "Thanks for reporting this photo. We will take a look."
+msgid "Thank you for reporting this image. We will take a look at it."
 msgstr ""
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 #. Shown while uploading an image after user has entered the captcha
 #. correctly. We try to avoid the word 'captcha' because normal users might
 #. not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
-msgid "Thanks! Starting upload…"
+msgid "Thanks! Starting to upload..."
 msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid "The following images…"
 msgstr ""
 
-#. Shown for equipment when the last known status information is too old.
 #: src/lib/EquipmentInfo.js:154
+#. Shown for equipment when the last known status information is too old.
 msgid ""
-"The last thing we know is that this ${ translatedEquipmentCategory } was ${ "
+"Last known operational status: ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
 "최종 확인된 바에 따르면 이 ${ translatedEquipmentCategory }은(는) ${ dateString }에 ${ "
@@ -817,75 +845,74 @@ msgid "The place does not exist."
 msgstr "존재하지 않는 장소입니다."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:56
-msgid "The place is in the wrong position."
+msgid "The place is at the wrong location."
 msgstr "장소의 위치가 잘못되었습니다."
 
-#. Shown as issue description in the report dialog
 #: src/components/NodeToolbar/Report/ReportDialog.js:31
-msgid ""
-"The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
+#. Shown as issue description in the report dialog
+msgid "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr "이 장소는 ‘${ accessibilityDescription }’(으)로 잘못 표시되어 있습니다."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:38
-msgid "The place’s toilet status is wrong or missing."
+msgid "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "해당 장소의 화장실 상태가 잘못되어 있거나 누락되었습니다."
 
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
 #. Shown below the captcha input field before uploading an image. We try to
 #. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:410
-msgid "Then we know you're not a machine."
+msgid "Then we know that you are human."
 msgstr ""
 
-#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:45
-msgid "This photo does not depict the place"
+#. title for a report option where the photo does not match the place
+msgid "This image does not depict this place."
 msgstr ""
 
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
 #. title for a report option where the photo does not match the current state
 #. of the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
-msgid "This photo does not show the current state of the place"
+msgid "This image does not show the current state of this place."
 msgstr ""
 
-#. title for a report option where the photo has another problem
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:54
-msgid "This photo has other problems or infringes on my copyrights."
+#. title for a report option where the photo has another problem
+msgid "This image infringes on my copyright or has other problems."
 msgstr ""
 
-#. title for a report option where the photo is nsfw
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+#. title for a report option where the photo is nsfw
 msgid ""
-"This photo shows sexually explicit content, depicts violence or is "
+"This image shows sexually explicit content, depicts violence or is "
 "inappropriate in another way."
 msgstr ""
 
 #: src/lib/goToLocationSettings.js:35
 msgid ""
-"To locate yourself, open browser settings and allow wheelmap.org to use "
-"location services."
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
 msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:188
 msgid "To report"
 msgstr ""
 
-#. Root category
 #: src/lib/Categories.js:59
+#. Root category
 msgid "Tourism"
 msgstr "관광"
 
-#. Root category
 #: src/lib/Categories.js:53
+#. Root category
 msgid "Transport"
 msgstr "교통 수단"
 
-#. Main menu item
 #: src/components/MainMenu/strings.js:9
+#. Main menu item
 msgid "Travel guide"
 msgstr "여행 가이드"
 
-#. Shown next to the locate-me button when location services are not enabled
 #: src/components/Map/Map.js:611
+#. Shown next to the locate-me button when location services are not enabled
 msgid "Turn on location services"
 msgstr ""
 
@@ -894,11 +921,11 @@ msgid "Unknown"
 msgstr "알 수 없음"
 
 #: src/lib/Feature.js:340
-msgid "Unknown status"
+msgid "Unknown accessibility"
 msgstr "알 수 없는 상태"
 
-#. Place name shown in search results for places with unknown name / category.
 #: src/components/SearchToolbar/SearchResult.js:226
+#. Place name shown in search results for places with unknown name / category.
 msgid "Unnamed"
 msgstr "이름이 없음"
 
@@ -915,32 +942,32 @@ msgid "Upload failed: server error or file-format not supported"
 msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:55
-msgid "Upload in Progress..."
+msgid "Upload in progress..."
 msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
-msgid "Use OpenStreetMap web editor"
+msgid "Use the OpenStreetMap web editor"
 msgstr ""
 
+#: src/components/NodeToolbar/Report/strings.js:33
 #. Explains how to reach the place details on the external page the place
 #. comes from (for example Jaccede).
-#: src/components/NodeToolbar/Report/strings.js:33
-msgid "Use the link below for details about the place and editing."
+msgid "Click the link below for details about the place and for editing."
 msgstr "아래의 링크를 이용하여 장소 및 편집에 대해 자세히 알아보세요."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
-msgid "Vespucci in PlayStore"
+msgid "“Vespucci” in PlayStore"
 msgstr ""
 
-#. Screen reader description for the accessibility choice buttons for gray
-#. place
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:122
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:153
-msgid "Wheelchair Accessibility"
+#. Screen reader description for the accessibility choice buttons for gray
+#. place
+msgid "Wheelchair accessibility"
 msgstr "휠체어 접근성"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
-msgid "Wheelchair Accessibility Filter"
+msgid "Wheelchair accessibility filter"
 msgstr "휠체어 접근성 필터"
 
 #: src/lib/Feature.js:382
@@ -952,53 +979,53 @@ msgid "Wheelchair-height toilet seat"
 msgstr "휠체어 높이 변기 시트"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:402
-msgid "Wheelmap Photo Upload"
+msgid "Image upload"
 msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:53
-msgid "Wheelmap start screen"
+msgid "Start screen"
 msgstr "Wheelmap 시작 화면"
 
-#. Explains that Wheelmap's data comes from OpenStreetMap.
 #: src/components/NodeToolbar/Report/strings.js:11
-msgid "Wheelmap uses data from OpenStreetMap to display places."
+#. Explains that Wheelmap's data comes from OpenStreetMap.
+msgid "Many places on Wheelmap.org come from OpenStreetMap."
 msgstr "Wheelmap은 OpenStreetMap의 데이터를 사용하여 장소를 표시합니다."
 
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 #. Email body used when sharing a place without known name/category via
 #. email.// Email subject used for sharing a place via email.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:122
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:190
-msgid "Which problem do you want to report?"
+msgid "Which problem would you like to report?"
 msgstr ""
 
-#. title for a report option where the photo does not match the place
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
-msgid "Wrong Place"
+#. title for a report option where the photo does not match the place
+msgid "Image shows another place."
 msgstr ""
 
-#. Caption for the ‘yes’ radio button (while marking toilet status)
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:17
+#. Caption for the ‘yes’ radio button (while marking toilet status)
 msgid "Yes"
 msgstr "예"
 
+#: src/components/NodeToolbar/Report/strings.js:15
 #. Explains that you need to go to OSM to change a place's position on the
 #. map.
-#: src/components/NodeToolbar/Report/strings.js:15
-msgid "You can change this place’s position on OpenStreetMap."
+msgid "You can change this place’s location on OpenStreetMap."
 msgstr "OpenStreetMap에서 이 장소의 위치를 변경할 수 있습니다."
 
-#. Explains that you need to go to OSM to remove places.
 #: src/components/NodeToolbar/Report/strings.js:13
+#. Explains that you need to go to OSM to remove places.
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "OpenStreetMap에서 존재하지 않는 장소를 삭제할 수 있습니다."
 
-#. Shown when zoomed out to far
 #: src/components/Map/Map.js:597
-msgid "Zoom closer to see more places"
+#. Shown when zoomed out to far
+msgid "Zoom in closer to see more places"
 msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:46
@@ -1009,55 +1036,55 @@ msgstr "[Wheelmap] Wheelmap상의 ${ placeName } 관련 문제"
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap상의 ${ categoryName } 관련 문제"
 
-#. Report email subject if neither place name nor category name is known
 #: src/components/NodeToolbar/Report/strings.js:50
+#. Report email subject if neither place name nor category name is known
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap상의 장소 관련 문제"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:307
-msgid "access plans"
+msgid "Site map"
 msgstr ""
 
 #: src/lib/EquipmentInfo.js:137
-msgid "elevator"
+msgid "Elevator"
 msgstr "엘리베이터"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:303
-msgid "entrances"
+msgid "Entrances"
 msgstr ""
 
 #: src/lib/EquipmentInfo.js:136
-msgid "escalator"
+msgid "Escalator"
 msgstr "에스컬레이터"
 
+#: src/lib/EquipmentInfo.js:139
 #. An equipment or facility whose category we don't know. It might be an
 #. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:139
-msgid "facility"
+msgid "Facility"
 msgstr "시설"
 
+#: src/lib/EquipmentInfo.js:97
 #. An equipment or facility status. The facility might be an elevator,
 #. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:97
-msgid "in operation"
+msgid "In operation"
 msgstr "작동 중"
 
-#. button shown next to the captcha
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:355
-msgid "load new"
+#. button shown next to the captcha
+msgid "Show different characters"
 msgstr ""
 
+#: src/components/NodeToolbar/Photos/PhotoSection.js:193
 #. divider between <currentImageIndex> and <imageCount> in lightbox, such as 1
 #. of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.js:193
 msgid "of"
 msgstr ""
 
+#: src/lib/EquipmentInfo.js:99
 #. An equipment or facility status. This does not mean the facility is broken:
 #. It might just be in maintenance! The facility might be an elevator,
 #. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:99
-msgid "out of order"
+msgid "Out of order"
 msgstr "고장"
 
 #: src/lib/EquipmentInfo.js:143
@@ -1068,10 +1095,10 @@ msgstr "오늘"
 msgid "toilets"
 msgstr ""
 
+#: src/lib/EquipmentInfo.js:101
 #. An equipment or facility status. The facility might be an elevator,
 #. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:101
-msgid "unknown status"
+msgid "Unknown operational status"
 msgstr "알 수 없는 상태"
 
 #: src/lib/EquipmentInfo.js:144
@@ -1079,15 +1106,15 @@ msgid "yesterday"
 msgstr "어제"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
-msgid "…are interesting for accessibility."
+msgid "...give useful information on accessibility."
 msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:278
-msgid "…are made by myself."
+msgid "...were taken by me."
 msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:280
-msgid "…do not contain any people."
+msgid "...do not show any identifiable persons."
 msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:282

@@ -4,25 +4,25 @@ import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
 import ChevronRight from '../ChevronRight';
-import Categories from  '../../lib/Categories';
+import Categories from '../../lib/Categories';
 import { currentLocales } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
 
 type Props = {
-  className: string,
+  className: string;
   category: ?Category;
   parentCategory: ?Category;
-  properties: WheelmapProperties | AccessibilityCloudProperties,
+  properties: WheelmapProperties | AccessibilityCloudProperties;
 };
 
 type State = {
-  displayedCategoryNames: string[],
+  displayedCategoryNames: string[]
 };
 
 class BreadCrumbs extends React.Component<Props, State> {
   state = {
-    displayedCategoryNames: [],
+    displayedCategoryNames: []
   };
 
   componentWillMount() {
@@ -42,9 +42,7 @@ class BreadCrumbs extends React.Component<Props, State> {
   }
 
   loadCategories(props: Props) {
-    const promises = this.categoryIds(props)
-      .filter(Boolean)
-      .map(id => Categories.getCategory(id));
+    const promises = this.categoryIds(props).filter(Boolean).map(id => Categories.getCategory(id));
     Promise.all(promises).then(categories => {
       const names = categories.map(category => {
         let result = null;
@@ -59,14 +57,11 @@ class BreadCrumbs extends React.Component<Props, State> {
   }
 
   render() {
-    const breadCrumbs = this.state.displayedCategoryNames
-      .map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
+    const breadCrumbs = this.state.displayedCategoryNames.map((s, i) => <span className="breadcrumb" key={i}>{s}<ChevronRight key={`c${i}`} /></span>);
 
-    return (
-      <section className={this.props.className}>
+    return <section className={this.props.className}>
         {breadCrumbs}
-      </section>
-    );
+      </section>;
   }
 }
 

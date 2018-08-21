@@ -4,13 +4,10 @@ import L from 'leaflet';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { color as d3Color } from 'd3-color';
-import {
-  interpolateWheelchairAccessibilityColors,
-} from '../../lib/colors';
+import { interpolateWheelchairAccessibilityColors } from '../../lib/colors';
 import isSamePlace from './isSamePlace';
 import getIconNameForProperties from './getIconNameForProperties';
 import * as categoryIcons from '../icons/categories';
-
 
 export default class ClusterIcon extends L.Icon {
   constructor(options: typeof L.Icon.options) {
@@ -20,7 +17,7 @@ export default class ClusterIcon extends L.Icon {
       className: 'leaflet-div-icon accessiblity ac-marker ac-marker-cluster',
       iconSize: new L.Point(20, 20),
       iconAnchor: new L.Point(11, 11),
-      popupAnchor: new L.Point(11, 11),
+      popupAnchor: new L.Point(11, 11)
     };
 
     super(Object.assign(defaults, options));
@@ -54,7 +51,8 @@ export default class ClusterIcon extends L.Icon {
     return div;
   }
 
-  createShadow() { // eslint-disable-line class-methods-use-this
+  createShadow() {
+    // eslint-disable-line class-methods-use-this
     return null;
   }
 }

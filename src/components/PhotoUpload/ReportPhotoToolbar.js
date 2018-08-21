@@ -14,25 +14,24 @@ import StyledRadioGroup from '../NodeToolbar/AccessibilityEditor/StyledRadioGrou
 
 import type { PhotoModel } from '../NodeToolbar/Photos/PhotoModel';
 
-
 export type ReportOptions = 'wrong-place' | 'outdated' | 'offensive' | 'other';
 
-const ReportValues : ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 'other'];
+const ReportValues: ReportOptions[] = ['wrong-place', 'outdated', 'offensive', 'other'];
 
 function shortReportCaption(reportValue: ReportOptions): ?string {
   switch (reportValue) {
-    case 'wrong-place': 
+    case 'wrong-place':
       // translator: title for a report option where the photo does not match the place
-      return t`Wrong Place`;
-    case 'outdated': 
+      return t`Image shows another place.`;
+    case 'outdated':
       // translator: title for a report option where the photo does not match the current state of the place
       return t`Outdated`;
-    case 'offensive': 
+    case 'offensive':
       // translator: title for a report option where the photo is nsfw
-      return t`Offensive or Inappropriate`;
-    case 'other': 
+      return t`Offensive or inappropriate`;
+    case 'other':
       // translator: title for a report option where the photo has another problem
-      return t`Other Problems`;
+      return t`Other problems`;
     default:
       return null;
   }
@@ -40,34 +39,33 @@ function shortReportCaption(reportValue: ReportOptions): ?string {
 
 function reportDescription(reportValue: ReportOptions): ?string {
   switch (reportValue) {
-    case 'wrong-place': 
+    case 'wrong-place':
       // translator: title for a report option where the photo does not match the place
-      return t`This photo does not depict the place`;
-    case 'outdated': 
+      return t`This image does not depict this place.`;
+    case 'outdated':
       // translator: title for a report option where the photo does not match the current state of the place
-      return t`This photo does not show the current state of the place`;
-    case 'offensive': 
+      return t`This image does not show the current state of this place.`;
+    case 'offensive':
       // translator: title for a report option where the photo is nsfw
-      return t`This photo shows sexually explicit content, depicts violence or is inappropriate in another way.`;
-    case 'other': 
+      return t`This image shows sexually explicit content, depicts violence or is inappropriate in another way.`;
+    case 'other':
       // translator: title for a report option where the photo has another problem
-      return t`This photo has other problems or infringes on my copyrights.`;
+      return t`This image infringes on my copyright or has other problems.`;
     default:
       return null;
   }
 }
 
 export type Props = {
-  hidden: boolean,
-  photo: PhotoModel | null,
-  onClose: (() => void),
-  onCompleted: ((photo: PhotoModel, reason: ReportOptions) => void),
+  hidden: boolean;
+  photo: PhotoModel | null;
+  onClose: () => void;
+  onCompleted: (photo: PhotoModel, reason: ReportOptions) => void;
 };
 
 type State = {
-  selectedValue: ReportOptions | null,
+  selectedValue: ReportOptions | null
 };
-
 
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
@@ -141,26 +139,26 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   renderCloseLink() {
     return <CloseLink onClick={this.onClose} />;
   }
-  
+
   onSubmit = (event: SyntheticEvent<HTMLInputElement>) => {
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
       this.props.onCompleted(this.props.photo, this.state.selectedValue);
       event.preventDefault();
     }
-  }
+  };
 
   onClose = (event: UIEvent) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
     }
-  }
+  };
 
   onRadioGroupKeyDown = (event: SyntheticEvent<HTMLInputElement>) => {
     if (event.nativeEvent.key === 'Enter') {
       this.onSubmit(event);
     }
-  }
+  };
 
   render() {
     const { photo } = this.props;
@@ -173,57 +171,31 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     const canSubmit = !!selectedValue;
 
     // translator: Screen reader description for the 'report photo' reason choice dialog
-    const ariaLabel = t`Reason for reporting`;
+    const ariaLabel = t`Reason for reporting image`;
 
-    return (
-      <StyledToolbar
-        className='photoupload-instructions-toolbar'
-        hidden={this.props.hidden}
-        isSwipeable={false}
-        isModal
-      >
+    return <StyledToolbar className="photoupload-instructions-toolbar" hidden={this.props.hidden} isSwipeable={false} isModal>
         <header>
           {this.renderCloseLink()}
           <div>
             <img src={photo.src} alt={t`To report`} />
           </div>
-          <h3>{t`Which problem do you want to report?`}</h3>
+          <h3>{t`Which problem would you like to report?`}</h3>
         </header>
 
-        <StyledRadioGroup
-          name="report-reason"
-          selectedValue={selectedValue}
-          onChange={(newValue) => { this.setState({ selectedValue: newValue }); }}
-          className={`${selectedValue ? 'has-selection' : ''} radio-group`}
-          onKeyDown={this.onRadioGroupKeyDown}
-          role="radiogroup"
-          aria-label={ariaLabel}
-        >
-          {ReportValues.map((value: ReportOptions, index) =>
-            <CustomRadio
-              key={value}
-              shownValue={value}
-              currentValue={selectedValue}
-              caption={shortReportCaption(value)}
-              description={reportDescription(value)}
-            />
-          )}
+        <StyledRadioGroup name="report-reason" selectedValue={selectedValue} onChange={newValue => {
+        this.setState({ selectedValue: newValue });
+      }} className={`${selectedValue ? 'has-selection' : ''} radio-group`} onKeyDown={this.onRadioGroupKeyDown} role="radiogroup" aria-label={ariaLabel}>
+          {ReportValues.map((value: ReportOptions, index) => <CustomRadio key={value} shownValue={value} currentValue={selectedValue} caption={shortReportCaption(value)} description={reportDescription(value)} />)}
         </StyledRadioGroup>
 
         <footer>
-          <button 
-            className='link-button negative-button' 
-            onClick={this.onClose}>
+          <button className="link-button negative-button" onClick={this.onClose}>
             {t`Cancel`}
           </button>
-          <button 
-            className='link-button primary-button' 
-            disabled={!canSubmit}
-            onClick={this.onSubmit}>
+          <button className="link-button primary-button" disabled={!canSubmit} onClick={this.onSubmit}>
             {t`Send`}
           </button>
         </footer>
-      </StyledToolbar>
-    );
+      </StyledToolbar>;
   }
 }

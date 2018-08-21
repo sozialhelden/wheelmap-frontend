@@ -4,7 +4,7 @@ import colors from '../../../lib/colors';
 const color = colors.markers.background.yes;
 
 export default function ToiletStatuAccessibleIcon(props) {
-  return (<svg width="38px" height="24px" viewBox="0 0 38 24" version="1.1" {...props}>
+  return <svg width="38px" height="24px" viewBox="0 0 38 24" version="1.1" {...props}>
     <g id="ToiletUnknown" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="WC-Sign">
         <path d="M5,0 L29,0 C31.7614237,-4.4408921e-16 34,2.23857625 34,5 L34,19 C34,21.7614237 31.7614237,24 29,24 L5,24 C2.23857625,24 3.33066907e-16,21.7614237 0,19 L0,5 C-4.4408921e-16,2.23857625 2.23857625,5.55111512e-16 5,0 Z" id="Outlines" fill="#FFFFFF" fillRule="nonzero" />
@@ -18,5 +18,5 @@ export default function ToiletStatuAccessibleIcon(props) {
         <polygon id="Fill" fill="#FFFFFF" points="4.63413137 10 5.63858195 9.00195695 10 3.0170534 8.96815531 2 4.63413137 7.90886218 3.03184469 6.25048924 2 7.26754263" />
       </g>
     </g>
-  </svg>);
+  </svg>;
 }

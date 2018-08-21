@@ -13,7 +13,7 @@ export default class WheelmapFeatureCache extends FeatureCache<WheelmapFeature, 
   }
 
   static getIdForFeature(feature: WheelmapFeature): string {
-    return String(feature.id || (feature.properties && feature.properties.id));
+    return String(feature.id || feature.properties && feature.properties.id);
   }
 
   static getFeatureFromResponse(response): Promise<WheelmapFeature> {

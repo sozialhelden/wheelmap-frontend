@@ -13,16 +13,14 @@ export class CustomEvent {
 export default class EventTarget<EventClass: CustomEvent> {
   listeners = {};
 
-
-  addEventListener(type: string, callback: ((event: EventClass) => void)) {
+  addEventListener(type: string, callback: (event: EventClass) => void) {
     if (!(type in this.listeners)) {
       this.listeners[type] = [];
     }
     this.listeners[type].push(callback);
   }
 
-
-  removeEventListener(type: string, callback: ((event: EventClass) => void)) {
+  removeEventListener(type: string, callback: (event: EventClass) => void) {
     if (!(type in this.listeners)) {
       return;
     }
@@ -34,7 +32,6 @@ export default class EventTarget<EventClass: CustomEvent> {
       }
     }
   }
-
 
   // Example usage:
   //     this.dispatchEvent(new MyEventClass('start', { target: this }));

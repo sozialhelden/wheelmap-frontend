@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 export default function Accommodation(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+  return <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
       <g id="Page-1" stroke="none" strokeWidth={1} fill="none" fillRule="evenodd">
         <g id="accommodation" fill="#010101">
           <g transform="translate(0.000000, 2.000000)" id="svg4619">
@@ -12,6 +11,5 @@ export default function Accommodation(props) {
           </g>
         </g>
       </g>
-    </svg>
-  );
+    </svg>;
 }

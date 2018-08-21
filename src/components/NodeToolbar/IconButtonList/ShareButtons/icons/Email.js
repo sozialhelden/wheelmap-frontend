@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 export default function Email(props) {
-  return (
-    <svg width={46} height={34} viewBox="0 0 46 34" xmlns="http://www.w3.org/2000/svg" {...props}>
+  return <svg width={46} height={34} viewBox="0 0 46 34" xmlns="http://www.w3.org/2000/svg" {...props}>
       
       <g transform="translate(-18 -24.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx={40} cy={40} r={40} />
@@ -12,6 +11,5 @@ export default function Email(props) {
         <path d="M18.993 26.058c-.63-.63-.184-1.707.707-1.707h42.6c.891 0 1.337 1.077.707 1.707L43.881 45.185l-.083.073c-1.814 1.452-3.782 1.452-5.596 0l-.083-.073-19.126-19.127z" fill="#FFF" fillRule="nonzero" />
         <path d="M22.114 26.35l17.379 17.38c1.052.823 1.962.823 3.014 0l17.38-17.38H22.113z" fill="#FFF" />
       </g>
-    </svg>
-  );
+    </svg>;
 }
