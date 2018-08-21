@@ -134,7 +134,7 @@ export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
   const fullDateOptions = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
 
-  let dateString = lastUpdate.toLocaleDateString(currentLocales, fullDateOptions);
+  let dateString = lastUpdate.toLocaleDateString(currentLocales.map(l => l.replace(/_/, '-')), fullDateOptions);
   if (isExistingInformationOutdated(lastUpdate) && typeof isWorking !== 'undefined') {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
@@ -142,7 +142,7 @@ export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }
   } else {
     if (isShortAgo) {
       const timeOptions = { hour: '2-digit', minute: '2-digit' };
-      dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(currentLocales, timeOptions)}`;
+      dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(currentLocales.map(l => l.replace(/_/, '-')), timeOptions)}`;
     }
     // translator: Shown next to equipment status.
     return t`Last update: ${dateString}`;
