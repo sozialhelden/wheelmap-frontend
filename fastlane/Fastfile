@@ -98,9 +98,23 @@ def build_cordova_for_android
 end
 
 platform :android do
+  apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release.apk';
+
   desc "Create a local Android build with Cordova"
   lane :local do
     build_cordova_for_android
+  end
+
+  desc "Make screenshots for PlayStore"
+  lane :screenshots do
+    upload_to_browserstack_app_automate(
+      browserstack_username: ENV["BROWSERSTACK_USERNAME"],
+      browserstack_access_key: ENV["BROWSERSTACK_ACCESS_KEY"],
+      file_path: apk_file_name
+    )
+    Dir.chdir("..") do
+      sh(['./node_modules/.bin/wdio', './test/conf/parallel.conf.js'])
+    end
   end
 
   desc "Push a new alpha build to Google Play Store"
@@ -111,14 +125,12 @@ platform :android do
     # push_to_git_remote
 
     build_cordova_for_android
-
-    apk_file_name = './platforms/android/app/build/outputs/apk/release/app-release.apk';
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/android/app/src/main/AndroidManifest.xml platforms/android/app/src/main/res/xml/config.xml])
     ensure_git_status_clean
     hockey(
       api_token: ENV["HOCKEY_API_TOKEN_ANDROID"],
       apk: apk_file_name,
-      )
+    )
     supply(apk: apk_file_name, track: 'beta', package_name: 'org.wheelmap.android.online')
     slack(
       message: "Android beta successfully released to Play Store and HockeyApp! You can be a beta tester by opening <https://play.google.com/apps/testing/org.wheelmap.android.online> on your Android phone (Note that the build can appear with a delay), or by directly downloading the APK below onto your device.",
