@@ -153,7 +153,7 @@ describe('Screenshot flow', function () {
     browser.pause(5000); // wait for places to be loaded
     waitAndTapElement(s('placeMarker'), 15, 15);
     waitAndTapElement(s('expandButton'));
-    browser.pause(5000); // wait for panel to be animated
+    browser.pause(20000); // wait for panel to be animated and photos to be loaded
     saveScreenshot("2-PlaceDetails");
   });
 
