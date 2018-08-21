@@ -8,14 +8,14 @@
 const { flatten } = require('lodash');
 
 const devices = [
-  // 'iPhone 6S',
-  // 'iPhone 8',
+  'iPhone 6S',
+  'iPhone 8',
   'iPhone X',
-  // 'iPad 6th',
+  'iPad 6th',
 ];
 
 const locales = [
-  // 'en_US',
+  'en_US',
   'de_DE',
   // 'da',
   // 'el',
@@ -51,7 +51,7 @@ exports.config = {
   coloredLogs: true,
   screenshotPath: './test/screenshots/',
   baseUrl: '',
-  waitforTimeout: 10000,
+  waitforTimeout: 15000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
 
