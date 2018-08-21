@@ -34,7 +34,7 @@ const selectors = {
   startButton: t`Okay, let’s go!`,
   placeMarker: t`Bunte SchokoWelt Fully wheelchair accessible`,
   editButton: t`Fully wheelchair accessible` + ' ' + t`Entrance has no steps, and all rooms are accessible without steps.`,
-  expandButton: t`Expand panel`,
+  expandButton: t`Expand details`,
   partiallyOption: t`Partially`,
   cancelButton: t`Cancel`,
   addImagesButton: t`Add images`,

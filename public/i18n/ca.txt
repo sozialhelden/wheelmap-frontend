@@ -236,7 +236,7 @@ msgid "Collapse share menu"
 msgstr "Contraure menú compartit"
 
 #: src/components/Toolbar.js:335
-msgid "Collapse panel"
+msgid "Collapse details"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
@@ -345,7 +345,7 @@ msgid "Expand share menu"
 msgstr "Expandeix menú compartit"
 
 #: src/components/Toolbar.js:335
-msgid "Expand panel"
+msgid "Expand details"
 msgstr ""
 
 #: src/components/MainMenu/strings.js:21

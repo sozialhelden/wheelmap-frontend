@@ -254,8 +254,8 @@ msgid "Collapse share menu"
 msgstr "Collapse share menu"
 
 #: src/components/Toolbar.js:335
-msgid "Collapse panel"
-msgstr "Collapse panel"
+msgid "Collapse details"
+msgstr "Collapse details"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
 #. Button caption shown while editing a place’s wheelchair statu
@@ -365,8 +365,8 @@ msgid "Expand share menu"
 msgstr "Expand share menu"
 
 #: src/components/Toolbar.js:335
-msgid "Expand panel"
-msgstr "Expand panel"
+msgid "Expand details"
+msgstr "Expand details"
 
 #: src/components/MainMenu/strings.js:21
 #. Main menu item
