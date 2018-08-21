@@ -38,4 +38,4 @@ yarn run babel \
 yarn node retranslate/rewrite-pos/dist-rewrite-pos.js
 
 # ignore all changes on non c-3po files
-ag -L "ttag" src | xargs git checkout --
+ag -L "ttag" src | (xargs git checkout -- || true)
