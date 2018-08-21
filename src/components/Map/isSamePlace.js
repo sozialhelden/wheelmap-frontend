@@ -4,7 +4,6 @@ import includes from 'lodash/includes';
 import levenshtein from 'fast-levenshtein';
 import type { NodeProperties } from '../../lib/Feature';
 
-
 export default function isSamePlace(propertiesArray: NodeProperties[]) {
   const hasTwoPlaces = propertiesArray.length === 2;
   if (!hasTwoPlaces) return false;

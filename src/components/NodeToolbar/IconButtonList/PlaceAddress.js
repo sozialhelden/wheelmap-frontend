@@ -1,12 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import type {
-  Feature,
-  NodeProperties,
-  WheelmapProperties,
-  AccessibilityCloudProperties,
-} from '../../../lib/Feature';
+import type { Feature, NodeProperties, WheelmapProperties, AccessibilityCloudProperties } from '../../../lib/Feature';
 
 import getAddressString from '../../../lib/getAddressString';
 import { generateMapsUrl } from '../../../lib/generateMapsUrls';
@@ -16,7 +11,6 @@ import openButtonCaption from '../../../lib/openButtonCaption';
 import type { Category } from '../../../lib/Categories';
 import PlaceIcon from '../../icons/actions/Place';
 
-
 function getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
   if (typeof properties.address === 'string') return properties.address;
   if (typeof properties.address === 'object') {
@@ -25,7 +19,6 @@ function getAddressForACProperties(properties: AccessibilityCloudProperties): ?s
   return null;
 }
 
-
 function getAddressForProperties(properties: NodeProperties): ?string {
   if (properties.address) {
     return getAddressForACProperties(((properties: any): AccessibilityCloudProperties));
@@ -33,12 +26,10 @@ function getAddressForProperties(properties: NodeProperties): ?string {
   return getAddressString(((properties: any): WheelmapProperties));
 }
 
-
 type Props = {
-  feature: ?Feature,
-  category: ?Category,
+  feature: ?Feature;
+  category: ?Category;
 };
-
 
 export default class PlaceAddress extends React.Component<Props, void> {
   render() {
@@ -61,6 +52,6 @@ export default class PlaceAddress extends React.Component<Props, void> {
         <PlaceIcon />
         <span>{openButtonCaption('OpenStreetMap')}</span>
       </a>}
-    </React.Fragment>
+    </React.Fragment>;
   }
 }

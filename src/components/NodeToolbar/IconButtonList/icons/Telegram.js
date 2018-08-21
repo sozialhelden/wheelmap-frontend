@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 export default function TelegramIcon(props) {
-  return (
-    <svg width={46} height={40} viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg" {...props}>
+  return <svg width={46} height={40} viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg" {...props}>
       
       <g transform="translate(-17 -20.08)" fill="none" fillRule="evenodd">
         <circle fill="none" cx={40} cy={40} r={40} />
@@ -14,6 +13,5 @@ export default function TelegramIcon(props) {
         <path d="M41.365 50.926l-5.503 5.619a1.907 1.907 0 0 1-.611.415c-.057.021-.111.043-.168.056a1.824 1.824 0 0 1-.894.038c-.008 0-.016-.003-.024-.005a4.224 4.224 0 0 1-.178-.052.24.24 0 0 1-.057-.021l-.126-5.177v-6.282l7.56 5.409z" fill="#D1D1D1" fillRule="nonzero" />
         <path d="M54.706 28.448L35.253 45.649c-.194.172-.318.41-.345.668l-.7 10.484c-.026.219-.328.248-.392.038l-3.132-13.757a1.044 1.044 0 0 1 .448-1.199l22.97-14.246c.529-.329 1.07.399.604.81z" fill="#ADBCC9" fillRule="nonzero" />
       </g>
-    </svg>
-  );
+    </svg>;
 }

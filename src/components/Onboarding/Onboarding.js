@@ -11,20 +11,20 @@ import Logo from '../../lib/Logo';
 import Icon from '../Icon';
 
 type Props = {
-  className: string,
-  isVisible: boolean,
-  onClose: (() => void),
+  className: string;
+  isVisible: boolean;
+  onClose: () => void;
 };
 
 const preventTabbing = event => {
   if (event.key === 'Tab') {
     event.preventDefault();
   }
-}
+};
 
 function Onboarding(props: Props) {
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
-  const claim = t`Mark and find wheelchair accessible places—worldwide and for free. It’s easy with our traffic light system:`;
+  const claim = t`Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:`;
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
@@ -37,45 +37,39 @@ function Onboarding(props: Props) {
 
     buttonElement.addEventListener('keydown', preventTabbing);
     buttonElement.focus();
-  }
+  };
 
-  const onClose = (event) => {
+  const onClose = event => {
     // Prevent that touch up opens a link underneath the primary button after closing
     // the onboarding dialog
     setTimeout(() => props.onClose(), 10);
   };
 
-  return (<ModalDialog
-    className={props.className}
-    isVisible={props.isVisible}
-    onClose={props.onClose}
-    ariaDescribedBy='wheelmap-claim-onboarding wheelmap-icon-descriptions'
-    ariaLabel={t`Wheelmap start screen`}
-  >
+  return <ModalDialog className={props.className} isVisible={props.isVisible} onClose={props.onClose} ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions" ariaLabel={t`Start screen`}>
     <header>
-      <Logo className="logo" aria-hidden={true}/>
+      <Logo className="logo" aria-hidden={true} />
       <p id="wheelmap-claim-onboarding">{claim}</p>
     </header>
 
     <section>
       <ul id="wheelmap-icon-descriptions">
         <li className="ac-marker-yes">
-          <Icon accessibility="yes" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
+          <Icon accessibility="yes" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
           <header>{accessibilityName('yes')}</header>
           <footer>{accessibilityDescription('yes')}</footer>
         </li>
         <li className="ac-marker-limited">
-          <Icon accessibility="limited" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
+          <Icon accessibility="limited" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
           <header>{accessibilityName('limited')}</header>
           <footer>{accessibilityDescription('limited')}</footer>
         </li>
         <li className="ac-marker-no">
-          <Icon accessibility="no" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
+          <Icon accessibility="no" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
           <header>{accessibilityName('no')}</header>
           <footer>{accessibilityDescription('no')}</footer>
         </li>
         <li className="ac-marker-unknown">
-          <Icon accessibility="unknown" category={{ _id: 'other' }} isMainCategory size='big' withArrow shadowed centered/>
+          <Icon accessibility="unknown" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
           <header>{accessibilityName('unknown')}</header>
           <footer>{unknownAccessibilityIncentiveText}</footer>
         </li>
@@ -83,14 +77,13 @@ function Onboarding(props: Props) {
     </section>
 
     <footer>
-      <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus} >
+      <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus}>
         {startButtonCaption}
         <ChevronRight />
       </button>
     </footer>
-  </ModalDialog>);
+  </ModalDialog>;
 }
-
 
 const StyledOnboarding = styled(Onboarding)`
   @keyframes fadeIn {

@@ -38,17 +38,15 @@ const Container = styled.div`
   }
 `;
 
-
 type Props = {
-  hidden: boolean,
-  onFocus: (() => void),
-  onBlur: (() => void),
-  category: ?string,
-  accessibilityFilter?: YesNoLimitedUnknown[],
-  toiletFilter?: YesNoUnknown[],
-  history: RouterHistory,
+  hidden: boolean;
+  onFocus: () => void;
+  onBlur: () => void;
+  category: ?string;
+  accessibilityFilter?: YesNoLimitedUnknown[];
+  toiletFilter?: YesNoUnknown[];
+  history: RouterHistory;
 };
-
 
 export default function CategoryMenu(props: Props) {
   let names = null;
@@ -59,21 +57,7 @@ export default function CategoryMenu(props: Props) {
   }
   const showCloseButton = Boolean(props.category);
 
-  return (
-    <Container className="category-menu">
-      {Object.keys(names).map((category, index) => (<CategoryButton
-        hidden={props.hidden}
-        history={props.history}
-        onFocus={props.onFocus}
-        showCloseButton={showCloseButton}
-        hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)}
-        accessibilityFilter={props.accessibilityFilter}
-        toiletFilter={props.toiletFilter}
-        key={category}
-        className="category-button"
-        name={names[category]}
-        category={category}
-      />))}
-    </Container>
-  );
+  return <Container className="category-menu">
+      {Object.keys(names).map((category, index) => <CategoryButton hidden={props.hidden} history={props.history} onFocus={props.onFocus} showCloseButton={showCloseButton} hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)} accessibilityFilter={props.accessibilityFilter} toiletFilter={props.toiletFilter} key={category} className="category-button" name={names[category]} category={category} />)}
+    </Container>;
 }

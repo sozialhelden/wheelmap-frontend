@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css';
 import './App.css';
 import './Map.css';
 import 'leaflet.locatecontrol/src/L.Control.Locate.scss';
-import 'wicg-focus-ring'
+import 'wicg-focus-ring';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -20,10 +20,7 @@ if (process.env.NODE_ENV === 'development' && a11yAuditActive) {
 }
 
 function startApp() {
-  ReactDOM.render(
-    <App />,
-    document.getElementById('root'),
-  );
+  ReactDOM.render(<App />, document.getElementById('root'));
 }
 
 if (window.cordova) {
@@ -33,7 +30,7 @@ if (window.cordova) {
 }
 
 // Don't let the body scroll.
-document.body.addEventListener("touchmove", (e) => e.preventDefault(), false);
-document.addEventListener("touchmove", (e) => e.preventDefault(), false);
+document.body.addEventListener("touchmove", e => e.preventDefault(), false);
+document.addEventListener("touchmove", e => e.preventDefault(), false);
 
 registerServiceWorker();

@@ -17,26 +17,11 @@ import { isTouchDevice } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type {
-  Feature,
-    WheelmapFeature,
-    AccessibilityCloudFeature,
-    YesNoLimitedUnknown,
-    YesNoUnknown,
-    NodeProperties,
-} from './lib/Feature';
+import type { Feature, WheelmapFeature, AccessibilityCloudFeature, YesNoLimitedUnknown, YesNoUnknown, NodeProperties } from './lib/Feature';
 
-import type {
-  EquipmentInfoProperties,
-} from './lib/EquipmentInfo';
+import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
-import {
-  isWheelmapFeatureId,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
-  getFeatureId,
-  isFiltered,
-} from './lib/Feature';
+import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId, isFiltered } from './lib/Feature';
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
@@ -50,73 +35,63 @@ import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 initReactFastclick();
 
-
 type Props = {
-  className: string,
-  history: RouterHistory,
-  location: Location,
+  className: string;
+  history: RouterHistory;
+  location: Location;
 };
-
 
 type State = {
-  featureId?: ?string,
-  equipmentInfoId?: ?string,
-  feature?: ?Feature,
-  category?: ?string,
-  toiletFilter?: YesNoUnknown[],
-  accessibilityFilter?: YesNoLimitedUnknown[],
-  lastError?: ?string,
-  searchQuery?: ?string,
+  featureId?: ?string;
+  equipmentInfoId?: ?string;
+  feature?: ?Feature;
+  category?: ?string;
+  toiletFilter?: YesNoUnknown[];
+  accessibilityFilter?: YesNoLimitedUnknown[];
+  lastError?: ?string;
+  searchQuery?: ?string;
 
-  lat: ?string,
-  lon: ?string,
-  zoom: ?string,
+  lat: ?string;
+  lon: ?string;
+  zoom: ?string;
 
-  isOnboardingVisible: boolean,
+  isOnboardingVisible: boolean;
   isMainMenuOpen: boolean;
   isNotFoundVisible: boolean;
-  modalNodeState: ModalNodeState,
-  isLocalizationLoaded: boolean,
-  isSearchBarVisible: boolean,
-  isOnSmallViewport: boolean,
-  isSearchToolbarExpanded: boolean,
+  modalNodeState: ModalNodeState;
+  isLocalizationLoaded: boolean;
+  isSearchBarVisible: boolean;
+  isOnSmallViewport: boolean;
+  isSearchToolbarExpanded: boolean
 
   // photo feature
-  isPhotoUploadCaptchaToolbarVisible: boolean,
-  isPhotoUploadInstructionsToolbarVisible: boolean,
-  photosMarkedForUpload: FileList | null,
-  waitingForPhotoUpload?: boolean,
-  photoCaptchaFailed?: boolean,
-  photoFlowNotification?: string,
-  photoMarkedForReport: PhotoModel | null,
+  ; isPhotoUploadCaptchaToolbarVisible: boolean;
+  isPhotoUploadInstructionsToolbarVisible: boolean;
+  photosMarkedForUpload: FileList | null;
+  waitingForPhotoUpload?: boolean;
+  photoCaptchaFailed?: boolean;
+  photoFlowNotification?: string;
+  photoMarkedForReport: PhotoModel | null;
 };
-
 
 function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
   const allowedStatuses = yesNoLimitedUnknownArray;
   if (!statusString) return [].concat(allowedStatuses);
-  const result = statusString
-    .split(/\./)
-    .filter(s => includes(allowedStatuses, s));
+  const result = statusString.split(/\./).filter(s => includes(allowedStatuses, s));
   return ((result: any): YesNoLimitedUnknown[]);
 }
-
 
 function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
   const allowedStatuses = yesNoUnknownArray;
   if (!toiletString) return [].concat(allowedStatuses);
-  const result = toiletString
-    .split(/\./)
-    .filter(s => includes(allowedStatuses, s));
+  const result = toiletString.split(/\./).filter(s => includes(allowedStatuses, s));
   return ((result: any): YesNoUnknown[]);
 }
-
 
 function getFeatureIdFromProps(props: Props): ?string {
   const { featureId } = getRouteInformation(props) || {};
   return featureId ? String(featureId) : null;
 }
-
 
 function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
   if (properties && typeof properties.placeInfoId === 'string') {
@@ -139,8 +114,8 @@ class Loader extends React.Component<Props, State> {
     toiletFilter: [],
     accessibilityFilter: [],
 
-    lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
-    lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
+    lat: savedState.map.lastCenter && savedState.map.lastCenter[0] || null,
+    lon: savedState.map.lastCenter && savedState.map.lastCenter[1] || null,
     zoom: savedState.map.lastZoom || null,
 
     isSearchBarVisible: isStickySearchBarSupported(),
@@ -159,7 +134,7 @@ class Loader extends React.Component<Props, State> {
     isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
     photosMarkedForUpload: null,
-    photoMarkedForReport: null,
+    photoMarkedForReport: null
   };
 
   map: ?any;
@@ -167,7 +142,6 @@ class Loader extends React.Component<Props, State> {
   lastFocusedElement: ?HTMLElement;
   mainView: UnstyledMainView;
   _asyncRequest: Promise<*>;
-
 
   constructor(props: Props) {
     super(props);
@@ -177,14 +151,11 @@ class Loader extends React.Component<Props, State> {
     }
   }
 
-
   componentDidMount() {
     this.onHashUpdate();
     window.addEventListener('hashchange', this.onHashUpdate);
 
-    loadExistingLocalizationByPreference()
-      .then(() => this.setState({ isLocalizationLoaded: true }))
-
+    loadExistingLocalizationByPreference().then(() => this.setState({ isLocalizationLoaded: true }));
   }
 
   componentWillUnmount() {
@@ -208,7 +179,7 @@ class Loader extends React.Component<Props, State> {
       equipmentInfoId,
       category,
       searchQuery,
-      modalNodeState,
+      modalNodeState
     } = routeInformation;
 
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
@@ -217,11 +188,11 @@ class Loader extends React.Component<Props, State> {
     const result: $Shape<State> = {
       equipmentInfoId,
       // keep category if you just click on a feature
-      category: featureId ? (state.category || category) : category,
+      category: featureId ? state.category || category : category,
       searchQuery,
       modalNodeState,
       toiletFilter,
-      accessibilityFilter,
+      accessibilityFilter
     };
 
     const featureIdHasChanged = state.featureId !== featureId;
@@ -265,7 +236,7 @@ class Loader extends React.Component<Props, State> {
     if (!routeInformation) {
       Object.assign(result, {
         isNotFoundVisible: true,
-        lastError: 'Route not found.',
+        lastError: 'Route not found.'
       });
       return result;
     }
@@ -289,8 +260,7 @@ class Loader extends React.Component<Props, State> {
     const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
     console.log('Next state:', nextState);
     this.setState(nextState);
-  }
-
+  };
 
   fetchFeature(featureId: string): void {
     const isWheelmap = isWheelmapFeatureId(featureId);
@@ -299,15 +269,14 @@ class Loader extends React.Component<Props, State> {
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
     this._asyncRequest = cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
-      if (!feature)
-        return;
+      if (!feature) return;
       const currentlyShownId = getFeatureIdFromProps(this.props);
       const fetchedId = getFeatureId(feature);
       // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
       // we ignore the response here instead.
       if (currentlyShownId && fetchedId !== currentlyShownId) return;
       this.setState({ feature, lat: null, lon: null, zoom: null });
-    }, (reason) => {
+    }, reason => {
       let error = null;
       if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
         error = reason;
@@ -315,7 +284,6 @@ class Loader extends React.Component<Props, State> {
       this.setState({ feature: null, lat: null, lon: null, zoom: null, isNotFoundVisible: true, lastError: error });
     });
   }
-
 
   manageFocus(prevProps: Props, prevState: State) {
     const prevFeatureId = getFeatureIdFromProps(prevProps);
@@ -332,7 +300,7 @@ class Loader extends React.Component<Props, State> {
     const searchToolbarDidDisappear = wasSearchToolbarDisplayed && !isSearchToolbarDisplayed;
     const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
 
-    if ((nodeToolbarDidDisappear || searchToolbarDidDisappear)) {
+    if (nodeToolbarDidDisappear || searchToolbarDidDisappear) {
       window.document.activeElement.blur();
       if (this.lastFocusedElement) this.lastFocusedElement.focus();
     }
@@ -348,7 +316,6 @@ class Loader extends React.Component<Props, State> {
     }
   }
 
-
   openSearch() {
     this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
       setTimeout(() => {
@@ -357,11 +324,9 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-
   closeSearch() {
     this.setState({ isSearchBarVisible: isStickySearchBarSupported(), isSearchToolbarExpanded: false });
   }
-
 
   onHashUpdate = () => {
     if (this.hashUpdateDisabled) return;
@@ -379,8 +344,7 @@ class Loader extends React.Component<Props, State> {
     const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
     console.log('Next state:', nextState);
     // this.setState(nextState);
-  }
-
+  };
 
   modalNodeState() {
     const routeInformation = getRouteInformation(this.props);
@@ -388,19 +352,18 @@ class Loader extends React.Component<Props, State> {
     return modalNodeState;
   }
 
-
   onClickSearchButton = () => this.openSearch();
 
-  onToggleMainMenu = (isMainMenuOpen) => {
+  onToggleMainMenu = isMainMenuOpen => {
     this.setState({ isMainMenuOpen });
-  }
+  };
 
-  onMoveEnd = (state) => {
+  onMoveEnd = state => {
     saveState({
       'map.lastZoom': String(state.zoom),
       'map.lastCenter.lat': String(state.lat),
       'map.lastCenter.lon': String(state.lon),
-      'map.lastMoveDate': new Date().toString(),
+      'map.lastMoveDate': new Date().toString()
     });
   };
 
@@ -424,15 +387,15 @@ class Loader extends React.Component<Props, State> {
     if (!feature) return;
     this.setState({
       lat: get(feature, 'geometry.coordinates.1'),
-      lon: get(feature, 'geometry.coordinates.0'),
+      lon: get(feature, 'geometry.coordinates.0')
     });
   };
 
-  onError = (error) => {
+  onError = error => {
     this.setState({ isNotFoundVisible: true, lastError: error });
   };
 
-  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
+  onSelectCoordinate = (coords: ?{ lat: string; lon: string; }) => {
     if (coords) {
       this.setState(coords);
     }
@@ -442,18 +405,20 @@ class Loader extends React.Component<Props, State> {
   onResetCategory = () => {
     this.setState({
       category: null,
-      isSearchToolbarExpanded: true,
+      isSearchToolbarExpanded: true
     });
   };
 
-  onCloseNotFoundDialog = () => { this.setState({ isNotFoundVisible: false }); };
+  onCloseNotFoundDialog = () => {
+    this.setState({ isNotFoundVisible: false });
+  };
 
   onClickFullscreenBackdrop = () => {
     this.setState({
       isMainMenuOpen: false,
       isOnboardingVisible: false,
       isNotFoundVisible: false,
-      modalNodeState: null,
+      modalNodeState: null
     });
     this.onCloseNodeToolbar();
   };
@@ -461,24 +426,24 @@ class Loader extends React.Component<Props, State> {
   onStartPhotoUploadFlow = () => {
     // start requesting captcha early
     accessibilityCloudImageCache.getCaptcha();
-    
-    this.setState({ 
+
+    this.setState({
       isSearchBarVisible: false,
       waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: true,
-      photosMarkedForUpload: null,
+      photosMarkedForUpload: null
     });
   };
 
-  onExitPhotoUploadFlow = (notification?: string) => { 
-    this.setState({ 
+  onExitPhotoUploadFlow = (notification?: string) => {
+    this.setState({
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: false,
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
       photoCaptchaFailed: false,
-      photoFlowNotification: notification,
+      photoFlowNotification: notification
     });
   };
 
@@ -490,16 +455,16 @@ class Loader extends React.Component<Props, State> {
     if (accessibilityCloudImageCache.hasSolvedCaptcha()) {
       this.onFinishPhotoUploadFlow(photos, accessibilityCloudImageCache.captchaSolution || '');
     } else {
-      this.setState({ 
+      this.setState({
         isSearchBarVisible: false,
-        isPhotoUploadInstructionsToolbarVisible: false, 
+        isPhotoUploadInstructionsToolbarVisible: false,
         isPhotoUploadCaptchaToolbarVisible: true,
         photosMarkedForUpload: photos,
         photoCaptchaFailed: false,
-        photoFlowNotification: undefined,
+        photoFlowNotification: undefined
       });
     }
-  }
+  };
 
   onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
     console.log("onFinishPhotoUploadFlow");
@@ -511,42 +476,40 @@ class Loader extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({ 
+    this.setState({
       waitingForPhotoUpload: true,
-      photoFlowNotification: "uploadProgress",
+      photoFlowNotification: "uploadProgress"
     });
 
-    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
-      .then(() => {
-        console.log("Succeeded upload");
-        this.onExitPhotoUploadFlow("waitingForReview");
-      }).catch((reason) => {
-        console.error("Failed upload", reason);
-        if (reason === InvalidCaptchaReason) {
-          this.setState({ 
-            waitingForPhotoUpload: false,
-            photoCaptchaFailed: true,
-          });
-        } else {
-          this.onExitPhotoUploadFlow("uploadFailed");
-        }
-      });
-  }
-
+    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution).then(() => {
+      console.log("Succeeded upload");
+      this.onExitPhotoUploadFlow("waitingForReview");
+    }).catch(reason => {
+      console.error("Failed upload", reason);
+      if (reason === InvalidCaptchaReason) {
+        this.setState({
+          waitingForPhotoUpload: false,
+          photoCaptchaFailed: true
+        });
+      } else {
+        this.onExitPhotoUploadFlow("uploadFailed");
+      }
+    });
+  };
 
   onStartReportPhotoFlow = (photo: PhotoModel) => {
     this.setState({
       isSearchBarVisible: false,
       photoMarkedForReport: photo
     });
-  }
+  };
 
   onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
     if (photo.source === 'accessibility-cloud') {
       accessibilityCloudImageCache.reportPhoto(String(photo.imageId), reason);
       this.onExitReportPhotoFlow('reported');
     }
-  }
+  };
 
   onExitReportPhotoFlow = (notification?: string) => {
     this.setState({
@@ -554,20 +517,20 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: null,
       photoFlowNotification: notification
     });
-  }
+  };
 
   onOpenReportMode = () => {
     if (this.state.featureId) {
       this.props.history.push(`/nodes/${String(this.state.featureId)}/report`);
     }
-  }
+  };
 
   onCloseNodeToolbar = () => {
     const { featureId } = this.state;
     const path = featureId ? `/nodes/${String(this.state.featureId)}` : '/';
     this.props.history.push(path);
     // this.setState({ modalNodeState: null });
-  }
+  };
 
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: 'true' });
@@ -578,14 +541,14 @@ class Loader extends React.Component<Props, State> {
   onClickSearchToolbar = () => {
     this.setState({
       isSearchBarVisible: true,
-      isSearchToolbarExpanded: true,
+      isSearchToolbarExpanded: true
     });
   };
 
   onCloseSearchToolbar = () => {
     this.setState({
       isSearchBarVisible: isStickySearchBarSupported(),
-      isSearchToolbarExpanded: false,
+      isSearchToolbarExpanded: false
     });
     if (this.mainView) this.mainView.focusMap();
   };
@@ -621,11 +584,7 @@ class Loader extends React.Component<Props, State> {
   };
 
   isNodeToolbarDisplayed(state = this.state) {
-    return state.feature && 
-           !state.isSearchToolbarExpanded && 
-           !state.isPhotoUploadCaptchaToolbarVisible && 
-           !state.isPhotoUploadInstructionsToolbarVisible &&
-           !state.photoMarkedForReport;
+    return state.feature && !state.isSearchToolbarExpanded && !state.isPhotoUploadCaptchaToolbarVisible && !state.isPhotoUploadInstructionsToolbarVisible && !state.photoMarkedForReport;
   }
 
   render() {
@@ -633,9 +592,7 @@ class Loader extends React.Component<Props, State> {
     const modalNodeState = this.modalNodeState();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
-    const shouldLocateOnStart =
-      !isNodeRoute &&
-      +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
+    const shouldLocateOnStart = !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
 
@@ -678,57 +635,24 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams().presetStatus || null,
-    }
+      presetStatus: getQueryParams().presetStatus || null
+    };
 
-    return (<MainView
-      {...extraProps}
+    return <MainView {...extraProps} innerRef={mainView => {
+      this.mainView = mainView;
+    }} onClickSearchButton={this.onClickSearchButton} onToggleMainMenu={this.onToggleMainMenu} onMoveEnd={this.onMoveEnd} onMapClick={this.onMapClick} onMarkerClick={this.onMarkerClick} onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon} onError={this.onError} onSelectCoordinate={this.onSelectCoordinate} onResetCategory={this.onResetCategory} onCloseNotFoundDialog={this.onCloseNotFoundDialog} onClickFullscreenBackdrop={this.onClickFullscreenBackdrop} onOpenReportMode={this.onOpenReportMode} onCloseNodeToolbar={this.onCloseNodeToolbar} onCloseOnboarding={this.onCloseOnboarding} onClickSearchToolbar={this.onClickSearchToolbar} onCloseSearchToolbar={this.onCloseSearchToolbar} onCloseCreatePlaceDialog={this.onCloseNodeToolbar} onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility} onOpenToiletAccessibility={this.onOpenToiletAccessibility} onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility} onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility} onCloseToiletAccessibility={this.onCloseToiletAccessibility}
 
-      innerRef={(mainView) => { this.mainView = mainView; }}
-
-      onClickSearchButton={this.onClickSearchButton}
-      onToggleMainMenu={this.onToggleMainMenu}
-      onMoveEnd={this.onMoveEnd}
-      onMapClick={this.onMapClick}
-      onMarkerClick={this.onMarkerClick}
-      onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
-      onError={this.onError}
-      onSelectCoordinate={this.onSelectCoordinate}
-      onResetCategory={this.onResetCategory}
-      onCloseNotFoundDialog={this.onCloseNotFoundDialog}
-      onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
-      onOpenReportMode={this.onOpenReportMode}
-      onCloseNodeToolbar={this.onCloseNodeToolbar}
-      onCloseOnboarding={this.onCloseOnboarding}
-      onClickSearchToolbar={this.onClickSearchToolbar}
-      onCloseSearchToolbar={this.onCloseSearchToolbar}
-      onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
-      onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
-      onOpenToiletAccessibility={this.onOpenToiletAccessibility}
-      onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
-      onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
-      onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-
-      // photo feature
-      onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
-      onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
-      onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
-      onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
-      onStartReportPhotoFlow={this.onStartReportPhotoFlow}
-      onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
-      onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
-    />);
+    // photo feature
+    onStartPhotoUploadFlow={this.onStartPhotoUploadFlow} onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow} onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow} onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow} onStartReportPhotoFlow={this.onStartReportPhotoFlow} onFinishReportPhotoFlow={this.onFinishReportPhotoFlow} onAbortReportPhotoFlow={this.onExitReportPhotoFlow} />;
   }
 }
-
 
 function App() {
   const Router = window.cordova ? MemoryRouter : BrowserRouter;
 
-  return (<Router>
+  return <Router>
     <Route path="/" component={Loader} />
-  </Router>);
+  </Router>;
 }
-
 
 export default App;

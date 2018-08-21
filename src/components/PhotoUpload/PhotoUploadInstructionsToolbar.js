@@ -14,15 +14,14 @@ import entrancePlaceholder from './entrancePlaceholder.png';
 import sitemapPlaceholder from './sitemapPlaceholder.png';
 import toiletPlaceholder from './toiletPlaceholder.png';
 export type Props = {
-  hidden: boolean,
+  hidden: boolean;
   waitingForPhotoUpload?: boolean;
-  onClose: ?(() => void),
-  onCompleted: ?((photos: FileList) => void),
+  onClose: ?() => void;
+  onCompleted: ?(photos: FileList) => void;
 };
 
-
 type State = {
-  guidelinesAccepted?: boolean,
+  guidelinesAccepted?: boolean
 };
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
@@ -227,15 +226,11 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   goButton: ?React.ElementRef<'button'>;
 
   renderCloseLink() {
-    return <button
-      className='close-link'
-      // translator: Button caption in photo upload Instructions dialog
-      aria-label={t`Close`}
-      onClick={this.onClose}
-      ref={backLink => this.backLink = backLink}
-    >× </button>;
+    return <button className="close-link"
+    // translator: Button caption in photo upload Instructions dialog
+    aria-label={t`Close`} onClick={this.onClose} ref={backLink => this.backLink = backLink}>× </button>;
   }
-  
+
   onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
     var files = input.files;
@@ -249,14 +244,14 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         this.props.onCompleted(files);
       }
     }
-  }
+  };
 
   onClose = (event: UIEvent) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
     }
-  }
+  };
 
   onGuidelinesAcceptedChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = this.checkBox;
@@ -265,7 +260,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
     this.setState({ guidelinesAccepted: input.checked });
     event.stopPropagation();
-  }
+  };
 
   render() {
     const { guidelinesAccepted } = this.state;
@@ -274,89 +269,64 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
 
     const captions = {
       header: t`The following images…`,
-      content: t`…are interesting for accessibility.`,
-      copyright: t`…are made by myself.`,
-      copyrightDetail: t`I give Sozialhelden e.V. unlimited rights of use and to republish the uploaded images under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" target="_blank">Creative Commons CC-BY-SA license</a>.`,
-      people: t`…do not contain any people.`,
+      content: t`...give useful information on accessibility.`,
+      copyright: t`...were taken by me.`,
+      copyrightDetail: t`I grant Sozialhelden e.V. unlimited right to use and to republish the uploaded images under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" target="_blank">Creative Commons CC-BY-SA license</a>.`,
+      people: t`...do not show any identifiable persons.`,
       peopleDetail: t`For identifiable persons, written consent must be obtained in accordance with <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank">GDPR</a>.`,
-      guidelines: t`…meet <a href="https://news.wheelmap.org/datenschutzerklaerung/" target="_blank">our guidelines</a>.`,
+      guidelines: t`…meet <a href="https://news.wheelmap.org/datenschutzerklaerung/" target="_blank">our guidelines</a>.`
     };
 
-    return (
-      <StyledToolbar
-        className='photoupload-instructions-toolbar'
-        hidden={this.props.hidden}
-        isSwipeable={false}
-        isModal
-      >
+    return <StyledToolbar className="photoupload-instructions-toolbar" hidden={this.props.hidden} isSwipeable={false} isModal>
         <header>
           {this.renderCloseLink()}
           <h3>{captions.header}</h3>
         </header>
         <section>
           <ul>
-            <li className='with-checkmark'>
+            <li className="with-checkmark">
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.content}</p></span>
-              <ul className='photo-examples'>
+              <ul className="photo-examples">
                 <li>
-                  <div className='placeholder-image entrance-image'></div>
-                  <small>{t`entrances`}</small>
+                  <div className="placeholder-image entrance-image"></div>
+                  <small>{t`Entrances`}</small>
                 </li>
                 <li>
-                  <div className='placeholder-image sitemap-image'></div>
-                  <small>{t`access plans`}</small>
+                  <div className="placeholder-image sitemap-image"></div>
+                  <small>{t`Site map`}</small>
                 </li>
                 <li>
-                  <div className='placeholder-image toilet-image'></div>
+                  <div className="placeholder-image toilet-image"></div>
                   <small>{t`toilets`}</small>
                 </li>
               </ul>
             </li>
-            <li className='with-checkmark'>
+            <li className="with-checkmark">
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.copyright}</p></span>
               <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }}></small>
             </li>
-            <li className='with-checkmark'>
+            <li className="with-checkmark">
               <span><StyledCheckmarkIcon color={colors.linkColor} /><p>{captions.people}</p></span>
               <small dangerouslySetInnerHTML={{ __html: captions.peopleDetail }}></small>
             </li>
-            <li className='with-checkbox'>
-              <input 
-                ref={cb => this.checkBox = cb}
-                type='checkbox'
-                id='confirm-guidelines'
-                checked={guidelinesAccepted}
-                value='confirm-guidelines'
-                onChange={this.onGuidelinesAcceptedChanged} />
-              <label htmlFor='confirm-guidelines' dangerouslySetInnerHTML={{ __html: captions.guidelines }} /><br/>
+            <li className="with-checkbox">
+              <input ref={cb => this.checkBox = cb} type="checkbox" id="confirm-guidelines" checked={guidelinesAccepted} value="confirm-guidelines" onChange={this.onGuidelinesAcceptedChanged} />
+              <label htmlFor="confirm-guidelines" dangerouslySetInnerHTML={{ __html: captions.guidelines }} /><br />
             </li>
           </ul>
         </section>
         <footer>
-          <button 
-            className='link-button negative-button'
-            onClick={this.onClose}>
+          <button className="link-button negative-button" onClick={this.onClose}>
             {t`Cancel`}
           </button>
-          <label 
-            className='link-button primary-button file-label'
-            disabled={!canSubmit}
-            htmlFor="photo-file-upload">
+          <label className="link-button primary-button file-label" disabled={!canSubmit} htmlFor="photo-file-upload">
             {t`Continue`} 
             {waitingForPhotoUpload && <Dots />}
-            <input 
-              ref={(input => {this.fileInput = input})}
-              type='file'
-              id="photo-file-upload"
-              multiple={false}
-              accept='image/*'
-              onChange={this.onFileInputChanged}
-              disabled={!canSubmit}
-              name='continue-upload'
-              className='hidden-file-input' />
+            <input ref={input => {
+            this.fileInput = input;
+          }} type="file" id="photo-file-upload" multiple={false} accept="image/*" onChange={this.onFileInputChanged} disabled={!canSubmit} name="continue-upload" className="hidden-file-input" />
           </label>
         </footer>
-      </StyledToolbar>
-    );
+      </StyledToolbar>;
   }
 }

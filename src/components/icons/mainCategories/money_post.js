@@ -1,8 +1,7 @@
 import * as React from 'react';
 
 export default function Money_post(props) {
-  return (
-    <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
+  return <svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" {...props}>
 
       
 
@@ -16,6 +15,5 @@ export default function Money_post(props) {
           </g>
         </g>
       </g>
-    </svg>
-  );
+    </svg>;
 }

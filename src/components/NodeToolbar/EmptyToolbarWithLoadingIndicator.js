@@ -5,14 +5,11 @@ import { Dots } from 'react-activity';
 import StyledToolbar from './StyledToolbar';
 
 type Props = {
-  hidden: boolean,
+  hidden: boolean
 };
 
 export default function EmptyToolbarWithLoadingIndicator(props: Props) {
-  return (<StyledToolbar
-    hidden={props.hidden}
-    isSwipeable={false}
-  >
+  return <StyledToolbar hidden={props.hidden} isSwipeable={false}>
     <Dots size={20} />
-  </StyledToolbar>);
+  </StyledToolbar>;
 }

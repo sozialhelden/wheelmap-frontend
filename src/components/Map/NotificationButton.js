@@ -6,38 +6,26 @@ import styled from 'styled-components';
 import { isTouchDevice } from '../../lib/userAgent';
 
 type Props = {
-  caption: string,
-  onActivate: (() => void),
-  isHidden?: boolean,
-  ariaHidden?: boolean,
-  topPosition: number,
-  color: string,
-  className: string,
-}
-
+  caption: string;
+  onActivate: () => void;
+  isHidden?: boolean;
+  ariaHidden?: boolean;
+  topPosition: number;
+  color: string;
+  className: string;
+};
 
 function NotificationButton(props: Props) {
-  const classNames = [
-    props.isHidden && 'is-hidden',
-    isTouchDevice() && 'is-touch-device',
-    props.className,
-  ].filter(Boolean);
+  const classNames = [props.isHidden && 'is-hidden', isTouchDevice() && 'is-touch-device', props.className].filter(Boolean);
 
-  return <a className={classNames.join(' ')}
-    onKeyDown={(event) => {
-      if (includes(['Enter', ' '], event.key)) {
-        props.onActivate();
-      }
-    }}
-    onClick={props.onActivate}
-    role="button"
-    tabIndex={-1}
-    aria-hidden={props.ariaHidden}
-  >
+  return <a className={classNames.join(' ')} onKeyDown={event => {
+    if (includes(['Enter', ' '], event.key)) {
+      props.onActivate();
+    }
+  }} onClick={props.onActivate} role="button" tabIndex={-1} aria-hidden={props.ariaHidden}>
     <span>{props.caption}</span>
   </a>;
 }
-
 
 const StyledNotificationButton = styled(NotificationButton)`
   display: inline-flex;

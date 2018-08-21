@@ -10,11 +10,10 @@ import { i18nCache } from './cache/I18nCache';
 import { getQueryParams } from './queryParams';
 
 export type LocalizedString = string | {
-  [key:string]: string,
+  [key: string]: string
 };
 
 export const defaultLocale = 'en-US';
-
 
 export function removeEmptyTranslations(locale) {
   if (!locale.translations) return locale;
@@ -31,7 +30,6 @@ export function removeEmptyTranslations(locale) {
   missingKeys.forEach(key => delete translations[key]);
   return locale;
 }
-
 
 export function loadLocalizationFromPOFile(locale, poFile) {
   const localization = gettextParser.po.parse(poFile);
@@ -62,7 +60,6 @@ export function expandedPreferredLocales() {
   return uniq(flatten(locales.map(l => [l, localeWithoutCountry(l)])));
 }
 
-
 export function translatedStringFromObject(string: ?LocalizedString): ?string {
   if (!string) return null;
   if (typeof string === 'string') {
@@ -80,7 +77,6 @@ export function translatedStringFromObject(string: ?LocalizedString): ?string {
   return null;
 }
 
-
 export function loadExistingLocalizationByPreference(locales: string[] = expandedPreferredLocales()): Promise<*> {
   if (locales.length === 0) return Promise.resolve(null);
 
@@ -91,21 +87,17 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
       loadLocalizationFromPOFile(locale, result);
       // console.log('Loaded translation', locale);
       loadedLocales.push(locale);
-    },
-    (response) => {
+    }, response => {
       if (response.status !== 404) {
         console.log('Error loading translation:', response);
       }
-    }
-  );
-  }))
-  .then(() => {
+    });
+  })).then(() => {
     const missingLocales = difference(locales, loadedLocales);
     return Promise.all(missingLocales.map(missingLocale => {
       if (missingLocale.length === 2) {
         // missing locale might be loaded with a country suffix, find out and duplicate if possible
-        const replacementLocale = loadedLocales
-          .find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
+        const replacementLocale = loadedLocales.find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
         if (replacementLocale) {
           // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
           return i18nCache.getLocalization(replacementLocale).then(result => {
@@ -115,10 +107,8 @@ export function loadExistingLocalizationByPreference(locales: string[] = expande
         }
       }
       return null;
-    })
-    .filter(Boolean));
-  })
-  .then(() => {
+    }).filter(Boolean));
+  }).then(() => {
     const localesToUse = intersection(locales, loadedLocales);
     currentLocales = localesToUse;
     useLocales(localesToUse);

@@ -6,22 +6,20 @@ import { interpolateLab } from 'd3-interpolate';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 
-
 type Props = {
-  onSubmit: ?((event: UIEvent) => void),
-  onChange: ?((event: UIEvent) => void),
-  onBlur: ?((event: UIEvent) => void),
-  onFocus: ?((event: UIEvent) => void),
-  onClick: ?((event: UIEvent) => void),
-  ref: ((input: HTMLInputElement) => void),
-  searchQuery: ?string,
-  className: string,
-  placeholder: ?string,
-  disabled: ?boolean,
-  hidden: boolean,
-  ariaRole: string,
+  onSubmit: ?(event: UIEvent) => void;
+  onChange: ?(event: UIEvent) => void;
+  onBlur: ?(event: UIEvent) => void;
+  onFocus: ?(event: UIEvent) => void;
+  onClick: ?(event: UIEvent) => void;
+  ref: (input: HTMLInputElement) => void;
+  searchQuery: ?string;
+  className: string;
+  placeholder: ?string;
+  disabled: ?boolean;
+  hidden: boolean;
+  ariaRole: string;
 };
-
 
 class SearchInputField extends React.Component<Props> {
   input: ?HTMLInputElement;
@@ -41,7 +39,7 @@ class SearchInputField extends React.Component<Props> {
       this.props.onSubmit(event);
       event.preventDefault();
     }
-  }
+  };
 
   render() {
     const {
@@ -54,28 +52,13 @@ class SearchInputField extends React.Component<Props> {
       onClick,
       className,
       placeholder,
-      ariaRole,
+      ariaRole
     } = this.props;
     // translator: Placeholder for search input field
-    const defaultPlaceholder = t`Search place or address`;
+    const defaultPlaceholder = t`Search for place or address`;
     const value = placeholder || searchQuery || '';
 
-    return (<input
-      ref={input => this.input = input}
-      value={value}
-      name="search"
-      onChange={onChange}
-      disabled={disabled}
-      tabIndex={hidden ? -1 : 0}
-      onFocus={onFocus}
-      onBlur={onBlur}
-      onClick={onClick}
-      onKeyPress={this.keyPressed}
-      className={`search-input ${className}`}
-      placeholder={!Boolean(value) ? defaultPlaceholder : null}
-      aria-label={defaultPlaceholder}
-      role={ariaRole}
-      />);
+    return <input ref={input => this.input = input} value={value} name="search" onChange={onChange} disabled={disabled} tabIndex={hidden ? -1 : 0} onFocus={onFocus} onBlur={onBlur} onClick={onClick} onKeyPress={this.keyPressed} className={`search-input ${className}`} placeholder={!Boolean(value) ? defaultPlaceholder : null} aria-label={defaultPlaceholder} role={ariaRole} />;
   }
 }
 

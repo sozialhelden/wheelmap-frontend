@@ -11,32 +11,29 @@ import * as markers from './icons/markers';
 
 type Size = 'big' | 'medium' | 'small';
 
-
 type Props = {
-  accessibility: ?YesNoLimitedUnknown,
-  properties?: ?NodeProperties,
-  category: ?string,
-  isMainCategory?: boolean,
-  className?: ?string,
-  size: Size,
-  withArrow?: ?boolean,
-  centered?: ?boolean,
-  shadowed?: ?boolean,
-  ariaHidden?: ?boolean,
-  foregroundColor?: ?string,
-  backgroundColor?: ?string,
-  onClick?: (() => void),
+  accessibility: ?YesNoLimitedUnknown;
+  properties?: ?NodeProperties;
+  category: ?string;
+  isMainCategory?: boolean;
+  className?: ?string;
+  size: Size;
+  withArrow?: ?boolean;
+  centered?: ?boolean;
+  shadowed?: ?boolean;
+  ariaHidden?: ?boolean;
+  foregroundColor?: ?string;
+  backgroundColor?: ?string;
+  onClick?: () => void;
 };
-
 
 function width(size: Size) {
   return {
     big: 60,
     medium: 40,
-    small: 25,
+    small: 25
   }[size];
 }
-
 
 const StyledIconContainer = styled('figure')`
   position: relative;
@@ -59,7 +56,7 @@ const StyledIconContainer = styled('figure')`
       top: 0;
       left: 0;
       g, polygon, path, circle, rect {
-        fill: ${props => (props.accessibility ? colors.markers.background[props.accessibility] : (props.backgroundColor || 'white'))};
+        fill: ${props => props.accessibility ? colors.markers.background[props.accessibility] : props.backgroundColor || 'white'};
       }
     }
     &.icon {
@@ -68,12 +65,11 @@ const StyledIconContainer = styled('figure')`
       top: 20%;
       left: 20%;
       g, polygon, path, circle, rect {
-        fill: ${props => (props.accessibility ? colors.markers.foreground[props.accessibility] : (props.foregroundColor || '#888'))};
+        fill: ${props => props.accessibility ? colors.markers.foreground[props.accessibility] : props.foregroundColor || '#888'};
       }
     }
   }
 `;
-
 
 export default function Icon({
   accessibility,
@@ -86,7 +82,7 @@ export default function Icon({
   shadowed,
   ariaHidden,
   centered,
-  onClick,
+  onClick
 }: Props) {
   let iconName = properties ? getIconNameForProperties(properties) : category;
   if (iconName === '2nd_hand') {
@@ -98,19 +94,10 @@ export default function Icon({
   if (typeof CategoryIconComponent === 'object') {
     debugger;
   }
-  return (
-    <StyledIconContainer
-      size={size}
-      className={className}
-      aria-hidden={ariaHidden}
-      accessibility={accessibility}
-      centered={centered}
-      onClick={onClick}
-    >
-      {(accessibility && MarkerComponent) ? <MarkerComponent className="background" /> : null}
-      {CategoryIconComponent ? <CategoryIconComponent className="icon"/> : null}
-    </StyledIconContainer>
-  );
+  return <StyledIconContainer size={size} className={className} aria-hidden={ariaHidden} accessibility={accessibility} centered={centered} onClick={onClick}>
+      {accessibility && MarkerComponent ? <MarkerComponent className="background" /> : null}
+      {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
+    </StyledIconContainer>;
 }
 
 StyledIconContainer.displayName = 'StyledIconContainer';

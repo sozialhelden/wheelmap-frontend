@@ -8,16 +8,14 @@ import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 
 type Props = {
-  className: string,
+  className: string;
   notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
-  uploadProgress?: number,  // between 0 and 100
-};
+  uploadProgress?: number // between 0 and 100
+  ; };
 
-type State = {
-};
+type State = {};
 
 const defaultState: State = {};
-
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   path { 
@@ -38,49 +36,37 @@ class PhotoNotification extends React.Component<Props, State> {
   props: Props;
   state: State = defaultState;
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
-  componentWillReceiveProps(newProps: Props) {
-  }
+  componentWillReceiveProps(newProps: Props) {}
 
   render() {
     const { className, notificationType, uploadProgress } = this.props;
     const usedType = notificationType || 'none';
 
     const notificationComponents = {
-      uploadProgress: (
-        <small>
+      uploadProgress: <small>
           <progress max={100} value={uploadProgress || 0} />
-          {t`Upload in Progress...`}
-        </small>
-      ),
-      uploadFailed: (
-        <small>
+          {t`Upload in progress...`}
+        </small>,
+      uploadFailed: <small>
           <StyledProblemIcon color={colors.negativeColor} />
           {t`Upload failed: server error or file-format not supported`}
-        </small>
-      ),
-      reported: (
-        <small>
+        </small>,
+      reported: <small>
           <StyledCheckmarkIcon color={colors.negativeColor} />
-          {t`Thanks for reporting this photo. We will take a look.`}
-        </small>
-      ),
-      waitingForReview: (
-        <small>
+          {t`Thank you for reporting this image. We will take a look at it.`}
+        </small>,
+      waitingForReview: <small>
           <StyledCheckmarkIcon color={colors.primaryColorBrighter} />
-          {t`Thank you for your work. Your contribution will be visible after a quick check.`}
-        </small>
-      ),
-      none: null,
+          {t`Thank you for contributing. Your image will be visible after we have checked it.`}
+        </small>,
+      none: null
     };
 
-    return (
-      <div className={`${className} notification-mode-${usedType}`}>
+    return <div className={`${className} notification-mode-${usedType}`}>
         {notificationComponents[usedType]}
-      </div>
-    );
+      </div>;
   }
 }
 
@@ -134,6 +120,5 @@ const StyledPhotoNotification = styled(PhotoNotification)`
     }
   }
 `;
-
 
 export default StyledPhotoNotification;

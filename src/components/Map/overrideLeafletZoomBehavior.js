@@ -4,7 +4,9 @@ let lastScroll = new Date().getTime();
 
 export default function overrideLeafletZoomBehavior() {
   L.Map.ScrollWheelZoom.prototype._onWheelScroll = function (e) {
-    if (new Date().getTime() - lastScroll < 400) { return; }
+    if (new Date().getTime() - lastScroll < 400) {
+      return;
+    }
     const delta = L.DomEvent.getWheelDelta(e);
     const debounce = this._map.options.wheelDebounceTime;
 

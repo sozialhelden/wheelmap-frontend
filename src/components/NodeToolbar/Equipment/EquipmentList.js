@@ -3,35 +3,26 @@
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import * as React from 'react';
-import type { EquipmentInfo } from '../../../lib/EquipmentInfo'
-import EquipmentItem from './EquipmentItem'
+import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import EquipmentItem from './EquipmentItem';
 import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
 type Props = {
-  equipmentInfoArrays: EquipmentInfo[][],
-  className: string,
-  outerClassName: string,
-  isExpanded: boolean,
-  history: RouterHistory,
-  placeInfoId: string,
+  equipmentInfoArrays: EquipmentInfo[][];
+  className: string;
+  outerClassName: string;
+  isExpanded: boolean;
+  history: RouterHistory;
+  placeInfoId: string;
 };
 
-
 function EquipmentList(props: Props) {
-  return (<div className={`${props.outerClassName} ${props.className}`} role="region">
+  return <div className={`${props.outerClassName} ${props.className}`} role="region">
     {props.children}
-    {Array
-      .from(props.equipmentInfoArrays)
-      .map(equipmentInfos => <EquipmentItem
-        equipmentInfos={sortBy(equipmentInfos, 'properties.isWorking')}
-        isExpanded={props.isExpanded}
-        placeInfoId={props.placeInfoId}
-        key={equipmentInfos.map(e => get(e, '_id')).join(',')}
-        history={props.history}
-      />)}
-  </div>);
+    {Array.from(props.equipmentInfoArrays).map(equipmentInfos => <EquipmentItem equipmentInfos={sortBy(equipmentInfos, 'properties.isWorking')} isExpanded={props.isExpanded} placeInfoId={props.placeInfoId} key={equipmentInfos.map(e => get(e, '_id')).join(',')} history={props.history} />)}
+  </div>;
 }
 
 const StyledEquipmentList = styled(EquipmentList)`

@@ -6,12 +6,12 @@ import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 import type { AccessibilityCloudProperties } from '../../../lib/Feature';
 
 type Props = {
-  properties: AccessibilityCloudProperties, // eslint-disable-line react/no-unused-prop-types
-  className: string,
+  properties: AccessibilityCloudProperties // eslint-disable-line react/no-unused-prop-types
+  ; className: string;
 };
 
 type State = {
-  extraInfo: ?string;
+  extraInfo: ?string
 };
 
 const defaultState = { extraInfo: null };
@@ -25,14 +25,11 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
-    dataSourceCache
-      .getDataSourceWithId(newProps.properties.sourceId)
-      .then(
-        (source) => {
-          this.setState({ extraInfo: source.additionalAccessibilityInformation });
-        },
-        () => { this.setState(defaultState); },
-      );
+    dataSourceCache.getDataSourceWithId(newProps.properties.sourceId).then(source => {
+      this.setState({ extraInfo: source.additionalAccessibilityInformation });
+    }, () => {
+      this.setState(defaultState);
+    });
   }
 
   render() {
@@ -42,11 +39,9 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
   }
 }
 
-
 const StyledAccessibilitySourceDisclaimer = styled(AccessibilitySourceDisclaimer)`
   font-size: 80%;
   opacity: 0.5;
 `;
-
 
 export default StyledAccessibilitySourceDisclaimer;

@@ -15,35 +15,28 @@ import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
 import { isWheelmapFeatureId, wheelmapFeatureFrom, isWheelchairAccessible } from '../../../lib/Feature';
 
-
 type Props = {
-  featureId: ?string | number,
-  category: Category,
-  onSelectWheelchairAccessibility: ((value: YesNoLimitedUnknown) => void),
-  onOpenWheelchairAccessibility: (() => void),
-  onOpenToiletAccessibility: (() => void),
-  presetStatus: ?YesNoLimitedUnknown,
+  featureId: ?string | number;
+  category: Category;
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void;
+  onOpenWheelchairAccessibility: () => void;
+  onOpenToiletAccessibility: () => void;
+  presetStatus: ?YesNoLimitedUnknown
   // history: RouterHistory,
-  feature: ?Feature,
+  ; feature: ?Feature;
 };
-
 
 const Description = styled.footer.attrs({ className: 'description' })`
   margin-top: 0.5rem;
   margin-bottom: 0.5rem !important;
 `;
 
-
 export default function PlaceAccessibilitySection(props: Props) {
   const { featureId, feature } = props;
   const properties = feature && feature.properties;
   const wheelmapFeature = wheelmapFeatureFrom(feature);
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
-  if (
-    wheelmapFeature &&
-    wheelmapFeature.properties &&
-    isWheelchairAccessible(wheelmapFeature.properties) === 'unknown'
-  ) {
+  if (wheelmapFeature && wheelmapFeature.properties && isWheelchairAccessible(wheelmapFeature.properties) === 'unknown') {
     return null;
   }
 
@@ -57,13 +50,8 @@ export default function PlaceAccessibilitySection(props: Props) {
   const descriptionElement = description ? <Description>“{description}”</Description> : null;
 
   return <StyledFrame>
-    <WheelchairAndToiletAccessibility
-      isEditingEnabled={isWheelmapFeature}
-      feature={feature}
-      onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
-      onOpenToiletAccessibility={props.onOpenToiletAccessibility}
-    />
-    { description && descriptionElement }
+    <WheelchairAndToiletAccessibility isEditingEnabled={isWheelmapFeature} feature={feature} onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={props.onOpenToiletAccessibility} />
+    {description && descriptionElement}
     <AccessibleDescription properties={properties} />
     {accessibilityDetailsTree}
     <AccessibilitySourceDisclaimer properties={properties} />

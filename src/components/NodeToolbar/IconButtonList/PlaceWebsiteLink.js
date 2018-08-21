@@ -4,7 +4,6 @@ import * as React from 'react';
 import WorldIcon from '../../icons/actions/World';
 import styled from 'styled-components';
 
-
 const NonBreakingLink = styled.a`
   svg {
     width: 1.25rem !important;
@@ -21,9 +20,8 @@ const NonBreakingLink = styled.a`
 `;
 
 type Props = {
-  feature: ?Feature,
+  feature: ?Feature
 };
-
 
 export default function PlaceWebsiteLink(props: Props) {
   const { feature } = props;
@@ -31,8 +29,7 @@ export default function PlaceWebsiteLink(props: Props) {
   if (!properties) return null;
   const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
 
-  return (typeof placeWebsiteUrl === 'string') &&
-    <NonBreakingLink className="link-button" href={placeWebsiteUrl}>
+  return typeof placeWebsiteUrl === 'string' && <NonBreakingLink className="link-button" href={placeWebsiteUrl}>
       <WorldIcon />
       <span>{placeWebsiteUrl}</span>
     </NonBreakingLink>;

@@ -14,36 +14,32 @@ import type { ModalNodeState } from '../../lib/queryParams';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
-
 type Props = {
-  feature: ?Feature,
-  featureId: ?string | number,
-  equipmentInfoId: ?string,
-  hidden: boolean,
-  modalNodeState: ModalNodeState,
-  isReportMode: boolean,
-  onOpenReportMode: ?(() => void),
-  onStartPhotoUploadFlow: (() => void),
-  history: RouterHistory,
-  onClose?: ?(() => void),
-  onClickCurrentMarkerIcon?: ((feature: Feature) => void),
-  onSelectWheelchairAccessibility?: ((newValue: YesNoLimitedUnknown) => void),
+  feature: ?Feature;
+  featureId: ?string | number;
+  equipmentInfoId: ?string;
+  hidden: boolean;
+  modalNodeState: ModalNodeState;
+  isReportMode: boolean;
+  onOpenReportMode: ?() => void;
+  onStartPhotoUploadFlow: () => void;
+  history: RouterHistory;
+  onClose?: ?() => void;
+  onClickCurrentMarkerIcon?: (feature: Feature) => void;
+  onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void;
 };
-
 
 type State = {
-  category: Category | null,
-  parentCategory: Category | null,
-  equipmentInfo: ?EquipmentInfo,
-  feature: ?Feature,
+  category: Category | null;
+  parentCategory: Category | null;
+  equipmentInfo: ?EquipmentInfo;
+  feature: ?Feature;
 };
-
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   props: Props;
   state = { category: null, parentCategory: null, feature: null, equipmentInfo: null };
   nodeToolbar: React.ElementRef<NodeToolbar>;
-
 
   componentDidMount() {
     if (!this.props.equipmentInfoId) {
@@ -52,10 +48,9 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     this.fetchFeature(this.props);
   }
 
-
   componentWillReceiveProps(nextProps: Props) {
     this.fetchFeature(nextProps);
-    if (this.props.featureId && (nextProps.featureId !== this.props.featureId)) {
+    if (this.props.featureId && nextProps.featureId !== this.props.featureId) {
       this.setState({ equipmentInfo: null });
     }
     if (!nextProps.equipmentInfoId) {
@@ -63,35 +58,26 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
   }
 
-
   focus() {
     if (this.nodeToolbar) {
       this.nodeToolbar.focus();
     }
   }
 
-
   fetchFeature(props: Props) {
     if (props.equipmentInfoId) {
-      equipmentInfoCache
-        .getFeature(props.equipmentInfoId)
-        .then(equipmentInfo => {
-          if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
-          if (
-            equipmentInfo.properties &&
-            equipmentInfo.properties.placeInfoId &&
-            equipmentInfo.properties.placeInfoId !== props.featureId
-          ) return;
-          this.setState({ equipmentInfo });
-          this.fetchCategory(equipmentInfo);
-        });
+      equipmentInfoCache.getFeature(props.equipmentInfoId).then(equipmentInfo => {
+        if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
+        if (equipmentInfo.properties && equipmentInfo.properties.placeInfoId && equipmentInfo.properties.placeInfoId !== props.featureId) return;
+        this.setState({ equipmentInfo });
+        this.fetchCategory(equipmentInfo);
+      });
     }
 
     if (props.feature) {
       this.setState({ feature: props.feature });
     }
   }
-
 
   fetchCategory(feature: ?Feature) {
     if (!feature) {
@@ -105,30 +91,23 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return;
     }
 
-    const categoryId =
-      (properties.node_type && properties.node_type.identifier) || properties.category;
+    const categoryId = properties.node_type && properties.node_type.identifier || properties.category;
 
     if (!categoryId) {
       this.setState({ category: null });
       return;
     }
 
-    Categories.getCategory(categoryId).then(
-      (category) => { this.setState({ category }); return category; },
-      () => this.setState({ category: null }),
-    )
-      .then(category => category && Categories.getCategory(category.parentIds[0]))
-      .then(parentCategory => this.setState({ parentCategory }));
+    Categories.getCategory(categoryId).then(category => {
+      this.setState({ category });return category;
+    }, () => this.setState({ category: null })).then(category => category && Categories.getCategory(category.parentIds[0])).then(parentCategory => this.setState({ parentCategory }));
   }
-
 
   render() {
     const { props, state } = this;
     const { feature } = this.state;
     const { properties } = feature || {};
-    return properties ?
-      <NodeToolbar {...props} {...state} ref={t => this.nodeToolbar = t}/> :
-      <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
+    return properties ? <NodeToolbar {...props} {...state} ref={t => this.nodeToolbar = t} /> : <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
   }
 }
 

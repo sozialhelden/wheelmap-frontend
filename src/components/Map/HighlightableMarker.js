@@ -4,13 +4,11 @@ import L from 'leaflet';
 import MarkerIcon from './MarkerIcon';
 import type { Feature } from '../../lib/Feature';
 
-
 type Options = typeof L.Marker.Options & {
-  feature: Feature,
-  onClick: ((featureId: string, properties: ?NodeProperties) => void),
-  hrefForFeature: ((featureId: string) => string),
+  feature: Feature;
+  onClick: (featureId: string, properties: ?NodeProperties) => void;
+  hrefForFeature: (featureId: string) => string;
 };
-
 
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
@@ -20,8 +18,8 @@ export default class HighlightableMarker extends L.Marker {
       icon: new MarkerIcon({
         hrefForFeature: options.hrefForFeature,
         onClick: options.onClick,
-        feature: options.feature,
-      }),
+        feature: options.feature
+      })
     };
     super(latlng, Object.assign(defaults, options));
   }
@@ -29,9 +27,9 @@ export default class HighlightableMarker extends L.Marker {
   updateIcon(feature: Feature) {
     this.options.feature = feature;
     this.setIcon(new MarkerIcon({
-        hrefForFeature: this.options.hrefForFeature,
-        onClick: this.options.onClick,
-        feature: feature,
+      hrefForFeature: this.options.hrefForFeature,
+      onClick: this.options.onClick,
+      feature: feature
     }));
   }
 
@@ -61,10 +59,10 @@ export default class HighlightableMarker extends L.Marker {
           size: 'big',
           ariaHidden: true,
           iconAnchorOffset: L.point(0, 20),
-          className: 'marker-icon highlighted-marker',
-        })});
+          className: 'marker-icon highlighted-marker'
+        }) });
       if (animated) {
-        this.highlightedMarker.on('add', (n) => { 
+        this.highlightedMarker.on('add', n => {
           n.target.getElement().classList.add("animated");
         });
       }

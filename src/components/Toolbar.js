@@ -12,33 +12,31 @@ import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
 
 type Props = {
-  className: string,
-  children: AnyReactElement,
-  hidden?: boolean,
-  inert?: boolean,
-  role?: string,
-  ariaLabel?: string,
-  ariaDescribedBy?: string,
-  minimalHeight?: number,
-  isSwipeable?: boolean,
-  isModal?: boolean,
-  enableTransitions?: boolean,
-  startTopOffset?: number,
-  onScrollable?: ((isScrollable: boolean) => void),
+  className: string;
+  children: AnyReactElement;
+  hidden?: boolean;
+  inert?: boolean;
+  role?: string;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  minimalHeight?: number;
+  isSwipeable?: boolean;
+  isModal?: boolean;
+  enableTransitions?: boolean;
+  startTopOffset?: number;
+  onScrollable?: (isScrollable: boolean) => void;
 };
-
 
 type State = {
-  topOffset: number,
+  topOffset: number;
   lastTopOffset: number;
-  scrollTop: number,
-  isSwiping: boolean,
+  scrollTop: number;
+  isSwiping: boolean;
   viewportSize: {
-    width: number,
-    height: number,
-  }
+    width: number;
+    height: number;
+  };
 };
-
 
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports, and that has
@@ -56,7 +54,7 @@ class Toolbar extends React.Component<Props, State> {
     isSwipeable: true,
     isModal: false,
     role: '',
-    enableTransitions: true,
+    enableTransitions: true
   };
 
   props: Props;
@@ -73,20 +71,18 @@ class Toolbar extends React.Component<Props, State> {
     isSwiping: false,
     viewportSize: {
       width: -1,
-      height: -1,
-    },
+      height: -1
+    }
   };
 
   onWindowResize = debounce(() => {
     this.onResize();
   }, 200);
 
-
   componentWillMount() {
     this.onResize();
     window.addEventListener('resize', this.onWindowResize);
   }
-
 
   componentDidMount() {
     this.onResize(this.props.startTopOffset);
@@ -96,7 +92,6 @@ class Toolbar extends React.Component<Props, State> {
       this.onResize(this.props.startTopOffset);
     }, 100);
   }
-
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
@@ -116,7 +111,6 @@ class Toolbar extends React.Component<Props, State> {
     }
   }
 
-
   /** Moves the toolbar to show as much of its content as possible. */
   ensureFullVisibility() {
     if (!this._ensureVisibilityTimeoutId) {
@@ -128,22 +122,20 @@ class Toolbar extends React.Component<Props, State> {
     }
   }
 
-
   onResize(preferredTopOffset: number = this.state.topOffset) {
     this.setState({
       viewportSize: {
         width: window.innerWidth,
-        height: window.innerHeight,
-      },
+        height: window.innerHeight
+      }
     });
 
     const topOffset = this.getNearestStopForTopOffset(preferredTopOffset);
     this.setState({
       topOffset,
-      lastTopOffset: topOffset,
+      lastTopOffset: topOffset
     });
   }
-
 
   onSwiping(e: TouchEvent, deltaX: number, deltaY: number) {
     if (!this.props.isSwipeable || this.props.isModal) {
@@ -162,10 +154,7 @@ class Toolbar extends React.Component<Props, State> {
 
     const topmostPosition = this.getTopmostPosition();
     const touchTopOffset = this.state.lastTopOffset - deltaY - this.state.scrollTop;
-    const topOffset = Math.max(
-      topmostPosition,
-      touchTopOffset,
-    );
+    const topOffset = Math.max(topmostPosition, touchTopOffset);
 
     if (this.scrollElement && touchTopOffset < topmostPosition) {
       this.scrollElement.scrollTop = topmostPosition - touchTopOffset;
@@ -175,7 +164,6 @@ class Toolbar extends React.Component<Props, State> {
     this.setState({ topOffset });
   }
 
-
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
     if (!this.props.isSwipeable || this.props.isModal || this.isLandscapePhone()) {
       return;
@@ -184,20 +172,19 @@ class Toolbar extends React.Component<Props, State> {
     if (isFlick && !this.state.scrollTop) {
       const isSwipingUp = deltaY > 0;
       const stops = this.getStops();
-      const newIndex = isSwipingUp ? 0 : (stops.length - 1);
+      const newIndex = isSwipingUp ? 0 : stops.length - 1;
       this.setState({
         lastTopOffset: stops[newIndex],
-        topOffset: 0,
+        topOffset: 0
       });
       return;
     }
     const newStop = this.getNearestStopForTopOffset(this.state.topOffset);
     this.setState({
       lastTopOffset: newStop,
-      topOffset: 0,
+      topOffset: 0
     });
   }
-
 
   /** @returns the next preferred stop position */
 
@@ -217,20 +204,16 @@ class Toolbar extends React.Component<Props, State> {
     return result;
   }
 
-
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
   getTopmostPosition(): number {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
-      toolbarHeight = parseFloat(style.marginTop) +
-        parseFloat(style.marginBottom) +
-        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
+      toolbarHeight = parseFloat(style.marginTop) + parseFloat(style.marginBottom) + (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
     return Math.max(60, this.state.viewportSize.height - toolbarHeight - 60);
   }
-
 
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
 
@@ -239,32 +222,24 @@ class Toolbar extends React.Component<Props, State> {
     if (this.isLandscapePhone()) {
       return [topmostPosition];
     }
-    const stops = uniq([
-      topmostPosition,
-      Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)),
-      this.state.viewportSize.height - (this.props.minimalHeight || 0),
-    ]);
+    const stops = uniq([topmostPosition, Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)), this.state.viewportSize.height - (this.props.minimalHeight || 0)]);
     return stops;
   }
-
 
   isFullyExpanded() {
     const stops = this.getStops();
     return this.state.topOffset === stops[0];
   }
 
-
   isAtTopmostPosition() {
     return (this.state.topOffset || this.state.lastTopOffset) <= this.getTopmostPosition();
   }
-
 
   isLandscapePhone() {
     return isOnSmallViewport() && this.state.viewportSize.width > this.state.viewportSize.height;
   }
 
-
-  getStyle(): { transform: string, touchAction: string, transition: string, overflowY: string } {
+  getStyle(): { transform: string; touchAction: string; transition: string; overflowY: string; } {
     const lastTopOffset = this.state.lastTopOffset;
 
     let topOffset = this.state.topOffset || lastTopOffset;
@@ -282,11 +257,10 @@ class Toolbar extends React.Component<Props, State> {
     return {
       touchAction: isAtTopmostPosition ? 'inherit' : 'none',
       overflowY: isAtTopmostPosition ? 'auto' : 'hidden',
-      transition: enableTransitions ? (isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`) : '',
-      transform: `translate3d(0, ${topOffset}px, 0)`,
+      transition: enableTransitions ? isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out` : '',
+      transform: `translate3d(0, ${topOffset}px, 0)`
     };
   }
-
 
   cancelTouchIfMoving = (event: TouchEvent) => {
     const isScrollable = this.isAtTopmostPosition();
@@ -301,52 +275,27 @@ class Toolbar extends React.Component<Props, State> {
     event.preventDefault();
   };
 
-
   render() {
     const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
     const isIphoneX = window.device && window.device.model && includes(xModels, window.device.model);
-    const classNames = [
-      'toolbar',
-      isIphoneX ? 'toolbar-iphone-x' : null,
-      this.props.hidden ? 'toolbar-hidden' : null,
-      this.props.isModal ? 'toolbar-is-modal' : null,
-      this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null,
-      this.props.className,
-    ];
+    const classNames = ['toolbar', isIphoneX ? 'toolbar-iphone-x' : null, this.props.hidden ? 'toolbar-hidden' : null, this.props.isModal ? 'toolbar-is-modal' : null, this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null, this.props.className];
     const className = classNames.filter(Boolean).join(' ');
-    return (<Swipeable
-      onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
-      onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
-    >
-      <section
-        className={className}
-        style={this.getStyle()}
-        ref={(nav) => { this.scrollElement = nav; }}
-        aria-hidden={this.props.inert}
-        role={this.props.role}
-        aria-label={this.props.ariaLabel}
-        aria-describedby={this.props.ariaDescribedBy}
-        data-last-top-offset={this.state.lastTopOffset}
-        onTouchMove={this.cancelTouchIfMoving}
-      >
-        {(this.props.isSwipeable && !this.props.isModal) ?
-          <button
-            className="grab-handle"
-            aria-label={this.isFullyExpanded() ? t`Collapse panel` : t`Expand panel`}
-            onClick={() => {
-              if (this.isFullyExpanded()) {
-                const stops = this.getStops();
-                const offset = stops[stops.length - 1];
-                this.setState({ lastTopOffset: offset, topOffset: offset });
-              } else {
-                this.ensureFullVisibility();
-              }
-            }}
-            />
-          : null}
+    return <Swipeable onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)} onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}>
+      <section className={className} style={this.getStyle()} ref={nav => {
+        this.scrollElement = nav;
+      }} aria-hidden={this.props.inert} role={this.props.role} aria-label={this.props.ariaLabel} aria-describedby={this.props.ariaDescribedBy} data-last-top-offset={this.state.lastTopOffset} onTouchMove={this.cancelTouchIfMoving}>
+        {this.props.isSwipeable && !this.props.isModal ? <button className="grab-handle" aria-label={this.isFullyExpanded() ? t`Collapse panel` : t`Expand panel`} onClick={() => {
+          if (this.isFullyExpanded()) {
+            const stops = this.getStops();
+            const offset = stops[stops.length - 1];
+            this.setState({ lastTopOffset: offset, topOffset: offset });
+          } else {
+            this.ensureFullVisibility();
+          }
+        }} /> : null}
         {this.props.children}
       </section>
-    </Swipeable>);
+    </Swipeable>;
   }
 }
 

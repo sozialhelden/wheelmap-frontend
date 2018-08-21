@@ -8,7 +8,7 @@ export const InvalidCaptchaReason = "invalid-captcha";
 export const UnknownReason = "unknown";
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
-  
+
   getPhotosForFeature(featureId: string): Promise<?AccessibilityCloudImages> {
     return this.getImage("place", featureId);
   }
@@ -21,57 +21,49 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     const image = images[0];
 
     const uploadPromise = new Promise((resolve, reject) => {
-      this.constructor.fetch(
-        `${config.accessibilityCloudUncachedBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`,
-        {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': image.type,
-          },
-          body: image,
-        }
-      ).then((response: Response) => {
+      this.constructor.fetch(`${config.accessibilityCloudUncachedBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': image.type
+        },
+        body: image
+      }).then((response: Response) => {
         if (response.ok) {
           if (this.lastCaptcha) {
             this.captchaSolution = captchaSolution;
           }
           resolve(true);
         } else {
-          response.json()
-            .then((json) => {
-              const reason = json.error.reason;
-              if (reason === "No captcha found.") {
-                reject(InvalidCaptchaReason);
-              } else {
-                reject(UnknownReason);
-              }
-            }).catch(reject);
+          response.json().then(json => {
+            const reason = json.error.reason;
+            if (reason === "No captcha found.") {
+              reject(InvalidCaptchaReason);
+            } else {
+              reject(UnknownReason);
+            }
+          }).catch(reject);
         }
       }).catch(reject).catch(console.error);
     });
 
     return uploadPromise;
   }
-  
+
   reportPhoto(photoId: string, reason: string): Promise<boolean> {
     const uploadPromise = new Promise((resolve, reject) => {
-      this.constructor.fetch(
-        `${config.accessibilityCloudUncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${config.accessibilityCloudAppToken}`,
-        {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-          },
+      this.constructor.fetch(`${config.accessibilityCloudUncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${config.accessibilityCloudAppToken}`, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json'
         }
-      ).then((response: Response) => {
+      }).then((response: Response) => {
         if (response.ok) {
           resolve(true);
         } else {
-          response.json()
-            .then((json) => {
-              reject(UnknownReason);
-            }).catch(reject);
+          response.json().then(json => {
+            reject(UnknownReason);
+          }).catch(reject);
         }
       }).catch(reject).catch(console.error);
     });
@@ -79,7 +71,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return uploadPromise;
   }
 
-  getCaptcha(fetchParams?: any) : Promise<string> {
+  getCaptcha(fetchParams?: any): Promise<string> {
     let promise = this.captchaRequest;
     if (promise) return promise;
 
@@ -93,7 +85,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
         resolve(this.lastCaptcha);
       } else {
         this.lastCaptcha = null;
-        const url = `${config.accessibilityCloudBaseUrl}/captcha.svg?${cacheBuster}&appToken=${config.accessibilityCloudAppToken}`
+        const url = `${config.accessibilityCloudBaseUrl}/captcha.svg?${cacheBuster}&appToken=${config.accessibilityCloudAppToken}`;
         console.log("Requesting new captcha");
         return this.constructor.fetch(url).then((response: Response) => {
           if (response.ok) {
@@ -101,7 +93,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
             if (expires) {
               this.captchaExpirationTime = new Date(expires).getTime();
             }
-            response.text().then((captcha) => {
+            response.text().then(captcha => {
               this.lastCaptcha = captcha;
               this.captchaSolution = null;
               resolve(this.lastCaptcha);
@@ -111,7 +103,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
           }
         }).catch(reject).catch(console.error);
       }
-    })
+    });
 
     const resetCaptchaRequest = () => {
       this.captchaRequest = null;
@@ -131,7 +123,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   }
 
   hasValidCaptcha() {
-    const isCaptchaExpired = Date.now() >= (this.captchaExpirationTime - 60 * 100); // add 60 seconds captcha grace period
+    const isCaptchaExpired = Date.now() >= this.captchaExpirationTime - 60 * 100; // add 60 seconds captcha grace period
     return !isCaptchaExpired && this.lastCaptcha;
   }
 

@@ -1,14 +1,14 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'ttag'
+import { t } from 'ttag';
 
 type ConjunctionType = 'and' | 'or';
 
 type ConjunctionMap = {
-  [key:ConjunctionType]: {
-    withSerialComma: React.Node,
-    withoutSerialComma: React.Node,
+  [key: ConjunctionType]: {
+    withSerialComma: React.Node;
+    withoutSerialComma: React.Node;
   }
 };
 
@@ -17,47 +17,43 @@ const conjunctionMap: ConjunctionMap = {
     // translator: In a comma-separated serial enumeration, this string is the ', or' conjunction before the last word, with a serial comma at the beginning if the language has a serial comma (https://en.wikipedia.org/wiki/Serial_comma).
     withSerialComma: <span className="conjunction" key="conjunction">{t`, or `}</span>,
     // translator: Conjunction between two words (like the ‘or’ in ‘humans or animals’). Please don't forget to include necessary spaces.
-    withoutSerialComma: <span className="conjunction" key="conjunction">{t` or `}</span>,
+    withoutSerialComma: <span className="conjunction" key="conjunction">{t` or `}</span>
   },
   and: {
     // translator: In a comma-separated serial enumeration, this string is the ', and' conjunction before the last word, with a serial comma at the beginning if the language has a serial comma (https://en.wikipedia.org/wiki/Serial_comma).
-    withSerialComma: <span className="conjunction" key="conjunction">{t`, and `}</span>,
+    withSerialComma: <span className="conjunction" key="conjunction">{t`, and`}</span>,
     // translator: Conjunction between two words (like the ‘and’ in ‘humans and animals’). Please don't forget to include necessary spaces.
-    withoutSerialComma: <span className="conjunction" key="conjunction">{t` and `}</span>,
-  },
-}
+    withoutSerialComma: <span className="conjunction" key="conjunction">{t` and `}</span>
+  }
 
-// function addKeysToElements(children: React.Children<*>) {
-//   return React.Children.map(children, (child, index) => <React.Fragment key={index}>{child}</React.Fragment>);
-// }
+  // function addKeysToElements(children: React.Children<*>) {
+  //   return React.Children.map(children, (child, index) => <React.Fragment key={index}>{child}</React.Fragment>);
+  // }
 
-// Allows to enumerate a list of words as human-readable sentence, localizable. This can allow for
-// easier screen reader accessibility.
-//
-// Inserts a serial comma (‘Oxford’ comma) if appropriate. For this, you need to add localizations
-// to ttag's locales.
-//
-// You can supply your own conjunction used before the last word. If you do that, be sure to
-// translate it!
-//
-// Example usage:
-//
-//     import getHumanEnumeration, { andConjunction } from './getHumanEnumeration';
-//
-//     <div>
-//       {getHumanEnumeration([
-//         <strong>t`humans`</strong>,
-//         <em>t`animals`</em>,
-//       ], 'or')}
-//     </div>
-//
-//     => <div><strong>humans</strong> and <em>animals</em></div>
+  // Allows to enumerate a list of words as human-readable sentence, localizable. This can allow for
+  // easier screen reader accessibility.
+  //
+  // Inserts a serial comma (‘Oxford’ comma) if appropriate. For this, you need to add localizations
+  // to ttag's locales.
+  //
+  // You can supply your own conjunction used before the last word. If you do that, be sure to
+  // translate it!
+  //
+  // Example usage:
+  //
+  //     import getHumanEnumeration, { andConjunction } from './getHumanEnumeration';
+  //
+  //     <div>
+  //       {getHumanEnumeration([
+  //         <strong>t`humans`</strong>,
+  //         <em>t`animals`</em>,
+  //       ], 'or')}
+  //     </div>
+  //
+  //     => <div><strong>humans</strong> and <em>animals</em></div>
 
 
-export default function getHumanEnumeration(
-  elements: React.ChildrenArray<*>,
-  conjunctionType: ConjunctionType = 'and'
-): React.ChildrenArray<*> {
+};export default function getHumanEnumeration(elements: React.ChildrenArray<*>, conjunctionType: ConjunctionType = 'and'): React.ChildrenArray<*> {
   if (!elements) return [];
 
   const count = elements.length;
@@ -79,9 +75,7 @@ export default function getHumanEnumeration(
 
   const lastElement = elements[elements.length - 1];
   const elementsBeforeLastElement = elements.slice(0, elements.length - 1);
-  const commaJoinedElements = elementsBeforeLastElement
-    .reverse()
-    .join(', ');
+  const commaJoinedElements = elementsBeforeLastElement.reverse().join(', ');
   const conjunction = conjunctionMap[conjunctionType].withSerialComma;
   return [commaJoinedElements, conjunction, lastElement];
 }
