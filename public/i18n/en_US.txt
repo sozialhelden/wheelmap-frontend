@@ -32,38 +32,38 @@ msgstr "${ categoryName } on Wheelmap"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:39
 msgid "${ count } broken elevator"
 msgid_plural "${ count } broken elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator out of service"
+msgstr[1] "${ count } elevators out of service"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
 msgid "${ count } broken escalator"
 msgid_plural "${ count } broken escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator out of service"
+msgstr[1] "${ count } escalators out of service"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:43
 msgid "${ count } elevator with unknown status"
 msgid_plural "${ count } elevators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator with unknown operational status"
+msgstr[1] "${ count } elevators with unknown operational status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:44
 msgid "${ count } escalator with unknown status"
 msgid_plural "${ count } escalators with unknown status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator with unknown operational status"
+msgstr[1] "${ count } escalators with unknown operational status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:35
 msgid "${ count } working elevator"
 msgid_plural "${ count } working elevators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator in service"
+msgstr[1] "${ count } elevators in service"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } working escalator"
 msgid_plural "${ count } working escalators"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } escalator in service"
+msgstr[1] "${ count } escalators in service"
 
 #. Email body used when sharing a place with known name via email.// Email
 #. subject used for sharing a place via email.
@@ -223,7 +223,7 @@ msgstr "Collapse share menu."
 
 #: src/components/Toolbar.js:335
 msgid "Collapse panel"
-msgstr ""
+msgstr "Collapse panel"
 
 #. Button caption shown while editing a place’s wheelchair statu
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
@@ -338,7 +338,7 @@ msgstr "Expand share menu"
 
 #: src/components/Toolbar.js:335
 msgid "Expand panel"
-msgstr ""
+msgstr "Expand panel"
 
 #. Main menu item
 #: src/components/MainMenu/strings.js:21
