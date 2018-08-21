@@ -15,8 +15,15 @@ const devices = [
 ];
 
 const locales = [
-  'de_DE',
   // 'en_US',
+  'de_DE',
+  // 'da',
+  // 'el',
+  // 'es_ES',
+  // 'fr-FR',
+  // 'ja',
+  // 'ru',
+  // 'sv',
 ];
 
 exports.config = {
