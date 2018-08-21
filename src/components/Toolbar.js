@@ -284,7 +284,7 @@ class Toolbar extends React.Component<Props, State> {
       <section className={className} style={this.getStyle()} ref={nav => {
         this.scrollElement = nav;
       }} aria-hidden={this.props.inert} role={this.props.role} aria-label={this.props.ariaLabel} aria-describedby={this.props.ariaDescribedBy} data-last-top-offset={this.state.lastTopOffset} onTouchMove={this.cancelTouchIfMoving}>
-        {this.props.isSwipeable && !this.props.isModal ? <button className="grab-handle" aria-label={this.isFullyExpanded() ? t`Collapse panel` : t`Expand panel`} onClick={() => {
+        {this.props.isSwipeable && !this.props.isModal ? <button className="grab-handle" aria-label={this.isFullyExpanded() ? t`Collapse details` : t`Expand details`} onClick={() => {
           if (this.isFullyExpanded()) {
             const stops = this.getStops();
             const offset = stops[stops.length - 1];

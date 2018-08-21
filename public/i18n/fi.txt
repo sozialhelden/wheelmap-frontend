@@ -252,7 +252,7 @@ msgid "Collapse share menu"
 msgstr "Piilota Jaa-valikko"
 
 #: src/components/Toolbar.js:335
-msgid "Collapse panel"
+msgid "Collapse details"
 msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:189
@@ -363,7 +363,7 @@ msgid "Expand share menu"
 msgstr "Näytä Jaa-valikko"
 
 #: src/components/Toolbar.js:335
-msgid "Expand panel"
+msgid "Expand details"
 msgstr ""
 
 #: src/components/MainMenu/strings.js:21
