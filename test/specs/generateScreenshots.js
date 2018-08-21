@@ -32,7 +32,7 @@ useLocales([locale, 'en-US']);
 const selectors = {
   homeButton: t`Home`,
   startButton: t`Okay, let’s go!`,
-  placeMarker: t`Bunte SchokoWelt Fully wheelchair accessible`,
+  placeMarker: 'Bunte SchokoWelt' + ' ' + t`Fully wheelchair accessible`,
   editButton: t`Fully wheelchair accessible` + ' ' + t`Entrance has no steps, and all rooms are accessible without steps.`,
   expandButton: t`Expand details`,
   partiallyOption: t`Partially`,
@@ -41,7 +41,7 @@ const selectors = {
   searchButton: t`Search`,
   searchInput: t`Search for place or address`,
   shoppingButton: t`Shopping`,
-  atLeastPartiallyWheelchairAccessibleButton: t`At least partially wheelchair accessible`,
+  atLeastPartiallyWheelchairAccessibleButton: t`Partially wheelchair accessible`,
   goButton: t`Go!`,
   showMeWhereIAmButton: t`Show me where I am`,
 };
