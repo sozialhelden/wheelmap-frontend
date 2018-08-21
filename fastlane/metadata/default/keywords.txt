@@ -1,1 +1,1 @@
-Wheelchair, Accessibility, Maps, OpenStreetMap, Points of Interest, Travel, Restaurant, Bar, Cinema, Toilet
+Wheelchair,accessible,Accessibility,Maps,OpenStreetMap,Map,Travel,Restaurant,Bar,Cinema,Club,Toilet
