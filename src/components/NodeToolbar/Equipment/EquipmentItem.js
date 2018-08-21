@@ -29,16 +29,16 @@ function EquipmentIconWrapper({ history, equipmentInfo, count, isCountHidden }: 
 
   const ariaLabels: { [key: string]: { [key: string]: string } } = {
     true: {
-      elevator: ngettext(msgid`${count} working elevator`, `${count} working elevators`, count),
-      escalator: ngettext(msgid`${count} working escalator`, `${count} working escalators`, count)
+      elevator: ngettext(msgid`${count} elevator in service`, `${count} elevators in service`, count),
+      escalator: ngettext(msgid`${count} escalator in service`, `${count} escalators in service`, count)
     },
     false: {
-      elevator: ngettext(msgid`${count} broken elevator`, `${count} broken elevators`, count),
-      escalator: ngettext(msgid`${count} broken escalator`, `${count} broken escalators`, count)
+      elevator: ngettext(msgid`${count} elevator out of service`, `${count} elevators out of service`, count),
+      escalator: ngettext(msgid`${count} escalator out of service`, `${count} escalators out of service`, count)
     },
     undefined: {
-      elevator: ngettext(msgid`${count} elevator with unknown status`, `${count} elevators with unknown status`, count),
-      escalator: ngettext(msgid`${count} escalator with unknown status`, `${count} escalators with unknown status`, count)
+      elevator: ngettext(msgid`${count} elevator with unknown operational status`, `${count} elevators with unknown operational status`, count),
+      escalator: ngettext(msgid`${count} escalator with unknown operational status`, `${count} escalators with unknown operational status`, count)
     }
   };
   const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null;
