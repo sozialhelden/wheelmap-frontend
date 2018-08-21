@@ -1,33 +1,61 @@
 // var assert = require('assert');
 // var expect = require('expect');
 const { t, addLocale, useLocales } = require('ttag');
-const { removeEmptyTranslations } = require('../../src/i18n');
 const gettextParser = require('gettext-parser');
 const fs = require('fs');
 const path = require('path');
-const { intersection } = require('lodash');
+const { intersection, uniq } = require('lodash');
 
 const locale = browser.desiredCapabilities.locale;
 const loadedLocales = [];
 const poDirPath = './public/i18n';
 
+function removeEmptyTranslations(locale) {
+  if (!locale.translations) return locale;
+  const translations = locale.translations[""];
+  if (!translations) return locale;
+  const missingKeys = Object.keys(translations).filter(translationKey => {
+    const translation = translations[translationKey];
+    if (!translation) return true;
+    if (!translation.msgstr) return true;
+    if (translation.msgstr.length === 0) return true;
+    if (translation.msgstr.length === 1 && translation.msgstr[0] === "") return true;
+    return false;
+  });
+  missingKeys.forEach(key => delete translations[key]);
+  return locale;
+}
+
+// Returns the locale as language code without country code etc. removed
+// (for example "en" if given "en-GB").
+
+function localeWithoutCountry(locale) {
+  return locale.substring(0, 2);
+}
+
 function loadLocalizationFromPOFile(locale, poFileContent) {
   const localization = gettextParser.po.parse(poFileContent);
-  addLocale(locale, removeEmptyTranslations(localization));
+  // addLocale(locale, removeEmptyTranslations(localization));
+  addLocale(locale, localization);
   return localization;
 }
 
 function loadAllLocales() {
-  fs.readDirSync(poDirPath)
-  .forEach(poFilePath => {
-    loadedLocales.push(path.basename(poFilePath, '.po'));
-    const poFileContent = fs.readFileSync(poFilePath);
-    loadLocalizationFromPOFile(poFileContent);
+  fs.readdirSync(poDirPath)
+  .forEach(poFileName => {
+    const localeToLoad = path.basename(poFileName, '.txt');
+    loadedLocales.push(localeToLoad);
+    const poFileContent = fs.readFileSync(path.join(poDirPath, poFileName));
+    loadLocalizationFromPOFile(localeToLoad, poFileContent);
   });
 }
 
 loadAllLocales();
-useLocales([locale, 'en-US']);
+const preferredLocales = uniq([
+  loadedLocales.indexOf(locale) === -1 ? localeWithoutCountry(locale) : locale,
+  'en_US'
+]);
+useLocales(preferredLocales);
 
 const selectors = {
   homeButton: t`Home`,
@@ -92,15 +120,16 @@ describe('Screenshot flow', function () {
 
   if (browser.desiredCapabilities.locale !== 'en_US') {
     it('switches languages', function () {
-      waitAndTapElement(selectors.en_US.startButton);
-      waitAndTapElement(selectors.en_US.searchButton);
-      waitAndTapElement(selectors.en_US.searchInput);
-      browser.element(selectors.en_US.searchInput).keys(`locale:${browser.desiredCapabilities.locale}`);
-      browser.element(selectors.en_US.searchInput).keys(['Enter']);
+      waitAndTapElement('~Okay, let’s go!');
+      waitAndTapElement('~Search');
+      waitAndTapElement('~Search for place or address');
+      browser.element('~Search for place or address').keys(`locale:${browser.desiredCapabilities.locale}`);
+      browser.element('~Search for place or address').keys(['Enter']);
       browser.pause(3000); // wait for page to be reloaded
     });
 
     it('restarts the flow from the onboarding screen', function () {
+      browser.pause(3000); // wait for translation to be loaded
       waitAndTapElement(s('homeButton'));
 
       // const contexts = browser.contexts();
