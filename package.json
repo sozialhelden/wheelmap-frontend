@@ -147,7 +147,7 @@
     "server": "server",
     "push-translations": "npm run build && tx push -s",
     "pull-translations": "tx pull -a",
-    "retranslate": "NEW_SOURCE_PO='./public/i18n/en_US.txt' retranslate/run.sh",
+    "retranslate": "npm run build && NEW_SOURCE_PO='./public/i18n/en_US.txt' retranslate/run.sh",
     "prepublish": "npm run prepublish-babel && npm run prepublish-copy-flow-info && npmignore -u /lib",
     "prepublish-babel": "NODE_ENV=production babel --no-babelrc src/ -d lib --presets=es2015,react-app --plugins=transform-flow-strip-types --ignore '*.test.js'",
     "prepublish-copy-flow-info": "flow-copy-source src lib",
