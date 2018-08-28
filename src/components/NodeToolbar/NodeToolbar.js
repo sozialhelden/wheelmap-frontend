@@ -67,6 +67,7 @@ type Props = {
   ; onStartPhotoUploadFlow: () => void;
   onReportPhoto: (photo: PhotoModel) => void;
   photoFlowNotification?: string;
+  photoFlowErrorMessage: ?string;
   onClickCurrentMarkerIcon?: (feature: Feature) => void;
 };
 
@@ -173,7 +174,7 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderPhotoSection() {
-    return <PhotoSection featureId={this.props.featureId} onReportPhoto={this.props.onReportPhoto} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} photoFlowNotification={this.props.photoFlowNotification} />;
+    return <PhotoSection featureId={this.props.featureId} onReportPhoto={this.props.onReportPhoto} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} photoFlowNotification={this.props.photoFlowNotification} photoFlowErrorMessage={this.props.photoFlowErrorMessage}/>;
   }
 
   renderPlaceNameForEquipment() {

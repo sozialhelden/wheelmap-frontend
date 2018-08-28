@@ -10,8 +10,9 @@ import ProblemIcon from '../../icons/actions/ProblemIcon';
 type Props = {
   className: string;
   notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
-  uploadProgress?: number // between 0 and 100
-  ; };
+  uploadProgress?: number; // between 0 and 100
+  photoFlowErrorMessage?: string;
+};
 
 type State = {};
 
@@ -52,6 +53,8 @@ class PhotoNotification extends React.Component<Props, State> {
       uploadFailed: <small>
           <StyledProblemIcon color={colors.negativeColor} />
           {t`Upload failed: server error or file-format not supported`}
+          &nbsp;—&nbsp;
+          {this.props.photoFlowErrorMessage}
         </small>,
       reported: <small>
           <StyledCheckmarkIcon color={colors.negativeColor} />

@@ -112,6 +112,7 @@ type Props = {
   waitingForPhotoUpload?: boolean;
   photoCaptchaFailed?: boolean;
   photoFlowNotification?: string;
+  photoFlowErrorMessage: ?string;
   photoMarkedForReport: PhotoModel | null;
 };
 
@@ -226,7 +227,7 @@ class MainView extends React.Component<Props, State> {
 
   renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>, isNodeRoute: boolean) {
     return <div className="node-toolbar">
-      <NodeToolbarFeatureLoader {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }} ref={nodeToolbar => this.nodeToolbar = nodeToolbar} history={this.props.history} feature={this.props.feature} onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={this.props.onOpenToiletAccessibility} onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility} onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility} onCloseToiletAccessibility={this.props.onCloseToiletAccessibility} hidden={!isNodeRoute} photoFlowNotification={this.props.photoFlowNotification} onOpenReportMode={this.props.onOpenReportMode} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon} onClose={this.props.onCloseNodeToolbar} onReportPhoto={this.props.onStartReportPhotoFlow} />
+      <NodeToolbarFeatureLoader {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }} ref={nodeToolbar => this.nodeToolbar = nodeToolbar} history={this.props.history} feature={this.props.feature} onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={this.props.onOpenToiletAccessibility} onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility} onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility} onCloseToiletAccessibility={this.props.onCloseToiletAccessibility} hidden={!isNodeRoute} photoFlowNotification={this.props.photoFlowNotification} photoFlowErrorMessage={this.props.photoFlowErrorMessage} onOpenReportMode={this.props.onOpenReportMode} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon} onClose={this.props.onCloseNodeToolbar} onReportPhoto={this.props.onStartReportPhotoFlow} />
     </div>;
   }
 
@@ -287,7 +288,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderPhotoUploadCaptchaToolbar() {
-    return <PhotoUploadCaptchaToolbar ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar} history={this.props.history} hidden={!this.props.isPhotoUploadCaptchaToolbarVisible} onClose={this.props.onAbortPhotoUploadFlow} onCompleted={this.props.onFinishPhotoUploadFlow} photosMarkedForUpload={this.props.photosMarkedForUpload} waitingForPhotoUpload={this.props.waitingForPhotoUpload} photoCaptchaFailed={this.props.photoCaptchaFailed} />;
+    return <PhotoUploadCaptchaToolbar ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar} history={this.props.history} hidden={!this.props.isPhotoUploadCaptchaToolbarVisible} onClose={this.props.onAbortPhotoUploadFlow} onCompleted={this.props.onFinishPhotoUploadFlow} photosMarkedForUpload={this.props.photosMarkedForUpload} waitingForPhotoUpload={this.props.waitingForPhotoUpload} photoCaptchaFailed={this.props.photoCaptchaFailed} photoFlowErrorMessage={this.props.photoFlowErrorMessage}/>;
   }
 
   renderPhotoUploadInstructionsToolbar() {

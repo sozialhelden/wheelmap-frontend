@@ -71,6 +71,7 @@ type State = {
   waitingForPhotoUpload?: boolean;
   photoCaptchaFailed?: boolean;
   photoFlowNotification?: string;
+  photoFlowErrorMessage: ?string;
   photoMarkedForReport: PhotoModel | null;
 };
 
@@ -134,7 +135,8 @@ class Loader extends React.Component<Props, State> {
     isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
     photosMarkedForUpload: null,
-    photoMarkedForReport: null
+    photoMarkedForReport: null,
+    photoFlowErrorMessage: null,
   };
 
   map: ?any;
@@ -431,19 +433,21 @@ class Loader extends React.Component<Props, State> {
       isSearchBarVisible: false,
       waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: true,
-      photosMarkedForUpload: null
+      photosMarkedForUpload: null,
+      photoFlowErrorMessage: null,
     });
   };
 
-  onExitPhotoUploadFlow = (notification?: string) => {
+  onExitPhotoUploadFlow = (notification?: string, photoFlowErrorMessage: ?string) => {
     this.setState({
+      photoFlowErrorMessage,
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: false,
       isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
       photoCaptchaFailed: false,
-      photoFlowNotification: notification
+      photoFlowNotification: notification,
     });
   };
 
@@ -461,7 +465,8 @@ class Loader extends React.Component<Props, State> {
         isPhotoUploadCaptchaToolbarVisible: true,
         photosMarkedForUpload: photos,
         photoCaptchaFailed: false,
-        photoFlowNotification: undefined
+        photoFlowNotification: undefined,
+        photoFlowErrorMessage: null,
       });
     }
   };
@@ -481,20 +486,22 @@ class Loader extends React.Component<Props, State> {
       photoFlowNotification: "uploadProgress"
     });
 
-    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution).then(() => {
-      console.log("Succeeded upload");
-      this.onExitPhotoUploadFlow("waitingForReview");
-    }).catch(reason => {
-      console.error("Failed upload", reason);
-      if (reason === InvalidCaptchaReason) {
-        this.setState({
-          waitingForPhotoUpload: false,
-          photoCaptchaFailed: true
-        });
-      } else {
-        this.onExitPhotoUploadFlow("uploadFailed");
-      }
-    });
+    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
+      .then(() => {
+        console.log("Succeeded upload");
+        this.onExitPhotoUploadFlow("waitingForReview");
+      })
+      .catch(reason => {
+        console.error("Failed upload", reason);
+        if (reason.message === InvalidCaptchaReason) {
+          this.setState({
+            waitingForPhotoUpload: false,
+            photoCaptchaFailed: true,
+          });
+        } else {
+          this.onExitPhotoUploadFlow("uploadFailed", reason && reason.message);
+        }
+      });
   };
 
   onStartReportPhotoFlow = (photo: PhotoModel) => {
@@ -632,6 +639,7 @@ class Loader extends React.Component<Props, State> {
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
       photoFlowNotification: this.state.photoFlowNotification,
+      photoFlowErrorMessage: this.state.photoFlowErrorMessage,
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
