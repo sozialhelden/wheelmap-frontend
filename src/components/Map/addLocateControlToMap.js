@@ -21,7 +21,7 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
     icon: 'leaflet-icon-locate',
     iconLoading: 'leaflet-icon-locate-loading',
     showPopup: false,
-    setView: 'untilPan', // can be overridden by <Map />
+    setView: 'once', // can be overridden by <Map />
     clickBehavior: {
       // only disable when position is on screen
       inView: 'stop',

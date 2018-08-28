@@ -256,14 +256,6 @@ export default class Map extends React.Component<Props, State> {
     delete this.accessibilityCloudTileLayer;
   }
 
-  componentDidUpdate() {
-    if (this.locateControl) {
-      // If a single feature is shown, do not pan the view when a new location comes in.
-      // If no feature is shown, follow the user's location until they pan the view themselves.
-      this.locateControl.options.setView = this.props.featureId ? 'once' : 'untilPan';
-    }
-  }
-
   setupLocateMeButton(map: L.Map) {
     this.locateControl = addLocateControlToMap(map, {
       locateOnStart: this.props.locateOnStart || false,
