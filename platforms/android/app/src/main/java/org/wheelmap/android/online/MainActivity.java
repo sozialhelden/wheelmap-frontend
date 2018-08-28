@@ -21,6 +21,7 @@ package org.wheelmap.android.online;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
+import android.webkit.WebView;
 
 public class MainActivity extends CordovaActivity
 {
@@ -28,6 +29,10 @@ public class MainActivity extends CordovaActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            WebView.setWebContentsDebuggingEnabled(true);
+        }
 
         // enable Cordova apps to be started in the background
         Bundle extras = getIntent().getExtras();
