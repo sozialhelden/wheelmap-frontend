@@ -51,7 +51,9 @@ exports.config = {
     name: 'parallel_appium_test',
     build: 'webdriver-browserstack',
     app: process.env.BROWSERSTACK_APP_ID,
-    'browserstack.debug': true
+    'browserstack.debug': true,
+    autoGrantPermissions: true,
+    autoWebview: true,
   },
 
   capabilities: flatten(devices.map(device => locales.map(locale => ({ device, locale })))),
