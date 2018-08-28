@@ -81,6 +81,8 @@
     <key>NSCameraUsageDescription</key>
     <string>You have to allow Wheelmap to use the camera to upload photos.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Location access is used to show where you are on the map.</string>
+    <string>Location access is only used to show where you are on the map.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Location access is only used to show where you are on the map.</string>
   </dict>
 </plist>
