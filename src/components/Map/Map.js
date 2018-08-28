@@ -11,7 +11,7 @@ import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
 import { getQueryParams } from '../../lib/queryParams';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
-import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
+import LeafletLocateControl from './L.Control.Locate';
 
 import { isWheelchairAccessible, yesNoLimitedUnknownArray, yesNoUnknownArray, hasAccessibleToilet, wheelmapFeatureCollectionFromResponse, accessibilityCloudFeatureCollectionFromResponse } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';

@@ -26,7 +26,6 @@
     "immutable": "^3.8.1",
     "leaflet": "^1.0.3",
     "leaflet-tilelayer-geojson": "^1.0.4",
-    "leaflet.locatecontrol": "^0.60.0",
     "leaflet.markercluster": "^1.0.4",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.4",

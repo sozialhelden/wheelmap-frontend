@@ -2,9 +2,8 @@
 
 import { t } from 'ttag';
 import L from 'leaflet';
-import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
-import 'leaflet.locatecontrol';
-
+import LeafletLocateControl from './L.Control.Locate';
+import './L.Control.Locate.scss';
 import savedState, { saveState } from '../../lib/savedState';
 
 window.L = L;
