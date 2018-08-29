@@ -8,7 +8,6 @@ export type ModalNodeState = 'create' | 'edit-wheelchair-accessibility' | 'edit-
 export function getQueryParams(search?: string) {
   const result = {};
   if (search) {
-    debugger
     Object.assign(result, queryString.parse(search));
   } else if (window.location.hash.match(/\?/)) {
     Object.assign(result, queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, '')));
