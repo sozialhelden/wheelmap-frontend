@@ -24,6 +24,7 @@ type Props = {
   featureId: string;
   className: string;
   photoFlowNotification?: string;
+  photoFlowErrorMessage: ?string;
   onStartPhotoUploadFlow: () => void;
   onReportPhoto: (photo: PhotoModel) => void;
 };
@@ -182,7 +183,7 @@ class PhotoSection extends React.Component<Props, State> {
 
         <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
 
-        {photoFlowNotification && <PhotoNotification notificationType={photoFlowNotification} />}
+        {photoFlowNotification && <PhotoNotification notificationType={photoFlowNotification} photoFlowErrorMessage={this.props.photoFlowErrorMessage}/>}
       </section>;
   }
 }
