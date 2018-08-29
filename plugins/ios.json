@@ -10,9 +10,6 @@
     "cordova-plugin-advanced-http": {
       "PACKAGE_NAME": "org.wheelmap.app"
     },
-    "cordova-plugin-browsersync": {
-      "PACKAGE_NAME": "org.wheelmap.app"
-    },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "org.wheelmap.app"
     },

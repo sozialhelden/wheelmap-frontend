@@ -23,14 +23,6 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-browsersync": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-browsersync@^1.1.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-wkwebview-engine": {
     "source": {
       "type": "registry",
