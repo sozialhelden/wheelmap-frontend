@@ -576,6 +576,8 @@ class Loader extends React.Component<Props, State> {
     const { featureId } = this.state;
     if (featureId) {
       this.props.history.push(`/beta/nodes/${featureId}`);
+      const feature = wheelmapFeatureCache.getCachedFeature(String(featureId)) || wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
+      this.setState({ feature })
     }
   }
 
