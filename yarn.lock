@@ -6198,10 +6198,6 @@ leaflet-virtual-grid@^1.0.5:
   dependencies:
     leaflet "^1.0.0"
 
-leaflet.locatecontrol@^0.60.0:
-  version "0.60.0"
-  resolved "https://registry.yarnpkg.com/leaflet.locatecontrol/-/leaflet.locatecontrol-0.60.0.tgz#fc7be657ca9b7e8b8ba7263e52b0bb902b7cd965"
-
 leaflet.markercluster@^1.0.4:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.3.0.tgz#58eb0654e90bd3274a660390ab0bc734212b204d"

@@ -11,7 +11,7 @@ import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
 import { getQueryParams } from '../../lib/queryParams';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
-import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
+import LeafletLocateControl from './L.Control.Locate';
 
 import { isWheelchairAccessible, yesNoLimitedUnknownArray, yesNoUnknownArray, hasAccessibleToilet, wheelmapFeatureCollectionFromResponse, accessibilityCloudFeatureCollectionFromResponse } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
@@ -254,14 +254,6 @@ export default class Map extends React.Component<Props, State> {
     delete this.featureLayer;
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
-  }
-
-  componentDidUpdate() {
-    if (this.locateControl) {
-      // If a single feature is shown, do not pan the view when a new location comes in.
-      // If no feature is shown, follow the user's location until they pan the view themselves.
-      this.locateControl.options.setView = this.props.featureId ? 'once' : 'untilPan';
-    }
   }
 
   setupLocateMeButton(map: L.Map) {

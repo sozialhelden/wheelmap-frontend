@@ -2,9 +2,8 @@
 
 import { t } from 'ttag';
 import L from 'leaflet';
-import LeafletLocateControl from 'leaflet.locatecontrol/src/L.Control.Locate';
-import 'leaflet.locatecontrol';
-
+import LeafletLocateControl from './L.Control.Locate';
+import './L.Control.Locate.scss';
 import savedState, { saveState } from '../../lib/savedState';
 
 window.L = L;
@@ -21,7 +20,7 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
     icon: 'leaflet-icon-locate',
     iconLoading: 'leaflet-icon-locate-loading',
     showPopup: false,
-    setView: 'untilPan', // can be overridden by <Map />
+    setView: 'once', // can be overridden by <Map />
     clickBehavior: {
       // only disable when position is on screen
       inView: 'stop',
