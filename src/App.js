@@ -586,7 +586,7 @@ class Loader extends React.Component<Props, State> {
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.state.featureId) {
-      this.props.history.push(`${this.state.featureId}/edit-wheelchair-accessibility?presetStatus=${value}`);
+      this.props.history.push({ pathname: `${this.state.featureId}/edit-wheelchair-accessibility`, search: `presetStatus=${value}` });
     }
   };
 
@@ -643,7 +643,7 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams().presetStatus || null
+      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null
     };
 
     return <MainView {...extraProps} innerRef={mainView => {
