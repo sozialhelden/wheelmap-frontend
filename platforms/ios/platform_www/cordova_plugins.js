@@ -286,7 +286,6 @@ module.exports.metadata =
 {
   "cordova-plugin-file": "6.0.1",
   "cordova-plugin-advanced-http": "1.11.1",
-  "cordova-plugin-browsersync": "0.1.7",
   "cordova-plugin-statusbar": "2.3.0",
   "cordova-plugin-whitelist": "1.3.3",
   "cordova-plugin-wkwebview-engine": "1.1.4",
