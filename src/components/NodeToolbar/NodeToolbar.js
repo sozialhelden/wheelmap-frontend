@@ -204,11 +204,7 @@ class NodeToolbar extends React.Component<Props, State> {
     // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
     featureId={this.props.featureId} feature={this.props.feature} onSave={(newValue: YesNoLimitedUnknown) => {
       this.props.onClose();
-      if (includes(['yes', 'limited'], newValue)) {
-        this.props.onOpenToiletAccessibility();
-      } else {
-        this.props.onCloseWheelchairAccessibility();
-      }
+      this.props.onCloseWheelchairAccessibility();
     }} presetStatus={this.props.presetStatus} onClose={this.props.onClose} />;
   }
 
