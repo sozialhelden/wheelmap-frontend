@@ -5,6 +5,8 @@ const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
 
   top: 110px;
+  top: calc(110px + constant(safe-area-inset-top));
+  top: calc(110px + env(safe-area-inset-top));
   max-height: calc(100% - 120px);
   max-height: calc(100% - 120px - constant(safe-area-inset-top));
   max-height: calc(100% - 120px - env(safe-area-inset-top));
