@@ -13,14 +13,20 @@ this React.js application, so the rewrite is not complete yet.
 Prepare the environment
 
 ```
+# Environment variables
+cp .env.test .env.development
+
 # npm dependencies
 yarn install
+
 # fastlane dependencies
 bundle install
+
 # cordova
 npx cordova prepare android
 npx cordova prepare ios
-# install transifex tool
+
+# install transifex i18n / localization tool
 pip install transifex-client 
 ```
 
