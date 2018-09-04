@@ -88,6 +88,13 @@ To deploy:
 
 Note that each deployment increments the app version's patch level by one.
 
+Before deploying new versions:
+
+- Please test every app feature before deploying.
+- Ensure that translated strings show up translated in the UI. Set your device/browser language to anything else than `en-US` to test this.
+- If a new feature needs new strings, coordinate necessary translation tasks with the rest of the team. Sometimes, the strings you need might be provided by other features already – reuse them!
+- Test new features inside the Cordova iOS/Android apps. Cordova has some differences because it serves the app from the file system, which affects CORS and other security features. Running inside an in-app browser means that features like alert dialogs or opening something in a new tab work differently. We use a wrapper around `fetch()` and the a cordova HTTP plugin to overcome some of these limitations.
+
 ## Testing
 
 <a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
