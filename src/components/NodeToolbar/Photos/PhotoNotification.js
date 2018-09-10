@@ -54,6 +54,7 @@ class PhotoNotification extends React.Component<Props, State> {
           <StyledProblemIcon color={colors.negativeColor} />
           {t`Upload failed: server error or file-format not supported`}
           &nbsp;—&nbsp;
+          {/* Debug message, not translated intentionally */}
           {this.props.photoFlowErrorMessage}
         </small>,
       reported: <small>
