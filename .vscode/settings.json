@@ -1,11 +1,19 @@
-// Place your settings in this file to overwrite default and user settings.
 {
   "editor.tabSize": 2,
-  "javascript.validate.enable": false,
   "flow.useNPMPackagedFlow": true,
   "search.exclude": {
-      "build/**/*": true,
-      "lib/**/*": true
+    "build/**/*": true,
+    "lib/**/*": true
   },
-  "eslint.enable": true
+  // Custom formatting rules
+  "editor.wordWrapColumn": 100,
+  "javascript.validate.enable": false,
+  "editor.formatOnSave": true,
+  "eslint.autoFixOnSave": false,
+  "prettier.requireConfig": true,
+  "eslint.enable": true,
+  "tslint.jsEnable": false,
+  "tslint.autoFixOnSave": false,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false
 }

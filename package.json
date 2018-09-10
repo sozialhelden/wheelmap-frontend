@@ -89,14 +89,14 @@
     "css-loader": "0.28.4",
     "dotenv": "^4.0.0",
     "dotenv-cli": "^1.4.0",
-    "eslint": "4.4.1",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-react-app": "^2.0.0",
-    "eslint-loader": "1.9.0",
-    "eslint-plugin-flowtype": "2.35.0",
-    "eslint-plugin-import": "2.7.0",
-    "eslint-plugin-jsx-a11y": "5.1.1",
-    "eslint-plugin-react": "7.1.0",
+    "eslint": "^5.5.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-react-app": "^2.1.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-webdriverio": "^1.0.1",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "3.0.0",
@@ -107,10 +107,14 @@
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
     "http-proxy-middleware": "^0.17.4",
+    "husky": "^1.0.0-rc.13",
     "jest": "20.0.4",
+    "lint-staged": "^7.2.2",
     "npmignore": "^0.2.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.6",
+    "prettier-eslint": "^8.8.2",
+    "prettier-eslint-cli": "^4.7.1",
     "promise": "8.0.1",
     "react-dev-utils": "^4.0.1",
     "react-flow-types": "^0.1.1",
@@ -158,7 +162,19 @@
     "compile-category-icons": "basedir=src/components/icons/categories npm run compile-svg-directory",
     "compile-action-icons": "basedir=src/components/icons/actions npm run compile-svg-directory",
     "compile-svgs": "npm run compile-category-icons; npm run compile-markers; npm run compile-equipment-icons",
-    "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js; ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg"
+    "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js; ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
+    "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{src,test}/**/*.{js,jsx}": [
+      "prettier-eslint --write ",
+      "git add"
+    ]
   },
   "proxy": "https://wheelmap.org",
   "babel": {
