@@ -1,11 +1,12 @@
 {
   "name": "wheelmap-react",
   "displayName": "Wheelmap",
-  "version": "4.1.55",
+  "version": "4.1.56",
   "homepage": "https://wheelmap.org/beta/",
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
+    "browser-image-resizer": "^1.2.0",
     "cheerio": "^0.19.0",
     "cordova-android": "~7.0.0",
     "cordova-ios": "^4.5.4",

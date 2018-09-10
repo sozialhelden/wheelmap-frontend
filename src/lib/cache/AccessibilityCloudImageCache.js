@@ -1,11 +1,21 @@
 // @flow
 
+import readAndCompressImage from 'browser-image-resizer';
+
 import URLDataCache from './URLDataCache';
 import type { AccessibilityCloudImages } from '../Feature';
 import config from '../config';
 
 export const InvalidCaptchaReason = "invalid-captcha";
 export const UnknownReason = "unknown";
+
+const imageResizeConfig = {
+  quality: 0.7,
+  maxWidth: 1024,
+  maxHeight: 1024,
+  autoRotate: true,
+  debug: true,
+};
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
 
@@ -17,37 +27,32 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return this.getData(`${config.accessibilityCloudBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${config.accessibilityCloudAppToken}`);
   }
 
-  uploadPhotoForFeature(featureId: string, images: FileList, captchaSolution: string): Promise<boolean> {
+  async uploadPhotoForFeature(featureId: string, images: FileList, captchaSolution: string): Promise<any> {
     const image = images[0];
-
-    const uploadPromise = new Promise((resolve, reject) => {
-      this.constructor.fetch(`${config.accessibilityCloudUncachedBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`, {
-        method: "POST",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': image.type
-        },
-        body: image
-      }).then((response: Response) => {
-        if (response.ok) {
-          if (this.lastCaptcha) {
-            this.captchaSolution = captchaSolution;
-          }
-          resolve(true);
-        } else {
-          response.json().then(json => {
-            const reason = json.error.reason;
-            if (reason === "No captcha found.") {
-              reject(InvalidCaptchaReason);
-            } else {
-              reject(UnknownReason);
-            }
-          }).catch(reject);
-        }
-      }).catch(reject).catch(console.error);
+    const url = `${config.accessibilityCloudUncachedBaseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${config.accessibilityCloudAppToken}`;
+    const resizedImage = await readAndCompressImage(image, imageResizeConfig);
+    const response = await this.constructor.fetch(url, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'image/jpeg',
+      },
+      body: resizedImage
     });
 
-    return uploadPromise;
+    if (!response.ok) {
+      const json = await response.json();
+      const reason = json.error.reason;
+      if (reason === "No captcha found.") {
+        throw new Error(InvalidCaptchaReason);
+      } else {
+        throw new Error(json.error.reason);
+      }
+    }
+
+    if (this.lastCaptcha) {
+      this.captchaSolution = captchaSolution;
+    }
   }
 
   reportPhoto(photoId: string, reason: string): Promise<boolean> {
