@@ -17,15 +17,31 @@ import { isTouchDevice } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type { Feature, WheelmapFeature, AccessibilityCloudFeature, YesNoLimitedUnknown, YesNoUnknown, NodeProperties } from './lib/Feature';
+import type {
+  Feature,
+  WheelmapFeature,
+  AccessibilityCloudFeature,
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+  NodeProperties,
+} from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
-import { isWheelmapFeatureId, yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId, isFiltered } from './lib/Feature';
+import {
+  isWheelmapFeatureId,
+  yesNoLimitedUnknownArray,
+  yesNoUnknownArray,
+  getFeatureId,
+  isFiltered,
+} from './lib/Feature';
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
-import { accessibilityCloudImageCache, InvalidCaptchaReason } from './lib/cache/AccessibilityCloudImageCache';
+import {
+  accessibilityCloudImageCache,
+  InvalidCaptchaReason,
+} from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import { getQueryParams } from './lib/queryParams';
 import type { ModalNodeState } from './lib/queryParams';
@@ -36,43 +52,43 @@ import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 initReactFastclick();
 
 type Props = {
-  className: string;
-  history: RouterHistory;
-  location: Location;
+  className: string,
+  history: RouterHistory,
+  location: Location,
 };
 
 type State = {
-  featureId?: ?string;
-  equipmentInfoId?: ?string;
-  feature?: ?Feature;
-  category?: ?string;
-  toiletFilter?: YesNoUnknown[];
-  accessibilityFilter?: YesNoLimitedUnknown[];
-  lastError?: ?string;
-  searchQuery?: ?string;
+  featureId?: ?string,
+  equipmentInfoId?: ?string,
+  feature?: ?Feature,
+  category?: ?string,
+  toiletFilter?: YesNoUnknown[],
+  accessibilityFilter?: YesNoLimitedUnknown[],
+  lastError?: ?string,
+  searchQuery?: ?string,
 
-  lat: ?string;
-  lon: ?string;
-  zoom: ?string;
+  lat: ?string,
+  lon: ?string,
+  zoom: ?string,
 
-  isOnboardingVisible: boolean;
-  isMainMenuOpen: boolean;
-  isNotFoundVisible: boolean;
-  modalNodeState: ModalNodeState;
-  isLocalizationLoaded: boolean;
-  isSearchBarVisible: boolean;
-  isOnSmallViewport: boolean;
-  isSearchToolbarExpanded: boolean
+  isOnboardingVisible: boolean,
+  isMainMenuOpen: boolean,
+  isNotFoundVisible: boolean,
+  modalNodeState: ModalNodeState,
+  isLocalizationLoaded: boolean,
+  isSearchBarVisible: boolean,
+  isOnSmallViewport: boolean,
+  isSearchToolbarExpanded: boolean,
 
   // photo feature
-  ; isPhotoUploadCaptchaToolbarVisible: boolean;
-  isPhotoUploadInstructionsToolbarVisible: boolean;
-  photosMarkedForUpload: FileList | null;
-  waitingForPhotoUpload?: boolean;
-  photoCaptchaFailed?: boolean;
-  photoFlowNotification?: string;
-  photoFlowErrorMessage: ?string;
-  photoMarkedForReport: PhotoModel | null;
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
+  photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean,
+  photoFlowNotification?: string,
+  photoFlowErrorMessage: ?string,
+  photoMarkedForReport: PhotoModel | null,
 };
 
 function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
@@ -115,8 +131,8 @@ class Loader extends React.Component<Props, State> {
     toiletFilter: [],
     accessibilityFilter: [],
 
-    lat: savedState.map.lastCenter && savedState.map.lastCenter[0] || null,
-    lon: savedState.map.lastCenter && savedState.map.lastCenter[1] || null,
+    lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
+    lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
 
     isSearchBarVisible: isStickySearchBarSupported(),
@@ -157,7 +173,9 @@ class Loader extends React.Component<Props, State> {
     this.onHashUpdate();
     window.addEventListener('hashchange', this.onHashUpdate);
 
-    loadExistingLocalizationByPreference().then(() => this.setState({ isLocalizationLoaded: true }));
+    loadExistingLocalizationByPreference().then(() =>
+      this.setState({ isLocalizationLoaded: true })
+    );
   }
 
   componentWillUnmount() {
@@ -176,13 +194,7 @@ class Loader extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: Props, state: State): State {
     const routeInformation = getRouteInformation(props) || {};
-    const {
-      featureId,
-      equipmentInfoId,
-      category,
-      searchQuery,
-      modalNodeState
-    } = routeInformation;
+    const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
 
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
     const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
@@ -194,7 +206,7 @@ class Loader extends React.Component<Props, State> {
       searchQuery,
       modalNodeState,
       toiletFilter,
-      accessibilityFilter
+      accessibilityFilter,
     };
 
     const featureIdHasChanged = state.featureId !== featureId;
@@ -213,7 +225,7 @@ class Loader extends React.Component<Props, State> {
           feature,
           lat: null,
           lon: null,
-          zoom: null
+          zoom: null,
         });
       }
     }
@@ -238,7 +250,7 @@ class Loader extends React.Component<Props, State> {
     if (!routeInformation) {
       Object.assign(result, {
         isNotFoundVisible: true,
-        lastError: 'Route not found.'
+        lastError: 'Route not found.',
       });
       return result;
     }
@@ -258,8 +270,11 @@ class Loader extends React.Component<Props, State> {
       baseParams.lon = lastCenter[1];
     }
 
-    console.log("Previous state:", baseParams);
-    const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
+    console.log('Previous state:', baseParams);
+    const nextState = Object.assign(
+      baseParams,
+      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
+    );
     console.log('Next state:', nextState);
     this.setState(nextState);
   };
@@ -270,21 +285,34 @@ class Loader extends React.Component<Props, State> {
       this._asyncRequest.cancel();
     }
     const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    this._asyncRequest = cache.getFeature(featureId).then((feature: AccessibilityCloudFeature | WheelmapFeature) => {
-      if (!feature) return;
-      const currentlyShownId = getFeatureIdFromProps(this.props);
-      const fetchedId = getFeatureId(feature);
-      // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
-      // we ignore the response here instead.
-      if (currentlyShownId && fetchedId !== currentlyShownId) return;
-      this.setState({ feature, lat: null, lon: null, zoom: null });
-    }, reason => {
-      let error = null;
-      if (reason && (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)) {
-        error = reason;
+    this._asyncRequest = cache.getFeature(featureId).then(
+      (feature: AccessibilityCloudFeature | WheelmapFeature) => {
+        if (!feature) return;
+        const currentlyShownId = getFeatureIdFromProps(this.props);
+        const fetchedId = getFeatureId(feature);
+        // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
+        // we ignore the response here instead.
+        if (currentlyShownId && fetchedId !== currentlyShownId) return;
+        this.setState({ feature, lat: null, lon: null, zoom: null });
+      },
+      reason => {
+        let error = null;
+        if (
+          reason &&
+          (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)
+        ) {
+          error = reason;
+        }
+        this.setState({
+          feature: null,
+          lat: null,
+          lon: null,
+          zoom: null,
+          isNotFoundVisible: true,
+          lastError: error,
+        });
       }
-      this.setState({ feature: null, lat: null, lon: null, zoom: null, isNotFoundVisible: true, lastError: error });
-    });
+    );
   }
 
   manageFocus(prevProps: Props, prevState: State) {
@@ -316,7 +344,7 @@ class Loader extends React.Component<Props, State> {
 
     if (searchToolbarDidAppear && this.mainView.searchToolbar) {
       this.lastFocusedElement = document.activeElement;
-      
+
       // Need to check as searchToolbar can be null. @TODO A11y?
       if (this.mainView.searchToolbar) this.mainView.searchToolbar.focus();
     }
@@ -331,7 +359,10 @@ class Loader extends React.Component<Props, State> {
   }
 
   closeSearch() {
-    this.setState({ isSearchBarVisible: isStickySearchBarSupported(), isSearchToolbarExpanded: false });
+    this.setState({
+      isSearchBarVisible: isStickySearchBarSupported(),
+      isSearchToolbarExpanded: false,
+    });
   }
 
   onHashUpdate = () => {
@@ -346,8 +377,11 @@ class Loader extends React.Component<Props, State> {
       baseParams.lon = lastCenter[1];
     }
 
-    console.log("Previous state:", baseParams);
-    const nextState = Object.assign(baseParams, pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status'));
+    console.log('Previous state:', baseParams);
+    const nextState = Object.assign(
+      baseParams,
+      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
+    );
     console.log('Next state:', nextState);
     // this.setState(nextState);
   };
@@ -369,7 +403,7 @@ class Loader extends React.Component<Props, State> {
       'map.lastZoom': String(state.zoom),
       'map.lastCenter.lat': String(state.lat),
       'map.lastCenter.lon': String(state.lon),
-      'map.lastMoveDate': new Date().toString()
+      'map.lastMoveDate': new Date().toString(),
     });
   };
 
@@ -393,7 +427,7 @@ class Loader extends React.Component<Props, State> {
     if (!feature) return;
     this.setState({
       lat: get(feature, 'geometry.coordinates.1'),
-      lon: get(feature, 'geometry.coordinates.0')
+      lon: get(feature, 'geometry.coordinates.0'),
     });
   };
 
@@ -401,7 +435,7 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isNotFoundVisible: true, lastError: error });
   };
 
-  onSelectCoordinate = (coords: ?{ lat: string; lon: string; }) => {
+  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
     if (coords) {
       this.setState(coords);
     }
@@ -411,7 +445,7 @@ class Loader extends React.Component<Props, State> {
   onResetCategory = () => {
     this.setState({
       category: null,
-      isSearchToolbarExpanded: true
+      isSearchToolbarExpanded: true,
     });
   };
 
@@ -424,7 +458,7 @@ class Loader extends React.Component<Props, State> {
       isMainMenuOpen: false,
       isOnboardingVisible: false,
       isNotFoundVisible: false,
-      modalNodeState: null
+      modalNodeState: null,
     });
     this.onCloseNodeToolbar();
   };
@@ -476,34 +510,35 @@ class Loader extends React.Component<Props, State> {
   };
 
   onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
-    console.log("onFinishPhotoUploadFlow");
+    console.log('onFinishPhotoUploadFlow');
     const featureId = this.state.featureId;
 
     if (!featureId) {
-      console.error("No feature found, aborting upload!");
+      console.error('No feature found, aborting upload!');
       this.onExitPhotoUploadFlow();
       return;
     }
 
     this.setState({
       waitingForPhotoUpload: true,
-      photoFlowNotification: "uploadProgress"
+      photoFlowNotification: 'uploadProgress',
     });
 
-    accessibilityCloudImageCache.uploadPhotoForFeature(featureId, photos, captchaSolution)
+    accessibilityCloudImageCache
+      .uploadPhotoForFeature(featureId, photos, captchaSolution)
       .then(() => {
-        console.log("Succeeded upload");
-        this.onExitPhotoUploadFlow("waitingForReview");
+        console.log('Succeeded upload');
+        this.onExitPhotoUploadFlow('waitingForReview');
       })
       .catch(reason => {
-        console.error("Failed upload", reason);
+        console.error('Failed upload', reason);
         if (reason.message === InvalidCaptchaReason) {
           this.setState({
             waitingForPhotoUpload: false,
             photoCaptchaFailed: true,
           });
         } else {
-          this.onExitPhotoUploadFlow("uploadFailed", reason && reason.message);
+          this.onExitPhotoUploadFlow('uploadFailed', reason && reason.message);
         }
       });
   };
@@ -511,7 +546,7 @@ class Loader extends React.Component<Props, State> {
   onStartReportPhotoFlow = (photo: PhotoModel) => {
     this.setState({
       isSearchBarVisible: false,
-      photoMarkedForReport: photo
+      photoMarkedForReport: photo,
     });
   };
 
@@ -526,7 +561,7 @@ class Loader extends React.Component<Props, State> {
     this.setState({
       isSearchBarVisible: !isOnSmallViewport(),
       photoMarkedForReport: null,
-      photoFlowNotification: notification
+      photoFlowNotification: notification,
     });
   };
 
@@ -552,14 +587,14 @@ class Loader extends React.Component<Props, State> {
   onClickSearchToolbar = () => {
     this.setState({
       isSearchBarVisible: true,
-      isSearchToolbarExpanded: true
+      isSearchToolbarExpanded: true,
     });
   };
 
   onCloseSearchToolbar = () => {
     this.setState({
       isSearchBarVisible: isStickySearchBarSupported(),
-      isSearchToolbarExpanded: false
+      isSearchToolbarExpanded: false,
     });
     if (this.mainView) this.mainView.focusMap();
   };
@@ -580,8 +615,10 @@ class Loader extends React.Component<Props, State> {
     const { featureId } = this.state;
     if (featureId) {
       this.props.history.push(`/beta/nodes/${featureId}`);
-      const feature = wheelmapFeatureCache.getCachedFeature(String(featureId)) || wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
-      this.setState({ feature })
+      const feature =
+        wheelmapFeatureCache.getCachedFeature(String(featureId)) ||
+        wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
+      this.setState({ feature });
     }
   }
 
@@ -595,12 +632,21 @@ class Loader extends React.Component<Props, State> {
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.state.featureId) {
-      this.props.history.push({ pathname: `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`, search: `presetStatus=${value}` });
+      this.props.history.push({
+        pathname: `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`,
+        search: `presetStatus=${value}`,
+      });
     }
   };
 
   isNodeToolbarDisplayed(state = this.state) {
-    return state.feature && !state.isSearchToolbarExpanded && !state.isPhotoUploadCaptchaToolbarVisible && !state.isPhotoUploadInstructionsToolbarVisible && !state.photoMarkedForReport;
+    return (
+      state.feature &&
+      !state.isSearchToolbarExpanded &&
+      !state.isPhotoUploadCaptchaToolbarVisible &&
+      !state.isPhotoUploadInstructionsToolbarVisible &&
+      !state.photoMarkedForReport
+    );
   }
 
   render() {
@@ -608,7 +654,8 @@ class Loader extends React.Component<Props, State> {
     const modalNodeState = this.modalNodeState();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
-    const shouldLocateOnStart = !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
+    const shouldLocateOnStart =
+      !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
 
@@ -642,8 +689,10 @@ class Loader extends React.Component<Props, State> {
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
 
       // photo feature
-      isPhotoUploadCaptchaToolbarVisible: this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
-      isPhotoUploadInstructionsToolbarVisible: this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
+      isPhotoUploadCaptchaToolbarVisible:
+        this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
+      isPhotoUploadInstructionsToolbarVisible:
+        this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
       photosMarkedForUpload: this.state.photosMarkedForUpload,
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
@@ -652,24 +701,58 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null
+      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null,
     };
 
-    return <MainView {...extraProps} innerRef={mainView => {
-      this.mainView = mainView;
-    }} onClickSearchButton={this.onClickSearchButton} onToggleMainMenu={this.onToggleMainMenu} onMoveEnd={this.onMoveEnd} onMapClick={this.onMapClick} onMarkerClick={this.onMarkerClick} onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon} onError={this.onError} onSelectCoordinate={this.onSelectCoordinate} onResetCategory={this.onResetCategory} onCloseNotFoundDialog={this.onCloseNotFoundDialog} onClickFullscreenBackdrop={this.onClickFullscreenBackdrop} onOpenReportMode={this.onOpenReportMode} onCloseNodeToolbar={this.onCloseNodeToolbar} onCloseOnboarding={this.onCloseOnboarding} onClickSearchToolbar={this.onClickSearchToolbar} onCloseSearchToolbar={this.onCloseSearchToolbar} onCloseCreatePlaceDialog={this.onCloseNodeToolbar} onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility} onOpenToiletAccessibility={this.onOpenToiletAccessibility} onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility} onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility} onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-
-    // photo feature
-    onStartPhotoUploadFlow={this.onStartPhotoUploadFlow} onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow} onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow} onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow} onStartReportPhotoFlow={this.onStartReportPhotoFlow} onFinishReportPhotoFlow={this.onFinishReportPhotoFlow} onAbortReportPhotoFlow={this.onExitReportPhotoFlow} />;
+    return (
+      <MainView
+        {...extraProps}
+        innerRef={mainView => {
+          this.mainView = mainView;
+        }}
+        onClickSearchButton={this.onClickSearchButton}
+        onToggleMainMenu={this.onToggleMainMenu}
+        onMoveEnd={this.onMoveEnd}
+        onMapClick={this.onMapClick}
+        onMarkerClick={this.onMarkerClick}
+        onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
+        onError={this.onError}
+        onSelectCoordinate={this.onSelectCoordinate}
+        onResetCategory={this.onResetCategory}
+        onCloseNotFoundDialog={this.onCloseNotFoundDialog}
+        onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
+        onOpenReportMode={this.onOpenReportMode}
+        onCloseNodeToolbar={this.onCloseNodeToolbar}
+        onCloseOnboarding={this.onCloseOnboarding}
+        onClickSearchToolbar={this.onClickSearchToolbar}
+        onCloseSearchToolbar={this.onCloseSearchToolbar}
+        onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
+        onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
+        onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+        onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
+        onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
+        onCloseToiletAccessibility={this.onCloseToiletAccessibility}
+        // photo feature
+        onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
+        onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
+        onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
+        onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
+        onStartReportPhotoFlow={this.onStartReportPhotoFlow}
+        onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
+        onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
+      />
+    );
   }
 }
 
 function App() {
   const Router = window.cordova ? MemoryRouter : BrowserRouter;
 
-  return <Router>
-    <Route path="/" component={Loader} />
-  </Router>;
+  return (
+    <Router>
+      <Route path="/" component={Loader} />
+    </Router>
+  );
 }
 
 export default App;
