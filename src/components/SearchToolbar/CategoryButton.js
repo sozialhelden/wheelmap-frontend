@@ -51,8 +51,6 @@ const StyledNavLink = styled(NavLink)`
   svg.icon {
     width: 21px;
     height: 21px;
-    top: initial;
-    left: initial;
   }
 
   &.active {
