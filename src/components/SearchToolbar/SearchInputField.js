@@ -58,7 +58,7 @@ class SearchInputField extends React.Component<Props> {
     const defaultPlaceholder = t`Search for place or address`;
     const value = placeholder || searchQuery || '';
 
-    return <input ref={input => this.input = input} value={value} name="search" onChange={onChange} disabled={disabled} tabIndex={hidden ? -1 : 0} onFocus={onFocus} onBlur={onBlur} onClick={onClick} onKeyPress={this.keyPressed} className={`search-input ${className}`} placeholder={!Boolean(value) ? defaultPlaceholder : null} aria-label={defaultPlaceholder} role={ariaRole} />;
+    return <input ref={input => this.input = input} value={value} name="search" onChange={onChange} disabled={disabled} tabIndex={hidden ? -1 : 0} onFocus={onFocus} onBlur={onBlur} onClick={onClick} onKeyPress={this.keyPressed} className={`search-input ${className}`} placeholder={!Boolean(value) ? defaultPlaceholder : null} aria-label={defaultPlaceholder} role={ariaRole} autoComplete="off" />;
   }
 }
 
