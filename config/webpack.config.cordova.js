@@ -147,7 +147,12 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx)$/,
-            include: paths.appSrc,
+            include: [
+              paths.appSrc,
+              // Include certain node modules to be transpiled with babel
+              // (needed for IE 11 and certain Android Builds)
+              path.resolve(paths.appNodeModules, 'wicg-focus-ring'),
+            ],
             loader: require.resolve('babel-loader'),
             options: {
               plugins: [

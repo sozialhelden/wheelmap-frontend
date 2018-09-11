@@ -49,7 +49,7 @@ class NotFound extends React.Component<Props> {
     // translator: Shown when device is offline.
     const offlineText = t`Sorry, we are offline!`;
 
-    const isNotFound = this.props.error && this.props.error instanceof Response && this.props.error.status === 404;
+    const isNotFound = this.props.error && (Response != null && this.props.error instanceof Response) && this.props.error.status === 404;
 
     const isOffline = get(this.props, 'error.response.status') === 3;
 
