@@ -186,7 +186,8 @@
   },
   "browserslist": [
     "defaults",
-    "android >= 44"
+    "android >= 44",
+    "IE >= 11"
   ],
   "jest": {
     "collectCoverageFrom": [
