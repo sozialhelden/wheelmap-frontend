@@ -59,6 +59,7 @@
     "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.0.0",
     "autoprefixer": "7.1.2",
     "babel": "^6.23.0",
     "babel-cli": "^6.26.0",
@@ -68,9 +69,10 @@
     "babel-loader": "7.1.1",
     "babel-plugin-ttag": "^1.1.0-0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react-app": "^3.0.2",
+    "babel-preset-react-app": "^3.1.2",
     "babel-runtime": "6.26.0",
     "browser-sync": "^2.24.4",
+    "browserslist": "^4.1.1",
     "browserstack-local": "^1.3.3",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
     "chalk": "1.1.3",
@@ -182,6 +184,10 @@
       "react-app"
     ]
   },
+  "browserslist": [
+    "defaults",
+    "android >= 44"
+  ],
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"

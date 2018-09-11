@@ -1,5 +1,8 @@
 // @flow
 
+// babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
+// polyfill import to be replaced with polyfills we need for our targeted browsers.
+import '@babel/polyfill';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import axe from 'react-axe';

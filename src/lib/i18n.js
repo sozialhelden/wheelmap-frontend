@@ -51,10 +51,16 @@ export function expandedPreferredLocales() {
   // Note that some browsers don't support navigator.languages
   const overriddenLocale = getQueryParams().locale;
   const localesPreferredByUser = [].concat(window.navigator.languages) || [];
+
   if (overriddenLocale) {
     localesPreferredByUser.unshift(overriddenLocale);
   }
-  const locales = localesPreferredByUser.concat([window.navigator.language, defaultLocale]);
+
+  const locales = localesPreferredByUser
+    .concat([window.navigator.language, defaultLocale])
+    // Filter empty or undefined locales. Android 4.4 seems to have
+    // an undefined window.navigator.language in WebView.
+    .filter(Boolean);
 
   // Try all locales without country code, too
   return uniq(flatten(locales.map(l => [l, localeWithoutCountry(l)])));
