@@ -38,8 +38,6 @@ const StyledNavLink = styled(NavLink)`
   svg.icon {
     width: 21px;
     height: 21px;
-    top: initial;
-    left: initial;
   }
 
   .accessibilities {
@@ -53,6 +51,7 @@ const StyledNavLink = styled(NavLink)`
 
   &.is-active {
     background-color: ${colors.coldBackgroundColor};
+
     .circle {
       background-color: ${colors.selectedColor};
     }
@@ -60,6 +59,7 @@ const StyledNavLink = styled(NavLink)`
 
   &:hover, &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
+
     &.is-active {
       .circle {
         background-color: ${colors.darkSelectedColor};

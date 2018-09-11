@@ -44,13 +44,16 @@ const StyledIconContainer = styled('figure')`
   height: ${props => width(props.size)}px;
   font-size: ${props => width(props.size)}px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   ${props => props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : ''}
   ${props => props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''}
 
   svg {
-    position: absolute;
     &.background {
+      position: absolute;
       width: 100%;
       height: 100%;
       top: 0;
@@ -59,11 +62,12 @@ const StyledIconContainer = styled('figure')`
         fill: ${props => props.accessibility ? colors.markers.background[props.accessibility] : props.backgroundColor || 'white'};
       }
     }
+    
     &.icon {
+      position: relative;
       width: 60%;
       height: 60%;
-      top: 20%;
-      left: 20%;
+
       g, polygon, path, circle, rect {
         fill: ${props => props.accessibility ? colors.markers.foreground[props.accessibility] : props.foregroundColor || '#888'};
       }
