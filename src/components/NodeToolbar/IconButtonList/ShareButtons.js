@@ -151,7 +151,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     // If we are on web we just use the default behavior of the share buttons.
     const linkOpeningViaLocationHrefProps = window.cordova
       ? { openWindow: false, onClick: link => (window.location.href = link) }
-      : null;
+      : {};
 
     return <div className={this.props.className}>
       <button ref={collapseButton => this.collapseButton = collapseButton} className={'link-button collapse-button'} onClick={() => this.toggle(false)} aria-expanded={this.state.isExpanded} aria-label={t`Collapse share menu`}>
