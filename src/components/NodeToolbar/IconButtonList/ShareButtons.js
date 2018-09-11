@@ -144,25 +144,43 @@ class ExpandableShareButtons extends React.Component<Props, State> {
 
     if (!this.state.isExpanded) return expandButton;
 
+    const openLinkViaLocationHref = link => window.location.href = link;
+
     return <div className={this.props.className}>
       <button ref={collapseButton => this.collapseButton = collapseButton} className={'link-button collapse-button'} onClick={() => this.toggle(false)} aria-expanded={this.state.isExpanded} aria-label={t`Collapse share menu`}>
         <ChevronLeft />
       </button>
 
       <footer className={this.state.isExpanded ? 'is-visible' : ''}>
-        <FacebookShareButton url={url} quote={pageDescription}>
+        <FacebookShareButton
+          url={url}
+          quote={pageDescription}
+          openWindow={false}
+          onClick={openLinkViaLocationHref}
+        >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
             <FacebookIcon />
           </StyledIconButton>
         </FacebookShareButton>
 
-        <TwitterShareButton url={url} title={sharedObjectTitle} hashtags={['wheelmap', 'accessibility', 'a11y']}>
+        <TwitterShareButton
+          url={url}
+          title={sharedObjectTitle}
+          hashtags={['wheelmap', 'accessibility', 'a11y']}
+          openWindow={false}
+          onClick={openLinkViaLocationHref}
+        >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
             <TwitterIcon />
           </StyledIconButton>
         </TwitterShareButton>
 
-        <TelegramShareButton url={url} title={sharedObjectTitle}>
+        <TelegramShareButton
+          url={url}
+          title={sharedObjectTitle}
+          openWindow={false}
+          onClick={openLinkViaLocationHref}
+        >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
             <TelegramIcon />
           </StyledIconButton>
@@ -174,7 +192,12 @@ class ExpandableShareButtons extends React.Component<Props, State> {
           </StyledIconButton>
         </a>
 
-        <WhatsappShareButton url={url} title={sharedObjectTitle}>
+        <WhatsappShareButton
+          url={url}
+          title={sharedObjectTitle}
+          openWindow={false}
+          onClick={openLinkViaLocationHref}
+        >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
             <WhatsAppIcon />
           </StyledIconButton>
