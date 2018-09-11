@@ -154,15 +154,18 @@ const StyledOnboarding = styled(Onboarding)`
     background-color: rgba(255, 255, 255, 0.92);
     box-shadow: 0 5px 30px rgba(0,0,0,0.15), 0 2px 5px rgba(0,0,0,0.3);
     animation: fadeIn .5s linear;
+    width: 100%; // Fix IE 11. @TODO Safe to be moved to ModalDialog component?
 
     .logo {
       width: 250px;
-      height: auto;
+      height: 53px; // IE 11 does not preserve aspect ratio correctly and needs a fixed height.
     }
 
     @media (max-width: 1199px) {
       flex-direction: column !important;
-      > footer, > header {
+      
+      > footer,
+      > header {
         text-align: center;
         max-width: 500px;
         align-self: center;
