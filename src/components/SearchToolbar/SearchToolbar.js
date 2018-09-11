@@ -111,6 +111,8 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   > header {
+    // Add relative positioning for browsers not supporting position sticky.
+    position: relative;
     position: sticky;
     display: flex;
     top: 0;
