@@ -10,9 +10,6 @@
     "cordova-plugin-advanced-http": {
       "PACKAGE_NAME": "org.wheelmap.android.online"
     },
-    "cordova-plugin-browsersync": {
-      "PACKAGE_NAME": "org.wheelmap.android.online"
-    },
     "cordova-plugin-device": {
       "PACKAGE_NAME": "org.wheelmap.android.online"
     },

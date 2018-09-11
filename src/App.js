@@ -528,13 +528,13 @@ class Loader extends React.Component<Props, State> {
 
   onOpenReportMode = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/nodes/${String(this.state.featureId)}/report`);
+      this.props.history.push(`/beta/nodes/${String(this.state.featureId)}/report`);
     }
   };
 
   onCloseNodeToolbar = () => {
     const { featureId } = this.state;
-    const path = featureId ? `/nodes/${String(this.state.featureId)}` : '/';
+    const path = featureId ? `/beta/nodes/${String(this.state.featureId)}` : '/';
     this.props.history.push(path);
     // this.setState({ modalNodeState: null });
   };
@@ -562,31 +562,36 @@ class Loader extends React.Component<Props, State> {
 
   onOpenWheelchairAccessibility = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/nodes/${this.state.featureId}/edit-wheelchair-accessibility`);
+      this.props.history.push(`/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`);
     }
   };
 
   onOpenToiletAccessibility = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/nodes/${this.state.featureId}/edit-toilet-accessibility`);
+      this.props.history.push(`/beta/nodes/${this.state.featureId}/edit-toilet-accessibility`);
     }
   };
 
-  onCloseWheelchairAccessibility = () => {
-    if (this.state.featureId) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
+  gotoCurrentFeature() {
+    const { featureId } = this.state;
+    if (featureId) {
+      this.props.history.push(`/beta/nodes/${featureId}`);
+      const feature = wheelmapFeatureCache.getCachedFeature(String(featureId)) || wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
+      this.setState({ feature })
     }
+  }
+
+  onCloseWheelchairAccessibility = () => {
+    this.gotoCurrentFeature();
   };
 
   onCloseToiletAccessibility = () => {
-    if (this.state.featureId) {
-      this.props.history.push(`/nodes/${this.state.featureId}`);
-    }
+    this.gotoCurrentFeature();
   };
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.state.featureId) {
-      this.props.history.push(`${this.state.featureId}/edit-wheelchair-accessibility?presetStatus=${value}`);
+      this.props.history.push({ pathname: `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`, search: `presetStatus=${value}` });
     }
   };
 
@@ -643,7 +648,7 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams().presetStatus || null
+      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null
     };
 
     return <MainView {...extraProps} innerRef={mainView => {

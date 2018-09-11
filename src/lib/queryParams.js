@@ -5,9 +5,11 @@ import type { RouterHistory } from 'react-router-dom';
 
 export type ModalNodeState = 'create' | 'edit-wheelchair-accessibility' | 'edit-toilet-accessibility' | 'report' | null;
 
-export function getQueryParams() {
+export function getQueryParams(search?: string) {
   const result = {};
-  if (window.location.hash.match(/\?/)) {
+  if (search) {
+    Object.assign(result, queryString.parse(search));
+  } else if (window.location.hash.match(/\?/)) {
     Object.assign(result, queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, '')));
   } else if (window.location.search.match(/\?/)) {
     Object.assign(result, queryString.parse(window.location.search.replace(/^\?/, '')));
