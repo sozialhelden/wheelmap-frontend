@@ -63,6 +63,8 @@ To deploy the web application:
 
 ## Setting up / building the Cordova apps
 
+Before this, you need a `.env.production` file in your root folder. If you already have `.env.development`, you can copy it.
+
 ```bash
 npx cordova prepare android ios
 # for ios
