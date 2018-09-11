@@ -95,8 +95,11 @@ export default class Map extends React.Component<Props, State> {
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
+  mapHasBeenMoved: boolean = false;
 
   onMoveEnd() {
+    this.mapHasBeenMoved = true;
+    debugger
     const map = this.map;
     if (!map) return;
     const { lat, lng } = map.getCenter();
@@ -279,7 +282,7 @@ export default class Map extends React.Component<Props, State> {
     });
 
     map.once('locationfound', () => {
-      if (this.locateControl && this.props.locateOnStart) {
+      if (this.locateControl && this.props.locateOnStart && !this.mapHasBeenMoved) {
         this.locateControl.setView();
       }
     });
