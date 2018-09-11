@@ -11,6 +11,7 @@ window.L = L;
 type Options = {
   locateOnStart: boolean;
   onLocationError: (error: any) => void;
+  onClick: (() => void),
 };
 
 export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError, onClick }: Options) {
@@ -43,7 +44,6 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
     locateOptions: {
       enableHighAccuracy: false,
       watch: true,
-      setView: locateOnStart,
       maxZoom: 17
     }
   }).addTo(map);
