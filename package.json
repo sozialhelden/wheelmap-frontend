@@ -185,9 +185,20 @@
     ]
   },
   "browserslist": [
-    "defaults",
-    "android >= 44",
-    "IE >= 11"
+    "Android > 4.4",
+    "UCAndroid >= 11.8",
+    "ChromeAndroid >= 67",
+    "Firefox >= 44",
+    "Samsung >= 4",
+    "Chrome >= 49",
+    "OperaMobile > 1",
+    "Safari >= 9",
+    "Edge >= 16",
+    "IE >= 11",
+    "Opera >= 53",
+    "iOS >= 10",
+    "last 1 version",
+    "> 1%"
   ],
   "jest": {
     "collectCoverageFrom": [
