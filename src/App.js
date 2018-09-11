@@ -303,18 +303,22 @@ class Loader extends React.Component<Props, State> {
     const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
 
     if (nodeToolbarDidDisappear || searchToolbarDidDisappear) {
-      window.document.activeElement.blur();
+      if (window.document.activeElement) window.document.activeElement.blur();
       if (this.lastFocusedElement) this.lastFocusedElement.focus();
     }
 
     if ((nodeToolbarDidAppear || featureIdHasChanged) && this.mainView.nodeToolbar) {
       this.lastFocusedElement = document.activeElement;
-      this.mainView.nodeToolbar.focus();
+
+      // Need to check as nodeToolbar can be null. @TODO A11y?
+      if (this.mainView.nodeToolbar) this.mainView.nodeToolbar.focus();
     }
 
     if (searchToolbarDidAppear && this.mainView.searchToolbar) {
       this.lastFocusedElement = document.activeElement;
-      this.mainView.searchToolbar.focus();
+      
+      // Need to check as searchToolbar can be null. @TODO A11y?
+      if (this.mainView.searchToolbar) this.mainView.searchToolbar.focus();
     }
   }
 
