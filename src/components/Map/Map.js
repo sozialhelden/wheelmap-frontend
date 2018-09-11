@@ -277,6 +277,12 @@ export default class Map extends React.Component<Props, State> {
         }
       }
     });
+
+    map.once('locationfound', () => {
+      if (this.locateControl && this.props.locateOnStart) {
+        this.locateControl.setView();
+      }
+    });
   }
 
   setupWheelmapTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
