@@ -144,7 +144,14 @@ class ExpandableShareButtons extends React.Component<Props, State> {
 
     if (!this.state.isExpanded) return expandButton;
 
-    const openLinkViaLocationHref = link => window.location.href = link;
+    // The share button lib we're using is using window.open() by default which
+    // seems to not work in our Cordova app for some reason. If we are a Cordova
+    // app then we configure the share buttons to use window.location.href which
+    // works in Cordova.
+    // If we are on web we just use the default behavior of the share buttons.
+    const linkOpeningViaLocationHrefProps = window.cordova
+      ? { openWindow: false, onClick: link => (window.location.href = link) }
+      : null;
 
     return <div className={this.props.className}>
       <button ref={collapseButton => this.collapseButton = collapseButton} className={'link-button collapse-button'} onClick={() => this.toggle(false)} aria-expanded={this.state.isExpanded} aria-label={t`Collapse share menu`}>
@@ -155,8 +162,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
         <FacebookShareButton
           url={url}
           quote={pageDescription}
-          openWindow={false}
-          onClick={openLinkViaLocationHref}
+          {...linkOpeningViaLocationHrefProps}
         >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
             <FacebookIcon />
@@ -167,8 +173,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
           url={url}
           title={sharedObjectTitle}
           hashtags={['wheelmap', 'accessibility', 'a11y']}
-          openWindow={false}
-          onClick={openLinkViaLocationHref}
+          {...linkOpeningViaLocationHrefProps}
         >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
             <TwitterIcon />
@@ -178,8 +183,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
         <TelegramShareButton
           url={url}
           title={sharedObjectTitle}
-          openWindow={false}
-          onClick={openLinkViaLocationHref}
+          {...linkOpeningViaLocationHrefProps}
         >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
             <TelegramIcon />
@@ -195,8 +199,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
         <WhatsappShareButton
           url={url}
           title={sharedObjectTitle}
-          openWindow={false}
-          onClick={openLinkViaLocationHref}
+          {...linkOpeningViaLocationHrefProps}
         >
           <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
             <WhatsAppIcon />
