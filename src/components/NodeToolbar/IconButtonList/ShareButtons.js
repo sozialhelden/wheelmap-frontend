@@ -2,7 +2,12 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
-import { ShareButtons } from 'react-share';
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  TelegramShareButton,
+  WhatsappShareButton,
+} from 'react-share';
 import { t } from 'ttag';
 import colors from '../../../lib/colors';
 import IconButton from '../../IconButton';
@@ -19,13 +24,6 @@ import EmailIcon from './icons/Email';
 import WhatsAppIcon from './icons/WhatsApp';
 
 import ShareIcon from '../../icons/actions/ShareIOS';
-
-const {
-  FacebookShareButton,
-  TwitterShareButton,
-  TelegramShareButton,
-  WhatsappShareButton
-} = ShareButtons;
 
 type Props = {
   feature: Feature;
