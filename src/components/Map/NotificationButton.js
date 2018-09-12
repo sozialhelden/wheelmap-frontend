@@ -6,25 +6,37 @@ import styled from 'styled-components';
 import { isTouchDevice } from '../../lib/userAgent';
 
 type Props = {
-  caption: string;
-  onActivate: () => void;
-  isHidden?: boolean;
-  ariaHidden?: boolean;
-  topPosition: number;
-  color: string;
-  className: string;
+  caption: string,
+  onActivate: () => void,
+  isHidden?: boolean,
+  ariaHidden?: boolean,
+  topPosition: number,
+  color: string,
+  className: string,
 };
 
 function NotificationButton(props: Props) {
-  const classNames = [props.isHidden && 'is-hidden', isTouchDevice() && 'is-touch-device', props.className].filter(Boolean);
+  const classNames = [
+    props.isHidden && 'is-hidden',
+    isTouchDevice() && 'is-touch-device',
+    props.className,
+  ].filter(Boolean);
 
-  return <a className={classNames.join(' ')} onKeyDown={event => {
-    if (includes(['Enter', ' '], event.key)) {
-      props.onActivate();
-    }
-  }} onClick={props.onActivate} role="button" tabIndex={-1} aria-hidden={props.ariaHidden}>
-    <span>{props.caption}</span>
-  </a>;
+  return (
+    <button
+      className={classNames.join(' ')}
+      onKeyDown={event => {
+        if (includes(['Enter', ' '], event.key)) {
+          props.onActivate();
+        }
+      }}
+      onClick={props.onActivate}
+      tabIndex={-1}
+      aria-hidden={props.ariaHidden}
+    >
+      <span>{props.caption}</span>
+    </button>
+  );
 }
 
 const StyledNotificationButton = styled(NotificationButton)`
@@ -57,16 +69,17 @@ const StyledNotificationButton = styled(NotificationButton)`
     color: white;
     z-index: 1;
     border-radius: 4px;
-    font-size: .9rem;
+    font-size: 0.9rem;
     font-weight: 300;
-    text-shadow: 0 0px 1px rgba(0,0,0,0.5);
+    text-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
   }
 
   &:not(.is-touch-device) {
     ::before {
       border-color: rgba(0, 0, 0, 0.15);
     }
-    ::before, ::after {
+    ::before,
+    ::after {
       content: '';
       position: absolute;
       border-style: solid;
