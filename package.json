@@ -90,7 +90,6 @@
     "dotenv": "^4.0.0",
     "dotenv-cli": "^1.4.0",
     "eslint": "^5.5.0",
-    "eslint-config-airbnb": "^17.1.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "^2.1.0",
     "eslint-plugin-flowtype": "^2.50.0",
