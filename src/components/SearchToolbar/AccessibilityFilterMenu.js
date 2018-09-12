@@ -9,6 +9,7 @@ import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
+import { yesNoUnknownArray } from '../../lib/Feature';
 
 type Props = PlaceFilter & {
   history: RouterHistory,
@@ -72,9 +73,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
   const availableFilters = getAvailableFilters();
   return Object.keys(availableFilters).find(key => {
     const filter = availableFilters[key];
-    const requestedToiletFilter = isEqual(toiletFilter, ['no', 'unknown', 'yes'])
-      ? []
-      : toiletFilter;
+    const requestedToiletFilter = isEqual(toiletFilter, yesNoUnknownArray) ? [] : toiletFilter;
     return (
       isEqual(requestedToiletFilter, filter.toiletFilter) &&
       isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
