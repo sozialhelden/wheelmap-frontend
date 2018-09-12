@@ -93,15 +93,25 @@ type State = {
 
 function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
   const allowedStatuses = yesNoLimitedUnknownArray;
-  if (!statusString) return [].concat(allowedStatuses);
-  const result = statusString.split(/\./).filter(s => includes(allowedStatuses, s));
+
+  // Safe mutable sort as we have a new array in both cases.
+  const result = (statusString
+    ? statusString.split(/\./).filter(s => includes(allowedStatuses, s))
+    : [...allowedStatuses]
+  ).sort();
+
   return ((result: any): YesNoLimitedUnknown[]);
 }
 
 function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
   const allowedStatuses = yesNoUnknownArray;
-  if (!toiletString) return [].concat(allowedStatuses);
-  const result = toiletString.split(/\./).filter(s => includes(allowedStatuses, s));
+
+  // Safe mutable sort as we have a new array in both cases.
+  const result = (toiletString
+    ? toiletString.split(/\./).filter(s => includes(allowedStatuses, s))
+    : [...allowedStatuses]
+  ).sort();
+
   return ((result: any): YesNoUnknown[]);
 }
 

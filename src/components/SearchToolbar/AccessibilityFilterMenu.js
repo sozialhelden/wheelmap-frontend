@@ -72,7 +72,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
   const availableFilters = getAvailableFilters();
   return Object.keys(availableFilters).find(key => {
     const filter = availableFilters[key];
-    const requestedToiletFilter = isEqual(toiletFilter, ['yes', 'no', 'unknown'])
+    const requestedToiletFilter = isEqual(toiletFilter, ['no', 'unknown', 'yes'])
       ? []
       : toiletFilter;
     return (
@@ -92,7 +92,7 @@ function AccessibilityFilterMenu(props: Props) {
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
       <section className="accessibility-filter">
-        {shownFilterKeys.map((key, index) => (
+        {shownFilterKeys.map(key => (
           <AccessibilityFilterButton
             accessibilityFilter={availableFilters[key].accessibilityFilter}
             toiletFilter={availableFilters[key].toiletFilter}

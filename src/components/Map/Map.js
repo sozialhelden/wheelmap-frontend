@@ -371,13 +371,12 @@ export default class Map extends React.Component<Props, State> {
     }
 
     const accessibilityFilterChanged = !isEqual(
-      this.props.accessibilityFilter.sort(),
-      newProps.accessibilityFilter.sort()
+      this.props.accessibilityFilter,
+      newProps.accessibilityFilter
     );
-    const toiletFilterChanged = !isEqual(
-      this.props.toiletFilter.sort(),
-      newProps.toiletFilter.sort()
-    );
+
+    const toiletFilterChanged = !isEqual(this.props.toiletFilter, newProps.toiletFilter);
+
     if (accessibilityFilterChanged || toiletFilterChanged) {
       setTimeout(() => {
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
