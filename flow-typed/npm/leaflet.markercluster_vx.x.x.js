@@ -1,4 +1,4 @@
-// flow-typed signature: 9514d28e91b8233ee2055290bcf9a6f6
+// flow-typed signature: 0afb03eb5138415f1a2ad2df65910f5b
 // flow-typed version: <<STUB>>/leaflet.markercluster_v^1.0.4/flow_v0.54.1
 
 /**
@@ -22,15 +22,11 @@ declare module 'leaflet.markercluster' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'leaflet.markercluster/build/build' {
-  declare module.exports: any;
-}
-
-declare module 'leaflet.markercluster/build/deps' {
-  declare module.exports: any;
-}
-
 declare module 'leaflet.markercluster/build/hintrc' {
+  declare module.exports: any;
+}
+
+declare module 'leaflet.markercluster/build/rollup-config' {
   declare module.exports: any;
 }
 
@@ -71,10 +67,6 @@ declare module 'leaflet.markercluster/spec/after' {
 }
 
 declare module 'leaflet.markercluster/spec/expect' {
-  declare module.exports: any;
-}
-
-declare module 'leaflet.markercluster/spec/happen' {
   declare module.exports: any;
 }
 
@@ -154,6 +146,10 @@ declare module 'leaflet.markercluster/spec/suites/markerMoveSupportSpec' {
   declare module.exports: any;
 }
 
+declare module 'leaflet.markercluster/spec/suites/nonIntegerZoomSpec' {
+  declare module.exports: any;
+}
+
 declare module 'leaflet.markercluster/spec/suites/NonPointSpec' {
   declare module.exports: any;
 }
@@ -163,6 +159,10 @@ declare module 'leaflet.markercluster/spec/suites/onAddSpec' {
 }
 
 declare module 'leaflet.markercluster/spec/suites/onRemoveSpec' {
+  declare module.exports: any;
+}
+
+declare module 'leaflet.markercluster/spec/suites/PaneSpec' {
   declare module.exports: any;
 }
 
@@ -214,11 +214,11 @@ declare module 'leaflet.markercluster/spec/suites/zoomAnimationSpec' {
   declare module.exports: any;
 }
 
-declare module 'leaflet.markercluster/src/copyright' {
+declare module 'leaflet.markercluster/src/DistanceGrid' {
   declare module.exports: any;
 }
 
-declare module 'leaflet.markercluster/src/DistanceGrid' {
+declare module 'leaflet.markercluster/src/index' {
   declare module.exports: any;
 }
 
@@ -247,14 +247,11 @@ declare module 'leaflet.markercluster/src/MarkerOpacity' {
 }
 
 // Filename aliases
-declare module 'leaflet.markercluster/build/build.js' {
-  declare module.exports: $Exports<'leaflet.markercluster/build/build'>;
-}
-declare module 'leaflet.markercluster/build/deps.js' {
-  declare module.exports: $Exports<'leaflet.markercluster/build/deps'>;
-}
 declare module 'leaflet.markercluster/build/hintrc.js' {
   declare module.exports: $Exports<'leaflet.markercluster/build/hintrc'>;
+}
+declare module 'leaflet.markercluster/build/rollup-config.js' {
+  declare module.exports: $Exports<'leaflet.markercluster/build/rollup-config'>;
 }
 declare module 'leaflet.markercluster/dist/leaflet.markercluster-src.js' {
   declare module.exports: $Exports<'leaflet.markercluster/dist/leaflet.markercluster-src'>;
@@ -285,9 +282,6 @@ declare module 'leaflet.markercluster/spec/after.js' {
 }
 declare module 'leaflet.markercluster/spec/expect.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/expect'>;
-}
-declare module 'leaflet.markercluster/spec/happen.js' {
-  declare module.exports: $Exports<'leaflet.markercluster/spec/happen'>;
 }
 declare module 'leaflet.markercluster/spec/karma.conf.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/karma.conf'>;
@@ -346,6 +340,9 @@ declare module 'leaflet.markercluster/spec/suites/LeafletSpec.js' {
 declare module 'leaflet.markercluster/spec/suites/markerMoveSupportSpec.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/suites/markerMoveSupportSpec'>;
 }
+declare module 'leaflet.markercluster/spec/suites/nonIntegerZoomSpec.js' {
+  declare module.exports: $Exports<'leaflet.markercluster/spec/suites/nonIntegerZoomSpec'>;
+}
 declare module 'leaflet.markercluster/spec/suites/NonPointSpec.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/suites/NonPointSpec'>;
 }
@@ -354,6 +351,9 @@ declare module 'leaflet.markercluster/spec/suites/onAddSpec.js' {
 }
 declare module 'leaflet.markercluster/spec/suites/onRemoveSpec.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/suites/onRemoveSpec'>;
+}
+declare module 'leaflet.markercluster/spec/suites/PaneSpec.js' {
+  declare module.exports: $Exports<'leaflet.markercluster/spec/suites/PaneSpec'>;
 }
 declare module 'leaflet.markercluster/spec/suites/QuickHullSpec.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/suites/QuickHullSpec'>;
@@ -391,11 +391,11 @@ declare module 'leaflet.markercluster/spec/suites/unspiderfySpec.js' {
 declare module 'leaflet.markercluster/spec/suites/zoomAnimationSpec.js' {
   declare module.exports: $Exports<'leaflet.markercluster/spec/suites/zoomAnimationSpec'>;
 }
-declare module 'leaflet.markercluster/src/copyright.js' {
-  declare module.exports: $Exports<'leaflet.markercluster/src/copyright'>;
-}
 declare module 'leaflet.markercluster/src/DistanceGrid.js' {
   declare module.exports: $Exports<'leaflet.markercluster/src/DistanceGrid'>;
+}
+declare module 'leaflet.markercluster/src/index.js' {
+  declare module.exports: $Exports<'leaflet.markercluster/src/index'>;
 }
 declare module 'leaflet.markercluster/src/MarkerCluster.js' {
   declare module.exports: $Exports<'leaflet.markercluster/src/MarkerCluster'>;

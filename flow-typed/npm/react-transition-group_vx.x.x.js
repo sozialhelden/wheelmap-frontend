@@ -1,4 +1,4 @@
-// flow-typed signature: a1b17b3aba37943b0a837bcd1e32e476
+// flow-typed signature: a52bb40feac9f2278e032f58304fbad5
 // flow-typed version: <<STUB>>/react-transition-group_v^1.1.1/flow_v0.54.1
 
 /**
@@ -34,6 +34,10 @@ declare module 'react-transition-group/dist/react-transition-group' {
   declare module.exports: any;
 }
 
+declare module 'react-transition-group/dist/react-transition-group.min' {
+  declare module.exports: any;
+}
+
 declare module 'react-transition-group/TransitionGroup' {
   declare module.exports: any;
 }
@@ -55,6 +59,9 @@ declare module 'react-transition-group/CSSTransitionGroupChild.js' {
 }
 declare module 'react-transition-group/dist/react-transition-group.js' {
   declare module.exports: $Exports<'react-transition-group/dist/react-transition-group'>;
+}
+declare module 'react-transition-group/dist/react-transition-group.min.js' {
+  declare module.exports: $Exports<'react-transition-group/dist/react-transition-group.min'>;
 }
 declare module 'react-transition-group/index' {
   declare module.exports: $Exports<'react-transition-group'>;
