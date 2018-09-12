@@ -92,9 +92,10 @@ class MainMenu extends React.Component<Props, State> {
     }
   }
 
-  toggleMenu() {
+  toggleMenu = (event: Event) => {
     this.props.onToggle(!this.props.isOpen);
-  }
+    event.preventDefault();
+  };
 
   setupFocusTrap() {
     if (this.homeButton && this.addPlaceLink) {
@@ -149,6 +150,12 @@ class MainMenu extends React.Component<Props, State> {
     this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
   };
 
+  handleKeyDown = (event: SyntheticEvent<HTMLElement>) => {
+    if (event.nativeEvent.key === 'Escape') {
+      this.props.onToggle(false);
+    }
+  };
+
   render() {
     const {
       travelGuide,
@@ -193,6 +200,7 @@ class MainMenu extends React.Component<Props, State> {
             ref={homeButton => (this.homeButton = homeButton)}
             tabIndex={hideFromFocus ? -1 : 0}
             aria-label={t`Home`}
+            onKeyDown={this.handleKeyDown}
           >
             <Logo className="logo" width={123} height={30} />
           </button>
@@ -206,13 +214,14 @@ class MainMenu extends React.Component<Props, State> {
 
         <button
           className="btn-unstyled menu"
-          onClick={() => this.toggleMenu()}
+          onClick={this.toggleMenu}
           tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
           aria-hidden={!this.state.isMenuButtonVisible}
           aria-label={t`Menu`}
           aria-haspopup="true"
           aria-expanded={this.props.isOpen}
           aria-controls="main-menu"
+          onKeyDown={this.handleKeyDown}
         >
           {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
@@ -223,6 +232,7 @@ class MainMenu extends React.Component<Props, State> {
             href="https://travelable.info"
             ref={firstMenuElement => (this.firstMenuElement = firstMenuElement)}
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {travelGuide}
@@ -231,6 +241,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org/wheelmap-botschafter"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {getInvolved}
@@ -239,6 +250,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {news}
@@ -247,6 +259,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org/presse"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {press}
@@ -255,6 +268,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org/kontakt"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {contact}
@@ -263,6 +277,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org/imprint"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {imprint}
@@ -271,6 +286,7 @@ class MainMenu extends React.Component<Props, State> {
             className="nav-link"
             href="https://news.wheelmap.org/faq"
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {faq}
@@ -280,6 +296,7 @@ class MainMenu extends React.Component<Props, State> {
             to="/beta/nodes/new"
             ref={addPlaceLink => (this.addPlaceLink = addPlaceLink)}
             tabIndex={hideFromFocus ? -1 : 0}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {addMissingPlace}
