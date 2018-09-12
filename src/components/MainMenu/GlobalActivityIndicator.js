@@ -9,7 +9,7 @@ type State = {
   lastError?: ?Error,
 };
 
-export default class GlobalActivityIndicator extends React.Component<void, State> {
+export default class GlobalActivityIndicator extends React.Component<{}, State> {
   state = { isShown: false };
 
   updateState = debounce(
