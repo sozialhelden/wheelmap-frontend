@@ -153,29 +153,57 @@ export default class SearchResult extends React.Component<Props, State> {
   }
 
   fetchWheelmapNode(props: Props = this.props) {
-    if (!config.wheelmapApiKey) return;
+    if (!config.wheelmapApiKey) {
+      return;
+    }
 
-    const searchResultProperties = props.result.properties;
-    const osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
-    this.setState({
-      lastFetchedOsmId: osmId,
-    });
+    const { properties: searchResultProperties } = props.result;
+    let osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
+
     if (!osmId) {
       return;
     }
 
-    // Only nodes with type 'N' can be on Wheelmap.
-    if (searchResultProperties.osm_type !== 'N') return;
+    // Only nodes with type 'N' and 'W' can be on Wheelmap.
+    if (searchResultProperties.osm_type !== 'N' && searchResultProperties.osm_type !== 'W') {
+      return;
+    }
+
+    // Wheelmap stores features with osm type 'W' with negativ ids.
+    // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
+    if (searchResultProperties.osm_type === 'W') {
+      osmId = -osmId;
+    }
+
+    // Store last fetched osm id to make sure the response fits to the current request.
+    this.setState({
+      lastFetchedOsmId: osmId,
+    });
 
     wheelmapFeatureCache.getFeature(String(osmId)).then(
       feature => {
-        if (!feature) return;
-        if (feature.properties.id !== this.state.lastFetchedOsmId) return;
+        if (feature == null || feature.properties == null) {
+          return;
+        }
+
+        if (feature.properties.id !== this.state.lastFetchedOsmId) {
+          return;
+        }
+
         this.setState({ wheelmapFeature: feature });
-        const properties = feature.properties;
-        if (!properties) return;
+
+        const { properties } = feature;
+
+        if (!properties) {
+          return;
+        }
+
         const categoryId = (properties.type && properties.type.identifier) || properties.category;
-        if (!categoryId) return;
+
+        if (typeof categoryId !== 'string') {
+          return;
+        }
+
         this.fetchCategoryId(categoryId);
       },
       errorOrResponse => {
