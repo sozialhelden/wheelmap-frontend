@@ -1,3 +1,5 @@
+// Nested custom component is not recognized but rule is fullfilled.
+/* eslint-disable jsx-a11y/label-has-for */
 // @flow
 
 import * as React from 'react';
@@ -47,8 +49,6 @@ export default class CustomRadio extends React.Component<Props, State> {
     const RadioButton = isSelected ? RadioButtonSelected : RadioButtonUnselected;
     const id = `accessibility-${shownValue}`;
 
-    // Nested custom component is not recognized but rule is fullfilled.
-    // eslint-disable-next-line jsx-a11y/label-has-for
     return (
       <label
         className={`${shownValue} ${isSelected ? 'is-selected' : ''} ${
