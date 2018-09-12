@@ -175,7 +175,6 @@ class PhotoSection extends React.Component<Props, State> {
           onClick={this.reportImage}
           className="report-image"
         >{t`Report image`}</button>
-        <button onClick={this.closeLightbox} className="close-lightbox">{t`Close`}</button>
       </section>,
     ];
   };
@@ -201,14 +200,15 @@ class PhotoSection extends React.Component<Props, State> {
           isOpen={this.state.isLightboxOpen}
           // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
           imageCountSeparator={' ' + t`of` + ' '}
-          // tranlator: alt info on next image button in lightbox
+          // translator: alt info on next image button in lightbox
           rightArrowTitle={t`Next (right arrow key)`}
-          // tranlator: alt info on previous image button in lightbox
+          // translator: alt info on previous image button in lightbox
           leftArrowTitle={t`Previous (left arrow key)`}
-          // tranlator: alt info on close button in lightbox
+          // translator: alt info on close button in lightbox
           closeButtonTitle={t`Close (Esc)`}
           customControls={this.renderLightboxControls(className)}
-          theme={{}}
+          // Use same alignment as report button
+          theme={{ footer: { alignItems: 'center' } }}
         />
 
         <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
@@ -228,13 +228,7 @@ const StyledPhotoSection = styled(PhotoSection)`
   margin: 0.5rem -1rem;
   padding: 0;
 
-  background: ${colors.coldBackgroundColor};
-
   .react-photo-gallery--gallery {
-    &:hover {
-      background: ${colors.linkBackgroundColorTransparent};
-    }
-
     img {
       object-fit: contain;
     }
@@ -243,24 +237,28 @@ const StyledPhotoSection = styled(PhotoSection)`
   /* lazy workaround for Lightbox putting its nodes higher up in the dom */
   &.lightbox-actions {
     position: absolute;
-    bottom: 0;
     width: 100%;
+    /* Use same height as lightbox pagination */
+    height: 40px;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: space-between;
 
     button {
       margin-top: 0.25rem;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       font-weight: bold;
-      color: ${colors.linkColor};
+      color: white;
       background: none;
       border: none;
       cursor: pointer;
+      text-shadow: 0 1px 1px black;
 
+      /* Don't show button if you cannot interact with it */
       &[disabled] {
-        opacity: 0.8;
-        color: ${colors.textColor};
-        pointer-events: none;
+        display: none;
       }
     }
   }

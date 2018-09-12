@@ -74,4 +74,5 @@ focus ring in the latter case.
 
 #lightboxBackdrop {
   -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.9);
 }
