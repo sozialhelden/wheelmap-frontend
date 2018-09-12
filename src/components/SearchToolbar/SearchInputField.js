@@ -71,7 +71,7 @@ class SearchInputField extends React.Component<Props> {
         onClick={onClick}
         onKeyPress={this.keyPressed}
         className={`search-input ${className}`}
-        placeholder={!Boolean(value) ? defaultPlaceholder : null}
+        placeholder={!value ? defaultPlaceholder : null}
         aria-label={defaultPlaceholder}
         role={ariaRole}
         autoComplete="off"

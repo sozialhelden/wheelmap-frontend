@@ -108,7 +108,8 @@ export default function Icon({
   const CategoryIconComponent = icons[iconName || 'undefined'] || icons['undefined'];
   const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
   if (typeof CategoryIconComponent === 'object') {
-    debugger;
+    // eslint-disable-next-line no-console
+    console.log('Found a CategoryIconComponent that was an object, but should not be.');
   }
   return (
     <StyledIconContainer
