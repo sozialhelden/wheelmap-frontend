@@ -9,12 +9,15 @@ import savedState, { saveState } from '../../lib/savedState';
 window.L = L;
 
 type Options = {
-  locateOnStart: boolean;
-  onLocationError: (error: any) => void;
-  onClick: (() => void),
+  locateOnStart: boolean,
+  onLocationError: (error: any) => void,
+  onClick: () => void,
 };
 
-export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLocationError, onClick }: Options) {
+export default function addLocateControlToMap(
+  map: L.Map,
+  { locateOnStart, onLocationError, onClick }: Options
+) {
   const control = new LeafletLocateControl({
     onLocationError,
     position: 'topright',
@@ -25,27 +28,27 @@ export default function addLocateControlToMap(map: L.Map, { locateOnStart, onLoc
     clickBehavior: {
       // only disable when position is on screen
       inView: 'stop',
-      outOfView: 'setView'
+      outOfView: 'setView',
     },
     circleStyle: {
       color: '#1fabd9',
       fillColor: '#1fabd9',
       fillOpacity: 0.1,
-      opacity: 0.25
+      opacity: 0.25,
     },
     markerStyle: {
       color: '#1fabd9',
-      fillColor: '#1fabd9'
+      fillColor: '#1fabd9',
     },
     strings: {
       // translator: Locate button aria-label on the map
-      title: t`Show me where I am`
+      title: t`Show me where I am`,
     },
     locateOptions: {
       enableHighAccuracy: false,
       watch: true,
-      maxZoom: 17
-    }
+      maxZoom: 17,
+    },
   }).addTo(map);
 
   // save state change on click

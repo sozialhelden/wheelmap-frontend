@@ -15,25 +15,25 @@ import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 type Props = {
-  feature: ?Feature;
-  featureId: ?string | number;
-  equipmentInfoId: ?string;
-  hidden: boolean;
-  modalNodeState: ModalNodeState;
-  isReportMode: boolean;
-  onOpenReportMode: ?() => void;
-  onStartPhotoUploadFlow: () => void;
-  history: RouterHistory;
-  onClose?: ?() => void;
-  onClickCurrentMarkerIcon?: (feature: Feature) => void;
-  onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void;
+  feature: ?Feature,
+  featureId: ?string | number,
+  equipmentInfoId: ?string,
+  hidden: boolean,
+  modalNodeState: ModalNodeState,
+  isReportMode: boolean,
+  onOpenReportMode: ?() => void,
+  onStartPhotoUploadFlow: () => void,
+  history: RouterHistory,
+  onClose?: ?() => void,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
 };
 
 type State = {
-  category: Category | null;
-  parentCategory: Category | null;
-  equipmentInfo: ?EquipmentInfo;
-  feature: ?Feature;
+  category: Category | null,
+  parentCategory: Category | null,
+  equipmentInfo: ?EquipmentInfo,
+  feature: ?Feature,
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
@@ -68,7 +68,12 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (props.equipmentInfoId) {
       equipmentInfoCache.getFeature(props.equipmentInfoId).then(equipmentInfo => {
         if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
-        if (equipmentInfo.properties && equipmentInfo.properties.placeInfoId && equipmentInfo.properties.placeInfoId !== props.featureId) return;
+        if (
+          equipmentInfo.properties &&
+          equipmentInfo.properties.placeInfoId &&
+          equipmentInfo.properties.placeInfoId !== props.featureId
+        )
+          return;
         this.setState({ equipmentInfo });
         this.fetchCategory(equipmentInfo);
       });
@@ -91,23 +96,35 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return;
     }
 
-    const categoryId = properties.node_type && properties.node_type.identifier || properties.category;
+    const categoryId =
+      (properties.node_type && properties.node_type.identifier) || properties.category;
 
     if (!categoryId) {
       this.setState({ category: null });
       return;
     }
 
-    Categories.getCategory(categoryId).then(category => {
-      this.setState({ category });return category;
-    }, () => this.setState({ category: null })).then(category => category && Categories.getCategory(category.parentIds[0])).then(parentCategory => this.setState({ parentCategory }));
+    Categories.getCategory(categoryId)
+      .then(
+        category => {
+          this.setState({ category });
+          return category;
+        },
+        () => this.setState({ category: null })
+      )
+      .then(category => category && Categories.getCategory(category.parentIds[0]))
+      .then(parentCategory => this.setState({ parentCategory }));
   }
 
   render() {
     const { props, state } = this;
     const { feature } = this.state;
     const { properties } = feature || {};
-    return properties ? <NodeToolbar {...props} {...state} ref={t => this.nodeToolbar = t} /> : <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
+    return properties ? (
+      <NodeToolbar {...props} {...state} ref={t => (this.nodeToolbar = t)} />
+    ) : (
+      <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />
+    );
   }
 }
 

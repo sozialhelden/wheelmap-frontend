@@ -8,7 +8,7 @@ const NonBreakingLink = styled.a`
   svg {
     width: 1.25rem !important;
     height: 1.25rem !important;
-    margin-left: .25rem;
+    margin-left: 0.25rem;
     margin-right: 1.25rem;
   }
   span {
@@ -20,7 +20,7 @@ const NonBreakingLink = styled.a`
 `;
 
 type Props = {
-  feature: ?Feature
+  feature: ?Feature,
 };
 
 export default function PlaceWebsiteLink(props: Props) {
@@ -29,8 +29,12 @@ export default function PlaceWebsiteLink(props: Props) {
   if (!properties) return null;
   const placeWebsiteUrl = properties.placeWebsiteUrl || properties.website;
 
-  return typeof placeWebsiteUrl === 'string' && <NonBreakingLink className="link-button" href={placeWebsiteUrl}>
-      <WorldIcon />
-      <span>{placeWebsiteUrl}</span>
-    </NonBreakingLink>;
+  return (
+    typeof placeWebsiteUrl === 'string' && (
+      <NonBreakingLink className="link-button" href={placeWebsiteUrl}>
+        <WorldIcon />
+        <span>{placeWebsiteUrl}</span>
+      </NonBreakingLink>
+    )
+  );
 }

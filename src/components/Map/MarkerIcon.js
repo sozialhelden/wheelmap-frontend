@@ -13,8 +13,8 @@ import Icon from '../Icon';
 // Extend Leaflet-icon to support colors and category images
 
 type Options = typeof L.Icon.options & {
-  onClick: (featureId: string, properties: ?NodeProperties) => void;
-  hrefForFeature: (featureId: string) => ?string;
+  onClick: (featureId: string, properties: ?NodeProperties) => void,
+  hrefForFeature: (featureId: string) => ?string,
 };
 
 export default class MarkerIcon extends L.Icon {
@@ -26,14 +26,17 @@ export default class MarkerIcon extends L.Icon {
       number: '',
       shadowUrl: null,
       iconSize: new L.Point(size, size),
-      iconAnchor: new L.Point(size * .5 + iconAnchorOffset.x, size * .5 + 1.5 + iconAnchorOffset.y),
-      popupAnchor: new L.Point(size * .5, size * .5),
-      tooltipAnchor: new L.Point(size * .5, size * .5 + 25),
+      iconAnchor: new L.Point(
+        size * 0.5 + iconAnchorOffset.x,
+        size * 0.5 + 1.5 + iconAnchorOffset.y
+      ),
+      popupAnchor: new L.Point(size * 0.5, size * 0.5),
+      tooltipAnchor: new L.Point(size * 0.5, size * 0.5 + 25),
       onClick: (featureId: string, properties: ?NodeProperties) => {},
       hrefForFeature: (featureId: string) => null,
       className: 'marker-icon',
       size: 'small',
-      withArrow: false
+      withArrow: false,
     };
 
     super(Object.assign(defaults, options));
@@ -50,7 +53,19 @@ export default class MarkerIcon extends L.Icon {
     const accessibility = isWheelchairAccessible(properties);
     const IconComponent = categoryIcons[iconName];
     if (IconComponent) {
-      ReactDOM.render(<Icon accessibility={accessibility} properties={properties} category={iconName} size={this.options.size} withArrow={this.options.withArrow} shadowed centered ariaHidden={this.options.ariaHidden} />, link);
+      ReactDOM.render(
+        <Icon
+          accessibility={accessibility}
+          properties={properties}
+          category={iconName}
+          size={this.options.size}
+          withArrow={this.options.withArrow}
+          shadowed
+          centered
+          ariaHidden={this.options.ariaHidden}
+        />,
+        link
+      );
     }
     link.style.touchAction = 'none';
     link.addEventListener('click', (event: MouseEvent) => {
@@ -61,7 +76,9 @@ export default class MarkerIcon extends L.Icon {
 
     const wheelchairAccessibilityText = accessibilityName(isWheelchairAccessible(properties));
 
-    const accessibleName = `${translatedStringFromObject(properties.name)} ${wheelchairAccessibilityText}`;
+    const accessibleName = `${translatedStringFromObject(
+      properties.name
+    )} ${wheelchairAccessibilityText}`;
     link.setAttribute('aria-label', accessibleName);
     return link;
   }

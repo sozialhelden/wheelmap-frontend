@@ -11,9 +11,9 @@ import Logo from '../../lib/Logo';
 import Icon from '../Icon';
 
 type Props = {
-  className: string;
-  isVisible: boolean;
-  onClose: () => void;
+  className: string,
+  isVisible: boolean,
+  onClose: () => void,
 };
 
 const preventTabbing = event => {
@@ -45,44 +45,84 @@ function Onboarding(props: Props) {
     setTimeout(() => props.onClose(), 10);
   };
 
-  return <ModalDialog className={props.className} isVisible={props.isVisible} onClose={props.onClose} ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions" ariaLabel={t`Start screen`}>
-    <header>
-      <Logo className="logo" aria-hidden={true} />
-      <p id="wheelmap-claim-onboarding">{claim}</p>
-    </header>
+  return (
+    <ModalDialog
+      className={props.className}
+      isVisible={props.isVisible}
+      onClose={props.onClose}
+      ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
+      ariaLabel={t`Start screen`}
+    >
+      <header>
+        <Logo className="logo" aria-hidden={true} />
+        <p id="wheelmap-claim-onboarding">{claim}</p>
+      </header>
 
-    <section>
-      <ul id="wheelmap-icon-descriptions">
-        <li className="ac-marker-yes">
-          <Icon accessibility="yes" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
-          <header>{accessibilityName('yes')}</header>
-          <footer>{accessibilityDescription('yes')}</footer>
-        </li>
-        <li className="ac-marker-limited">
-          <Icon accessibility="limited" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
-          <header>{accessibilityName('limited')}</header>
-          <footer>{accessibilityDescription('limited')}</footer>
-        </li>
-        <li className="ac-marker-no">
-          <Icon accessibility="no" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
-          <header>{accessibilityName('no')}</header>
-          <footer>{accessibilityDescription('no')}</footer>
-        </li>
-        <li className="ac-marker-unknown">
-          <Icon accessibility="unknown" category={{ _id: 'other' }} isMainCategory size="big" withArrow shadowed centered />
-          <header>{accessibilityName('unknown')}</header>
-          <footer>{unknownAccessibilityIncentiveText}</footer>
-        </li>
-      </ul>
-    </section>
+      <section>
+        <ul id="wheelmap-icon-descriptions">
+          <li className="ac-marker-yes">
+            <Icon
+              accessibility="yes"
+              category={{ _id: 'other' }}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('yes')}</header>
+            <footer>{accessibilityDescription('yes')}</footer>
+          </li>
+          <li className="ac-marker-limited">
+            <Icon
+              accessibility="limited"
+              category={{ _id: 'other' }}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('limited')}</header>
+            <footer>{accessibilityDescription('limited')}</footer>
+          </li>
+          <li className="ac-marker-no">
+            <Icon
+              accessibility="no"
+              category={{ _id: 'other' }}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('no')}</header>
+            <footer>{accessibilityDescription('no')}</footer>
+          </li>
+          <li className="ac-marker-unknown">
+            <Icon
+              accessibility="unknown"
+              category={{ _id: 'other' }}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('unknown')}</header>
+            <footer>{unknownAccessibilityIncentiveText}</footer>
+          </li>
+        </ul>
+      </section>
 
-    <footer>
-      <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus}>
-        {startButtonCaption}
-        <ChevronRight />
-      </button>
-    </footer>
-  </ModalDialog>;
+      <footer>
+        <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus}>
+          {startButtonCaption}
+          <ChevronRight />
+        </button>
+      </footer>
+    </ModalDialog>
+  );
 }
 
 const StyledOnboarding = styled(Onboarding)`
@@ -130,8 +170,6 @@ const StyledOnboarding = styled(Onboarding)`
     }
   }
 
-
-
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 90%;
   }
@@ -152,8 +190,8 @@ const StyledOnboarding = styled(Onboarding)`
     overflow: auto;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
-    box-shadow: 0 5px 30px rgba(0,0,0,0.15), 0 2px 5px rgba(0,0,0,0.3);
-    animation: fadeIn .5s linear;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.5s linear;
     width: 100%; // Fix IE 11. @TODO Safe to be moved to ModalDialog component?
 
     .logo {
@@ -163,7 +201,7 @@ const StyledOnboarding = styled(Onboarding)`
 
     @media (max-width: 1199px) {
       flex-direction: column !important;
-      
+
       > footer,
       > header {
         text-align: center;
@@ -177,7 +215,8 @@ const StyledOnboarding = styled(Onboarding)`
       align-items: center;
       max-width: 1200px;
 
-      > header, footer {
+      > header,
+      footer {
         flex: 1;
         display: flex;
         justify-content: center;
@@ -215,7 +254,7 @@ const StyledOnboarding = styled(Onboarding)`
         text-align: center;
         background-color: transparent;
         overflow-x: hidden;
-        overflow-wrap: break-word;        
+        overflow-wrap: break-word;
 
         @media (max-width: 414px) {
           height: 4em;
@@ -279,7 +318,6 @@ const StyledOnboarding = styled(Onboarding)`
           opacity: 0.7;
           display: none;
         }
-
       }
     }
 

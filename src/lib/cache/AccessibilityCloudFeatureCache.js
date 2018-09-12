@@ -7,20 +7,30 @@ import { equipmentInfoCache } from './EquipmentInfoCache';
 import { currentLocales, loadExistingLocalizationByPreference } from '../i18n';
 
 type CacheMap = {
-  [key: string]: FeatureCache<*, *>
+  [key: string]: FeatureCache<*, *>,
 };
 
 const caches: CacheMap = {
-  equipmentInfos: equipmentInfoCache
+  equipmentInfos: equipmentInfoCache,
 };
 
-export default class AccessibilityCloudFeatureCache extends FeatureCache<AccessibilityCloudFeature, AccessibilityCloudFeatureCollection> {
+export default class AccessibilityCloudFeatureCache extends FeatureCache<
+  AccessibilityCloudFeature,
+  AccessibilityCloudFeatureCollection
+> {
   static fetchFeature(id): Promise<Response> {
-    return loadExistingLocalizationByPreference().then(() => this.fetch(`${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`, { cordova: true }));
+    return loadExistingLocalizationByPreference().then(() =>
+      this.fetch(
+        `${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${
+          config.accessibilityCloudAppToken
+        }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
+        { cordova: true }
+      )
+    );
   }
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {
-    return String(feature._id || feature.properties && feature.properties._id);
+    return String(feature._id || (feature.properties && feature.properties._id));
   }
 
   cacheFeature(feature: AccessibilityCloudFeature, response: any): void {

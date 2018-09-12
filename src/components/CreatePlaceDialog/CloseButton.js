@@ -6,11 +6,11 @@ import styled from 'styled-components';
 import CloseIcon from '../icons/actions/Close';
 
 type Props = {
-  className: string;
-  ariaLabel: ?string;
-  onClick: () => void;
-  onFocus: () => void;
-  onBlur: () => void;
+  className: string,
+  ariaLabel: ?string,
+  onClick: () => void,
+  onFocus: () => void,
+  onBlur: () => void,
 };
 
 class CloseButton extends React.Component<Props> {
@@ -23,9 +23,17 @@ class CloseButton extends React.Component<Props> {
   };
 
   render() {
-    return <button className={`close-link ${this.props.className || ''}`} onBlur={this.props.onBlur} onFocus={this.props.onFocus} onClick={this.onClick} aria-label={this.props.ariaLabel || t`Close`}>
-      <CloseIcon />
-    </button>;
+    return (
+      <button
+        className={`close-link ${this.props.className || ''}`}
+        onBlur={this.props.onBlur}
+        onFocus={this.props.onFocus}
+        onClick={this.onClick}
+        aria-label={this.props.ariaLabel || t`Close`}
+      >
+        <CloseIcon />
+      </button>
+    );
   }
 }
 

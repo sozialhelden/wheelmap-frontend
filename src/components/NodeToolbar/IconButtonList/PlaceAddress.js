@@ -1,7 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import type { Feature, NodeProperties, WheelmapProperties, AccessibilityCloudProperties } from '../../../lib/Feature';
+import type {
+  Feature,
+  NodeProperties,
+  WheelmapProperties,
+  AccessibilityCloudProperties,
+} from '../../../lib/Feature';
 
 import getAddressString from '../../../lib/getAddressString';
 import { generateMapsUrl } from '../../../lib/generateMapsUrls';
@@ -27,8 +32,8 @@ function getAddressForProperties(properties: NodeProperties): ?string {
 }
 
 type Props = {
-  feature: ?Feature;
-  category: ?Category;
+  feature: ?Feature,
+  category: ?Category,
 };
 
 export default class PlaceAddress extends React.Component<Props, void> {
@@ -43,15 +48,21 @@ export default class PlaceAddress extends React.Component<Props, void> {
     const address = getAddressForProperties(feature.properties);
     const addressString = address && address.replace(/,$/, '').replace(/^,/, '');
 
-    return <React.Fragment>
-      {openInMaps && <a className="link-button" href={openInMaps.url}>
-        <PlaceIcon />
-        <span>{addressString || openInMaps.caption}</span>
-      </a>}
-      {showOnOsmUrl && <a className="link-button" href={showOnOsmUrl} target="_blank">
-        <PlaceIcon />
-        <span>{openButtonCaption('OpenStreetMap')}</span>
-      </a>}
-    </React.Fragment>;
+    return (
+      <React.Fragment>
+        {openInMaps && (
+          <a className="link-button" href={openInMaps.url}>
+            <PlaceIcon />
+            <span>{addressString || openInMaps.caption}</span>
+          </a>
+        )}
+        {showOnOsmUrl && (
+          <a className="link-button" href={showOnOsmUrl} target="_blank">
+            <PlaceIcon />
+            <span>{openButtonCaption('OpenStreetMap')}</span>
+          </a>
+        )}
+      </React.Fragment>
+    );
   }
 }

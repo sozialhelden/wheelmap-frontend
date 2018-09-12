@@ -1,5 +1,5 @@
-import styled from "../../../node_modules/styled-components";
-import colors from "../../lib/colors";
+import styled from '../../../node_modules/styled-components';
+import colors from '../../lib/colors';
 
 const color = colors.editHintBackgroundColor;
 // const color = colors.linkColor;
@@ -11,7 +11,7 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
       transform: translate3d(-2px, 0, 0);
     }
     100% {
-      opacity: 1.0;
+      opacity: 1;
       transform: translate3d(0, 0, 0);
     }
   }

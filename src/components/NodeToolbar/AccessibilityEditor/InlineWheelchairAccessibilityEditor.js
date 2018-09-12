@@ -10,8 +10,8 @@ import styled from '../../../../node_modules/styled-components';
 import colors from '../../../lib/colors';
 
 type Props = {
-  onChange: (newValue: YesNoLimitedUnknown) => void;
-  category: ?string;
+  onChange: (newValue: YesNoLimitedUnknown) => void,
+  category: ?string,
 };
 
 const Row = styled.section`
@@ -23,7 +23,7 @@ const Row = styled.section`
     flex: 1;
 
     margin: 0;
-    padding: .5rem;
+    padding: 0.5rem;
     border: 1px solid ${colors.borderColor};
 
     font-size: 1rem;
@@ -75,7 +75,8 @@ const Row = styled.section`
     .caption {
       color: ${colors.positiveColorDarker};
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       box-shadow: 0 0 1px ${colors.positiveColor};
     }
     &:hover {
@@ -89,7 +90,8 @@ const Row = styled.section`
     .caption {
       color: ${colors.warningColorDarker};
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       box-shadow: 0 0 1px ${colors.warningColor};
     }
     &:hover {
@@ -103,7 +105,8 @@ const Row = styled.section`
     .caption {
       color: ${colors.negativeColorDarker};
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       box-shadow: 0 0 1px ${colors.negativeColor};
     }
     &:hover {
@@ -117,11 +120,26 @@ const Row = styled.section`
 
 export default function InlineWheelchairAccessibilityEditor(props: Props) {
   // translator: Screen reader description for the accessibility choice buttons for gray places
-  return <Row aria-label={t`Wheelchair accessibility`}>
-    {['yes', 'limited', 'no'].map((value, index) => <button aria-label={shortAccessibilityName(value)} onClick={() => props.onChange(value)} className={value} key={value}>
-        <IconButton key={value} caption={shortAccessibilityName(value)} isHorizontal={false}>
-          <Icon accessibility={value} category={props.category} size="medium" withArrow shadowed />
-        </IconButton>
-      </button>)}
-  </Row>;
+  return (
+    <Row aria-label={t`Wheelchair accessibility`}>
+      {['yes', 'limited', 'no'].map((value, index) => (
+        <button
+          aria-label={shortAccessibilityName(value)}
+          onClick={() => props.onChange(value)}
+          className={value}
+          key={value}
+        >
+          <IconButton key={value} caption={shortAccessibilityName(value)} isHorizontal={false}>
+            <Icon
+              accessibility={value}
+              category={props.category}
+              size="medium"
+              withArrow
+              shadowed
+            />
+          </IconButton>
+        </button>
+      ))}
+    </Row>
+  );
 }

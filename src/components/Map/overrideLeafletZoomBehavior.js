@@ -3,7 +3,7 @@ import L from 'leaflet';
 let lastScroll = new Date().getTime();
 
 export default function overrideLeafletZoomBehavior() {
-  L.Map.ScrollWheelZoom.prototype._onWheelScroll = function (e) {
+  L.Map.ScrollWheelZoom.prototype._onWheelScroll = function(e) {
     if (new Date().getTime() - lastScroll < 400) {
       return;
     }

@@ -15,23 +15,25 @@ import PlaceWebsiteLink from './PlaceWebsiteLink';
 import ReportIssueButton from './ReportIssueButton';
 
 type Props = {
-  feature: ?Feature;
-  featureId: ?string | number;
-  category: ?Category;
-  parentCategory: ?Category;
-  className: string;
-  equipmentInfoId: ?string;
+  feature: ?Feature,
+  featureId: ?string | number,
+  category: ?Category,
+  parentCategory: ?Category,
+  className: string,
+  equipmentInfoId: ?string,
 };
 
 function UnstyledIconButtonList(props: Props) {
-  return <div className={props.className}>
+  return (
+    <div className={props.className}>
       <PlaceAddress {...props} />
       <PhoneNumberLink {...props} />
       <ExternalLinks {...props} />
       <PlaceWebsiteLink {...props} />
       <ShareButtons {...props} />
       {!props.equipmentInfoId && <ReportIssueButton {...props} />}
-    </div>;
+    </div>
+  );
 }
 
 const IconButtonList = styled(UnstyledIconButtonList)`
@@ -45,7 +47,10 @@ const IconButtonList = styled(UnstyledIconButtonList)`
       height: 1.5rem;
       margin-right: 1rem;
 
-      g, rect, circle, path {
+      g,
+      rect,
+      circle,
+      path {
         fill: ${colors.tonedDownSelectedColor};
       }
     }

@@ -14,14 +14,24 @@ import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
 import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
-  equipmentInfos: EquipmentInfo[];
-  className: string;
-  history: RouterHistory;
-  placeInfoId: string;
-  isExpanded: boolean;
+  equipmentInfos: EquipmentInfo[],
+  className: string,
+  history: RouterHistory,
+  placeInfoId: string,
+  isExpanded: boolean,
 };
 
-function EquipmentIconWrapper({ history, equipmentInfo, count, isCountHidden }: { history: RouterHistory; equipmentInfo: EquipmentInfo; count: number; isCountHidden: boolean; }) {
+function EquipmentIconWrapper({
+  history,
+  equipmentInfo,
+  count,
+  isCountHidden,
+}: {
+  history: RouterHistory,
+  equipmentInfo: EquipmentInfo,
+  count: number,
+  isCountHidden: boolean,
+}) {
   const properties = equipmentInfo.properties;
   const _id = equipmentInfo._id;
   if (!properties) return null;
@@ -29,33 +39,63 @@ function EquipmentIconWrapper({ history, equipmentInfo, count, isCountHidden }: 
 
   const ariaLabels: { [key: string]: { [key: string]: string } } = {
     true: {
-      elevator: ngettext(msgid`${count} elevator in service`, `${count} elevators in service`, count),
-      escalator: ngettext(msgid`${count} escalator in service`, `${count} escalators in service`, count)
+      elevator: ngettext(
+        msgid`${count} elevator in service`,
+        `${count} elevators in service`,
+        count
+      ),
+      escalator: ngettext(
+        msgid`${count} escalator in service`,
+        `${count} escalators in service`,
+        count
+      ),
     },
     false: {
-      elevator: ngettext(msgid`${count} elevator out of service`, `${count} elevators out of service`, count),
-      escalator: ngettext(msgid`${count} escalator out of service`, `${count} escalators out of service`, count)
+      elevator: ngettext(
+        msgid`${count} elevator out of service`,
+        `${count} elevators out of service`,
+        count
+      ),
+      escalator: ngettext(
+        msgid`${count} escalator out of service`,
+        `${count} escalators out of service`,
+        count
+      ),
     },
     undefined: {
-      elevator: ngettext(msgid`${count} elevator with unknown operational status`, `${count} elevators with unknown operational status`, count),
-      escalator: ngettext(msgid`${count} escalator with unknown operational status`, `${count} escalators with unknown operational status`, count)
-    }
+      elevator: ngettext(
+        msgid`${count} elevator with unknown operational status`,
+        `${count} elevators with unknown operational status`,
+        count
+      ),
+      escalator: ngettext(
+        msgid`${count} escalator with unknown operational status`,
+        `${count} escalators with unknown operational status`,
+        count
+      ),
+    },
   };
   const ariaLabel = category ? ariaLabels[String(isWorking)][category] || '' : null;
 
   const workingStringPart = {
     true: 'Working',
     false: 'Broken',
-    undefined: 'Unknown'
+    undefined: 'Unknown',
   }[String(isWorking)];
 
   const iconName = `${category || 'elevator'}${workingStringPart}Big`;
   const EquipmentIcon = equipmentIcons[iconName] || (() => null);
 
-  return <figure className={isWorking ? 'is-working' : 'is-broken'} title={ariaLabel} aria-label={ariaLabel}>
-    {!isCountHidden ? <span className="badge">{count}</span> : null}
-    <EquipmentIcon key={_id} className="icon" />
-  </figure>;
+  return (
+    <figure
+      className={isWorking ? 'is-working' : 'is-broken'}
+      title={ariaLabel}
+      aria-label={ariaLabel}
+    >
+      {!isCountHidden ? <span className="badge">{count}</span> : null}
+      <EquipmentIcon key={_id} className="icon" />
+    </figure>
+  );
 }
 
 function EquipmentItem(props: Props) {
@@ -67,10 +107,13 @@ function EquipmentItem(props: Props) {
   const _ids = equipmentInfos.map(e => get(e, '_id')).sort();
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
-  const unknown = equipmentInfos.filter(e => typeof get(e, ['properties', 'isWorking']) === 'undefined');
+  const unknown = equipmentInfos.filter(
+    e => typeof get(e, ['properties', 'isWorking']) === 'undefined'
+  );
   const hasBrokenEquipment = broken.length > 0;
 
-  const href = props.placeInfoId && _ids ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
+  const href =
+    props.placeInfoId && _ids ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
 
   const showOnMap = event => {
     const { geometry } = equipmentInfos[0];
@@ -85,21 +128,42 @@ function EquipmentItem(props: Props) {
   };
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-  return <button className={`link-button full-width-button ${props.className} ${isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''}`} key={description} onKeyPress={event => {
-    if (event.keyCode === 13) {
-      showOnMap(event);
-    }
-  }} onClick={showOnMap}>
-    {getHumanEnumeration([working, broken, unknown].map((infos, index) => {
-      const count = infos.length;
-      if (count) {
-        const equipmentInfo = infos[0];
-        return <EquipmentIconWrapper key={index} {...{ count, isCountHidden: infos.length <= 1, history, equipmentInfo }} />;
-      }
-      return null;
-    }).filter(Boolean), 'and')}
-    <span className="name" aria-label={longDescription || description}>{shortDescription || description}</span>
-  </button>;
+  return (
+    <button
+      className={`link-button full-width-button ${props.className} ${
+        isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''
+      }`}
+      key={description}
+      onKeyPress={event => {
+        if (event.keyCode === 13) {
+          showOnMap(event);
+        }
+      }}
+      onClick={showOnMap}
+    >
+      {getHumanEnumeration(
+        [working, broken, unknown]
+          .map((infos, index) => {
+            const count = infos.length;
+            if (count) {
+              const equipmentInfo = infos[0];
+              return (
+                <EquipmentIconWrapper
+                  key={index}
+                  {...{ count, isCountHidden: infos.length <= 1, history, equipmentInfo }}
+                />
+              );
+            }
+            return null;
+          })
+          .filter(Boolean),
+        'and'
+      )}
+      <span className="name" aria-label={longDescription || description}>
+        {shortDescription || description}
+      </span>
+    </button>
+  );
 }
 
 const linkColorFunction = props => {

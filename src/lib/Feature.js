@@ -17,8 +17,8 @@ import type { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';
 
-export type YesNoLimitedUnknown = "yes" | "no" | "limited" | "unknown";
-export type YesNoUnknown = "yes" | "no" | "unknown";
+export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
+export type YesNoUnknown = 'yes' | 'no' | 'unknown';
 export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'];
 Object.freeze(yesNoLimitedUnknownArray);
 export const yesNoUnknownArray = ['yes', 'no', 'unknown'];
@@ -33,139 +33,145 @@ function sortedIsEqual(array1, array2): boolean {
  * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
  */
 
-export function isFiltered(accessibilities: ?YesNoLimitedUnknown[]): boolean {
-  return !!accessibilities && !isEqual(accessibilities, []) && !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray);
+export function isFiltered(accessibilities: ?(YesNoLimitedUnknown[])): boolean {
+  return (
+    !!accessibilities &&
+    !isEqual(accessibilities, []) &&
+    !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray)
+  );
 }
 
 // TODO: Create flowtype definition for AC format and re-use it here
 
 export type Restroom = {
-  isAccessibleWithWheelchair?: boolean;
-  ratingForWheelchair: number;
+  isAccessibleWithWheelchair?: boolean,
+  ratingForWheelchair: number,
 };
 
 export type Area = {
-  restrooms: Restroom[]
+  restrooms: Restroom[],
 };
 
 export type MinimalAccessibility = {
   accessibleWith: {
-    wheelchair: boolean
-  };
+    wheelchair: boolean,
+  },
   partiallyAccessibleWith: {
-    wheelchair: boolean
-  };
-  areas?: Area[];
+    wheelchair: boolean,
+  },
+  areas?: Area[],
 };
 
 export type WheelmapCategoryOrNodeType = {
-  id: ?number;
-  identifier: ?string;
+  id: ?number,
+  identifier: ?string,
 };
 
 export type WheelmapProperties = {
-  id: number;
-  category: ?WheelmapCategoryOrNodeType;
-  node_type: ?WheelmapCategoryOrNodeType;
-  city: ?string;
-  housenumber: ?string;
-  lat: number;
-  lon: number;
-  name?: ?LocalizedString;
-  phone: ?string;
-  photo_ids: ?number | string[];
-  postcode: ?string;
-  sponsor: ?string;
-  icon: ?string;
-  region: ?string;
-  street: ?string;
-  website: ?string;
-  wheelchair: ?YesNoLimitedUnknown;
-  wheelchair_description: ?string;
-  wheelchair_toilet: ?YesNoUnknown;
+  id: number,
+  category: ?WheelmapCategoryOrNodeType,
+  node_type: ?WheelmapCategoryOrNodeType,
+  city: ?string,
+  housenumber: ?string,
+  lat: number,
+  lon: number,
+  name?: ?LocalizedString,
+  phone: ?string,
+  photo_ids: ?number | string[],
+  postcode: ?string,
+  sponsor: ?string,
+  icon: ?string,
+  region: ?string,
+  street: ?string,
+  website: ?string,
+  wheelchair: ?YesNoLimitedUnknown,
+  wheelchair_description: ?string,
+  wheelchair_toilet: ?YesNoUnknown,
 };
 
 export type WheelmapFeature = {
-  type: 'Feature';
-  geometry: ?GeometryObject;
-  properties: ?WheelmapProperties;
-  id: number;
+  type: 'Feature',
+  geometry: ?GeometryObject,
+  properties: ?WheelmapProperties,
+  id: number,
 };
 
 export type WheelmapLightweightFeature = $Supertype<WheelmapFeature>;
 
 export type AccessibilityCloudProperties = {
-  _id: string;
-  name?: ?LocalizedString;
-  accessibility?: MinimalAccessibility;
-  category?: string;
-  address?: {
-    full?: string;
-    postcode?: string;
-    city?: string;
-    postal_code?: string;
-    street?: string;
-    housenumber?: number | string;
-    city?: string;
-    county?: string;
-    country?: string;
-  } | string;
-  infoPageUrl?: string;
-  editPageUrl?: string;
-  equipmentInfos: { [key: string]: EquipmentInfo };
-  isWorking?: boolean;
-  phone: ?string;
-  phoneNumber: ?string;
-  phoneNumber: ?string;
+  _id: string,
+  name?: ?LocalizedString,
+  accessibility?: MinimalAccessibility,
+  category?: string,
+  address?:
+    | {
+        full?: string,
+        postcode?: string,
+        city?: string,
+        postal_code?: string,
+        street?: string,
+        housenumber?: number | string,
+        city?: string,
+        county?: string,
+        country?: string,
+      }
+    | string,
+  infoPageUrl?: string,
+  editPageUrl?: string,
+  equipmentInfos: { [key: string]: EquipmentInfo },
+  isWorking?: boolean,
+  phone: ?string,
+  phoneNumber: ?string,
+  phoneNumber: ?string,
 };
 
 export type AccessibilityCloudFeature = {
-  type: 'Feature';
-  name: ?string;
-  geometry: ?GeometryObject;
-  properties: AccessibilityCloudProperties;
+  type: 'Feature',
+  name: ?string,
+  geometry: ?GeometryObject,
+  properties: AccessibilityCloudProperties,
 };
 
 export type FeatureCollection<T> = {
-  type: 'FeatureCollection';
-  features: T[];
+  type: 'FeatureCollection',
+  features: T[],
 };
 export type AccessibilityCloudFeatureCollection = FeatureCollection<AccessibilityCloudFeature>;
 export type WheelmapFeatureCollection = FeatureCollection<WheelmapFeature>;
 export type WheelmapLightweightFeatureCollection = FeatureCollection<WheelmapLightweightFeature>;
 
 export type WheelmapImage = {
-  type: string;
-  width: number;
-  height: number;
-  url: string;
+  type: string,
+  width: number,
+  height: number,
+  url: string,
 };
 
 export type WheelmapPhoto = {
-  id: number;
-  taken_on: number;
-  images: WheelmapImage[];
+  id: number,
+  taken_on: number,
+  images: WheelmapImage[],
 };
 
 export type WheelmapFeaturePhotos = {
-  photos: WheelmapPhoto[]
+  photos: WheelmapPhoto[],
 };
 
 export type AccessibilityCloudImage = {
-  _id: string;
-  isoDate: string;
-  url: string;
-  imagePath: string;
-  mimeType: string;
+  _id: string,
+  isoDate: string,
+  url: string,
+  imagePath: string,
+  mimeType: string,
   dimensions: {
-    width: number;
-    height: number;
-  };
+    width: number,
+    height: number,
+  },
 };
 
 export type AccessibilityCloudImages = {
-  totalCount: number;
-  images: AccessibilityCloudImage[];
+  totalCount: number,
+  images: AccessibilityCloudImage[],
 };
 
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
@@ -173,7 +179,12 @@ export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature) {
   if (!feature) return null;
-  const idProperties = [typeof feature.id === 'number' && feature.id, typeof feature._id === 'string' && feature._id, feature.properties && typeof feature.properties.id === 'number' && feature.properties.id, feature.properties && typeof feature.properties._id === 'string' && feature.properties._id];
+  const idProperties = [
+    typeof feature.id === 'number' && feature.id,
+    typeof feature._id === 'string' && feature._id,
+    feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
+    feature.properties && typeof feature.properties._id === 'string' && feature.properties._id,
+  ];
   const result = idProperties.filter(Boolean)[0];
   return result ? String(result) : null;
 }
@@ -213,17 +224,19 @@ export function convertResponseToWheelmapFeature(node: WheelmapProperties): Whee
     id: node.id,
     geometry: {
       type: 'Point',
-      coordinates: [node.lon, node.lat]
-    }
+      coordinates: [node.lon, node.lat],
+    },
   };
 }
 
 type WheelmapPropertiesResponse = { nodes: WheelmapProperties[] };
 
-export function wheelmapFeatureCollectionFromResponse(response: WheelmapPropertiesResponse): WheelmapFeatureCollection {
+export function wheelmapFeatureCollectionFromResponse(
+  response: WheelmapPropertiesResponse
+): WheelmapFeatureCollection {
   return {
     type: 'FeatureCollection',
-    features: response.nodes.map(convertResponseToWheelmapFeature)
+    features: response.nodes.map(convertResponseToWheelmapFeature),
   };
 }
 
@@ -231,15 +244,28 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
   if (!response) return;
   if (response.features instanceof Array) {
     if (response && response.related && response.related.equipmentInfos) {
-      response.features = response.features.concat(Object.keys(response.related.equipmentInfos).map(_id => response.related.equipmentInfos[_id]));
+      response.features = response.features.concat(
+        Object.keys(response.related.equipmentInfos).map(
+          _id => response.related.equipmentInfos[_id]
+        )
+      );
     }
-    const equipmentInfosEmbeddedInFeatures = response.features.map(feature => feature.properties.equipmentInfos).filter(Boolean).reduce((prev, next) => Object.assign(prev, next), {});
-    response.features = response.features.concat(Object.keys(equipmentInfosEmbeddedInFeatures).map(key => equipmentInfosEmbeddedInFeatures[key]).map(feature => Object.assign(feature, { type: 'Feature' })));
+    const equipmentInfosEmbeddedInFeatures = response.features
+      .map(feature => feature.properties.equipmentInfos)
+      .filter(Boolean)
+      .reduce((prev, next) => Object.assign(prev, next), {});
+    response.features = response.features.concat(
+      Object.keys(equipmentInfosEmbeddedInFeatures)
+        .map(key => equipmentInfosEmbeddedInFeatures[key])
+        .map(feature => Object.assign(feature, { type: 'Feature' }))
+    );
   }
   return response;
 }
 
-export function hasAccessibleToilet(properties: WheelmapProperties | AccessibilityCloudProperties): YesNoUnknown {
+export function hasAccessibleToilet(
+  properties: WheelmapProperties | AccessibilityCloudProperties
+): YesNoUnknown {
   if (!properties) return 'unknown';
   if (properties && properties.wheelchair_toilet) {
     if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
@@ -258,10 +284,12 @@ export function hasAccessibleToilet(properties: WheelmapProperties | Accessibili
     return 'unknown';
   }
 
-  const restroomInfos = flatten(properties.accessibility.areas.map(area => {
-    if (!(area.restrooms instanceof Array)) return null;
-    return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
-  }));
+  const restroomInfos = flatten(
+    properties.accessibility.areas.map(area => {
+      if (!(area.restrooms instanceof Array)) return null;
+      return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
+    })
+  );
 
   const accessibleCount = restroomInfos.filter(a => a === true).length;
   const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
@@ -274,12 +302,14 @@ export function hasAccessibleToilet(properties: WheelmapProperties | Accessibili
 
 export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
   if (properties.category === 'elevator' || properties.category === 'escalator') {
-    const result = isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
+    const result =
+      isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
     // debugger
     return result;
   }
 
-  const isAccessible = get(properties, 'wheelchair') || get(properties, 'accessibility.accessibleWith.wheelchair');
+  const isAccessible =
+    get(properties, 'wheelchair') || get(properties, 'accessibility.accessibleWith.wheelchair');
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
 
   switch (isAccessible) {
@@ -340,11 +370,11 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): ?s
     case 'yes':
       return t`Entrance has no steps, and all rooms are accessible without steps.`;
     case 'limited':
-      return useImperialUnits() ?
-      // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
-      t`Entrance has one step with max. 3 inches height, most rooms are without steps.` :
-      // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
-      t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
+      return useImperialUnits()
+        ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
+          t`Entrance has one step with max. 3 inches height, most rooms are without steps.`
+        : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
+          t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
     // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
     case 'no':
       return t`Entrance has a high step or several steps, none of the rooms are accessible.`;
@@ -368,23 +398,43 @@ export function toiletDescription(accessibility: YesNoUnknown): ?string {
   }
 }
 
-export const accessibleToiletDescription = (useImperialUnits: boolean) => [useImperialUnits ? t`Doorways' inner width ≥ 35 inches` : t`Doorways' inner width ≥ 90 cm`, useImperialUnits ? t`Clear turning space ≥ 59 inches wide` : t`Clear turning space ≥ 150 cm wide`, t`Wheelchair-height toilet seat`, t`Foldable grab rails`, t`Accessible sink`];
+export const accessibleToiletDescription = (useImperialUnits: boolean) => [
+  useImperialUnits ? t`Doorways' inner width ≥ 35 inches` : t`Doorways' inner width ≥ 90 cm`,
+  useImperialUnits ? t`Clear turning space ≥ 59 inches wide` : t`Clear turning space ≥ 150 cm wide`,
+  t`Wheelchair-height toilet seat`,
+  t`Foldable grab rails`,
+  t`Accessible sink`,
+];
 
 export function placeNameFor(properties: NodeProperties, category: ?Category): string {
-  return properties && translatedStringFromObject(properties.name) || category && categoryNameFor(category) || t`Unnamed place`;
+  return (
+    (properties && translatedStringFromObject(properties.name)) ||
+    (category && categoryNameFor(category)) ||
+    t`Unnamed place`
+  );
 }
 
 function isDefined(x): boolean {
-  return typeof x !== 'undefined' && x !== null && !(isArray(x) && x.length === 0) && !(isPlainObject(x) && Object.keys(x).length === 0);
+  return (
+    typeof x !== 'undefined' &&
+    x !== null &&
+    !(isArray(x) && x.length === 0) &&
+    !(isPlainObject(x) && Object.keys(x).length === 0)
+  );
 }
 
 export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
   if (isPlainObject(something) && something instanceof Object) {
     const result = {};
-    Object.keys(something).filter(key => isDefined(something[key])).filter(key => !(key.match(/Localized$/) && !isDefined(something[key.replace(/Localized$/, '')]))).forEach(key => {
-      const value = removeNullAndUndefinedFields(something[key]);
-      if (isDefined(value)) result[key] = value;
-    });
+    Object.keys(something)
+      .filter(key => isDefined(something[key]))
+      .filter(
+        key => !(key.match(/Localized$/) && !isDefined(something[key.replace(/Localized$/, '')]))
+      )
+      .forEach(key => {
+        const value = removeNullAndUndefinedFields(something[key]);
+        if (isDefined(value)) result[key] = value;
+      });
     return Object.keys(result).length > 0 ? result : undefined;
   } else if (something instanceof Array) {
     const result = something.filter(isDefined).map(removeNullAndUndefinedFields);

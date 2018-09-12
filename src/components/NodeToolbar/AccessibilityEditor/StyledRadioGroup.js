@@ -63,7 +63,7 @@ const StyledRadioGroup = styled(RadioGroup)`
       opacity: 0.8;
     }
 
-    &[for="toilet-status"] {
+    &[for='toilet-status'] {
       flex-direction: row;
       justify-content: space-between;
     }
@@ -78,7 +78,7 @@ const StyledRadioGroup = styled(RadioGroup)`
       margin: 0.5em 0 0 0;
       opacity: 0.8;
     }
-    
+
     input {
       width: 0;
       height: 0;
@@ -91,7 +91,7 @@ const StyledRadioGroup = styled(RadioGroup)`
 
       &.focus-ring {
         border-radius: 100%;
-        box-shadow: 0px 0px 0px 2px #4469E1;
+        box-shadow: 0px 0px 0px 2px #4469e1;
       }
     }
 

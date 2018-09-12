@@ -17,7 +17,7 @@ export default class ClusterIcon extends L.Icon {
       className: 'leaflet-div-icon accessiblity ac-marker ac-marker-cluster',
       iconSize: new L.Point(20, 20),
       iconAnchor: new L.Point(11, 11),
-      popupAnchor: new L.Point(11, 11)
+      popupAnchor: new L.Point(11, 11),
     };
 
     super(Object.assign(defaults, options));
@@ -37,7 +37,9 @@ export default class ClusterIcon extends L.Icon {
       div.innerHTML = String(propertiesArray.length);
     }
 
-    div.style.backgroundColor = this.options.backgroundColor || d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
+    div.style.backgroundColor =
+      this.options.backgroundColor ||
+      d3Color(interpolateWheelchairAccessibilityColors(propertiesArray));
     const count = propertiesArray.length;
     this._setIconStyles(div, 'icon');
 

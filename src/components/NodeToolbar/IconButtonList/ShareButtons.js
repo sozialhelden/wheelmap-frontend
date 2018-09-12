@@ -26,16 +26,16 @@ import WhatsAppIcon from './icons/WhatsApp';
 import ShareIcon from '../../icons/actions/ShareIOS';
 
 type Props = {
-  feature: Feature;
-  featureId: string | number | null;
-  category: ?Category;
-  parentCategory: ?Category;
-  onToggle: () => void;
-  className: string;
+  feature: Feature,
+  featureId: string | number | null,
+  category: ?Category,
+  parentCategory: ?Category,
+  onToggle: () => void,
+  className: string,
 };
 
 type State = {
-  isExpanded: boolean
+  isExpanded: boolean,
 };
 
 const StyledIconButton = styled(IconButton)`
@@ -54,7 +54,11 @@ const StyledIconButton = styled(IconButton)`
   }
   @media (hover), (-moz-touch-enabled: 0) {
     &:not(.active):hover .circle {
-      background-color: ${props => props.hoverColor || interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(0.5)};
+      background-color: ${props =>
+        props.hoverColor ||
+        interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(
+          0.5
+        )};
     }
   }
   &:focus {
@@ -69,7 +73,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    isExpanded: false
+    isExpanded: false,
   };
 
   toggle(isExpanded) {
@@ -124,7 +128,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
       const categoryOrParentCategory = this.props.category || this.props.parentCategory;
       const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
       // translator: Used to describe a place with unknown name, but known category (when sharing)
-      const placeName = properties.name || categoryName && t`${categoryName} on Wheelmap`;
+      const placeName = properties.name || (categoryName && t`${categoryName} on Wheelmap`);
       if (placeName) {
         // translator: First line in an email and shared object title used when sharing a place via email or a social network.
         sharedObjectTitle = t`I found this place on Wheelmap: ${placeName}`;
@@ -135,12 +139,22 @@ class ExpandableShareButtons extends React.Component<Props, State> {
       pageDescription = description || t`Learn more about the accessibility of this place`;
       mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
     }
-    const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(mailBody)}`;
+    const mailToLink = `mailto:?subject=${encodeURIComponent(
+      mailSubject
+    )}&body=${encodeURIComponent(mailBody)}`;
 
-    const expandButton = <button ref={shareButton => this.shareButton = shareButton} className={'link-button expand-button full-width-button'} aria-label={t`Expand share menu`} aria-expanded={this.state.isExpanded} onClick={() => this.toggle(true)}>
+    const expandButton = (
+      <button
+        ref={shareButton => (this.shareButton = shareButton)}
+        className={'link-button expand-button full-width-button'}
+        aria-label={t`Expand share menu`}
+        aria-expanded={this.state.isExpanded}
+        onClick={() => this.toggle(true)}
+      >
         <ShareIcon />
         <span>{shareButtonCaption}</span>
-      </button>;
+      </button>
+    );
 
     if (!this.state.isExpanded) return expandButton;
 
@@ -153,60 +167,103 @@ class ExpandableShareButtons extends React.Component<Props, State> {
       ? { openWindow: false, onClick: link => (window.location.href = link) }
       : {};
 
-    return <div className={this.props.className}>
-      <button ref={collapseButton => this.collapseButton = collapseButton} className={'link-button collapse-button'} onClick={() => this.toggle(false)} aria-expanded={this.state.isExpanded} aria-label={t`Collapse share menu`}>
-        <ChevronLeft />
-      </button>
-
-      <footer className={this.state.isExpanded ? 'is-visible' : ''}>
-        <FacebookShareButton
-          url={url}
-          quote={pageDescription}
-          {...linkOpeningViaLocationHrefProps}
+    return (
+      <div className={this.props.className}>
+        <button
+          ref={collapseButton => (this.collapseButton = collapseButton)}
+          className={'link-button collapse-button'}
+          onClick={() => this.toggle(false)}
+          aria-expanded={this.state.isExpanded}
+          aria-label={t`Collapse share menu`}
         >
-          <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#3C5A99'} activeColor={'#3C5A99'} caption="Facebook" ariaLabel="Facebook">
-            <FacebookIcon />
-          </StyledIconButton>
-        </FacebookShareButton>
+          <ChevronLeft />
+        </button>
 
-        <TwitterShareButton
-          url={url}
-          title={sharedObjectTitle}
-          hashtags={['wheelmap', 'accessibility', 'a11y']}
-          {...linkOpeningViaLocationHrefProps}
-        >
-          <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#1DA1F2'} activeColor={'#1DA1F2'} caption="Twitter" ariaLabel="Twitter">
-            <TwitterIcon />
-          </StyledIconButton>
-        </TwitterShareButton>
+        <footer className={this.state.isExpanded ? 'is-visible' : ''}>
+          <FacebookShareButton
+            url={url}
+            quote={pageDescription}
+            {...linkOpeningViaLocationHrefProps}
+          >
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#3C5A99'}
+              activeColor={'#3C5A99'}
+              caption="Facebook"
+              ariaLabel="Facebook"
+            >
+              <FacebookIcon />
+            </StyledIconButton>
+          </FacebookShareButton>
 
-        <TelegramShareButton
-          url={url}
-          title={sharedObjectTitle}
-          {...linkOpeningViaLocationHrefProps}
-        >
-          <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#7AA5DA'} activeColor={'#7AA5DA'} caption="Telegram" ariaLabel="Telegram">
-            <TelegramIcon />
-          </StyledIconButton>
-        </TelegramShareButton>
+          <TwitterShareButton
+            url={url}
+            title={sharedObjectTitle}
+            hashtags={['wheelmap', 'accessibility', 'a11y']}
+            {...linkOpeningViaLocationHrefProps}
+          >
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#1DA1F2'}
+              activeColor={'#1DA1F2'}
+              caption="Twitter"
+              ariaLabel="Twitter"
+            >
+              <TwitterIcon />
+            </StyledIconButton>
+          </TwitterShareButton>
 
-        <a href={mailToLink}>
-          <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#57C4AA'} activeColor={'#57C4AA'} caption="Email" ariaLabel="Email">
-            <EmailIcon />
-          </StyledIconButton>
-        </a>
+          <TelegramShareButton
+            url={url}
+            title={sharedObjectTitle}
+            {...linkOpeningViaLocationHrefProps}
+          >
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#7AA5DA'}
+              activeColor={'#7AA5DA'}
+              caption="Telegram"
+              ariaLabel="Telegram"
+            >
+              <TelegramIcon />
+            </StyledIconButton>
+          </TelegramShareButton>
 
-        <WhatsappShareButton
-          url={url}
-          title={sharedObjectTitle}
-          {...linkOpeningViaLocationHrefProps}
-        >
-          <StyledIconButton isHorizontal={false} hasCircle hoverColor={'#25D366'} activeColor={'#25D366'} caption="Whatsapp" ariaLabel="Whatsapp">
-            <WhatsAppIcon />
-          </StyledIconButton>
-        </WhatsappShareButton>
-      </footer>
-    </div>;
+          <a href={mailToLink}>
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#57C4AA'}
+              activeColor={'#57C4AA'}
+              caption="Email"
+              ariaLabel="Email"
+            >
+              <EmailIcon />
+            </StyledIconButton>
+          </a>
+
+          <WhatsappShareButton
+            url={url}
+            title={sharedObjectTitle}
+            {...linkOpeningViaLocationHrefProps}
+          >
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#25D366'}
+              activeColor={'#25D366'}
+              caption="Whatsapp"
+              ariaLabel="Whatsapp"
+            >
+              <WhatsAppIcon />
+            </StyledIconButton>
+          </WhatsappShareButton>
+        </footer>
+      </div>
+    );
   }
 }
 
@@ -249,7 +306,8 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
     justify-content: space-between;
   }
 
-  .SocialMediaShareButton, a {
+  .SocialMediaShareButton,
+  a {
     cursor: pointer !important;
     border-radius: 10px;
     &:focus {

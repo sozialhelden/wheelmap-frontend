@@ -5,9 +5,9 @@ import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/generateOsm
 import type { Feature } from '../../../lib/Feature';
 
 type Props = {
-  feature: Feature;
-  featureId: number;
-  onClose: (event: UIEvent) => void;
+  feature: Feature,
+  featureId: number,
+  onClose: (event: UIEvent) => void,
 };
 
 export default class ReportProblemButton extends React.Component<Props> {
@@ -20,15 +20,28 @@ export default class ReportProblemButton extends React.Component<Props> {
   }
 
   trapFocus = ({ nativeEvent }: { nativeEvent: Event }) => {
-    if (nativeEvent.target === this.editLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey && this.noteLink) {
+    if (
+      nativeEvent.target === this.editLink &&
+      nativeEvent.key === 'Tab' &&
+      nativeEvent.shiftKey &&
+      this.noteLink
+    ) {
       nativeEvent.preventDefault();
       this.noteLink && this.noteLink.focus();
     }
-    if (nativeEvent.target === this.noteLink && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.noteLink &&
+      nativeEvent.key === 'Tab' &&
+      !nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
       this.backButton && this.backButton.focus();
     }
-    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.backButton &&
+      nativeEvent.key === 'Tab' &&
+      !nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
       this.editLink && this.editLink.focus();
     }
@@ -40,21 +53,47 @@ export default class ReportProblemButton extends React.Component<Props> {
     const editUrl = generateOsmEditUrl(this.props.featureId);
     const noteUrl = generateOsmNoteUrl(this.props.feature);
 
-    const { osmHint, osmEditHint, osmLoginHint, editButtonCaption, noteButtonCaption, backButtonCaption } = strings();
+    const {
+      osmHint,
+      osmEditHint,
+      osmLoginHint,
+      editButtonCaption,
+      noteButtonCaption,
+      backButtonCaption,
+    } = strings();
 
-    return <section role="dialog" aria-labelledby="osm-hint osm-edit-hint osm-login-hint">
+    return (
+      <section role="dialog" aria-labelledby="osm-hint osm-edit-hint osm-login-hint">
         <p id="osm-hint">{osmHint}</p>
         <p id="osm-edit-hint">{osmEditHint}</p>
-        <p className="subtle" id="osm-login-hint">{osmLoginHint}</p>
-        <a href={editUrl} className="link-button" ref={editLink => this.editLink = editLink} onKeyDown={this.trapFocus}>
+        <p className="subtle" id="osm-login-hint">
+          {osmLoginHint}
+        </p>
+        <a
+          href={editUrl}
+          className="link-button"
+          ref={editLink => (this.editLink = editLink)}
+          onKeyDown={this.trapFocus}
+        >
           {editButtonCaption}
         </a>
-        <a href={noteUrl} className="link-button" ref={noteLink => this.noteLink = noteLink} onKeyDown={this.trapFocus}>
+        <a
+          href={noteUrl}
+          className="link-button"
+          ref={noteLink => (this.noteLink = noteLink)}
+          onKeyDown={this.trapFocus}
+        >
           {noteButtonCaption}
         </a>
-        <button className="link-button negative-button" onClick={this.props.onClose} ref={backButton => this.backButton = backButton} onKeyDown={this.trapFocus}>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => (this.backButton = backButton)}
+          onKeyDown={this.trapFocus}
+        >
           {backButtonCaption}
         </button>
-      </section>;
+      </section>
+    );
   }
 }

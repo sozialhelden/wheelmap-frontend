@@ -12,30 +12,30 @@ import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
 
 type Props = {
-  className: string;
-  children: AnyReactElement;
-  hidden?: boolean;
-  inert?: boolean;
-  role?: string;
-  ariaLabel?: string;
-  ariaDescribedBy?: string;
-  minimalHeight?: number;
-  isSwipeable?: boolean;
-  isModal?: boolean;
-  enableTransitions?: boolean;
-  startTopOffset?: number;
-  onScrollable?: (isScrollable: boolean) => void;
+  className: string,
+  children: AnyReactElement,
+  hidden?: boolean,
+  inert?: boolean,
+  role?: string,
+  ariaLabel?: string,
+  ariaDescribedBy?: string,
+  minimalHeight?: number,
+  isSwipeable?: boolean,
+  isModal?: boolean,
+  enableTransitions?: boolean,
+  startTopOffset?: number,
+  onScrollable?: (isScrollable: boolean) => void,
 };
 
 type State = {
-  topOffset: number;
-  lastTopOffset: number;
-  scrollTop: number;
-  isSwiping: boolean;
+  topOffset: number,
+  lastTopOffset: number,
+  scrollTop: number,
+  isSwiping: boolean,
   viewportSize: {
-    width: number;
-    height: number;
-  };
+    width: number,
+    height: number,
+  },
 };
 
 /**
@@ -45,7 +45,7 @@ type State = {
  * Automatically becomes scrollable when fully visible.
  *
  * Can be modal and is not swipeable then.
-*/
+ */
 
 class Toolbar extends React.Component<Props, State> {
   static defaultProps = {
@@ -54,7 +54,7 @@ class Toolbar extends React.Component<Props, State> {
     isSwipeable: true,
     isModal: false,
     role: '',
-    enableTransitions: true
+    enableTransitions: true,
   };
 
   props: Props;
@@ -71,8 +71,8 @@ class Toolbar extends React.Component<Props, State> {
     isSwiping: false,
     viewportSize: {
       width: -1,
-      height: -1
-    }
+      height: -1,
+    },
   };
 
   onWindowResize = debounce(() => {
@@ -126,14 +126,14 @@ class Toolbar extends React.Component<Props, State> {
     this.setState({
       viewportSize: {
         width: window.innerWidth,
-        height: window.innerHeight
-      }
+        height: window.innerHeight,
+      },
     });
 
     const topOffset = this.getNearestStopForTopOffset(preferredTopOffset);
     this.setState({
       topOffset,
-      lastTopOffset: topOffset
+      lastTopOffset: topOffset,
     });
   }
 
@@ -175,14 +175,14 @@ class Toolbar extends React.Component<Props, State> {
       const newIndex = isSwipingUp ? 0 : stops.length - 1;
       this.setState({
         lastTopOffset: stops[newIndex],
-        topOffset: 0
+        topOffset: 0,
       });
       return;
     }
     const newStop = this.getNearestStopForTopOffset(this.state.topOffset);
     this.setState({
       lastTopOffset: newStop,
-      topOffset: 0
+      topOffset: 0,
     });
   }
 
@@ -210,7 +210,10 @@ class Toolbar extends React.Component<Props, State> {
     let toolbarHeight = 0;
     if (this.scrollElement) {
       const style = window.getComputedStyle(this.scrollElement);
-      toolbarHeight = parseFloat(style.marginTop) + parseFloat(style.marginBottom) + (this.scrollElement ? this.scrollElement.scrollHeight : 0);
+      toolbarHeight =
+        parseFloat(style.marginTop) +
+        parseFloat(style.marginBottom) +
+        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
     return Math.max(60, this.state.viewportSize.height - toolbarHeight - 60);
   }
@@ -222,7 +225,11 @@ class Toolbar extends React.Component<Props, State> {
     if (this.isLandscapePhone()) {
       return [topmostPosition];
     }
-    const stops = uniq([topmostPosition, Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)), this.state.viewportSize.height - (this.props.minimalHeight || 0)]);
+    const stops = uniq([
+      topmostPosition,
+      Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)),
+      this.state.viewportSize.height - (this.props.minimalHeight || 0),
+    ]);
     return stops;
   }
 
@@ -239,7 +246,7 @@ class Toolbar extends React.Component<Props, State> {
     return isOnSmallViewport() && this.state.viewportSize.width > this.state.viewportSize.height;
   }
 
-  getStyle(): { transform: string; touchAction: string; transition: string; overflowY: string; } {
+  getStyle(): { transform: string, touchAction: string, transition: string, overflowY: string } {
     const lastTopOffset = this.state.lastTopOffset;
 
     let topOffset = this.state.topOffset || lastTopOffset;
@@ -257,8 +264,10 @@ class Toolbar extends React.Component<Props, State> {
     return {
       touchAction: isAtTopmostPosition ? 'inherit' : 'none',
       overflowY: isAtTopmostPosition ? 'auto' : 'hidden',
-      transition: enableTransitions ? isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out` : '',
-      transform: `translate3d(0, ${topOffset}px, 0)`
+      transition: enableTransitions
+        ? isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`
+        : '',
+      transform: `translate3d(0, ${topOffset}px, 0)`,
     };
   }
 
@@ -277,25 +286,54 @@ class Toolbar extends React.Component<Props, State> {
 
   render() {
     const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
-    const isIphoneX = window.device && window.device.model && includes(xModels, window.device.model);
-    const classNames = ['toolbar', isIphoneX ? 'toolbar-iphone-x' : null, this.props.hidden ? 'toolbar-hidden' : null, this.props.isModal ? 'toolbar-is-modal' : null, this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null, this.props.className];
+    const isIphoneX =
+      window.device && window.device.model && includes(xModels, window.device.model);
+    const classNames = [
+      'toolbar',
+      isIphoneX ? 'toolbar-iphone-x' : null,
+      this.props.hidden ? 'toolbar-hidden' : null,
+      this.props.isModal ? 'toolbar-is-modal' : null,
+      this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null,
+      this.props.className,
+    ];
     const className = classNames.filter(Boolean).join(' ');
-    return <Swipeable onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)} onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}>
-      <section className={className} style={this.getStyle()} ref={nav => {
-        this.scrollElement = nav;
-      }} aria-hidden={this.props.inert} role={this.props.role} aria-label={this.props.ariaLabel} aria-describedby={this.props.ariaDescribedBy} data-last-top-offset={this.state.lastTopOffset} onTouchMove={this.cancelTouchIfMoving}>
-        {this.props.isSwipeable && !this.props.isModal ? <button className="grab-handle" aria-label={this.isFullyExpanded() ? t`Collapse details` : t`Expand details`} onClick={() => {
-          if (this.isFullyExpanded()) {
-            const stops = this.getStops();
-            const offset = stops[stops.length - 1];
-            this.setState({ lastTopOffset: offset, topOffset: offset });
-          } else {
-            this.ensureFullVisibility();
-          }
-        }} /> : null}
-        {this.props.children}
-      </section>
-    </Swipeable>;
+    return (
+      <Swipeable
+        onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
+        onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
+      >
+        <section
+          className={className}
+          style={this.getStyle()}
+          ref={nav => {
+            this.scrollElement = nav;
+          }}
+          aria-hidden={this.props.inert}
+          role={this.props.role}
+          aria-label={this.props.ariaLabel}
+          aria-describedby={this.props.ariaDescribedBy}
+          data-last-top-offset={this.state.lastTopOffset}
+          onTouchMove={this.cancelTouchIfMoving}
+        >
+          {this.props.isSwipeable && !this.props.isModal ? (
+            <button
+              className="grab-handle"
+              aria-label={this.isFullyExpanded() ? t`Collapse details` : t`Expand details`}
+              onClick={() => {
+                if (this.isFullyExpanded()) {
+                  const stops = this.getStops();
+                  const offset = stops[stops.length - 1];
+                  this.setState({ lastTopOffset: offset, topOffset: offset });
+                } else {
+                  this.ensureFullVisibility();
+                }
+              }}
+            />
+          ) : null}
+          {this.props.children}
+        </section>
+      </Swipeable>
+    );
   }
 }
 
@@ -463,11 +501,12 @@ const StyledToolbar = styled(Toolbar)`
   .negative-button {
     color: ${hsl(colors.negativeColor).darker(1)};
     @media (hover), (-moz-touch-enabled: 0) {
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         background-color: ${colors.negativeBackgroundColorTransparent};
       }
     }
-    
+
     &:active {
       background-color: ${hsl(colors.negativeBackgroundColorTransparent).darker(1)};
     }

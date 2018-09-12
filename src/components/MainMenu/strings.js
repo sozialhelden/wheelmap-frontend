@@ -21,6 +21,6 @@ export default function strings() {
     // translator: Main menu item
     addMissingPlace: t`Add a new place`,
     // translator: Claim in the main menu toolbar, next to the logo
-    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`
+    findWheelchairAccessiblePlaces: t`Find wheelchair accessible places`,
   };
-};
+}

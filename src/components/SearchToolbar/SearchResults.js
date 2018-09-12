@@ -12,13 +12,13 @@ import colors from '../../lib/colors';
 import SearchResult from './SearchResult';
 
 type Props = {
-  searchResults: SearchResultCollection;
-  history: RouterHistory;
-  className: string;
-  hidden: ?boolean;
-  onSelect: () => void;
-  onSelectCoordinate: (coords: { lat: number; lon: number; zoom: number; }) => void;
-  refFirst: ?(result: ?SearchResult) => void;
+  searchResults: SearchResultCollection,
+  history: RouterHistory,
+  className: string,
+  hidden: ?boolean,
+  onSelect: () => void,
+  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  refFirst: ?(result: ?SearchResult) => void,
 };
 
 function SearchResults(props: Props) {
@@ -34,13 +34,25 @@ function SearchResults(props: Props) {
   // translator: Text in search results when an error occurred
   const searchErrorCaption = t`No results available. Please try again later!`;
 
-  return <ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
-    {failedLoading && <li className="error-result">{searchErrorCaption}</li>} 
-    {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>} 
-    {features.map((result, index) => <SearchResult result={result} key={id(result)} onSelect={props.onSelect} onSelectCoordinate={props.onSelectCoordinate} hidden={!!props.hidden} history={props.history} ref={ref => {
-      if (props.refFirst && index === 0) props.refFirst(ref);
-    }} />)}
-  </ul>;
+  return (
+    <ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
+      {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
+      {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
+      {features.map((result, index) => (
+        <SearchResult
+          result={result}
+          key={id(result)}
+          onSelect={props.onSelect}
+          onSelectCoordinate={props.onSelectCoordinate}
+          hidden={!!props.hidden}
+          history={props.history}
+          ref={ref => {
+            if (props.refFirst && index === 0) props.refFirst(ref);
+          }}
+        />
+      ))}
+    </ul>
+  );
 }
 
 const StyledSearchResults = styled(SearchResults)`

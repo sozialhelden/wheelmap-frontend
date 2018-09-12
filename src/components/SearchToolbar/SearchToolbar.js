@@ -32,7 +32,7 @@ function handleInputCommands(history: RouterHistory, commandLine: ?string) {
   if (setLocaleCommandMatch) {
     let location = newLocationWithReplacedQueryParams(history, {
       q: null,
-      locale: setLocaleCommandMatch[1]
+      locale: setLocaleCommandMatch[1],
     });
     if (window.cordova) {
       window.location.hash = location.search;
@@ -44,35 +44,39 @@ function handleInputCommands(history: RouterHistory, commandLine: ?string) {
 }
 
 export type Props = PlaceFilter & {
-  history: RouterHistory;
-  hidden: boolean;
-  inert: boolean;
-  category: ?string;
-  searchQuery: ?string;
-  lat: ?number;
-  lon: ?number;
-  onSelectCoordinate: (coords: { lat: number; lon: number; zoom: number; }) => void;
-  onChangeSearchQuery: (newSearchQuery: string) => void;
-  onFilterChanged: (filter: PlaceFilter) => void;
-  onClose: ?() => void;
-  onClick: () => void;
-  onResetCategory: ?() => void;
-  isExpanded: boolean;
-  hasGoButton: boolean;
+  history: RouterHistory,
+  hidden: boolean,
+  inert: boolean,
+  category: ?string,
+  searchQuery: ?string,
+  lat: ?number,
+  lon: ?number,
+  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  onChangeSearchQuery: (newSearchQuery: string) => void,
+  onFilterChanged: (filter: PlaceFilter) => void,
+  onClose: ?() => void,
+  onClick: () => void,
+  onResetCategory: ?() => void,
+  isExpanded: boolean,
+  hasGoButton: boolean,
 };
 
 type State = {
-  searchResults: ?SearchResultCollection;
-  searchFieldIsFocused: boolean;
-  isCategoryFocused: boolean;
-  isLoading: boolean;
+  searchResults: ?SearchResultCollection,
+  searchFieldIsFocused: boolean,
+  isCategoryFocused: boolean,
+  isLoading: boolean,
 };
 
 const StyledChevronRight = styled(ChevronRight)`
   height: 1rem;
   vertical-align: bottom;
   opacity: 0.5;
-  g, polygon, rect, circle, path {
+  g,
+  polygon,
+  rect,
+  circle,
+  path {
     fill: white;
   }
 `;
@@ -227,7 +231,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     searchFieldIsFocused: false,
     searchResults: null,
     isCategoryFocused: false,
-    isLoading: false
+    isLoading: false,
   };
 
   toolbar: ?React.ElementRef<typeof Toolbar> = null;
@@ -237,16 +241,20 @@ export default class SearchToolbar extends React.Component<Props, State> {
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
-  handleSearchInputChange = debounce(() => {
-    if (!(this.input instanceof HTMLInputElement)) {
-      return;
-    }
-    const query = this.input.value;
-    if (query.match(/^locale:/)) {
-      return;
-    }
-    this.sendSearchRequest(query);
-  }, 1000, { leading: false, trailing: true, maxWait: 3000 });
+  handleSearchInputChange = debounce(
+    () => {
+      if (!(this.input instanceof HTMLInputElement)) {
+        return;
+      }
+      const query = this.input.value;
+      if (query.match(/^locale:/)) {
+        return;
+      }
+      this.sendSearchRequest(query);
+    },
+    1000,
+    { leading: false, trailing: true, maxWait: 3000 }
+  );
 
   componentDidMount() {
     if (this.props.searchQuery) {
@@ -259,7 +267,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
-    const searchFieldShouldBecomeFocused = !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
+    const searchFieldShouldBecomeFocused =
+      !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
     if (searchFieldShouldBecomeFocused) {
       this.focus();
     }
@@ -284,7 +293,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.setState({ isLoading: true });
 
     searchPlaces(query, this.props).then(featureCollection => {
-      this.setState({ searchResults: featureCollection || this.state.searchResults, isLoading: false });
+      this.setState({
+        searchResults: featureCollection || this.state.searchResults,
+        isLoading: false,
+      });
     });
   }
 
@@ -312,112 +324,164 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   resetSearch() {
-    this.setState({ searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false }, () => {
-      if (this.input instanceof HTMLInputElement) {
-        this.input.value = '';
+    this.setState(
+      { searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false },
+      () => {
+        if (this.input instanceof HTMLInputElement) {
+          this.input.value = '';
+        }
       }
-    });
+    );
   }
 
   renderSearchInputField() {
-    return <SearchInputField innerRef={searchInputField => this.searchInputField = searchInputField} searchQuery={this.props.category ? '' : this.props.searchQuery} hidden={this.props.hidden} onClick={() => {
-      if (this.props.category) {
-        this.resetSearch();
-      }
-      this.setState({ searchFieldIsFocused: true });
-      window.scrollTo(0, 0);
-      this.props.onClick();
-    }} onFocus={event => {
-      this.input = event.target;
-      this.setState({ searchFieldIsFocused: true });
-      window.scrollTo(0, 0);
-    }} onBlur={() => {
-      this.ensureFullVisibility();
-      setTimeout(() => {
-        this.setState({ searchFieldIsFocused: false });
-        this.ensureFullVisibility();
-      }, 300);
-    }} onChange={event => {
-      const input = event.target;
-      this.input = input;
-      this.props.onChangeSearchQuery(input.value);
-      if (input.value && !this.state.searchResults) {
-        this.setState({ isLoading: true });
-      }
-      this.handleSearchInputChange(event);
-    }} onSubmit={() => {
-      this.setState({ searchFieldIsFocused: false }, () => {
-        this.blur();
-        if (this.firstResult) {
-          this.firstResult.focus();
-        }
-      });
-      handleInputCommands(this.props.history, this.input && this.input.value);
-    }} ariaRole="searchbox" />;
+    return (
+      <SearchInputField
+        innerRef={searchInputField => (this.searchInputField = searchInputField)}
+        searchQuery={this.props.category ? '' : this.props.searchQuery}
+        hidden={this.props.hidden}
+        onClick={() => {
+          if (this.props.category) {
+            this.resetSearch();
+          }
+          this.setState({ searchFieldIsFocused: true });
+          window.scrollTo(0, 0);
+          this.props.onClick();
+        }}
+        onFocus={event => {
+          this.input = event.target;
+          this.setState({ searchFieldIsFocused: true });
+          window.scrollTo(0, 0);
+        }}
+        onBlur={() => {
+          this.ensureFullVisibility();
+          setTimeout(() => {
+            this.setState({ searchFieldIsFocused: false });
+            this.ensureFullVisibility();
+          }, 300);
+        }}
+        onChange={event => {
+          const input = event.target;
+          this.input = input;
+          this.props.onChangeSearchQuery(input.value);
+          if (input.value && !this.state.searchResults) {
+            this.setState({ isLoading: true });
+          }
+          this.handleSearchInputChange(event);
+        }}
+        onSubmit={() => {
+          this.setState({ searchFieldIsFocused: false }, () => {
+            this.blur();
+            if (this.firstResult) {
+              this.firstResult.focus();
+            }
+          });
+          handleInputCommands(this.props.history, this.input && this.input.value);
+        }}
+        ariaRole="searchbox"
+      />
+    );
   }
 
   renderSearchResults(searchResults: SearchResultCollection) {
-    return <div aria-live="assertive">
-      <SearchResults searchResults={searchResults} onSelectCoordinate={this.props.onSelectCoordinate} hidden={this.props.hidden} history={this.props.history} onSelect={() => this.clearSearch()} refFirst={ref => {
-        this.firstResult = ref;
-      }} />
-    </div>;
+    return (
+      <div aria-live="assertive">
+        <SearchResults
+          searchResults={searchResults}
+          onSelectCoordinate={this.props.onSelectCoordinate}
+          hidden={this.props.hidden}
+          history={this.props.history}
+          onSelect={() => this.clearSearch()}
+          refFirst={ref => {
+            this.firstResult = ref;
+          }}
+        />
+      </div>
+    );
   }
 
   renderLoadingIndicator() {
-    return <div>
-      <span className="sr-only" aria-live="assertive">
-        Searching
-      </span>
-      <Dots size={20} />
-    </div>;
+    return (
+      <div>
+        <span className="sr-only" aria-live="assertive">
+          Searching
+        </span>
+        <Dots size={20} />
+      </div>
+    );
   }
 
   renderCategoryMenu() {
     if (!this.props.category && !this.props.isExpanded) return null;
 
-    return <CategoryMenu hidden={this.props.hidden} history={this.props.history} onFocus={() => this.setState({ isCategoryFocused: true })} onBlur={() => {
-      setTimeout(() => this.setState({ isCategoryFocused: false }));
-    }} category={this.props.category} accessibilityFilter={this.props.accessibilityFilter} />;
+    return (
+      <CategoryMenu
+        hidden={this.props.hidden}
+        history={this.props.history}
+        onFocus={() => this.setState({ isCategoryFocused: true })}
+        onBlur={() => {
+          setTimeout(() => this.setState({ isCategoryFocused: false }));
+        }}
+        category={this.props.category}
+        accessibilityFilter={this.props.accessibilityFilter}
+      />
+    );
   }
 
   renderAccessibilityFilterToolbar() {
     if (!isFiltered(this.props.accessibilityFilter) && !this.props.isExpanded) return null;
 
-    return <div className="filter-selector">
-      <AccessibilityFilterMenu accessibilityFilter={this.props.accessibilityFilter} toiletFilter={this.props.toiletFilter} onFilterChanged={this.props.onFilterChanged} category={this.props.category} history={this.props.history} onBlur={() => {
-        setTimeout(() => this.setState({ isCategoryFocused: false }));
-      }} />
-    </div>;
+    return (
+      <div className="filter-selector">
+        <AccessibilityFilterMenu
+          accessibilityFilter={this.props.accessibilityFilter}
+          toiletFilter={this.props.toiletFilter}
+          onFilterChanged={this.props.onFilterChanged}
+          category={this.props.category}
+          history={this.props.history}
+          onBlur={() => {
+            setTimeout(() => this.setState({ isCategoryFocused: false }));
+          }}
+        />
+      </div>
+    );
   }
 
   renderFilters() {
-    return <React.Fragment>
-      {this.renderCategoryMenu()}
-      {this.renderAccessibilityFilterToolbar()}
-    </React.Fragment>;
+    return (
+      <React.Fragment>
+        {this.renderCategoryMenu()}
+        {this.renderAccessibilityFilterToolbar()}
+      </React.Fragment>
+    );
   }
 
   renderCloseLink() {
-    return <CloseLink history={this.props.history} ariaLabel={t`Clear search`} onClick={() => {
-      this.resetSearch();
-      if (this.props.onClose) this.props.onClose();
-    }} innerRef={closeLink => this.closeLink = closeLink} />;
+    return (
+      <CloseLink
+        history={this.props.history}
+        ariaLabel={t`Clear search`}
+        onClick={() => {
+          this.resetSearch();
+          if (this.props.onClose) this.props.onClose();
+        }}
+        innerRef={closeLink => (this.closeLink = closeLink)}
+      />
+    );
   }
 
   renderGoButton() {
     // translator: button shown next to the search bar
     const caption = t`Go`;
-    return <GoButton innerRef={button => this.goButton = button} onClick={this.props.onClose}>
-      {caption} <StyledChevronRight />
-    </GoButton>;
+    return (
+      <GoButton innerRef={button => (this.goButton = button)} onClick={this.props.onClose}>
+        {caption} <StyledChevronRight />
+      </GoButton>
+    );
   }
 
   render() {
-    const {
-      isLoading,
-      searchResults
-    } = this.state;
+    const { isLoading, searchResults } = this.state;
 
     let contentBelowSearchField = null;
 
@@ -429,24 +493,39 @@ export default class SearchToolbar extends React.Component<Props, State> {
       contentBelowSearchField = this.renderFilters();
     }
 
-    const className = ['search-toolbar', this.props.isExpanded && 'is-expanded'].filter(Boolean).join(' ');
+    const className = ['search-toolbar', this.props.isExpanded && 'is-expanded']
+      .filter(Boolean)
+      .join(' ');
 
-    return <StyledToolbar className={className} hidden={this.props.hidden} inert={this.props.inert} minimalHeight={75} innerRef={toolbar => {
-      this.toolbar = toolbar;
-    }} isSwipeable={false} enableTransitions={false} role="search">
+    return (
+      <StyledToolbar
+        className={className}
+        hidden={this.props.hidden}
+        inert={this.props.inert}
+        minimalHeight={75}
+        innerRef={toolbar => {
+          this.toolbar = toolbar;
+        }}
+        isSwipeable={false}
+        enableTransitions={false}
+        role="search"
+      >
         <header>
-          <form action="#" method="post" onSubmit={ev => {
-          ev.preventDefault();
-        }}>
+          <form
+            action="#"
+            method="post"
+            onSubmit={ev => {
+              ev.preventDefault();
+            }}
+          >
             <SearchIcon />
             {this.renderSearchInputField()}
             {this.props.searchQuery && this.renderCloseLink()}
             {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
           </form>
         </header>
-        <section onTouchStart={() => this.blur()}>
-          {contentBelowSearchField}
-        </section>
-      </StyledToolbar>;
+        <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
+      </StyledToolbar>
+    );
   }
 }

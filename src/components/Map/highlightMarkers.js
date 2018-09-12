@@ -7,7 +7,12 @@ import union from 'lodash/union';
 
 let currentHighlightedMarkers: HighlightableMarker[] = [];
 
-export default function highlightMarkers(highlightLayer: L.Layer, markers: HighlightableMarker[], removeOldMarkers: boolean = true, isAnimated: boolean = true) {
+export default function highlightMarkers(
+  highlightLayer: L.Layer,
+  markers: HighlightableMarker[],
+  removeOldMarkers: boolean = true,
+  isAnimated: boolean = true
+) {
   const highlightableMarkers = markers;
   const removedMarkers = difference(currentHighlightedMarkers, highlightableMarkers);
 

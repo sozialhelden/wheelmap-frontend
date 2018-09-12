@@ -3,9 +3,12 @@
 import FeatureCache from './FeatureCache';
 import type { WheelmapLightweightFeature, WheelmapLightweightFeatureCollection } from '../Feature';
 
-export default class WheelmapLightweightFeatureCache extends FeatureCache<WheelmapLightweightFeature, WheelmapLightweightFeatureCollection> {
+export default class WheelmapLightweightFeatureCache extends FeatureCache<
+  WheelmapLightweightFeature,
+  WheelmapLightweightFeatureCollection
+> {
   static getIdForFeature(feature: WheelmapLightweightFeature): string {
-    return String(feature.id || feature.properties && feature.properties.id);
+    return String(feature.id || (feature.properties && feature.properties.id));
   }
 }
 

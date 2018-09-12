@@ -48,26 +48,31 @@ const colors = {
       yes: '#7ec512',
       limited: '#f39e3b',
       no: '#f54b4b',
-      unknown: '#e6e4e0'
+      unknown: '#e6e4e0',
     },
     foreground: {
       yes: '#fff',
       limited: '#fff',
       no: '#fff',
-      unknown: '#69615b'
-    }
-  }
+      unknown: '#69615b',
+    },
+  },
 };
 
 colors.coldBackgroundColor = hsl(colors.linkBackgroundColorTransparent);
 colors.coldBackgroundColor.opacity *= 0.5;
-colors.halfTonedDownSelectedColor = interpolateLab(colors.tonedDownSelectedColor, colors.selectedColor)(0.5);
+colors.halfTonedDownSelectedColor = interpolateLab(
+  colors.tonedDownSelectedColor,
+  colors.selectedColor
+)(0.5);
 colors.borderColor = interpolateLab(colors.tonedDownSelectedColor, 'rgba(255, 255, 255, 0.5)')(0.6);
 colors.editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 colors.editHintBackgroundColor.s -= 0.5;
 colors.textColorTonedDown = interpolateLab(colors.tonedDownSelectedColor, colors.textColor)(0.5);
 
-export function getHTMLColorForWheelchairAccessibilityValue(isAccessible: YesNoLimitedUnknown): string {
+export function getHTMLColorForWheelchairAccessibilityValue(
+  isAccessible: YesNoLimitedUnknown
+): string {
   return colors.markers.background[isAccessible];
 }
 
@@ -75,9 +80,21 @@ export function getColorForWheelchairAccessibility(properties: NodeProperties): 
   return isWheelchairAccessible(properties);
 }
 
-const interpolateYesLimited = interpolateLab(colors.markers.background.limited, colors.markers.background.yes);
+const interpolateYesLimited = interpolateLab(
+  colors.markers.background.limited,
+  colors.markers.background.yes
+);
 
-const definedAccessibilityColorScale = scaleLinear().domain([0, 0.2, 0.4, 0.6, 0.8, 1]).range([colors.markers.background.no, colors.markers.background.limited, interpolateYesLimited(0.25), interpolateYesLimited(0.5), interpolateYesLimited(0.75), colors.markers.background.yes]);
+const definedAccessibilityColorScale = scaleLinear()
+  .domain([0, 0.2, 0.4, 0.6, 0.8, 1])
+  .range([
+    colors.markers.background.no,
+    colors.markers.background.limited,
+    interpolateYesLimited(0.25),
+    interpolateYesLimited(0.5),
+    interpolateYesLimited(0.75),
+    colors.markers.background.yes,
+  ]);
 
 export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
   if (!propertiesArray || propertiesArray.length === 0) {
@@ -89,7 +106,8 @@ export function interpolateWheelchairAccessibilityColors(propertiesArray: NodePr
   if (definedCount === 0) {
     return colors.markers.background.unknown;
   }
-  const ratingForAccessibility = accessibility => ({ unknown: 0, no: 0, limited: 0.5, yes: 1 })[accessibility];
+  const ratingForAccessibility = accessibility =>
+    ({ unknown: 0, no: 0, limited: 0.5, yes: 1 }[accessibility]);
   const reduceFn = (acc, accessibility) => acc + ratingForAccessibility(accessibility);
   const totalRatingForDefined = reduce(accessibilityValues, reduceFn, 0);
   const averageRatingForDefined = totalRatingForDefined / definedCount;
@@ -97,7 +115,9 @@ export function interpolateWheelchairAccessibilityColors(propertiesArray: NodePr
   const definedRatio = definedCount / accessibilityValues.length;
   // Don't take unknown values into account that much
   const clampedDefinedRatio = Math.min(1.0, 0.5 + definedRatio);
-  return interpolateLab(colors.markers.background.unknown, averageAccessibilityForDefined)(clampedDefinedRatio);
+  return interpolateLab(colors.markers.background.unknown, averageAccessibilityForDefined)(
+    clampedDefinedRatio
+  );
 }
 
 export default colors;

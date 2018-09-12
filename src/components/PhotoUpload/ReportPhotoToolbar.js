@@ -57,14 +57,14 @@ function reportDescription(reportValue: ReportOptions): ?string {
 }
 
 export type Props = {
-  hidden: boolean;
-  photo: PhotoModel | null;
-  onClose: () => void;
-  onCompleted: (photo: PhotoModel, reason: ReportOptions) => void;
+  hidden: boolean,
+  photo: PhotoModel | null,
+  onClose: () => void,
+  onCompleted: (photo: PhotoModel, reason: ReportOptions) => void,
 };
 
 type State = {
-  selectedValue: ReportOptions | null
+  selectedValue: ReportOptions | null,
 };
 
 /* Overwrite Style of wrapper Toolbar component  */
@@ -133,7 +133,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   props: Props;
 
   state: State = {
-    selectedValue: null
+    selectedValue: null,
   };
 
   renderCloseLink() {
@@ -173,7 +173,13 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     // translator: Screen reader description for the 'report photo' reason choice dialog
     const ariaLabel = t`Reason for reporting image`;
 
-    return <StyledToolbar className="photoupload-instructions-toolbar" hidden={this.props.hidden} isSwipeable={false} isModal>
+    return (
+      <StyledToolbar
+        className="photoupload-instructions-toolbar"
+        hidden={this.props.hidden}
+        isSwipeable={false}
+        isModal
+      >
         <header>
           {this.renderCloseLink()}
           <div>
@@ -182,20 +188,41 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           <h3>{t`Which problem would you like to report?`}</h3>
         </header>
 
-        <StyledRadioGroup name="report-reason" selectedValue={selectedValue} onChange={newValue => {
-        this.setState({ selectedValue: newValue });
-      }} className={`${selectedValue ? 'has-selection' : ''} radio-group`} onKeyDown={this.onRadioGroupKeyDown} role="radiogroup" aria-label={ariaLabel}>
-          {ReportValues.map((value: ReportOptions, index) => <CustomRadio key={value} shownValue={value} currentValue={selectedValue} caption={shortReportCaption(value)} description={reportDescription(value)} />)}
+        <StyledRadioGroup
+          name="report-reason"
+          selectedValue={selectedValue}
+          onChange={newValue => {
+            this.setState({ selectedValue: newValue });
+          }}
+          className={`${selectedValue ? 'has-selection' : ''} radio-group`}
+          onKeyDown={this.onRadioGroupKeyDown}
+          role="radiogroup"
+          aria-label={ariaLabel}
+        >
+          {ReportValues.map((value: ReportOptions, index) => (
+            <CustomRadio
+              key={value}
+              shownValue={value}
+              currentValue={selectedValue}
+              caption={shortReportCaption(value)}
+              description={reportDescription(value)}
+            />
+          ))}
         </StyledRadioGroup>
 
         <footer>
           <button className="link-button negative-button" onClick={this.onClose}>
             {t`Cancel`}
           </button>
-          <button className="link-button primary-button" disabled={!canSubmit} onClick={this.onSubmit}>
+          <button
+            className="link-button primary-button"
+            disabled={!canSubmit}
+            onClick={this.onSubmit}
+          >
             {t`Send`}
           </button>
         </footer>
-      </StyledToolbar>;
+      </StyledToolbar>
+    );
   }
 }

@@ -3,11 +3,11 @@ import parseQueryParams from './parseQueryParams';
 import type { ModalNodeState } from './queryParams';
 
 export type RouteInformation = {
-  featureId: ?string;
-  category: ?string;
-  modalNodeState: ModalNodeState;
-  searchQuery: ?string;
-  equipmentInfoId: ?string;
+  featureId: ?string,
+  category: ?string,
+  modalNodeState: ModalNodeState,
+  searchQuery: ?string,
+  equipmentInfoId: ?string,
 };
 
 function getModalNodeState(match: string[]) {
@@ -26,7 +26,9 @@ function getModalNodeState(match: string[]) {
 export default function getRouteInformation(props: Props): ?RouteInformation {
   const location = props.location;
   const allowedResourceNames = ['nodes', 'categories', 'search'];
-  const match = location.pathname.match(/(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i);
+  const match = location.pathname.match(
+    /(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i
+  );
   if (match) {
     if (match[1] && !includes(allowedResourceNames, match[1])) return null;
     return {
@@ -36,7 +38,7 @@ export default function getRouteInformation(props: Props): ?RouteInformation {
       category: match[1] === 'categories' ? match[2] : null,
       searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
       toilet: parseQueryParams(location.search).toilet,
-      status: parseQueryParams(location.search).status
+      status: parseQueryParams(location.search).status,
     };
   }
   return null;

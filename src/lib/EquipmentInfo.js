@@ -5,72 +5,97 @@ import type { FeatureCollection, YesNoLimitedUnknown } from './Feature';
 import { categoryNameFor } from './Categories';
 import { currentLocales, translatedStringFromObject } from './i18n';
 
-export type CategoryString = 'elevator' | 'escalator' | 'switch' | 'sitemap' | 'vending-machine' | 'intercom' | 'power-outlet';
-export const CategoryStrings: CategoryString[] = ['elevator', 'escalator', 'switch', 'sitemap', 'vending-machine', 'intercom', 'power-outlet'];
+export type CategoryString =
+  | 'elevator'
+  | 'escalator'
+  | 'switch'
+  | 'sitemap'
+  | 'vending-machine'
+  | 'intercom'
+  | 'power-outlet';
+export const CategoryStrings: CategoryString[] = [
+  'elevator',
+  'escalator',
+  'switch',
+  'sitemap',
+  'vending-machine',
+  'intercom',
+  'power-outlet',
+];
 
 export type DisruptionProperties = {
-  originalId?: string;
-  originalEquipmentInfoId?: string;
-  originalEquipmentInfoIdField?: string;
-  equipmentInfoId?: string;
-  originalPlaceInfoId?: string;
-  originalPlaceInfoIdField?: string;
-  placeInfoId?: string;
-  sourceId?: string;
-  sourceImportId?: string;
-  category?: 'elevator' | 'escalator' | 'switch' | 'sitemap' | 'vending-machine' | 'intercom' | 'power-outlet';
-  isEquipmentWorking?: boolean;
-  stateExplanation?: string;
-  outOfOrderReason?: string;
-  alternativeRouteInstructions?: string;
-  startDate?: string;
-  plannedCompletionDate?: string;
-  lastUpdate?: string;
+  originalId?: string,
+  originalEquipmentInfoId?: string,
+  originalEquipmentInfoIdField?: string,
+  equipmentInfoId?: string,
+  originalPlaceInfoId?: string,
+  originalPlaceInfoIdField?: string,
+  placeInfoId?: string,
+  sourceId?: string,
+  sourceImportId?: string,
+  category?:
+    | 'elevator'
+    | 'escalator'
+    | 'switch'
+    | 'sitemap'
+    | 'vending-machine'
+    | 'intercom'
+    | 'power-outlet',
+  isEquipmentWorking?: boolean,
+  stateExplanation?: string,
+  outOfOrderReason?: string,
+  alternativeRouteInstructions?: string,
+  startDate?: string,
+  plannedCompletionDate?: string,
+  lastUpdate?: string,
 };
 
 export type EquipmentInfoProperties = {
-  _id?: string;
-  originalId?: string;
-  originalPlaceInfoId?: string;
-  disruptionSourceImportId?: string;
-  originalData?: string;
-  placeInfoId?: string;
-  sourceId?: string;
-  sourceImportId?: string;
-  category?: CategoryString;
-  description?: string;
-  shortDescription?: string;
-  longDescription?: string;
+  _id?: string,
+  originalId?: string,
+  originalPlaceInfoId?: string,
+  disruptionSourceImportId?: string,
+  originalData?: string,
+  placeInfoId?: string,
+  sourceId?: string,
+  sourceImportId?: string,
+  category?: CategoryString,
+  description?: string,
+  shortDescription?: string,
+  longDescription?: string,
   accessibility: {
-    hasRaisedText?: boolean;
-    isBraille?: boolean;
-    hasSpeech?: boolean;
-    isHighContrast?: boolean;
-    hasLargePrint?: boolean;
-    isVoiceActivated?: boolean;
-    hasHeadPhoneJack?: boolean;
-    isEasyToUnderstand?: boolean;
-    hasDoorsInBothDirections?: boolean;
-    heightOfControls?: number;
-    doorWidth?: number;
-    cabinWidth?: number;
-    cabinLength?: number;
-  };
-  isWorking?: boolean;
-  lastUpdate?: string;
-  lastDisruptionProperties?: DisruptionProperties;
+    hasRaisedText?: boolean,
+    isBraille?: boolean,
+    hasSpeech?: boolean,
+    isHighContrast?: boolean,
+    hasLargePrint?: boolean,
+    isVoiceActivated?: boolean,
+    hasHeadPhoneJack?: boolean,
+    isEasyToUnderstand?: boolean,
+    hasDoorsInBothDirections?: boolean,
+    heightOfControls?: number,
+    doorWidth?: number,
+    cabinWidth?: number,
+    cabinLength?: number,
+  },
+  isWorking?: boolean,
+  lastUpdate?: string,
+  lastDisruptionProperties?: DisruptionProperties,
 };
 
 export type EquipmentInfo = {
-  type: 'Feature';
-  geometry: Point;
-  _id?: string;
-  properties: EquipmentInfoProperties;
+  type: 'Feature',
+  geometry: Point,
+  _id?: string,
+  properties: EquipmentInfoProperties,
 };
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<EquipmentInfo>;
 
-export function equipmentInfoNameFor(properties: EquipmentProperties, isAriaLabel: boolean): string {
+export function equipmentInfoNameFor(
+  properties: EquipmentProperties,
+  isAriaLabel: boolean
+): string {
   const unknownName = t`Unnamed facility`;
   if (!properties) return unknownName;
   let description = properties.description;
@@ -79,7 +104,9 @@ export function equipmentInfoNameFor(properties: EquipmentProperties, isAriaLabe
   } else {
     description = properties.shortDescription || description;
   }
-  return translatedStringFromObject(description) || categoryNameFor(properties.category) || unknownName;
+  return (
+    translatedStringFromObject(description) || categoryNameFor(properties.category) || unknownName
+  );
 }
 
 export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {
@@ -89,7 +116,7 @@ export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {
     // translator: An equipment or facility status. This does not mean the facility is broken: It might just be in maintenance! The facility might be an elevator, escalator, switch, sitemap, …
     false: t`Out of order`,
     // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
-    undefined: t`Unknown operational status`
+    undefined: t`Unknown operational status`,
   }[String(isOutdated ? undefined : isWorking)];
 }
 
@@ -109,11 +136,21 @@ export function isEquipmentAccessible(properties: ?EquipmentInfoProperties): ?Ye
   return {
     true: 'yes',
     false: 'no',
-    undefined: 'unknown'
+    undefined: 'unknown',
   }[String(isOutdated ? undefined : properties.isWorking)];
 }
 
-export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }: { lastUpdate: ?Date; isWorking: ?boolean; category: ?string; isOutdated: boolean; }) {
+export function lastUpdateString({
+  lastUpdate,
+  isWorking,
+  category,
+  isOutdated,
+}: {
+  lastUpdate: ?Date,
+  isWorking: ?boolean,
+  category: ?string,
+  isOutdated: boolean,
+}) {
   if (!lastUpdate) {
     // translator: Shown next to equipment status when the system does not know a last update.
     return `Unfortunately there is no information when this status was last updated.`;
@@ -123,7 +160,7 @@ export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }
     escalator: t`Escalator`,
     elevator: t`Elevator`,
     // translator: An equipment or facility whose category we don't know. It might be an elevator, escalator, switch, sitemap, …
-    undefined: t`Facility`
+    undefined: t`Facility`,
   }[String(category)];
 
   const now = new Date();
@@ -132,9 +169,18 @@ export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }
   const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
   const isShortAgo = now - lastUpdate < twoDaysInMilliseconds;
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
-  const fullDateOptions = { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  const fullDateOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
 
-  let dateString = lastUpdate.toLocaleDateString(currentLocales.map(l => l.replace(/_/, '-')), fullDateOptions);
+  let dateString = lastUpdate.toLocaleDateString(
+    currentLocales.map(l => l.replace(/_/, '-')),
+    fullDateOptions
+  );
   if (isExistingInformationOutdated(lastUpdate) && typeof isWorking !== 'undefined') {
     const lastStatus = equipmentStatusTitle(isWorking, false);
     // translator: Shown for equipment when the last known status information is too old.
@@ -142,7 +188,10 @@ export function lastUpdateString({ lastUpdate, isWorking, category, isOutdated }
   } else {
     if (isShortAgo) {
       const timeOptions = { hour: '2-digit', minute: '2-digit' };
-      dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(currentLocales.map(l => l.replace(/_/, '-')), timeOptions)}`;
+      dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(
+        currentLocales.map(l => l.replace(/_/, '-')),
+        timeOptions
+      )}`;
     }
     // translator: Shown next to equipment status.
     return t`Last update: ${dateString}`;

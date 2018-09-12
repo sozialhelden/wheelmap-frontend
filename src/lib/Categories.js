@@ -6,33 +6,33 @@ import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
 
 export type ACCategory = {
-  _id: string;
-  icon: string;
-  parentIds: string[];
+  _id: string,
+  icon: string,
+  parentIds: string[],
   translations: {
     _id: {
-      [key: string]: string
-    }
-  };
-  synonyms: string[];
+      [key: string]: string,
+    },
+  },
+  synonyms: string[],
 };
 
 export type WheelmapCategory = {
-  id: number;
-  identifier: string;
-  category_id: number;
+  id: number,
+  identifier: string,
+  category_id: number,
   category: {
-    id: number;
-    identifier: string;
-  };
-  localized_name: string;
-  icon: string;
+    id: number,
+    identifier: string,
+  },
+  localized_name: string,
+  icon: string,
 };
 
 export type Category = WheelmapCategory | ACCategory;
 
 type SynonymCache = {
-  [key: string]: ACCategory
+  [key: string]: ACCategory,
 };
 
 export default class Categories {
@@ -67,7 +67,7 @@ export default class Categories {
       // translator: Root category
       sport: t`Sports`,
       // translator: Root category
-      misc: t`Miscellaneous`
+      misc: t`Miscellaneous`,
     };
   }
 
@@ -116,7 +116,12 @@ export default class Categories {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static fetchOnce(options: { accessibilityCloudBaseUrl: string; accessibilityCloudAppToken: string; wheelmapApiKey: string; wheelmapApiBaseUrl: string; }) {
+  static fetchOnce(options: {
+    accessibilityCloudBaseUrl: string,
+    accessibilityCloudAppToken: string,
+    wheelmapApiKey: string,
+    wheelmapApiBaseUrl: string,
+  }) {
     if (this.fetchPromise) return this.fetchPromise;
 
     const countryCode = navigator.language.substr(0, 2);
@@ -131,24 +136,46 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const url = `${options.accessibilityCloudBaseUrl}/categories.json?appToken=${options.accessibilityCloudAppToken}`;
-      return globalFetchManager.fetch(url, { cordova: true }).then(responseHandler).then(json => Categories.generateSynonymCache(json.results || []));
+      const url = `${options.accessibilityCloudBaseUrl}/categories.json?appToken=${
+        options.accessibilityCloudAppToken
+      }`;
+      return globalFetchManager
+        .fetch(url, { cordova: true })
+        .then(responseHandler)
+        .then(json => Categories.generateSynonymCache(json.results || []));
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true }).then(responseHandler).then(json => Categories.loadCategories(json.categories || []));
+      const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${
+        options.wheelmapApiKey
+      }&locale=${countryCode}`;
+      return globalFetchManager
+        .fetch(url, { mode: 'no-cors', cordova: true })
+        .then(responseHandler)
+        .then(json => Categories.loadCategories(json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${options.wheelmapApiKey}&locale=${countryCode}`;
-      return globalFetchManager.fetch(url, { mode: 'no-cors', cordova: true }).then(responseHandler).then(json => Categories.loadCategories(json.node_types || []));
+      const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${
+        options.wheelmapApiKey
+      }&locale=${countryCode}`;
+      return globalFetchManager
+        .fetch(url, { mode: 'no-cors', cordova: true })
+        .then(responseHandler)
+        .then(json => Categories.loadCategories(json.node_types || []));
     }
 
     const hasAccessibilityCloudCredentials = Boolean(options.accessibilityCloudAppToken);
-    const hasWheelmapCredentials = options.wheelmapApiKey && typeof options.wheelmapApiBaseUrl === 'string';
+    const hasWheelmapCredentials =
+      options.wheelmapApiKey && typeof options.wheelmapApiBaseUrl === 'string';
 
-    this.fetchPromise = Promise.all([hasAccessibilityCloudCredentials ? acCategoriesFetch() : null, hasWheelmapCredentials ? wheelmapCategoriesFetch() : null, hasWheelmapCredentials ? wheelmapNodeTypesFetch() : null].filter(Boolean));
+    this.fetchPromise = Promise.all(
+      [
+        hasAccessibilityCloudCredentials ? acCategoriesFetch() : null,
+        hasWheelmapCredentials ? wheelmapCategoriesFetch() : null,
+        hasWheelmapCredentials ? wheelmapNodeTypesFetch() : null,
+      ].filter(Boolean)
+    );
 
     return this.fetchPromise;
   }

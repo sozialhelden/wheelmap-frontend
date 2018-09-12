@@ -30,15 +30,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-import L from "leaflet";
+import L from 'leaflet';
 import includes from 'lodash/includes';
-import "leaflet.markercluster/dist/leaflet.markercluster-src";
-import "leaflet.markercluster/dist/MarkerCluster.css";
+import 'leaflet.markercluster/dist/leaflet.markercluster-src';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
 // import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import geoTileToBbox from "./geoTileToBbox";
-import highlightMarkers from "./highlightMarkers";
-import { CustomEvent } from "../../lib/EventTarget";
-import fetchViaCordova from "../../lib/fetchViaCordova";
+import geoTileToBbox from './geoTileToBbox';
+import highlightMarkers from './highlightMarkers';
+import { CustomEvent } from '../../lib/EventTarget';
+import fetchViaCordova from '../../lib/fetchViaCordova';
 
 const TileLayer = L.TileLayer;
 
@@ -51,8 +51,8 @@ class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl: string, options: {}) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
-    options.featureCache.addEventListener("change", this._onCachedFeatureChanged);
-    options.featureCache.addEventListener("add", this._onCachedFeatureAdded);
+    options.featureCache.addEventListener('change', this._onCachedFeatureChanged);
+    options.featureCache.addEventListener('add', this._onCachedFeatureAdded);
   }
 
   _onCachedFeatureChanged = (event: CustomEvent & { feature: Feature }) => {
@@ -101,8 +101,8 @@ class GeoJSONTileLayer extends TileLayer {
 
   _filterFeatureCollection(featureCollection, filterFn) {
     const result = {
-      type: "FeatureCollection",
-      features: featureCollection.features.filter(filterFn)
+      type: 'FeatureCollection',
+      features: featureCollection.features.filter(filterFn),
     };
     return result;
   }
@@ -112,15 +112,20 @@ class GeoJSONTileLayer extends TileLayer {
   }
 
   _removeShownFeatures(featureCollection) {
-    console.log("Filtering from", Object.keys(this._idsToShownLayers).length, "cached layers");
-    const result = this._filterFeatureCollection(featureCollection, feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id]);
+    console.log('Filtering from', Object.keys(this._idsToShownLayers).length, 'cached layers');
+    const result = this._filterFeatureCollection(
+      featureCollection,
+      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id]
+    );
     return result;
   }
 
   _reset() {
     // console.log("Resetting tile layer, emptying _idsToShownLayers");
     if (this._tiles) {
-      Object.keys(this._tiles).map(k => this._tiles[k]).forEach(tile => tile.request.abort());
+      Object.keys(this._tiles)
+        .map(k => this._tiles[k])
+        .forEach(tile => tile.request.abort());
     }
     // TileLayer.prototype._reset.apply(this, arguments);
     Object.keys(this._idsToShownLayers).forEach(id => delete this._idsToShownLayers[id]);
@@ -138,7 +143,7 @@ class GeoJSONTileLayer extends TileLayer {
   _removeTile(key) {
     const tile = this._tiles[key];
     tile.request.abort();
-    this.fire("tileunload", { tile });
+    this.fire('tileunload', { tile });
     delete this._loadedTileUrls[tile.url];
     if (tile.layer != null) {
       this._layerGroup.removeLayer(tile.layer);
@@ -158,11 +163,11 @@ class GeoJSONTileLayer extends TileLayer {
   getTileUrl(coords) {
     if (!this._url) return null;
     const data = {
-      r: L.Browser.retina ? "@2x" : "",
+      r: L.Browser.retina ? '@2x' : '',
       s: this._getSubdomain(coords),
       x: coords.x,
       y: coords.y,
-      z: this._getZoomForUrl()
+      z: this._getZoomForUrl(),
     };
     data.bbox = geoTileToBbox(data);
     if (this._map && !this._map.options.crs.infinite) {
@@ -170,7 +175,7 @@ class GeoJSONTileLayer extends TileLayer {
       if (this.options.tms) {
         data.y = invertedY;
       }
-      data["-y"] = invertedY;
+      data['-y'] = invertedY;
     }
 
     return L.Util.template(this._url, L.extend(data, this.options));
@@ -210,9 +215,9 @@ class GeoJSONTileLayer extends TileLayer {
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
     tile.url = url;
 
-    this.fire("tileloadstart", {
+    this.fire('tileloadstart', {
       tile,
-      url
+      url,
     });
 
     if (this._loadedTileUrls[url]) {
@@ -233,7 +238,7 @@ class GeoJSONTileLayer extends TileLayer {
         response = JSON.parse(responseText);
         geoJSON = featureCollectionFromResponse(response);
       } catch (e) {
-        console.log("Could not parse FeatureCollection JSON.");
+        console.log('Could not parse FeatureCollection JSON.');
         return;
       }
       const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
@@ -249,17 +254,20 @@ class GeoJSONTileLayer extends TileLayer {
     tile.request = { abort() {} };
     if (window.cordova && this.options.cordova) {
       const options = { headers: { Accept: 'application/json' } };
-      fetchViaCordova(url, options).then(r => r.text()).then(responseText => loadGeoJSON(responseText)).catch(error => tileLayer._tileOnError(tile, url));
+      fetchViaCordova(url, options)
+        .then(r => r.text())
+        .then(responseText => loadGeoJSON(responseText))
+        .catch(error => tileLayer._tileOnError(tile, url));
     } else {
       const request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
       tile.request = request;
-      request.open("GET", url, true);
-      request.setRequestHeader("Accept", "application/json");
-      request.addEventListener("load", function load() {
+      request.open('GET', url, true);
+      request.setRequestHeader('Accept', 'application/json');
+      request.addEventListener('load', function load() {
         if (!this.responseText || this.status >= 400) return;
         loadGeoJSON(this.responseText);
       });
-      request.addEventListener("error", () => tileLayer._tileOnError(tile, url));
+      request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
       request.send();
     }
 
@@ -271,16 +279,16 @@ class GeoJSONTileLayer extends TileLayer {
 
     this._layerGroup.addLayer(tile.layer);
 
-    this.fire("tileload", {
+    this.fire('tileload', {
       tile,
-      url
+      url,
     });
   }
 
   _tileOnError(tile, url) {
-    this.fire("tileerror", {
+    this.fire('tileerror', {
       tile,
-      url
+      url,
     });
   }
 

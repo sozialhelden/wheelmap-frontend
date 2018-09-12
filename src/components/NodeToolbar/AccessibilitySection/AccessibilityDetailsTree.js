@@ -14,7 +14,13 @@ function formatName(name: string, properties: {}): string {
 function formatValue(value: mixed): string {
   if (value === true) return t`Yes`;
   if (value === false) return t`No`;
-  if (isPlainObject(value) && value && typeof value === 'object' && typeof value.unit === 'string' && typeof value.value === 'number') {
+  if (
+    isPlainObject(value) &&
+    value &&
+    typeof value === 'object' &&
+    typeof value.unit === 'string' &&
+    typeof value.value === 'number'
+  ) {
     return `${value.value || '?'} ${value.unit}`;
   }
   return String(value);
@@ -23,15 +29,25 @@ function formatValue(value: mixed): string {
 function FormatRating({ rating }: { rating: number }) {
   const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5);
   const stars = '★★★★★'.slice(5 - between1and5);
-  return <span aria-label={`${between1and5} stars`}>
-    <span className="stars" aria-hidden="true">{stars}</span>
-    <span className="numeric" aria-hidden="true">{between1and5}/5</span>
-  </span>;
+  return (
+    <span aria-label={`${between1and5} stars`}>
+      <span className="stars" aria-hidden="true">
+        {stars}
+      </span>
+      <span className="numeric" aria-hidden="true">
+        {between1and5}/5
+      </span>
+    </span>
+  );
 }
 
-function DetailsArray({ className, array }: { className: ?string; array: any[]; }) {
+function DetailsArray({ className, array }: { className: ?string, array: any[] }) {
   // eslint-disable-next-line react/no-array-index-key
-  const items = array.map((e, i) => <li key={i}><AccessibilityDetailsTree isNested={true} details={e} /></li>);
+  const items = array.map((e, i) => (
+    <li key={i}>
+      <AccessibilityDetailsTree isNested={true} details={e} />
+    </li>
+  ));
   return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
 }
 
@@ -39,7 +55,7 @@ function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
-function DetailsObject(props: { className: ?string; object: {}; isNested?: boolean; }) {
+function DetailsObject(props: { className: ?string, object: {}, isNested?: boolean }) {
   const { className, object, isNested } = props;
   const properties = Object.keys(object).map(key => {
     if (key.match(/Localized/)) {
@@ -53,26 +69,43 @@ function DetailsObject(props: { className: ?string; object: {}; isNested?: boole
     // between the previous attribute value and the attribute name.
     const capitalizedName = capitalizeFirstLetter(name);
 
-    if (value && (value instanceof Array || isPlainObject(value) && !value.unit)) {
-      return [<dt data-key={key}>{capitalizedName}</dt>, <dd><AccessibilityDetailsTree isNested={true} details={value} /></dd>];
+    if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
+      return [
+        <dt data-key={key}>{capitalizedName}</dt>,
+        <dd>
+          <AccessibilityDetailsTree isNested={true} details={value} />
+        </dd>,
+      ];
     }
     if (key.startsWith('rating')) {
-      return [<dt className="ac-rating">{capitalizedName}:</dt>, <dd><FormatRating rating={parseFloat(String(value))} /></dd>];
+      return [
+        <dt className="ac-rating">{capitalizedName}:</dt>,
+        <dd>
+          <FormatRating rating={parseFloat(String(value))} />
+        </dd>,
+      ];
     }
     const generatedClassName = `ac-${typeof value}`;
     const formattedValue = formatValue(value);
-    return [<dt className={generatedClassName}>{capitalizedName}:</dt>, <dd className={generatedClassName} aria-label={`${formattedValue}!`}>
+    return [
+      <dt className={generatedClassName}>{capitalizedName}:</dt>,
+      <dd className={generatedClassName} aria-label={`${formattedValue}!`}>
         <em>{formattedValue}</em>
-      </dd>];
+      </dd>,
+    ];
   });
-  return <dl className={`ac-group ${className || ''}`} role={isNested ? null : "text"}>{properties}</dl>;
+  return (
+    <dl className={`ac-group ${className || ''}`} role={isNested ? null : 'text'}>
+      {properties}
+    </dl>
+  );
 }
 
 type Props = {
-  details: any;
-  locale?: ?string;
-  isNested: boolean;
-  className?: ?string;
+  details: any,
+  locale?: ?string,
+  isNested: boolean,
+  className?: ?string,
 };
 
 function AccessibilityDetailsTree(props: Props) {
@@ -118,45 +151,45 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   }
 
   dl {
-      width: 100%;
-      /*display: block;*/
-      /*background-color: rgba(0, 0, 0, 0.1);*/
-      overflow: auto;
-      margin: 0;
+    width: 100%;
+    /*display: block;*/
+    /*background-color: rgba(0, 0, 0, 0.1);*/
+    overflow: auto;
+    margin: 0;
   }
 
   dt {
-      /*background-color: rgba(255, 0, 0, 0.1);*/
-      float: left;
-      clear: left;
-      margin: 0;
-      padding: 0;
-  }
-
-  dt[data-key] {
-      font-weight: bolder;
-  }
-
-  dd {
-      /*background-color: rgba(0, 255, 0, 0.1);*/
-      margin-left: .5em;
-      display: table-cell;
-      padding: 0 0 0 0.3em;
-  }
-
-  dt[data-key="areas"] {
-    display: none
-  }
-
-  dt[data-key="areas"] + dd {
+    /*background-color: rgba(255, 0, 0, 0.1);*/
+    float: left;
+    clear: left;
+    margin: 0;
     padding: 0;
   }
 
-  dt[data-key="entrances"] {
+  dt[data-key] {
+    font-weight: bolder;
+  }
+
+  dd {
+    /*background-color: rgba(0, 255, 0, 0.1);*/
+    margin-left: 0.5em;
+    display: table-cell;
+    padding: 0 0 0 0.3em;
+  }
+
+  dt[data-key='areas'] {
+    display: none;
+  }
+
+  dt[data-key='areas'] + dd {
+    padding: 0;
+  }
+
+  dt[data-key='entrances'] {
     width: 100%;
   }
 
-  dt[data-key="entrances"] + dd {
+  dt[data-key='entrances'] + dd {
     padding-left: 0;
   }
 
@@ -177,7 +210,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     padding: 0;
   }
 
-  dt[data-key="areas"] + dd {
+  dt[data-key='areas'] + dd {
     margin-left: 0;
   }
 `;

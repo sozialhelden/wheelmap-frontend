@@ -7,9 +7,9 @@ type ConjunctionType = 'and' | 'or';
 
 type ConjunctionMap = {
   [key: ConjunctionType]: {
-    withSerialComma: React.Node;
-    withoutSerialComma: React.Node;
-  }
+    withSerialComma: React.Node,
+    withoutSerialComma: React.Node,
+  },
 };
 
 const conjunctionMap: ConjunctionMap = {
@@ -17,14 +17,14 @@ const conjunctionMap: ConjunctionMap = {
     // translator: In a comma-separated serial enumeration, this string is the ', or' conjunction before the last word, with a serial comma at the beginning if the language has a serial comma (https://en.wikipedia.org/wiki/Serial_comma).
     withSerialComma: <span className="conjunction" key="conjunction">{t`, or `}</span>,
     // translator: Conjunction between two words (like the ‘or’ in ‘humans or animals’). Please don't forget to include necessary spaces.
-    withoutSerialComma: <span className="conjunction" key="conjunction">{t` or `}</span>
+    withoutSerialComma: <span className="conjunction" key="conjunction">{t` or `}</span>,
   },
   and: {
     // translator: In a comma-separated serial enumeration, this string is the ', and' conjunction before the last word, with a serial comma at the beginning if the language has a serial comma (https://en.wikipedia.org/wiki/Serial_comma).
     withSerialComma: <span className="conjunction" key="conjunction">{t`, and`}</span>,
     // translator: Conjunction between two words (like the ‘and’ in ‘humans and animals’). Please don't forget to include necessary spaces.
-    withoutSerialComma: <span className="conjunction" key="conjunction">{t` and `}</span>
-  }
+    withoutSerialComma: <span className="conjunction" key="conjunction">{t` and `}</span>,
+  },
 
   // function addKeysToElements(children: React.Children<*>) {
   //   return React.Children.map(children, (child, index) => <React.Fragment key={index}>{child}</React.Fragment>);
@@ -51,9 +51,11 @@ const conjunctionMap: ConjunctionMap = {
   //     </div>
   //
   //     => <div><strong>humans</strong> and <em>animals</em></div>
-
-
-};export default function getHumanEnumeration(elements: React.ChildrenArray<*>, conjunctionType: ConjunctionType = 'and'): React.ChildrenArray<*> {
+};
+export default function getHumanEnumeration(
+  elements: React.ChildrenArray<*>,
+  conjunctionType: ConjunctionType = 'and'
+): React.ChildrenArray<*> {
   if (!elements) return [];
 
   const count = elements.length;

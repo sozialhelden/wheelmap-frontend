@@ -45,79 +45,79 @@ import { isTouchDevice } from './lib/userAgent';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 type Props = {
-  className: string;
+  className: string,
 
-  history: RouterHistory;
-  location: Location;
+  history: RouterHistory,
+  location: Location,
 
-  featureId: ?string;
-  feature?: ?Feature;
-  category: ?string;
-  toiletFilter: YesNoUnknown[];
-  accessibilityFilter: YesNoLimitedUnknown[];
-  searchQuery: ?string;
-  equipmentInfoId: ?string;
-  lat: ?string;
-  lon: ?string;
-  zoom: ?string;
+  featureId: ?string,
+  feature?: ?Feature,
+  category: ?string,
+  toiletFilter: YesNoUnknown[],
+  accessibilityFilter: YesNoLimitedUnknown[],
+  searchQuery: ?string,
+  equipmentInfoId: ?string,
+  lat: ?string,
+  lon: ?string,
+  zoom: ?string,
 
-  isOnboardingVisible: boolean;
-  isMainMenuOpen: boolean;
-  isNotFoundVisible: boolean;
-  lastError: ?string;
-  modalNodeState: ModalNodeState;
-  isLocalizationLoaded: boolean;
-  isSearchBarVisible: boolean;
-  isSearchToolbarExpanded: boolean;
-  isSearchButtonVisible: boolean;
-  isNodeToolbarDisplayed: boolean;
-  shouldLocateOnStart: boolean;
+  isOnboardingVisible: boolean,
+  isMainMenuOpen: boolean,
+  isNotFoundVisible: boolean,
+  lastError: ?string,
+  modalNodeState: ModalNodeState,
+  isLocalizationLoaded: boolean,
+  isSearchBarVisible: boolean,
+  isSearchToolbarExpanded: boolean,
+  isSearchButtonVisible: boolean,
+  isNodeToolbarDisplayed: boolean,
+  shouldLocateOnStart: boolean,
 
-  onSelectCoordinate: () => void;
-  onResetCategory: () => void;
-  onClickSearchToolbar: () => void;
-  onCloseSearchToolbar: () => void;
-  onClickSearchButton: () => void;
-  onCloseNotFoundDialog: () => void;
-  onToggleMainMenu: () => void;
-  onClickFullscreenBackdrop: () => void;
-  onMoveEnd: () => void;
-  onMapClick: () => void;
-  onError: () => void;
-  onCloseNodeToolbar: () => void;
-  onOpenReportMode: () => void;
-  onCloseOnboarding: () => void;
-  onClickCurrentMarkerIcon?: (feature: Feature) => void;
-  onCloseCreatePlaceDialog: () => void;
-  onOpenWheelchairAccessibility: () => void;
-  onOpenToiletAccessibility: () => void;
-  onCloseWheelchairAccessibility: () => void;
-  onCloseToiletAccessibility: () => void
+  onSelectCoordinate: () => void,
+  onResetCategory: () => void,
+  onClickSearchToolbar: () => void,
+  onCloseSearchToolbar: () => void,
+  onClickSearchButton: () => void,
+  onCloseNotFoundDialog: () => void,
+  onToggleMainMenu: () => void,
+  onClickFullscreenBackdrop: () => void,
+  onMoveEnd: () => void,
+  onMapClick: () => void,
+  onError: () => void,
+  onCloseNodeToolbar: () => void,
+  onOpenReportMode: () => void,
+  onCloseOnboarding: () => void,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  onCloseCreatePlaceDialog: () => void,
+  onOpenWheelchairAccessibility: () => void,
+  onOpenToiletAccessibility: () => void,
+  onCloseWheelchairAccessibility: () => void,
+  onCloseToiletAccessibility: () => void,
 
   // simple 3-button status editor feature
-  ; onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void;
-  presetStatus: YesNoLimitedUnknown
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
+  presetStatus: YesNoLimitedUnknown,
 
   // photo feature
-  ; isPhotoUploadCaptchaToolbarVisible: boolean;
-  isPhotoUploadInstructionsToolbarVisible: boolean;
-  onStartPhotoUploadFlow: () => void;
-  onAbortPhotoUploadFlow: () => void;
-  onContinuePhotoUploadFlow: (photos: FileList) => void;
-  onFinishPhotoUploadFlow: (photos: FileList, captchaSolution: string) => void;
-  onStartReportPhotoFlow: (photo: PhotoModel) => void;
-  onAbortReportPhotoFlow: (photo: PhotoModel) => void;
-  onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void;
-  photosMarkedForUpload: FileList | null;
-  waitingForPhotoUpload?: boolean;
-  photoCaptchaFailed?: boolean;
-  photoFlowNotification?: string;
-  photoFlowErrorMessage: ?string;
-  photoMarkedForReport: PhotoModel | null;
+  isPhotoUploadCaptchaToolbarVisible: boolean,
+  isPhotoUploadInstructionsToolbarVisible: boolean,
+  onStartPhotoUploadFlow: () => void,
+  onAbortPhotoUploadFlow: () => void,
+  onContinuePhotoUploadFlow: (photos: FileList) => void,
+  onFinishPhotoUploadFlow: (photos: FileList, captchaSolution: string) => void,
+  onStartReportPhotoFlow: (photo: PhotoModel) => void,
+  onAbortReportPhotoFlow: (photo: PhotoModel) => void,
+  onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void,
+  photosMarkedForUpload: FileList | null,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean,
+  photoFlowNotification?: string,
+  photoFlowErrorMessage: ?string,
+  photoMarkedForReport: PhotoModel | null,
 };
 
 type State = {
-  isOnSmallViewport: boolean
+  isOnSmallViewport: boolean,
 };
 
 function updateTouchCapability() {
@@ -145,7 +145,7 @@ class MainView extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    isOnSmallViewport: isOnSmallViewport()
+    isOnSmallViewport: isOnSmallViewport(),
   };
 
   map: ?any;
@@ -167,12 +167,17 @@ class MainView extends React.Component<Props, State> {
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
     if (!properties) return null;
-    if (!isWheelmapFeature(feature) && !properties.accessibility && !includes(EquipmentCategoryStrings, properties.category)) return null;
+    if (
+      !isWheelmapFeature(feature) &&
+      !properties.accessibility &&
+      !includes(EquipmentCategoryStrings, properties.category)
+    )
+      return null;
 
     return new HighlightableMarker(latlng, {
       onClick: this.onMarkerClick,
       hrefForFeature,
-      feature
+      feature,
     });
   };
 
@@ -225,31 +230,86 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
-  renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>, isNodeRoute: boolean) {
-    return <div className="node-toolbar">
-      <NodeToolbarFeatureLoader {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }} ref={nodeToolbar => this.nodeToolbar = nodeToolbar} history={this.props.history} feature={this.props.feature} onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility} onOpenToiletAccessibility={this.props.onOpenToiletAccessibility} onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility} onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility} onCloseToiletAccessibility={this.props.onCloseToiletAccessibility} hidden={!isNodeRoute} photoFlowNotification={this.props.photoFlowNotification} photoFlowErrorMessage={this.props.photoFlowErrorMessage} onOpenReportMode={this.props.onOpenReportMode} onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow} onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon} onClose={this.props.onCloseNodeToolbar} onReportPhoto={this.props.onStartReportPhotoFlow} />
-    </div>;
+  renderNodeToolbar(
+    { featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>,
+    isNodeRoute: boolean
+  ) {
+    return (
+      <div className="node-toolbar">
+        <NodeToolbarFeatureLoader
+          {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }}
+          ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
+          history={this.props.history}
+          feature={this.props.feature}
+          onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+          onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
+          onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility}
+          onCloseToiletAccessibility={this.props.onCloseToiletAccessibility}
+          hidden={!isNodeRoute}
+          photoFlowNotification={this.props.photoFlowNotification}
+          photoFlowErrorMessage={this.props.photoFlowErrorMessage}
+          onOpenReportMode={this.props.onOpenReportMode}
+          onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
+          onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
+          onClose={this.props.onCloseNodeToolbar}
+          onReportPhoto={this.props.onStartReportPhotoFlow}
+        />
+      </div>
+    );
   }
 
   renderSearchToolbar({ category, searchQuery, lat, lon }: $Shape<Props>, isInert: boolean) {
-    return <SearchToolbar ref={searchToolbar => this.searchToolbar = searchToolbar} history={this.props.history} hidden={!this.props.isSearchBarVisible} inert={isInert} category={category} searchQuery={searchQuery} accessibilityFilter={this.props.accessibilityFilter} toiletFilter={this.props.toiletFilter} onChangeSearchQuery={newSearchQuery => {
-      if (!newSearchQuery || newSearchQuery.length === 0) {
-        this.props.history.replace('/beta/', null);
-        return;
-      }
-      this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
-    }} onFilterChanged={filter => {
-      this.props.history.replace(newLocationWithReplacedQueryParams(this.props.history, filter));
-    }} lat={lat ? parseFloat(lat) : null} lon={lon ? parseFloat(lon) : null} onSelectCoordinate={this.props.onSelectCoordinate} onResetCategory={this.props.onResetCategory} onClick={this.props.onClickSearchToolbar} onClose={this.props.onCloseSearchToolbar} isExpanded={this.props.isSearchToolbarExpanded} hasGoButton={this.state.isOnSmallViewport} />;
+    return (
+      <SearchToolbar
+        ref={searchToolbar => (this.searchToolbar = searchToolbar)}
+        history={this.props.history}
+        hidden={!this.props.isSearchBarVisible}
+        inert={isInert}
+        category={category}
+        searchQuery={searchQuery}
+        accessibilityFilter={this.props.accessibilityFilter}
+        toiletFilter={this.props.toiletFilter}
+        onChangeSearchQuery={newSearchQuery => {
+          if (!newSearchQuery || newSearchQuery.length === 0) {
+            this.props.history.replace('/beta/', null);
+            return;
+          }
+          this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
+        }}
+        onFilterChanged={filter => {
+          this.props.history.replace(
+            newLocationWithReplacedQueryParams(this.props.history, filter)
+          );
+        }}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
+        onSelectCoordinate={this.props.onSelectCoordinate}
+        onResetCategory={this.props.onResetCategory}
+        onClick={this.props.onClickSearchToolbar}
+        onClose={this.props.onCloseSearchToolbar}
+        isExpanded={this.props.isSearchToolbarExpanded}
+        hasGoButton={this.state.isOnSmallViewport}
+      />
+    );
   }
 
   renderSearchButton() {
-    return <SearchButton onClick={event => {
-      event.stopPropagation();
-      // Using setTimeout to prevent touch-up events from hovering components
-      // in the search toolbar
-      setTimeout(() => this.props.onClickSearchButton(), 10);
-    }} category={this.props.category} toiletFilter={this.props.toiletFilter} accessibilityFilter={this.props.accessibilityFilter} top={60} left={10} />;
+    return (
+      <SearchButton
+        onClick={event => {
+          event.stopPropagation();
+          // Using setTimeout to prevent touch-up events from hovering components
+          // in the search toolbar
+          setTimeout(() => this.props.onClickSearchButton(), 10);
+        }}
+        category={this.props.category}
+        toiletFilter={this.props.toiletFilter}
+        accessibilityFilter={this.props.accessibilityFilter}
+        top={60}
+        left={10}
+      />
+    );
   }
 
   renderOnboarding({ isLocalizationLoaded }: { isLocalizationLoaded: boolean }) {
@@ -257,15 +317,36 @@ class MainView extends React.Component<Props, State> {
       return <Dots size={36} color={colors.colorizedBackgroundColor} />;
     }
 
-    return <Onboarding isVisible={isLocalizationLoaded && this.props.isOnboardingVisible} onClose={this.props.onCloseOnboarding} />;
+    return (
+      <Onboarding
+        isVisible={isLocalizationLoaded && this.props.isOnboardingVisible}
+        onClose={this.props.onCloseOnboarding}
+      />
+    );
   }
 
   renderNotFound() {
-    return <NotFound isVisible={this.props.isNotFoundVisible} onClose={this.props.onCloseNotFoundDialog} error={this.props.lastError} />;
+    return (
+      <NotFound
+        isVisible={this.props.isNotFoundVisible}
+        onClose={this.props.onCloseNotFoundDialog}
+        error={this.props.lastError}
+      />
+    );
   }
 
   renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
-    return <MainMenu className="main-menu" isOpen={this.props.isMainMenuOpen} onToggle={this.props.onToggleMainMenu} hideFromFocus={modalNodeState} isLocalizationLoaded={isLocalizationLoaded} history={this.props.history} {...{ lat, lon, zoom }} />;
+    return (
+      <MainMenu
+        className="main-menu"
+        isOpen={this.props.isMainMenuOpen}
+        onToggle={this.props.onToggleMainMenu}
+        hideFromFocus={modalNodeState}
+        isLocalizationLoaded={isLocalizationLoaded}
+        history={this.props.history}
+        {...{ lat, lon, zoom }}
+      />
+    );
   }
 
   getMapPadding() {
@@ -282,25 +363,72 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderFullscreenBackdrop() {
-    const isActive = this.props.isMainMenuOpen || this.props.isOnboardingVisible || this.props.isNotFoundVisible || this.props.modalNodeState || this.props.isPhotoUploadCaptchaToolbarVisible || this.props.isPhotoUploadInstructionsToolbarVisible;
+    const isActive =
+      this.props.isMainMenuOpen ||
+      this.props.isOnboardingVisible ||
+      this.props.isNotFoundVisible ||
+      this.props.modalNodeState ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible;
 
-    return <FullscreenBackdrop onClick={this.props.onClickFullscreenBackdrop} isActive={isActive} />;
+    return (
+      <FullscreenBackdrop onClick={this.props.onClickFullscreenBackdrop} isActive={isActive} />
+    );
   }
 
   renderPhotoUploadCaptchaToolbar() {
-    return <PhotoUploadCaptchaToolbar ref={photoUploadCaptchaToolbar => this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar} history={this.props.history} hidden={!this.props.isPhotoUploadCaptchaToolbarVisible} onClose={this.props.onAbortPhotoUploadFlow} onCompleted={this.props.onFinishPhotoUploadFlow} photosMarkedForUpload={this.props.photosMarkedForUpload} waitingForPhotoUpload={this.props.waitingForPhotoUpload} photoCaptchaFailed={this.props.photoCaptchaFailed} photoFlowErrorMessage={this.props.photoFlowErrorMessage}/>;
+    return (
+      <PhotoUploadCaptchaToolbar
+        ref={photoUploadCaptchaToolbar =>
+          (this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar)
+        }
+        history={this.props.history}
+        hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
+        onClose={this.props.onAbortPhotoUploadFlow}
+        onCompleted={this.props.onFinishPhotoUploadFlow}
+        photosMarkedForUpload={this.props.photosMarkedForUpload}
+        waitingForPhotoUpload={this.props.waitingForPhotoUpload}
+        photoCaptchaFailed={this.props.photoCaptchaFailed}
+        photoFlowErrorMessage={this.props.photoFlowErrorMessage}
+      />
+    );
   }
 
   renderPhotoUploadInstructionsToolbar() {
-    return <PhotoUploadInstructionsToolbar ref={photoUploadInstructionsToolbar => this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar} history={this.props.history} hidden={!this.props.isPhotoUploadInstructionsToolbarVisible} waitingForPhotoUpload={this.props.waitingForPhotoUpload} onClose={this.props.onAbortPhotoUploadFlow} onCompleted={this.props.onContinuePhotoUploadFlow} />;
+    return (
+      <PhotoUploadInstructionsToolbar
+        ref={photoUploadInstructionsToolbar =>
+          (this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar)
+        }
+        history={this.props.history}
+        hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
+        waitingForPhotoUpload={this.props.waitingForPhotoUpload}
+        onClose={this.props.onAbortPhotoUploadFlow}
+        onCompleted={this.props.onContinuePhotoUploadFlow}
+      />
+    );
   }
 
   renderReportPhotoToolbar() {
-    return <ReportPhotoToolbar hidden={!this.props.photoMarkedForReport} photo={this.props.photoMarkedForReport} onClose={this.props.onAbortReportPhotoFlow} onCompleted={this.props.onFinishReportPhotoFlow} />;
+    return (
+      <ReportPhotoToolbar
+        hidden={!this.props.photoMarkedForReport}
+        photo={this.props.photoMarkedForReport}
+        onClose={this.props.onAbortReportPhotoFlow}
+        onCompleted={this.props.onFinishReportPhotoFlow}
+      />
+    );
   }
 
   renderCreateDialog() {
-    return <CreatePlaceDialog hidden={!this.props.modalNodeState === 'create'} onClose={this.props.onCloseCreatePlaceDialog} lat={this.props.lat} lon={this.props.lon} />;
+    return (
+      <CreatePlaceDialog
+        hidden={!this.props.modalNodeState === 'create'}
+        onClose={this.props.onCloseCreatePlaceDialog}
+        lat={this.props.lat}
+        lon={this.props.lon}
+      />
+    );
   }
 
   render() {
@@ -311,39 +439,90 @@ class MainView extends React.Component<Props, State> {
     const { lat, lon, zoom, modalNodeState } = this.props;
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
-    const classList = uniq(['app-container', this.props.className, this.props.isOnboardingVisible ? 'is-dialog-visible' : null, this.props.isNotFoundVisible ? 'is-dialog-visible' : null, this.props.isMainMenuOpen ? 'is-main-menu-open' : null, this.props.isSearchBarVisible ? 'is-search-bar-visible' : null, isNodeToolbarVisible ? 'is-node-toolbar-visible' : null, modalNodeState ? 'is-dialog-visible' : null, modalNodeState ? 'is-modal' : null, this.props.isReportMode ? 'is-report-mode' : null]).filter(Boolean);
+    const classList = uniq([
+      'app-container',
+      this.props.className,
+      this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
+      this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
+      this.props.isMainMenuOpen ? 'is-main-menu-open' : null,
+      this.props.isSearchBarVisible ? 'is-search-bar-visible' : null,
+      isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
+      modalNodeState ? 'is-dialog-visible' : null,
+      modalNodeState ? 'is-modal' : null,
+      this.props.isReportMode ? 'is-report-mode' : null,
+    ]).filter(Boolean);
 
-    const searchToolbarIsHidden = isNodeRoute && this.state.isOnSmallViewport || this.props.isPhotoUploadCaptchaToolbarVisible || this.props.isPhotoUploadInstructionsToolbarVisible || this.props.isOnboardingVisible || this.props.isNotFoundVisible || !!this.props.photoMarkedForReport;
+    const searchToolbarIsHidden =
+      (isNodeRoute && this.state.isOnSmallViewport) ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
+      this.props.isOnboardingVisible ||
+      this.props.isNotFoundVisible ||
+      !!this.props.photoMarkedForReport;
 
-    const isMainMenuInBackground = this.props.isOnboardingVisible || this.props.isNotFoundVisible || this.props.modalNodeState;
+    const isMainMenuInBackground =
+      this.props.isOnboardingVisible || this.props.isNotFoundVisible || this.props.modalNodeState;
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
 
-    const map = <Map ref={map => {
-      this.map = map;window.map = map;
-    }} history={this.props.history} onMoveEnd={this.props.onMoveEnd} onClick={this.props.onMapClick} onError={this.props.onError} lat={lat ? parseFloat(lat) : null} lon={lon ? parseFloat(lon) : null} zoom={zoom ? parseFloat(zoom) : null} category={category} featureId={featureId} equipmentInfoId={equipmentInfoId} feature={this.props.feature} accessibilityFilter={this.props.accessibilityFilter} toiletFilter={this.props.toiletFilter} pointToLayer={this.createMarkerFromFeature} locateOnStart={this.props.shouldLocateOnStart} isLocalizationLoaded={isLocalizationLoaded} padding={this.getMapPadding()} hideHints={this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)} {...config} />;
+    const map = (
+      <Map
+        ref={map => {
+          this.map = map;
+          window.map = map;
+        }}
+        history={this.props.history}
+        onMoveEnd={this.props.onMoveEnd}
+        onClick={this.props.onMapClick}
+        onError={this.props.onError}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
+        zoom={zoom ? parseFloat(zoom) : null}
+        category={category}
+        featureId={featureId}
+        equipmentInfoId={equipmentInfoId}
+        feature={this.props.feature}
+        accessibilityFilter={this.props.accessibilityFilter}
+        toiletFilter={this.props.toiletFilter}
+        pointToLayer={this.createMarkerFromFeature}
+        locateOnStart={this.props.shouldLocateOnStart}
+        isLocalizationLoaded={isLocalizationLoaded}
+        padding={this.getMapPadding()}
+        hideHints={
+          this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
+        }
+        {...config}
+      />
+    );
 
     const mainMenu = this.renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom });
-    const nodeToolbar = this.renderNodeToolbar({ featureId, equipmentInfoId, modalNodeState, presetStatus }, isNodeRoute);
+    const nodeToolbar = this.renderNodeToolbar(
+      { featureId, equipmentInfoId, modalNodeState, presetStatus },
+      isNodeRoute
+    );
 
-    return <div className={classList.join(' ')}>
-      {!isMainMenuInBackground && mainMenu}
-      <div className="behind-backdrop">
-        {isMainMenuInBackground && mainMenu}
-        {isLocalizationLoaded && this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
-        {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
-        {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
-        {map}
+    return (
+      <div className={classList.join(' ')}>
+        {!isMainMenuInBackground && mainMenu}
+        <div className="behind-backdrop">
+          {isMainMenuInBackground && mainMenu}
+          {isLocalizationLoaded &&
+            this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
+          {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
+          {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
+          {map}
+        </div>
+        {this.renderFullscreenBackdrop()}
+        {isNodeToolbarVisible && modalNodeState && nodeToolbar}
+        {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+        {this.props.isPhotoUploadInstructionsToolbarVisible &&
+          this.renderPhotoUploadInstructionsToolbar()}
+        {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
+        {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
+        {this.renderOnboarding({ isLocalizationLoaded })}
+        {this.renderNotFound()}
       </div>
-      {this.renderFullscreenBackdrop()}
-      {isNodeToolbarVisible && modalNodeState && nodeToolbar}
-      {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
-      {this.props.isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
-      {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
-      {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
-      {this.renderOnboarding({ isLocalizationLoaded })}
-      {this.renderNotFound()}
-    </div>;
+    );
   }
 }
 
@@ -373,7 +552,9 @@ const StyledMainView = styled(MainView)`
     }
   }
 
-  &.is-dialog-visible, &.is-modal, &.is-main-menu-open {
+  &.is-dialog-visible,
+  &.is-modal,
+  &.is-main-menu-open {
     > .behind-backdrop {
       .toolbar {
         z-index: 999;
@@ -386,14 +567,16 @@ const StyledMainView = styled(MainView)`
       @media (prefers-reduced-motion: reduce) {
         transform: scale3d(1, 1, 1);
       }
-      &, * {
+      &,
+      * {
         pointer-events: none;
       }
     }
   }
 
   &.is-modal {
-    .node-toolbar, .toolbar {
+    .node-toolbar,
+    .toolbar {
       z-index: 1001;
     }
   }

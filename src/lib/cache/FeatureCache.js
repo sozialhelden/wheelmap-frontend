@@ -8,8 +8,8 @@ import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
 type FeatureCacheEvent<T> = CustomEvent & {
-  target: FeatureCache // eslint-disable-line no-use-before-define
-  ; feature: T;
+  target: FeatureCache, // eslint-disable-line no-use-before-define
+  feature: T,
 };
 
 type PropertyPath = string;
@@ -20,7 +20,10 @@ type PropertyValue = any;
  * `fetchFeature` method.
  */
 
-export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: Class<FeatureCollection<FeatureType>>> extends EventTarget<FeatureCacheEvent<FeatureType>> {
+export default class FeatureCache<
+  FeatureType: Class<*>,
+  FeatureCollectionType: Class<FeatureCollection<FeatureType>>
+> extends EventTarget<FeatureCacheEvent<FeatureType>> {
   cache: { [key: string]: ?FeatureType } = {};
 
   // For each indexed property path, this object saves an index map.
@@ -51,10 +54,10 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
     if (!featureId) return;
     let event: CustomEvent;
     const oldFeature = this.cache[featureId];
-    const eventName = oldFeature ? "change" : "add";
+    const eventName = oldFeature ? 'change' : 'add';
     event = new CustomEvent(eventName, {
       target: this,
-      feature
+      feature,
     });
     this.cache[featureId] = feature;
     this.updateIndexMap(feature, oldFeature);
@@ -96,7 +99,7 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
 
   static getIdForFeature(feature: FeatureType): string {
     // eslint-disable-line no-unused-vars
-    throw new Error("Please implement this in your subclass.");
+    throw new Error('Please implement this in your subclass.');
   }
 
   /**
@@ -112,15 +115,19 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
     geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
   }
 
-  fetchFeature(id: string, resolve: (feature: FeatureType) => void, reject: (response: any) => void) {
+  fetchFeature(
+    id: string,
+    resolve: (feature: FeatureType) => void,
+    reject: (response: any) => void
+  ) {
     this.constructor.fetchFeature(id).then((response: Response) => {
       if (response.status === 200) {
         return this.constructor.getFeatureFromResponse(response).then(feature => {
           this.cacheFeature(feature, response);
           resolve(feature);
-          const changeEvent = new CustomEvent("change", {
+          const changeEvent = new CustomEvent('change', {
             target: this,
-            feature
+            feature,
           });
           this.dispatchEvent(changeEvent);
         }, reject);
@@ -158,7 +165,7 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
     return this.getFeature(id);
   }
 
-  /** @protected */getCachedFeature(id: string): ?FeatureType {
+  /** @protected */ getCachedFeature(id: string): ?FeatureType {
     return this.cache[id];
   }
 
@@ -171,9 +178,12 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
     return response.json();
   }
 
-  updateFeatureAttribute(id: string, newProperties: $Shape<$PropertyType<FeatureType, "properties">>) {
+  updateFeatureAttribute(
+    id: string,
+    newProperties: $Shape<$PropertyType<FeatureType, 'properties'>>
+  ) {
     const feature = this.cache[id];
-    if (!feature) throw new Error("Cannot update a feature that is not in cache.");
+    if (!feature) throw new Error('Cannot update a feature that is not in cache.');
 
     const existingProperties = feature.properties;
     if (existingProperties) {
@@ -185,9 +195,9 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
     // clone object
     this.cache[id] = Object.assign({}, feature);
 
-    const changeEvent = new CustomEvent("change", { target: this, feature: this.cache[id] });
+    const changeEvent = new CustomEvent('change', { target: this, feature: this.cache[id] });
     this.dispatchEvent(changeEvent);
-    console.log("Updated feature", feature, newProperties);
+    console.log('Updated feature', feature, newProperties);
   }
 
   /**
@@ -195,15 +205,15 @@ export default class FeatureCache<FeatureType: Class<*>, FeatureCollectionType: 
    * @param {string} id
    */
   // eslint-disable-next-line
-  /** @protected @abstract */static fetchFeature(id: string): Promise<Response> {
-    throw new Error("Not implemented. Please override this method in your subclass.");
+  /** @protected @abstract */ static fetchFeature(id: string): Promise<Response> {
+    throw new Error('Not implemented. Please override this method in your subclass.');
   }
 
   /**
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected @abstract */static fetch(url: string, options?: {}): Promise<Response> {
+  /** @protected @abstract */ static fetch(url: string, options?: {}): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }
 }

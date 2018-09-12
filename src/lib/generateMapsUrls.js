@@ -6,7 +6,9 @@ import openButtonCaption from './openButtonCaption';
 export function generateGeoUrl(feature: Feature, placeName: string) {
   if (!feature.geometry || !(feature.geometry.coordinates instanceof Array)) return null;
   const coords = feature.geometry.coordinates;
-  return `geo:${coords[1]},${coords[0]}?q=${coords[1]},${coords[0]}(${encodeURIComponent(placeName)})`;
+  return `geo:${coords[1]},${coords[0]}?q=${coords[1]},${coords[0]}(${encodeURIComponent(
+    placeName
+  )})`;
 }
 
 // see https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
@@ -25,7 +27,9 @@ export function generateBingMapsUrl(feature: Feature, placeName: string) {
 
 export function generateMapsUrl(feature: Feature, placeName: string) {
   const isBingMaps = navigator.appVersion.match(/Win/);
-  const isAppleMaps = navigator.platform.match(/Mac/) || ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
+  const isAppleMaps =
+    navigator.platform.match(/Mac/) ||
+    ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
 
   if (isBingMaps) {
     const caption = openButtonCaption('Bing Maps');

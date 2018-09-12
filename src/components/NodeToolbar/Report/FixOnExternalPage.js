@@ -6,13 +6,13 @@ import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 
 type Props = {
-  feature: Feature;
-  onClose: (event: UIEvent) => void;
-  properties: AccessibilityCloudProperties;
+  feature: Feature,
+  onClose: (event: UIEvent) => void,
+  properties: AccessibilityCloudProperties,
 };
 
 type State = {
-  sourceName: ?string
+  sourceName: ?string,
 };
 
 const defaultState: State = { sourceName: null };
@@ -30,11 +30,14 @@ class FixOnExternalPage extends React.Component<Props, State> {
 
     if (typeof sourceId !== 'string') return;
 
-    dataSourceCache.getDataSourceWithId(sourceId).then(source => {
-      this.setState({ sourceName: source.name });
-    }, () => {
-      this.setState(defaultState);
-    });
+    dataSourceCache.getDataSourceWithId(sourceId).then(
+      source => {
+        this.setState({ sourceName: source.name });
+      },
+      () => {
+        this.setState(defaultState);
+      }
+    );
   }
 
   componentDidMount() {
@@ -55,22 +58,27 @@ class FixOnExternalPage extends React.Component<Props, State> {
       externalDataHint,
       useLinkExplanation,
       editingDelayExplanation,
-      backButtonCaption
+      backButtonCaption,
     } = strings();
 
-    return <section>
-      <p>
-        {externalDataHint}{sourceName ? ` ({sourceName})` : null}.
-      </p>
-      {properties.infoPageUrl ? <div>
+    return (
+      <section>
         <p>
-          {useLinkExplanation}
+          {externalDataHint}
+          {sourceName ? ` ({sourceName})` : null}.
         </p>
-        <p className="subtle">{editingDelayExplanation}</p>
-        <SourceLink properties={properties} />
-      </div> : null}
-      <button className="link-button negative-button" onClick={this.props.onClose}>{backButtonCaption}</button>
-    </section>;
+        {properties.infoPageUrl ? (
+          <div>
+            <p>{useLinkExplanation}</p>
+            <p className="subtle">{editingDelayExplanation}</p>
+            <SourceLink properties={properties} />
+          </div>
+        ) : null}
+        <button className="link-button negative-button" onClick={this.props.onClose}>
+          {backButtonCaption}
+        </button>
+      </section>
+    );
   }
 }
 

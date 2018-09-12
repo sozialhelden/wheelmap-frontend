@@ -14,29 +14,39 @@ import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 
 type State = {
-  isMenuButtonVisible: boolean
+  isMenuButtonVisible: boolean,
 };
 
 type Props = {
-  className: string;
-  onToggle: (isMainMenuOpen: boolean) => void;
-  hideFromFocus: boolean;
-  isOpen: boolean;
-  isLocalizationLoaded: boolean;
-  lat: string;
-  lon: string;
-  zoom: string;
-  history: RouterHistory;
+  className: string,
+  onToggle: (isMainMenuOpen: boolean) => void,
+  hideFromFocus: boolean,
+  isOpen: boolean,
+  isLocalizationLoaded: boolean,
+  lat: string,
+  lon: string,
+  zoom: string,
+  history: RouterHistory,
 };
 
 function MenuIcon(props) {
-  return <svg className="menu-icon" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" alt="Toggle menu" {...props}>
-    <g stroke="none" strokeWidth={1} fillRule="evenodd">
-      <rect x="0" y="0" width="25" height="3" />
-      <rect x="0" y="7" width="25" height="3" />
-      <rect x="0" y="14" width="25" height="3" />
-    </g>
-  </svg>;
+  return (
+    <svg
+      className="menu-icon"
+      width="25px"
+      height="18px"
+      viewBox="0 0 25 18"
+      version="1.1"
+      alt="Toggle menu"
+      {...props}
+    >
+      <g stroke="none" strokeWidth={1} fillRule="evenodd">
+        <rect x="0" y="0" width="25" height="3" />
+        <rect x="0" y="7" width="25" height="3" />
+        <rect x="0" y="14" width="25" height="3" />
+      </g>
+    </svg>
+  );
 }
 
 const menuButtonVisibilityBreakpoint = 1024;
@@ -44,7 +54,7 @@ const menuButtonVisibilityBreakpoint = 1024;
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint
+    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
 
   boundOnResize: () => void;
@@ -141,60 +151,142 @@ class MainMenu extends React.Component<Props, State> {
 
   render() {
     const {
-      travelGuide, getInvolved, news, press, contact, imprint, faq, addMissingPlace, findWheelchairAccessiblePlaces
+      travelGuide,
+      getInvolved,
+      news,
+      press,
+      contact,
+      imprint,
+      faq,
+      addMissingPlace,
+      findWheelchairAccessiblePlaces,
     } = strings();
 
     const { hideFromFocus, isLocalizationLoaded } = this.props;
 
-    const classList = [this.props.className, this.props.isOpen || !this.state.isMenuButtonVisible ? 'is-open' : null, isLocalizationLoaded ? 'is-loaded' : null, 'main-menu'].filter(Boolean);
+    const classList = [
+      this.props.className,
+      this.props.isOpen || !this.state.isMenuButtonVisible ? 'is-open' : null,
+      isLocalizationLoaded ? 'is-loaded' : null,
+      'main-menu',
+    ].filter(Boolean);
 
     if (!isLocalizationLoaded) {
-      return <nav className={classList.join(' ')}>
+      return (
+        <nav className={classList.join(' ')}>
+          <div className="home-link">
+            <button className="btn-unstyled home-button" disabled>
+              <Logo className="logo" width={123} height={30} />
+            </button>
+          </div>
+          <Dots />
+        </nav>
+      );
+    }
+
+    return (
+      <nav className={classList.join(' ')}>
         <div className="home-link">
-          <button className="btn-unstyled home-button" disabled>
+          <button
+            className="btn-unstyled home-button"
+            onClick={this.returnHome}
+            ref={homeButton => (this.homeButton = homeButton)}
+            tabIndex={hideFromFocus ? -1 : 0}
+            aria-label={t`Home`}
+          >
             <Logo className="logo" width={123} height={30} />
           </button>
         </div>
-        <Dots />
-      </nav>;
-    }
 
-    return <nav className={classList.join(' ')}>
-      <div className="home-link">
-        <button className="btn-unstyled home-button" onClick={this.returnHome} ref={homeButton => this.homeButton = homeButton} tabIndex={hideFromFocus ? -1 : 0} aria-label={t`Home`}>
-          <Logo className="logo" width={123} height={30} />
+        <div className="claim">{findWheelchairAccessiblePlaces}</div>
+
+        <GlobalActivityIndicator />
+
+        <div className="flexible-separator" />
+
+        <button
+          className="btn-unstyled menu"
+          onClick={() => this.toggleMenu()}
+          tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
+          aria-hidden={!this.state.isMenuButtonVisible}
+          aria-label={t`Menu`}
+          aria-haspopup="true"
+          aria-expanded={this.props.isOpen}
+          aria-controls="main-menu"
+        >
+          {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
-      </div>
 
-      <div className="claim">
-        {findWheelchairAccessiblePlaces}
-      </div>
-
-      <GlobalActivityIndicator />
-
-      <div className="flexible-separator" />
-
-      <button className="btn-unstyled menu" onClick={() => this.toggleMenu()} tabIndex={this.state.isMenuButtonVisible ? 0 : -1} aria-hidden={!this.state.isMenuButtonVisible} aria-label={t`Menu`} aria-haspopup="true" aria-expanded={this.props.isOpen} aria-controls="main-menu">
-        {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
-      </button>
-
-      <div id="main-menu" role="menu">
-        <a className="nav-link" href="https://travelable.info" ref={firstMenuElement => this.firstMenuElement = firstMenuElement} tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
-          {travelGuide}
-        </a>
-        <a className="nav-link" href="https://news.wheelmap.org/wheelmap-botschafter" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
-          {getInvolved}
-        </a>
-        <a className="nav-link" href="https://news.wheelmap.org" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{news}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/presse" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{press}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/kontakt" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{contact}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/imprint" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{imprint}</a>
-        <a className="nav-link" href="https://news.wheelmap.org/faq" tabIndex={hideFromFocus ? -1 : 0} role="menuitem">{faq}</a>
-        <Link className="nav-link add-place-link" to="/beta/nodes/new" ref={addPlaceLink => this.addPlaceLink = addPlaceLink} tabIndex={hideFromFocus ? -1 : 0} role="menuitem">
-          {addMissingPlace}
-        </Link>
-      </div>
-    </nav>;
+        <div id="main-menu" role="menu">
+          <a
+            className="nav-link"
+            href="https://travelable.info"
+            ref={firstMenuElement => (this.firstMenuElement = firstMenuElement)}
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {travelGuide}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org/wheelmap-botschafter"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {getInvolved}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {news}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org/presse"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {press}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org/kontakt"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {contact}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org/imprint"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {imprint}
+          </a>
+          <a
+            className="nav-link"
+            href="https://news.wheelmap.org/faq"
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {faq}
+          </a>
+          <Link
+            className="nav-link add-place-link"
+            to="/beta/nodes/new"
+            ref={addPlaceLink => (this.addPlaceLink = addPlaceLink)}
+            tabIndex={hideFromFocus ? -1 : 0}
+            role="menuitem"
+          >
+            {addMissingPlace}
+          </Link>
+        </div>
+      </nav>
+    );
   }
 }
 
@@ -243,13 +335,13 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    opacity: 0.0;
+    opacity: 0;
     transition: opacity 0.5s ease-out;
   }
 
   &.is-open {
     #main-menu {
-      opacity: 1.0;
+      opacity: 1;
     }
   }
 
@@ -258,10 +350,12 @@ const StyledMainMenu = styled(MainMenu)`
     box-sizing: border-box;
     border-radius: 4px;
 
-    &, &:visited {
+    &,
+    &:visited {
       color: ${colors.darkLinkColor};
     }
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: ${colors.linkColorDarker};
       background-color: ${colors.linkBackgroundColorTransparent};
     }
@@ -273,7 +367,8 @@ const StyledMainMenu = styled(MainMenu)`
 
   .add-place-link {
     font-weight: 500;
-    &, &:visited {
+    &,
+    &:visited {
       color: ${colors.linkColor};
     }
   }
@@ -337,7 +432,7 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
 
     #main-menu {
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
     }
 
     button.menu {
@@ -403,7 +498,8 @@ const StyledMainMenu = styled(MainMenu)`
     padding: 2px 10px 2px 10px;
     padding-left: constant(safe-area-inset-left);
     padding-left: env(safe-area-inset-left);
-    &, button.menu {
+    &,
+    button.menu {
       height: 44px;
     }
     &.is-open {

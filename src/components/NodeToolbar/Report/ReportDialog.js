@@ -1,7 +1,11 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
-import { accessibilityName, isWheelchairAccessible, isWheelmapFeatureId } from '../../../lib/Feature';
+import {
+  accessibilityName,
+  isWheelchairAccessible,
+  isWheelmapFeatureId,
+} from '../../../lib/Feature';
 
 import { t } from 'ttag';
 import type { Feature, NodeProperties } from '../../../lib/Feature';
@@ -15,61 +19,77 @@ import FixNonExistingPlace from './FixNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 
-type IssueEntry = { className: string; issueText: () => string; component: Class<React.Component<any>>; };
+type IssueEntry = {
+  className: string,
+  issueText: () => string,
+  component: Class<React.Component<any>>,
+};
 
-const generateIssues = (properties: NodeProperties): IssueEntry[] => [{
-  className: 'wrong-wheelchair-accessibility',
-  issueText() {
-    const accessibilityDescription = accessibilityName(isWheelchairAccessible(properties)) || '';
-    // translator: Shown as issue description in the report dialog
-    return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
-  },
-  component: WheelchairStatusEditor
-}, isWheelchairAccessible(properties) !== 'unknown' ? {
-  className: 'wrong-toilet-accessibility',
-  // translator: Shown as issue description in the report dialog
-  issueText: () => t`The toilet accessibility of the place is marked incorrectly or is missing.`,
-  component: ToiletStatusEditor
-} : null, {
-  className: 'information-missing',
-  // translator: Shown as issue description in the report dialog
-  issueText: () => t`I have more information about this place.`,
-  component: FixComment
-}, {
-  className: 'non-existing-place',
-  // translator: Shown as issue description in the report dialog
-  issueText: () => t`The place does not exist.`,
-  component: FixNonExistingPlace
-}, {
-  className: 'wrong-position',
-  // translator: Shown as issue description in the report dialog
-  issueText: () => t`The place is at the wrong location.`,
-  component: FixPlacePosition
-}, {
-  className: 'other-issue',
-  // translator: Shown as issue description in the report dialog
-  issueText: () => t`The problem isn’t listed here…`,
-  component: MailToSupport
-}].filter(Boolean);
+const generateIssues = (properties: NodeProperties): IssueEntry[] =>
+  [
+    {
+      className: 'wrong-wheelchair-accessibility',
+      issueText() {
+        const accessibilityDescription =
+          accessibilityName(isWheelchairAccessible(properties)) || '';
+        // translator: Shown as issue description in the report dialog
+        return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
+      },
+      component: WheelchairStatusEditor,
+    },
+    isWheelchairAccessible(properties) !== 'unknown'
+      ? {
+          className: 'wrong-toilet-accessibility',
+          // translator: Shown as issue description in the report dialog
+          issueText: () =>
+            t`The toilet accessibility of the place is marked incorrectly or is missing.`,
+          component: ToiletStatusEditor,
+        }
+      : null,
+    {
+      className: 'information-missing',
+      // translator: Shown as issue description in the report dialog
+      issueText: () => t`I have more information about this place.`,
+      component: FixComment,
+    },
+    {
+      className: 'non-existing-place',
+      // translator: Shown as issue description in the report dialog
+      issueText: () => t`The place does not exist.`,
+      component: FixNonExistingPlace,
+    },
+    {
+      className: 'wrong-position',
+      // translator: Shown as issue description in the report dialog
+      issueText: () => t`The place is at the wrong location.`,
+      component: FixPlacePosition,
+    },
+    {
+      className: 'other-issue',
+      // translator: Shown as issue description in the report dialog
+      issueText: () => t`The problem isn’t listed here…`,
+      component: MailToSupport,
+    },
+  ].filter(Boolean);
 
 type Props = {
-  feature: Feature;
-  featureId: string | number | null;
-  className: string;
-  onClose: () => void;
-  onCloseButtonChanged: () => void;
-  onReportComponentChanged: () => void;
+  feature: Feature,
+  featureId: string | number | null,
+  className: string,
+  onClose: () => void,
+  onCloseButtonChanged: () => void,
+  onReportComponentChanged: () => void,
 };
 
 type State = {
-  SelectedComponentClass: ?Class<React.Component<*, *>>
+  SelectedComponentClass: ?Class<React.Component<*, *>>,
 };
 
 class ReportDialog extends React.Component<Props, State> {
   props: Props;
 
   state = {
-    SelectedComponentClass: null
+    SelectedComponentClass: null,
   };
 
   backButton: HTMLButtonElement | null;
@@ -104,13 +124,21 @@ class ReportDialog extends React.Component<Props, State> {
   };
 
   trapFocus = ({ nativeEvent }) => {
-    if (nativeEvent.target === this.firstIssueButton && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.firstIssueButton &&
+      nativeEvent.key === 'Tab' &&
+      nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
       if (this.backButton) {
         this.backButton.focus();
       }
     }
-    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.backButton &&
+      nativeEvent.key === 'Tab' &&
+      !nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
       if (this.firstIssueButton) {
         this.firstIssueButton.focus();
@@ -145,28 +173,49 @@ class ReportDialog extends React.Component<Props, State> {
     const issues = generateIssues(properties);
 
     if (ComponentClass) {
-      return <ComponentClass feature={feature} featureId={featureId} onClose={this.onClose} inline={true} />;
+      return (
+        <ComponentClass
+          feature={feature}
+          featureId={featureId}
+          onClose={this.onClose}
+          inline={true}
+        />
+      );
     }
 
-    return <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
+    return (
+      <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
         <header id="report-dialog-header">{reportIssueHeader}</header>
 
         <ul className="issue-types">
-          {issues.map((issue, index) => <li key={issue.className} className={issue.className}>
-              <button className={`link-button full-width-button ${issue.className}`} ref={firstIssueButton => {
-            if (index === 0) {
-              this.firstIssueButton = firstIssueButton;
-            }
-          }} onClick={this.onSelectComponentClass.bind(this, issue)} onKeyDown={this.trapFocus}>
+          {issues.map((issue, index) => (
+            <li key={issue.className} className={issue.className}>
+              <button
+                className={`link-button full-width-button ${issue.className}`}
+                ref={firstIssueButton => {
+                  if (index === 0) {
+                    this.firstIssueButton = firstIssueButton;
+                  }
+                }}
+                onClick={this.onSelectComponentClass.bind(this, issue)}
+                onKeyDown={this.trapFocus}
+              >
                 {issue.issueText()}
               </button>
-            </li>)}
+            </li>
+          ))}
         </ul>
 
-        <button className="link-button negative-button" ref={backButton => this.backButton = backButton} onClick={this.onClose} onKeyDown={this.trapFocus}>
+        <button
+          className="link-button negative-button"
+          ref={backButton => (this.backButton = backButton)}
+          onClick={this.onClose}
+          onKeyDown={this.trapFocus}
+        >
           {backButtonCaption}
         </button>
-    </div>;
+      </div>
+    );
   }
 }
 

@@ -5,14 +5,19 @@ import FeatureCache from './FeatureCache';
 import type { EquipmentInfo, EquipmentInfoFeatureCollection } from '../EquipmentInfo';
 import config from '../config';
 
-export default class EquipmentInfoCache extends FeatureCache<EquipmentInfo, EquipmentInfoFeatureCollection> {
+export default class EquipmentInfoCache extends FeatureCache<
+  EquipmentInfo,
+  EquipmentInfoFeatureCollection
+> {
   static fetchFeature(id): Promise<Response> {
-    const url = `${config.accessibilityCloudBaseUrl}/equipment-infos/${id}.json?appToken=${config.accessibilityCloudAppToken}`;
+    const url = `${config.accessibilityCloudBaseUrl}/equipment-infos/${id}.json?appToken=${
+      config.accessibilityCloudAppToken
+    }`;
     return this.fetch(url, { cordova: true });
   }
 
   static getIdForFeature(feature: EquipmentInfo): string {
-    return String(feature._id || feature.properties && feature.properties._id);
+    return String(feature._id || (feature.properties && feature.properties._id));
   }
 
   findAllNeighborEquipmentInfos(equipmentInfo: EquipmentInfo): Set<EquipmentInfo> {

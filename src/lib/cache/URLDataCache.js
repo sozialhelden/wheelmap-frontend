@@ -27,9 +27,10 @@ export default class URLDataCache<T> {
    * @param {string} url
    */
   getData(url: string): Promise<?T> {
-    if (!url) return new Promise((resolve, reject) => {
-      reject(null);
-    });
+    if (!url)
+      return new Promise((resolve, reject) => {
+        reject(null);
+      });
 
     let promise = this.cache[url];
     if (promise) return promise;
@@ -40,7 +41,7 @@ export default class URLDataCache<T> {
     return promise;
   }
 
-  /** @private */getCachedPromise(url: string): Promise<?T> {
+  /** @private */ getCachedPromise(url: string): Promise<?T> {
     return this.cache[url];
   }
 
@@ -57,7 +58,7 @@ export default class URLDataCache<T> {
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected */static fetch(url: string, options?: {}): Promise<Response> {
+  /** @protected */ static fetch(url: string, options?: {}): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }
 }

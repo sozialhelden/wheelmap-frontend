@@ -5,7 +5,12 @@ import styled from 'styled-components';
 
 import colors from '../../../lib/colors';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
-import { isExistingInformationOutdated, equipmentStatusTitle, isEquipmentAccessible, lastUpdateString } from '../../../lib/EquipmentInfo';
+import {
+  isExistingInformationOutdated,
+  equipmentStatusTitle,
+  isEquipmentAccessible,
+  lastUpdateString,
+} from '../../../lib/EquipmentInfo';
 
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 
@@ -14,8 +19,8 @@ function capitalizeFirstLetter(string): string {
 }
 
 type Props = {
-  equipmentInfo: EquipmentInfo;
-  className: string;
+  equipmentInfo: EquipmentInfo,
+  className: string,
 };
 
 function EquipmentAccessibility(props: Props) {
@@ -29,13 +34,17 @@ function EquipmentAccessibility(props: Props) {
   const isWorking = properties.isWorking;
   const accessibility = properties.accessibility;
 
-  return <summary className={`equipment-accessibility ${props.className}`}>
-    <header className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}>
-      {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
-    </header>
-    <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
-    {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
-  </summary>;
+  return (
+    <summary className={`equipment-accessibility ${props.className}`}>
+      <header
+        className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
+      >
+        {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
+      </header>
+      <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
+      {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
+    </summary>
+  );
 }
 
 const StyledEquipmentAccessibility = styled(EquipmentAccessibility)`

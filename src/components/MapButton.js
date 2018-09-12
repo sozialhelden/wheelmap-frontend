@@ -18,10 +18,12 @@ const MapButton = styled.button`
   left: ${props => props.left}px;
   z-index: 500;
   cursor: pointer;
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: ${colors.linkBackgroundColor};
   }
-  header, footer {
+  header,
+  footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;

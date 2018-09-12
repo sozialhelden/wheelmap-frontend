@@ -9,22 +9,24 @@ import { useLocales, addLocale } from 'ttag';
 import { i18nCache } from './cache/I18nCache';
 import { getQueryParams } from './queryParams';
 
-export type LocalizedString = string | {
-  [key: string]: string
-};
+export type LocalizedString =
+  | string
+  | {
+      [key: string]: string,
+    };
 
 export const defaultLocale = 'en-US';
 
 export function removeEmptyTranslations(locale) {
   if (!locale.translations) return locale;
-  const translations = locale.translations[""];
+  const translations = locale.translations[''];
   if (!translations) return locale;
   const missingKeys = Object.keys(translations).filter(translationKey => {
     const translation = translations[translationKey];
     if (!translation) return true;
     if (!translation.msgstr) return true;
     if (translation.msgstr.length === 0) return true;
-    if (translation.msgstr.length === 1 && translation.msgstr[0] === "") return true;
+    if (translation.msgstr.length === 1 && translation.msgstr[0] === '') return true;
     return false;
   });
   missingKeys.forEach(key => delete translations[key]);
@@ -83,40 +85,55 @@ export function translatedStringFromObject(string: ?LocalizedString): ?string {
   return null;
 }
 
-export function loadExistingLocalizationByPreference(locales: string[] = expandedPreferredLocales()): Promise<*> {
+export function loadExistingLocalizationByPreference(
+  locales: string[] = expandedPreferredLocales()
+): Promise<*> {
   if (locales.length === 0) return Promise.resolve(null);
 
   const loadedLocales = [];
 
-  return Promise.all(locales.map(locale => {
-    return i18nCache.getLocalization(locale).then(result => {
-      loadLocalizationFromPOFile(locale, result);
-      // console.log('Loaded translation', locale);
-      loadedLocales.push(locale);
-    }, response => {
-      if (response.status !== 404) {
-        console.log('Error loading translation:', response);
-      }
-    });
-  })).then(() => {
-    const missingLocales = difference(locales, loadedLocales);
-    return Promise.all(missingLocales.map(missingLocale => {
-      if (missingLocale.length === 2) {
-        // missing locale might be loaded with a country suffix, find out and duplicate if possible
-        const replacementLocale = loadedLocales.find(loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale);
-        if (replacementLocale) {
-          // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
-          return i18nCache.getLocalization(replacementLocale).then(result => {
-            loadLocalizationFromPOFile(missingLocale, result);
-            loadedLocales.push(missingLocale);
-          });
+  return Promise.all(
+    locales.map(locale => {
+      return i18nCache.getLocalization(locale).then(
+        result => {
+          loadLocalizationFromPOFile(locale, result);
+          // console.log('Loaded translation', locale);
+          loadedLocales.push(locale);
+        },
+        response => {
+          if (response.status !== 404) {
+            console.log('Error loading translation:', response);
+          }
         }
-      }
-      return null;
-    }).filter(Boolean));
-  }).then(() => {
-    const localesToUse = intersection(locales, loadedLocales);
-    currentLocales = localesToUse;
-    useLocales(localesToUse);
-  });
+      );
+    })
+  )
+    .then(() => {
+      const missingLocales = difference(locales, loadedLocales);
+      return Promise.all(
+        missingLocales
+          .map(missingLocale => {
+            if (missingLocale.length === 2) {
+              // missing locale might be loaded with a country suffix, find out and duplicate if possible
+              const replacementLocale = loadedLocales.find(
+                loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale
+              );
+              if (replacementLocale) {
+                // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
+                return i18nCache.getLocalization(replacementLocale).then(result => {
+                  loadLocalizationFromPOFile(missingLocale, result);
+                  loadedLocales.push(missingLocale);
+                });
+              }
+            }
+            return null;
+          })
+          .filter(Boolean)
+      );
+    })
+    .then(() => {
+      const localesToUse = intersection(locales, loadedLocales);
+      currentLocales = localesToUse;
+      useLocales(localesToUse);
+    });
 }

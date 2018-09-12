@@ -15,18 +15,18 @@ import { isFiltered } from '../../lib/Feature';
 import urlForFilters from './urlForFilters';
 
 type Props = {
-  name: string;
-  category: string;
-  className: string;
-  hidden: boolean;
-  showCloseButton: boolean;
-  hasCircle?: boolean;
-  accessibilityFilter?: YesNoLimitedUnknown[];
-  toiletFilter?: YesNoUnknown[];
-  onFocus?: (event: UIEvent) => void;
-  onBlur?: (event: UIEvent) => void;
-  onKeyDown?: (event: UIEvent) => void;
-  history: RouterHistory;
+  name: string,
+  category: string,
+  className: string,
+  hidden: boolean,
+  showCloseButton: boolean,
+  hasCircle?: boolean,
+  accessibilityFilter?: YesNoLimitedUnknown[],
+  toiletFilter?: YesNoUnknown[],
+  onFocus?: (event: UIEvent) => void,
+  onBlur?: (event: UIEvent) => void,
+  onKeyDown?: (event: UIEvent) => void,
+  history: RouterHistory,
 };
 
 const StyledNavLink = styled(NavLink)`
@@ -42,7 +42,10 @@ const StyledNavLink = styled(NavLink)`
     background-color: ${colors.tonedDownSelectedColor};
     margin: 2.5px;
     svg.icon {
-      g, path, circle, rect {
+      g,
+      path,
+      circle,
+      rect {
         fill: white;
       }
     }
@@ -60,7 +63,8 @@ const StyledNavLink = styled(NavLink)`
     }
   }
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
     .circle {
       background-color: ${colors.halfTonedDownSelectedColor};
@@ -71,7 +75,6 @@ const StyledNavLink = styled(NavLink)`
       }
     }
   }
-
 
   &.is-horizontal {
     display: flex;
@@ -100,7 +103,7 @@ const StyledNavLink = styled(NavLink)`
         justify-content: center;
       }
       .caption {
-        font-size: 0.80em;
+        font-size: 0.8em;
         margin-top: 0.5em;
         color: ${colors.darkSelectedColor};
       }
@@ -110,19 +113,50 @@ const StyledNavLink = styled(NavLink)`
 
 export default function CategoryButton(props: Props) {
   const { history, category, accessibilityFilter, toiletFilter, showCloseButton } = props;
-  const url = urlForFilters({ history, accessibilityFilter, toiletFilter, category: showCloseButton ? null : category });
+  const url = urlForFilters({
+    history,
+    accessibilityFilter,
+    toiletFilter,
+    category: showCloseButton ? null : category,
+  });
 
   let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isFiltered(accessibilityFilter)) {
     shownAccessibilities = [];
   }
 
-  const icon = <CombinedIcon accessibilityFilter={shownAccessibilities} toiletFilter={toiletFilter} category={category || 'undefined'} isMainCategory size="medium" ariaHidden={true} />;
+  const icon = (
+    <CombinedIcon
+      accessibilityFilter={shownAccessibilities}
+      toiletFilter={toiletFilter}
+      category={category || 'undefined'}
+      isMainCategory
+      size="medium"
+      ariaHidden={true}
+    />
+  );
 
-  return <StyledNavLink activeClassName="active" to={url} className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={props.hidden ? -1 : 0} role="button" aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}>
-    <IconButton isHorizontal={showCloseButton} caption={props.name} className="icon-button" hasCircle={props.hasCircle}>
-      {icon}
-    </IconButton>
-    {showCloseButton && <CloseIcon />}
-  </StyledNavLink>;
+  return (
+    <StyledNavLink
+      activeClassName="active"
+      to={url}
+      className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
+      onKeyDown={props.onKeyDown}
+      tabIndex={props.hidden ? -1 : 0}
+      role="button"
+      aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
+    >
+      <IconButton
+        isHorizontal={showCloseButton}
+        caption={props.name}
+        className="icon-button"
+        hasCircle={props.hasCircle}
+      >
+        {icon}
+      </IconButton>
+      {showCloseButton && <CloseIcon />}
+    </StyledNavLink>
+  );
 }

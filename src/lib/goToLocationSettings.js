@@ -17,11 +17,11 @@ export default function goToLocationSettings() {
   }
 
   const supportURLs = {
-    'Safari': 'https://support.apple.com/en-us/ht204690',
+    Safari: 'https://support.apple.com/en-us/ht204690',
     'Mobile Safari': 'https://support.apple.com/en-us/ht203033',
-    'Chrome': 'https://support.google.com/chrome/answer/142065',
-    'Firefox': 'https://support.mozilla.org/en-US/kb/does-firefox-share-my-location-websites',
-    'Edge': 'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/'
+    Chrome: 'https://support.google.com/chrome/answer/142065',
+    Firefox: 'https://support.mozilla.org/en-US/kb/does-firefox-share-my-location-websites',
+    Edge: 'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/',
   };
 
   const supportURL = supportURLs[userAgent.browser.name];
@@ -31,5 +31,7 @@ export default function goToLocationSettings() {
     return;
   }
 
-  window.alert(t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`);
+  window.alert(
+    t`To locate yourself on the map, open browser settings and allow Wheelmap.org to use location services.`
+  );
 }

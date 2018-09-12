@@ -3,14 +3,22 @@
 import queryString from 'query-string';
 import type { RouterHistory } from 'react-router-dom';
 
-export type ModalNodeState = 'create' | 'edit-wheelchair-accessibility' | 'edit-toilet-accessibility' | 'report' | null;
+export type ModalNodeState =
+  | 'create'
+  | 'edit-wheelchair-accessibility'
+  | 'edit-toilet-accessibility'
+  | 'report'
+  | null;
 
 export function getQueryParams(search?: string) {
   const result = {};
   if (search) {
     Object.assign(result, queryString.parse(search));
   } else if (window.location.hash.match(/\?/)) {
-    Object.assign(result, queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, '')));
+    Object.assign(
+      result,
+      queryString.parse(window.location.hash.replace(/^.*#/, '').replace(/^.*\?/, ''))
+    );
   } else if (window.location.search.match(/\?/)) {
     Object.assign(result, queryString.parse(window.location.search.replace(/^\?/, '')));
   }

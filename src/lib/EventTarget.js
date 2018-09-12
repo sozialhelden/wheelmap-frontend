@@ -1,6 +1,5 @@
 // @flow
 
-
 // Base / mix-in class for adding DOM-API-like event handling to your classes.
 // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget
 

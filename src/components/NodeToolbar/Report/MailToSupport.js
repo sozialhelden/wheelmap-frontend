@@ -5,11 +5,11 @@ import type { Category } from '../../../lib/Categories';
 import strings from './strings';
 
 type Props = {
-  feature: Feature;
-  featureId: string | number | null;
-  category: ?Category;
-  parentCategory: ?Category;
-  onClose: (event: UIEvent) => void;
+  feature: Feature,
+  featureId: string | number | null,
+  category: ?Category,
+  parentCategory: ?Category,
+  onClose: (event: UIEvent) => void,
 };
 
 export default class ReportProblemButton extends React.Component<Props> {
@@ -28,7 +28,11 @@ export default class ReportProblemButton extends React.Component<Props> {
       nativeEvent.preventDefault();
       this.backButton.focus();
     }
-    if (nativeEvent.target === this.backButton && nativeEvent.key === 'Tab' && !nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.backButton &&
+      nativeEvent.key === 'Tab' &&
+      !nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
       this.mailLink.focus();
     }
@@ -49,21 +53,35 @@ export default class ReportProblemButton extends React.Component<Props> {
       reportSubject,
       apologyAndSolution,
       contactButtonCaption,
-      backButtonCaption
+      backButtonCaption,
     } = strings();
 
     const subject = reportSubject(properties.name, categoryName);
     const body = reportBody(url);
-    const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const reportMailToLink = `mailto:bugs@wheelmap.org?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
 
-    return <section role="dialog" aria-labelledby="apology-and-solution">
+    return (
+      <section role="dialog" aria-labelledby="apology-and-solution">
         <p id="apology-and-solution">{apologyAndSolution}</p>
-        <a href={reportMailToLink} className="link-button" ref={mailLink => this.mailLink = mailLink} onKeyDown={this.trapFocus}>
+        <a
+          href={reportMailToLink}
+          className="link-button"
+          ref={mailLink => (this.mailLink = mailLink)}
+          onKeyDown={this.trapFocus}
+        >
           {contactButtonCaption}
         </a>
-        <button className="link-button negative-button" onClick={this.props.onClose} ref={backButton => this.backButton = backButton} onKeyDown={this.trapFocus}>
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+          ref={backButton => (this.backButton = backButton)}
+          onKeyDown={this.trapFocus}
+        >
           {backButtonCaption}
         </button>
-      </section>;
+      </section>
+    );
   }
 }

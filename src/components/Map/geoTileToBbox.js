@@ -12,7 +12,7 @@ function tile2LatLon(x: number, y: number, z: number): [number, number] {
   return [Number(latDeg.toFixed(4)), Number(lonDeg.toFixed(4))];
 }
 
-export type TileCoords = { x: number; y: number; z: number; };
+export type TileCoords = { x: number, y: number, z: number };
 export type Bbox = [number, number, number, number];
 
 export default function geoTileToBbox({ x, y, z }: TileCoords): Bbox {

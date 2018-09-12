@@ -12,10 +12,10 @@ import colors from '../../lib/colors';
 import Logo from '../../lib/Logo';
 
 type Props = {
-  className: string;
-  isVisible: boolean;
-  onClose: () => void;
-  reason: ?string | Response | Error;
+  className: string,
+  isVisible: boolean,
+  onClose: () => void,
+  reason: ?string | Response | Error,
 };
 
 class NotFound extends React.Component<Props> {
@@ -49,7 +49,10 @@ class NotFound extends React.Component<Props> {
     // translator: Shown when device is offline.
     const offlineText = t`Sorry, we are offline!`;
 
-    const isNotFound = this.props.error && (global.Response != null && this.props.error instanceof global.Response) && this.props.error.status === 404;
+    const isNotFound =
+      this.props.error &&
+      (global.Response != null && this.props.error instanceof global.Response) &&
+      this.props.error.status === 404;
 
     const isOffline = get(this.props, 'error.response.status') === 3;
 
@@ -66,32 +69,51 @@ class NotFound extends React.Component<Props> {
     // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
     const retryCaption = t`Retry`;
 
-    const returnHomeLink = <Link to="/" className="button-cta-close focus-ring" onClick={this.props.onClose} onKeyDown={this.manageFocus} ref={button => this.closeButton = findDOMNode(button)}>
+    const returnHomeLink = (
+      <Link
+        to="/"
+        className="button-cta-close focus-ring"
+        onClick={this.props.onClose}
+        onKeyDown={this.manageFocus}
+        ref={button => (this.closeButton = findDOMNode(button))}
+      >
         {returnHomeButtonCaption} <ChevronRight />
-      </Link>;
+      </Link>
+    );
 
-    const reloadButton = <button className="button-cta-close focus-ring" onClick={() => window.location.reload(true)}>
+    const reloadButton = (
+      <button className="button-cta-close focus-ring" onClick={() => window.location.reload(true)}>
         {retryCaption}
-      </button>;
+      </button>
+    );
 
-    return <ModalDialog className={classList.join(' ')} isVisible={this.props.isVisible} ariaDescribedBy="wheelmap-error-text wheelmap-apology-text" ariaLabel={t`Error`}>
+    return (
+      <ModalDialog
+        className={classList.join(' ')}
+        isVisible={this.props.isVisible}
+        ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
+        ariaLabel={t`Error`}
+      >
         <header>
           <Logo className="logo" aria-hidden={true} />
           <h1 id="wheelmap-error-text">{headerText}</h1>
         </header>
 
-        {this.props.error && !isNotFound && !isOffline ? <section>
-          <p id="error-text">{String(this.props.error).substring(0, 140)}</p>
-        </section> : null}
+        {this.props.error && !isNotFound && !isOffline ? (
+          <section>
+            <p id="error-text">{String(this.props.error).substring(0, 140)}</p>
+          </section>
+        ) : null}
 
-        {shouldShowApology ? <section>
-          <p id="wheelmap-apology-text">{apologyText}</p>
-        </section> : null}
+        {shouldShowApology ? (
+          <section>
+            <p id="wheelmap-apology-text">{apologyText}</p>
+          </section>
+        ) : null}
 
-        <footer>
-          {isOffline ? reloadButton : returnHomeLink}
-        </footer>
-      </ModalDialog>;
+        <footer>{isOffline ? reloadButton : returnHomeLink}</footer>
+      </ModalDialog>
+    );
   }
 }
 
@@ -119,7 +141,8 @@ const StyledNotFound = styled(NotFound)`
     }
     @media (max-width: 1199px) {
       flex-direction: column !important;
-      > footer, > header {
+      > footer,
+      > header {
         text-align: center;
         width: 75%;
         margin: 0 12.5%;
@@ -128,7 +151,8 @@ const StyledNotFound = styled(NotFound)`
     @media (min-width: 1200px) {
       justify-content: center;
       align-items: center;
-      > header, footer {
+      > header,
+      footer {
         flex: 1;
       }
       > section {

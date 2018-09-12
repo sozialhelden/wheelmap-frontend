@@ -8,14 +8,14 @@ import type { AccessibilityCloudProperties } from '../../lib/Feature';
 import WorldIcon from '../icons/actions/World';
 
 type Props = {
-  properties: AccessibilityCloudProperties;
-  className: string;
-  knownSourceNameCaption: (value: string) => string;
-  propertyName: 'infoPageUrl' | 'editPageUrl';
+  properties: AccessibilityCloudProperties,
+  className: string,
+  knownSourceNameCaption: (value: string) => string,
+  propertyName: 'infoPageUrl' | 'editPageUrl',
 };
 
 type State = {
-  sourceName: ?string
+  sourceName: ?string,
 };
 
 const defaultState: State = { sourceName: null };
@@ -29,15 +29,18 @@ class SourceLink extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
-    dataSourceCache.getDataSourceWithId(String(props.properties.sourceId)).then(source => {
-      if (source && typeof source.name === 'string') {
-        this.setState({ sourceName: source.name });
-      } else {
+    dataSourceCache.getDataSourceWithId(String(props.properties.sourceId)).then(
+      source => {
+        if (source && typeof source.name === 'string') {
+          this.setState({ sourceName: source.name });
+        } else {
+          this.setState(defaultState);
+        }
+      },
+      () => {
         this.setState(defaultState);
       }
-    }, () => {
-      this.setState(defaultState);
-    });
+    );
   }
 
   componentDidMount() {
@@ -62,15 +65,17 @@ class SourceLink extends React.Component<Props, State> {
 
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
-    return <a href={href} className={`${className} link-button`}>
-      <WorldIcon />
-      <span>{caption}</span>
-    </a>;
+    return (
+      <a href={href} className={`${className} link-button`}>
+        <WorldIcon />
+        <span>{caption}</span>
+      </a>
+    );
   }
 }
 
 const StyledSourceLink = styled(SourceLink)`
-  margin-top: .5em;
+  margin-top: 0.5em;
 `;
 
 export default StyledSourceLink;

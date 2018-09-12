@@ -13,21 +13,23 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
 type SaveOptions = {
-  featureId: string;
-  onSave: ?(value: YesNoUnknown) => void;
-  onClose: () => void;
+  featureId: string,
+  onSave: ?(value: YesNoUnknown) => void,
+  onClose: () => void,
 };
 
 type Props = SaveOptions & {
-  feature: WheelmapFeature // eslint-disable-line react/no-unused-prop-types
-  ; className: string;
-  presetStatus?: ?YesNoUnknown;
+  feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  className: string,
+  presetStatus?: ?YesNoUnknown,
 };
 
 function AccessibleToiletDescription() {
-  return <ul>
-    {accessibleToiletDescription(useImperialUnits()).map(text => <li key={text}>{text}</li>)}
-  </ul>;
+  return (
+    <ul>
+      {accessibleToiletDescription(useImperialUnits()).map(text => <li key={text}>{text}</li>)}
+    </ul>
+  );
 }
 
 export default function ToiletStatusEditor(props: Props) {
@@ -38,20 +40,31 @@ export default function ToiletStatusEditor(props: Props) {
     // translator: Caption for the ‘yes’ radio button (while marking toilet status)
     yes: t`Yes`,
     // translator: Caption for the ‘no’ radio button (while marking toilet status)
-    no: t`No`
+    no: t`No`,
   };
 
   const descriptions = {
     yes: <AccessibleToiletDescription />,
-    no: null
+    no: null,
   };
 
   const icons = {
     yes: <ToiletStatusAccessibleIcon className="icon" />,
-    no: <ToiletStatusNotAccessibleIcon className="icon" />
+    no: <ToiletStatusNotAccessibleIcon className="icon" />,
   };
 
-  return <RadioStatusEditor {...props} undefinedStringValue="unknown" getValueFromFeature={feature => feature.properties.wheelchair_toilet} saveValue={value => saveToiletStatus({ ...props, value })} renderChildrenForValue={({ value, categoryId }) => icons[value]} shownStatusOptions={['yes', 'no']} captionForValue={value => captions[value]} descriptionForValue={value => descriptions[value]}>
-    <header id="wheelchair-accessibility-header">{headerText}</header>
-  </RadioStatusEditor>;
+  return (
+    <RadioStatusEditor
+      {...props}
+      undefinedStringValue="unknown"
+      getValueFromFeature={feature => feature.properties.wheelchair_toilet}
+      saveValue={value => saveToiletStatus({ ...props, value })}
+      renderChildrenForValue={({ value, categoryId }) => icons[value]}
+      shownStatusOptions={['yes', 'no']}
+      captionForValue={value => captions[value]}
+      descriptionForValue={value => descriptions[value]}
+    >
+      <header id="wheelchair-accessibility-header">{headerText}</header>
+    </RadioStatusEditor>
+  );
 }

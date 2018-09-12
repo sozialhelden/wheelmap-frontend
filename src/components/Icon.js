@@ -12,26 +12,26 @@ import * as markers from './icons/markers';
 type Size = 'big' | 'medium' | 'small';
 
 type Props = {
-  accessibility: ?YesNoLimitedUnknown;
-  properties?: ?NodeProperties;
-  category: ?string;
-  isMainCategory?: boolean;
-  className?: ?string;
-  size: Size;
-  withArrow?: ?boolean;
-  centered?: ?boolean;
-  shadowed?: ?boolean;
-  ariaHidden?: ?boolean;
-  foregroundColor?: ?string;
-  backgroundColor?: ?string;
-  onClick?: () => void;
+  accessibility: ?YesNoLimitedUnknown,
+  properties?: ?NodeProperties,
+  category: ?string,
+  isMainCategory?: boolean,
+  className?: ?string,
+  size: Size,
+  withArrow?: ?boolean,
+  centered?: ?boolean,
+  shadowed?: ?boolean,
+  ariaHidden?: ?boolean,
+  foregroundColor?: ?string,
+  backgroundColor?: ?string,
+  onClick?: () => void,
 };
 
 function width(size: Size) {
   return {
     big: 60,
     medium: 40,
-    small: 25
+    small: 25,
   }[size];
 }
 
@@ -48,28 +48,40 @@ const StyledIconContainer = styled('figure')`
   align-items: center;
   justify-content: center;
 
-  ${props => props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : ''}
-  ${props => props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''}
-
-  svg {
+  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} ${props =>
+      props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''} svg {
     &.background {
       position: absolute;
       width: 100%;
       height: 100%;
       top: 0;
       left: 0;
-      g, polygon, path, circle, rect {
-        fill: ${props => props.accessibility ? colors.markers.background[props.accessibility] : props.backgroundColor || 'white'};
+      g,
+      polygon,
+      path,
+      circle,
+      rect {
+        fill: ${props =>
+          props.accessibility
+            ? colors.markers.background[props.accessibility]
+            : props.backgroundColor || 'white'};
       }
     }
-    
+
     &.icon {
       position: relative;
       width: 60%;
       height: 60%;
 
-      g, polygon, path, circle, rect {
-        fill: ${props => props.accessibility ? colors.markers.foreground[props.accessibility] : props.foregroundColor || '#888'};
+      g,
+      polygon,
+      path,
+      circle,
+      rect {
+        fill: ${props =>
+          props.accessibility
+            ? colors.markers.foreground[props.accessibility]
+            : props.foregroundColor || '#888'};
       }
     }
   }
@@ -86,7 +98,7 @@ export default function Icon({
   shadowed,
   ariaHidden,
   centered,
-  onClick
+  onClick,
 }: Props) {
   let iconName = properties ? getIconNameForProperties(properties) : category;
   if (iconName === '2nd_hand') {
@@ -98,10 +110,19 @@ export default function Icon({
   if (typeof CategoryIconComponent === 'object') {
     debugger;
   }
-  return <StyledIconContainer size={size} className={className} aria-hidden={ariaHidden} accessibility={accessibility} centered={centered} onClick={onClick}>
+  return (
+    <StyledIconContainer
+      size={size}
+      className={className}
+      aria-hidden={ariaHidden}
+      accessibility={accessibility}
+      centered={centered}
+      onClick={onClick}
+    >
       {accessibility && MarkerComponent ? <MarkerComponent className="background" /> : null}
       {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
-    </StyledIconContainer>;
+    </StyledIconContainer>
+  );
 }
 
 StyledIconContainer.displayName = 'StyledIconContainer';

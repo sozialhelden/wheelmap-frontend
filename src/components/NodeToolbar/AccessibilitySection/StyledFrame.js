@@ -10,14 +10,14 @@ const StyledFrame = styled.summary`
   display: flex;
   flex-direction: column;
   margin: 0 0 1rem 0;
-  padding: .75rem .75rem 2px .75rem;
+  padding: 0.75rem 0.75rem 2px 0.75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
 
   &:before {
     display: block;
     position: absolute;
-    content: " ";
+    content: ' ';
     top: -8px;
     left: 10px;
     width: 12px;

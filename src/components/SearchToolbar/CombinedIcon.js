@@ -10,20 +10,36 @@ import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessibl
 import { isFiltered } from '../../lib/Feature';
 
 type Props = {
-  accessibilityFilter?: YesNoLimitedUnknown[];
-  toiletFilter?: YesNoUnknown[];
-  category?: ?string;
-  isMainCategory?: boolean;
-  className: string;
+  accessibilityFilter?: YesNoLimitedUnknown[],
+  toiletFilter?: YesNoUnknown[],
+  category?: ?string,
+  isMainCategory?: boolean,
+  className: string,
 };
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null;
-  const accessibilities = isFiltered(props.accessibilityFilter) ? props.accessibilityFilter : [null];
-  return <div aria-hidden className={`accessibilities ${props.className}`}>
-    {accessibilities.map(accessibility => <Icon key={accessibility} accessibility={accessibility} category={props.category} isMainCategory={props.isMainCategory} size="medium" />)}
-      {isEqual(props.toiletFilter, ['yes']) ? <figure className="toilet-icon"><ToiletStatusAccessible /></figure> : null}
-  </div>;
+  const accessibilities = isFiltered(props.accessibilityFilter)
+    ? props.accessibilityFilter
+    : [null];
+  return (
+    <div aria-hidden className={`accessibilities ${props.className}`}>
+      {accessibilities.map(accessibility => (
+        <Icon
+          key={accessibility}
+          accessibility={accessibility}
+          category={props.category}
+          isMainCategory={props.isMainCategory}
+          size="medium"
+        />
+      ))}
+      {isEqual(props.toiletFilter, ['yes']) ? (
+        <figure className="toilet-icon">
+          <ToiletStatusAccessible />
+        </figure>
+      ) : null}
+    </div>
+  );
 }
 
 const StyledCombinedIcon = styled(CombinedIcon)`
@@ -72,7 +88,8 @@ const StyledCombinedIcon = styled(CombinedIcon)`
   }
 
   figure.add-stroke svg.background {
-    circle, path {
+    circle,
+    path {
       stroke-width: 1.2px;
       stroke: white;
     }

@@ -15,19 +15,19 @@ import colors from '../../lib/colors';
 import { accessibilityCloudImageCache } from '../../lib/cache/AccessibilityCloudImageCache';
 
 export type Props = {
-  hidden: boolean;
-  photosMarkedForUpload: FileList | null;
-  onClose: ?() => void;
-  onCompleted: ?(photos: FileList, captchaSolution: string) => void;
-  waitingForPhotoUpload?: boolean;
-  photoCaptchaFailed?: boolean;
+  hidden: boolean,
+  photosMarkedForUpload: FileList | null,
+  onClose: ?() => void,
+  onCompleted: ?(photos: FileList, captchaSolution: string) => void,
+  waitingForPhotoUpload?: boolean,
+  photoCaptchaFailed?: boolean,
 };
 
 type State = {
-  enteredCaptchaValue?: string;
-  waitingForCaptcha: boolean;
-  captchaError?: boolean | null;
-  captcha: string | null;
+  enteredCaptchaValue?: string,
+  waitingForCaptcha: boolean,
+  captchaError?: boolean | null,
+  captcha: string | null,
 };
 
 // TODO: Move into potential GoButton-component
@@ -35,12 +35,16 @@ const StyledChevronRight = styled(ChevronRight)`
   height: 1rem;
   vertical-align: bottom;
   opacity: 0.5;
-  g, polygon, rect, circle, path {
+  g,
+  polygon,
+  rect,
+  circle,
+  path {
     fill: white;
   }
 `;
 
-// TODO: Move into new component to reuse 
+// TODO: Move into new component to reuse
 const GoButton = styled.button`
   min-width: 4rem;
   outline: none;
@@ -238,7 +242,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   state: State = {
     waitingForCaptcha: false,
     captchaError: null,
-    captcha: null
+    captcha: null,
   };
 
   inputField: ?HTMLInputElement;
@@ -253,11 +257,14 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
       this.focus(); // Focus input field on start
     }
 
-    accessibilityCloudImageCache.getCaptcha().then(captcha => {
-      this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
-    }).catch(e => {
-      this.setState({ captchaError: true });
-    });
+    accessibilityCloudImageCache
+      .getCaptcha()
+      .then(captcha => {
+        this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
+      })
+      .catch(e => {
+        this.setState({ captchaError: true });
+      });
   }
 
   componentWillUnmount() {
@@ -292,11 +299,14 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   refreshCaptcha = () => {
     if (!accessibilityCloudImageCache.hasValidCaptcha()) {
       this.setState({ waitingForCaptcha: true });
-      accessibilityCloudImageCache.getCaptcha().then(captcha => {
-        this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
-      }).catch(e => {
-        this.setState({ captchaError: true });
-      });
+      accessibilityCloudImageCache
+        .getCaptcha()
+        .then(captcha => {
+          this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
+        })
+        .catch(e => {
+          this.setState({ captchaError: true });
+        });
     }
   };
 
@@ -306,37 +316,63 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
   renderInputField() {
     const isInputDisabled = !this.canEnter();
-    return <form onSubmit={this.onFinishPhotoUploadFlow}>
-        <input type="text" ref={inputField => this.inputField = inputField} onFocus={event => {
-        window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
-      }} disabled={isInputDisabled} onChange={event => this.setState({ enteredCaptchaValue: event.target.value })} value={this.state.enteredCaptchaValue || ''} field="captcha-solution" />
-      </form>;
+    return (
+      <form onSubmit={this.onFinishPhotoUploadFlow}>
+        <input
+          type="text"
+          ref={inputField => (this.inputField = inputField)}
+          onFocus={event => {
+            window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
+          }}
+          disabled={isInputDisabled}
+          onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
+          value={this.state.enteredCaptchaValue || ''}
+          field="captcha-solution"
+        />
+      </form>
+    );
   }
 
   renderBackLink() {
-    return <button className="close-link"
-    // translator: Button caption in photo captcha dialog
-    aria-label={t`Back`} onClick={() => {
-      if (this.props.onClose) this.props.onClose();
-    }} ref={backLink => this.backLink = backLink}>← </button>;
+    return (
+      <button
+        className="close-link"
+        // translator: Button caption in photo captcha dialog
+        aria-label={t`Back`}
+        onClick={() => {
+          if (this.props.onClose) this.props.onClose();
+        }}
+        ref={backLink => (this.backLink = backLink)}
+      >
+        ←{' '}
+      </button>
+    );
   }
 
   renderGoButton() {
     // translator: button shown next to the captcha text input field
     const caption = t`Go`;
     const isGoDisabled = !this.canSubmit();
-    return <GoButton innerRef={button => this.goButton = button} onClick={this.onFinishPhotoUploadFlow} disabled={isGoDisabled}>
+    return (
+      <GoButton
+        innerRef={button => (this.goButton = button)}
+        onClick={this.onFinishPhotoUploadFlow}
+        disabled={isGoDisabled}
+      >
         {caption} <StyledChevronRight />
-      </GoButton>;
+      </GoButton>
+    );
   }
 
   renderForceRefreshButton() {
-    // translator: button shown next to the captcha 
+    // translator: button shown next to the captcha
     const caption = t`Show different characters`;
     const isGoDisabled = !this.canEnter();
-    return <button onClick={this.onForceRefreshCaptcha} disabled={isGoDisabled}>
+    return (
+      <button onClick={this.onForceRefreshCaptcha} disabled={isGoDisabled}>
         {caption}
-      </button>;
+      </button>
+    );
   }
 
   onForceRefreshCaptcha = () => {
@@ -364,7 +400,9 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   };
 
   canEnter() {
-    return !this.props.waitingForPhotoUpload && !this.state.captchaError && !this.state.waitingForCaptcha;
+    return (
+      !this.props.waitingForPhotoUpload && !this.state.captchaError && !this.state.waitingForCaptcha
+    );
   }
 
   canSubmit() {
@@ -393,24 +431,39 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
       // translator: Error message when captcha could not be loaded. We try to avoid the word 'captcha' because normal users might not know what it means.
       unreachable: t`Server cannot be reached. Please try again later and let us know if the problem persists!`,
       // translator: Error message when captcha was incorrectly entered. We try to avoid the word 'captcha' because normal users might not know what it means.
-      invalid: t`Sorry, this did not work! Please check if all characters are correct, then retry.`
+      invalid: t`Sorry, this did not work! Please check if all characters are correct, then retry.`,
     };
 
-    return <StyledToolbar className="captcha-toolbar" hidden={this.props.hidden} isSwipeable={false} isModal innerRef={toolbar => {
-      this.toolbar = toolbar;
-    }}>
+    return (
+      <StyledToolbar
+        className="captcha-toolbar"
+        hidden={this.props.hidden}
+        isSwipeable={false}
+        isModal
+        innerRef={toolbar => {
+          this.toolbar = toolbar;
+        }}
+      >
         <header>
           {this.renderBackLink()}
           {this.renderInputField()}
           {this.renderGoButton()}
         </header>
-        {!waitingForPhotoUpload && <section className="captcha-container">
+        {!waitingForPhotoUpload && (
+          <section className="captcha-container">
             {captchaError && <section className="captcha-error">{captions.unreachable}</section>}
             {photoCaptchaFailed && <section className="captcha-error">{captions.invalid}</section>}
             <div className="captcha-content">
-              {captcha && <section className="captcha-holder" dangerouslySetInnerHTML={{ __html: captcha }} />}
+              {captcha && (
+                <section className="captcha-holder" dangerouslySetInnerHTML={{ __html: captcha }} />
+              )}
               {captcha && this.renderForceRefreshButton()}
-              {waitingForCaptcha && <div className="loading-captcha">{captions.loading}<Dots /></div>}
+              {waitingForCaptcha && (
+                <div className="loading-captcha">
+                  {captions.loading}
+                  <Dots />
+                </div>
+              )}
             </div>
             <h3 className="captcha-help">{captions.help}</h3>
             <small className="captcha-explanation">{captions.explanation}</small>
@@ -422,13 +475,17 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
                 <small>{captions.emailHint}</small>
               </a>
             </section>
-          </section>}
-        {waitingForPhotoUpload && <section className="starting-upload-container">
+          </section>
+        )}
+        {waitingForPhotoUpload && (
+          <section className="starting-upload-container">
             <div>
               <p>{captions.startingUpload}</p>
               <Dots />
             </div>
-          </section>}
-      </StyledToolbar>;
+          </section>
+        )}
+      </StyledToolbar>
+    );
   }
 }

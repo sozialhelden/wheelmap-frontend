@@ -4,7 +4,14 @@ import * as React from 'react';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import { isWheelchairAccessible, hasAccessibleToilet, accessibilityName, accessibilityDescription, toiletDescription, isWheelmapFeature } from '../../../lib/Feature';
+import {
+  isWheelchairAccessible,
+  hasAccessibleToilet,
+  accessibilityName,
+  accessibilityDescription,
+  toiletDescription,
+  isWheelmapFeature,
+} from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import PenIcon from '../../icons/actions/PenIcon';
 import type { Feature } from '../../../lib/Feature';
@@ -14,8 +21,12 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
 // Don't incentivize people to add toilet status to places of these categories
-const placeCategoriesWithoutExtraToiletEntry = ['parking', // because this mostly affects parking lots
-'tram_stop', 'atm', 'toilets'];
+const placeCategoriesWithoutExtraToiletEntry = [
+  'parking', // because this mostly affects parking lots
+  'tram_stop',
+  'atm',
+  'toilets',
+];
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
   const description = accessibilityName(accessibility);
@@ -32,7 +43,7 @@ function AccessibilityName(accessibility: YesNoLimitedUnknown) {
 
 const toiletIcons = {
   yes: <ToiletStatusAccessibleIcon />,
-  no: <ToiletStatusNotAccessibleIcon />
+  no: <ToiletStatusNotAccessibleIcon />,
 };
 
 function ToiletDescription(accessibility: YesNoUnknown) {
@@ -41,38 +52,54 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const editButtonCaption = t`Mark wheelchair accessibility of WC`;
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
-  return <React.Fragment>{icon} <span>{description}</span></React.Fragment>;
+  return (
+    <React.Fragment>
+      {icon} <span>{description}</span>
+    </React.Fragment>
+  );
 }
 
 type Props = {
-  feature: Feature;
-  onOpenWheelchairAccessibility: () => void;
-  onOpenToiletAccessibility: () => void;
-  className: string;
-  isEditingEnabled: boolean;
+  feature: Feature,
+  onOpenWheelchairAccessibility: () => void,
+  onOpenToiletAccessibility: () => void,
+  className: string,
+  isEditingEnabled: boolean,
 };
 
 class WheelchairAndToiletAccessibility extends React.Component<Props> {
   renderWheelchairButton(wheelchairAccessibility) {
-    return <button className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`} onClick={this.props.onOpenWheelchairAccessibility} disabled={!this.props.isEditingEnabled}>
-      <header>
-        <span>{AccessibilityName(wheelchairAccessibility)}</span>
-        {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
-      </header>
+    return (
+      <button
+        className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
+        onClick={this.props.onOpenWheelchairAccessibility}
+        disabled={!this.props.isEditingEnabled}
+      >
+        <header>
+          <span>{AccessibilityName(wheelchairAccessibility)}</span>
+          {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
+        </header>
 
-      <footer className="accessibility-description">
-        {accessibilityDescription(wheelchairAccessibility)}
-      </footer>
-    </button>;
+        <footer className="accessibility-description">
+          {accessibilityDescription(wheelchairAccessibility)}
+        </footer>
+      </button>
+    );
   }
 
   renderToiletButton(toiletAccessibility) {
-    return <button className={`accessibility-toilet accessibility-${toiletAccessibility}`} onClick={this.props.onOpenToiletAccessibility} disabled={!this.props.isEditingEnabled}>
-      <header>
-        {ToiletDescription(toiletAccessibility)}
-        {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
-      </header>
-    </button>;
+    return (
+      <button
+        className={`accessibility-toilet accessibility-${toiletAccessibility}`}
+        onClick={this.props.onOpenToiletAccessibility}
+        disabled={!this.props.isEditingEnabled}
+      >
+        <header>
+          {ToiletDescription(toiletAccessibility)}
+          {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
+        </header>
+      </button>
+    );
   }
 
   render() {
@@ -92,13 +119,18 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     const categoryId = getCategoryId(category);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const isToiletStatusKnown = toiletAccessibility !== 'unknown';
-    const incentivizeToAddToiletStatus = isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility) && !hasBlacklistedCategory;
+    const incentivizeToAddToiletStatus =
+      isWheelmapFeature(feature) &&
+      includes(['yes', 'limited'], wheelchairAccessibility) &&
+      !hasBlacklistedCategory;
     const isToiletButtonShown = isToiletStatusKnown || incentivizeToAddToiletStatus;
 
-    return <div className={this.props.className}>
-      {this.renderWheelchairButton(wheelchairAccessibility)}
-      {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
-    </div>;
+    return (
+      <div className={this.props.className}>
+        {this.renderWheelchairButton(wheelchairAccessibility)}
+        {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
+      </div>
+    );
   }
 }
 
@@ -139,7 +171,7 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
   > button + button {
     margin-top: calc(-5px + 1rem);
   }
-  
+
   > * {
     margin: 1rem 0;
   }
@@ -156,7 +188,8 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
 
-  .accessibility-wheelchair, .accessibility-toilet {
+  .accessibility-wheelchair,
+  .accessibility-toilet {
     header {
       font-weight: bold;
       display: flex;

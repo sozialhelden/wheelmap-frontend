@@ -9,8 +9,8 @@ import CameraIcon from './CameraIcon';
 import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
 type Props = {
-  className: string;
-  onClick?: (event: UIEvent) => void;
+  className: string,
+  onClick?: (event: UIEvent) => void,
 };
 
 class PhotoUploadButton extends React.Component<Props> {
@@ -20,11 +20,17 @@ class PhotoUploadButton extends React.Component<Props> {
     // translator: Text that incentivizes the user to edit a place's accessibility.
     const hintCaption = t`Your good deed of the day!`;
 
-    return <button onClick={this.onClick} className={`link-button ${className}`} aria-label={t`Add images`}>
+    return (
+      <button
+        onClick={this.onClick}
+        className={`link-button ${className}`}
+        aria-label={t`Add images`}
+      >
         <CameraIcon />
         <span className="button-label">{t`Add images`}</span>
         <IncentiveHint>{hintCaption}</IncentiveHint>
-      </button>;
+      </button>
+    );
   }
 
   onClick = (event: UIEvent) => {
@@ -43,13 +49,13 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   align-items: center;
 
   width: 100%;
-  margin: 0 0rem .5rem !important;
+  margin: 0 0rem 0.5rem !important;
   padding: 10px 1rem !important;
 
   svg {
     width: 2em;
     height: 2em;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   .button-label {
