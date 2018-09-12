@@ -332,7 +332,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
   renderCloseLink() {
     const { history, onClose, modalNodeState } = this.props;
-    return modalNodeState ? null : <PositionedCloseLink {...{ history, onClose }} />;
+    return modalNodeState ? null : <PositionedCloseLink {...{ history, onClick: onClose }} />;
   }
 
   render() {

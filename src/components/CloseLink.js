@@ -24,13 +24,13 @@ type Props = {
 
 class CloseLink extends React.Component<Props> {
   onClick = event => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (this.props.onClick) {
       this.props.onClick(event);
       return;
     }
-
-    event.preventDefault();
-    event.stopPropagation();
 
     const params = getQueryParams();
     this.props.history.push({ pathname: '/beta', search: queryString.stringify(params) });

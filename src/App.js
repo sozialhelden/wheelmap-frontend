@@ -202,6 +202,7 @@ class Loader extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: Props, state: State): State {
     const routeInformation = getRouteInformation(props);
+
     let result: $Shape<State> = {
       equipmentInfoId: null,
       category: null,
@@ -621,14 +622,11 @@ class Loader extends React.Component<Props, State> {
       if (category) {
         path += `/categories/${category}`;
       }
-
-      const params = getQueryParams();
-
-      path += `?${queryString.stringify(params)}`;
     }
 
-    this.props.history.push(path);
-    // this.setState({ modalNodeState: null });
+    const params = getQueryParams();
+    const location = `${path}?${queryString.stringify(params)}`;
+    this.props.history.push(location);
   };
 
   onCloseOnboarding = () => {
