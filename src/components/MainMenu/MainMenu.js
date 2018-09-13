@@ -70,12 +70,16 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.onResize);
+    if (typeof window !== 'undefined') {
+      window.addEventListener(('resize', this.onResize));
+    }
     this.onResize();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener(('resize', this.onResize));
+    }
   }
 
   toggleMenu = (event: Event) => {

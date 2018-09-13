@@ -178,7 +178,9 @@ class Loader extends React.Component<Props, State> {
 
   componentDidMount() {
     this.onHashUpdate();
-    window.addEventListener('hashchange', this.onHashUpdate);
+    if (typeof window !== 'undefined') {
+      window.addEventListener(('hashchange', this.onHashUpdate));
+    }
 
     loadExistingLocalizationByPreference().then(() =>
       this.setState({ isLocalizationLoaded: true })
@@ -186,7 +188,9 @@ class Loader extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('hashchange', this.onHashUpdate);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener(('hashchange', this.onHashUpdate));
+    }
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
     }
