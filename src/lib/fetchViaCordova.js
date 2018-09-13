@@ -74,4 +74,4 @@ export default function fetchViaCordova(url, options) {
   });
 }
 
-window.fetchViaCordova = fetchViaCordova;
+// window.fetchViaCordova = fetchViaCordova;
