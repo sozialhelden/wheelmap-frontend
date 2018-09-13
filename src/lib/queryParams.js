@@ -11,6 +11,10 @@ export type ModalNodeState =
   | null;
 
 export function getQueryParams(search?: string) {
+  if (typeof window === 'undefined') {
+    return {};
+  }
+
   const result = {};
   if (search) {
     Object.assign(result, queryString.parse(search));

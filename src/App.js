@@ -14,6 +14,7 @@ import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice } from './lib/userAgent';
+import isCordova from './lib/isCordova';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -178,20 +179,12 @@ class Loader extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.onHashUpdate();
-    if (typeof window !== 'undefined') {
-      window.addEventListener(('hashchange', this.onHashUpdate));
-    }
-
     loadExistingLocalizationByPreference().then(() =>
       this.setState({ isLocalizationLoaded: true })
     );
   }
 
   componentWillUnmount() {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener(('hashchange', this.onHashUpdate));
-    }
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
     }
@@ -270,27 +263,6 @@ class Loader extends React.Component<Props, State> {
     return result;
   }
 
-  onHashUpdate = () => {
-    if (this.hashUpdateDisabled) return;
-    let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
-    if (savedState.map.lastZoom) {
-      baseParams.zoom = savedState.map.lastZoom;
-    }
-    if (savedState.map.lastCenter && savedState.map.lastCenter[0]) {
-      const lastCenter = savedState.map.lastCenter;
-      baseParams.lat = lastCenter[0];
-      baseParams.lon = lastCenter[1];
-    }
-
-    console.log('Previous state:', baseParams);
-    const nextState = Object.assign(
-      baseParams,
-      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
-    );
-    console.log('Next state:', nextState);
-    this.setState(nextState);
-  };
-
   fetchFeature(featureId: string): void {
     const isWheelmap = isWheelmapFeatureId(featureId);
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
@@ -343,7 +315,9 @@ class Loader extends React.Component<Props, State> {
     const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
 
     if (nodeToolbarDidDisappear || searchToolbarDidDisappear) {
-      if (window.document.activeElement) window.document.activeElement.blur();
+      if (typeof window !== 'undefined') {
+        if (window.document.activeElement) window.document.activeElement.blur();
+      }
       if (this.lastFocusedElement) this.lastFocusedElement.focus();
     }
 
@@ -376,27 +350,6 @@ class Loader extends React.Component<Props, State> {
       isSearchToolbarExpanded: false,
     });
   }
-
-  onHashUpdate = () => {
-    if (this.hashUpdateDisabled) return;
-    let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
-    if (savedState.map.lastZoom) {
-      baseParams.zoom = savedState.map.lastZoom;
-    }
-    if (savedState.map.lastCenter && savedState.map.lastCenter[0]) {
-      const lastCenter = savedState.map.lastCenter;
-      baseParams.lat = lastCenter[0];
-      baseParams.lon = lastCenter[1];
-    }
-
-    console.log('Previous state:', baseParams);
-    const nextState = Object.assign(
-      baseParams,
-      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
-    );
-    console.log('Next state:', nextState);
-    // this.setState(nextState);
-  };
 
   modalNodeState() {
     const routeInformation = getRouteInformation(this.props);
@@ -758,7 +711,7 @@ class Loader extends React.Component<Props, State> {
 }
 
 function App() {
-  const Router = window.cordova ? MemoryRouter : BrowserRouter;
+  const Router = isCordova() ? MemoryRouter : BrowserRouter;
 
   return (
     <Router>

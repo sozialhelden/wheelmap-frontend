@@ -50,11 +50,13 @@ function MenuIcon(props) {
 }
 
 const menuButtonVisibilityBreakpoint = 1024;
+const isMenuButtonVisible =
+  typeof window !== 'undefined' && window.innerWidth <= menuButtonVisibilityBreakpoint;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
+    isMenuButtonVisible,
   };
 
   boundOnResize: () => void;

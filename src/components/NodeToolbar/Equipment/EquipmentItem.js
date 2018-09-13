@@ -5,6 +5,7 @@ import * as React from 'react';
 import queryString from 'query-string';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import type { RouterHistory } from 'react-router-dom';
+import isCordova from '../../../lib/isCordova';
 import { getQueryParams } from '../../../lib/queryParams';
 import * as equipmentIcons from '../../icons/equipment';
 import colors from '../../../lib/colors';
@@ -119,7 +120,7 @@ function EquipmentItem(props: Props) {
     const { geometry } = equipmentInfos[0];
     const [lat, lon] = normalizeCoordinates(geometry.coordinates);
     const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
-    if (window.cordova) {
+    if (isCordova()) {
       history.push(`${href}?${queryString.stringify(params)}`);
     } else {
       history.push(`${href}#?${queryString.stringify(params)}`);

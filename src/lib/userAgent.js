@@ -3,9 +3,10 @@ import UAParser from 'ua-parser-js';
 
 export function isTouchDevice() {
   return (
-    window.navigator.maxTouchPoints > 0 ||
-    window.navigator.userAgent.match(/iPhone/) ||
-    window.navigator.userAgent.match(/iPad/)
+    typeof window !== 'undefined' &&
+    (window.navigator.maxTouchPoints > 0 ||
+      window.navigator.userAgent.match(/iPhone/) ||
+      window.navigator.userAgent.match(/iPad/))
   );
 }
 
