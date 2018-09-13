@@ -20,6 +20,7 @@ import {
   hasAccessibleToilet,
   wheelmapFeatureCollectionFromResponse,
   accessibilityCloudFeatureCollectionFromResponse,
+  getFeatureId,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
@@ -95,6 +96,7 @@ export default class Map extends React.Component<Props, State> {
     toiletFilter: [].concat(yesNoUnknownArray),
     showLocationNotAllowedHint: false,
   };
+  lastFeatureId: ?string;
   map: ?L.Map;
   mapElement: ?HTMLElement;
   featureLayer: ?L.LayerGroup;
@@ -520,13 +522,16 @@ export default class Map extends React.Component<Props, State> {
     const map = this.map;
     let fallbackZoom = props.maxZoom - 1;
     let fallbackCenter = props.defaultStartCenter;
+
     if (map) {
       const center = map.getCenter();
+
       fallbackCenter = [center.lat, center.lng];
       fallbackZoom = map.getZoom();
     }
 
     let overrideZoom = props.zoom;
+
     // Prevent the map from being empty when navigating to a new category
     if (props.category && this.props.category !== props.category) {
       overrideZoom = Math.min(
@@ -537,23 +542,36 @@ export default class Map extends React.Component<Props, State> {
 
     const zoom = overrideZoom || fallbackZoom;
 
-    // use the feature coordinates
     const feature = props.feature;
+
+    let center;
+
+    // Use the feature coordinates
     if (
       feature &&
+      getFeatureId(feature) !== this.lastFeatureId &&
       feature.geometry &&
       feature.geometry.type === 'Point' &&
       feature.geometry.coordinates instanceof Array
     ) {
       const coords = feature.geometry.coordinates;
       const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
-      return { center: featureCoordinates || fallbackCenter, zoom };
+
+      center = featureCoordinates || fallbackCenter;
+    } else if (props.lat && props.lon) {
+      center = normalizeCoordinates([props.lat, props.lon]);
+    } else {
+      center = fallbackCenter;
     }
 
-    // use the initial zoom/lat/lon props
-    let coords =
-      props.lat && props.lon ? normalizeCoordinates([props.lat, props.lon]) : fallbackCenter;
-    return { center: coords, zoom };
+    // Store feature id to make sure we only zoom to the place once.
+    if (feature && feature.properties) {
+      this.lastFeatureId = getFeatureId(feature);
+    } else {
+      this.lastFeatureId = null;
+    }
+
+    return { center, zoom };
   }
 
   updateHighlightedMarker(props: Props) {
