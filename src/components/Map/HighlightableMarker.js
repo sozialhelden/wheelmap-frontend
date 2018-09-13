@@ -7,7 +7,10 @@ import type { Feature } from '../../lib/Feature';
 type Options = typeof L.Marker.Options & {
   feature: Feature,
   onClick: (featureId: string, properties: ?NodeProperties) => void,
-  hrefForFeature: (featureId: string) => string,
+  hrefForFeature: (
+    featureId: string,
+    properties: ?NodeProperties | EquipmentInfoProperties
+  ) => string,
 };
 
 export default class HighlightableMarker extends L.Marker {

@@ -46,7 +46,9 @@ export function localeWithoutCountry(locale: string): string {
   return locale.substring(0, 2);
 }
 
-export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]);
+export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]).filter(
+  Boolean
+);
 
 // Returns an expanded list of preferred locales.
 export function expandedPreferredLocales() {
@@ -137,7 +139,7 @@ export function loadExistingLocalizationByPreference(
     })
     .then(() => {
       const localesToUse = intersection(locales, loadedLocales);
-      currentLocales = localesToUse;
+      currentLocales = localesToUse.filter(Boolean);
       useLocales(localesToUse);
     });
 }

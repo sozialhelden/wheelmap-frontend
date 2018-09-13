@@ -14,7 +14,7 @@ import '../index.css';
 // import 'leaflet/dist/leaflet.css';
 import '../App.css';
 import '../Map.css';
-import 'wicg-focus-ring';
+// import 'wicg-focus-ring';
 
 // import registerServiceWorker from './registerServiceWorker';
 
