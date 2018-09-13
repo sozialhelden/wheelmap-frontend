@@ -29,17 +29,22 @@ export default function getRouteInformation(props: Props): ?RouteInformation {
   const match = location.pathname.match(
     /(?:\/beta)?\/?(?:(-?\w+)(?:\/([-\w\d]+)(?:\/([-\w\d]+)(?:\/([-\w\d]+))?)?)?)?/i
   );
-  if (match) {
-    if (match[1] && !includes(allowedResourceNames, match[1])) return null;
-    return {
-      featureId: match[1] === 'nodes' && match[2] !== 'new' ? match[2] : null,
-      equipmentInfoId: match[1] === 'nodes' && match[3] === 'equipment' ? match[4] : null,
-      modalNodeState: getModalNodeState(match),
-      category: match[1] === 'categories' ? match[2] : null,
-      searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
-      toilet: parseQueryParams(location.search).toilet,
-      status: parseQueryParams(location.search).status,
-    };
+
+  if (!match) {
+    return null;
   }
-  return null;
+
+  if (match[1] && !includes(allowedResourceNames, match[1])) {
+    return null;
+  }
+
+  return {
+    featureId: match[1] === 'nodes' && match[2] !== 'new' ? match[2] : null,
+    equipmentInfoId: match[1] === 'nodes' && match[3] === 'equipment' ? match[4] : null,
+    modalNodeState: getModalNodeState(match),
+    category: match[1] === 'categories' ? match[2] : null,
+    searchQuery: match[1] === 'search' ? parseQueryParams(location.search).q : null,
+    toilet: parseQueryParams(location.search).toilet,
+    status: parseQueryParams(location.search).status,
+  };
 }

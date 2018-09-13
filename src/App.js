@@ -201,13 +201,31 @@ class Loader extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State): State {
-    const routeInformation = getRouteInformation(props) || {};
+    const routeInformation = getRouteInformation(props);
+    let result: $Shape<State> = {
+      equipmentInfoId: null,
+      category: null,
+      searchQuery: null,
+      modalNodeState: null,
+      toiletFilter: [],
+      accessibilityFilter: [],
+    };
+
+    if (!routeInformation) {
+      return {
+        ...result,
+        isNotFoundVisible: true,
+        lastError: 'Route not found.',
+      };
+    }
+
     const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
 
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
     const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
 
-    const result: $Shape<State> = {
+    result = {
+      ...result,
       equipmentInfoId,
       // keep category if you just click on a feature
       category: featureId ? state.category || category : category,
@@ -253,14 +271,6 @@ class Loader extends React.Component<Props, State> {
     const locationState = props.history.location.state;
     if (locationState) {
       result.isOnboardingVisible = !!locationState.isOnboardingVisible;
-    }
-
-    if (!routeInformation) {
-      Object.assign(result, {
-        isNotFoundVisible: true,
-        lastError: 'Route not found.',
-      });
-      return result;
     }
 
     return result;
