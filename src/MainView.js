@@ -1,6 +1,8 @@
 // @flow
 
 import * as React from 'react';
+import dynamic from 'next/dynamic';
+
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
@@ -8,7 +10,6 @@ import queryString from 'query-string';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { Dots } from 'react-activity';
 
-import Map from './components/Map/Map';
 import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -140,6 +141,10 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   }
   return `/beta/nodes/${featureId}`;
 }
+
+const Map = dynamic(import('./components/Map/Map'), {
+  ssr: false,
+});
 
 class MainView extends React.Component<Props, State> {
   props: Props;
