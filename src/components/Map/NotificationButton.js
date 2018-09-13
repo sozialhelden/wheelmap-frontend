@@ -44,7 +44,7 @@ const StyledNotificationButton = styled(NotificationButton)`
   position: absolute;
   right: 70px;
   top: ${props => props.topPosition}px;
-  max-width: 120px; /* Ensure the block does not overlap the search bar */
+  max-width: 130px; /* Ensure the block does not overlap the search bar */
   z-index: 1000;
   border-radius: 4px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
