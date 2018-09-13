@@ -208,7 +208,7 @@ export default class Map extends React.Component<Props, State> {
     if (this.props.onMapMounted) {
       this.props.onMapMounted(map);
     }
-    globalFetchManager.registerMap(map);
+    //globalFetchManager.registerMap(map);
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
@@ -288,7 +288,7 @@ export default class Map extends React.Component<Props, State> {
   componentWillUnmount() {
     if (!this.map) return;
     this.map.off();
-    globalFetchManager.unregisterMap(this.map);
+    // globalFetchManager.unregisterMap(this.map);
     delete this.map;
     delete this.highLightLayer;
     delete this.mapElement;
