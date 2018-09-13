@@ -62,18 +62,7 @@
     "unfetch": "^3.0.0"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.0.0",
     "autoprefixer": "7.1.2",
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "6.25.0",
-    "babel-eslint": "^9.0.0",
-    "babel-jest": "20.0.3",
-    "babel-loader": "7.1.1",
-    "babel-plugin-ttag": "^1.1.0-0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react-app": "^3.1.2",
-    "babel-runtime": "6.26.0",
     "browserslist": "^4.1.1",
     "browserstack-local": "^1.3.3",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -160,9 +149,6 @@
     "push-translations": "npm run build && tx push -s",
     "pull-translations": "tx pull -a",
     "retranslate": "npm run build && npm run pull-translations && NEW_SOURCE_PO='./public/i18n/en_US.txt' retranslate/run.sh",
-    "prepublish": "npm run prepublish-babel && npm run prepublish-copy-flow-info && npmignore -u /lib",
-    "prepublish-babel": "NODE_ENV=production babel --no-babelrc src/ -d lib --presets=es2015,react-app --plugins=transform-flow-strip-types --ignore '*.test.js'",
-    "prepublish-copy-flow-info": "flow-copy-source src lib",
     "compile-svg-directory": "echo \"Compiling SVGs in ${basedir}, this can take up to a few minutes…\"; (for file in ${basedir}/*.svg; do ./node_modules/svgr/bin/svgr --icon $file > ${file/.svg/.js}; echo \"export { default as `basename $file .svg` } from './`basename $file .svg`';\";  done;) > ${basedir}/index.js",
     "compile-markers": "basedir=src/components/icons/markers npm run compile-svg-directory",
     "compile-equipment-icons": "basedir=src/components/icons/equipment npm run compile-svg-directory",
@@ -184,11 +170,6 @@
     ]
   },
   "proxy": "https://wheelmap.org",
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
-  },
   "browserslist": [
     "Android > 4.4",
     "UCAndroid >= 11.8",
