@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { t } from 'ttag';
+import FocusTrap from 'focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';
@@ -86,7 +87,6 @@ class NodeToolbar extends React.Component<Props, State> {
   shareButton: ?React.ElementRef<'button'>;
   reportModeButton: ?React.ElementRef<'button'>;
 
-  shouldBeFocused: ?boolean;
   state = {
     category: null,
     parentCategory: null,
@@ -103,33 +103,6 @@ class NodeToolbar extends React.Component<Props, State> {
         }
       }, 200);
     }
-  }
-
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    // This variable temporarily indicates that the app wants the node toolbar to be focused, but the to be focused
-    // element (the node toolbar's close link) was not rendered yet. See this.focus().
-    if (this.shouldBeFocused) {
-      this.focus();
-    }
-
-    this.manageFocus(prevProps, prevState);
-  }
-
-  focus() {
-    // const elementToFocus = this.editLinks;
-    // if (elementToFocus) elementToFocus.focus();
-    // this.shouldBeFocused = !elementToFocus;
-  }
-
-  manageFocus(prevProps: Props, prevState: State) {
-    // TODO: Re-integrate this into ExternalLinks
-    // if (prevProps.modalNodeState && !this.props.modalNodeState) {
-    //   if (this.editLinks) {
-    //     this.editLinks.focus();
-    //   } else if (this.shareButton) {
-    //     this.shareButton.focus();
-    //   }
-    // }
   }
 
   placeName() {
@@ -348,9 +321,11 @@ class NodeToolbar extends React.Component<Props, State> {
         startTopOffset={hasBigViewport() ? 0 : 0.4 * window.innerHeight}
         onScrollable={isScrollable => this.setState({ isScrollable })}
       >
-        {this.renderCloseLink()}
-        {this.renderNodeHeader()}
-        {this.renderContentBelowHeader()}
+        <FocusTrap>
+          {this.renderCloseLink()}
+          {this.renderNodeHeader()}
+          {this.renderContentBelowHeader()}
+        </FocusTrap>
       </StyledToolbar>
     );
   }
