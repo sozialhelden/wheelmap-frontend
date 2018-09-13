@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import queryString from 'query-string';
-import type { RouterHistory, Location } from 'react-router-dom';
+import type { Location, RouterHistory } from 'react-router-dom';
 import { Dots } from 'react-activity';
 
 import NotFound from './components/NotFound/NotFound';
@@ -29,12 +29,12 @@ import colors from './lib/colors';
 import { isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown, NodeProperties } from './lib/Feature';
+import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
-import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
 import type { ModalNodeState } from './lib/queryParams';
+import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
 
 import { isTouchDevice } from './lib/userAgent';
 
