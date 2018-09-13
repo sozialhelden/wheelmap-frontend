@@ -729,7 +729,8 @@ class Loader extends React.Component<Props, State> {
 }
 
 function App() {
-  const Router = isCordova() ? MemoryRouter : BrowserRouter;
+  // const Router = isCordova() ? MemoryRouter : BrowserRouter;
+  const Router = MemoryRouter;
 
   return (
     <Router>
