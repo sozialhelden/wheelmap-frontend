@@ -135,9 +135,9 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next src/",
     "start-next": "next start",
-    "build-next": "next build",
+    "build-next": "next build src/",
     "start": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" extract=1 node scripts/start.js",
     "start-cordova": "REACT_APP_ENV=cordova REACT_APP_WHEELMAP_API_BASE_URL=https://wheelmap.org PUBLIC_URL=\"./\"",
     "analyze": "source-map-explorer build/static/js/main.*",

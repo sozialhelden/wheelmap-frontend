@@ -12,14 +12,14 @@ export default class MyDocument extends Document {
   render() {
     return (
       <html>
-      <Head>
-        <title>My page</title>
-        {this.props.styleTags}
-      </Head>
-      <body>
-      <Main/>
-      <NextScript/>
-      </body>
+        <Head>
+          <title>My page</title>
+          {this.props.styleTags}
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
       </html>
     );
   }
