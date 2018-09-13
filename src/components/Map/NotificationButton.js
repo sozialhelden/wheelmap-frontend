@@ -109,6 +109,7 @@ const StyledNotificationButton = styled(NotificationButton)`
 
   @media (max-width: 500px), (max-height: 500px) {
     /* On small viewports, move button down to make space for category view */
+    position: fixed;
     max-width: 150px;
     top: unset;
     right: unset;
