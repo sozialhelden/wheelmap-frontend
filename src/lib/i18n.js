@@ -140,6 +140,9 @@ export function loadExistingLocalizationByPreference(
     .then(() => {
       const localesToUse = intersection(locales, loadedLocales);
       currentLocales = localesToUse.filter(Boolean);
+      if (currentLocales.length === 0) {
+        console.warn('Warning: No locales available after loading locales.');
+      }
       useLocales(localesToUse);
     });
 }
