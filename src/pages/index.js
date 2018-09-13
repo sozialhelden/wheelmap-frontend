@@ -10,10 +10,10 @@ import * as React from 'react';
 // import ReactDOM from 'react-dom';
 // import axe from 'react-axe';
 import App from '../App';
-// import './index.css';
+import '../index.css';
 // import 'leaflet/dist/leaflet.css';
-// import './App.css';
-// import './Map.css';
+import '../App.css';
+import '../Map.css';
 import 'wicg-focus-ring';
 
 // import registerServiceWorker from './registerServiceWorker';
