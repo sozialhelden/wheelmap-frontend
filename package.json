@@ -38,6 +38,7 @@
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "next": "^6.1.2",
+    "next-runtime-dotenv": "^1.0.1",
     "npm": "^6.4.1",
     "object-assign": "4.1.1",
     "plist": "^1.2.0",

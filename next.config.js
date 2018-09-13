@@ -1,7 +1,22 @@
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
+const nextRuntimeDotEnv = require('next-runtime-dotenv');
 
-module.exports = withCss(withSass({
+const withConfig = nextRuntimeDotEnv({
+  path: '.env.' + (process.env.NODE_ENV || 'development'),
+  public: [
+    'PUBLIC_URL',
+    'REACT_APP_MAPBOX_ACCESS_TOKEN',
+    'REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN',
+    'REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL',
+    'REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL',
+    'REACT_APP_ALLOW_ADDITIONAL_DATA_URLS',
+    'REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS',
+  ],
+  server: [],
+});
+
+module.exports = withConfig(withCss(withSass({
   webpack: config => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
@@ -9,4 +24,4 @@ module.exports = withCss(withSass({
     };
     return config;
   },
-}));
+})));
