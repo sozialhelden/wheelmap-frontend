@@ -2,8 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Head from '../components/head';
-import Nav from '../components/nav';
 
 import styled from 'styled-components';
 
@@ -14,11 +12,8 @@ const Title = styled.h1`
 
 const Home = () => (
   <div>
-    <Head title="Home" />
-    <Nav />
-
     <div className="hero">
-      <Title className="title">Welcome to Next!</Title>
+      <Title className="title">Hummel to NextWheelmap!</Title>
       <p className="description">
         To get started, edit <code>pages/index.js</code> and save to reload.
       </p>
