@@ -4629,6 +4629,19 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
+focus-trap-react@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap-react/-/focus-trap-react-4.0.0.tgz#bdc3ed9638bbc80623d9363e8063aa2a8e8a79c6"
+  dependencies:
+    focus-trap "^3.0.0"
+
+focus-trap@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-3.0.0.tgz#4d2ee044ae66bf7eb6ebc6c93bd7a1039481d7dc"
+  dependencies:
+    tabbable "^3.1.0"
+    xtend "^4.0.1"
+
 focus-within@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/focus-within/-/focus-within-2.0.0.tgz#149f35548355f8d8916a2f8c48934d33529cbaab"
@@ -11256,6 +11269,10 @@ syntax-error@^1.1.1:
   resolved "https://registry.yarnpkg.com/syntax-error/-/syntax-error-1.4.0.tgz#2d9d4ff5c064acb711594a3e3b95054ad51d907c"
   dependencies:
     acorn-node "^1.2.0"
+
+tabbable@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-3.1.1.tgz#db7512f28a9a1ed16e4275bd190131be9d5ad8e9"
 
 table@4.0.2:
   version "4.0.2"
