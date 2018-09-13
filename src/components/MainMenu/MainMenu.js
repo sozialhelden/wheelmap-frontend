@@ -73,14 +73,14 @@ class MainMenu extends React.Component<Props, State> {
 
   componentDidMount() {
     if (typeof window !== 'undefined') {
-      window.addEventListener(('resize', this.onResize));
+      window.addEventListener('resize', this.onResize);
     }
     this.onResize();
   }
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
-      window.removeEventListener(('resize', this.onResize));
+      window.removeEventListener('resize', this.onResize);
     }
   }
 

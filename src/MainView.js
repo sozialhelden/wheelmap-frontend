@@ -21,7 +21,6 @@ import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptc
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
-import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
 
@@ -33,10 +32,6 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown, NodeProperties } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
-
-import { isWheelmapFeature } from './lib/Feature';
-
-import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
 
 import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
 import type { ModalNodeState } from './lib/queryParams';
@@ -169,23 +164,6 @@ class MainView extends React.Component<Props, State> {
     this.props.history.push(location);
   };
 
-  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
-    const properties = feature && feature.properties;
-    if (!properties) return null;
-    if (
-      !isWheelmapFeature(feature) &&
-      !properties.accessibility &&
-      !includes(EquipmentCategoryStrings, properties.category)
-    )
-      return null;
-
-    return new HighlightableMarker(latlng, {
-      onClick: this.onMarkerClick,
-      hrefForFeature,
-      feature,
-    });
-  };
-
   resizeListener = () => {
     updateTouchCapability();
     this.updateViewportSizeState();
@@ -201,7 +179,7 @@ class MainView extends React.Component<Props, State> {
 
   componentDidMount() {
     if (typeof window !== 'undefined') {
-      window.addEventListener(('resize', this.resizeListener));
+      window.addEventListener('resize', this.resizeListener);
     }
     this.resizeListener();
   }
@@ -213,7 +191,7 @@ class MainView extends React.Component<Props, State> {
   componentWillUnmount() {
     delete this.resizeListener;
     if (typeof window !== 'undefined') {
-      window.removeEventListener(('resize', this.resizeListener));
+      window.removeEventListener('resize', this.resizeListener);
     }
   }
 
@@ -487,6 +465,8 @@ class MainView extends React.Component<Props, State> {
         history={this.props.history}
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
+        onMarkerClick={this.onMarkerClick}
+        hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
@@ -497,7 +477,6 @@ class MainView extends React.Component<Props, State> {
         feature={this.props.feature}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
-        pointToLayer={this.createMarkerFromFeature}
         locateOnStart={this.props.shouldLocateOnStart}
         isLocalizationLoaded={isLocalizationLoaded}
         padding={this.getMapPadding()}

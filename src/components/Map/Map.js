@@ -2,16 +2,17 @@
 
 import L from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
-import { BasemapLayer } from 'esri-leaflet/src/EsriLeaflet';
 import { t } from 'ttag';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
-import { getQueryParams } from '../../lib/queryParams';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
+import HighlightableMarker from './HighlightableMarker';
+import { isWheelmapFeature } from '../../lib/Feature';
+import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {
   isWheelchairAccessible,
@@ -59,6 +60,10 @@ type Props = {
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  hrefForFeature: (
+    featureId: string,
+    properties: ?NodeProperties | EquipmentInfoProperties
+  ) => string,
   accessibilityCloudTileUrl: () => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
@@ -163,6 +168,23 @@ export default class Map extends React.Component<Props, State> {
     });
   }
 
+  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
+    const properties = feature && feature.properties;
+    if (!properties) return null;
+    if (
+      !isWheelmapFeature(feature) &&
+      !properties.accessibility &&
+      !includes(EquipmentCategoryStrings, properties.category)
+    )
+      return null;
+
+    return new HighlightableMarker(latlng, {
+      onClick: this.onMarkerClick,
+      hrefForFeature: this.props.hrefForFeature,
+      feature,
+    });
+  };
+
   componentDidMount() {
     const initialMapState = this.getMapStateFromProps(this.props);
     const map: L.Map = L.map(this.mapElement, {
@@ -226,7 +248,7 @@ export default class Map extends React.Component<Props, State> {
         featureCache: accessibilityCloudFeatureCache,
         layerGroup: markerClusterGroup,
         featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-        pointToLayer: this.props.pointToLayer,
+        pointToLayer: this.createMarkerFromFeature,
         filter: this.isFeatureVisible.bind(this),
         maxZoom: this.props.maxZoom,
       });

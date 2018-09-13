@@ -82,7 +82,7 @@ class Toolbar extends React.Component<Props, State> {
   componentWillMount() {
     this.onResize();
     if (typeof window !== 'undefined') {
-      window.addEventListener(('resize', this.onWindowResize));
+      window.addEventListener('resize', this.onWindowResize);
     }
   }
 
@@ -97,7 +97,7 @@ class Toolbar extends React.Component<Props, State> {
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
-      window.removeEventListener(('resize', this.onWindowResize));
+      window.removeEventListener('resize', this.onWindowResize);
     }
     if (this.ensureVisibilityTimeoutId) {
       clearTimeout(this.ensureVisibilityTimeoutId);
