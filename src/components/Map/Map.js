@@ -199,13 +199,10 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer =
-      getQueryParams().esri === 'true'
-        ? new BasemapLayer('Streets')
-        : L.tileLayer(this.props.mapboxTileUrl, {
-            maxZoom: this.props.maxZoom,
-            id: 'accessibility-cloud',
-          });
+    const basemapLayer = L.tileLayer(this.props.mapboxTileUrl, {
+      maxZoom: this.props.maxZoom,
+      id: 'accessibility-cloud',
+    });
 
     map.addLayer(basemapLayer);
 

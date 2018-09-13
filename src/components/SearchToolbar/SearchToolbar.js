@@ -18,6 +18,7 @@ import SearchInputField from './SearchInputField';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
 import colors from '../../lib/colors';
+import isCordova from '../../lib/isCordova';
 import { isFiltered } from '../../lib/Feature';
 import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
@@ -34,7 +35,7 @@ function handleInputCommands(history: RouterHistory, commandLine: ?string) {
       q: null,
       locale: setLocaleCommandMatch[1],
     });
-    if (window.cordova) {
+    if (isCordova()) {
       window.location.hash = location.search;
     } else {
       history.push(location);

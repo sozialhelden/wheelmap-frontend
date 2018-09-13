@@ -1,12 +1,13 @@
 import fetchViaCordova from './fetchViaCordova';
 import unfetch from 'unfetch';
+import isCordova from './isCordova';
 
 export default function(url, options) {
   options = options || {};
 
   // If we're running in a cordova app and it has http, make our lives easier by using native HTTP
   // connections.
-  if (window.cordova && options.cordova === true) {
+  if (isCordova() && options.cordova === true) {
     return fetchViaCordova(url, options);
   }
 

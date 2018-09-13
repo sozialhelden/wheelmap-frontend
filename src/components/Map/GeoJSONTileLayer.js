@@ -39,6 +39,7 @@ import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
 import fetchViaCordova from '../../lib/fetchViaCordova';
+import isCordova from '../../lib/isCordova';
 
 const TileLayer = L.TileLayer;
 
@@ -252,7 +253,7 @@ class GeoJSONTileLayer extends TileLayer {
     };
 
     tile.request = { abort() {} };
-    if (window.cordova && this.options.cordova) {
+    if (isCordova() && this.options.cordova) {
       const options = { headers: { Accept: 'application/json' } };
       fetchViaCordova(url, options)
         .then(r => r.text())

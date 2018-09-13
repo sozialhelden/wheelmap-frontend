@@ -1,5 +1,6 @@
 import clone from 'lodash/clone';
 import toPairs from 'lodash/toPairs';
+import isCordova from './isCordova';
 
 // This is based on code from the unfetch npm package.
 
@@ -25,11 +26,11 @@ import toPairs from 'lodash/toPairs';
 */
 
 export default function fetchViaCordova(url, options) {
-  if (!window.cordova || !window.cordova.plugin) {
+  if (!isCordova()) {
     throw new Error('This method should only be used inside a cordova app.');
   }
 
-  if (!window.cordova.plugin.http) {
+  if (typeof window === 'undefined' || !window.cordova.plugin || !window.cordova.plugin.http) {
     throw new Error(
       'This method works only with the cordova-plugin-advanced-http plugin. You might want to install it using `cordova plugin add cordova-plugin-advanced-http`.'
     );

@@ -24,7 +24,7 @@ import 'wicg-focus-ring';
 //   axe(React, ReactDOM, 1000);
 // }
 
-// if (window.cordova) {
+// if (isCordova()) {
 //   document.addEventListener('deviceready', startApp, false);
 // }
 

@@ -129,8 +129,8 @@ class Toolbar extends React.Component<Props, State> {
   onResize(preferredTopOffset: number = this.state.topOffset) {
     this.setState({
       viewportSize: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: typeof window === 'undefined' ? 1024 : window.innerWidth,
+        height: typeof window === 'undefined' ? 768 : window.innerHeight,
       },
     });
 
@@ -291,7 +291,10 @@ class Toolbar extends React.Component<Props, State> {
   render() {
     const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
     const isIphoneX =
-      window.device && window.device.model && includes(xModels, window.device.model);
+      typeof window !== 'undefined' &&
+      window.device &&
+      window.device.model &&
+      includes(xModels, window.device.model);
     const classNames = [
       'toolbar',
       isIphoneX ? 'toolbar-iphone-x' : null,

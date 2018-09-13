@@ -354,7 +354,10 @@ class MainView extends React.Component<Props, State> {
 
   getMapPadding() {
     const hasPanel = !!this.props.feature;
-    const isPortrait = window.innerWidth < window.innerHeight;
+    let isPortrait = false;
+    if (typeof window !== 'undefined') {
+      isPortrait = window.innerWidth < window.innerHeight;
+    }
     if (hasBigViewport()) {
       return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
     }
@@ -472,7 +475,9 @@ class MainView extends React.Component<Props, State> {
       <Map
         ref={map => {
           this.map = map;
-          window.map = map;
+          if (typeof window !== 'undefined') {
+            window.map = map;
+          }
         }}
         history={this.props.history}
         onMoveEnd={this.props.onMoveEnd}

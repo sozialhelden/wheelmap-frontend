@@ -11,6 +11,7 @@ import {
 import { t } from 'ttag';
 import colors from '../../../lib/colors';
 import IconButton from '../../IconButton';
+import isCordova from '../../../lib/isCordova';
 import { interpolateLab } from 'd3-interpolate';
 
 import type { Feature } from '../../../lib/Feature';
@@ -163,7 +164,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     // app then we configure the share buttons to use window.location.href which
     // works in Cordova.
     // If we are on web we just use the default behavior of the share buttons.
-    const linkOpeningViaLocationHrefProps = window.cordova
+    const linkOpeningViaLocationHrefProps = isCordova()
       ? { openWindow: false, onClick: link => (window.location.href = link) }
       : {};
 
