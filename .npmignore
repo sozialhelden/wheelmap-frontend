@@ -86,3 +86,4 @@ retranslate/babel-plugin-retranslate/dist-plugin.js
 retranslate/rewrite-pos/dist-rewrite-pos.js
 /test/screenshots
 /Preview.html
+.next
