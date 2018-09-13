@@ -195,7 +195,9 @@ class MainView extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.addEventListener(('resize', this.resizeListener));
+    }
     this.resizeListener();
   }
 
@@ -205,7 +207,9 @@ class MainView extends React.Component<Props, State> {
 
   componentWillUnmount() {
     delete this.resizeListener;
-    window.removeEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener(('resize', this.resizeListener));
+    }
   }
 
   updateViewportSizeState() {
