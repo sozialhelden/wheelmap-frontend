@@ -224,11 +224,17 @@ class Loader extends React.Component<Props, State> {
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
     const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
 
+    let nextCategory = category;
+
+    // Keep category if you just click on a feature
+    if ((featureId || modalNodeState) && state.category) {
+      nextCategory = state.category;
+    }
+
     result = {
       ...result,
       equipmentInfoId,
-      // keep category if you just click on a feature
-      category: featureId ? state.category || category : category,
+      category: nextCategory,
       searchQuery,
       modalNodeState,
       toiletFilter,
@@ -604,8 +610,23 @@ class Loader extends React.Component<Props, State> {
   };
 
   onCloseNodeToolbar = () => {
-    const { featureId } = this.state;
-    const path = featureId ? `/beta/nodes/${String(this.state.featureId)}` : '/';
+    const { featureId, category } = this.state;
+    let path;
+
+    if (featureId) {
+      path = `/beta/nodes/${String(this.state.featureId)}`;
+    } else {
+      path = '/beta';
+
+      if (category) {
+        path += `/categories/${category}`;
+      }
+
+      const params = getQueryParams();
+
+      path += `?${queryString.stringify(params)}`;
+    }
+
     this.props.history.push(path);
     // this.setState({ modalNodeState: null });
   };
