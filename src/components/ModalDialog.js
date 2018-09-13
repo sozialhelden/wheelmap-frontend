@@ -3,6 +3,7 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
+import FocusTrap from 'focus-trap-react';
 
 type Props = {
   onClose: () => {},
@@ -25,35 +26,37 @@ function ModalDialog(props: Props) {
   const hasKeyboard = props.isKeyboardShown;
 
   return (
-    <section
-      className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}
-      role="dialog"
-      aria-label={props.ariaLabel}
-      aria-describedby={props.ariaDescribedBy}
-    >
-      <div
-        className={'modal-dialog-fullscreen-overlay'}
-        onClick={props.onClose}
-        aria-hidden="true"
-      />
-      <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
-        <div className={'modal-dialog-content'}>
-          <button className={'close-dialog'} onClick={props.onClose}>
-            <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
-              <polygon
-                id="\xD7"
-                stroke="none"
-                fill="#000"
-                opacity="0.8"
-                fillRule="evenodd"
-                points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031"
-              />
-            </svg>
-          </button>
-          {props.children}
+    <FocusTrap>
+      <section
+        className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}
+        role="dialog"
+        aria-label={props.ariaLabel}
+        aria-describedby={props.ariaDescribedBy}
+      >
+        <div
+          className={'modal-dialog-fullscreen-overlay'}
+          onClick={props.onClose}
+          aria-hidden="true"
+        />
+        <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
+          <div className={'modal-dialog-content'}>
+            <button className={'close-dialog'} onClick={props.onClose}>
+              <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
+                <polygon
+                  id="\xD7"
+                  stroke="none"
+                  fill="#000"
+                  opacity="0.8"
+                  fillRule="evenodd"
+                  points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031"
+                />
+              </svg>
+            </button>
+            {props.children}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </FocusTrap>
   );
 }
 

@@ -16,12 +16,6 @@ type Props = {
   onClose: () => void,
 };
 
-const preventTabbing = event => {
-  if (event.key === 'Tab') {
-    event.preventDefault();
-  }
-};
-
 function Onboarding(props: Props) {
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const claim = t`Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:`;
@@ -29,15 +23,6 @@ function Onboarding(props: Props) {
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const startButtonCaption = t`Okay, let’s go!`;
-
-  const manageFocus = buttonElement => {
-    if (!buttonElement) {
-      return;
-    }
-
-    buttonElement.addEventListener('keydown', preventTabbing);
-    buttonElement.focus();
-  };
 
   const onClose = event => {
     // Prevent that touch up opens a link underneath the primary button after closing
@@ -116,7 +101,7 @@ function Onboarding(props: Props) {
       </section>
 
       <footer>
-        <button className="button-cta-close focus-ring" onClick={onClose} ref={manageFocus}>
+        <button className="button-cta-close focus-ring" onClick={onClose}>
           {startButtonCaption}
           <ChevronRight />
         </button>
