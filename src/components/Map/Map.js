@@ -370,14 +370,18 @@ export default class Map extends React.Component<Props, State> {
       this.addAttribution();
     }
 
+    // Sort is mutable. Create a new array and sort this one instead.
     const accessibilityFilterChanged = !isEqual(
-      this.props.accessibilityFilter.sort(),
-      newProps.accessibilityFilter.sort()
+      [...this.props.accessibilityFilter].sort(),
+      [...newProps.accessibilityFilter].sort()
     );
+
+    // Sort is mutable. Create a new array and sort this one instead.
     const toiletFilterChanged = !isEqual(
-      this.props.toiletFilter.sort(),
-      newProps.toiletFilter.sort()
+      [...this.props.toiletFilter].sort(),
+      [...newProps.toiletFilter].sort()
     );
+
     if (accessibilityFilterChanged || toiletFilterChanged) {
       setTimeout(() => {
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();

@@ -9,6 +9,7 @@ import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import type { YesNoLimitedUnknown } from '../../lib/Feature';
+import { yesNoUnknownArray } from '../../lib/Feature';
 
 type Props = PlaceFilter & {
   history: RouterHistory,
@@ -72,9 +73,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
   const availableFilters = getAvailableFilters();
   return Object.keys(availableFilters).find(key => {
     const filter = availableFilters[key];
-    const requestedToiletFilter = isEqual(toiletFilter, ['yes', 'no', 'unknown'])
-      ? []
-      : toiletFilter;
+    const requestedToiletFilter = isEqual(toiletFilter, yesNoUnknownArray) ? [] : toiletFilter;
     return (
       isEqual(requestedToiletFilter, filter.toiletFilter) &&
       isEqual(accessibilityFilter.sort(), filter.accessibilityFilter.sort())
@@ -92,7 +91,7 @@ function AccessibilityFilterMenu(props: Props) {
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
       <section className="accessibility-filter">
-        {shownFilterKeys.map((key, index) => (
+        {shownFilterKeys.map(key => (
           <AccessibilityFilterButton
             accessibilityFilter={availableFilters[key].accessibilityFilter}
             toiletFilter={availableFilters[key].toiletFilter}

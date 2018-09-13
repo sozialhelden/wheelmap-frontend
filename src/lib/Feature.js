@@ -19,9 +19,9 @@ import type { LocalizedString } from './i18n';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
-export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'];
+export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'].sort();
 Object.freeze(yesNoLimitedUnknownArray);
-export const yesNoUnknownArray = ['yes', 'no', 'unknown'];
+export const yesNoUnknownArray = ['yes', 'no', 'unknown'].sort();
 Object.freeze(yesNoUnknownArray);
 
 function sortedIsEqual(array1, array2): boolean {

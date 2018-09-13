@@ -91,17 +91,25 @@ type State = {
   photoMarkedForReport: PhotoModel | null,
 };
 
+function parseStatusString(statusString, allowedStatuses) {
+  // Safe mutable sort as filter always returns a new array.
+  return statusString
+    ? statusString
+        .split(/\./)
+        .filter(s => includes(allowedStatuses, s))
+        .sort()
+    : [...allowedStatuses];
+}
+
 function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
-  const allowedStatuses = yesNoLimitedUnknownArray;
-  if (!statusString) return [].concat(allowedStatuses);
-  const result = statusString.split(/\./).filter(s => includes(allowedStatuses, s));
+  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
+
   return ((result: any): YesNoLimitedUnknown[]);
 }
 
 function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
-  const allowedStatuses = yesNoUnknownArray;
-  if (!toiletString) return [].concat(allowedStatuses);
-  const result = toiletString.split(/\./).filter(s => includes(allowedStatuses, s));
+  const result = parseStatusString(toiletString, yesNoUnknownArray);
+
   return ((result: any): YesNoUnknown[]);
 }
 
