@@ -12,6 +12,7 @@ import 'leaflet/dist/leaflet.css';
 import './App.css';
 import './Map.css';
 import 'wicg-focus-ring';
+import focusWithin from 'focus-within';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -30,6 +31,8 @@ if (window.cordova) {
 } else {
   startApp();
 }
+
+focusWithin(document);
 
 // Don't let the body scroll.
 document.body.addEventListener('touchmove', e => e.preventDefault(), false);
