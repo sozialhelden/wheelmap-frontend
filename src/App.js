@@ -417,11 +417,25 @@ class Loader extends React.Component<Props, State> {
   };
 
   onMoveEnd = state => {
+    let { zoom, lat, lon } = state;
+
+    // Adjust zoom level to be stored in the local storage to make sure the user
+    // can see some places when reloading the app after some time.
+    const lastZoom = String(
+      Math.max(zoom, config.minZoomWithSetCategory, config.minZoomWithoutSetCategory)
+    );
+
     saveState({
-      'map.lastZoom': String(state.zoom),
-      'map.lastCenter.lat': String(state.lat),
-      'map.lastCenter.lon': String(state.lon),
+      'map.lastZoom': lastZoom,
+      'map.lastCenter.lat': String(lat),
+      'map.lastCenter.lon': String(lon),
       'map.lastMoveDate': new Date().toString(),
+    });
+
+    this.setState({
+      lat,
+      lon,
+      zoom,
     });
   };
 

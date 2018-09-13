@@ -109,11 +109,7 @@ export default class Map extends React.Component<Props, State> {
     const map = this.map;
     if (!map) return;
     const { lat, lng } = map.getCenter();
-    const zoom = Math.max(
-      map.getZoom(),
-      this.props.minZoomWithSetCategory,
-      this.props.minZoomWithoutSetCategory
-    );
+    const zoom = map.getZoom();
 
     const onMoveEnd = this.props.onMoveEnd;
     if (typeof onMoveEnd === 'function') {
