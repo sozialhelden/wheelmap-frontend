@@ -208,7 +208,7 @@ export default class Map extends React.Component<Props, State> {
     if (this.props.onMapMounted) {
       this.props.onMapMounted(map);
     }
-    //globalFetchManager.registerMap(map);
+    // globalFetchManager.registerMap(map);
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
@@ -245,6 +245,9 @@ export default class Map extends React.Component<Props, State> {
 
     loadExistingLocalizationByPreference().then(() => {
       const locale = currentLocales[0];
+      if (!locale) {
+        console.error('Could not load AC tile layer because no current locale is set.');
+      }
       const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
       this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
         featureCache: accessibilityCloudFeatureCache,
