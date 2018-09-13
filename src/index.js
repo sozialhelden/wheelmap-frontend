@@ -11,7 +11,7 @@ import './index.css';
 import 'leaflet/dist/leaflet.css';
 import './App.css';
 import './Map.css';
-import 'wicg-focus-ring';
+import 'focus-visible';
 import focusWithin from 'focus-within';
 
 import registerServiceWorker from './registerServiceWorker';

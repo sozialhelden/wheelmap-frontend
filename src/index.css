@@ -57,7 +57,7 @@ focus ring in the latter case.
   outline: none;
 }
 
-*.focus-ring {
+*.focus-visible {
   border-radius: 4px;
   box-shadow: inset 0px 0px 0px 2px #4469E1;
   transition: box-shadow 0.2s;
