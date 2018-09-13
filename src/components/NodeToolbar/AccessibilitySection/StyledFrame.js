@@ -3,8 +3,6 @@
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
-import triangle from './triangle.svg';
-
 const StyledFrame = styled.summary`
   position: relative;
   display: flex;
@@ -22,7 +20,7 @@ const StyledFrame = styled.summary`
     left: 10px;
     width: 12px;
     height: 8px;
-    background: url(${triangle}) no-repeat;
+    background: url('/static/images/triangle.svg') no-repeat;
     z-index: 5;
   }
 

@@ -1,0 +1,140 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: src/lib/Feature.js:406
+msgid "Accessible sink"
+msgstr ""
+
+#: src/lib/Feature.js:403
+msgid "Clear turning space ≥ 150 cm wide"
+msgstr ""
+
+#: src/lib/Feature.js:403
+msgid "Clear turning space ≥ 59 inches wide"
+msgstr ""
+
+#: src/lib/Feature.js:402
+msgid "Doorways' inner width ≥ 35 inches"
+msgstr ""
+
+#: src/lib/Feature.js:402
+msgid "Doorways' inner width ≥ 90 cm"
+msgstr ""
+
+#: src/lib/Feature.js:380
+msgid "Entrance has a high step or several steps, none of the rooms are accessible."
+msgstr ""
+
+#: src/lib/Feature.js:371
+msgid "Entrance has no steps, and all rooms are accessible without steps."
+msgstr ""
+
+#: src/lib/Feature.js:375
+#. Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial unit
+msgid ""
+"Entrance has one step with max. 3 inches height, most rooms are without "
+"steps."
+msgstr ""
+
+#: src/lib/Feature.js:377
+#. Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric unit
+msgid "Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+
+#: src/lib/Feature.js:405
+msgid "Foldable grab rails"
+msgstr ""
+
+#: src/lib/Feature.js:352
+msgid "Fully"
+msgstr ""
+
+#: src/lib/Feature.js:333
+msgid "Fully wheelchair accessible"
+msgstr ""
+
+#: src/components/Map/Map.js:662
+msgid "Map"
+msgstr ""
+
+#: src/lib/Feature.js:394
+msgid "No wheelchair accessible toilet"
+msgstr ""
+
+#: src/lib/Feature.js:358
+msgid "Not at all"
+msgstr ""
+
+#: src/lib/Feature.js:339
+msgid "Not wheelchair accessible"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
+#. Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+msgid "Only fully accessible with accessible WC"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
+#. Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+msgid "Only fully wheelchair accessible"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:65
+#. Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
+msgid "Only places that are not accessible"
+msgstr ""
+
+#: src/lib/Feature.js:355
+msgid "Partially"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:41
+#. Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+msgid "Partially accessible with accessible WC"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:35
+#: src/lib/Feature.js:336
+msgid "Partially wheelchair accessible"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:59
+#. Button caption in the filter toolbar. Answer to the question 'which places you want to see'
+msgid "Places that I can contribute information to"
+msgstr ""
+
+#: src/components/Map/Map.js:630
+#. Shown next to the locate-me button when location services are not enabled
+msgid "Turn on location services"
+msgstr ""
+
+#: src/lib/Feature.js:361
+msgid "Unknown"
+msgstr ""
+
+#: src/lib/Feature.js:342
+msgid "Unknown accessibility"
+msgstr ""
+
+#: src/lib/Feature.js:413
+msgid "Unnamed place"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:92
+msgid "Wheelchair accessibility filter"
+msgstr ""
+
+#: src/lib/Feature.js:391
+msgid "Wheelchair accessible toilet"
+msgstr ""
+
+#: src/lib/Feature.js:404
+msgid "Wheelchair-height toilet seat"
+msgstr ""
+
+#: src/components/Map/Map.js:615
+#. Shown when zoomed out to far
+msgid "Zoom in closer to see more places"
+msgstr ""
