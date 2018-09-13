@@ -121,10 +121,12 @@ const StyledNotFound = styled(NotFound)`
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 90%;
   }
+
   .close-dialog {
     display: none;
   }
-  .modal-dialog-content {
+
+  /*.modal-dialog-content {
     padding: 15px;
     display: flex;
     flex-direction: row;
@@ -132,6 +134,7 @@ const StyledNotFound = styled(NotFound)`
     .logo {
       width: 200px;
     }
+
     @media (max-width: 768px) {
       > header {
         .logo {
@@ -139,8 +142,10 @@ const StyledNotFound = styled(NotFound)`
         }
       }
     }
+
     @media (max-width: 1199px) {
       flex-direction: column !important;
+
       > footer,
       > header {
         text-align: center;
@@ -148,11 +153,13 @@ const StyledNotFound = styled(NotFound)`
         margin: 0 12.5%;
       }
     }
+
     @media (min-width: 1200px) {
       justify-content: center;
       align-items: center;
+
       > header,
-      footer {
+      > footer {
         flex: 1;
       }
       > section {
@@ -161,26 +168,37 @@ const StyledNotFound = styled(NotFound)`
     }
 
     max-width: 1200px;
+  }*/
 
-    .button-cta-close {
-      display: inline-block;
-      border: none;
-      outline: none;
-      color: white;
-      background-color: ${colors.linkColor};
-      font-size: 1.25em;
-      line-height: 1;
-      padding: 0.5em 0.75em;
-      margin: 1em;
-      cursor: pointer;
-      > svg {
-        margin-left: 10px;
-      }
+  .modal-dialog-content {
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.92);
+    padding: 30px;
+  }
 
-      &.focus-ring {
-        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-        transition: box-shadow 0.2s;
+  .button-cta-close {
+    display: inline-flex;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: ${colors.linkColor};
+    font-size: 1.25em;
+    line-height: 1;
+    padding: 0.5em 0.75em;
+    margin-top: 1em;
+    cursor: pointer;
+
+    > svg {
+      margin-left: 10px;
+
+      path {
+        fill: white;
       }
+    }
+
+    &.focus-ring {
+      box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+      transition: box-shadow 0.2s;
     }
   }
 
