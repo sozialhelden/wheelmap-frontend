@@ -2,8 +2,7 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
-import type { NodeProperties, YesNoLimitedUnknown } from '../lib/Feature';
-import getIconNameForProperties from './Map/getIconNameForProperties';
+import type { YesNoLimitedUnknown } from '../lib/Feature';
 import colors from '../lib/colors';
 import * as categoryIcons from './icons/categories';
 import * as mainCategoryIcons from './icons/mainCategories';
@@ -13,7 +12,6 @@ type Size = 'big' | 'medium' | 'small';
 
 type Props = {
   accessibility: ?YesNoLimitedUnknown,
-  properties?: ?NodeProperties,
   category: ?string,
   isMainCategory?: boolean,
   className?: ?string,
@@ -87,9 +85,9 @@ const StyledIconContainer = styled('figure')`
   }
 `;
 
+// @TODO Rename it to CategoryIcon
 export default function Icon({
   accessibility,
-  properties,
   category,
   isMainCategory,
   className,
@@ -100,17 +98,21 @@ export default function Icon({
   centered,
   onClick,
 }: Props) {
-  let iconName = properties ? getIconNameForProperties(properties) : category;
+  let iconName = category;
+
   if (iconName === '2nd_hand') {
     iconName = 'second_hand';
   }
+
   const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
   const CategoryIconComponent = icons[iconName || 'undefined'] || icons['undefined'];
   const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
+
   if (typeof CategoryIconComponent === 'object') {
     // eslint-disable-next-line no-console
     console.log('Found a CategoryIconComponent that was an object, but should not be.');
   }
+
   return (
     <StyledIconContainer
       size={size}

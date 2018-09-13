@@ -100,12 +100,10 @@ export default class SearchResult extends React.Component<Props, State> {
   root: ?React.ElementRef<'a'> = null;
 
   componentDidMount() {
-    this.fetchCategory();
     this.startFetchNodeTimeout();
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.fetchCategory(nextProps);
+  componentDidUpdate() {
     this.startFetchNodeTimeout();
   }
 
@@ -128,28 +126,6 @@ export default class SearchResult extends React.Component<Props, State> {
       clearTimeout(this.state.fetchNodeTimeout);
       this.setState({ fetchNodeTimeout: null });
     }
-  }
-
-  fetchCategory(props: Props = this.props) {
-    const feature = props.result;
-    const properties = feature && feature.properties;
-    const categoryId = [properties.osm_key, properties.osm_value].filter(Boolean).join('=');
-    this.fetchCategoryId(categoryId);
-  }
-
-  fetchCategoryId(categoryId: string) {
-    if (this.state.category) return;
-
-    Categories.getCategory(categoryId)
-      .then(
-        category => {
-          this.setState({ category });
-          return category;
-        },
-        () => this.setState({ category: null })
-      )
-      .then(category => category && Categories.getCategory(category.parentIds[0]))
-      .then(parentCategory => this.setState({ parentCategory }));
   }
 
   fetchWheelmapNode(props: Props = this.props) {
@@ -191,20 +167,6 @@ export default class SearchResult extends React.Component<Props, State> {
         }
 
         this.setState({ wheelmapFeature: feature });
-
-        const { properties } = feature;
-
-        if (!properties) {
-          return;
-        }
-
-        const categoryId = (properties.type && properties.type.identifier) || properties.category;
-
-        if (typeof categoryId !== 'string') {
-          return;
-        }
-
-        this.fetchCategoryId(categoryId);
       },
       errorOrResponse => {
         if (errorOrResponse instanceof Error) console.log(errorOrResponse);
@@ -256,7 +218,7 @@ export default class SearchResult extends React.Component<Props, State> {
         postcode: properties.postcode,
         city: properties.city,
       });
-    const categoryOrParentCategory = this.state.category || this.state.parentCategory;
+    const category = properties && (properties.osm_value || properties.osm_key);
     const wheelmapFeature = this.state.wheelmapFeature;
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const accessibility =
@@ -284,18 +246,17 @@ export default class SearchResult extends React.Component<Props, State> {
               this.props.onSelectCoordinate({
                 lat: coordinates[1],
                 lon: coordinates[0],
-                zoom: getZoomLevel(hasWheelmapId, categoryOrParentCategory),
+                zoom: getZoomLevel(hasWheelmapId, category),
               });
             }
             this.props.onSelect();
           }}
         >
           <PlaceName>
-            {categoryOrParentCategory ? (
+            {category ? (
               <Icon
                 accessibility={accessibility || null}
-                properties={wheelmapFeatureProperties}
-                category={categoryOrParentCategory}
+                category={category}
                 size="medium"
                 centered
                 ariaHidden={true}
