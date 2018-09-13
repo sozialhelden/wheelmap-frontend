@@ -1,41 +1,38 @@
 // @flow
 
-import pick from 'lodash/pick';
 import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
-import type { RouterHistory, Location } from 'react-router-dom';
-import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
+import type { Location, RouterHistory } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
-import savedState, { saveState, isFirstStart } from './lib/savedState';
+import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice } from './lib/userAgent';
-import isCordova from './lib/isCordova';
 
 import MainView, { UnstyledMainView } from './MainView';
 
 import type {
-  Feature,
-  WheelmapFeature,
   AccessibilityCloudFeature,
+  Feature,
+  NodeProperties,
+  WheelmapFeature,
   YesNoLimitedUnknown,
   YesNoUnknown,
-  NodeProperties,
 } from './lib/Feature';
-
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
-
 import {
+  getFeatureId,
+  isFiltered,
   isWheelmapFeatureId,
   yesNoLimitedUnknownArray,
   yesNoUnknownArray,
-  getFeatureId,
-  isFiltered,
 } from './lib/Feature';
+
+import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
 import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
 import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
@@ -44,8 +41,8 @@ import {
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
 import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
-import { getQueryParams } from './lib/queryParams';
 import type { ModalNodeState } from './lib/queryParams';
+import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
@@ -172,9 +169,9 @@ class Loader extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    if (isFirstStart()) {
-      this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
-    }
+    // if (isFirstStart()) {
+    //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
+    // }
   }
 
   componentDidMount() {
