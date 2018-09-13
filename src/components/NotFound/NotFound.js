@@ -126,50 +126,6 @@ const StyledNotFound = styled(NotFound)`
     display: none;
   }
 
-  /*.modal-dialog-content {
-    padding: 15px;
-    display: flex;
-    flex-direction: row;
-    overflow: auto;
-    .logo {
-      width: 200px;
-    }
-
-    @media (max-width: 768px) {
-      > header {
-        .logo {
-          width: 150px;
-        }
-      }
-    }
-
-    @media (max-width: 1199px) {
-      flex-direction: column !important;
-
-      > footer,
-      > header {
-        text-align: center;
-        width: 75%;
-        margin: 0 12.5%;
-      }
-    }
-
-    @media (min-width: 1200px) {
-      justify-content: center;
-      align-items: center;
-
-      > header,
-      > footer {
-        flex: 1;
-      }
-      > section {
-        flex: 2;
-      }
-    }
-
-    max-width: 1200px;
-  }*/
-
   .modal-dialog-content {
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.92);
@@ -192,7 +148,7 @@ const StyledNotFound = styled(NotFound)`
       margin-left: 10px;
 
       path {
-        fill: white;
+        fill: currentColor; // @TODO Use "currentColor" for all SVG icon shapes.
       }
     }
 
