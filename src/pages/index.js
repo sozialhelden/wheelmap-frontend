@@ -11,7 +11,7 @@ import * as React from 'react';
 // import axe from 'react-axe';
 import App from '../App';
 import '../index.css';
-// import 'leaflet/dist/leaflet.css';
+import './leaflet.css';
 import '../App.css';
 import '../Map.css';
 // import 'wicg-focus-ring';
