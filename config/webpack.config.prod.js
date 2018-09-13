@@ -13,6 +13,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ttagConfig = require('./ttag');
+const focusWithin = require('postcss-focus-within');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -206,6 +207,7 @@ module.exports = {
                             ],
                             flexbox: 'no-2009',
                           }),
+                          focusWithin(),
                         ],
                       },
                     },
