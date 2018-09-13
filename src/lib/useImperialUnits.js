@@ -1,5 +1,7 @@
 import { currentLocales } from './i18n';
 
 export default function useImperialUnits() {
-  return currentLocales[0] === 'en' || Boolean(currentLocales[0].match(/(UK|US|CA)$/));
+  const currentLocale = currentLocales[0];
+  if (!currentLocale) return false;
+  return currentLocale === 'en' || Boolean(currentLocale.match(/(UK|US|CA)$/));
 }
