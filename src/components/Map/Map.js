@@ -11,17 +11,17 @@ import SozialheldenLogo from './SozialheldenLogo';
 import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { isWheelmapFeature } from '../../lib/Feature';
-import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
-
+import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import {
+  accessibilityCloudFeatureCollectionFromResponse,
+  hasAccessibleToilet,
   isWheelchairAccessible,
+  isWheelmapFeature,
+  wheelmapFeatureCollectionFromResponse,
   yesNoLimitedUnknownArray,
   yesNoUnknownArray,
-  hasAccessibleToilet,
-  wheelmapFeatureCollectionFromResponse,
-  accessibilityCloudFeatureCollectionFromResponse,
 } from '../../lib/Feature';
+import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 import ClusterIcon from './ClusterIcon';
 import Categories from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
@@ -30,7 +30,6 @@ import addLocateControlToMap from './addLocateControlToMap';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
@@ -63,6 +62,7 @@ type Props = {
     featureId: string,
     properties: ?NodeProperties | EquipmentInfoProperties
   ) => string,
+  onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   accessibilityCloudTileUrl: () => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
@@ -181,7 +181,7 @@ export default class Map extends React.Component<Props, State> {
       return null;
 
     return new HighlightableMarker(latlng, {
-      onClick: this.onMarkerClick,
+      onClick: this.props.onMarkerClick,
       hrefForFeature: this.props.hrefForFeature,
       feature,
     });
