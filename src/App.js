@@ -174,21 +174,9 @@ class Loader extends React.Component<Props, State> {
     // }
   }
 
-  componentDidMount() {
-    /*loadExistingLocalizationByPreference().then(() =>
-      this.setState({ isLocalizationLoaded: true })
-    );*/
-  }
-
   componentWillUnmount() {
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.state.feature && this.state.featureId) {
-      this.fetchFeature(this.state.featureId);
     }
   }
 
@@ -275,7 +263,7 @@ class Loader extends React.Component<Props, State> {
     return result;
   }
 
-  fetchFeature(featureId: string): void {
+  /*fetchFeature(featureId: string): void {
     const isWheelmap = isWheelmapFeatureId(featureId);
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
@@ -309,7 +297,7 @@ class Loader extends React.Component<Props, State> {
         });
       }
     );
-  }
+  }*/
 
   openSearch() {
     this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
