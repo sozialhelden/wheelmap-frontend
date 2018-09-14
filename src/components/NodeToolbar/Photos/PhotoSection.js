@@ -18,7 +18,6 @@ import type { PhotoModel } from './PhotoModel';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
-import colors from '../../../lib/colors';
 
 type Props = {
   featureId: string,

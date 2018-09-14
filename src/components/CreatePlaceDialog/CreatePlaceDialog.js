@@ -150,7 +150,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
   renderAppLinkListElements() {
     return this.appLinks().map(link => (
       <li key={link.title}>
-        <a className="link-button" href={link.href} target="_blank">
+        <a className="link-button" href={link.href} target="_blank" rel="noopener noreferrer">
           <AppIcon src={link.icon} alt="" aria-hidden />
           <span>{link.title}</span>
           <ChevronRight color={colors.linkColor} />
@@ -183,6 +183,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
             className="link-button leave-note-button"
             href={generateOsmNoteUrlForCoords({ lat, lon })}
             target="_blank"
+            rel="noopener noreferrer"
           >
             <span>{leaveANoteCaption}</span>
             <ChevronRight color={colors.linkColor} />
