@@ -53,11 +53,24 @@ and keyboard usage when determining whether to draw a focus ring. Usually we onl
 focus ring in the latter case.
 */
 
-*:focus {
+/* *:focus {
+  outline: none;
+} */
+
+/*
+  This will hide the focus indicator if the element receives focus via the mouse,
+  but it will still show up on keyboard focus.
+*/
+.js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
 
-*.focus-visible {
+/*
+  We use a stronger and consistent focus indicator when an element receives focus via
+  keyboard.
+*/
+.js-focus-visible .focus-visible {
+  outline: none;
   border-radius: 4px;
   box-shadow: inset 0px 0px 0px 2px #4469E1;
   transition: box-shadow 0.2s;
