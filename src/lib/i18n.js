@@ -51,14 +51,14 @@ export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLoc
 );
 
 // Returns an expanded list of preferred locales.
-export function expandedPreferredLocales() {
+export function expandedPreferredLocales(languages: string[]) {
+  if (!languages && window && window.navigator && window.navigator.languages) {
+    languages = window.navigator.languages;
+  }
+
   // Note that some browsers don't support navigator.languages
   const overriddenLocale = getQueryParams().locale;
-  let localesPreferredByUser = [];
-
-  if (typeof window !== 'undefined' && window.navigator && window.navigator.languages) {
-    localesPreferredByUser = [].concat(window.navigator.languages);
-  }
+  let localesPreferredByUser = [...languages];
 
   if (overriddenLocale) {
     localesPreferredByUser.unshift(overriddenLocale);
@@ -145,4 +145,19 @@ export function loadExistingLocalizationByPreference(
       }
       useLocales(localesToUse);
     });
+}
+
+export function parseAcceptLanguageString(acceptLanguage: string): string[] {
+  return acceptLanguage
+    .split(',')
+    .map(item => {
+      const [locale, q] = item.split(';');
+
+      return {
+        locale: locale.trim(),
+        score: q ? parseFloat(q.slice(2)) || 0 : 1,
+      };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.locale);
 }
