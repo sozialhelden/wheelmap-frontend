@@ -606,27 +606,35 @@ class Loader extends React.Component<Props, State> {
 
   onOpenReportMode = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/beta/nodes/${String(this.state.featureId)}/report`);
+      const query = queryString.stringify(getQueryParams());
+      this.props.history.push(`/beta/nodes/${String(this.state.featureId)}/report?${query}`);
     }
   };
 
   onCloseNodeToolbar = () => {
-    const { featureId, category } = this.state;
-    let path;
+    const { category, featureId } = this.state;
 
-    if (featureId) {
-      path = `/beta/nodes/${String(this.state.featureId)}`;
-    } else {
-      path = '/beta';
+    // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
+    // when any node toolbar subpages are closed. in order to know how to change the route correctly
+    // we have to distinguish between these two cases
+    const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
+    const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
 
-      if (category) {
-        path += `/categories/${category}`;
-      }
+    // by default route to the index page
+    let path = '/beta';
+
+    if (actualNodeToolbarWasClosed && category) {
+      // if node toolbar was closed and category was previously selected restore the categories url
+      path = `/beta/categories/${category}`;
+    } else if (nodeToolbarSubpageWasClosed) {
+      // if a node toolbar subpage was closed restore the node toolbar default url
+      path = `/beta/nodes/${String(featureId)}`;
     }
 
-    const params = getQueryParams();
-    const location = `${path}?${queryString.stringify(params)}`;
-    this.props.history.push(location);
+    // restore any query params
+    const query = queryString.stringify(getQueryParams());
+
+    this.props.history.push(`${path}?${query}`);
   };
 
   onCloseOnboarding = () => {
