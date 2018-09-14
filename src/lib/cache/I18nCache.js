@@ -1,9 +1,10 @@
 // @flow
 
+import getConfig from 'next/config';
+
 import URLDataCache from './URLDataCache';
 import { globalFetchManager } from '../FetchManager';
 import isCordova from '../isCordova';
-import getConfig from 'next/config';
 
 const { publicRuntimeConfig } = getConfig();
 
@@ -12,7 +13,8 @@ export default class I18nCache extends URLDataCache<?{}> {
     const baseUrl = isCordova()
       ? 'https://wheelmap.org/beta'
       : publicRuntimeConfig.PUBLIC_URL || '';
-    const url = `${baseUrl}/i18n/${locale.replace('-', '_')}.txt`;
+    const url = `${baseUrl}/static/i18n/${locale.replace('-', '_')}.txt`;
+
     return this.getData(url);
   }
 

@@ -145,7 +145,7 @@ class Loader extends React.Component<Props, State> {
     isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
-    isLocalizationLoaded: false,
+    isLocalizationLoaded: true, // @TODO Remove
     isMainMenuOpen: false,
     modalNodeState: null,
     lastError: null,
@@ -175,9 +175,9 @@ class Loader extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    loadExistingLocalizationByPreference().then(() =>
+    /*loadExistingLocalizationByPreference().then(() =>
       this.setState({ isLocalizationLoaded: true })
-    );
+    );*/
   }
 
   componentWillUnmount() {

@@ -1,5 +1,8 @@
+// @flow
+
+import unfetch from 'isomorphic-unfetch';
+
 import fetchViaCordova from './fetchViaCordova';
-import unfetch from 'unfetch';
 import isCordova from './isCordova';
 
 export default function(url, options) {
