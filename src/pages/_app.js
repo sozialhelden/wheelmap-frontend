@@ -6,6 +6,7 @@ import '@babel/polyfill';
 
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
+import Error from 'next/error';
 
 import GlobalStyle from '../GlobalStyle';
 import LeafletStyle from '../LeafletStyle';
@@ -19,12 +20,6 @@ import {
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component, ctx }) {
-    let props = {};
-
-    if (Component.getInitialProps) {
-      props = { props, ...(await Component.getInitialProps(ctx)) };
-    }
-
     let languages;
 
     if (ctx.req) {
@@ -36,20 +31,36 @@ export default class App extends BaseApp {
     }
 
     if (languages) {
+      // @TODO Pass locals into application
       const locals = expandedPreferredLocales(languages);
 
       await loadExistingLocalizationByPreference(locals);
+    }
+
+    let props = {};
+
+    // Fetch child component props and fetch errors if anything happens.
+    if (Component.getInitialProps) {
+      try {
+        props = await Component.getInitialProps(ctx);
+      } catch (error) {
+        if (ctx.res) {
+          ctx.res.statusCode = error.statusCode || 500;
+        }
+
+        props.error = error;
+      }
     }
 
     return props;
   }
 
   render() {
-    const { Component, ...props } = this.props;
+    const { Component, error, ...props } = this.props;
 
     return (
       <Container>
-        <Component {...props} />
+        {error ? <Error statusCode={error.statusCode} /> : <Component {...props} />}
         <GlobalStyle />
         <LeafletStyle />
         <AppStyle />
