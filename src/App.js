@@ -660,13 +660,19 @@ class Loader extends React.Component<Props, State> {
 
   onOpenWheelchairAccessibility = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`);
+      const query = queryString.stringify(getQueryParams());
+      this.props.history.push(
+        `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility?${query}`
+      );
     }
   };
 
   onOpenToiletAccessibility = () => {
     if (this.state.featureId) {
-      this.props.history.push(`/beta/nodes/${this.state.featureId}/edit-toilet-accessibility`);
+      const query = queryString.stringify(getQueryParams());
+      this.props.history.push(
+        `/beta/nodes/${this.state.featureId}/edit-toilet-accessibility?${query}`
+      );
     }
   };
 
