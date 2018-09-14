@@ -519,6 +519,11 @@ class MainView extends React.Component<Props, State> {
 }
 
 const StyledMainView = styled(MainView)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
   a {
     color: ${colors.linkColor};
     text-decoration: none;
