@@ -18,7 +18,13 @@ import {
 } from '../lib/i18n';
 
 export default class App extends BaseApp {
-  static async getInitialProps({ req, ctx }) {
+  static async getInitialProps({ Component, ctx }) {
+    let props = {};
+
+    if (Component.getInitialProps) {
+      props = { props, ...(await Component.getInitialProps(ctx)) };
+    }
+
     let languages;
 
     if (ctx.req) {
@@ -35,15 +41,15 @@ export default class App extends BaseApp {
       await loadExistingLocalizationByPreference(locals);
     }
 
-    return {};
+    return props;
   }
 
   render() {
-    const { Component } = this.props;
+    const { Component, ...props } = this.props;
 
     return (
       <Container>
-        <Component />
+        <Component {...props} />
         <GlobalStyle />
         <LeafletStyle />
         <AppStyle />
