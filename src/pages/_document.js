@@ -4,11 +4,6 @@ import * as React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import GlobalStyle from '../GlobalStyle';
-import LeafletStyle from '../LeafletStyle';
-import AppStyle from '../AppStyle';
-import MapStyle from '../MapStyle';
-
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
     const sheet = new ServerStyleSheet();
@@ -22,16 +17,13 @@ export default class MyDocument extends Document {
       <html lang="en">
         <Head>
           <title>My page</title>
+          {/* Used to include imported CSS and SASS files */}
           <link rel="stylesheet" href="/_next/static/style.css" />
           {this.props.styleTags}
         </Head>
         <body>
           <Main />
           <NextScript />
-          <GlobalStyle />
-          <LeafletStyle />
-          <AppStyle />
-          <MapStyle />
         </body>
       </html>
     );
