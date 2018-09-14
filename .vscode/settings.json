@@ -3,7 +3,8 @@
   "flow.useNPMPackagedFlow": true,
   "search.exclude": {
     "build/**/*": true,
-    "lib/**/*": true
+    "lib/**/*": true,
+    "src/.next/**/*": true,
   },
   // Custom formatting rules
   "editor.wordWrapColumn": 100,
