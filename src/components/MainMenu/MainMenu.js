@@ -13,7 +13,7 @@ import { Dots } from 'react-activity';
 import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
-import focusTrap, { FocusTrap } from 'focus-trap';
+import withFocusTrap from '../../lib/withFocusTrap';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -28,6 +28,9 @@ type Props = {
   lon: string,
   zoom: string,
   history: RouterHistory,
+  setupFocusTrap: () => void,
+  activateFocusTrap: () => void,
+  deactivateFocusTrap: () => void,
 };
 
 function MenuIcon(props) {
@@ -57,8 +60,6 @@ class MainMenu extends React.Component<Props, State> {
   state: State = {
     isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
-
-  focusTrap: FocusTrap;
 
   boundOnResize: () => void;
 
@@ -93,19 +94,15 @@ class MainMenu extends React.Component<Props, State> {
     this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
   };
 
-  setupFocusTrap = (element: HTMLElement) => {
-    this.focusTrap = focusTrap(element);
-  };
-
   updateFocusTrapActivation = () => {
-    const { isLocalizationLoaded, isOpen } = this.props;
+    const { isLocalizationLoaded, isOpen, activateFocusTrap, deactivateFocusTrap } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     if (isLocalizationLoaded) {
       if (isOpen && isMenuButtonVisible) {
-        this.focusTrap.activate();
+        activateFocusTrap();
       } else {
-        this.focusTrap.deactivate();
+        deactivateFocusTrap();
       }
     }
   };
@@ -141,7 +138,7 @@ class MainMenu extends React.Component<Props, State> {
 
     if (!isLocalizationLoaded) {
       return (
-        <nav className={classList.join(' ')}>
+        <nav className={classList.join(' ')} ref={this.props.setupFocusTrap}>
           <div className="home-link">
             <button className="btn-unstyled home-button" disabled>
               <Logo className="logo" width={123} height={30} />
@@ -153,7 +150,7 @@ class MainMenu extends React.Component<Props, State> {
     }
 
     return (
-      <nav className={classList.join(' ')} ref={this.setupFocusTrap}>
+      <nav className={classList.join(' ')} ref={this.props.setupFocusTrap}>
         <div className="home-link">
           <button
             className="btn-unstyled home-button"
@@ -226,7 +223,9 @@ class MainMenu extends React.Component<Props, State> {
 const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4);
 openMenuHoverColor.opacity = 0.5;
 
-const StyledMainMenu = styled(MainMenu)`
+const MainMenuWithFocusTrap = withFocusTrap(MainMenu);
+
+const StyledMainMenu = styled(MainMenuWithFocusTrap)`
   box-sizing: border-box;
   padding: 0;
   background-color: rgba(254, 254, 254, 0.95);
