@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import queryString from 'query-string';
@@ -14,6 +13,7 @@ import { Dots } from 'react-activity';
 import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
+import focusTrap, { FocusTrap } from 'focus-trap';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -22,7 +22,6 @@ type State = {
 type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
-  hideFromFocus: boolean,
   isOpen: boolean,
   isLocalizationLoaded: boolean,
   lat: string,
@@ -59,10 +58,9 @@ class MainMenu extends React.Component<Props, State> {
     isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
   };
 
+  focusTrap: FocusTrap;
+
   boundOnResize: () => void;
-  firstMenuElement: ?HTMLLinkElement;
-  homeButton: ?HTMLButtonElement;
-  addPlaceLink: ?React.ElementRef<typeof Link>;
 
   onResize = () => {
     if (window.innerWidth > menuButtonVisibilityBreakpoint) {
@@ -78,20 +76,12 @@ class MainMenu extends React.Component<Props, State> {
     this.onResize();
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+  componentDidUpdate() {
+    this.updateFocusTrapActivation();
   }
 
-  componentDidUpdate(prevProps, _) {
-    if (this.state.isMenuVisible) {
-      this.setupFocusTrap();
-
-      if (!prevProps.isOpen) {
-        this.focusFirstMenuElement();
-      }
-    } else {
-      this.tearDownFocusTrap();
-    }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
   }
 
   toggleMenu = (event: Event) => {
@@ -99,57 +89,25 @@ class MainMenu extends React.Component<Props, State> {
     event.preventDefault();
   };
 
-  setupFocusTrap() {
-    if (this.homeButton && this.addPlaceLink) {
-      this.homeButton.addEventListener('keydown', this.focusToLastElement);
-      const link = ReactDOM.findDOMNode(this.addPlaceLink);
-      if (link) {
-        link.addEventListener('keydown', this.focusToFirstElement);
-      }
-    }
-  }
-
-  tearDownFocusTrap() {
-    if (this.homeButton) {
-      this.homeButton.removeEventListener('keydown', this.focusToLastElement);
-    }
-    if (this.addPlaceLink) {
-      const link = ReactDOM.findDOMNode(this.addPlaceLink);
-      if (link) {
-        link.removeEventListener('keydown', this.focusToFirstElement);
-      }
-    }
-  }
-
-  focusToFirstElement = (event: KeyboardEvent) => {
-    if (event.key === 'Tab' && !event.shiftKey) {
-      event.preventDefault();
-      if (this.homeButton) {
-        this.homeButton.focus();
-      }
-    }
-  };
-
-  focusToLastElement = (event: KeyboardEvent) => {
-    if (event.key === 'Tab' && event.shiftKey) {
-      event.preventDefault();
-      if (this.addPlaceLink) {
-        const linkElement = ReactDOM.findDOMNode(this.addPlaceLink);
-        if (linkElement && typeof linkElement.focus === 'function') {
-          linkElement.focus();
-        }
-      }
-    }
-  };
-
-  focusFirstMenuElement = () => {
-    if (this.firstMenuElement) {
-      this.firstMenuElement.focus();
-    }
-  };
-
   returnHome = () => {
     this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
+  };
+
+  setupFocusTrap = (element: HTMLElement) => {
+    this.focusTrap = focusTrap(element);
+  };
+
+  updateFocusTrapActivation = () => {
+    const { isLocalizationLoaded, isOpen } = this.props;
+    const { isMenuButtonVisible } = this.state;
+
+    if (isLocalizationLoaded) {
+      if (isOpen && isMenuButtonVisible) {
+        this.focusTrap.activate();
+      } else {
+        this.focusTrap.deactivate();
+      }
+    }
   };
 
   handleKeyDown = (event: SyntheticEvent<HTMLElement>) => {
@@ -171,11 +129,12 @@ class MainMenu extends React.Component<Props, State> {
       findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { hideFromFocus, isLocalizationLoaded } = this.props;
+    const { isLocalizationLoaded, isOpen, className } = this.props;
+    const { isMenuButtonVisible } = this.state;
 
     const classList = [
-      this.props.className,
-      this.props.isOpen || !this.state.isMenuButtonVisible ? 'is-open' : null,
+      className,
+      isOpen || !isMenuButtonVisible ? 'is-open' : null,
       isLocalizationLoaded ? 'is-loaded' : null,
       'main-menu',
     ].filter(Boolean);
@@ -194,13 +153,11 @@ class MainMenu extends React.Component<Props, State> {
     }
 
     return (
-      <nav className={classList.join(' ')}>
+      <nav className={classList.join(' ')} ref={this.setupFocusTrap}>
         <div className="home-link">
           <button
             className="btn-unstyled home-button"
             onClick={this.returnHome}
-            ref={homeButton => (this.homeButton = homeButton)}
-            tabIndex={hideFromFocus ? -1 : 0}
             aria-label={t`Home`}
             onKeyDown={this.handleKeyDown}
           >
@@ -217,88 +174,45 @@ class MainMenu extends React.Component<Props, State> {
         <button
           className="btn-unstyled menu"
           onClick={this.toggleMenu}
-          tabIndex={this.state.isMenuButtonVisible ? 0 : -1}
-          aria-hidden={!this.state.isMenuButtonVisible}
+          aria-hidden={!isMenuButtonVisible}
           aria-label={t`Menu`}
           aria-haspopup="true"
-          aria-expanded={this.props.isOpen}
+          aria-expanded={isOpen}
           aria-controls="main-menu"
           onKeyDown={this.handleKeyDown}
         >
-          {this.props.isOpen ? <CloseIcon /> : <MenuIcon />}
+          {isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
         <div id="main-menu" role="menu">
-          <a
-            className="nav-link"
-            href="https://travelable.info"
-            ref={firstMenuElement => (this.firstMenuElement = firstMenuElement)}
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://travelable.info" role="menuitem">
             {travelGuide}
           </a>
           <a
             className="nav-link"
             href="https://news.wheelmap.org/wheelmap-botschafter"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {getInvolved}
           </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://news.wheelmap.org" role="menuitem">
             {news}
           </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/presse"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://news.wheelmap.org/presse" role="menuitem">
             {press}
           </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/kontakt"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://news.wheelmap.org/kontakt" role="menuitem">
             {contact}
           </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/imprint"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://news.wheelmap.org/imprint" role="menuitem">
             {imprint}
           </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/faq"
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
+          <a className="nav-link" href="https://news.wheelmap.org/faq" role="menuitem">
             {faq}
           </a>
           <Link
             className="nav-link add-place-link"
             to={`/beta/nodes/new?${queryString.stringify(getQueryParams())}`}
-            ref={addPlaceLink => (this.addPlaceLink = addPlaceLink)}
-            tabIndex={hideFromFocus ? -1 : 0}
-            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {addMissingPlace}

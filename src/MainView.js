@@ -335,13 +335,12 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
+  renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
     return (
       <MainMenu
         className="main-menu"
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
-        hideFromFocus={modalNodeState}
         isLocalizationLoaded={isLocalizationLoaded}
         history={this.props.history}
         {...{ lat, lon, zoom }}
