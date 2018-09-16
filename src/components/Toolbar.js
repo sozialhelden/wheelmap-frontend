@@ -486,7 +486,7 @@ const StyledToolbar = styled(Toolbar)`
       background-color: ${hsl(colors.linkColor).darker(0.2)};
     }
 
-    &.focus-ring {
+    &.focus-visible {
       box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
       transition: box-shadow 0.2s;
     }

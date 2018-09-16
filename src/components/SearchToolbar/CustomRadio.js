@@ -59,7 +59,7 @@ export default class CustomRadio extends React.Component<CustomRadioProps, Custo
           aria-checked={isRadioButtonSelected}
         />
         <RadioButton
-          className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`}
+          className={`radio-button${this.state.isFocused ? ' focus-visible' : ''}`}
           aria-hidden={true}
         />
       </div>

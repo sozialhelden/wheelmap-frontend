@@ -122,8 +122,8 @@ const StyledToolbar = styled(Toolbar)`
         width: 100%;
         height: 2em;
         padding: 0;
-        
-        &.focus-ring {
+
+        &.focus-visible {
           outline: none;
           box-shadow: none;
           /* border-bottom: none; */
@@ -164,7 +164,7 @@ const StyledToolbar = styled(Toolbar)`
       > section.captcha-holder {
         padding-top: 0.75rem;
         text-align: center;
-        
+
         svg {
           transform: scale(1.5);
         }
@@ -179,7 +179,7 @@ const StyledToolbar = styled(Toolbar)`
         border: none;
       }
     }
-    
+
     small.captcha-explanation {
       display: block;
       padding: 0 1rem 1.5rem 1rem;
@@ -227,7 +227,7 @@ const StyledToolbar = styled(Toolbar)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    
+
     span.button-icon svg {
       display: inline-block;
       padding: 0 0.5rem 0 0.5rem;

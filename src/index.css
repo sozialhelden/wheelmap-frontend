@@ -47,17 +47,6 @@ body:before {
 }
 
 /*
-Focus ring styling is disabled by default and instead we are using the :focus-ring polyfill. The
-:focus-ring pseudo selector is a future browser standard that differentiates between mouse
-and keyboard usage when determining whether to draw a focus ring. Usually we only want a
-focus ring in the latter case.
-*/
-
-/* *:focus {
-  outline: none;
-} */
-
-/*
   This will hide the focus indicator if the element receives focus via the mouse,
   but it will still show up on keyboard focus.
 */

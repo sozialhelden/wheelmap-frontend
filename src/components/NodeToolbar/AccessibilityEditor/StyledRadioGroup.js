@@ -89,7 +89,7 @@ const StyledRadioGroup = styled(RadioGroup)`
     .radio-button {
       margin-right: 8px;
 
-      &.focus-ring {
+      &.focus-visible {
         border-radius: 100%;
         box-shadow: 0px 0px 0px 2px #4469e1;
       }
