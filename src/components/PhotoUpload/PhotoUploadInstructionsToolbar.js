@@ -198,6 +198,11 @@ const StyledToolbar = styled(Toolbar)`
   .file-label {
     position: relative;
 
+    &:focus-within {
+      box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+      transition: box-shadow 0.2s;
+    }
+
     input.hidden-file-input {
       position: absolute;
       opacity: 0;
