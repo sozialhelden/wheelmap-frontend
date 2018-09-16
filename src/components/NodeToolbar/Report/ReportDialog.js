@@ -92,14 +92,8 @@ class ReportDialog extends React.Component<Props, State> {
     SelectedComponentClass: null,
   };
 
-  backButton: HTMLButtonElement | null;
-  firstIssueButton: HTMLButtonElement | null;
-
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
-    if (this.firstIssueButton) {
-      this.firstIssueButton.focus();
-    }
   }
 
   componentWillUnmount() {
@@ -120,29 +114,6 @@ class ReportDialog extends React.Component<Props, State> {
       this.props.onClose();
       event.preventDefault();
       event.stopPropagation();
-    }
-  };
-
-  trapFocus = ({ nativeEvent }) => {
-    if (
-      nativeEvent.target === this.firstIssueButton &&
-      nativeEvent.key === 'Tab' &&
-      nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
-      if (this.backButton) {
-        this.backButton.focus();
-      }
-    }
-    if (
-      nativeEvent.target === this.backButton &&
-      nativeEvent.key === 'Tab' &&
-      !nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
-      if (this.firstIssueButton) {
-        this.firstIssueButton.focus();
-      }
     }
   };
 
@@ -192,13 +163,7 @@ class ReportDialog extends React.Component<Props, State> {
             <li key={issue.className} className={issue.className}>
               <button
                 className={`link-button full-width-button ${issue.className}`}
-                ref={firstIssueButton => {
-                  if (index === 0) {
-                    this.firstIssueButton = firstIssueButton;
-                  }
-                }}
                 onClick={this.onSelectComponentClass.bind(this, issue)}
-                onKeyDown={this.trapFocus}
               >
                 {issue.issueText()}
               </button>
@@ -206,12 +171,7 @@ class ReportDialog extends React.Component<Props, State> {
           ))}
         </ul>
 
-        <button
-          className="link-button negative-button"
-          ref={backButton => (this.backButton = backButton)}
-          onClick={this.onClose}
-          onKeyDown={this.trapFocus}
-        >
+        <button className="link-button negative-button" onClick={this.onClose}>
           {backButtonCaption}
         </button>
       </div>
