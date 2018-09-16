@@ -10,6 +10,7 @@ import type { WheelmapFeature } from '../../../lib/Feature';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
+import withFocusTrap from '../../../lib/withFocusTrap';
 
 type Props = {
   featureId: number,
@@ -30,6 +31,8 @@ type Props = {
 
   children: React.Node,
   className: string,
+
+  setupFocusTrap: () => void,
 };
 
 type State = {
@@ -58,8 +61,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
     selectedValue: null,
     busy: false,
   };
-
-  radioButtonToFocusOnStart: ?React.ElementRef<CustomRadio>;
 
   constructor(props) {
     super(props);
@@ -97,12 +98,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
       const iconId = getIconNameForProperties(properties);
       this.setState({ categoryId: iconId });
     });
-  }
-
-  componentDidMount() {
-    if (this.radioButtonToFocusOnStart) {
-      this.radioButtonToFocusOnStart.focus();
-    }
   }
 
   onRadioGroupKeyDown = ({ nativeEvent }) => {
@@ -159,14 +154,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
           <CustomRadio
             key={String(value)}
             disabled={busy}
-            ref={radioButton => {
-              const radioButtonIsSelected = value === selectedValue;
-              if (radioButtonIsSelected) {
-                this.radioButtonToFocusOnStart = radioButton;
-              } else if (index === 0) {
-                this.radioButtonToFocusOnStart = radioButton;
-              }
-            }}
             children={this.props.renderChildrenForValue({
               value,
               categoryId: this.state.categoryId || 'other',
@@ -232,6 +219,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
         className={this.props.className}
         role="dialog"
         aria-labelledby="wheelchair-accessibility-header"
+        ref={element => this.props.setupFocusTrap(element, true)}
       >
         {this.props.children}
         {this.renderCloseButton()}
@@ -242,7 +230,9 @@ class RadioStatusEditor extends React.Component<Props, State> {
   }
 }
 
-const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
+const RadioStatusEditorWithFocusTrap = withFocusTrap(RadioStatusEditor);
+
+const StyledWheelchairStatusEditor = styled(RadioStatusEditorWithFocusTrap)`
   display: flex;
   flex-direction: column;
   margin: 0.5em 0 0 0;
