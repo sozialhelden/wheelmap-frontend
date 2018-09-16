@@ -90,12 +90,12 @@ const StyledSearchInputField = styled(SearchInputField)`
   border-radius: 0;
   background-color: transparent;
   margin: 0;
-  
+
   ${props => (props.disabled ? 'cursor: pointer;' : '')}
 
   transition: width 0.3s ease-out, height 0.3s ease-out;
 
-  &:focus, &.focus-ring {
+  &:focus, &.focus-visible {
     outline: none;
     box-shadow: none;
     /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */

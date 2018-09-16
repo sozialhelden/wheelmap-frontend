@@ -67,7 +67,7 @@ export default class CustomRadio extends React.Component<Props, State> {
             aria-label={this.props.caption}
           />
           <RadioButton
-            className={`radio-button${this.state.isFocused ? ' focus-ring' : ''}`}
+            className={`radio-button${this.state.isFocused ? ' focus-visible' : ''}`}
             disabled={isDisabled}
             aria-hidden={true}
           />

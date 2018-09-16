@@ -101,7 +101,7 @@ function Onboarding(props: Props) {
       </section>
 
       <footer>
-        <button className="button-cta-close focus-ring" onClick={onClose}>
+        <button className="button-cta-close focus-visible" onClick={onClose}>
           {startButtonCaption}
           <ChevronRight />
         </button>
@@ -319,7 +319,7 @@ const StyledOnboarding = styled(Onboarding)`
         margin-left: 10px;
       }
 
-      &.focus-ring {
+      &.focus-visible {
         box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
         transition: box-shadow 0.2s;
       }

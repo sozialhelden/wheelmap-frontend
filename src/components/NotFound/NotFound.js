@@ -72,7 +72,7 @@ class NotFound extends React.Component<Props> {
     const returnHomeLink = (
       <Link
         to="/"
-        className="button-cta-close focus-ring"
+        className="button-cta-close focus-visible"
         onClick={this.props.onClose}
         onKeyDown={this.manageFocus}
         ref={button => (this.closeButton = findDOMNode(button))}
@@ -82,7 +82,10 @@ class NotFound extends React.Component<Props> {
     );
 
     const reloadButton = (
-      <button className="button-cta-close focus-ring" onClick={() => window.location.reload(true)}>
+      <button
+        className="button-cta-close focus-visible"
+        onClick={() => window.location.reload(true)}
+      >
         {retryCaption}
       </button>
     );
@@ -152,7 +155,7 @@ const StyledNotFound = styled(NotFound)`
       }
     }
 
-    &.focus-ring {
+    &.focus-visible {
       box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
       transition: box-shadow 0.2s;
     }

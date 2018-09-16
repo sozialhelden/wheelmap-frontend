@@ -161,7 +161,7 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
     }
   }
 
-  .radio-button.focus-ring {
+  .radio-button.focus-visible {
     border-radius: 100%;
     box-shadow: 0px 0px 0px 2px #4469e1;
   }
