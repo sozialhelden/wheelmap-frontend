@@ -4,6 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
+import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -38,7 +39,7 @@ const StyledToolbar = styled(Toolbar)`
   border-radius: 3px;
   z-index: 1000;
 
-  > header {
+  header {
     position: sticky;
     display: flex;
     top: 0;
@@ -52,7 +53,7 @@ const StyledToolbar = styled(Toolbar)`
     h3 {
       margin: 0.75rem 0;
     }
-  
+
     /* TODO: Replace with standard component */
     .close-link {
       display: inline-block;
@@ -87,7 +88,7 @@ const StyledToolbar = styled(Toolbar)`
       li {
         position: relative;
         margin-bottom: 1rem;
-      
+
         p,
         small {
           display: inline-block;
@@ -103,13 +104,13 @@ const StyledToolbar = styled(Toolbar)`
         ul.photo-examples {
           padding-left: 0;
           display: flex;
-          flex-wrap: wrap;     
+          flex-wrap: wrap;
 
           li {
             font-weight: 400;
             padding-right: 10px;
             margin-bottom: 0;
-            
+
             &:last-child {
               padding-right: 0;
             }
@@ -120,14 +121,14 @@ const StyledToolbar = styled(Toolbar)`
               max-width: 98px;
               min-height: 72px;
               max-height: 98px;
-              background-size: cover; 
+              background-size: cover;
               background-color: #EEE;
-            } 
+            }
 
             .entrance-image { background-image: url('${entrancePlaceholder}'); }
             .sitemap-image { background-image: url('${sitemapPlaceholder}'); }
             .toilet-image { background-image: url('${toiletPlaceholder}'); }
-          
+
             small {
               font-size: 0.8rem;
               padding-left: 0;
@@ -135,7 +136,7 @@ const StyledToolbar = styled(Toolbar)`
           }
         }
       }
-      
+
       li.with-checkmark {
         p,
         small,
@@ -143,7 +144,7 @@ const StyledToolbar = styled(Toolbar)`
           padding-left: 24px;
           pointer-events: none;
         }
-                
+
         span {
           display: flex;
           position: relative;
@@ -154,7 +155,7 @@ const StyledToolbar = styled(Toolbar)`
             left: -4px;
             display: inline-block;
             font-size: 1.7rem;
-          } 
+          }
         }
       }
 
@@ -176,15 +177,15 @@ const StyledToolbar = styled(Toolbar)`
           color: ${colors.primaryColorBrighter};
           user-select: none;
         }
-        
-        small { 
-          padding-left: 26px; 
+
+        small {
+          padding-left: 26px;
         }
       }
     }
   }
 
-  > footer {
+  footer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -206,7 +207,7 @@ const StyledToolbar = styled(Toolbar)`
       height: 100%;
     }
   }
-  
+
   .link-button[disabled] {
     opacity: 0.8;
     background-color: ${colors.neutralBackgroundColor};
@@ -292,88 +293,90 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         isSwipeable={false}
         isModal
       >
-        <header>
-          {this.renderCloseLink()}
-          <h3>{captions.header}</h3>
-        </header>
-        <section>
-          <ul>
-            <li className="with-checkmark">
-              <span>
-                <StyledCheckmarkIcon color={colors.linkColor} />
-                <p>{captions.content}</p>
-              </span>
-              <ul className="photo-examples">
-                <li>
-                  <div className="placeholder-image entrance-image" />
-                  <small>{t`Entrances`}</small>
-                </li>
-                <li>
-                  <div className="placeholder-image sitemap-image" />
-                  <small>{t`Site map`}</small>
-                </li>
-                <li>
-                  <div className="placeholder-image toilet-image" />
-                  <small>{t`toilets`}</small>
-                </li>
-              </ul>
-            </li>
-            <li className="with-checkmark">
-              <span>
-                <StyledCheckmarkIcon color={colors.linkColor} />
-                <p>{captions.copyright}</p>
-              </span>
-              <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
-            </li>
-            <li className="with-checkmark">
-              <span>
-                <StyledCheckmarkIcon color={colors.linkColor} />
-                <p>{captions.people}</p>
-              </span>
-              <small dangerouslySetInnerHTML={{ __html: captions.peopleDetail }} />
-            </li>
-            <li className="with-checkbox">
-              <label htmlFor="confirm-guidelines">
-                <input
-                  ref={cb => (this.checkBox = cb)}
-                  type="checkbox"
-                  id="confirm-guidelines"
-                  checked={guidelinesAccepted}
-                  value="confirm-guidelines"
-                  onChange={this.onGuidelinesAcceptedChanged}
-                />
-                <span dangerouslySetInnerHTML={{ __html: captions.guidelines }} />
-              </label>
-              <br />
-            </li>
-          </ul>
-        </section>
-        <footer>
-          <button className="link-button negative-button" onClick={this.onClose}>
-            {t`Cancel`}
-          </button>
-          <label
-            className="link-button primary-button file-label"
-            disabled={!canSubmit}
-            htmlFor="photo-file-upload"
-          >
-            {t`Continue`}
-            {waitingForPhotoUpload && <Dots />}
-            <input
-              ref={input => {
-                this.fileInput = input;
-              }}
-              type="file"
-              id="photo-file-upload"
-              multiple={false}
-              accept="image/*"
-              onChange={this.onFileInputChanged}
+        <FocusTrap>
+          <header>
+            {this.renderCloseLink()}
+            <h3>{captions.header}</h3>
+          </header>
+          <section>
+            <ul>
+              <li className="with-checkmark">
+                <span>
+                  <StyledCheckmarkIcon color={colors.linkColor} />
+                  <p>{captions.content}</p>
+                </span>
+                <ul className="photo-examples">
+                  <li>
+                    <div className="placeholder-image entrance-image" />
+                    <small>{t`Entrances`}</small>
+                  </li>
+                  <li>
+                    <div className="placeholder-image sitemap-image" />
+                    <small>{t`Site map`}</small>
+                  </li>
+                  <li>
+                    <div className="placeholder-image toilet-image" />
+                    <small>{t`toilets`}</small>
+                  </li>
+                </ul>
+              </li>
+              <li className="with-checkmark">
+                <span>
+                  <StyledCheckmarkIcon color={colors.linkColor} />
+                  <p>{captions.copyright}</p>
+                </span>
+                <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
+              </li>
+              <li className="with-checkmark">
+                <span>
+                  <StyledCheckmarkIcon color={colors.linkColor} />
+                  <p>{captions.people}</p>
+                </span>
+                <small dangerouslySetInnerHTML={{ __html: captions.peopleDetail }} />
+              </li>
+              <li className="with-checkbox">
+                <label htmlFor="confirm-guidelines">
+                  <input
+                    ref={cb => (this.checkBox = cb)}
+                    type="checkbox"
+                    id="confirm-guidelines"
+                    checked={guidelinesAccepted}
+                    value="confirm-guidelines"
+                    onChange={this.onGuidelinesAcceptedChanged}
+                  />
+                  <span dangerouslySetInnerHTML={{ __html: captions.guidelines }} />
+                </label>
+                <br />
+              </li>
+            </ul>
+          </section>
+          <footer>
+            <button className="link-button negative-button" onClick={this.onClose}>
+              {t`Cancel`}
+            </button>
+            <label
+              className="link-button primary-button file-label"
               disabled={!canSubmit}
-              name="continue-upload"
-              className="hidden-file-input"
-            />
-          </label>
-        </footer>
+              htmlFor="photo-file-upload"
+            >
+              {t`Continue`}
+              {waitingForPhotoUpload && <Dots />}
+              <input
+                ref={input => {
+                  this.fileInput = input;
+                }}
+                type="file"
+                id="photo-file-upload"
+                multiple={false}
+                accept="image/*"
+                onChange={this.onFileInputChanged}
+                disabled={!canSubmit}
+                name="continue-upload"
+                className="hidden-file-input"
+              />
+            </label>
+          </footer>
+        </FocusTrap>
       </StyledToolbar>
     );
   }
