@@ -3,6 +3,8 @@ import createFocusTrap from 'focus-trap';
 
 function withFocusTrap(WrappedComponent: React.ComponentType): React.ComponentType {
   return class FocusTrap extends React.Component {
+    activeByDefault: false;
+
     constructor(props) {
       super(props);
 
@@ -28,6 +30,10 @@ function withFocusTrap(WrappedComponent: React.ComponentType): React.ComponentTy
       }
 
       this.focusTrap = createFocusTrap(this.node, tailoredFocusTrapOptions);
+
+      if (this.activeByDefault) {
+        this.activateFocusTrap();
+      }
     }
 
     componentWillUnmount() {
@@ -38,6 +44,7 @@ function withFocusTrap(WrappedComponent: React.ComponentType): React.ComponentTy
     }
 
     activateFocusTrap = () => {
+      // debugger; //eslint-disable-line
       this.focusTrap.activate();
     };
 
@@ -45,13 +52,15 @@ function withFocusTrap(WrappedComponent: React.ComponentType): React.ComponentTy
       this.focusTrap.deactivate();
     };
 
-    setNode = el => {
+    setupFocusTrap = (el, activeByDefault = false) => {
+      // debugger; //eslint-disable-line
       this.node = el;
+      this.activeByDefault = activeByDefault;
     };
 
     render() {
       const componentProps = {
-        setupFocusTrap: this.setNode,
+        setupFocusTrap: this.setupFocusTrap,
         activateFocusTrap: this.activateFocusTrap,
         deactivateFocusTrap: this.deactivateFocusTrap,
       };
