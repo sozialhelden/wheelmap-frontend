@@ -165,7 +165,6 @@ class Loader extends React.Component<Props, State> {
 
   map: ?any;
 
-  lastFocusedElement: ?HTMLElement;
   mainView: UnstyledMainView;
   _asyncRequest: Promise<*>;
 
@@ -194,7 +193,6 @@ class Loader extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.manageFocus(prevProps, prevState);
     if (!this.state.feature && this.state.featureId) {
       this.fetchFeature(this.state.featureId);
     }
@@ -338,41 +336,6 @@ class Loader extends React.Component<Props, State> {
         });
       }
     );
-  }
-
-  manageFocus(prevProps: Props, prevState: State) {
-    const prevFeatureId = getFeatureIdFromProps(prevProps);
-    const featureId = getFeatureIdFromProps(this.props);
-    const featureIdHasChanged = prevFeatureId !== featureId;
-
-    const wasNodeToolbarDisplayed = this.isNodeToolbarDisplayed(prevState);
-    const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed(this.state);
-    const wasSearchToolbarDisplayed = prevState.isSearchBarVisible;
-    const isSearchToolbarDisplayed = this.state.isSearchBarVisible;
-
-    const nodeToolbarDidDisappear = wasNodeToolbarDisplayed && !isNodeToolbarDisplayed;
-    const nodeToolbarDidAppear = isNodeToolbarDisplayed && !wasNodeToolbarDisplayed;
-    const searchToolbarDidDisappear = wasSearchToolbarDisplayed && !isSearchToolbarDisplayed;
-    const searchToolbarDidAppear = isSearchToolbarDisplayed && !wasSearchToolbarDisplayed;
-
-    if (nodeToolbarDidDisappear || searchToolbarDidDisappear) {
-      if (window.document.activeElement) window.document.activeElement.blur();
-      if (this.lastFocusedElement) this.lastFocusedElement.focus();
-    }
-
-    if ((nodeToolbarDidAppear || featureIdHasChanged) && this.mainView.nodeToolbar) {
-      this.lastFocusedElement = document.activeElement;
-
-      // Need to check as nodeToolbar can be null. @TODO A11y?
-      if (this.mainView.nodeToolbar) this.mainView.nodeToolbar.focus();
-    }
-
-    if (searchToolbarDidAppear && this.mainView.searchToolbar) {
-      this.lastFocusedElement = document.activeElement;
-
-      // Need to check as searchToolbar can be null. @TODO A11y?
-      if (this.mainView.searchToolbar) this.mainView.searchToolbar.focus();
-    }
   }
 
   openSearch() {
