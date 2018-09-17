@@ -26,6 +26,8 @@ module.exports = withConfig(
         };
         return config;
       },
+      // Disabling file-system routing to always use custom server.
+      useFileSystemPublicRoutes: false,
     })
   )
 );

@@ -21,6 +21,7 @@
     "es6-set": "^0.1.5",
     "es6-symbol": "^3.1.1",
     "esri-leaflet": "^2.1.4",
+    "express": "^4.16.3",
     "fast-levenshtein": "^2.0.6",
     "focus-trap": "^3.0.0",
     "@sozialhelden/focus-trap-react": "5.0.0-react-component-compat",
@@ -98,7 +99,6 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-webdriverio": "^1.0.1",
-    "express": "^4.15.2",
     "extract-text-webpack-plugin": "3.0.0",
     "file-loader": "0.11.2",
     "flow-bin": "^0.80.0",
@@ -133,8 +133,8 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "scripts": {
-    "dev": "next src/",
-    "start": "next start src/",
+    "dev": "node src/server.js",
+    "start": "NODE_ENV=production node src/server.js",
     "build": "next build src/",
     "start-cra": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" extract=1 node scripts/start.js",
     "build-cra": "extract=1 BABEL_DISABLE_CACHE=1 REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" node scripts/build.js",
