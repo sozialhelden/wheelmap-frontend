@@ -56,7 +56,6 @@ export default class MarkerIcon extends L.Icon {
       ReactDOM.render(
         <Icon
           accessibility={accessibility}
-          properties={properties}
           category={iconName}
           size={this.options.size}
           withArrow={this.options.withArrow}
