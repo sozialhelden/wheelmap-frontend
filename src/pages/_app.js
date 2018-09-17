@@ -19,7 +19,7 @@ import {
 } from '../lib/i18n';
 
 export default class App extends BaseApp {
-  static async getInitialProps({ Component, ctx }) {
+  static async getInitialProps({ Component: PageComponent, ctx }) {
     let languages;
 
     if (ctx.req) {
@@ -31,18 +31,18 @@ export default class App extends BaseApp {
     }
 
     if (languages) {
-      // @TODO Pass locals into application (controlled)
-      const locals = expandedPreferredLocales(languages);
+      // @TODO Pass locales into application (controlled)
+      const locales = expandedPreferredLocales(languages);
 
-      await loadExistingLocalizationByPreference(locals);
+      await loadExistingLocalizationByPreference(locales);
     }
 
     let props = {};
 
     // Fetch child component props and fetch errors if anything happens.
-    if (Component.getInitialProps) {
+    if (PageComponent.getInitialProps) {
       try {
-        props = await Component.getInitialProps(ctx);
+        props = await PageComponent.getInitialProps(ctx);
       } catch (error) {
         if (ctx.res) {
           ctx.res.statusCode = error.statusCode || 500;
@@ -56,11 +56,11 @@ export default class App extends BaseApp {
   }
 
   render() {
-    const { Component, error, ...props } = this.props;
+    const { Component: PageComponent, error, ...props } = this.props;
 
     return (
       <Container>
-        {error ? <Error statusCode={error.statusCode} /> : <Component {...props} />}
+        {error ? <Error statusCode={error.statusCode} /> : <PageComponent {...props} />}
         <GlobalStyle />
         <LeafletStyle />
         <AppStyle />
