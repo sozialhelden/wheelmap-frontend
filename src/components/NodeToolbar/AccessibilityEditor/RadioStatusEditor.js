@@ -30,8 +30,6 @@ type Props = {
 
   children: React.Node,
   className: string,
-
-  setupFocusTrap: () => void,
 };
 
 type State = {
