@@ -38,6 +38,20 @@ type State = {
   busy: boolean,
 };
 
+function getSelectedValueFromProps(props: Props): ?string {
+  if (!props.feature || !props.feature.properties) {
+    return props.presetStatus;
+  }
+
+  const featureValue = props.getValueFromFeature(props.feature) || props.presetStatus;
+
+  if (featureValue === props.undefinedStringValue) {
+    return props.presetStatus || featureValue;
+  }
+
+  return featureValue;
+}
+
 class RadioStatusEditor extends React.Component<Props, State> {
   state: State = {
     categoryId: 'other',
@@ -50,22 +64,17 @@ class RadioStatusEditor extends React.Component<Props, State> {
   constructor(props) {
     super(props);
 
-    const selectedValue = this.selectedValue(props);
-    if (selectedValue) {
-      this.state = { selectedValue, categoryId: 'other' };
-    }
-    this.fetchCategory(this.props.feature);
-  }
+    const selectedValue = getSelectedValueFromProps(props);
 
-  selectedValue(props: Props = this.props): ?string {
-    if (!props.feature || !props.feature.properties) {
-      return this.props.presetStatus;
+    if (selectedValue) {
+      this.state = {
+        ...this.state,
+        selectedValue,
+        categoryId: 'other',
+      };
     }
-    const featureValue = props.getValueFromFeature(props.feature) || this.props.presetStatus;
-    if (featureValue === props.undefinedStringValue) {
-      return this.props.presetStatus || featureValue;
-    }
-    return featureValue;
+
+    this.fetchCategory(this.props.feature);
   }
 
   fetchCategory(feature: WheelmapFeature) {
@@ -90,13 +99,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
     });
   }
 
-  componentWillReceiveProps(props: Props) {
-    const selectedValue = this.selectedValue(props);
-    if (selectedValue) {
-      this.setState({ selectedValue });
-    }
-  }
-
   componentDidMount() {
     if (this.radioButtonToFocusOnStart) {
       this.radioButtonToFocusOnStart.focus();
@@ -105,14 +107,16 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
   onRadioGroupKeyDown = ({ nativeEvent }) => {
     if (nativeEvent.key === 'Enter') {
-      this.onSaveButtonClick();
+      this.onSaveButtonClick(nativeEvent);
     }
   };
 
   onSaveButtonClick = event => {
     event.preventDefault();
     event.stopPropagation();
+
     const selectedValue = this.state.selectedValue;
+
     if (selectedValue && selectedValue !== this.props.undefinedStringValue) {
       this.props.saveValue(selectedValue);
       this.setState({ busy: true });
@@ -193,9 +197,10 @@ class RadioStatusEditor extends React.Component<Props, State> {
     // translator: Button caption shown while editing a place’s wheelchair status
     const backButtonCaption = t`Back`;
 
-    const valueHasChanged = this.state.selectedValue !== this.selectedValue();
+    const selectedValue = getSelectedValueFromProps(this.props);
+    const valueHasChanged = this.state.selectedValue !== selectedValue;
     const backOrCancelButtonCaption = valueHasChanged ? cancelButtonCaption : backButtonCaption;
-    const hasBeenUnknownBefore = this.selectedValue() === 'unknown';
+    const hasBeenUnknownBefore = selectedValue === 'unknown';
     const isUnknown = this.state.selectedValue === 'unknown';
 
     let saveButtonCaption = confirmButtonCaption;
