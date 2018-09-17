@@ -310,7 +310,8 @@ class NodeToolbar extends React.Component<Props, State> {
 
   render() {
     return (
-      <StyledToolbar
+      <FocusTrap
+        component={StyledToolbar}
         hidden={this.props.hidden}
         isModal={this.props.modalNodeState}
         innerRef={toolbar => {
@@ -321,12 +322,10 @@ class NodeToolbar extends React.Component<Props, State> {
         startTopOffset={hasBigViewport() ? 0 : 0.4 * window.innerHeight}
         onScrollable={isScrollable => this.setState({ isScrollable })}
       >
-        <FocusTrap>
-          {this.renderCloseLink()}
-          {this.renderNodeHeader()}
-          {this.renderContentBelowHeader()}
-        </FocusTrap>
-      </StyledToolbar>
+        {this.renderCloseLink()}
+        {this.renderNodeHeader()}
+        {this.renderContentBelowHeader()}
+      </FocusTrap>
     );
   }
 }

@@ -7,13 +7,13 @@ import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { getQueryParams } from '../../lib/queryParams';
-import FocusTrap from '../../lib/FocusTrap';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
 import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
+import FocusTrap from 'focus-trap-react';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -28,8 +28,6 @@ type Props = {
   lon: string,
   zoom: string,
   history: RouterHistory,
-  activateFocusTrap: () => void,
-  deactivateFocusTrap: () => void,
 };
 
 function MenuIcon(props) {
@@ -87,19 +85,6 @@ class MainMenu extends React.Component<Props, State> {
 
   returnHome = () => {
     this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
-  };
-
-  updateFocusTrapActivation = () => {
-    const { isLocalizationLoaded, isOpen, activateFocusTrap, deactivateFocusTrap } = this.props;
-    const { isMenuButtonVisible } = this.state;
-
-    if (isLocalizationLoaded) {
-      if (isOpen && isMenuButtonVisible) {
-        activateFocusTrap();
-      } else {
-        deactivateFocusTrap();
-      }
-    }
   };
 
   handleKeyDown = (event: SyntheticEvent<HTMLElement>) => {

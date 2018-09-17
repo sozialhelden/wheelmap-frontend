@@ -4625,9 +4625,9 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
-focus-trap-react@^4.0.0:
+"focus-trap-react@https://github.com/sozialhelden/focus-trap-react.git":
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/focus-trap-react/-/focus-trap-react-4.0.0.tgz#bdc3ed9638bbc80623d9363e8063aa2a8e8a79c6"
+  resolved "https://github.com/sozialhelden/focus-trap-react.git#65457ed1578fcfe11770259f8d10194ae1806b51"
   dependencies:
     focus-trap "^3.0.0"
 
