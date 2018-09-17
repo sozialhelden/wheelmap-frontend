@@ -31,7 +31,7 @@ export default class App extends BaseApp {
     }
 
     if (languages) {
-      // @TODO Pass locals into application
+      // @TODO Pass locals into application (controlled)
       const locals = expandedPreferredLocales(languages);
 
       await loadExistingLocalizationByPreference(locals);

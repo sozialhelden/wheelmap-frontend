@@ -53,12 +53,12 @@ type Props = {
   className: string,
   history: RouterHistory,
   location: Location,
+  feature?: ?Feature,
+  featureId?: ?string,
 };
 
 type State = {
-  featureId?: ?string,
   equipmentInfoId?: ?string,
-  feature?: ?Feature,
   category?: ?string,
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
@@ -167,13 +167,13 @@ class Loader extends React.Component<Props, State> {
   mainView: UnstyledMainView;
   _asyncRequest: Promise<*>;
 
-  constructor(props: Props) {
+  /*constructor(props: Props) {
     super(props);
 
     // if (isFirstStart()) {
     //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     // }
-  }
+  }*/
 
   componentWillUnmount() {
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
@@ -188,7 +188,7 @@ class Loader extends React.Component<Props, State> {
     }*/
   }
 
-  static getDerivedStateFromProps(props: Props, state: State): State {
+  /*static getDerivedStateFromProps(props: Props, state: State): State {
     const routeInformation = getRouteInformation(props) || {};
     const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
 
@@ -252,7 +252,7 @@ class Loader extends React.Component<Props, State> {
     }
 
     return result;
-  }
+  }*/
 
   /*fetchFeature(featureId: string): void {
     const isWheelmap = isWheelmapFeatureId(featureId);
@@ -295,8 +295,8 @@ class Loader extends React.Component<Props, State> {
     const featureId = getFeatureIdFromProps(this.props);
     const featureIdHasChanged = prevFeatureId !== featureId;
 
-    const wasNodeToolbarDisplayed = this.isNodeToolbarDisplayed(prevState);
-    const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed(this.state);
+    const wasNodeToolbarDisplayed = this.isNodeToolbarDisplayed(prevProps, prevState);
+    const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed(this.props, this.state);
     const wasSearchToolbarDisplayed = prevState.isSearchBarVisible;
     const isSearchToolbarDisplayed = this.state.isSearchBarVisible;
 
@@ -572,14 +572,14 @@ class Loader extends React.Component<Props, State> {
   };
 
   gotoCurrentFeature() {
-    const { featureId } = this.state;
+    /*const { featureId } = this.state;
     if (featureId) {
       this.props.history.push(`/beta/nodes/${featureId}`);
       const feature =
         wheelmapFeatureCache.getCachedFeature(String(featureId)) ||
         wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
       this.setState({ feature });
-    }
+    }*/
   }
 
   onCloseWheelchairAccessibility = () => {
@@ -599,9 +599,9 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
-  isNodeToolbarDisplayed(state = this.state) {
+  isNodeToolbarDisplayed(props = this.props, state = this.state) {
     return (
-      state.feature &&
+      props.feature &&
       !state.isSearchToolbarExpanded &&
       !state.isPhotoUploadCaptchaToolbarVisible &&
       !state.isPhotoUploadInstructionsToolbarVisible &&
@@ -629,9 +629,9 @@ class Loader extends React.Component<Props, State> {
       shouldLocateOnStart,
       isSearchButtonVisible,
 
-      featureId: this.state.featureId,
+      featureId: this.props.featureId,
       equipmentInfoId: this.state.equipmentInfoId,
-      feature: this.state.feature,
+      feature: this.props.feature,
       category: this.state.category,
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
@@ -705,13 +705,13 @@ class Loader extends React.Component<Props, State> {
   }
 }
 
-function App() {
+function App(props) {
   // const Router = isCordova() ? MemoryRouter : BrowserRouter;
   const Router = MemoryRouter;
 
   return (
     <Router>
-      <Route path="/" component={Loader} />
+      <Route path="/" render={routeProps => <Loader {...routeProps} {...props} />} />
     </Router>
   );
 }

@@ -43,15 +43,15 @@ class Nodes extends React.Component {
 
     const feature = await fetchFeature(query.id);
 
-    return { feature };
+    return { feature, featureId: query.id };
   }
 
   render() {
-    const { feature } = this.props;
+    const { feature, featureId } = this.props;
 
-    console.log(feature);
+    console.log(feature, featureId);
 
-    return <App />;
+    return <App feature={feature} featureId={featureId} />;
   }
 }
 
