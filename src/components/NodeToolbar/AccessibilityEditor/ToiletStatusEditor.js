@@ -6,7 +6,6 @@ import { t } from 'ttag';
 import useImperialUnits from '../../../lib/useImperialUnits';
 import { accessibleToiletDescription } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
-import FocusTrap from '../../../lib/FocusTrap';
 
 import { saveToiletStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
@@ -55,8 +54,7 @@ export default function ToiletStatusEditor(props: Props) {
   };
 
   return (
-    <FocusTrap
-      component={RadioStatusEditor}
+    <RadioStatusEditor
       {...props}
       undefinedStringValue="unknown"
       getValueFromFeature={feature => feature.properties.wheelchair_toilet}
@@ -67,6 +65,6 @@ export default function ToiletStatusEditor(props: Props) {
       descriptionForValue={value => descriptions[value]}
     >
       <header id="wheelchair-accessibility-header">{headerText}</header>
-    </FocusTrap>
+    </RadioStatusEditor>
   );
 }
