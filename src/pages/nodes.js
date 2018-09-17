@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import Head from 'next/head';
 
 import App from '../App';
 import { isWheelmapFeatureId } from '../lib/Feature';
@@ -32,7 +33,12 @@ async function fetchFeature(featureId: string): void {
   return response.json();
 }
 
-class Nodes extends React.Component {
+type Props = {
+  feature: Feature,
+  featureId: string,
+};
+
+class Nodes extends React.Component<Props> {
   static async getInitialProps({ query, res }) {
     if (!query.id) {
       const error = new Error();
@@ -49,9 +55,14 @@ class Nodes extends React.Component {
   render() {
     const { feature, featureId } = this.props;
 
-    console.log(feature, featureId);
-
-    return <App feature={feature} featureId={featureId} />;
+    return (
+      <React.Fragment>
+        <Head>
+          <title>{feature.properties.name} – Wheelmap</title>
+        </Head>
+        <App feature={feature} featureId={featureId} />
+      </React.Fragment>
+    );
   }
 }
 

@@ -72,7 +72,10 @@ export default class Categories {
   }
 
   static getCategory(idOrSynonym): Promise<ACCategory> {
-    if (!this.fetchPromise) throw new Error('Category fetching not initialized yet.');
+    //if (!this.fetchPromise) throw new Error('Category fetching not initialized yet.');
+    // @TODO Refactore to work with next.js
+    if (!this.fetchPromise) return Promise.resolve();
+
     return this.fetchPromise.then(() => this.getCategoryFromCache(idOrSynonym));
   }
 
