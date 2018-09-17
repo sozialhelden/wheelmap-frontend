@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Categories from '../../../lib/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import type { WheelmapFeature } from '../../../lib/Feature';
+import FocusTrap from '../../../lib/FocusTrap';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
@@ -212,7 +213,9 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
   render() {
     return (
-      <section
+      <FocusTrap
+        component="section"
+        active={true}
         className={this.props.className}
         role="dialog"
         aria-labelledby="wheelchair-accessibility-header"
@@ -221,7 +224,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
         {this.renderCloseButton()}
         {this.renderRadioGroup()}
         {this.renderFooter()}
-      </section>
+      </FocusTrap>
     );
   }
 }

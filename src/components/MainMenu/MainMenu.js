@@ -7,6 +7,7 @@ import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { getQueryParams } from '../../lib/queryParams';
+import FocusTrap from '../../lib/FocusTrap';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
@@ -73,10 +74,6 @@ class MainMenu extends React.Component<Props, State> {
   componentDidMount() {
     window.addEventListener('resize', this.onResize);
     this.onResize();
-  }
-
-  componentDidUpdate() {
-    this.updateFocusTrapActivation();
   }
 
   componentWillUnmount() {
@@ -147,8 +144,10 @@ class MainMenu extends React.Component<Props, State> {
       );
     }
 
+    const focusTrapIsActive = isLocalizationLoaded && isMenuButtonVisible && isOpen;
+
     return (
-      <nav className={classList.join(' ')}>
+      <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
         <div className="home-link">
           <button
             className="btn-unstyled home-button"
@@ -213,7 +212,7 @@ class MainMenu extends React.Component<Props, State> {
             {addMissingPlace}
           </Link>
         </div>
-      </nav>
+      </FocusTrap>
     );
   }
 }
