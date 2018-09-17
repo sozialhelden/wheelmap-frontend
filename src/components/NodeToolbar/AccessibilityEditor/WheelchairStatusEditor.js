@@ -5,6 +5,7 @@ import * as React from 'react';
 
 import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
+import FocusTrap from '../../../lib/FocusTrap';
 import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
@@ -23,7 +24,8 @@ type Props = SaveOptions & {
 
 export default function WheelchairStatusEditor(props: Props) {
   return (
-    <RadioStatusEditor
+    <FocusTrap
+      component={RadioStatusEditor}
       {...props}
       undefinedStringValue="unknown"
       getValueFromFeature={feature => feature.properties.wheelchair}
@@ -43,6 +45,6 @@ export default function WheelchairStatusEditor(props: Props) {
       descriptionForValue={value => accessibilityDescription(value)}
     >
       <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
-    </RadioStatusEditor>
+    </FocusTrap>
   );
 }

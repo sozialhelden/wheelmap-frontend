@@ -42,6 +42,8 @@ import type { ModalNodeState } from './lib/queryParams';
 
 import { isTouchDevice } from './lib/userAgent';
 
+import FocusTrap from './lib/FocusTrap';
+
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 type Props = {
@@ -337,7 +339,8 @@ class MainView extends React.Component<Props, State> {
 
   renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
     return (
-      <MainMenu
+      <FocusTrap
+        component={MainMenu}
         className="main-menu"
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}

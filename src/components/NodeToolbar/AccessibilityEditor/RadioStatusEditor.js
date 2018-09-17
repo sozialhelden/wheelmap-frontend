@@ -10,7 +10,6 @@ import type { WheelmapFeature } from '../../../lib/Feature';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
-import withFocusTrap from '../../../lib/withFocusTrap';
 
 type Props = {
   featureId: number,
@@ -230,9 +229,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
   }
 }
 
-const RadioStatusEditorWithFocusTrap = withFocusTrap(RadioStatusEditor);
-
-const StyledWheelchairStatusEditor = styled(RadioStatusEditorWithFocusTrap)`
+const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
   display: flex;
   flex-direction: column;
   margin: 0.5em 0 0 0;
