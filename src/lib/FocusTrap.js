@@ -16,21 +16,17 @@ class FocusTrap extends React.Component<Props> {
   }
 
   componentDidMount() {
+    const { focusTrapOptions } = this.props;
+
     // We need to hijack the returnFocusOnDeactivate option,
     // because React can move focus into the element before we arrived at
     // this lifecycle hook (e.g. with autoFocus inputs). So the component
-    // captures the previouslyFocusedElement in componentWillMount,
+    // captures the previouslyFocusedElement in the constructor,
     // then (optionally) returns focus to it in componentWillUnmount.
-    const specifiedFocusTrapOptions = this.props.focusTrapOptions;
     const tailoredFocusTrapOptions = {
+      ...focusTrapOptions,
       returnFocusOnDeactivate: false,
     };
-
-    for (const optionName in specifiedFocusTrapOptions) {
-      if (!specifiedFocusTrapOptions.hasOwnProperty(optionName)) continue;
-      if (optionName === 'returnFocusOnDeactivate') continue;
-      tailoredFocusTrapOptions[optionName] = specifiedFocusTrapOptions[optionName];
-    }
 
     const topHtmlElement = findDOMNode(this.node);
 
@@ -52,7 +48,7 @@ class FocusTrap extends React.Component<Props> {
     this.focusTrap.deactivate();
   };
 
-  storeTopLevelElement = el => (this.node = el);
+  storeTopLevelElement = element => (this.node = element);
 
   render() {
     const composedRefCallback = this.props.ref
