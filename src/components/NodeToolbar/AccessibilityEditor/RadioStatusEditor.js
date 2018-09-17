@@ -218,7 +218,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
         className={this.props.className}
         role="dialog"
         aria-labelledby="wheelchair-accessibility-header"
-        ref={element => this.props.setupFocusTrap(element, true)}
       >
         {this.props.children}
         {this.renderCloseButton()}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 import createFocusTrap from 'focus-trap';
 
 type Props = {
@@ -6,8 +7,6 @@ type Props = {
 };
 
 class FocusTrap extends React.Component<Props> {
-  activeByDefault: false;
-
   constructor(props) {
     super(props);
 
@@ -26,17 +25,16 @@ class FocusTrap extends React.Component<Props> {
     const tailoredFocusTrapOptions = {
       returnFocusOnDeactivate: false,
     };
+
     for (const optionName in specifiedFocusTrapOptions) {
       if (!specifiedFocusTrapOptions.hasOwnProperty(optionName)) continue;
       if (optionName === 'returnFocusOnDeactivate') continue;
       tailoredFocusTrapOptions[optionName] = specifiedFocusTrapOptions[optionName];
     }
 
-    this.focusTrap = createFocusTrap(this.node, tailoredFocusTrapOptions);
+    const topHtmlElement = findDOMNode(this.node);
 
-    if (this.activeByDefault) {
-      this.activateFocusTrap();
-    }
+    this.focusTrap = createFocusTrap(topHtmlElement, tailoredFocusTrapOptions);
   }
 
   componentWillUnmount() {
@@ -54,14 +52,18 @@ class FocusTrap extends React.Component<Props> {
     this.focusTrap.deactivate();
   };
 
-  setupFocusTrap = (el, activeByDefault = false) => {
-    this.node = el;
-    this.activeByDefault = activeByDefault;
-  };
+  storeTopLevelElement = el => (this.node = el);
 
   render() {
+    const composedRefCallback = this.props.ref
+      ? element => {
+          this.props.ref(element);
+          this.storeTopLevelElement(element);
+        }
+      : this.storeTopLevelElement;
+
     const focusTrapProps = {
-      setupFocusTrap: this.setupFocusTrap,
+      ref: composedRefCallback,
       activateFocusTrap: this.activateFocusTrap,
       deactivateFocusTrap: this.deactivateFocusTrap,
     };

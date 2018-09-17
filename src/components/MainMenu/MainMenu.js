@@ -137,7 +137,7 @@ class MainMenu extends React.Component<Props, State> {
 
     if (!isLocalizationLoaded) {
       return (
-        <nav className={classList.join(' ')} ref={this.props.setupFocusTrap}>
+        <nav className={classList.join(' ')}>
           <div className="home-link">
             <button className="btn-unstyled home-button" disabled>
               <Logo className="logo" width={123} height={30} />
@@ -149,7 +149,7 @@ class MainMenu extends React.Component<Props, State> {
     }
 
     return (
-      <nav className={classList.join(' ')} ref={this.props.setupFocusTrap}>
+      <nav className={classList.join(' ')}>
         <div className="home-link">
           <button
             className="btn-unstyled home-button"
