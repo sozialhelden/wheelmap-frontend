@@ -27,7 +27,6 @@ type Props = {
   lon: string,
   zoom: string,
   history: RouterHistory,
-  setupFocusTrap: () => void,
   activateFocusTrap: () => void,
   deactivateFocusTrap: () => void,
 };
