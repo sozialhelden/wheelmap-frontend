@@ -224,11 +224,17 @@ class Loader extends React.Component<Props, State> {
     const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
     const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
 
+    let nextCategory = category;
+
+    // Keep category if you just click on a feature
+    if ((featureId || modalNodeState) && state.category) {
+      nextCategory = state.category;
+    }
+
     result = {
       ...result,
       equipmentInfoId,
-      // keep category if you just click on a feature
-      category: featureId ? state.category || category : category,
+      category: nextCategory,
       searchQuery,
       modalNodeState,
       toiletFilter,
@@ -417,11 +423,25 @@ class Loader extends React.Component<Props, State> {
   };
 
   onMoveEnd = state => {
+    let { zoom, lat, lon } = state;
+
+    // Adjust zoom level to be stored in the local storage to make sure the user
+    // can see some places when reloading the app after some time.
+    const lastZoom = String(
+      Math.max(zoom, config.minZoomWithSetCategory, config.minZoomWithoutSetCategory)
+    );
+
     saveState({
-      'map.lastZoom': String(state.zoom),
-      'map.lastCenter.lat': String(state.lat),
-      'map.lastCenter.lon': String(state.lon),
+      'map.lastZoom': lastZoom,
+      'map.lastCenter.lat': String(lat),
+      'map.lastCenter.lon': String(lon),
       'map.lastMoveDate': new Date().toString(),
+    });
+
+    this.setState({
+      lat,
+      lon,
+      zoom,
     });
   };
 
@@ -590,8 +610,23 @@ class Loader extends React.Component<Props, State> {
   };
 
   onCloseNodeToolbar = () => {
-    const { featureId } = this.state;
-    const path = featureId ? `/beta/nodes/${String(this.state.featureId)}` : '/';
+    const { featureId, category } = this.state;
+    let path;
+
+    if (featureId) {
+      path = `/beta/nodes/${String(this.state.featureId)}`;
+    } else {
+      path = '/beta';
+
+      if (category) {
+        path += `/categories/${category}`;
+      }
+
+      const params = getQueryParams();
+
+      path += `?${queryString.stringify(params)}`;
+    }
+
     this.props.history.push(path);
     // this.setState({ modalNodeState: null });
   };

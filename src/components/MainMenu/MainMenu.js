@@ -3,9 +3,11 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
+import queryString from 'query-string';
 import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
+import { getQueryParams } from '../../lib/queryParams';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import { Dots } from 'react-activity';
@@ -293,7 +295,7 @@ class MainMenu extends React.Component<Props, State> {
           </a>
           <Link
             className="nav-link add-place-link"
-            to="/beta/nodes/new"
+            to={`/beta/nodes/new?${queryString.stringify(getQueryParams())}`}
             ref={addPlaceLink => (this.addPlaceLink = addPlaceLink)}
             tabIndex={hideFromFocus ? -1 : 0}
             onKeyDown={this.handleKeyDown}
