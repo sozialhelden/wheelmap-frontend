@@ -36,8 +36,9 @@ import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { ModalNodeState } from './lib/queryParams';
 import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
 
-import { isTouchDevice } from './lib/userAgent';
+import { isTouchDevice, type UAResult } from './lib/userAgent';
 
+import { type CategoryLookupTables } from './lib/Categories';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 type Props = {
@@ -49,6 +50,9 @@ type Props = {
   featureId: ?string,
   feature?: ?Feature,
   category: ?string,
+  categories: CategoryLookupTables,
+  userAgent: UAResult,
+
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
   searchQuery: ?string,
@@ -228,6 +232,8 @@ class MainView extends React.Component<Props, State> {
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           history={this.props.history}
           feature={this.props.feature}
+          categories={this.props.categories}
+          userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
           onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}

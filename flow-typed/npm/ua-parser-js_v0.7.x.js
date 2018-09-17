@@ -13,13 +13,7 @@ declare module 'ua-parser-js' {
 
   declare type UADevice = {
     model: string,
-    type:
-      | 'console'
-      | 'mobile'
-      | 'tablet'
-      | 'smarttv'
-      | 'wearable'
-      | 'embedded',
+    type: 'console' | 'mobile' | 'tablet' | 'smarttv' | 'wearable' | 'embedded',
     vendor: string,
   };
 
@@ -54,5 +48,5 @@ declare module 'ua-parser-js' {
     setUA(ua: string): UAParser;
   }
 
-  declare export default typeof UAParser;
+  declare export default typeof UAParser
 }

@@ -1,6 +1,7 @@
 // @flow
 import type { Feature } from './Feature';
 import openButtonCaption from './openButtonCaption';
+import { type UAResult } from './userAgent';
 
 // see https://developer.android.com/guide/components/intents-common#Maps
 export function generateGeoUrl(feature: Feature, placeName: string) {
@@ -25,20 +26,22 @@ export function generateBingMapsUrl(feature: Feature, placeName: string) {
   return `bingmaps:?collection=point.${coords[1]}_${coords[0]}_${encodeURIComponent(placeName)}`;
 }
 
-export function generateMapsUrl(feature: Feature, placeName: string) {
-  const isBingMaps = navigator.appVersion.match(/Win/);
-  const isAppleMaps =
-    navigator.platform.match(/Mac/) ||
-    ['iPhone', 'iPad', 'iPod'].indexOf(navigator.platform) !== -1;
+export function generateMapsUrl(userAgent: UAResult, feature: Feature, placeName: string) {
+  const osName = userAgent.os.name;
 
-  if (isBingMaps) {
-    const caption = openButtonCaption('Bing Maps');
-    return { url: generateBingMapsUrl(feature, placeName), caption };
-  }
+  if (osName) {
+    const isBingMaps = osName.match(/^Windows/);
+    const isAppleMaps = osName === 'Mac OS' || osName === 'iOS';
 
-  if (isAppleMaps) {
-    const caption = openButtonCaption('Apple Maps');
-    return { url: generateAppleMapsUrl(feature, placeName), caption };
+    if (isBingMaps) {
+      const caption = openButtonCaption('Bing Maps');
+      return { url: generateBingMapsUrl(feature, placeName), caption };
+    }
+
+    if (isAppleMaps) {
+      const caption = openButtonCaption('Apple Maps');
+      return { url: generateAppleMapsUrl(feature, placeName), caption };
+    }
   }
 
   const caption = openButtonCaption('Maps app');

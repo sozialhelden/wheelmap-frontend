@@ -33,7 +33,7 @@ import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import { getCategoryId } from '../../lib/Categories';
+import { getCategoryId, Category, type CategoryLookupTables } from '../../lib/Categories';
 import IconButtonList from './IconButtonList/IconButtonList';
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -49,6 +49,7 @@ type Props = {
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
+  categories: CategoryLookupTables,
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
@@ -132,17 +133,9 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderIconButtonList() {
-    const {
-      feature,
-      featureId,
-      category,
-      parentCategory,
-      equipmentInfoId,
-      onOpenReportMode,
-    } = this.props;
     return (
       <IconButtonList
-        {...{ feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode }}
+        {...this.props}
         onToggle={() => {
           if (this.toolbar) this.toolbar.ensureFullVisibility();
         }}
@@ -156,6 +149,7 @@ class NodeToolbar extends React.Component<Props, State> {
       equipmentInfo,
       equipmentInfoId,
       category,
+      categories,
       parentCategory,
       onClickCurrentMarkerIcon,
     } = this.props;
@@ -167,6 +161,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <NodeHeader
         feature={feature}
+        categories={categories}
         equipmentInfo={equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         category={category}

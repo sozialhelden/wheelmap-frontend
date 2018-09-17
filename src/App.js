@@ -12,7 +12,7 @@ import config from './lib/config';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice } from './lib/userAgent';
+import { isTouchDevice, UAResult } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -45,6 +45,7 @@ import type { ModalNodeState } from './lib/queryParams';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
+import { type CategoryLookupTables } from './lib/Categories';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 initReactFastclick();
@@ -55,6 +56,8 @@ type Props = {
   location: Location,
   feature?: ?Feature,
   featureId?: ?string,
+  categories: CategoryLookupTables,
+  userAgent: UAResult,
 };
 
 type State = {
@@ -641,6 +644,8 @@ class Loader extends React.Component<Props, State> {
       equipmentInfoId: this.state.equipmentInfoId,
       feature: this.props.feature,
       category: this.state.category,
+      categories: this.props.categories,
+      userAgent: this.props.userAgent,
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
       lastError: this.state.lastError,
@@ -713,7 +718,7 @@ class Loader extends React.Component<Props, State> {
   }
 }
 
-function App(props) {
+function App(props: Props) {
   // const Router = isCordova() ? MemoryRouter : BrowserRouter;
   const Router = MemoryRouter;
 

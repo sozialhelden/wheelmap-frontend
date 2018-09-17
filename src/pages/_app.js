@@ -7,6 +7,7 @@ import '@babel/polyfill';
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
 import Error from 'next/error';
+import UAParser from 'ua-parser-js';
 
 import GlobalStyle from '../GlobalStyle';
 import LeafletStyle from '../LeafletStyle';
@@ -22,22 +23,27 @@ import config from '../lib/config';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
-    let props;
+    let props = {};
     let categories;
     let locales;
+    let userAgent;
 
     try {
       let languages;
+      let userAgentString;
 
       if (ctx.req) {
         if (ctx.req.headers['accept-language']) {
           languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
         }
+
+        userAgentString = ctx.req.headers['user-agent'];
       } else {
         languages = window.navigator.languages;
       }
 
-      console.log(languages);
+      const userAgentParser = new UAParser(userAgentString);
+      userAgent = userAgentParser.getResult();
 
       if (!languages || languages.length === 0) {
         return { error: new Error('Missing languages.') };
@@ -46,8 +52,6 @@ export default class App extends BaseApp {
       // @TODO Pass locales into application (controlled)
       locales = expandedPreferredLocales(languages);
       await loadExistingLocalizationByPreference(locales);
-
-      console.log(locales);
 
       categories = await Categories.fetchOnce({
         ...config,
@@ -66,7 +70,7 @@ export default class App extends BaseApp {
       props.error = error;
     }
 
-    return { ...props, locales, categories };
+    return { ...props, locales, categories, userAgent };
   }
 
   render() {

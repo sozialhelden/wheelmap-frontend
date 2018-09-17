@@ -10,6 +10,15 @@ export function isTouchDevice() {
   );
 }
 
-// See https://github.com/faisalman/ua-parser-js for documentation
+export type UAOs = {
+  name: ?string,
+  version: ?string,
+};
+
+export type UAResult = {
+  os: UAOs,
+  ua: string,
+};
+
 const parser = new UAParser();
 export const userAgent = parser.getResult();

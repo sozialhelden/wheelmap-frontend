@@ -34,12 +34,11 @@ type State = {
   category: Category | null,
   parentCategory: Category | null,
   equipmentInfo: ?EquipmentInfo,
-  feature: ?Feature,
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null, feature: null, equipmentInfo: null };
+  state = { category: null, parentCategory: null, equipmentInfo: null };
   nodeToolbar: React.ElementRef<NodeToolbar>;
 
   componentDidMount() {
@@ -79,10 +78,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         this.fetchCategory(equipmentInfo);
       });
     }
-
-    if (props.feature) {
-      this.setState({ feature: props.feature });
-    }
   }
 
   fetchCategory(feature: ?Feature) {
@@ -113,11 +108,11 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   render() {
-    const { props, state } = this;
-    const { feature } = this.state;
+    const { feature } = this.props;
     const { properties } = feature || {};
+
     return properties ? (
-      <NodeToolbar {...props} {...state} ref={t => (this.nodeToolbar = t)} />
+      <NodeToolbar {...this.state} {...this.props} ref={t => (this.nodeToolbar = t)} />
     ) : (
       <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />
     );

@@ -4,12 +4,13 @@ import * as React from 'react';
 import Head from 'next/head';
 
 import App from '../App';
-import { isWheelmapFeatureId } from '../lib/Feature';
+import { isWheelmapFeatureId, type Feature } from '../lib/Feature';
 import fetch from '../lib/fetch';
 import config from '../lib/config';
 import { currentLocales } from '../lib/i18n';
+import { type CategoryLookupTables } from '../lib/Categories';
 
-async function fetchFeature(featureId: string): void {
+async function fetchFeature(featureId: string): Promise<any> {
   const isWheelmap = isWheelmapFeatureId(featureId);
   let url;
 
@@ -36,6 +37,7 @@ async function fetchFeature(featureId: string): void {
 type Props = {
   feature: Feature,
   featureId: string,
+  categories: CategoryLookupTables,
 };
 
 class Nodes extends React.Component<Props> {
@@ -53,14 +55,15 @@ class Nodes extends React.Component<Props> {
   }
 
   render() {
-    const { feature, featureId } = this.props;
+    const { feature } = this.props;
 
     return (
       <React.Fragment>
         <Head>
+          {/* @TODO Fix for wheelmap features */}
           <title>{feature.properties.name} – Wheelmap</title>
         </Head>
-        <App feature={feature} featureId={featureId} />
+        <App {...this.props} />
       </React.Fragment>
     );
   }
