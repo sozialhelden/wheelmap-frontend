@@ -13,7 +13,6 @@ import { Dots } from 'react-activity';
 import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
-import withFocusTrap from '../../lib/withFocusTrap';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -223,9 +222,7 @@ class MainMenu extends React.Component<Props, State> {
 const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4);
 openMenuHoverColor.opacity = 0.5;
 
-const MainMenuWithFocusTrap = withFocusTrap(MainMenu);
-
-const StyledMainMenu = styled(MainMenuWithFocusTrap)`
+const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   padding: 0;
   background-color: rgba(254, 254, 254, 0.95);
