@@ -6,7 +6,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dir: __dirname, dev });
 const handle = app.getRequestHandler();
 
-const mapping = [{ to: '/nodes/:id', page: '/nodes' }];
+const mapping = [{ to: '/nodes/:id', page: '/nodes' }, { to: '/', page: '/index' }];
 
 app.prepare().then(() => {
   const server = express();
