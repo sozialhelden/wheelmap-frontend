@@ -17,42 +17,56 @@ import {
   expandedPreferredLocales,
   parseAcceptLanguageString,
 } from '../lib/i18n';
+import Categories from '../lib/Categories';
+import config from '../lib/config';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
-    let languages;
+    let props;
+    let categories;
+    let locales;
 
-    if (ctx.req) {
-      if (ctx.req.headers['accept-language']) {
-        languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
-      }
-    } else {
-      languages = window.navigator.languages;
-    }
+    try {
+      let languages;
 
-    if (languages) {
-      // @TODO Pass locales into application (controlled)
-      const locales = expandedPreferredLocales(languages);
-
-      await loadExistingLocalizationByPreference(locales);
-    }
-
-    let props = {};
-
-    // Fetch child component props and fetch errors if anything happens.
-    if (PageComponent.getInitialProps) {
-      try {
-        props = await PageComponent.getInitialProps(ctx);
-      } catch (error) {
-        if (ctx.res) {
-          ctx.res.statusCode = error.statusCode || 500;
+      if (ctx.req) {
+        if (ctx.req.headers['accept-language']) {
+          languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
         }
-
-        props.error = error;
+      } else {
+        languages = window.navigator.languages;
       }
+
+      console.log(languages);
+
+      if (!languages || languages.length === 0) {
+        return { error: new Error('Missing languages.') };
+      }
+
+      // @TODO Pass locales into application (controlled)
+      locales = expandedPreferredLocales(languages);
+      await loadExistingLocalizationByPreference(locales);
+
+      console.log(locales);
+
+      categories = await Categories.fetchOnce({
+        ...config,
+        locale: locales[0],
+      });
+
+      // Fetch child component props and fetch errors if anything happens.
+      if (PageComponent.getInitialProps) {
+        props = await PageComponent.getInitialProps(ctx);
+      }
+    } catch (error) {
+      if (ctx.res) {
+        ctx.res.statusCode = error.statusCode || 500;
+      }
+
+      props.error = error;
     }
 
-    return props;
+    return { ...props, locales, categories };
   }
 
   render() {

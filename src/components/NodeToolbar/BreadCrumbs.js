@@ -1,10 +1,11 @@
 // @flow
 
 import get from 'lodash/get';
+import findLast from 'lodash/findLast';
 import * as React from 'react';
 import styled from 'styled-components';
 import ChevronRight from '../ChevronRight';
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { currentLocales } from '../../lib/i18n';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
@@ -12,6 +13,7 @@ import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib
 type Props = {
   className: string,
   category: ?Category,
+  categories: CategoryLookupTables,
   parentCategory: ?Category,
   properties: WheelmapProperties | AccessibilityCloudProperties,
 };
@@ -42,20 +44,25 @@ class BreadCrumbs extends React.Component<Props, State> {
   }
 
   loadCategories(props: Props) {
-    const promises = this.categoryIds(props)
+    const names = this.categoryIds(props)
       .filter(Boolean)
-      .map(id => Categories.getCategory(id));
-    Promise.all(promises).then(categories => {
-      const names = categories.map(category => {
-        let result = null;
-        currentLocales.find(locale => {
+      .map(id => {
+        const category = Categories.getCategory(props.categories, id);
+
+        // Find last AC category … @TODO \o/ Sebastian! Right?
+        const result = findLast(currentLocales, locale => {
+          return get(category, `translations._id.${locale}`);
+        });
+
+        /*currentLocales.find(locale => {
           result = get(category, `translations._id.${locale}`);
           return !!result;
-        });
+        });*/
+
         return result;
       });
-      this.setState({ displayedCategoryNames: names.filter(Boolean) });
-    });
+
+    this.setState({ displayedCategoryNames: names.filter(Boolean) });
   }
 
   render() {

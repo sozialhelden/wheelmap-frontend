@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Categories from '../../../lib/Categories';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import type { WheelmapFeature } from '../../../lib/Feature';
 import FocusTrap from '@sozialhelden/focus-trap-react';
@@ -15,6 +15,7 @@ import CloseLink from '../../CloseLink';
 type Props = {
   featureId: number,
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  categories: CategoryLookupTables,
 
   onSave: ?(value: string) => void,
   onClose: () => void,
@@ -69,14 +70,13 @@ class RadioStatusEditor extends React.Component<Props, State> {
       this.state = {
         ...this.state,
         selectedValue,
-        categoryId: 'other',
+        categoryId: this.fetchCategory(props.categories, props.feature) || 'other',
       };
     }
-
-    this.fetchCategory(this.props.feature);
   }
 
-  fetchCategory(feature: WheelmapFeature) {
+  // @TODO Refactor into util function.
+  fetchCategory(categories: CategoryLookupTables, feature: WheelmapFeature) {
     if (!feature) {
       return;
     }
@@ -92,10 +92,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
       return;
     }
 
-    Categories.getCategory(categoryId).then(() => {
-      const iconId = getIconNameForProperties(properties);
-      this.setState({ categoryId: iconId });
-    });
+    return getIconNameForProperties(categories, properties);
   }
 
   onRadioGroupKeyDown = ({ nativeEvent }) => {

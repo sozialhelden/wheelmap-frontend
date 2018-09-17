@@ -6,7 +6,7 @@ import type { RouterHistory } from 'react-router-dom';
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import type { Feature } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
@@ -17,6 +17,7 @@ import type { YesNoLimitedUnknown } from '../../lib/Feature';
 type Props = {
   feature: ?Feature,
   featureId: ?string | number,
+  categories: CategoryLookupTables,
   equipmentInfoId: ?string,
   hidden: boolean,
   modalNodeState: ModalNodeState,
@@ -104,16 +105,11 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return;
     }
 
-    Categories.getCategory(categoryId)
-      .then(
-        category => {
-          this.setState({ category });
-          return category;
-        },
-        () => this.setState({ category: null })
-      )
-      .then(category => category && Categories.getCategory(category.parentIds[0]))
-      .then(parentCategory => this.setState({ parentCategory }));
+    const category = Categories.getCategory(this.props.categories, categoryId);
+    const parentCategory =
+      category && Categories.getCategory(this.props.categories, category.parentIds[0]);
+
+    this.setState({ category, parentCategory });
   }
 
   render() {

@@ -24,7 +24,7 @@ import {
   getFeatureId,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
@@ -51,6 +51,7 @@ type MoveArgs = { zoom: number, lat: number, lon: number, bbox: L.LatLngBounds }
 type Props = {
   featureId?: ?string,
   feature?: ?Feature,
+  categories: CategoryLookupTables,
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
@@ -261,7 +262,19 @@ export default class Map extends React.Component<Props, State> {
       this.updateFeatureLayerVisibility(this.props);
     });
 
-    Categories.fetchOnce(this.props)
+    this.setupWheelmapTileLayer(markerClusterGroup);
+    this.updateFeatureLayerVisibility(this.props);
+    map.on('moveend', () => {
+      this.updateFeatureLayerVisibility();
+    });
+    map.on('zoomend', () => {
+      this.updateFeatureLayerVisibility();
+    });
+    map.on('zoomstart', () => {
+      this.removeLayersNotVisibleInZoomLevel();
+    });
+
+    /*Categories.fetchOnce(this.props)
       .then(() => {
         this.setupWheelmapTileLayer(markerClusterGroup);
         this.updateFeatureLayerVisibility(this.props);
@@ -281,7 +294,7 @@ export default class Map extends React.Component<Props, State> {
           const wrappedError = new Error(`Could not load categories: ${String(error)}.`);
           onError(wrappedError);
         }
-      });
+      });*/
 
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
   }
@@ -432,11 +445,12 @@ export default class Map extends React.Component<Props, State> {
     const mapState = this.getMapStateFromProps(props);
     this.updateMapCenter(mapState.center, mapState.zoom, props.padding, this.state);
 
-    Categories.fetchOnce(props)
+    this.updateFeatureLayerVisibility(props);
+    /*Categories.fetchOnce(props)
       .then(() => {
         this.updateFeatureLayerVisibility(props);
       })
-      .catch(e => {});
+      .catch(e => {});*/
   }
 
   updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
@@ -735,7 +749,7 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
     if (categoryName) {
-      const category = Categories.wheelmapRootCategoryWithName(categoryName);
+      const category = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
       if (!category) {
         return null;
       }

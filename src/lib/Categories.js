@@ -10,9 +10,7 @@ export type ACCategory = {
   icon: string,
   parentIds: string[],
   translations: {
-    _id: {
-      [key: string]: string,
-    },
+    _id: string,
   },
   synonyms: string[],
 };
@@ -35,13 +33,27 @@ type SynonymCache = {
   [key: string]: ACCategory,
 };
 
-export default class Categories {
-  static synonymCache: SynonymCache = {};
-  static idsToWheelmapCategories = {};
-  static wheelmapCategoryNamesToCategories = {};
-  static wheelmapRootCategoryNamesToCategories = {};
-  static fetchPromise: ?Promise<*>;
+export type CategoryLookupTables = {
+  synonymCache: ?SynonymCache,
+  idsToWheelmapCategories: { [number]: WheelmapCategory },
+  wheelmapCategoryNamesToCategories: { [string]: WheelmapCategory },
+  wheelmapRootCategoryNamesToCategories: { [string]: WheelmapCategory },
+};
 
+export function isACCategory(category: any): boolean {
+  return !!(category && category._id);
+}
+
+// This is just for typecasting.
+export function acCategoryFrom(category: ?Category): ?ACCategory {
+  if (category && isACCategory(category)) {
+    return ((category: any): ACCategory);
+  }
+
+  return null;
+}
+
+export default class Categories {
   static getTranslatedRootCategoryNames() {
     return {
       // translator: Root category
@@ -71,19 +83,17 @@ export default class Categories {
     };
   }
 
-  static getCategory(idOrSynonym): Promise<ACCategory> {
-    //if (!this.fetchPromise) throw new Error('Category fetching not initialized yet.');
-    // @TODO Refactore to work with next.js
-    if (!this.fetchPromise) return Promise.resolve();
+  static getCategory(lookUp: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
+    if (!lookUp.synonymCache) throw new Error('Empty synonym cache.');
 
-    return this.fetchPromise.then(() => this.getCategoryFromCache(idOrSynonym));
+    // @TODO \o/ Help! Sebastian!
+    return lookUp.synonymCache[String(idOrSynonym)];
   }
 
-  static getCategoryFromCache(idOrSynonym) {
-    return this.synonymCache[idOrSynonym];
-  }
-
-  static generateSynonymCache(categories: ACCategory[]): SynonymCache {
+  static generateSynonymCache(
+    lookUp: CategoryLookupTables,
+    categories: ACCategory[]
+  ): SynonymCache {
     const result: SynonymCache = {};
     categories.forEach(category => {
       result[category._id] = category;
@@ -93,41 +103,46 @@ export default class Categories {
         result[synonym] = category;
       });
     });
-    this.synonymCache = result;
+    lookUp.synonymCache = result;
     return result;
   }
 
-  static loadCategories(categories: WheelmapCategory[]) {
+  static buildCategoryLookUp(lookUp: CategoryLookupTables, categories: WheelmapCategory[]) {
     categories.forEach(category => {
-      this.idsToWheelmapCategories[category.id] = category;
-      this.wheelmapCategoryNamesToCategories[category.identifier] = category;
+      lookUp.idsToWheelmapCategories[category.id] = category;
+      lookUp.wheelmapCategoryNamesToCategories[category.identifier] = category;
       if (!category.category_id) {
-        this.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
+        lookUp.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
       }
     });
   }
 
-  static wheelmapCategoryWithName(name: string) {
-    return this.wheelmapCategoryNamesToCategories[name];
+  static wheelmapCategoryWithName(lookUp: CategoryLookupTables, name: string) {
+    return lookUp.wheelmapCategoryNamesToCategories[name];
   }
 
-  static wheelmapRootCategoryWithName(name: string) {
-    return this.wheelmapRootCategoryNamesToCategories[name];
+  static wheelmapRootCategoryWithName(lookUp: CategoryLookupTables, name: string) {
+    return lookUp.wheelmapRootCategoryNamesToCategories[name];
   }
 
   static translatedWheelmapRootCategoryName(name: string) {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static fetchOnce(options: {
+  static async fetchOnce(options: {
     accessibilityCloudBaseUrl: string,
     accessibilityCloudAppToken: string,
     wheelmapApiKey: string,
     wheelmapApiBaseUrl: string,
+    locale: string,
   }) {
-    if (this.fetchPromise) return this.fetchPromise;
-
-    const countryCode = navigator.language.substr(0, 2);
+    const lookUp: CategoryLookupTables = {
+      synonymCache: null,
+      idsToWheelmapCategories: {},
+      wheelmapCategoryNamesToCategories: {},
+      wheelmapRootCategoryNamesToCategories: {},
+    };
+    const countryCode = options.locale.substr(0, 2);
 
     const responseHandler = response => {
       if (!response.ok) {
@@ -145,7 +160,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { cordova: true })
         .then(responseHandler)
-        .then(json => Categories.generateSynonymCache(json.results || []));
+        .then(json => Categories.generateSynonymCache(lookUp, json.results || []));
     }
 
     function wheelmapCategoriesFetch() {
@@ -155,7 +170,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.loadCategories(json.categories || []));
+        .then(json => Categories.buildCategoryLookUp(lookUp, json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
@@ -165,14 +180,14 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.loadCategories(json.node_types || []));
+        .then(json => Categories.buildCategoryLookUp(lookUp, json.node_types || []));
     }
 
     const hasAccessibilityCloudCredentials = Boolean(options.accessibilityCloudAppToken);
     const hasWheelmapCredentials =
       options.wheelmapApiKey && typeof options.wheelmapApiBaseUrl === 'string';
 
-    this.fetchPromise = Promise.all(
+    await Promise.all(
       [
         hasAccessibilityCloudCredentials ? acCategoriesFetch() : null,
         hasWheelmapCredentials ? wheelmapCategoriesFetch() : null,
@@ -180,14 +195,20 @@ export default class Categories {
       ].filter(Boolean)
     );
 
-    return this.fetchPromise;
+    return lookUp;
   }
 }
 
 export function categoryNameFor(category: Category): ?string {
   if (!category) return null;
-  const translationsObject = category.translations;
-  const idObject = translationsObject ? translationsObject._id : null;
+  let idObject = null;
+
+  const acCategory = acCategoryFrom(category);
+
+  if (acCategory) {
+    idObject = acCategory.translations._id;
+  }
+
   return translatedStringFromObject(idObject);
 }
 
