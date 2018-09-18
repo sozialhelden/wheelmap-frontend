@@ -12,7 +12,7 @@ import config from './lib/config';
 import savedState, { saveState } from './lib/savedState';
 import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice, UAResult } from './lib/userAgent';
+import { isTouchDevice, type UAResult } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
