@@ -1,5 +1,6 @@
 const next = require('next');
 const express = require('express');
+const proxy = require('http-proxy-middleware');
 
 const routes = require('./routes');
 
@@ -25,6 +26,12 @@ app.prepare().then(() => {
     app.render(req, res, match.route.nextPage, { ...req.query, ...match.params });
   });
 
+  // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
+  server.use(
+    ['/api/*', '/nodes/*'],
+    proxy({ target: process.env.WHEELMAP_PROXY_URL, changeOrigin: true })
+  );
+
   // Fallback for routes not found.
   server.get('*', (req, res) => {
     handle(req, res);
@@ -34,6 +41,6 @@ app.prepare().then(() => {
   server.listen(port, error => {
     if (error) throw error;
 
-    console.log('> Ready on http://localhost:3000');
+    console.log(`> Ready on http://localhost:${port}`);
   });
 });

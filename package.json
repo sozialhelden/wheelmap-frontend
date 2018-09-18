@@ -107,7 +107,7 @@
     "flow-typed": "^2.1.2",
     "fs-extra": "3.0.1",
     "html-webpack-plugin": "2.29.0",
-    "http-proxy-middleware": "^0.17.4",
+    "http-proxy-middleware": "^0.19.0",
     "husky": "^1.0.0-rc.13",
     "jest": "20.0.4",
     "lint-staged": "^7.2.2",
@@ -188,7 +188,6 @@
       "git add"
     ]
   },
-  "proxy": "https://wheelmap.org",
   "browserslist": [
     "Android > 4.4",
     "UCAndroid >= 11.8",
