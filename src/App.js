@@ -62,7 +62,6 @@ type State = {
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
-  isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
@@ -134,7 +133,6 @@ class Loader extends React.Component<Props, State> {
     isOnboardingVisible: false,
     isNotFoundVisible: false,
     category: null,
-    isLocalizationLoaded: true, // @TODO Remove
     isMainMenuOpen: false,
     modalNodeState: null,
     lastError: null,
@@ -648,7 +646,6 @@ class Loader extends React.Component<Props, State> {
       isMainMenuOpen: this.state.isMainMenuOpen,
       isNotFoundVisible: this.state.isNotFoundVisible,
       isSearchBarVisible: this.state.isSearchBarVisible,
-      isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
 

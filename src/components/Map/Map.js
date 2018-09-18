@@ -91,7 +91,6 @@ type Props = {
   className: ?string,
   onMapMounted?: (map: L.Map) => void,
   unitSystem?: 'metric' | 'imperial',
-  isLocalizationLoaded: boolean,
   hideHints?: boolean,
   onLocationError: (error: any) => void,
 };
@@ -285,6 +284,8 @@ export default class Map extends React.Component<Props, State> {
     });
 
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
+
+    this.addAttribution();
   }
 
   componentWillUnmount() {
@@ -386,10 +387,6 @@ export default class Map extends React.Component<Props, State> {
     if (!map) return;
 
     this.navigate(newProps);
-
-    if (!this.props.isLocalizationLoaded && newProps.isLocalizationLoaded) {
-      this.addAttribution();
-    }
 
     // Sort is mutable. Create a new array and sort this one instead.
     const accessibilityFilterChanged = !isEqual(

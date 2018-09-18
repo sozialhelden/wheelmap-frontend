@@ -9,11 +9,10 @@ import colors from '../../lib/colors';
 import { getQueryParams } from '../../lib/queryParams';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
-import { Dots } from 'react-activity';
 import strings from './strings';
-import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
 import FocusTrap from '@sozialhelden/focus-trap-react';
+import { Link } from 'react-router-dom';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -23,7 +22,6 @@ type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   isOpen: boolean,
-  isLocalizationLoaded: boolean,
   lat: string,
   lon: string,
   zoom: string,
@@ -52,7 +50,7 @@ function MenuIcon(props) {
 
 const menuButtonVisibilityBreakpoint = 1024;
 const isMenuButtonVisible =
-  typeof window !== 'undefined' && window.innerWidth <= menuButtonVisibilityBreakpoint;
+  typeof window !== 'undefined' ? window.innerWidth <= menuButtonVisibilityBreakpoint : true;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;

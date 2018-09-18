@@ -305,14 +305,10 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderOnboarding({ isLocalizationLoaded }: { isLocalizationLoaded: boolean }) {
-    if (!isLocalizationLoaded && this.props.isOnboardingVisible) {
-      return <Dots size={36} color={colors.colorizedBackgroundColor} />;
-    }
-
+  renderOnboarding() {
     return (
       <Onboarding
-        isVisible={isLocalizationLoaded && this.props.isOnboardingVisible}
+        isVisible={this.props.isOnboardingVisible}
         onClose={this.props.onCloseOnboarding}
       />
     );
@@ -428,7 +424,6 @@ class MainView extends React.Component<Props, State> {
 
   render() {
     const { featureId, searchQuery, equipmentInfoId, presetStatus } = this.props;
-    const { isLocalizationLoaded } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom, modalNodeState } = this.props;
@@ -483,7 +478,6 @@ class MainView extends React.Component<Props, State> {
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
         locateOnStart={this.props.shouldLocateOnStart}
-        isLocalizationLoaded={isLocalizationLoaded}
         padding={this.getMapPadding()}
         hideHints={
           this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
@@ -492,7 +486,7 @@ class MainView extends React.Component<Props, State> {
       />
     );
 
-    const mainMenu = this.renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom });
+    const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
     const nodeToolbar = this.renderNodeToolbar(
       { featureId, equipmentInfoId, modalNodeState, presetStatus },
       isNodeRoute
@@ -503,10 +497,9 @@ class MainView extends React.Component<Props, State> {
         {!isMainMenuInBackground && mainMenu}
         <div className="behind-backdrop">
           {isMainMenuInBackground && mainMenu}
-          {isLocalizationLoaded &&
-            this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
+          {this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
           {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
-          {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
+          {this.props.isSearchButtonVisible && this.renderSearchButton()}
           {map}
         </div>
         {this.renderFullscreenBackdrop()}
@@ -516,7 +509,7 @@ class MainView extends React.Component<Props, State> {
           this.renderPhotoUploadInstructionsToolbar()}
         {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
         {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
-        {this.renderOnboarding({ isLocalizationLoaded })}
+        {this.renderOnboarding()}
         {this.renderNotFound()}
       </div>
     );
