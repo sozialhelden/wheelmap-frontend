@@ -71,16 +71,20 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
 
     if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
       return [
-        <dt data-key={key}>{capitalizedName}</dt>,
-        <dd>
+        <dt key={`${key}-name`} data-key={key}>
+          {capitalizedName}
+        </dt>,
+        <dd key={`${key}-tree`}>
           <AccessibilityDetailsTree isNested={true} details={value} />
         </dd>,
       ];
     }
     if (key.startsWith('rating')) {
       return [
-        <dt className="ac-rating">{capitalizedName}:</dt>,
-        <dd>
+        <dt key={`${key}-name`} className="ac-rating">
+          {capitalizedName}:
+        </dt>,
+        <dd key={`${key}-rating`}>
           <FormatRating rating={parseFloat(String(value))} />
         </dd>,
       ];
@@ -88,8 +92,10 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     const generatedClassName = `ac-${typeof value}`;
     const formattedValue = formatValue(value);
     return [
-      <dt className={generatedClassName}>{capitalizedName}:</dt>,
-      <dd className={generatedClassName} aria-label={`${formattedValue}!`}>
+      <dt key={`${key}-name`} className={generatedClassName}>
+        {capitalizedName}:
+      </dt>,
+      <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
         <em>{formattedValue}</em>
       </dd>,
     ];
