@@ -167,7 +167,7 @@ class Loader extends React.Component<Props, State> {
   map: ?any;
 
   mainView: UnstyledMainView;
-  _asyncRequest: Promise<*>;
+  //_asyncRequest: Promise<*>;
 
   /*constructor(props: Props) {
     super(props);
@@ -177,11 +177,11 @@ class Loader extends React.Component<Props, State> {
     // }
   }*/
 
-  componentWillUnmount() {
+  /*componentWillUnmount() {
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
       this._asyncRequest.cancel();
     }
-  }
+  }*/
 
   /*static getDerivedStateFromProps(props: Props, state: State): State {
     const routeInformation = getRouteInformation(props);
@@ -456,7 +456,7 @@ class Loader extends React.Component<Props, State> {
 
   onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
     console.log('onFinishPhotoUploadFlow');
-    const featureId = this.state.featureId;
+    const { featureId } = this.props;
 
     if (!featureId) {
       console.error('No feature found, aborting upload!');
@@ -511,14 +511,15 @@ class Loader extends React.Component<Props, State> {
   };
 
   onOpenReportMode = () => {
-    if (this.state.featureId) {
+    if (this.props.featureId) {
       const query = queryString.stringify(getQueryParams());
-      this.props.history.push(`/beta/nodes/${String(this.state.featureId)}/report?${query}`);
+      this.props.history.push(`/beta/nodes/${String(this.props.featureId)}/report?${query}`);
     }
   };
 
   onCloseNodeToolbar = () => {
-    const { category, featureId } = this.state;
+    const { featureId } = this.props;
+    const { category } = this.state;
 
     // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
     // when any node toolbar subpages are closed. in order to know how to change the route correctly
@@ -565,19 +566,19 @@ class Loader extends React.Component<Props, State> {
   };
 
   onOpenWheelchairAccessibility = () => {
-    if (this.state.featureId) {
+    if (this.props.featureId) {
       const query = queryString.stringify(getQueryParams());
       this.props.history.push(
-        `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility?${query}`
+        `/beta/nodes/${this.props.featureId}/edit-wheelchair-accessibility?${query}`
       );
     }
   };
 
   onOpenToiletAccessibility = () => {
-    if (this.state.featureId) {
+    if (this.props.featureId) {
       const query = queryString.stringify(getQueryParams());
       this.props.history.push(
-        `/beta/nodes/${this.state.featureId}/edit-toilet-accessibility?${query}`
+        `/beta/nodes/${this.props.featureId}/edit-toilet-accessibility?${query}`
       );
     }
   };
@@ -602,9 +603,9 @@ class Loader extends React.Component<Props, State> {
   };
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
-    if (this.state.featureId) {
+    if (this.props.featureId) {
       this.props.history.push({
-        pathname: `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`,
+        pathname: `/beta/nodes/${this.props.featureId}/edit-wheelchair-accessibility`,
         search: `presetStatus=${value}`,
       });
     }
@@ -621,7 +622,7 @@ class Loader extends React.Component<Props, State> {
   }
 
   render() {
-    const isNodeRoute = Boolean(this.state.featureId);
+    const isNodeRoute = Boolean(this.props.featureId);
     const modalNodeState = this.modalNodeState();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
@@ -663,9 +664,9 @@ class Loader extends React.Component<Props, State> {
 
       // photo feature
       isPhotoUploadCaptchaToolbarVisible:
-        this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
+        this.props.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible:
-        this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
+        this.props.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
       photosMarkedForUpload: this.state.photosMarkedForUpload,
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
