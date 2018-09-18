@@ -83,6 +83,7 @@ type Props = {
   onClickFullscreenBackdrop: () => void,
   onMoveEnd: () => void,
   onMapClick: () => void,
+  onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
@@ -159,14 +160,6 @@ class MainView extends React.Component<Props, State> {
   searchToolbar: ?SearchToolbar;
   photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
   photoUploadInstructionsToolbar: ?PhotoUploadInstructionsToolbar;
-
-  onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
-    const params = getQueryParams();
-    const pathname = hrefForFeature(featureId, properties);
-    // const newHref = this.props.history.createHref(location);
-    const location = { pathname, search: queryString.stringify(params) };
-    this.props.history.push(location);
-  };
 
   resizeListener = () => {
     updateTouchCapability();
@@ -465,7 +458,7 @@ class MainView extends React.Component<Props, State> {
         history={this.props.history}
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
-        onMarkerClick={this.onMarkerClick}
+        onMarkerClick={this.props.onMarkerClick}
         hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}

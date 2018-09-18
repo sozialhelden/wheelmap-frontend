@@ -6,6 +6,7 @@ import '@babel/polyfill';
 
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
+import Router from 'next/router';
 import Error from 'next/error';
 import UAParser from 'ua-parser-js';
 
@@ -19,7 +20,7 @@ import {
   parseAcceptLanguageString,
 } from '../lib/i18n';
 import Categories from '../lib/Categories';
-//import routes from '../routes';
+import routes from '../routes';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
@@ -85,7 +86,7 @@ export default class App extends BaseApp {
             <Error statusCode={error.statusCode} />
           </div>
         ) : (
-          <PageComponent {...props} />
+          <PageComponent routes={routes} router={Router} {...props} />
         )}
         <GlobalStyle />
         <LeafletStyle />

@@ -4,7 +4,7 @@ import * as React from 'react';
 import Head from 'next/head';
 
 import App from '../App';
-import { type Feature, isWheelmapFeatureId } from '../lib/Feature';
+import { type Feature, isWheelmapFeatureId, placeNameFor } from '../lib/Feature';
 import fetch from '../lib/fetch';
 import config from '../lib/config';
 import { currentLocales } from '../lib/i18n';
@@ -18,7 +18,11 @@ async function fetchFeature(featureId: string): Promise<any> {
   let url;
 
   if (isWheelmap) {
-    url = `${config.wheelmapApiBaseUrl}/api/nodes/${featureId}?api_key=${config.wheelmapApiKey}`;
+    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
+      ? config.wheelmapApiBaseUrl
+      : config.publicUrl;
+
+    url = `${wheelmapApiBaseUrl}/api/nodes/${featureId}?api_key=${config.wheelmapApiKey}`;
   } else {
     url = `${config.accessibilityCloudBaseUrl}/place-infos/${featureId}.json?appToken=${
       config.accessibilityCloudAppToken
@@ -76,7 +80,7 @@ class Nodes extends React.Component<Props> {
       <React.Fragment>
         <Head>
           {/* @TODO Fix for wheelmap features */}
-          <title>{feature.properties.name} – Wheelmap</title>
+          <title>{placeNameFor(feature.properties)} – Wheelmap</title>
         </Head>
         <App {...this.props} />
       </React.Fragment>

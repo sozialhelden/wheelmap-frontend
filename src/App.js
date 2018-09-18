@@ -29,7 +29,8 @@ import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
-import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import { type ClientRouter } from './lib/ClientRouter';
 
 initReactFastclick();
 
@@ -37,9 +38,10 @@ type Props = {
   className?: string,
   history: RouterHistory,
   location: Location,
+  router: ClientRouter,
+  routes: any, // FIXME
   feature?: ?Feature,
   featureId?: ?string,
-
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
   translations?: Translations[],
@@ -107,10 +109,10 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
+      return `/nodes/${placeInfoId}/equipment/${featureId}`;
     }
   }
-  return `/beta/nodes/${featureId}`;
+  return `/nodes/${featureId}`;
 }
 
 function isStickySearchBarSupported() {
@@ -353,15 +355,21 @@ class Loader extends React.Component<Props, State> {
   };
 
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
-    const params = getQueryParams();
-    const pathname = hrefForFeature(featureId, properties);
-    const location = { pathname, search: queryString.stringify(params) };
-    this.props.history.push(location);
+    //const pathname = hrefForFeature(featureId, properties);
+    //const location = { pathname, query: getQueryParams() };
+
+    //console.log(this.props.routes.generate('place_detail', { id: featureId, ...getQueryParams() }));
+
+    //debugger;
+
+    // @TODO Use custom routes and router for cordova, next.js
+    this.props.router.push({ pathname: '/nodes', query: { id: featureId } }, `/nodes/${featureId}`);
   };
 
   // Pan back to currently shown feature when marker in details panel is tapped/clicked
   onClickCurrentMarkerIcon = (feature: Feature) => {
     if (!feature) return;
+
     this.setState({
       lat: get(feature, 'geometry.coordinates.1'),
       lon: get(feature, 'geometry.coordinates.0'),

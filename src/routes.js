@@ -2,7 +2,7 @@ const Router = require('./lib/Router');
 
 const routes = [
   {
-    name: 'nodes_detail',
+    name: 'place_detail',
     path: '/nodes/:id',
     nextPage: '/nodes',
   },
