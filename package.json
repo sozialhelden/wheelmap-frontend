@@ -134,7 +134,7 @@
     "write-file-webpack-plugin": "^4.2.0"
   },
   "scripts": {
-    "dev": "nodemon --watch src/server.js src/server.js",
+    "dev": "nodemon --inspect --watch src/server.js src/server.js",
     "start": "NODE_ENV=production node src/server.js",
     "build": "next build src/",
     "start-cra": "REACT_APP_TAGS_TO_APPEND_TO_INDEX_HTML_HEAD=\"\" extract=1 node scripts/start.js",
