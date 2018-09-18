@@ -6,6 +6,7 @@ import * as React from 'react';
 // import ReactDOM from 'react-dom';
 // import axe from 'react-axe';
 import App from '../App';
+import Head from 'next/head';
 
 // import 'wicg-focus-ring';
 
@@ -27,6 +28,13 @@ import App from '../App';
 
 // registerServiceWorker();
 
-export default function Index() {
-  return <App />;
+export default function Index(props: Props) {
+  return (
+    <React.Fragment>
+      <Head>
+        <title>Wheelmap</title>
+      </Head>
+      <App {...props} />
+    </React.Fragment>
+  );
 }
