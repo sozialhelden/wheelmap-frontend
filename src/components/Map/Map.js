@@ -86,7 +86,6 @@ type Props = {
   minZoomWithSetCategory: number,
   minZoomWithoutSetCategory: number,
   defaultStartCenter: [number, number],
-  pointToLayer: (feature: Feature, latlng: [number, number]) => ?L.Marker,
   locateOnStart?: boolean,
   padding: ?Padding,
   className: ?string,
@@ -191,8 +190,9 @@ export default class Map extends React.Component<Props, State> {
       !isWheelmapFeature(feature) &&
       !properties.accessibility &&
       !includes(EquipmentCategoryStrings, properties.category)
-    )
+    ) {
       return null;
+    }
 
     return new HighlightableMarker(latlng, {
       onClick: this.props.onMarkerClick,
@@ -345,7 +345,7 @@ export default class Map extends React.Component<Props, State> {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,
         featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-        pointToLayer: this.props.pointToLayer,
+        pointToLayer: this.createMarkerFromFeature,
         filter: this.isFeatureVisible.bind(this),
         maxZoom: this.props.maxZoom,
         cordova: true,
