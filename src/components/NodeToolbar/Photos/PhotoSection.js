@@ -82,8 +82,12 @@ class PhotoSection extends React.Component<Props, State> {
     });
 
     this.setState({ photos: galleryPhotos }, () => {
-      const g: any = this.gallery;
-      g.handleResize();
+      if (this.gallery) {
+        // TODO: Find out what happens here.
+        // This seems to crash when opening place details because handleResize is not implemented
+        // in <Gallery />. Remove this if it is not necessary.
+        // this.gallery.handleResize();
+      }
     });
   };
 
