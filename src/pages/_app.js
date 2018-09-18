@@ -19,8 +19,7 @@ import {
   parseAcceptLanguageString,
 } from '../lib/i18n';
 import Categories from '../lib/Categories';
-import config from '../lib/config';
-import routes from '../routes';
+//import routes from '../routes';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
@@ -49,7 +48,6 @@ export default class App extends BaseApp {
         translations = await loadExistingLocalizationByPreference(locales);
 
         categories = await Categories.generateLookupTables({
-          ...config,
           locale: locales[0],
         });
       }

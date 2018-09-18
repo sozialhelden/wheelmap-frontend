@@ -34,6 +34,7 @@ const config = {
     }&locale=${locale}&includePlacesWithoutAccessibility=1`,
   // set this to '' for development - use relative urls, make request to server that hosts the page
   wheelmapApiBaseUrl: publicRuntimeConfig.REACT_APP_WHEELMAP_API_BASE_URL || '',
+  publicUrl: publicRuntimeConfig.PUBLIC_URL || '',
 };
 
 export default config;

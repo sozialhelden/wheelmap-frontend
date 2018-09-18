@@ -4,6 +4,7 @@ import { globalFetchManager } from './FetchManager';
 import { t } from 'ttag';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
+import config from './config';
 
 export type ACCategory = {
   _id: string,
@@ -132,13 +133,7 @@ export default class Categories {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static async generateLookupTables(options: {
-    accessibilityCloudBaseUrl: string,
-    accessibilityCloudAppToken: string,
-    wheelmapApiKey: string,
-    wheelmapApiBaseUrl: string,
-    locale: string,
-  }) {
+  static async generateLookupTables(options: { locale: string }) {
     const lookupTable: CategoryLookupTables = {
       synonymCache: null,
       idsToWheelmapCategories: {},
@@ -146,6 +141,9 @@ export default class Categories {
       wheelmapRootCategoryNamesToCategories: {},
     };
     const countryCode = options.locale.substr(0, 2);
+    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
+      ? config.wheelmapApiBaseUrl
+      : config.publicUrl;
 
     const responseHandler = response => {
       if (!response.ok) {
@@ -167,7 +165,7 @@ export default class Categories {
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${options.wheelmapApiBaseUrl}/api/categories?api_key=${
+      const url = `${wheelmapApiBaseUrl}/api/categories?api_key=${
         options.wheelmapApiKey
       }&locale=${countryCode}`;
       return globalFetchManager
@@ -177,7 +175,7 @@ export default class Categories {
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${options.wheelmapApiBaseUrl}/api/node_types?api_key=${
+      const url = `${wheelmapApiBaseUrl}/api/node_types?api_key=${
         options.wheelmapApiKey
       }&locale=${countryCode}`;
       return globalFetchManager
@@ -187,8 +185,7 @@ export default class Categories {
     }
 
     const hasAccessibilityCloudCredentials = Boolean(options.accessibilityCloudAppToken);
-    const hasWheelmapCredentials =
-      options.wheelmapApiKey && typeof options.wheelmapApiBaseUrl === 'string';
+    const hasWheelmapCredentials = options.wheelmapApiKey && typeof wheelmapApiBaseUrl === 'string';
 
     await Promise.all(
       [

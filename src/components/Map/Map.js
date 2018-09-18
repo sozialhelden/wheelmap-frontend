@@ -717,12 +717,11 @@ export default class Map extends React.Component<Props, State> {
         <span className="mapbox-attribution-container">
           <span className="sozialhelden-logo-container">
             <a href="https://www.sozialhelden.de">
-              <SozialheldenLogo />
-              |{' '}
+              <SozialheldenLogo />&nbsp;|&nbsp;
             </a>
           </span>
-          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>
-          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>
+          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>&nbsp;
+          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>&nbsp;
           <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
             <strong>Improve this map</strong>
           </a>
@@ -734,9 +733,9 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileUrl(props: Props = this.props): ?string {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = this.props.wheelmapApiBaseUrl;
+    const baseUrl = props.wheelmapApiBaseUrl;
     if (typeof baseUrl !== 'string') return null;
-    const wheelmapApiKey = this.props.wheelmapApiKey;
+    const wheelmapApiKey = props.wheelmapApiKey;
     const categoryName = props.category;
     if (!wheelmapApiKey) {
       return null;

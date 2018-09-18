@@ -6,6 +6,7 @@ const withConfig = nextRuntimeDotEnv({
   path: '.env.' + (process.env.NODE_ENV || 'development'),
   public: [
     'PUBLIC_URL',
+    'REACT_APP_WHEELMAP_API_KEY',
     'REACT_APP_MAPBOX_ACCESS_TOKEN',
     'REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN',
     'REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL',

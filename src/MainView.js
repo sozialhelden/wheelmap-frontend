@@ -141,7 +141,7 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   return `/beta/nodes/${featureId}`;
 }
 
-const Map = dynamic(import('./components/Map/Map'), {
+const DynamicMap = dynamic(import('./components/Map/Map'), {
   ssr: false,
 });
 
@@ -455,7 +455,7 @@ class MainView extends React.Component<Props, State> {
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
 
     const map = (
-      <Map
+      <DynamicMap
         ref={map => {
           this.map = map;
           if (typeof window !== 'undefined') {

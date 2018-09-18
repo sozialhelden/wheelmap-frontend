@@ -1,18 +1,12 @@
 // @flow
-
-import getConfig from 'next/config';
-
 import URLDataCache from './URLDataCache';
 import { globalFetchManager } from '../FetchManager';
 import isCordova from '../isCordova';
-
-const { publicRuntimeConfig } = getConfig();
+import config from '../config';
 
 export default class I18nCache extends URLDataCache<?{}> {
   getLocalization(locale: string): Promise<?{}> {
-    const baseUrl = isCordova()
-      ? 'https://wheelmap.org/beta'
-      : publicRuntimeConfig.PUBLIC_URL || '';
+    const baseUrl = isCordova() ? 'https://wheelmap.org/beta' : config.publicUrl || '';
     const url = `${baseUrl}/static/i18n/${locale.replace('-', '_')}.txt`;
 
     return this.getData(url);
