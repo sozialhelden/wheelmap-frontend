@@ -2,7 +2,9 @@
 
 import L from 'leaflet';
 import MarkerIcon from './MarkerIcon';
-import type { Feature } from '../../lib/Feature';
+import { type Feature, type NodeProperties } from '../../lib/Feature';
+import { type CategoryLookupTables } from '../../lib/Categories';
+import { type EquipmentInfoProperties } from '../../lib/EquipmentInfo';
 
 type Options = typeof L.Marker.Options & {
   feature: Feature,
@@ -11,29 +13,33 @@ type Options = typeof L.Marker.Options & {
     featureId: string,
     properties: ?NodeProperties | EquipmentInfoProperties
   ) => string,
+  categories: CategoryLookupTables,
 };
 
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
 
   constructor(latlng: L.LatLng, options: Options) {
-    const defaults: Options = {
+    super(latlng, {
       icon: new MarkerIcon({
         hrefForFeature: options.hrefForFeature,
         onClick: options.onClick,
         feature: options.feature,
+        categories: options.categories,
       }),
-    };
-    super(latlng, Object.assign(defaults, options));
+      ...options,
+    });
   }
 
   updateIcon(feature: Feature) {
     this.options.feature = feature;
+
     this.setIcon(
       new MarkerIcon({
         hrefForFeature: this.options.hrefForFeature,
         onClick: this.options.onClick,
         feature: feature,
+        categories: this.options.categories,
       })
     );
   }
@@ -65,6 +71,7 @@ export default class HighlightableMarker extends L.Marker {
           ariaHidden: true,
           iconAnchorOffset: L.point(0, 20),
           className: 'marker-icon highlighted-marker',
+          categories: this.options.categories,
         }),
       });
       if (animated) {

@@ -196,6 +196,7 @@ export default class Map extends React.Component<Props, State> {
       onClick: this.onMarkerClick,
       hrefForFeature: this.props.hrefForFeature,
       feature,
+      categories: this.props.categories,
     });
   };
 

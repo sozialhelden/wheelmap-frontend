@@ -19,7 +19,7 @@ export default function getIconNameForProperties(lookup: CategoryLookupTables, p
   if (categoryIdOrSynonym === '2nd_hand') {
     categoryIdOrSynonym = 'second_hand';
   }
-  const category = Categories.getCategoryFromCache(lookup, categoryIdOrSynonym);
-  const categoryId = category ? category._id : null;
-  return categoryId;
+
+  const category = Categories.getCategory(lookup, categoryIdOrSynonym);
+  return category ? category._id : null;
 }
