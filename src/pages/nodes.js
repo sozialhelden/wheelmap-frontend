@@ -4,11 +4,14 @@ import * as React from 'react';
 import Head from 'next/head';
 
 import App from '../App';
-import { isWheelmapFeatureId, type Feature } from '../lib/Feature';
+import { type Feature, isWheelmapFeatureId } from '../lib/Feature';
 import fetch from '../lib/fetch';
 import config from '../lib/config';
 import { currentLocales } from '../lib/i18n';
 import { type CategoryLookupTables } from '../lib/Categories';
+import { dataSourceCache } from '../lib/cache/DataSourceCache';
+import { sourceIdsForFeature } from '../components/NodeToolbar/SourceList';
+import { licenseCache } from '../lib/cache/LicenseCache';
 
 async function fetchFeature(featureId: string): Promise<any> {
   const isWheelmap = isWheelmapFeatureId(featureId);
@@ -51,7 +54,19 @@ class Nodes extends React.Component<Props> {
 
     const feature = await fetchFeature(query.id);
 
-    return { feature, featureId: query.id };
+    const sources = await Promise.all(
+      sourceIdsForFeature(feature).map(sourceId => dataSourceCache.getDataSourceWithId(sourceId))
+    );
+
+    const licenses = (await Promise.all(
+      sources.map(source => {
+        if (typeof source.licenseId === 'string') {
+          return licenseCache.getLicenseWithId(source.licenseId);
+        }
+      })
+    )).filter(Boolean);
+
+    return { feature, featureId: query.id, sources, licenses };
   }
 
   render() {
