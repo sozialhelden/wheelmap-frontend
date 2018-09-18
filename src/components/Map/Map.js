@@ -65,6 +65,7 @@ type Props = {
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
+  onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
@@ -194,7 +195,7 @@ export default class Map extends React.Component<Props, State> {
       return null;
 
     return new HighlightableMarker(latlng, {
-      onClick: this.onMarkerClick,
+      onClick: this.props.onMarkerClick,
       hrefForFeature: this.props.hrefForFeature,
       feature,
       categories: this.props.categories,
