@@ -53,7 +53,7 @@ export default class App extends BaseApp {
       locales = expandedPreferredLocales(languages);
       await loadExistingLocalizationByPreference(locales);
 
-      categories = await Categories.fetchOnce({
+      categories = await Categories.generateLookupTables({
         ...config,
         locale: locales[0],
       });

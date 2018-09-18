@@ -83,15 +83,15 @@ export default class Categories {
     };
   }
 
-  static getCategory(lookUp: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
-    if (!lookUp.synonymCache) throw new Error('Empty synonym cache.');
+  static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
+    if (!lookupTable.synonymCache) throw new Error('Empty synonym cache.');
 
     // @TODO \o/ Help! Sebastian!
-    return lookUp.synonymCache[String(idOrSynonym)];
+    return lookupTable.synonymCache[String(idOrSynonym)];
   }
 
   static generateSynonymCache(
-    lookUp: CategoryLookupTables,
+    lookupTable: CategoryLookupTables,
     categories: ACCategory[]
   ): SynonymCache {
     const result: SynonymCache = {};
@@ -103,40 +103,43 @@ export default class Categories {
         result[synonym] = category;
       });
     });
-    lookUp.synonymCache = result;
+    lookupTable.synonymCache = result;
     return result;
   }
 
-  static buildCategoryLookUp(lookUp: CategoryLookupTables, categories: WheelmapCategory[]) {
+  static fillCategoryLookupTable(
+    lookupTable: CategoryLookupTables,
+    categories: WheelmapCategory[]
+  ) {
     categories.forEach(category => {
-      lookUp.idsToWheelmapCategories[category.id] = category;
-      lookUp.wheelmapCategoryNamesToCategories[category.identifier] = category;
+      lookupTable.idsToWheelmapCategories[category.id] = category;
+      lookupTable.wheelmapCategoryNamesToCategories[category.identifier] = category;
       if (!category.category_id) {
-        lookUp.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
+        lookupTable.wheelmapRootCategoryNamesToCategories[category.identifier] = category;
       }
     });
   }
 
-  static wheelmapCategoryWithName(lookUp: CategoryLookupTables, name: string) {
-    return lookUp.wheelmapCategoryNamesToCategories[name];
+  static wheelmapCategoryWithName(lookupTable: CategoryLookupTables, name: string) {
+    return lookupTable.wheelmapCategoryNamesToCategories[name];
   }
 
-  static wheelmapRootCategoryWithName(lookUp: CategoryLookupTables, name: string) {
-    return lookUp.wheelmapRootCategoryNamesToCategories[name];
+  static wheelmapRootCategoryWithName(lookupTable: CategoryLookupTables, name: string) {
+    return lookupTable.wheelmapRootCategoryNamesToCategories[name];
   }
 
   static translatedWheelmapRootCategoryName(name: string) {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static async fetchOnce(options: {
+  static async generateLookupTables(options: {
     accessibilityCloudBaseUrl: string,
     accessibilityCloudAppToken: string,
     wheelmapApiKey: string,
     wheelmapApiBaseUrl: string,
     locale: string,
   }) {
-    const lookUp: CategoryLookupTables = {
+    const lookupTable: CategoryLookupTables = {
       synonymCache: null,
       idsToWheelmapCategories: {},
       wheelmapCategoryNamesToCategories: {},
@@ -160,7 +163,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { cordova: true })
         .then(responseHandler)
-        .then(json => Categories.generateSynonymCache(lookUp, json.results || []));
+        .then(json => Categories.generateSynonymCache(lookupTable, json.results || []));
     }
 
     function wheelmapCategoriesFetch() {
@@ -170,7 +173,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.buildCategoryLookUp(lookUp, json.categories || []));
+        .then(json => Categories.fillCategoryLookupTable(lookupTable, json.categories || []));
     }
 
     function wheelmapNodeTypesFetch() {
@@ -180,7 +183,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.buildCategoryLookUp(lookUp, json.node_types || []));
+        .then(json => Categories.fillCategoryLookupTable(lookupTable, json.node_types || []));
     }
 
     const hasAccessibilityCloudCredentials = Boolean(options.accessibilityCloudAppToken);
@@ -195,7 +198,7 @@ export default class Categories {
       ].filter(Boolean)
     );
 
-    return lookUp;
+    return lookupTable;
   }
 }
 
