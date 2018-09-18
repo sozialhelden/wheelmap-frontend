@@ -1,14 +1,13 @@
 // @flow
 
 import get from 'lodash/get';
-import findLast from 'lodash/findLast';
 import * as React from 'react';
 import styled from 'styled-components';
 import ChevronRight from '../ChevronRight';
+import type { Category } from '../../lib/Categories';
 import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { currentLocales } from '../../lib/i18n';
-import type { Category } from '../../lib/Categories';
-import type { WheelmapProperties, AccessibilityCloudProperties } from '../../lib/Feature';
+import type { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
 
 type Props = {
   className: string,
@@ -27,42 +26,39 @@ class BreadCrumbs extends React.Component<Props, State> {
     displayedCategoryNames: [],
   };
 
+  constructor(props: Props) {
+    super(props);
+    this.state.displayedCategoryNames = this.getCategoryNames(props);
+  }
+
   componentWillMount() {
-    this.setState({ displayedCategoryNames: this.categoryIds(this.props) });
-    this.loadCategories(this.props);
+    this.setState({ displayedCategoryNames: this.getCategoryNames(this.props) });
   }
 
   componentWillReceiveProps(props: Props) {
-    this.loadCategories(props);
+    this.setState({ displayedCategoryNames: this.getCategoryNames(props) });
   }
 
   categoryIds(props) {
-    // const parentCategoryId = props.parentCategory && props.parentCategory._id;
     const categoryId = props.category && props.category._id;
-    // return [parentCategoryId, categoryId];
     return [categoryId];
   }
 
-  loadCategories(props: Props) {
-    const names = this.categoryIds(props)
+  getCategoryNames(props: Props) {
+    return this.categoryIds(props)
       .filter(Boolean)
       .map(id => {
         const category = Categories.getCategory(props.categories, id);
 
-        // Find last AC category … @TODO \o/ Sebastian! Right?
-        const result = findLast(currentLocales, locale => {
-          return get(category, `translations._id.${locale}`);
-        });
+        // Find best category translation … @TODO \o/ Sebastian! Right?
+        const results = currentLocales
+          .map(locale => {
+            return get(category, `translations._id.${locale}`);
+          })
+          .filter(Boolean);
 
-        /*currentLocales.find(locale => {
-          result = get(category, `translations._id.${locale}`);
-          return !!result;
-        });*/
-
-        return result;
+        return results[0];
       });
-
-    this.setState({ displayedCategoryNames: names.filter(Boolean) });
   }
 
   render() {

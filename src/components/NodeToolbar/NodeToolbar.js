@@ -22,18 +22,16 @@ import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibility
 
 import type { PhotoModel } from './Photos/PhotoModel';
 
-import type { Feature } from '../../lib/Feature';
+import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import type { Category } from '../../lib/Categories';
+import { Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
-
-import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom } from '../../lib/Feature';
-import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import { getCategoryId, Category, type CategoryLookupTables } from '../../lib/Categories';
 import IconButtonList from './IconButtonList/IconButtonList';
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -304,6 +302,8 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
+    const hasWindow = typeof window !== 'undefined';
+    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
     return (
       <FocusTrap
         component={StyledToolbar}
@@ -314,7 +314,7 @@ class NodeToolbar extends React.Component<Props, State> {
         }}
         role="dialog"
         ariaLabel={this.placeName()}
-        startTopOffset={hasBigViewport() ? 0 : 0.4 * window.innerHeight}
+        startTopOffset={offset}
         onScrollable={isScrollable => this.setState({ isScrollable })}
       >
         {this.renderCloseLink()}

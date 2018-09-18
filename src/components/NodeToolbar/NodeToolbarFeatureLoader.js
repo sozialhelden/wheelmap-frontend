@@ -5,14 +5,12 @@ import type { RouterHistory } from 'react-router-dom';
 
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
-import Categories, { type CategoryLookupTables } from '../../lib/Categories';
-import type { Feature } from '../../lib/Feature';
-import type { Category } from '../../lib/Categories';
+import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
+import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import type { YesNoLimitedUnknown } from '../../lib/Feature';
 
 type Props = {
   feature: ?Feature,
@@ -31,8 +29,8 @@ type Props = {
 };
 
 type State = {
-  category: Category | null,
-  parentCategory: Category | null,
+  category: ?Category,
+  parentCategory?: Category,
   equipmentInfo: ?EquipmentInfo,
 };
 
@@ -41,20 +39,40 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   state = { category: null, parentCategory: null, equipmentInfo: null };
   nodeToolbar: React.ElementRef<NodeToolbar>;
 
+  constructor(props: Props) {
+    super(props);
+
+    const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+      props.categories,
+      props.feature
+    );
+    this.state = { ...this.state, ...resolvedCategories };
+  }
+
   componentDidMount() {
     if (!this.props.equipmentInfoId) {
-      this.fetchCategory(this.props.feature);
+      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        this.props.categories,
+        this.props.feature
+      );
+      this.setState(resolvedCategories);
     }
     this.fetchFeature(this.props);
   }
 
   componentWillReceiveProps(nextProps: Props) {
     this.fetchFeature(nextProps);
+
     if (this.props.featureId && nextProps.featureId !== this.props.featureId) {
       this.setState({ equipmentInfo: null });
     }
+
     if (!nextProps.equipmentInfoId) {
-      this.fetchCategory(nextProps.feature);
+      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        nextProps.categories,
+        nextProps.feature
+      );
+      this.setState(resolvedCategories);
     }
   }
 
@@ -66,7 +84,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
   fetchFeature(props: Props) {
     if (props.equipmentInfoId) {
-      equipmentInfoCache.getFeature(props.equipmentInfoId).then(equipmentInfo => {
+      equipmentInfoCache.getFeature(props.equipmentInfoId).then((equipmentInfo: EquipmentInfo) => {
         if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
         if (
           equipmentInfo.properties &&
@@ -74,37 +92,40 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           equipmentInfo.properties.placeInfoId !== props.featureId
         )
           return;
-        this.setState({ equipmentInfo });
-        this.fetchCategory(equipmentInfo);
+        const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+          props.categories,
+          equipmentInfo
+        );
+        this.setState({ equipmentInfo, ...resolvedCategories });
       });
     }
   }
 
-  fetchCategory(feature: ?Feature) {
+  // TODO move to helper
+  static getCategoriesForFeature(
+    categories: CategoryLookupTables,
+    feature: ?Feature | EquipmentInfo
+  ): { category: ?Category, parentCategory?: Category } {
     if (!feature) {
-      this.setState({ category: null });
-      return;
+      return { category: null };
     }
 
     const properties = feature.properties;
     if (!properties) {
-      this.setState({ category: null });
-      return;
+      return { category: null };
     }
 
     const categoryId =
       (properties.node_type && properties.node_type.identifier) || properties.category;
 
     if (!categoryId) {
-      this.setState({ category: null });
-      return;
+      return { category: null };
     }
 
-    const category = Categories.getCategory(this.props.categories, categoryId);
-    const parentCategory =
-      category && Categories.getCategory(this.props.categories, category.parentIds[0]);
+    const category = Categories.getCategory(categories, categoryId);
+    const parentCategory = category && Categories.getCategory(categories, category.parentIds[0]);
 
-    this.setState({ category, parentCategory });
+    return { category, parentCategory };
   }
 
   render() {
