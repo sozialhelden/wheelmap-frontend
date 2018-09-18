@@ -15,7 +15,6 @@ import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudF
 
 async function fetchFeature(featureId: string, useCache: boolean): Promise<any> {
   const isWheelmap = isWheelmapFeatureId(featureId);
-
   return new Promise((resolve, reject) => {
     if (isWheelmap) {
       return wheelmapFeatureCache.fetchFeature(featureId, resolve, reject, { useCache });
@@ -32,7 +31,7 @@ type Props = {
 };
 
 class Nodes extends React.Component<Props> {
-  static async getInitialProps({ query, res, ctx }) {
+  static async getInitialProps({ query, res }) {
     if (!query.id) {
       const error = new Error();
       error.statusCode = 404;
@@ -41,7 +40,7 @@ class Nodes extends React.Component<Props> {
     }
 
     // do not cache on server
-    const feature = await fetchFeature(query.id, !ctx);
+    const feature = await fetchFeature(query.id, !res);
 
     const sources = await Promise.all(
       sourceIdsForFeature(feature).map(sourceId => dataSourceCache.getDataSourceWithId(sourceId))
