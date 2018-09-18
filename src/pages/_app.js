@@ -20,6 +20,7 @@ import {
 } from '../lib/i18n';
 import Categories from '../lib/Categories';
 import config from '../lib/config';
+import routes from '../routes';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
@@ -77,6 +78,9 @@ export default class App extends BaseApp {
     if (error) {
       console.log(error);
     }
+
+    // Draft: test for generating paths from route names (with optional query parameters).
+    console.log(routes.generate('map'), routes.generate('map', { test: 'foo' }));
 
     return (
       <Container>

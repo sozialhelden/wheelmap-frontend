@@ -1,21 +1,28 @@
 const next = require('next');
 const express = require('express');
 
+const routes = require('./routes');
+
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dir: __dirname, dev });
 const handle = app.getRequestHandler();
 
-const mapping = [{ to: '/nodes/:id', page: '/nodes' }, { to: '/', page: '/index' }];
-
 app.prepare().then(() => {
   const server = express();
 
-  mapping.forEach(route => {
-    // Add route to server.
-    server.get(route.to, (req, res) => {
-      app.render(req, res, route.page, { ...req.query, ...req.params });
-    });
+  server.get('*', (req, res, next) => {
+    const match = routes.match(req.path);
+
+    if (!match) {
+      return next();
+    }
+
+    if (!match.route.nextPage) {
+      throw new Error('Missing "nextPage" config in route.');
+    }
+
+    app.render(req, res, match.route.nextPage, { ...req.query, ...match.params });
   });
 
   // Fallback for routes not found.

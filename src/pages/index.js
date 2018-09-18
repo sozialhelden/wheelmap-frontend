@@ -27,6 +27,6 @@ import App from '../App';
 
 // registerServiceWorker();
 
-export default function index() {
+export default function Index() {
   return <App />;
 }
