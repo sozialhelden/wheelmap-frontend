@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Categories from '../../../lib/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import type { WheelmapFeature } from '../../../lib/Feature';
-import FocusTrap from 'focus-trap-react';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';

@@ -110,6 +110,12 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@sozialhelden/focus-trap-react@5.0.0-react-component-compat":
+  version "5.0.0-react-component-compat"
+  resolved "https://registry.yarnpkg.com/@sozialhelden/focus-trap-react/-/focus-trap-react-5.0.0-react-component-compat.tgz#33f9505c5387b46c840f838b6fd0f6c305331e03"
+  dependencies:
+    focus-trap "^3.0.0"
+
 "@types/node@*":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.3.0.tgz#3a129cda7c4e5df2409702626892cb4b96546dd5"
@@ -4624,12 +4630,6 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
-
-"focus-trap-react@https://github.com/sozialhelden/focus-trap-react.git":
-  version "4.0.0"
-  resolved "https://github.com/sozialhelden/focus-trap-react.git#65457ed1578fcfe11770259f8d10194ae1806b51"
-  dependencies:
-    focus-trap "^3.0.0"
 
 focus-trap@^3.0.0:
   version "3.0.0"

@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
-import FocusTrap from 'focus-trap-react';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';

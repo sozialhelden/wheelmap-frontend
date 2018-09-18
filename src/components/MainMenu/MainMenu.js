@@ -13,7 +13,7 @@ import { Dots } from 'react-activity';
 import strings from './strings';
 import { Link } from 'react-router-dom';
 import type { RouterHistory } from 'react-router-dom';
-import FocusTrap from 'focus-trap-react';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 
 type State = {
   isMenuButtonVisible: boolean,

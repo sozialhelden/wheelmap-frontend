@@ -3,7 +3,7 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
-import FocusTrap from 'focus-trap-react';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 
 type Props = {
   onClose: () => {},

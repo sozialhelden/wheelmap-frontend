@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { t } from 'ttag';
-import FocusTrap from 'focus-trap-react';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';
