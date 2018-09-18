@@ -74,7 +74,8 @@ export const currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultL
 
 // Returns an expanded list of preferred locales.
 export function expandedPreferredLocales(languages: string[]) {
-  if (!languages && window && window.navigator && window.navigator.languages) {
+  const hasWindow = typeof window !== 'undefined';
+  if (!languages && hasWindow && window.navigator && window.navigator.languages) {
     languages = window.navigator.languages;
   }
 
@@ -87,7 +88,7 @@ export function expandedPreferredLocales(languages: string[]) {
   }
 
   const locales = localesPreferredByUser
-    .concat([typeof window !== 'undefined' && window.navigator.language, defaultLocale])
+    .concat([hasWindow && window.navigator.language, defaultLocale])
     // Filter empty or undefined locales. Android 4.4 seems to have an undefined
     // window.navigator.language in WebView.
     .filter(Boolean);
@@ -96,19 +97,19 @@ export function expandedPreferredLocales(languages: string[]) {
   return uniq(flatten(locales.map(l => [l, localeWithoutCountry(l)])));
 }
 
-export function translatedStringFromObject(string: ?LocalizedString): ?string {
-  if (!string) return null;
-  if (typeof string === 'string') {
-    return string;
+export function translatedStringFromObject(localizedString: ?LocalizedString): ?string {
+  if (!localizedString) return null;
+  if (typeof localizedString === 'string') {
+    return localizedString;
   }
-  if (typeof string === 'object') {
-    const locales = expandedPreferredLocales();
+  if (typeof localizedString === 'object') {
+    const locales = currentLocales;
     for (let i = 0; i < locales.length; i++) {
-      const translatedString = string[locales[i]];
+      const translatedString = localizedString[locales[i]];
       if (translatedString) return translatedString;
     }
-    const firstAvailableLocale = Object.keys(string)[0];
-    return string[firstAvailableLocale]; // return the untranslated string as last option
+    const firstAvailableLocale = Object.keys(localizedString)[0];
+    return localizedString[firstAvailableLocale]; // return the untranslated string as last option
   }
   return null;
 }
