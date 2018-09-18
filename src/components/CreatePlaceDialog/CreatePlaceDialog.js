@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { userAgent } from '../../lib/userAgent';
+import { getUserAgent } from '../../lib/userAgent';
 import colors from '../../lib/colors';
 import {
   generateOsmNoteUrlForCoords,
@@ -129,6 +129,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
   appLinks() {
     const { lat, lon } = this.props;
 
+    const userAgent = getUserAgent();
     const appLinks: App[] = [];
     if (userAgent.os.name === 'iOS') {
       appLinks.push(apps.mapsMeForIOS());

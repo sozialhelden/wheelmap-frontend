@@ -18,7 +18,7 @@ type Props = {
   className: string,
 };
 
-function sourceIdsForFeature(feature: ?Feature): string[] {
+export function sourceIdsForFeature(feature: ?Feature): string[] {
   if (!feature) return [];
 
   const properties = feature.properties;

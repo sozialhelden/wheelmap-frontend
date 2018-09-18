@@ -1,12 +1,14 @@
 import { t } from 'ttag';
 import isCordova from './isCordova';
-import { userAgent } from '../lib/userAgent';
+import { getUserAgent } from '../lib/userAgent';
 import { saveState } from './savedState';
 
 // Open location settings or show the user how to open them
 
 export default function goToLocationSettings() {
   saveState({ hasOpenedLocationHelp: 'true' });
+
+  const userAgent = getUserAgent();
 
   if (isCordova()) {
     if (

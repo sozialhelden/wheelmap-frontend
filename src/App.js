@@ -12,7 +12,7 @@ import config from './lib/config';
 import savedState, { saveState } from './lib/savedState';
 import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice, type UAResult } from './lib/userAgent';
+import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -30,7 +30,6 @@ import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
-import { useLocales } from 'ttag';
 
 initReactFastclick();
 
@@ -160,6 +159,11 @@ class Loader extends React.Component<Props, State> {
     if (props.translations) {
       applyTranslations(props.translations);
     }
+
+    if (props.userAgent) {
+      configureUserAgent(props.userAgent);
+    }
+
     // if (isFirstStart()) {
     //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     // }

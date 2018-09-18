@@ -37,7 +37,7 @@ import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityClo
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
-import { userAgent } from '../../lib/userAgent';
+import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors from '../../lib/colors';
@@ -687,6 +687,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   render() {
+    const userAgent = getUserAgent();
     const className = [
       userAgent.os.name === 'Android' ? 'is-android-platform' : null,
       this.props.className,

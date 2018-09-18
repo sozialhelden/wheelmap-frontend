@@ -21,4 +21,12 @@ export type UAResult = {
 };
 
 const parser = new UAParser();
-export const userAgent = parser.getResult();
+let userAgent = parser.getResult();
+
+export function configureUserAgent(userAgentResult: UAResult) {
+  userAgent = userAgentResult;
+}
+
+export function getUserAgent() {
+  return userAgent;
+}
