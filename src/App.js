@@ -10,43 +10,27 @@ import { MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
 import savedState, { saveState } from './lib/savedState';
-import { loadExistingLocalizationByPreference } from './lib/i18n';
+import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type {
-  AccessibilityCloudFeature,
-  Feature,
-  NodeProperties,
-  WheelmapFeature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-} from './lib/Feature';
-import {
-  getFeatureId,
-  isFiltered,
-  isWheelmapFeatureId,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
-} from './lib/Feature';
+import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
+import { yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
-
-import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
 import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
-import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
 import type { ModalNodeState } from './lib/queryParams';
 import { getQueryParams } from './lib/queryParams';
 import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import { useLocales } from 'ttag';
 
 initReactFastclick();
 
@@ -56,8 +40,10 @@ type Props = {
   location: Location,
   feature?: ?Feature,
   featureId?: ?string,
+
   categories: CategoryLookupTables,
   userAgent: UAResult,
+  translations: Translations[],
 };
 
 type State = {
@@ -167,15 +153,17 @@ class Loader extends React.Component<Props, State> {
   map: ?any;
 
   mainView: UnstyledMainView;
+
   //_asyncRequest: Promise<*>;
 
-  /*constructor(props: Props) {
+  constructor(props: Props) {
     super(props);
 
+    applyTranslations(props.translations);
     // if (isFirstStart()) {
     //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     // }
-  }*/
+  }
 
   /*componentWillUnmount() {
     if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {

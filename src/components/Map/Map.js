@@ -8,7 +8,7 @@ import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
-import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
+import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
 import { isWheelmapFeature } from '../../lib/Feature';
@@ -45,8 +45,18 @@ import useImperialUnits from '../../lib/useImperialUnits';
 
 window.L = L;
 
-type Padding = { top: number, left: number, right: number, bottom: number };
-type MoveArgs = { zoom: number, lat: number, lon: number, bbox: L.LatLngBounds };
+type Padding = {
+  top: number,
+  left: number,
+  right: number,
+  bottom: number,
+};
+type MoveArgs = {
+  zoom: number,
+  lat: number,
+  lon: number,
+  bbox: L.LatLngBounds,
+};
 
 type Props = {
   featureId?: ?string,
@@ -65,7 +75,7 @@ type Props = {
     featureId: string,
     properties: ?NodeProperties | EquipmentInfoProperties
   ) => string,
-  accessibilityCloudTileUrl: () => string,
+  accessibilityCloudTileUrl: (locale: string) => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -141,7 +151,9 @@ export default class Map extends React.Component<Props, State> {
       if (layer.getElement && layer.getLatLng) {
         const isInViewport = map.getBounds().contains(layer.getLatLng());
         const layerElement = layer.getElement();
-        layerElement.setAttribute('tabindex', isInViewport ? 0 : -1);
+        if (layerElement) {
+          layerElement.setAttribute('tabindex', isInViewport ? 0 : -1);
+        }
       }
     });
   }
@@ -158,7 +170,9 @@ export default class Map extends React.Component<Props, State> {
         const propertiesArray = cluster
           .getAllChildMarkers()
           .map(marker => marker.feature.properties);
-        const options = { propertiesArray };
+        const options = {
+          propertiesArray,
+        };
         if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
           options.backgroundColor = 'rgb(171, 167, 160)';
         }
@@ -234,33 +248,29 @@ export default class Map extends React.Component<Props, State> {
 
     const markerClusterGroup = this.createMarkerClusterGroup();
 
-    // markerClusterGroup.on('clusterclick', (cluster) => {
-    //   const markers = cluster.layer.getAllChildMarkers();
-    //   markers.forEach(marker => marker.)
-    // });
+    // markerClusterGroup.on('clusterclick', (cluster) => {   const markers =
+    // cluster.layer.getAllChildMarkers();   markers.forEach(marker => marker.) });
 
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
 
-    loadExistingLocalizationByPreference().then(() => {
-      const locale = currentLocales[0];
-      if (!locale) {
-        console.error('Could not load AC tile layer because no current locale is set.');
-      }
-      const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
-      this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
-        featureCache: accessibilityCloudFeatureCache,
-        layerGroup: markerClusterGroup,
-        featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-        pointToLayer: this.createMarkerFromFeature,
-        filter: this.isFeatureVisible.bind(this),
-        maxZoom: this.props.maxZoom,
-      });
-
-      // ensure that the map property is set so that wmp can inject places immediately
-      this.accessibilityCloudTileLayer._map = this.map;
-      this.updateFeatureLayerVisibility(this.props);
+    const locale = currentLocales[0];
+    if (!locale) {
+      console.error('Could not load AC tile layer because no current locale is set.');
+    }
+    const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
+    this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
+      featureCache: accessibilityCloudFeatureCache,
+      layerGroup: markerClusterGroup,
+      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
+      pointToLayer: this.createMarkerFromFeature,
+      filter: this.isFeatureVisible.bind(this),
+      maxZoom: this.props.maxZoom,
     });
+
+    // ensure that the map property is set so that wmp can inject places immediately
+    this.accessibilityCloudTileLayer._map = this.map;
+    this.updateFeatureLayerVisibility(this.props);
 
     this.setupWheelmapTileLayer(markerClusterGroup);
     this.updateFeatureLayerVisibility(this.props);
@@ -273,28 +283,6 @@ export default class Map extends React.Component<Props, State> {
     map.on('zoomstart', () => {
       this.removeLayersNotVisibleInZoomLevel();
     });
-
-    /*Categories.fetchOnce(this.props)
-      .then(() => {
-        this.setupWheelmapTileLayer(markerClusterGroup);
-        this.updateFeatureLayerVisibility(this.props);
-        map.on('moveend', () => {
-          this.updateFeatureLayerVisibility();
-        });
-        map.on('zoomend', () => {
-          this.updateFeatureLayerVisibility();
-        });
-        map.on('zoomstart', () => {
-          this.removeLayersNotVisibleInZoomLevel();
-        });
-      })
-      .catch(error => {
-        const onError = this.props.onError;
-        if (onError) {
-          const wrappedError = new Error(`Could not load categories: ${String(error)}.`);
-          onError(wrappedError);
-        }
-      });*/
 
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
   }
@@ -324,8 +312,8 @@ export default class Map extends React.Component<Props, State> {
         ) {
           // System does not allow to use location services
           if (!hasOpenedLocationHelp()) {
-            // If you open location help once, do not show this hint again until you click the
-            // location button
+            // If you open location help once, do not show this hint again until you click
+            // the location button
             this.setState({ showLocationNotAllowedHint: true });
           }
         }
@@ -529,7 +517,12 @@ export default class Map extends React.Component<Props, State> {
 
     let moved = false;
 
-    const actualPadding = padding || { top: 10, left: 10, right: 10, bottom: 10 };
+    const actualPadding = padding || {
+      top: 10,
+      left: 10,
+      right: 10,
+      bottom: 10,
+    };
     const targetCoords = this.offsetCoordsWithPadding(coords, actualPadding);
     if (targetCoords && !isSamePosition(targetCoords, [center.lat, center.lng])) {
       const bounds = this.calculateBoundsWithPadding(actualPadding);
@@ -547,9 +540,7 @@ export default class Map extends React.Component<Props, State> {
 
     if (!moved && zoom !== map.getZoom()) {
       moved = true;
-      map.setZoom(zoom, {
-        animate: true,
-      });
+      map.setZoom(zoom, { animate: true });
     }
   }
 
@@ -676,7 +667,8 @@ export default class Map extends React.Component<Props, State> {
   }
 
   renderGeolocationError() {
-    // translator: Shown next to the locate-me button when location services are not enabled
+    // translator: Shown next to the locate-me button when location services are not
+    // enabled
     const caption = t`Turn on location services`;
     const isHidden =
       this.props.hideHints || !this.state.showLocationNotAllowedHint || hasOpenedLocationHelp();
@@ -724,11 +716,12 @@ export default class Map extends React.Component<Props, State> {
         <span className="mapbox-attribution-container">
           <span className="sozialhelden-logo-container">
             <a href="https://www.sozialhelden.de">
-              <SozialheldenLogo /> |{' '}
+              <SozialheldenLogo />
+              |{' '}
             </a>
           </span>
-          <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
-          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
+          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>
+          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>
           <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
             <strong>Improve this map</strong>
           </a>
@@ -738,8 +731,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   wheelmapTileUrl(props: Props = this.props): ?string {
-    // For historical reasons:
-    // 'Classic' Wheelmap way of fetching GeoJSON tiles:
+    // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
     const baseUrl = this.props.wheelmapApiBaseUrl;
     if (typeof baseUrl !== 'string') return null;

@@ -5,7 +5,7 @@ import difference from 'lodash/difference';
 import intersection from 'lodash/intersection';
 import flatten from 'lodash/flatten';
 import gettextParser from 'gettext-parser';
-import { useLocales, addLocale } from 'ttag';
+import { addLocale, useLocales } from 'ttag';
 import { i18nCache } from './cache/I18nCache';
 import { getQueryParams } from './queryParams';
 
@@ -14,6 +14,11 @@ export type LocalizedString =
   | {
       [key: string]: string,
     };
+
+export type Translations = {
+  locale: string,
+  poData: any,
+};
 
 export const defaultLocale = 'en-US';
 
@@ -33,20 +38,37 @@ export function removeEmptyTranslations(locale) {
   return locale;
 }
 
-export function loadLocalizationFromPOFile(locale, poFile) {
-  const localization = gettextParser.po.parse(poFile);
-  addLocale(locale, removeEmptyTranslations(localization));
-  return localization;
+export function applyTranslations(translations: Translations[]) {
+  const localesToUse = [];
+
+  // register with ttag
+  for (const t of translations) {
+    addLocale(t.locale, t.poData);
+    localesToUse.push(t.locale);
+  }
+
+  // set locale in ttag
+  useLocales(localesToUse);
+
+  // update active locales
+  // we need to modify the actual array content, so that all imported references get the changes
+  currentLocales.splice(0, currentLocales.length);
+  currentLocales.push(...localesToUse);
 }
 
-// Returns the locale as language code without country code etc. removed
-// (for example "en" if given "en-GB").
+export function loadLocalizationFromPOFile(locale, poFile) {
+  const poData = removeEmptyTranslations(gettextParser.po.parse(poFile));
+  return { locale, poData };
+}
+
+// Returns the locale as language code without country code etc. removed (for
+// example "en" if given "en-GB").
 
 export function localeWithoutCountry(locale: string): string {
   return locale.substring(0, 2);
 }
 
-export let currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]).filter(
+export const currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultLocale)]).filter(
   Boolean
 );
 
@@ -66,8 +88,8 @@ export function expandedPreferredLocales(languages: string[]) {
 
   const locales = localesPreferredByUser
     .concat([typeof window !== 'undefined' && window.navigator.language, defaultLocale])
-    // Filter empty or undefined locales. Android 4.4 seems to have
-    // an undefined window.navigator.language in WebView.
+    // Filter empty or undefined locales. Android 4.4 seems to have an undefined
+    // window.navigator.language in WebView.
     .filter(Boolean);
 
   // Try all locales without country code, too
@@ -96,15 +118,15 @@ export function loadExistingLocalizationByPreference(
 ): Promise<*> {
   if (locales.length === 0) return Promise.resolve(null);
 
-  const loadedLocales = [];
+  let loadedLocales;
+  let loadedTranslations;
 
   return Promise.all(
     locales.map(locale => {
       return i18nCache.getLocalization(locale).then(
         result => {
-          loadLocalizationFromPOFile(locale, result);
           // console.log('Loaded translation', locale);
-          loadedLocales.push(locale);
+          return loadLocalizationFromPOFile(locale, result);
         },
         response => {
           if (response.status !== 404) {
@@ -114,20 +136,25 @@ export function loadExistingLocalizationByPreference(
       );
     })
   )
-    .then(() => {
+    .then((loadedTranslationsResult: Translations[]) => {
+      loadedTranslations = loadedTranslationsResult.filter(Boolean);
+      loadedLocales = loadedTranslations.map(t => t.locale);
+
       const missingLocales = difference(locales, loadedLocales);
       return Promise.all(
         missingLocales
           .map(missingLocale => {
             if (missingLocale.length === 2) {
-              // missing locale might be loaded with a country suffix, find out and duplicate if possible
+              // missing locale might be loaded with a country suffix, find out and duplicate
+              // if possible
               const replacementLocale = loadedLocales.find(
                 loadedLocale => localeWithoutCountry(loadedLocale) === missingLocale
               );
               if (replacementLocale) {
-                // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
+                // console.log('Replaced requested', missingLocale, 'locale with data from',
+                // replacementLocale);
                 return i18nCache.getLocalization(replacementLocale).then(result => {
-                  loadLocalizationFromPOFile(missingLocale, result);
+                  loadedTranslations.push(loadLocalizationFromPOFile(missingLocale, result));
                   loadedLocales.push(missingLocale);
                 });
               }
@@ -138,12 +165,17 @@ export function loadExistingLocalizationByPreference(
       );
     })
     .then(() => {
-      const localesToUse = intersection(locales, loadedLocales);
-      currentLocales = localesToUse.filter(Boolean);
-      if (currentLocales.length === 0) {
-        console.warn('Warning: No locales available after loading locales.');
+      const localesToUse = intersection(locales, loadedLocales).filter(Boolean);
+
+      if (localesToUse.length === 0) {
+        console.warn(
+          'Warning: No locales available after loading locales.',
+          locales,
+          loadedLocales
+        );
       }
-      useLocales(localesToUse);
+
+      return loadedTranslations.filter(t => localesToUse.includes(t.locale));
     });
 }
 

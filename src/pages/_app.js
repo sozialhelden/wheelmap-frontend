@@ -14,8 +14,8 @@ import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import {
-  loadExistingLocalizationByPreference,
   expandedPreferredLocales,
+  loadExistingLocalizationByPreference,
   parseAcceptLanguageString,
 } from '../lib/i18n';
 import Categories from '../lib/Categories';
@@ -24,9 +24,7 @@ import config from '../lib/config';
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
     let props = {};
-    let categories;
-    let locales;
-    let userAgent;
+    let categories, locales, userAgent, translations;
 
     try {
       let languages;
@@ -51,7 +49,7 @@ export default class App extends BaseApp {
 
       // @TODO Pass locales into application (controlled)
       locales = expandedPreferredLocales(languages);
-      await loadExistingLocalizationByPreference(locales);
+      translations = await loadExistingLocalizationByPreference(locales);
 
       categories = await Categories.generateLookupTables({
         ...config,
@@ -70,15 +68,26 @@ export default class App extends BaseApp {
       props.error = error;
     }
 
-    return { ...props, locales, categories, userAgent };
+    return { ...props, translations, categories, userAgent };
   }
 
   render() {
     const { Component: PageComponent, error, ...props } = this.props;
 
+    if (error) {
+      console.log(error);
+    }
+
     return (
       <Container>
-        {error ? <Error statusCode={error.statusCode} /> : <PageComponent {...props} />}
+        {error ? (
+          <div>
+            {error.message}
+            <Error statusCode={error.statusCode} />
+          </div>
+        ) : (
+          <PageComponent {...props} />
+        )}
         <GlobalStyle />
         <LeafletStyle />
         <AppStyle />
