@@ -111,7 +111,7 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     const { feature, featureId } = this.props;
 
     let pageDescription = null;
-    const url = featureId ? `https://wheelmap.org/nodes/${featureId}` : 'https://wheelmap.org';
+    const url = featureId ? `https://wheelmap.org/beta/nodes/${featureId}` : 'https://wheelmap.org';
 
     // translator: Email body used when sharing a place without known name/category via email.
     let mailBody = t`I found a place on Wheelmap: ${url}`;
