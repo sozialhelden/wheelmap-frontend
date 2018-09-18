@@ -171,6 +171,7 @@ export default class Map extends React.Component<Props, State> {
           .map(marker => marker.feature.properties);
         const options = {
           propertiesArray,
+          categories: map.props.categories,
         };
         if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
           options.backgroundColor = 'rgb(171, 167, 160)';

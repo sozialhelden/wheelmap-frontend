@@ -5,6 +5,7 @@ import includes from 'lodash/includes';
 
 export default function getIconNameForProperties(lookup: CategoryLookupTables, properties) {
   const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
+
   let givenCategoryId = null;
   if (typeof properties.category === 'string') {
     if (includes(['escalator', 'elevator'], properties.category)) {
