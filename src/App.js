@@ -35,15 +35,15 @@ import { useLocales } from 'ttag';
 initReactFastclick();
 
 type Props = {
-  className: string,
+  className?: string,
   history: RouterHistory,
   location: Location,
   feature?: ?Feature,
   featureId?: ?string,
 
-  categories: CategoryLookupTables,
-  userAgent: UAResult,
-  translations: Translations[],
+  categories?: CategoryLookupTables,
+  userAgent?: UAResult,
+  translations?: Translations[],
 };
 
 type State = {
@@ -159,7 +159,9 @@ class Loader extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    applyTranslations(props.translations);
+    if (props.translations) {
+      applyTranslations(props.translations);
+    }
     // if (isFirstStart()) {
     //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
     // }

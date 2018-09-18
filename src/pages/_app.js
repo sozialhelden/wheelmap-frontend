@@ -44,18 +44,15 @@ export default class App extends BaseApp {
       const userAgentParser = new UAParser(userAgentString);
       userAgent = userAgentParser.getResult();
 
-      if (!languages || languages.length === 0) {
-        return { error: new Error('Missing languages.') };
+      if (languages) {
+        locales = expandedPreferredLocales(languages);
+        translations = await loadExistingLocalizationByPreference(locales);
+
+        categories = await Categories.generateLookupTables({
+          ...config,
+          locale: locales[0],
+        });
       }
-
-      // @TODO Pass locales into application (controlled)
-      locales = expandedPreferredLocales(languages);
-      translations = await loadExistingLocalizationByPreference(locales);
-
-      categories = await Categories.generateLookupTables({
-        ...config,
-        locale: locales[0],
-      });
 
       // Fetch child component props and fetch errors if anything happens.
       if (PageComponent.getInitialProps) {
