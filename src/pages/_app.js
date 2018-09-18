@@ -80,7 +80,7 @@ export default class App extends BaseApp {
     }
 
     // Draft: test for generating paths from route names (with optional query parameters).
-    console.log(routes.generate('map'), routes.generate('map', { test: 'foo' }));
+    // console.log(routes.generate('map'), routes.generate('map', { test: 'foo' }));
 
     return (
       <Container>
