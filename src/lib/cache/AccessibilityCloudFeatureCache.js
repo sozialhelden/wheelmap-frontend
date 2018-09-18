@@ -18,14 +18,15 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   AccessibilityCloudFeature,
   AccessibilityCloudFeatureCollection
 > {
-  static fetchFeature(id): Promise<Response> {
-    return loadExistingLocalizationByPreference().then(() =>
-      this.fetch(
-        `${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${
-          config.accessibilityCloudAppToken
-        }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
-        { cordova: true }
-      )
+  static fetchFeature(
+    id: number | string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<Response> {
+    return this.fetch(
+      `${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${
+        config.accessibilityCloudAppToken
+      }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
+      { cordova: true }
     );
   }
 

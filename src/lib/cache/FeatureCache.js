@@ -118,12 +118,13 @@ export default class FeatureCache<
   fetchFeature(
     id: string,
     resolve: (feature: FeatureType) => void,
-    reject: (response: any) => void
+    reject: (response: any) => void,
+    options: { useCache: boolean } = { useCache: true }
   ) {
-    this.constructor.fetchFeature(id).then((response: Response) => {
+    this.constructor.fetchFeature(id, options).then((response: Response) => {
       if (response.status === 200) {
         return this.constructor.getFeatureFromResponse(response).then(feature => {
-          this.cacheFeature(feature, response);
+          if (options.useCache) this.cacheFeature(feature, response);
           resolve(feature);
           const changeEvent = new CustomEvent('change', {
             target: this,
@@ -205,7 +206,10 @@ export default class FeatureCache<
    * @param {string} id
    */
   // eslint-disable-next-line
-  /** @protected @abstract */ static fetchFeature(id: string): Promise<Response> {
+  /** @protected @abstract */ static fetchFeature(
+    id: string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<Response> {
     throw new Error('Not implemented. Please override this method in your subclass.');
   }
 

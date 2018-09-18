@@ -11,11 +11,18 @@ export default class WheelmapFeatureCache extends FeatureCache<
   WheelmapFeature,
   WheelmapFeatureCollection
 > {
-  static fetchFeature(id): Promise<Response> {
-    return this.fetch(
-      `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`,
-      { cordova: true }
-    );
+  static fetchFeature(
+    id: number | string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<Response> {
+    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
+      ? config.wheelmapApiBaseUrl
+      : config.publicUrl;
+
+    return this.fetch(`${wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`, {
+      cordova: true,
+      ...options,
+    });
   }
 
   static getIdForFeature(feature: WheelmapFeature): string {
