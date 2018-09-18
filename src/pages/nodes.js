@@ -5,40 +5,24 @@ import Head from 'next/head';
 
 import App from '../App';
 import { type Feature, isWheelmapFeatureId, placeNameFor } from '../lib/Feature';
-import fetch from '../lib/fetch';
-import config from '../lib/config';
-import { currentLocales } from '../lib/i18n';
 import { type CategoryLookupTables } from '../lib/Categories';
+
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
 import { sourceIdsForFeature } from '../components/NodeToolbar/SourceList';
 import { licenseCache } from '../lib/cache/LicenseCache';
+import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
+import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 
-async function fetchFeature(featureId: string): Promise<any> {
+async function fetchFeature(featureId: string, useCache: boolean): Promise<any> {
   const isWheelmap = isWheelmapFeatureId(featureId);
-  let url;
 
-  if (isWheelmap) {
-    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
-      ? config.wheelmapApiBaseUrl
-      : config.publicUrl;
-
-    url = `${wheelmapApiBaseUrl}/api/nodes/${featureId}?api_key=${config.wheelmapApiKey}`;
-  } else {
-    url = `${config.accessibilityCloudBaseUrl}/place-infos/${featureId}.json?appToken=${
-      config.accessibilityCloudAppToken
-    }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`;
-  }
-
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const error = new Error();
-    error.statusCode = response.status;
-
-    throw error;
-  }
-
-  return response.json();
+  return new Promise((resolve, reject) => {
+    if (isWheelmap) {
+      return wheelmapFeatureCache.fetchFeature(featureId, resolve, reject, { useCache });
+    } else {
+      return accessibilityCloudFeatureCache.fetchFeature(featureId, resolve, reject, { useCache });
+    }
+  });
 }
 
 type Props = {
@@ -48,7 +32,7 @@ type Props = {
 };
 
 class Nodes extends React.Component<Props> {
-  static async getInitialProps({ query, res }) {
+  static async getInitialProps({ query, res, ctx }) {
     if (!query.id) {
       const error = new Error();
       error.statusCode = 404;
@@ -56,7 +40,8 @@ class Nodes extends React.Component<Props> {
       throw error;
     }
 
-    const feature = await fetchFeature(query.id);
+    // do not cache on server
+    const feature = await fetchFeature(query.id, !ctx);
 
     const sources = await Promise.all(
       sourceIdsForFeature(feature).map(sourceId => dataSourceCache.getDataSourceWithId(sourceId))
