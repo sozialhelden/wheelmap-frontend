@@ -9,8 +9,9 @@ import {
 
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
-import searchPlaces from '../lib/searchPlaces';
+
 import PlaceDetailsData from './placeDetailsData';
+import SearchData from './searchData';
 
 export type DataTableEntry<Props> = {
   getInitialProps: (query: { [key: string]: string }, isServer: boolean) => Promise<Props>,
@@ -27,17 +28,7 @@ type AppProps = {
 
 const dataTable: DataTable = {
   place_detail: PlaceDetailsData,
-  search: {
-    async getInitialProps(query, isServer) {
-      const searchPlacesPromise = searchPlaces(query.q, { lat: query.lat, lon: query.lon });
-      const searchResults = isServer ? await searchPlacesPromise : searchPlacesPromise;
-
-      return {
-        searchResults,
-        searchQuery: query.q,
-      };
-    },
-  },
+  search: SearchData,
 };
 
 export function getInitialProps(
