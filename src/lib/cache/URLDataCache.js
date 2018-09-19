@@ -26,7 +26,7 @@ export default class URLDataCache<T> {
    * Gets a feature from cache or fetches it from the web.
    * @param {string} url
    */
-  getData(url: string): Promise<T> {
+  getData(url: string, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
     if (!url) {
       return new Promise((resolve, reject) => {
         reject(null);
@@ -38,7 +38,7 @@ export default class URLDataCache<T> {
     promise = new Promise((resolve, reject) => {
       this.fetch(url, resolve, reject);
     });
-    this.cache[url] = promise;
+    if (!options || options.useCache) this.cache[url] = promise;
     return promise;
   }
 
