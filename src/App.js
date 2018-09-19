@@ -14,6 +14,7 @@ import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
 import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
+import { type SearchResultCollection } from './lib/searchPlaces';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -38,13 +39,14 @@ type Props = {
   className?: string,
   history: RouterHistory,
   location: Location,
+  routerHistory: NewRouterHistory,
   feature?: ?Feature,
   featureId?: ?string,
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
   translations?: Translations[],
-  routerHistory: NewRouterHistory,
   searchQuery?: ?string,
+  searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
 };
 
 type State = {
@@ -643,6 +645,8 @@ class Loader extends React.Component<Props, State> {
       !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
+
+    console.log(this.props.searchResults);
 
     const extraProps = {
       history: this.props.history,

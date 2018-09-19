@@ -4,7 +4,6 @@ import { t } from 'ttag';
 import * as React from 'react';
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
 import type { RouterHistory } from 'react-router-dom';
 
 import Toolbar from '../Toolbar';
@@ -20,7 +19,7 @@ import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 import colors from '../../lib/colors';
 import isCordova from '../../lib/isCordova';
 import { isFiltered } from '../../lib/Feature';
-import searchPlaces from '../../lib/searchPlaces';
+//import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
@@ -236,13 +235,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
   };
 
   toolbar: ?React.ElementRef<typeof Toolbar> = null;
-  input: ?React.ElementRef<'input'> = null;
   searchInputField: ?React.ElementRef<'input'> = null;
   closeLink: ?React.ElementRef<typeof CloseLink> = null;
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
-  handleSearchInputChange = debounce(
+  /*handleSearchInputChange = debounce(
     () => {
       if (!(this.input instanceof HTMLInputElement)) {
         return;
@@ -255,7 +253,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     },
     1000,
     { leading: false, trailing: true, maxWait: 3000 }
-  );
+  );*/
 
   componentDidMount() {
     /*if (this.props.searchQuery) {
@@ -285,7 +283,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  sendSearchRequest(query: ?string): void {
+  /*sendSearchRequest(query: ?string): void {
     if (!query || query.length < 2) {
       this.setState({ searchResults: null, isLoading: false });
       return;
@@ -293,13 +291,13 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     this.setState({ isLoading: true });
 
-    /*searchPlaces(query, this.props).then(featureCollection => {
+    searchPlaces(query, this.props).then(featureCollection => {
       this.setState({
         searchResults: featureCollection || this.state.searchResults,
         isLoading: false,
       });
-    });*/
-  }
+    });
+  }*/
 
   clearSearch() {
     this.setState({ searchResults: null });
@@ -328,8 +326,8 @@ export default class SearchToolbar extends React.Component<Props, State> {
     this.setState(
       { searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false },
       () => {
-        if (this.input instanceof HTMLInputElement) {
-          this.input.value = '';
+        if (this.searchInputField instanceof HTMLInputElement) {
+          this.searchInputField.value = '';
         }
       }
     );
@@ -350,7 +348,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
           this.props.onClick();
         }}
         onFocus={event => {
-          this.input = event.target;
           this.setState({ searchFieldIsFocused: true });
           window.scrollTo(0, 0);
         }}
@@ -362,13 +359,11 @@ export default class SearchToolbar extends React.Component<Props, State> {
           }, 300);
         }}
         onChange={event => {
-          const input = event.target;
-          this.input = input;
-          this.props.onChangeSearchQuery(input.value);
-          if (input.value && !this.state.searchResults) {
+          this.props.onChangeSearchQuery(event.target.value);
+          /*if (input.value && !this.state.searchResults) {
             this.setState({ isLoading: true });
-          }
-          this.handleSearchInputChange(event);
+          }*/
+          //this.handleSearchInputChange(event);
         }}
         onSubmit={() => {
           this.setState({ searchFieldIsFocused: false }, () => {
@@ -377,7 +372,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
               this.firstResult.focus();
             }
           });
-          handleInputCommands(this.props.history, this.input && this.input.value);
+          handleInputCommands(
+            this.props.history,
+            this.searchInputField && this.searchInputField.value
+          );
         }}
         ariaRole="searchbox"
       />
