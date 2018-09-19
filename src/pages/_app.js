@@ -45,11 +45,6 @@ export default class App extends BaseApp<Props> {
       return { error };
     }
 
-    // pass on errors
-    if (ctx.err) {
-      return { error: ctx.err };
-    }
-
     try {
       // user agent
       const userAgentString = isServer ? ctx.req.headers['user-agent'] : undefined;
@@ -92,7 +87,7 @@ export default class App extends BaseApp<Props> {
     const { Component: PageComponent, error, routeName, isServer, ...props } = this.props;
 
     if (error && error.statusCode !== 404) {
-      console.error(error);
+      console.error('Error in _app.js', error);
     }
 
     if (isServer === false) {
