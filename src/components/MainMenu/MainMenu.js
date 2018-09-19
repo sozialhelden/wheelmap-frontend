@@ -99,6 +99,29 @@ class MainMenu extends React.Component<Props, State> {
     }
   };
 
+  renderHomeLink(extraProps = {}) {
+    return (
+      <div className="home-link">
+        <button
+          className="btn-unstyled home-button"
+          onClick={this.returnHome}
+          aria-label={t`Home`}
+          onKeyDown={this.handleKeyDown}
+          {...extraProps}
+        >
+          {/* translator: The alternative desription of the app logo for screenreaders */}
+          <img
+            className="logo"
+            src={this.props.logoURL}
+            width={123}
+            height={30}
+            alt={t`App Logo`}
+          />
+        </button>
+      </div>
+    );
+  }
+
   render() {
     const {
       travelGuide,
@@ -131,24 +154,14 @@ class MainMenu extends React.Component<Props, State> {
     >;
 
     if (addPlaceURL) {
-      addPlaceLink  =<a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
+      addPlaceLink = <a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
         {addMissingPlace}
       </a>;
     }
 
     return (
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
-        <div className="home-link">
-          <button
-            className="btn-unstyled home-button"
-            onClick={this.returnHome}
-            aria-label={t`Home`}
-            onKeyDown={this.handleKeyDown}
-          >
-            {/* translator: The alternative desription of the app logo for screenreaders */}
-            <img className="logo" src={logoURL} width={123} height={30} alt={t`App Logo`} />
-          </button>
-        </div>
+        {this.renderHomeLink()}
 
         <div className="claim">{findWheelchairAccessiblePlaces}</div>
 
