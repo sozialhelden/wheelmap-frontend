@@ -58,7 +58,7 @@ export default class App extends BaseApp {
         routeProps = await getInitialProps(ctx.query, isServer);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       if (ctx.res) {
         ctx.res.statusCode = error.statusCode || 500;
