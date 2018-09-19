@@ -4,15 +4,15 @@ import { globalFetchManager } from '../FetchManager';
 import isCordova from '../isCordova';
 import config from '../config';
 
-export default class I18nCache extends URLDataCache<?{}> {
-  getLocalization(locale: string): Promise<?{}> {
+export default class I18nCache extends URLDataCache<string> {
+  getLocalization(locale: string): Promise<string> {
     const baseUrl = isCordova() ? 'https://wheelmap.org/beta' : config.publicUrl || '';
     const url = `${baseUrl}/static/i18n/${locale.replace('-', '_')}.txt`;
 
     return this.getData(url);
   }
 
-  static getDataFromResponse(response: Response): Promise<T> {
+  static getDataFromResponse(response: Response): Promise<string> {
     return response.text();
   }
 
