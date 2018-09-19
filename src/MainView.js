@@ -292,11 +292,13 @@ class MainView extends React.Component<Props, State> {
   renderOnboarding() {
     const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
+    const { logoURL } = clientSideConfiguration;
     return (
       <Onboarding
         isVisible={isOnboardingVisible}
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
+        logoURL={logoURL}
       />
     );
   }
@@ -313,7 +315,7 @@ class MainView extends React.Component<Props, State> {
 
   renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
     const { isMainMenuOpen, onToggleMainMenu, history, clientSideConfiguration } = this.props;
-    const { customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
+    const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
 
     return (
       <MainMenu
@@ -323,6 +325,7 @@ class MainView extends React.Component<Props, State> {
         isLocalizationLoaded={isLocalizationLoaded}
         onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         history={history}
+        logoURL={logoURL}
         links={customMainMenuLinks}
         addPlaceURL={addPlaceURL}
         {...{ lat, lon, zoom }}

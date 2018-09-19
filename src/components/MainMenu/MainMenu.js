@@ -25,6 +25,7 @@ type Props = {
   lon: string,
   zoom: string,
   history: RouterHistory,
+  logoURL: string,
   links: Array<Link>,
   addPlaceURL: string,
 };
@@ -111,7 +112,7 @@ class MainMenu extends React.Component<Props, State> {
       findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isLocalizationLoaded, isOpen, className, links, addPlaceURL } = this.props;
+    const { isLocalizationLoaded, isOpen, className, links, addPlaceURL, logoURL } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -144,7 +145,8 @@ class MainMenu extends React.Component<Props, State> {
             aria-label={t`Home`}
             onKeyDown={this.handleKeyDown}
           >
-            <Logo className="logo" width={123} height={30} />
+            {/* translator: The alternative desription of the app logo for screenreaders */}
+            <img className="logo" src={logoURL} width={123} height={30} alt={t`App Logo`} />
           </button>
         </div>
 

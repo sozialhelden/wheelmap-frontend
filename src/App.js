@@ -43,6 +43,7 @@ export type Link = {
 };
 
 export type ClientSideConfiguration = {
+  logoURL: string,
   allowedBaseURLs: Array<string>,
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -171,6 +172,7 @@ class Loader extends React.Component<Props, State> {
     photoMarkedForReport: null,
     photoFlowErrorMessage: null,
     clientSideConfiguration: {
+      logoURL: 'https://www.pfotenpiloten.org/wp-content/uploads/2017/05/Pfoten-Piloten2.png',
       allowedBaseURLs: ['https://www.wheelmap-pro.com'],
       includeSourceIds: ['LiBTS67TjmBcXdEmX'],
       excludeSourceIds: [],

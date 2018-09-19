@@ -15,10 +15,11 @@ type Props = {
   isVisible: boolean,
   onClose: () => void,
   headerMarkdown: string,
+  logoURL: string,
 };
 
 function Onboarding(props: Props) {
-  const { headerMarkdown } = props;
+  const { logoURL, headerMarkdown } = props;
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
@@ -39,7 +40,16 @@ function Onboarding(props: Props) {
       ariaLabel={t`Start screen`}
     >
       <header>
-        <Logo className="logo" aria-hidden={true} />
+        {/* translator: The alternative desription of the app logo for screenreaders */}
+        <img
+          className="logo"
+          src={logoURL}
+          width={123}
+          height={30}
+          alt={t`App Logo`}
+          aria-hidden={true}
+        />
+
         <p id="wheelmap-claim-onboarding">{headerMarkdown}</p>
       </header>
 
