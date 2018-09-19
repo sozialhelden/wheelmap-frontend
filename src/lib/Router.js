@@ -37,11 +37,7 @@ class Router {
   }
 
   generate(name, params = {}) {
-    const route = this.routes.find(route => route.name === name);
-
-    if (!route) {
-      throw new Error(`Unknown route: ${name}.`);
-    }
+    const route = this.getRoute(name, true);
 
     const compiledRoute = this.getCompiledRoute(route);
     const path = compiledRoute.generate(params);
@@ -61,6 +57,16 @@ class Router {
     }
 
     return `${path}?${queryString.stringify(queryParams)}`;
+  }
+
+  getRoute(name, strict = false) {
+    const route = this.routes.find(route => route.name === name);
+
+    if (strict && !route) {
+      throw new Error(`Unknown route: ${name}.`);
+    }
+
+    return route;
   }
 
   getCompiledRoute(route) {

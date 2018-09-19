@@ -30,21 +30,21 @@ import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
-import { type ClientRouter } from './lib/ClientRouter';
 
 initReactFastclick();
+
+export type pushRoute = (name: string, params: { [name: string]: any }) => void;
 
 type Props = {
   className?: string,
   history: RouterHistory,
   location: Location,
-  router: ClientRouter,
-  routes: any, // FIXME
   feature?: ?Feature,
   featureId?: ?string,
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
   translations?: Translations[],
+  pushRoute: pushRoute,
 };
 
 type State = {
@@ -358,15 +358,7 @@ class Loader extends React.Component<Props, State> {
     //const pathname = hrefForFeature(featureId, properties);
     //const location = { pathname, query: getQueryParams() };
 
-    console.log(
-      this.props.routes.generate('place_detail', {
-        id: featureId,
-        ...getQueryParams(),
-      })
-    );
-
-    // @TODO Use custom routes and router for cordova, next.js
-    this.props.router.push({ pathname: '/nodes', query: { id: featureId } }, `/nodes/${featureId}`);
+    this.props.pushRoute('place_detail', { id: featureId });
   };
 
   // Pan back to currently shown feature when marker in details panel is tapped/clicked

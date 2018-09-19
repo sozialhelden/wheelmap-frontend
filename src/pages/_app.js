@@ -20,7 +20,7 @@ import {
   parseAcceptLanguageString,
 } from '../lib/i18n';
 import Categories from '../lib/Categories';
-import routes from '../routes';
+import router from '../router';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
@@ -68,15 +68,23 @@ export default class App extends BaseApp {
     return { ...props, translations, categories, userAgent };
   }
 
+  pushRoute(name: string, params: { [name: string]: any } = {}) {
+    const route = router.getRoute(name, true);
+    const path = router.generate(name, params);
+
+    if (!route.nextPage) {
+      throw new Error('Route is missing next page.');
+    }
+
+    Router.push({ pathname: route.nextPage, query: params }, path);
+  }
+
   render() {
     const { Component: PageComponent, error, ...props } = this.props;
 
     if (error) {
       console.log(error);
     }
-
-    // Draft: test for generating paths from route names (with optional query parameters).
-    // console.log(routes.generate('map'), routes.generate('map', { test: 'foo' }));
 
     return (
       <Container>
@@ -86,7 +94,7 @@ export default class App extends BaseApp {
             <Error statusCode={error.statusCode} />
           </div>
         ) : (
-          <PageComponent routes={routes} router={Router} {...props} />
+          <PageComponent pushRoute={this.pushRoute} {...props} />
         )}
         <GlobalStyle />
         <LeafletStyle />

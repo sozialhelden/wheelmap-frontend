@@ -2,7 +2,7 @@ const next = require('next');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 
-const routes = require('./routes');
+const router = require('./router');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -13,7 +13,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.get('*', (req, res, next) => {
-    const match = routes.match(req.path);
+    const match = router.match(req.path);
 
     if (!match) {
       return next();
