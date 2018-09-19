@@ -44,6 +44,7 @@ type Props = {
   userAgent?: UAResult,
   translations?: Translations[],
   routerHistory: NewRouterHistory,
+  searchQuery?: ?string,
 };
 
 type State = {
@@ -52,7 +53,6 @@ type State = {
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
   lastError?: ?string,
-  searchQuery?: ?string,
 
   lat: ?string,
   lon: ?string,
@@ -310,11 +310,11 @@ class Loader extends React.Component<Props, State> {
     });
   }
 
-  modalNodeState() {
+  /*modalNodeState() {
     const routeInformation = getRouteInformation(this.props);
     const { modalNodeState } = routeInformation || {};
     return modalNodeState;
-  }
+  }*/
 
   onClickSearchButton = () => this.openSearch();
 
@@ -512,19 +512,23 @@ class Loader extends React.Component<Props, State> {
   };
 
   onCloseNodeToolbar = () => {
-    //const { featureId } = this.props;
-    //const { category } = this.state;
+    this.setState({
+      modalNodeState: null,
+    });
+
+    this.props.routerHistory.push('map');
+
+    /*const { featureId } = this.props;
+    const { category } = this.state;
 
     // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
     // when any node toolbar subpages are closed. in order to know how to change the route correctly
     // we have to distinguish between these two cases
-    //const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
-    //const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
-
-    this.props.routerHistory.push('map');
+    const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
+    const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
 
     // by default route to the index page
-    /*let path = '/beta';
+    let path = '/beta';
 
     if (actualNodeToolbarWasClosed && category) {
       // if node toolbar was closed and category was previously selected restore the categories url
@@ -598,6 +602,12 @@ class Loader extends React.Component<Props, State> {
     this.gotoCurrentFeature();
   };
 
+  onAddMissingPlaceClick = () => {
+    this.setState({
+      modalNodeState: 'create',
+    });
+  };
+
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.props.featureId) {
       this.props.history.push({
@@ -605,6 +615,14 @@ class Loader extends React.Component<Props, State> {
         search: `presetStatus=${value}`,
       });
     }
+  };
+
+  onSearchQueryChange = (newSearchQuery: ?string) => {
+    if (!newSearchQuery || newSearchQuery.length === 0) {
+      return this.props.routerHistory.replace('map');
+    }
+
+    this.props.routerHistory.replace('search', { q: newSearchQuery });
   };
 
   isNodeToolbarDisplayed(props = this.props, state = this.state) {
@@ -619,7 +637,6 @@ class Loader extends React.Component<Props, State> {
 
   render() {
     const isNodeRoute = Boolean(this.props.featureId);
-    const modalNodeState = this.modalNodeState();
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
     const shouldLocateOnStart =
@@ -632,7 +649,7 @@ class Loader extends React.Component<Props, State> {
       location: this.props.location,
 
       isNodeRoute,
-      modalNodeState,
+      modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
@@ -646,7 +663,7 @@ class Loader extends React.Component<Props, State> {
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
       lastError: this.state.lastError,
-      searchQuery: this.state.searchQuery,
+      searchQuery: this.props.searchQuery,
       lat: this.state.lat,
       lon: this.state.lon,
       zoom: this.state.zoom,
@@ -701,6 +718,8 @@ class Loader extends React.Component<Props, State> {
         onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
         onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
         onCloseToiletAccessibility={this.onCloseToiletAccessibility}
+        onAddMissingPlaceClick={this.onAddMissingPlaceClick}
+        onSearchQueryChange={this.onSearchQueryChange}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

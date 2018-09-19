@@ -6,6 +6,10 @@ const routes = [
     path: '/nodes/:id',
   },
   {
+    name: 'search',
+    path: '/search',
+  },
+  {
     name: 'map',
     path: '/',
   },

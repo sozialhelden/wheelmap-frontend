@@ -94,6 +94,8 @@ type Props = {
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onAddMissingPlaceClick: () => void,
+  onSearchQueryChange: (searchQuery: string) => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -256,13 +258,7 @@ class MainView extends React.Component<Props, State> {
         searchQuery={searchQuery}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
-        onChangeSearchQuery={newSearchQuery => {
-          if (!newSearchQuery || newSearchQuery.length === 0) {
-            this.props.history.replace('/beta/', null);
-            return;
-          }
-          this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
-        }}
+        onChangeSearchQuery={this.props.onSearchQueryChange}
         onFilterChanged={filter => {
           this.props.history.replace(
             newLocationWithReplacedQueryParams(this.props.history, filter)
@@ -324,6 +320,7 @@ class MainView extends React.Component<Props, State> {
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         isLocalizationLoaded={isLocalizationLoaded}
+        onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         history={this.props.history}
         {...{ lat, lon, zoom }}
       />
@@ -407,7 +404,7 @@ class MainView extends React.Component<Props, State> {
   renderCreateDialog() {
     return (
       <CreatePlaceDialog
-        hidden={!this.props.modalNodeState === 'create'}
+        hidden={this.props.modalNodeState !== 'create'}
         onClose={this.props.onCloseCreatePlaceDialog}
         lat={this.props.lat}
         lon={this.props.lon}
@@ -502,7 +499,7 @@ class MainView extends React.Component<Props, State> {
         {this.props.isPhotoUploadInstructionsToolbarVisible &&
           this.renderPhotoUploadInstructionsToolbar()}
         {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
-        {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
+        {this.renderCreateDialog()}
         {this.renderOnboarding()}
         {this.renderNotFound()}
       </div>

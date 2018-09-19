@@ -52,7 +52,7 @@ export default class App extends BaseApp {
         languages = window.navigator.languages;
       }
 
-      appProps = await getAppInitialProps({ userAgentString, languages }, isServer);
+      appProps = await getAppInitialProps({ userAgentString, languages, ...ctx.query }, isServer);
 
       if (ctx.query.routeName) {
         routeProps = await getInitialProps(ctx.query, isServer);

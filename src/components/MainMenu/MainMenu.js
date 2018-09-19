@@ -2,17 +2,14 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
-import queryString from 'query-string';
 import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
-import { getQueryParams } from '../../lib/queryParams';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { RouterHistory } from 'react-router-dom';
 import FocusTrap from '@sozialhelden/focus-trap-react';
-import { Link } from 'react-router-dom';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -21,6 +18,7 @@ type State = {
 type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
+  onAddMissingPlaceClick: () => void,
   isOpen: boolean,
   lat: string,
   lon: string,
@@ -193,13 +191,14 @@ class MainMenu extends React.Component<Props, State> {
           <a className="nav-link" href="https://news.wheelmap.org/faq" role="menuitem">
             {faq}
           </a>
-          <Link
+          <button
             className="nav-link add-place-link"
-            to={`/beta/nodes/new?${queryString.stringify(getQueryParams())}`}
+            onClick={this.props.onAddMissingPlaceClick}
+            onKeyDown={this.handleKeyDown}
             role="menuitem"
           >
             {addMissingPlace}
-          </Link>
+          </button>
         </div>
       </FocusTrap>
     );
@@ -282,7 +281,12 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   .add-place-link {
+    font: inherit;
+    border: 0;
     font-weight: 500;
+    cursor: pointer;
+    background-color: transparent;
+
     &,
     &:visited {
       color: ${colors.linkColor};

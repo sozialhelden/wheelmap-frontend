@@ -51,6 +51,11 @@ const dataTable = {
       return { feature, featureId: query.id, sources, licenses };
     },
   },
+  search: {
+    async getInitialProps() {
+      return {};
+    },
+  },
 };
 
 export function getInitialProps({ routeName, ...query }, isServer) {
@@ -63,7 +68,7 @@ export function getInitialProps({ routeName, ...query }, isServer) {
   return dataItem.getInitialProps(query);
 }
 
-export async function getAppInitialProps({ userAgentString, languages }, isServer) {
+export async function getAppInitialProps({ userAgentString, languages, ...query }, isServer) {
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = userAgentParser.getResult();
 
@@ -74,5 +79,5 @@ export async function getAppInitialProps({ userAgentString, languages }, isServe
     locale: locales[0],
   });
 
-  return { userAgent, translations, categories };
+  return { userAgent, translations, categories, searchQuery: query.q };
 }

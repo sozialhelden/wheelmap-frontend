@@ -18,6 +18,10 @@ class NextRouterHistory implements RouterHistory {
     this.change('push', name, params);
   }
 
+  replace(name: string, params: { [name: string]: any } = {}) {
+    this.change('replace', name, params);
+  }
+
   change(method: routerMethod, name: string, params: { [name: string]: any } = {}) {
     const route = this.router.getRoute(name, true);
     const path = this.router.generate(name, params);

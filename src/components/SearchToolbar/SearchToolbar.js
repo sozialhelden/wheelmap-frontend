@@ -258,9 +258,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
   );
 
   componentDidMount() {
-    if (this.props.searchQuery) {
+    /*if (this.props.searchQuery) {
       this.sendSearchRequest(this.props.searchQuery);
-    }
+    }*/
 
     if (!this.props.hidden) {
       this.focus();
@@ -274,9 +274,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
       this.focus();
     }
 
-    if (prevProps.searchQuery !== this.props.searchQuery) {
+    /*if (prevProps.searchQuery !== this.props.searchQuery) {
       this.sendSearchRequest(this.props.searchQuery);
-    }
+    }*/
   }
 
   ensureFullVisibility() {
@@ -293,12 +293,12 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     this.setState({ isLoading: true });
 
-    searchPlaces(query, this.props).then(featureCollection => {
+    /*searchPlaces(query, this.props).then(featureCollection => {
       this.setState({
         searchResults: featureCollection || this.state.searchResults,
         isLoading: false,
       });
-    });
+    });*/
   }
 
   clearSearch() {
