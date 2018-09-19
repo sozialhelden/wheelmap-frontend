@@ -39,6 +39,7 @@ import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryP
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 
 import { type CategoryLookupTables } from './lib/Categories';
+import { type SearchResultCollection } from './lib/searchPlaces';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 type Props = {
@@ -72,6 +73,7 @@ type Props = {
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
   shouldLocateOnStart: boolean,
+  searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
   onSelectCoordinate: () => void,
   onResetCategory: () => void,
@@ -247,7 +249,7 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderSearchToolbar({ category, searchQuery, lat, lon }: $Shape<Props>, isInert: boolean) {
+  renderSearchToolbar({ category, searchQuery, searchResults }: $Shape<Props>, isInert: boolean) {
     return (
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
@@ -256,6 +258,7 @@ class MainView extends React.Component<Props, State> {
         inert={isInert}
         category={category}
         searchQuery={searchQuery}
+        searchResults={searchResults}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
         onChangeSearchQuery={this.props.onSearchQueryChange}
@@ -264,8 +267,6 @@ class MainView extends React.Component<Props, State> {
             newLocationWithReplacedQueryParams(this.props.history, filter)
           );
         }}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
         onSelectCoordinate={this.props.onSelectCoordinate}
         onResetCategory={this.props.onResetCategory}
         onClick={this.props.onClickSearchToolbar}
@@ -413,7 +414,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   render() {
-    const { featureId, searchQuery, equipmentInfoId, presetStatus } = this.props;
+    const { featureId, searchQuery, equipmentInfoId, presetStatus, searchResults } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom, modalNodeState } = this.props;
@@ -488,7 +489,7 @@ class MainView extends React.Component<Props, State> {
         {!isMainMenuInBackground && mainMenu}
         <div className="behind-backdrop">
           {isMainMenuInBackground && mainMenu}
-          {this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
+          {this.renderSearchToolbar({ category, searchQuery, searchResults }, searchToolbarIsInert)}
           {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
           {this.props.isSearchButtonVisible && this.renderSearchButton()}
           {map}

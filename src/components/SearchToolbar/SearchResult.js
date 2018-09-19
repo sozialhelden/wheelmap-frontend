@@ -99,7 +99,7 @@ export default class SearchResult extends React.Component<Props, State> {
 
   root: ?React.ElementRef<'a'> = null;
 
-  componentDidMount() {
+  /*componentDidMount() {
     this.startFetchNodeTimeout();
   }
 
@@ -126,9 +126,9 @@ export default class SearchResult extends React.Component<Props, State> {
       clearTimeout(this.state.fetchNodeTimeout);
       this.setState({ fetchNodeTimeout: null });
     }
-  }
+  }*/
 
-  fetchWheelmapNode(props: Props = this.props) {
+  /*fetchWheelmapNode(props: Props = this.props) {
     if (!config.wheelmapApiKey) {
       return;
     }
@@ -172,7 +172,7 @@ export default class SearchResult extends React.Component<Props, State> {
         if (errorOrResponse instanceof Error) console.log(errorOrResponse);
       }
     );
-  }
+  }*/
 
   getFeature() {
     return this.state.wheelmapFeature || this.props.result;

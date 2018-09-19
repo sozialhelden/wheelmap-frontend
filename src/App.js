@@ -646,8 +646,6 @@ class Loader extends React.Component<Props, State> {
 
     const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
 
-    console.log(this.props.searchResults);
-
     const extraProps = {
       history: this.props.history,
       location: this.props.location,
@@ -677,6 +675,7 @@ class Loader extends React.Component<Props, State> {
       isSearchBarVisible: this.state.isSearchBarVisible,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
+      searchResults: this.props.searchResults,
 
       // photo feature
       isPhotoUploadCaptchaToolbarVisible:

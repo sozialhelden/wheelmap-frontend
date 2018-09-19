@@ -73,10 +73,9 @@ const dataTable: DataTable = {
       const searchPlacesPromise = searchPlaces(query.q, { lat: query.lat, lon: query.lon });
       const searchResults = isServer ? await searchPlacesPromise : searchPlacesPromise;
 
-      console.log(isServer, searchResults);
-
       return {
         searchResults,
+        searchQuery: query.q,
       };
     },
   },
