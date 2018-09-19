@@ -3,6 +3,7 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
+import marked from 'marked';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
@@ -50,7 +51,10 @@ function Onboarding(props: Props) {
           aria-hidden={true}
         />
 
-        <p id="wheelmap-claim-onboarding">{headerMarkdown}</p>
+        <p
+          id="wheelmap-claim-onboarding"
+          dangerouslySetInnerHTML={{ __html: marked(headerMarkdown, { sanitize: true }) }}
+        />
       </header>
 
       <section>
