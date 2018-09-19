@@ -14,11 +14,11 @@ type Props = {
   className: string,
   isVisible: boolean,
   onClose: () => void,
+  headerMarkdown: string,
 };
 
 function Onboarding(props: Props) {
-  // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
-  const claim = t`Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:`;
+  const { headerMarkdown } = props;
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
@@ -40,7 +40,7 @@ function Onboarding(props: Props) {
     >
       <header>
         <Logo className="logo" aria-hidden={true} />
-        <p id="wheelmap-claim-onboarding">{claim}</p>
+        <p id="wheelmap-claim-onboarding">{headerMarkdown}</p>
       </header>
 
       <section>

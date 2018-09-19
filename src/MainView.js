@@ -290,10 +290,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderOnboarding() {
+    const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
     return (
       <Onboarding
-        isVisible={this.props.isOnboardingVisible}
-        onClose={this.props.onCloseOnboarding}
+        isVisible={isOnboardingVisible}
+        onClose={onCloseOnboarding}
+        headerMarkdown={headerMarkdown}
       />
     );
   }
