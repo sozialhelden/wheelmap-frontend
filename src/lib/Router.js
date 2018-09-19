@@ -38,25 +38,46 @@ class Router {
 
   generate(name, params = {}) {
     const route = this.getRoute(name, true);
-
     const compiledRoute = this.getCompiledRoute(route);
     const path = compiledRoute.generate(params);
-    const queryParams = {};
+
+    const query = {};
+
     const keys = Object.keys(params);
 
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
 
       if (compiledRoute.keyNames.indexOf(key) === -1) {
-        queryParams[key] = params[key];
+        query[key] = params[key];
       }
     }
 
-    if (Object.keys(queryParams).length === 0) {
-      return path;
+    if (Object.keys(query).length > 0) {
+      return `${path}?${queryString.stringify(query)}`;
     }
 
-    return `${path}?${queryString.stringify(queryParams)}`;
+    return path;
+  }
+
+  getParams(route, routeParams) {
+    const compiledRoute = this.getCompiledRoute(route);
+    const params = {};
+    const query = {};
+
+    const keys = Object.keys(routeParams);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (compiledRoute.keyNames.indexOf(key) === -1) {
+        query[key] = routeParams[key];
+      } else {
+        params[key] = routeParams[key];
+      }
+    }
+
+    return { params, query };
   }
 
   getRoute(name, strict = false) {

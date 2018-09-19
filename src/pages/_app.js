@@ -8,30 +8,21 @@ import React from 'react';
 import BaseApp, { Container } from 'next/app';
 import Router from 'next/router';
 import Error from 'next/error';
-import UAParser from 'ua-parser-js';
+import { stringify } from 'query-string';
 
 import GlobalStyle from '../GlobalStyle';
 import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
-import {
-  currentLocales,
-  expandedPreferredLocales,
-  loadExistingLocalizationByPreference,
-  parseAcceptLanguageString,
-  type Translations,
-} from '../lib/i18n';
-import Categories, { type CategoryLookupTables } from '../lib/Categories';
-import { type UAResult } from '../lib/userAgent';
-import router from '../router';
-
-let clientCachedCategories: ?CategoryLookupTables = null;
-let clientCachedTranslations: ?(Translations[]) = null;
+import { parseAcceptLanguageString } from '../lib/i18n';
+import router from '../app/router';
+import { getInitialProps, getAppInitialProps } from '../app/getInitialProps';
+import { format } from 'url';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
-    let props = {};
-    let categories: CategoryLookupTables, userAgent: UAResult, translations: Translations[];
+    let appProps;
+    let routeProps;
 
     const isServer = !!(ctx && ctx.req);
 
@@ -51,60 +42,41 @@ export default class App extends BaseApp {
     try {
       // user agent
       const userAgentString = isServer ? ctx.req.headers['user-agent'] : undefined;
-      const userAgentParser = new UAParser(userAgentString);
-      userAgent = userAgentParser.getResult();
 
       // translations
-      let locales = currentLocales;
-      if (clientCachedTranslations) {
-        translations = clientCachedTranslations;
-      } else {
-        let languages = ['en'];
-        if (ctx.req) {
-          if (ctx.req.headers['accept-language']) {
-            languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
-          }
-        } else {
-          languages = window.navigator.languages;
+      let languages = ['en'];
+
+      if (ctx.req) {
+        if (ctx.req.headers['accept-language']) {
+          languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
         }
-
-        locales = expandedPreferredLocales(languages);
-        translations = await loadExistingLocalizationByPreference(locales);
-      }
-
-      // categories
-      if (clientCachedCategories) {
-        categories = clientCachedCategories;
       } else {
-        categories = await Categories.generateLookupTables({
-          locale: locales[0],
-        });
+        languages = window.navigator.languages;
       }
 
-      // Fetch child component props and fetch errors if anything happens.
-      if (PageComponent.getInitialProps) {
-        props = await PageComponent.getInitialProps(ctx);
+      appProps = await getAppInitialProps({ userAgentString, languages }, isServer);
+
+      if (ctx.query.routeName) {
+        routeProps = await getInitialProps(ctx.query, isServer);
       }
     } catch (error) {
+      console.log(error);
+
       if (ctx.res) {
         ctx.res.statusCode = error.statusCode || 500;
       }
 
-      props.error = error;
+      return { error };
     }
 
-    return { ...props, translations, categories, userAgent, isServer };
+    return { ...appProps, ...routeProps };
   }
 
   pushRoute(name: string, params: { [name: string]: any } = {}) {
     const route = router.getRoute(name, true);
     const path = router.generate(name, params);
 
-    if (!route.nextPage) {
-      throw new Error('Route is missing next page.');
-    }
-
-    Router.push({ pathname: route.nextPage, query: params }, path);
+    Router.push({ pathname: '/index', query: { routeName: route.name, ...params } }, path);
   }
 
   render() {
@@ -113,13 +85,6 @@ export default class App extends BaseApp {
     if (error && error.statusCode !== 404) {
       console.error(error);
     }
-
-    // cache categories & locales & translations on the client
-    if (!props.isServer) {
-      clientCachedCategories = props.categories;
-      clientCachedTranslations = props.translations;
-    }
-
 
     return (
       <Container>

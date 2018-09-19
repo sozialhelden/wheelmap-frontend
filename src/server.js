@@ -2,7 +2,7 @@ const nextjs = require('next');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 
-const router = require('./router');
+const router = require('./app/router');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -19,11 +19,7 @@ app.prepare().then(() => {
       return next();
     }
 
-    if (!match.route.nextPage) {
-      throw new Error('Missing "nextPage" config in route.');
-    }
-
-    app.render(req, res, match.route.nextPage, { ...req.query, ...match.params });
+    app.render(req, res, '/index', { ...match.params, ...req.query, routeName: match.route.name });
   });
 
   // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
