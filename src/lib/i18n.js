@@ -56,7 +56,7 @@ export function applyTranslations(translations: Translations[]) {
   currentLocales.push(...localesToUse);
 }
 
-export function loadLocalizationFromPOFile(locale, poFile) {
+export function readLocalizationFromPOFile(locale: string, poFile: string) {
   const poData = removeEmptyTranslations(gettextParser.po.parse(poFile));
   return { locale, poData };
 }
@@ -73,13 +73,14 @@ export const currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultL
 );
 
 // Returns an expanded list of preferred locales.
-export function expandedPreferredLocales(languages: string[]) {
+export function expandedPreferredLocales(languages: string[]): string[] {
   const hasWindow = typeof window !== 'undefined';
   if (!languages && hasWindow && window.navigator && window.navigator.languages) {
     languages = window.navigator.languages;
   }
 
   // Note that some browsers don't support navigator.languages
+  // TODO remove from here
   const overriddenLocale = getQueryParams().locale;
   let localesPreferredByUser = [...languages];
 
@@ -114,34 +115,39 @@ export function translatedStringFromObject(localizedString: ?LocalizedString): ?
   return null;
 }
 
-export function loadExistingLocalizationByPreference(
-  locales: string[] = expandedPreferredLocales()
-): Promise<*> {
-  if (locales.length === 0) return Promise.resolve(null);
+export function loadExistingLocalizationByPreference(locales: string[]): Promise<Translations[]> {
+  if (locales.length === 0) {
+    return Promise.resolve([]);
+  }
 
   let loadedLocales;
   let loadedTranslations;
 
-  return Promise.all(
-    locales.map(locale => {
-      return i18nCache.getLocalization(locale).then(
-        result => {
-          // console.log('Loaded translation', locale);
-          return loadLocalizationFromPOFile(locale, result);
-        },
-        response => {
-          if (response.status !== 404) {
-            console.log('Error loading translation:', response);
-          }
+  const fetchFiles = locales.map(locale => {
+    return i18nCache.getLocalization(locale).then(
+      result => {
+        var parsed = readLocalizationFromPOFile(locale, result);
+        return parsed;
+      },
+      rejectReason => {
+        if (rejectReason.status !== 404) {
+          throw new Error(rejectReason);
         }
-      );
-    })
-  )
+        return null;
+      }
+    );
+  });
+
+  return Promise.all(fetchFiles)
     .then((loadedTranslationsResult: Translations[]) => {
       loadedTranslations = loadedTranslationsResult.filter(Boolean);
       loadedLocales = loadedTranslations.map(t => t.locale);
 
       const missingLocales = difference(locales, loadedLocales);
+      if (missingLocales.length === 0) {
+        return;
+      }
+
       return Promise.all(
         missingLocales
           .map(missingLocale => {
@@ -155,7 +161,7 @@ export function loadExistingLocalizationByPreference(
                 // console.log('Replaced requested', missingLocale, 'locale with data from',
                 // replacementLocale);
                 return i18nCache.getLocalization(replacementLocale).then(result => {
-                  loadedTranslations.push(loadLocalizationFromPOFile(missingLocale, result));
+                  loadedTranslations.push(readLocalizationFromPOFile(missingLocale, result));
                   loadedLocales.push(missingLocale);
                 });
               }

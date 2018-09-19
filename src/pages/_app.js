@@ -15,39 +15,67 @@ import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import {
+  currentLocales,
   expandedPreferredLocales,
   loadExistingLocalizationByPreference,
   parseAcceptLanguageString,
+  type Translations,
 } from '../lib/i18n';
-import Categories from '../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../lib/Categories';
+import { type UAResult } from '../lib/userAgent';
 import router from '../router';
+
+let clientCachedCategories: ?CategoryLookupTables = null;
+let clientCachedTranslations: ?(Translations[]) = null;
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
     let props = {};
-    let categories, locales, userAgent, translations;
+    let categories: CategoryLookupTables, userAgent: UAResult, translations: Translations[];
+
+    const isServer = !!(ctx && ctx.req);
+
+    // handle 404 before the app is rendered, as we otherwise render the whole app again
+    // this is very relevant for missing static files like translations
+    if (isServer && ctx.res.statusCode === 404) {
+      const error = new Error('Could not load');
+      error.statusCode = 404;
+      return { error };
+    }
+
+    // pass on errors
+    if (ctx.err) {
+      return { error: ctx.err };
+    }
 
     try {
-      let languages;
-      let userAgentString;
-
-      if (ctx.req) {
-        if (ctx.req.headers['accept-language']) {
-          languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
-        }
-
-        userAgentString = ctx.req.headers['user-agent'];
-      } else {
-        languages = window.navigator.languages;
-      }
-
+      // user agent
+      const userAgentString = isServer ? ctx.req.headers['user-agent'] : undefined;
       const userAgentParser = new UAParser(userAgentString);
       userAgent = userAgentParser.getResult();
 
-      if (languages) {
+      // translations
+      let locales = currentLocales;
+      if (clientCachedTranslations) {
+        translations = clientCachedTranslations;
+      } else {
+        let languages = ['en'];
+        if (ctx.req) {
+          if (ctx.req.headers['accept-language']) {
+            languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
+          }
+        } else {
+          languages = window.navigator.languages;
+        }
+
         locales = expandedPreferredLocales(languages);
         translations = await loadExistingLocalizationByPreference(locales);
+      }
 
+      // categories
+      if (clientCachedCategories) {
+        categories = clientCachedCategories;
+      } else {
         categories = await Categories.generateLookupTables({
           locale: locales[0],
         });
@@ -65,7 +93,7 @@ export default class App extends BaseApp {
       props.error = error;
     }
 
-    return { ...props, translations, categories, userAgent };
+    return { ...props, translations, categories, userAgent, isServer };
   }
 
   pushRoute(name: string, params: { [name: string]: any } = {}) {
@@ -82,9 +110,16 @@ export default class App extends BaseApp {
   render() {
     const { Component: PageComponent, error, ...props } = this.props;
 
-    if (error) {
-      console.log(error);
+    if (error && error.statusCode !== 404) {
+      console.error(error);
     }
+
+    // cache categories & locales & translations on the client
+    if (!props.isServer) {
+      clientCachedCategories = props.categories;
+      clientCachedTranslations = props.translations;
+    }
+
 
     return (
       <Container>
