@@ -11,6 +11,12 @@ import { licenseCache } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 
+type DataTableEntry<Props> = {
+  getInitialProps: (query: { [key: string]: string }, isServer: boolean) => Props,
+};
+
+type DataTable = { [key: string]: DataTableEntry<{}> };
+
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
@@ -21,13 +27,12 @@ function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
 }
 
-const dataTable = {
+const dataTable: DataTable = {
   place_detail: {
     async getInitialProps(query, isServer) {
       if (!query.id) {
         const error = new Error();
         error.statusCode = 404;
-
         throw error;
       }
 
@@ -43,7 +48,6 @@ const dataTable = {
           if (typeof source.licenseId === 'string') {
             return licenseCache.getLicenseWithId(source.licenseId);
           }
-
           return false;
         })
       )).filter(Boolean);
@@ -52,23 +56,33 @@ const dataTable = {
     },
   },
   search: {
-    async getInitialProps() {
-      return {};
+    async getInitialProps(query, isServer) {
+      return { searchQuery: query.q };
     },
   },
 };
 
-export function getInitialProps({ routeName, ...query }, isServer) {
+export function getInitialProps(
+  { routeName, ...query }: { routeName: string, [key: string]: string },
+  isServer: boolean
+) {
   const dataItem = dataTable[routeName];
 
   if (!dataItem) {
     return {};
   }
 
-  return dataItem.getInitialProps(query);
+  return dataItem.getInitialProps(query, isServer);
 }
 
-export async function getAppInitialProps({ userAgentString, languages, ...query }, isServer) {
+export async function getAppInitialProps(
+  {
+    userAgentString,
+    languages,
+    ...query
+  }: { userAgentString: string, languages: string[], [key: string]: string },
+  isServer: boolean
+) {
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = userAgentParser.getResult();
 
@@ -79,5 +93,5 @@ export async function getAppInitialProps({ userAgentString, languages, ...query 
     locale: locales[0],
   });
 
-  return { userAgent, translations, categories, searchQuery: query.q };
+  return { userAgent, translations, categories };
 }
