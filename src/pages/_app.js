@@ -14,11 +14,24 @@ import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import { parseAcceptLanguageString } from '../lib/i18n';
 import router from '../app/router';
-import { getInitialProps, getAppInitialProps } from '../app/getInitialProps';
+import {
+  getInitialProps,
+  getAppInitialProps,
+  clientStoreAppInitialProps,
+  clientStoreInitialProps,
+} from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 
-export default class App extends BaseApp {
-  static async getInitialProps({ Component: PageComponent, ctx }) {
+type Props = {};
+
+export default class App extends BaseApp<Props> {
+  static async getInitialProps({
+    Component: PageComponent,
+    ctx,
+  }: {
+    Component: React.Component<>,
+    ctx: any,
+  }) {
     let appProps;
     let routeProps;
 
@@ -67,20 +80,27 @@ export default class App extends BaseApp {
       return { error };
     }
 
-    return { ...appProps, ...routeProps };
+    return { ...appProps, ...routeProps, routeName: ctx.query.routeName, isServer };
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
-
     this.routerHistory = new NextRouterHistory(router);
   }
 
   render() {
-    const { Component: PageComponent, error, ...props } = this.props;
+    const { Component: PageComponent, error, routeName, isServer, ...props } = this.props;
 
     if (error && error.statusCode !== 404) {
       console.error(error);
+    }
+
+    if (isServer === false) {
+      clientStoreAppInitialProps(props);
+
+      if (routeName) {
+        clientStoreInitialProps(routeName, props);
+      }
     }
 
     return (
