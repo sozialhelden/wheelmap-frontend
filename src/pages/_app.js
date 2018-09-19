@@ -6,9 +6,7 @@ import '@babel/polyfill';
 
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
-import Router from 'next/router';
 import Error from 'next/error';
-import { stringify } from 'query-string';
 
 import GlobalStyle from '../GlobalStyle';
 import LeafletStyle from '../LeafletStyle';
@@ -17,7 +15,7 @@ import MapStyle from '../MapStyle';
 import { parseAcceptLanguageString } from '../lib/i18n';
 import router from '../app/router';
 import { getInitialProps, getAppInitialProps } from '../app/getInitialProps';
-import { format } from 'url';
+import NextRouterHistory from '../lib/NextRouteHistory';
 
 export default class App extends BaseApp {
   static async getInitialProps({ Component: PageComponent, ctx }) {
@@ -72,11 +70,10 @@ export default class App extends BaseApp {
     return { ...appProps, ...routeProps };
   }
 
-  pushRoute(name: string, params: { [name: string]: any } = {}) {
-    const route = router.getRoute(name, true);
-    const path = router.generate(name, params);
+  constructor(props) {
+    super(props);
 
-    Router.push({ pathname: '/index', query: { routeName: route.name, ...params } }, path);
+    this.routerHistory = new NextRouterHistory(router);
   }
 
   render() {
@@ -94,7 +91,7 @@ export default class App extends BaseApp {
             <Error statusCode={error.statusCode} />
           </div>
         ) : (
-          <PageComponent pushRoute={this.pushRoute} {...props} />
+          <PageComponent routerHistory={this.routerHistory} {...props} />
         )}
         <GlobalStyle />
         <LeafletStyle />

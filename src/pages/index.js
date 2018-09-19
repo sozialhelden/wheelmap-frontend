@@ -28,7 +28,7 @@ import Head from 'next/head';
 
 // registerServiceWorker();
 
-export default function Index(props: Props) {
+export default function Index(props) {
   return (
     <React.Fragment>
       <Head>

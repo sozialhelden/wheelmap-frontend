@@ -13,6 +13,7 @@ import savedState, { saveState } from './lib/savedState';
 import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
+import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -33,8 +34,6 @@ import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 initReactFastclick();
 
-export type pushRoute = (name: string, params?: { [name: string]: any }) => void;
-
 type Props = {
   className?: string,
   history: RouterHistory,
@@ -44,7 +43,7 @@ type Props = {
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
   translations?: Translations[],
-  pushRoute: pushRoute,
+  routerHistory: NewRouterHistory,
 };
 
 type State = {
@@ -358,7 +357,7 @@ class Loader extends React.Component<Props, State> {
     //const pathname = hrefForFeature(featureId, properties);
     //const location = { pathname, query: getQueryParams() };
 
-    this.props.pushRoute('place_detail', { id: featureId });
+    this.props.routerHistory.push('place_detail', { id: featureId });
   };
 
   // Pan back to currently shown feature when marker in details panel is tapped/clicked
@@ -522,7 +521,7 @@ class Loader extends React.Component<Props, State> {
     //const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
     //const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
 
-    this.props.pushRoute('map');
+    this.props.routerHistory.push('map');
 
     // by default route to the index page
     /*let path = '/beta';
