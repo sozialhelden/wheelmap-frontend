@@ -6,23 +6,18 @@ import {
   loadExistingLocalizationByPreference,
   type Translations,
 } from '../lib/i18n';
+
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
-import { type Feature, isWheelmapFeatureId } from '../lib/Feature';
 import { type UAResult } from '../lib/userAgent';
-
-import { dataSourceCache } from '../lib/cache/DataSourceCache';
-import { sourceIdsForFeature } from '../components/NodeToolbar/SourceList';
-import { licenseCache } from '../lib/cache/LicenseCache';
-import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import searchPlaces from '../lib/searchPlaces';
+import PlaceDetailsData from './placeDetailsData';
 
-type DataTableEntry<Props> = {
-  getInitialProps: (query: { [key: string]: string }, isServer: boolean) => Props,
+export type DataTableEntry<Props> = {
+  getInitialProps: (query: { [key: string]: string }, isServer: boolean) => Promise<Props>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 
-type DataTable = { [key: string]: DataTableEntry<{}> };
+type DataTable = { [key: string]: DataTableEntry<any> };
 
 type AppProps = {
   userAgent: UAResult,
@@ -30,44 +25,8 @@ type AppProps = {
   translations: Translations[],
 };
 
-function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
-  const isWheelmap = isWheelmapFeatureId(featureId);
-
-  if (isWheelmap) {
-    return wheelmapFeatureCache.fetchFeature(featureId, { useCache });
-  }
-
-  return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
-}
-
 const dataTable: DataTable = {
-  place_detail: {
-    async getInitialProps(query, isServer) {
-      if (!query.id) {
-        const error = new Error();
-        error.statusCode = 404;
-        throw error;
-      }
-
-      // do not cache on server
-      const feature = await fetchFeature(query.id, isServer);
-
-      const sources = await Promise.all(
-        sourceIdsForFeature(feature).map(sourceId => dataSourceCache.getDataSourceWithId(sourceId))
-      );
-
-      const licenses = (await Promise.all(
-        sources.map(source => {
-          if (typeof source.licenseId === 'string') {
-            return licenseCache.getLicenseWithId(source.licenseId);
-          }
-          return false;
-        })
-      )).filter(Boolean);
-
-      return { feature, featureId: query.id, sources, licenses };
-    },
-  },
+  place_detail: PlaceDetailsData,
   search: {
     async getInitialProps(query, isServer) {
       const searchPlacesPromise = searchPlaces(query.q, { lat: query.lat, lon: query.lon });
