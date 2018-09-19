@@ -4,7 +4,7 @@ import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } f
 import config from '../config';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
-import { currentLocales, loadExistingLocalizationByPreference } from '../i18n';
+import { currentLocales } from '../i18n';
 
 type CacheMap = {
   [key: string]: FeatureCache<*, *>,
