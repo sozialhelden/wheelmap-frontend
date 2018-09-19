@@ -15,13 +15,12 @@ import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudF
 
 async function fetchFeature(featureId: string, useCache: boolean): Promise<any> {
   const isWheelmap = isWheelmapFeatureId(featureId);
-  return new Promise((resolve, reject) => {
-    if (isWheelmap) {
-      return wheelmapFeatureCache.fetchFeature(featureId, resolve, reject, { useCache });
-    } else {
-      return accessibilityCloudFeatureCache.fetchFeature(featureId, resolve, reject, { useCache });
-    }
-  });
+
+  if (isWheelmap) {
+    return wheelmapFeatureCache.fetchFeature(featureId, { useCache });
+  }
+
+  return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
 }
 
 type Props = {
@@ -51,6 +50,8 @@ class Nodes extends React.Component<Props> {
         if (typeof source.licenseId === 'string') {
           return licenseCache.getLicenseWithId(source.licenseId);
         }
+
+        return false;
       })
     )).filter(Boolean);
 

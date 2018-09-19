@@ -115,29 +115,34 @@ export default class FeatureCache<
     geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
   }
 
-  fetchFeature(
+  async fetchFeature(
     id: string,
-    resolve: (feature: FeatureType) => void,
-    reject: (response: any) => void,
     options: { useCache: boolean } = { useCache: true }
-  ) {
-    this.constructor.fetchFeature(id, options).then((response: Response) => {
-      if (response.status === 200) {
-        return this.constructor.getFeatureFromResponse(response).then(feature => {
-          if (options.useCache) this.cacheFeature(feature, response);
-          resolve(feature);
-          const changeEvent = new CustomEvent('change', {
-            target: this,
-            feature,
-          });
-          this.dispatchEvent(changeEvent);
-        }, reject);
+  ): Promise<FeatureType> {
+    const response = await this.constructor.fetchFeature(id, options);
+
+    if (response.status === 200) {
+      const feature = await this.constructor.getFeatureFromResponse(response);
+
+      if (options.useCache) {
+        this.cacheFeature(feature, response);
       }
-      if (response.status === 404) {
-        this.cache[id] = null;
-      }
-      return reject(response);
-    }, reject);
+
+      const changeEvent = new CustomEvent('change', {
+        target: this,
+        feature,
+      });
+
+      this.dispatchEvent(changeEvent);
+
+      return feature;
+    }
+
+    if (response.status === 404) {
+      this.cache[id] = null;
+    }
+
+    throw response;
   }
 
   getIndexedFeatures(propertyPath: PropertyPath, value: PropertyValue): Set<FeatureType> {
