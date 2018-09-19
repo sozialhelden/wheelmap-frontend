@@ -131,6 +131,7 @@ export default class Map extends React.Component<Props, State> {
     const onMoveEnd = this.props.onMoveEnd;
     if (typeof onMoveEnd === 'function') {
       const bbox = map.getBounds();
+
       onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
     }
 
@@ -496,42 +497,28 @@ export default class Map extends React.Component<Props, State> {
     return bounds;
   }
 
-  offsetCoordsWithPadding(coords: L.LatLng, padding: Padding) {
-    const map: L.Map = this.map;
-    const mapSize = map.getSize();
-    const mCenter = mapSize.divideBy(2);
-    const vCenter = new L.Point(
-      padding.left + (mapSize.x - padding.right - padding.left) / 2,
-      padding.top + (mapSize.y - padding.top - padding.bottom) / 2
-    );
-    const offset = mCenter.subtract(vCenter);
-    const zoom = map.getZoom();
-    var point = map.project(coords, zoom);
-    point = point.add(offset);
-    return map.unproject(point, zoom);
-  }
-
   updateMapCenter(coords: [number, number], zoom: number, padding: ?Padding, state: State) {
     const map: L.Map = this.map;
     const center = map.getCenter();
 
     let moved = false;
 
-    const actualPadding = padding || {
-      top: 10,
-      left: 10,
-      right: 10,
-      bottom: 10,
-    };
-    const targetCoords = this.offsetCoordsWithPadding(coords, actualPadding);
-    if (targetCoords && !isSamePosition(targetCoords, [center.lat, center.lng])) {
-      const bounds = this.calculateBoundsWithPadding(actualPadding);
-      const isWithinBounds = bounds.contains(targetCoords);
+    if (coords && !isSamePosition(coords, [center.lat, center.lng])) {
+      const bounds = this.calculateBoundsWithPadding(
+        padding || {
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: 10,
+        }
+      );
+      const isWithinBounds = bounds.contains(coords);
+
       if (!isWithinBounds) {
         // animate if old map center is within sight
-        const shouldAnimate = map.getBounds().contains(targetCoords);
+        const shouldAnimate = map.getBounds().contains(coords);
         moved = true;
-        map.flyTo(targetCoords, zoom, {
+        map.flyTo(coords, zoom, {
           animate: shouldAnimate,
           noMoveStart: true,
         });
