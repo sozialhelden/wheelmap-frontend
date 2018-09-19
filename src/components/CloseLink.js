@@ -1,8 +1,6 @@
 // @flow
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 import CloseIcon from './icons/actions/Close';
 import { t } from 'ttag';
 
@@ -21,26 +19,29 @@ type Props = {
 };
 
 class CloseLink extends React.Component<Props> {
+  button: ?HTMLButtonElement;
+
   focus() {
-    const linkElement = ReactDOM.findDOMNode(this.linkInstance);
-    linkElement.focus();
+    if (!this.button) {
+      return;
+    }
+
+    this.button.focus();
   }
 
   render() {
     return (
-      <Link
-        to="/beta/"
-        ref={linkInstance => (this.linkInstance = linkInstance)}
+      <button
+        ref={button => (this.button = button)}
         className={`close-link ${this.props.className || ''}`}
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.props.onClick}
         onKeyDown={this.props.onKeyDown}
-        role="button"
         aria-label={this.props.ariaLabel || t`Close`}
       >
         <CloseIcon />
-      </Link>
+      </button>
     );
   }
 }
@@ -59,6 +60,8 @@ const StyledCloseLink = styled(CloseLink)`
   text-align: center;
   z-index: 1;
   transform: translateZ(0);
+  border: 0;
+  cursor: pointer;
 
   > svg {
     display: block;

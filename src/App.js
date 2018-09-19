@@ -33,7 +33,7 @@ import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 initReactFastclick();
 
-export type pushRoute = (name: string, params: { [name: string]: any }) => void;
+export type pushRoute = (name: string, params?: { [name: string]: any }) => void;
 
 type Props = {
   className?: string,
@@ -513,17 +513,19 @@ class Loader extends React.Component<Props, State> {
   };
 
   onCloseNodeToolbar = () => {
-    const { featureId } = this.props;
-    const { category } = this.state;
+    //const { featureId } = this.props;
+    //const { category } = this.state;
 
     // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
     // when any node toolbar subpages are closed. in order to know how to change the route correctly
     // we have to distinguish between these two cases
-    const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
-    const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
+    //const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
+    //const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
+
+    this.props.pushRoute('map');
 
     // by default route to the index page
-    let path = '/beta';
+    /*let path = '/beta';
 
     if (actualNodeToolbarWasClosed && category) {
       // if node toolbar was closed and category was previously selected restore the categories url
@@ -536,7 +538,7 @@ class Loader extends React.Component<Props, State> {
     // restore any query params
     const query = queryString.stringify(getQueryParams());
 
-    this.props.history.push(`${path}?${query}`);
+    this.props.history.push(`${path}?${query}`);*/
   };
 
   onCloseOnboarding = () => {
