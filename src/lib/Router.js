@@ -51,7 +51,7 @@ class Router {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
 
-      if (!compiledRoute.keys[key]) {
+      if (compiledRoute.keyNames.indexOf(key) === -1) {
         queryParams[key] = params[key];
       }
     }
@@ -71,6 +71,7 @@ class Router {
       compiledRoute = {
         keys,
         pattern: pathToRegexp(route.path, keys),
+        keyNames: keys.map(key => key.name),
         generate: pathToRegexp.compile(route.path),
       };
 

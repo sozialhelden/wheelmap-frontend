@@ -13,7 +13,7 @@ import { licenseCache } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 
-async function fetchFeature(featureId: string, useCache: boolean): Promise<any> {
+function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
   if (isWheelmap) {

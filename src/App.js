@@ -358,9 +358,12 @@ class Loader extends React.Component<Props, State> {
     //const pathname = hrefForFeature(featureId, properties);
     //const location = { pathname, query: getQueryParams() };
 
-    //console.log(this.props.routes.generate('place_detail', { id: featureId, ...getQueryParams() }));
-
-    //debugger;
+    console.log(
+      this.props.routes.generate('place_detail', {
+        id: featureId,
+        ...getQueryParams(),
+      })
+    );
 
     // @TODO Use custom routes and router for cordova, next.js
     this.props.router.push({ pathname: '/nodes', query: { id: featureId } }, `/nodes/${featureId}`);
