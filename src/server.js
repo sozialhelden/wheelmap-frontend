@@ -1,4 +1,4 @@
-const next = require('next');
+const nextjs = require('next');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 
@@ -6,7 +6,7 @@ const router = require('./router');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dir: __dirname, dev });
+const app = nextjs({ dir: __dirname, dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
