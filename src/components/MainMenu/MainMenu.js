@@ -10,6 +10,7 @@ import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { RouterHistory } from 'react-router-dom';
 import FocusTrap from '@sozialhelden/focus-trap-react';
+import type { Link } from '../../App';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -24,6 +25,8 @@ type Props = {
   lon: string,
   zoom: string,
   history: RouterHistory,
+  links: Array<Link>,
+  addPlaceURL: string,
 };
 
 function MenuIcon(props) {
@@ -108,7 +111,7 @@ class MainMenu extends React.Component<Props, State> {
       findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isOpen, className } = this.props;
+    const { isLocalizationLoaded, isOpen, className, links, addPlaceURL } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -118,6 +121,19 @@ class MainMenu extends React.Component<Props, State> {
     ].filter(Boolean);
 
     const focusTrapIsActive = isMenuButtonVisible && isOpen;
+
+    let addPlaceLink = <button
+      className="nav-link add-place-link"
+      onClick={this.props.onAddMissingPlaceClick}
+      onKeyDown={this.handleKeyDown}
+      role="menuitem"
+    >;
+
+    if (addPlaceURL) {
+      addPlaceLink  =<a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
+        {addMissingPlace}
+      </a>;
+    }
 
     return (
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
@@ -152,39 +168,13 @@ class MainMenu extends React.Component<Props, State> {
         </button>
 
         <div id="main-menu" role="menu">
-          <a className="nav-link" href="https://travelable.info" role="menuitem">
-            {travelGuide}
-          </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/wheelmap-botschafter"
-            role="menuitem"
-          >
-            {getInvolved}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org" role="menuitem">
-            {news}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/presse" role="menuitem">
-            {press}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/kontakt" role="menuitem">
-            {contact}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/imprint" role="menuitem">
-            {imprint}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/faq" role="menuitem">
-            {faq}
-          </a>
-          <button
-            className="nav-link add-place-link"
-            onClick={this.props.onAddMissingPlaceClick}
-            onKeyDown={this.handleKeyDown}
-            role="menuitem"
-          >
-            {addMissingPlace}
-          </button>
+          {links.map(link => (
+            <a className="nav-link" href={link.url} role="menuitem">
+              {link.label}
+            </a>
+          ))}
+
+          {addPlaceLink}
         </div>
       </FocusTrap>
     );
