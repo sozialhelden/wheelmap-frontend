@@ -696,7 +696,7 @@ class Loader extends React.Component<Props, State> {
     return (
       <MainView
         {...extraProps}
-        innerRef={mainView => {
+        ref={mainView => {
           this.mainView = mainView;
         }}
         onClickSearchButton={this.onClickSearchButton}

@@ -351,7 +351,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   renderSearchInputField() {
     return (
       <SearchInputField
-        innerRef={searchInputField => (this.searchInputField = searchInputField)}
+        ref={searchInputField => (this.searchInputField = searchInputField)}
         searchQuery={this.props.category ? '' : this.props.searchQuery}
         hidden={this.props.hidden}
         /*onClick={() => {
@@ -475,7 +475,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           this.resetSearch();
           if (this.props.onClose) this.props.onClose();
         }}
-        innerRef={closeLink => (this.closeLink = closeLink)}
       />
     );
   }
@@ -484,7 +483,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     // translator: button shown next to the search bar
     const caption = t`Go`;
     return (
-      <GoButton innerRef={button => (this.goButton = button)} onClick={this.props.onClose}>
+      <GoButton ref={button => (this.goButton = button)} onClick={this.props.onClose}>
         {caption} <StyledChevronRight />
       </GoButton>
     );
@@ -513,9 +512,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         hidden={this.props.hidden}
         inert={this.props.inert}
         minimalHeight={75}
-        innerRef={toolbar => {
-          this.toolbar = toolbar;
-        }}
+        ref={toolbar => (this.toolbar = toolbar)}
         isSwipeable={false}
         enableTransitions={false}
         role="search"

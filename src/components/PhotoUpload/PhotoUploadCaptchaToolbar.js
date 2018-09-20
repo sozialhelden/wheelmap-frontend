@@ -354,11 +354,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     const caption = t`Go`;
     const isGoDisabled = !this.canSubmit();
     return (
-      <GoButton
-        innerRef={button => (this.goButton = button)}
-        onClick={this.onFinishPhotoUploadFlow}
-        disabled={isGoDisabled}
-      >
+      <GoButton onClick={this.onFinishPhotoUploadFlow} disabled={isGoDisabled}>
         {caption} <StyledChevronRight />
       </GoButton>
     );
@@ -440,9 +436,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
-        innerRef={toolbar => {
-          this.toolbar = toolbar;
-        }}
+        ref={toolbar => (this.toolbar = toolbar)}
       >
         <header>
           {this.renderBackLink()}

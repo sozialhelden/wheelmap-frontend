@@ -115,7 +115,6 @@ class NodeToolbar extends React.Component<Props, State> {
   renderReportDialog() {
     return (
       <ReportDialog
-        innerRef={reportDialog => (this.reportDialog = reportDialog)}
         feature={this.props.feature}
         featureId={this.props.featureId}
         onReportComponentChanged={() => {
@@ -197,7 +196,6 @@ class NodeToolbar extends React.Component<Props, State> {
   renderToiletAccessibilityEditor() {
     return (
       <ToiletStatusEditor
-        // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
         featureId={this.props.featureId}
         feature={this.props.feature}
         onSave={(newValue: YesNoUnknown) => {
@@ -212,7 +210,6 @@ class NodeToolbar extends React.Component<Props, State> {
   renderWheelchairAccessibilityEditor() {
     return (
       <WheelchairStatusEditor
-        // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
         featureId={this.props.featureId}
         feature={this.props.feature}
         onSave={(newValue: YesNoLimitedUnknown) => {
@@ -309,9 +306,7 @@ class NodeToolbar extends React.Component<Props, State> {
         component={StyledToolbar}
         hidden={this.props.hidden}
         isModal={this.props.modalNodeState}
-        innerRef={toolbar => {
-          this.toolbar = toolbar;
-        }}
+        ref={toolbar => (this.toolbar = toolbar)}
         role="dialog"
         ariaLabel={this.placeName()}
         startTopOffset={offset}
