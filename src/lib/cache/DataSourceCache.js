@@ -3,7 +3,9 @@
 import URLDataCache from './URLDataCache';
 import config from '../config';
 
-export default class DataSourceCache extends URLDataCache<{}> {
+export type DataSource = { _id: string, licenseId: ?string };
+
+export default class DataSourceCache extends URLDataCache<DataSource> {
   getDataSourceWithId(
     id: string,
     options?: { useCache: boolean } = { useCache: true }

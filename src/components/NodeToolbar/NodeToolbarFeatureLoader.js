@@ -11,11 +11,15 @@ import Categories, { type Category, type CategoryLookupTables } from '../../lib/
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
+import { type DataSource } from '../../lib/cache/DataSourceCache';
+import { type License } from '../../lib/cache/LicenseCache';
 
 type Props = {
   feature: ?Feature,
   featureId: ?string | number,
   categories: CategoryLookupTables,
+  licenses: License[],
+  sources: DataSource[],
   equipmentInfoId: ?string,
   hidden: boolean,
   modalNodeState: ModalNodeState,

@@ -6,6 +6,7 @@ import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import isArray from 'lodash/isArray';
+import uniq from 'lodash/uniq';
 import isPlainObject from 'lodash/isPlainObject';
 import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
@@ -215,6 +216,29 @@ export function accessibilityCloudFeatureFrom(feature: ?Feature): ?Accessibility
     return ((feature: any): AccessibilityCloudFeature);
   }
   return null;
+}
+
+export function sourceIdsForFeature(feature: ?Feature): string[] {
+  if (!feature) return [];
+
+  const properties = feature.properties;
+  if (!properties) return [];
+
+  const idsToEquipmentInfos =
+    typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
+  const equipmentInfos = idsToEquipmentInfos
+    ? Object.keys(idsToEquipmentInfos).map(_id => idsToEquipmentInfos[_id])
+    : [];
+  const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo =>
+    get(equipmentInfo, 'properties.sourceId')
+  );
+  const disruptionSourceIds = equipmentInfos.map(equipmentInfo =>
+    get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId')
+  );
+  const placeSourceId =
+    properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
+
+  return uniq([placeSourceId, ...equipmentInfoSourceIds, ...disruptionSourceIds].filter(Boolean));
 }
 
 export function convertResponseToWheelmapFeature(node: WheelmapProperties): WheelmapFeature {

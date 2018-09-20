@@ -3,8 +3,13 @@
 import URLDataCache from './URLDataCache';
 import config from '../config';
 
-export default class LicenseCache extends URLDataCache<?{}> {
-  getLicenseWithId(id: string, options?: { useCache: boolean } = { useCache: true }): Promise<?{}> {
+export type License = { _id: string };
+
+export default class LicenseCache extends URLDataCache<License> {
+  getLicenseWithId(
+    id: string,
+    options?: { useCache: boolean } = { useCache: true }
+  ): Promise<License> {
     const url = this.urlFromId(id);
     return this.getData(url, options);
   }

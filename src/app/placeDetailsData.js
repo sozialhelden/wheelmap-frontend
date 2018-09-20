@@ -7,10 +7,10 @@ import {
   isWheelmapFeatureId,
   type WheelmapFeature,
   type AccessibilityCloudFeature,
+  sourceIdsForFeature,
 } from '../lib/Feature';
 
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
-import { sourceIdsForFeature } from '../components/NodeToolbar/SourceList';
 import { licenseCache } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
@@ -66,7 +66,7 @@ const PlaceDetailsData: DataTableEntry<PlaceProps> = {
     } catch (e) {
       console.error('Failed loading feature', query.id);
       // TODO how to redirect to 404 or other error
-      return { feature: null, featureId: null };
+      return { feature: null, featureId: null, sources: [], licenses: [] };
     }
   },
   clientStoreInitialProps(props: PlaceProps) {

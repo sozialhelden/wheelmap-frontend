@@ -38,6 +38,8 @@ import { isTouchDevice, type UAResult } from './lib/userAgent';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import { type SearchResultCollection } from './lib/searchPlaces';
+import { type DataSource } from './lib/cache/DataSourceCache';
+import { type License } from './lib/cache/LicenseCache';
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 import type { ClientSideConfiguration } from './App.js';
@@ -52,6 +54,8 @@ type Props = {
   feature?: ?Feature,
   category: ?string,
   categories: CategoryLookupTables,
+  licenses: License[],
+  sources: DataSource[],
   userAgent: UAResult,
 
   toiletFilter: YesNoUnknown[],
@@ -224,6 +228,8 @@ class MainView extends React.Component<Props, State> {
           history={this.props.history}
           feature={this.props.feature}
           categories={this.props.categories}
+          licenses={this.props.licenses}
+          sources={this.props.sources}
           userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}

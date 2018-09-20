@@ -21,13 +21,14 @@ import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibilit
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
 
 import type { PhotoModel } from './Photos/PhotoModel';
-
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
+import { type DataSource } from '../../lib/cache/DataSourceCache';
+import { type License } from '../../lib/cache/LicenseCache';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
@@ -47,6 +48,8 @@ type Props = {
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
   categories: CategoryLookupTables,
+  licenses: License[],
+  sources: DataSource[],
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
@@ -262,8 +265,16 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const { feature, equipmentInfoId, history, onOpenReportMode } = this.props;
-    const sourceLinkProps = { featureId, feature, equipmentInfoId, onOpenReportMode, history };
+    const { feature, equipmentInfoId, history, onOpenReportMode, licenses, sources } = this.props;
+    const sourceLinkProps = {
+      featureId,
+      feature,
+      equipmentInfoId,
+      onOpenReportMode,
+      history,
+      licenses,
+      sources,
+    };
     if (!featureId) return;
 
     const isWheelmapFeature = isWheelmapFeatureId(featureId);

@@ -33,6 +33,8 @@ import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import { type DataSource } from './lib/cache/DataSourceCache';
+import { type License } from './lib/cache/LicenseCache';
 
 import '../node_modules/react-activity/dist/react-activity.css';
 
@@ -51,6 +53,8 @@ type Props = {
   feature?: ?Feature,
   featureId?: ?string,
   categories?: CategoryLookupTables,
+  licenses: License[],
+  sources: DataSource[],
   userAgent?: UAResult,
   translations?: Translations[],
   searchQuery?: ?string,
@@ -672,6 +676,8 @@ class Loader extends React.Component<Props, State> {
       feature: this.props.feature,
       category: this.state.category,
       categories: this.props.categories,
+      licenses: this.props.licenses,
+      sources: this.props.sources,
       userAgent: this.props.userAgent,
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
