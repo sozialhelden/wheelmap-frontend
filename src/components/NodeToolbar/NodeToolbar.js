@@ -24,8 +24,7 @@ import type { PhotoModel } from './Photos/PhotoModel';
 
 import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
-import type { Category } from '../../lib/Categories';
-import { Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
+import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
