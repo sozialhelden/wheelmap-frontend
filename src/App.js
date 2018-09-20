@@ -124,8 +124,8 @@ class Loader extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    toiletFilter: [],
-    accessibilityFilter: [],
+    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
+    toiletFilter: [].concat(yesNoUnknownArray),
 
     lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,

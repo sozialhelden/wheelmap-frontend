@@ -96,8 +96,6 @@ type Props = {
 };
 
 type State = {
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
   showZoomInfo?: boolean,
   showLocationNotAllowedHint: boolean,
 };
@@ -107,8 +105,6 @@ overrideLeafletZoomBehavior();
 export default class Map extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
-    toiletFilter: [].concat(yesNoUnknownArray),
     showLocationNotAllowedHint: false,
   };
   lastFeatureId: ?string;
@@ -261,6 +257,7 @@ export default class Map extends React.Component<Props, State> {
     if (!locale) {
       console.error('Could not load AC tile layer because no current locale is set.');
     }
+
     const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
       featureCache: accessibilityCloudFeatureCache,
@@ -367,12 +364,12 @@ export default class Map extends React.Component<Props, State> {
 
     if (this.props.category) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        console.log('Hide AC layer...');
+        // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
       }
     }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
-      console.log('Hide feature layer...');
+      // console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
   }
@@ -406,6 +403,7 @@ export default class Map extends React.Component<Props, State> {
 
     if (accessibilityFilterChanged || toiletFilterChanged) {
       setTimeout(() => {
+        // console.log("Resetting layers");
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
         if (this.accessibilityCloudTileLayer)
@@ -428,18 +426,10 @@ export default class Map extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({ accessibilityFilter: props.accessibilityFilter });
-    this.setState({ toiletFilter: props.toiletFilter });
-
     const mapState = this.getMapStateFromProps(props);
     this.updateMapCenter(mapState.center, mapState.zoom, props.padding, this.state);
 
     this.updateFeatureLayerVisibility(props);
-    /*Categories.fetchOnce(props)
-      .then(() => {
-        this.updateFeatureLayerVisibility(props);
-      })
-      .catch(e => {});*/
   }
 
   updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
@@ -449,7 +439,7 @@ export default class Map extends React.Component<Props, State> {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
-    if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
+    if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
 
     let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
@@ -465,8 +455,8 @@ export default class Map extends React.Component<Props, State> {
 
     this.updateFeatureLayerSourceUrls(props);
 
-    if (!this.props.category) {
-      minimalZoomLevelForFeatures = this.props.minZoomWithoutSetCategory;
+    if (!props.category) {
+      minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
       if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
         // console.log('Show AC layer...');
         featureLayer.addLayer(this.accessibilityCloudTileLayer);
@@ -595,13 +585,12 @@ export default class Map extends React.Component<Props, State> {
           String(props.featureId),
         ]);
       }
-      const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
-      if (accessibilityCloudTileLayer) {
+      if (this.accessibilityCloudTileLayer) {
         let ids = [String(props.featureId)];
         if (typeof props.equipmentInfoId === 'string') {
           ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
         }
-        accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+        this.accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
@@ -611,10 +600,10 @@ export default class Map extends React.Component<Props, State> {
   }
 
   isFeatureVisible(feature: Feature) {
+    const { accessibilityFilter, toiletFilter } = this.props;
     if (!feature) return false;
     if (!feature.properties) return false;
     const properties = feature.properties;
-    const { accessibilityFilter, toiletFilter } = this.state;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
     const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));
     return hasMatchingA11y && hasMatchingToilet;
