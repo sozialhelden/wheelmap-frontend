@@ -2,11 +2,12 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
+import styled from 'styled-components';
+
 import Icon from '../../Icon';
 import { shortAccessibilityName } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import IconButton from '../../IconButton';
-import styled from '../../../../node_modules/styled-components';
 import colors from '../../../lib/colors';
 
 type Props = {
