@@ -26,6 +26,7 @@ const config = {
   accessibilityCloudBaseUrl: publicRuntimeConfig.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
   accessibilityCloudUncachedBaseUrl:
     publicRuntimeConfig.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL,
+  allowAdditionalDataUrls: publicRuntimeConfig.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS,
   accessibilityCloudTileUrl: locale =>
     `${
       publicRuntimeConfig.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
@@ -35,6 +36,7 @@ const config = {
   // set this to '' for development - use relative urls, make request to server that hosts the page
   wheelmapApiBaseUrl: publicRuntimeConfig.REACT_APP_WHEELMAP_API_BASE_URL || '',
   publicUrl: publicRuntimeConfig.PUBLIC_URL || '',
+  allowAdditionalImageUrls: publicRuntimeConfig.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS,
 };
 
 export default config;
