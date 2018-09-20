@@ -702,7 +702,7 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sozialhelden/focus-trap-react@5.0.0-react-component-compat":
+"@sozialhelden/focus-trap-react@^5.0.0-react-component-compat":
   version "5.0.0-react-component-compat"
   resolved "https://registry.yarnpkg.com/@sozialhelden/focus-trap-react/-/focus-trap-react-5.0.0-react-component-compat.tgz#33f9505c5387b46c840f838b6fd0f6c305331e03"
   dependencies:
