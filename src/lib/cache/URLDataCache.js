@@ -46,6 +46,12 @@ export default class URLDataCache<T> {
     return this.cache[url];
   }
 
+  inject(url: string, result: ?T) {
+    if (result) {
+      this.cache[url] = Promise.resolve(result);
+    }
+  }
+
   static getDataFromResponse(response: Response): Promise<T> {
     if (!response.ok) {
       // translator: Shown when there was an error while loading a place.

@@ -8,10 +8,14 @@ export default class DataSourceCache extends URLDataCache<{}> {
     id: string,
     options?: { useCache: boolean } = { useCache: true }
   ): Promise<{}> {
-    const url = `${config.accessibilityCloudBaseUrl}/sources/${id}.json?appToken=${
+    const url = this.urlFromId(id);
+    return this.getData(url, options);
+  }
+
+  urlFromId(id: string) {
+    return `${config.accessibilityCloudBaseUrl}/sources/${id}.json?appToken=${
       config.accessibilityCloudAppToken
     }`;
-    return this.getData(url, options);
   }
 }
 
