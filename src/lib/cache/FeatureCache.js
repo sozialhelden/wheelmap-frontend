@@ -119,6 +119,11 @@ export default class FeatureCache<
     id: string,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<FeatureType> {
+    // check if have already downloaded a feature with this id
+    if (options.useCache && this.cache[id]) {
+      return this.cache[id];
+    }
+
     const response = await this.constructor.fetchFeature(id, options);
 
     if (response.status === 200) {
@@ -206,7 +211,6 @@ export default class FeatureCache<
 
     const changeEvent = new CustomEvent('change', { target: this, feature: this.cache[id] });
     this.dispatchEvent(changeEvent);
-    console.log('Updated feature', feature, newProperties);
   }
 
   /**
