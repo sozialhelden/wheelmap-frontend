@@ -1,8 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
+import 'react-activity/dist/react-activity.css';
 
 const AppStyle = createGlobalStyle`
-  @import '../node_modules/react-activity/dist/react-activity.css';
-
   .subtle {
     font-weight: lighter;
     opacity: 0.6;
