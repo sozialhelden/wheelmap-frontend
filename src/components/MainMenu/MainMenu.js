@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
-import Logo from '../../lib/Logo';
+// import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
@@ -135,7 +135,7 @@ class MainMenu extends React.Component<Props, State> {
       findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isLocalizationLoaded, isOpen, className, links, addPlaceURL, logoURL } = this.props;
+    const { isOpen, className, links, addPlaceURL, logoURL } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -146,17 +146,23 @@ class MainMenu extends React.Component<Props, State> {
 
     const focusTrapIsActive = isMenuButtonVisible && isOpen;
 
-    let addPlaceLink = <button
-      className="nav-link add-place-link"
-      onClick={this.props.onAddMissingPlaceClick}
-      onKeyDown={this.handleKeyDown}
-      role="menuitem"
-    >;
+    let addPlaceLink = (
+      <button
+        className="nav-link add-place-link"
+        onClick={this.props.onAddMissingPlaceClick}
+        onKeyDown={this.handleKeyDown}
+        role="menuitem"
+      >
+        {addMissingPlace}
+      </button>
+    );
 
     if (addPlaceURL) {
-      addPlaceLink = <a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
-        {addMissingPlace}
-      </a>;
+      addPlaceLink = (
+        <a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
+          {addMissingPlace}
+        </a>
+      );
     }
 
     return (

@@ -9,6 +9,7 @@ import {
 
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
+import type { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import PlaceDetailsData from './placeDetailsData';
 import SearchData from './searchData';
@@ -31,6 +32,7 @@ type AppProps = {
   userAgent: UAResult,
   categories: CategoryLookupTables,
   translations: Translations[],
+  clientSideConfiguration: ClientSideConfiguration,
 };
 
 const dataTable: DataTable = {
@@ -60,6 +62,7 @@ export function getInitialProps(
 export async function getAppInitialProps(
   {
     userAgentString,
+    clientSideConfiguration,
     languages,
     ...query
   }: {
@@ -82,7 +85,7 @@ export async function getAppInitialProps(
     ? clientCache.categories
     : await Categories.generateLookupTables({ locale: locales[0] });
 
-  return { userAgent, translations, categories };
+  return { userAgent, translations, categories, clientSideConfiguration };
 }
 
 const clientCache: $Shape<AppProps> = {};

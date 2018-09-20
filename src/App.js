@@ -22,6 +22,7 @@ import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from 
 import { yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
+import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
@@ -42,20 +43,6 @@ export type Link = {
   url: string,
 };
 
-export type ClientSideConfiguration = {
-  logoURL: string,
-  allowedBaseURLs: Array<string>,
-  includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>,
-  textContent: {
-    onboarding: {
-      headerMarkdown: string,
-    },
-  },
-  customMainMenuLinks: Array<Link>,
-  addPlaceURL: string,
-};
-
 type Props = {
   className?: string,
   history: RouterHistory,
@@ -68,6 +55,7 @@ type Props = {
   translations?: Translations[],
   searchQuery?: ?string,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
+  clientSideConfiguration: ClientSideConfiguration,
 };
 
 type State = {
@@ -98,8 +86,6 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
-
-  clientSideConfiguration: ClientSideConfiguration,
 };
 
 function parseStatusString(statusString, allowedStatuses) {
@@ -171,17 +157,6 @@ class Loader extends React.Component<Props, State> {
     photosMarkedForUpload: null,
     photoMarkedForReport: null,
     photoFlowErrorMessage: null,
-    clientSideConfiguration: {
-      logoURL: 'https://www.pfotenpiloten.org/wp-content/uploads/2017/05/Pfoten-Piloten2.png',
-      allowedBaseURLs: ['https://www.wheelmap-pro.com'],
-      includeSourceIds: ['LiBTS67TjmBcXdEmX'],
-      excludeSourceIds: [],
-      textContent: { onboarding: { headerMarkdown: '**hallo**' } },
-      customMainMenuLinks: [
-        { label: 'Terms of Service', url: 'https://wheelmap.org/nutzungsbedingungen' },
-      ],
-      addPlaceURL: 'https://www.openstreetmap.org/edit#map=19/48.85920/2.34540',
-    },
   };
 
   map: ?any;
@@ -728,7 +703,7 @@ class Loader extends React.Component<Props, State> {
       // simple 3-button status editor feature
       presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null,
 
-      clientSideConfiguration: this.state.clientSideConfiguration,
+      clientSideConfiguration: this.props.clientSideConfiguration,
     };
 
     return (
