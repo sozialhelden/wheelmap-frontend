@@ -19,7 +19,7 @@ export async function getAppConfiguration(hostName): Promise<ClientSideConfigura
   const baseUrl = config.accessibilityCloudBaseUrl;
   const token = config.accessibilityCloudAppToken;
   const url = `${baseUrl}/apps/${hostName}.json?appToken=${token}`;
-  console.log(hostName);
+
   const response = await fetch(url);
   const appJSON = await response.json();
   return appJSON.clientSideConfiguration;
