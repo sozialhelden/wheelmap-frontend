@@ -33,6 +33,8 @@ import getRouteInformation from './lib/getRouteInformation';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
+import '../node_modules/react-activity/dist/react-activity.css';
+
 initReactFastclick();
 
 type Props = {
