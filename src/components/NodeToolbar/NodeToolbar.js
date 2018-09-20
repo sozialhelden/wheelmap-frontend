@@ -311,6 +311,8 @@ class NodeToolbar extends React.Component<Props, State> {
         ariaLabel={this.placeName()}
         startTopOffset={offset}
         onScrollable={isScrollable => this.setState({ isScrollable })}
+        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be pervented.
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
         {this.renderCloseLink()}
         {this.renderNodeHeader()}
