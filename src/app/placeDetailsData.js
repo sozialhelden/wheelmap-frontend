@@ -37,11 +37,11 @@ const PlaceDetailsData: DataTableEntry<PlaceProps> = {
 
     try {
       // do not cache on server
-      const feature = await fetchFeature(query.id, isServer);
+      const feature = await fetchFeature(query.id, !isServer);
 
       const sources = await Promise.all(
         sourceIdsForFeature(feature).map(sourceId =>
-          dataSourceCache.getDataSourceWithId(sourceId, { useCache: isServer })
+          dataSourceCache.getDataSourceWithId(sourceId, { useCache: !isServer })
         )
       );
 
@@ -49,7 +49,7 @@ const PlaceDetailsData: DataTableEntry<PlaceProps> = {
         sources
           .map(source => {
             if (typeof source.licenseId === 'string') {
-              return licenseCache.getLicenseWithId(source.licenseId, { useCache: isServer });
+              return licenseCache.getLicenseWithId(source.licenseId, { useCache: !isServer });
             }
             return null;
           })
