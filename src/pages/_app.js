@@ -53,6 +53,7 @@ export default class App extends BaseApp<Props> {
       let languages = ['en'];
 
       if (ctx.req) {
+        appConfiguration = await getAppConfiguration(ctx.req.headers.host);
         if (ctx.req.headers['accept-language']) {
           languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
         }
@@ -60,6 +61,16 @@ export default class App extends BaseApp<Props> {
         languages = [window.navigator.language]
           .concat(window.navigator.languages || [])
           .filter(Boolean);
+        appConfiguration = await getAppConfiguration(window.location.hostname);
+        userAgentString = window.navigator.userAgent;
+      }
+
+      if (!userAgentString) throw new Error('User agent must be defined');
+      const userAgentParser = new UAParser(userAgentString);
+      userAgent = userAgentParser.getResult();
+
+      if (!languages || languages.length === 0) {
+        return { error: new Error('Missing languages.') };
       }
 
       appProps = await getAppInitialProps({ userAgentString, languages, ...ctx.query }, isServer);
