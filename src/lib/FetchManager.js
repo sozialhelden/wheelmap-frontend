@@ -16,8 +16,6 @@ export class FetchManager extends EventTarget {
       }
     }
 
-    console.log('busy', count);
-
     return count > 0;
   }
 
