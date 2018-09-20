@@ -25,6 +25,8 @@ import getAppConfiguration from '../lib/getAppConfiguration';
 
 type Props = {};
 
+let isServer = false;
+
 export default class App extends BaseApp<Props> {
   static async getInitialProps({
     Component: PageComponent,
@@ -36,7 +38,7 @@ export default class App extends BaseApp<Props> {
     let appProps;
     let routeProps;
 
-    const isServer = !!(ctx && ctx.req);
+    isServer = !!(ctx && ctx.req);
 
     // handle 404 before the app is rendered, as we otherwise render the whole app again
     // this is very relevant for missing static files like translations
@@ -91,7 +93,7 @@ export default class App extends BaseApp<Props> {
       return { error };
     }
 
-    return { ...appProps, ...routeProps, routeName: ctx.query.routeName, isServer };
+    return { ...appProps, ...routeProps, routeName: ctx.query.routeName };
   }
 
   constructor(props: Props) {
@@ -100,13 +102,13 @@ export default class App extends BaseApp<Props> {
   }
 
   render() {
-    const { Component: PageComponent, error, routeName, isServer, ...props } = this.props;
+    const { Component: PageComponent, error, routeName, ...props } = this.props;
 
     if (error && error.statusCode !== 404) {
       console.error('Error in _app.js', error);
     }
 
-    if (isServer === false) {
+    if (!isServer) {
       clientStoreAppInitialProps(props);
 
       if (routeName) {
