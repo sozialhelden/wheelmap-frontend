@@ -1,13 +1,14 @@
 // @flow
 import UAParser from 'ua-parser-js';
 
-export function isTouchDevice() {
-  return (
-    typeof window !== 'undefined' &&
-    (window.navigator.maxTouchPoints > 0 ||
-      window.navigator.userAgent.match(/iPhone/) ||
-      window.navigator.userAgent.match(/iPad/))
-  );
+export function isTouchDevice(userAgent?: UAResult = getUserAgent()) {
+  // If on client check for touch points.
+  if (typeof window !== 'undefined' && window.navigator.maxTouchPoints > 0) {
+    return true;
+  }
+
+  // If on server check for os name.
+  return userAgent.os.name === 'iOS' || userAgent.os.name === 'Android';
 }
 
 export type UAOs = {
@@ -21,12 +22,12 @@ export type UAResult = {
 };
 
 const parser = new UAParser();
-let userAgent = parser.getResult();
+let userAgent: UAResult = parser.getResult();
 
 export function configureUserAgent(userAgentResult: UAResult) {
   userAgent = userAgentResult;
 }
 
-export function getUserAgent() {
+export function getUserAgent(): UAResult {
   return userAgent;
 }
