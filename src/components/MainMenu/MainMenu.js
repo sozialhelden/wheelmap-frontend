@@ -10,7 +10,6 @@ import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { RouterHistory } from 'react-router-dom';
 import FocusTrap from '@sozialhelden/focus-trap-react';
-import { Dots } from 'react-activity';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -71,8 +70,8 @@ class MainMenu extends React.Component<Props, State> {
   componentDidMount() {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.onResize);
+      this.onResize();
     }
-    this.onResize();
   }
 
   componentWillUnmount() {
@@ -109,30 +108,16 @@ class MainMenu extends React.Component<Props, State> {
       findWheelchairAccessiblePlaces,
     } = strings();
 
-    const { isLocalizationLoaded, isOpen, className } = this.props;
+    const { isOpen, className } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
       className,
       isOpen || !isMenuButtonVisible ? 'is-open' : null,
-      isLocalizationLoaded ? 'is-loaded' : null,
       'main-menu',
     ].filter(Boolean);
 
-    if (!isLocalizationLoaded) {
-      return (
-        <nav className={classList.join(' ')}>
-          <div className="home-link">
-            <button className="btn-unstyled home-button" disabled>
-              <Logo className="logo" width={123} height={30} />
-            </button>
-          </div>
-          <Dots />
-        </nav>
-      );
-    }
-
-    const focusTrapIsActive = isLocalizationLoaded && isMenuButtonVisible && isOpen;
+    const focusTrapIsActive = isMenuButtonVisible && isOpen;
 
     return (
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
@@ -251,8 +236,6 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
   }
 
   &.is-open {
@@ -425,31 +408,6 @@ const StyledMainMenu = styled(MainMenu)`
     }
     &.is-open {
       height: auto;
-    }
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  &:not(.is-loaded) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0;
-    .rai-activity-indicator {
-      margin-right: 20px;
-    }
-  }
-
-  &.is-loaded {
-    > *:not(.home-link):not(.logo) {
-      animation: fadeIn 1s ease-out;
     }
   }
 `;
