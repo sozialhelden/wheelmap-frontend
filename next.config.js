@@ -15,7 +15,7 @@ const withConfig = nextRuntimeDotEnv({
     'REACT_APP_ALLOW_ADDITIONAL_DATA_URLS',
     'REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS',
   ],
-  server: [],
+  server: ['WHEELMAP_PROXY_URL'],
 });
 
 module.exports = withConfig(
