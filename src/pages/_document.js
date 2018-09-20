@@ -18,9 +18,9 @@ export default class MyDocument extends Document {
     return (
       <html lang="en">
         <Head>
-          <meta charset="utf-8" />
+          <meta charSet="utf-8" />
           <meta
-            http-equiv="Content-Security-Policy"
+            httpEquiv="Content-Security-Policy"
             content={`default-src 'self' 'unsafe-eval' 'unsafe-inline' 
                 data: gap: ws: https://www.google-analytics.com https://ssl.gstatic.com https://photon.komoot.de ${
                   config.wheelmapApiBaseUrl
