@@ -6,9 +6,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import queryString from 'query-string';
 import type { Location, RouterHistory } from 'react-router-dom';
-import { Dots } from 'react-activity';
 
 import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';

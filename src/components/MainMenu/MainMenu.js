@@ -10,6 +10,7 @@ import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { RouterHistory } from 'react-router-dom';
 import FocusTrap from '@sozialhelden/focus-trap-react';
+import { Dots } from 'react-activity';
 
 type State = {
   isMenuButtonVisible: boolean,
