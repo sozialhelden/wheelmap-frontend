@@ -14,11 +14,18 @@ import PlaceDetailsData from './placeDetailsData';
 import SearchData from './searchData';
 
 export type DataTableEntry<Props> = {
-  getInitialProps: (query: { [key: string]: string }, isServer: boolean) => Promise<Props>,
+  getInitialProps: (
+    query: {
+      [key: string]: string,
+    },
+    isServer: boolean
+  ) => Promise<Props>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 
-type DataTable = { [key: string]: DataTableEntry<any> };
+type DataTable = {
+  [key: string]: DataTableEntry<any>,
+};
 
 type AppProps = {
   userAgent: UAResult,
@@ -32,7 +39,13 @@ const dataTable: DataTable = {
 };
 
 export function getInitialProps(
-  { routeName, ...query }: { routeName: string, [key: string]: string },
+  {
+    routeName,
+    ...query
+  }: {
+    routeName: string,
+    [key: string]: string,
+  },
   isServer: boolean
 ) {
   const dataItem = dataTable[routeName];
@@ -49,7 +62,11 @@ export async function getAppInitialProps(
     userAgentString,
     languages,
     ...query
-  }: { userAgentString: string, languages: string[], [key: string]: string },
+  }: {
+    userAgentString: string,
+    languages: string[],
+    [key: string]: string,
+  },
   isServer: boolean
 ): Promise<AppProps> {
   // flow type is not synced with actual apis
@@ -57,14 +74,13 @@ export async function getAppInitialProps(
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
 
   const locales = expandedPreferredLocales(languages);
-  const translations =
-    clientCache.translations || (await loadExistingLocalizationByPreference(locales));
+  const translations = clientCache.translations
+    ? clientCache.translations
+    : await loadExistingLocalizationByPreference(locales);
 
-  const categories =
-    clientCache.categories ||
-    (await Categories.generateLookupTables({
-      locale: locales[0],
-    }));
+  const categories = clientCache.categories
+    ? clientCache.categories
+    : await Categories.generateLookupTables({ locale: locales[0] });
 
   return { userAgent, translations, categories };
 }
