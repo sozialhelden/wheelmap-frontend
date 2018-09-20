@@ -9,7 +9,7 @@ import type { Location, RouterHistory } from 'react-router-dom';
 import { MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
-import savedState, { saveState } from './lib/savedState';
+import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
@@ -168,10 +168,12 @@ class Loader extends React.Component<Props, State> {
     if (props.userAgent) {
       configureUserAgent(props.userAgent);
     }
+  }
 
-    // if (isFirstStart()) {
-    //   this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
-    // }
+  componentDidMount() {
+    if (isFirstStart()) {
+      this.setState({ isOnboardingVisible: true });
+    }
   }
 
   /*componentWillUnmount() {
@@ -550,7 +552,7 @@ class Loader extends React.Component<Props, State> {
 
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: 'true' });
-    this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
+    this.setState({ isOnboardingVisible: false });
     if (this.mainView) this.mainView.focusSearchToolbar();
   };
 

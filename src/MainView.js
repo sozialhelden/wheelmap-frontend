@@ -168,14 +168,6 @@ class MainView extends React.Component<Props, State> {
     this.updateViewportSizeState();
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    if (isFirstStart()) {
-      this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
-    }
-  }
-
   componentDidMount() {
     if (typeof window !== 'undefined') {
       window.addEventListener('resize', this.resizeListener);
