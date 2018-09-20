@@ -1,7 +1,6 @@
 const nextjs = require('next');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
-
 const router = require('./app/router');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -25,7 +24,7 @@ app.prepare().then(() => {
   // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
   server.use(
     ['/api/*', '/nodes/*'],
-    proxy({ target: process.env.WHEELMAP_PROXY_URL, changeOrigin: true })
+    proxy({ target: 'https://wheelmap.org/', changeOrigin: true })
   );
 
   // Fallback for routes not found.
