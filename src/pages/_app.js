@@ -57,7 +57,9 @@ export default class App extends BaseApp<Props> {
           languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
         }
       } else {
-        languages = window.navigator.languages;
+        languages = [window.navigator.language]
+          .concat(window.navigator.languages || [])
+          .filter(Boolean);
       }
 
       appProps = await getAppInitialProps({ userAgentString, languages, ...ctx.query }, isServer);
