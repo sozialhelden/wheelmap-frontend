@@ -97,7 +97,7 @@ class Router {
       const keys = [];
       compiledRoute = {
         keys,
-        pattern: pathToRegexp(route.path, keys),
+        pattern: pathToRegexp(route.path || '', keys),
         keyNames: keys.map(key => key.name),
         generate: pathToRegexp.compile(route.path),
       };
