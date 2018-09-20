@@ -4,7 +4,6 @@ import searchPlaces, {
   type SearchResultCollection,
   type SearchResultProperties,
 } from '../lib/searchPlaces';
-
 import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import config from '../lib/config';
@@ -12,11 +11,13 @@ import { type WheelmapFeature } from '../lib/Feature';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
-  additionalSearchResultData: WheelmapFeature[] | Promise<WheelmapFeature[]>,
   searchQuery: ?string,
 };
 
-function fetchWheelmapNode(searchResultProperties: SearchResultProperties, useCache: boolean) {
+async function fetchWheelmapNode(
+  searchResultProperties: SearchResultProperties,
+  useCache: boolean
+): Promise<?WheelmapFeature> {
   if (!config.wheelmapApiKey) {
     return null;
   }
@@ -38,18 +39,21 @@ function fetchWheelmapNode(searchResultProperties: SearchResultProperties, useCa
     osmId = -osmId;
   }
 
-  return wheelmapFeatureCache.getFeature(String(osmId), { useCache }).then(
-    feature => {
-      if (feature == null || feature.properties == null) {
-        return null;
-      }
+  try {
+    const feature = await wheelmapFeatureCache.getFeature(String(osmId), { useCache });
 
-      return feature;
-    },
-    errorOrResponse => {
-      if (errorOrResponse.status !== 404) console.error(errorOrResponse);
+    if (feature == null || feature.properties == null) {
+      return null;
     }
-  );
+
+    return feature;
+  } catch (error) {
+    if (error.status !== 404) {
+      console.error(error);
+    }
+
+    return null;
+  }
 }
 
 const SearchData: DataTableEntry<SearchProps> = {
@@ -57,20 +61,30 @@ const SearchData: DataTableEntry<SearchProps> = {
     // TODO error handling for await
 
     const searchQuery = query.q;
-    const searchPlacesPromise = searchPlaces(searchQuery, { lat: query.lat, lon: query.lon });
+    let searchResults = searchPlaces(searchQuery, {
+      lat: parseFloat(query.lat),
+      lon: parseFloat(query.lon),
+    }).then(async (results): Promise<SearchResultCollection> => {
+      let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
+        fetchWheelmapNode(feature.properties, isServer)
+      );
 
-    const additionalSearchDataPromise = searchPlacesPromise.then(results => {
-      Promise.all(results.features.map(f => fetchWheelmapNode(f.properties, isServer)));
+      // Fetch all wheelmap features when on server.
+      if (isServer) {
+        wheelmapFeatures = await Promise.all(wheelmapFeatures);
+      }
+
+      return {
+        ...results,
+        wheelmapFeatures,
+      };
     });
 
-    const searchResults = isServer ? await searchPlacesPromise : searchPlacesPromise;
-    const additionalSearchResultData = isServer
-      ? await additionalSearchDataPromise
-      : additionalSearchDataPromise;
+    // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
+    searchResults = isServer ? await searchResults : searchResults;
 
     return {
       searchResults,
-      additionalSearchResultData,
       searchQuery: query.q,
     };
   },

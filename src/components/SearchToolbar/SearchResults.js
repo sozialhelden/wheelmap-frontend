@@ -2,7 +2,6 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
-import uniq from 'lodash/uniq';
 import styled from 'styled-components';
 
 import type { RouterHistory } from 'react-router-dom';
@@ -23,7 +22,7 @@ type Props = {
 
 function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
-  const features = uniq(props.searchResults.features, id);
+  const { wheelmapFeatures, features } = props.searchResults;
 
   const failedLoading = !!props.searchResults.error;
   const hasNoResults = !failedLoading && features.length === 0;
@@ -34,23 +33,36 @@ function SearchResults(props: Props) {
   // translator: Text in search results when an error occurred
   const searchErrorCaption = t`No results available. Please try again later!`;
 
+  const renderedFeatureIds = [];
+
   return (
     <ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
-      {features.map((result, index) => (
-        <SearchResult
-          result={result}
-          key={id(result)}
-          onSelect={props.onSelect}
-          onSelectCoordinate={props.onSelectCoordinate}
-          hidden={!!props.hidden}
-          history={props.history}
-          ref={ref => {
-            if (props.refFirst && index === 0) props.refFirst(ref);
-          }}
-        />
-      ))}
+      {features.map((feature, index) => {
+        const featureId = id(feature);
+
+        if (renderedFeatureIds.indexOf(featureId) > -1) {
+          return null;
+        }
+
+        renderedFeatureIds.push(featureId);
+
+        return (
+          <SearchResult
+            feature={feature}
+            wheelmapFeature={wheelmapFeatures[index]}
+            key={featureId}
+            onSelect={props.onSelect}
+            onSelectCoordinate={props.onSelectCoordinate}
+            hidden={!!props.hidden}
+            history={props.history}
+            ref={ref => {
+              if (props.refFirst && index === 0) props.refFirst(ref);
+            }}
+          />
+        );
+      })}
     </ul>
   );
 }

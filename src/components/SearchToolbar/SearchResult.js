@@ -2,16 +2,13 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
+import type { RouterHistory } from 'react-router-dom';
 
-import config from '../../lib/config';
-import Categories from '../../lib/Categories';
 import getAddressString from '../../lib/getAddressString';
 import type { Category } from '../../lib/Categories';
-import type { RouterHistory } from 'react-router-dom';
 import type { WheelmapFeature } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
 import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
-import { wheelmapFeatureCache } from '../../lib/cache/WheelmapFeatureCache';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
@@ -20,11 +17,12 @@ import PlaceName from '../PlaceName';
 import ToolbarLink from '../ToolbarLink';
 
 type Props = {
-  result: SearchResultFeature,
+  feature: SearchResultFeature,
   history: RouterHistory,
   onSelect: () => void,
   hidden: boolean,
   onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  wheelmapFeature: ?WheelmapFeature | Promise<?WheelmapFeature>,
 };
 
 type State = {
@@ -33,6 +31,7 @@ type State = {
   fetchNodeTimeout: ?number,
   lastFetchedOsmId: ?number,
   wheelmapFeature: ?WheelmapFeature,
+  wheelmapFeaturePromise: ?Promise<?WheelmapFeature>,
 };
 
 function getZoomLevel(hasWheelmapId: boolean, category: ?Category) {
@@ -95,87 +94,61 @@ export default class SearchResult extends React.Component<Props, State> {
     fetchNodeTimeout: null,
     lastFetchedOsmId: null,
     wheelmapFeature: null,
+    wheelmapFeaturePromise: null,
   };
 
   root: ?React.ElementRef<'a'> = null;
 
-  /*componentDidMount() {
-    this.startFetchNodeTimeout();
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    const { wheelmapFeature } = props;
+
+    // Do not update anything when the wheelmap feature promise is already in use.
+    if (wheelmapFeature === state.wheelmapFeaturePromise) {
+      return null;
+    }
+
+    if (wheelmapFeature instanceof Promise) {
+      return { wheelmapFeature: null, wheelmapFeaturePromise: wheelmapFeature };
+    }
+
+    return { wheelmapFeature: wheelmapFeature, wheelmapFeaturePromise: null };
   }
 
-  componentDidUpdate() {
-    this.startFetchNodeTimeout();
+  componentDidMount() {
+    const { wheelmapFeaturePromise } = this.state;
+
+    if (wheelmapFeaturePromise) {
+      wheelmapFeaturePromise.then(wheelmapFeature =>
+        this.handleWheelmapFeatureFetched(wheelmapFeaturePromise, wheelmapFeature)
+      );
+    }
   }
 
-  componentWillUnmount() {
-    this.stopFetchNodeTimeout();
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const { wheelmapFeaturePromise } = this.state;
+
+    if (wheelmapFeaturePromise && prevState.wheelmapFeaturePromise !== wheelmapFeaturePromise) {
+      wheelmapFeaturePromise.then(wheelmapFeature =>
+        this.handleWheelmapFeatureFetched(wheelmapFeaturePromise, wheelmapFeature)
+      );
+    }
   }
 
-  startFetchNodeTimeout() {
-    this.stopFetchNodeTimeout();
+  handleWheelmapFeatureFetched = (
+    prevWheelmapFeaturePromise: Promise<?WheelmapFeature>,
+    wheelmapFeature: ?WheelmapFeature
+  ) => {
+    if (this.state.wheelmapFeaturePromise !== prevWheelmapFeaturePromise) {
+      return;
+    }
+
     this.setState({
-      fetchNodeTimeout: setTimeout(() => {
-        this.fetchWheelmapNode();
-        this.setState({ fetchNodeTimeout: null });
-      }, 1000),
+      wheelmapFeature,
     });
-  }
-
-  stopFetchNodeTimeout() {
-    if (this.state.fetchNodeTimeout) {
-      clearTimeout(this.state.fetchNodeTimeout);
-      this.setState({ fetchNodeTimeout: null });
-    }
-  }*/
-
-  /*fetchWheelmapNode(props: Props = this.props) {
-    if (!config.wheelmapApiKey) {
-      return;
-    }
-
-    const { properties: searchResultProperties } = props.result;
-    let osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
-
-    if (!osmId) {
-      return;
-    }
-
-    // Only nodes with type 'N' and 'W' can be on Wheelmap.
-    if (searchResultProperties.osm_type !== 'N' && searchResultProperties.osm_type !== 'W') {
-      return;
-    }
-
-    // Wheelmap stores features with osm type 'W' with negativ ids.
-    // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
-    if (searchResultProperties.osm_type === 'W') {
-      osmId = -osmId;
-    }
-
-    // Store last fetched osm id to make sure the response fits to the current request.
-    this.setState({
-      lastFetchedOsmId: osmId,
-    });
-
-    wheelmapFeatureCache.getFeature(String(osmId)).then(
-      feature => {
-        if (feature == null || feature.properties == null) {
-          return;
-        }
-
-        if (feature.properties.id !== this.state.lastFetchedOsmId) {
-          return;
-        }
-
-        this.setState({ wheelmapFeature: feature });
-      },
-      errorOrResponse => {
-        if (errorOrResponse instanceof Error) console.log(errorOrResponse);
-      }
-    );
-  }*/
+  };
 
   getFeature() {
-    return this.state.wheelmapFeature || this.props.result;
+    return this.state.wheelmapFeature || this.props.feature;
   }
 
   getCategory() {
@@ -195,6 +168,7 @@ export default class SearchResult extends React.Component<Props, State> {
     const hasWheelmapId = Boolean(wheelmapId);
     const zoom = getZoomLevel(hasWheelmapId, this.getCategory());
     const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
+
     return this.props.history.createHref({ pathname, search });
   }
 
@@ -205,8 +179,9 @@ export default class SearchResult extends React.Component<Props, State> {
   }
 
   render() {
-    const result = this.props.result;
-    const properties = result && result.properties;
+    const { feature } = this.props;
+    const { wheelmapFeature } = this.state;
+    const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
     const placeName = properties ? properties.name : t`Unnamed`;
     const address =
@@ -219,7 +194,6 @@ export default class SearchResult extends React.Component<Props, State> {
         city: properties.city,
       });
     const category = properties && (properties.osm_value || properties.osm_key);
-    const wheelmapFeature = this.state.wheelmapFeature;
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const accessibility =
       wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
@@ -232,7 +206,7 @@ export default class SearchResult extends React.Component<Props, State> {
         ref={r => {
           this.root = r;
         }}
-        className={`osm-category-${result.properties.osm_key || 'unknown'}-${result.properties
+        className={`osm-category-${feature.properties.osm_key || 'unknown'}-${feature.properties
           .osm_value || 'unknown'}`}
       >
         <HashLinkOrRouterLink

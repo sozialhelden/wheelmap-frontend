@@ -160,18 +160,17 @@ export default class FeatureCache<
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  getFeature(
+  async getFeature(
     id: string,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<?FeatureType> {
     const feature = this.getCachedFeature(id);
-    return new Promise((resolve, reject) => {
-      if (feature || feature === null) {
-        resolve(feature);
-        return;
-      }
-      this.fetchFeature(id, resolve, reject, options);
-    });
+
+    if (feature || feature === null) {
+      return feature;
+    }
+
+    return this.fetchFeature(id, options);
   }
 
   reloadFeature(id: string): Promise<?FeatureType> {

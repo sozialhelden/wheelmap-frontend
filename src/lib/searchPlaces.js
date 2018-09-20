@@ -1,10 +1,11 @@
 // @flow
 
 import includes from 'lodash/includes';
+import type { GeometryObject } from 'geojson-flow';
+
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
-
-import type { GeometryObject } from 'geojson-flow';
+import { type WheelmapFeature } from '../lib/Feature';
 
 export type SearchResultProperties = {
   city?: ?any,
@@ -28,6 +29,7 @@ export type SearchResultFeature = {
 export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
+  wheelmapFeatures: (?WheelmapFeature)[] | Promise<?WheelmapFeature>[],
 };
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
