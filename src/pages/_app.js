@@ -21,7 +21,6 @@ import {
   clientStoreInitialProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import { getAppConfiguration } from '../lib/ClientSideConfiguration';
 
 type Props = {};
 
@@ -54,8 +53,6 @@ export default class App extends BaseApp<Props> {
       const hostName: string = isServer
         ? ctx.req.headers.host.replace(/:.*$/, '')
         : window.location.hostname;
-      const clientSideConfiguration = await getAppConfiguration(hostName);
-      console.log(clientSideConfiguration);
 
       // translations
       let languages = ['en'];
@@ -79,7 +76,7 @@ export default class App extends BaseApp<Props> {
       }
 
       appProps = await getAppInitialProps(
-        { userAgentString, languages, clientSideConfiguration, ...ctx.query },
+        { userAgentString, hostName, languages, ...ctx.query },
         isServer
       );
 

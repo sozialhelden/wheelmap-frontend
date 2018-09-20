@@ -9,10 +9,10 @@ import {
 
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
-import type { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import PlaceDetailsData from './placeDetailsData';
 import SearchData from './searchData';
+import { getAppConfiguration, type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 export type DataTableEntry<Props> = {
   getInitialProps: (
@@ -62,12 +62,13 @@ export function getInitialProps(
 export async function getAppInitialProps(
   {
     userAgentString,
-    clientSideConfiguration,
     languages,
+    hostName,
     ...query
   }: {
     userAgentString: string,
     languages: string[],
+    hostName: string,
     [key: string]: string,
   },
   isServer: boolean
@@ -75,6 +76,10 @@ export async function getAppInitialProps(
   // flow type is not synced with actual apis
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
+
+  const clientSideConfiguration = clientCache.clientSideConfiguration
+    ? clientCache.clientSideConfiguration
+    : await getAppConfiguration(hostName);
 
   const locales = expandedPreferredLocales(languages);
   const translations = clientCache.translations
@@ -93,6 +98,7 @@ const clientCache: $Shape<AppProps> = {};
 export function clientStoreAppInitialProps(props: AppProps) {
   clientCache.translations = props.translations;
   clientCache.categories = props.categories;
+  clientCache.clientSideConfiguration = props.clientSideConfiguration;
 }
 
 export function clientStoreInitialProps(routeName: string, props: any) {
