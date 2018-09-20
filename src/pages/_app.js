@@ -41,9 +41,9 @@ export default class App extends BaseApp<Props> {
 
     // handle 404 before the app is rendered, as we otherwise render the whole app again
     // this is very relevant for missing static files like translations
-    if (isServer && ctx.res.statusCode === 404) {
+    if (isServer && ctx.res.statusCode >= 400) {
       const error = new Error('Could not load');
-      error.statusCode = 404;
+      error.statusCode = ctx.res.statusCode;
       return { error };
     }
 
