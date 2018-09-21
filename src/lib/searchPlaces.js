@@ -29,7 +29,7 @@ export type SearchResultFeature = {
 export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
-  wheelmapFeatures: (?WheelmapFeature)[] | Promise<?WheelmapFeature>[],
+  wheelmapFeatures?: (?WheelmapFeature)[] | Promise<?WheelmapFeature>[],
 };
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given

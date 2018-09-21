@@ -33,8 +33,9 @@ type DataTableQuery = {
 
 export type DataTableEntry<Props> = {
   getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
+  getRenderProps?: (props: Props, isServer: boolean) => Props,
   getHead?: (props: Props & AppProps) => ?React$Element<Head>,
-  clientStoreInitialProps?: (props: Props & AppProps) => void,
+  clientStoreInitialProps?: (props: Props) => void,
 };
 
 type DataTable = {
@@ -64,6 +65,16 @@ export function getInitialProps(
   }
 
   return dataItem.getInitialProps(query, isServer);
+}
+
+export function getRenderProps<Props>(routeName: string, props: Props, isServer: boolean): Props {
+  const dataItem = dataTable[routeName];
+
+  if (!dataItem || !dataItem.getRenderProps) {
+    return props;
+  }
+
+  return dataItem.getRenderProps(props, isServer);
 }
 
 export async function getAppInitialProps(

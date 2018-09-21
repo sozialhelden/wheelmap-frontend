@@ -17,6 +17,7 @@ import router from '../app/router';
 import {
   getInitialProps,
   getAppInitialProps,
+  getRenderProps,
   clientStoreAppInitialProps,
   clientStoreInitialProps,
   getHead,
@@ -128,7 +129,10 @@ export default class App extends BaseApp {
         ) : (
           <React.Fragment>
             {head}
-            <PageComponent routerHistory={this.routerHistory} {...props} />
+            <PageComponent
+              routerHistory={this.routerHistory}
+              {...getRenderProps(routeName, props, isServer)}
+            />
           </React.Fragment>
         )}
         <GlobalStyle />

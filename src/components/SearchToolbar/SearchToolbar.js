@@ -241,21 +241,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
-  /*handleSearchInputChange = debounce(
-    () => {
-      if (!(this.input instanceof HTMLInputElement)) {
-        return;
-      }
-      const query = this.input.value;
-      if (query.match(/^locale:/)) {
-        return;
-      }
-      this.sendSearchRequest(query);
-    },
-    1000,
-    { leading: false, trailing: true, maxWait: 3000 }
-  );*/
-
   static getDerivedStateFromProps(props: Props, state: State) {
     const { searchResults } = props;
 

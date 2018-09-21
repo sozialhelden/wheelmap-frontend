@@ -68,7 +68,25 @@ const SearchData: DataTableEntry<SearchProps> = {
     let searchResults = searchPlaces(searchQuery, {
       lat: parseFloat(query.lat),
       lon: parseFloat(query.lon),
-    }).then(async (results): Promise<SearchResultCollection> => {
+    });
+
+    // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
+    searchResults = isServer ? await searchResults : searchResults;
+
+    return {
+      searchResults,
+      searchQuery: query.q,
+    };
+  },
+
+  getRenderProps(props, isServer) {
+    if (isServer) {
+      return props;
+    }
+
+    let { searchResults } = props;
+
+    searchResults = Promise.resolve(searchResults).then(async results => {
       let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
         fetchWheelmapNode(feature.properties, isServer)
       );
@@ -84,13 +102,7 @@ const SearchData: DataTableEntry<SearchProps> = {
       };
     });
 
-    // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
-    searchResults = isServer ? await searchResults : searchResults;
-
-    return {
-      searchResults,
-      searchQuery: query.q,
-    };
+    return { ...props, searchResults };
   },
 
   getHead(props) {

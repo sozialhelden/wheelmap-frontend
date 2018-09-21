@@ -227,7 +227,7 @@ export default class SearchResult extends React.Component<Props, State> {
           }}
         >
           <PlaceName>
-            {(wheelmapFeature || wheelmapFeaturePromise) && category ? (
+            {wheelmapFeature && category ? (
               <Icon
                 accessibility={accessibility || null}
                 category={category}

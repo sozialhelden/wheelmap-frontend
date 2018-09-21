@@ -51,7 +51,7 @@ function SearchResults(props: Props) {
         return (
           <SearchResult
             feature={feature}
-            wheelmapFeature={wheelmapFeatures[index]}
+            wheelmapFeature={wheelmapFeatures && wheelmapFeatures[index]}
             key={featureId}
             onSelect={props.onSelect}
             onSelectCoordinate={props.onSelectCoordinate}
