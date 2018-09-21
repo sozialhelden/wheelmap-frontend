@@ -10,9 +10,10 @@ import {
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
 
-import PlaceDetailsData from './placeDetailsData';
-import SearchData from './searchData';
 import { getAppConfiguration, type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+
+import SearchData from './searchData';
+import PlaceDetailsData from './placeDetailsData';
 
 export type DataTableEntry<Props> = {
   getInitialProps: (
@@ -35,10 +36,10 @@ type AppProps = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
-const dataTable: DataTable = {
+const dataTable: DataTable = Object.freeze({
   place_detail: PlaceDetailsData,
   search: SearchData,
-};
+});
 
 export function getInitialProps(
   {

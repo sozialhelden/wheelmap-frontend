@@ -33,8 +33,7 @@ import getRouteInformation from './lib/getRouteInformation';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
-import { type DataSource } from './lib/cache/DataSourceCache';
-import { type License } from './lib/cache/LicenseCache';
+import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
 import '../node_modules/react-activity/dist/react-activity.css';
 
@@ -50,17 +49,13 @@ type Props = {
   history: RouterHistory,
   location: Location,
   routerHistory: NewRouterHistory,
-  feature?: ?Feature,
-  featureId?: ?string,
   categories?: CategoryLookupTables,
-  licenses: License[],
-  sources: DataSource[],
   userAgent?: UAResult,
   translations?: Translations[],
   searchQuery?: ?string,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
   clientSideConfiguration: ClientSideConfiguration,
-};
+} & PlaceDetailsProps;
 
 type State = {
   equipmentInfoId?: ?string,

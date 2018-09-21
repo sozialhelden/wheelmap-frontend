@@ -9,7 +9,7 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   getDataSourceWithId(
     id: string,
     options?: { useCache: boolean } = { useCache: true }
-  ): Promise<{}> {
+  ): Promise<DataSource> {
     const url = this.urlFromId(id);
     return this.getData(url, options);
   }

@@ -10,8 +10,9 @@ import {
   sourceIdsForFeature,
 } from '../lib/Feature';
 
-import { dataSourceCache } from '../lib/cache/DataSourceCache';
-import { licenseCache } from '../lib/cache/LicenseCache';
+import { type PlaceDetailsProps } from './PlaceDetailsProps';
+import { dataSourceCache, type DataSource } from '../lib/cache/DataSourceCache';
+import { licenseCache, type License } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 
@@ -25,51 +26,65 @@ function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
 }
 
-type PlaceProps = {
-  feature: ?Feature,
-  featureId: ?(string | number),
-  sources?: {}[],
-  licenses?: {}[],
-};
-
-const PlaceDetailsData: DataTableEntry<PlaceProps> = {
-  async getInitialProps(query, isServer): Promise<PlaceProps> {
-    if (!query.id) {
-      const error = new Error();
-      error.statusCode = 404;
-      throw error;
-    }
+const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
+  async getInitialProps(query, isServer): Promise<PlaceDetailsProps> {
+    const featureId = query.id;
 
     try {
+      if (!featureId) {
+        const error = new Error('No feature id passed into placeDetailsData');
+        error.statusCode = 404;
+        throw error;
+      }
+
       // do not cache on server
       const useCache = !isServer;
 
-      const feature = await fetchFeature(query.id, useCache);
-      const sources = await Promise.all(
-        sourceIdsForFeature(feature).map(sourceId =>
-          dataSourceCache.getDataSourceWithId(sourceId, { useCache })
-        )
-      );
+      // console.log("loading", { useCache });
+      const feature = await fetchFeature(featureId, useCache);
 
-      const licenses = await Promise.all(
-        sources
-          .map(source => {
-            if (typeof source.licenseId === 'string') {
-              return licenseCache.getLicenseWithId(source.licenseId, { useCache });
-            }
-            return null;
-          })
-          .filter(Boolean)
-      );
+      // console.log("loaded", { useCache, feature });
 
-      return { feature, featureId: query.id, sources, licenses };
+      let sources: DataSource[] = [];
+      let licenses: License[] = [];
+      if (!isWheelmapFeatureId(featureId)) {
+        // console.log("loading", { sources });
+        sources = await Promise.all(
+          sourceIdsForFeature(feature).map(sourceId =>
+            dataSourceCache.getDataSourceWithId(sourceId, { useCache })
+          )
+        );
+        // console.log("loaded", { sources });
+        // console.log("loading", { licenses });
+
+        licenses = await Promise.all(
+          sources
+            .map(source => {
+              if (typeof source.licenseId === 'string') {
+                return licenseCache.getLicenseWithId(source.licenseId, { useCache });
+              }
+              return null;
+            })
+            .filter(Boolean)
+        );
+        //  console.log("loaded", { licenses });
+      }
+
+      // console.log({ feature, featureId, sources, licenses, lightweightFeature: null });
+      return { feature, featureId, sources, licenses, lightweightFeature: null };
     } catch (e) {
-      console.error('Failed loading feature', query.id);
+      console.error('Failed loading feature', featureId);
       // TODO how to redirect to 404 or other error
-      return { feature: null, featureId: null, sources: [], licenses: [] };
+      return {
+        feature: null,
+        featureId: null,
+        sources: [],
+        licenses: [],
+        lightweightFeature: null,
+      };
     }
   },
-  clientStoreInitialProps(props: PlaceProps) {
+  clientStoreInitialProps(props: PlaceDetailsProps) {
     const { feature, featureId, sources, licenses } = props;
     if (!feature) {
       return;

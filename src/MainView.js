@@ -38,8 +38,8 @@ import { isTouchDevice, type UAResult } from './lib/userAgent';
 
 import { type CategoryLookupTables } from './lib/Categories';
 import { type SearchResultCollection } from './lib/searchPlaces';
-import { type DataSource } from './lib/cache/DataSourceCache';
-import { type License } from './lib/cache/LicenseCache';
+import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
+
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
 import type { ClientSideConfiguration } from './App.js';
@@ -50,12 +50,8 @@ type Props = {
   history: RouterHistory,
   location: Location,
 
-  featureId: ?string,
-  feature?: ?Feature,
   category: ?string,
   categories: CategoryLookupTables,
-  licenses: License[],
-  sources: DataSource[],
   userAgent: UAResult,
 
   toiletFilter: YesNoUnknown[],
@@ -125,7 +121,7 @@ type Props = {
   photoMarkedForReport: PhotoModel | null,
 
   clientSideConfiguration: ClientSideConfiguration,
-};
+} & PlaceDetailsProps;
 
 type State = {
   isOnSmallViewport: boolean,

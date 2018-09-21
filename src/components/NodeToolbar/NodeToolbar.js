@@ -27,12 +27,11 @@ import { type Category, type CategoryLookupTables, getCategoryId } from '../../l
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
-import { type DataSource } from '../../lib/cache/DataSourceCache';
-import { type License } from '../../lib/cache/LicenseCache';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import IconButtonList from './IconButtonList/IconButtonList';
+import { type PlaceDetailsProps } from '../../app/PlaceDetailsProps';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
@@ -42,14 +41,10 @@ const PositionedCloseLink = styled(CloseLink)`
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
 type Props = {
-  feature: ?Feature,
-  featureId: ?string | number,
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
   categories: CategoryLookupTables,
-  licenses: License[],
-  sources: DataSource[],
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
@@ -72,7 +67,7 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-};
+} & PlaceDetailsProps;
 
 type State = {
   category: ?Category,
