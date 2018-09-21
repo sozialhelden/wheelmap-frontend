@@ -1,0 +1,1105 @@
+# Translators:
+# Developers, 2018
+# Sebastian Felix Zappe <hypo@me.com>, 2018
+msgid ""
+msgstr ""
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
+"Language-Team: Japanese (https://www.transifex.com/sozialhelden/teams/16671/ja/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. Conjunction between two words (like the ‘and’ in ‘humans and animals’).
+#. Please don't forget to include necessary spaces.
+#: src/lib/getHumanEnumeration.js:26
+msgid " and "
+msgstr "および"
+
+#. Conjunction between two words (like the ‘or’ in ‘humans or animals’).
+#. Please don't forget to include necessary spaces.
+#: src/lib/getHumanEnumeration.js:20
+msgid " or "
+msgstr "または"
+
+#. Used to describe a place with unknown name, but known category (when
+#. sharing)
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:129
+msgid "${ categoryName } on Wheelmap"
+msgstr "ホイールマップの${ categoryName }"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:32
+msgid "${ count } elevator in service"
+msgid_plural "${ count } elevators in service"
+msgstr[0] "${ count }台のエレベータが動いています "
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
+msgid "${ count } elevator out of service"
+msgid_plural "${ count } elevators out of service"
+msgstr[0] "${ count } 台のエレベータが動いていません"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
+msgid "${ count } elevator with unknown operational status"
+msgid_plural "${ count } elevators with unknown operational status"
+msgstr[0] "${ count } 台のエレベータが有りますが、動いているかはわかりません"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:33
+msgid "${ count } escalator in service"
+msgid_plural "${ count } escalators in service"
+msgstr[0] "${ count } 台のエスカレータが動いています"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:37
+msgid "${ count } escalator out of service"
+msgid_plural "${ count } escalators out of service"
+msgstr[0] "${ count } 台のエスカレータが休止中です"
+
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
+msgid "${ count } escalator with unknown operational status"
+msgid_plural "${ count } escalators with unknown operational status"
+msgstr[0] "${ count } 台のエスカレータがありますが、動いているかどうかはわかりません"
+
+#. Email body used when sharing a place with known name via email.// Email
+#. subject used for sharing a place via email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
+msgid "${ placeName } on Wheelmap.org"
+msgstr "Wheelmap.org内の${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:138
+msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
+msgstr "${ sharedObjectTitle }\\n\\nこのリンクをクリックして開けてください: ${ url }"
+
+#. Explains that edits don't get propagated back to Wheelmap directly after
+#. editing
+#: src/components/NodeToolbar/Report/strings.js:34
+msgid ""
+"(Note that it can take some time after editing until the place is updated on"
+" Wheelmap.)"
+msgstr "（編集後、ホイールマップで場所が更新されるまでに少し時間がかかる場合がありますので、ご了承ください。）"
+
+#. Explains that you have to log in before editing places on OSM and that
+#. edits don't get propagated back directly
+#: src/components/NodeToolbar/Report/strings.js:22
+msgid ""
+"(Note that you need to log in to do this, and that it can take some time "
+"until the place is updated on Wheelmap.)"
+msgstr ""
+"（これを行うにはまずログインが必要なこと、それからこの場所がホイールマップで更新されるまで少し時間がかかる場合があることをご了承ください。）"
+
+#. Report email body with place URL
+#: src/components/NodeToolbar/Report/strings.js:41
+msgid ""
+"(Please only write in English or German.)\\n\\nDear "
+"Sozialhelden,\\n\\nsomething about this place is wrong: ${ url }\\n\\nThe "
+"problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
+msgstr ""
+"(Please only write in English or German.)\\n\\nHi "
+"Sozialhelden,\\n\\nsomething is wrong with this place: ${ url }\\n\\nThe "
+"problem is:\\n\\nBrowser:\\n\\n${ navigator.userAgent }"
+
+#. In a comma-separated serial enumeration, this string is the ', and'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
+#: src/lib/getHumanEnumeration.js:24
+msgid ", and"
+msgstr "、そして"
+
+#. In a comma-separated serial enumeration, this string is the ', or'
+#. conjunction before the last word, with a serial comma at the beginning if
+#. the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
+#: src/lib/getHumanEnumeration.js:18
+msgid ", or "
+msgstr "、または"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
+msgid "...do not show any identifiable persons."
+msgstr "...は特定可能な人物を示しません"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+msgid "...give useful information on accessibility."
+msgstr "...アクセシビリティについて役立つ情報を提供します"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
+msgid "...were taken by me."
+msgstr "...の撮影者は私です。"
+
+#: src/lib/Feature.js:371
+msgid "Accessible sink"
+msgstr "車椅子対応の洗面台"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:162
+#: src/components/MainMenu/strings.js:22
+msgid "Add a new place"
+msgstr "欠けている場所を追加する"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
+msgid "Add a place on OpenStreetMap"
+msgstr "OpenStreetMapに場所を追加する"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:23
+#: src/components/PhotoUpload/PhotoUploadButton.js:25
+msgid "Add images"
+msgstr "画像を追加する"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+msgid "Add info on ${ sourceNameString }"
+msgstr "${ sourceNameString }を改善する"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "All elevators and escalators"
+msgstr "すべてのエレベーターとエスカレーター"
+
+#. Shown in collapsed search/filter combi button when there is no category
+#. filter set
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "すべての場所"
+
+#. Root category
+#: src/lib/Categories.js:62
+msgid "Authorities"
+msgstr "公式"
+
+#. Button caption in photo captcha dialog
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
+#: src/components/NodeToolbar/Report/strings.js:28
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:319
+msgid "Back"
+msgstr "戻る"
+
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:22
+msgid "Call ${ phoneNumber }"
+msgstr "${ phoneNumber }に電話する"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:166
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:320
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:193
+msgid "Cancel"
+msgstr "キャンセル"
+
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:160
+msgid "Change"
+msgstr "変更する"
+
+#: src/components/SearchToolbar/SearchToolbar.js:400
+msgid "Clear search"
+msgstr "検索履歴を削除する"
+
+#: src/lib/Feature.js:371
+msgid "Clear turning space ≥ 150 cm wide"
+msgstr "空いた空間の床面積 ≥ 幅150cm"
+
+#: src/lib/Feature.js:371
+msgid "Clear turning space ≥ 59 inches wide"
+msgstr "空いた空間の床面積 ≥ 幅59インチ"
+
+#. Explains how to reach the place details on the external page the place
+#. comes from (for example Jaccede).
+#: src/components/NodeToolbar/Report/strings.js:32
+msgid "Click the link below for details about the place and for editing."
+msgstr "場所および編集に関しての詳細は下記のリンクをご使用ください。"
+
+#. Button caption in photo upload Instructions dialog
+#: src/components/CloseLink.js:46
+#: src/components/CreatePlaceDialog/CloseButton.js:26
+#: src/components/NodeToolbar/Photos/PhotoSection.js:163
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:231
+msgid "Close"
+msgstr "とじる"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:181
+msgid "Close (Esc)"
+msgstr "閉じる (Esc)"
+
+#: src/components/Toolbar.js:287
+msgid "Collapse panel"
+msgstr "パネルをかくす"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
+msgid "Collapse share menu"
+msgstr "共有メニューを折りたたむ"
+
+#. Button caption shown while editing a place’s wheelchair statu
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:157
+msgid "Confirm"
+msgstr "確認する"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:16
+msgid "Contact"
+msgstr "連絡先"
+
+#. Button caption in report dialog
+#: src/components/NodeToolbar/Report/strings.js:36
+msgid "Contact the Wheelmap support team"
+msgstr "ホイールマップサポートチームに連絡する"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:163
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:323
+msgid "Continue"
+msgstr "続ける"
+
+#. Shown when there was an error while loading a place.
+#: src/lib/cache/FeatureCache.js:168 src/lib/cache/WheelmapFeatureCache.js:22
+msgid "Could not load this place."
+msgstr "この場所を読み込めませんでした 。"
+
+#. Button caption in the place toolbar. Navigates to a place's details on an
+#. external page.
+#: src/components/NodeToolbar/SourceLink.js:60
+msgid "Details"
+msgstr "詳細"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:64
+msgid "Disruptions at this location"
+msgstr "この場所では交通が停止しているか通行止めになっています。"
+
+#: src/lib/Feature.js:371
+msgid "Doorways' inner width ≥ 35 inches"
+msgstr "出入り口の内側の幅≥ 35インチ"
+
+#: src/lib/Feature.js:371
+msgid "Doorways' inner width ≥ 90 cm"
+msgstr "出入り口の内側の幅≥ 90 cm"
+
+#. Button caption in report dialog
+#: src/components/NodeToolbar/Report/strings.js:24
+msgid "Edit this place on OpenStreetMap"
+msgstr "この場所をOpenStreetMapで編集する"
+
+#. Root category
+#: src/lib/Categories.js:60
+msgid "Education"
+msgstr "教育"
+
+#: src/lib/EquipmentInfo.js:124
+msgid "Elevator"
+msgstr "エレベーター"
+
+#: src/lib/Feature.js:350
+msgid ""
+"Entrance has a high step or several steps, none of the rooms are accessible."
+msgstr "入口には段が1段から数段あり、部屋は車椅子不可。"
+
+#: src/lib/Feature.js:341
+msgid "Entrance has no steps, and all rooms are accessible without steps."
+msgstr "入り口には段がなく、全部の部屋に段がありません。"
+
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using imperial unit
+#: src/lib/Feature.js:345
+msgid ""
+"Entrance has one step with max. 3 inches height, most rooms are without "
+"steps."
+msgstr "入口には最大3インチの1段の段差があります。ほとんどの部屋には段差はありません。"
+
+#. Describes criteria for marking places as partially wheelchair accessible on
+#. Wheelmap, using metric unit
+#: src/lib/Feature.js:347
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr "入口には最大7センチの1段の段差があります。ほとんどの部屋には段差はありません。"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:292
+msgid "Entrances"
+msgstr "入口"
+
+#. Shown as header text on the error page.
+#: src/components/NotFound/NotFound.js:44
+#: src/components/NotFound/NotFound.js:77
+msgid "Error"
+msgstr "エラー"
+
+#. Shown when there was an error while loading a place.
+#: src/lib/cache/URLDataCache.js:50
+msgid "Error while loading data."
+msgstr "データ読み込み中のエラー"
+
+#. Shown when there was an error while loading category data from the backend.
+#: src/lib/Categories.js:127
+msgid "Error while loading place categories."
+msgstr "場所の分類の読み込み中のエラー"
+
+#: src/lib/EquipmentInfo.js:123
+msgid "Escalator"
+msgstr "エスカレーター"
+
+#: src/components/Toolbar.js:287
+msgid "Expand panel"
+msgstr "パネルを開く"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
+msgid "Expand share menu"
+msgstr "共有メニューを拡張する"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:20
+msgid "FAQ"
+msgstr "FAQ（よくある質問）"
+
+#. An equipment or facility whose category we don't know. It might be an
+#. elevator, escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.js:126
+msgid "Facility"
+msgstr "施設"
+
+#. Link caption to the explanatory article that shows how to mark a place as
+#. closed.
+#: src/components/NodeToolbar/Report/strings.js:18
+msgid "Find out how"
+msgstr "どうするかを知る"
+
+#. Claim in the main menu toolbar, next to the logo
+#: src/components/MainMenu/strings.js:24
+msgid "Find wheelchair accessible places"
+msgstr "車椅子対応の場所を見つける"
+
+#: src/lib/Feature.js:371
+msgid "Foldable grab rails"
+msgstr "折り畳み式手すり"
+
+#. Root category
+#: src/lib/Categories.js:50
+msgid "Food & Drinks"
+msgstr "食事＆ドリンク"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
+msgid ""
+"For identifiable persons, written consent must be obtained in accordance "
+"with <a "
+"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
+"target=\"_blank\">GDPR</a>."
+msgstr ""
+"特定可能な個人には <a "
+"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
+"target=\"_blank\">一般データ保護規則</a> に基づき書面による合意を得る必要があります。"
+
+#: src/lib/Feature.js:322
+msgid "Fully"
+msgstr "全面"
+
+#: src/lib/Feature.js:303
+msgid "Fully wheelchair accessible"
+msgstr "全面車椅子可"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:10
+msgid "Get involved"
+msgstr "参加しましょう"
+
+#. button shown next to the search bar
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:326
+#: src/components/SearchToolbar/SearchToolbar.js:408
+msgid "Go"
+msgstr "Go"
+
+#. Root category
+#: src/lib/Categories.js:64
+msgid "Health"
+msgstr "ヘルス"
+
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
+#: src/components/Onboarding/Onboarding.js:29
+msgid "Help out by marking places!"
+msgstr "場所に印を付けるお手伝いをしてください！"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:380
+msgid "Hi Wheelmap Team, I have an image of the following place:"
+msgstr "こんにちはWheelmapチーム、つぎの場所の画像を送ります："
+
+#: src/components/MainMenu/MainMenu.js:164
+msgid "Home"
+msgstr "ホーム"
+
+#. Root category
+#: src/lib/Categories.js:56
+msgid "Hotels"
+msgstr "ホテル"
+
+#. Shown as header/title when you edit wheelchair accessibility of a place
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:26
+#: src/components/NodeToolbar/NodeToolbar.js:224
+msgid "How wheelchair accessible is this place?"
+msgstr "この場所は車椅子にどれぐらい対応していますか？"
+
+#. Email body used when sharing a place without known name/category via email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:115
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "ホイールマップで場所を見つけました: ${ url }"
+
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:119
+msgid "I found a place on Wheelmap…"
+msgstr " Wheelmapで場所を見つけました..."
+
+#. First line in an email and shared object title used when sharing a place
+#. via email or a social network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:132
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "ホイールマップでこの場所を見つけました: ${ placeName }"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
+msgid ""
+"I grant Sozialhelden e.V. unlimited right to use and to republish the "
+"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
+"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+msgstr ""
+"私はSozialhelden e.V.に対し、 アップロードされた画像を<a "
+"href=\"https://creativecommons.org/licenses/by-sa/4.0/legalcode\" "
+"target=\"_blank\">クリエィティブ・コモンズ CC-BY-SA ライセンス</a> "
+"にもとづき使用および再発行する無条件の権利を与えます。"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:36
+msgid "I have more information about this place."
+msgstr "私はこの場所に関する情報をもっとたくさん持っています。"
+
+#. Explains that you need to go to OSM to mark a place as closed.
+#: src/components/NodeToolbar/Report/strings.js:16
+msgid ""
+"If the place has closed permanently, you can tag the place as ‘disused’ on "
+"OpenStreetMap."
+msgstr "場所が閉館したり廃業している場合は、OpenStreetMapでその場所に「使用されていない」とタグ付けすることができます。"
+
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:390
+msgid ""
+"If you cannot read or enter this, please contribute your image via email!"
+msgstr "これを読めないあるいは入力できない場合は、画像をメールでお送りください"
+
+#. title for a report option where the photo does not match the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
+msgid "Image shows another place."
+msgstr "画像はほかの場所のものです。"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:380
+msgid "Image upload"
+msgstr "画像のアップロード"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:18
+msgid "Imprint"
+msgstr "インプリント"
+
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.js:88
+msgid "In operation"
+msgstr "動いている"
+
+#. Gives credits to the external organization this place comes from. The
+#. organization's name is mentioned after this text.
+#: src/components/NodeToolbar/Report/strings.js:30
+msgid ""
+"Information about this place has kindly been provided by another "
+"organization."
+msgstr "この場所に関する情報は他の団体のご厚意で提供していただきました"
+
+#. Header for the toilet status prompt. Asks the user if the edited place’s
+#. toilet is wheelchair accessible.
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:35
+msgid "Is the toilet here wheelchair accessible?"
+msgstr "ここのトイレは車椅子可ですか？"
+
+#. Header of the report dialog
+#: src/components/NodeToolbar/Report/strings.js:8
+msgid "Is there a problem with this place?"
+msgstr "この場所に何か問題がありますか？"
+
+#. Shown for equipment when the last known status information is too old.
+#: src/lib/EquipmentInfo.js:141
+msgid ""
+"Last known operational status: ${ translatedEquipmentCategory } was ${ "
+"lastStatus } on ${ dateString }."
+msgstr ""
+"最新の情報では、この${ translatedEquipmentCategory } は ${ dateString }日に${ lastStatus "
+"} であることが分かっています。"
+
+#. Shown next to equipment status.
+#: src/lib/EquipmentInfo.js:148
+msgid "Last update: ${ dateString }"
+msgstr "前回の更新日${ dateString }。"
+
+#. Additional description text for sharing a place in a social network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
+msgid "Learn more about the accessibility of this place"
+msgstr "この場所が車椅子対応かどうかを確認しましょう"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
+#: src/components/NodeToolbar/Report/strings.js:26
+msgid "Leave a note on OpenStreetMap"
+msgstr "OpenStreetMapにメモをのこす"
+
+#. Root category
+#: src/lib/Categories.js:54
+msgid "Leisure"
+msgstr "レジャー"
+
+#. Shown while loading a captcha from the server. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:384
+msgid "Loading..."
+msgstr "読み込み中です..."
+
+#. Explains that Wheelmap's data comes from OpenStreetMap.
+#: src/components/NodeToolbar/Report/strings.js:10
+msgid "Many places on Wheelmap.org come from OpenStreetMap."
+msgstr "ホイールマップは場所の表示にOpenStreetMapのデータを使用しています。"
+
+#: src/components/Map/Map.js:575
+msgid "Map"
+msgstr "地図"
+
+#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
+#. window.
+#: src/components/Onboarding/Onboarding.js:27
+msgid ""
+"Mark and find wheelchair accessible places — worldwide and for free. It’s "
+"easy with our traffic light system:"
+msgstr "車椅子可の場所に印を付けたり、車椅子可の場所を見つけましょう—世界中、無料で。当サイトの信号システムなら簡単です："
+
+#. Button caption, shown in the place toolbar
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:41
+msgid "Mark wheelchair accessibility of WC"
+msgstr "トイレの状況を追加する"
+
+#: src/components/MainMenu/MainMenu.js:177
+msgid "Menu"
+msgstr "メニュー"
+
+#. Root category
+#: src/lib/Categories.js:70
+msgid "Miscellaneous"
+msgstr "その他"
+
+#. Root category
+#: src/lib/Categories.js:66
+msgid "Money"
+msgstr "お金"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"on OSM, they will appear here a bit later."
+msgstr ""
+"ここに表示されるほとんどの場所は<a href='https://openstreetmap.org'>OpenStreetMap (OSM)</a> "
+"からのものです。OSMに追加された場所は、ここにものちほど表示されます。"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:12
+msgid "News"
+msgstr "ニュース"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:177
+msgid "Next (right arrow key)"
+msgstr "次 (右矢印キー)"
+
+#. Caption for the ‘no’ radio button (while marking toilet status)
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:41
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
+msgid "No"
+msgstr "いいえ"
+
+#. Text in search results when an error occurred
+#: src/components/SearchToolbar/SearchResults.js:35
+msgid "No results available. Please try again later!"
+msgstr "結果がありません。しばらくまってお試しください"
+
+#. Text in search results when nothing was found
+#: src/components/SearchToolbar/SearchResults.js:32
+msgid "No results found"
+msgstr "検索結果がありませんでした"
+
+#: src/lib/Feature.js:364
+msgid "No wheelchair accessible toilet"
+msgstr "車椅子不可のトイレ。"
+
+#: src/lib/Feature.js:328
+msgid "Not at all"
+msgstr "まったくそうではありません"
+
+#: src/lib/Feature.js:309
+msgid "Not wheelchair accessible"
+msgstr "車椅子不可"
+
+#. title for a report option where the photo is nsfw
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
+msgid "Offensive or inappropriate"
+msgstr "不快または不適切"
+
+#. Button caption shown on the onboarding screen. To visit it, open Wheelmap
+#. in an incognito window.
+#: src/components/Onboarding/Onboarding.js:31
+msgid "Okay, let’s go!"
+msgstr "さあ、行きましょう！"
+
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:52
+msgid "Only fully accessible with accessible WC"
+msgstr "車いすで完全にアクセス可能な場所のみ"
+
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:46
+msgid "Only fully wheelchair accessible"
+msgstr "全面的に車椅子可のみ"
+
+#. Checkbox caption on the filter toolbar. If the checkbox is clicked, only
+#. places that are not wheelchair accessible are shown.
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:64
+msgid "Only places that are not accessible"
+msgstr "アクセスできない場所のみ"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "${ sourceNameString }で開ける"
+
+#. title for a report option where the photo has another problem
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
+msgid "Other problems"
+msgstr "他の問題"
+
+#. An equipment or facility status. This does not mean the facility is broken:
+#. It might just be in maintenance! The facility might be an elevator,
+#. escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.js:90
+msgid "Out of order"
+msgstr "故障中"
+
+#. title for a report option where the photo does not match the current state
+#. of the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
+msgid "Outdated"
+msgstr "期限切れ"
+
+#: src/lib/Feature.js:325
+msgid "Partially"
+msgstr "一部"
+
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
+msgid "Partially accessible with accessible WC"
+msgstr "車いすで部分的にアクセス可能"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
+#: src/lib/Feature.js:306
+msgid "Partially wheelchair accessible"
+msgstr "車椅子一部可"
+
+#. Button caption in the filter toolbar. Answer to the question 'which places
+#. you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:58
+msgid "Places that I can contribute information to"
+msgstr "寄稿やお手伝い可能な場所"
+
+#. Shown above the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:386
+msgid "Please enter these characters."
+msgstr "これらのキャラクターを入力してください"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:14
+msgid "Press"
+msgstr "押す"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:179
+msgid "Previous (left arrow key)"
+msgstr "前 (左矢印キー)"
+
+#. Screen reader description for the 'report photo' reason choice dialog
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+msgid "Reason for reporting image"
+msgstr "画像を報告する理由"
+
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:81
+msgid "Remove ${ caption } Filter"
+msgstr "${ caption }フィルターをはずす"
+
+#: src/components/SearchToolbar/CategoryButton.js:124
+msgid "Remove ${ props.name } Filter"
+msgstr " ${ props.name } フィルターをはずす"
+
+#. Button caption shown in the PoI details panel
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "問題を報告する"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:162
+msgid "Report image"
+msgstr "画像を報告する"
+
+#. Shown as button caption when there is no internet connection. Tapping the
+#. button retries to load the data.
+#: src/components/NotFound/NotFound.js:67
+msgid "Retry"
+msgstr "やりなおす"
+
+#. Shown on the error page.
+#: src/components/NotFound/NotFound.js:65
+msgid "Return home"
+msgstr "帰宅"
+
+#: src/components/SearchToolbar/SearchButton.js:37
+msgid "Search"
+msgstr "検索"
+
+#. Placeholder for search input field
+#: src/components/SearchToolbar/SearchInputField.js:58
+msgid "Search for place or address"
+msgstr "場所または住所を検索する"
+
+#: src/components/SearchToolbar/SearchResults.js:37
+msgid "Search results"
+msgstr "検索結果"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:196
+msgid "Send"
+msgstr "送信"
+
+#. Error message when captcha could not be loaded. We try to avoid the word
+#. 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:394
+msgid ""
+"Server cannot be reached. Please try again later and let us know if the "
+"problem persists!"
+msgstr "サーバーにつながりませんでした。しばらくまってやりなおしてください。それでもうまくいかない場合はご連絡ください。"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:121
+msgid "Share"
+msgstr "共有する"
+
+#. Root category
+#: src/lib/Categories.js:48
+msgid "Shopping"
+msgstr "ショッピング"
+
+#. button shown next to the captcha
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:335
+msgid "Show different characters"
+msgstr "ほかのキャラクターを表示する"
+
+#. Locate button aria-label on the map
+#: src/components/Map/addLocateControlToMap.js:42
+msgid "Show me where I am"
+msgstr "自分の場所を表示"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:296
+msgid "Site map"
+msgstr "サイトマップ"
+
+#. Apologizes for the issue and mentions that the support team can help you.
+#: src/components/NodeToolbar/Report/strings.js:38
+msgid ""
+"Sorry about that! Just drop us a line so we can help you to fix the problem."
+msgstr "すみません！ご連絡いただければ、問題が解決できるようお手伝いさせていただきます。"
+
+#. Shown as apology text / description on the error page.
+#: src/components/NotFound/NotFound.js:63
+msgid "Sorry, that should not have happened!"
+msgstr "すみません、起こってはならないことでした！"
+
+#. Error message when captcha was incorrectly entered. We try to avoid the
+#. word 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:396
+msgid ""
+"Sorry, this did not work! Please check if all characters are correct, then "
+"retry."
+msgstr "残念！失敗してしまいました。全てのキャラクターが正しいか確認してもう一度お試しください。"
+
+#. Shown after marking a place did not work, for example because the
+#. connection was interrupted
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:54
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr "この場所はマークできませんでした。エラー番号： ${ e }"
+
+#. Shown when device is offline.
+#: src/components/NotFound/NotFound.js:50
+msgid "Sorry, we are offline!"
+msgstr "ごめんなさい、オフラインです！"
+
+#. Prefix for the sources on the PoI details panel
+#: src/components/NodeToolbar/SourceList.js:39
+msgid "Source:"
+msgstr "出典："
+
+#. Root category
+#: src/lib/Categories.js:68
+msgid "Sports"
+msgstr "スポーツ"
+
+#: src/components/Onboarding/Onboarding.js:48
+msgid "Start screen"
+msgstr "ホイールマップスタート画面"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:62
+msgid ""
+"Thank you for contributing. Your image will be visible after we have checked"
+" it."
+msgstr "情報ご提供ありがとうございます。画像は私たちのチェックのあと、表示されるようになります。"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "画像をお送りいただきありがとうございます。チェックします。"
+
+#. Shown while uploading an image after user has entered the captcha
+#. correctly. We try to avoid the word 'captcha' because normal users might
+#. not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:392
+msgid "Thanks! Starting to upload..."
+msgstr "ありがとう！アップロードをはじめます..."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
+msgid "The following images…"
+msgstr "この画像は..."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:41
+msgid "The place does not exist."
+msgstr "この場所は存在しません。"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:46
+msgid "The place is at the wrong location."
+msgstr "この場所は位置が間違っています。"
+
+#. Shown as issue description in the report dialog
+#: src/components/NodeToolbar/Report/ReportDialog.js:25
+msgid ""
+"The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
+msgstr "この場所には‘${ accessibilityDescription }’,という印が付いていますが、間違いです！"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:51
+msgid "The problem isn’t listed here…"
+msgstr "私の問題がこのリストに載っていません..."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:31
+msgid ""
+"The toilet accessibility of the place is marked incorrectly or is missing."
+msgstr "この場所のトイレの状況は情報が間違っているか不足しています。"
+
+#. Shown below the captcha input field before uploading an image. We try to
+#. avoid the word 'captcha' because normal users might not know what it means.
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:388
+msgid "Then we know that you are human."
+msgstr "あなたが本当の人間であることを確認しました"
+
+#. Shown as header text on the error page when the URL is not found.
+#: src/components/NotFound/NotFound.js:47
+msgid ""
+"This URL does not work anymore. If you think the place does exist, you can "
+"use the search to find it."
+msgstr "このURLは無効です。この場所がまだ本当にあるか、検索で確かめてください。"
+
+#. title for a report option where the photo does not match the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
+msgid "This image does not depict this place."
+msgstr "この画像はこの場所のものではありません"
+
+#. title for a report option where the photo does not match the current state
+#. of the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
+msgid "This image does not show the current state of this place."
+msgstr "この画像はこの場所の現在の状態を示していません"
+
+#. title for a report option where the photo has another problem
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
+msgid "This image infringes on my copyright or has other problems."
+msgstr "この画像には、私の著作権への侵害、または他の問題があります。"
+
+#. title for a report option where the photo is nsfw
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr "この画像はわいせつ、暴力的、またはその他の理由で不適切です。"
+
+#: src/lib/goToLocationSettings.js:34
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr "自分の場所を地図上に表示するには、ブラウザの設定メニューを開いてWheelmap.orgに位置情報の使用を許可してください"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:180
+msgid "To report"
+msgstr "報告する"
+
+#. Root category
+#: src/lib/Categories.js:58
+msgid "Tourism"
+msgstr "ツーリズム"
+
+#. Root category
+#: src/lib/Categories.js:52
+msgid "Transport"
+msgstr "交通"
+
+#. Main menu item
+#: src/components/MainMenu/strings.js:8
+msgid "Travel guide"
+msgstr "旅行ガイド"
+
+#. Shown next to the locate-me button when location services are not enabled
+#: src/components/Map/Map.js:563
+msgid "Turn on location services"
+msgstr "位置情報サービスをオンにする"
+
+#: src/lib/Feature.js:331
+msgid "Unknown"
+msgstr "不明"
+
+#: src/lib/Feature.js:312
+msgid "Unknown accessibility"
+msgstr "状況不明"
+
+#. An equipment or facility status. The facility might be an elevator,
+#. escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.js:92
+msgid "Unknown operational status"
+msgstr "状況不明"
+
+#. Place name shown in search results for places with unknown name / category.
+#: src/components/SearchToolbar/SearchResult.js:197
+msgid "Unnamed"
+msgstr "名前なし"
+
+#: src/lib/EquipmentInfo.js:74
+msgid "Unnamed facility"
+msgstr "名前なしの施設"
+
+#: src/lib/Feature.js:374
+msgid "Unnamed place"
+msgstr "名前なしの場所"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:54
+msgid "Upload failed: server error or file-format not supported"
+msgstr "アップロード失敗：サーバーエラー、またはサポートされないファイル形式"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:50
+msgid "Upload in progress..."
+msgstr "アップロード中です..."
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
+msgid "Use the OpenStreetMap web editor"
+msgstr "オープン・ストリート・マップのウェブ・エディタを使ってください"
+
+#. Screen reader description for the accessibility choice buttons for gray
+#. place
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:120
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:139
+msgid "Wheelchair accessibility"
+msgstr "車椅子の対応"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:87
+msgid "Wheelchair accessibility filter"
+msgstr "車椅子対応状況フィルター"
+
+#: src/lib/Feature.js:361
+msgid "Wheelchair accessible toilet"
+msgstr "車いすで入れるトイレです"
+
+#: src/lib/Feature.js:371
+msgid "Wheelchair-height toilet seat"
+msgstr "車椅子の高さの便座"
+
+#. Email body used when sharing a place without known name/category via
+#. email.// Email subject used for sharing a place via email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:117
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:182
+msgid "Which problem would you like to report?"
+msgstr "どのような問題を伝えたいですか？"
+
+#. Caption for the ‘yes’ radio button (while marking toilet status)
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:39
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:15
+msgid "Yes"
+msgstr "はい"
+
+#. Points the user to OSM for changing place detail
+#: src/components/NodeToolbar/Report/strings.js:20
+msgid "You can change this place’s information on OpenStreetMap directly."
+msgstr "この場所の情報をOpenStreetMapで直接変更できることをご存知でしたか？"
+
+#. Explains that you need to go to OSM to change a place's position on the
+#. map.
+#: src/components/NodeToolbar/Report/strings.js:14
+msgid "You can change this place’s location on OpenStreetMap."
+msgstr "この場所の位置はOpenStreetMapで変更することができます。"
+
+#. Explains that you need to go to OSM to remove places.
+#: src/components/NodeToolbar/Report/strings.js:12
+msgid "You can remove non-existing places on OpenStreetMap."
+msgstr "存在しない場所はOpenStreetMapで削除できます。"
+
+#. Text that incentivizes the user to edit a place's accessibility.
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "宿命を上向きにしましょう！"
+
+#. Shown when zoomed out to far
+#: src/components/Map/Map.js:557
+msgid "Zoom in closer to see more places"
+msgstr "もっとたくさんの場所を見るにはズームインします"
+
+#: src/components/NodeToolbar/Report/strings.js:45
+msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
+msgstr "[Wheelmap] ホイールマップの ${ placeName } 上の問題"
+
+#: src/components/NodeToolbar/Report/strings.js:47
+msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
+msgstr "[Wheelmap] ホイールマップでの ${ categoryName } 上の問題"
+
+#. Report email subject if neither place name nor category name is known
+#: src/components/NodeToolbar/Report/strings.js:49
+msgid "[Wheelmap] Problem with a place on Wheelmap"
+msgstr "[Wheelmap]ホイールマップでの場所上の問題"
+
+#. divider between <currentImageIndex> and <imageCount> in lightbox, such as 1
+#. of 10
+#: src/components/NodeToolbar/Photos/PhotoSection.js:175
+msgid "of"
+msgstr "の"
+
+#: src/lib/EquipmentInfo.js:130
+msgid "today"
+msgstr "今日"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:300
+msgid "toilets"
+msgstr "トイレ"
+
+#: src/lib/EquipmentInfo.js:131
+msgid "yesterday"
+msgstr "昨日"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
+msgid "“Go Map!!” in App Store"
+msgstr "App Storeの\"Go Map!!\""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
+msgid "“MAPS.ME” in App Store"
+msgstr "App Storeの“MAPS.ME”  "
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
+msgid "“MAPS.ME” in PlayStore"
+msgstr "PlayStoreの\"MAPS.ME\""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:91
+msgid "“Vespucci” in PlayStore"
+msgstr "PlayStoreの“Vespucci” "
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
+msgid ""
+"…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
+"target=\"_blank\">our guidelines</a>."
+msgstr ""
+"…は <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
+"target=\"_blank\">私たちのガイドライン</a>を満たす"
