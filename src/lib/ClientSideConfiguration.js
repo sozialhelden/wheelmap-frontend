@@ -20,12 +20,13 @@ export type ClientSideConfiguration = {
 };
 
 export async function fetchClientSideConfiguration(
-  // for test deployments on zeit, the hostname is not configured, fallback to a default for this
-  hostName: string = 'wheelmap.tech'
+  hostName: string
 ): Promise<ClientSideConfiguration> {
   const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
   const token = env.public.accessibilityCloud.appToken;
-  const url = `${baseUrl}/apps/${hostName}.json?appToken=${token}`;
+  // Allow test deployments on zeit
+  const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
+  const url = `${baseUrl}/apps/${cleanedHostName}.json?appToken=${token}`;
 
   const response = await fetch(url);
   const appJSON = await response.json();
