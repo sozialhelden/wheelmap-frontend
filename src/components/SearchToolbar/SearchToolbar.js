@@ -354,7 +354,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         ref={searchInputField => (this.searchInputField = searchInputField)}
         searchQuery={this.props.category ? '' : this.props.searchQuery}
         hidden={this.props.hidden}
-        /*onClick={() => {
+        onClick={() => {
           if (this.props.category) {
             this.resetSearch();
           }
@@ -372,7 +372,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
             this.setState({ searchFieldIsFocused: false });
             this.ensureFullVisibility();
           }, 300);
-        }}*/
+        }}
         onChange={event => {
           this.props.onChangeSearchQuery(event.target.value);
         }}
