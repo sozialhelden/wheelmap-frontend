@@ -190,7 +190,7 @@ class MainMenu extends React.Component<Props, State> {
 
         <div id="main-menu" role="menu">
           {links.map(link => (
-            <a className="nav-link" href={link.url} role="menuitem">
+            <a key={link.url} className="nav-link" href={link.url} role="menuitem">
               {link.label}
             </a>
           ))}
