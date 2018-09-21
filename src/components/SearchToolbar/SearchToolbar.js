@@ -412,7 +412,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
     return (
       <CategoryMenu
-        hidden={this.props.hidden}
         history={this.props.history}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}

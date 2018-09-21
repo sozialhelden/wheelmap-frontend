@@ -16,15 +16,12 @@ type Props = {
   name: string,
   category: string,
   className: string,
-  hidden: boolean,
   showCloseButton: boolean,
   hasCircle?: boolean,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
   onClick: (category: string) => void,
   onFocus?: (event: UIEvent) => void,
-  onBlur?: (event: UIEvent) => void,
-  onKeyDown?: (event: UIEvent) => void,
 };
 
 const StyledButton = styled.button`
@@ -143,9 +140,6 @@ export default function CategoryButton(props: Props) {
       onClick={() => props.onClick(category)}
       className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
       onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      onKeyDown={props.onKeyDown}
-      tabIndex={props.hidden ? -1 : 0}
       role="button"
       aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
     >

@@ -39,9 +39,7 @@ const Container = styled.div`
 `;
 
 type Props = {
-  hidden: boolean,
   onFocus: () => void,
-  onBlur: () => void,
   onCategorySelect: () => void,
   onCategoryReset: () => void,
   category: ?string,
@@ -66,7 +64,6 @@ export default function CategoryMenu(props: Props) {
     <Container className="category-menu">
       {Object.keys(names).map((category, index) => (
         <CategoryButton
-          hidden={props.hidden}
           history={props.history}
           onClick={onClick}
           onFocus={props.onFocus}
