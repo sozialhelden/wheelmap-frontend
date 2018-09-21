@@ -19,7 +19,9 @@ export type ClientSideConfiguration = {
   addPlaceURL: string,
 };
 
-export async function getAppConfiguration(hostName: string): Promise<ClientSideConfiguration> {
+export async function fetchClientSideConfiguration(
+  hostName: string
+): Promise<ClientSideConfiguration> {
   const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
   const token = env.public.accessibilityCloud.appToken;
   const url = `${baseUrl}/apps/${hostName}.json?appToken=${token}`;
