@@ -35,7 +35,7 @@ import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
-import '../node_modules/react-activity/dist/react-activity.css';
+import 'react-activity/dist/react-activity.css';
 
 initReactFastclick();
 
