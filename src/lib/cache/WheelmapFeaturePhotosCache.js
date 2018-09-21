@@ -2,12 +2,14 @@
 
 import URLDataCache from './URLDataCache';
 import type { WheelmapFeaturePhotos } from '../Feature';
-import config from '../config';
+import env from '../env';
 
 export default class WheelmapFeaturePhotosCache extends URLDataCache<?WheelmapFeaturePhotos> {
   getPhotosForFeature(featureId: string): Promise<?WheelmapFeaturePhotos> {
     return this.getData(
-      `${config.wheelmapApiBaseUrl}/api/nodes/${featureId}/photos?api_key=${config.wheelmapApiKey}`
+      `${env.public.wheelmap.baseUrl}/api/nodes/${featureId}/photos?api_key=${
+        env.public.wheelmap.apiKey
+      }`
     );
   }
 }

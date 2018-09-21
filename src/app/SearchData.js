@@ -22,7 +22,7 @@ async function fetchWheelmapNode(
   searchResultProperties: SearchResultProperties,
   useCache: boolean
 ): Promise<?WheelmapFeature> {
-  if (!config.wheelmapApiKey) {
+  if (!env.public.wheelmap.apiKey) {
     return null;
   }
 

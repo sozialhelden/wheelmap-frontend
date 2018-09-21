@@ -1,7 +1,7 @@
 // @flow
 
 import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } from '../Feature';
-import config from '../config';
+import env from '../env';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
 import { currentLocales } from '../i18n';
@@ -23,8 +23,8 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
     return this.fetch(
-      `${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${
-        config.accessibilityCloudAppToken
+      `${env.public.accessibilityCloud.baseUrl.cached}/place-infos/${id}.json?appToken=${
+        env.public.accessibilityCloud.appToken
       }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
       { cordova: true }
     );

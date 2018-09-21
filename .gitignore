@@ -88,3 +88,5 @@ retranslate/rewrite-pos/dist-rewrite-pos.js
 /test/screenshots
 /Preview.html
 .next
+settings/*
+!settings/.gitkeep

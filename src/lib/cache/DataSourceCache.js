@@ -1,7 +1,7 @@
 // @flow
 
 import URLDataCache from './URLDataCache';
-import config from '../config';
+import env from '../env';
 
 export type DataSource = { _id: string, licenseId: ?string };
 
@@ -15,8 +15,8 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string) {
-    return `${config.accessibilityCloudBaseUrl}/sources/${id}.json?appToken=${
-      config.accessibilityCloudAppToken
+    return `${env.public.accessibilityCloud.baseUrl.cached}/sources/${id}.json?appToken=${
+      env.public.accessibilityCloud.appToken
     }`;
   }
 }

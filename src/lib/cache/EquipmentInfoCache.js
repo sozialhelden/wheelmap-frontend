@@ -3,16 +3,16 @@
 import get from 'lodash/get';
 import FeatureCache from './FeatureCache';
 import type { EquipmentInfo, EquipmentInfoFeatureCollection } from '../EquipmentInfo';
-import config from '../config';
+import env from '../env';
 
 export default class EquipmentInfoCache extends FeatureCache<
   EquipmentInfo,
   EquipmentInfoFeatureCollection
 > {
   static fetchFeature(id): Promise<Response> {
-    const url = `${config.accessibilityCloudBaseUrl}/equipment-infos/${id}.json?appToken=${
-      config.accessibilityCloudAppToken
-    }`;
+    const url = `${
+      env.public.accessibilityCloud.baseUrl.cached
+    }/equipment-infos/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
     return this.fetch(url, { cordova: true });
   }
 

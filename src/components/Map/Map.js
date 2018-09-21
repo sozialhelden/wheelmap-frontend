@@ -13,11 +13,10 @@ import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
 import { isWheelmapFeature } from '../../lib/Feature';
 import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
+import { getQueryParams } from '../../lib/queryParams';
 
 import {
   isWheelchairAccessible,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
   hasAccessibleToilet,
   wheelmapFeatureCollectionFromResponse,
   accessibilityCloudFeatureCollectionFromResponse,
@@ -28,6 +27,7 @@ import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
+import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
@@ -78,7 +78,6 @@ type Props = {
     featureId: string,
     properties: ?NodeProperties | EquipmentInfoProperties
   ) => string,
-  accessibilityCloudTileUrl: (locale: string) => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -256,20 +255,7 @@ export default class Map extends React.Component<Props, State> {
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
 
-    const locale = currentLocales[0];
-    if (!locale) {
-      console.error('Could not load AC tile layer because no current locale is set.');
-    }
-
-    const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
-    this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
-      featureCache: accessibilityCloudFeatureCache,
-      layerGroup: markerClusterGroup,
-      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-      pointToLayer: this.createMarkerFromFeature,
-      filter: this.isFeatureVisible.bind(this),
-      maxZoom: this.props.maxZoom,
-    });
+    this.setupAccessibilityCloudTileLayer(markerClusterGroup);
 
     // ensure that the map property is set so that wmp can inject places immediately
     this.accessibilityCloudTileLayer._map = this.map;
@@ -353,6 +339,24 @@ export default class Map extends React.Component<Props, State> {
         cordova: true,
       });
     }
+  }
+
+  setupAccessibilityCloudTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
+    const queryParams: any = getQueryParams();
+    const locale = currentLocales[0];
+    if (!locale) {
+      console.error('Could not load AC tile layer because no current locale is set.');
+    }
+    const tileUrl = getAccessibilityCloudTileUrl(locale, queryParams);
+
+    this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
+      featureCache: accessibilityCloudFeatureCache,
+      layerGroup: markerClusterGroup,
+      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
+      pointToLayer: this.createMarkerFromFeature,
+      filter: this.isFeatureVisible.bind(this),
+      maxZoom: this.props.maxZoom,
+    });
   }
 
   removeLayersNotVisibleInZoomLevel() {
@@ -697,11 +701,14 @@ export default class Map extends React.Component<Props, State> {
         <span className="mapbox-attribution-container">
           <span className="sozialhelden-logo-container">
             <a href="https://www.sozialhelden.de">
-              <SozialheldenLogo />&nbsp;|&nbsp;
+              <SozialheldenLogo />
+              &nbsp;|&nbsp;
             </a>
           </span>
-          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>&nbsp;
-          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>&nbsp;
+          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>
+          &nbsp;
+          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>
+          &nbsp;
           <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
             <strong>Improve this map</strong>
           </a>

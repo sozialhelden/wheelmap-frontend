@@ -1,12 +1,12 @@
 // @flow
 
-import config from '../../../lib/config';
+import env from '../../../lib/env';
 
 import type { PhotoModel } from './PhotoModel';
 import type { AccessibilityCloudImage, AccessibilityCloudImages } from '../../../lib/Feature';
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
-  return `${config.accessibilityCloudBaseUrl}/images/scale/${
+  return `${env.public.accessibilityCloud.baseUrl.cached}/images/scale/${
     acPhoto.imagePath
   }?fitw=${size}&fith=${size}`;
 };

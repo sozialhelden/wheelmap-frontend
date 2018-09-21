@@ -10,7 +10,7 @@ export type ModalNodeState =
   | 'report'
   | null;
 
-export function getQueryParams(search?: string) {
+export function getQueryParams(search?: string): any {
   if (typeof window === 'undefined') {
     return {};
   }

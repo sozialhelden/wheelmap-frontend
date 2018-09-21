@@ -4,7 +4,7 @@ import readAndCompressImage from 'browser-image-resizer';
 
 import URLDataCache from './URLDataCache';
 import type { AccessibilityCloudImages } from '../Feature';
-import config from '../config';
+import env from '../env';
 
 export const InvalidCaptchaReason = 'invalid-captcha';
 export const UnknownReason = 'unknown';
@@ -25,9 +25,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   getImage(context: string, objectId: string): Promise<?AccessibilityCloudImages> {
     return this.getData(
       `${
-        config.accessibilityCloudBaseUrl
+        env.public.accessibilityCloud.baseUrl.cached
       }/images.json?context=${context}&objectId=${objectId}&appToken=${
-        config.accessibilityCloudAppToken
+        env.public.accessibilityCloud.appToken
       }`
     );
   }
@@ -39,9 +39,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   ): Promise<any> {
     const image = images[0];
     const url = `${
-      config.accessibilityCloudUncachedBaseUrl
+      env.public.accessibilityCloud.baseUrl.uncached
     }/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${
-      config.accessibilityCloudAppToken
+      env.public.accessibilityCloud.appToken
     }`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await this.constructor.fetch(url, {
@@ -73,9 +73,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
       this.constructor
         .fetch(
           `${
-            config.accessibilityCloudUncachedBaseUrl
+            env.public.accessibilityCloud.baseUrl.uncached
           }/images/report?imageId=${photoId}&reason=${reason}&appToken=${
-            config.accessibilityCloudAppToken
+            env.public.accessibilityCloud.appToken
           }`,
           {
             method: 'POST',
@@ -117,9 +117,9 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
         resolve(this.lastCaptcha);
       } else {
         this.lastCaptcha = null;
-        const url = `${config.accessibilityCloudBaseUrl}/captcha.svg?${cacheBuster}&appToken=${
-          config.accessibilityCloudAppToken
-        }`;
+        const url = `${
+          env.public.accessibilityCloud.baseUrl.cached
+        }/captcha.svg?${cacheBuster}&appToken=${env.public.accessibilityCloud.appToken}`;
         console.log('Requesting new captcha');
         return this.constructor
           .fetch(url)

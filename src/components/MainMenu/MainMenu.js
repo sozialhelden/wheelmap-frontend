@@ -113,8 +113,8 @@ class MainMenu extends React.Component<Props, State> {
           <img
             className="logo"
             src={this.props.logoURL}
-            width={123}
-            height={30}
+            width={156}
+            height={38}
             alt={t`App Logo`}
           />
         </button>
@@ -218,7 +218,6 @@ const StyledMainMenu = styled(MainMenu)`
   overflow: hidden;
 
   .logo {
-    height: 30px;
     margin-left: 10px;
   }
 

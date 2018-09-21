@@ -3,7 +3,7 @@
 import FeatureCache from './FeatureCache';
 import { convertResponseToWheelmapFeature } from '../Feature';
 import type { WheelmapFeature, WheelmapFeatureCollection } from '../Feature';
-import config from '../config';
+import env from '../env';
 import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
@@ -15,14 +15,17 @@ export default class WheelmapFeatureCache extends FeatureCache<
     id: number | string,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
-    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
-      ? config.wheelmapApiBaseUrl
-      : config.publicUrl;
+    const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
+      ? env.public.wheelmap.baseUrl
+      : env.publicUrl;
 
-    return this.fetch(`${wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`, {
-      cordova: true,
-      ...options,
-    });
+    return this.fetch(
+      `${wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${env.public.wheelmap.apiKey}`,
+      {
+        cordova: true,
+        ...options,
+      }
+    );
   }
 
   static getIdForFeature(feature: WheelmapFeature): string {

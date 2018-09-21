@@ -4,7 +4,7 @@ import { globalFetchManager } from './FetchManager';
 import { t } from 'ttag';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
-import config from './config';
+import env from './env';
 
 export type ACCategory = {
   _id: string,
@@ -141,9 +141,9 @@ export default class Categories {
       wheelmapRootCategoryNamesToCategories: {},
     };
     const countryCode = options.locale.substr(0, 2);
-    const wheelmapApiBaseUrl = config.wheelmapApiBaseUrl
-      ? config.wheelmapApiBaseUrl
-      : config.publicUrl;
+    const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
+      ? env.public.wheelmap.baseUrl
+      : env.publicUrl;
 
     const responseHandler = response => {
       if (!response.ok) {
@@ -155,8 +155,8 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const url = `${config.accessibilityCloudBaseUrl}/categories.json?appToken=${
-        config.accessibilityCloudAppToken
+      const url = `${env.public.accessibilityCloud.baseUrl.cached}/categories.json?appToken=${
+        env.public.accessibilityCloud.appToken
       }`;
       return globalFetchManager
         .fetch(url, { cordova: true })
@@ -166,7 +166,7 @@ export default class Categories {
 
     function wheelmapCategoriesFetch() {
       const url = `${wheelmapApiBaseUrl}/api/categories?api_key=${
-        config.wheelmapApiKey
+        env.public.wheelmap.apiKey
       }&locale=${countryCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
@@ -176,7 +176,7 @@ export default class Categories {
 
     function wheelmapNodeTypesFetch() {
       const url = `${wheelmapApiBaseUrl}/api/node_types?api_key=${
-        config.wheelmapApiKey
+        env.public.wheelmap.apiKey
       }&locale=${countryCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
@@ -184,8 +184,9 @@ export default class Categories {
         .then(json => Categories.fillCategoryLookupTable(lookupTable, json.node_types || []));
     }
 
-    const hasAccessibilityCloudCredentials = Boolean(config.accessibilityCloudAppToken);
-    const hasWheelmapCredentials = config.wheelmapApiKey && typeof wheelmapApiBaseUrl === 'string';
+    const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
+    const hasWheelmapCredentials =
+      env.public.wheelmap.apiKey && typeof wheelmapApiBaseUrl === 'string';
 
     await Promise.all(
       [

@@ -1,6 +1,4 @@
-// @flow
-
-import config from './config';
+import env from './env';
 import fetch from './fetch';
 
 export type ClientSideConfiguration = {
@@ -21,11 +19,9 @@ export type ClientSideConfiguration = {
   addPlaceURL: string,
 };
 
-export async function fetchClientSideConfiguration(
-  hostName: string
-): Promise<ClientSideConfiguration> {
-  const baseUrl = config.accessibilityCloudBaseUrl;
-  const token = config.accessibilityCloudAppToken;
+export async function getAppConfiguration(hostName: string): Promise<ClientSideConfiguration> {
+  const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
+  const token = env.public.accessibilityCloud.appToken;
   const url = `${baseUrl}/apps/${hostName}.json?appToken=${token}`;
 
   const response = await fetch(url);

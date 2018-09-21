@@ -110,7 +110,7 @@ export async function getAppInitialProps(
   const locales = expandedPreferredLocales(languages);
   const translations = clientCache.translations
     ? clientCache.translations
-    : await loadExistingLocalizationByPreference(locales);
+    : loadExistingLocalizationByPreference(locales);
 
   const categories = clientCache.categories
     ? clientCache.categories
