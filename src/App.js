@@ -672,7 +672,6 @@ class Loader extends React.Component<Props, State> {
       feature: this.props.feature,
       category: this.state.category,
       categories: this.props.categories,
-      licenses: this.props.licenses,
       sources: this.props.sources,
       userAgent: this.props.userAgent,
       toiletFilter: this.state.toiletFilter,

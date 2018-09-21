@@ -13,9 +13,9 @@ import {
   sourceIdsForFeature,
 } from '../lib/Feature';
 
-import { type PlaceDetailsProps } from './PlaceDetailsProps';
-import { dataSourceCache, type DataSource } from '../lib/cache/DataSourceCache';
-import { licenseCache, type License } from '../lib/cache/LicenseCache';
+import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
+import { dataSourceCache } from '../lib/cache/DataSourceCache';
+import { licenseCache } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
@@ -29,6 +29,34 @@ function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
+}
+
+async function fetchSourceWithLicense(
+  featureId: string | number,
+  featurePromise: Promise<Feature>,
+  useCache: boolean
+): Promise<SourceWithLicense[]> {
+  if (!isWheelmapFeatureId(featureId)) {
+    const feature = await featurePromise;
+    const sourceIds = sourceIdsForFeature(feature);
+
+    // console.log("loading", { sources });
+    const sourcesWithLicense = sourceIds.map(sourceId =>
+      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(async (source): Promise<
+        SourceWithLicense
+      > => {
+        if (typeof source.licenseId === 'string') {
+          const license = await licenseCache.getLicenseWithId(source.licenseId, { useCache });
+          return { source, license };
+        }
+        return { source, license: null };
+      })
+    );
+
+    return Promise.all(sourcesWithLicense);
+  }
+
+  return Promise.resolve([]);
 }
 
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
@@ -46,37 +74,17 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       const useCache = !isServer;
 
       // console.log("loading", { useCache });
-      const feature = await fetchFeature(featureId, useCache);
+      const featurePromise = fetchFeature(featureId, useCache);
+      const feature = isServer ? await featurePromise : featurePromise;
 
-      // console.log("loaded", { useCache, feature });
+      // console.log("loaded", feature, { useCache, feature });
 
-      let sources: DataSource[] = [];
-      let licenses: License[] = [];
-      if (!isWheelmapFeatureId(featureId)) {
-        // console.log("loading", { sources });
-        sources = await Promise.all(
-          sourceIdsForFeature(feature).map(sourceId =>
-            dataSourceCache.getDataSourceWithId(sourceId, { useCache })
-          )
-        );
-        // console.log("loaded", { sources });
-        // console.log("loading", { licenses });
+      // console.log("loading", { useCache });
+      const sourcesPromise = fetchSourceWithLicense(featureId, feature, useCache);
+      const sources = isServer ? await sourcesPromise : sourcesPromise;
+      // console.log("sources", sources, { useCache, feature });
 
-        licenses = await Promise.all(
-          sources
-            .map(source => {
-              if (typeof source.licenseId === 'string') {
-                return licenseCache.getLicenseWithId(source.licenseId, { useCache });
-              }
-              return null;
-            })
-            .filter(Boolean)
-        );
-        //  console.log("loaded", { licenses });
-      }
-
-      // console.log({ feature, featureId, sources, licenses, lightweightFeature: null });
-      return { feature, featureId, sources, licenses, lightweightFeature: null };
+      return { feature, featureId, sources, lightweightFeature: null };
     } catch (e) {
       console.error('Failed loading feature', featureId);
       // TODO how to redirect to 404 or other error
@@ -84,15 +92,15 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         feature: null,
         featureId: null,
         sources: [],
-        licenses: [],
         lightweightFeature: null,
       };
     }
   },
 
   clientStoreInitialProps(props: PlaceDetailsProps) {
-    const { feature, featureId, sources, licenses } = props;
-    if (!feature) {
+    const { feature, featureId, sources } = props;
+    // only store fully resolved data that comes from the server
+    if (!feature || feature instanceof Promise || sources instanceof Promise) {
       return;
     }
 
@@ -104,20 +112,19 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       accessibilityCloudFeatureCache.injectFeature(((feature: any): AccessibilityCloudFeature));
     }
 
+    const sourceWithLicenseArray = ((sources: any): SourceWithLicense[]);
     // inject sources & licenses
-    if (sources) {
-      sources.forEach((s: any) => {
-        const url = dataSourceCache.urlFromId(s._id);
-        dataSourceCache.inject(url, s);
-      });
-    }
+    sourceWithLicenseArray.forEach(sourceWithLicense => {
+      const source = sourceWithLicense.source;
+      const url = dataSourceCache.urlFromId(source._id);
+      dataSourceCache.inject(url, source);
 
-    if (licenses) {
-      licenses.forEach((l: any) => {
-        const url = licenseCache.urlFromId(l._id);
-        licenseCache.inject(url, l);
-      });
-    }
+      const license = sourceWithLicense.license;
+      if (license) {
+        const url = licenseCache.urlFromId(license._id);
+        licenseCache.inject(url, license);
+      }
+    });
   },
 
   getHead(props) {

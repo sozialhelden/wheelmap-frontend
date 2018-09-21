@@ -10,14 +10,14 @@ import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
 
 type SaveOptions = {
-  featureId: string,
+  featureId: string | number,
   onSave: ?(value: YesNoLimitedUnknown) => void,
   onClose: () => void,
 };
 
 type Props = SaveOptions & {
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
-  className: string,
+  className?: string,
   presetStatus?: ?YesNoLimitedUnknown,
 };
 

@@ -21,7 +21,12 @@ import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibilit
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
 
 import type { PhotoModel } from './Photos/PhotoModel';
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import type {
+  Feature,
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+  WheelmapFeature,
+} from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
@@ -31,7 +36,7 @@ import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import IconButtonList from './IconButtonList/IconButtonList';
-import { type PlaceDetailsProps } from '../../app/PlaceDetailsProps';
+import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
@@ -43,13 +48,16 @@ PositionedCloseLink.displayName = 'PositionedCloseLink';
 type Props = {
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
-  category: ?Category,
+  feature: Feature,
+  featureId: string | number,
+  sources: SourceWithLicense[],
+  category: Category,
   categories: CategoryLookupTables,
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
   history: RouterHistory,
-  onClose?: ?() => void,
+  onClose: () => void,
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
@@ -67,10 +75,10 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-} & PlaceDetailsProps;
+};
 
 type State = {
-  category: ?Category,
+  category: Category,
   parentCategory: ?Category,
   equipmentInfo: ?EquipmentInfo,
   feature: ?Feature,
@@ -194,7 +202,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <ToiletStatusEditor
         featureId={this.props.featureId}
-        feature={this.props.feature}
+        feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoUnknown) => {
           this.props.onClose();
           this.props.onCloseToiletAccessibility();
@@ -208,7 +216,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <WheelchairStatusEditor
         featureId={this.props.featureId}
-        feature={this.props.feature}
+        feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoLimitedUnknown) => {
           this.props.onClose();
           this.props.onCloseWheelchairAccessibility();
@@ -260,14 +268,13 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const { feature, equipmentInfoId, history, onOpenReportMode, licenses, sources } = this.props;
+    const { feature, equipmentInfoId, history, onOpenReportMode, sources } = this.props;
     const sourceLinkProps = {
       featureId,
       feature,
       equipmentInfoId,
       onOpenReportMode,
       history,
-      licenses,
       sources,
     };
     if (!featureId) return;

@@ -13,14 +13,14 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 
 type SaveOptions = {
-  featureId: string,
+  featureId: string | number,
   onSave: ?(value: YesNoUnknown) => void,
   onClose: () => void,
 };
 
 type Props = SaveOptions & {
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
-  className: string,
+  className?: string,
   presetStatus?: ?YesNoUnknown,
 };
 

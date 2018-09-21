@@ -11,7 +11,12 @@ import Categories, { type Category, type CategoryLookupTables } from '../../lib/
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
-import { type PlaceDetailsProps } from '../../app/PlaceDetailsProps';
+import {
+  type PlaceDetailsProps,
+  type ResolvedPlaceDetailsProps,
+  awaitPlaceDetails,
+  getPlaceDetailsIfAlreadyResolved,
+} from '../../app/PlaceDetailsProps';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -29,49 +34,47 @@ type Props = {
 
 type State = {
   category: ?Category,
-  parentCategory?: Category,
+  parentCategory: ?Category,
   equipmentInfo: ?EquipmentInfo,
+  resolvedPlaceDetails: ?ResolvedPlaceDetailsProps,
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null, equipmentInfo: null };
+  state = { category: null, parentCategory: null, equipmentInfo: null, resolvedPlaceDetails: null };
   nodeToolbar: React.ElementRef<NodeToolbar>;
 
-  constructor(props: Props) {
-    super(props);
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const resolvedPlaceData = getPlaceDetailsIfAlreadyResolved(props);
+    if (resolvedPlaceData) {
+      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        props.categories,
+        resolvedPlaceData.feature
+      );
+      return { ...state, ...resolvedCategories, resolvedPlaceDetails: resolvedPlaceData };
+    }
 
-    const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-      props.categories,
-      props.feature
-    );
-    this.state = { ...this.state, ...resolvedCategories };
+    if (state.resolvedPlaceDetails && state.resolvedPlaceDetails.featureId === props.featureId) {
+      return state;
+    }
+
+    return {
+      ...state,
+      category: null,
+      parentCategory: null,
+      equipmentInfo: null,
+      resolvedPlaceDetails: null,
+    };
   }
 
   componentDidMount() {
-    if (!this.props.equipmentInfoId) {
-      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-        this.props.categories,
-        this.props.feature
-      );
-      this.setState(resolvedCategories);
-    }
-    this.fetchFeature(this.props);
+    this.awaitData(this.props);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    this.fetchFeature(nextProps);
-
-    if (this.props.featureId && nextProps.featureId !== this.props.featureId) {
-      this.setState({ equipmentInfo: null });
-    }
-
-    if (!nextProps.equipmentInfoId) {
-      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-        nextProps.categories,
-        nextProps.feature
-      );
-      this.setState(resolvedCategories);
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const prevFeatureId = prevProps.featureId;
+    if (prevFeatureId !== this.props.featureId) {
+      this.awaitData(this.props);
     }
   }
 
@@ -81,29 +84,41 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
   }
 
-  fetchFeature(props: Props) {
-    if (props.equipmentInfoId) {
-      equipmentInfoCache.getFeature(props.equipmentInfoId).then((equipmentInfo: EquipmentInfo) => {
-        if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
-        if (
-          equipmentInfo.properties &&
-          equipmentInfo.properties.placeInfoId &&
-          equipmentInfo.properties.placeInfoId !== props.featureId
-        )
-          return;
-        const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-          props.categories,
-          equipmentInfo
-        );
-        this.setState({ equipmentInfo, ...resolvedCategories });
+  awaitData(props: Props) {
+    const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props);
+    this.setState({ resolvedPlaceDetails });
+
+    if (!resolvedPlaceDetails) {
+      awaitPlaceDetails(this.props).then(resolved => {
+        this.setState({ resolvedPlaceDetails: resolved });
       });
     }
   }
 
+  // TODO move to place details data
+  // fetchEquipment(props: Props) {
+  //   if (props.equipmentInfoId) {
+  //     equipmentInfoCache.getFeature(props.equipmentInfoId).then((equipmentInfo: EquipmentInfo) => {
+  //       if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
+  //       if (
+  //         equipmentInfo.properties &&
+  //         equipmentInfo.properties.placeInfoId &&
+  //         equipmentInfo.properties.placeInfoId !== props.featureId
+  //       )
+  //         return;
+  //       const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+  //         props.categories,
+  //         equipmentInfo
+  //       );
+  //       this.setState({ equipmentInfo, ...resolvedCategories });
+  //     });
+  //   }
+  // }
+
   // TODO move to helper
   static getCategoriesForFeature(
     categories: CategoryLookupTables,
-    feature: ?Feature | EquipmentInfo
+    feature: ?Feature | ?EquipmentInfo
   ): { category: ?Category, parentCategory?: Category } {
     if (!feature) {
       return { category: null };
@@ -128,14 +143,20 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature } = this.props;
-    const { properties } = feature || {};
+    const resolvedData = this.state.resolvedPlaceDetails;
 
-    return properties ? (
-      <NodeToolbar {...this.state} {...this.props} ref={t => (this.nodeToolbar = t)} />
-    ) : (
-      <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />
-    );
+    if (resolvedData) {
+      return (
+        <NodeToolbar
+          {...this.state}
+          {...this.props}
+          {...resolvedData}
+          ref={t => (this.nodeToolbar = t)}
+        />
+      );
+    }
+
+    return <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
   }
 }
 
