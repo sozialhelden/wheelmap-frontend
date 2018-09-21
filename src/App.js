@@ -15,11 +15,13 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
 import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
+import type { WheelmapFeature } from './lib/Feature';
+import type { SearchResultFeature } from './lib/searchPlaces';
 
 import MainView, { UnstyledMainView } from './MainView';
 
 import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-import { yesNoLimitedUnknownArray, yesNoUnknownArray } from './lib/Feature';
+import { yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
@@ -58,6 +60,10 @@ type Props = {
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
   category?: string,
   clientSideConfiguration: ClientSideConfiguration,
+  lat: ?string,
+  lon: ?string,
+  zoom: ?string,
+  extent: ?[number, number, number, number],
 } & PlaceDetailsProps;
 
 type State = {
@@ -65,10 +71,6 @@ type State = {
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
   lastError?: ?string,
-
-  lat: ?string,
-  lon: ?string,
-  zoom: ?string,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -387,11 +389,32 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isNotFoundVisible: true, lastError: error });
   };
 
-  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
-    if (coords) {
-      this.setState(coords);
+  onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
+    const params = {};
+    let routeName = 'map';
+
+    if (feature.properties.extent) {
+      params.extent = feature.properties.extent;
+    } else {
+      const [lon, lat] = feature.geometry.coordinates;
+
+      params.lat = lat;
+      params.lon = lon;
     }
-    this.setState({ isSearchBarVisible: isStickySearchBarSupported() });
+
+    if (wheelmapFeature) {
+      let id = getFeatureId(wheelmapFeature);
+
+      if (id) {
+        params.id = id;
+        routeName = 'place_detail';
+      }
+    } else if (this.props.category) {
+      params.category = this.props.category;
+      routeName = 'categories';
+    }
+
+    this.props.routerHistory.push(routeName, params);
   };
 
   onCategorySelect = (categoryName: string) => {
@@ -706,9 +729,10 @@ class Loader extends React.Component<Props, State> {
       accessibilityFilter: this.state.accessibilityFilter,
       lastError: this.state.lastError,
       searchQuery: this.props.searchQuery,
-      lat: this.state.lat,
-      lon: this.state.lon,
-      zoom: this.state.zoom,
+      lat: this.props.lat,
+      lon: this.props.lon,
+      zoom: this.props.zoom,
+      extent: this.props.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isNotFoundVisible: this.state.isNotFoundVisible,
@@ -748,7 +772,7 @@ class Loader extends React.Component<Props, State> {
         onMarkerClick={this.onMarkerClick}
         onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
         onError={this.onError}
-        onSelectCoordinate={this.onSelectCoordinate}
+        onSearchResultClick={this.onSearchResultClick}
         onCategorySelect={this.onCategorySelect}
         onCategoryReset={this.onCategoryReset}
         onCloseNotFoundDialog={this.onCloseNotFoundDialog}

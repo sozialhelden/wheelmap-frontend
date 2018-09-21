@@ -17,6 +17,8 @@ import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog'
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
+import type { SearchResultFeature } from './lib/searchPlaces';
+import type { WheelmapFeature } from './lib/Feature';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import Onboarding from './components/Onboarding/Onboarding';
@@ -24,7 +26,6 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
-import { isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
@@ -32,7 +33,7 @@ import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
 import type { ModalNodeState } from './lib/queryParams';
-import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
+import { newLocationWithReplacedQueryParams } from './lib/queryParams';
 
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 
@@ -42,7 +43,7 @@ import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
 import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 
-import type { ClientSideConfiguration } from './App.js';
+import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 
 type Props = {
   className: string,
@@ -61,6 +62,7 @@ type Props = {
   lat: ?string,
   lon: ?string,
   zoom: ?string,
+  extent: ?[number, number, number, number],
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -75,7 +77,7 @@ type Props = {
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
-  onSelectCoordinate: () => void,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onCategorySelect: () => void,
   onCategoryReset: () => void,
   onClickSearchToolbar: () => void,
@@ -264,7 +266,7 @@ class MainView extends React.Component<Props, State> {
             newLocationWithReplacedQueryParams(this.props.history, filter)
           );
         }}
-        onSelectCoordinate={this.props.onSelectCoordinate}
+        onSearchResultClick={this.props.onSearchResultClick}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}
         onClick={this.props.onClickSearchToolbar}
@@ -471,6 +473,7 @@ class MainView extends React.Component<Props, State> {
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
+        extent={this.props.extent}
         category={category}
         featureId={featureId}
         equipmentInfoId={equipmentInfoId}

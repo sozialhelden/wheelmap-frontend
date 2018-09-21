@@ -8,20 +8,18 @@ import getAddressString from '../../lib/getAddressString';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapFeature } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
-import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
+//import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
 import Address from '../NodeToolbar/Address';
 import PlaceName from '../PlaceName';
-import ToolbarLink from '../ToolbarLink';
 
 type Props = {
   feature: SearchResultFeature,
   history: RouterHistory,
-  onSelect: () => void,
+  onClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   hidden: boolean,
-  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
   wheelmapFeature: ?WheelmapFeature | Promise<?WheelmapFeature>,
 };
 
@@ -34,7 +32,7 @@ type State = {
   wheelmapFeaturePromise: ?Promise<?WheelmapFeature>,
 };
 
-function getZoomLevel(hasWheelmapId: boolean, category: ?Category) {
+/*function getZoomLevel(hasWheelmapId: boolean, category: ?Category) {
   // is a wheelmap place or a known POI category
   if (hasWheelmapId || category) {
     return 18;
@@ -49,41 +47,7 @@ function normalizedCoordinatesForFeature(feature): ?[number, number] {
   const coordinates = geometry ? geometry.coordinates : null;
   if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
   return normalizeCoordinates(coordinates);
-}
-
-type HashLinkOrRouterLinkProps = {
-  isHashLink: boolean,
-  className: string,
-  children: React.Node,
-  onClick: (event: UIEvent) => void,
-  to: ?string,
-};
-
-function HashLinkOrRouterLink(props: HashLinkOrRouterLinkProps) {
-  if (props.isHashLink) {
-    return (
-      <a
-        onClick={props.onClick}
-        href={props.to}
-        className={props.className}
-        tabIndex={props.hidden ? -1 : 0}
-      >
-        {props.children}
-      </a>
-    );
-  }
-
-  return (
-    <ToolbarLink
-      onClick={props.onClick}
-      to={props.to}
-      className={props.className}
-      tabIndex={props.hidden ? -1 : 0}
-    >
-      {props.children}
-    </ToolbarLink>
-  );
-}
+}*/
 
 export default class SearchResult extends React.Component<Props, State> {
   props: Props;
@@ -147,20 +111,20 @@ export default class SearchResult extends React.Component<Props, State> {
     });
   };
 
-  getFeature() {
+  /*getFeature() {
     return this.state.wheelmapFeature || this.props.feature;
-  }
+  }*/
 
-  getCategory() {
+  /*getCategory() {
     return this.state.category || this.state.parentCategory;
-  }
+  }*/
 
-  getCoordinates(): ?[number, number] {
+  /*getCoordinates(): ?[number, number] {
     const feature = this.getFeature();
     return normalizedCoordinatesForFeature(feature);
-  }
+  }*/
 
-  getHref(): ?string {
+  /*getHref(): ?string {
     const feature = this.getFeature();
     const coordinates = normalizedCoordinatesForFeature(feature);
     const wheelmapId = feature && feature.properties && feature.properties.id;
@@ -170,7 +134,7 @@ export default class SearchResult extends React.Component<Props, State> {
     const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
 
     return this.props.history.createHref({ pathname, search });
-  }
+  }*/
 
   focus() {
     if (this.root) {
@@ -180,7 +144,7 @@ export default class SearchResult extends React.Component<Props, State> {
 
   render() {
     const { feature } = this.props;
-    const { wheelmapFeature, wheelmapFeaturePromise } = this.state;
+    const { wheelmapFeature } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
     const placeName = properties ? properties.name : t`Unnamed`;
@@ -197,9 +161,6 @@ export default class SearchResult extends React.Component<Props, State> {
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const accessibility =
       wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
-    const href = this.getHref();
-    const hasWheelmapId = Boolean(wheelmapFeature);
-    const isHashLink = false;
 
     return (
       <li
@@ -209,13 +170,10 @@ export default class SearchResult extends React.Component<Props, State> {
         className={`osm-category-${feature.properties.osm_key || 'unknown'}-${feature.properties
           .osm_value || 'unknown'}`}
       >
-        <HashLinkOrRouterLink
-          to={href}
-          className="link-button"
-          hidden={this.props.hidden}
-          isHashLink={isHashLink}
+        <button
           onClick={() => {
-            const coordinates = this.getCoordinates();
+            this.props.onClick(feature, wheelmapFeature);
+            /*const coordinates = this.getCoordinates();
             if (coordinates) {
               this.props.onSelectCoordinate({
                 lat: coordinates[1],
@@ -223,8 +181,10 @@ export default class SearchResult extends React.Component<Props, State> {
                 zoom: getZoomLevel(hasWheelmapId, category),
               });
             }
-            this.props.onSelect();
+            this.props.onSelect();*/
           }}
+          className="link-button"
+          tabIndex={this.props.hidden ? -1 : 0}
         >
           <PlaceName>
             {wheelmapFeature && category ? (
@@ -239,7 +199,7 @@ export default class SearchResult extends React.Component<Props, State> {
             {placeName}
           </PlaceName>
           {address ? <Address role="none">{address}</Address> : null}
-        </HashLinkOrRouterLink>
+        </button>
       </li>
     );
   }

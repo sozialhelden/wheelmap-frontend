@@ -19,6 +19,7 @@ export type SearchResultProperties = {
   state?: ?any,
   housenumber?: ?any,
   street?: ?any,
+  extent: ?[number, number, number, number],
 };
 
 export type SearchResultFeature = {

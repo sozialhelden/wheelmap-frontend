@@ -24,6 +24,8 @@ import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
 import { newLocationWithReplacedQueryParams } from '../../lib/queryParams';
+import type { SearchResultFeature } from '../../lib/searchPlaces';
+import type { WheelmapFeature } from '../../lib/Feature';
 
 // You can enter debug commands in the search bar, which are handled here.
 function handleInputCommands(history: RouterHistory, commandLine: ?string) {
@@ -49,7 +51,7 @@ export type Props = PlaceFilter & {
   inert: boolean,
   category: ?string,
   searchQuery: ?string,
-  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
   onFilterChanged: (filter: PlaceFilter) => void,
   onClose: ?() => void,
@@ -384,7 +386,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
       <div aria-live="assertive">
         <SearchResults
           searchResults={searchResults}
-          onSelectCoordinate={this.props.onSelectCoordinate}
+          onSearchResultClick={this.props.onSearchResultClick}
           hidden={this.props.hidden}
           history={this.props.history}
           onSelect={() => this.clearSearch()}

@@ -7,7 +7,8 @@ import styled from 'styled-components';
 import type { RouterHistory } from 'react-router-dom';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import colors from '../../lib/colors';
-
+import type { SearchResultFeature } from '../../lib/searchPlaces';
+import type { WheelmapFeature } from '../../lib/Feature';
 import SearchResult from './SearchResult';
 
 type Props = {
@@ -15,8 +16,7 @@ type Props = {
   history: RouterHistory,
   className: string,
   hidden: ?boolean,
-  onSelect: () => void,
-  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   refFirst: ?(result: ?SearchResult) => void,
 };
 
@@ -53,8 +53,7 @@ function SearchResults(props: Props) {
             feature={feature}
             wheelmapFeature={wheelmapFeatures && wheelmapFeatures[index]}
             key={featureId}
-            onSelect={props.onSelect}
-            onSelectCoordinate={props.onSelectCoordinate}
+            onClick={props.onSearchResultClick}
             hidden={!!props.hidden}
             history={props.history}
             ref={ref => {
@@ -75,9 +74,13 @@ const StyledSearchResults = styled(SearchResults)`
     padding: 0;
   }
 
-  li > a {
+  li > button {
+    text-align: left;
     overflow: hidden;
     color: rgba(0, 0, 0, 0.8) !important;
+    display: block;
+    width: 100%;
+    box-sizing: content-box;
 
     &:hover {
       color: rgba(0, 0, 0, 0.8) !important;

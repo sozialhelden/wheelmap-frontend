@@ -66,6 +66,7 @@ type Props = {
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
+  extent: ?[number, number, number, number],
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
