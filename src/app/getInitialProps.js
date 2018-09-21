@@ -11,24 +11,14 @@ import {
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
 
-import { getAppConfiguration, type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+import {
+  fetchClientSideConfiguration,
+  type ClientSideConfiguration,
+} from '../lib/ClientSideConfiguration';
 
-import SearchData from './searchData';
-import PlaceDetailsData from './placeDetailsData';
-
-type DataTableQuery = {
-  [key: string]: string,
-};
-
-export type DataTableEntry<Props> = {
-  getInitialProps: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
-  getHead?: (props: Props) => ?React$Element<Head>,
-  clientStoreInitialProps?: (props: Props) => void,
-};
-
-type DataTable = {
-  [key: string]: DataTableEntry<any>,
-};
+import SearchData from './SearchData';
+import PlaceDetailsData from './PlaceDetailsData';
+import MapData from './MapData';
 
 type AppProps = {
   userAgent: UAResult,
@@ -37,9 +27,24 @@ type AppProps = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
+type DataTableQuery = {
+  [key: string]: string,
+};
+
+export type DataTableEntry<Props> = {
+  getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
+  getHead?: (props: Props & AppProps) => ?React$Element<Head>,
+  clientStoreInitialProps?: (props: Props & AppProps) => void,
+};
+
+type DataTable = {
+  [key: string]: DataTableEntry<any>,
+};
+
 const dataTable: DataTable = Object.freeze({
   place_detail: PlaceDetailsData,
   search: SearchData,
+  map: MapData,
 });
 
 export function getInitialProps(
@@ -54,7 +59,7 @@ export function getInitialProps(
 ) {
   const dataItem = dataTable[routeName];
 
-  if (!dataItem) {
+  if (!dataItem || !dataItem.getInitialProps) {
     return {};
   }
 
@@ -81,7 +86,7 @@ export async function getAppInitialProps(
 
   const clientSideConfiguration = clientCache.clientSideConfiguration
     ? clientCache.clientSideConfiguration
-    : await getAppConfiguration(hostName);
+    : await fetchClientSideConfiguration(hostName);
 
   const locales = expandedPreferredLocales(languages);
   const translations = clientCache.translations

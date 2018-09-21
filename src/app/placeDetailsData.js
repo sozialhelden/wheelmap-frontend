@@ -19,7 +19,7 @@ import { licenseCache, type License } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
-import getProjectTitle from '../lib/getProjectTitle';
+import { getProductTitle } from '../lib/ClientSideConfiguration';
 
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
@@ -121,7 +121,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   getHead(props) {
-    const { feature } = props;
+    const { feature, clientSideConfiguration } = props;
     let placeTitle;
 
     if (feature) {
@@ -138,7 +138,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
     return (
       <Head>
-        <title>{getProjectTitle(placeTitle)}</title>
+        <title>{getProductTitle(clientSideConfiguration, placeTitle)}</title>
       </Head>
     );
   },

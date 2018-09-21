@@ -5,7 +5,6 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 import config from '../lib/config';
-import getProjectTitle from '../lib/getProjectTitle';
 
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }) {
@@ -40,7 +39,6 @@ export default class MyDocument extends Document {
             content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
           />
           <link rel="shortcut icon" href={`${config.publicUrl}/favicon.ico`} />
-          <title>{getProjectTitle()}</title>
           {/* Used to include imported CSS and SASS files */}
           <link rel="stylesheet" href="/_next/static/style.css" />
           {this.props.styleTags}

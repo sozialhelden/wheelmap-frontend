@@ -11,7 +11,7 @@ import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import config from '../lib/config';
 import { type WheelmapFeature } from '../lib/Feature';
-import getProjectTitle from '../lib/getProjectTitle';
+import { getProductTitle } from '../lib/ClientSideConfiguration';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -94,12 +94,15 @@ const SearchData: DataTableEntry<SearchProps> = {
   },
 
   getHead(props) {
-    const { searchQuery } = props;
+    const { searchQuery, clientSideConfiguration } = props;
 
     return (
       <Head>
         <title>
-          {getProjectTitle(`Search results${searchQuery ? ` for “${searchQuery}”` : ''}`)}
+          {getProductTitle(
+            clientSideConfiguration,
+            `Search results${searchQuery ? ` for “${searchQuery}”` : ''}`
+          )}
         </title>
       </Head>
     );
