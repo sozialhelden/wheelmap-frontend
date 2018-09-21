@@ -1,5 +1,6 @@
 // @flow
 import UAParser from 'ua-parser-js';
+import Head from 'next/head';
 
 import {
   expandedPreferredLocales,
@@ -15,13 +16,13 @@ import { getAppConfiguration, type ClientSideConfiguration } from '../lib/Client
 import SearchData from './searchData';
 import PlaceDetailsData from './placeDetailsData';
 
+type DataTableQuery = {
+  [key: string]: string,
+};
+
 export type DataTableEntry<Props> = {
-  getInitialProps: (
-    query: {
-      [key: string]: string,
-    },
-    isServer: boolean
-  ) => Promise<Props>,
+  getInitialProps: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
+  getHead?: (props: Props) => ?React$Element<Head>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 
@@ -110,4 +111,14 @@ export function clientStoreInitialProps(routeName: string, props: any) {
   }
 
   return dataItem.clientStoreInitialProps(props);
+}
+
+export function getHead(routeName: string, props: any) {
+  const dataItem = dataTable[routeName];
+
+  if (!dataItem || !dataItem.getHead) {
+    return null;
+  }
+
+  return dataItem.getHead(props);
 }

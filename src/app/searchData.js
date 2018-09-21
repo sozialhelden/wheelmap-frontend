@@ -1,5 +1,8 @@
 // @flow
 
+import React from 'react';
+import Head from 'next/head';
+
 import searchPlaces, {
   type SearchResultCollection,
   type SearchResultProperties,
@@ -8,6 +11,7 @@ import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import config from '../lib/config';
 import { type WheelmapFeature } from '../lib/Feature';
+import getProjectTitle from '../lib/getProjectTitle';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -87,6 +91,18 @@ const SearchData: DataTableEntry<SearchProps> = {
       searchResults,
       searchQuery: query.q,
     };
+  },
+
+  getHead(props) {
+    const { searchQuery } = props;
+
+    return (
+      <Head>
+        <title>
+          {getProjectTitle(`Search results${searchQuery ? ` for “${searchQuery}”` : ''}`)}
+        </title>
+      </Head>
+    );
   },
 };
 

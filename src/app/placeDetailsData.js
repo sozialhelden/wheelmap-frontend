@@ -1,5 +1,8 @@
 // @flow
 
+import React from 'react';
+import Head from 'next/head';
+
 import { type DataTableEntry } from './getInitialProps';
 
 import {
@@ -15,6 +18,8 @@ import { dataSourceCache, type DataSource } from '../lib/cache/DataSourceCache';
 import { licenseCache, type License } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
+import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
+import getProjectTitle from '../lib/getProjectTitle';
 
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
@@ -84,6 +89,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       };
     }
   },
+
   clientStoreInitialProps(props: PlaceDetailsProps) {
     const { feature, featureId, sources, licenses } = props;
     if (!feature) {
@@ -112,6 +118,29 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         licenseCache.inject(url, l);
       });
     }
+  },
+
+  getHead(props) {
+    const { feature } = props;
+    let placeTitle;
+
+    if (feature) {
+      placeTitle = feature.properties && placeNameFor(feature.properties);
+      const accessibilityTitle =
+        feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
+
+      if (placeTitle) {
+        if (accessibilityTitle) {
+          placeTitle = `${placeTitle}, ${accessibilityTitle}`;
+        }
+      }
+    }
+
+    return (
+      <Head>
+        <title>{getProjectTitle(placeTitle)}</title>
+      </Head>
+    );
   },
 };
 

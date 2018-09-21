@@ -19,14 +19,13 @@ import {
   getAppInitialProps,
   clientStoreAppInitialProps,
   clientStoreInitialProps,
+  getHead,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 
-type Props = {};
-
 let isServer = false;
 
-export default class App extends BaseApp<Props> {
+export default class App extends BaseApp {
   static async getInitialProps({
     Component: PageComponent,
     ctx,
@@ -96,8 +95,9 @@ export default class App extends BaseApp<Props> {
     return { ...appProps, ...routeProps, routeName: ctx.query.routeName };
   }
 
-  constructor(props: Props) {
+  constructor(props) {
     super(props);
+
     this.routerHistory = new NextRouterHistory(router);
   }
 
@@ -116,6 +116,8 @@ export default class App extends BaseApp<Props> {
       }
     }
 
+    const head = routeName ? getHead(routeName, props) : null;
+
     return (
       <Container>
         {error ? (
@@ -124,7 +126,10 @@ export default class App extends BaseApp<Props> {
             <Error statusCode={error.statusCode} />
           </div>
         ) : (
-          <PageComponent routerHistory={this.routerHistory} {...props} />
+          <React.Fragment>
+            {head}
+            <PageComponent routerHistory={this.routerHistory} {...props} />
+          </React.Fragment>
         )}
         <GlobalStyle />
         <LeafletStyle />
