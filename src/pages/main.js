@@ -8,8 +8,6 @@ import * as React from 'react';
 import App from '../App';
 import Head from 'next/head';
 
-// import 'wicg-focus-ring';
-
 // import registerServiceWorker from './registerServiceWorker';
 
 // const a11yAuditActive = false;
