@@ -20,7 +20,8 @@ export type ClientSideConfiguration = {
 };
 
 export async function fetchClientSideConfiguration(
-  hostName: string
+  // for test deployments on zeit, the hostname is not configured, fallback to a default for this
+  hostName: string = 'wheelmap.tech'
 ): Promise<ClientSideConfiguration> {
   const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
   const token = env.public.accessibilityCloud.appToken;
@@ -31,7 +32,10 @@ export async function fetchClientSideConfiguration(
   return appJSON.clientSideConfiguration;
 }
 
-export function getProductTitle(clientSideConfiguration: ClientSideConfiguration, title: ?string) {
+export function getProductTitle(
+  clientSideConfiguration: ClientSideConfiguration,
+  title: ?string
+): string {
   const { product } = clientSideConfiguration.textContent;
 
   if (!title) {
