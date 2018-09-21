@@ -18,7 +18,7 @@ app.prepare().then(() => {
       return next();
     }
 
-    app.render(req, res, '/index', { ...match.params, ...req.query, routeName: match.route.name });
+    app.render(req, res, '/main', { ...match.params, ...req.query, routeName: match.route.name });
   });
 
   // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)

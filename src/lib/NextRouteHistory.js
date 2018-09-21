@@ -26,7 +26,7 @@ class NextRouterHistory implements RouterHistory {
     const route = this.router.getRoute(name, true);
     const path = this.router.generate(name, params);
 
-    NextRouter[method]({ pathname: '/index', query: { routeName: route.name, ...params } }, path);
+    NextRouter[method]({ pathname: '/main', query: { routeName: route.name, ...params } }, path);
   }
 }
 
