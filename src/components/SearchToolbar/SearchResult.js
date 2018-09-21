@@ -180,7 +180,7 @@ export default class SearchResult extends React.Component<Props, State> {
 
   render() {
     const { feature } = this.props;
-    const { wheelmapFeature } = this.state;
+    const { wheelmapFeature, wheelmapFeaturePromise } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
     const placeName = properties ? properties.name : t`Unnamed`;
@@ -227,7 +227,7 @@ export default class SearchResult extends React.Component<Props, State> {
           }}
         >
           <PlaceName>
-            {category ? (
+            {(wheelmapFeature || wheelmapFeaturePromise) && category ? (
               <Icon
                 accessibility={accessibility || null}
                 category={category}
