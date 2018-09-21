@@ -3,8 +3,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
 
 import CombinedIcon from './CombinedIcon';
 import colors from '../../lib/colors';
@@ -23,14 +21,18 @@ type Props = {
   hasCircle?: boolean,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
+  onClick: (category: string) => void,
   onFocus?: (event: UIEvent) => void,
   onBlur?: (event: UIEvent) => void,
   onKeyDown?: (event: UIEvent) => void,
-  history: RouterHistory,
 };
 
-const StyledNavLink = styled(NavLink)`
+const StyledButton = styled.button`
+  display: flex;
+  align-items: center;
+  border: none;
   border-radius: 5px;
+  font: inherit;
 
   figure {
     display: flex;
@@ -137,9 +139,8 @@ export default function CategoryButton(props: Props) {
   );
 
   return (
-    <StyledNavLink
-      activeClassName="active"
-      to={url}
+    <StyledButton
+      onClick={() => props.onClick(category)}
       className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
@@ -157,6 +158,6 @@ export default function CategoryButton(props: Props) {
         {icon}
       </IconButton>
       {showCloseButton && <CloseIcon />}
-    </StyledNavLink>
+    </StyledButton>
   );
 }

@@ -82,11 +82,13 @@ export async function getAppInitialProps(
     userAgentString,
     languages,
     hostName,
+    category,
     ...query
   }: {
     userAgentString: string,
     languages: string[],
     hostName: string,
+    category: string,
     [key: string]: string,
   },
   isServer: boolean
@@ -107,8 +109,7 @@ export async function getAppInitialProps(
   const categories = clientCache.categories
     ? clientCache.categories
     : await Categories.generateLookupTables({ locale: locales[0] });
-
-  return { userAgent, translations, categories, clientSideConfiguration };
+  return { userAgent, translations, categories, clientSideConfiguration, category };
 }
 
 const clientCache: $Shape<AppProps> = {};

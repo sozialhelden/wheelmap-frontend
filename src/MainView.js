@@ -76,7 +76,8 @@ type Props = {
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
   onSelectCoordinate: () => void,
-  onResetCategory: () => void,
+  onCategorySelect: () => void,
+  onCategoryReset: () => void,
   onClickSearchToolbar: () => void,
   onCloseSearchToolbar: () => void,
   onClickSearchButton: () => void,
@@ -264,7 +265,8 @@ class MainView extends React.Component<Props, State> {
           );
         }}
         onSelectCoordinate={this.props.onSelectCoordinate}
-        onResetCategory={this.props.onResetCategory}
+        onCategorySelect={this.props.onCategorySelect}
+        onCategoryReset={this.props.onCategoryReset}
         onClick={this.props.onClickSearchToolbar}
         onClose={this.props.onCloseSearchToolbar}
         isExpanded={this.props.isSearchToolbarExpanded}

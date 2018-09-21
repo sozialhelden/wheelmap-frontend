@@ -10,6 +10,10 @@ const routes = [
     path: '/search',
   },
   {
+    name: 'categories',
+    path: '/categories/:category',
+  },
+  {
     name: 'map',
     path: '/',
   },

@@ -50,17 +50,18 @@ type Props = {
   history: RouterHistory,
   location: Location,
   routerHistory: NewRouterHistory,
+  routeName: string,
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
   translations?: Translations[],
   searchQuery?: ?string,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
+  category?: string,
   clientSideConfiguration: ClientSideConfiguration,
 } & PlaceDetailsProps;
 
 type State = {
   equipmentInfoId?: ?string,
-  category?: ?string,
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
   lastError?: ?string,
@@ -143,7 +144,6 @@ class Loader extends React.Component<Props, State> {
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
     isNotFoundVisible: false,
-    category: null,
     isMainMenuOpen: false,
     modalNodeState: null,
     lastError: null,
@@ -394,11 +394,39 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isSearchBarVisible: isStickySearchBarSupported() });
   };
 
-  onResetCategory = () => {
-    this.setState({
-      category: null,
-      isSearchToolbarExpanded: true,
-    });
+  onCategorySelect = (categoryName: string) => {
+    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+
+    const newRouteName = currentRouteName === 'map' ? 'categories' : currentRouteName;
+
+    // preserve all query params...
+    const queryParams = getQueryParams();
+
+    const newParams =
+      currentRouteName === 'place_detail'
+        ? {
+            ...queryParams,
+            category: categoryName,
+            id: featureId,
+          }
+        : { ...queryParams, category: categoryName };
+
+    routerHistory.push(newRouteName, newParams);
+  };
+
+  onCategoryReset = () => {
+    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+
+    // preserve all query params...
+    const queryParams = getQueryParams();
+    // ...except for category
+    delete queryParams.category;
+
+    const newRouteName = currentRouteName === 'place_detail' ? currentRouteName : 'map';
+    const newParams =
+      currentRouteName === 'place_detail' ? { ...queryParams, id: featureId } : queryParams;
+
+    routerHistory.push(newRouteName, newParams);
   };
 
   onCloseNotFoundDialog = () => {
@@ -670,7 +698,7 @@ class Loader extends React.Component<Props, State> {
       featureId: this.props.featureId,
       equipmentInfoId: this.state.equipmentInfoId,
       feature: this.props.feature,
-      category: this.state.category,
+      category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,
       userAgent: this.props.userAgent,
@@ -721,7 +749,8 @@ class Loader extends React.Component<Props, State> {
         onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
         onError={this.onError}
         onSelectCoordinate={this.onSelectCoordinate}
-        onResetCategory={this.onResetCategory}
+        onCategorySelect={this.onCategorySelect}
+        onCategoryReset={this.onCategoryReset}
         onCloseNotFoundDialog={this.onCloseNotFoundDialog}
         onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
         onOpenReportMode={this.onOpenReportMode}

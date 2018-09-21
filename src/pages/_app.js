@@ -132,6 +132,7 @@ export default class App extends BaseApp {
             <PageComponent
               routerHistory={this.routerHistory}
               {...getRenderProps(routeName, props, isServer)}
+              routeName={routeName}
             />
           </React.Fragment>
         )}

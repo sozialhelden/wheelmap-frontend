@@ -42,6 +42,8 @@ type Props = {
   hidden: boolean,
   onFocus: () => void,
   onBlur: () => void,
+  onCategorySelect: () => void,
+  onCategoryReset: () => void,
   category: ?string,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
@@ -50,12 +52,15 @@ type Props = {
 
 export default function CategoryMenu(props: Props) {
   let names = null;
-  if (props.category) {
-    names = { [props.category]: Categories.translatedWheelmapRootCategoryName(props.category) };
+  const { category, onCategoryReset, onCategorySelect } = props;
+  if (category) {
+    names = { [category]: Categories.translatedWheelmapRootCategoryName(category) };
   } else {
     names = Categories.getTranslatedRootCategoryNames();
   }
-  const showCloseButton = Boolean(props.category);
+  const showCloseButton = Boolean(category);
+
+  const onClick = category ? onCategoryReset : onCategorySelect;
 
   return (
     <Container className="category-menu">
@@ -63,6 +68,7 @@ export default function CategoryMenu(props: Props) {
         <CategoryButton
           hidden={props.hidden}
           history={props.history}
+          onClick={onClick}
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}
           hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)}

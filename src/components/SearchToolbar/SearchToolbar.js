@@ -54,7 +54,8 @@ export type Props = PlaceFilter & {
   onFilterChanged: (filter: PlaceFilter) => void,
   onClose: ?() => void,
   onClick: () => void,
-  onResetCategory: ?() => void,
+  onCategorySelect: () => void,
+  onCategoryReset: () => void,
   isExpanded: boolean,
   hasGoButton: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
@@ -413,6 +414,8 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
       <CategoryMenu
         hidden={this.props.hidden}
         history={this.props.history}
+        onCategorySelect={this.props.onCategorySelect}
+        onCategoryReset={this.props.onCategoryReset}
         onFocus={() => this.setState({ isCategoryFocused: true })}
         onBlur={() => {
           setTimeout(() => this.setState({ isCategoryFocused: false }));
