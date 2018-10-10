@@ -288,13 +288,19 @@ class NodeToolbar extends React.Component<Props, State> {
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
-    const equipmentOverview = !isWheelmapFeature && (
-      <EquipmentOverview {...{ history, feature, equipmentInfoId }} />
-    );
+
+    const equipmentOverview = !isWheelmapFeature &&
+      feature.properties.equipmentInfos && (
+        <EquipmentOverview
+          placeInfoId={featureId}
+          equipmentInfos={feature.properties.equipmentInfos}
+          equipmentInfoId={equipmentInfoId}
+        />
+      );
 
     return (
       <div>
-        {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
+        {isEquipment && featureId && this.renderPlaceNameForEquipment()}
         {inlineWheelchairAccessibilityEditor}
         {accessibilitySection}
         {photoSection}

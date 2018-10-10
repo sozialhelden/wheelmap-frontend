@@ -8,11 +8,11 @@ import styled from 'styled-components';
 import { t } from 'ttag';
 import type { RouterHistory } from 'react-router-dom';
 import EquipmentList from './EquipmentList';
-import type { AccessibilityCloudFeature } from '../../../lib/Feature';
-import { equipmentInfoCache } from '../../../lib/cache/EquipmentInfoCache';
+import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 
 type Props = {
-  feature: AccessibilityCloudFeature,
+  equipmentInfos: { [key: string]: EquipmentInfo },
+  placeInfoId: string,
   history: RouterHistory,
   className: string,
   equipmentInfoId: ?string,
@@ -21,10 +21,6 @@ type Props = {
 type State = {
   expanded: boolean,
 };
-
-function equipmentInfosForFeatureId(featureId: string): Set<*> {
-  return equipmentInfoCache.getIndexedFeatures('properties.placeInfoId', featureId);
-}
 
 function groupEquipmentByName(equipmentInfos) {
   const groupedEquipmentInfos = groupBy(equipmentInfos, 'properties.description');
@@ -36,25 +32,17 @@ class EquipmentOverview extends React.Component<Props, State> {
     expanded: false,
   };
 
-  componentWillReceiveProps(newProps: Props) {
-    if (
-      this.props.feature !== newProps.feature ||
-      newProps.equipmentInfoId !== this.props.equipmentInfoId
-    ) {
-      this.setState({ expanded: false });
-    }
-  }
-
   render() {
-    if (!this.props.feature) return null;
-    const placeInfoId = this.props.feature._id || this.props.feature.properties._id;
-    const equipmentInfoSet = equipmentInfosForFeatureId(placeInfoId);
-    if (!equipmentInfoSet) return null;
-    const equipmentInfos = sortBy(
-      [...equipmentInfoSet.values()],
-      ['properties.category', 'properties.description']
-    ).filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
-    const equipmentInfoArrays = groupEquipmentByName(equipmentInfos);
+    const { equipmentInfos, placeInfoId } = this.props;
+
+    const filteredEquipmentInfos = sortBy(Object.values(equipmentInfos), [
+      'properties.category',
+      'properties.description',
+    ]).filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
+
+    console.log(filteredEquipmentInfos);
+
+    const equipmentInfoArrays = groupEquipmentByName(filteredEquipmentInfos);
 
     const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
       equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
@@ -63,14 +51,15 @@ class EquipmentOverview extends React.Component<Props, State> {
       equipmentInfos =>
         !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
     );
-    if (equipmentInfos.length === 0) return null;
+
+    if (filteredEquipmentInfos.length === 0) return '003';
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
     const hasWorkingEquipment =
       workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
     const shouldBeExpandable =
-      equipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
-    const isExpanded = this.state.expanded || equipmentInfos.length <= 2;
+      filteredEquipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
+    const isExpanded = this.state.expanded || filteredEquipmentInfos.length <= 2;
 
     return (
       <div className={this.props.className}>
