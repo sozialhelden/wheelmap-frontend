@@ -21,7 +21,6 @@ type Props = {
   categories: CategoryLookupTables,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  isReportMode: boolean,
   onOpenReportMode: ?() => void,
   onStartPhotoUploadFlow: () => void,
   history: RouterHistory,
@@ -29,6 +28,7 @@ type Props = {
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
 } & PlaceDetailsProps;
 
 type State = {
