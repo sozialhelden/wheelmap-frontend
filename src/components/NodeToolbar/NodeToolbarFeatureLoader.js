@@ -95,11 +95,20 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
   awaitData(props: Props) {
     const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props);
-    this.setState({ resolvedPlaceDetails });
 
-    if (!resolvedPlaceDetails) {
+    if (resolvedPlaceDetails) {
+      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        props.categories,
+        resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature
+      );
+      this.setState({ resolvedPlaceDetails, ...resolvedCategories });
+    } else {
       awaitPlaceDetails(this.props).then(resolved => {
-        this.setState({ resolvedPlaceDetails: resolved });
+        const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+          props.categories,
+          resolved.equipmentInfo || resolved.feature
+        );
+        this.setState({ resolvedPlaceDetails: resolved, ...resolvedCategories });
       });
     }
   }
