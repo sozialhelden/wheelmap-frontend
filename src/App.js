@@ -118,16 +118,6 @@ function getFeatureIdFromProps(props: Props): ?string {
   return featureId ? String(featureId) : null;
 }
 
-function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string') {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-  return `/nodes/${featureId}`;
-}
-
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }

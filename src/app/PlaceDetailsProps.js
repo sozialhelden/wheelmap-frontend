@@ -68,7 +68,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     ? getDataIfAlreadyResolved(props.equipmentInfo)
     : null;
 
-  if (!resolvedSources || !resolvedFeature) {
+  if (!resolvedSources || !resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
     return null;
   }
 

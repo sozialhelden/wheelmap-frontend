@@ -49,7 +49,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (resolvedPlaceData) {
       const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
         props.categories,
-        resolvedPlaceData.feature
+        resolvedPlaceData.equipmentInfo || resolvedPlaceData.feature
       );
       return { ...state, ...resolvedCategories, resolvedPlaceDetails: resolvedPlaceData };
     }
@@ -78,7 +78,11 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     const prevFeatureId = prevProps.featureId;
-    if (prevFeatureId !== this.props.featureId) {
+    const prevEquipmentInfoId = prevProps.equipmentInfoId;
+    if (
+      prevFeatureId !== this.props.featureId ||
+      prevEquipmentInfoId !== this.props.equipmentInfoId
+    ) {
       this.awaitData(this.props);
     }
   }
