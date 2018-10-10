@@ -6,6 +6,10 @@ const routes = [
     path: '/nodes/:id',
   },
   {
+    name: 'equipment',
+    path: '/nodes/:id/equipment/:eid',
+  },
+  {
     name: 'search',
     path: '/search',
   },

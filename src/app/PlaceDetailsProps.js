@@ -4,6 +4,7 @@ import { type Feature, type WheelmapLightweightFeature } from '../lib/Feature';
 
 import { type DataSource } from '../lib/cache/DataSourceCache';
 import { type License } from '../lib/cache/LicenseCache';
+import { type EquipmentInfo } from '../lib/EquipmentInfo';
 
 export type SourceWithLicense = {
   source: DataSource,
@@ -37,6 +38,10 @@ export type PlaceDetailsProps = {
   featureId: ?(string | number),
   // all sources for this feature with a license attached
   sources: PotentialPromise<SourceWithLicense[]>,
+  // the equimentInfo id
+  equipmentInfoId: ?string,
+  // the equimentInfo
+  equipmentInfo: ?PotentialPromise<EquipmentInfo>,
 };
 
 export type ResolvedPlaceDetailsProps = {
@@ -48,6 +53,10 @@ export type ResolvedPlaceDetailsProps = {
   featureId: ?(string | number),
   // all sources for this feature with a license attached
   sources: SourceWithLicense[],
+  // the equimentInfo id
+  equipmentInfoId: ?string,
+  // the equimentInfo
+  equipmentInfo: ?EquipmentInfo,
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
@@ -55,6 +64,9 @@ export function getPlaceDetailsIfAlreadyResolved(
 ): ResolvedPlaceDetailsProps | null {
   const resolvedFeature = getDataIfAlreadyResolved(props.feature);
   const resolvedSources = getDataIfAlreadyResolved(props.sources);
+  const resolvedEquimentInfo = props.equipmentInfo
+    ? getDataIfAlreadyResolved(props.equipmentInfo)
+    : null;
 
   if (!resolvedSources || !resolvedFeature) {
     return null;
@@ -65,6 +77,8 @@ export function getPlaceDetailsIfAlreadyResolved(
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources,
+    equipmentInfoId: props.equipmentInfoId,
+    equipmentInfo: resolvedEquimentInfo,
   };
 }
 
@@ -73,11 +87,16 @@ export async function awaitPlaceDetails(
 ): Promise<ResolvedPlaceDetailsProps> {
   const resolvedFeature = await getDataPromise(props.feature);
   const resolvedSources = await getDataPromise(props.sources);
+  const resolvedEquipmentInfo = props.equipmentInfo
+    ? await getDataPromise(props.equipmentInfo)
+    : null;
 
   return {
     lightweightFeature: props.lightweightFeature,
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources,
+    equipmentInfoId: props.equipmentInfoId,
+    equipmentInfo: resolvedEquipmentInfo,
   };
 }

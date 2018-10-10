@@ -46,6 +46,7 @@ const dataTable: DataTable = Object.freeze({
   place_detail: PlaceDetailsData,
   search: SearchData,
   map: MapData,
+  equipment: PlaceDetailsData,
 });
 
 export function getInitialProps(

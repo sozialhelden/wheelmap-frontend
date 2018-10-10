@@ -14,11 +14,13 @@ import { licenseCache } from '../lib/cache/LicenseCache';
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
+import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
 import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
 
 import { type DataTableEntry } from './getInitialProps';
 import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
+import { type EquipmentInfo } from '../lib/EquipmentInfo';
 
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
@@ -28,6 +30,10 @@ function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, { useCache });
+}
+
+function fetchEquipment(equipmentId: string, useCache: boolean): Promise<EquipmentInfo> {
+  return equipmentInfoCache.fetchFeature(equipmentId, { useCache });
 }
 
 async function fetchSourceWithLicense(
@@ -61,6 +67,7 @@ async function fetchSourceWithLicense(
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialProps(query, isServer): Promise<PlaceDetailsProps> {
     const featureId = query.id;
+    const equipmentInfoId = query.eid;
 
     try {
       if (!featureId) {
@@ -78,20 +85,34 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
       // console.log("loaded", feature, { useCache, feature });
 
+      const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
+      const equipmentInfo = equipmentPromise
+        ? isServer ? await equipmentPromise : equipmentPromise
+        : null;
+
       // console.log("loading", { useCache });
       const sourcesPromise = fetchSourceWithLicense(featureId, feature, useCache);
       const sources = isServer ? await sourcesPromise : sourcesPromise;
       // console.log("sources", sources, { useCache, feature });
 
-      return { feature, featureId, sources, lightweightFeature: null };
+      return {
+        feature,
+        featureId,
+        sources,
+        lightweightFeature: null,
+        equipmentInfoId,
+        equipmentInfo,
+      };
     } catch (e) {
       console.error('Failed loading feature', featureId);
-      // TODO how to redirect to 404 or other error
+      // TODO: how to redirect to 404 or other error
       return {
         feature: null,
         featureId: null,
         sources: [],
         lightweightFeature: null,
+        equipmentInfoId: null,
+        equipmentInfo: null,
       };
     }
   },
