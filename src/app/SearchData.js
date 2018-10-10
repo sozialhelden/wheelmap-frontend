@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import Head from 'next/head';
 
 import searchPlaces, {
   type SearchResultCollection,
@@ -109,14 +108,12 @@ const SearchData: DataTableEntry<SearchProps> = {
     const { searchQuery, clientSideConfiguration } = props;
 
     return (
-      <Head>
-        <title>
-          {getProductTitle(
-            clientSideConfiguration,
-            `Search results${searchQuery ? ` for “${searchQuery}”` : ''}`
-          )}
-        </title>
-      </Head>
+      <title key="title">
+        {getProductTitle(
+          clientSideConfiguration,
+          `Search results${searchQuery ? ` for “${searchQuery}”` : ''}`
+        )}
+      </title>
     );
   },
 };

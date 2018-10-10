@@ -17,6 +17,7 @@ import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';
+import { normalizeCoordinates } from './normalizeCoordinates';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -465,4 +466,12 @@ export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
     return result.length ? result : undefined; // filter out empty arrays
   }
   return something;
+}
+
+export function normalizedCoordinatesForFeature(feature: Feature): ?[number, number] {
+  const geometry = feature ? feature.geometry : null;
+  if (!(geometry instanceof Object)) return null;
+  const coordinates = geometry ? geometry.coordinates : null;
+  if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
+  return normalizeCoordinates(coordinates);
 }

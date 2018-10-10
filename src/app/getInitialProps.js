@@ -34,7 +34,7 @@ type DataTableQuery = {
 export type DataTableEntry<Props> = {
   getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
-  getHead?: (props: Props & AppProps) => ?React$Element<Head>,
+  getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 

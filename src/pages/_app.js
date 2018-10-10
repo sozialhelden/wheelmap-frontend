@@ -7,11 +7,14 @@ import '@babel/polyfill';
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
 import Error from 'next/error';
+import Head from 'next/head';
+import { t } from 'ttag';
 
 import GlobalStyle from '../GlobalStyle';
 import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
+import AsyncNextHead from '../AsyncNextHead';
 import { parseAcceptLanguageString } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -96,7 +99,7 @@ export default class App extends BaseApp {
     return { ...appProps, ...routeProps, routeName: ctx.query.routeName };
   }
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.routerHistory = new NextRouterHistory(router);
@@ -117,7 +120,7 @@ export default class App extends BaseApp {
       }
     }
 
-    const head = routeName ? getHead(routeName, props) : null;
+    const description = t`Wheelmap.org is an online map to search, find and mark wheelchair-accessible places. Get involved by marking public places like bars, restaurants, cinemas or supermarkets!`;
 
     return (
       <Container>
@@ -128,7 +131,40 @@ export default class App extends BaseApp {
           </div>
         ) : (
           <React.Fragment>
-            {head}
+            <Head>
+              {/* Open Graph defaults (keys are used to overwrite in subpages if needed) */}
+              <meta content="Wheelmap.org" property="og:site_name" key="og:site_name" />
+              <meta content={description} property="og:description" key="og:description" />
+              <meta content="website" property="og:type" key="og:type" />
+              <meta content="Wheelmap.org" property="og:title" key="og:title" />
+              <meta
+                content="http://localhost:3000/static/images/wheely_big.jpg"
+                property="og:image"
+                key="og:image"
+              />
+
+              {/* Twitter */}
+              <meta content="summary" name="twitter:card" key="twitter:card" />
+              <meta content="https://wheelmap.org/" name="twitter:domain" key="twitter:domain" />
+              <meta content="@wheelmap" name="twitter:site" key="twitter:site" />
+              <meta content="@wheelmap" name="twitter:creator" key="twitter:creator" />
+              <meta content={description} name="twitter:description" key="twitter:description" />
+              <meta content="Wheelmap.org" property="twitter:title" key="twitter:title" />
+              <meta
+                content="/static/images/wheely_big.jpg"
+                property="twitter:image"
+                key="twitter:image"
+              />
+
+              {/* Relations */}
+              <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
+              <link href={`${router.generate('map')}`} rel="home" title={t`Homepage`} />
+
+              {/* Misc */}
+              <meta content={description} name="description" key="description" />
+              <link rel="shortcut icon" href={`/favicon.ico`} />
+            </Head>
+            {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
             <PageComponent
               routerHistory={this.routerHistory}
               {...getRenderProps(routeName, props, isServer)}

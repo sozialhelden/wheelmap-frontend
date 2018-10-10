@@ -56,8 +56,23 @@ export default class MyDocument extends Document {
             name="viewport"
             content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
           />
-          <link rel="shortcut icon" href={`${env.public.publicUrl}/favicon.ico`} />
-          <title>Wheelmap</title>
+
+          {/* Google Analytics */}
+          <meta
+            content="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
+            name="google-site-verification"
+          />
+          <meta content="follow index" name="robots" />
+
+          {/* Facebook app */}
+          <meta content="289221174426029" property="fb:app_id" />
+          <meta content="534621246" property="fb:admins" />
+
+          {/* iOS link to "native" app and configuration for web app */}
+          <meta content="yes" name="apple-mobile-web-app-capable" />
+          <meta content="white" name="apple-mobile-web-app-status-bar-style" />
+          <meta content="app-id=399239476" name="apple-itunes-app" />
+
           {/* Used to include imported CSS and SASS files */}
           <link rel="stylesheet" href="/_next/static/style.css" />
           {this.props.styleTags}

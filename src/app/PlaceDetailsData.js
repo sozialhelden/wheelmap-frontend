@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import Head from 'next/head';
 
 import {
   type Feature,
@@ -15,10 +14,17 @@ import { dataSourceCache } from '../lib/cache/DataSourceCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
-import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
+import {
+  placeNameFor,
+  isWheelchairAccessible,
+  accessibilityName,
+  normalizedCoordinatesForFeature,
+  getFeatureId,
+} from '../lib/Feature';
 
 import { type DataTableEntry } from './getInitialProps';
 import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
+import router from './router';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { type EquipmentInfo } from '../lib/EquipmentInfo';
 
@@ -149,25 +155,74 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
   getHead(props) {
     const { feature, clientSideConfiguration } = props;
-    let placeTitle;
 
-    if (feature) {
-      placeTitle = feature.properties && placeNameFor(feature.properties);
-      const accessibilityTitle =
-        feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
+    const renderTitle = feature => {
+      let extras;
+      let fullTitle;
+      let placeTitle;
 
-      if (placeTitle) {
-        if (accessibilityTitle) {
-          placeTitle = `${placeTitle}, ${accessibilityTitle}`;
+      if (feature != null) {
+        fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties);
+        const accessibilityTitle =
+          feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
+
+        if (placeTitle && accessibilityTitle) {
+          fullTitle = `${placeTitle}, ${accessibilityTitle}`;
         }
+
+        const coordinates = normalizedCoordinatesForFeature(feature);
+
+        extras = [
+          coordinates != null && (
+            <meta
+              content={coordinates[1]}
+              property="place:location:latitude"
+              key="place:location:latitude"
+            />
+          ),
+          coordinates != null && (
+            <meta
+              content={coordinates[0]}
+              property="place:location:longitude"
+              key="place:location:longitud"
+            />
+          ),
+          <meta
+            content={router.generate('place_detail', { id: getFeatureId(feature) })}
+            property="og:url"
+            key="og:url"
+          />,
+          placeTitle && (
+            <meta
+              content={`Dieser Ort ist auf Wheelmap.org: ${placeTitle}`}
+              property="og:title"
+              key="og:title"
+            />
+          ),
+          placeTitle && (
+            <meta
+              content={`Dieser Ort ist auf Wheelmap.org: ${placeTitle}`}
+              property="twitter:title"
+              key="twitter:title"
+            />
+          ),
+        ];
       }
+
+      return (
+        <React.Fragment>
+          {extras}
+          <meta content="place" property="og:type" key="og:type" />
+          <title key="title">{getProductTitle(clientSideConfiguration, fullTitle)}</title>
+        </React.Fragment>
+      );
+    };
+
+    if (feature instanceof Promise) {
+      return feature.then(feature => renderTitle(feature));
     }
 
-    return (
-      <Head>
-        <title>{getProductTitle(clientSideConfiguration, placeTitle)}</title>
-      </Head>
-    );
+    return renderTitle(feature);
   },
 };
 
