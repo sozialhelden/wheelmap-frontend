@@ -143,7 +143,7 @@ export default class Categories {
     const countryCode = options.locale.substr(0, 2);
     const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
       ? env.public.wheelmap.baseUrl
-      : env.publicUrl;
+      : env.public.baseUrl || '/';
 
     const responseHandler = response => {
       if (!response.ok) {

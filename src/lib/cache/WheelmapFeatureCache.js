@@ -17,7 +17,7 @@ export default class WheelmapFeatureCache extends FeatureCache<
   ): Promise<Response> {
     const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
       ? env.public.wheelmap.baseUrl
-      : env.publicUrl;
+      : env.public.baseUrl || '/';
 
     return this.fetch(
       `${wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${env.public.wheelmap.apiKey}`,
