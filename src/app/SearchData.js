@@ -9,7 +9,7 @@ import searchPlaces, {
 } from '../lib/searchPlaces';
 import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import config from '../lib/config';
+import env from '../lib/env';
 import { type WheelmapFeature } from '../lib/Feature';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 
