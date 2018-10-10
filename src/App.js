@@ -361,7 +361,6 @@ class Loader extends React.Component<Props, State> {
   onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
     //const pathname = hrefForFeature(featureId, properties);
     //const location = { pathname, query: getQueryParams() };
-    console.log(properties);
 
     // show equipment inside their place details
     if (properties && typeof properties.placeInfoId === 'string') {
