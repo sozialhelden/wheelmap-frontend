@@ -5,7 +5,6 @@ import type { RouterHistory } from 'react-router-dom';
 
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
 import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
@@ -94,26 +93,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       });
     }
   }
-
-  // TODO move to place details data
-  // fetchEquipment(props: Props) {
-  //   if (props.equipmentInfoId) {
-  //     equipmentInfoCache.getFeature(props.equipmentInfoId).then((equipmentInfo: EquipmentInfo) => {
-  //       if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
-  //       if (
-  //         equipmentInfo.properties &&
-  //         equipmentInfo.properties.placeInfoId &&
-  //         equipmentInfo.properties.placeInfoId !== props.featureId
-  //       )
-  //         return;
-  //       const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-  //         props.categories,
-  //         equipmentInfo
-  //       );
-  //       this.setState({ equipmentInfo, ...resolvedCategories });
-  //     });
-  //   }
-  // }
 
   // TODO move to helper
   static getCategoriesForFeature(

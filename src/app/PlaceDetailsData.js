@@ -3,8 +3,6 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { type DataTableEntry } from './getInitialProps';
-
 import {
   type Feature,
   isWheelmapFeatureId,
@@ -12,13 +10,15 @@ import {
   type AccessibilityCloudFeature,
   sourceIdsForFeature,
 } from '../lib/Feature';
-
-import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
-import { dataSourceCache } from '../lib/cache/DataSourceCache';
 import { licenseCache } from '../lib/cache/LicenseCache';
+import { dataSourceCache } from '../lib/cache/DataSourceCache';
+import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import { placeNameFor, isWheelchairAccessible, accessibilityName } from '../lib/Feature';
+
+import { type DataTableEntry } from './getInitialProps';
+import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
@@ -58,6 +58,25 @@ async function fetchSourceWithLicense(
 
   return Promise.resolve([]);
 }
+
+// function fetchEquipment(props: PlaceDetailsProps,  useCache: boolean) {
+//   if (props.equipmentInfoId) {
+//     equipmentInfoCache.getFeature(props.equipmentInfoId).then((equipmentInfo: EquipmentInfo) => {
+//       if (!equipmentInfo || typeof equipmentInfo !== 'object') return;
+//       if (
+//         equipmentInfo.properties &&
+//         equipmentInfo.properties.placeInfoId &&
+//         equipmentInfo.properties.placeInfoId !== props.featureId
+//       )
+//         return;
+//       const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+//         props.categories,
+//         equipmentInfo
+//       );
+//       this.setState({ equipmentInfo, ...resolvedCategories });
+//     });
+//   }
+// }
 
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialProps(query, isServer): Promise<PlaceDetailsProps> {
