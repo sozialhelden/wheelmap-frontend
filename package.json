@@ -55,7 +55,8 @@
     "ua-parser-js": "^0.7.18",
     "underscore.string": "^3.3.4",
     "unfetch": "^3.0.0",
-    "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown"
+    "wicg-focus-ring": "https://github.com/dakeyras7/focus-ring#include-enter-keydown",
+    "cordova-android": "~7.0.0"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",
