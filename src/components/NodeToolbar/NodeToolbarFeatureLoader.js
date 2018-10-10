@@ -44,6 +44,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
   static getDerivedStateFromProps(props: Props, state: State) {
     const resolvedPlaceData = getPlaceDetailsIfAlreadyResolved(props);
+
+    // use resolved data
     if (resolvedPlaceData) {
       const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
         props.categories,
@@ -52,10 +54,16 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return { ...state, ...resolvedCategories, resolvedPlaceDetails: resolvedPlaceData };
     }
 
-    if (state.resolvedPlaceDetails && state.resolvedPlaceDetails.featureId === props.featureId) {
+    // keep old data when unchanged
+    if (
+      state.resolvedPlaceDetails &&
+      state.resolvedPlaceDetails.featureId === props.featureId &&
+      state.resolvedPlaceDetails.equipmentInfoId === props.equipmentInfoId
+    ) {
       return state;
     }
 
+    // wait for new data
     return {
       ...state,
       category: null,
