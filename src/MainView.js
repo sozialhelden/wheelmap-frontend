@@ -102,6 +102,7 @@ type Props = {
   onAddMissingPlaceClick: () => void,
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   presetStatus: YesNoLimitedUnknown,
@@ -165,7 +166,7 @@ class MainView extends React.Component<Props, State> {
   map: ?any;
 
   lastFocusedElement: ?HTMLElement;
-  nodeToolbar: ?NodeToolbar;
+  nodeToolbar: ?NodeToolbarFeatureLoader;
   searchToolbar: ?SearchToolbar;
   photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
   photoUploadInstructionsToolbar: ?PhotoUploadInstructionsToolbar;
@@ -225,10 +226,10 @@ class MainView extends React.Component<Props, State> {
           {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           history={this.props.history}
+          lightweightFeature={this.props.lightweightFeature}
           feature={this.props.feature}
           equipmentInfo={this.props.equipmentInfo}
           categories={this.props.categories}
-          licenses={this.props.licenses}
           sources={this.props.sources}
           userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
@@ -245,6 +246,7 @@ class MainView extends React.Component<Props, State> {
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
+          onShowPlaceDetails={this.props.onShowPlaceDetails}
         />
       </div>
     );

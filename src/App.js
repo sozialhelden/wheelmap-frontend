@@ -358,7 +358,7 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
-  onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
+  showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
     //const pathname = hrefForFeature(featureId, properties);
     //const location = { pathname, query: getQueryParams() };
 
@@ -773,7 +773,7 @@ class Loader extends React.Component<Props, State> {
         onToggleMainMenu={this.onToggleMainMenu}
         onMoveEnd={this.onMoveEnd}
         onMapClick={this.onMapClick}
-        onMarkerClick={this.onMarkerClick}
+        onMarkerClick={this.showSelectedFeature}
         onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
         onError={this.onError}
         onSearchResultClick={this.onSearchResultClick}
@@ -795,6 +795,7 @@ class Loader extends React.Component<Props, State> {
         onAddMissingPlaceClick={this.onAddMissingPlaceClick}
         onSearchQueryChange={this.onSearchQueryChange}
         onEquipmentSelected={this.onEquipmentSelected}
+        onShowPlaceDetails={this.showSelectedFeature}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

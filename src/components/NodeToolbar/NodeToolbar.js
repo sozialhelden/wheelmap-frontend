@@ -6,7 +6,6 @@ import FocusTrap from '@sozialhelden/focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import type { RouterHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
@@ -19,6 +18,7 @@ import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
+import Button from '../Button';
 
 import type { PhotoModel } from './Photos/PhotoModel';
 import type {
@@ -65,6 +65,7 @@ type Props = {
   onCloseToiletAccessibility: () => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
   presetStatus: YesNoLimitedUnknown,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -78,10 +79,6 @@ type Props = {
 };
 
 type State = {
-  category: Category,
-  parentCategory: ?Category,
-  equipmentInfo: ?EquipmentInfo,
-  feature: ?Feature,
   isScrollable: boolean,
 };
 
@@ -92,10 +89,6 @@ class NodeToolbar extends React.Component<Props, State> {
   reportModeButton: ?React.ElementRef<'button'>;
 
   state = {
-    category: null,
-    parentCategory: null,
-    equipmentInfo: null,
-    feature: null,
     isScrollable: false,
   };
 
@@ -192,9 +185,18 @@ class NodeToolbar extends React.Component<Props, State> {
     if (!featureId) return;
 
     return (
-      <Link className="link-button" to={`/beta/nodes/${featureId}`}>
+      <Button
+        className="link-button"
+        onClick={e => {
+          if (this.props.onShowPlaceDetails) {
+            this.props.onShowPlaceDetails(this.props.featureId);
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }}
+      >
         {this.placeName()}
-      </Link>
+      </Button>
     );
   }
 
