@@ -6,7 +6,7 @@ import intersection from 'lodash/intersection';
 import flatten from 'lodash/flatten';
 import { addLocale, useLocales } from 'ttag';
 import { getQueryParams } from './queryParams';
-import * as translations from './translations.json';
+import translations from './translations.json';
 
 export type LocalizedString =
   | string
@@ -15,19 +15,22 @@ export type LocalizedString =
     };
 
 export type Translations = {
-  locale: string,
-  poData: any,
+  charset: string,
+  headers: {
+    language: string,
+  },
+  translations: any,
 };
 
-export const defaultLocale = 'en-US';
+export const defaultLocale = 'en_US';
 
 export function applyTranslations(translations: Translations[]) {
   const localesToUse = [];
 
   // register with ttag
   for (const t of translations) {
-    addLocale(t.locale, t.poData);
-    localesToUse.push(t.locale);
+    addLocale(t.headers.language, t);
+    localesToUse.push(t.headers.language);
   }
 
   // set locale in ttag
@@ -93,22 +96,23 @@ export function translatedStringFromObject(localizedString: ?LocalizedString): ?
   return null;
 }
 
-function getTranslationsForLocale(locale) {
+function getTranslationsForLocale(locale): Translations {
   return translations[locale];
 }
 
 export function loadExistingLocalizationByPreference(locales: string[]): Translations[] {
   if (locales.length === 0) {
+    console.warn('No locales specified');
     return [];
   }
 
-  const loadedTranslations = locales
+  const loadedTranslations: Translations[] = locales
     .map(locale => getTranslationsForLocale(locale))
     .filter(Boolean);
-  const loadedLocales = loadedTranslations.map(t => t && t.headers && t.headers.language);
-  console.log('Currently loaded locales:', loadedLocales);
+  const loadedLocales = loadedTranslations.map(t => t.headers.language);
+  // console.log('Currently loaded locales:', loadedLocales);
   const missingLocales = difference(locales, loadedLocales);
-  console.log('Missing locales:', missingLocales);
+  // console.log('Missing locales:', missingLocales);
 
   if (missingLocales.length === 0) {
     return [];
@@ -125,8 +129,12 @@ export function loadExistingLocalizationByPreference(locales: string[]): Transla
     );
     if (replacementLocale) {
       console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
-      const poData = getTranslationsForLocale(replacementLocale);
-      loadedTranslations.push({ locale: missingLocale, poData });
+      const translation = getTranslationsForLocale(replacementLocale);
+      const replacement: Translations = {
+        ...translation,
+        headers: { ...translation.headers, language: missingLocale },
+      };
+      loadedTranslations.push(replacement);
       loadedLocales.push(missingLocale);
     }
   });
@@ -134,10 +142,18 @@ export function loadExistingLocalizationByPreference(locales: string[]): Transla
   const localesToUse = intersection(locales, loadedLocales).filter(Boolean);
 
   if (localesToUse.length === 0) {
-    console.warn('Warning: No locales available after loading locales.', locales, loadedLocales);
+    console.warn(
+      'Warning: No locales to use available after loading translations.',
+      locales,
+      loadedLocales
+    );
   }
 
-  return loadedTranslations.filter(t => localesToUse.includes(t.locale));
+  const availableTranslations = loadedTranslations.filter(t =>
+    localesToUse.includes(t.headers.language)
+  );
+  //console.log('Available locales:', localesToUse);
+  return availableTranslations;
 }
 
 export function parseAcceptLanguageString(acceptLanguage: string): string[] {
