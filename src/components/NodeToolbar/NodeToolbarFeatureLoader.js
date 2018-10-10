@@ -29,6 +29,7 @@ type Props = {
   onClose?: ?() => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
 } & PlaceDetailsProps;
 
 type State = {

@@ -1,9 +1,12 @@
 // @flow
 import { t } from 'ttag';
 import type { Point } from 'geojson-flow';
+import queryString from 'query-string';
+
 import type { FeatureCollection, YesNoLimitedUnknown } from './Feature';
 import { categoryNameFor } from './Categories';
 import { currentLocales, translatedStringFromObject } from './i18n';
+import { normalizeCoordinates } from './normalizeCoordinates';
 
 export type CategoryString =
   | 'elevator'
@@ -13,6 +16,7 @@ export type CategoryString =
   | 'vending-machine'
   | 'intercom'
   | 'power-outlet';
+
 export const CategoryStrings: CategoryString[] = [
   'elevator',
   'escalator',
@@ -86,14 +90,14 @@ export type EquipmentInfoProperties = {
 export type EquipmentInfo = {
   type: 'Feature',
   geometry: Point,
-  _id?: string,
+  _id: string,
   properties: EquipmentInfoProperties,
 };
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<EquipmentInfo>;
 
 export function equipmentInfoNameFor(
-  properties: EquipmentProperties,
+  properties: EquipmentInfoProperties,
   isAriaLabel: boolean
 ): string {
   const unknownName = t`Unnamed facility`;
@@ -107,6 +111,15 @@ export function equipmentInfoNameFor(
   return (
     translatedStringFromObject(description) || categoryNameFor(properties.category) || unknownName
   );
+}
+
+function equimentInfoUrlFor(placeInfoId: string, equipmentInfo: EquipmentInfo) {
+  const href = `/nodes/${placeInfoId}/equipment/${equipmentInfo._id}`;
+  const { geometry } = equipmentInfo;
+  const [lat, lon] = normalizeCoordinates(geometry.coordinates);
+  const params = { zoom: 19, lat, lon };
+
+  return `${href}?${queryString.stringify(params)}`;
 }
 
 export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {

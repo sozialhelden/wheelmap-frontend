@@ -2,33 +2,26 @@
 
 import styled from 'styled-components';
 import * as React from 'react';
-import queryString from 'query-string';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
-import type { RouterHistory } from 'react-router-dom';
-import isCordova from '../../../lib/isCordova';
-import { getQueryParams } from '../../../lib/queryParams';
 import * as equipmentIcons from '../../icons/equipment';
 import colors from '../../../lib/colors';
 import get from 'lodash/get';
 import { ngettext, msgid } from 'ttag';
-import { normalizeCoordinates } from '../../../lib/normalizeCoordinates';
 import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
   className: string,
-  history: RouterHistory,
+  onSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   isExpanded: boolean,
 };
 
 function EquipmentIconWrapper({
-  history,
   equipmentInfo,
   count,
   isCountHidden,
 }: {
-  history: RouterHistory,
   equipmentInfo: EquipmentInfo,
   count: number,
   isCountHidden: boolean,
@@ -104,8 +97,7 @@ function EquipmentItem(props: Props) {
   const longDescription = get(equipmentInfos[0], ['properties', 'longDescription']);
   const description = get(equipmentInfos[0], ['properties', 'description']);
   const shortDescription = get(equipmentInfos[0], ['properties', 'shortDescription']);
-  const { history, isExpanded } = props;
-  const _ids = equipmentInfos.map(e => get(e, '_id')).sort();
+  const { isExpanded } = props;
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
   const unknown = equipmentInfos.filter(
@@ -113,19 +105,10 @@ function EquipmentItem(props: Props) {
   );
   const hasBrokenEquipment = broken.length > 0;
 
-  const href =
-    props.placeInfoId && _ids ? `/beta/nodes/${props.placeInfoId}/equipment/${_ids[0]}` : '#';
-
-  const showOnMap = event => {
-    const { geometry } = equipmentInfos[0];
-    const [lat, lon] = normalizeCoordinates(geometry.coordinates);
-    const params = Object.assign({}, getQueryParams(), { zoom: 19, lat, lon });
-    if (isCordova()) {
-      history.push(`${href}?${queryString.stringify(params)}`);
-    } else {
-      history.push(`${href}#?${queryString.stringify(params)}`);
-    }
+  const itemSelectedHandler = (event: UIEvent) => {
+    event.stopPropagation();
     event.preventDefault();
+    props.onSelected(props.placeInfoId, equipmentInfos[0]);
   };
 
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
@@ -137,10 +120,10 @@ function EquipmentItem(props: Props) {
       key={description}
       onKeyPress={event => {
         if (event.keyCode === 13) {
-          showOnMap(event);
+          itemSelectedHandler(event);
         }
       }}
-      onClick={showOnMap}
+      onClick={itemSelectedHandler}
     >
       {getHumanEnumeration(
         [working, broken, unknown]
@@ -151,7 +134,7 @@ function EquipmentItem(props: Props) {
               return (
                 <EquipmentIconWrapper
                   key={index}
-                  {...{ count, isCountHidden: infos.length <= 1, history, equipmentInfo }}
+                  {...{ count, isCountHidden: infos.length <= 1, equipmentInfo }}
                 />
               );
             }

@@ -19,6 +19,7 @@ import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptc
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
+import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import Onboarding from './components/Onboarding/Onboarding';
@@ -101,7 +102,7 @@ type Props = {
   onCloseToiletAccessibility: () => void,
   onAddMissingPlaceClick: () => void,
   onSearchQueryChange: (searchQuery: string) => void,
-
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   presetStatus: YesNoLimitedUnknown,
@@ -243,6 +244,7 @@ class MainView extends React.Component<Props, State> {
           onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}
+          onEquipmentSelected={this.props.onEquipmentSelected}
         />
       </div>
     );

@@ -17,6 +17,7 @@ import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
+import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -689,6 +690,10 @@ class Loader extends React.Component<Props, State> {
     this.props.routerHistory.replace('search', { q: newSearchQuery });
   };
 
+  onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
+    this.props.routerHistory.replace('equipment', { id: placeInfoId, eid: equipmentInfo._id });
+  };
+
   isNodeToolbarDisplayed(props = this.props, state = this.state) {
     return (
       props.feature &&
@@ -790,6 +795,7 @@ class Loader extends React.Component<Props, State> {
         onCloseToiletAccessibility={this.onCloseToiletAccessibility}
         onAddMissingPlaceClick={this.onAddMissingPlaceClick}
         onSearchQueryChange={this.onSearchQueryChange}
+        onEquipmentSelected={this.onEquipmentSelected}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

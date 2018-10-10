@@ -12,6 +12,7 @@ import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 
 type Props = {
   equipmentInfos: { [key: string]: EquipmentInfo },
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   history: RouterHistory,
   className: string,
@@ -40,8 +41,6 @@ class EquipmentOverview extends React.Component<Props, State> {
       'properties.description',
     ]).filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
 
-    console.log(filteredEquipmentInfos);
-
     const equipmentInfoArrays = groupEquipmentByName(filteredEquipmentInfos);
 
     const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
@@ -52,7 +51,7 @@ class EquipmentOverview extends React.Component<Props, State> {
         !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
     );
 
-    if (filteredEquipmentInfos.length === 0) return '003';
+    if (filteredEquipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
     const hasWorkingEquipment =
@@ -66,7 +65,7 @@ class EquipmentOverview extends React.Component<Props, State> {
         {hasBrokenEquipment ? (
           <EquipmentList
             equipmentInfoArrays={brokenEquipmentInfoArrays}
-            history={this.props.history}
+            onEquipmentSelected={this.props.onEquipmentSelected}
             placeInfoId={placeInfoId}
           >
             <header>{t`Disruptions at this location`}</header>
@@ -77,7 +76,7 @@ class EquipmentOverview extends React.Component<Props, State> {
           <EquipmentList
             isExpanded={isExpanded}
             equipmentInfoArrays={workingEquipmentInfoArrays}
-            history={this.props.history}
+            onEquipmentSelected={this.props.onEquipmentSelected}
             placeInfoId={placeInfoId}
           />
         ) : null}

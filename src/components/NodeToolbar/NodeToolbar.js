@@ -64,7 +64,7 @@ type Props = {
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   // Simple 3-button wheelchair status editor
   presetStatus: YesNoLimitedUnknown,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -290,11 +290,12 @@ class NodeToolbar extends React.Component<Props, State> {
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
 
     const equipmentOverview = !isWheelmapFeature &&
-      feature.properties.equipmentInfos && (
+      !!(feature.properties && feature.properties.equipmentInfos) && (
         <EquipmentOverview
           placeInfoId={featureId}
           equipmentInfos={feature.properties.equipmentInfos}
           equipmentInfoId={equipmentInfoId}
+          onEquipmentSelected={this.props.onEquipmentSelected}
         />
       );
 

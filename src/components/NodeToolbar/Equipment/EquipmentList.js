@@ -3,19 +3,20 @@
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import * as React from 'react';
+import type { AnyReactElement } from 'react-flow-types';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import EquipmentItem from './EquipmentItem';
-import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   className: string,
   outerClassName: string,
   isExpanded: boolean,
-  history: RouterHistory,
   placeInfoId: string,
+  children: AnyReactElement,
 };
 
 function EquipmentList(props: Props) {
@@ -28,7 +29,7 @@ function EquipmentList(props: Props) {
           isExpanded={props.isExpanded}
           placeInfoId={props.placeInfoId}
           key={equipmentInfos.map(e => get(e, '_id')).join(',')}
-          history={props.history}
+          onSelected={props.onEquipmentSelected}
         />
       ))}
     </div>
