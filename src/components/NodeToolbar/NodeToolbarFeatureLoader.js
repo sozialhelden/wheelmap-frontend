@@ -19,7 +19,6 @@ import {
 
 type Props = {
   categories: CategoryLookupTables,
-  equipmentInfoId: ?string,
   hidden: boolean,
   modalNodeState: ModalNodeState,
   isReportMode: boolean,
@@ -35,13 +34,12 @@ type Props = {
 type State = {
   category: ?Category,
   parentCategory: ?Category,
-  equipmentInfo: ?EquipmentInfo,
   resolvedPlaceDetails: ?ResolvedPlaceDetailsProps,
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   props: Props;
-  state = { category: null, parentCategory: null, equipmentInfo: null, resolvedPlaceDetails: null };
+  state = { category: null, parentCategory: null, resolvedPlaceDetails: null };
   nodeToolbar: React.ElementRef<NodeToolbar>;
 
   static getDerivedStateFromProps(props: Props, state: State) {
@@ -62,7 +60,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...state,
       category: null,
       parentCategory: null,
-      equipmentInfo: null,
       resolvedPlaceDetails: null,
     };
   }

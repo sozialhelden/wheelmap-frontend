@@ -59,7 +59,6 @@ type Props = {
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
   searchQuery: ?string,
-  equipmentInfoId: ?string,
   lat: ?string,
   lon: ?string,
   zoom: ?string,
@@ -227,6 +226,7 @@ class MainView extends React.Component<Props, State> {
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           history={this.props.history}
           feature={this.props.feature}
+          equipmentInfo={this.props.equipmentInfo}
           categories={this.props.categories}
           licenses={this.props.licenses}
           sources={this.props.sources}

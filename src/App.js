@@ -68,7 +68,6 @@ type Props = {
 } & PlaceDetailsProps;
 
 type State = {
-  equipmentInfoId?: ?string,
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
   lastError?: ?string,
@@ -724,8 +723,9 @@ class Loader extends React.Component<Props, State> {
       isSearchButtonVisible,
 
       featureId: this.props.featureId,
-      equipmentInfoId: this.state.equipmentInfoId,
       feature: this.props.feature,
+      equipmentInfoId: this.props.equipmentInfoId,
+      equipmentInfo: this.props.equipmentInfo,
       category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,
