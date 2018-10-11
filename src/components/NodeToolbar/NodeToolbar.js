@@ -94,6 +94,7 @@ class NodeToolbar extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.props.photoFlowNotification) {
+      // TODO: what is this timeout needed for, and why?
       setTimeout(() => {
         if (this.toolbar) {
           this.toolbar.ensureFullVisibility();
@@ -333,7 +334,7 @@ class NodeToolbar extends React.Component<Props, State> {
         component={StyledToolbar}
         hidden={this.props.hidden}
         isModal={this.props.modalNodeState}
-        ref={toolbar => (this.toolbar = toolbar)}
+        innerRef={toolbar => (this.toolbar = toolbar)}
         role="dialog"
         ariaLabel={this.placeName()}
         startTopOffset={offset}
