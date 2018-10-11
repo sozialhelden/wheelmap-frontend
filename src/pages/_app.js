@@ -182,7 +182,10 @@ export default class App extends BaseApp {
               <link rel="shortcut icon" href={`/favicon.ico`} />
             </Head>
             {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
-            <GoogleAnalytics />
+            <GoogleAnalytics
+              siteVerification="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
+              trackingId="todo"
+            />
             <PageComponent
               routerHistory={this.routerHistory}
               {...getRenderProps(routeName, props, isServer)}

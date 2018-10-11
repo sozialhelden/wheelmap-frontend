@@ -57,11 +57,7 @@ export default class MyDocument extends Document {
             content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
           />
 
-          {/* Google Analytics */}
-          <meta
-            content="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
-            name="google-site-verification"
-          />
+          {/* Google Bots */}
           <meta content="follow index" name="robots" />
 
           {/* Facebook app */}
