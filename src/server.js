@@ -11,6 +11,20 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  // Old urls from the classic rails app
+  server.get(
+    [/([a-zA-Z_-]*)\/map\/.+/, /([a-zA-Z_-]*)\/community_support\/new.*/, /([a-zA-Z_-]*)\/embed.*/],
+    (req, res) => {
+      res.redirect(`https://classic.wheelmap.org${req.originalUrl}`);
+    }
+  );
+
+  server.get('/:lang?/map', (req, res) => {
+    const lang = req.param('lang');
+
+    res.redirect(`/${lang ? `?locale=${lang}` : ''}`);
+  });
+
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
 
