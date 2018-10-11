@@ -210,6 +210,7 @@ class NodeToolbar extends React.Component<Props, State> {
   renderToiletAccessibilityEditor() {
     return (
       <ToiletStatusEditor
+        categories={this.props.categories}
         featureId={this.props.featureId}
         feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoUnknown) => {
@@ -224,6 +225,7 @@ class NodeToolbar extends React.Component<Props, State> {
   renderWheelchairAccessibilityEditor() {
     return (
       <WheelchairStatusEditor
+        categories={this.props.categories}
         featureId={this.props.featureId}
         feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoLimitedUnknown) => {
