@@ -10,12 +10,13 @@ type Props = {
 
 class FacebookMeta extends PureComponent<Props> {
   render() {
-    const { appId, admins } = this.props.facebook;
+    const { appId, admins, imageURL } = this.props.facebook;
 
     return (
       <Head>
-        {appId && <meta content={appId} property="fb:app_id" />}
-        {admins && <meta content={admins} property="fb:admins" />}
+        {appId && <meta content={appId} property="fb:app_id" key="fb:app_id" />}
+        {admins && <meta content={admins} property="fb:admins" key="fb:admins" />}
+        {imageURL && <meta content={imageURL} property="og:image" key="og:image" />}
       </Head>
     );
   }

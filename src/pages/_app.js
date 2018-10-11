@@ -149,15 +149,11 @@ export default class App extends BaseApp {
       }
     }
 
-    const {
-      name: productName,
-      description,
-      twitter,
-      googleAnalytics,
-      facebook,
-    } = clientSideConfiguration.textContent.product;
+    const { textContent, meta } = clientSideConfiguration;
+    const { name: productName, description } = textContent.product;
+    const { twitter, googleAnalytics, facebook } = meta;
 
-    // TODO this like bad configuration
+    // TODO this feels like bad configuration
     const shareHost = `https://${hostName}/`;
 
     return (
@@ -180,7 +176,7 @@ export default class App extends BaseApp {
               <meta content="app-id=399239476" name="apple-itunes-app" />
             )}
           </Head>
-          <OpenGraph shareHost={shareHost} clientSideConfiguration={clientSideConfiguration} />
+          <OpenGraph productName={productName} description={description} />
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
             <TwitterMeta

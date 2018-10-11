@@ -14,8 +14,9 @@ type Props = {
 class TwitterMeta extends PureComponent<Props> {
   render() {
     const { shareHost, productName, description, twitter } = this.props;
+    const { creatorHandle, siteHandle, imageURL } = twitter;
 
-    if (!twitter.creatorHandle && !twitter.siteHandle) {
+    if (!creatorHandle && !siteHandle) {
       return null;
     }
 
@@ -23,19 +24,13 @@ class TwitterMeta extends PureComponent<Props> {
       <Head>
         <meta content="summary" property="twitter:card" key="twitter:card" />
         <meta content={shareHost} property="twitter:domain" key="twitter:domain" />
-        {twitter.siteHandle && (
-          <meta content={twitter.siteHandle} property="twitter:site" key="twitter:site" />
-        )}
-        {twitter.creatorHandle && (
-          <meta content={twitter.creatorHandle} property="twitter:creator" key="twitter:creator" />
+        {siteHandle && <meta content={siteHandle} property="twitter:site" key="twitter:site" />}
+        {creatorHandle && (
+          <meta content={creatorHandle} property="twitter:creator" key="twitter:creator" />
         )}
         <meta content={description} property="twitter:description" key="twitter:description" />
         <meta content={productName} property="twitter:title" key="twitter:title" />
-        <meta
-          content={`${shareHost}/static/images/wheely_big.jpg`}
-          property="twitter:image"
-          key="twitter:image"
-        />
+        {imageURL && <meta content={imageURL} property="twitter:image" key="twitter:image" />}
       </Head>
     );
   }
