@@ -19,7 +19,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
-import { parseAcceptLanguageString, locales } from '../lib/i18n';
+import { parseAcceptLanguageString, availableLocales } from '../lib/i18n';
 import router from '../app/router';
 import {
   getInitialProps,
@@ -161,7 +161,7 @@ export default class App extends BaseApp {
         <React.Fragment>
           <Head>
             {/* Alternates */}
-            {generateLocaleLinks(path || (window && window.location.pathname), locales)}
+            {generateLocaleLinks(path || (window && window.location.pathname), availableLocales)}
 
             {/* Relations */}
             <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
