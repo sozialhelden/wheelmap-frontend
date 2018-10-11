@@ -25,6 +25,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="android-minSdkVersion" value="21" />
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="res/android/drawable/ic_launcher_background.xml" target="app/src/main/res/drawable/ic_launcher_background.xml" />
