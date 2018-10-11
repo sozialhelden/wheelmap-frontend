@@ -115,13 +115,16 @@ export async function getAppInitialProps(
   }
 
   const locales = expandedPreferredLocales(languages);
+
   const translations = clientCache.translations
     ? clientCache.translations
     : loadExistingLocalizationByPreference(locales);
 
+  const preferredLocale = translations[0].headers.language;
+
   const categories = clientCache.categories
     ? clientCache.categories
-    : await Categories.generateLookupTables({ locale: locales[0] });
+    : await Categories.generateLookupTables({ locale: preferredLocale });
 
   return {
     userAgent,
@@ -133,6 +136,7 @@ export async function getAppInitialProps(
     lat,
     lon,
     hostName,
+    locale: preferredLocale,
   };
 }
 

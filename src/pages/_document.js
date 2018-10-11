@@ -8,14 +8,26 @@ import env from '../lib/env';
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }: NextDocumentContext) {
     const sheet = new ServerStyleSheet();
-    const page = renderPage(App => props => sheet.collectStyles(<App {...props} />));
+
+    // Hacky way to get the locale used when rendering the page.
+    let locale;
+
+    const page = renderPage(App => props => {
+      locale = props.locale;
+
+      return sheet.collectStyles(<App {...props} />);
+    });
+
     const styleTags = sheet.getStyleElement();
-    return { ...page, styleTags };
+
+    return { ...page, styleTags, locale };
   }
 
   render() {
+    const { locale } = this.props;
+
     return (
-      <html lang="en">
+      <html lang={locale}>
         <Head>
           <meta charSet="utf-8" />
           <meta
