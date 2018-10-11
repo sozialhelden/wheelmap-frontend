@@ -64,7 +64,6 @@
         <application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" />
     </edit-config>
     <preference name="loglevel" value="DEBUG" />
-    <preference name="android-minSdkVersion" value="21" />
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="android-targetSdkVersion" value="26" />
 </widget>
