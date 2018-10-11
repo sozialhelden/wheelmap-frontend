@@ -120,6 +120,7 @@ class NodeToolbar extends React.Component<Props, State> {
   renderReportDialog() {
     return (
       <ReportDialog
+        categories={this.props.categories}
         feature={this.props.feature}
         featureId={this.props.featureId}
         onReportComponentChanged={() => {

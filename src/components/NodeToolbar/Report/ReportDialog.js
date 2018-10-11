@@ -9,6 +9,7 @@ import {
 
 import { t } from 'ttag';
 import type { Feature, NodeProperties } from '../../../lib/Feature';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 
 import strings from './strings';
 import FixComment from './FixComment';
@@ -73,6 +74,7 @@ const generateIssues = (properties: NodeProperties): IssueEntry[] =>
   ].filter(Boolean);
 
 type Props = {
+  categories: CategoryLookupTables,
   feature: Feature,
   featureId: string | number | null,
   className: string,
@@ -134,7 +136,7 @@ class ReportDialog extends React.Component<Props, State> {
   };
 
   render() {
-    const { featureId, feature } = this.props;
+    const { featureId, feature, categories } = this.props;
     if (!featureId || !feature || !feature.properties) return null;
 
     const ComponentClass = this.state.SelectedComponentClass;
@@ -146,6 +148,7 @@ class ReportDialog extends React.Component<Props, State> {
     if (ComponentClass) {
       return (
         <ComponentClass
+          categories={categories}
           feature={feature}
           featureId={featureId}
           onClose={this.onClose}
