@@ -3,7 +3,6 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
-import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
 import type { Location, RouterHistory } from 'react-router-dom';
 import { MemoryRouter, Route } from 'react-router-dom';
@@ -24,7 +23,6 @@ import MainView, { UnstyledMainView } from './MainView';
 import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 import { yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId } from './lib/Feature';
 
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
   accessibilityCloudImageCache,
@@ -32,8 +30,6 @@ import {
 } from './lib/cache/AccessibilityCloudImageCache';
 import type { ModalNodeState } from './lib/queryParams';
 import { getQueryParams } from './lib/queryParams';
-import getRouteInformation from './lib/getRouteInformation';
-
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
@@ -111,11 +107,6 @@ function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
   return ((result: any): YesNoUnknown[]);
 }
 
-function getFeatureIdFromProps(props: Props): ?string {
-  const { featureId } = getRouteInformation(props) || {};
-  return featureId ? String(featureId) : null;
-}
-
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
@@ -185,12 +176,6 @@ class Loader extends React.Component<Props, State> {
       isSearchToolbarExpanded: false,
     });
   }
-
-  /*modalNodeState() {
-    const routeInformation = getRouteInformation(this.props);
-    const { modalNodeState } = routeInformation || {};
-    return modalNodeState;
-  }*/
 
   onClickSearchButton = () => this.openSearch();
 
