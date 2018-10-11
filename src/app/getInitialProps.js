@@ -1,6 +1,5 @@
 // @flow
 import UAParser from 'ua-parser-js';
-import Head from 'next/head';
 
 import {
   expandedPreferredLocales,
@@ -25,6 +24,7 @@ type AppProps = {
   categories: CategoryLookupTables,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
+  hostName: string,
 };
 
 type DataTableQuery = {
@@ -34,7 +34,7 @@ type DataTableQuery = {
 export type DataTableEntry<Props> = {
   getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
-  getHead?: (props: Props & AppProps) => ?React$Element<Head>,
+  getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 
@@ -87,6 +87,7 @@ export async function getAppInitialProps(
     extent,
     lat,
     lon,
+    locale,
     ...query
   }: {
     userAgentString: string,
@@ -96,6 +97,7 @@ export async function getAppInitialProps(
     extent?: [number, number, number, number],
     lat?: number,
     lon?: number,
+    locale?: string,
     [key: string]: string,
   },
   isServer: boolean
@@ -108,14 +110,21 @@ export async function getAppInitialProps(
     ? clientCache.clientSideConfiguration
     : await fetchClientSideConfiguration(hostName);
 
+  if (locale && languages.indexOf(locale) !== 0) {
+    languages = [locale, ...languages];
+  }
+
   const locales = expandedPreferredLocales(languages);
+
   const translations = clientCache.translations
     ? clientCache.translations
     : loadExistingLocalizationByPreference(locales);
 
+  const preferredLocale = translations[0].headers.language;
+
   const categories = clientCache.categories
     ? clientCache.categories
-    : await Categories.generateLookupTables({ locale: locales[0] });
+    : await Categories.generateLookupTables({ locale: preferredLocale });
 
   return {
     userAgent,
@@ -126,6 +135,8 @@ export async function getAppInitialProps(
     extent,
     lat,
     lon,
+    hostName,
+    locale: preferredLocale,
   };
 }
 

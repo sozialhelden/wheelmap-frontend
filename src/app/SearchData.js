@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Head from 'next/head';
+import { t } from 'ttag';
 
 import searchPlaces, {
   type SearchResultCollection,
@@ -106,18 +106,12 @@ const SearchData: DataTableEntry<SearchProps> = {
   },
 
   getHead(props) {
-    const { searchQuery, clientSideConfiguration } = props;
+    const { clientSideConfiguration } = props;
 
-    return (
-      <Head>
-        <title>
-          {getProductTitle(
-            clientSideConfiguration,
-            `Search results${searchQuery ? ` for “${searchQuery}”` : ''}`
-          )}
-        </title>
-      </Head>
-    );
+    // translator: Search results window title
+    const searchResults = t`Search results`;
+
+    return <title key="title">{getProductTitle(clientSideConfiguration, searchResults)}</title>;
   },
 };
 

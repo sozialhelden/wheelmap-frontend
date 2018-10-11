@@ -15,10 +15,12 @@ type Props = {
   className: string,
   isVisible: boolean,
   onClose: () => void,
-  reason: ?string | Response | Error,
+  error: ?string | Response | Error,
 };
 
 class NotFound extends React.Component<Props> {
+  closeButton: ?Element | Text;
+
   manageFocus = ({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
@@ -32,6 +34,10 @@ class NotFound extends React.Component<Props> {
   }
 
   focus() {
+    if (!this.closeButton || !(this.closeButton instanceof HTMLElement)) {
+      return;
+    }
+
     this.closeButton.focus();
   }
 

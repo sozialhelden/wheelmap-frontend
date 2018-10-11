@@ -8,7 +8,6 @@ import getAddressString from '../../lib/getAddressString';
 import type { Category } from '../../lib/Categories';
 import type { WheelmapFeature } from '../../lib/Feature';
 import { isWheelchairAccessible } from '../../lib/Feature';
-//import { normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
@@ -39,14 +38,6 @@ type State = {
   }
 
   return 16;
-}
-
-function normalizedCoordinatesForFeature(feature): ?[number, number] {
-  const geometry = feature ? feature.geometry : null;
-  if (!(geometry instanceof Object)) return null;
-  const coordinates = geometry ? geometry.coordinates : null;
-  if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
-  return normalizeCoordinates(coordinates);
 }*/
 
 export default class SearchResult extends React.Component<Props, State> {
