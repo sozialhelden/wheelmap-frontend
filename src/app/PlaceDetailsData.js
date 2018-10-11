@@ -154,7 +154,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     });
   },
 
-  getHead(props) {
+  getHead(props, isMainApp) {
     const { feature, clientSideConfiguration } = props;
     const { name: productName } = clientSideConfiguration.textContent.product;
 
@@ -196,9 +196,10 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
             key="og:url"
           />,
           placeTitle && <meta content={thisPlaceIsOn} property="og:title" key="og:title" />,
-          placeTitle && (
-            <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />
-          ),
+          placeTitle &&
+            isMainApp && (
+              <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />
+            ),
         ];
       }
 

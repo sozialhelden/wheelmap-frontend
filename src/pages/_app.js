@@ -16,6 +16,8 @@ import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import AsyncNextHead from '../AsyncNextHead';
 import GoogleAnalytics from '../GoogleAnalytics';
+import TwitterMeta from '../TwitterMeta';
+import OpenGraph from '../OpenGraph';
 import { parseAcceptLanguageString, locales } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -136,6 +138,11 @@ export default class App extends BaseApp {
     const { name: productName, description } = clientSideConfiguration.textContent.product;
     const shareHost = `https://${hostName}/`;
 
+    // TODO Find a cleaner way to check if this is the main wheelmap app …
+    // Might not be needed anymore once the clientSideConfiguration contains information for
+    // Twitter and Google Analytics
+    const isMainApp = productName === 'Wheelmap';
+
     return (
       <Container>
         {error ? (
@@ -146,32 +153,8 @@ export default class App extends BaseApp {
         ) : (
           <React.Fragment>
             <Head>
-              {/* Open Graph defaults (keys are used to overwrite in subpages if needed) */}
-              <meta content={productName} property="og:site_name" key="og:site_name" />
-              <meta content={description} property="og:description" key="og:description" />
-              <meta content="website" property="og:type" key="og:type" />
-              <meta content={productName} property="og:title" key="og:title" />
-              <meta
-                content={`${shareHost}/static/images/wheely_big.jpg`}
-                property="og:image"
-                key="og:image"
-              />
-
               {/* Alternates */}
               {generateLocaleLinks(path || (window && window.location.pathname), locales)}
-
-              {/* Twitter */}
-              <meta content="summary" name="twitter:card" key="twitter:card" />
-              <meta content={shareHost} name="twitter:domain" key="twitter:domain" />
-              <meta content="@wheelmap" name="twitter:site" key="twitter:site" />
-              <meta content="@wheelmap" name="twitter:creator" key="twitter:creator" />
-              <meta content={description} name="twitter:description" key="twitter:description" />
-              <meta content={productName} property="twitter:title" key="twitter:title" />
-              <meta
-                content={`${shareHost}/static/images/wheely_big.jpg`}
-                property="twitter:image"
-                key="twitter:image"
-              />
 
               {/* Relations */}
               <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
@@ -181,11 +164,20 @@ export default class App extends BaseApp {
               <meta content={description} name="description" key="description" />
               <link rel="shortcut icon" href={`/favicon.ico`} />
             </Head>
-            {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
-            <GoogleAnalytics
-              siteVerification="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
-              trackingId="todo"
-            />
+            <OpenGraph shareHost={shareHost} clientSideConfiguration={clientSideConfiguration} />
+            {isMainApp && (
+              <GoogleAnalytics
+                siteVerification="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
+                trackingId="todo"
+              />
+            )}
+            {isMainApp && (
+              <TwitterMeta
+                shareHost={shareHost}
+                clientSideConfiguration={clientSideConfiguration}
+              />
+            )}
+            {routeName != null && <AsyncNextHead head={getHead(routeName, props, isMainApp)} />}
             <PageComponent
               routerHistory={this.routerHistory}
               {...getRenderProps(routeName, props, isServer)}
