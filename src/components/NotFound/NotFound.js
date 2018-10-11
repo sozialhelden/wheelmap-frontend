@@ -14,11 +14,14 @@ import Logo from '../../lib/Logo';
 type Props = {
   className: string,
   isVisible: boolean,
+  isErrorFatal?: boolean,
   onClose: () => void,
   reason: ?string | Response | Error,
 };
 
 class NotFound extends React.Component<Props> {
+  closeButton: Element | null | Text;
+
   manageFocus = ({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
@@ -32,7 +35,9 @@ class NotFound extends React.Component<Props> {
   }
 
   focus() {
-    this.closeButton.focus();
+    if (this.closeButton instanceof HTMLElement) {
+      this.closeButton.focus();
+    }
   }
 
   render() {
@@ -55,8 +60,6 @@ class NotFound extends React.Component<Props> {
       this.props.error.status === 404;
 
     const isOffline = get(this.props, 'error.response.status') === 3;
-
-    const shouldShowApology = !isNotFound && !isOffline;
 
     let headerText = errorText;
     if (isNotFound) headerText = notFoundText;
@@ -101,17 +104,11 @@ class NotFound extends React.Component<Props> {
 
         {this.props.error && !isNotFound && !isOffline ? (
           <section>
-            <p id="error-text">{String(this.props.error).substring(0, 140)}</p>
+            <p id="error-text">{String(this.props.error).substring(0, 280)}</p>
           </section>
         ) : null}
 
-        {shouldShowApology ? (
-          <section>
-            <p id="wheelmap-apology-text">{apologyText}</p>
-          </section>
-        ) : null}
-
-        <footer>{isOffline ? reloadButton : returnHomeLink}</footer>
+        {!this.props.isErrorFatal && <footer>{isOffline ? reloadButton : returnHomeLink}</footer>}
       </ModalDialog>
     );
   }

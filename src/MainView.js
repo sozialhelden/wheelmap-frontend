@@ -65,6 +65,7 @@ type Props = {
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
   lastError: ?string,
+  isErrorFatal?: boolean,
   modalNodeState: ModalNodeState,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
@@ -328,6 +329,7 @@ class MainView extends React.Component<Props, State> {
   renderNotFound() {
     return (
       <NotFound
+        isErrorFatal={this.props.isErrorFatal}
         isVisible={this.props.isNotFoundVisible}
         onClose={this.props.onCloseNotFoundDialog}
         error={this.props.lastError}

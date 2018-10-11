@@ -1,5 +1,6 @@
 // @flow
 
+import { t } from 'ttag';
 import pick from 'lodash/pick';
 import get from 'lodash/get';
 import * as React from 'react';
@@ -8,6 +9,7 @@ import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
 import type { RouterHistory, Location } from 'react-router-dom';
 import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
+import { userAgent } from './lib/userAgent';
 
 import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
@@ -65,6 +67,7 @@ type State = {
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
   lastError?: ?string,
+  isErrorFatal?: boolean,
   searchQuery?: ?string,
 
   lat: ?string,
@@ -193,6 +196,14 @@ class Loader extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State): State {
+    if (userAgent.os.name === 'Android' && parseInt(userAgent.os.version, 10) < 5) {
+      return {
+        isNotFoundVisible: true,
+        lastError: t`Sorry, due to technical restrictions we can’t support Android versions below 5.0 anymore. To use Wheelmap, please use a device that supports Android 5.0 or higher.`,
+        isErrorFatal: true,
+      };
+    }
+
     const routeInformation = getRouteInformation(props) || {};
     const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
 
@@ -676,6 +687,7 @@ class Loader extends React.Component<Props, State> {
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
       lastError: this.state.lastError,
+      isErrorFatal: this.state.isErrorFatal,
       searchQuery: this.state.searchQuery,
       lat: this.state.lat,
       lon: this.state.lon,
