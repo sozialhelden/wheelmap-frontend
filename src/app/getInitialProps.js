@@ -87,6 +87,7 @@ export async function getAppInitialProps(
     extent,
     lat,
     lon,
+    locale,
     ...query
   }: {
     userAgentString: string,
@@ -96,6 +97,7 @@ export async function getAppInitialProps(
     extent?: [number, number, number, number],
     lat?: number,
     lon?: number,
+    locale?: string,
     [key: string]: string,
   },
   isServer: boolean
@@ -107,6 +109,10 @@ export async function getAppInitialProps(
   const clientSideConfiguration = clientCache.clientSideConfiguration
     ? clientCache.clientSideConfiguration
     : await fetchClientSideConfiguration(hostName);
+
+  if (locale && languages.indexOf(locale) !== 0) {
+    languages = [locale, ...languages];
+  }
 
   const locales = expandedPreferredLocales(languages);
   const translations = clientCache.translations
