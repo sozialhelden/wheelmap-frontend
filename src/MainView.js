@@ -8,7 +8,6 @@ import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import type { Location, RouterHistory } from 'react-router-dom';
 
-import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
@@ -66,7 +65,6 @@ type Props = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
-  lastError: ?string,
   modalNodeState: ModalNodeState,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
@@ -82,7 +80,6 @@ type Props = {
   onClickSearchToolbar: () => void,
   onCloseSearchToolbar: () => void,
   onClickSearchButton: () => void,
-  onCloseNotFoundDialog: () => void,
   onToggleMainMenu: () => void,
   onClickFullscreenBackdrop: () => void,
   onMoveEnd: () => void,
@@ -313,16 +310,6 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderNotFound() {
-    return (
-      <NotFound
-        isVisible={this.props.isNotFoundVisible}
-        onClose={this.props.onCloseNotFoundDialog}
-        error={this.props.lastError}
-      />
-    );
-  }
-
   renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
     const { isMainMenuOpen, onToggleMainMenu, history, clientSideConfiguration } = this.props;
     const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
@@ -517,7 +504,6 @@ class MainView extends React.Component<Props, State> {
         {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
         {this.renderCreateDialog()}
         {this.renderOnboarding()}
-        {this.renderNotFound()}
       </div>
     );
   }

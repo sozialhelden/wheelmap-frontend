@@ -5,17 +5,17 @@ import get from 'lodash/get';
 import * as React from 'react';
 import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import Logo from '../../lib/Logo';
+import Button from '../Button';
 
 type Props = {
   className: string,
-  isVisible: boolean,
-  onClose: () => void,
-  error: ?string | Response | Error,
+  onReturnHomeClick: () => void,
+  statusCode: number,
 };
 
 class NotFound extends React.Component<Props> {
@@ -27,10 +27,8 @@ class NotFound extends React.Component<Props> {
     }
   };
 
-  componentDidUpdate() {
-    if (this.props.isVisible) {
-      this.focus();
-    }
+  componentDidMount() {
+    this.focus();
   }
 
   focus() {
@@ -42,9 +40,9 @@ class NotFound extends React.Component<Props> {
   }
 
   render() {
-    if (!this.props.isVisible) return null;
+    const { className, statusCode } = this.props;
 
-    const classList = [this.props.className, 'not-found-page'].filter(Boolean);
+    const classList = [className, 'not-found-page'].filter(Boolean);
 
     // translator: Shown as header text on the error page.
     const errorText = t`Error`;
@@ -55,10 +53,7 @@ class NotFound extends React.Component<Props> {
     // translator: Shown when device is offline.
     const offlineText = t`Sorry, we are offline!`;
 
-    const isNotFound =
-      this.props.error &&
-      (global.Response != null && this.props.error instanceof global.Response) &&
-      this.props.error.status === 404;
+    const isNotFound = statusCode === 404;
 
     const isOffline = get(this.props, 'error.response.status') === 3;
 
@@ -76,15 +71,14 @@ class NotFound extends React.Component<Props> {
     const retryCaption = t`Retry`;
 
     const returnHomeLink = (
-      <Link
-        to="/"
+      <Button
         className="button-cta-close focus-visible"
-        onClick={this.props.onClose}
+        onClick={this.props.onReturnHomeClick}
         onKeyDown={this.manageFocus}
         ref={button => (this.closeButton = findDOMNode(button))}
       >
         {returnHomeButtonCaption} <ChevronRight />
-      </Link>
+      </Button>
     );
 
     const reloadButton = (
@@ -99,7 +93,7 @@ class NotFound extends React.Component<Props> {
     return (
       <ModalDialog
         className={classList.join(' ')}
-        isVisible={this.props.isVisible}
+        isVisible={true}
         ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
         ariaLabel={t`Error`}
       >
@@ -107,12 +101,6 @@ class NotFound extends React.Component<Props> {
           <Logo className="logo" aria-hidden={true} />
           <h1 id="wheelmap-error-text">{headerText}</h1>
         </header>
-
-        {this.props.error && !isNotFound && !isOffline ? (
-          <section>
-            <p id="error-text">{String(this.props.error).substring(0, 140)}</p>
-          </section>
-        ) : null}
 
         {shouldShowApology ? (
           <section>
@@ -133,6 +121,10 @@ const StyledNotFound = styled(NotFound)`
 
   .close-dialog {
     display: none;
+  }
+
+  .modal-dialog-inner {
+    padding: 30px;
   }
 
   .modal-dialog-content {
