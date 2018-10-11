@@ -70,11 +70,9 @@ type Props = {
 type State = {
   toiletFilter?: YesNoUnknown[],
   accessibilityFilter?: YesNoLimitedUnknown[],
-  lastError?: ?string,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
-  isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
@@ -135,10 +133,8 @@ class Loader extends React.Component<Props, State> {
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
-    isNotFoundVisible: false,
     isMainMenuOpen: false,
     modalNodeState: null,
-    lastError: null,
     featureId: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
@@ -174,131 +170,6 @@ class Loader extends React.Component<Props, State> {
       this.setState({ isOnboardingVisible: true });
     }
   }
-
-  /*componentWillUnmount() {
-    if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
-      this._asyncRequest.cancel();
-    }
-  }*/
-
-  /*static getDerivedStateFromProps(props: Props, state: State): State {
-    const routeInformation = getRouteInformation(props);
-
-    let result: $Shape<State> = {
-      equipmentInfoId: null,
-      category: null,
-      searchQuery: null,
-      modalNodeState: null,
-      toiletFilter: [],
-      accessibilityFilter: [],
-    };
-
-    if (!routeInformation) {
-      return {
-        ...result,
-        isNotFoundVisible: true,
-        lastError: 'Route not found.',
-      };
-    }
-
-    const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
-
-    const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
-    const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
-
-    let nextCategory = category;
-
-    // Keep category if you just click on a feature
-    if ((featureId || modalNodeState) && state.category) {
-      nextCategory = state.category;
-    }
-
-    result = {
-      ...result,
-      equipmentInfoId,
-      category: nextCategory,
-      searchQuery,
-      modalNodeState,
-      toiletFilter,
-      accessibilityFilter,
-    };
-
-    const featureIdHasChanged = state.featureId !== featureId;
-    const equipmentIdHasChanged = state.equipmentInfoId !== equipmentInfoId;
-
-    if (featureIdHasChanged) {
-      // Store prevId in state so we can compare when props change.
-      result.featureId = featureId;
-      // Clear out previously-loaded data (so we don't render stale stuff).
-      result.feature = null;
-      result.photoFlowNotification = undefined;
-
-      if (isWheelmapFeatureId(featureId)) {
-        const feature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
-        Object.assign(result, {
-          feature,
-          lat: null,
-          lon: null,
-          zoom: null,
-        });
-      }
-    }
-
-    if (searchQuery && searchQuery.length > 0) {
-      result.isSearchBarVisible = true;
-      result.isSearchToolbarExpanded = true;
-    } else if (featureIdHasChanged || equipmentIdHasChanged) {
-      result.isSearchToolbarExpanded = false;
-
-      // always minify search bar on small viewport or when filtered
-      if (state.isOnSmallViewport || category || isFiltered(accessibilityFilter)) {
-        result.isSearchBarVisible = false;
-      }
-    }
-
-    const locationState = props.history.location.state;
-    if (locationState) {
-      result.isOnboardingVisible = !!locationState.isOnboardingVisible;
-    }
-
-    return result;
-  }*/
-
-  /*fetchFeature(featureId: string): void {
-    const isWheelmap = isWheelmapFeatureId(featureId);
-    if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
-      this._asyncRequest.cancel();
-    }
-    const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    this._asyncRequest = cache.getFeature(featureId).then(
-      (feature: AccessibilityCloudFeature | WheelmapFeature) => {
-        if (!feature) return;
-        const currentlyShownId = getFeatureIdFromProps(this.props);
-        const fetchedId = getFeatureId(feature);
-        // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
-        // we ignore the response here instead.
-        if (currentlyShownId && fetchedId !== currentlyShownId) return;
-        this.setState({ feature, lat: null, lon: null, zoom: null });
-      },
-      reason => {
-        let error = null;
-        if (
-          reason &&
-          (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)
-        ) {
-          error = reason;
-        }
-        this.setState({
-          feature: null,
-          lat: null,
-          lon: null,
-          zoom: null,
-          isNotFoundVisible: true,
-          lastError: error,
-        });
-      }
-    );
-  }*/
 
   openSearch() {
     this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
@@ -384,10 +255,6 @@ class Loader extends React.Component<Props, State> {
     });
   };
 
-  onError = error => {
-    this.setState({ isNotFoundVisible: true, lastError: error });
-  };
-
   onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
     const params = {};
     let routeName = 'map';
@@ -451,15 +318,10 @@ class Loader extends React.Component<Props, State> {
     routerHistory.push(newRouteName, newParams);
   };
 
-  onCloseNotFoundDialog = () => {
-    this.setState({ isNotFoundVisible: false });
-  };
-
   onClickFullscreenBackdrop = () => {
     this.setState({
       isMainMenuOpen: false,
       isOnboardingVisible: false,
-      isNotFoundVisible: false,
       modalNodeState: null,
     });
     this.onCloseNodeToolbar();
@@ -580,31 +442,6 @@ class Loader extends React.Component<Props, State> {
     });
 
     this.props.routerHistory.push('map');
-
-    /*const { featureId } = this.props;
-    const { category } = this.state;
-
-    // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
-    // when any node toolbar subpages are closed. in order to know how to change the route correctly
-    // we have to distinguish between these two cases
-    const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
-    const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
-
-    // by default route to the index page
-    let path = '/beta';
-
-    if (actualNodeToolbarWasClosed && category) {
-      // if node toolbar was closed and category was previously selected restore the categories url
-      path = `/beta/categories/${category}`;
-    } else if (nodeToolbarSubpageWasClosed) {
-      // if a node toolbar subpage was closed restore the node toolbar default url
-      path = `/beta/nodes/${String(featureId)}`;
-    }
-
-    // restore any query params
-    const query = queryString.stringify(getQueryParams());
-
-    this.props.history.push(`${path}?${query}`);*/
   };
 
   onCloseOnboarding = () => {
@@ -732,7 +569,6 @@ class Loader extends React.Component<Props, State> {
       userAgent: this.props.userAgent,
       toiletFilter: this.state.toiletFilter,
       accessibilityFilter: this.state.accessibilityFilter,
-      lastError: this.state.lastError,
       searchQuery: this.props.searchQuery,
       lat: this.props.lat,
       lon: this.props.lon,
@@ -740,7 +576,6 @@ class Loader extends React.Component<Props, State> {
       extent: this.props.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
-      isNotFoundVisible: this.state.isNotFoundVisible,
       isSearchBarVisible: this.state.isSearchBarVisible,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
@@ -780,7 +615,6 @@ class Loader extends React.Component<Props, State> {
         onSearchResultClick={this.onSearchResultClick}
         onCategorySelect={this.onCategorySelect}
         onCategoryReset={this.onCategoryReset}
-        onCloseNotFoundDialog={this.onCloseNotFoundDialog}
         onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
         onOpenReportMode={this.onOpenReportMode}
         onCloseNodeToolbar={this.onCloseNodeToolbar}
