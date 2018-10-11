@@ -15,6 +15,7 @@ import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import AsyncNextHead from '../AsyncNextHead';
+import GoogleAnalytics from '../GoogleAnalytics';
 import { parseAcceptLanguageString, locales } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -181,6 +182,7 @@ export default class App extends BaseApp {
               <link rel="shortcut icon" href={`/favicon.ico`} />
             </Head>
             {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
+            <GoogleAnalytics />
             <PageComponent
               routerHistory={this.routerHistory}
               {...getRenderProps(routeName, props, isServer)}
