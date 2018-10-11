@@ -431,17 +431,23 @@ class Loader extends React.Component<Props, State> {
 
   onOpenReportMode = () => {
     if (this.props.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(`/beta/nodes/${String(this.props.featureId)}/report?${query}`);
+      this.setState({
+        modalNodeState: 'report',
+      });
     }
   };
 
+  // this is called also when the report dialog is closed
   onCloseNodeToolbar = () => {
-    this.setState({
-      modalNodeState: null,
-    });
+    const currentModalState = this.state.modalNodeState;
 
-    this.props.routerHistory.push('map');
+    if (!currentModalState) {
+      this.props.routerHistory.push('map');
+    } else {
+      this.setState({
+        modalNodeState: null,
+      });
+    }
   };
 
   onCloseOnboarding = () => {
@@ -467,31 +473,26 @@ class Loader extends React.Component<Props, State> {
 
   onOpenWheelchairAccessibility = () => {
     if (this.props.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(
-        `/beta/nodes/${this.props.featureId}/edit-wheelchair-accessibility?${query}`
-      );
+      this.setState({
+        modalNodeState: 'edit-wheelchair-accessibility',
+      });
     }
   };
 
   onOpenToiletAccessibility = () => {
     if (this.props.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(
-        `/beta/nodes/${this.props.featureId}/edit-toilet-accessibility?${query}`
-      );
+      this.setState({
+        modalNodeState: 'edit-toilet-accessibility',
+      });
     }
   };
 
   gotoCurrentFeature() {
-    /*const { featureId } = this.state;
-    if (featureId) {
-      this.props.history.push(`/beta/nodes/${featureId}`);
-      const feature =
-        wheelmapFeatureCache.getCachedFeature(String(featureId)) ||
-        wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
-      this.setState({ feature });
-    }*/
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: null,
+      });
+    }
   }
 
   onCloseWheelchairAccessibility = () => {
