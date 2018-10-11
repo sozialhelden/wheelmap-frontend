@@ -1,6 +1,15 @@
 import env from './env';
 import fetch from './fetch';
 
+export type TwitterConfiguration = { siteHandle: ?string, creatorHandle: ?string };
+
+export type FacebookConfiguration = { appId: ?string };
+
+export type GoogleAnalyticsConfiguration = {
+  trackingId: ?string,
+  siteVerificationToken: ?string,
+};
+
 export type ClientSideConfiguration = {
   logoURL: string,
   allowedBaseURLs: Array<string>,
@@ -13,6 +22,10 @@ export type ClientSideConfiguration = {
     product: {
       name: string,
       claim: string,
+      description: string,
+      twitter: TwitterConfiguration,
+      facebook: FacebookConfiguration,
+      googleAnalytics: GoogleAnalyticsConfiguration,
     },
   },
   customMainMenuLinks: Array<Link>,

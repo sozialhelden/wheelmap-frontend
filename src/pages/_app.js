@@ -15,9 +15,10 @@ import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import AsyncNextHead from '../AsyncNextHead';
-import GoogleAnalytics from '../GoogleAnalytics';
-import TwitterMeta from '../TwitterMeta';
-import OpenGraph from '../OpenGraph';
+import GoogleAnalytics from '../components/GoogleAnalytics';
+import TwitterMeta from '../components/TwitterMeta';
+import FacebookMeta from '../components/FacebookMeta';
+import OpenGraph from '../components/OpenGraph';
 import { parseAcceptLanguageString, locales } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -50,9 +51,7 @@ export default class App extends BaseApp {
     // handle 404 before the app is rendered, as we otherwise render the whole app again
     // this is very relevant for missing static files like translations
     if (isServer && ctx.res.statusCode >= 400) {
-      const error = new Error('Could not load');
-      error.statusCode = ctx.res.statusCode;
-      return { error };
+      return { statusCode: ctx.res.statusCode };
     }
 
     try {
@@ -76,11 +75,11 @@ export default class App extends BaseApp {
       }
 
       if (!userAgentString) {
-        return { error: new Error('User agent must be defined') };
+        throw new Error('User agent must be defined');
       }
 
       if (!languages || languages.length === 0) {
-        return { error: new Error('Missing languages.') };
+        throw new Error('Missing languages.');
       }
 
       appProps = await getAppInitialProps(
@@ -96,13 +95,15 @@ export default class App extends BaseApp {
         path = ctx.req.path;
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
+      const statusCode = error.statusCode || 500;
 
       if (ctx.res) {
-        ctx.res.statusCode = error.statusCode || 500;
+        ctx.res.statusCode = statusCode;
       }
 
-      return { error };
+      return { statusCode };
     }
 
     return {
@@ -120,11 +121,24 @@ export default class App extends BaseApp {
   }
 
   render() {
-    const { Component: PageComponent, error, routeName, path, hostName, ...props } = this.props;
+    const {
+      Component: PageComponent,
+      statusCode,
+      routeName,
+      path,
+      hostName,
+      ...props
+    } = this.props;
     const { clientSideConfiguration }: { clientSideConfiguration: ClientSideConfiguration } = props;
 
-    if (error && error.statusCode !== 404) {
-      console.error('Error in _app.js', error);
+    // Show generic error page for now and show as soon as possible
+    // as props like client side configuration are not set then.
+    if (statusCode >= 400) {
+      return (
+        <Container>
+          <Error statusCode={statusCode} />
+        </Container>
+      );
     }
 
     if (!isServer) {
@@ -135,55 +149,55 @@ export default class App extends BaseApp {
       }
     }
 
-    const { name: productName, description } = clientSideConfiguration.textContent.product;
-    const shareHost = `https://${hostName}/`;
+    const {
+      name: productName,
+      description,
+      twitter,
+      googleAnalytics,
+      facebook,
+    } = clientSideConfiguration.textContent.product;
 
-    // TODO Find a cleaner way to check if this is the main wheelmap app …
-    // Might not be needed anymore once the clientSideConfiguration contains information for
-    // Twitter and Google Analytics
-    const isMainApp = productName === 'Wheelmap';
+    // TODO this like bad configuration
+    const shareHost = `https://${hostName}/`;
 
     return (
       <Container>
-        {error ? (
-          <div>
-            {error.message}
-            <Error statusCode={error.statusCode} />
-          </div>
-        ) : (
-          <React.Fragment>
-            <Head>
-              {/* Alternates */}
-              {generateLocaleLinks(path || (window && window.location.pathname), locales)}
+        <React.Fragment>
+          <Head>
+            {/* Alternates */}
+            {generateLocaleLinks(path || (window && window.location.pathname), locales)}
 
-              {/* Relations */}
-              <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
-              <link href={`${router.generate('map')}`} rel="home" title={t`Homepage`} />
+            {/* Relations */}
+            <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
+            <link href={`${router.generate('map')}`} rel="home" title={t`Homepage`} />
 
-              {/* Misc */}
-              <meta content={description} name="description" key="description" />
-              <link rel="shortcut icon" href={`/favicon.ico`} />
-            </Head>
-            <OpenGraph shareHost={shareHost} clientSideConfiguration={clientSideConfiguration} />
-            {isMainApp && (
-              <GoogleAnalytics
-                siteVerification="ANQCVlgXNpnBdZInKyE4eWMeNPq-cIckJGMyEYPXNec"
-                trackingId="todo"
-              />
+            {/* Misc */}
+            <meta content={description} name="description" key="description" />
+            <link rel="shortcut icon" href={`/favicon.ico`} />
+
+            {/* iOS app */}
+            {productName === 'Wheelmap' && (
+              <meta content="app-id=399239476" name="apple-itunes-app" />
             )}
-            {isMainApp && (
-              <TwitterMeta
-                shareHost={shareHost}
-                clientSideConfiguration={clientSideConfiguration}
-              />
-            )}
-            {routeName != null && <AsyncNextHead head={getHead(routeName, props, isMainApp)} />}
-            <PageComponent
-              routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, props, isServer)}
-              routeName={routeName}
+          </Head>
+          <OpenGraph shareHost={shareHost} clientSideConfiguration={clientSideConfiguration} />
+          {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
+          {twitter && (
+            <TwitterMeta
+              shareHost={shareHost}
+              productName={productName}
+              description={description}
+              twitter={twitter}
             />
-          </React.Fragment>
+          )}
+          {facebook && <FacebookMeta facebook={facebook} />}
+          {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
+          <PageComponent
+            routerHistory={this.routerHistory}
+            {...getRenderProps(routeName, props, isServer)}
+            routeName={routeName}
+          />
+        </React.Fragment>
         )}
         <GlobalStyle />
         <LeafletStyle />
@@ -200,6 +214,6 @@ function generateLocaleLinks(path, locales) {
   }
 
   return locales.map(locale => (
-    <link key={locale} href={`${path}?locale=${locale}`} hreflang={locale} rel="alternate" />
+    <link key={locale} href={`${path}?locale=${locale}`} hrefLang={locale} rel="alternate" />
   ));
 }

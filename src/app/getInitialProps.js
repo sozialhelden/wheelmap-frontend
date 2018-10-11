@@ -34,10 +34,7 @@ type DataTableQuery = {
 export type DataTableEntry<Props> = {
   getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
-  getHead?: (
-    props: Props & AppProps,
-    isMainApp: boolean
-  ) => Promise<React$Element<any>> | React$Element<any>,
+  getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
   clientStoreInitialProps?: (props: Props) => void,
 };
 
@@ -161,12 +158,12 @@ export function clientStoreInitialProps(routeName: string, props: any) {
   return dataItem.clientStoreInitialProps(props);
 }
 
-export function getHead(routeName: string, props: any, isMainApp: boolean) {
+export function getHead(routeName: string, props: any) {
   const dataItem = dataTable[routeName];
 
   if (!dataItem || !dataItem.getHead) {
     return null;
   }
 
-  return dataItem.getHead(props, isMainApp);
+  return dataItem.getHead(props);
 }

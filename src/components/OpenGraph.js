@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import Head from 'next/head';
 
-import { type ClientSideConfiguration } from './lib/ClientSideConfiguration';
+import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 type Props = {
   shareHost: string,
@@ -18,8 +18,8 @@ class OpenGraph extends PureComponent<Props> {
       <Head>
         <meta content={productName} property="og:site_name" key="og:site_name" />
         <meta content={description} property="og:description" key="og:description" />
-        <meta content="website" property="og:type" key="og:type" />
         <meta content={productName} property="og:title" key="og:title" />
+        <meta content="website" property="og:type" key="og:type" />
         <meta
           content={`${shareHost}/static/images/wheely_big.jpg`}
           property="og:image"
