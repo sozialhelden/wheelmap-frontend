@@ -25,7 +25,7 @@ class GoogleAnalytics extends PureComponent<Props> {
   track() {
     const { trackingId } = this.props;
 
-    gtag('config', trackingId);
+    gtag('config', trackingId, { anonymize_ip: true });
     gtag('js', new Date());
   }
 
