@@ -723,6 +723,7 @@ class Loader extends React.Component<Props, State> {
 
       featureId: this.props.featureId,
       feature: this.props.feature,
+      lightweightFeature: this.props.lightweightFeature,
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
       category: this.props.category,
