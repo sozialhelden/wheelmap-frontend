@@ -11,7 +11,6 @@ import type { Location, RouterHistory } from 'react-router-dom';
 import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
-import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
@@ -468,7 +467,6 @@ class MainView extends React.Component<Props, State> {
             window.map = map;
           }
         }}
-        history={this.props.history}
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}

@@ -1,5 +1,9 @@
 import env from './env';
 
+const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
+  ? env.public.wheelmap.baseUrl
+  : env.public.baseUrl || '/';
+
 export default {
   locateTimeout: 60 * 60 * 1000,
   // If no location is known, start at the Cologne cathedral landmark
@@ -11,4 +15,5 @@ export default {
     env.public.mapbox.accessToken
   }`,
   wheelmapApiKey: env.public.wheelmap.apiKey,
+  wheelmapApiBaseUrl,
 };
