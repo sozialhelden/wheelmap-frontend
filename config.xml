@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.1.72" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.1.72" 
+    xmlns="http://www.w3.org/ns/widgets" 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wheelmap</name>
     <description>
         Find wheelchair-accessible places.
@@ -43,6 +46,7 @@
             <application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" />
         </edit-config>
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+        <preference name="android-minSdkVersion" value="21" />
         <preference name="android-targetSdkVersion" value="26" />
     </platform>
     <platform name="ios">
