@@ -69,7 +69,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     // use resolved data
     if (resolvedPlaceData) {
-      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+      const resolvedCategories = Categories.getCategoriesForFeature(
         props.categories,
         resolvedPlaceData.equipmentInfo || resolvedPlaceData.feature
       );
@@ -128,7 +128,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props);
 
     if (resolvedPlaceDetails) {
-      const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+      const resolvedCategories = Categories.getCategoriesForFeature(
         props.categories,
         resolvedPlaceDetails.equipmentInfo || resolvedPlaceDetails.feature
       );
@@ -136,40 +136,13 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     } else {
       this.setState({ resolvedPlaceDetails: null });
       awaitPlaceDetails(this.props).then(resolved => {
-        const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        const resolvedCategories = Categories.getCategoriesForFeature(
           props.categories,
           resolved.equipmentInfo || resolved.feature
         );
         this.setState({ resolvedPlaceDetails: resolved, ...resolvedCategories });
       });
     }
-  }
-
-  // TODO move to helper
-  static getCategoriesForFeature(
-    categories: CategoryLookupTables,
-    feature: ?Feature | ?EquipmentInfo
-  ): { category: ?Category, parentCategory?: Category } {
-    if (!feature) {
-      return { category: null };
-    }
-
-    const properties = feature.properties;
-    if (!properties) {
-      return { category: null };
-    }
-
-    const categoryId =
-      (properties.node_type && properties.node_type.identifier) || properties.category;
-
-    if (!categoryId) {
-      return { category: null };
-    }
-
-    const category = Categories.getCategory(categories, categoryId);
-    const parentCategory = category && Categories.getCategory(categories, category.parentIds[0]);
-
-    return { category, parentCategory };
   }
 
   render() {

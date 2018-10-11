@@ -2,12 +2,10 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
-import type { RouterHistory } from 'react-router-dom';
 
 import getAddressString from '../../lib/getAddressString';
-import type { Category } from '../../lib/Categories';
-import type { WheelmapFeature } from '../../lib/Feature';
-import { isWheelchairAccessible } from '../../lib/Feature';
+import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
+import { isWheelchairAccessible, type WheelmapFeature } from '../../lib/Feature';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
@@ -16,7 +14,7 @@ import PlaceName from '../PlaceName';
 
 type Props = {
   feature: SearchResultFeature,
-  history: RouterHistory,
+  categories: CategoryLookupTables,
   onClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   hidden: boolean,
   wheelmapFeature: ?WheelmapFeature | Promise<?WheelmapFeature>,
@@ -25,29 +23,16 @@ type Props = {
 type State = {
   category: ?Category,
   parentCategory: ?Category,
-  fetchNodeTimeout: ?number,
-  lastFetchedOsmId: ?number,
   wheelmapFeature: ?WheelmapFeature,
   wheelmapFeaturePromise: ?Promise<?WheelmapFeature>,
 };
-
-/*function getZoomLevel(hasWheelmapId: boolean, category: ?Category) {
-  // is a wheelmap place or a known POI category
-  if (hasWheelmapId || category) {
-    return 18;
-  }
-
-  return 16;
-}*/
 
 export default class SearchResult extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    parentCategory: null,
     category: null,
-    fetchNodeTimeout: null,
-    lastFetchedOsmId: null,
+    parentCategory: null,
     wheelmapFeature: null,
     wheelmapFeaturePromise: null,
   };
@@ -55,7 +40,7 @@ export default class SearchResult extends React.Component<Props, State> {
   root: ?React.ElementRef<'li'> = null;
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
-    const { wheelmapFeature } = props;
+    const { categories, feature, wheelmapFeature } = props;
 
     // Do not update anything when the wheelmap feature promise is already in use.
     if (wheelmapFeature === state.wheelmapFeaturePromise) {
@@ -63,10 +48,16 @@ export default class SearchResult extends React.Component<Props, State> {
     }
 
     if (wheelmapFeature instanceof Promise) {
-      return { wheelmapFeature: null, wheelmapFeaturePromise: wheelmapFeature };
+      const categoryData = Categories.getCategoriesForFeature(categories, feature);
+      return { wheelmapFeature: null, wheelmapFeaturePromise: wheelmapFeature, ...categoryData };
     }
 
-    return { wheelmapFeature: wheelmapFeature, wheelmapFeaturePromise: null };
+    const wheelmapCategoryData = Categories.getCategoriesForFeature(categories, feature);
+    return {
+      wheelmapFeature: wheelmapFeature,
+      wheelmapFeaturePromise: null,
+      ...wheelmapCategoryData,
+    };
   }
 
   componentDidMount() {
@@ -97,35 +88,17 @@ export default class SearchResult extends React.Component<Props, State> {
       return;
     }
 
+    const { categories, feature } = this.props;
+    const wheelmapCategoryData = Categories.getCategoriesForFeature(
+      categories,
+      wheelmapFeature || feature
+    );
     this.setState({
       wheelmapFeature,
+      category: wheelmapCategoryData.category || this.state.category,
+      parentCategory: wheelmapCategoryData.parentCategory || this.state.parentCategory,
     });
   };
-
-  /*getFeature() {
-    return this.state.wheelmapFeature || this.props.feature;
-  }*/
-
-  /*getCategory() {
-    return this.state.category || this.state.parentCategory;
-  }*/
-
-  /*getCoordinates(): ?[number, number] {
-    const feature = this.getFeature();
-    return normalizedCoordinatesForFeature(feature);
-  }*/
-
-  /*getHref(): ?string {
-    const feature = this.getFeature();
-    const coordinates = normalizedCoordinatesForFeature(feature);
-    const wheelmapId = feature && feature.properties && feature.properties.id;
-    const pathname = wheelmapId ? `/beta/nodes/${feature.properties.id}` : '';
-    const hasWheelmapId = Boolean(wheelmapId);
-    const zoom = getZoomLevel(hasWheelmapId, this.getCategory());
-    const search = coordinates ? `zoom=${zoom}&lat=${coordinates[1]}&lon=${coordinates[0]}` : '';
-
-    return this.props.history.createHref({ pathname, search });
-  }*/
 
   focus() {
     if (this.root) {
@@ -135,7 +108,7 @@ export default class SearchResult extends React.Component<Props, State> {
 
   render() {
     const { feature } = this.props;
-    const { wheelmapFeature } = this.state;
+    const { wheelmapFeature, category, parentCategory } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
     const placeName = properties ? properties.name : t`Unnamed`;
@@ -148,7 +121,10 @@ export default class SearchResult extends React.Component<Props, State> {
         postcode: properties.postcode,
         city: properties.city,
       });
-    const category = properties && (properties.osm_value || properties.osm_key);
+
+    const shownCategory = category || parentCategory;
+    const shownCategoryId = shownCategory && shownCategory._id;
+
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const accessibility =
       wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
@@ -164,24 +140,15 @@ export default class SearchResult extends React.Component<Props, State> {
         <button
           onClick={() => {
             this.props.onClick(feature, wheelmapFeature);
-            /*const coordinates = this.getCoordinates();
-            if (coordinates) {
-              this.props.onSelectCoordinate({
-                lat: coordinates[1],
-                lon: coordinates[0],
-                zoom: getZoomLevel(hasWheelmapId, category),
-              });
-            }
-            this.props.onSelect();*/
           }}
           className="link-button"
           tabIndex={this.props.hidden ? -1 : 0}
         >
           <PlaceName>
-            {wheelmapFeature && category ? (
+            {shownCategoryId ? (
               <Icon
                 accessibility={accessibility || null}
-                category={category}
+                category={shownCategoryId}
                 size="medium"
                 centered
                 ariaHidden={true}

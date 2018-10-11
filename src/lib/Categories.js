@@ -1,10 +1,14 @@
 // @flow
+import { t } from 'ttag';
 
 import { globalFetchManager } from './FetchManager';
-import { t } from 'ttag';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
 import env from './env';
+
+import type { Feature } from './Feature';
+import type { SearchResultFeature } from './searchPlaces';
+import type { EquipmentInfo } from './EquipmentInfo';
 
 export type ACCategory = {
   _id: string,
@@ -85,10 +89,13 @@ export default class Categories {
   }
 
   static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
-    if (!lookupTable.synonymCache) throw new Error('Empty synonym cache.');
+    const synonymCache = lookupTable.synonymCache;
 
-    // @TODO \o/ Help! Sebastian!
-    return lookupTable.synonymCache[String(idOrSynonym)];
+    if (!synonymCache) {
+      throw new Error('Empty synonym cache.');
+    }
+
+    return synonymCache[String(idOrSynonym)];
   }
 
   static generateSynonymCache(
@@ -106,6 +113,38 @@ export default class Categories {
     });
     lookupTable.synonymCache = result;
     return result;
+  }
+
+  static getCategoriesForFeature(
+    categories: CategoryLookupTables,
+    feature: ?Feature | ?EquipmentInfo | ?SearchResultFeature
+  ): { category: ?Category, parentCategory?: Category } {
+    if (!feature) {
+      return { category: null };
+    }
+
+    const properties = feature.properties;
+    if (!properties) {
+      return { category: null };
+    }
+
+    // wheelmap classic node
+    const wheelmapCategory = properties.node_type ? properties.node_type.identifier : null;
+    // properties.category also exists on wheelmap classic nodes, resolve this afterwards
+    const acCategoryId = properties.category ? properties.category : null;
+    // search result node from komoot
+    const baseOsmCategory = properties.osm_value || properties.osm_key;
+
+    const categoryId = [wheelmapCategory, acCategoryId, baseOsmCategory].filter(Boolean)[0];
+
+    if (!categoryId) {
+      return { category: null };
+    }
+
+    const category = Categories.getCategory(categories, String(categoryId));
+    const parentCategory = category && Categories.getCategory(categories, category.parentIds[0]);
+
+    return { category, parentCategory };
   }
 
   static fillCategoryLookupTable(
