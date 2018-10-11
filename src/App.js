@@ -458,6 +458,7 @@ class Loader extends React.Component<Props, State> {
   };
 
   onCloseSearchToolbar = () => {
+    this.props.routerHistory.replace('map');
     this.setState({
       isSearchBarVisible: isStickySearchBarSupported(),
       isSearchToolbarExpanded: false,
