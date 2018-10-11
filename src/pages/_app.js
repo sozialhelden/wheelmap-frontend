@@ -6,8 +6,8 @@ import '@babel/polyfill';
 
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
-import Error from 'next/error';
 import Head from 'next/head';
+import Error from 'next/error';
 import { t } from 'ttag';
 
 import GlobalStyle from '../GlobalStyle';
@@ -19,6 +19,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
+import NotFound from '../components/NotFound/NotFound';
 import { parseAcceptLanguageString, availableLocales } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -114,11 +115,17 @@ export default class App extends BaseApp {
     };
   }
 
+  routerHistory: NextRouterHistory;
+
   constructor(props: any) {
     super(props);
 
     this.routerHistory = new NextRouterHistory(router);
   }
+
+  handleNotFoundReturnHomeClick = () => {
+    this.routerHistory.push('map');
+  };
 
   render() {
     const {
@@ -133,10 +140,14 @@ export default class App extends BaseApp {
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
+    // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
     if (statusCode >= 400) {
       return (
         <Container>
-          <Error statusCode={statusCode} />
+          <NotFound
+            statusCode={statusCode}
+            onReturnHomeClick={this.handleNotFoundReturnHomeClick}
+          />
         </Container>
       );
     }
