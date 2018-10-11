@@ -198,8 +198,6 @@ export default class App extends BaseApp {
 }
 
 function generateLocaleLinks(path, locales) {
-  console.log(path);
-
   if (path == null) {
     return null;
   }
