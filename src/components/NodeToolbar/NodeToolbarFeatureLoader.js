@@ -89,10 +89,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     // resolve lightweight categories
     if (props.lightweightFeature) {
-      categories = NodeToolbarFeatureLoader.getCategoriesForFeature(
-        props.categories,
-        props.lightweightFeature
-      );
+      categories = Categories.getCategoriesForFeature(props.categories, props.lightweightFeature);
     }
 
     // wait for new data
