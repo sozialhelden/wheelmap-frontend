@@ -52,7 +52,7 @@ export default class SearchResult extends React.Component<Props, State> {
     wheelmapFeaturePromise: null,
   };
 
-  root: ?React.ElementRef<'a'> = null;
+  root: ?React.ElementRef<'li'> = null;
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
     const { wheelmapFeature } = props;
