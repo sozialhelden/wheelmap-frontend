@@ -15,7 +15,7 @@ import LeafletStyle from '../LeafletStyle';
 import AppStyle from '../AppStyle';
 import MapStyle from '../MapStyle';
 import AsyncNextHead from '../AsyncNextHead';
-import { parseAcceptLanguageString } from '../lib/i18n';
+import { parseAcceptLanguageString, locales } from '../lib/i18n';
 import router from '../app/router';
 import {
   getInitialProps,
@@ -26,6 +26,7 @@ import {
   getHead,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
+import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 let isServer = false;
 
@@ -39,6 +40,7 @@ export default class App extends BaseApp {
   }) {
     let appProps;
     let routeProps;
+    let path;
 
     isServer = !!(ctx && ctx.req);
 
@@ -86,6 +88,10 @@ export default class App extends BaseApp {
       if (ctx.query.routeName) {
         routeProps = await getInitialProps(ctx.query, isServer);
       }
+
+      if (ctx.req) {
+        path = ctx.req.path;
+      }
     } catch (error) {
       console.error(error);
 
@@ -96,7 +102,12 @@ export default class App extends BaseApp {
       return { error };
     }
 
-    return { ...appProps, ...routeProps, routeName: ctx.query.routeName };
+    return {
+      ...appProps,
+      ...routeProps,
+      routeName: ctx.query.routeName,
+      path,
+    };
   }
 
   constructor(props: any) {
@@ -106,7 +117,8 @@ export default class App extends BaseApp {
   }
 
   render() {
-    const { Component: PageComponent, error, routeName, ...props } = this.props;
+    const { Component: PageComponent, error, routeName, path, hostName, ...props } = this.props;
+    const { clientSideConfiguration }: { clientSideConfiguration: ClientSideConfiguration } = props;
 
     if (error && error.statusCode !== 404) {
       console.error('Error in _app.js', error);
@@ -120,7 +132,8 @@ export default class App extends BaseApp {
       }
     }
 
-    const description = t`Wheelmap.org is an online map to search, find and mark wheelchair-accessible places. Get involved by marking public places like bars, restaurants, cinemas or supermarkets!`;
+    const { name: productName, description } = clientSideConfiguration.textContent.product;
+    const shareHost = `https://${hostName}/`;
 
     return (
       <Container>
@@ -133,25 +146,28 @@ export default class App extends BaseApp {
           <React.Fragment>
             <Head>
               {/* Open Graph defaults (keys are used to overwrite in subpages if needed) */}
-              <meta content="Wheelmap.org" property="og:site_name" key="og:site_name" />
+              <meta content={productName} property="og:site_name" key="og:site_name" />
               <meta content={description} property="og:description" key="og:description" />
               <meta content="website" property="og:type" key="og:type" />
-              <meta content="Wheelmap.org" property="og:title" key="og:title" />
+              <meta content={productName} property="og:title" key="og:title" />
               <meta
-                content="http://localhost:3000/static/images/wheely_big.jpg"
+                content={`${shareHost}/static/images/wheely_big.jpg`}
                 property="og:image"
                 key="og:image"
               />
 
+              {/* Alternates */}
+              {generateLocaleLinks(path || (window && window.location.pathname), locales)}
+
               {/* Twitter */}
               <meta content="summary" name="twitter:card" key="twitter:card" />
-              <meta content="https://wheelmap.org/" name="twitter:domain" key="twitter:domain" />
+              <meta content={shareHost} name="twitter:domain" key="twitter:domain" />
               <meta content="@wheelmap" name="twitter:site" key="twitter:site" />
               <meta content="@wheelmap" name="twitter:creator" key="twitter:creator" />
               <meta content={description} name="twitter:description" key="twitter:description" />
-              <meta content="Wheelmap.org" property="twitter:title" key="twitter:title" />
+              <meta content={productName} property="twitter:title" key="twitter:title" />
               <meta
-                content="/static/images/wheely_big.jpg"
+                content={`${shareHost}/static/images/wheely_big.jpg`}
                 property="twitter:image"
                 key="twitter:image"
               />
@@ -179,4 +195,16 @@ export default class App extends BaseApp {
       </Container>
     );
   }
+}
+
+function generateLocaleLinks(path, locales) {
+  console.log(path);
+
+  if (path == null) {
+    return null;
+  }
+
+  return locales.map(locale => (
+    <link key={locale} href={`${path}?locale=${locale}`} hreflang={locale} rel="alternate" />
+  ));
 }

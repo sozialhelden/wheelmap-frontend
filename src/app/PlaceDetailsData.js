@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { t } from 'ttag';
 
 import {
   type Feature,
@@ -155,6 +156,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
   getHead(props) {
     const { feature, clientSideConfiguration } = props;
+    const { name: productName } = clientSideConfiguration.textContent.product;
 
     const renderTitle = feature => {
       let extras;
@@ -171,6 +173,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         }
 
         const coordinates = normalizedCoordinatesForFeature(feature);
+        const thisPlaceIsOn = t`This place is on ${productName}: ${placeTitle}`;
 
         extras = [
           coordinates != null && (
@@ -192,19 +195,9 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
             property="og:url"
             key="og:url"
           />,
+          placeTitle && <meta content={thisPlaceIsOn} property="og:title" key="og:title" />,
           placeTitle && (
-            <meta
-              content={`Dieser Ort ist auf Wheelmap.org: ${placeTitle}`}
-              property="og:title"
-              key="og:title"
-            />
-          ),
-          placeTitle && (
-            <meta
-              content={`Dieser Ort ist auf Wheelmap.org: ${placeTitle}`}
-              property="twitter:title"
-              key="twitter:title"
-            />
+            <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />
           ),
         ];
       }

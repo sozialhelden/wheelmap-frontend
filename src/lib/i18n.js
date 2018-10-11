@@ -100,6 +100,8 @@ function getTranslationsForLocale(locale): Translations {
   return translations[locale];
 }
 
+export const locales: string[] = Object.keys(translations);
+
 export function loadExistingLocalizationByPreference(locales: string[]): Translations[] {
   if (locales.length === 0) {
     console.warn('No locales specified');

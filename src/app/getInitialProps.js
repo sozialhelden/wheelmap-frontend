@@ -1,6 +1,5 @@
 // @flow
 import UAParser from 'ua-parser-js';
-import Head from 'next/head';
 
 import {
   expandedPreferredLocales,
@@ -25,6 +24,7 @@ type AppProps = {
   categories: CategoryLookupTables,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
+  hostName: string,
 };
 
 type DataTableQuery = {
@@ -126,6 +126,7 @@ export async function getAppInitialProps(
     extent,
     lat,
     lon,
+    hostName,
   };
 }
 
