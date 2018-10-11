@@ -18,17 +18,25 @@ const imageResizeConfig = {
 };
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
-  getPhotosForFeature(featureId: string): Promise<?AccessibilityCloudImages> {
-    return this.getImage('place', featureId);
+  getPhotosForFeature(
+    featureId: string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<?AccessibilityCloudImages> {
+    return this.getImage('place', featureId, options);
   }
 
-  getImage(context: string, objectId: string): Promise<?AccessibilityCloudImages> {
+  getImage(
+    context: string,
+    objectId: string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<?AccessibilityCloudImages> {
     return this.getData(
       `${
         env.public.accessibilityCloud.baseUrl.cached
       }/images.json?context=${context}&objectId=${objectId}&appToken=${
         env.public.accessibilityCloud.appToken
-      }`
+      }`,
+      options
     );
   }
 
