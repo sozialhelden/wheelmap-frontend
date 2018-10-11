@@ -47,6 +47,7 @@ function handleInputCommands(history: RouterHistory, commandLine: ?string) {
 
 export type Props = PlaceFilter & {
   history: RouterHistory,
+  categories: CategoryLookupTables,
   hidden: boolean,
   inert: boolean,
   category: ?string,
@@ -388,7 +389,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           searchResults={searchResults}
           onSearchResultClick={this.props.onSearchResultClick}
           hidden={this.props.hidden}
-          history={this.props.history}
+          categories={this.props.categories}
           onSelect={() => this.clearSearch()}
           refFirst={ref => {
             this.firstResult = ref;

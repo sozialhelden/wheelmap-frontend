@@ -4,16 +4,16 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import type { RouterHistory } from 'react-router-dom';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import colors from '../../lib/colors';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 import type { WheelmapFeature } from '../../lib/Feature';
 import SearchResult from './SearchResult';
+import { type CategoryLookupTables } from '../../lib/Categories';
 
 type Props = {
   searchResults: SearchResultCollection,
-  history: RouterHistory,
+  categories: CategoryLookupTables,
   className: string,
   hidden: ?boolean,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
@@ -55,7 +55,7 @@ function SearchResults(props: Props) {
             key={featureId}
             onClick={props.onSearchResultClick}
             hidden={!!props.hidden}
-            history={props.history}
+            categories={props.categories}
             ref={ref => {
               if (props.refFirst && index === 0) props.refFirst(ref);
             }}

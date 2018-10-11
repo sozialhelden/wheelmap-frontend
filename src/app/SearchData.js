@@ -87,8 +87,9 @@ const SearchData: DataTableEntry<SearchProps> = {
     let { searchResults } = props;
 
     searchResults = Promise.resolve(searchResults).then(async results => {
+      const useCache = !isServer;
       let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
-        fetchWheelmapNode(feature.properties, isServer)
+        fetchWheelmapNode(feature.properties, useCache)
       );
 
       // Fetch all wheelmap features when on server.

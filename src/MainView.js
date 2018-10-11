@@ -256,6 +256,7 @@ class MainView extends React.Component<Props, State> {
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
         history={this.props.history}
+        categories={this.props.categories}
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
         category={category}
