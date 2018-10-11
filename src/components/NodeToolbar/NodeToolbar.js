@@ -51,8 +51,8 @@ type Props = {
   feature: Feature,
   featureId: string | number,
   sources: SourceWithLicense[],
-  category: Category,
   categories: CategoryLookupTables,
+  category: ?Category,
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
@@ -108,6 +108,12 @@ class NodeToolbar extends React.Component<Props, State> {
 
   isEquipment() {
     return !!this.props.equipmentInfoId;
+  }
+
+  focus() {
+    if (this.toolbar) {
+      this.toolbar.focus();
+    }
   }
 
   renderReportDialog() {

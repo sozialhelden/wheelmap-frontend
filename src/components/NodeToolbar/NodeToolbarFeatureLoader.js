@@ -10,6 +10,7 @@ import Categories, { type Category, type CategoryLookupTables } from '../../lib/
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/queryParams';
+import type { PhotoModel } from './Photos/PhotoModel';
 import {
   type PlaceDetailsProps,
   type ResolvedPlaceDetailsProps,
@@ -29,6 +30,27 @@ type Props = {
   onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+  hidden: boolean,
+  modalNodeState: ModalNodeState,
+  onClose: () => void,
+  onOpenReportMode: ?() => void,
+  onOpenToiletAccessibility: () => void,
+  onOpenWheelchairAccessibility: () => void,
+  onCloseWheelchairAccessibility: () => void,
+  onCloseToiletAccessibility: () => void,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
+  // Simple 3-button wheelchair status editor
+  presetStatus: YesNoLimitedUnknown,
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
+
+  // photo feature
+  onStartPhotoUploadFlow: () => void,
+  onReportPhoto: (photo: PhotoModel) => void,
+  photoFlowNotification?: string,
+  photoFlowErrorMessage: ?string,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
 } & PlaceDetailsProps;
 
 type State = {
@@ -40,7 +62,7 @@ type State = {
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   props: Props;
   state = { category: null, parentCategory: null, resolvedPlaceDetails: null };
-  nodeToolbar: React.ElementRef<NodeToolbar>;
+  nodeToolbar: ?React.ElementRef<typeof NodeToolbar>;
 
   static getDerivedStateFromProps(props: Props, state: State) {
     const resolvedPlaceData = getPlaceDetailsIfAlreadyResolved(props);
@@ -63,11 +85,20 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return state;
     }
 
+    let categories = { category: null, parentCategory: null };
+
+    // resolve lightweight categories
+    if (props.lightweightFeature) {
+      categories = NodeToolbarFeatureLoader.getCategoriesForFeature(
+        props.categories,
+        props.lightweightFeature
+      );
+    }
+
     // wait for new data
     return {
       ...state,
-      category: null,
-      parentCategory: null,
+      ...categories,
       resolvedPlaceDetails: null,
     };
   }
@@ -103,6 +134,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       );
       this.setState({ resolvedPlaceDetails, ...resolvedCategories });
     } else {
+      this.setState({ resolvedPlaceDetails: null });
       awaitPlaceDetails(this.props).then(resolved => {
         const resolvedCategories = NodeToolbarFeatureLoader.getCategoriesForFeature(
           props.categories,
@@ -141,14 +173,27 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   render() {
-    const resolvedData = this.state.resolvedPlaceDetails;
+    const { category, parentCategory, resolvedPlaceDetails } = this.state;
+    const { feature, sources, equipmentInfo, lightweightFeature, ...remainingProps } = this.props;
 
-    if (resolvedData) {
+    if (resolvedPlaceDetails) {
       return (
         <NodeToolbar
-          {...this.state}
-          {...this.props}
-          {...resolvedData}
+          category={category}
+          parentCategory={parentCategory}
+          {...remainingProps}
+          {...resolvedPlaceDetails}
+          ref={t => (this.nodeToolbar = t)}
+        />
+      );
+    } else if (lightweightFeature) {
+      return (
+        <NodeToolbar
+          category={category}
+          parentCategory={parentCategory}
+          {...remainingProps}
+          feature={lightweightFeature}
+          sources={[]}
           ref={t => (this.nodeToolbar = t)}
         />
       );
