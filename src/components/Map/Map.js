@@ -94,6 +94,7 @@ type Props = {
   unitSystem?: 'metric' | 'imperial',
   hideHints?: boolean,
   onLocationError: (error: any) => void,
+  forwardedRef: ?(map: ?Map) => void,
 };
 
 type State = {
@@ -276,9 +277,13 @@ export default class Map extends React.Component<Props, State> {
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
 
     this.addAttribution();
+
+    if (this.props.forwardedRef) this.props.forwardedRef(this);
   }
 
   componentWillUnmount() {
+    if (this.props.forwardedRef) this.props.forwardedRef(null);
+
     if (!this.map) return;
     this.map.off();
     tileLoadingStatus.unregisterMap(this.map);
