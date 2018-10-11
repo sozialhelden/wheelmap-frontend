@@ -173,6 +173,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         }
 
         const coordinates = normalizedCoordinatesForFeature(feature);
+        // translator: Title for sharing a place detail page
         const thisPlaceIsOn = t`This place is on ${textContent.product.name}: ${placeTitle}`;
 
         extras = [
