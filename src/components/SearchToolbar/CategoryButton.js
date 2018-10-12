@@ -9,7 +9,7 @@ import colors from '../../lib/colors';
 import IconButton from '../IconButton';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 
 type Props = {
   name: string,
@@ -113,7 +113,7 @@ export default function CategoryButton(props: Props) {
   const { category, accessibilityFilter, toiletFilter, showCloseButton } = props;
 
   let shownAccessibilities = accessibilityFilter;
-  if (showCloseButton || !isFiltered(accessibilityFilter)) {
+  if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
     shownAccessibilities = [];
   }
 

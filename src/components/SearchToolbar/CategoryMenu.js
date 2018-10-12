@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import CategoryButton from './CategoryButton';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 import Categories from '../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
@@ -67,7 +67,7 @@ export default function CategoryMenu(props: Props) {
           onClick={onClick}
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}
-          hasCircle={!showCloseButton && !isFiltered(props.accessibilityFilter)}
+          hasCircle={!showCloseButton && !isAccessibilityFiltered(props.accessibilityFilter)}
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}
           key={category}
