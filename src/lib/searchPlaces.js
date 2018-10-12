@@ -1,7 +1,7 @@
 // @flow
 
 import includes from 'lodash/includes';
-import type { GeometryObject } from 'geojson-flow';
+import type { Point } from 'geojson-flow';
 
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
@@ -23,7 +23,7 @@ export type SearchResultProperties = {
 };
 
 export type SearchResultFeature = {
-  geometry: GeometryObject,
+  geometry: Point,
   properties: SearchResultProperties,
 };
 
