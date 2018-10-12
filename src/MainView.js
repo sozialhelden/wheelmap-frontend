@@ -11,6 +11,7 @@ import type { Location, RouterHistory } from 'react-router-dom';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
@@ -32,7 +33,6 @@ import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
 import type { ModalNodeState } from './lib/queryParams';
-import { newLocationWithReplacedQueryParams } from './lib/queryParams';
 
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 
@@ -102,6 +102,7 @@ type Props = {
   onShowPlaceDetails: (featureId: string | number) => void,
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
   presetStatus: YesNoLimitedUnknown,
 
   // photo feature
@@ -263,11 +264,7 @@ class MainView extends React.Component<Props, State> {
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
         onChangeSearchQuery={this.props.onSearchQueryChange}
-        onFilterChanged={filter => {
-          this.props.history.replace(
-            newLocationWithReplacedQueryParams(this.props.history, filter)
-          );
-        }}
+        onAccessibilityFilterButtonClick={this.props.onAccessibilityFilterButtonClick}
         onSearchResultClick={this.props.onSearchResultClick}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}

@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
-import type { RouterHistory } from 'react-router-dom';
+
 import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
@@ -12,12 +12,11 @@ import type { YesNoLimitedUnknown } from '../../lib/Feature';
 import { yesNoUnknownArray } from '../../lib/Feature';
 
 type Props = PlaceFilter & {
-  history: RouterHistory,
   className: string,
   hidden: boolean,
   onCloseClicked: () => void,
   onBlur: () => void,
-  onFilterChanged: (filter: PlaceFilter) => void,
+  onButtonClick: (data: PlaceFilter) => void,
   category: string,
   accessibilities: YesNoLimitedUnknown[],
 };
@@ -83,7 +82,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 
 function AccessibilityFilterMenu(props: Props) {
   const availableFilters = getAvailableFilters();
-  const { accessibilityFilter, toiletFilter } = props;
+  const { accessibilityFilter, toiletFilter, onButtonClick } = props;
   const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
@@ -98,9 +97,9 @@ function AccessibilityFilterMenu(props: Props) {
             caption={availableFilters[key].caption}
             category={category}
             isMainCategory
-            isActive={currentFilterKey}
+            isActive={Boolean(currentFilterKey)}
             showCloseButton={shownFilterKeys.length === 1}
-            history={props.history}
+            onClick={onButtonClick}
             key={key}
             className="accessibility-filter-button"
           />

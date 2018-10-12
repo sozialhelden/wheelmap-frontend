@@ -20,8 +20,15 @@ import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-import { yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId } from './lib/Feature';
+import {
+  type Feature,
+  type NodeProperties,
+  type YesNoLimitedUnknown,
+  type YesNoUnknown,
+  isAccessibilityFiltered,
+  isToiletFiltered,
+  getFeatureId,
+} from './lib/Feature';
 
 import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
@@ -33,6 +40,7 @@ import { getQueryParams } from './lib/queryParams';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
+import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 
 import 'react-activity/dist/react-activity.css';
 import './App.css';
@@ -62,12 +70,11 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  toiletFilter: YesNoUnknown[],
+  accessibilityFilter: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
 
 type State = {
-  toiletFilter?: YesNoUnknown[],
-  accessibilityFilter?: YesNoLimitedUnknown[],
-
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
@@ -86,28 +93,6 @@ type State = {
   photoMarkedForReport: PhotoModel | null,
 };
 
-function parseStatusString(statusString, allowedStatuses) {
-  // Safe mutable sort as filter always returns a new array.
-  return statusString
-    ? statusString
-        .split(/\./)
-        .filter(s => includes(allowedStatuses, s))
-        .sort()
-    : [...allowedStatuses];
-}
-
-function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
-  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
-
-  return ((result: any): YesNoLimitedUnknown[]);
-}
-
-function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
-  const result = parseStatusString(toiletString, yesNoUnknownArray);
-
-  return ((result: any): YesNoUnknown[]);
-}
-
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
@@ -116,9 +101,6 @@ class Loader extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
-    toiletFilter: [].concat(yesNoUnknownArray),
-
     lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
@@ -226,19 +208,42 @@ class Loader extends React.Component<Props, State> {
   };
 
   showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
-    //const pathname = hrefForFeature(featureId, properties);
-    //const location = { pathname, query: getQueryParams() };
+    const { routerHistory } = this.props;
 
     // show equipment inside their place details
+    let routeName = 'place_detail';
+    const params = this.getCurrentParams();
+
+    params.id = featureId;
+
     if (properties && typeof properties.placeInfoId === 'string') {
       const placeInfoId = properties.placeInfoId;
       if (includes(['elevator', 'escalator'], properties.category)) {
-        this.props.routerHistory.push('equipment', { id: placeInfoId, eid: featureId });
-        return;
+        routeName = 'equipment';
+        params.id = placeInfoId;
+        params.eid = featureId;
       }
     }
 
-    this.props.routerHistory.push('place_detail', { id: featureId });
+    routerHistory.push(routeName, params);
+  };
+
+  onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
+    let { routeName } = this.props;
+    const params = this.getCurrentParams();
+
+    delete params.accessibility;
+    delete params.toilet;
+
+    if (filter.accessibilityFilter.length > 0) {
+      params.accessibility = filter.accessibilityFilter.join(',');
+    }
+
+    if (filter.toiletFilter.length > 0) {
+      params.toilet = filter.toiletFilter.join(',');
+    }
+
+    this.props.routerHistory.push(routeName, params);
   };
 
   // Pan back to currently shown feature when marker in details panel is tapped/clicked
@@ -252,8 +257,10 @@ class Loader extends React.Component<Props, State> {
   };
 
   onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
-    const params = {};
+    const params = this.getCurrentParams();
     let routeName = 'map';
+
+    delete params.id;
 
     if (feature.properties.extent) {
       params.extent = feature.properties.extent;
@@ -272,46 +279,28 @@ class Loader extends React.Component<Props, State> {
         routeName = 'place_detail';
       }
     } else if (this.props.category) {
-      params.category = this.props.category;
       routeName = 'categories';
     }
 
     this.props.routerHistory.push(routeName, params);
   };
 
-  onCategorySelect = (categoryName: string) => {
-    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+  onCategorySelect = (category: string) => {
+    const { routeName, routerHistory } = this.props;
+    const params = this.getCurrentParams();
 
-    const newRouteName = currentRouteName === 'map' ? 'categories' : currentRouteName;
+    params.category = category;
 
-    // preserve all query params...
-    const queryParams = getQueryParams();
-
-    const newParams =
-      currentRouteName === 'place_detail'
-        ? {
-            ...queryParams,
-            category: categoryName,
-            id: featureId,
-          }
-        : { ...queryParams, category: categoryName };
-
-    routerHistory.push(newRouteName, newParams);
+    routerHistory.push(routeName, params);
   };
 
   onCategoryReset = () => {
-    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+    const { routeName, routerHistory } = this.props;
+    const params = this.getCurrentParams();
 
-    // preserve all query params...
-    const queryParams = getQueryParams();
-    // ...except for category
-    delete queryParams.category;
+    delete params.category;
 
-    const newRouteName = currentRouteName === 'place_detail' ? currentRouteName : 'map';
-    const newParams =
-      currentRouteName === 'place_detail' ? { ...queryParams, id: featureId } : queryParams;
-
-    routerHistory.push(newRouteName, newParams);
+    routerHistory.push(routeName, params);
   };
 
   onClickFullscreenBackdrop = () => {
@@ -433,12 +422,52 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
+  getCurrentParams() {
+    const params = {};
+    const {
+      category,
+      accessibilityFilter,
+      toiletFilter,
+      routeName,
+      featureId,
+      equipmentInfoId,
+    } = this.props;
+
+    if (category) {
+      params.category = category;
+    }
+
+    if (isAccessibilityFiltered(accessibilityFilter)) {
+      params.accessibility = accessibilityFilter.join(',');
+    }
+
+    if (isToiletFiltered(toiletFilter)) {
+      params.toilet = toiletFilter.join(',');
+    }
+
+    if (routeName === 'place_detail') {
+      params.id = featureId;
+    }
+
+    if (routeName === 'equipment') {
+      params.id = featureId;
+      params.eid = equipmentInfoId;
+    }
+
+    return params;
+  }
+
   // this is called also when the report dialog is closed
   onCloseNodeToolbar = () => {
     const currentModalState = this.state.modalNodeState;
 
     if (!currentModalState) {
-      this.props.routerHistory.push('map');
+      const params = this.getCurrentParams();
+
+      delete params.id;
+      delete params.eid;
+
+      this.props.routerHistory.push('map', params);
     } else {
       this.setState({
         modalNodeState: null,
@@ -565,8 +594,8 @@ class Loader extends React.Component<Props, State> {
       categories: this.props.categories,
       sources: this.props.sources,
       userAgent: this.props.userAgent,
-      toiletFilter: this.state.toiletFilter,
-      accessibilityFilter: this.state.accessibilityFilter,
+      toiletFilter: this.props.toiletFilter,
+      accessibilityFilter: this.props.accessibilityFilter,
       searchQuery: this.props.searchQuery,
       lat: this.props.lat,
       lon: this.props.lon,
@@ -630,6 +659,7 @@ class Loader extends React.Component<Props, State> {
         onEquipmentSelected={this.onEquipmentSelected}
         onShowPlaceDetails={this.showSelectedFeature}
         onMainMenuHomeClick={this.onMainMenuHomeClick}
+        onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

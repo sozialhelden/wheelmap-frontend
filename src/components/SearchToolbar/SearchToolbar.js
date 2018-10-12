@@ -18,7 +18,7 @@ import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
 import colors from '../../lib/colors';
 import isCordova from '../../lib/isCordova';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 //import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
@@ -26,6 +26,7 @@ import { isOnSmallViewport } from '../../lib/ViewportSize';
 import { newLocationWithReplacedQueryParams } from '../../lib/queryParams';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 import type { WheelmapFeature } from '../../lib/Feature';
+import { type CategoryLookupTables } from '../../lib/Categories';
 
 // You can enter debug commands in the search bar, which are handled here.
 function handleInputCommands(history: RouterHistory, commandLine: ?string) {
@@ -54,7 +55,7 @@ export type Props = PlaceFilter & {
   searchQuery: ?string,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
-  onFilterChanged: (filter: PlaceFilter) => void,
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
   onClose: ?() => void,
   onClick: () => void,
   onCategorySelect: () => void,
@@ -417,7 +418,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
     return (
       <CategoryMenu
-        history={this.props.history}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}
         onFocus={() => this.setState({ isCategoryFocused: true })}
@@ -431,16 +431,23 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   }
 
   renderAccessibilityFilterToolbar() {
-    if (!isFiltered(this.props.accessibilityFilter) && !this.props.isExpanded) return null;
+    const {
+      accessibilityFilter,
+      isExpanded,
+      toiletFilter,
+      onAccessibilityFilterButtonClick,
+      category,
+    } = this.props;
+
+    if (!isAccessibilityFiltered(accessibilityFilter) && !isExpanded) return null;
 
     return (
       <div className="filter-selector">
         <AccessibilityFilterMenu
-          accessibilityFilter={this.props.accessibilityFilter}
-          toiletFilter={this.props.toiletFilter}
-          onFilterChanged={this.props.onFilterChanged}
-          category={this.props.category}
-          history={this.props.history}
+          accessibilityFilter={accessibilityFilter}
+          toiletFilter={toiletFilter}
+          category={category}
+          onButtonClick={onAccessibilityFilterButtonClick}
           onBlur={() => {
             setTimeout(() => this.setState({ isCategoryFocused: false }));
           }}

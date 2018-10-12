@@ -9,6 +9,12 @@ import {
 
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
 import { type UAResult } from '../lib/userAgent';
+import {
+  type YesNoLimitedUnknown,
+  type YesNoUnknown,
+  getAccessibilityFilterFrom,
+  getToiletFilterFrom,
+} from '../lib/Feature';
 
 import {
   fetchClientSideConfiguration,
@@ -25,6 +31,8 @@ export type AppProps = {
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
   hostName: string,
+  accessibilityFilter: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[],
 };
 
 type DataTableQuery = {
@@ -88,6 +96,8 @@ export async function getAppInitialProps(
     lat,
     lon,
     locale,
+    accessibility,
+    toilet,
     ...query
   }: {
     userAgentString: string,
@@ -98,11 +108,14 @@ export async function getAppInitialProps(
     lat?: number,
     lon?: number,
     locale?: string,
+    accessibility?: string,
+    toilet?: string,
     [key: string]: string,
   },
   isServer: boolean
 ): Promise<AppProps> {
   // flow type is not synced with actual apis
+  // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
 
@@ -126,6 +139,9 @@ export async function getAppInitialProps(
     ? clientCache.categories
     : await Categories.generateLookupTables({ locale: preferredLocale });
 
+  const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
+  const toiletFilter = getToiletFilterFrom(toilet);
+
   return {
     userAgent,
     translations,
@@ -137,6 +153,8 @@ export async function getAppInitialProps(
     lon,
     hostName,
     locale: preferredLocale,
+    accessibilityFilter,
+    toiletFilter,
   };
 }
 
