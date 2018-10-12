@@ -161,6 +161,10 @@ class Loader extends React.Component<Props, State> {
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
     }
+
+    if (this.props.routeName === 'search') {
+      this.openSearch();
+    }
   }
 
   openSearch() {

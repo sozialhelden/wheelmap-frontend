@@ -64,18 +64,22 @@ const SearchData: DataTableEntry<SearchProps> = {
   async getInitialProps(query, isServer) {
     // TODO error handling for await
 
-    const searchQuery = query.q;
-    let searchResults = searchPlaces(searchQuery, {
-      lat: parseFloat(query.lat),
-      lon: parseFloat(query.lon),
-    });
+    const searchQuery = query.q && query.q.trim();
+    let searchResults = Promise.resolve({ features: [] });
+
+    if (searchQuery) {
+      searchResults = searchPlaces(searchQuery, {
+        lat: parseFloat(query.lat),
+        lon: parseFloat(query.lon),
+      });
+    }
 
     // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
     searchResults = isServer ? await searchResults : searchResults;
 
     return {
       searchResults,
-      searchQuery: query.q,
+      searchQuery,
     };
   },
 
