@@ -19,7 +19,7 @@ import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
 import MapData from './MapData';
 
-type AppProps = {
+export type AppProps = {
   userAgent: UAResult,
   categories: CategoryLookupTables,
   translations: Translations[],
