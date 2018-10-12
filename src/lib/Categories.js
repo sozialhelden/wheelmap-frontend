@@ -4,6 +4,7 @@ import { t } from 'ttag';
 import { globalFetchManager } from './FetchManager';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
+import config from './config';
 import env from './env';
 
 import type { Feature } from './Feature';
@@ -179,11 +180,8 @@ export default class Categories {
       wheelmapCategoryNamesToCategories: {},
       wheelmapRootCategoryNamesToCategories: {},
     };
-    const countryCode = options.locale.substr(0, 2);
-    const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
-      ? env.public.wheelmap.baseUrl
-      : env.public.baseUrl || '/';
 
+    const countryCode = options.locale.substr(0, 2);
     const responseHandler = response => {
       if (!response.ok) {
         // translator: Shown when there was an error while loading category data from the backend.
@@ -204,7 +202,7 @@ export default class Categories {
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${wheelmapApiBaseUrl}/api/categories?api_key=${
+      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${
         env.public.wheelmap.apiKey
       }&locale=${countryCode}`;
       return globalFetchManager
@@ -214,8 +212,8 @@ export default class Categories {
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${wheelmapApiBaseUrl}/api/node_types?api_key=${
-        env.public.wheelmap.apiKey
+      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${
+        config.wheelmapApiKey
       }&locale=${countryCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
@@ -225,7 +223,7 @@ export default class Categories {
 
     const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
     const hasWheelmapCredentials =
-      env.public.wheelmap.apiKey && typeof wheelmapApiBaseUrl === 'string';
+      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
 
     await Promise.all(
       [

@@ -1,8 +1,7 @@
 import env from './env';
 
-const wheelmapApiBaseUrl = env.public.wheelmap.baseUrl
-  ? env.public.wheelmap.baseUrl
-  : env.public.baseUrl || '/';
+const wheelmapApiBaseUrl =
+  env.public.wheelmap.baseUrl || env.public.wheelmap.baseUrl || env.public.baseUrl || '/';
 
 export default {
   locateTimeout: 60 * 60 * 1000,

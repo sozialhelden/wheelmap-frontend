@@ -11,6 +11,7 @@ import { saveToiletStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 
 type SaveOptions = {
   featureId: string | number,
@@ -19,6 +20,7 @@ type SaveOptions = {
 };
 
 type Props = SaveOptions & {
+  categories: CategoryLookupTables,
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
   className?: string,
   presetStatus?: ?YesNoUnknown,
