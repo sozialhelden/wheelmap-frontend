@@ -3,17 +3,14 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 import colors from '../../lib/colors';
 import CombinedIcon from './CombinedIcon';
 import CloseIcon from '../icons/actions/Close';
-import urlForFilters from './urlForFilters';
+import type { PlaceFilter } from './AccessibilityFilterModel';
 
 type Props = {
-  history: RouterHistory,
   className: string,
   showCloseButton: boolean,
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -21,12 +18,14 @@ type Props = {
   caption: string,
   category: string,
   isMainCategory?: boolean,
+  onClick: (data: PlaceFilter) => void,
   onFocus?: (event: UIEvent) => void,
   onBlur?: (event: UIEvent) => void,
   onKeyDown?: (event: UIEvent) => void,
+  isActive: boolean,
 };
 
-const StyledNavLink = styled(NavLink)`
+const StyledLink = styled.a`
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -70,27 +69,21 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export default function AccessibilityFilterButton(props: Props) {
-  const caption = props.caption;
   const {
-    history,
     toiletFilter,
     accessibilityFilter,
     category,
     isMainCategory,
     showCloseButton,
+    caption,
+    isActive,
+    onClick,
   } = props;
-  const href = urlForFilters({
-    history,
-    category,
-    toiletFilter: showCloseButton ? null : toiletFilter,
-    accessibilityFilter: showCloseButton ? null : accessibilityFilter,
-  });
 
   return (
-    <StyledNavLink
-      to={href}
+    <StyledLink
       className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''} ${
-        props.isActive ? 'is-active' : ''
+        isActive ? 'is-active' : ''
       }`}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
@@ -98,10 +91,16 @@ export default function AccessibilityFilterButton(props: Props) {
       tabIndex={0}
       role="button"
       aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
+      onClick={() =>
+        onClick({
+          toiletFilter: showCloseButton ? [] : toiletFilter,
+          accessibilityFilter: showCloseButton ? [] : accessibilityFilter,
+        })
+      }
     >
       <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
       <span className="caption">{caption}</span>
       {showCloseButton && <CloseIcon className="close-icon" />}
-    </StyledNavLink>
+    </StyledLink>
   );
 }

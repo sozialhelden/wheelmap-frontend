@@ -21,13 +21,40 @@ import { normalizeCoordinates } from './normalizeCoordinates';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
-export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'].sort();
+export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
+  'yes',
+  'limited',
+  'no',
+  'unknown',
+].sort();
 Object.freeze(yesNoLimitedUnknownArray);
-export const yesNoUnknownArray = ['yes', 'no', 'unknown'].sort();
+export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown'].sort();
 Object.freeze(yesNoUnknownArray);
 
 function sortedIsEqual(array1, array2): boolean {
   return isEqual([].concat(array1).sort(), [].concat(array2).sort());
+}
+
+function parseStatusString(statusString, allowedStatuses) {
+  // Safe mutable sort as filter always returns a new array.
+  return statusString
+    ? statusString
+        .split(',')
+        .filter(s => includes(allowedStatuses, s))
+        .sort()
+    : [...allowedStatuses];
+}
+
+export function getAccessibilityFilterFrom(statusString: ?string): YesNoLimitedUnknown[] {
+  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
+
+  return ((result: any): YesNoLimitedUnknown[]);
+}
+
+export function getToiletFilterFrom(toiletString: ?string): YesNoUnknown[] {
+  const result = parseStatusString(toiletString, yesNoUnknownArray);
+
+  return ((result: any): YesNoUnknown[]);
 }
 
 /**

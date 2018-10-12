@@ -33,6 +33,7 @@ import { getQueryParams } from './lib/queryParams';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
+import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 
 import 'react-activity/dist/react-activity.css';
 import './App.css';
@@ -62,12 +63,11 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  toiletFilter?: YesNoUnknown[],
+  accessibilityFilter?: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
 
 type State = {
-  toiletFilter?: YesNoUnknown[],
-  accessibilityFilter?: YesNoLimitedUnknown[],
-
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
@@ -86,28 +86,6 @@ type State = {
   photoMarkedForReport: PhotoModel | null,
 };
 
-function parseStatusString(statusString, allowedStatuses) {
-  // Safe mutable sort as filter always returns a new array.
-  return statusString
-    ? statusString
-        .split(/\./)
-        .filter(s => includes(allowedStatuses, s))
-        .sort()
-    : [...allowedStatuses];
-}
-
-function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
-  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
-
-  return ((result: any): YesNoLimitedUnknown[]);
-}
-
-function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
-  const result = parseStatusString(toiletString, yesNoUnknownArray);
-
-  return ((result: any): YesNoUnknown[]);
-}
-
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
@@ -116,9 +94,6 @@ class Loader extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
-    toiletFilter: [].concat(yesNoUnknownArray),
-
     lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
@@ -239,6 +214,25 @@ class Loader extends React.Component<Props, State> {
     }
 
     this.props.routerHistory.push('place_detail', { id: featureId });
+  };
+
+  onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
+    let { routeName } = this.props;
+    const params = {};
+
+    if (filter.accessibilityFilter.length > 0) {
+      params.accessibility = filter.accessibilityFilter.join(',');
+    }
+
+    if (filter.toiletFilter.length > 0) {
+      params.toilet = filter.toiletFilter.join(',');
+    }
+
+    if (routeName === 'categories') {
+      params.category = this.props.category;
+    }
+
+    this.props.routerHistory.push(routeName, params);
   };
 
   // Pan back to currently shown feature when marker in details panel is tapped/clicked
@@ -565,8 +559,8 @@ class Loader extends React.Component<Props, State> {
       categories: this.props.categories,
       sources: this.props.sources,
       userAgent: this.props.userAgent,
-      toiletFilter: this.state.toiletFilter,
-      accessibilityFilter: this.state.accessibilityFilter,
+      toiletFilter: this.props.toiletFilter,
+      accessibilityFilter: this.props.accessibilityFilter,
       searchQuery: this.props.searchQuery,
       lat: this.props.lat,
       lon: this.props.lon,
@@ -630,6 +624,7 @@ class Loader extends React.Component<Props, State> {
         onEquipmentSelected={this.onEquipmentSelected}
         onShowPlaceDetails={this.showSelectedFeature}
         onMainMenuHomeClick={this.onMainMenuHomeClick}
+        onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
