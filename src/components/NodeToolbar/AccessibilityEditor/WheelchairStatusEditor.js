@@ -8,6 +8,7 @@ import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature'
 import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 
 type SaveOptions = {
   featureId: string | number,
@@ -16,6 +17,7 @@ type SaveOptions = {
 };
 
 type Props = SaveOptions & {
+  categories: CategoryLookupTables,
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
   className?: string,
   presetStatus?: ?YesNoLimitedUnknown,
