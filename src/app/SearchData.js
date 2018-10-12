@@ -64,11 +64,12 @@ const SearchData: DataTableEntry<SearchProps> = {
   async getInitialProps(query, isServer) {
     // TODO error handling for await
 
-    const searchQuery = query.q && query.q.trim();
+    const searchQuery = query.q;
+    let trimmedSearchQuery;
     let searchResults = Promise.resolve({ features: [] });
 
-    if (searchQuery) {
-      searchResults = searchPlaces(searchQuery, {
+    if (searchQuery && (trimmedSearchQuery = searchQuery.trim())) {
+      searchResults = searchPlaces(trimmedSearchQuery, {
         lat: parseFloat(query.lat),
         lon: parseFloat(query.lon),
       });
