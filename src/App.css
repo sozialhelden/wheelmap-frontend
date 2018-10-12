@@ -3,6 +3,10 @@
   opacity: 0.6;
 }
 
+body {
+  margin: 0;
+}
+
 body,
 button,
 input,
