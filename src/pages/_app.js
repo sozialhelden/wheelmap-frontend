@@ -209,7 +209,6 @@ export default class App extends BaseApp {
             routeName={routeName}
           />
         </React.Fragment>
-        )}
       </Container>
     );
   }
