@@ -183,6 +183,12 @@ class Loader extends React.Component<Props, State> {
     this.setState({ isMainMenuOpen });
   };
 
+  onMainMenuHomeClick = () => {
+    saveState({ onboardingCompleted: 'false' });
+    this.setState({ isOnboardingVisible: true });
+    this.props.routerHistory.push('map');
+  };
+
   onMoveEnd = state => {
     let { zoom, lat, lon } = state;
 
@@ -618,6 +624,7 @@ class Loader extends React.Component<Props, State> {
         onSearchQueryChange={this.onSearchQueryChange}
         onEquipmentSelected={this.onEquipmentSelected}
         onShowPlaceDetails={this.showSelectedFeature}
+        onMainMenuHomeClick={this.onMainMenuHomeClick}
         // photo feature
         onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
         onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

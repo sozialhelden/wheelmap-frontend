@@ -2,14 +2,14 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
+import FocusTrap from '@sozialhelden/focus-trap-react';
+
 // import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
-import type { RouterHistory } from 'react-router-dom';
-import FocusTrap from '@sozialhelden/focus-trap-react';
 import type { Link } from '../../App';
 
 type State = {
@@ -20,11 +20,11 @@ type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onAddMissingPlaceClick: () => void,
+  onHomeClick: () => void,
   isOpen: boolean,
   lat: string,
   lon: string,
   zoom: string,
-  history: RouterHistory,
   logoURL: string,
   links: Array<Link>,
   addPlaceURL: string,
@@ -89,12 +89,8 @@ class MainMenu extends React.Component<Props, State> {
     event.preventDefault();
   };
 
-  returnHome = () => {
-    this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
-  };
-
-  handleKeyDown = (event: SyntheticEvent<HTMLElement>) => {
-    if (event.nativeEvent.key === 'Escape') {
+  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
       this.props.onToggle(false);
     }
   };
@@ -104,7 +100,7 @@ class MainMenu extends React.Component<Props, State> {
       <div className="home-link">
         <button
           className="btn-unstyled home-button"
-          onClick={this.returnHome}
+          onClick={this.props.onHomeClick}
           aria-label={t`Home`}
           onKeyDown={this.handleKeyDown}
           {...extraProps}
@@ -123,19 +119,9 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      travelGuide,
-      getInvolved,
-      news,
-      press,
-      contact,
-      imprint,
-      faq,
-      addMissingPlace,
-      findWheelchairAccessiblePlaces,
-    } = strings();
+    const { addMissingPlace, findWheelchairAccessiblePlaces } = strings();
 
-    const { isOpen, className, links, addPlaceURL, logoURL } = this.props;
+    const { isOpen, className, links, addPlaceURL } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -225,6 +211,8 @@ const StyledMainMenu = styled(MainMenu)`
     font-weight: lighter;
     opacity: 0.6;
     transition: opacity 0.3s ease-out;
+    padding-left: 5px;
+
     @media (max-width: 1280px) {
       font-size: 80%;
       max-width: 130px;

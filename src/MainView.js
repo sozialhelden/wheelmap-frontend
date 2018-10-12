@@ -81,6 +81,7 @@ type Props = {
   onCloseSearchToolbar: () => void,
   onClickSearchButton: () => void,
   onToggleMainMenu: () => void,
+  onMainMenuHomeClick: () => void,
   onClickFullscreenBackdrop: () => void,
   onMoveEnd: () => void,
   onMapClick: () => void,
@@ -311,7 +312,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
-    const { isMainMenuOpen, onToggleMainMenu, history, clientSideConfiguration } = this.props;
+    const {
+      isMainMenuOpen,
+      onMainMenuHomeClick,
+      onToggleMainMenu,
+      history,
+      clientSideConfiguration,
+    } = this.props;
     const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
 
     return (
@@ -319,6 +326,7 @@ class MainView extends React.Component<Props, State> {
         className="main-menu"
         isOpen={isMainMenuOpen}
         onToggle={onToggleMainMenu}
+        onHomeClick={onMainMenuHomeClick}
         isLocalizationLoaded={isLocalizationLoaded}
         onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         history={history}
