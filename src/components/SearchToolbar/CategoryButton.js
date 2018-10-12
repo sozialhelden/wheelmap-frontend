@@ -23,7 +23,7 @@ type Props = {
   onFocus?: (event: UIEvent) => void,
 };
 
-const StyledLink = styled.link`
+const StyledLink = styled.a`
   display: flex;
   align-items: center;
   border: none;
