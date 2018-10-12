@@ -67,7 +67,7 @@ type MoveArgs = {
 type TargetMapState = {
   center: [number, number],
   zoom: number,
-  bounds: ?[[number, number], [number, number]],
+  bounds: ?L.LatLngBounds,
   zoomedToFeatureId: ?string,
 };
 
@@ -171,7 +171,7 @@ export default class Map extends React.Component<Props, State> {
     let bounds = null;
     let zoomedToFeatureId = state.zoomedToFeatureId;
 
-    // Use the feature coordinates
+    // use the feature coordinates, but only if they changed
     if (
       feature &&
       getFeatureId(feature) !== state.zoomedToFeatureId &&
@@ -187,7 +187,23 @@ export default class Map extends React.Component<Props, State> {
       zoomedToFeatureId = getFeatureId(feature);
     } else {
       if (props.extent) {
-        bounds = [[props.extent[0], props.extent[1]], [props.extent[2], props.extent[3]]];
+        // only use changed bounds once
+        const newBounds = new L.LatLngBounds([
+          [props.extent[1], props.extent[0]],
+          [props.extent[3], props.extent[2]],
+        ]);
+        const prevBounds =
+          lastProps && lastProps.extent
+            ? new L.LatLngBounds([
+                [lastProps.extent[1], lastProps.extent[0]],
+                [lastProps.extent[3], lastProps.extent[2]],
+              ])
+            : null;
+        const hasChangedExtents = !prevBounds || !newBounds.equals(prevBounds, 0.01);
+
+        if (hasChangedExtents) {
+          bounds = newBounds;
+        }
       }
 
       if (props.lat && props.lon) {
@@ -232,6 +248,13 @@ export default class Map extends React.Component<Props, State> {
 
     if (!map) {
       throw new Error('Could not initialize map component.');
+    }
+
+    if (initialMapState.bounds) {
+      map.fitBounds(initialMapState.bounds, {
+        animate: false,
+        noMoveStart: true,
+      });
     }
 
     map.on('click', () => {
@@ -561,24 +584,32 @@ export default class Map extends React.Component<Props, State> {
     const center = map.getCenter();
 
     let moved = false;
-    const { center: targetCoords, zoom } = targetMapState;
+    const { center: targetCoords, zoom, bounds } = targetMapState;
 
     // make max distance zoom dependant
     const mapBounds = map.getBounds();
     const maximalMoveDistance = Math.abs(mapBounds.getWest() - mapBounds.getEast()) * 0.1;
 
-    if (
+    const effectivePadding = padding || {
+      top: 10,
+      left: 10,
+      right: 10,
+      bottom: 10,
+    };
+
+    if (bounds && !mapBounds.equals(bounds, 0.01)) {
+      map.fitBounds(bounds, {
+        paddingTopLeft: [effectivePadding.left, effectivePadding.top],
+        paddingBottomRight: [effectivePadding.right, effectivePadding.bottom],
+        animate: true,
+        noMoveStart: true,
+      });
+      moved = true;
+    } else if (
       targetCoords &&
       !isSamePosition(targetCoords, [center.lat, center.lng], maximalMoveDistance)
     ) {
-      const bounds = this.calculateBoundsWithPadding(
-        padding || {
-          top: 10,
-          left: 10,
-          right: 10,
-          bottom: 10,
-        }
-      );
+      const bounds = this.calculateBoundsWithPadding(effectivePadding);
       const isWithinBounds = bounds.contains(targetCoords);
 
       if (!isWithinBounds) {
@@ -625,6 +656,7 @@ export default class Map extends React.Component<Props, State> {
       highlightMarkers(this.highLightLayer, []);
     }
   }
+
   updateTabIndexes() {
     const map = this.map;
     if (!map) return;

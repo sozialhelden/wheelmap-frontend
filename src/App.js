@@ -91,6 +91,11 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
+  // map controls
+  lat?: ?number,
+  lon?: ?number,
+  zoom?: ?number,
 };
 
 function isStickySearchBarSupported() {
