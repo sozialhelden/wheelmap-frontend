@@ -159,7 +159,7 @@ class MainView extends React.Component<Props, State> {
     isOnSmallViewport: isOnSmallViewport(),
   };
 
-  map: ?any;
+  map: ?{ focus: () => void };
 
   lastFocusedElement: ?HTMLElement;
   nodeToolbar: ?NodeToolbarFeatureLoader;
@@ -449,7 +449,7 @@ class MainView extends React.Component<Props, State> {
 
     const map = (
       <DynamicMap
-        ref={map => {
+        forwardedRef={map => {
           this.map = map;
           if (typeof window !== 'undefined') {
             window.map = map;
