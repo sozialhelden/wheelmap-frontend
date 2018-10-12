@@ -245,6 +245,10 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
+  onChangeSearchQuery = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.props.onChangeSearchQuery(event.target.value);
+  };
+
   static getDerivedStateFromProps(props: Props, state: State) {
     const { searchResults } = props;
 
@@ -362,9 +366,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
             this.ensureFullVisibility();
           }, 300);
         }}
-        onChange={event => {
-          this.props.onChangeSearchQuery(event.target.value);
-        }}
+        onChange={this.onChangeSearchQuery}
         onSubmit={() => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();

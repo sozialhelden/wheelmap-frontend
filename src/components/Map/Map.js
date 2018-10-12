@@ -44,6 +44,9 @@ import colors from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 
+import './Leaflet.css';
+import './Map.css';
+
 window.L = L;
 
 type Padding = {

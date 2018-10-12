@@ -423,6 +423,7 @@ class MainView extends React.Component<Props, State> {
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = uniq([
+      'main-view',
       this.props.className,
       this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
