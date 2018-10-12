@@ -23,7 +23,7 @@ type Props = {
   onFocus?: (event: UIEvent) => void,
 };
 
-const StyledLink = styled.a`
+const StyledButton = styled.button`
   display: flex;
   align-items: center;
   border: none;
@@ -129,7 +129,7 @@ export default function CategoryButton(props: Props) {
   );
 
   return (
-    <StyledLink
+    <StyledButton
       onClick={() => props.onClick(category)}
       className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
       onFocus={props.onFocus}
@@ -145,6 +145,6 @@ export default function CategoryButton(props: Props) {
         {icon}
       </IconButton>
       {showCloseButton && <CloseIcon />}
-    </StyledLink>
+    </StyledButton>
   );
 }
