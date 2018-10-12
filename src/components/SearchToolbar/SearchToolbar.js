@@ -481,12 +481,13 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
   render() {
     const { isLoading, searchResults } = this.state;
+    const { searchQuery } = this.props;
 
     let contentBelowSearchField = null;
 
     if (!searchResults && isLoading) {
       contentBelowSearchField = this.renderLoadingIndicator();
-    } else if (searchResults) {
+    } else if (searchResults && searchQuery) {
       contentBelowSearchField = this.renderSearchResults(searchResults);
     } else {
       contentBelowSearchField = this.renderFilters();
