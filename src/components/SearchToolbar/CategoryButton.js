@@ -10,7 +10,6 @@ import IconButton from '../IconButton';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isFiltered } from '../../lib/Feature';
-import urlForFilters from './urlForFilters';
 
 type Props = {
   name: string,
@@ -24,7 +23,7 @@ type Props = {
   onFocus?: (event: UIEvent) => void,
 };
 
-const StyledButton = styled.button`
+const StyledLink = styled.link`
   display: flex;
   align-items: center;
   border: none;
@@ -111,13 +110,7 @@ const StyledButton = styled.button`
 `;
 
 export default function CategoryButton(props: Props) {
-  const { history, category, accessibilityFilter, toiletFilter, showCloseButton } = props;
-  const url = urlForFilters({
-    history,
-    accessibilityFilter,
-    toiletFilter,
-    category: showCloseButton ? null : category,
-  });
+  const { category, accessibilityFilter, toiletFilter, showCloseButton } = props;
 
   let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isFiltered(accessibilityFilter)) {
@@ -136,7 +129,7 @@ export default function CategoryButton(props: Props) {
   );
 
   return (
-    <StyledButton
+    <StyledLink
       onClick={() => props.onClick(category)}
       className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
       onFocus={props.onFocus}
@@ -152,6 +145,6 @@ export default function CategoryButton(props: Props) {
         {icon}
       </IconButton>
       {showCloseButton && <CloseIcon />}
-    </StyledButton>
+    </StyledLink>
   );
 }

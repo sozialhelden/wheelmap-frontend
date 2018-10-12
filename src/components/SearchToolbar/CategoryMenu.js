@@ -2,11 +2,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
+
 import CategoryButton from './CategoryButton';
 import { isFiltered } from '../../lib/Feature';
 import Categories from '../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import type { RouterHistory } from 'react-router-dom';
 
 const Container = styled.div`
   flex-flow: row wrap;
@@ -45,26 +45,25 @@ type Props = {
   category: ?string,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
-  history: RouterHistory,
 };
 
 export default function CategoryMenu(props: Props) {
   let names = null;
   const { category, onCategoryReset, onCategorySelect } = props;
+
   if (category) {
     names = { [category]: Categories.translatedWheelmapRootCategoryName(category) };
   } else {
     names = Categories.getTranslatedRootCategoryNames();
   }
-  const showCloseButton = Boolean(category);
 
+  const showCloseButton = Boolean(category);
   const onClick = category ? onCategoryReset : onCategorySelect;
 
   return (
     <Container className="category-menu">
       {Object.keys(names).map((category, index) => (
         <CategoryButton
-          history={props.history}
           onClick={onClick}
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}

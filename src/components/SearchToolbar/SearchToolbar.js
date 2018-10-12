@@ -418,7 +418,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
     return (
       <CategoryMenu
-        history={this.props.history}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}
         onFocus={() => this.setState({ isCategoryFocused: true })}
