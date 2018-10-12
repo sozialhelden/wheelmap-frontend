@@ -2,7 +2,11 @@
 
 type LatLng = [number, number];
 
-export default function isSamePosition(latlon: LatLng, latlon2: LatLng, maximalDistance = 0.001) {
+export default function isSamePosition(
+  latlon: LatLng,
+  latlon2: LatLng,
+  maximalDistance: number = 0.001
+) {
   if (
     typeof latlon[0] === 'undefined' ||
     typeof latlon[1] === 'undefined' ||
