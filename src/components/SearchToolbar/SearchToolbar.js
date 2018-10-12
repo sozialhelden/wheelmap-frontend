@@ -18,7 +18,7 @@ import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
 import colors from '../../lib/colors';
 import isCordova from '../../lib/isCordova';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 //import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
@@ -439,7 +439,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
       category,
     } = this.props;
 
-    if (!isFiltered(accessibilityFilter) && !isExpanded) return null;
+    if (!isAccessibilityFiltered(accessibilityFilter) && !isExpanded) return null;
 
     return (
       <div className="filter-selector">

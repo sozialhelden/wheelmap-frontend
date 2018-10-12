@@ -6,7 +6,7 @@ import MapButton from '../MapButton';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 import Categories from '../../lib/Categories';
 import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
@@ -30,7 +30,7 @@ function SearchButton(props: Props) {
   const classNames = ['btn-unstyled', 'search-button', props.className];
 
   const { toiletFilter, accessibilityFilter, category } = props;
-  const isAnyFilterSet = isFiltered(accessibilityFilter) || category;
+  const isAnyFilterSet = isAccessibilityFiltered(accessibilityFilter) || category;
   // translator: Shown in collapsed search/filter combi button when there is no category filter set
   const allPlacesCaption = t`All places`;
 

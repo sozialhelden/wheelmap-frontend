@@ -20,8 +20,15 @@ import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-import { yesNoLimitedUnknownArray, yesNoUnknownArray, getFeatureId } from './lib/Feature';
+import {
+  type Feature,
+  type NodeProperties,
+  type YesNoLimitedUnknown,
+  type YesNoUnknown,
+  isAccessibilityFiltered,
+  isToiletFiltered,
+  getFeatureId,
+} from './lib/Feature';
 
 import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
@@ -63,8 +70,8 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
-  toiletFilter?: YesNoUnknown[],
-  accessibilityFilter?: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[],
+  accessibilityFilter: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
 
 type State = {
@@ -201,24 +208,32 @@ class Loader extends React.Component<Props, State> {
   };
 
   showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
-    //const pathname = hrefForFeature(featureId, properties);
-    //const location = { pathname, query: getQueryParams() };
+    const { routerHistory } = this.props;
 
     // show equipment inside their place details
+    let routeName = 'place_detail';
+    const params = this.getCurrentParams();
+
+    params.id = featureId;
+
     if (properties && typeof properties.placeInfoId === 'string') {
       const placeInfoId = properties.placeInfoId;
       if (includes(['elevator', 'escalator'], properties.category)) {
-        this.props.routerHistory.push('equipment', { id: placeInfoId, eid: featureId });
-        return;
+        routeName = 'equipment';
+        params.id = placeInfoId;
+        params.eid = featureId;
       }
     }
 
-    this.props.routerHistory.push('place_detail', { id: featureId });
+    routerHistory.push(routeName, params);
   };
 
   onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
     let { routeName } = this.props;
-    const params = {};
+    const params = this.getCurrentParams();
+
+    delete params.accessibility;
+    delete params.toilet;
 
     if (filter.accessibilityFilter.length > 0) {
       params.accessibility = filter.accessibilityFilter.join(',');
@@ -226,10 +241,6 @@ class Loader extends React.Component<Props, State> {
 
     if (filter.toiletFilter.length > 0) {
       params.toilet = filter.toiletFilter.join(',');
-    }
-
-    if (routeName === 'categories') {
-      params.category = this.props.category;
     }
 
     this.props.routerHistory.push(routeName, params);
@@ -246,8 +257,10 @@ class Loader extends React.Component<Props, State> {
   };
 
   onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
-    const params = {};
+    const params = this.getCurrentParams();
     let routeName = 'map';
+
+    delete params.id;
 
     if (feature.properties.extent) {
       params.extent = feature.properties.extent;
@@ -266,46 +279,28 @@ class Loader extends React.Component<Props, State> {
         routeName = 'place_detail';
       }
     } else if (this.props.category) {
-      params.category = this.props.category;
       routeName = 'categories';
     }
 
     this.props.routerHistory.push(routeName, params);
   };
 
-  onCategorySelect = (categoryName: string) => {
-    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+  onCategorySelect = (category: string) => {
+    const { routeName, routerHistory } = this.props;
+    const params = this.getCurrentParams();
 
-    const newRouteName = currentRouteName === 'map' ? 'categories' : currentRouteName;
+    params.category = category;
 
-    // preserve all query params...
-    const queryParams = getQueryParams();
-
-    const newParams =
-      currentRouteName === 'place_detail'
-        ? {
-            ...queryParams,
-            category: categoryName,
-            id: featureId,
-          }
-        : { ...queryParams, category: categoryName };
-
-    routerHistory.push(newRouteName, newParams);
+    routerHistory.push(routeName, params);
   };
 
   onCategoryReset = () => {
-    const { routeName: currentRouteName, featureId, routerHistory } = this.props;
+    const { routeName, routerHistory } = this.props;
+    const params = this.getCurrentParams();
 
-    // preserve all query params...
-    const queryParams = getQueryParams();
-    // ...except for category
-    delete queryParams.category;
+    delete params.category;
 
-    const newRouteName = currentRouteName === 'place_detail' ? currentRouteName : 'map';
-    const newParams =
-      currentRouteName === 'place_detail' ? { ...queryParams, id: featureId } : queryParams;
-
-    routerHistory.push(newRouteName, newParams);
+    routerHistory.push(routeName, params);
   };
 
   onClickFullscreenBackdrop = () => {
@@ -427,12 +422,43 @@ class Loader extends React.Component<Props, State> {
     }
   };
 
+  getCurrentParams() {
+    const params = {};
+    const { category, accessibilityFilter, toiletFilter, routeName, featureId } = this.props;
+
+    if (category) {
+      params.category = category;
+    }
+
+    if (isAccessibilityFiltered(accessibilityFilter)) {
+      params.accessibility = accessibilityFilter.join(',');
+    }
+
+    if (isToiletFiltered(toiletFilter)) {
+      params.toilet = toiletFilter.join(',');
+    }
+
+    if (routeName === 'place_detail') {
+      params.id = featureId;
+    }
+
+    if (routeName === 'equipment') {
+      throw new Error('Deal with equipment route! Henrik, help! .o/');
+    }
+
+    return params;
+  }
+
   // this is called also when the report dialog is closed
   onCloseNodeToolbar = () => {
     const currentModalState = this.state.modalNodeState;
 
     if (!currentModalState) {
-      this.props.routerHistory.push('map');
+      const params = this.getCurrentParams();
+
+      delete params.id;
+
+      this.props.routerHistory.push('map', params);
     } else {
       this.setState({
         modalNodeState: null,

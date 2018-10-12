@@ -62,11 +62,17 @@ export function getToiletFilterFrom(toiletString: ?string): YesNoUnknown[] {
  * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
  */
 
-export function isFiltered(accessibilities: ?(YesNoLimitedUnknown[])): boolean {
+export function isAccessibilityFiltered(accessibilityFilter: ?(YesNoLimitedUnknown[])): boolean {
   return (
-    !!accessibilities &&
-    !isEqual(accessibilities, []) &&
-    !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray)
+    !!accessibilityFilter &&
+    !isEqual(accessibilityFilter, []) &&
+    !sortedIsEqual(accessibilityFilter, yesNoLimitedUnknownArray)
+  );
+}
+
+export function isToiletFiltered(toiletFilter: ?(YesNoUnknown[])): boolean {
+  return (
+    !!toiletFilter && !isEqual(toiletFilter, []) && !sortedIsEqual(toiletFilter, yesNoUnknownArray)
   );
 }
 

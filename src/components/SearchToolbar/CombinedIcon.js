@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
-import { isFiltered } from '../../lib/Feature';
+import { isAccessibilityFiltered } from '../../lib/Feature';
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[],
@@ -19,7 +19,7 @@ type Props = {
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null;
-  const accessibilities = isFiltered(props.accessibilityFilter)
+  const accessibilities = isAccessibilityFiltered(props.accessibilityFilter)
     ? props.accessibilityFilter
     : [null];
   return (
