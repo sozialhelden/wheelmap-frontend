@@ -35,6 +35,7 @@ import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
 import 'react-activity/dist/react-activity.css';
+import './App.css';
 import 'focus-visible';
 
 initReactFastclick();

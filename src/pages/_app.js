@@ -10,10 +10,6 @@ import Head from 'next/head';
 import Error from 'next/error';
 import { t } from 'ttag';
 
-import GlobalStyle from '../GlobalStyle';
-import LeafletStyle from '../LeafletStyle';
-import AppStyle from '../AppStyle';
-import MapStyle from '../MapStyle';
 import AsyncNextHead from '../AsyncNextHead';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
@@ -214,10 +210,6 @@ export default class App extends BaseApp {
           />
         </React.Fragment>
         )}
-        <GlobalStyle />
-        <LeafletStyle />
-        <AppStyle />
-        <MapStyle />
       </Container>
     );
   }
