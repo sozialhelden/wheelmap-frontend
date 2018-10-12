@@ -75,8 +75,6 @@ export default class MyDocument extends Document {
           <meta content="yes" name="apple-mobile-web-app-capable" />
           <meta content="white" name="apple-mobile-web-app-status-bar-style" />
 
-          {/* Used to include imported CSS and SASS files */}
-          <link rel="stylesheet" href="/_next/static/style.css" />
           {this.props.styleTags}
         </Head>
         <body>
