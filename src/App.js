@@ -424,7 +424,14 @@ class Loader extends React.Component<Props, State> {
 
   getCurrentParams() {
     const params = {};
-    const { category, accessibilityFilter, toiletFilter, routeName, featureId } = this.props;
+    const {
+      category,
+      accessibilityFilter,
+      toiletFilter,
+      routeName,
+      featureId,
+      equipmentInfoId,
+    } = this.props;
 
     if (category) {
       params.category = category;
@@ -443,7 +450,8 @@ class Loader extends React.Component<Props, State> {
     }
 
     if (routeName === 'equipment') {
-      throw new Error('Deal with equipment route! Henrik, help! .o/');
+      params.id = featureId;
+      params.eid = equipmentInfoId;
     }
 
     return params;
@@ -457,6 +465,7 @@ class Loader extends React.Component<Props, State> {
       const params = this.getCurrentParams();
 
       delete params.id;
+      delete params.eid;
 
       this.props.routerHistory.push('map', params);
     } else {
