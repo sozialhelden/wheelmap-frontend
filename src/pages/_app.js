@@ -29,9 +29,10 @@ import {
   clientStoreAppInitialProps,
   clientStoreInitialProps,
   getHead,
+  type AppProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+import { applyTranslations } from '../lib/i18n';
 
 let isServer = false;
 
@@ -117,10 +118,17 @@ export default class App extends BaseApp {
 
   routerHistory: NextRouterHistory;
 
-  constructor(props: any) {
+  constructor(props: $Shape<AppProps>) {
     super(props);
 
     this.routerHistory = new NextRouterHistory(router);
+
+    const { translations } = props;
+
+    // Can be null if error was thrown
+    if (translations) {
+      applyTranslations(translations);
+    }
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -136,7 +144,7 @@ export default class App extends BaseApp {
       hostName,
       ...props
     } = this.props;
-    const { clientSideConfiguration }: { clientSideConfiguration: ClientSideConfiguration } = props;
+    const { clientSideConfiguration }: $Shape<AppProps> = props;
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
