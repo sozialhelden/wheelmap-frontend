@@ -1,7 +1,8 @@
-const publicEnv = require(`../../env/${process.env.NODE_ENV}.public`);
+const nodeEnv = process.env.NODE_ENV || 'development';
+const publicEnv = require(`../../env/${nodeEnv}.public`);
 let privateEnv = {};
 if (typeof window === 'undefined') {
-  privateEnv = require(`../../env/${process.env.NODE_ENV}`);
+  privateEnv = require(`../../env/${nodeEnv}`);
 }
 
 const env = { ...privateEnv, public: publicEnv };
