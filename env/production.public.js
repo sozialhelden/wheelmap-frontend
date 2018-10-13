@@ -4,7 +4,7 @@ const config = {
   },
   wheelmap: {
     apiKey: '3s8GNQvBCmwm45zro_jP',
-    baseUrl: 'https://wheelmap.org',
+    baseUrl: '',
   },
   accessibilityCloud: {
     appToken: '27be4b5216aced82122d7cf8f69e4a07',
