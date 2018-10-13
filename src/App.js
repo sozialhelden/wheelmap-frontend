@@ -44,6 +44,7 @@ import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilter
 
 import 'react-activity/dist/react-activity.css';
 import './App.css';
+import './Global.css';
 import 'focus-visible';
 
 initReactFastclick();
