@@ -40,6 +40,17 @@ export default class App extends BaseApp {
     Component: React.Component<>,
     ctx: any,
   }) {
+    // do not run usual routing stuff for cordova builds
+    const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
+    if (isCordovaBuild) {
+      // todo fix languages
+      const buildTimeProps = await getAppInitialProps(
+        { userAgentString: '', hostName: 'localhost', languages: ['en_US', 'de_DE'], ...ctx.query },
+        true
+      );
+      return { buildTimeProps, isCordovaBuild };
+    }
+
     let appProps;
     let routeProps;
     let path;
@@ -109,6 +120,7 @@ export default class App extends BaseApp {
       ...routeProps,
       routeName: ctx.query.routeName,
       path,
+      isCordovaBuild,
     };
   }
 
@@ -131,10 +143,22 @@ export default class App extends BaseApp {
       routeName,
       path,
       hostName,
+      isCordovaBuild,
       translations,
       ...props
     } = this.props;
-    const { clientSideConfiguration }: $Shape<AppProps> = props;
+
+    // no need to render anything but the bare page in cordova
+    if (isCordovaBuild) {
+      return (
+        <PageComponent
+          routerHistory={this.routerHistory}
+          {...getRenderProps(routeName, props, isServer)}
+          routeName={routeName}
+          isCordovaBuild={isCordovaBuild}
+        />
+      );
+    }
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
@@ -162,6 +186,7 @@ export default class App extends BaseApp {
       }
     }
 
+    const { clientSideConfiguration }: $Shape<AppProps> = props;
     const { textContent, meta } = clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
