@@ -5,6 +5,7 @@ import { type Feature, type WheelmapLightweightFeature } from '../lib/Feature';
 import { type DataSource } from '../lib/cache/DataSourceCache';
 import { type License } from '../lib/cache/LicenseCache';
 import { type EquipmentInfo } from '../lib/EquipmentInfo';
+import { type PhotoModel } from '../lib/PhotoModel';
 
 export type SourceWithLicense = {
   source: DataSource,
@@ -38,6 +39,8 @@ export type PlaceDetailsProps = {
   featureId: ?(string | number),
   // all sources for this feature with a license attached
   sources: PotentialPromise<SourceWithLicense[]>,
+  // all photos for this feature
+  photos: PotentialPromise<PhotoModel[]>,
   // the equimentInfo id
   equipmentInfoId: ?string,
   // the equimentInfo
@@ -53,6 +56,8 @@ export type ResolvedPlaceDetailsProps = {
   featureId: ?(string | number),
   // all sources for this feature with a license attached
   sources: SourceWithLicense[],
+  // all photos for this feature
+  photos: PhotoModel[],
   // the equimentInfo id
   equipmentInfoId: ?string,
   // the equimentInfo
@@ -64,11 +69,17 @@ export function getPlaceDetailsIfAlreadyResolved(
 ): ResolvedPlaceDetailsProps | null {
   const resolvedFeature = getDataIfAlreadyResolved(props.feature);
   const resolvedSources = getDataIfAlreadyResolved(props.sources);
+  const resolvedPhotos = getDataIfAlreadyResolved(props.photos);
   const resolvedEquimentInfo = props.equipmentInfo
     ? getDataIfAlreadyResolved(props.equipmentInfo)
     : null;
 
-  if (!resolvedSources || !resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
+  if (
+    !resolvedSources ||
+    !resolvedFeature ||
+    (props.equipmentInfo && !resolvedEquimentInfo) ||
+    !resolvedPhotos
+  ) {
     return null;
   }
 
@@ -77,6 +88,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources,
+    photos: resolvedPhotos,
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquimentInfo,
   };
@@ -87,6 +99,7 @@ export async function awaitPlaceDetails(
 ): Promise<ResolvedPlaceDetailsProps> {
   const resolvedFeature = await getDataPromise(props.feature);
   const resolvedSources = await getDataPromise(props.sources);
+  const resolvedPhotos = await getDataPromise(props.photos);
   const resolvedEquipmentInfo = props.equipmentInfo
     ? await getDataPromise(props.equipmentInfo)
     : null;
@@ -96,6 +109,7 @@ export async function awaitPlaceDetails(
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources,
+    photos: resolvedPhotos,
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquipmentInfo,
   };

@@ -40,7 +40,7 @@ import { type CategoryLookupTables } from './lib/Categories';
 import { type SearchResultCollection } from './lib/searchPlaces';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
-import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import type { PhotoModel } from './lib/PhotoModel';
 
 import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 
@@ -229,6 +229,7 @@ class MainView extends React.Component<Props, State> {
           equipmentInfo={this.props.equipmentInfo}
           categories={this.props.categories}
           sources={this.props.sources}
+          photos={this.props.photos}
           userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}

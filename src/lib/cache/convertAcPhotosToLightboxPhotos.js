@@ -1,9 +1,9 @@
 // @flow
 
-import env from '../../../lib/env';
+import env from '../env';
 
-import type { PhotoModel } from './PhotoModel';
-import type { AccessibilityCloudImage, AccessibilityCloudImages } from '../../../lib/Feature';
+import type { PhotoModel } from '../PhotoModel';
+import type { AccessibilityCloudImage, AccessibilityCloudImages } from '../Feature';
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
   return `${env.public.accessibilityCloud.baseUrl.cached}/images/scale/${

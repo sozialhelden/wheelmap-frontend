@@ -38,7 +38,7 @@ import {
 import type { ModalNodeState } from './lib/queryParams';
 import { getQueryParams } from './lib/queryParams';
 import { type CategoryLookupTables } from './lib/Categories';
-import { type PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import { type PhotoModel } from './lib/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 
@@ -616,6 +616,7 @@ class Loader extends React.Component<Props, State> {
       lightweightFeature: this.props.lightweightFeature,
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
+      photos: this.props.photos,
       category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,

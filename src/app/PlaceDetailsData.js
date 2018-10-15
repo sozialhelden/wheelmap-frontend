@@ -30,6 +30,14 @@ import router from './router';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { type EquipmentInfo } from '../lib/EquipmentInfo';
 
+import type { PhotoModel } from '../lib/PhotoModel';
+
+import { wheelmapFeaturePhotosCache } from '../lib/cache/WheelmapFeaturePhotosCache';
+import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapPhotosToLightboxPhotos';
+
+import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
+import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
+
 function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
@@ -72,6 +80,31 @@ async function fetchSourceWithLicense(
   return Promise.resolve([]);
 }
 
+function fetchPhotos(featureId: string | number, useCache: boolean) {
+  const isWheelmap = isWheelmapFeatureId(featureId);
+
+  var photosPromise = Promise.all([
+    accessibilityCloudImageCache.getPhotosForFeature(featureId, { useCache }).then(acPhotos => {
+      if (acPhotos) {
+        return convertAcPhotosToLightboxPhotos(acPhotos);
+      }
+      return [];
+    }),
+    isWheelmap
+      ? wheelmapFeaturePhotosCache.getPhotosForFeature(featureId, { useCache }).then(wmPhotos => {
+          if (wmPhotos) {
+            return convertWheelmapPhotosToLightboxPhotos(wmPhotos);
+          }
+          return [];
+        })
+      : Promise.resolve([]),
+  ]).then((photoArrays: PhotoModel[][]) => {
+    return [].concat(photoArrays[0], photoArrays[1]);
+  });
+
+  return photosPromise;
+}
+
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialProps(query, isServer): Promise<PlaceDetailsProps> {
     const featureId = query.id;
@@ -105,10 +138,14 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       const sources = isServer ? await sourcesPromise : sourcesPromise;
       // console.log("sources", sources, { useCache, feature });
 
+      const photosPromise = fetchPhotos(featureId, useCache);
+      const photos = isServer ? await photosPromise : photosPromise;
+
       return {
         feature,
         featureId,
         sources,
+        photos,
         lightweightFeature,
         equipmentInfoId,
         equipmentInfo,
@@ -120,6 +157,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         feature: null,
         featureId: null,
         sources: [],
+        photos: [],
         lightweightFeature: null,
         equipmentInfoId: null,
         equipmentInfo: null,
@@ -128,9 +166,15 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   clientStoreInitialProps(props: PlaceDetailsProps) {
-    const { feature, featureId, sources } = props;
+    const { feature, featureId, sources, photos, equipmentInfo } = props;
     // only store fully resolved data that comes from the server
-    if (!feature || feature instanceof Promise || sources instanceof Promise) {
+    if (
+      !feature ||
+      feature instanceof Promise ||
+      sources instanceof Promise ||
+      photos instanceof Promise ||
+      equipmentInfo instanceof Promise
+    ) {
       return;
     }
 
