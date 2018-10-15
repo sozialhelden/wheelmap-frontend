@@ -64,7 +64,7 @@ GEM
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-browserstack (0.2.0)
       rest-client (~> 2.0, >= 2.0.2)
-    fastlane-plugin-cordova (2.0.0)
+    fastlane-plugin-cordova (2.2.0)
     fastlane-plugin-increment_version_code (0.4.3)
     fastlane-plugin-versioning (0.3.4)
     gh_inspector (1.1.3)
