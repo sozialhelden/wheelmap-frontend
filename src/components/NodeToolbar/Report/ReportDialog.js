@@ -84,6 +84,7 @@ type Props = {
 };
 
 type State = {
+  lastFeatureId: ?(string | number),
   SelectedComponentClass: ?Class<React.Component<*, *>>,
 };
 
@@ -91,8 +92,21 @@ class ReportDialog extends React.Component<Props, State> {
   props: Props;
 
   state = {
+    lastFeatureId: null,
     SelectedComponentClass: null,
   };
+
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    if (!isWheelmapFeatureId(props.featureId)) {
+      return { SelectedComponentClass: FixOnExternalPage };
+    }
+
+    if (props.featureId !== state.lastFeatureId) {
+      return { SelectedComponentClass: null, lastFeatureId: props.featureId };
+    }
+
+    return null;
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
@@ -100,15 +114,6 @@ class ReportDialog extends React.Component<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.escapeHandler);
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    if (newProps.featureId !== this.props.featureId) {
-      this.setState({ SelectedComponentClass: null });
-    }
-    if (!isWheelmapFeatureId(newProps.featureId)) {
-      this.setState({ SelectedComponentClass: FixOnExternalPage });
-    }
   }
 
   escapeHandler = (event: KeyboardEvent) => {
