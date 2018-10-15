@@ -68,7 +68,7 @@ type Props = {
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
-  presetStatus: YesNoLimitedUnknown,
+  accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
 
   // photo feature
@@ -235,7 +235,7 @@ class NodeToolbar extends React.Component<Props, State> {
           this.props.onClose();
           this.props.onCloseWheelchairAccessibility();
         }}
-        presetStatus={this.props.presetStatus}
+        presetStatus={this.props.accessibilityPresetStatus}
         onClose={this.props.onClose}
       />
     );
@@ -259,7 +259,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <InlineWheelchairAccessibilityEditor
           category={getCategoryId(this.props.category)}
           onChange={this.props.onSelectWheelchairAccessibility}
-          presetStatus={this.props.presetStatus}
+          presetStatus={this.props.accessibilityPresetStatus}
         />
       </section>
     );
@@ -282,7 +282,14 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const { feature, equipmentInfoId, history, onOpenReportMode, sources } = this.props;
+    const {
+      feature,
+      equipmentInfoId,
+      history,
+      onOpenReportMode,
+      sources,
+      accessibilityPresetStatus,
+    } = this.props;
     const sourceLinkProps = {
       featureId,
       feature,
@@ -297,7 +304,7 @@ class NodeToolbar extends React.Component<Props, State> {
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} />
     ) : (
-      <PlaceAccessibilitySection {...this.props} />
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
     );
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();

@@ -42,7 +42,7 @@ type Props = {
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
-  presetStatus: YesNoLimitedUnknown,
+  accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
 
   // photo feature

@@ -10,7 +10,7 @@ interface AccessibleDescriptionInterface {
 
 type Props = {
   properties: AccessibleDescriptionInterface, // eslint-disable-line react/no-unused-prop-types
-  className: string,
+  className?: string,
 };
 
 /**
