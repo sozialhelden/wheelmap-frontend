@@ -98,6 +98,7 @@ export async function getAppInitialProps(
     locale,
     accessibility,
     toilet,
+    q,
     ...query
   }: {
     userAgentString: string,
@@ -155,6 +156,7 @@ export async function getAppInitialProps(
     locale: preferredLocale,
     accessibilityFilter,
     toiletFilter,
+    searchQuery: q,
   };
 }
 

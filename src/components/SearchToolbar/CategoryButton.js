@@ -29,6 +29,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 5px;
   font: inherit;
+  background: none;
 
   figure {
     display: flex;
