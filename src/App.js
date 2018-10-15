@@ -79,6 +79,7 @@ type State = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
+  accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
@@ -116,7 +117,7 @@ class Loader extends React.Component<Props, State> {
     isOnboardingVisible: false,
     isMainMenuOpen: false,
     modalNodeState: null,
-    featureId: null,
+    accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
 
@@ -563,9 +564,9 @@ class Loader extends React.Component<Props, State> {
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.props.featureId) {
-      this.props.history.push({
-        pathname: `/beta/nodes/${this.props.featureId}/edit-wheelchair-accessibility`,
-        search: `presetStatus=${value}`,
+      this.setState({
+        modalNodeState: 'edit-wheelchair-accessibility',
+        accessibilityPresetStatus: value,
       });
     }
   };
@@ -647,7 +648,7 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null,
+      accessibilityPresetStatus: this.state.accessibilityPresetStatus,
 
       clientSideConfiguration: this.props.clientSideConfiguration,
     };

@@ -21,7 +21,7 @@ import {
 
 type Props = {
   featureId: ?string | number,
-  category: Category,
+  category: ?Category,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,

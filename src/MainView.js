@@ -103,7 +103,7 @@ type Props = {
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
-  presetStatus: YesNoLimitedUnknown,
+  accessibilityPresetStatus?: YesNoLimitedUnknown,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -215,13 +215,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderNodeToolbar(
-    { featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>,
+    { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }: $Shape<Props>,
     isNodeRoute: boolean
   ) {
     return (
       <div className="node-toolbar">
         <NodeToolbarFeatureLoader
-          {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }}
+          {...{ featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           history={this.props.history}
           lightweightFeature={this.props.lightweightFeature}
@@ -421,7 +421,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   render() {
-    const { featureId, searchQuery, equipmentInfoId, presetStatus, searchResults } = this.props;
+    const {
+      featureId,
+      searchQuery,
+      equipmentInfoId,
+      accessibilityPresetStatus,
+      searchResults,
+    } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom, modalNodeState } = this.props;
@@ -488,7 +494,7 @@ class MainView extends React.Component<Props, State> {
 
     const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
     const nodeToolbar = this.renderNodeToolbar(
-      { featureId, equipmentInfoId, modalNodeState, presetStatus },
+      { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus },
       isNodeRoute
     );
 
