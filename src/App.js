@@ -43,7 +43,6 @@ import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 
 import 'react-activity/dist/react-activity.css';
-import './Global.css';
 import './App.css';
 import 'focus-visible';
 
