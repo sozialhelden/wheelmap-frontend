@@ -165,7 +165,7 @@ export async function getAppInitialProps(
 
 const clientCache: $Shape<AppProps> = {};
 
-export function clientStoreAppInitialProps(props: AppProps) {
+export function clientStoreAppInitialProps(props: $Shape<AppProps>) {
   clientCache.translations = props.translations;
   clientCache.categories = props.categories;
   clientCache.clientSideConfiguration = props.clientSideConfiguration;

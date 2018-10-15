@@ -30,11 +30,13 @@ class CordovaMain extends React.PureComponent<Props, State> {
     super(props);
 
     // inject the build time data into the initial props
-    clientStoreAppInitialProps(props.buildTimeProps);
+    const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
+    clientStoreAppInitialProps(remainingBuildTimeProps);
 
     // if we have stored props, use these to override the build time props
     if (savedState.initialProps) {
-      clientStoreAppInitialProps(savedState.initialProps);
+      const { translations, ...remainingInitialProps } = savedState.initialProps;
+      clientStoreAppInitialProps(remainingInitialProps);
     }
   }
 
