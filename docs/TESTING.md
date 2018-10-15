@@ -15,7 +15,7 @@ This document explains the steps to test the main functionality of the wheelmap 
 
 ### Access granted
 
-- on fist start:
+- on first start:
   - positioning is enabled
   - the map is centered at the device location
   - a blue circle & dot is displayed at the map center
