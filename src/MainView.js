@@ -28,7 +28,7 @@ import config from './lib/config';
 import colors from './lib/colors';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
-import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
+import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
@@ -90,7 +90,6 @@ type Props = {
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
   onCloseOnboarding: () => void,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onCloseCreatePlaceDialog: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
@@ -161,7 +160,7 @@ class MainView extends React.Component<Props, State> {
     isOnSmallViewport: isOnSmallViewport(),
   };
 
-  map: ?{ focus: () => void };
+  map: ?{ focus: () => void, snapToFeature: () => void };
 
   lastFocusedElement: ?HTMLElement;
   nodeToolbar: ?NodeToolbarFeatureLoader;
@@ -214,6 +213,12 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
+  onClickCurrentMarkerIcon = () => {
+    if (this.map) {
+      this.map.snapToFeature();
+    }
+  };
+
   renderNodeToolbar(
     { featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>,
     isNodeRoute: boolean
@@ -240,7 +245,7 @@ class MainView extends React.Component<Props, State> {
           photoFlowErrorMessage={this.props.photoFlowErrorMessage}
           onOpenReportMode={this.props.onOpenReportMode}
           onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-          onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
+          onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
