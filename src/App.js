@@ -92,6 +92,12 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
+  // map controls
+  lat?: ?number,
+  lon?: ?number,
+  zoom?: ?number,
+  extent?: ?[number, number, number, number],
 };
 
 function isStickySearchBarSupported() {
@@ -126,7 +132,17 @@ class Loader extends React.Component<Props, State> {
 
   mainView: UnstyledMainView;
 
-  //_asyncRequest: Promise<*>;
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    // close search results when leaving search route
+    if (props.routeName !== 'search') {
+      return {
+        isSearchBarVisible: isStickySearchBarSupported(),
+        isSearchToolbarExpanded: false,
+      };
+    }
+
+    return null;
+  }
 
   constructor(props: Props) {
     super(props);
@@ -194,9 +210,10 @@ class Loader extends React.Component<Props, State> {
     });
 
     this.setState({
-      lat,
-      lon,
-      zoom,
+      extent: null,
+      lat: null,
+      lon: null,
+      zoom: null,
     });
   };
 
@@ -261,26 +278,34 @@ class Loader extends React.Component<Props, State> {
     const params = this.getCurrentParams();
     let routeName = 'map';
 
-    delete params.id;
-
-    if (feature.properties.extent) {
-      params.extent = feature.properties.extent;
-    } else {
-      const [lon, lat] = feature.geometry.coordinates;
-
-      params.lat = lat;
-      params.lon = lon;
-    }
-
     if (wheelmapFeature) {
       let id = getFeatureId(wheelmapFeature);
-
       if (id) {
         params.id = id;
+        delete params.eid;
         routeName = 'place_detail';
       }
-    } else if (this.props.category) {
-      routeName = 'categories';
+    }
+
+    if (routeName === 'map') {
+      delete params.id;
+      delete params.eid;
+    }
+
+    if (feature.properties.extent) {
+      const extent = feature.properties.extent;
+      this.setState({
+        lat: null,
+        lon: null,
+        extent,
+      });
+    } else {
+      const [lon, lat] = feature.geometry.coordinates;
+      this.setState({
+        lat,
+        lon,
+        extent: null,
+      });
     }
 
     this.props.routerHistory.push(routeName, params);
@@ -598,10 +623,10 @@ class Loader extends React.Component<Props, State> {
       toiletFilter: this.props.toiletFilter,
       accessibilityFilter: this.props.accessibilityFilter,
       searchQuery: this.props.searchQuery,
-      lat: this.props.lat,
-      lon: this.props.lon,
-      zoom: this.props.zoom,
-      extent: this.props.extent,
+      lat: this.state.lat || this.props.lat,
+      lon: this.state.lon || this.props.lon,
+      zoom: this.state.zoom || this.props.zoom,
+      extent: this.state.extent || this.props.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isSearchBarVisible: this.state.isSearchBarVisible,
