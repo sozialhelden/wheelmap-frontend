@@ -383,7 +383,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     return (
       <SearchInputField
         ref={searchInputField => (this.searchInputField = searchInputField)}
-        searchQuery={this.props.category ? '' : this.props.searchQuery}
+        searchQuery={this.props.searchQuery}
         hidden={this.props.hidden}
         onClick={() => {
           if (this.props.category) {
