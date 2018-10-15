@@ -246,8 +246,18 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
-  onChangeSearchQuery = (event: SyntheticEvent<HTMLInputElement>) => {
-    this.props.onChangeSearchQuery(event.target.value);
+  handleSearchInputChange = (value: string, submit: boolean) => {
+    if (submit) {
+      this.setState({ searchFieldIsFocused: false }, () => {
+        this.blur();
+        if (this.firstResult) {
+          this.firstResult.focus();
+        }
+      });
+      handleInputCommands(this.props.history, this.searchInputField && this.searchInputField.value);
+    } else {
+      this.props.onChangeSearchQuery(value);
+    }
   };
 
   static getDerivedStateFromProps(props: Props, state: State) {
@@ -346,7 +356,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     return (
       <SearchInputField
         ref={searchInputField => (this.searchInputField = searchInputField)}
-        searchQuery={this.props.category ? '' : this.props.searchQuery}
+        defaultValue={this.props.category ? '' : this.props.searchQuery}
         hidden={this.props.hidden}
         onClick={() => {
           if (this.props.category) {
@@ -367,19 +377,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
             this.ensureFullVisibility();
           }, 300);
         }}
-        onChange={this.onChangeSearchQuery}
-        onSubmit={() => {
-          this.setState({ searchFieldIsFocused: false }, () => {
-            this.blur();
-            if (this.firstResult) {
-              this.firstResult.focus();
-            }
-          });
-          handleInputCommands(
-            this.props.history,
-            this.searchInputField && this.searchInputField.value
-          );
-        }}
+        onChange={this.handleSearchInputChange}
         ariaRole="searchbox"
       />
     );
