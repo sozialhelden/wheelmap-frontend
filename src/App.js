@@ -264,16 +264,6 @@ class Loader extends React.Component<Props, State> {
     this.props.routerHistory.push(routeName, params);
   };
 
-  // Pan back to currently shown feature when marker in details panel is tapped/clicked
-  onClickCurrentMarkerIcon = (feature: Feature) => {
-    if (!feature) return;
-
-    this.setState({
-      lat: get(feature, 'geometry.coordinates.1'),
-      lon: get(feature, 'geometry.coordinates.0'),
-    });
-  };
-
   onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
     const params = this.getCurrentParams();
     let routeName = 'map';
@@ -663,7 +653,6 @@ class Loader extends React.Component<Props, State> {
         onMoveEnd={this.onMoveEnd}
         onMapClick={this.onMapClick}
         onMarkerClick={this.showSelectedFeature}
-        onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
         onError={this.onError}
         onSearchResultClick={this.onSearchResultClick}
         onCategorySelect={this.onCategorySelect}

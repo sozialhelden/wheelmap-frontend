@@ -744,6 +744,21 @@ export default class Map extends React.Component<Props, State> {
     if (this.mapElement) this.mapElement.focus();
   }
 
+  snapToFeature() {
+    const map = this.map;
+    if (map) {
+      const targetState = Map.getMapStateFromProps(
+        map,
+        { ...this.state, zoomedToFeatureId: null },
+        this.props
+      );
+      map.flyTo(targetState.center, targetState.zoom, {
+        animate: true,
+        noMoveStart: true,
+      });
+    }
+  }
+
   renderZoomInfo() {
     // translator: Shown when zoomed out to far
     const caption = t`Zoom in closer to see more places`;
