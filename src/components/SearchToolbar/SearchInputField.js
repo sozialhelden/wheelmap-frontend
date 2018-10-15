@@ -3,17 +3,18 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
-import colors from '../../lib/colors';
+import debounce from 'lodash/debounce';
 import { t } from 'ttag';
 
+import colors from '../../lib/colors';
+
 type Props = {
-  onSubmit: ?(event: UIEvent) => void,
-  onChange: ?(event: UIEvent) => void,
+  onChange: (value: string, submit: boolean) => void,
   onBlur: ?(event: UIEvent) => void,
   onFocus: ?(event: UIEvent) => void,
   onClick: ?(event: UIEvent) => void,
   ref: (input: HTMLInputElement) => void,
-  searchQuery: ?string,
+  defaultValue: ?string,
   className: string,
   placeholder: ?string,
   disabled: ?boolean,
@@ -21,8 +22,20 @@ type Props = {
   ariaRole: string,
 };
 
-class SearchInputField extends React.Component<Props> {
+type State = {
+  value: string,
+};
+
+class SearchInputField extends React.Component<Props, State> {
   input: ?HTMLInputElement;
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: props.defaultValue,
+    };
+  }
 
   focus() {
     if (!this.input) return;
@@ -34,16 +47,28 @@ class SearchInputField extends React.Component<Props> {
     this.input.blur();
   }
 
-  keyPressed = (event: UIEvent) => {
-    if (event.which === 13 && this.props.onSubmit) {
-      this.props.onSubmit(event);
+  handleChange = (event: KeyboardEvent, submit = false) => {
+    if (event.target instanceof HTMLInputElement) {
+      const { value } = event.target;
+
+      this.setState({ value });
+      this.propagateChange(value, submit);
+    }
+  };
+
+  propagateChange = debounce((value, submit = false) => {
+    this.props.onChange(value, submit);
+  }, 500);
+
+  handleKeyPress = (event: KeyboardEvent) => {
+    if (event.which === 13) {
+      this.handleChange(event, true);
       event.preventDefault();
     }
   };
 
   render() {
     const {
-      searchQuery,
       onChange,
       disabled,
       hidden,
@@ -54,22 +79,23 @@ class SearchInputField extends React.Component<Props> {
       placeholder,
       ariaRole,
     } = this.props;
+
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`;
-    const value = placeholder || searchQuery || '';
+    const value = placeholder || this.state.value;
 
     return (
       <input
         ref={input => (this.input = input)}
         value={value}
         name="search"
-        onChange={onChange}
+        onChange={this.handleChange}
+        onKeyPress={this.handleKeyPress}
         disabled={disabled}
         tabIndex={hidden ? -1 : 0}
         onFocus={onFocus}
         onBlur={onBlur}
         onClick={onClick}
-        onKeyPress={this.keyPressed}
         className={`search-input ${className}`}
         placeholder={!value ? defaultPlaceholder : null}
         aria-label={defaultPlaceholder}
@@ -80,7 +106,7 @@ class SearchInputField extends React.Component<Props> {
   }
 }
 
-const StyledSearchInputField = styled(SearchInputField)`
+export default styled(SearchInputField)`
   display: block;
   flex: 1;
   box-sizing: border-box;
@@ -114,5 +140,3 @@ const StyledSearchInputField = styled(SearchInputField)`
     opacity: 1;
   }
 `;
-
-export default StyledSearchInputField;
