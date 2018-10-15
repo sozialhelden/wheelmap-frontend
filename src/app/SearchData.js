@@ -4,6 +4,7 @@ import React from 'react';
 import { t } from 'ttag';
 
 import searchPlaces, {
+  searchPlacesDebounced,
   type SearchResultCollection,
   type SearchResultProperties,
 } from '../lib/searchPlaces';
@@ -66,10 +67,12 @@ const SearchData: DataTableEntry<SearchProps> = {
 
     const searchQuery = query.q;
     let trimmedSearchQuery;
-    let searchResults = Promise.resolve({ features: [] });
+    let searchResults: Promise<SearchResultCollection> | SearchResultCollection = Promise.resolve({
+      features: [],
+    });
 
     if (searchQuery && (trimmedSearchQuery = searchQuery.trim())) {
-      searchResults = searchPlaces(trimmedSearchQuery, {
+      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(trimmedSearchQuery, {
         lat: parseFloat(query.lat),
         lon: parseFloat(query.lon),
       });
@@ -112,12 +115,15 @@ const SearchData: DataTableEntry<SearchProps> = {
   },
 
   getHead(props) {
-    const { clientSideConfiguration } = props;
+    const { clientSideConfiguration, searchQuery } = props;
+    let searchTitle;
 
-    // translator: Search results window title
-    const searchResults = t`Search results`;
+    if (searchQuery) {
+      // translator: Search results window title
+      searchTitle = t`Search results`;
+    }
 
-    return <title key="title">{getProductTitle(clientSideConfiguration, searchResults)}</title>;
+    return <title key="title">{getProductTitle(clientSideConfiguration, searchTitle)}</title>;
   },
 };
 

@@ -6,6 +6,7 @@ import type { Point } from 'geojson-flow';
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
 import { type WheelmapFeature } from '../lib/Feature';
+import debouncePromise from '../lib/debouncePromise';
 
 export type SearchResultProperties = {
   city?: ?any,
@@ -35,6 +36,11 @@ export type SearchResultCollection = {
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
+
+export const searchPlacesDebounced: (
+  query: string,
+  coords: { lat?: ?number, lon?: ?number }
+) => Promise<SearchResultCollection> = debouncePromise(searchPlaces, 500);
 
 export default function searchPlaces(
   query: string,
