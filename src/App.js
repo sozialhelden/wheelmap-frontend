@@ -132,16 +132,18 @@ class Loader extends React.Component<Props, State> {
 
   mainView: UnstyledMainView;
 
-  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+  static getDerivedStateFromProps(props: Props): $Shape<State> {
+    const state = {
+      isSearchToolbarExpanded: false,
+      isSearchBarVisible: isStickySearchBarSupported(),
+    };
+
     // close search results when leaving search route
-    if (props.routeName !== 'search') {
-      return {
-        isSearchBarVisible: isStickySearchBarSupported(),
-        isSearchToolbarExpanded: false,
-      };
+    if (props.routeName === 'search') {
+      state.isSearchToolbarExpanded = true;
     }
 
-    return null;
+    return state;
   }
 
   constructor(props: Props) {
@@ -160,25 +162,26 @@ class Loader extends React.Component<Props, State> {
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
     }
-
-    if (this.props.routeName === 'search') {
-      this.openSearch();
-    }
   }
 
   openSearch() {
-    this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
-      setTimeout(() => {
-        if (this.mainView) this.mainView.focusSearchToolbar();
-      }, 100);
-    });
+    if (this.props.routeName === 'search') {
+      return;
+    }
+
+    const params = this.getCurrentParams();
+
+    this.props.routerHistory.push('search', params);
   }
 
   closeSearch() {
-    this.setState({
-      isSearchBarVisible: isStickySearchBarSupported(),
-      isSearchToolbarExpanded: false,
-    });
+    if (this.props.routeName !== 'search') {
+      return;
+    }
+
+    const params = this.getCurrentParams();
+
+    this.props.routerHistory.push('map', params);
   }
 
   onClickSearchButton = () => this.openSearch();
@@ -457,6 +460,7 @@ class Loader extends React.Component<Props, State> {
       routeName,
       featureId,
       equipmentInfoId,
+      searchQuery,
     } = this.props;
 
     if (category) {
@@ -469,6 +473,10 @@ class Loader extends React.Component<Props, State> {
 
     if (isToiletFiltered(toiletFilter)) {
       params.toilet = toiletFilter.join(',');
+    }
+
+    if (searchQuery) {
+      params.q = searchQuery;
     }
 
     if (routeName === 'place_detail') {
@@ -508,10 +516,7 @@ class Loader extends React.Component<Props, State> {
   };
 
   onClickSearchToolbar = () => {
-    this.setState({
-      isSearchBarVisible: true,
-      isSearchToolbarExpanded: true,
-    });
+    this.openSearch();
   };
 
   onCloseSearchToolbar = () => {
@@ -571,11 +576,17 @@ class Loader extends React.Component<Props, State> {
   };
 
   onSearchQueryChange = (newSearchQuery: ?string) => {
+    const params = this.getCurrentParams();
+
     if (!newSearchQuery || newSearchQuery.length === 0) {
-      return this.props.routerHistory.replace('map');
+      delete params.q;
+
+      return this.props.routerHistory.replace('map', params);
     }
 
-    this.props.routerHistory.replace('search', { q: newSearchQuery });
+    params.q = newSearchQuery;
+
+    this.props.routerHistory.replace('search', params);
   };
 
   onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {

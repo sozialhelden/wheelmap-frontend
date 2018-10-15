@@ -342,6 +342,43 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     });
   }
 
+  handleSearchInputChange = (value: string, submit: boolean) => {
+    if (submit) {
+      this.setState({ searchFieldIsFocused: false }, () => {
+        this.blur();
+        if (this.firstResult) {
+          this.firstResult.focus();
+        }
+      });
+      handleInputCommands(this.props.history, this.searchInputField && this.searchInputField.value);
+    } else {
+      this.props.onChangeSearchQuery(value);
+    }
+  };
+
+  handleSearchInputClick = () => {
+    if (this.props.category) {
+      this.resetSearch();
+    }
+
+    this.setState({ searchFieldIsFocused: true });
+    window.scrollTo(0, 0);
+    this.props.onClick();
+  };
+
+  handleSearchInputFocus = () => {
+    this.setState({ searchFieldIsFocused: true });
+    window.scrollTo(0, 0);
+  };
+
+  handleSearchInputBlur = () => {
+    this.ensureFullVisibility();
+    setTimeout(() => {
+      this.setState({ searchFieldIsFocused: false });
+      this.ensureFullVisibility();
+    }, 300);
+  };
+
   renderSearchInputField() {
     return (
       <SearchInputField
