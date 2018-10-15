@@ -144,7 +144,14 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
   render() {
     const { category, parentCategory, resolvedPlaceDetails } = this.state;
-    const { feature, sources, equipmentInfo, lightweightFeature, ...remainingProps } = this.props;
+    const {
+      feature,
+      sources,
+      equipmentInfo,
+      lightweightFeature,
+      photos,
+      ...remainingProps
+    } = this.props;
 
     if (resolvedPlaceDetails) {
       return (
@@ -164,6 +171,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           {...remainingProps}
           feature={lightweightFeature}
           sources={[]}
+          photos={[]}
           ref={t => (this.nodeToolbar = t)}
         />
       );

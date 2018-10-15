@@ -6,7 +6,7 @@ import config from '../config';
 
 export default class WheelmapFeaturePhotosCache extends URLDataCache<?WheelmapFeaturePhotos> {
   getPhotosForFeature(
-    featureId: string,
+    featureId: string | number,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<?WheelmapFeaturePhotos> {
     return this.getData(

@@ -1,7 +1,7 @@
 // @flow
 
-import type { PhotoModel } from './PhotoModel';
-import type { WheelmapFeaturePhotos } from '../../../lib/Feature';
+import type { PhotoModel } from '../PhotoModel';
+import type { WheelmapFeaturePhotos } from '../Feature';
 
 export default function convertWheelmapPhotosToLightboxPhotos(
   wheelmapPhotos: WheelmapFeaturePhotos

@@ -20,7 +20,7 @@ import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibilit
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
 import Button from '../Button';
 
-import type { PhotoModel } from './Photos/PhotoModel';
+import type { PhotoModel } from '../../lib/PhotoModel';
 import type {
   Feature,
   YesNoLimitedUnknown,
@@ -51,6 +51,7 @@ type Props = {
   feature: Feature,
   featureId: string | number,
   sources: SourceWithLicense[],
+  photos: PhotoModel[],
   categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,
@@ -180,6 +181,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <PhotoSection
         featureId={this.props.featureId}
+        photos={this.props.photos || []}
         onReportPhoto={this.props.onReportPhoto}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         photoFlowNotification={this.props.photoFlowNotification}

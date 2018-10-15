@@ -19,10 +19,10 @@ const imageResizeConfig = {
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   getPhotosForFeature(
-    featureId: string,
+    featureId: string | number,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<?AccessibilityCloudImages> {
-    return this.getImage('place', featureId, options);
+    return this.getImage('place', String(featureId), options);
   }
 
   getImage(
