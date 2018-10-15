@@ -47,8 +47,15 @@ export default class MyDocument extends Document {
                 ${env.public.accessibilityCloud.baseUrl.cached}
                 ${env.public.accessibilityCloud.baseUrl.uncached}
                 ${env.public.allowAdditionalDataUrls || ''};
-              style-src 'self' 'unsafe-inline';
-              media-src 'self' gap:;
+              style-src 
+                'self' 
+                'unsafe-inline';
+              frame-src 
+                'self'
+                gap:;
+              media-src 
+                'self' 
+                gap:;
               img-src
                 'self'
                 data:
@@ -61,7 +68,7 @@ export default class MyDocument extends Document {
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
                 ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.allowAdditionalImageUrls || ''}`}
+                ${env.public.allowAdditionalImageUrls || ''};`}
           />
           <meta
             name="viewport"

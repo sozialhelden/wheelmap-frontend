@@ -88,27 +88,27 @@ const apps: { [key: string]: AppFunction } = {
   vespucci: () => ({
     title: t`“Vespucci” in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=de.blau.android',
-    icon: '/static/images/external-app-icons/vespucci.png',
+    icon: 'static/images/external-app-icons/vespucci.png',
   }),
   idEditor: coords => ({
     title: t`Use the OpenStreetMap web editor`,
     href: generateOsmEditorUrlForCoords(coords),
-    icon: '/static/images/external-app-icons/idEditor.png',
+    icon: 'static/images/external-app-icons/idEditor.png',
   }),
   goMap: () => ({
     title: t`“Go Map!!” in App Store`,
     href: 'https://itunes.apple.com/us/app/go-map/id592990211?mt=8',
-    icon: '/static/images/external-app-icons/goMap.png',
+    icon: 'static/images/external-app-icons/goMap.png',
   }),
   mapsMeForIOS: () => ({
     title: t`“MAPS.ME” in App Store`,
     href: 'https://itunes.apple.com/app/id510623322',
-    icon: '/static/images/external-app-icons/mapsMeForIOS.png',
+    icon: 'static/images/external-app-icons/mapsMeForIOS.png',
   }),
   mapsMeForAndroid: () => ({
     title: t`“MAPS.ME” in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro',
-    icon: '/static/images/external-app-icons/mapsMeForAndroid.png',
+    icon: 'static/images/external-app-icons/mapsMeForAndroid.png',
   }),
 };
 

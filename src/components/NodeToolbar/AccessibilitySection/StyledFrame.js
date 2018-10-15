@@ -20,7 +20,7 @@ const StyledFrame = styled.summary`
     left: 10px;
     width: 12px;
     height: 8px;
-    background: url('/static/images/triangle.svg') no-repeat;
+    background: url('static/images/triangle.svg') no-repeat;
     z-index: 5;
   }
 
