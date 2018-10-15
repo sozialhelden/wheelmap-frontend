@@ -233,6 +233,7 @@ class Loader extends React.Component<Props, State> {
     const params = this.getCurrentParams();
 
     params.id = featureId;
+    delete params.eid;
 
     if (properties && typeof properties.placeInfoId === 'string') {
       const placeInfoId = properties.placeInfoId;
