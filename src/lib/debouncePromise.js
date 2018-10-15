@@ -5,32 +5,33 @@ function debouncePromise<T>(
   fn: (...args: any[]) => Promise<T>,
   delay: number
 ): (...args: any[]) => Promise<T> {
-  let promise;
+  let promiseCache;
+
   const debouncer = debounce((...args) => {
-    if (promise == null) {
+    if (promiseCache == null) {
       return;
     }
 
-    Promise.resolve(fn(...args)).then(promise.resolve, promise.reject);
-    promise = null;
+    Promise.resolve(fn(...args)).then(promiseCache.resolve, promiseCache.reject);
+    promiseCache = null;
   }, delay);
 
   return (...args: any[]) => {
-    if (promise == null) {
-      promise = {};
-      promise.promise = new Promise((resolve, reject) => {
-        if (promise == null) {
+    if (promiseCache == null) {
+      promiseCache = {};
+      promiseCache.promise = new Promise((resolve, reject) => {
+        if (promiseCache == null) {
           return;
         }
 
-        promise.resolve = resolve;
-        promise.reject = reject;
+        promiseCache.resolve = resolve;
+        promiseCache.reject = reject;
       });
     }
 
     debouncer(...args);
 
-    return promise.promise;
+    return promiseCache.promise;
   };
 }
 
