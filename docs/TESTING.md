@@ -168,6 +168,7 @@ This document explains the steps to test the main functionality of the wheelmap 
 ### Photo gallery
 
 - shows all uploaded thumbnails of related place photos in an embedded gallery
+- place with photos is 'Cube 3' in Berlin, => nodes/4733951222
 - tapping on photo open large lightbox
 - tapping on 'close' or x closes lightbox
 - 🖥 with the arrow keys images can be switched
