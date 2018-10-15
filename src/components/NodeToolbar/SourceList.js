@@ -3,7 +3,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import type { RouterHistory } from 'react-router-dom';
 
 import { type Feature } from '../../lib/Feature';
 import LicenseHint from './LicenseHint';
@@ -14,7 +13,6 @@ type Props = {
   featureId: ?string | number,
   sources: SourceWithLicense[],
   equipmentInfoId: ?string,
-  history: RouterHistory,
   className: string,
 };
 

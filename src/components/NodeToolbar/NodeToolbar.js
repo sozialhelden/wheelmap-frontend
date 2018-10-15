@@ -5,7 +5,6 @@ import { t } from 'ttag';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
-import type { RouterHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
@@ -57,7 +56,6 @@ type Props = {
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  history: RouterHistory,
   onClose: () => void,
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
@@ -285,7 +283,6 @@ class NodeToolbar extends React.Component<Props, State> {
     const {
       feature,
       equipmentInfoId,
-      history,
       onOpenReportMode,
       sources,
       accessibilityPresetStatus,
@@ -295,7 +292,6 @@ class NodeToolbar extends React.Component<Props, State> {
       feature,
       equipmentInfoId,
       onOpenReportMode,
-      history,
       sources,
     };
     if (!featureId) return;
@@ -334,8 +330,9 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderCloseLink() {
-    const { history, onClose, modalNodeState } = this.props;
-    return modalNodeState ? null : <PositionedCloseLink {...{ history, onClick: onClose }} />;
+    const { onClose, modalNodeState } = this.props;
+
+    return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
   render() {

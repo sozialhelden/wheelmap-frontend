@@ -6,7 +6,6 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import type { Location, RouterHistory } from 'react-router-dom';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -46,9 +45,6 @@ import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 
 type Props = {
   className: string,
-
-  history: RouterHistory,
-  location: Location,
 
   category: ?string,
   categories: CategoryLookupTables,
@@ -230,7 +226,6 @@ class MainView extends React.Component<Props, State> {
         <NodeToolbarFeatureLoader
           {...{ featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
-          history={this.props.history}
           lightweightFeature={this.props.lightweightFeature}
           feature={this.props.feature}
           equipmentInfo={this.props.equipmentInfo}
@@ -262,7 +257,6 @@ class MainView extends React.Component<Props, State> {
     return (
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
-        history={this.props.history}
         categories={this.props.categories}
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
@@ -322,7 +316,6 @@ class MainView extends React.Component<Props, State> {
       isMainMenuOpen,
       onMainMenuHomeClick,
       onToggleMainMenu,
-      history,
       clientSideConfiguration,
     } = this.props;
     const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
@@ -335,7 +328,6 @@ class MainView extends React.Component<Props, State> {
         onHomeClick={onMainMenuHomeClick}
         isLocalizationLoaded={isLocalizationLoaded}
         onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
-        history={history}
         logoURL={logoURL}
         links={customMainMenuLinks}
         addPlaceURL={addPlaceURL}
@@ -380,7 +372,6 @@ class MainView extends React.Component<Props, State> {
         ref={photoUploadCaptchaToolbar =>
           (this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar)
         }
-        history={this.props.history}
         hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
         onClose={this.props.onAbortPhotoUploadFlow}
         onCompleted={this.props.onFinishPhotoUploadFlow}
@@ -398,7 +389,6 @@ class MainView extends React.Component<Props, State> {
         ref={photoUploadInstructionsToolbar =>
           (this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar)
         }
-        history={this.props.history}
         hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         onClose={this.props.onAbortPhotoUploadFlow}

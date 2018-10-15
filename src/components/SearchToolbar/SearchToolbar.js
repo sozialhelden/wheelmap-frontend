@@ -4,7 +4,6 @@ import { t } from 'ttag';
 import * as React from 'react';
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
-import type { RouterHistory } from 'react-router-dom';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
@@ -28,7 +27,6 @@ import type { WheelmapFeature } from '../../lib/Feature';
 import { type CategoryLookupTables } from '../../lib/Categories';
 
 export type Props = PlaceFilter & {
-  history: RouterHistory,
   categories: CategoryLookupTables,
   hidden: boolean,
   inert: boolean,
@@ -359,10 +357,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           });
 
           this.props.onSubmit(event.target.value);
-          /*handleInputCommands(
-            this.props.history,
-            this.searchInputField && this.searchInputField.value
-          );*/
         }}
         ariaRole="searchbox"
       />
@@ -452,7 +446,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   renderCloseLink() {
     return (
       <CloseLink
-        history={this.props.history}
         ariaLabel={t`Clear search`}
         onClick={() => {
           this.resetSearch();

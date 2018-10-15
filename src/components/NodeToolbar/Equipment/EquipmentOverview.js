@@ -6,7 +6,7 @@ import sortBy from 'lodash/sortBy';
 import groupBy from 'lodash/groupBy';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import type { RouterHistory } from 'react-router-dom';
+
 import EquipmentList from './EquipmentList';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 
@@ -14,7 +14,6 @@ type Props = {
   equipmentInfos: { [key: string]: EquipmentInfo },
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
-  history: RouterHistory,
   className: string,
   equipmentInfoId: ?string,
 };
