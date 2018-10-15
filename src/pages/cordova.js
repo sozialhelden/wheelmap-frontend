@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
 import savedState, { saveState } from '../lib/savedState';
 import env from '../lib/env';
@@ -72,7 +73,14 @@ class CordovaMain extends React.PureComponent<Props, State> {
     const { storedInitialProps } = this.state;
 
     // do not pre-render this at build time, it is only needed in the real browser
-    return <DynamicApp {...buildTimeProps} {...storedInitialProps} {...props} />;
+    return (
+      <React.Fragment>
+        <Head>
+          <script src="cordova.js" />
+        </Head>
+        <DynamicApp {...buildTimeProps} {...storedInitialProps} {...props} />
+      </React.Fragment>
+    );
   }
 }
 
