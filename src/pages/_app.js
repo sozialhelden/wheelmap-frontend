@@ -29,6 +29,7 @@ import {
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import { applyTranslations } from '../lib/i18n';
+import env from '../lib/env';
 
 let isServer = false;
 
@@ -43,11 +44,15 @@ export default class App extends BaseApp {
     // do not run usual routing stuff for cordova builds
     const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
     if (isCordovaBuild) {
-      // todo fix languages
+      // take hostname from config
+      const hostName = env.public.cordovaHostname;
+
+      // serve only english languages
       const buildTimeProps = await getAppInitialProps(
-        { userAgentString: '', hostName: 'localhost', languages: ['en_US', 'de_DE'], ...ctx.query },
+        { userAgentString: '', hostName, languages: ['en_US'], ...ctx.query },
         true
       );
+
       return { buildTimeProps, isCordovaBuild };
     }
 

@@ -3,6 +3,7 @@
 import storage from 'local-storage-fallback';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
+const initialPropsString = storage.getItem('wheelmap.initialProps');
 
 const savedState = {
   map: {
@@ -14,6 +15,7 @@ const savedState = {
     lastZoom: storage.getItem('wheelmap.map.lastZoom'),
     locate: storage.getItem('wheelmap.map.locate') === 'true',
   },
+  initialProps: initialPropsString ? JSON.parse(initialPropsString) : null,
 };
 
 export default savedState;

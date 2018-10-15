@@ -14,6 +14,7 @@ const config = {
     },
   },
   baseUrl: 'https://wheelmap.tech',
+  cordovaHostname: 'localhost',
 };
 
 module.exports = config;

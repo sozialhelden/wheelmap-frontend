@@ -14,6 +14,7 @@ const config = {
     },
   },
   baseUrl: 'http://localhost:3000',
+  cordovaHostname: 'localhost',
 };
 
 module.exports = config;
