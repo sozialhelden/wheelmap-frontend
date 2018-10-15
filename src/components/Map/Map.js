@@ -13,7 +13,6 @@ import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
 import { isWheelmapFeature } from '../../lib/Feature';
 import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
-import { getQueryParams } from '../../lib/queryParams';
 
 import {
   isWheelchairAccessible,
@@ -81,6 +80,7 @@ type Props = {
   lon?: ?number,
   zoom?: ?number,
   extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
@@ -436,12 +436,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   setupAccessibilityCloudTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
-    const queryParams: any = getQueryParams();
     const locale = currentLocales[0];
     if (!locale) {
       console.error('Could not load AC tile layer because no current locale is set.');
     }
-    const tileUrl = getAccessibilityCloudTileUrl(locale, queryParams);
+    const tileUrl = getAccessibilityCloudTileUrl(locale, this.props.includeSourceIds);
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
       featureCache: accessibilityCloudFeatureCache,

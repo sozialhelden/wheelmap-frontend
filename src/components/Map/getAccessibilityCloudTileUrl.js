@@ -1,10 +1,13 @@
 // @flow
 import env from '../../lib/env';
 
-export default function accessibilityCloudTileUrl(locale: string, queryParams: any): string {
+export default function accessibilityCloudTileUrl(
+  locale: string,
+  includeSourceIds: ?string
+): string {
   let sourceIdParams = 'excludeSourceIds=LiBTS67TjmBcXdEmX';
-  if (queryParams.includeSourceIds) {
-    sourceIdParams = `includeSourceIds=${queryParams.includeSourceIds}`;
+  if (includeSourceIds) {
+    sourceIdParams = `includeSourceIds=${includeSourceIds}`;
   }
   return `${
     env.public.accessibilityCloud.baseUrl.cached

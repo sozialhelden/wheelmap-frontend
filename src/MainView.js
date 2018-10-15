@@ -32,7 +32,7 @@ import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Fe
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
-import type { ModalNodeState } from './lib/queryParams';
+import type { ModalNodeState } from './lib/ModalNodeState';
 
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 
@@ -61,6 +61,7 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -77,8 +78,9 @@ type Props = {
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onCategorySelect: () => void,
   onCategoryReset: () => void,
-  onClickSearchToolbar: () => void,
-  onCloseSearchToolbar: () => void,
+  onSearchToolbarClick: () => void,
+  onSearchToolbarClose: () => void,
+  onSearchToolbarSubmit: (searchQuery: string) => void,
   onClickSearchButton: () => void,
   onToggleMainMenu: () => void,
   onMainMenuHomeClick: () => void,
@@ -274,8 +276,9 @@ class MainView extends React.Component<Props, State> {
         onSearchResultClick={this.props.onSearchResultClick}
         onCategorySelect={this.props.onCategorySelect}
         onCategoryReset={this.props.onCategoryReset}
-        onClick={this.props.onClickSearchToolbar}
-        onClose={this.props.onCloseSearchToolbar}
+        onClick={this.props.onSearchToolbarClick}
+        onSubmit={this.props.onSearchToolbarSubmit}
+        onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
         hasGoButton={this.state.isOnSmallViewport}
       />
@@ -482,6 +485,7 @@ class MainView extends React.Component<Props, State> {
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
         extent={this.props.extent}
+        includeSourceIds={this.props.includeSourceIds}
         category={category}
         featureId={featureId}
         equipmentInfoId={equipmentInfoId}

@@ -9,7 +9,7 @@ import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator
 import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
-import type { ModalNodeState } from '../../lib/queryParams';
+import type { ModalNodeState } from '../../lib/ModalNodeState';
 import type { PhotoModel } from './Photos/PhotoModel';
 import {
   type PlaceDetailsProps,
