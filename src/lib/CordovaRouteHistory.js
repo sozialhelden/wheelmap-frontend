@@ -27,7 +27,8 @@ class CordovaRouterHistory implements RouterHistory {
     const path = this.router.generate(name, params);
 
     const query = { routeName: route.name, path, ...params };
-    NextRouter[method]({ pathname: '/cordova', query }, { query });
+    const pathname = window.location.pathname;
+    NextRouter[method]({ pathname: '/cordova', query }, { pathname, query });
   }
 }
 
