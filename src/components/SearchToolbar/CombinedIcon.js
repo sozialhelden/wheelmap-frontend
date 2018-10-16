@@ -36,15 +36,15 @@ function CombinedIcon(props: Props) {
         />
       ))}
       {isEqual(props.toiletFilter, ['yes']) ? (
-        <ToiledIcon>
+        <ToiletIcon>
           <ToiletStatusAccessible />
-        </ToiledIcon>
+        </ToiletIcon>
       ) : null}
     </div>
   );
 }
 
-const ToiledIcon = styled.figure``;
+const ToiletIcon = styled.figure``;
 
 export default styled(CombinedIcon)`
   display: flex;
@@ -82,7 +82,7 @@ export default styled(CombinedIcon)`
     transform: scale(0.9, 0.9);
   }
 
-  figure${ToiledIcon} {
+  figure${ToiletIcon} {
     z-index: 3;
     margin: 0 0 0 -13px;
 
