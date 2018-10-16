@@ -10,7 +10,7 @@ import {
 } from 'react-share';
 import { t } from 'ttag';
 import colors from '../../../lib/colors';
-import IconButton from '../../IconButton';
+import IconButton, { Circle, Caption } from '../../IconButton';
 import isCordova from '../../../lib/isCordova';
 import { interpolateLab } from 'd3-interpolate';
 
@@ -40,21 +40,25 @@ type State = {
 };
 
 const StyledIconButton = styled(IconButton)`
-  .caption {
+  ${Caption} {
     font-size: 80%;
     margin-top: 0.3em;
   }
-  .circle {
+
+  ${Circle} {
     background-color: ${colors.tonedDownSelectedColor};
   }
+
   &.active {
     font-weight: bold;
-    .circle {
+
+    ${Circle} {
       background-color: ${props => props.activeColor || colors.selectedColor};
     }
   }
+
   @media (hover), (-moz-touch-enabled: 0) {
-    &:not(.active):hover .circle {
+    &:not(.active):hover ${Circle} {
       background-color: ${props =>
         props.hoverColor ||
         interpolateLab(props.activeColor || colors.selectedColor, colors.tonedDownSelectedColor)(
@@ -64,7 +68,7 @@ const StyledIconButton = styled(IconButton)`
   }
   &:focus {
     outline: none;
-    .circle {
+    ${Circle} {
       background-color: ${colors.selectedColor};
     }
   }
@@ -328,7 +332,7 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
 
     @media (hover), (-moz-touch-enabled: 0) {
       &:hover {
-        .caption {
+        ${Caption} {
           color: ${colors.linkColor} !important;
         }
       }

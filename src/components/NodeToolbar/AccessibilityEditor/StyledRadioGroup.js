@@ -2,8 +2,10 @@
 
 import styled from 'styled-components';
 import { RadioGroup } from 'react-radio-group';
-import colors from '../../../lib/colors';
 import { hsl } from 'd3-color';
+
+import colors from '../../../lib/colors';
+import { Caption } from '../../IconButton';
 
 const StyledRadioGroup = styled(RadioGroup)`
   margin-top: 1em;
@@ -95,7 +97,7 @@ const StyledRadioGroup = styled(RadioGroup)`
       }
     }
 
-    .caption {
+    ${Caption} {
       flex: 1;
     }
 

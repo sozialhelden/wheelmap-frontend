@@ -19,11 +19,13 @@ type Props = {
 
 function CombinedIcon(props: Props) {
   if (!props.accessibilityFilter) return null;
+
   const accessibilities = isAccessibilityFiltered(props.accessibilityFilter)
     ? props.accessibilityFilter
     : [null];
+
   return (
-    <div aria-hidden className={`accessibilities ${props.className}`}>
+    <div aria-hidden className={props.className}>
       {accessibilities.map(accessibility => (
         <Icon
           key={accessibility}
@@ -34,15 +36,17 @@ function CombinedIcon(props: Props) {
         />
       ))}
       {isEqual(props.toiletFilter, ['yes']) ? (
-        <figure className="toilet-icon">
+        <ToiledIcon>
           <ToiletStatusAccessible />
-        </figure>
+        </ToiledIcon>
       ) : null}
     </div>
   );
 }
 
-const StyledCombinedIcon = styled(CombinedIcon)`
+const ToiledIcon = styled.figure``;
+
+export default styled(CombinedIcon)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -53,20 +57,12 @@ const StyledCombinedIcon = styled(CombinedIcon)`
     justify-content: center;
   }
 
-  .icon-button {
-    flex: 1;
-    .caption {
-      margin-left: 1em;
-      flex: 1;
-    }
-  }
-
   figure {
     line-height: 0;
   }
 
   figure + figure {
-    margin-left: -36px;
+    margin-left: -32px;
   }
 
   figure:nth-child(1) {
@@ -76,15 +72,23 @@ const StyledCombinedIcon = styled(CombinedIcon)`
   figure:nth-child(2) {
     z-index: 1;
     transform: scale(0.95, 0.95);
+
+    .icon {
+      display: none;
+    }
   }
 
   figure:nth-child(3) {
     transform: scale(0.9, 0.9);
   }
 
-  figure.toilet-icon {
+  figure${ToiledIcon} {
     z-index: 3;
     margin: 0 0 0 -13px;
+
+    &:nth-child(3) {
+      margin-left: -18px;
+    }
   }
 
   figure.add-stroke svg.background {
@@ -95,5 +99,3 @@ const StyledCombinedIcon = styled(CombinedIcon)`
     }
   }
 `;
-
-export default StyledCombinedIcon;

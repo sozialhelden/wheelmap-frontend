@@ -3,9 +3,10 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import { Dots } from 'react-activity';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import Button from '../Button';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
 import ChevronRight from '../ChevronRight';
@@ -66,18 +67,24 @@ const StyledChevronRight = styled(ChevronRight)`
   }
 `;
 
-const GoButton = styled.button`
+const GoButton = styled(Button)`
   min-width: 4rem;
   outline: none;
   border: none;
   font-size: 1rem;
   line-height: 1rem;
-
+  padding: 0 7px;
   color: white;
   background-color: ${colors.linkColor};
+
+  &.focus-visible {
+    border-radius: 0;
+  }
+
   &:hover {
     background-color: ${colors.linkColorDarker};
   }
+
   &:active {
     background-color: ${colors.darkLinkColor};
   }
@@ -155,6 +162,7 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
 
+    border-top: 0;
     position: fixed;
     top: 0;
     width: 100%;
@@ -172,16 +180,18 @@ const StyledToolbar = styled(Toolbar)`
     z-index: 1000000000;
     border-radius: 0;
 
-    &:not(.is-expanded) {
-      top: 60px;
-      left: 10px;
-      width: calc(100% - 80px);
-      max-height: 100%;
-      max-width: 320px;
-      margin: 0;
-    }
+    ${props =>
+      !props.isExpanded &&
+      css`
+        top: 60px;
+        left: 10px;
+        width: calc(100% - 80px);
+        max-height: 100%;
+        max-width: 320px;
+        margin: 0;
+      `}
 
-    > header, .search-results, .category-menu {
+    > header, .search-results, ${CategoryMenu} {
       padding: 0
     }
 
@@ -420,17 +430,15 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     if (!isAccessibilityFiltered(accessibilityFilter) && !isExpanded) return null;
 
     return (
-      <div className="filter-selector">
-        <AccessibilityFilterMenu
-          accessibilityFilter={accessibilityFilter}
-          toiletFilter={toiletFilter}
-          category={category}
-          onButtonClick={onAccessibilityFilterButtonClick}
-          onBlur={() => {
-            setTimeout(() => this.setState({ isCategoryFocused: false }));
-          }}
-        />
-      </div>
+      <AccessibilityFilterMenu
+        accessibilityFilter={accessibilityFilter}
+        toiletFilter={toiletFilter}
+        category={category}
+        onButtonClick={onAccessibilityFilterButtonClick}
+        onBlur={() => {
+          setTimeout(() => this.setState({ isCategoryFocused: false }));
+        }}
+      />
     );
   }
 
@@ -467,7 +475,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
   render() {
     const { isLoading, searchResults } = this.state;
-    const { searchQuery } = this.props;
+    const { searchQuery, hidden, inert, isExpanded } = this.props;
 
     let contentBelowSearchField = null;
 
@@ -479,20 +487,16 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
       contentBelowSearchField = this.renderFilters();
     }
 
-    const className = ['search-toolbar', this.props.isExpanded && 'is-expanded']
-      .filter(Boolean)
-      .join(' ');
-
     return (
       <StyledToolbar
-        className={className}
-        hidden={this.props.hidden}
-        inert={this.props.inert}
+        hidden={hidden}
+        inert={inert}
         minimalHeight={75}
         ref={toolbar => (this.toolbar = toolbar)}
         isSwipeable={false}
         enableTransitions={false}
         role="search"
+        isExpanded={isExpanded}
       >
         <header>
           <form
