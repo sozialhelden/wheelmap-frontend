@@ -76,6 +76,7 @@ const GoButton = styled(Button)`
   padding: 0 7px;
   color: white;
   background-color: ${colors.linkColor};
+  width: auto;
 
   &.focus-visible {
     border-radius: 0;
