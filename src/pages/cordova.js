@@ -18,6 +18,7 @@ const DynamicApp = dynamic(import('../App'), {
 
 type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
 type State = {
+  buildTimeProps: ?AppProps,
   storedInitialProps: ?AppProps,
 };
 
@@ -25,14 +26,18 @@ type State = {
 /// Mostly deals with setting the correct initialProps and storing them for offline usage
 class CordovaMain extends React.PureComponent<Props, State> {
   state: State = {
+    buildTimeProps: null,
     storedInitialProps: savedState.initialProps,
   };
   constructor(props: Props) {
     super(props);
 
-    // inject the build time data into the initial props
-    const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
-    clientStoreAppInitialProps(remainingBuildTimeProps);
+    // inject the build time data into the initial props, these are only available on the initial route
+    if (props.buildTimeProps) {
+      const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
+      this.state.buildTimeProps = props.buildTimeProps;
+      clientStoreAppInitialProps(remainingBuildTimeProps);
+    }
 
     // if we have stored props, use these to override the build time props
     if (savedState.initialProps) {
@@ -69,8 +74,8 @@ class CordovaMain extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { isCordovaBuild, buildTimeProps, ...props } = this.props;
-    const { storedInitialProps } = this.state;
+    const { isCordovaBuild, ...props } = this.props;
+    const { buildTimeProps, storedInitialProps } = this.state;
 
     // do not pre-render this at build time, it is only needed in the real browser
     return (

@@ -33,6 +33,7 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  isCordovaBuild: boolean,
 };
 
 type DataTableQuery = {
