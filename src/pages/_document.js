@@ -5,26 +5,29 @@ import { ServerStyleSheet } from 'styled-components';
 
 import env from '../lib/env';
 
+const cordovaBlock = 'gap: file:';
+
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage }: NextDocumentContext) {
     const sheet = new ServerStyleSheet();
 
     // Hacky way to get the locale used when rendering the page.
-    let locale;
+    let locale, isCordovaBuild;
 
     const page = renderPage(App => props => {
       locale = props.locale;
+      isCordovaBuild = props.isCordovaBuild;
 
       return sheet.collectStyles(<App {...props} />);
     });
 
     const styleTags = sheet.getStyleElement();
 
-    return { ...page, styleTags, locale };
+    return { ...page, styleTags, locale, isCordovaBuild };
   }
 
   render() {
-    const { locale } = this.props;
+    const { locale, isCordovaBuild } = this.props;
 
     return (
       <html lang={locale}>
@@ -35,7 +38,8 @@ export default class MyDocument extends Document {
             content={`
               default-src
                 ws:
-                gap:
+                ${isCordovaBuild ? cordovaBlock : ''}
+                file:
                 data:
                 'self'
                 'unsafe-eval'
@@ -52,10 +56,10 @@ export default class MyDocument extends Document {
                 'unsafe-inline';
               frame-src 
                 'self'
-                gap:;
+                ${isCordovaBuild ? cordovaBlock : ''};
               media-src 
                 'self' 
-                gap:;
+                ${isCordovaBuild ? cordovaBlock : ''};
               img-src
                 'self'
                 data:
@@ -68,7 +72,9 @@ export default class MyDocument extends Document {
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
                 ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.allowAdditionalImageUrls || ''};`}
+                ${env.public.allowAdditionalImageUrls || ''}
+                ${isCordovaBuild ? cordovaBlock : ''};
+            `}
           />
           <meta
             name="viewport"
