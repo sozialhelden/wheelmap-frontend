@@ -9,6 +9,7 @@ import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
+import env from '../../lib/env';
 import Icon from '../Icon';
 
 type Props = {
@@ -120,9 +121,17 @@ function Onboarding(props: Props) {
           <ChevronRight />
         </button>
       </footer>
+      <Version>{env.public.version}</Version>
     </ModalDialog>
   );
 }
+
+const Version = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  font-size: 12px;
+`;
 
 const StyledOnboarding = styled(Onboarding)`
   @keyframes fadeIn {

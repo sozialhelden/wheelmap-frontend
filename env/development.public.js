@@ -1,4 +1,8 @@
+// @TODO Do not include big package.json in build
+const package = require('../package');
+
 const config = {
+  version: package.version,
   mapbox: {
     accessToken: 'pk.eyJ1Ijoic296aWFsaGVsZGVuIiwiYSI6IkdUY09sSmsifQ.6vkpci46vdS7m5Jeb_YTbA',
   },
