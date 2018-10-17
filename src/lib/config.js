@@ -3,7 +3,7 @@ import env from './env';
 import isCordova from './isCordova';
 
 // use base url on server or in cordova builds, otherwise use the proxy running on the hosting server
-const useWheelmapBaseUrl = typeof window === 'undefined' || isCordova;
+const useWheelmapBaseUrl = typeof window === 'undefined' || isCordova();
 
 export default {
   locateTimeout: 60 * 60 * 1000,

@@ -16,15 +16,33 @@ import {
   expandedPreferredLocales,
   loadExistingLocalizationByPreference,
 } from '../lib/i18n';
+import isCordova from '../lib/isCordova';
 
+// dynamically load app only after cordova is ready
 const DynamicApp = dynamic(import('../App'), {
   ssr: false,
 });
 
+// handle ready before mounting the CordovaMain page
+let isDeviceReady = false;
+if (isCordova()) {
+  document.addEventListener(
+    'deviceready',
+    () => {
+      isDeviceReady = true;
+    },
+    false
+  );
+} else {
+  isDeviceReady = true;
+}
+
 type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
+
 type State = {
   buildTimeProps: ?AppProps,
   storedInitialProps: ?AppProps,
+  isDeviceReady: boolean,
 };
 
 /// Takes care of rendering the page in the cordova environment
@@ -33,6 +51,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
   state: State = {
     buildTimeProps: null,
     storedInitialProps: savedState.initialProps,
+    isDeviceReady: false,
   };
   constructor(props: Props) {
     super(props);
@@ -60,6 +79,8 @@ class CordovaMain extends React.PureComponent<Props, State> {
       const { translations, ...remainingInitialProps } = savedState.initialProps;
       clientStoreAppInitialProps(remainingInitialProps);
     }
+
+    this.state.isDeviceReady = isDeviceReady;
   }
 
   componentDidMount() {
@@ -76,6 +97,16 @@ class CordovaMain extends React.PureComponent<Props, State> {
       .catch(e => {
         console.warn('Failed loading new initial props from server, staying with build props.', e);
       });
+
+    if (!this.state.isDeviceReady) {
+      document.addEventListener(
+        'deviceready',
+        () => {
+          this.setState({ isDeviceReady: true });
+        },
+        false
+      );
+    }
   }
 
   onInitialPropsFetched = (reloadedInitialProps: AppProps) => {
@@ -91,7 +122,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
   render() {
     const { isCordovaBuild, ...props } = this.props;
-    const { buildTimeProps, storedInitialProps } = this.state;
+    const { buildTimeProps, storedInitialProps, isDeviceReady } = this.state;
 
     // do not pre-render this at build time, it is only needed in the real browser
     return (
@@ -99,7 +130,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
         <Head>
           <script src="cordova.js" />
         </Head>
-        <DynamicApp {...buildTimeProps} {...storedInitialProps} {...props} />
+        {isDeviceReady && <DynamicApp {...buildTimeProps} {...storedInitialProps} {...props} />}
       </React.Fragment>
     );
   }

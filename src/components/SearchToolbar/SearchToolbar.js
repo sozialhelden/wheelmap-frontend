@@ -17,7 +17,6 @@ import SearchInputField from './SearchInputField';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
 import colors from '../../lib/colors';
-import isCordova from '../../lib/isCordova';
 import { isAccessibilityFiltered } from '../../lib/Feature';
 //import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';

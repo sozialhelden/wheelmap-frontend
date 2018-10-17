@@ -135,7 +135,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-    this.routerHistory = new NextRouterHistory(router);
+    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild);
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -155,7 +155,7 @@ export default class App extends BaseApp {
     } = this.props;
 
     // no need to render anything but the bare page in cordova
-    if (isCordovaBuild || isCordova) {
+    if (isCordovaBuild || isCordova()) {
       return (
         <PageComponent
           routerHistory={this.routerHistory}
