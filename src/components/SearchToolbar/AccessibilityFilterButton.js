@@ -2,16 +2,17 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
-import styled from 'styled-components';
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import styled, { css } from 'styled-components';
 
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import Button from '../Button';
 import colors from '../../lib/colors';
 import CombinedIcon from './CombinedIcon';
 import CloseIcon from '../icons/actions/Close';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 
 type Props = {
-  className: string,
+  className?: string,
   showCloseButton: boolean,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -25,50 +26,12 @@ type Props = {
   isActive: boolean,
 };
 
-const StyledLink = styled.a`
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5em 1em 0.5em 1.3em;
-  min-height: 3rem;
-
-  svg.icon {
-    width: 21px;
-    height: 21px;
-  }
-
-  .accessibilities {
-    width: 70px;
-  }
-
-  .caption {
-    flex: 1;
-    color: ${colors.darkSelectedColor};
-  }
-
-  &.is-active {
-    background-color: ${colors.coldBackgroundColor};
-
-    .circle {
-      background-color: ${colors.selectedColor};
-    }
-  }
-
-  &:hover,
-  &:focus {
-    background-color: ${colors.linkBackgroundColorTransparent};
-
-    &.is-active {
-      .circle {
-        background-color: ${colors.darkSelectedColor};
-      }
-    }
-  }
+export const Caption = styled.span`
+  flex: 1;
+  color: ${colors.darkSelectedColor};
 `;
 
-export default function AccessibilityFilterButton(props: Props) {
+function AccessibilityFilterButton(props: Props) {
   const {
     toiletFilter,
     accessibilityFilter,
@@ -78,18 +41,16 @@ export default function AccessibilityFilterButton(props: Props) {
     caption,
     isActive,
     onClick,
+    className,
   } = props;
 
   return (
-    <StyledLink
-      className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''} ${
-        isActive ? 'is-active' : ''
-      }`}
+    <Button
+      className={className}
       onFocus={props.onFocus}
       onBlur={props.onBlur}
       onKeyDown={props.onKeyDown}
       tabIndex={0}
-      role="button"
       aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
       onClick={() =>
         onClick({
@@ -99,8 +60,37 @@ export default function AccessibilityFilterButton(props: Props) {
       }
     >
       <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
-      <span className="caption">{caption}</span>
+      <Caption>{caption}</Caption>
       {showCloseButton && <CloseIcon className="close-icon" />}
-    </StyledLink>
+    </Button>
   );
 }
+
+export default styled(AccessibilityFilterButton)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 1em 10px 1.3em;
+  min-height: 3rem;
+
+  svg.icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  ${CombinedIcon} {
+    width: 70px;
+  }
+
+  ${props =>
+    props.isActive &&
+    css`
+      background-color: ${colors.coldBackgroundColor};
+    `};
+
+  &:hover,
+  &:focus {
+    background-color: ${colors.linkBackgroundColorTransparent};
+  }
+`;

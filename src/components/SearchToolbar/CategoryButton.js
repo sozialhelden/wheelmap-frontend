@@ -2,11 +2,12 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import CombinedIcon from './CombinedIcon';
 import colors from '../../lib/colors';
-import IconButton from '../IconButton';
+import IconButton, { Circle, Caption } from '../IconButton';
+import Button from '../Button';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
@@ -14,104 +15,17 @@ import { isAccessibilityFiltered } from '../../lib/Feature';
 type Props = {
   name: string,
   category: string,
-  className: string,
   showCloseButton: boolean,
   hasCircle?: boolean,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
   onClick: (category: string) => void,
   onFocus?: (event: UIEvent) => void,
+  className?: string,
 };
 
-const StyledButton = styled.button`
-  display: flex;
-  align-items: center;
-  border: none;
-  border-radius: 5px;
-  font: inherit;
-  background: none;
-
-  figure {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .circle {
-    background-color: ${colors.tonedDownSelectedColor};
-    margin: 2.5px;
-    svg.icon {
-      g,
-      path,
-      circle,
-      rect {
-        fill: white;
-      }
-    }
-  }
-
-  svg.icon {
-    width: 21px;
-    height: 21px;
-  }
-
-  &.active {
-    background-color: ${colors.coldBackgroundColor};
-    .circle {
-      background-color: ${colors.selectedColor};
-    }
-  }
-
-  &:hover,
-  &:focus {
-    background-color: ${colors.linkBackgroundColorTransparent};
-    .circle {
-      background-color: ${colors.halfTonedDownSelectedColor};
-    }
-    &.active {
-      .circle {
-        background-color: ${colors.tonedDownSelectedColor};
-      }
-    }
-  }
-
-  &.is-horizontal {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 1em 0 1.3em;
-    min-height: 3rem;
-    .icon-button {
-      flex: 1;
-      flex-direction: row;
-      .accessibilities {
-        width: 70px;
-      }
-      .caption {
-        color: ${colors.darkSelectedColor};
-      }
-    }
-  }
-
-  &:not(.is-horizontal) {
-    flex-direction: column;
-    .icon-button {
-      flex-direction: column;
-      .accessibilities {
-        justify-content: center;
-      }
-      .caption {
-        font-size: 0.8em;
-        margin-top: 0.5em;
-        color: ${colors.darkSelectedColor};
-      }
-    }
-  }
-`;
-
-export default function CategoryButton(props: Props) {
-  const { category, accessibilityFilter, toiletFilter, showCloseButton } = props;
+function CategoryButton(props: Props) {
+  const { category, accessibilityFilter, toiletFilter, showCloseButton, className } = props;
 
   let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
@@ -130,22 +44,110 @@ export default function CategoryButton(props: Props) {
   );
 
   return (
-    <StyledButton
+    <Button
       onClick={() => props.onClick(category)}
-      className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''}`}
+      className={className}
       onFocus={props.onFocus}
-      role="button"
       aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
     >
-      <IconButton
-        isHorizontal={showCloseButton}
-        caption={props.name}
-        className="icon-button"
-        hasCircle={props.hasCircle}
-      >
+      <IconButton isHorizontal={showCloseButton} caption={props.name} hasCircle={props.hasCircle}>
         {icon}
       </IconButton>
       {showCloseButton && <CloseIcon />}
-    </StyledButton>
+    </Button>
   );
 }
+
+export default styled(CategoryButton)`
+  display: flex;
+  align-items: center;
+
+  figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ${Circle} {
+    background-color: ${colors.tonedDownSelectedColor};
+    margin: 2.5px;
+
+    svg.icon {
+      g,
+      path,
+      circle,
+      rect {
+        fill: white;
+      }
+    }
+  }
+
+  svg.icon {
+    width: 21px;
+    height: 21px;
+  }
+
+  &.active {
+    background-color: ${colors.coldBackgroundColor};
+
+    ${Circle} {
+      background-color: ${colors.selectedColor};
+    }
+  }
+
+  &:hover,
+  &:focus {
+    background-color: ${colors.linkBackgroundColorTransparent};
+
+    ${Circle} {
+      background-color: ${colors.halfTonedDownSelectedColor};
+    }
+
+    &.active {
+      ${Circle} {
+        background-color: ${colors.tonedDownSelectedColor};
+      }
+    }
+  }
+
+  ${props =>
+    props.showCloseButton
+      ? css`
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 1em 0 1.3em;
+          min-height: 3rem;
+
+          ${IconButton} {
+            flex: 1;
+            flex-direction: row;
+
+            ${CombinedIcon} {
+              width: 70px;
+            }
+
+            ${Caption} {
+              color: ${colors.darkSelectedColor};
+            }
+          }
+        `
+      : css`
+          flex-direction: column;
+
+          ${IconButton} {
+            flex-direction: column;
+
+            ${CombinedIcon} {
+              justify-content: center;
+            }
+
+            ${Caption} {
+              font-size: 0.8em;
+              margin-top: 0.5em;
+              color: ${colors.darkSelectedColor};
+            }
+          }
+        `};
+`;

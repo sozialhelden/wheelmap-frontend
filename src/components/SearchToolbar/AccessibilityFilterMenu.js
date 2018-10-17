@@ -89,22 +89,19 @@ function AccessibilityFilterMenu(props: Props) {
 
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
-      <section className="accessibility-filter">
-        {shownFilterKeys.map(key => (
-          <AccessibilityFilterButton
-            accessibilityFilter={availableFilters[key].accessibilityFilter}
-            toiletFilter={availableFilters[key].toiletFilter}
-            caption={availableFilters[key].caption}
-            category={category}
-            isMainCategory
-            isActive={Boolean(currentFilterKey)}
-            showCloseButton={shownFilterKeys.length === 1}
-            onClick={onButtonClick}
-            key={key}
-            className="accessibility-filter-button"
-          />
-        ))}
-      </section>
+      {shownFilterKeys.map(key => (
+        <AccessibilityFilterButton
+          accessibilityFilter={[...availableFilters[key].accessibilityFilter].sort()}
+          toiletFilter={availableFilters[key].toiletFilter}
+          caption={availableFilters[key].caption}
+          category={category}
+          isMainCategory
+          isActive={Boolean(currentFilterKey)}
+          showCloseButton={shownFilterKeys.length === 1}
+          onClick={onButtonClick}
+          key={key}
+        />
+      ))}
     </section>
   );
 }
@@ -132,31 +129,6 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
     &.section-hidden {
       max-height: 0;
       opacity: 0;
-    }
-  }
-
-  button,
-  label {
-    display: flex;
-    margin: 1em 0;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 8px;
-      &.toilet-filter-icon {
-        width: 40px;
-        height: 40px;
-      }
-    }
-
-    .caption {
-      flex: 1;
-      text-align: left;
     }
   }
 

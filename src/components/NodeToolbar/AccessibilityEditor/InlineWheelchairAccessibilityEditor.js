@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Icon from '../../Icon';
 import { shortAccessibilityName } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
-import IconButton from '../../IconButton';
+import IconButton, { Caption } from '../../IconButton';
 import colors from '../../../lib/colors';
 
 type Props = {
@@ -31,7 +31,7 @@ const Row = styled.section`
     background-color: transparent;
     transition: background-color 0.1s ease-out;
 
-    .caption {
+    ${Caption} {
       font-weight: 500;
       margin-top: 0.5rem;
     }
@@ -62,7 +62,7 @@ const Row = styled.section`
     }
     &:active {
       box-shadow: none !important;
-      .caption {
+      ${Caption} {
         color: white !important;
       }
     }
@@ -73,7 +73,7 @@ const Row = styled.section`
   }
 
   button.yes {
-    .caption {
+    ${Caption} {
       color: ${colors.positiveColorDarker};
     }
     &:hover,
@@ -88,7 +88,7 @@ const Row = styled.section`
     }
   }
   button.limited {
-    .caption {
+    ${Caption} {
       color: ${colors.warningColorDarker};
     }
     &:hover,
@@ -103,7 +103,7 @@ const Row = styled.section`
     }
   }
   button.no {
-    .caption {
+    ${Caption} {
       color: ${colors.negativeColorDarker};
     }
     &:hover,
