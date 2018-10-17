@@ -40,8 +40,8 @@ if (isCordova()) {
 type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
 
 type State = {
-  buildTimeProps: ?AppProps,
-  storedInitialProps: ?AppProps,
+  buildTimeProps: ?$Shape<AppProps>,
+  storedInitialProps: ?$Shape<AppProps>,
   isDeviceReady: boolean,
 };
 
@@ -70,7 +70,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
     // inject the build time data into the initial props, these are only available on the initial route
     if (props.buildTimeProps) {
       const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
-      this.state.buildTimeProps = props.buildTimeProps;
+      this.state.buildTimeProps = remainingBuildTimeProps;
       clientStoreAppInitialProps(remainingBuildTimeProps);
     }
 
@@ -84,6 +84,21 @@ class CordovaMain extends React.PureComponent<Props, State> {
   }
 
   componentDidMount() {
+    if (!this.state.isDeviceReady) {
+      document.addEventListener(
+        'deviceready',
+        () => {
+          this.fetchInitialProps();
+          this.setState({ isDeviceReady: true });
+        },
+        false
+      );
+    } else {
+      this.fetchInitialProps();
+    }
+  }
+
+  fetchInitialProps() {
     const userAgentString = window.navigator.userAgent;
     const languages = [window.navigator.language]
       .concat(window.navigator.languages || [])
@@ -97,26 +112,21 @@ class CordovaMain extends React.PureComponent<Props, State> {
       .catch(e => {
         console.warn('Failed loading new initial props from server, staying with build props.', e);
       });
-
-    if (!this.state.isDeviceReady) {
-      document.addEventListener(
-        'deviceready',
-        () => {
-          this.setState({ isDeviceReady: true });
-        },
-        false
-      );
-    }
   }
 
   onInitialPropsFetched = (reloadedInitialProps: AppProps) => {
-    console.log('Received new initial props from server.');
-    clientStoreAppInitialProps(reloadedInitialProps);
-    saveState({
-      initialProps: JSON.stringify(reloadedInitialProps),
-    });
+    console.log('Received new initial props from server.', reloadedInitialProps);
+    // strip translations, no need to cache them
+    const { translations, ...otherProps } = reloadedInitialProps;
+
+    clientStoreAppInitialProps(otherProps);
+
     this.setState({
-      storedInitialProps: reloadedInitialProps,
+      storedInitialProps: otherProps,
+    });
+
+    saveState({
+      initialProps: JSON.stringify(otherProps),
     });
   };
 

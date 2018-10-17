@@ -8,7 +8,7 @@ import isCordova from './isCordova';
 export default function(url, options) {
   options = options || {};
 
-  console.log('Fetching', url, '…');
+  console.log('Fetching', url, '…', options);
 
   // If we're running in a cordova app and it has http, make our lives easier by using native HTTP
   // connections.
