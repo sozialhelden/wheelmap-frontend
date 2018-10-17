@@ -63,15 +63,15 @@ async function fetchSourceWithLicense(
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(async (source): Promise<
-        SourceWithLicense
-      > => {
-        if (typeof source.licenseId === 'string') {
-          const license = await licenseCache.getLicenseWithId(source.licenseId, { useCache });
-          return { source, license };
+      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(
+        async (source): Promise<SourceWithLicense> => {
+          if (typeof source.licenseId === 'string') {
+            const license = await licenseCache.getLicenseWithId(source.licenseId, { useCache });
+            return { source, license };
+          }
+          return { source, license: null };
         }
-        return { source, license: null };
-      })
+      )
     );
 
     return Promise.all(sourcesWithLicense);
@@ -130,7 +130,9 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
       const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
       const equipmentInfo = equipmentPromise
-        ? isServer ? await equipmentPromise : equipmentPromise
+        ? isServer
+          ? await equipmentPromise
+          : equipmentPromise
         : null;
 
       // console.log("loading", { useCache });
@@ -202,13 +204,14 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   getHead(props) {
-    const { feature, clientSideConfiguration } = props;
+    const { feature, photos, clientSideConfiguration } = props;
     const { textContent, meta } = clientSideConfiguration;
 
-    const renderTitle = feature => {
-      let extras;
+    const renderTitle = (feature, photos) => {
+      const extras = [];
       let fullTitle;
       let placeTitle;
+      let image;
 
       if (feature != null) {
         fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties);
@@ -223,48 +226,65 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         // translator: Title for sharing a place detail page
         const thisPlaceIsOn = t`This place is on ${textContent.product.name}: ${placeTitle}`;
 
-        extras = [
-          coordinates != null && (
+        if (coordinates) {
+          extras.push(
             <meta
               content={coordinates[1]}
               property="place:location:latitude"
               key="place:location:latitude"
-            />
-          ),
-          coordinates != null && (
+            />,
             <meta
               content={coordinates[0]}
               property="place:location:longitude"
               key="place:location:longitud"
             />
-          ),
+          );
+        }
+
+        extras.push(
           <meta
             content={router.generate('place_detail', { id: getFeatureId(feature) })}
             property="og:url"
             key="og:url"
-          />,
-          placeTitle && <meta content={thisPlaceIsOn} property="og:title" key="og:title" />,
-          placeTitle &&
-            (meta.twitter.siteHandle || meta.twitter.creatorHandle) && (
+          />
+        );
+
+        if (placeTitle) {
+          extras.push(<meta content={thisPlaceIsOn} property="og:title" key="og:title" />);
+
+          if (meta.twitter.siteHandle || meta.twitter.creatorHandle) {
+            extras.push(
               <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />
-            ),
-        ];
+            );
+          }
+        }
       }
 
-      return (
-        <React.Fragment>
-          {extras}
-          <meta content="place" property="og:type" key="og:type" />
-          <title key="title">{getProductTitle(clientSideConfiguration, fullTitle)}</title>
-        </React.Fragment>
+      if (photos.length > 0) {
+        const image = photos[0].original;
+
+        extras.push(<meta content={image} property="og:image" key="og:image" />);
+
+        if (meta.twitter.siteHandle || meta.twitter.creatorHandle) {
+          extras.push(<meta content={image} property="twitter:image" key="twitter:image" />);
+        }
+      }
+
+      extras.unshift(
+        <meta content="place" property="og:type" key="og:type" />,
+        <title key="title">{getProductTitle(clientSideConfiguration, fullTitle)}</title>
       );
+
+      return <React.Fragment>{extras}</React.Fragment>;
     };
 
-    if (feature instanceof Promise) {
-      return feature.then(feature => renderTitle(feature));
+    if (feature instanceof Promise || photos instanceof Promise) {
+      return Promise.all([feature, photos]).then(([feature, photos]) =>
+        renderTitle(feature, photos)
+      );
     }
 
-    return renderTitle(feature);
+    return renderTitle(feature, photos);
   },
 };
 

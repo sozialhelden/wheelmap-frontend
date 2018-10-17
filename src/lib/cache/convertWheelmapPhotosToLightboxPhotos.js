@@ -7,6 +7,7 @@ export default function convertWheelmapPhotosToLightboxPhotos(
   wheelmapPhotos: WheelmapFeaturePhotos
 ): PhotoModel[] {
   return wheelmapPhotos.photos.map(wheelmapPhoto => ({
+    original: wheelmapPhoto.images.find(i => i.type === 'gallery_ipad_retina').url,
     src: wheelmapPhoto.images.find(i => i.type === 'thumb_iphone_retina').url,
     srcSet: wheelmapPhoto.images
       .filter(i => !i.type.match(/thumb/) && !i.type.match(/gallery_preview/))

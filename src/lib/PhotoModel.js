@@ -1,6 +1,7 @@
 // @flow
 
 export type PhotoModel = {
+  original: string,
   src: string,
   srcSet: string[],
   sizes: string[],
