@@ -28,7 +28,6 @@ import {
   type AppProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import CordovaRouteHistory from '../lib/CordovaRouteHistory';
 import { applyTranslations } from '../lib/i18n';
 import env from '../lib/env';
 import isCordova from '../lib/isCordova';
@@ -135,11 +134,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-    const { isCordovaBuild } = props;
-
-    this.routerHistory = isCordovaBuild
-      ? new CordovaRouteHistory(router)
-      : new NextRouterHistory(router);
+    this.routerHistory = new NextRouterHistory(router);
   }
 
   handleNotFoundReturnHomeClick = () => {

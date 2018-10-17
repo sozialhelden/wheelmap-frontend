@@ -4,6 +4,7 @@ import NextRouter from 'next/router';
 
 import type RouterHistory from './RouterHistory';
 import Router from './Router';
+import isCordova from './isCordova';
 
 type routerMethod = 'push' | 'replace';
 
@@ -26,7 +27,14 @@ class NextRouterHistory implements RouterHistory {
     const route = this.router.getRoute(name, true);
     const path = this.router.generate(name, params);
 
-    NextRouter[method]({ pathname: '/main', query: { routeName: route.name, ...params } }, path);
+    if (isCordova) {
+      const query = { routeName: route.name, path, ...params };
+      const pathname = window.location.pathname;
+      NextRouter[method]({ pathname: '/cordova', query }, { pathname, query });
+    } else {
+      const query = { routeName: route.name, ...params };
+      NextRouter[method]({ pathname: '/main', query }, path);
+    }
   }
 }
 
