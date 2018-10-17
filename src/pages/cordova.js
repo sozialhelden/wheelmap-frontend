@@ -23,20 +23,6 @@ const DynamicApp = dynamic(import('../App'), {
   ssr: false,
 });
 
-// handle ready before mounting the CordovaMain page
-let isDeviceReady = false;
-if (isCordova()) {
-  document.addEventListener(
-    'deviceready',
-    () => {
-      isDeviceReady = true;
-    },
-    false
-  );
-} else {
-  isDeviceReady = true;
-}
-
 type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
 
 type State = {
@@ -78,23 +64,18 @@ class CordovaMain extends React.PureComponent<Props, State> {
     if (savedState.initialProps) {
       clientStoreAppInitialProps(savedState.initialProps);
     }
-
-    this.state.isDeviceReady = isDeviceReady;
   }
 
   componentDidMount() {
-    if (!this.state.isDeviceReady) {
-      document.addEventListener(
-        'deviceready',
-        () => {
-          this.fetchInitialProps();
-          this.setState({ isDeviceReady: true });
-        },
-        false
-      );
-    } else {
-      this.fetchInitialProps();
-    }
+    // device ready will always be invoked, there is no way to miss this event
+    document.addEventListener(
+      'deviceready',
+      () => {
+        this.fetchInitialProps();
+        this.setState({ isDeviceReady: true });
+      },
+      false
+    );
   }
 
   fetchInitialProps() {
