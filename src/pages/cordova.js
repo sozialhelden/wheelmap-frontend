@@ -76,8 +76,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
     // if we have stored props, use these to override the build time props
     if (savedState.initialProps) {
-      const { translations, ...remainingInitialProps } = savedState.initialProps;
-      clientStoreAppInitialProps(remainingInitialProps);
+      clientStoreAppInitialProps(savedState.initialProps);
     }
 
     this.state.isDeviceReady = isDeviceReady;
@@ -117,16 +116,17 @@ class CordovaMain extends React.PureComponent<Props, State> {
   onInitialPropsFetched = (reloadedInitialProps: AppProps) => {
     console.log('Received new initial props from server.', reloadedInitialProps);
     // strip translations, no need to cache them
-    const { translations, ...otherProps } = reloadedInitialProps;
+    const { categories, clientSideConfiguration } = reloadedInitialProps;
 
-    clientStoreAppInitialProps(otherProps);
+    clientStoreAppInitialProps({ categories, clientSideConfiguration });
 
     this.setState({
-      storedInitialProps: otherProps,
+      storedInitialProps: { categories, clientSideConfiguration },
     });
 
     saveState({
-      initialProps: JSON.stringify(otherProps),
+      'initialProps.categories': JSON.stringify(categories),
+      'initialProps.clientSideConfiguration': JSON.stringify(clientSideConfiguration),
     });
   };
 
