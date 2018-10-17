@@ -5,7 +5,6 @@ import difference from 'lodash/difference';
 import intersection from 'lodash/intersection';
 import flatten from 'lodash/flatten';
 import { addLocale, useLocales } from 'ttag';
-import { getQueryParams } from './queryParams';
 import translations from './translations.json';
 
 export type LocalizedString =
@@ -54,15 +53,12 @@ export const currentLocales = uniq([defaultLocale, localeWithoutCountry(defaultL
 );
 
 // Returns an expanded list of preferred locales.
-export function expandedPreferredLocales(languages: string[]): string[] {
+export function expandedPreferredLocales(languages: string[], overriddenLocale?: string): string[] {
   const hasWindow = typeof window !== 'undefined';
   if (!languages && hasWindow && window.navigator && window.navigator.languages) {
     languages = window.navigator.languages;
   }
 
-  // Note that some browsers don't support navigator.languages
-  // TODO remove from here
-  const overriddenLocale = getQueryParams().locale;
   let localesPreferredByUser = [...languages];
 
   if (overriddenLocale) {

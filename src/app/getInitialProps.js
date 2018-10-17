@@ -99,6 +99,7 @@ export async function getAppInitialProps(
     accessibility,
     toilet,
     q,
+    includeSourceIds,
     ...query
   }: {
     userAgentString: string,
@@ -111,6 +112,7 @@ export async function getAppInitialProps(
     locale?: string,
     accessibility?: string,
     toilet?: string,
+    includeSourceIds?: string,
     [key: string]: string,
   },
   isServer: boolean
@@ -124,11 +126,7 @@ export async function getAppInitialProps(
     ? clientCache.clientSideConfiguration
     : await fetchClientSideConfiguration(hostName);
 
-  if (locale && languages.indexOf(locale) !== 0) {
-    languages = [locale, ...languages];
-  }
-
-  const locales = expandedPreferredLocales(languages);
+  const locales = expandedPreferredLocales(languages, locale);
 
   const translations = clientCache.translations
     ? clientCache.translations
@@ -157,6 +155,7 @@ export async function getAppInitialProps(
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
+    includeSourceIds,
   };
 }
 

@@ -118,13 +118,6 @@ export default class App extends BaseApp {
     super(props);
 
     this.routerHistory = new NextRouterHistory(router);
-
-    const { translations } = props;
-
-    // Can be null if error was thrown
-    if (translations) {
-      applyTranslations(translations);
-    }
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -138,6 +131,7 @@ export default class App extends BaseApp {
       routeName,
       path,
       hostName,
+      translations,
       ...props
     } = this.props;
     const { clientSideConfiguration }: $Shape<AppProps> = props;
@@ -154,6 +148,10 @@ export default class App extends BaseApp {
           />
         </Container>
       );
+    }
+
+    if (translations) {
+      applyTranslations(translations);
     }
 
     if (!isServer) {

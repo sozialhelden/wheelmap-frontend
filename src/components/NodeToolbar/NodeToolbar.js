@@ -31,7 +31,7 @@ import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../li
 import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
-import type { ModalNodeState } from '../../lib/queryParams';
+import type { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';

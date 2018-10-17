@@ -23,28 +23,9 @@ import { isAccessibilityFiltered } from '../../lib/Feature';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
-import { newLocationWithReplacedQueryParams } from '../../lib/queryParams';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 import type { WheelmapFeature } from '../../lib/Feature';
 import { type CategoryLookupTables } from '../../lib/Categories';
-
-// You can enter debug commands in the search bar, which are handled here.
-function handleInputCommands(history: RouterHistory, commandLine: ?string) {
-  // Enter a command like `locale:de_DE` to set a new locale.
-  const setLocaleCommandMatch = commandLine && commandLine.match(/^locale:(\w\w(?:_\w\w))/);
-  if (setLocaleCommandMatch) {
-    let location = newLocationWithReplacedQueryParams(history, {
-      q: null,
-      locale: setLocaleCommandMatch[1],
-    });
-    if (isCordova()) {
-      window.location.hash = location.search;
-    } else {
-      history.push(location);
-    }
-    window.location.reload();
-  }
-}
 
 export type Props = PlaceFilter & {
   history: RouterHistory,
@@ -55,6 +36,7 @@ export type Props = PlaceFilter & {
   searchQuery: ?string,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
+  onSubmit: (searchQuery: string) => void,
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
   onClose: ?() => void,
   onClick: () => void,
@@ -368,17 +350,19 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           }, 300);
         }}
         onChange={this.onChangeSearchQuery}
-        onSubmit={() => {
+        onSubmit={event => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();
             if (this.firstResult) {
               this.firstResult.focus();
             }
           });
-          handleInputCommands(
+
+          this.props.onSubmit(event.target.value);
+          /*handleInputCommands(
             this.props.history,
             this.searchInputField && this.searchInputField.value
-          );
+          );*/
         }}
         ariaRole="searchbox"
       />

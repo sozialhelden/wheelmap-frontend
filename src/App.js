@@ -9,7 +9,6 @@ import { MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
-import { applyTranslations, type Translations } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
 import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
@@ -35,8 +34,7 @@ import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
-import type { ModalNodeState } from './lib/queryParams';
-import { getQueryParams } from './lib/queryParams';
+import type { ModalNodeState } from './lib/ModalNodeState';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
@@ -62,7 +60,6 @@ type Props = {
   routeName: string,
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
-  translations?: Translations[],
   searchQuery?: ?string,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
   category?: string,
@@ -71,6 +68,7 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
@@ -154,10 +152,6 @@ class Loader extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
-
-    if (props.translations) {
-      applyTranslations(props.translations);
-    }
 
     if (props.userAgent) {
       configureUserAgent(props.userAgent);
@@ -499,14 +493,28 @@ class Loader extends React.Component<Props, State> {
     if (this.mainView) this.mainView.focusSearchToolbar();
   };
 
-  onClickSearchToolbar = () => {
+  onSearchToolbarClick = () => {
     this.openSearch();
   };
 
-  onCloseSearchToolbar = () => {
+  onSearchToolbarClose = () => {
     this.closeSearch();
 
     if (this.mainView) this.mainView.focusMap();
+  };
+
+  onSearchToolbarSubmit = (searchQuery: string) => {
+    // Enter a command like `locale:de_DE` to set a new locale.
+    const setLocaleCommandMatch = searchQuery.match(/^locale:(\w\w(?:_\w\w))/);
+
+    if (setLocaleCommandMatch) {
+      const { routeName, routerHistory } = this.props;
+      const params = this.getCurrentParams();
+
+      params.locale = setLocaleCommandMatch[1];
+
+      routerHistory.push(routeName, params);
+    }
   };
 
   onOpenWheelchairAccessibility = () => {
@@ -627,6 +635,7 @@ class Loader extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
+      includeSourceIds: this.props.includeSourceIds,
 
       // photo feature
       isPhotoUploadCaptchaToolbarVisible:
@@ -665,8 +674,9 @@ class Loader extends React.Component<Props, State> {
         onOpenReportMode={this.onOpenReportMode}
         onCloseNodeToolbar={this.onCloseNodeToolbar}
         onCloseOnboarding={this.onCloseOnboarding}
-        onClickSearchToolbar={this.onClickSearchToolbar}
-        onCloseSearchToolbar={this.onCloseSearchToolbar}
+        onSearchToolbarClick={this.onSearchToolbarClick}
+        onSearchToolbarClose={this.onSearchToolbarClose}
+        onSearchToolbarSubmit={this.onSearchToolbarSubmit}
         onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
         onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={this.onOpenToiletAccessibility}
