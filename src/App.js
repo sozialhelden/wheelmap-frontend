@@ -168,6 +168,9 @@ class App extends React.Component<Props, State> {
 
     const params = this.getCurrentParams();
 
+    delete params.id;
+    delete params.eid;
+
     this.props.routerHistory.push('search', params);
     if (this.mainView) this.mainView.focusSearchToolbar();
   }
@@ -443,6 +446,14 @@ class App extends React.Component<Props, State> {
 
     if (isToiletFiltered(toiletFilter)) {
       params.toilet = toiletFilter.join(',');
+    }
+
+    if (featureId) {
+      params.id = featureId;
+    }
+
+    if (equipmentInfoId) {
+      params.eid = equipmentInfoId;
     }
 
     return params;
