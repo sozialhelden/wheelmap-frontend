@@ -11,6 +11,11 @@ import {
   clientStoreAppInitialProps,
   type AppProps,
 } from '../app/getInitialProps';
+import {
+  applyTranslations,
+  expandedPreferredLocales,
+  loadExistingLocalizationByPreference,
+} from '../lib/i18n';
 
 const DynamicApp = dynamic(import('../App'), {
   ssr: false,
@@ -31,6 +36,17 @@ class CordovaMain extends React.PureComponent<Props, State> {
   };
   constructor(props: Props) {
     super(props);
+
+    // always apply
+    if (typeof window !== 'undefined') {
+      const languages = [window.navigator.language]
+        .concat(window.navigator.languages || [])
+        .filter(Boolean);
+      const locales = expandedPreferredLocales(languages);
+      const translations = loadExistingLocalizationByPreference(locales);
+      applyTranslations(translations);
+      clientStoreAppInitialProps({ translations });
+    }
 
     // inject the build time data into the initial props, these are only available on the initial route
     if (props.buildTimeProps) {

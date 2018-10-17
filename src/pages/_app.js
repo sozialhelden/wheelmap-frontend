@@ -49,11 +49,12 @@ export default class App extends BaseApp {
       const hostName = env.public.cordovaHostname;
 
       // serve only english languages
-      const buildTimeProps = await getAppInitialProps(
+      const initialBuildTimeProps = await getAppInitialProps(
         { userAgentString: '', hostName, languages: ['en_US'], ...ctx.query },
         true
       );
-
+      // strip translations from initial props, no added inclusion needed for cordova
+      const { translations, ...buildTimeProps } = initialBuildTimeProps;
       return { buildTimeProps, isCordovaBuild };
     }
 
