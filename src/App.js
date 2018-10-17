@@ -4,8 +4,6 @@ import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import initReactFastclick from 'react-fastclick';
-import type { Location, RouterHistory } from 'react-router-dom';
-import { MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
@@ -54,8 +52,6 @@ export type Link = {
 
 type Props = {
   className?: string,
-  history: RouterHistory,
-  location: Location,
   routerHistory: NewRouterHistory,
   routeName: string,
   categories?: CategoryLookupTables,
@@ -103,7 +99,7 @@ function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
 
-class Loader extends React.Component<Props, State> {
+class App extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
@@ -603,9 +599,6 @@ class Loader extends React.Component<Props, State> {
     const isSearchButtonVisible = !isSearchBarVisible;
 
     const extraProps = {
-      history: this.props.history,
-      location: this.props.location,
-
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
@@ -700,17 +693,6 @@ class Loader extends React.Component<Props, State> {
       />
     );
   }
-}
-
-function App(props: Props) {
-  // const Router = isCordova() ? MemoryRouter : BrowserRouter;
-  const Router = MemoryRouter;
-
-  return (
-    <Router>
-      <Route path="/" render={routeProps => <Loader {...routeProps} {...props} />} />
-    </Router>
-  );
 }
 
 export default App;

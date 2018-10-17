@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import type { RouterHistory } from 'react-router-dom';
 
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
@@ -10,7 +9,7 @@ import Categories, { type Category, type CategoryLookupTables } from '../../lib/
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
-import type { PhotoModel } from './Photos/PhotoModel';
+import type { PhotoModel } from '../../lib/PhotoModel';
 import {
   type PlaceDetailsProps,
   type ResolvedPlaceDetailsProps,
@@ -24,7 +23,6 @@ type Props = {
   modalNodeState: ModalNodeState,
   onOpenReportMode: ?() => void,
   onStartPhotoUploadFlow: () => void,
-  history: RouterHistory,
   onClose?: ?() => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
