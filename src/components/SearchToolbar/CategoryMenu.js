@@ -11,8 +11,6 @@ import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 type Props = {
   onFocus: () => void,
-  onCategorySelect: () => void,
-  onCategoryReset: () => void,
   category: ?string,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
@@ -21,7 +19,7 @@ type Props = {
 
 function CategoryMenu(props: Props) {
   let names = null;
-  const { category, onCategoryReset, onCategorySelect } = props;
+  const { category } = props;
 
   if (category) {
     names = { [category]: Categories.translatedWheelmapRootCategoryName(category) };
@@ -30,13 +28,11 @@ function CategoryMenu(props: Props) {
   }
 
   const showCloseButton = Boolean(category);
-  const onClick = category ? onCategoryReset : onCategorySelect;
 
   return (
     <div className={props.className}>
       {Object.keys(names).map((category, index) => (
         <CategoryButton
-          onClick={onClick}
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}
           hasCircle={!showCloseButton && !isAccessibilityFiltered(props.accessibilityFilter)}

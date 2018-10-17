@@ -2,31 +2,33 @@
 
 import NextRouter from 'next/router';
 
-import type RouterHistory from './RouterHistory';
+import AbstractRouterHistory, {
+  type RouterHistory,
+  type RouterHistoryMethod,
+  type RouteParams,
+} from './RouterHistory';
 import Router from './Router';
 
-type routerMethod = 'push' | 'replace';
-
-class NextRouterHistory implements RouterHistory {
-  router: Router;
+class NextRouterHistory extends AbstractRouterHistory {
   isCordova: boolean;
 
   constructor(router: Router, isCordova: boolean = false) {
-    this.router = router;
+    super(router);
+
     this.isCordova = isCordova;
   }
 
-  push(name: string, params: { [name: string]: any } = {}) {
+  push(name: string, params: RouteParams = {}) {
     this.change('push', name, params);
   }
 
-  replace(name: string, params: { [name: string]: any } = {}) {
+  replace(name: string, params: RouteParams = {}) {
     this.change('replace', name, params);
   }
 
-  change(method: routerMethod, name: string, params: { [name: string]: any } = {}) {
-    const route = this.router.getRoute(name, true);
-    const path = this.router.generate(name, params);
+  change(method: RouterHistoryMethod, name: string, params: RouteParams = {}) {
+    const route = this.getRoute(name);
+    const path = this.generate(name, params);
 
     if (this.isCordova) {
       const query = { routeName: route.name, path, ...params };

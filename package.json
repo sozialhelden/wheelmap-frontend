@@ -119,6 +119,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-focus-within": "^2.0.0",
     "postcss-loader": "2.0.6",
+    "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
     "promise": "8.0.1",

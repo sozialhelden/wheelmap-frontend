@@ -11,6 +11,7 @@ import Button from '../Button';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
+import Link, { RouteConsumer } from '../Link';
 
 type Props = {
   name: string,
@@ -44,24 +45,40 @@ function CategoryButton(props: Props) {
   );
 
   return (
-    <Button
-      onClick={() => props.onClick(category)}
-      className={className}
-      onFocus={props.onFocus}
-      aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
-    >
-      <IconButton isHorizontal={showCloseButton} caption={props.name} hasCircle={props.hasCircle}>
-        {icon}
-      </IconButton>
-      {showCloseButton && <CloseIcon />}
-    </Button>
+    <RouteConsumer>
+      {context => {
+        const params = { ...context.params };
+
+        if (showCloseButton) {
+          delete params.category;
+        } else {
+          params.category = category;
+        }
+
+        return (
+          <Link
+            params={params}
+            routeName={context.name}
+            aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
+            className={className}
+            onFocus={props.onFocus}
+          >
+            <IconButton
+              isHorizontal={showCloseButton}
+              caption={props.name}
+              hasCircle={props.hasCircle}
+            >
+              {icon}
+            </IconButton>
+            {showCloseButton && <CloseIcon />}
+          </Link>
+        );
+      }}
+    </RouteConsumer>
   );
 }
 
 export default styled(CategoryButton)`
-  display: flex;
-  align-items: center;
-
   figure {
     display: flex;
     align-items: center;

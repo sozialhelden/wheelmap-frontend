@@ -9,7 +9,7 @@ import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
-import { type RouterHistory as NewRouterHistory } from './lib/RouterHistory';
+import { type RouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
@@ -37,6 +37,7 @@ import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
+import { RouteProvider } from './components/Link';
 
 import 'react-activity/dist/react-activity.css';
 import './App.css';
@@ -52,7 +53,7 @@ export type Link = {
 
 type Props = {
   className?: string,
-  routerHistory: NewRouterHistory,
+  routerHistory: RouterHistory,
   routeName: string,
   categories?: CategoryLookupTables,
   userAgent?: UAResult,
@@ -299,24 +300,6 @@ class App extends React.Component<Props, State> {
     }
 
     this.props.routerHistory.push(routeName, params);
-  };
-
-  onCategorySelect = (category: string) => {
-    const { routeName, routerHistory } = this.props;
-    const params = this.getCurrentParams();
-
-    params.category = category;
-
-    routerHistory.push(routeName, params);
-  };
-
-  onCategoryReset = () => {
-    const { routeName, routerHistory } = this.props;
-    const params = this.getCurrentParams();
-
-    delete params.category;
-
-    routerHistory.push(routeName, params);
   };
 
   onClickFullscreenBackdrop = () => {
@@ -649,48 +632,54 @@ class App extends React.Component<Props, State> {
     };
 
     return (
-      <MainView
-        {...extraProps}
-        ref={mainView => {
-          this.mainView = mainView;
+      <RouteProvider
+        value={{
+          history: this.props.routerHistory,
+          params: this.getCurrentParams(),
+          name: this.props.routeName,
         }}
-        onClickSearchButton={this.onClickSearchButton}
-        onToggleMainMenu={this.onToggleMainMenu}
-        onMoveEnd={this.onMoveEnd}
-        onMapClick={this.onMapClick}
-        onMarkerClick={this.showSelectedFeature}
-        onError={this.onError}
-        onSearchResultClick={this.onSearchResultClick}
-        onCategorySelect={this.onCategorySelect}
-        onCategoryReset={this.onCategoryReset}
-        onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
-        onOpenReportMode={this.onOpenReportMode}
-        onCloseNodeToolbar={this.onCloseNodeToolbar}
-        onCloseOnboarding={this.onCloseOnboarding}
-        onSearchToolbarClick={this.onSearchToolbarClick}
-        onSearchToolbarClose={this.onSearchToolbarClose}
-        onSearchToolbarSubmit={this.onSearchToolbarSubmit}
-        onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
-        onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
-        onOpenToiletAccessibility={this.onOpenToiletAccessibility}
-        onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
-        onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
-        onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-        onAddMissingPlaceClick={this.onAddMissingPlaceClick}
-        onSearchQueryChange={this.onSearchQueryChange}
-        onEquipmentSelected={this.onEquipmentSelected}
-        onShowPlaceDetails={this.showSelectedFeature}
-        onMainMenuHomeClick={this.onMainMenuHomeClick}
-        onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
-        // photo feature
-        onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
-        onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
-        onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
-        onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
-        onStartReportPhotoFlow={this.onStartReportPhotoFlow}
-        onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
-        onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
-      />
+      >
+        <MainView
+          {...extraProps}
+          ref={mainView => {
+            this.mainView = mainView;
+          }}
+          onClickSearchButton={this.onClickSearchButton}
+          onToggleMainMenu={this.onToggleMainMenu}
+          onMoveEnd={this.onMoveEnd}
+          onMapClick={this.onMapClick}
+          onMarkerClick={this.showSelectedFeature}
+          onError={this.onError}
+          onSearchResultClick={this.onSearchResultClick}
+          onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
+          onOpenReportMode={this.onOpenReportMode}
+          onCloseNodeToolbar={this.onCloseNodeToolbar}
+          onCloseOnboarding={this.onCloseOnboarding}
+          onSearchToolbarClick={this.onSearchToolbarClick}
+          onSearchToolbarClose={this.onSearchToolbarClose}
+          onSearchToolbarSubmit={this.onSearchToolbarSubmit}
+          onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
+          onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+          onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
+          onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
+          onCloseToiletAccessibility={this.onCloseToiletAccessibility}
+          onAddMissingPlaceClick={this.onAddMissingPlaceClick}
+          onSearchQueryChange={this.onSearchQueryChange}
+          onEquipmentSelected={this.onEquipmentSelected}
+          onShowPlaceDetails={this.showSelectedFeature}
+          onMainMenuHomeClick={this.onMainMenuHomeClick}
+          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
+          // photo feature
+          onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
+          onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
+          onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
+          onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
+          onStartReportPhotoFlow={this.onStartReportPhotoFlow}
+          onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
+          onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
+        />
+      </RouteProvider>
     );
   }
 }
