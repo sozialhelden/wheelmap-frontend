@@ -350,7 +350,7 @@ class NodeToolbar extends React.Component<Props, State> {
         startTopOffset={offset}
         onScrollable={isScrollable => this.setState({ isScrollable })}
       >
-        <NodeToolbarErrorBoundary>
+        <ErrorBoundary>
           <FocusTrap
             component="div"
             // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be pervented.
@@ -360,14 +360,10 @@ class NodeToolbar extends React.Component<Props, State> {
             {this.renderNodeHeader()}
             {this.renderContentBelowHeader()}
           </FocusTrap>
-        </NodeToolbarErrorBoundary>
+        </ErrorBoundary>
       </StyledToolbar>
     );
   }
 }
-
-const NodeToolbarErrorBoundary = styled(ErrorBoundary)`
-  margin: 0;
-`;
 
 export default NodeToolbar;

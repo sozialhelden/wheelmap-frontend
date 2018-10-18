@@ -16,6 +16,7 @@ import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 import MapLoading from './components/Map/MapLoading';
+import ErrorBoundary from './components/ErrorBoundary';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
@@ -499,21 +500,26 @@ class MainView extends React.Component<Props, State> {
     return (
       <div className={classList.join(' ')}>
         {!isMainMenuInBackground && mainMenu}
-        <div className="behind-backdrop">
-          {isMainMenuInBackground && mainMenu}
-          {this.renderSearchToolbar({ category, searchQuery, searchResults }, searchToolbarIsInert)}
-          {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
-          {this.props.isSearchButtonVisible && this.renderSearchButton()}
-          {map}
-        </div>
-        {this.renderFullscreenBackdrop()}
-        {isNodeToolbarVisible && modalNodeState && nodeToolbar}
-        {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
-        {this.props.isPhotoUploadInstructionsToolbarVisible &&
-          this.renderPhotoUploadInstructionsToolbar()}
-        {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
-        {this.renderCreateDialog()}
-        {this.renderOnboarding()}
+        <ErrorBoundary>
+          <div className="behind-backdrop">
+            {isMainMenuInBackground && mainMenu}
+            {this.renderSearchToolbar(
+              { category, searchQuery, searchResults },
+              searchToolbarIsInert
+            )}
+            {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
+            {this.props.isSearchButtonVisible && this.renderSearchButton()}
+            {map}
+          </div>
+          {this.renderFullscreenBackdrop()}
+          {isNodeToolbarVisible && modalNodeState && nodeToolbar}
+          {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+          {this.props.isPhotoUploadInstructionsToolbarVisible &&
+            this.renderPhotoUploadInstructionsToolbar()}
+          {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
+          {this.renderCreateDialog()}
+          {this.renderOnboarding()}
+        </ErrorBoundary>
       </div>
     );
   }

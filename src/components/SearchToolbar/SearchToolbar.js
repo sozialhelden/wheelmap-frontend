@@ -25,6 +25,7 @@ import { isOnSmallViewport } from '../../lib/ViewportSize';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 import type { WheelmapFeature } from '../../lib/Feature';
 import { type CategoryLookupTables } from '../../lib/Categories';
+import ErrorBoundary from '../ErrorBoundary';
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables,
@@ -494,21 +495,23 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         role="search"
         isExpanded={isExpanded}
       >
-        <header>
-          <form
-            action="#"
-            method="post"
-            onSubmit={ev => {
-              ev.preventDefault();
-            }}
-          >
-            <SearchIcon />
-            {this.renderSearchInputField()}
-            {this.props.searchQuery && this.renderCloseLink()}
-            {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
-          </form>
-        </header>
-        <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
+        <ErrorBoundary>
+          <header>
+            <form
+              action="#"
+              method="post"
+              onSubmit={ev => {
+                ev.preventDefault();
+              }}
+            >
+              <SearchIcon />
+              {this.renderSearchInputField()}
+              {this.props.searchQuery && this.renderCloseLink()}
+              {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
+            </form>
+          </header>
+          <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
+        </ErrorBoundary>
       </StyledToolbar>
     );
   }
