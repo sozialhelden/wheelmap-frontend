@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import Link from './Link/Link';
 import colors from '../lib/colors';
+import env from '../lib/env';
 
 type Props = {
   className?: string,
@@ -51,7 +52,10 @@ class ErrorBoundary extends Component<Props, State> {
 
           <p>{apologyText}</p>
 
-          {error && error.message && <ErrorDetail>{error.message}</ErrorDetail>}
+          <ErrorDetail>
+            {env.public.version}
+            {error && error.message && ` — ${error.message}`}
+          </ErrorDetail>
 
           <Link routeName="map" className="button-cta-close focus-visible">
             {returnHomeButtonCaption}
