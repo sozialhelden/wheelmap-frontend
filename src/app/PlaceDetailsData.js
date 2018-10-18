@@ -236,7 +236,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
         extras.push(
           <meta
-            content={router.generate('place_detail', { id: getFeatureId(feature) })}
+            content={router.generatePath('place_detail', { id: getFeatureId(feature) })}
             property="og:url"
             key="og:url"
           />

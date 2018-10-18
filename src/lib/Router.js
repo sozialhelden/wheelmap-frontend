@@ -36,7 +36,7 @@ class Router {
     return null;
   }
 
-  generate(name, params = {}) {
+  generatePath(name, params = {}) {
     const route = this.getRoute(name, true);
     const compiledRoute = this.getCompiledRoute(route);
     const path = compiledRoute.generate(params);
