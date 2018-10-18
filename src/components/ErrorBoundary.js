@@ -76,6 +76,11 @@ export default styled(ErrorBoundary)`
   align-items: center;
   padding-top: 30%;
   padding-bottom: 35%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  background-color: white;
 
   h1 {
     font-size: 1.25em;
