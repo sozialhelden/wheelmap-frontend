@@ -38,6 +38,7 @@ export default function convertAcPhotosToLightboxPhotos(
   acPhotos: AccessibilityCloudImages
 ): PhotoModel[] {
   return acPhotos.images.map(acPhoto => ({
+    original: makeSrcUrl(acPhoto, 1200),
     src: makeSrcUrl(acPhoto, 1366),
     srcSet: makeSrcSet(fullScreenSizes, acPhoto),
     sizes: fullScreenMediaSelector,
