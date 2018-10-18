@@ -29,6 +29,8 @@ import {
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import { applyTranslations } from '../lib/i18n';
+import env from '../lib/env';
+import isCordova from '../lib/isCordova';
 
 let isServer = false;
 
@@ -40,6 +42,22 @@ export default class App extends BaseApp {
     Component: React.Component<>,
     ctx: any,
   }) {
+    // do not run usual routing stuff for cordova builds
+    const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
+    if (isCordovaBuild) {
+      // take hostname from config
+      const hostName = env.public.cordovaHostname;
+
+      // serve only english languages
+      const initialBuildTimeProps = await getAppInitialProps(
+        { userAgentString: '', hostName, languages: ['en_US'], ...ctx.query },
+        true
+      );
+      // strip translations from initial props, no added inclusion needed for cordova
+      const { translations, ...buildTimeProps } = initialBuildTimeProps;
+      return { buildTimeProps, isCordovaBuild };
+    }
+
     let appProps;
     let routeProps;
     let path;
@@ -109,6 +127,7 @@ export default class App extends BaseApp {
       ...routeProps,
       routeName: ctx.query.routeName,
       path,
+      isCordovaBuild,
     };
   }
 
@@ -116,8 +135,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-
-    this.routerHistory = new NextRouterHistory(router);
+    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild);
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -131,10 +149,22 @@ export default class App extends BaseApp {
       routeName,
       path,
       hostName,
+      isCordovaBuild,
       translations,
       ...props
     } = this.props;
-    const { clientSideConfiguration }: $Shape<AppProps> = props;
+
+    // no need to render anything but the bare page in cordova
+    if (isCordovaBuild || isCordova()) {
+      return (
+        <PageComponent
+          routerHistory={this.routerHistory}
+          {...getRenderProps(routeName, props, isServer)}
+          routeName={routeName}
+          isCordovaBuild={isCordovaBuild}
+        />
+      );
+    }
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
@@ -162,6 +192,7 @@ export default class App extends BaseApp {
       }
     }
 
+    const { clientSideConfiguration }: $Shape<AppProps> = props;
     const { textContent, meta } = clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;

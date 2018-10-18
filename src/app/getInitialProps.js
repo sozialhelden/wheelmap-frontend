@@ -33,6 +33,7 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  isCordovaBuild: boolean,
 };
 
 type DataTableQuery = {
@@ -105,7 +106,7 @@ export async function getAppInitialProps(
     userAgentString: string,
     languages: string[],
     hostName: string,
-    category: string,
+    category?: string,
     extent?: [number, number, number, number],
     lat?: number,
     lon?: number,
@@ -115,28 +116,32 @@ export async function getAppInitialProps(
     includeSourceIds?: string,
     [key: string]: string,
   },
-  isServer: boolean
+  isServer: boolean,
+  useCache: boolean = true
 ): Promise<AppProps> {
   // flow type is not synced with actual apis
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
 
-  const clientSideConfiguration = clientCache.clientSideConfiguration
-    ? clientCache.clientSideConfiguration
-    : await fetchClientSideConfiguration(hostName);
+  const clientSideConfiguration =
+    useCache && clientCache.clientSideConfiguration
+      ? clientCache.clientSideConfiguration
+      : await fetchClientSideConfiguration(hostName);
 
   const locales = expandedPreferredLocales(languages, locale);
 
-  const translations = clientCache.translations
-    ? clientCache.translations
-    : loadExistingLocalizationByPreference(locales);
+  const translations =
+    useCache && clientCache.translations
+      ? clientCache.translations
+      : loadExistingLocalizationByPreference(locales);
 
   const preferredLocale = translations[0].headers.language;
 
-  const categories = clientCache.categories
-    ? clientCache.categories
-    : await Categories.generateLookupTables({ locale: preferredLocale });
+  const categories =
+    useCache && clientCache.categories
+      ? clientCache.categories
+      : await Categories.generateLookupTables({ locale: preferredLocale });
 
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
@@ -161,10 +166,11 @@ export async function getAppInitialProps(
 
 const clientCache: $Shape<AppProps> = {};
 
-export function clientStoreAppInitialProps(props: AppProps) {
-  clientCache.translations = props.translations;
-  clientCache.categories = props.categories;
-  clientCache.clientSideConfiguration = props.clientSideConfiguration;
+export function clientStoreAppInitialProps(props: $Shape<AppProps>) {
+  clientCache.translations = props.translations || clientCache.translations;
+  clientCache.categories = props.categories || clientCache.categories;
+  clientCache.clientSideConfiguration =
+    props.clientSideConfiguration || clientCache.clientSideConfiguration;
 }
 
 export function clientStoreInitialProps(routeName: string, props: any) {

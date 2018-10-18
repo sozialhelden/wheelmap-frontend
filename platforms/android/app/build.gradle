@@ -170,6 +170,11 @@ android {
 
     lintOptions {
       abortOnError false;
+    }    
+    
+    // default is excluding folders starting with an _, like _next  
+    aaptOptions {
+      ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
     }
 
     compileSdkVersion cdvCompileSdkVersion

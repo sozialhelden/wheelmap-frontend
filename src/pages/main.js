@@ -15,10 +15,6 @@ import App from '../App';
 //   axe(React, ReactDOM, 1000);
 // }
 
-// if (isCordova()) {
-//   document.addEventListener('deviceready', startApp, false);
-// }
-
 // Don't let the body scroll.
 // document.body.addEventListener('touchmove', e => e.preventDefault(), false);
 // document.addEventListener('touchmove', e => e.preventDefault(), false);

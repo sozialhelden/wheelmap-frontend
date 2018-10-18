@@ -122,9 +122,9 @@ const StyledToolbar = styled(Toolbar)`
               background-color: #EEE;
             }
 
-            .entrance-image { background-image: url('/static/images/photo-upload/entrancePlaceholder.png'); }
-            .sitemap-image { background-image: url('/static/images/photo-upload/sitemapPlaceholder.png'); }
-            .toilet-image { background-image: url('/static/images/photo-upload/toiletPlaceholder.png'); }
+            .entrance-image { background-image: url('static/images/photo-upload/entrancePlaceholder.png'); }
+            .sitemap-image { background-image: url('static/images/photo-upload/sitemapPlaceholder.png'); }
+            .toilet-image { background-image: url('static/images/photo-upload/toiletPlaceholder.png'); }
             
             small {
               font-size: 0.8rem;
