@@ -39,7 +39,6 @@ export default class MyDocument extends Document {
               default-src
                 ws:
                 ${isCordovaBuild ? cordovaBlock : ''}
-                file:
                 data:
                 'self'
                 'unsafe-eval'

@@ -16,7 +16,6 @@ import {
   expandedPreferredLocales,
   loadExistingLocalizationByPreference,
 } from '../lib/i18n';
-import isCordova from '../lib/isCordova';
 
 // dynamically load app only after cordova is ready
 const DynamicApp = dynamic(import('../App'), {
