@@ -131,7 +131,7 @@ class App extends React.Component<Props, State> {
   static getDerivedStateFromProps(props: Props): $Shape<State> {
     const state = {
       isSearchToolbarExpanded: false,
-      isSearchBarVisible: false,
+      isSearchBarVisible: isStickySearchBarSupported(),
     };
 
     // close search results when leaving search route
@@ -141,7 +141,13 @@ class App extends React.Component<Props, State> {
     }
 
     if (props.routeName === 'place_detail') {
-      state.isSearchBarVisible = false;
+      const { accessibilityFilter, toiletFilter, category } = props;
+
+      state.isSearchBarVisible =
+        isStickySearchBarSupported() &&
+        !isAccessibilityFiltered(accessibilityFilter) &&
+        !isToiletFiltered(toiletFilter) &&
+        !category;
     }
 
     return state;
@@ -158,10 +164,12 @@ class App extends React.Component<Props, State> {
   componentDidMount() {
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
+    } else if (this.props.routeName === 'map') {
+      this.openSearch(true);
     }
   }
 
-  openSearch() {
+  openSearch(replace: boolean = false) {
     if (this.props.routeName === 'search') {
       return;
     }
@@ -171,7 +179,12 @@ class App extends React.Component<Props, State> {
     delete params.id;
     delete params.eid;
 
-    this.props.routerHistory.push('search', params);
+    if (replace) {
+      this.props.routerHistory.replace('search', params);
+    } else {
+      this.props.routerHistory.push('search', params);
+    }
+
     if (this.mainView) this.mainView.focusSearchToolbar();
   }
 
