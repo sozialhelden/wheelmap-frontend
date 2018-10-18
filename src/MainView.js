@@ -15,6 +15,7 @@ import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog'
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
+import MapLoading from './components/Map/MapLoading';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
@@ -149,6 +150,7 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
 
 const DynamicMap = dynamic(import('./components/Map/Map'), {
   ssr: false,
+  loading: () => <MapLoading />,
 });
 
 class MainView extends React.Component<Props, State> {
