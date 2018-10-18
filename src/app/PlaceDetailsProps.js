@@ -36,7 +36,7 @@ export type PlaceDetailsProps = {
   // full feature, sync on server, async on client
   feature: PotentialPromise<?Feature>,
   // the feature id
-  featureId: ?(string | number),
+  featureId: string | number,
   // all sources for this feature with a license attached
   sources: PotentialPromise<SourceWithLicense[]>,
   // all photos for this feature
@@ -53,7 +53,7 @@ export type ResolvedPlaceDetailsProps = {
   // full feature, sync on server, async on client
   feature: ?Feature,
   // the feature id
-  featureId: ?(string | number),
+  featureId: string | number,
   // all sources for this feature with a license attached
   sources: SourceWithLicense[],
   // all photos for this feature
