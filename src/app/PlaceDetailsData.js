@@ -129,11 +129,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       // console.log("loaded", feature, { useCache, feature });
 
       const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
-      const equipmentInfo = equipmentPromise
-        ? isServer
-          ? await equipmentPromise
-          : equipmentPromise
-        : null;
+      const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
 
       // console.log("loading", { useCache });
       const sourcesPromise = fetchSourceWithLicense(featureId, feature, useCache);
@@ -228,16 +224,13 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
         if (coordinates) {
           extras.push(
-            <meta
-              content={coordinates[1]}
-              property="place:location:latitude"
-              key="place:location:latitude"
-            />,
-            <meta
-              content={coordinates[0]}
-              property="place:location:longitude"
-              key="place:location:longitud"
-            />
+            ...['longitude', 'latitude'].map((property, i) => (
+              <meta
+                content={coordinates[i]}
+                property={`place:location:${property}`}
+                key={`place:location:${property}`}
+              />
+            ))
           );
         }
 
