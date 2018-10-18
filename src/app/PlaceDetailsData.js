@@ -142,17 +142,10 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         equipmentInfo,
       };
     } catch (e) {
-      console.error('Failed loading feature', featureId);
-      // TODO: how to redirect to 404 or other error
-      return {
-        feature: null,
-        featureId: null,
-        sources: [],
-        photos: [],
-        lightweightFeature: null,
-        equipmentInfoId: null,
-        equipmentInfo: null,
-      };
+      const error = new Error('Failed loading feature');
+      error.parent = e;
+      error.statusCode = 404;
+      throw error;
     }
   },
 
