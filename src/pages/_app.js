@@ -98,14 +98,16 @@ export default class App extends BaseApp {
         throw new Error('Missing languages.');
       }
 
-      appProps = await getAppInitialProps(
+      const appPropsPromise = getAppInitialProps(
         { userAgentString, hostName, languages, ...ctx.query },
         isServer
       );
 
       if (ctx.query.routeName) {
-        routeProps = await getInitialProps(ctx.query, isServer);
+        const routePropsPromise = getInitialProps(ctx.query, isServer);
+        routeProps = await routePropsPromise;
       }
+      appProps = await appPropsPromise;
 
       if (ctx.req) {
         path = ctx.req.path;
