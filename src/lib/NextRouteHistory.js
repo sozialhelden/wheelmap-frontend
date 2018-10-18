@@ -28,7 +28,7 @@ class NextRouterHistory extends AbstractRouterHistory {
 
   change(method: RouterHistoryMethod, name: string, params: RouteParams = {}) {
     const route = this.getRoute(name);
-    const path = this.generate(name, params);
+    const path = this.generatePath(name, params);
 
     if (this.isCordova) {
       const query = { routeName: route.name, path, ...params };

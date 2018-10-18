@@ -11,7 +11,7 @@ import Button from '../Button';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
-import Link, { RouteConsumer } from '../Link';
+import Link, { RouteConsumer } from '../Link/Link';
 
 type Props = {
   name: string,

@@ -13,7 +13,7 @@ export interface RouterHistory {
   push(name: string, params?: RouteParams): void;
   replace(name: string, params?: RouteParams): void;
   getRoute(name: string): Route;
-  generate(name: string, params?: RouteParams): string;
+  generatePath(name: string, params?: RouteParams): string;
 }
 
 class AbstractRouterHistory implements RouterHistory {
@@ -27,8 +27,8 @@ class AbstractRouterHistory implements RouterHistory {
     return this.router.getRoute(name, true);
   }
 
-  generate(name: string, params: RouteParams = {}): string {
-    return this.router.generate(name, params);
+  generatePath(name: string, params: RouteParams = {}): string {
+    return this.router.generatePath(name, params);
   }
 
   push(name: string, params?: RouteParams) {

@@ -208,8 +208,8 @@ export default class App extends BaseApp {
             {generateLocaleLinks(path || (window && window.location.pathname), availableLocales)}
 
             {/* Relations */}
-            <link href={`${router.generate('search')}`} rel="search" title={t`Search`} />
-            <link href={`${router.generate('map')}`} rel="home" title={t`Homepage`} />
+            <link href={`${router.generatePath('search')}`} rel="search" title={t`Search`} />
+            <link href={`${router.generatePath('map')}`} rel="home" title={t`Homepage`} />
 
             {/* Misc */}
             <meta content={description} name="description" key="description" />

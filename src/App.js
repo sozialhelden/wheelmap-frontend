@@ -37,7 +37,7 @@ import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
-import { RouteProvider } from './components/Link';
+import { RouteProvider } from './components/Link/RouteContext';
 
 import 'react-activity/dist/react-activity.css';
 import './App.css';
