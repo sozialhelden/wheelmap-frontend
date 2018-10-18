@@ -33,7 +33,7 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  isCordovaBuild: boolean,
+  isCordovaBuild?: boolean,
 };
 
 type DataTableQuery = {
@@ -119,34 +119,47 @@ export async function getAppInitialProps(
   isServer: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
-  // flow type is not synced with actual apis
+  // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
 
-  const clientSideConfiguration =
-    useCache && clientCache.clientSideConfiguration
-      ? clientCache.clientSideConfiguration
-      : await fetchClientSideConfiguration(hostName);
+  // load application configuration
+  let clientSideConfiguration = useCache ? clientCache.clientSideConfiguration : null;
+  const clientSideConfigurationPromise = !clientSideConfiguration
+    ? fetchClientSideConfiguration(hostName)
+    : null;
 
+  // setup translations
   const locales = expandedPreferredLocales(languages, locale);
-
   const translations =
     useCache && clientCache.translations
       ? clientCache.translations
       : loadExistingLocalizationByPreference(locales);
-
   const preferredLocale = translations[0].headers.language;
 
-  const categories =
-    useCache && clientCache.categories
-      ? clientCache.categories
-      : await Categories.generateLookupTables({ locale: preferredLocale });
+  // load categories
+  let categories = useCache ? clientCache.categories : null;
+  const categoriesPromise = !categories
+    ? Categories.generateLookupTables({ locale: preferredLocale })
+    : null;
+
+  if (clientSideConfigurationPromise || categoriesPromise) {
+    clientSideConfiguration = clientSideConfigurationPromise
+      ? await clientSideConfigurationPromise
+      : null;
+    categories = categoriesPromise ? await categoriesPromise : null;
+  }
+
+  if (!categories) {
+    throw new Error('missing categories lookup table');
+  }
 
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
 
-  return {
+  // assign to local variable for better flow errors
+  const appProps: AppProps = {
     userAgent,
     translations,
     categories,
@@ -162,6 +175,7 @@ export async function getAppInitialProps(
     searchQuery: q,
     includeSourceIds,
   };
+  return appProps;
 }
 
 const clientCache: $Shape<AppProps> = {};

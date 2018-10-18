@@ -63,13 +63,13 @@ async function fetchSourceWithLicense(
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(
-        async (source): Promise<SourceWithLicense> => {
-          if (typeof source.licenseId === 'string') {
-            const license = await licenseCache.getLicenseWithId(source.licenseId, { useCache });
+      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(async (source): Promise<
+        SourceWithLicense
+      > => {
+        if (typeof source.licenseId === 'string') {
+          return licenseCache.getLicenseWithId(source.licenseId, { useCache }).then(license => {
             return { source, license };
-          }
-          return { source, license: null };
+          });
         }
       )
     );
@@ -120,23 +120,15 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       // do not cache on server
       const useCache = !isServer;
 
-      // console.log("loading", { useCache });
       const featurePromise = fetchFeature(featureId, useCache);
-      const feature = isServer ? await featurePromise : featurePromise;
-
-      const lightweightFeature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
-
-      // console.log("loaded", feature, { useCache, feature });
-
-      const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
-      const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
-
-      // console.log("loading", { useCache });
-      const sourcesPromise = fetchSourceWithLicense(featureId, feature, useCache);
-      const sources = isServer ? await sourcesPromise : sourcesPromise;
-      // console.log("sources", sources, { useCache, feature });
-
       const photosPromise = fetchPhotos(featureId, useCache);
+      const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
+      const lightweightFeature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
+      const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, useCache);
+
+      const feature = isServer ? await featurePromise : featurePromise;
+      const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
+      const sources = isServer ? await sourcesPromise : sourcesPromise;
       const photos = isServer ? await photosPromise : photosPromise;
 
       return {
