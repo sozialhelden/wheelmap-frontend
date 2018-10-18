@@ -71,7 +71,8 @@ async function fetchSourceWithLicense(
             return { source, license };
           });
         }
-      )
+        return { source, license: null };
+      })
     );
 
     return Promise.all(sourcesWithLicense);
