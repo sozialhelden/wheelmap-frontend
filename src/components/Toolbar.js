@@ -269,7 +269,9 @@ class Toolbar extends React.Component<Props, State> {
       touchAction: isAtTopmostPosition ? 'inherit' : 'none',
       overflowY: isAtTopmostPosition ? 'auto' : 'hidden',
       transition: enableTransitions
-        ? isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`
+        ? isSwiping
+          ? defaultTransitions
+          : `${defaultTransitions}, transform 0.3s ease-out`
         : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
@@ -304,6 +306,7 @@ class Toolbar extends React.Component<Props, State> {
       this.props.className,
     ];
     const className = classNames.filter(Boolean).join(' ');
+
     return (
       <Swipeable
         onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
