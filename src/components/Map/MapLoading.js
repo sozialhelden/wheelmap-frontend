@@ -3,10 +3,12 @@ import React from 'react';
 import { Dots } from 'react-activity';
 import styled from 'styled-components';
 
+import colors from '../../lib/colors';
+
 function MapLoading({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <Dots />
+      <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
     </div>
   );
 }
@@ -17,7 +19,7 @@ export default styled(MapLoading)`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: white;
+  background-color: ${colors.neutralBackgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;
