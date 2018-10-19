@@ -8,7 +8,7 @@ import initReactFastclick from 'react-fastclick';
 import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice, configureUserAgent, type UAResult } from './lib/userAgent';
+import { isTouchDevice, type UAResult } from './lib/userAgent';
 import { type RouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
@@ -18,7 +18,6 @@ import type { EquipmentInfo } from './lib/EquipmentInfo';
 import MainView, { UnstyledMainView } from './MainView';
 
 import {
-  type Feature,
   type NodeProperties,
   type YesNoLimitedUnknown,
   type YesNoUnknown,
@@ -151,14 +150,6 @@ class App extends React.Component<Props, State> {
     }
 
     return state;
-  }
-
-  constructor(props: Props) {
-    super(props);
-
-    if (props.userAgent) {
-      configureUserAgent(props.userAgent);
-    }
   }
 
   componentDidMount() {

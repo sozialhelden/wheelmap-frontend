@@ -8,7 +8,7 @@ import {
 } from '../lib/i18n';
 
 import Categories, { type CategoryLookupTables } from '../lib/Categories';
-import { type UAResult } from '../lib/userAgent';
+import { type UAResult, configureUserAgent } from '../lib/userAgent';
 import {
   type YesNoLimitedUnknown,
   type YesNoUnknown,
@@ -123,6 +123,7 @@ export async function getAppInitialProps(
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
+  configureUserAgent(userAgent);
 
   // load application configuration
   let clientSideConfiguration = useCache ? clientCache.clientSideConfiguration : null;
