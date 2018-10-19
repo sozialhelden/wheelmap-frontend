@@ -5,7 +5,7 @@ import { getAvailableTranslationsByPreference, type Translations } from '../lib/
 
 import allTranslations from '../lib/translations.json';
 
-import Categories, { type ACCategory, type WheelmapCategory } from '../lib/Categories';
+import Categories, { type RawCategoryLists } from '../lib/Categories';
 import { type UAResult, configureUserAgent } from '../lib/userAgent';
 import {
   type YesNoLimitedUnknown,
@@ -14,10 +14,9 @@ import {
   getToiletFilterFrom,
 } from '../lib/Feature';
 
-import {
-  fetchClientSideConfiguration,
-  type ClientSideConfiguration,
-} from '../lib/ClientSideConfiguration';
+import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+
+import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
@@ -31,8 +30,10 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  disableWheelmapSource?: boolean,
   isCordovaBuild?: boolean,
+  routeName?: string,
+  path?: string,
+  statusCode?: number,
   skipApplicationBody?: boolean,
 
   includeSourceIds: Array<string>,
@@ -128,6 +129,8 @@ export async function getAppInitialProps(
   isServer: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
+  console.log(query);
+
   // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
@@ -135,10 +138,7 @@ export async function getAppInitialProps(
   configureUserAgent(userAgent);
 
   // load application configuration
-  let clientSideConfiguration = useCache ? appPropsCache.clientSideConfiguration : null;
-  const clientSideConfigurationPromise = !clientSideConfiguration
-    ? fetchClientSideConfiguration(hostName)
-    : null;
+  const clientSideConfigurationPromise = clientSideConfigurationCache.getData(hostName);
 
   // setup translations
   const translations =
@@ -160,10 +160,9 @@ export async function getAppInitialProps(
       })
     : null;
 
-  if (clientSideConfigurationPromise || categoriesPromise) {
-    clientSideConfiguration = clientSideConfigurationPromise
-      ? await clientSideConfigurationPromise
-      : null;
+  const clientSideConfiguration = await clientSideConfigurationPromise;
+
+  if (categoriesPromise) {
     rawCategoryLists = categoriesPromise ? await categoriesPromise : null;
   }
 
@@ -207,12 +206,17 @@ export async function getAppInitialProps(
 const appPropsCache: $Shape<AppProps> = {};
 
 export function clientStoreAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
+  const { translations, rawCategoryLists, clientSideConfiguration, hostName } = props;
+  
+  // only store translations on server
   if (!isServer) {
-    appPropsCache.translations = props.translations || appPropsCache.translations;
+    appPropsCache.translations = translations || appPropsCache.translations;
   }
-  appPropsCache.rawCategoryLists = props.rawCategoryLists || appPropsCache.rawCategoryLists;
-  appPropsCache.clientSideConfiguration =
-    props.clientSideConfiguration || appPropsCache.clientSideConfiguration;
+  appPropsCache.rawCategoryLists = rawCategoryLists || appPropsCache.rawCategoryLists;
+
+  if (clientSideConfiguration && hostName) {
+    clientSideConfigurationCache.inject(hostName, clientSideConfiguration);
+  }
 }
 
 export function clientStoreInitialProps(routeName: string, props: any) {

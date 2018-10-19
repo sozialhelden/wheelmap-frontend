@@ -199,7 +199,7 @@ export default class App extends BaseApp {
       translations,
       skipApplicationBody,
       rawCategoryLists,
-      ...props
+      ...renderProps
     } = receivedProps;
 
     // Show generic error page for now and show as soon as possible
@@ -217,14 +217,14 @@ export default class App extends BaseApp {
     }
 
     // build lookup table
-    props.categories = Categories.generateLookupTables(rawCategoryLists);
+    renderProps.categories = Categories.generateLookupTables(rawCategoryLists);
 
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova()) {
       return (
         <PageComponent
           routerHistory={this.routerHistory}
-          {...getRenderProps(routeName, props, isServer)}
+          {...getRenderProps(routeName, renderProps, isServer)}
           routeName={routeName}
           isCordovaBuild={isCordovaBuild}
         />
@@ -240,12 +240,11 @@ export default class App extends BaseApp {
 
     if (!isServer) {
       if (routeName) {
-        clientStoreInitialProps(routeName, props);
+        clientStoreInitialProps(routeName, renderProps);
       }
     }
 
-    const { clientSideConfiguration }: $Shape<AppProps> = props;
-    const { textContent, meta } = clientSideConfiguration;
+    const { textContent, meta } = this.props.clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
 
@@ -292,11 +291,11 @@ export default class App extends BaseApp {
             />
           )}
           {facebook && <FacebookMeta facebook={facebook} />}
-          {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
+          {routeName != null && <AsyncNextHead head={getHead(routeName, renderProps)} />}
           {!skipApplicationBody && (
             <PageComponent
               routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, props, isServer)}
+              {...getRenderProps(routeName, renderProps, isServer)}
               routeName={routeName}
             />
           )}

@@ -33,9 +33,7 @@ export default class URLDataCache<T> {
    */
   getData(url: URL, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
     if (!url) {
-      return new Promise((resolve, reject) => {
-        reject(null);
-      });
+      return Promise.reject(null);
     }
 
     let promise = this.cache.get(url);
@@ -53,10 +51,8 @@ export default class URLDataCache<T> {
     return promise;
   }
 
-  inject(url: string, result: ?T) {
-    if (result) {
-      this.cache.set(url, Promise.resolve(result));
-    }
+  inject(url: string, result: T) {
+    this.cache.set(url, Promise.resolve(result));
   }
 
   static getDataFromResponse(response: Response): Promise<T> {

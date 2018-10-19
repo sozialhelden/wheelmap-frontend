@@ -1,6 +1,3 @@
-import env from './env';
-import fetch from './fetch';
-import { get, values } from 'lodash';
 import { LocalizedString, translatedStringFromObject } from './i18n';
 
 export type TwitterConfiguration = {
@@ -50,23 +47,6 @@ export type ClientSideConfiguration = {
   customMainMenuLinks?: LinkDescription[],
   addPlaceURL: string,
 };
-
-export async function fetchClientSideConfiguration(
-  hostName: string
-): Promise<ClientSideConfiguration> {
-  const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
-  const token = env.public.accessibilityCloud.appToken;
-  // Allow test deployments on zeit
-  const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
-  const url = `${baseUrl}/apps/${cleanedHostName}.json?appToken=${token}`;
-
-  const response = await fetch(url);
-  const appJSON = await response.json();
-  return {
-    ...appJSON.clientSideConfiguration,
-    customMainMenuLinks: values(get(appJSON, 'related.appLinks') || {}),
-  };
-}
 
 export function getProductTitle(
   clientSideConfiguration: ClientSideConfiguration,
