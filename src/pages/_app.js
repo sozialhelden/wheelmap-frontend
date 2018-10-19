@@ -189,6 +189,7 @@ export default class App extends BaseApp {
       nonSerializedProps = null;
     }
 
+    // strip out _app.js only props
     const {
       Component: PageComponent,
       statusCode,
@@ -205,7 +206,7 @@ export default class App extends BaseApp {
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
     // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
-    if (statusCode >= 400) {
+    if (statusCode && statusCode >= 400) {
       return (
         <Container>
           <NotFound
@@ -235,7 +236,7 @@ export default class App extends BaseApp {
       addTranslationsToTTag(translations);
     }
 
-    // store app initial props
+    // store app initial props (use this props to cache rawCategoryLists)
     storeAppInitialProps(this.props, isServer);
     if (routeName) {
       storeInitialRouteProps(routeName, renderProps);
