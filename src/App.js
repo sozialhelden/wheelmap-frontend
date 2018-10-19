@@ -164,7 +164,7 @@ class App extends React.Component<Props, State> {
   componentDidMount() {
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
-    } else if (this.props.routeName === 'map') {
+    } else if (this.props.routeName === 'map' && isStickySearchBarSupported()) {
       this.openSearch(true);
     }
   }
@@ -491,9 +491,12 @@ class App extends React.Component<Props, State> {
   };
 
   onCloseOnboarding = () => {
+    const params = this.getCurrentParams();
+
     saveState({ onboardingCompleted: 'true' });
     this.setState({ isOnboardingVisible: false });
-    if (this.mainView) this.mainView.focusSearchToolbar();
+
+    this.props.routerHistory.push('search', params);
   };
 
   onSearchToolbarClick = () => {
