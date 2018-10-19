@@ -491,12 +491,14 @@ class App extends React.Component<Props, State> {
   };
 
   onCloseOnboarding = () => {
-    const params = this.getCurrentParams();
-
     saveState({ onboardingCompleted: 'true' });
     this.setState({ isOnboardingVisible: false });
 
-    this.props.routerHistory.push('search', params);
+    if (isStickySearchBarSupported()) {
+      const params = this.getCurrentParams();
+
+      this.props.routerHistory.push('search', params);
+    }
   };
 
   onSearchToolbarClick = () => {
