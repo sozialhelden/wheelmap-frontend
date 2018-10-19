@@ -31,7 +31,7 @@ class TTLCache<K, V> {
 
   set(key: K, value: V, ttl: number = this.options.ttl, now: number = Date.now()): boolean {
     // Adding the value to the cache is not possible if ttl is zero.
-    if (ttl === 0) {
+    if (ttl <= 0) {
       return false;
     }
 
