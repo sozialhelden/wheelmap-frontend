@@ -31,7 +31,7 @@ import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import type { EquipmentInfoProperties } from '../../lib/EquipmentInfo';
+import type { EquipmentInfo, EquipmentInfoProperties } from '../../lib/EquipmentInfo';
 import type { PotentialPromise } from '../../app/PlaceDetailsProps';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
@@ -71,9 +71,10 @@ type TargetMapState = {
 };
 
 type Props = {
-  equipmentInfoId?: ?string,
   featureId?: ?string,
-  feature?: PotentialPromise<Feature>,
+  feature?: PotentialPromise<?Feature>,
+  equipmentInfoId?: ?string,
+  equipmentInfo?: ?PotentialPromise<?EquipmentInfo>,
 
   categories: CategoryLookupTables,
   lat?: ?number,
@@ -114,8 +115,8 @@ type Props = {
 type State = {
   showZoomInfo?: boolean,
   showLocationNotAllowedHint: boolean,
-  feature?: ?Feature,
-  featurePromise?: ?Promise<?Feature>,
+  placeOrEquipment?: ?(Feature | EquipmentInfo),
+  placeOrEquipmentPromise?: ?Promise<?Feature | ?EquipmentInfo>,
   zoomedToFeatureId: ?string,
 };
 
@@ -165,7 +166,7 @@ export default class Map extends React.Component<Props, State> {
 
     const zoom = overrideZoom || fallbackZoom;
 
-    const feature = state.feature;
+    const placeOrEquipment = state.placeOrEquipment;
 
     let center = [0, 0];
     let bounds = null;
@@ -173,18 +174,18 @@ export default class Map extends React.Component<Props, State> {
 
     // use the feature coordinates, but only if they changed
     if (
-      feature &&
-      getFeatureId(feature) !== state.zoomedToFeatureId &&
-      feature.geometry &&
-      feature.geometry.type === 'Point' &&
-      feature.geometry.coordinates instanceof Array
+      placeOrEquipment &&
+      getFeatureId(placeOrEquipment) !== state.zoomedToFeatureId &&
+      placeOrEquipment.geometry &&
+      placeOrEquipment.geometry.type === 'Point' &&
+      placeOrEquipment.geometry.coordinates instanceof Array
     ) {
-      const coords = feature.geometry.coordinates;
+      const coords = placeOrEquipment.geometry.coordinates;
       const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
       center = featureCoordinates || fallbackCenter;
 
       // Store feature id to make sure we only zoom to the place once.
-      zoomedToFeatureId = getFeatureId(feature);
+      zoomedToFeatureId = getFeatureId(placeOrEquipment);
     } else {
       if (props.extent) {
         // only use changed bounds once
@@ -217,23 +218,28 @@ export default class Map extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
-    const { feature } = props;
+    const { feature, equipmentInfo } = props;
+
+    const placeOrEquipment = equipmentInfo || feature;
 
     // works also without a feature
-    if (feature) {
+    if (placeOrEquipment) {
       // Do not update anything when the same promise or feature is already in use.
-      if (feature === state.featurePromise || feature === state.feature) {
+      if (
+        placeOrEquipment === state.placeOrEquipmentPromise ||
+        placeOrEquipment === state.placeOrEquipment
+      ) {
         return null;
       }
 
-      if (feature instanceof Promise) {
-        return { feature: null, featurePromise: feature };
+      if (placeOrEquipment instanceof Promise) {
+        return { placeOrEquipment: null, placeOrEquipmentPromise: placeOrEquipment };
       }
 
-      return { feature: feature, featurePromise: null };
+      return { placeOrEquipment, placeOrEquipmentPromise: null };
     }
 
-    return { feature: null, featurePromise: null, zoomedToFeatureId: null };
+    return { placeOrEquipment: null, placeOrEquipmentPromise: null, zoomedToFeatureId: null };
   }
 
   componentDidMount() {
@@ -317,9 +323,11 @@ export default class Map extends React.Component<Props, State> {
 
     this.addAttribution();
 
-    const { featurePromise } = this.state;
-    if (featurePromise) {
-      featurePromise.then(feature => this.handlePromiseResolved(featurePromise, feature));
+    const { placeOrEquipmentPromise } = this.state;
+    if (placeOrEquipmentPromise) {
+      placeOrEquipmentPromise.then(placeOrEquipment =>
+        this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
+      );
     }
 
     if (this.props.forwardedRef) this.props.forwardedRef(this);
@@ -354,9 +362,11 @@ export default class Map extends React.Component<Props, State> {
       }, 100);
     }
 
-    const { featurePromise } = this.state;
-    if (featurePromise && prevState.featurePromise !== featurePromise) {
-      featurePromise.then(feature => this.handlePromiseResolved(featurePromise, feature));
+    const { placeOrEquipmentPromise } = this.state;
+    if (placeOrEquipmentPromise && prevState.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
+      placeOrEquipmentPromise.then(placeOrEquipment =>
+        this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
+      );
     }
   }
 
@@ -375,13 +385,16 @@ export default class Map extends React.Component<Props, State> {
     delete this.accessibilityCloudTileLayer;
   }
 
-  handlePromiseResolved(featurePromise: Promise<?Feature>, feature: ?Feature) {
-    if (this.state.featurePromise !== featurePromise) {
+  handlePromiseResolved(
+    placeOrEquipmentPromise: Promise<?Feature | ?EquipmentInfo>,
+    placeOrEquipment: ?(Feature | EquipmentInfo)
+  ) {
+    if (this.state.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
       return;
     }
 
     this.setState({
-      feature,
+      placeOrEquipment,
     });
   }
 
@@ -642,12 +655,13 @@ export default class Map extends React.Component<Props, State> {
           String(props.featureId),
         ]);
       }
-      if (this.accessibilityCloudTileLayer) {
+      const acLayer = this.accessibilityCloudTileLayer;
+      if (acLayer) {
         let ids = [String(props.featureId)];
         if (typeof props.equipmentInfoId === 'string') {
           ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
         }
-        this.accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+        acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();

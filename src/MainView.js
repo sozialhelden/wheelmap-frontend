@@ -476,9 +476,10 @@ class MainView extends React.Component<Props, State> {
         extent={this.props.extent}
         includeSourceIds={this.props.includeSourceIds}
         category={category}
+        feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
+        equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
-        feature={this.props.feature}
         categories={this.props.categories}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
