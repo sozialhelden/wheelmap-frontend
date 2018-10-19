@@ -212,7 +212,7 @@ export type AccessibilityCloudImages = {
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
-export function getFeatureId(feature: Feature) {
+export function getFeatureId(feature: Feature | EquipmentInfo) {
   if (!feature) return null;
   const idProperties = [
     typeof feature.id === 'number' && feature.id,
