@@ -11,7 +11,7 @@ import TTLCache, { type TTLCacheOptions } from './TTLCache';
 export default class URLDataCache<T> {
   cache: TTLCache<string, Promise<T>>;
 
-  constructor(options?: TTLCacheOptions) {
+  constructor(options?: $Shape<TTLCacheOptions>) {
     this.cache = new TTLCache<string, Promise<T>>(options);
   }
 

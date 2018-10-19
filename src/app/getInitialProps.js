@@ -129,8 +129,6 @@ export async function getAppInitialProps(
   isServer: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
-  console.log(query);
-
   // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
