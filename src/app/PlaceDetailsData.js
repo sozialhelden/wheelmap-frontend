@@ -170,7 +170,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     }
   },
 
-  clientStoreInitialProps(props: PlaceDetailsProps) {
+  storeInitialRouteProps(props: PlaceDetailsProps) {
     const { feature, featureId, sources, photos, equipmentInfo } = props;
     // only store fully resolved data that comes from the server
     if (

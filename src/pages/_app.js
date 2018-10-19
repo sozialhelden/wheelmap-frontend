@@ -31,8 +31,8 @@ import {
   getInitialProps,
   getAppInitialProps,
   getRenderProps,
-  clientStoreAppInitialProps,
-  clientStoreInitialProps,
+  storeAppInitialProps,
+  storeInitialRouteProps,
   getHead,
   type AppProps,
 } from '../app/getInitialProps';
@@ -235,13 +235,10 @@ export default class App extends BaseApp {
       addTranslationsToTTag(translations);
     }
 
-    // always store app initial props
-    clientStoreAppInitialProps(this.props, isServer);
-
-    if (!isServer) {
-      if (routeName) {
-        clientStoreInitialProps(routeName, renderProps);
-      }
+    // store app initial props
+    storeAppInitialProps(this.props, isServer);
+    if (routeName) {
+      storeInitialRouteProps(routeName, renderProps);
     }
 
     const { textContent, meta } = this.props.clientSideConfiguration;

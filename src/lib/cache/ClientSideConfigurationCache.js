@@ -4,16 +4,19 @@ import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
-import ClientSideConfiguration from '../ClientSideConfiguration';
+import { type ClientSideConfiguration } from '../ClientSideConfiguration';
 
-export default class ClientSideConfigurationCache extends URLDataCache<ClientSideConfiguration> {
-  getData(hostName : string) : Promise<ClientSideConfiguration> {
+type ClientSideConfigurationData = {
+  clientSideConfiguration: ClientSideConfiguration,
+};
+
+export default class ClientSideConfigurationCache extends URLDataCache<
+  ClientSideConfigurationData
+> {
+  getClientSideConfiguration(hostName: string): Promise<ClientSideConfiguration> {
     const url = this.getUrl(hostName);
 
-
-    return super
-      .getData(url)
-      .then(app => {
+    return this.getData(url).then(app => {
         return {
           ...app.clientSideConfiguration,
           customMainMenuLinks: values(get(app, 'related.appLinks') || {})
@@ -21,10 +24,13 @@ export default class ClientSideConfigurationCache extends URLDataCache<ClientSid
       });
   }
 
-  inject(hostName : string, clientSideConfiguration : ClientSideConfiguration) {
+  injectClientSideConfiguration(
+    hostName: string,
+    clientSideConfiguration: ClientSideConfiguration
+  ) {
     const url = this.getUrl(hostName);
 
-    super.inject(url, {clientSideConfiguration});
+    this.inject(url, { clientSideConfiguration });
   }
 
   getUrl(hostName : string) : string {

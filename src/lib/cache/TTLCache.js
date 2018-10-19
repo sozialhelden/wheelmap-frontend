@@ -63,6 +63,7 @@ class TTLCache<K, V> {
   get(key: K, remove: boolean = false, now?: number): ?V {
     const value = this.touch(key, now);
 
+    // Test against null and undefined
     if (value == null) {
       return null;
     }
@@ -85,6 +86,7 @@ class TTLCache<K, V> {
   touch(key: K, now: number = Date.now()): ?V {
     const item = this.cache.get(key);
 
+    // Test against null and undefined
     if (item == null) {
       return null;
     }
