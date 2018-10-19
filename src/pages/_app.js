@@ -154,7 +154,6 @@ export default class App extends BaseApp {
       isCordovaBuild,
       translations,
       clientSideConfiguration,
-      ...props
     }: $Shape<AppProps> & {
       Component: React$ComponentType<{}>,
     } = this.props;
@@ -190,10 +189,10 @@ export default class App extends BaseApp {
     }
 
     if (!isServer) {
-      clientStoreAppInitialProps(props);
+      clientStoreAppInitialProps(this.props);
 
       if (routeName) {
-        clientStoreInitialProps(routeName, props);
+        clientStoreInitialProps(routeName, this.props);
       }
     }
 
@@ -235,10 +234,10 @@ export default class App extends BaseApp {
             />
           )}
           {facebook && <FacebookMeta facebook={facebook} />}
-          {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
+          {routeName != null && <AsyncNextHead head={getHead(routeName, this.props)} />}
           <PageComponent
             routerHistory={this.routerHistory}
-            {...getRenderProps(routeName, props, isServer)}
+            {...getRenderProps(routeName, this.props, isServer)}
             routeName={routeName}
           />
         </React.Fragment>

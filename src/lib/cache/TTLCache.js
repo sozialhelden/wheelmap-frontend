@@ -6,17 +6,27 @@ export interface TTLCacheItem<T> {
 
 export type TTLCacheOptions = {
   ttl: number,
+  max: number,
 };
 
 class TTLCache<K, V> {
   cache: Map<K, TTLCacheItem<V>> = new Map<K, TTLCacheItem<V>>();
   options: TTLCacheOptions;
 
-  constructor(options?: TTLCacheOptions) {
+  constructor(options?: $Shape<TTLCacheOptions>) {
     this.options = {
       ttl: Infinity,
+      max: Infinity,
       ...options,
     };
+
+    if (this.options.ttl < 0) {
+      throw new Error('Invalid ttl.');
+    }
+
+    if (this.options.max < 1) {
+      throw new Error('Invalid max.');
+    }
   }
 
   set(key: K, value: V, ttl: number = this.options.ttl, now: number = Date.now()): boolean {
@@ -33,9 +43,21 @@ class TTLCache<K, V> {
       expire,
     };
 
+    while (this.cache.size >= this.options.max) {
+      this.shift();
+    }
+
     this.cache.set(key, item);
 
     return true;
+  }
+
+  shift() {
+    const key = this.cache.keys().next().value;
+
+    if (key != null) {
+      this.remove(key);
+    }
   }
 
   get(key: K, remove: boolean = false, now?: number): ?V {
