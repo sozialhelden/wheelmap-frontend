@@ -16,10 +16,9 @@ import {
   getToiletFilterFrom,
 } from '../lib/Feature';
 
-import {
-  fetchClientSideConfiguration,
-  type ClientSideConfiguration,
-} from '../lib/ClientSideConfiguration';
+import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+
+import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
@@ -34,6 +33,9 @@ export type AppProps = {
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   isCordovaBuild?: boolean,
+  routeName: string,
+  path: string,
+  statusCode: number,
 };
 
 type DataTableQuery = {
@@ -125,10 +127,7 @@ export async function getAppInitialProps(
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
 
   // load application configuration
-  let clientSideConfiguration = useCache ? clientCache.clientSideConfiguration : null;
-  const clientSideConfigurationPromise = !clientSideConfiguration
-    ? fetchClientSideConfiguration(hostName)
-    : null;
+  const clientSideConfigurationPromise = clientSideConfigurationCache.getData(hostName);
 
   // setup translations
   const locales = expandedPreferredLocales(languages, locale);
@@ -144,10 +143,9 @@ export async function getAppInitialProps(
     ? Categories.generateLookupTables({ locale: preferredLocale })
     : null;
 
-  if (clientSideConfigurationPromise || categoriesPromise) {
-    clientSideConfiguration = clientSideConfigurationPromise
-      ? await clientSideConfigurationPromise
-      : null;
+  const clientSideConfiguration = await clientSideConfigurationPromise;
+
+  if (categoriesPromise) {
     categories = categoriesPromise ? await categoriesPromise : null;
   }
 
@@ -181,10 +179,14 @@ export async function getAppInitialProps(
 const clientCache: $Shape<AppProps> = {};
 
 export function clientStoreAppInitialProps(props: $Shape<AppProps>) {
-  clientCache.translations = props.translations || clientCache.translations;
-  clientCache.categories = props.categories || clientCache.categories;
-  clientCache.clientSideConfiguration =
-    props.clientSideConfiguration || clientCache.clientSideConfiguration;
+  const { translations, categories, clientSideConfiguration, hostName } = props;
+
+  clientCache.translations = translations || clientCache.translations;
+  clientCache.categories = categories || clientCache.categories;
+
+  if (clientSideConfiguration && hostName) {
+    clientSideConfigurationCache.inject(hostName, clientSideConfiguration);
+  }
 }
 
 export function clientStoreInitialProps(routeName: string, props: any) {

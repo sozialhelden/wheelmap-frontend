@@ -153,7 +153,10 @@ export default class App extends BaseApp {
       hostName,
       isCordovaBuild,
       translations,
+      clientSideConfiguration,
       ...props
+    }: $Shape<AppProps> & {
+      Component: React$ComponentType<{}>,
     } = this.props;
 
     // no need to render anything but the bare page in cordova
@@ -194,7 +197,6 @@ export default class App extends BaseApp {
       }
     }
 
-    const { clientSideConfiguration }: $Shape<AppProps> = props;
     const { textContent, meta } = clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
