@@ -8,16 +8,14 @@ import TTLCache, { type TTLCacheOptions } from './TTLCache';
 // Provides a WhatWG-fetch-like API to make HTTP requests.
 // Caches response promises and returns an old promise if one is existing for the same URL.
 
-type URL = string;
-
 export default class URLDataCache<T> {
-  cache: TTLCache<URL, Promise<T>>;
+  cache: TTLCache<string, Promise<T>>;
 
   constructor(options?: TTLCacheOptions) {
-    this.cache = new TTLCache<URL, Promise<T>>(options);
+    this.cache = new TTLCache<string, Promise<T>>(options);
   }
 
-  fetch(url: URL): Promise<T> {
+  fetch(url: string): Promise<T> {
     return this.constructor.fetch(url, { cordova: true }).then((response: Response) => {
       if (response.status === 200) {
         return this.constructor.getDataFromResponse(response);
@@ -31,7 +29,7 @@ export default class URLDataCache<T> {
    * Gets a feature from cache or fetches it from the web.
    * @param {string} url
    */
-  getData(url: URL, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
+  getData(url: string, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
     if (!url) {
       return Promise.reject(null);
     }
