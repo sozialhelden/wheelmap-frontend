@@ -139,7 +139,7 @@ class App extends React.Component<Props, State> {
       state.isSearchBarVisible = true;
     }
 
-    if (props.routeName === 'place_detail') {
+    if (props.routeName === 'place_detail' || props.routeName === 'equipment') {
       const { accessibilityFilter, toiletFilter, category } = props;
 
       state.isSearchBarVisible =
