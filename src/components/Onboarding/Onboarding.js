@@ -11,6 +11,7 @@ import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
 import env from '../../lib/env';
 import Icon from '../Icon';
+import { translatedStringFromObject } from '../../lib/i18n';
 
 type Props = {
   className: string,
@@ -33,6 +34,8 @@ function Onboarding(props: Props) {
     setTimeout(() => props.onClose(), 10);
   };
 
+  const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown), { sanitize: true });
+
   return (
     <ModalDialog
       className={props.className}
@@ -54,7 +57,7 @@ function Onboarding(props: Props) {
 
         <p
           id="wheelmap-claim-onboarding"
-          dangerouslySetInnerHTML={{ __html: marked(headerMarkdown, { sanitize: true }) }}
+          dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
         />
       </header>
 

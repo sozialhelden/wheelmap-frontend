@@ -11,6 +11,7 @@ import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { Link } from '../../App';
+import { translatedStringFromObject } from '../../lib/i18n';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -161,6 +162,20 @@ class MainMenu extends React.Component<Props, State> {
 
         <div className="flexible-separator" />
 
+        <div id="main-menu" role="menu">
+          {links.map(link => {
+            const url = translatedStringFromObject(link.url);
+            const label = translatedStringFromObject(link.label);
+            return (
+              <a key={url} className="nav-link" href={url} role="menuitem">
+                {label}
+              </a>
+            );
+          })}
+
+          {addPlaceLink}
+        </div>
+
         <button
           className="btn-unstyled menu"
           onClick={this.toggleMenu}
@@ -173,16 +188,6 @@ class MainMenu extends React.Component<Props, State> {
         >
           {isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
-
-        <div id="main-menu" role="menu">
-          {links.map(link => (
-            <a key={link.url} className="nav-link" href={link.url} role="menuitem">
-              {link.label}
-            </a>
-          ))}
-
-          {addPlaceLink}
-        </div>
       </FocusTrap>
     );
   }
@@ -265,6 +270,7 @@ const StyledMainMenu = styled(MainMenu)`
   .add-place-link {
     font: inherit;
     border: 0;
+    margin: 0;
     font-weight: 500;
     cursor: pointer;
     background-color: transparent;
@@ -332,9 +338,11 @@ const StyledMainMenu = styled(MainMenu)`
     right: 0;
 
     flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
 
     #main-menu {
-      padding-bottom: 0.5rem;
+      margin-right: 70px;
     }
 
     button.menu {
