@@ -23,6 +23,7 @@ app.prepare().then(() => {
       /(\/[a-zA-Z_-]+)?\/map\/.+/,
       /(\/[a-zA-Z_-]+)?\/community_support\/new.*/,
       /(\/[a-zA-Z_-]+)?\/embed.*/,
+      /(\/[a-zA-Z_-]+)?\/api\/docs.*/,
     ],
     (req, res) => {
       res.redirect(`http://classic.wheelmap.org${req.originalUrl}`);
