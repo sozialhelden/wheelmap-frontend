@@ -4,6 +4,15 @@ import storage from 'local-storage-fallback';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
+const initialPropsCategoriesString = storage.getItem('wheelmap.initialProps.categories');
+const initialPropsClientSideConfigurationString = storage.getItem(
+  'wheelmap.initialProps.clientSideConfiguration'
+);
+
+const hasInitialProps = !!(
+  initialPropsCategoriesString && initialPropsClientSideConfigurationString
+);
+
 const savedState = {
   map: {
     lastCenter: ['lat', 'lon'].map(coordinate =>
@@ -14,6 +23,12 @@ const savedState = {
     lastZoom: storage.getItem('wheelmap.map.lastZoom'),
     locate: storage.getItem('wheelmap.map.locate') === 'true',
   },
+  initialProps: hasInitialProps
+    ? {
+        categories: JSON.parse(initialPropsCategoriesString),
+        clientSideConfiguration: JSON.parse(initialPropsClientSideConfigurationString),
+      }
+    : null,
 };
 
 export default savedState;

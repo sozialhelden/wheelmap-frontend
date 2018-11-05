@@ -6,15 +6,7 @@ import styled from 'styled-components';
 import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';
 
-import { wheelmapFeaturePhotosCache } from '../../../lib/cache/WheelmapFeaturePhotosCache';
-import convertWheelmapPhotosToLightboxPhotos from './convertWheelmapPhotosToLightboxPhotos';
-import type { WheelmapFeaturePhotos } from '../../../lib/Feature';
-
-import { accessibilityCloudImageCache } from '../../../lib/cache/AccessibilityCloudImageCache';
-import convertAcPhotosToLightboxPhotos from './convertAcPhotosToLightboxPhotos';
-import type { AccessibilityCloudImages } from '../../../lib/Feature';
-
-import type { PhotoModel } from './PhotoModel';
+import type { PhotoModel } from '../../../lib/PhotoModel';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
@@ -24,55 +16,30 @@ type Props = {
   className: string,
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
+  photos: PhotoModel[],
   onStartPhotoUploadFlow: () => void,
   onReportPhoto: (photo: PhotoModel) => void,
 };
 
 type State = {
   isLightboxOpen: boolean,
-  acPhotos: PhotoModel[],
-  wmPhotos: PhotoModel[],
-  photos: PhotoModel[],
-  lightBoxPhotos: PhotoModel[],
+  thumbnailPhotos: PhotoModel[],
   currentImageIndex: number,
 };
 
 class PhotoSection extends React.Component<Props, State> {
   state = {
     isLightboxOpen: false,
-    acPhotos: [],
-    wmPhotos: [],
-    photos: [],
-    lightBoxPhotos: [],
+    thumbnailPhotos: [],
     currentImageIndex: 0,
   };
 
   gallery: Gallery | null = null;
 
-  ignoreFetch: ?boolean;
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    const { photos } = props;
 
-  componentDidMount() {
-    this.ignoreFetch = false;
-    this.fetchPhotos(this.props);
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.featureId !== this.props.featureId) {
-      this.fetchPhotos(nextProps);
-      this.setState({ photos: [], lightBoxPhotos: [], acPhotos: [], wmPhotos: [] });
-    }
-  }
-
-  componentWillUnmount() {
-    this.ignoreFetch = true;
-  }
-
-  combinePhotoSources = () => {
-    const lightBoxPhotos = [].concat(this.state.acPhotos, this.state.wmPhotos);
-
-    this.setState({ lightBoxPhotos: lightBoxPhotos });
-
-    const galleryPhotos = lightBoxPhotos.map(p => {
+    const thumbnailPhotos = photos.map(p => {
       var clone = Object.assign({}, p, {
         srcSet: p.thumbnailSrcSet || p.srcSet,
         sizes: p.thumbnailSizes || p.sizes,
@@ -81,45 +48,7 @@ class PhotoSection extends React.Component<Props, State> {
       return clone;
     });
 
-    this.setState({ photos: galleryPhotos }, () => {
-      if (this.gallery) {
-        // TODO: Find out what happens here.
-        // This seems to crash when opening place details because handleResize is not implemented
-        // in <Gallery />. Remove this if it is not necessary.
-        // this.gallery.handleResize();
-      }
-    });
-  };
-
-  handlePhotoError = e => {
-    // TODO decide to do something
-    console.error('Failed downloading images', e);
-  };
-
-  fetchPhotos(props: Props) {
-    if (props.featureId) {
-      accessibilityCloudImageCache
-        .getPhotosForFeature(props.featureId)
-        .then((acPhotos: AccessibilityCloudImages) => {
-          if (this.ignoreFetch) {
-            return;
-          }
-          const photos = convertAcPhotosToLightboxPhotos(acPhotos);
-          this.setState({ acPhotos: photos }, this.combinePhotoSources);
-        })
-        .catch(this.handlePhotoError);
-
-      wheelmapFeaturePhotosCache
-        .getPhotosForFeature(props.featureId)
-        .then((wmPhotos: WheelmapFeaturePhotos) => {
-          if (this.ignoreFetch) {
-            return;
-          }
-          const photos = convertWheelmapPhotosToLightboxPhotos(wmPhotos);
-          this.setState({ wmPhotos: photos }, this.combinePhotoSources);
-        })
-        .catch(this.handlePhotoError);
-    }
+    return { thumbnailPhotos };
   }
 
   thumbnailSelected = (event: UIEvent, obj: { index: number }) => {
@@ -141,13 +70,14 @@ class PhotoSection extends React.Component<Props, State> {
   };
 
   reportImage = () => {
-    const { lightBoxPhotos, currentImageIndex } = this.state;
+    const { photos } = this.props;
+    const { currentImageIndex } = this.state;
 
-    if (currentImageIndex < 0 || currentImageIndex >= lightBoxPhotos.length) {
+    if (currentImageIndex < 0 || currentImageIndex >= photos.length) {
       console.error('Could not report photo with index', currentImageIndex);
       return;
     }
-    const toBeReported = lightBoxPhotos[currentImageIndex];
+    const toBeReported = photos[currentImageIndex];
     this.props.onReportPhoto(toBeReported);
   };
 
@@ -164,11 +94,12 @@ class PhotoSection extends React.Component<Props, State> {
   };
 
   renderLightboxControls = (className: string) => {
-    const { lightBoxPhotos, currentImageIndex } = this.state;
+    const { photos } = this.props;
+    const { currentImageIndex } = this.state;
 
     let canReportPhoto = false;
-    if (currentImageIndex >= 0 && currentImageIndex < lightBoxPhotos.length) {
-      canReportPhoto = lightBoxPhotos[currentImageIndex].source === 'accessibility-cloud';
+    if (currentImageIndex >= 0 && currentImageIndex < photos.length) {
+      canReportPhoto = photos[currentImageIndex].source === 'accessibility-cloud';
     }
 
     return [
@@ -183,19 +114,19 @@ class PhotoSection extends React.Component<Props, State> {
   };
 
   render() {
-    const { photoFlowNotification, onStartPhotoUploadFlow, className } = this.props;
-    const { photos, lightBoxPhotos, currentImageIndex } = this.state;
+    const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = this.props;
+    const { thumbnailPhotos, currentImageIndex } = this.state;
 
     return (
       <section className={className}>
         <Gallery
           ref={g => (this.gallery = g)}
-          photos={photos}
+          photos={thumbnailPhotos}
           onClick={this.thumbnailSelected}
           columns={Math.min(photos.length, 3)}
         />
         <Lightbox
-          images={lightBoxPhotos}
+          images={photos}
           onClose={this.closeLightbox}
           onClickPrev={this.gotoPrevious}
           onClickNext={this.gotoNext}

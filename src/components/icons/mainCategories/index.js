@@ -3,7 +3,6 @@ export { default as education } from './education';
 export { default as food } from './food';
 export { default as government } from './government';
 export { default as health } from './health';
-export { default as index } from './index';
 export { default as leisure } from './leisure';
 export { default as misc } from './misc';
 export { default as money_post } from './money_post';

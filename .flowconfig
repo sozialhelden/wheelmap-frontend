@@ -9,7 +9,6 @@ flow-typed
 # e.g. "/collections/todos"
 # module.name_mapper='^\/\(.*\)$' -> '<PROJECT_ROOT>/\1'
 module.name_mapper='.*\.css$' -> 'empty/object'
-unsafe.enable_getters_and_setters=true
 module.system=haste
 esproposal.class_instance_fields=enable
 esproposal.class_static_fields=enable

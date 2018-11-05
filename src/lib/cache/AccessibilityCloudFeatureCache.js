@@ -1,10 +1,10 @@
 // @flow
 
 import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } from '../Feature';
-import config from '../config';
+import env from '../env';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
-import { currentLocales, loadExistingLocalizationByPreference } from '../i18n';
+import { currentLocales } from '../i18n';
 
 type CacheMap = {
   [key: string]: FeatureCache<*, *>,
@@ -18,14 +18,15 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   AccessibilityCloudFeature,
   AccessibilityCloudFeatureCollection
 > {
-  static fetchFeature(id): Promise<Response> {
-    return loadExistingLocalizationByPreference().then(() =>
-      this.fetch(
-        `${config.accessibilityCloudBaseUrl}/place-infos/${id}.json?appToken=${
-          config.accessibilityCloudAppToken
-        }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
-        { cordova: true }
-      )
+  static fetchFeature(
+    id: number | string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<Response> {
+    return this.fetch(
+      `${env.public.accessibilityCloud.baseUrl.cached}/place-infos/${id}.json?appToken=${
+        env.public.accessibilityCloud.appToken
+      }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
+      { cordova: true }
     );
   }
 

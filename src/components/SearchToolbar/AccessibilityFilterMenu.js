@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
-import type { RouterHistory } from 'react-router-dom';
+
 import colors from '../../lib/colors';
 import AccessibilityFilterButton from './AccessibilityFilterButton';
 import type { PlaceFilter } from './AccessibilityFilterModel';
@@ -12,12 +12,11 @@ import type { YesNoLimitedUnknown } from '../../lib/Feature';
 import { yesNoUnknownArray } from '../../lib/Feature';
 
 type Props = PlaceFilter & {
-  history: RouterHistory,
   className: string,
   hidden: boolean,
   onCloseClicked: () => void,
   onBlur: () => void,
-  onFilterChanged: (filter: PlaceFilter) => void,
+  onButtonClick: (data: PlaceFilter) => void,
   category: string,
   accessibilities: YesNoLimitedUnknown[],
 };
@@ -83,29 +82,26 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 
 function AccessibilityFilterMenu(props: Props) {
   const availableFilters = getAvailableFilters();
-  const { accessibilityFilter, toiletFilter } = props;
+  const { accessibilityFilter, toiletFilter, onButtonClick } = props;
   const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey ? [currentFilterKey] : Object.keys(availableFilters);
 
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
-      <section className="accessibility-filter">
-        {shownFilterKeys.map(key => (
-          <AccessibilityFilterButton
-            accessibilityFilter={availableFilters[key].accessibilityFilter}
-            toiletFilter={availableFilters[key].toiletFilter}
-            caption={availableFilters[key].caption}
-            category={category}
-            isMainCategory
-            isActive={currentFilterKey}
-            showCloseButton={shownFilterKeys.length === 1}
-            history={props.history}
-            key={key}
-            className="accessibility-filter-button"
-          />
-        ))}
-      </section>
+      {shownFilterKeys.map(key => (
+        <AccessibilityFilterButton
+          accessibilityFilter={[...availableFilters[key].accessibilityFilter].sort()}
+          toiletFilter={availableFilters[key].toiletFilter}
+          caption={availableFilters[key].caption}
+          category={category}
+          isMainCategory
+          isActive={Boolean(currentFilterKey)}
+          showCloseButton={shownFilterKeys.length === 1}
+          onClick={onButtonClick}
+          key={key}
+        />
+      ))}
     </section>
   );
 }
@@ -133,31 +129,6 @@ const StyledAccessibilityFilterMenu = styled(AccessibilityFilterMenu)`
     &.section-hidden {
       max-height: 0;
       opacity: 0;
-    }
-  }
-
-  button,
-  label {
-    display: flex;
-    margin: 1em 0;
-    align-items: center;
-    font-size: 1rem;
-    cursor: pointer;
-
-    .icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 8px;
-      &.toilet-filter-icon {
-        width: 40px;
-        height: 40px;
-      }
-    }
-
-    .caption {
-      flex: 1;
-      text-align: left;
     }
   }
 

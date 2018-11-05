@@ -1,81 +1,79 @@
 // @flow
 
-import pick from 'lodash/pick';
 import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
-import queryString from 'query-string';
 import initReactFastclick from 'react-fastclick';
-import type { RouterHistory, Location } from 'react-router-dom';
-import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 
 import config from './lib/config';
 import savedState, { saveState, isFirstStart } from './lib/savedState';
-import { loadExistingLocalizationByPreference } from './lib/i18n';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice } from './lib/userAgent';
+import { isTouchDevice, type UAResult } from './lib/userAgent';
+import { type RouterHistory } from './lib/RouterHistory';
+import { type SearchResultCollection } from './lib/searchPlaces';
+import type { WheelmapFeature } from './lib/Feature';
+import type { SearchResultFeature } from './lib/searchPlaces';
+import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import MainView, { UnstyledMainView } from './MainView';
 
-import type {
-  Feature,
-  WheelmapFeature,
-  AccessibilityCloudFeature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  NodeProperties,
-} from './lib/Feature';
-
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
-
 import {
-  isWheelmapFeatureId,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
+  type NodeProperties,
+  type YesNoLimitedUnknown,
+  type YesNoUnknown,
+  isAccessibilityFiltered,
+  isToiletFiltered,
   getFeatureId,
-  isFiltered,
 } from './lib/Feature';
 
-import { wheelmapLightweightFeatureCache } from './lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityCloudFeatureCache } from './lib/cache/AccessibilityCloudFeatureCache';
+import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
-import { wheelmapFeatureCache } from './lib/cache/WheelmapFeatureCache';
-import { getQueryParams } from './lib/queryParams';
-import type { ModalNodeState } from './lib/queryParams';
-import getRouteInformation from './lib/getRouteInformation';
+import type { ModalNodeState } from './lib/ModalNodeState';
+import { type CategoryLookupTables } from './lib/Categories';
+import { type PhotoModel } from './lib/PhotoModel';
+import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
+import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
+import { RouteProvider } from './components/Link/RouteContext';
 
-import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import 'react-activity/dist/react-activity.css';
+import './App.css';
+import './Global.css';
+import 'focus-visible';
 
 initReactFastclick();
 
-type Props = {
-  className: string,
-  history: RouterHistory,
-  location: Location,
+export type Link = {
+  label: string,
+  url: string,
 };
 
-type State = {
-  featureId?: ?string,
-  equipmentInfoId?: ?string,
-  feature?: ?Feature,
-  category?: ?string,
-  toiletFilter?: YesNoUnknown[],
-  accessibilityFilter?: YesNoLimitedUnknown[],
-  lastError?: ?string,
+type Props = {
+  className?: string,
+  routerHistory: RouterHistory,
+  routeName: string,
+  categories?: CategoryLookupTables,
+  userAgent?: UAResult,
   searchQuery?: ?string,
-
+  searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
+  category?: string,
+  clientSideConfiguration: ClientSideConfiguration,
   lat: ?string,
   lon: ?string,
   zoom: ?string,
+  extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
+  toiletFilter: YesNoUnknown[],
+  accessibilityFilter: YesNoLimitedUnknown[],
+} & PlaceDetailsProps;
 
+type State = {
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
-  isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
-  isLocalizationLoaded: boolean,
+  accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
@@ -89,69 +87,31 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
+  // map controls
+  lat?: ?number,
+  lon?: ?number,
+  zoom?: ?number,
+  extent?: ?[number, number, number, number],
 };
-
-function parseStatusString(statusString, allowedStatuses) {
-  // Safe mutable sort as filter always returns a new array.
-  return statusString
-    ? statusString
-        .split(/\./)
-        .filter(s => includes(allowedStatuses, s))
-        .sort()
-    : [...allowedStatuses];
-}
-
-function getAccessibilityFilterFrom(statusString: string): YesNoLimitedUnknown[] {
-  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
-
-  return ((result: any): YesNoLimitedUnknown[]);
-}
-
-function getToiletFilterFrom(toiletString: string): YesNoUnknown[] {
-  const result = parseStatusString(toiletString, yesNoUnknownArray);
-
-  return ((result: any): YesNoUnknown[]);
-}
-
-function getFeatureIdFromProps(props: Props): ?string {
-  const { featureId } = getRouteInformation(props) || {};
-  return featureId ? String(featureId) : null;
-}
-
-function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string') {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-  return `/beta/nodes/${featureId}`;
-}
 
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
 
-class Loader extends React.Component<Props, State> {
+class App extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    toiletFilter: [],
-    accessibilityFilter: [],
-
     lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
     lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
     zoom: savedState.map.lastZoom || null,
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
-    isNotFoundVisible: false,
-    category: null,
-    isLocalizationLoaded: false,
     isMainMenuOpen: false,
     modalNodeState: null,
-    lastError: null,
-    featureId: null,
+    accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
 
@@ -166,224 +126,79 @@ class Loader extends React.Component<Props, State> {
   map: ?any;
 
   mainView: UnstyledMainView;
-  _asyncRequest: Promise<*>;
 
-  constructor(props: Props) {
-    super(props);
+  static getDerivedStateFromProps(props: Props): $Shape<State> {
+    const state = {
+      isSearchToolbarExpanded: false,
+      isSearchBarVisible: isStickySearchBarSupported(),
+    };
 
-    if (isFirstStart()) {
-      this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
+    // close search results when leaving search route
+    if (props.routeName === 'search') {
+      state.isSearchToolbarExpanded = true;
+      state.isSearchBarVisible = true;
     }
+
+    if (props.routeName === 'place_detail' || props.routeName === 'equipment') {
+      const { accessibilityFilter, toiletFilter, category } = props;
+
+      state.isSearchBarVisible =
+        isStickySearchBarSupported() &&
+        !isAccessibilityFiltered(accessibilityFilter) &&
+        !isToiletFiltered(toiletFilter) &&
+        !category;
+    }
+
+    return state;
   }
 
   componentDidMount() {
-    this.onHashUpdate();
-    window.addEventListener('hashchange', this.onHashUpdate);
-
-    loadExistingLocalizationByPreference().then(() =>
-      this.setState({ isLocalizationLoaded: true })
-    );
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('hashchange', this.onHashUpdate);
-    if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
-      this._asyncRequest.cancel();
+    if (isFirstStart()) {
+      this.setState({ isOnboardingVisible: true });
+    } else if (this.props.routeName === 'map') {
+      this.openSearch(true);
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.state.feature && this.state.featureId) {
-      this.fetchFeature(this.state.featureId);
-    }
-  }
-
-  static getDerivedStateFromProps(props: Props, state: State): State {
-    const routeInformation = getRouteInformation(props);
-
-    let result: $Shape<State> = {
-      equipmentInfoId: null,
-      category: null,
-      searchQuery: null,
-      modalNodeState: null,
-      toiletFilter: [],
-      accessibilityFilter: [],
-    };
-
-    if (!routeInformation) {
-      return {
-        ...result,
-        isNotFoundVisible: true,
-        lastError: 'Route not found.',
-      };
+  openSearch(replace: boolean = false) {
+    if (this.props.routeName === 'search') {
+      return;
     }
 
-    const { featureId, equipmentInfoId, category, searchQuery, modalNodeState } = routeInformation;
+    const params = this.getCurrentParams();
 
-    const toiletFilter = getToiletFilterFrom(routeInformation.toilet);
-    const accessibilityFilter = getAccessibilityFilterFrom(routeInformation.status);
+    delete params.id;
+    delete params.eid;
 
-    let nextCategory = category;
-
-    // Keep category if you just click on a feature
-    if ((featureId || modalNodeState) && state.category) {
-      nextCategory = state.category;
+    if (replace) {
+      this.props.routerHistory.replace('search', params);
+    } else {
+      this.props.routerHistory.push('search', params);
     }
 
-    result = {
-      ...result,
-      equipmentInfoId,
-      category: nextCategory,
-      searchQuery,
-      modalNodeState,
-      toiletFilter,
-      accessibilityFilter,
-    };
-
-    const featureIdHasChanged = state.featureId !== featureId;
-    const equipmentIdHasChanged = state.equipmentInfoId !== equipmentInfoId;
-
-    if (featureIdHasChanged) {
-      // Store prevId in state so we can compare when props change.
-      result.featureId = featureId;
-      // Clear out previously-loaded data (so we don't render stale stuff).
-      result.feature = null;
-      result.photoFlowNotification = undefined;
-
-      if (isWheelmapFeatureId(featureId)) {
-        const feature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
-        Object.assign(result, {
-          feature,
-          lat: null,
-          lon: null,
-          zoom: null,
-        });
-      }
-    }
-
-    if (searchQuery && searchQuery.length > 0) {
-      result.isSearchBarVisible = true;
-      result.isSearchToolbarExpanded = true;
-    } else if (featureIdHasChanged || equipmentIdHasChanged) {
-      result.isSearchToolbarExpanded = false;
-
-      // always minify search bar on small viewport or when filtered
-      if (state.isOnSmallViewport || category || isFiltered(accessibilityFilter)) {
-        result.isSearchBarVisible = false;
-      }
-    }
-
-    const locationState = props.history.location.state;
-    if (locationState) {
-      result.isOnboardingVisible = !!locationState.isOnboardingVisible;
-    }
-
-    return result;
-  }
-
-  onHashUpdate = () => {
-    if (this.hashUpdateDisabled) return;
-    let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
-    if (savedState.map.lastZoom) {
-      baseParams.zoom = savedState.map.lastZoom;
-    }
-    if (savedState.map.lastCenter && savedState.map.lastCenter[0]) {
-      const lastCenter = savedState.map.lastCenter;
-      baseParams.lat = lastCenter[0];
-      baseParams.lon = lastCenter[1];
-    }
-
-    console.log('Previous state:', baseParams);
-    const nextState = Object.assign(
-      baseParams,
-      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
-    );
-    console.log('Next state:', nextState);
-    this.setState(nextState);
-  };
-
-  fetchFeature(featureId: string): void {
-    const isWheelmap = isWheelmapFeatureId(featureId);
-    if (this._asyncRequest && typeof this._asyncRequest.cancel === 'function') {
-      this._asyncRequest.cancel();
-    }
-    const cache = isWheelmap ? wheelmapFeatureCache : accessibilityCloudFeatureCache;
-    this._asyncRequest = cache.getFeature(featureId).then(
-      (feature: AccessibilityCloudFeature | WheelmapFeature) => {
-        if (!feature) return;
-        const currentlyShownId = getFeatureIdFromProps(this.props);
-        const fetchedId = getFeatureId(feature);
-        // shown feature might have changed in the mean time. `fetch` requests cannot be aborted so
-        // we ignore the response here instead.
-        if (currentlyShownId && fetchedId !== currentlyShownId) return;
-        this.setState({ feature, lat: null, lon: null, zoom: null });
-      },
-      reason => {
-        let error = null;
-        if (
-          reason &&
-          (typeof reason === 'string' || reason instanceof Response || reason instanceof Error)
-        ) {
-          error = reason;
-        }
-        this.setState({
-          feature: null,
-          lat: null,
-          lon: null,
-          zoom: null,
-          isNotFoundVisible: true,
-          lastError: error,
-        });
-      }
-    );
-  }
-
-  openSearch() {
-    this.setState({ isSearchBarVisible: true, isSearchToolbarExpanded: true }, () => {
-      setTimeout(() => {
-        if (this.mainView) this.mainView.focusSearchToolbar();
-      }, 100);
-    });
+    if (this.mainView) this.mainView.focusSearchToolbar();
   }
 
   closeSearch() {
-    this.setState({
-      isSearchBarVisible: isStickySearchBarSupported(),
-      isSearchToolbarExpanded: false,
-    });
-  }
-
-  onHashUpdate = () => {
-    if (this.hashUpdateDisabled) return;
-    let baseParams = { toilet: null, status: null, lat: null, lon: null, zoom: null };
-    if (savedState.map.lastZoom) {
-      baseParams.zoom = savedState.map.lastZoom;
-    }
-    if (savedState.map.lastCenter && savedState.map.lastCenter[0]) {
-      const lastCenter = savedState.map.lastCenter;
-      baseParams.lat = lastCenter[0];
-      baseParams.lon = lastCenter[1];
+    if (this.props.routeName !== 'search') {
+      return;
     }
 
-    console.log('Previous state:', baseParams);
-    const nextState = Object.assign(
-      baseParams,
-      pick(getQueryParams(), 'lat', 'lon', 'zoom', 'toilet', 'status')
-    );
-    console.log('Next state:', nextState);
-    // this.setState(nextState);
-  };
+    const params = this.getCurrentParams();
 
-  modalNodeState() {
-    const routeInformation = getRouteInformation(this.props);
-    const { modalNodeState } = routeInformation || {};
-    return modalNodeState;
+    this.props.routerHistory.push('map', params);
   }
 
   onClickSearchButton = () => this.openSearch();
 
   onToggleMainMenu = isMainMenuOpen => {
     this.setState({ isMainMenuOpen });
+  };
+
+  onMainMenuHomeClick = () => {
+    saveState({ onboardingCompleted: 'false' });
+    this.setState({ isOnboardingVisible: true });
+    this.props.routerHistory.push('map');
   };
 
   onMoveEnd = state => {
@@ -403,63 +218,101 @@ class Loader extends React.Component<Props, State> {
     });
 
     this.setState({
-      lat,
-      lon,
-      zoom,
+      extent: null,
+      lat: null,
+      lon: null,
+      zoom: null,
     });
   };
 
   onMapClick = () => {
     if (this.state.isSearchToolbarExpanded) {
       this.closeSearch();
-      this.setState({ isMainMenuOpen: false, isSearchToolbarExpanded: false });
       this.mainView.focusMap();
     }
   };
 
-  onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
-    const params = getQueryParams();
-    const pathname = hrefForFeature(featureId, properties);
-    const location = { pathname, search: queryString.stringify(params) };
-    this.props.history.push(location);
-  };
+  showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
+    const { routerHistory } = this.props;
 
-  // Pan back to currently shown feature when marker in details panel is tapped/clicked
-  onClickCurrentMarkerIcon = (feature: Feature) => {
-    if (!feature) return;
-    this.setState({
-      lat: get(feature, 'geometry.coordinates.1'),
-      lon: get(feature, 'geometry.coordinates.0'),
-    });
-  };
+    // show equipment inside their place details
+    let routeName = 'place_detail';
+    const params = this.getCurrentParams();
 
-  onError = error => {
-    this.setState({ isNotFoundVisible: true, lastError: error });
-  };
+    params.id = featureId;
+    delete params.eid;
 
-  onSelectCoordinate = (coords: ?{ lat: string, lon: string }) => {
-    if (coords) {
-      this.setState(coords);
+    if (properties && typeof properties.placeInfoId === 'string') {
+      const placeInfoId = properties.placeInfoId;
+      if (includes(['elevator', 'escalator'], properties.category)) {
+        routeName = 'equipment';
+        params.id = placeInfoId;
+        params.eid = featureId;
+      }
     }
-    this.setState({ isSearchBarVisible: isStickySearchBarSupported() });
+
+    routerHistory.push(routeName, params);
   };
 
-  onResetCategory = () => {
-    this.setState({
-      category: null,
-      isSearchToolbarExpanded: true,
-    });
+  onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
+    let { routeName } = this.props;
+    const params = this.getCurrentParams();
+
+    delete params.accessibility;
+    delete params.toilet;
+
+    if (filter.accessibilityFilter.length > 0) {
+      params.accessibility = filter.accessibilityFilter.join(',');
+    }
+
+    if (filter.toiletFilter.length > 0) {
+      params.toilet = filter.toiletFilter.join(',');
+    }
+
+    this.props.routerHistory.push(routeName, params);
   };
 
-  onCloseNotFoundDialog = () => {
-    this.setState({ isNotFoundVisible: false });
+  onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => {
+    const params = this.getCurrentParams();
+    let routeName = 'map';
+
+    if (wheelmapFeature) {
+      let id = getFeatureId(wheelmapFeature);
+      if (id) {
+        params.id = id;
+        delete params.eid;
+        routeName = 'place_detail';
+      }
+    }
+
+    if (routeName === 'map') {
+      delete params.id;
+      delete params.eid;
+    }
+
+    if (feature.properties.extent) {
+      const extent = feature.properties.extent;
+      this.setState({
+        lat: null,
+        lon: null,
+        extent,
+      });
+    } else {
+      const [lon, lat] = feature.geometry.coordinates;
+      this.setState({
+        lat,
+        lon,
+        extent: null,
+      });
+    }
+
+    this.props.routerHistory.push(routeName, params);
   };
 
   onClickFullscreenBackdrop = () => {
     this.setState({
       isMainMenuOpen: false,
       isOnboardingVisible: false,
-      isNotFoundVisible: false,
       modalNodeState: null,
     });
     this.onCloseNodeToolbar();
@@ -513,7 +366,7 @@ class Loader extends React.Component<Props, State> {
 
   onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
     console.log('onFinishPhotoUploadFlow');
-    const featureId = this.state.featureId;
+    const { featureId } = this.props;
 
     if (!featureId) {
       console.error('No feature found, aborting upload!');
@@ -568,85 +421,117 @@ class Loader extends React.Component<Props, State> {
   };
 
   onOpenReportMode = () => {
-    if (this.state.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(`/beta/nodes/${String(this.state.featureId)}/report?${query}`);
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: 'report',
+      });
     }
   };
 
-  onCloseNodeToolbar = () => {
-    const { category, featureId } = this.state;
+  getCurrentParams() {
+    const params = {};
+    const {
+      category,
+      accessibilityFilter,
+      toiletFilter,
+      routeName,
+      featureId,
+      equipmentInfoId,
+      searchQuery,
+    } = this.props;
 
-    // onCloseNodeToolbar is used as a callback for when the node toolbar is closed as well as
-    // when any node toolbar subpages are closed. in order to know how to change the route correctly
-    // we have to distinguish between these two cases
-    const actualNodeToolbarWasClosed = featureId && typeof this.modalNodeState() === 'undefined';
-    const nodeToolbarSubpageWasClosed = featureId && typeof this.modalNodeState() !== 'undefined';
-
-    // by default route to the index page
-    let path = '/beta';
-
-    if (actualNodeToolbarWasClosed && category) {
-      // if node toolbar was closed and category was previously selected restore the categories url
-      path = `/beta/categories/${category}`;
-    } else if (nodeToolbarSubpageWasClosed) {
-      // if a node toolbar subpage was closed restore the node toolbar default url
-      path = `/beta/nodes/${String(featureId)}`;
+    if (category) {
+      params.category = category;
     }
 
-    // restore any query params
-    const query = queryString.stringify(getQueryParams());
+    if (isAccessibilityFiltered(accessibilityFilter)) {
+      params.accessibility = accessibilityFilter.join(',');
+    }
 
-    this.props.history.push(`${path}?${query}`);
+    if (isToiletFiltered(toiletFilter)) {
+      params.toilet = toiletFilter.join(',');
+    }
+
+    if (featureId) {
+      params.id = featureId;
+    }
+
+    if (equipmentInfoId) {
+      params.eid = equipmentInfoId;
+    }
+
+    return params;
+  }
+
+  // this is called also when the report dialog is closed
+  onCloseNodeToolbar = () => {
+    const currentModalState = this.state.modalNodeState;
+
+    if (!currentModalState) {
+      const params = this.getCurrentParams();
+
+      delete params.id;
+      delete params.eid;
+
+      this.props.routerHistory.push('map', params);
+    } else {
+      this.setState({
+        modalNodeState: null,
+      });
+    }
   };
 
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: 'true' });
-    this.props.history.push(this.props.history.location.pathname, { isOnboardingVisible: false });
+    this.setState({ isOnboardingVisible: false });
     if (this.mainView) this.mainView.focusSearchToolbar();
   };
 
-  onClickSearchToolbar = () => {
-    this.setState({
-      isSearchBarVisible: true,
-      isSearchToolbarExpanded: true,
-    });
+  onSearchToolbarClick = () => {
+    this.openSearch();
   };
 
-  onCloseSearchToolbar = () => {
-    this.setState({
-      isSearchBarVisible: isStickySearchBarSupported(),
-      isSearchToolbarExpanded: false,
-    });
+  onSearchToolbarClose = () => {
+    this.closeSearch();
+
     if (this.mainView) this.mainView.focusMap();
   };
 
+  onSearchToolbarSubmit = (searchQuery: string) => {
+    // Enter a command like `locale:de_DE` to set a new locale.
+    const setLocaleCommandMatch = searchQuery.match(/^locale:(\w\w(?:_\w\w))/);
+
+    if (setLocaleCommandMatch) {
+      const { routeName, routerHistory } = this.props;
+      const params = this.getCurrentParams();
+
+      params.locale = setLocaleCommandMatch[1];
+
+      routerHistory.push(routeName, params);
+    }
+  };
+
   onOpenWheelchairAccessibility = () => {
-    if (this.state.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(
-        `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility?${query}`
-      );
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: 'edit-wheelchair-accessibility',
+      });
     }
   };
 
   onOpenToiletAccessibility = () => {
-    if (this.state.featureId) {
-      const query = queryString.stringify(getQueryParams());
-      this.props.history.push(
-        `/beta/nodes/${this.state.featureId}/edit-toilet-accessibility?${query}`
-      );
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: 'edit-toilet-accessibility',
+      });
     }
   };
 
   gotoCurrentFeature() {
-    const { featureId } = this.state;
-    if (featureId) {
-      this.props.history.push(`/beta/nodes/${featureId}`);
-      const feature =
-        wheelmapFeatureCache.getCachedFeature(String(featureId)) ||
-        wheelmapLightweightFeatureCache.getCachedFeature(String(featureId));
-      this.setState({ feature });
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: null,
+      });
     }
   }
 
@@ -658,18 +543,42 @@ class Loader extends React.Component<Props, State> {
     this.gotoCurrentFeature();
   };
 
+  onAddMissingPlaceClick = () => {
+    this.setState({
+      modalNodeState: 'create',
+    });
+  };
+
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
-    if (this.state.featureId) {
-      this.props.history.push({
-        pathname: `/beta/nodes/${this.state.featureId}/edit-wheelchair-accessibility`,
-        search: `presetStatus=${value}`,
+    if (this.props.featureId) {
+      this.setState({
+        modalNodeState: 'edit-wheelchair-accessibility',
+        accessibilityPresetStatus: value,
       });
     }
   };
 
-  isNodeToolbarDisplayed(state = this.state) {
+  onSearchQueryChange = (newSearchQuery: ?string) => {
+    const params = this.getCurrentParams();
+
+    if (!newSearchQuery || newSearchQuery.length === 0) {
+      delete params.q;
+
+      return this.props.routerHistory.replace('map', params);
+    }
+
+    params.q = newSearchQuery;
+
+    this.props.routerHistory.replace('search', params);
+  };
+
+  onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
+    this.props.routerHistory.replace('equipment', { id: placeInfoId, eid: equipmentInfo._id });
+  };
+
+  isNodeToolbarDisplayed(props = this.props, state = this.state) {
     return (
-      state.feature &&
+      props.feature &&
       !state.isSearchToolbarExpanded &&
       !state.isPhotoUploadCaptchaToolbarVisible &&
       !state.isPhotoUploadInstructionsToolbarVisible &&
@@ -678,49 +587,52 @@ class Loader extends React.Component<Props, State> {
   }
 
   render() {
-    const isNodeRoute = Boolean(this.state.featureId);
-    const modalNodeState = this.modalNodeState();
+    const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
 
     const shouldLocateOnStart =
       !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
-    const isSearchButtonVisible: boolean = !this.state.isSearchBarVisible;
+    const isSearchBarVisible = this.state.isSearchBarVisible;
+    const isSearchButtonVisible = !isSearchBarVisible;
 
     const extraProps = {
-      history: this.props.history,
-      location: this.props.location,
-
       isNodeRoute,
-      modalNodeState,
+      modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
       shouldLocateOnStart,
       isSearchButtonVisible,
+      isSearchBarVisible,
 
-      featureId: this.state.featureId,
-      equipmentInfoId: this.state.equipmentInfoId,
-      feature: this.state.feature,
-      category: this.state.category,
-      toiletFilter: this.state.toiletFilter,
-      accessibilityFilter: this.state.accessibilityFilter,
-      lastError: this.state.lastError,
-      searchQuery: this.state.searchQuery,
-      lat: this.state.lat,
-      lon: this.state.lon,
-      zoom: this.state.zoom,
+      featureId: this.props.featureId,
+      feature: this.props.feature,
+      lightweightFeature: this.props.lightweightFeature,
+      equipmentInfoId: this.props.equipmentInfoId,
+      equipmentInfo: this.props.equipmentInfo,
+      photos: this.props.photos,
+      category: this.props.category,
+      categories: this.props.categories,
+      sources: this.props.sources,
+      userAgent: this.props.userAgent,
+      toiletFilter: this.props.toiletFilter,
+      accessibilityFilter: this.props.accessibilityFilter,
+      searchQuery: this.props.searchQuery,
+      lat: this.state.lat || this.props.lat,
+      lon: this.state.lon || this.props.lon,
+      zoom: this.state.zoom || this.props.zoom,
+      extent: this.state.extent || this.props.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
-      isNotFoundVisible: this.state.isNotFoundVisible,
-      isSearchBarVisible: this.state.isSearchBarVisible,
-      isLocalizationLoaded: this.state.isLocalizationLoaded,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
+      searchResults: this.props.searchResults,
+      includeSourceIds: this.props.includeSourceIds,
 
       // photo feature
       isPhotoUploadCaptchaToolbarVisible:
-        this.state.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
+        this.props.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible:
-        this.state.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
+        this.props.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
       photosMarkedForUpload: this.state.photosMarkedForUpload,
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
       photoCaptchaFailed: this.state.photoCaptchaFailed,
@@ -729,58 +641,62 @@ class Loader extends React.Component<Props, State> {
       photoMarkedForReport: this.state.photoMarkedForReport,
 
       // simple 3-button status editor feature
-      presetStatus: getQueryParams(this.props.history.location.search).presetStatus || null,
+      accessibilityPresetStatus: this.state.accessibilityPresetStatus,
+
+      clientSideConfiguration: this.props.clientSideConfiguration,
     };
 
     return (
-      <MainView
-        {...extraProps}
-        innerRef={mainView => {
-          this.mainView = mainView;
+      <RouteProvider
+        value={{
+          history: this.props.routerHistory,
+          params: this.getCurrentParams(),
+          name: this.props.routeName,
         }}
-        onClickSearchButton={this.onClickSearchButton}
-        onToggleMainMenu={this.onToggleMainMenu}
-        onMoveEnd={this.onMoveEnd}
-        onMapClick={this.onMapClick}
-        onMarkerClick={this.onMarkerClick}
-        onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
-        onError={this.onError}
-        onSelectCoordinate={this.onSelectCoordinate}
-        onResetCategory={this.onResetCategory}
-        onCloseNotFoundDialog={this.onCloseNotFoundDialog}
-        onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
-        onOpenReportMode={this.onOpenReportMode}
-        onCloseNodeToolbar={this.onCloseNodeToolbar}
-        onCloseOnboarding={this.onCloseOnboarding}
-        onClickSearchToolbar={this.onClickSearchToolbar}
-        onCloseSearchToolbar={this.onCloseSearchToolbar}
-        onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
-        onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
-        onOpenToiletAccessibility={this.onOpenToiletAccessibility}
-        onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
-        onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
-        onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-        // photo feature
-        onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
-        onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
-        onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
-        onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
-        onStartReportPhotoFlow={this.onStartReportPhotoFlow}
-        onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
-        onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
-      />
+      >
+        <MainView
+          {...extraProps}
+          ref={mainView => {
+            this.mainView = mainView;
+          }}
+          onClickSearchButton={this.onClickSearchButton}
+          onToggleMainMenu={this.onToggleMainMenu}
+          onMoveEnd={this.onMoveEnd}
+          onMapClick={this.onMapClick}
+          onMarkerClick={this.showSelectedFeature}
+          onError={this.onError}
+          onSearchResultClick={this.onSearchResultClick}
+          onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
+          onOpenReportMode={this.onOpenReportMode}
+          onCloseNodeToolbar={this.onCloseNodeToolbar}
+          onCloseOnboarding={this.onCloseOnboarding}
+          onSearchToolbarClick={this.onSearchToolbarClick}
+          onSearchToolbarClose={this.onSearchToolbarClose}
+          onSearchToolbarSubmit={this.onSearchToolbarSubmit}
+          onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
+          onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+          onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
+          onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
+          onCloseToiletAccessibility={this.onCloseToiletAccessibility}
+          onAddMissingPlaceClick={this.onAddMissingPlaceClick}
+          onSearchQueryChange={this.onSearchQueryChange}
+          onEquipmentSelected={this.onEquipmentSelected}
+          onShowPlaceDetails={this.showSelectedFeature}
+          onMainMenuHomeClick={this.onMainMenuHomeClick}
+          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
+          // photo feature
+          onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
+          onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
+          onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
+          onFinishPhotoUploadFlow={this.onFinishPhotoUploadFlow}
+          onStartReportPhotoFlow={this.onStartReportPhotoFlow}
+          onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
+          onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
+        />
+      </RouteProvider>
     );
   }
-}
-
-function App() {
-  const Router = window.cordova ? MemoryRouter : BrowserRouter;
-
-  return (
-    <Router>
-      <Route path="/" component={Loader} />
-    </Router>
-  );
 }
 
 export default App;

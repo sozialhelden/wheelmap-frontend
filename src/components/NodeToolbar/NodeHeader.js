@@ -7,7 +7,7 @@ import type { Feature } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 
-import { categoryNameFor } from '../../lib/Categories';
+import { categoryNameFor, type CategoryLookupTables } from '../../lib/Categories';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
@@ -38,6 +38,7 @@ type Props = {
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
   category: ?Category,
+  categories: CategoryLookupTables,
   parentCategory: ?Category,
   hasIcon: boolean,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
@@ -96,6 +97,7 @@ export default class NodeHeader extends React.Component<Props> {
       <StyledBreadCrumbs
         properties={properties}
         category={this.props.category}
+        categories={this.props.categories}
         parentCategory={this.props.parentCategory}
         hasPadding={this.props.hasIcon}
       />

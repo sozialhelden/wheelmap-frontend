@@ -2,18 +2,15 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
-import queryString from 'query-string';
-import Logo from '../../lib/Logo';
+import FocusTrap from '@sozialhelden/focus-trap-react';
+
+// import Logo from '../../lib/Logo';
 import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
-import { getQueryParams } from '../../lib/queryParams';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
-import { Dots } from 'react-activity';
 import strings from './strings';
-import { Link } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import type { Link } from '../../App';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -22,12 +19,15 @@ type State = {
 type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
+  onAddMissingPlaceClick: () => void,
+  onHomeClick: () => void,
   isOpen: boolean,
-  isLocalizationLoaded: boolean,
   lat: string,
   lon: string,
   zoom: string,
-  history: RouterHistory,
+  logoURL: string,
+  links: Array<Link>,
+  addPlaceURL: string,
 };
 
 function MenuIcon(props) {
@@ -51,11 +51,13 @@ function MenuIcon(props) {
 }
 
 const menuButtonVisibilityBreakpoint = 1024;
+const isMenuButtonVisible =
+  typeof window !== 'undefined' ? window.innerWidth <= menuButtonVisibilityBreakpoint : true;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible: window.innerWidth <= menuButtonVisibilityBreakpoint,
+    isMenuButtonVisible,
   };
 
   boundOnResize: () => void;
@@ -70,12 +72,16 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.onResize);
+      this.onResize();
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onResize);
+    }
   }
 
   toggleMenu = (event: Event) => {
@@ -83,66 +89,71 @@ class MainMenu extends React.Component<Props, State> {
     event.preventDefault();
   };
 
-  returnHome = () => {
-    this.props.history.push({ pathname: '/beta' }, { isOnboardingVisible: true });
-  };
-
-  handleKeyDown = (event: SyntheticEvent<HTMLElement>) => {
-    if (event.nativeEvent.key === 'Escape') {
+  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
       this.props.onToggle(false);
     }
   };
 
-  render() {
-    const {
-      travelGuide,
-      getInvolved,
-      news,
-      press,
-      contact,
-      imprint,
-      faq,
-      addMissingPlace,
-      findWheelchairAccessiblePlaces,
-    } = strings();
+  renderHomeLink(extraProps = {}) {
+    return (
+      <div className="home-link">
+        <button
+          className="btn-unstyled home-button"
+          onClick={this.props.onHomeClick}
+          aria-label={t`Home`}
+          onKeyDown={this.handleKeyDown}
+          {...extraProps}
+        >
+          {/* translator: The alternative desription of the app logo for screenreaders */}
+          <img
+            className="logo"
+            src={this.props.logoURL}
+            width={156}
+            height={38}
+            alt={t`App Logo`}
+          />
+        </button>
+      </div>
+    );
+  }
 
-    const { isLocalizationLoaded, isOpen, className } = this.props;
+  render() {
+    const { addMissingPlace, findWheelchairAccessiblePlaces } = strings();
+
+    const { isOpen, className, links, addPlaceURL } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
       className,
       isOpen || !isMenuButtonVisible ? 'is-open' : null,
-      isLocalizationLoaded ? 'is-loaded' : null,
       'main-menu',
     ].filter(Boolean);
 
-    if (!isLocalizationLoaded) {
-      return (
-        <nav className={classList.join(' ')}>
-          <div className="home-link">
-            <button className="btn-unstyled home-button" disabled>
-              <Logo className="logo" width={123} height={30} />
-            </button>
-          </div>
-          <Dots />
-        </nav>
+    const focusTrapIsActive = isMenuButtonVisible && isOpen;
+
+    let addPlaceLink = (
+      <button
+        className="nav-link add-place-link"
+        onClick={this.props.onAddMissingPlaceClick}
+        onKeyDown={this.handleKeyDown}
+        role="menuitem"
+      >
+        {addMissingPlace}
+      </button>
+    );
+
+    if (addPlaceURL) {
+      addPlaceLink = (
+        <a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
+          {addMissingPlace}
+        </a>
       );
     }
 
-    const focusTrapIsActive = isLocalizationLoaded && isMenuButtonVisible && isOpen;
-
     return (
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
-        <div className="home-link">
-          <button
-            className="btn-unstyled home-button"
-            onClick={this.returnHome}
-            aria-label={t`Home`}
-            onKeyDown={this.handleKeyDown}
-          >
-            <Logo className="logo" width={123} height={30} />
-          </button>
-        </div>
+        {this.renderHomeLink()}
 
         <div className="claim">{findWheelchairAccessiblePlaces}</div>
 
@@ -164,38 +175,13 @@ class MainMenu extends React.Component<Props, State> {
         </button>
 
         <div id="main-menu" role="menu">
-          <a className="nav-link" href="https://travelable.info" role="menuitem">
-            {travelGuide}
-          </a>
-          <a
-            className="nav-link"
-            href="https://news.wheelmap.org/wheelmap-botschafter"
-            role="menuitem"
-          >
-            {getInvolved}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org" role="menuitem">
-            {news}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/presse" role="menuitem">
-            {press}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/kontakt" role="menuitem">
-            {contact}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/imprint" role="menuitem">
-            {imprint}
-          </a>
-          <a className="nav-link" href="https://news.wheelmap.org/faq" role="menuitem">
-            {faq}
-          </a>
-          <Link
-            className="nav-link add-place-link"
-            to={`/beta/nodes/new?${queryString.stringify(getQueryParams())}`}
-            role="menuitem"
-          >
-            {addMissingPlace}
-          </Link>
+          {links.map(link => (
+            <a key={link.url} className="nav-link" href={link.url} role="menuitem">
+              {link.label}
+            </a>
+          ))}
+
+          {addPlaceLink}
         </div>
       </FocusTrap>
     );
@@ -218,7 +204,6 @@ const StyledMainMenu = styled(MainMenu)`
   overflow: hidden;
 
   .logo {
-    height: 30px;
     margin-left: 10px;
   }
 
@@ -226,6 +211,8 @@ const StyledMainMenu = styled(MainMenu)`
     font-weight: lighter;
     opacity: 0.6;
     transition: opacity 0.3s ease-out;
+    padding-left: 5px;
+
     @media (max-width: 1280px) {
       font-size: 80%;
       max-width: 130px;
@@ -247,8 +234,6 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-between;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
   }
 
   &.is-open {
@@ -278,7 +263,12 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   .add-place-link {
+    font: inherit;
+    border: 0;
     font-weight: 500;
+    cursor: pointer;
+    background-color: transparent;
+
     &,
     &:visited {
       color: ${colors.linkColor};
@@ -416,31 +406,6 @@ const StyledMainMenu = styled(MainMenu)`
     }
     &.is-open {
       height: auto;
-    }
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  &:not(.is-loaded) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0;
-    .rai-activity-indicator {
-      margin-right: 20px;
-    }
-  }
-
-  &.is-loaded {
-    > *:not(.home-link):not(.logo) {
-      animation: fadeIn 1s ease-out;
     }
   }
 `;

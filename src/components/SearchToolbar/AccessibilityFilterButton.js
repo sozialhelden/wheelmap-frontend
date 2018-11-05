@@ -2,37 +2,76 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import type { RouterHistory } from 'react-router-dom';
-import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import styled, { css } from 'styled-components';
 
+import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import Button from '../Button';
 import colors from '../../lib/colors';
 import CombinedIcon from './CombinedIcon';
 import CloseIcon from '../icons/actions/Close';
-import urlForFilters from './urlForFilters';
+import type { PlaceFilter } from './AccessibilityFilterModel';
 
 type Props = {
-  history: RouterHistory,
-  className: string,
+  className?: string,
   showCloseButton: boolean,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   caption: string,
   category: string,
   isMainCategory?: boolean,
+  onClick: (data: PlaceFilter) => void,
   onFocus?: (event: UIEvent) => void,
   onBlur?: (event: UIEvent) => void,
   onKeyDown?: (event: UIEvent) => void,
+  isActive: boolean,
 };
 
-const StyledNavLink = styled(NavLink)`
-  border-radius: 5px;
+export const Caption = styled.span`
+  flex: 1;
+  color: ${colors.darkSelectedColor};
+`;
+
+function AccessibilityFilterButton(props: Props) {
+  const {
+    toiletFilter,
+    accessibilityFilter,
+    category,
+    isMainCategory,
+    showCloseButton,
+    caption,
+    isActive,
+    onClick,
+    className,
+  } = props;
+
+  return (
+    <Button
+      className={className}
+      onFocus={props.onFocus}
+      onBlur={props.onBlur}
+      onKeyDown={props.onKeyDown}
+      tabIndex={0}
+      aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
+      onClick={() =>
+        onClick({
+          toiletFilter: showCloseButton ? [] : toiletFilter,
+          accessibilityFilter: showCloseButton ? [] : accessibilityFilter,
+        })
+      }
+    >
+      <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
+      <Caption>{caption}</Caption>
+      {showCloseButton && <CloseIcon className="close-icon" />}
+    </Button>
+  );
+}
+
+export default styled(AccessibilityFilterButton)`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5em 1em 0.5em 1.3em;
+  padding: 10px 1em 10px 1.3em;
   min-height: 3rem;
 
   svg.icon {
@@ -40,68 +79,18 @@ const StyledNavLink = styled(NavLink)`
     height: 21px;
   }
 
-  .accessibilities {
+  ${CombinedIcon} {
     width: 70px;
   }
 
-  .caption {
-    flex: 1;
-    color: ${colors.darkSelectedColor};
-  }
-
-  &.is-active {
-    background-color: ${colors.coldBackgroundColor};
-
-    .circle {
-      background-color: ${colors.selectedColor};
-    }
-  }
+  ${props =>
+    props.isActive &&
+    css`
+      background-color: ${colors.coldBackgroundColor};
+    `};
 
   &:hover,
   &:focus {
     background-color: ${colors.linkBackgroundColorTransparent};
-
-    &.is-active {
-      .circle {
-        background-color: ${colors.darkSelectedColor};
-      }
-    }
   }
 `;
-
-export default function AccessibilityFilterButton(props: Props) {
-  const caption = props.caption;
-  const {
-    history,
-    toiletFilter,
-    accessibilityFilter,
-    category,
-    isMainCategory,
-    showCloseButton,
-  } = props;
-  const href = urlForFilters({
-    history,
-    category,
-    toiletFilter: showCloseButton ? null : toiletFilter,
-    accessibilityFilter: showCloseButton ? null : accessibilityFilter,
-  });
-
-  return (
-    <StyledNavLink
-      to={href}
-      className={`${props.className} ${showCloseButton ? 'is-horizontal' : ''} ${
-        props.isActive ? 'is-active' : ''
-      }`}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      onKeyDown={props.onKeyDown}
-      tabIndex={0}
-      role="button"
-      aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
-    >
-      <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
-      <span className="caption">{caption}</span>
-      {showCloseButton && <CloseIcon className="close-icon" />}
-    </StyledNavLink>
-  );
-}

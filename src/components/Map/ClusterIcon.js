@@ -26,9 +26,12 @@ export default class ClusterIcon extends L.Icon {
   createIcon() {
     const div = document.createElement('div');
     const propertiesArray = this.options.propertiesArray;
+    const categories = this.options.categories;
 
     if (isSamePlace(propertiesArray)) {
-      const iconNames = propertiesArray.map(p => getIconNameForProperties(p)).filter(Boolean);
+      const iconNames = propertiesArray
+        .map(p => getIconNameForProperties(categories, p))
+        .filter(Boolean);
       const IconComponent = categoryIcons[iconNames[0] || 'undefined'];
       if (IconComponent) {
         ReactDOM.render(<IconComponent />, div);

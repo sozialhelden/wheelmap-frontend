@@ -81,7 +81,9 @@ class Toolbar extends React.Component<Props, State> {
 
   componentWillMount() {
     this.onResize();
-    window.addEventListener('resize', this.onWindowResize);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.onWindowResize);
+    }
   }
 
   componentDidMount() {
@@ -94,7 +96,9 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.onWindowResize);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.onWindowResize);
+    }
     if (this.ensureVisibilityTimeoutId) {
       clearTimeout(this.ensureVisibilityTimeoutId);
       this.ensureVisibilityTimeoutId = undefined;
@@ -125,8 +129,8 @@ class Toolbar extends React.Component<Props, State> {
   onResize(preferredTopOffset: number = this.state.topOffset) {
     this.setState({
       viewportSize: {
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: typeof window === 'undefined' ? 1024 : window.innerWidth,
+        height: typeof window === 'undefined' ? 768 : window.innerHeight,
       },
     });
 
@@ -265,7 +269,9 @@ class Toolbar extends React.Component<Props, State> {
       touchAction: isAtTopmostPosition ? 'inherit' : 'none',
       overflowY: isAtTopmostPosition ? 'auto' : 'hidden',
       transition: enableTransitions
-        ? isSwiping ? defaultTransitions : `${defaultTransitions}, transform 0.3s ease-out`
+        ? isSwiping
+          ? defaultTransitions
+          : `${defaultTransitions}, transform 0.3s ease-out`
         : '',
       transform: `translate3d(0, ${topOffset}px, 0)`,
     };
@@ -287,7 +293,10 @@ class Toolbar extends React.Component<Props, State> {
   render() {
     const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
     const isIphoneX =
-      window.device && window.device.model && includes(xModels, window.device.model);
+      typeof window !== 'undefined' &&
+      window.device &&
+      window.device.model &&
+      includes(xModels, window.device.model);
     const classNames = [
       'toolbar',
       isIphoneX ? 'toolbar-iphone-x' : null,
@@ -297,6 +306,7 @@ class Toolbar extends React.Component<Props, State> {
       this.props.className,
     ];
     const className = classNames.filter(Boolean).join(' ');
+
     return (
       <Swipeable
         onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}

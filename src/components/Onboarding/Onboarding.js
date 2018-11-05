@@ -3,22 +3,25 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
+import marked from 'marked';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Logo from '../../lib/Logo';
+import env from '../../lib/env';
 import Icon from '../Icon';
 
 type Props = {
   className: string,
   isVisible: boolean,
   onClose: () => void,
+  headerMarkdown: string,
+  logoURL: string,
 };
 
 function Onboarding(props: Props) {
-  // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
-  const claim = t`Mark and find wheelchair accessible places — worldwide and for free. It’s easy with our traffic light system:`;
+  const { logoURL, headerMarkdown } = props;
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
@@ -39,8 +42,20 @@ function Onboarding(props: Props) {
       ariaLabel={t`Start screen`}
     >
       <header>
-        <Logo className="logo" aria-hidden={true} />
-        <p id="wheelmap-claim-onboarding">{claim}</p>
+        {/* translator: The alternative desription of the app logo for screenreaders */}
+        <img
+          className="logo"
+          src={logoURL}
+          width={123}
+          height={30}
+          alt={t`App Logo`}
+          aria-hidden={true}
+        />
+
+        <p
+          id="wheelmap-claim-onboarding"
+          dangerouslySetInnerHTML={{ __html: marked(headerMarkdown, { sanitize: true }) }}
+        />
       </header>
 
       <section>
@@ -106,9 +121,17 @@ function Onboarding(props: Props) {
           <ChevronRight />
         </button>
       </footer>
+      <Version>{env.public.version}</Version>
     </ModalDialog>
   );
 }
+
+const Version = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  font-size: 12px;
+`;
 
 const StyledOnboarding = styled(Onboarding)`
   @keyframes fadeIn {

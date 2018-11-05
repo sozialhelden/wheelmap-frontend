@@ -15,6 +15,7 @@ import { placeNameFor } from '../../../lib/Feature';
 import openButtonCaption from '../../../lib/openButtonCaption';
 import type { Category } from '../../../lib/Categories';
 import PlaceIcon from '../../icons/actions/Place';
+import { type UAResult } from '../../../lib/userAgent';
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
   if (typeof properties.address === 'string') return properties.address;
@@ -34,16 +35,17 @@ function getAddressForProperties(properties: NodeProperties): ?string {
 type Props = {
   feature: ?Feature,
   category: ?Category,
+  userAgent: UAResult,
 };
 
 export default class PlaceAddress extends React.Component<Props, void> {
   render() {
-    const feature = this.props.feature;
+    const { feature, userAgent } = this.props;
 
     if (!feature || !feature.properties) return null;
 
     const placeName = placeNameFor(feature.properties, this.props.category);
-    const openInMaps = generateMapsUrl(feature, placeName);
+    const openInMaps = generateMapsUrl(userAgent, feature, placeName);
     const showOnOsmUrl = generateShowOnOsmUrl(feature);
     const address = getAddressForProperties(feature.properties);
     const addressString = address && address.replace(/,$/, '').replace(/^,/, '');

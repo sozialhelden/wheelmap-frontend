@@ -1,6 +1,7 @@
 import { t } from 'ttag';
 import fetch from '../../../lib/fetch';
 import config from '../../../lib/config';
+import isCordova from '../../../lib/isCordova';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
@@ -24,7 +25,7 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
   const formData = new FormData();
   formData.append(options.jsonPropertyName, value);
 
-  const body = window.cordova ? { [options.jsonPropertyName]: value } : formData;
+  const body = isCordova() ? { [options.jsonPropertyName]: value } : formData;
 
   const requestOptions = {
     method: 'PUT',

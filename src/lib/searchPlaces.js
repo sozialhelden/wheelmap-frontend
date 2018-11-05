@@ -1,10 +1,12 @@
 // @flow
 
 import includes from 'lodash/includes';
+import type { Point } from 'geojson-flow';
+
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
-
-import type { GeometryObject } from 'geojson-flow';
+import { type WheelmapFeature } from '../lib/Feature';
+import debouncePromise from '../lib/debouncePromise';
 
 export type SearchResultProperties = {
   city?: ?any,
@@ -18,27 +20,32 @@ export type SearchResultProperties = {
   state?: ?any,
   housenumber?: ?any,
   street?: ?any,
+  extent: ?[number, number, number, number],
 };
 
 export type SearchResultFeature = {
-  geometry: GeometryObject,
+  geometry: Point,
   properties: SearchResultProperties,
 };
 
 export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
+  wheelmapFeatures?: (?WheelmapFeature)[] | Promise<?WheelmapFeature>[],
 };
-
-let queryIndex: number = 0;
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
 
+export const searchPlacesDebounced: (
+  query: string,
+  coords: { lat?: ?number, lon?: ?number }
+) => Promise<SearchResultCollection> = debouncePromise(searchPlaces, 500);
+
 export default function searchPlaces(
   query: string,
   { lat, lon }: { lat?: ?number, lon?: ?number }
-): Promise<?SearchResultCollection> {
+): Promise<SearchResultCollection> {
   const locale = currentLocales[0];
   const languageCode = locale && locale.substr(0, 2);
   const supportedLanguageCodes = ['en', 'de', 'fr', 'it']; // See Photon documentation
@@ -58,17 +65,9 @@ export default function searchPlaces(
   //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
   // }
 
-  queryIndex += 1;
-  const runningQueryIndex = queryIndex;
-
   return globalFetchManager
     .fetch(url, { cordova: true })
     .then(response => {
-      if (runningQueryIndex !== queryIndex) {
-        // There was a newer search already. Ignore results. Unfortunately, the fetch API does not
-        // allow to cancel a request yet.
-        return null;
-      }
       return response.json();
     })
     .catch(error => {

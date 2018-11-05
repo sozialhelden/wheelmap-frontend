@@ -1,55 +1,41 @@
 // @flow
 
 import { t } from 'ttag';
-import get from 'lodash/get';
-import uniq from 'lodash/uniq';
 import * as React from 'react';
 import styled from 'styled-components';
-import type { RouterHistory } from 'react-router-dom';
 
-import type { Feature } from '../../lib/Feature';
+import { type Feature } from '../../lib/Feature';
 import LicenseHint from './LicenseHint';
+import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 
 type Props = {
   feature: ?Feature,
   featureId: ?string | number,
+  sources: SourceWithLicense[],
   equipmentInfoId: ?string,
-  history: RouterHistory,
   className: string,
 };
 
-function sourceIdsForFeature(feature: ?Feature): string[] {
-  if (!feature) return [];
-
-  const properties = feature.properties;
-  if (!properties) return [];
-
-  const idsToEquipmentInfos =
-    typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
-  const equipmentInfos = idsToEquipmentInfos
-    ? Object.keys(idsToEquipmentInfos).map(_id => idsToEquipmentInfos[_id])
-    : [];
-  const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo =>
-    get(equipmentInfo, 'properties.sourceId')
+function renderLicenseHint(sourceWithLicense: SourceWithLicense) {
+  return (
+    <LicenseHint
+      key={sourceWithLicense.source._id}
+      source={sourceWithLicense.source}
+      license={sourceWithLicense.license}
+    />
   );
-  const disruptionSourceIds = equipmentInfos.map(equipmentInfo =>
-    get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId')
-  );
-  const placeSourceId =
-    properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
-
-  return uniq([placeSourceId, ...equipmentInfoSourceIds, ...disruptionSourceIds].filter(Boolean));
 }
 
 function UnstyledSourceList(props: Props) {
-  const sourceIds = sourceIdsForFeature(props.feature);
+  const { sources } = props;
+
   // translator: Prefix for the sources on the PoI details panel
   const prefixCaption = t`Source:`;
 
   return (
     <section className={props.className}>
-      {sourceIds.length ? `${prefixCaption} ` : null}
-      <ul>{sourceIds.map(sourceId => <LicenseHint key={sourceId} sourceId={sourceId} />)}</ul>
+      {sources.length ? `${prefixCaption} ` : null}
+      <ul>{sources.map(sourceWithLicense => renderLicenseHint(sourceWithLicense))}</ul>
     </section>
   );
 }

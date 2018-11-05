@@ -1,70 +1,69 @@
 // @flow
 
 import * as React from 'react';
+import dynamic from 'next/dynamic';
+
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import queryString from 'query-string';
-import type { RouterHistory, Location } from 'react-router-dom';
-import { Dots } from 'react-activity';
 
-import Map from './components/Map/Map';
-import NotFound from './components/NotFound/NotFound';
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
-import NodeToolbar from './components/NodeToolbar/NodeToolbar';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
+import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
+import MapLoading from './components/Map/MapLoading';
+import ErrorBoundary from './components/ErrorBoundary';
+import type { SearchResultFeature } from './lib/searchPlaces';
+import type { WheelmapFeature } from './lib/Feature';
+import type { EquipmentInfo } from './lib/EquipmentInfo';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
-import HighlightableMarker from './components/Map/HighlightableMarker';
 import Onboarding from './components/Onboarding/Onboarding';
 import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
-import { isFirstStart } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown, NodeProperties } from './lib/Feature';
+import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 
 import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
-import { isWheelmapFeature } from './lib/Feature';
+import type { ModalNodeState } from './lib/ModalNodeState';
 
-import { CategoryStrings as EquipmentCategoryStrings } from './lib/EquipmentInfo';
+import { isTouchDevice, type UAResult } from './lib/userAgent';
 
-import { getQueryParams, newLocationWithReplacedQueryParams } from './lib/queryParams';
-import type { ModalNodeState } from './lib/queryParams';
+import { type CategoryLookupTables } from './lib/Categories';
+import { type SearchResultCollection } from './lib/searchPlaces';
+import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
-import { isTouchDevice } from './lib/userAgent';
+import type { PhotoModel } from './lib/PhotoModel';
 
-import type { PhotoModel } from './components/NodeToolbar/Photos/PhotoModel';
+import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 
 type Props = {
   className: string,
 
-  history: RouterHistory,
-  location: Location,
-
-  featureId: ?string,
-  feature?: ?Feature,
   category: ?string,
+  categories: CategoryLookupTables,
+  userAgent: UAResult,
+
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
   searchQuery: ?string,
-  equipmentInfoId: ?string,
   lat: ?string,
   lon: ?string,
   zoom: ?string,
+  extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
-  lastError: ?string,
   modalNodeState: ModalNodeState,
   isLocalizationLoaded: boolean,
   isSearchBarVisible: boolean,
@@ -72,31 +71,36 @@ type Props = {
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
   shouldLocateOnStart: boolean,
+  searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
-  onSelectCoordinate: () => void,
-  onResetCategory: () => void,
-  onClickSearchToolbar: () => void,
-  onCloseSearchToolbar: () => void,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
+  onSearchToolbarClick: () => void,
+  onSearchToolbarClose: () => void,
+  onSearchToolbarSubmit: (searchQuery: string) => void,
   onClickSearchButton: () => void,
-  onCloseNotFoundDialog: () => void,
   onToggleMainMenu: () => void,
+  onMainMenuHomeClick: () => void,
   onClickFullscreenBackdrop: () => void,
   onMoveEnd: () => void,
   onMapClick: () => void,
+  onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
   onCloseOnboarding: () => void,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onCloseCreatePlaceDialog: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
-
+  onAddMissingPlaceClick: () => void,
+  onSearchQueryChange: (searchQuery: string) => void,
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
-  presetStatus: YesNoLimitedUnknown,
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
+  accessibilityPresetStatus?: YesNoLimitedUnknown,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -114,7 +118,9 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
-};
+
+  clientSideConfiguration: ClientSideConfiguration,
+} & PlaceDetailsProps;
 
 type State = {
   isOnSmallViewport: boolean,
@@ -141,6 +147,11 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   return `/beta/nodes/${featureId}`;
 }
 
+const DynamicMap = dynamic(import('./components/Map/Map'), {
+  ssr: false,
+  loading: () => <MapLoading />,
+});
+
 class MainView extends React.Component<Props, State> {
   props: Props;
 
@@ -148,54 +159,23 @@ class MainView extends React.Component<Props, State> {
     isOnSmallViewport: isOnSmallViewport(),
   };
 
-  map: ?any;
+  map: ?{ focus: () => void, snapToFeature: () => void };
 
   lastFocusedElement: ?HTMLElement;
-  nodeToolbar: ?NodeToolbar;
+  nodeToolbar: ?NodeToolbarFeatureLoader;
   searchToolbar: ?SearchToolbar;
   photoUploadCaptchaToolbar: ?PhotoUploadCaptchaToolbar;
   photoUploadInstructionsToolbar: ?PhotoUploadInstructionsToolbar;
-
-  onMarkerClick = (featureId: string, properties: ?NodeProperties) => {
-    const params = getQueryParams();
-    const pathname = hrefForFeature(featureId, properties);
-    // const newHref = this.props.history.createHref(location);
-    const location = { pathname, search: queryString.stringify(params) };
-    this.props.history.push(location);
-  };
-
-  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
-    const properties = feature && feature.properties;
-    if (!properties) return null;
-    if (
-      !isWheelmapFeature(feature) &&
-      !properties.accessibility &&
-      !includes(EquipmentCategoryStrings, properties.category)
-    )
-      return null;
-
-    return new HighlightableMarker(latlng, {
-      onClick: this.onMarkerClick,
-      hrefForFeature,
-      feature,
-    });
-  };
 
   resizeListener = () => {
     updateTouchCapability();
     this.updateViewportSizeState();
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    if (isFirstStart()) {
-      this.props.history.replace(props.history.location.pathname, { isOnboardingVisible: true });
-    }
-  }
-
   componentDidMount() {
-    window.addEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.resizeListener);
+    }
     this.resizeListener();
   }
 
@@ -205,7 +185,9 @@ class MainView extends React.Component<Props, State> {
 
   componentWillUnmount() {
     delete this.resizeListener;
-    window.removeEventListener('resize', this.resizeListener);
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   updateViewportSizeState() {
@@ -230,17 +212,28 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
+  onClickCurrentMarkerIcon = () => {
+    if (this.map) {
+      this.map.snapToFeature();
+    }
+  };
+
   renderNodeToolbar(
-    { featureId, equipmentInfoId, modalNodeState, presetStatus }: $Shape<Props>,
+    { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }: $Shape<Props>,
     isNodeRoute: boolean
   ) {
     return (
       <div className="node-toolbar">
         <NodeToolbarFeatureLoader
-          {...{ featureId, equipmentInfoId, modalNodeState, presetStatus }}
+          {...{ featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
-          history={this.props.history}
+          lightweightFeature={this.props.lightweightFeature}
           feature={this.props.feature}
+          equipmentInfo={this.props.equipmentInfo}
+          categories={this.props.categories}
+          sources={this.props.sources}
+          photos={this.props.photos}
+          userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
           onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
@@ -251,43 +244,34 @@ class MainView extends React.Component<Props, State> {
           photoFlowErrorMessage={this.props.photoFlowErrorMessage}
           onOpenReportMode={this.props.onOpenReportMode}
           onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-          onClickCurrentMarkerIcon={this.props.onClickCurrentMarkerIcon}
+          onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}
+          onEquipmentSelected={this.props.onEquipmentSelected}
+          onShowPlaceDetails={this.props.onShowPlaceDetails}
         />
       </div>
     );
   }
 
-  renderSearchToolbar({ category, searchQuery, lat, lon }: $Shape<Props>, isInert: boolean) {
+  renderSearchToolbar({ category, searchQuery, searchResults }: $Shape<Props>, isInert: boolean) {
     return (
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
-        history={this.props.history}
+        categories={this.props.categories}
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
         category={category}
         searchQuery={searchQuery}
+        searchResults={searchResults}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
-        onChangeSearchQuery={newSearchQuery => {
-          if (!newSearchQuery || newSearchQuery.length === 0) {
-            this.props.history.replace('/beta/', null);
-            return;
-          }
-          this.props.history.replace(`/beta/search/?q=${newSearchQuery}`, null);
-        }}
-        onFilterChanged={filter => {
-          this.props.history.replace(
-            newLocationWithReplacedQueryParams(this.props.history, filter)
-          );
-        }}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        onSelectCoordinate={this.props.onSelectCoordinate}
-        onResetCategory={this.props.onResetCategory}
-        onClick={this.props.onClickSearchToolbar}
-        onClose={this.props.onCloseSearchToolbar}
+        onChangeSearchQuery={this.props.onSearchQueryChange}
+        onAccessibilityFilterButtonClick={this.props.onAccessibilityFilterButtonClick}
+        onSearchResultClick={this.props.onSearchResultClick}
+        onClick={this.props.onSearchToolbarClick}
+        onSubmit={this.props.onSearchToolbarSubmit}
+        onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
         hasGoButton={this.state.isOnSmallViewport}
       />
@@ -312,37 +296,40 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderOnboarding({ isLocalizationLoaded }: { isLocalizationLoaded: boolean }) {
-    if (!isLocalizationLoaded && this.props.isOnboardingVisible) {
-      return <Dots size={36} color={colors.colorizedBackgroundColor} />;
-    }
-
+  renderOnboarding() {
+    const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
+    const { logoURL } = clientSideConfiguration;
     return (
       <Onboarding
-        isVisible={isLocalizationLoaded && this.props.isOnboardingVisible}
-        onClose={this.props.onCloseOnboarding}
-      />
-    );
-  }
-
-  renderNotFound() {
-    return (
-      <NotFound
-        isVisible={this.props.isNotFoundVisible}
-        onClose={this.props.onCloseNotFoundDialog}
-        error={this.props.lastError}
+        isVisible={isOnboardingVisible}
+        onClose={onCloseOnboarding}
+        headerMarkdown={headerMarkdown}
+        logoURL={logoURL}
       />
     );
   }
 
   renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
+    const {
+      isMainMenuOpen,
+      onMainMenuHomeClick,
+      onToggleMainMenu,
+      clientSideConfiguration,
+    } = this.props;
+    const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
+
     return (
       <MainMenu
         className="main-menu"
-        isOpen={this.props.isMainMenuOpen}
-        onToggle={this.props.onToggleMainMenu}
+        isOpen={isMainMenuOpen}
+        onToggle={onToggleMainMenu}
+        onHomeClick={onMainMenuHomeClick}
         isLocalizationLoaded={isLocalizationLoaded}
-        history={this.props.history}
+        onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
+        logoURL={logoURL}
+        links={customMainMenuLinks}
+        addPlaceURL={addPlaceURL}
         {...{ lat, lon, zoom }}
       />
     );
@@ -350,7 +337,10 @@ class MainView extends React.Component<Props, State> {
 
   getMapPadding() {
     const hasPanel = !!this.props.feature;
-    const isPortrait = window.innerWidth < window.innerHeight;
+    let isPortrait = false;
+    if (typeof window !== 'undefined') {
+      isPortrait = window.innerWidth < window.innerHeight;
+    }
     if (hasBigViewport()) {
       return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
     }
@@ -381,7 +371,6 @@ class MainView extends React.Component<Props, State> {
         ref={photoUploadCaptchaToolbar =>
           (this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar)
         }
-        history={this.props.history}
         hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
         onClose={this.props.onAbortPhotoUploadFlow}
         onCompleted={this.props.onFinishPhotoUploadFlow}
@@ -399,7 +388,6 @@ class MainView extends React.Component<Props, State> {
         ref={photoUploadInstructionsToolbar =>
           (this.photoUploadInstructionsToolbar = photoUploadInstructionsToolbar)
         }
-        history={this.props.history}
         hidden={!this.props.isPhotoUploadInstructionsToolbarVisible}
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         onClose={this.props.onAbortPhotoUploadFlow}
@@ -422,7 +410,7 @@ class MainView extends React.Component<Props, State> {
   renderCreateDialog() {
     return (
       <CreatePlaceDialog
-        hidden={!this.props.modalNodeState === 'create'}
+        hidden={this.props.modalNodeState !== 'create'}
         onClose={this.props.onCloseCreatePlaceDialog}
         lat={this.props.lat}
         lon={this.props.lon}
@@ -431,15 +419,20 @@ class MainView extends React.Component<Props, State> {
   }
 
   render() {
-    const { featureId, searchQuery, equipmentInfoId, presetStatus } = this.props;
-    const { isLocalizationLoaded } = this.props;
+    const {
+      featureId,
+      searchQuery,
+      equipmentInfoId,
+      accessibilityPresetStatus,
+      searchResults,
+    } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
     const { lat, lon, zoom, modalNodeState } = this.props;
     const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = uniq([
-      'app-container',
+      'main-view',
       this.props.className,
       this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
       this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
@@ -465,27 +458,32 @@ class MainView extends React.Component<Props, State> {
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
 
     const map = (
-      <Map
-        ref={map => {
+      <DynamicMap
+        forwardedRef={map => {
           this.map = map;
-          window.map = map;
+          if (typeof window !== 'undefined') {
+            window.map = map;
+          }
         }}
-        history={this.props.history}
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
+        onMarkerClick={this.props.onMarkerClick}
+        hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
         zoom={zoom ? parseFloat(zoom) : null}
+        extent={this.props.extent}
+        includeSourceIds={this.props.includeSourceIds}
         category={category}
+        feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
+        equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
-        feature={this.props.feature}
+        categories={this.props.categories}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
-        pointToLayer={this.createMarkerFromFeature}
         locateOnStart={this.props.shouldLocateOnStart}
-        isLocalizationLoaded={isLocalizationLoaded}
         padding={this.getMapPadding()}
         hideHints={
           this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
@@ -494,38 +492,46 @@ class MainView extends React.Component<Props, State> {
       />
     );
 
-    const mainMenu = this.renderMainMenu({ modalNodeState, isLocalizationLoaded, lat, lon, zoom });
+    const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
     const nodeToolbar = this.renderNodeToolbar(
-      { featureId, equipmentInfoId, modalNodeState, presetStatus },
+      { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus },
       isNodeRoute
     );
 
     return (
       <div className={classList.join(' ')}>
         {!isMainMenuInBackground && mainMenu}
-        <div className="behind-backdrop">
-          {isMainMenuInBackground && mainMenu}
-          {isLocalizationLoaded &&
-            this.renderSearchToolbar({ category, searchQuery, lat, lon }, searchToolbarIsInert)}
-          {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
-          {isLocalizationLoaded && this.props.isSearchButtonVisible && this.renderSearchButton()}
-          {map}
-        </div>
-        {this.renderFullscreenBackdrop()}
-        {isNodeToolbarVisible && modalNodeState && nodeToolbar}
-        {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
-        {this.props.isPhotoUploadInstructionsToolbarVisible &&
-          this.renderPhotoUploadInstructionsToolbar()}
-        {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
-        {this.props.modalNodeState === 'create' && this.renderCreateDialog()}
-        {this.renderOnboarding({ isLocalizationLoaded })}
-        {this.renderNotFound()}
+        <ErrorBoundary>
+          <div className="behind-backdrop">
+            {isMainMenuInBackground && mainMenu}
+            {this.renderSearchToolbar(
+              { category, searchQuery, searchResults },
+              searchToolbarIsInert
+            )}
+            {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
+            {this.props.isSearchButtonVisible && this.renderSearchButton()}
+            {map}
+          </div>
+          {this.renderFullscreenBackdrop()}
+          {isNodeToolbarVisible && modalNodeState && nodeToolbar}
+          {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+          {this.props.isPhotoUploadInstructionsToolbarVisible &&
+            this.renderPhotoUploadInstructionsToolbar()}
+          {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
+          {this.renderCreateDialog()}
+          {this.renderOnboarding()}
+        </ErrorBoundary>
       </div>
     );
   }
 }
 
 const StyledMainView = styled(MainView)`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
   a {
     color: ${colors.linkColor};
     text-decoration: none;

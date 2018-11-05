@@ -9,12 +9,14 @@ import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 import type { NodeProperties } from '../../lib/Feature';
 import { translatedStringFromObject } from '../../lib/i18n';
 import Icon from '../Icon';
+import { type CategoryLookupTables } from '../../lib/Categories';
 
 // Extend Leaflet-icon to support colors and category images
 
 type Options = typeof L.Icon.options & {
   onClick: (featureId: string, properties: ?NodeProperties) => void,
   hrefForFeature: (featureId: string) => ?string,
+  categories: CategoryLookupTables,
 };
 
 export default class MarkerIcon extends L.Icon {
@@ -44,12 +46,12 @@ export default class MarkerIcon extends L.Icon {
 
   createIcon() {
     const link = document.createElement('a');
-    const feature = this.options.feature;
+    const { feature, categories } = this.options;
     const properties = feature.properties;
     const featureId = properties.id || properties._id || feature._id;
     link.href = this.options.hrefForFeature(featureId);
 
-    const iconName = getIconNameForProperties(properties) || 'place';
+    const iconName = getIconNameForProperties(categories, properties) || 'place';
     const accessibility = isWheelchairAccessible(properties);
     const IconComponent = categoryIcons[iconName];
     if (IconComponent) {

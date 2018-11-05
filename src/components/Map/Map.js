@@ -2,64 +2,97 @@
 
 import L from 'leaflet';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
-import { BasemapLayer } from 'esri-leaflet/src/EsriLeaflet';
 import { t } from 'ttag';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import debounce from 'lodash/debounce';
 import * as React from 'react';
 import SozialheldenLogo from './SozialheldenLogo';
-import { getQueryParams } from '../../lib/queryParams';
-import { currentLocales, loadExistingLocalizationByPreference } from '../../lib/i18n';
+import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
+import HighlightableMarker from './HighlightableMarker';
+import { isWheelmapFeature } from '../../lib/Feature';
+import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {
   isWheelchairAccessible,
-  yesNoLimitedUnknownArray,
-  yesNoUnknownArray,
   hasAccessibleToilet,
   wheelmapFeatureCollectionFromResponse,
   accessibilityCloudFeatureCollectionFromResponse,
   getFeatureId,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
+import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
+import type { EquipmentInfo, EquipmentInfoProperties } from '../../lib/EquipmentInfo';
+import type { PotentialPromise } from '../../app/PlaceDetailsProps';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { globalFetchManager } from '../../lib/FetchManager';
-import { userAgent } from '../../lib/userAgent';
+import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
+import { tileLoadingStatus } from './trackTileLoadingState';
+
+import './Leaflet.css';
+import './Map.css';
 
 window.L = L;
 
-type Padding = { top: number, left: number, right: number, bottom: number };
-type MoveArgs = { zoom: number, lat: number, lon: number, bbox: L.LatLngBounds };
+type Padding = {
+  top: number,
+  left: number,
+  right: number,
+  bottom: number,
+};
+type MoveArgs = {
+  zoom: number,
+  lat: number,
+  lon: number,
+  bbox: L.LatLngBounds,
+};
+
+type TargetMapState = {
+  center: [number, number],
+  zoom: number,
+  bounds: ?L.LatLngBounds,
+  zoomedToFeatureId: ?string,
+};
 
 type Props = {
   featureId?: ?string,
-  feature?: ?Feature,
+  feature?: PotentialPromise<?Feature>,
+  equipmentInfoId?: ?string,
+  equipmentInfo?: ?PotentialPromise<?EquipmentInfo>,
+
+  categories: CategoryLookupTables,
   lat?: ?number,
   lon?: ?number,
   zoom?: ?number,
+  extent: ?[number, number, number, number],
+  includeSourceIds: ?string,
+  onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  accessibilityCloudTileUrl: () => string,
+  hrefForFeature: (
+    featureId: string,
+    properties: ?NodeProperties | EquipmentInfoProperties
+  ) => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -69,22 +102,22 @@ type Props = {
   minZoomWithSetCategory: number,
   minZoomWithoutSetCategory: number,
   defaultStartCenter: [number, number],
-  pointToLayer: (feature: Feature, latlng: [number, number]) => ?L.Marker,
   locateOnStart?: boolean,
   padding: ?Padding,
   className: ?string,
   onMapMounted?: (map: L.Map) => void,
   unitSystem?: 'metric' | 'imperial',
-  isLocalizationLoaded: boolean,
   hideHints?: boolean,
   onLocationError: (error: any) => void,
+  forwardedRef: ?(map: ?Map) => void,
 };
 
 type State = {
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
   showZoomInfo?: boolean,
   showLocationNotAllowedHint: boolean,
+  placeOrEquipment?: ?(Feature | EquipmentInfo),
+  placeOrEquipmentPromise?: ?Promise<?Feature | ?EquipmentInfo>,
+  zoomedToFeatureId: ?string,
 };
 
 overrideLeafletZoomBehavior();
@@ -92,11 +125,9 @@ overrideLeafletZoomBehavior();
 export default class Map extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    accessibilityFilter: [].concat(yesNoLimitedUnknownArray),
-    toiletFilter: [].concat(yesNoUnknownArray),
     showLocationNotAllowedHint: false,
+    zoomedToFeatureId: null,
   };
-  lastFeatureId: ?string;
   map: ?L.Map;
   mapElement: ?HTMLElement;
   featureLayer: ?L.LayerGroup;
@@ -106,65 +137,113 @@ export default class Map extends React.Component<Props, State> {
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
 
-  onMoveEnd() {
-    this.mapHasBeenMoved = true;
-    const map = this.map;
-    if (!map) return;
-    const { lat, lng } = map.getCenter();
-    const zoom = map.getZoom();
+  static getMapStateFromProps(
+    map: ?L.Map,
+    state: State,
+    props: Props,
+    lastProps?: Props
+  ): TargetMapState {
+    // use old settings for anything but the initial
+    let fallbackZoom = props.maxZoom - 1;
+    let fallbackCenter = props.defaultStartCenter;
 
-    const onMoveEnd = this.props.onMoveEnd;
-    if (typeof onMoveEnd === 'function') {
-      const bbox = map.getBounds();
-      onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+    if (map) {
+      const center = map.getCenter();
+
+      fallbackCenter = [center.lat, center.lng];
+      fallbackZoom = map.getZoom();
     }
 
-    const minimalZoomLevelForFeatures = this.props.category
-      ? this.props.minZoomWithSetCategory
-      : this.props.minZoomWithoutSetCategory;
-    const showZoomInfo = this.map ? this.map.getZoom() < minimalZoomLevelForFeatures : false;
-    this.setState({ showZoomInfo });
+    let overrideZoom = props.zoom;
 
-    this.updateTabIndexes();
-  }
+    // Prevent the map from being empty when navigating to a new category
+    if (props.category && (!lastProps || lastProps.category !== props.category)) {
+      overrideZoom = Math.min(
+        props.minZoomWithSetCategory || 20,
+        props.zoom || props.minZoomWithSetCategory
+      );
+    }
 
-  updateTabIndexes() {
-    const map = this.map;
-    if (!map) return;
-    map.eachLayer(layer => {
-      if (layer.getElement && layer.getLatLng) {
-        const isInViewport = map.getBounds().contains(layer.getLatLng());
-        const layerElement = layer.getElement();
-        layerElement.setAttribute('tabindex', isInViewport ? 0 : -1);
-      }
-    });
-  }
+    const zoom = overrideZoom || fallbackZoom;
 
-  createMarkerClusterGroup() {
-    const map = this;
-    return new L.MarkerClusterGroup({
-      maxClusterRadius(zoom) {
-        // choose cluster size dependant of the click region
-        const radius = 40 + (1.5 ** (18 - zoom) - 1) * 10;
-        return Math.round(Math.max(40, Math.min(radius, 120)));
-      },
-      iconCreateFunction(cluster) {
-        const propertiesArray = cluster
-          .getAllChildMarkers()
-          .map(marker => marker.feature.properties);
-        const options = { propertiesArray };
-        if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
-          options.backgroundColor = 'rgb(171, 167, 160)';
+    const placeOrEquipment = state.placeOrEquipment;
+
+    let center = [0, 0];
+    let bounds = null;
+    let zoomedToFeatureId = state.zoomedToFeatureId;
+
+    // use the feature coordinates, but only if they changed
+    if (
+      placeOrEquipment &&
+      getFeatureId(placeOrEquipment) !== state.zoomedToFeatureId &&
+      placeOrEquipment.geometry &&
+      placeOrEquipment.geometry.type === 'Point' &&
+      placeOrEquipment.geometry.coordinates instanceof Array
+    ) {
+      const coords = placeOrEquipment.geometry.coordinates;
+      const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
+      center = featureCoordinates || fallbackCenter;
+
+      // Store feature id to make sure we only zoom to the place once.
+      zoomedToFeatureId = getFeatureId(placeOrEquipment);
+    } else {
+      if (props.extent) {
+        // only use changed bounds once
+        const newBounds = new L.LatLngBounds([
+          [props.extent[1], props.extent[0]],
+          [props.extent[3], props.extent[2]],
+        ]);
+        const prevBounds =
+          lastProps && lastProps.extent
+            ? new L.LatLngBounds([
+                [lastProps.extent[1], lastProps.extent[0]],
+                [lastProps.extent[3], lastProps.extent[2]],
+              ])
+            : null;
+        const hasChangedExtents = !prevBounds || !newBounds.equals(prevBounds, 0.01);
+
+        if (hasChangedExtents) {
+          bounds = newBounds;
         }
-        return new ClusterIcon(options);
-      },
-      animate: true,
-      chunkedLoading: true,
-    });
+      }
+
+      if (props.lat && props.lon) {
+        center = normalizeCoordinates([props.lat, props.lon]);
+      } else {
+        center = fallbackCenter;
+      }
+    }
+
+    return { center, zoom, bounds, zoomedToFeatureId };
+  }
+
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    const { feature, equipmentInfo } = props;
+
+    const placeOrEquipment = equipmentInfo || feature;
+
+    // works also without a feature
+    if (placeOrEquipment) {
+      // Do not update anything when the same promise or feature is already in use.
+      if (
+        placeOrEquipment === state.placeOrEquipmentPromise ||
+        placeOrEquipment === state.placeOrEquipment
+      ) {
+        return null;
+      }
+
+      if (placeOrEquipment instanceof Promise) {
+        return { placeOrEquipment: null, placeOrEquipmentPromise: placeOrEquipment };
+      }
+
+      return { placeOrEquipment, placeOrEquipmentPromise: null };
+    }
+
+    return { placeOrEquipment: null, placeOrEquipmentPromise: null, zoomedToFeatureId: null };
   }
 
   componentDidMount() {
-    const initialMapState = this.getMapStateFromProps(this.props);
+    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props);
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
       center: initialMapState.center,
@@ -177,6 +256,13 @@ export default class Map extends React.Component<Props, State> {
       throw new Error('Could not initialize map component.');
     }
 
+    if (initialMapState.bounds) {
+      map.fitBounds(initialMapState.bounds, {
+        animate: false,
+        noMoveStart: true,
+      });
+    }
+
     map.on('click', () => {
       if (this.props.onClick) this.props.onClick();
     });
@@ -184,7 +270,8 @@ export default class Map extends React.Component<Props, State> {
     if (this.props.onMapMounted) {
       this.props.onMapMounted(map);
     }
-    globalFetchManager.registerMap(map);
+
+    tileLoadingStatus.registerMap(map);
 
     new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
 
@@ -199,13 +286,10 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer =
-      getQueryParams().esri === 'true'
-        ? new BasemapLayer('Streets')
-        : L.tileLayer(this.props.mapboxTileUrl, {
-            maxZoom: this.props.maxZoom,
-            id: 'accessibility-cloud',
-          });
+    const basemapLayer = L.tileLayer(this.props.mapboxTileUrl, {
+      maxZoom: this.props.maxZoom,
+      id: 'accessibility-cloud',
+    });
 
     map.addLayer(basemapLayer);
 
@@ -214,66 +298,104 @@ export default class Map extends React.Component<Props, State> {
 
     const markerClusterGroup = this.createMarkerClusterGroup();
 
-    // markerClusterGroup.on('clusterclick', (cluster) => {
-    //   const markers = cluster.layer.getAllChildMarkers();
-    //   markers.forEach(marker => marker.)
-    // });
+    // markerClusterGroup.on('clusterclick', (cluster) => {   const markers =
+    // cluster.layer.getAllChildMarkers();   markers.forEach(marker => marker.) });
 
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
 
-    loadExistingLocalizationByPreference().then(() => {
-      const locale = currentLocales[0];
-      const accessibilityCloudTileUrl = this.props.accessibilityCloudTileUrl(locale);
-      this.accessibilityCloudTileLayer = new GeoJSONTileLayer(accessibilityCloudTileUrl, {
-        featureCache: accessibilityCloudFeatureCache,
-        layerGroup: markerClusterGroup,
-        featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-        pointToLayer: this.props.pointToLayer,
-        filter: this.isFeatureVisible.bind(this),
-        maxZoom: this.props.maxZoom,
-      });
+    this.setupAccessibilityCloudTileLayer(markerClusterGroup);
+    this.updateFeatureLayerVisibility(this.props);
 
-      // ensure that the map property is set so that wmp can inject places immediately
-      this.accessibilityCloudTileLayer._map = this.map;
-      this.updateFeatureLayerVisibility(this.props);
+    this.setupWheelmapTileLayer(markerClusterGroup);
+    this.updateFeatureLayerVisibility(this.props);
+    map.on('moveend', () => {
+      this.updateFeatureLayerVisibility();
+    });
+    map.on('zoomend', () => {
+      this.updateFeatureLayerVisibility();
+    });
+    map.on('zoomstart', () => {
+      this.removeLayersNotVisibleInZoomLevel();
     });
 
-    Categories.fetchOnce(this.props)
-      .then(() => {
-        this.setupWheelmapTileLayer(markerClusterGroup);
-        this.updateFeatureLayerVisibility(this.props);
-        map.on('moveend', () => {
-          this.updateFeatureLayerVisibility();
-        });
-        map.on('zoomend', () => {
-          this.updateFeatureLayerVisibility();
-        });
-        map.on('zoomstart', () => {
-          this.removeLayersNotVisibleInZoomLevel();
-        });
-      })
-      .catch(error => {
-        const onError = this.props.onError;
-        if (onError) {
-          const wrappedError = new Error(`Could not load categories: ${String(error)}.`);
-          onError(wrappedError);
-        }
-      });
-
     globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
+
+    this.addAttribution();
+
+    const { placeOrEquipmentPromise } = this.state;
+    if (placeOrEquipmentPromise) {
+      placeOrEquipmentPromise.then(placeOrEquipment =>
+        this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
+      );
+    }
+
+    if (this.props.forwardedRef) this.props.forwardedRef(this);
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    const map = this.map;
+    if (!map) return;
+
+    this.navigate(this.state, this.props, prevProps);
+
+    // Sort is mutable. Create a new array and sort this one instead.
+    const accessibilityFilterChanged = !isEqual(
+      [...this.props.accessibilityFilter].sort(),
+      [...prevProps.accessibilityFilter].sort()
+    );
+
+    // Sort is mutable. Create a new array and sort this one instead.
+    const toiletFilterChanged = !isEqual(
+      [...this.props.toiletFilter].sort(),
+      [...prevProps.toiletFilter].sort()
+    );
+
+    if (accessibilityFilterChanged || toiletFilterChanged) {
+      setTimeout(() => {
+        // console.log("Resetting layers");
+        if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
+        if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
+        if (this.accessibilityCloudTileLayer)
+          this.accessibilityCloudTileLayer._update(map.getCenter());
+        if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
+      }, 100);
+    }
+
+    const { placeOrEquipmentPromise } = this.state;
+    if (placeOrEquipmentPromise && prevState.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
+      placeOrEquipmentPromise.then(placeOrEquipment =>
+        this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
+      );
+    }
   }
 
   componentWillUnmount() {
+    if (this.props.forwardedRef) this.props.forwardedRef(null);
+
     if (!this.map) return;
     this.map.off();
-    globalFetchManager.unregisterMap(this.map);
+    tileLoadingStatus.unregisterMap(this.map);
+
     delete this.map;
     delete this.highLightLayer;
     delete this.mapElement;
     delete this.featureLayer;
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
+  }
+
+  handlePromiseResolved(
+    placeOrEquipmentPromise: Promise<?Feature | ?EquipmentInfo>,
+    placeOrEquipment: ?(Feature | EquipmentInfo)
+  ) {
+    if (this.state.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
+      return;
+    }
+
+    this.setState({
+      placeOrEquipment,
+    });
   }
 
   setupLocateMeButton(map: L.Map) {
@@ -289,8 +411,8 @@ export default class Map extends React.Component<Props, State> {
         ) {
           // System does not allow to use location services
           if (!hasOpenedLocationHelp()) {
-            // If you open location help once, do not show this hint again until you click the
-            // location button
+            // If you open location help once, do not show this hint again until you click
+            // the location button
             this.setState({ showLocationNotAllowedHint: true });
           }
         }
@@ -318,12 +440,29 @@ export default class Map extends React.Component<Props, State> {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,
         featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-        pointToLayer: this.props.pointToLayer,
+        pointToLayer: this.createMarkerFromFeature,
         filter: this.isFeatureVisible.bind(this),
         maxZoom: this.props.maxZoom,
         cordova: true,
       });
     }
+  }
+
+  setupAccessibilityCloudTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
+    const locale = currentLocales[0];
+    if (!locale) {
+      console.error('Could not load AC tile layer because no current locale is set.');
+    }
+    const tileUrl = getAccessibilityCloudTileUrl(locale, this.props.includeSourceIds);
+
+    this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
+      featureCache: accessibilityCloudFeatureCache,
+      layerGroup: markerClusterGroup,
+      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
+      pointToLayer: this.createMarkerFromFeature,
+      filter: this.isFeatureVisible.bind(this),
+      maxZoom: this.props.maxZoom,
+    });
   }
 
   removeLayersNotVisibleInZoomLevel() {
@@ -339,12 +478,12 @@ export default class Map extends React.Component<Props, State> {
 
     if (this.props.category) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        console.log('Hide AC layer...');
+        // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
       }
     }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
-      console.log('Hide feature layer...');
+      // console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
   }
@@ -354,41 +493,6 @@ export default class Map extends React.Component<Props, State> {
     if (!map) return;
 
     map.attributionControl.setPrefix(null);
-    // map.attributionControl.addAttribution(sozialheldenAttribution);
-    // map.attributionControl.addAttribution(mapboxOSMAttribution);
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    const map = this.map;
-    if (!map) return;
-
-    this.navigate(newProps);
-
-    if (!this.props.isLocalizationLoaded && newProps.isLocalizationLoaded) {
-      this.addAttribution();
-    }
-
-    // Sort is mutable. Create a new array and sort this one instead.
-    const accessibilityFilterChanged = !isEqual(
-      [...this.props.accessibilityFilter].sort(),
-      [...newProps.accessibilityFilter].sort()
-    );
-
-    // Sort is mutable. Create a new array and sort this one instead.
-    const toiletFilterChanged = !isEqual(
-      [...this.props.toiletFilter].sort(),
-      [...newProps.toiletFilter].sort()
-    );
-
-    if (accessibilityFilterChanged || toiletFilterChanged) {
-      setTimeout(() => {
-        if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
-        if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
-        if (this.accessibilityCloudTileLayer)
-          this.accessibilityCloudTileLayer._update(map.getCenter());
-        if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
-      }, 100);
-    }
   }
 
   zoomIn = (event: Event) => {
@@ -399,22 +503,37 @@ export default class Map extends React.Component<Props, State> {
     }
   };
 
-  navigate(props: Props = this.props) {
+  navigate(state: State, props: Props, lastProps: Props) {
     if (!this.map) {
       return;
     }
 
-    this.setState({ accessibilityFilter: props.accessibilityFilter });
-    this.setState({ toiletFilter: props.toiletFilter });
+    const targetMapState = Map.getMapStateFromProps(this.map, state, props, lastProps);
+    this.updateMapCenter(targetMapState, props.padding, this.state);
+    this.updateFeatureLayerVisibility(props);
+  }
 
-    const mapState = this.getMapStateFromProps(props);
-    this.updateMapCenter(mapState.center, mapState.zoom, props.padding, this.state);
+  onMoveEnd() {
+    this.mapHasBeenMoved = true;
+    const map = this.map;
+    if (!map) return;
+    const { lat, lng } = map.getCenter();
+    const zoom = map.getZoom();
 
-    Categories.fetchOnce(props)
-      .then(() => {
-        this.updateFeatureLayerVisibility(props);
-      })
-      .catch(e => {});
+    const onMoveEnd = this.props.onMoveEnd;
+    if (typeof onMoveEnd === 'function') {
+      const bbox = map.getBounds();
+
+      onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+    }
+
+    const minimalZoomLevelForFeatures = this.props.category
+      ? this.props.minZoomWithSetCategory
+      : this.props.minZoomWithoutSetCategory;
+    const showZoomInfo = this.map ? this.map.getZoom() < minimalZoomLevelForFeatures : false;
+    this.setState({ showZoomInfo });
+
+    this.updateTabIndexes();
   }
 
   updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
@@ -424,7 +543,7 @@ export default class Map extends React.Component<Props, State> {
     const wheelmapTileLayer = this.wheelmapTileLayer;
     const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
-    if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
+    if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
 
     let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
@@ -440,8 +559,8 @@ export default class Map extends React.Component<Props, State> {
 
     this.updateFeatureLayerSourceUrls(props);
 
-    if (!this.props.category) {
-      minimalZoomLevelForFeatures = this.props.minZoomWithoutSetCategory;
+    if (!props.category) {
+      minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
       if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
         // console.log('Show AC layer...');
         featureLayer.addLayer(this.accessibilityCloudTileLayer);
@@ -472,32 +591,39 @@ export default class Map extends React.Component<Props, State> {
     return bounds;
   }
 
-  offsetCoordsWithPadding(coords: L.LatLng, padding: Padding) {
-    const map: L.Map = this.map;
-    const mapSize = map.getSize();
-    const mCenter = mapSize.divideBy(2);
-    const vCenter = new L.Point(
-      padding.left + (mapSize.x - padding.right - padding.left) / 2,
-      padding.top + (mapSize.y - padding.top - padding.bottom) / 2
-    );
-    const offset = mCenter.subtract(vCenter);
-    const zoom = map.getZoom();
-    var point = map.project(coords, zoom);
-    point = point.add(offset);
-    return map.unproject(point, zoom);
-  }
-
-  updateMapCenter(coords: [number, number], zoom: number, padding: ?Padding, state: State) {
+  updateMapCenter(targetMapState: TargetMapState, padding: ?Padding, state: State) {
     const map: L.Map = this.map;
     const center = map.getCenter();
 
     let moved = false;
+    const { center: targetCoords, zoom, bounds } = targetMapState;
 
-    const actualPadding = padding || { top: 10, left: 10, right: 10, bottom: 10 };
-    const targetCoords = this.offsetCoordsWithPadding(coords, actualPadding);
-    if (targetCoords && !isSamePosition(targetCoords, [center.lat, center.lng])) {
-      const bounds = this.calculateBoundsWithPadding(actualPadding);
+    // make max distance zoom dependant
+    const mapBounds = map.getBounds();
+    const maximalMoveDistance = Math.abs(mapBounds.getWest() - mapBounds.getEast()) * 0.1;
+
+    const effectivePadding = padding || {
+      top: 10,
+      left: 10,
+      right: 10,
+      bottom: 10,
+    };
+
+    if (bounds && !mapBounds.equals(bounds, 0.01)) {
+      map.fitBounds(bounds, {
+        paddingTopLeft: [effectivePadding.left, effectivePadding.top],
+        paddingBottomRight: [effectivePadding.right, effectivePadding.bottom],
+        animate: true,
+        noMoveStart: true,
+      });
+      moved = true;
+    } else if (
+      targetCoords &&
+      !isSamePosition(targetCoords, [center.lat, center.lng], maximalMoveDistance)
+    ) {
+      const bounds = this.calculateBoundsWithPadding(effectivePadding);
       const isWithinBounds = bounds.contains(targetCoords);
+
       if (!isWithinBounds) {
         // animate if old map center is within sight
         const shouldAnimate = map.getBounds().contains(targetCoords);
@@ -511,67 +637,15 @@ export default class Map extends React.Component<Props, State> {
 
     if (!moved && zoom !== map.getZoom()) {
       moved = true;
-      map.setZoom(zoom, {
-        animate: true,
+      map.setZoom(zoom, { animate: true });
+    }
+
+    // prevent zooming in on
+    if (this.state.zoomedToFeatureId !== targetMapState.zoomedToFeatureId) {
+      this.setState({
+        zoomedToFeatureId: targetMapState.zoomedToFeatureId,
       });
     }
-  }
-
-  getMapStateFromProps(props: Props) {
-    // use old settings for anything but the initial
-    const map = this.map;
-    let fallbackZoom = props.maxZoom - 1;
-    let fallbackCenter = props.defaultStartCenter;
-
-    if (map) {
-      const center = map.getCenter();
-
-      fallbackCenter = [center.lat, center.lng];
-      fallbackZoom = map.getZoom();
-    }
-
-    let overrideZoom = props.zoom;
-
-    // Prevent the map from being empty when navigating to a new category
-    if (props.category && this.props.category !== props.category) {
-      overrideZoom = Math.min(
-        props.minZoomWithSetCategory || 20,
-        props.zoom || props.minZoomWithSetCategory
-      );
-    }
-
-    const zoom = overrideZoom || fallbackZoom;
-
-    const feature = props.feature;
-
-    let center;
-
-    // Use the feature coordinates
-    if (
-      feature &&
-      getFeatureId(feature) !== this.lastFeatureId &&
-      feature.geometry &&
-      feature.geometry.type === 'Point' &&
-      feature.geometry.coordinates instanceof Array
-    ) {
-      const coords = feature.geometry.coordinates;
-      const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
-
-      center = featureCoordinates || fallbackCenter;
-    } else if (props.lat && props.lon) {
-      center = normalizeCoordinates([props.lat, props.lon]);
-    } else {
-      center = fallbackCenter;
-    }
-
-    // Store feature id to make sure we only zoom to the place once.
-    if (feature && feature.properties) {
-      this.lastFeatureId = getFeatureId(feature);
-    } else {
-      this.lastFeatureId = null;
-    }
-
-    return { center, zoom };
   }
 
   updateHighlightedMarker(props: Props) {
@@ -581,13 +655,13 @@ export default class Map extends React.Component<Props, State> {
           String(props.featureId),
         ]);
       }
-      const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
-      if (accessibilityCloudTileLayer) {
+      const acLayer = this.accessibilityCloudTileLayer;
+      if (acLayer) {
         let ids = [String(props.featureId)];
         if (typeof props.equipmentInfoId === 'string') {
           ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
         }
-        accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+        acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
@@ -596,11 +670,70 @@ export default class Map extends React.Component<Props, State> {
     }
   }
 
+  updateTabIndexes() {
+    const map = this.map;
+    if (!map) return;
+    map.eachLayer(layer => {
+      if (layer.getElement && layer.getLatLng) {
+        const isInViewport = map.getBounds().contains(layer.getLatLng());
+        const layerElement = layer.getElement();
+        if (layerElement) {
+          layerElement.setAttribute('tabindex', isInViewport ? 0 : -1);
+        }
+      }
+    });
+  }
+
+  createMarkerClusterGroup() {
+    const map = this;
+    return new L.MarkerClusterGroup({
+      maxClusterRadius(zoom) {
+        // choose cluster size dependant of the click region
+        const radius = 40 + (1.5 ** (18 - zoom) - 1) * 10;
+        return Math.round(Math.max(40, Math.min(radius, 120)));
+      },
+      iconCreateFunction(cluster) {
+        const propertiesArray = cluster
+          .getAllChildMarkers()
+          .map(marker => marker.feature.properties);
+        const options: L.Icon.options = {
+          propertiesArray,
+          categories: map.props.categories,
+        };
+        if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
+          options.backgroundColor = 'rgb(171, 167, 160)';
+        }
+        return new ClusterIcon(options);
+      },
+      animate: true,
+      chunkedLoading: true,
+    });
+  }
+
+  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
+    const properties = feature && feature.properties;
+    if (!properties) return null;
+    if (
+      !isWheelmapFeature(feature) &&
+      !properties.accessibility &&
+      !includes(EquipmentCategoryStrings, properties.category)
+    ) {
+      return null;
+    }
+
+    return new HighlightableMarker(latlng, {
+      onClick: this.props.onMarkerClick,
+      hrefForFeature: this.props.hrefForFeature,
+      feature,
+      categories: this.props.categories,
+    });
+  };
+
   isFeatureVisible(feature: Feature) {
+    const { accessibilityFilter, toiletFilter } = this.props;
     if (!feature) return false;
     if (!feature.properties) return false;
     const properties = feature.properties;
-    const { accessibilityFilter, toiletFilter } = this.state;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
     const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));
     return hasMatchingA11y && hasMatchingToilet;
@@ -624,6 +757,21 @@ export default class Map extends React.Component<Props, State> {
     if (this.mapElement) this.mapElement.focus();
   }
 
+  snapToFeature() {
+    const map = this.map;
+    if (map) {
+      const targetState = Map.getMapStateFromProps(
+        map,
+        { ...this.state, zoomedToFeatureId: null },
+        this.props
+      );
+      map.flyTo(targetState.center, targetState.zoom, {
+        animate: true,
+        noMoveStart: true,
+      });
+    }
+  }
+
   renderZoomInfo() {
     // translator: Shown when zoomed out to far
     const caption = t`Zoom in closer to see more places`;
@@ -640,7 +788,8 @@ export default class Map extends React.Component<Props, State> {
   }
 
   renderGeolocationError() {
-    // translator: Shown next to the locate-me button when location services are not enabled
+    // translator: Shown next to the locate-me button when location services are not
+    // enabled
     const caption = t`Turn on location services`;
     const isHidden =
       this.props.hideHints || !this.state.showLocationNotAllowedHint || hasOpenedLocationHelp();
@@ -661,6 +810,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   render() {
+    const userAgent = getUserAgent();
     const className = [
       userAgent.os.name === 'Android' ? 'is-android-platform' : null,
       this.props.className,
@@ -688,11 +838,14 @@ export default class Map extends React.Component<Props, State> {
         <span className="mapbox-attribution-container">
           <span className="sozialhelden-logo-container">
             <a href="https://www.sozialhelden.de">
-              <SozialheldenLogo /> |{' '}
+              <SozialheldenLogo />
+              &nbsp;|&nbsp;
             </a>
           </span>
-          <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
-          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
+          <a href="https://www.mapbox.com/about/maps/">© Mapbox |</a>
+          &nbsp;
+          <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap |</a>
+          &nbsp;
           <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
             <strong>Improve this map</strong>
           </a>
@@ -702,18 +855,17 @@ export default class Map extends React.Component<Props, State> {
   }
 
   wheelmapTileUrl(props: Props = this.props): ?string {
-    // For historical reasons:
-    // 'Classic' Wheelmap way of fetching GeoJSON tiles:
+    // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = this.props.wheelmapApiBaseUrl;
+    const baseUrl = props.wheelmapApiBaseUrl;
     if (typeof baseUrl !== 'string') return null;
-    const wheelmapApiKey = this.props.wheelmapApiKey;
+    const wheelmapApiKey = props.wheelmapApiKey;
     const categoryName = props.category;
     if (!wheelmapApiKey) {
       return null;
     }
     if (categoryName) {
-      const category = Categories.wheelmapRootCategoryWithName(categoryName);
+      const category = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
       if (!category) {
         return null;
       }

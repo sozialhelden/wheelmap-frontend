@@ -1,5 +1,6 @@
 import { t } from 'ttag';
-import { userAgent } from '../lib/userAgent';
+import isCordova from './isCordova';
+import { getUserAgent } from '../lib/userAgent';
 import { saveState } from './savedState';
 
 // Open location settings or show the user how to open them
@@ -7,8 +8,16 @@ import { saveState } from './savedState';
 export default function goToLocationSettings() {
   saveState({ hasOpenedLocationHelp: 'true' });
 
-  if (window.cordova) {
-    if (userAgent.os.name === 'Android') {
+  const userAgent = getUserAgent();
+
+  if (isCordova()) {
+    if (
+      userAgent.os.name === 'Android' &&
+      typeof window !== 'undefined' &&
+      window.cordova &&
+      window.cordova.diagnostics &&
+      typeof window.cordova.diagnostics.switchToLocationSettings === 'function'
+    ) {
       window.cordova.diagnostics.switchToLocationSettings();
     } else if (userAgent.os.name === 'iOS') {
       window.location.href = 'https://support.apple.com/en-us/ht203033';

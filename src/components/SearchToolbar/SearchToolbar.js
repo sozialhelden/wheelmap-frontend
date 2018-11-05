@@ -3,11 +3,10 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import { Dots } from 'react-activity';
-import styled from 'styled-components';
-import debounce from 'lodash/debounce';
-import type { RouterHistory } from 'react-router-dom';
+import styled, { css } from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import Button from '../Button';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
 import ChevronRight from '../ChevronRight';
@@ -18,54 +17,39 @@ import SearchInputField from './SearchInputField';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
 import colors from '../../lib/colors';
-import { isFiltered } from '../../lib/Feature';
-import searchPlaces from '../../lib/searchPlaces';
+import { isAccessibilityFiltered } from '../../lib/Feature';
+//import searchPlaces from '../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../lib/searchPlaces';
 import type { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
-import { newLocationWithReplacedQueryParams } from '../../lib/queryParams';
-
-// You can enter debug commands in the search bar, which are handled here.
-function handleInputCommands(history: RouterHistory, commandLine: ?string) {
-  // Enter a command like `locale:de_DE` to set a new locale.
-  const setLocaleCommandMatch = commandLine && commandLine.match(/^locale:(\w\w(?:_\w\w))/);
-  if (setLocaleCommandMatch) {
-    let location = newLocationWithReplacedQueryParams(history, {
-      q: null,
-      locale: setLocaleCommandMatch[1],
-    });
-    if (window.cordova) {
-      window.location.hash = location.search;
-    } else {
-      history.push(location);
-    }
-    window.location.reload();
-  }
-}
+import type { SearchResultFeature } from '../../lib/searchPlaces';
+import type { WheelmapFeature } from '../../lib/Feature';
+import { type CategoryLookupTables } from '../../lib/Categories';
+import ErrorBoundary from '../ErrorBoundary';
 
 export type Props = PlaceFilter & {
-  history: RouterHistory,
+  categories: CategoryLookupTables,
   hidden: boolean,
   inert: boolean,
   category: ?string,
   searchQuery: ?string,
-  lat: ?number,
-  lon: ?number,
-  onSelectCoordinate: (coords: { lat: number, lon: number, zoom: number }) => void,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
-  onFilterChanged: (filter: PlaceFilter) => void,
+  onSubmit: (searchQuery: string) => void,
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
   onClose: ?() => void,
   onClick: () => void,
-  onResetCategory: ?() => void,
   isExpanded: boolean,
   hasGoButton: boolean,
+  searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 };
 
 type State = {
-  searchResults: ?SearchResultCollection,
   searchFieldIsFocused: boolean,
   isCategoryFocused: boolean,
   isLoading: boolean,
+  searchResults: ?SearchResultCollection,
+  searchResultsPromise: ?Promise<SearchResultCollection>,
 };
 
 const StyledChevronRight = styled(ChevronRight)`
@@ -81,18 +65,25 @@ const StyledChevronRight = styled(ChevronRight)`
   }
 `;
 
-const GoButton = styled.button`
+const GoButton = styled(Button)`
   min-width: 4rem;
   outline: none;
   border: none;
   font-size: 1rem;
   line-height: 1rem;
-
+  padding: 0 7px;
   color: white;
   background-color: ${colors.linkColor};
+  width: auto;
+
+  &.focus-visible {
+    border-radius: 0;
+  }
+
   &:hover {
     background-color: ${colors.linkColorDarker};
   }
+
   &:active {
     background-color: ${colors.darkLinkColor};
   }
@@ -170,6 +161,7 @@ const StyledToolbar = styled(Toolbar)`
       }
     }
 
+    border-top: 0;
     position: fixed;
     top: 0;
     width: 100%;
@@ -187,16 +179,18 @@ const StyledToolbar = styled(Toolbar)`
     z-index: 1000000000;
     border-radius: 0;
 
-    &:not(.is-expanded) {
-      top: 60px;
-      left: 10px;
-      width: calc(100% - 80px);
-      max-height: 100%;
-      max-width: 320px;
-      margin: 0;
-    }
+    ${props =>
+      !props.isExpanded &&
+      css`
+        top: 60px;
+        left: 10px;
+        width: calc(100% - 80px);
+        max-height: 100%;
+        max-width: 320px;
+        margin: 0;
+      `}
 
-    > header, .search-results, .category-menu {
+    > header, .search-results, ${CategoryMenu} {
       padding: 0
     }
 
@@ -224,59 +218,82 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-export default class SearchToolbar extends React.Component<Props, State> {
+export default class SearchToolbar extends React.PureComponent<Props, State> {
   props: Props;
 
   state = {
     searchFieldIsFocused: false,
-    searchResults: null,
     isCategoryFocused: false,
     isLoading: false,
+    searchResults: null,
+    searchResultsPromise: null,
   };
 
   toolbar: ?React.ElementRef<typeof Toolbar> = null;
-  input: ?React.ElementRef<'input'> = null;
   searchInputField: ?React.ElementRef<'input'> = null;
   closeLink: ?React.ElementRef<typeof CloseLink> = null;
   goButton: ?React.ElementRef<'button'> = null;
   firstResult: ?React.ElementRef<typeof SearchResult> = null;
 
-  handleSearchInputChange = debounce(
-    () => {
-      if (!(this.input instanceof HTMLInputElement)) {
-        return;
-      }
-      const query = this.input.value;
-      if (query.match(/^locale:/)) {
-        return;
-      }
-      this.sendSearchRequest(query);
-    },
-    1000,
-    { leading: false, trailing: true, maxWait: 3000 }
-  );
+  onChangeSearchQuery = (event: SyntheticEvent<HTMLInputElement>) => {
+    this.props.onChangeSearchQuery(event.target.value);
+  };
 
-  componentDidMount() {
-    if (this.props.searchQuery) {
-      this.sendSearchRequest(this.props.searchQuery);
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const { searchResults } = props;
+
+    // Do not update anything when the search results promise is already used.
+    if (searchResults === state.searchResultsPromise) {
+      return null;
     }
 
-    if (!this.props.hidden) {
+    if (searchResults instanceof Promise) {
+      return { isLoading: true, searchResults: null, searchResultsPromise: searchResults };
+    }
+
+    return { isLoading: false, searchResults: searchResults, searchResultsPromise: null };
+  }
+
+  componentDidMount() {
+    const { hidden } = this.props;
+    const { searchResultsPromise } = this.state;
+
+    if (!hidden) {
       this.focus();
+    }
+
+    if (searchResultsPromise) {
+      searchResultsPromise.then(this.handleSearchResultsFetched.bind(this, searchResultsPromise));
     }
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
+    const { searchResultsPromise } = this.state;
+
     const searchFieldShouldBecomeFocused =
       !prevState.searchFieldIsFocused && this.state.searchFieldIsFocused;
     if (searchFieldShouldBecomeFocused) {
       this.focus();
     }
 
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.sendSearchRequest(this.props.searchQuery);
+    if (searchResultsPromise && prevState.searchResultsPromise !== searchResultsPromise) {
+      searchResultsPromise.then(this.handleSearchResultsFetched.bind(this, searchResultsPromise));
     }
   }
+
+  handleSearchResultsFetched = (
+    prevSearchResultsPromise: Promise<SearchResults>,
+    searchResults: SearchResults
+  ) => {
+    if (this.state.searchResultsPromise !== prevSearchResultsPromise) {
+      return;
+    }
+
+    this.setState({
+      isLoading: false,
+      searchResults,
+    });
+  };
 
   ensureFullVisibility() {
     if (this.toolbar instanceof Toolbar) {
@@ -284,27 +301,10 @@ export default class SearchToolbar extends React.Component<Props, State> {
     }
   }
 
-  sendSearchRequest(query: ?string): void {
-    if (!query || query.length < 2) {
-      this.setState({ searchResults: null, isLoading: false });
-      return;
-    }
-
-    this.setState({ isLoading: true });
-
-    searchPlaces(query, this.props).then(featureCollection => {
-      this.setState({
-        searchResults: featureCollection || this.state.searchResults,
-        isLoading: false,
-      });
-    });
-  }
-
   clearSearch() {
-    this.setState({ searchResults: null });
-    if (this.input instanceof HTMLInputElement) {
-      this.input.value = '';
-      this.input.blur();
+    if (this.searchInputField) {
+      this.searchInputField.value = '';
+      this.searchInputField.blur();
     }
   }
 
@@ -324,21 +324,18 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   resetSearch() {
-    this.setState(
-      { searchResults: null, searchFieldIsFocused: true, isCategoryFocused: false },
-      () => {
-        if (this.input instanceof HTMLInputElement) {
-          this.input.value = '';
-        }
+    this.setState({ searchFieldIsFocused: true, isCategoryFocused: false }, () => {
+      if (this.searchInputField instanceof HTMLInputElement) {
+        this.searchInputField.value = '';
       }
-    );
+    });
   }
 
   renderSearchInputField() {
     return (
       <SearchInputField
-        innerRef={searchInputField => (this.searchInputField = searchInputField)}
-        searchQuery={this.props.category ? '' : this.props.searchQuery}
+        ref={searchInputField => (this.searchInputField = searchInputField)}
+        searchQuery={this.props.searchQuery}
         hidden={this.props.hidden}
         onClick={() => {
           if (this.props.category) {
@@ -349,7 +346,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
           this.props.onClick();
         }}
         onFocus={event => {
-          this.input = event.target;
           this.setState({ searchFieldIsFocused: true });
           window.scrollTo(0, 0);
         }}
@@ -360,23 +356,16 @@ export default class SearchToolbar extends React.Component<Props, State> {
             this.ensureFullVisibility();
           }, 300);
         }}
-        onChange={event => {
-          const input = event.target;
-          this.input = input;
-          this.props.onChangeSearchQuery(input.value);
-          if (input.value && !this.state.searchResults) {
-            this.setState({ isLoading: true });
-          }
-          this.handleSearchInputChange(event);
-        }}
-        onSubmit={() => {
+        onChange={this.onChangeSearchQuery}
+        onSubmit={event => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();
             if (this.firstResult) {
               this.firstResult.focus();
             }
           });
-          handleInputCommands(this.props.history, this.input && this.input.value);
+
+          this.props.onSubmit(event.target.value);
         }}
         ariaRole="searchbox"
       />
@@ -388,9 +377,9 @@ export default class SearchToolbar extends React.Component<Props, State> {
       <div aria-live="assertive">
         <SearchResults
           searchResults={searchResults}
-          onSelectCoordinate={this.props.onSelectCoordinate}
+          onSearchResultClick={this.props.onSearchResultClick}
           hidden={this.props.hidden}
-          history={this.props.history}
+          categories={this.props.categories}
           onSelect={() => this.clearSearch()}
           refFirst={ref => {
             this.firstResult = ref;
@@ -416,8 +405,6 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
     return (
       <CategoryMenu
-        hidden={this.props.hidden}
-        history={this.props.history}
         onFocus={() => this.setState({ isCategoryFocused: true })}
         onBlur={() => {
           setTimeout(() => this.setState({ isCategoryFocused: false }));
@@ -429,21 +416,26 @@ export default class SearchToolbar extends React.Component<Props, State> {
   }
 
   renderAccessibilityFilterToolbar() {
-    if (!isFiltered(this.props.accessibilityFilter) && !this.props.isExpanded) return null;
+    const {
+      accessibilityFilter,
+      isExpanded,
+      toiletFilter,
+      onAccessibilityFilterButtonClick,
+      category,
+    } = this.props;
+
+    if (!isAccessibilityFiltered(accessibilityFilter) && !isExpanded) return null;
 
     return (
-      <div className="filter-selector">
-        <AccessibilityFilterMenu
-          accessibilityFilter={this.props.accessibilityFilter}
-          toiletFilter={this.props.toiletFilter}
-          onFilterChanged={this.props.onFilterChanged}
-          category={this.props.category}
-          history={this.props.history}
-          onBlur={() => {
-            setTimeout(() => this.setState({ isCategoryFocused: false }));
-          }}
-        />
-      </div>
+      <AccessibilityFilterMenu
+        accessibilityFilter={accessibilityFilter}
+        toiletFilter={toiletFilter}
+        category={category}
+        onButtonClick={onAccessibilityFilterButtonClick}
+        onBlur={() => {
+          setTimeout(() => this.setState({ isCategoryFocused: false }));
+        }}
+      />
     );
   }
 
@@ -459,13 +451,11 @@ export default class SearchToolbar extends React.Component<Props, State> {
   renderCloseLink() {
     return (
       <CloseLink
-        history={this.props.history}
         ariaLabel={t`Clear search`}
         onClick={() => {
           this.resetSearch();
           if (this.props.onClose) this.props.onClose();
         }}
-        innerRef={closeLink => (this.closeLink = closeLink)}
       />
     );
   }
@@ -474,7 +464,7 @@ export default class SearchToolbar extends React.Component<Props, State> {
     // translator: button shown next to the search bar
     const caption = t`Go`;
     return (
-      <GoButton innerRef={button => (this.goButton = button)} onClick={this.props.onClose}>
+      <GoButton ref={button => (this.goButton = button)} onClick={this.props.onClose}>
         {caption} <StyledChevronRight />
       </GoButton>
     );
@@ -482,49 +472,46 @@ export default class SearchToolbar extends React.Component<Props, State> {
 
   render() {
     const { isLoading, searchResults } = this.state;
+    const { searchQuery, hidden, inert, isExpanded } = this.props;
 
     let contentBelowSearchField = null;
 
     if (!searchResults && isLoading) {
       contentBelowSearchField = this.renderLoadingIndicator();
-    } else if (searchResults) {
+    } else if (searchResults && searchQuery) {
       contentBelowSearchField = this.renderSearchResults(searchResults);
     } else {
       contentBelowSearchField = this.renderFilters();
     }
 
-    const className = ['search-toolbar', this.props.isExpanded && 'is-expanded']
-      .filter(Boolean)
-      .join(' ');
-
     return (
       <StyledToolbar
-        className={className}
-        hidden={this.props.hidden}
-        inert={this.props.inert}
+        hidden={hidden}
+        inert={inert}
         minimalHeight={75}
-        innerRef={toolbar => {
-          this.toolbar = toolbar;
-        }}
+        ref={toolbar => (this.toolbar = toolbar)}
         isSwipeable={false}
         enableTransitions={false}
         role="search"
+        isExpanded={isExpanded}
       >
-        <header>
-          <form
-            action="#"
-            method="post"
-            onSubmit={ev => {
-              ev.preventDefault();
-            }}
-          >
-            <SearchIcon />
-            {this.renderSearchInputField()}
-            {this.props.searchQuery && this.renderCloseLink()}
-            {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
-          </form>
-        </header>
-        <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
+        <ErrorBoundary>
+          <header>
+            <form
+              action="#"
+              method="post"
+              onSubmit={ev => {
+                ev.preventDefault();
+              }}
+            >
+              <SearchIcon />
+              {this.renderSearchInputField()}
+              {this.props.searchQuery && this.renderCloseLink()}
+              {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
+            </form>
+          </header>
+          <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
+        </ErrorBoundary>
       </StyledToolbar>
     );
   }

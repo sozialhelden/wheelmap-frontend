@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.1.72" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.3.0" 
+    xmlns="http://www.w3.org/ns/widgets"
+    xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wheelmap</name>
     <description>
         Find wheelchair-accessible places.
@@ -10,6 +13,8 @@
     <content src="index.html" />
     <access origin="https://wheelmap.org" />
     <access origin="https://*.wheelmap.org" />
+    <access origin="http://176.9.63.170" />
+    <access origin="https://176.9.63.170" />
     <access origin="https://accessibility-cloud.freetls.fastly.net" />
     <access origin="https://api.mapbox.com" />
     <access origin="https://accessibility.cloud" />
@@ -23,6 +28,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="android-minSdkVersion" value="21" />
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="res/android/drawable/ic_launcher_background.xml" target="app/src/main/res/drawable/ic_launcher_background.xml" />
@@ -43,6 +49,7 @@
             <application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" />
         </edit-config>
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+        <preference name="android-minSdkVersion" value="21" />
         <preference name="android-targetSdkVersion" value="26" />
     </platform>
     <platform name="ios">

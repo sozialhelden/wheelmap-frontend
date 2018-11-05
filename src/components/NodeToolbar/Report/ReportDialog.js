@@ -9,6 +9,7 @@ import {
 
 import { t } from 'ttag';
 import type { Feature, NodeProperties } from '../../../lib/Feature';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 
 import strings from './strings';
 import FixComment from './FixComment';
@@ -73,6 +74,7 @@ const generateIssues = (properties: NodeProperties): IssueEntry[] =>
   ].filter(Boolean);
 
 type Props = {
+  categories: CategoryLookupTables,
   feature: Feature,
   featureId: string | number | null,
   className: string,
@@ -82,6 +84,7 @@ type Props = {
 };
 
 type State = {
+  lastFeatureId: ?(string | number),
   SelectedComponentClass: ?Class<React.Component<*, *>>,
 };
 
@@ -89,8 +92,21 @@ class ReportDialog extends React.Component<Props, State> {
   props: Props;
 
   state = {
+    lastFeatureId: null,
     SelectedComponentClass: null,
   };
+
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    if (!isWheelmapFeatureId(props.featureId)) {
+      return { SelectedComponentClass: FixOnExternalPage };
+    }
+
+    if (props.featureId !== state.lastFeatureId) {
+      return { SelectedComponentClass: null, lastFeatureId: props.featureId };
+    }
+
+    return null;
+  }
 
   componentDidMount() {
     document.addEventListener('keydown', this.escapeHandler);
@@ -98,15 +114,6 @@ class ReportDialog extends React.Component<Props, State> {
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.escapeHandler);
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    if (newProps.featureId !== this.props.featureId) {
-      this.setState({ SelectedComponentClass: null });
-    }
-    if (!isWheelmapFeatureId(newProps.featureId)) {
-      this.setState({ SelectedComponentClass: FixOnExternalPage });
-    }
   }
 
   escapeHandler = (event: KeyboardEvent) => {
@@ -134,7 +141,7 @@ class ReportDialog extends React.Component<Props, State> {
   };
 
   render() {
-    const { featureId, feature } = this.props;
+    const { featureId, feature, categories } = this.props;
     if (!featureId || !feature || !feature.properties) return null;
 
     const ComponentClass = this.state.SelectedComponentClass;
@@ -146,6 +153,7 @@ class ReportDialog extends React.Component<Props, State> {
     if (ComponentClass) {
       return (
         <ComponentClass
+          categories={categories}
           feature={feature}
           featureId={featureId}
           onClose={this.onClose}

@@ -5,12 +5,11 @@ import { t } from 'ttag';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
-import type { RouterHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
 import CloseLink from '../CloseLink';
+import ErrorBoundary from '../ErrorBoundary';
 import NodeHeader from './NodeHeader';
 import SourceList from './SourceList';
 import StyledToolbar from './StyledToolbar';
@@ -19,22 +18,25 @@ import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
+import Button from '../Button';
 
-import type { PhotoModel } from './Photos/PhotoModel';
-
-import type { Feature } from '../../lib/Feature';
-import type { Category } from '../../lib/Categories';
+import type { PhotoModel } from '../../lib/PhotoModel';
+import type {
+  Feature,
+  YesNoLimitedUnknown,
+  YesNoUnknown,
+  WheelmapFeature,
+} from '../../lib/Feature';
+import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
+import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
-import type { ModalNodeState } from '../../lib/queryParams';
-
-import { placeNameFor, isWheelmapFeatureId, wheelmapFeatureFrom } from '../../lib/Feature';
-import type { YesNoUnknown, YesNoLimitedUnknown } from '../../lib/Feature';
+import type { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import { getCategoryId } from '../../lib/Categories';
 import IconButtonList from './IconButtonList/IconButtonList';
+import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
@@ -44,25 +46,28 @@ const PositionedCloseLink = styled(CloseLink)`
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
 type Props = {
-  feature: ?Feature,
-  featureId: ?string | number,
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
+  feature: Feature,
+  featureId: string | number,
+  sources: SourceWithLicense[],
+  photos: PhotoModel[],
+  categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  history: RouterHistory,
-  onClose?: ?() => void,
+  onClose: () => void,
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
-  presetStatus: YesNoLimitedUnknown,
+  accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
 
   // photo feature
@@ -74,10 +79,6 @@ type Props = {
 };
 
 type State = {
-  category: ?Category,
-  parentCategory: ?Category,
-  equipmentInfo: ?EquipmentInfo,
-  feature: ?Feature,
   isScrollable: boolean,
 };
 
@@ -88,15 +89,12 @@ class NodeToolbar extends React.Component<Props, State> {
   reportModeButton: ?React.ElementRef<'button'>;
 
   state = {
-    category: null,
-    parentCategory: null,
-    equipmentInfo: null,
-    feature: null,
     isScrollable: false,
   };
 
   componentDidMount() {
     if (this.props.photoFlowNotification) {
+      // TODO: what is this timeout needed for, and why?
       setTimeout(() => {
         if (this.toolbar) {
           this.toolbar.ensureFullVisibility();
@@ -113,10 +111,16 @@ class NodeToolbar extends React.Component<Props, State> {
     return !!this.props.equipmentInfoId;
   }
 
+  focus() {
+    if (this.toolbar) {
+      this.toolbar.focus();
+    }
+  }
+
   renderReportDialog() {
     return (
       <ReportDialog
-        innerRef={reportDialog => (this.reportDialog = reportDialog)}
+        categories={this.props.categories}
         feature={this.props.feature}
         featureId={this.props.featureId}
         onReportComponentChanged={() => {
@@ -132,17 +136,9 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderIconButtonList() {
-    const {
-      feature,
-      featureId,
-      category,
-      parentCategory,
-      equipmentInfoId,
-      onOpenReportMode,
-    } = this.props;
     return (
       <IconButtonList
-        {...{ feature, featureId, category, parentCategory, equipmentInfoId, onOpenReportMode }}
+        {...this.props}
         onToggle={() => {
           if (this.toolbar) this.toolbar.ensureFullVisibility();
         }}
@@ -156,6 +152,7 @@ class NodeToolbar extends React.Component<Props, State> {
       equipmentInfo,
       equipmentInfoId,
       category,
+      categories,
       parentCategory,
       onClickCurrentMarkerIcon,
     } = this.props;
@@ -167,6 +164,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <NodeHeader
         feature={feature}
+        categories={categories}
         equipmentInfo={equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         category={category}
@@ -182,6 +180,7 @@ class NodeToolbar extends React.Component<Props, State> {
     return (
       <PhotoSection
         featureId={this.props.featureId}
+        photos={this.props.photos || []}
         onReportPhoto={this.props.onReportPhoto}
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         photoFlowNotification={this.props.photoFlowNotification}
@@ -195,18 +194,27 @@ class NodeToolbar extends React.Component<Props, State> {
     if (!featureId) return;
 
     return (
-      <Link className="link-button" to={`/beta/nodes/${featureId}`}>
+      <Button
+        className="link-button"
+        onClick={e => {
+          if (this.props.onShowPlaceDetails) {
+            this.props.onShowPlaceDetails(this.props.featureId);
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        }}
+      >
         {this.placeName()}
-      </Link>
+      </Button>
     );
   }
 
   renderToiletAccessibilityEditor() {
     return (
       <ToiletStatusEditor
-        // innerRef={toiletStatusEditor => this.toiletStatusEditor = toiletStatusEditor}
+        categories={this.props.categories}
         featureId={this.props.featureId}
-        feature={this.props.feature}
+        feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoUnknown) => {
           this.props.onClose();
           this.props.onCloseToiletAccessibility();
@@ -219,14 +227,14 @@ class NodeToolbar extends React.Component<Props, State> {
   renderWheelchairAccessibilityEditor() {
     return (
       <WheelchairStatusEditor
-        // innerRef={wheelchairStatusEditor => this.wheelchairStatusEditor = wheelchairStatusEditor}
+        categories={this.props.categories}
         featureId={this.props.featureId}
-        feature={this.props.feature}
+        feature={((this.props.feature: any): WheelmapFeature)}
         onSave={(newValue: YesNoLimitedUnknown) => {
           this.props.onClose();
           this.props.onCloseWheelchairAccessibility();
         }}
-        presetStatus={this.props.presetStatus}
+        presetStatus={this.props.accessibilityPresetStatus}
         onClose={this.props.onClose}
       />
     );
@@ -250,7 +258,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <InlineWheelchairAccessibilityEditor
           category={getCategoryId(this.props.category)}
           onChange={this.props.onSelectWheelchairAccessibility}
-          presetStatus={this.props.presetStatus}
+          presetStatus={this.props.accessibilityPresetStatus}
         />
       </section>
     );
@@ -273,26 +281,45 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const { feature, equipmentInfoId, history, onOpenReportMode } = this.props;
-    const sourceLinkProps = { featureId, feature, equipmentInfoId, onOpenReportMode, history };
+    const {
+      feature,
+      equipmentInfoId,
+      onOpenReportMode,
+      sources,
+      accessibilityPresetStatus,
+    } = this.props;
+    const sourceLinkProps = {
+      featureId,
+      feature,
+      equipmentInfoId,
+      onOpenReportMode,
+      sources,
+    };
     if (!featureId) return;
 
     const isWheelmapFeature = isWheelmapFeatureId(featureId);
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} />
     ) : (
-      <PlaceAccessibilitySection {...this.props} />
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
     );
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = isWheelmapFeature && this.renderPhotoSection();
-    const equipmentOverview = !isWheelmapFeature && (
-      <EquipmentOverview {...{ history, feature, equipmentInfoId }} />
-    );
+
+    const equipmentOverview = !isWheelmapFeature &&
+      !!(feature.properties && feature.properties.equipmentInfos) && (
+        <EquipmentOverview
+          placeInfoId={featureId}
+          equipmentInfos={feature.properties.equipmentInfos}
+          equipmentInfoId={equipmentInfoId}
+          onEquipmentSelected={this.props.onEquipmentSelected}
+        />
+      );
 
     return (
       <div>
-        {this.props.equipmentInfoId && featureId && this.renderPlaceNameForEquipment()}
+        {isEquipment && featureId && this.renderPlaceNameForEquipment()}
         {inlineWheelchairAccessibilityEditor}
         {accessibilitySection}
         {photoSection}
@@ -304,28 +331,37 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderCloseLink() {
-    const { history, onClose, modalNodeState } = this.props;
-    return modalNodeState ? null : <PositionedCloseLink {...{ history, onClick: onClose }} />;
+    const { onClose, modalNodeState } = this.props;
+
+    return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
   render() {
+    const hasWindow = typeof window !== 'undefined';
+    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
+
     return (
-      <FocusTrap
-        component={StyledToolbar}
+      <StyledToolbar
+        ref={toolbar => (this.toolbar = toolbar)}
         hidden={this.props.hidden}
         isModal={this.props.modalNodeState}
-        innerRef={toolbar => {
-          this.toolbar = toolbar;
-        }}
         role="dialog"
         ariaLabel={this.placeName()}
-        startTopOffset={hasBigViewport() ? 0 : 0.4 * window.innerHeight}
+        startTopOffset={offset}
         onScrollable={isScrollable => this.setState({ isScrollable })}
       >
-        {this.renderCloseLink()}
-        {this.renderNodeHeader()}
-        {this.renderContentBelowHeader()}
-      </FocusTrap>
+        <ErrorBoundary>
+          <FocusTrap
+            component="div"
+            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be pervented.
+            focusTrapOptions={{ clickOutsideDeactivates: true }}
+          >
+            {this.renderCloseLink()}
+            {this.renderNodeHeader()}
+            {this.renderContentBelowHeader()}
+          </FocusTrap>
+        </ErrorBoundary>
+      </StyledToolbar>
     );
   }
 }

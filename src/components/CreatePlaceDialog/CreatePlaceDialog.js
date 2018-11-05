@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { userAgent } from '../../lib/userAgent';
+import { getUserAgent } from '../../lib/userAgent';
 import colors from '../../lib/colors';
 import {
   generateOsmNoteUrlForCoords,
@@ -13,11 +13,6 @@ import {
 import Toolbar from '../Toolbar';
 import ChevronRight from '../ChevronRight';
 import CloseLink from './CloseButton';
-import goMapIcon from './goMap.png';
-import idEditorIcon from './idEditor.png';
-import mapsMeForAndroidIcon from './mapsMeForAndroid.png';
-import mapsMeForIOSIcon from './mapsMeForIOS.jpg';
-import vespucciIcon from './vespucci.png';
 
 export type Props = {
   hidden: boolean,
@@ -93,27 +88,27 @@ const apps: { [key: string]: AppFunction } = {
   vespucci: () => ({
     title: t`“Vespucci” in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=de.blau.android',
-    icon: vespucciIcon,
+    icon: 'static/images/external-app-icons/vespucci.png',
   }),
   idEditor: coords => ({
     title: t`Use the OpenStreetMap web editor`,
     href: generateOsmEditorUrlForCoords(coords),
-    icon: idEditorIcon,
+    icon: 'static/images/external-app-icons/idEditor.png',
   }),
   goMap: () => ({
     title: t`“Go Map!!” in App Store`,
     href: 'https://itunes.apple.com/us/app/go-map/id592990211?mt=8',
-    icon: goMapIcon,
+    icon: 'static/images/external-app-icons/goMap.png',
   }),
   mapsMeForIOS: () => ({
     title: t`“MAPS.ME” in App Store`,
     href: 'https://itunes.apple.com/app/id510623322',
-    icon: mapsMeForIOSIcon,
+    icon: 'static/images/external-app-icons/mapsMeForIOS.png',
   }),
   mapsMeForAndroid: () => ({
     title: t`“MAPS.ME” in PlayStore`,
     href: 'https://play.google.com/store/apps/details?id=com.mapswithme.maps.pro',
-    icon: mapsMeForAndroidIcon,
+    icon: 'static/images/external-app-icons/mapsMeForAndroid.png',
   }),
 };
 
@@ -134,6 +129,7 @@ export default class CreatePlaceDialog extends React.Component<Props> {
   appLinks() {
     const { lat, lon } = this.props;
 
+    const userAgent = getUserAgent();
     const appLinks: App[] = [];
     if (userAgent.os.name === 'iOS') {
       appLinks.push(apps.mapsMeForIOS());

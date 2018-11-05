@@ -115,28 +115,39 @@ export default class FeatureCache<
     geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
   }
 
-  fetchFeature(
+  async fetchFeature(
     id: string,
-    resolve: (feature: FeatureType) => void,
-    reject: (response: any) => void
-  ) {
-    this.constructor.fetchFeature(id).then((response: Response) => {
-      if (response.status === 200) {
-        return this.constructor.getFeatureFromResponse(response).then(feature => {
-          this.cacheFeature(feature, response);
-          resolve(feature);
-          const changeEvent = new CustomEvent('change', {
-            target: this,
-            feature,
-          });
-          this.dispatchEvent(changeEvent);
-        }, reject);
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<FeatureType> {
+    // check if have already downloaded a feature with this id
+    if (options.useCache && this.cache[id]) {
+      return this.cache[id];
+    }
+
+    const response = await this.constructor.fetchFeature(id, options);
+
+    if (response.status === 200) {
+      const feature = await this.constructor.getFeatureFromResponse(response);
+
+      if (options.useCache) {
+        this.cacheFeature(feature, response);
       }
-      if (response.status === 404) {
-        this.cache[id] = null;
-      }
-      return reject(response);
-    }, reject);
+
+      const changeEvent = new CustomEvent('change', {
+        target: this,
+        feature,
+      });
+
+      this.dispatchEvent(changeEvent);
+
+      return feature;
+    }
+
+    if (response.status === 404) {
+      this.cache[id] = null;
+    }
+
+    throw response;
   }
 
   getIndexedFeatures(propertyPath: PropertyPath, value: PropertyValue): Set<FeatureType> {
@@ -149,15 +160,17 @@ export default class FeatureCache<
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  getFeature(id: string): Promise<?FeatureType> {
+  async getFeature(
+    id: string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<?FeatureType> {
     const feature = this.getCachedFeature(id);
-    return new Promise((resolve, reject) => {
-      if (feature || feature === null) {
-        resolve(feature);
-        return;
-      }
-      this.fetchFeature(id, resolve, reject);
-    });
+
+    if (feature || feature === null) {
+      return feature;
+    }
+
+    return this.fetchFeature(id, options);
   }
 
   reloadFeature(id: string): Promise<?FeatureType> {
@@ -197,7 +210,6 @@ export default class FeatureCache<
 
     const changeEvent = new CustomEvent('change', { target: this, feature: this.cache[id] });
     this.dispatchEvent(changeEvent);
-    console.log('Updated feature', feature, newProperties);
   }
 
   /**
@@ -205,7 +217,10 @@ export default class FeatureCache<
    * @param {string} id
    */
   // eslint-disable-next-line
-  /** @protected @abstract */ static fetchFeature(id: string): Promise<Response> {
+  /** @protected @abstract */ static fetchFeature(
+    id: string,
+    options: { useCache: boolean } = { useCache: true }
+  ): Promise<Response> {
     throw new Error('Not implemented. Please override this method in your subclass.');
   }
 

@@ -1,32 +1,20 @@
-import { getQueryParams } from './queryParams';
+import env from './env';
 
-let sourceIdParams = 'excludeSourceIds=LiBTS67TjmBcXdEmX';
-const queryParams = getQueryParams();
-if (queryParams.includeSourceIds) {
-  sourceIdParams = `includeSourceIds=${queryParams.includeSourceIds}`;
-}
-const config = {
+import isCordova from './isCordova';
+
+// use base url on server or in cordova builds, otherwise use the proxy running on the hosting server
+const useAbsoluteWheelmapBaseUrl = typeof window === 'undefined' || isCordova();
+
+export default {
   locateTimeout: 60 * 60 * 1000,
   // If no location is known, start at the Cologne cathedral landmark
   defaultStartCenter: [50.94133042185295, 6.957112947082502],
   maxZoom: 20,
-  minZoomWithSetCategory: queryParams.includeSourceIds ? 8 : 13,
+  minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
   mapboxTileUrl: `https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${
-    process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+    env.public.mapbox.accessToken
   }`,
-  wheelmapApiKey: queryParams.includeSourceIds ? null : process.env.REACT_APP_WHEELMAP_API_KEY,
-  accessibilityCloudAppToken: process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN,
-  accessibilityCloudBaseUrl: process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
-  accessibilityCloudUncachedBaseUrl: process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL,
-  accessibilityCloudTileUrl: locale =>
-    `${
-      process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
-    }/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${
-      process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN
-    }&locale=${locale}&includePlacesWithoutAccessibility=1`,
-  // set this to '' for development - use relative urls, make request to server that hosts the page
-  wheelmapApiBaseUrl: process.env.REACT_APP_WHEELMAP_API_BASE_URL || '',
+  wheelmapApiKey: env.public.wheelmap.apiKey,
+  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.public.wheelmap.baseUrl : '',
 };
-
-export default config;

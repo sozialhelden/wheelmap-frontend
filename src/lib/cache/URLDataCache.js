@@ -7,7 +7,7 @@ import ResponseError from '../ResponseError';
 // Caches response promises and returns an old promise if one is existing for the same URL.
 
 export default class URLDataCache<T> {
-  cache: { [key: string]: Promise<?T> } = {};
+  cache: { [key: string]: Promise<T> } = {};
 
   fetch(url: string, resolve: (data: T) => void, reject: (response: any) => void) {
     this.constructor.fetch(url, { cordova: true }).then((response: Response) => {
@@ -26,23 +26,30 @@ export default class URLDataCache<T> {
    * Gets a feature from cache or fetches it from the web.
    * @param {string} url
    */
-  getData(url: string): Promise<?T> {
-    if (!url)
+  getData(url: string, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
+    if (!url) {
       return new Promise((resolve, reject) => {
         reject(null);
       });
+    }
 
     let promise = this.cache[url];
     if (promise) return promise;
     promise = new Promise((resolve, reject) => {
       this.fetch(url, resolve, reject);
     });
-    this.cache[url] = promise;
+    if (!options || options.useCache) this.cache[url] = promise;
     return promise;
   }
 
   /** @private */ getCachedPromise(url: string): Promise<?T> {
     return this.cache[url];
+  }
+
+  inject(url: string, result: ?T) {
+    if (result) {
+      this.cache[url] = Promise.resolve(result);
+    }
   }
 
   static getDataFromResponse(response: Response): Promise<T> {

@@ -1,27 +1,21 @@
-@import '../node_modules/react-activity/dist/react-activity.css';
-
-
-.app-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-
 .subtle {
   font-weight: lighter;
   opacity: 0.6;
 }
 
-
-body, button, input, select, textarea {
+body,
+button,
+input,
+select,
+textarea {
   /* Mix of the two system font stacks used by GitHub and Medium. */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-
-.ac-result-list, .ac-list {
+.ac-result-list,
+.ac-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -33,7 +27,6 @@ body, button, input, select, textarea {
 .ac-result-list a:hover {
   font-weight: 400;
 }
-
 
 .ac-result {
   position: relative;
@@ -66,7 +59,7 @@ body, button, input, select, textarea {
 
 .ac-result-name {
   font-weight: 500;
-  color:rgba(0, 0, 0, 0.98);
+  color: rgba(0, 0, 0, 0.98);
   float: left;
 }
 
@@ -130,34 +123,34 @@ body, button, input, select, textarea {
 }
 
 .ac-result dl {
-    width: 100%;
-    /*display: block;*/
-    /*background-color: rgba(0, 0, 0, 0.1);*/
-    overflow: auto;
-    margin: 0;
+  width: 100%;
+  /*display: block;*/
+  /*background-color: rgba(0, 0, 0, 0.1);*/
+  overflow: auto;
+  margin: 0;
 }
 
 .ac-result dt {
-    /*background-color: rgba(255, 0, 0, 0.1);*/
-    float: left;
-    clear: left;
-    margin: 0;
-    padding: 0;
+  /*background-color: rgba(255, 0, 0, 0.1);*/
+  float: left;
+  clear: left;
+  margin: 0;
+  padding: 0;
 }
 
 .ac-result dt[data-key] {
-    font-weight: bolder;
+  font-weight: bolder;
 }
 
 .ac-result dd {
-    /*background-color: rgba(0, 255, 0, 0.1);*/
-    margin-left: 1em;
-    display: table-cell;
-    padding: 0 0 0 0.3em;
+  /*background-color: rgba(0, 255, 0, 0.1);*/
+  margin-left: 1em;
+  display: table-cell;
+  padding: 0 0 0 0.3em;
 }
 
 dt[data-key="areas"] {
-  display: none
+  display: none;
 }
 
 dt[data-key="areas"] + dd {
@@ -213,31 +206,4 @@ dt[data-key="entrances"] + dd {
 
 .ac-error {
   color: red;
-}
-
-.ac-licenses {
-  font-size: 0.75em;
-  opacity: 0.7;
-}
-
-.ac-licenses header {
-  display: inline;
-  margin-right: 0.5em;
-  font-weight: bolder;
-}
-
-.ac-licenses ul {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-  display: inline;
-}
-
-.ac-licenses li {
-  display: inline;
-}
-
-.ac-licenses li + li:before {
-  content: ', ';
-  margin-right: 0.3em;
 }

@@ -6,6 +6,7 @@ import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
 import isArray from 'lodash/isArray';
+import uniq from 'lodash/uniq';
 import isPlainObject from 'lodash/isPlainObject';
 import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
@@ -16,16 +17,44 @@ import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import type { LocalizedString } from './i18n';
+import { normalizeCoordinates } from './normalizeCoordinates';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
-export const yesNoLimitedUnknownArray = ['yes', 'limited', 'no', 'unknown'].sort();
+export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
+  'yes',
+  'limited',
+  'no',
+  'unknown',
+].sort();
 Object.freeze(yesNoLimitedUnknownArray);
-export const yesNoUnknownArray = ['yes', 'no', 'unknown'].sort();
+export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown'].sort();
 Object.freeze(yesNoUnknownArray);
 
 function sortedIsEqual(array1, array2): boolean {
   return isEqual([].concat(array1).sort(), [].concat(array2).sort());
+}
+
+function parseStatusString(statusString, allowedStatuses) {
+  // Safe mutable sort as filter always returns a new array.
+  return statusString
+    ? statusString
+        .split(',')
+        .filter(s => includes(allowedStatuses, s))
+        .sort()
+    : [...allowedStatuses];
+}
+
+export function getAccessibilityFilterFrom(statusString: ?string): YesNoLimitedUnknown[] {
+  const result = parseStatusString(statusString, yesNoLimitedUnknownArray);
+
+  return ((result: any): YesNoLimitedUnknown[]);
+}
+
+export function getToiletFilterFrom(toiletString: ?string): YesNoUnknown[] {
+  const result = parseStatusString(toiletString, yesNoUnknownArray);
+
+  return ((result: any): YesNoUnknown[]);
 }
 
 /**
@@ -33,11 +62,17 @@ function sortedIsEqual(array1, array2): boolean {
  * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
  */
 
-export function isFiltered(accessibilities: ?(YesNoLimitedUnknown[])): boolean {
+export function isAccessibilityFiltered(accessibilityFilter: ?(YesNoLimitedUnknown[])): boolean {
   return (
-    !!accessibilities &&
-    !isEqual(accessibilities, []) &&
-    !sortedIsEqual(accessibilities, yesNoLimitedUnknownArray)
+    !!accessibilityFilter &&
+    !isEqual(accessibilityFilter, []) &&
+    !sortedIsEqual(accessibilityFilter, yesNoLimitedUnknownArray)
+  );
+}
+
+export function isToiletFiltered(toiletFilter: ?(YesNoUnknown[])): boolean {
+  return (
+    !!toiletFilter && !isEqual(toiletFilter, []) && !sortedIsEqual(toiletFilter, yesNoUnknownArray)
   );
 }
 
@@ -177,7 +212,7 @@ export type AccessibilityCloudImages = {
 export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
-export function getFeatureId(feature: Feature) {
+export function getFeatureId(feature: Feature | EquipmentInfo) {
   if (!feature) return null;
   const idProperties = [
     typeof feature.id === 'number' && feature.id,
@@ -215,6 +250,29 @@ export function accessibilityCloudFeatureFrom(feature: ?Feature): ?Accessibility
     return ((feature: any): AccessibilityCloudFeature);
   }
   return null;
+}
+
+export function sourceIdsForFeature(feature: ?Feature): string[] {
+  if (!feature) return [];
+
+  const properties = feature.properties;
+  if (!properties) return [];
+
+  const idsToEquipmentInfos =
+    typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
+  const equipmentInfos = idsToEquipmentInfos
+    ? Object.keys(idsToEquipmentInfos).map(_id => idsToEquipmentInfos[_id])
+    : [];
+  const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo =>
+    get(equipmentInfo, 'properties.sourceId')
+  );
+  const disruptionSourceIds = equipmentInfos.map(equipmentInfo =>
+    get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId')
+  );
+  const placeSourceId =
+    properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
+
+  return uniq([placeSourceId, ...equipmentInfoSourceIds, ...disruptionSourceIds].filter(Boolean));
 }
 
 export function convertResponseToWheelmapFeature(node: WheelmapProperties): WheelmapFeature {
@@ -441,4 +499,12 @@ export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
     return result.length ? result : undefined; // filter out empty arrays
   }
   return something;
+}
+
+export function normalizedCoordinatesForFeature(feature: Feature): ?[number, number] {
+  const geometry = feature ? feature.geometry : null;
+  if (!(geometry instanceof Object)) return null;
+  const coordinates = geometry ? geometry.coordinates : null;
+  if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
+  return normalizeCoordinates(coordinates);
 }
