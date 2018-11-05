@@ -12,6 +12,10 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   const server = express();
 
+  server.get(/beta\/.*/, (req, res) => {
+    res.redirect(`${req.originalUrl.substr(5)}`);
+  });
+
   // Old urls from the classic rails app
   // First capturing group represents optional locale
   server.get(
