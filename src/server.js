@@ -21,7 +21,7 @@ app.prepare().then(() => {
       /(\/[a-zA-Z_-]+)?\/embed.*/,
     ],
     (req, res) => {
-      res.redirect(`https://classic.wheelmap.org${req.originalUrl}`);
+      res.redirect(`http://classic.wheelmap.org${req.originalUrl}`);
     }
   );
 
