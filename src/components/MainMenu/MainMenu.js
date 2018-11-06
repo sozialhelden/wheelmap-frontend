@@ -11,7 +11,7 @@ import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import strings from './strings';
 import type { Link } from '../../App';
-import { translatedStringFromObject } from '../../lib/i18n';
+import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -27,6 +27,7 @@ type Props = {
   lon: string,
   zoom: string,
   logoURL: string,
+  claim: LocalizedString,
   links: Array<Link>,
   addPlaceURL: string,
 };
@@ -120,9 +121,9 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const { addMissingPlace, findWheelchairAccessiblePlaces } = strings();
+    const { addMissingPlace } = strings();
 
-    const { isOpen, className, links, addPlaceURL } = this.props;
+    const { isOpen, className, links, addPlaceURL, claim } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -156,7 +157,7 @@ class MainMenu extends React.Component<Props, State> {
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
         {this.renderHomeLink()}
 
-        <div className="claim">{findWheelchairAccessiblePlaces}</div>
+        <div className="claim">{translatedStringFromObject(claim)}</div>
 
         <GlobalActivityIndicator />
 
