@@ -5,7 +5,7 @@ export default function accessibilityCloudTileUrl(
   locale: string,
   includeSourceIds: ?string
 ): string {
-  let sourceIdParams = 'excludeSourceIds=LiBTS67TjmBcXdEmX';
+  let sourceIdParams = 'excludeSourceIds=LiBTS67TjmBcXdEmX'; // Do not show Wheelmap's AC source
   if (includeSourceIds) {
     sourceIdParams = `includeSourceIds=${includeSourceIds}`;
   }

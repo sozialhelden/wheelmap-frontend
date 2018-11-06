@@ -36,6 +36,7 @@ import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
 import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import { type PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
+import { type LocalizedString } from './lib/i18n';
 import { RouteProvider } from './components/Link/RouteContext';
 
 import 'react-activity/dist/react-activity.css';
@@ -46,8 +47,8 @@ import 'focus-visible';
 initReactFastclick();
 
 export type Link = {
-  label: string,
-  url: string,
+  label: LocalizedString,
+  url: LocalizedString,
 };
 
 type Props = {

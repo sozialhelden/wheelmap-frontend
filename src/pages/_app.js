@@ -187,6 +187,20 @@ export default class App extends BaseApp {
       ...props
     } = receivedProps;
 
+    // Show generic error page for now and show as soon as possible
+    // as props like client side configuration are not set then.
+    // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
+    if (statusCode >= 400) {
+      return (
+        <Container>
+          <NotFound
+            statusCode={statusCode}
+            onReturnHomeClick={this.handleNotFoundReturnHomeClick}
+          />
+        </Container>
+      );
+    }
+
     // build lookup table
     props.categories = Categories.generateLookupTables(categoryData);
 
@@ -199,20 +213,6 @@ export default class App extends BaseApp {
           routeName={routeName}
           isCordovaBuild={isCordovaBuild}
         />
-      );
-    }
-
-    // Show generic error page for now and show as soon as possible
-    // as props like client side configuration are not set then.
-    // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
-    if (statusCode >= 400) {
-      return (
-        <Container>
-          <NotFound
-            statusCode={statusCode}
-            onReturnHomeClick={this.handleNotFoundReturnHomeClick}
-          />
-        </Container>
       );
     }
 

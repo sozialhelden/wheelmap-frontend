@@ -1,5 +1,7 @@
 import env from './env';
 import fetch from './fetch';
+import { get, values } from 'lodash';
+import { LocalizedString, translatedStringFromObject } from './i18n';
 
 export type TwitterConfiguration = {
   siteHandle?: string,
@@ -18,6 +20,13 @@ export type GoogleAnalyticsConfiguration = {
   siteVerificationToken?: string,
 };
 
+export type LinkDescription = {
+  label?: LocalizedString,
+  url?: LocalizedString,
+  order?: number,
+  type?: string,
+};
+
 export type ClientSideConfiguration = {
   logoURL: string,
   allowedBaseURLs: Array<string>,
@@ -25,12 +34,12 @@ export type ClientSideConfiguration = {
   excludeSourceIds: Array<string>,
   textContent: {
     onboarding: {
-      headerMarkdown: string,
+      headerMarkdown: LocalizedString,
     },
     product: {
-      name: string,
-      claim: string,
-      description: string,
+      name: LocalizedString,
+      claim: LocalizedString,
+      description: LocalizedString,
     },
   },
   meta: {
@@ -38,7 +47,7 @@ export type ClientSideConfiguration = {
     facebook?: FacebookConfiguration,
     googleAnalytics?: GoogleAnalyticsConfiguration,
   },
-  customMainMenuLinks: Array<Link>,
+  customMainMenuLinks?: LinkDescription[],
   addPlaceURL: string,
 };
 
@@ -53,7 +62,10 @@ export async function fetchClientSideConfiguration(
 
   const response = await fetch(url);
   const appJSON = await response.json();
-  return appJSON.clientSideConfiguration;
+  return {
+    ...appJSON.clientSideConfiguration,
+    customMainMenuLinks: values(get(appJSON, 'related.appLinks') || {}),
+  };
 }
 
 export function getProductTitle(
@@ -61,10 +73,11 @@ export function getProductTitle(
   title: ?string
 ): string {
   const { product } = clientSideConfiguration.textContent;
+  const { name, claim } = product;
 
   if (!title) {
-    return `${product.name} – ${product.claim}`;
+    return `${translatedStringFromObject(name)} – ${translatedStringFromObject(claim)}`;
   }
 
-  return `${title} – ${product.name}`;
+  return `${title} – ${translatedStringFromObject(name)}`;
 }
