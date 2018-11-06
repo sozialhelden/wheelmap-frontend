@@ -110,7 +110,7 @@ class MainMenu extends React.Component<Props, State> {
             className="logo"
             src={this.props.logoURL}
             width={156}
-            height={38}
+            height={30}
             alt={t`App Logo`}
           />
         </button>
