@@ -81,7 +81,10 @@ type Props = {
   lon?: ?number,
   zoom?: ?number,
   extent: ?[number, number, number, number],
+
   includeSourceIds: ?string,
+  disableWheelmapSource: ?boolean,
+
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
@@ -435,7 +438,7 @@ export default class Map extends React.Component<Props, State> {
 
   setupWheelmapTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
     const wheelmapTileUrl = this.wheelmapTileUrl();
-    if (wheelmapTileUrl) {
+    if (wheelmapTileUrl && !this.props.disableWheelmapSource) {
       this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,

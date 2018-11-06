@@ -220,9 +220,10 @@ export default class App extends BaseApp {
       applyTranslations(translations);
     }
 
-    if (!isServer) {
-      clientStoreAppInitialProps(props);
+    // always store app initial props
+    clientStoreAppInitialProps(this.props);
 
+    if (!isServer) {
       if (routeName) {
         clientStoreInitialProps(routeName, props);
       }

@@ -66,6 +66,7 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   includeSourceIds: ?string,
+  disableWheelmapSource?: boolean,
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
@@ -435,10 +436,10 @@ class App extends React.Component<Props, State> {
       category,
       accessibilityFilter,
       toiletFilter,
-      routeName,
       featureId,
       equipmentInfoId,
-      searchQuery,
+      disableWheelmapSource,
+      includeSourceIds,
     } = this.props;
 
     if (category) {
@@ -459,6 +460,15 @@ class App extends React.Component<Props, State> {
 
     if (equipmentInfoId) {
       params.eid = equipmentInfoId;
+    }
+
+    // ensure to keep widget/custom whitelabel parameters
+    if (includeSourceIds) {
+      params.includeSourceIds = includeSourceIds;
+    }
+
+    if (disableWheelmapSource) {
+      params.disableWheelmapSource = disableWheelmapSource;
     }
 
     return params;
@@ -627,6 +637,8 @@ class App extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
+
+      disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
 
       // photo feature

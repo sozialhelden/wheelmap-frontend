@@ -59,7 +59,10 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+
   includeSourceIds: ?string,
+  disableWheelmapSource: ?boolean,
+  isReportMode: ?boolean,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -87,6 +90,7 @@ type Props = {
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
+  onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
   onCloseCreatePlaceDialog: () => void,
   onOpenWheelchairAccessibility: () => void,
@@ -110,7 +114,7 @@ type Props = {
   onContinuePhotoUploadFlow: (photos: FileList) => void,
   onFinishPhotoUploadFlow: (photos: FileList, captchaSolution: string) => void,
   onStartReportPhotoFlow: (photo: PhotoModel) => void,
-  onAbortReportPhotoFlow: (photo: PhotoModel) => void,
+  onAbortReportPhotoFlow: () => void,
   onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void,
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
@@ -254,7 +258,10 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderSearchToolbar({ category, searchQuery, searchResults }: $Shape<Props>, isInert: boolean) {
+  renderSearchToolbar(
+    { category, searchQuery, searchResults, disableWheelmapSource }: $Shape<Props>,
+    isInert: boolean
+  ) {
     return (
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
@@ -262,6 +269,7 @@ class MainView extends React.Component<Props, State> {
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
         category={category}
+        showCategoryMenu={!disableWheelmapSource}
         searchQuery={searchQuery}
         searchResults={searchResults}
         accessibilityFilter={this.props.accessibilityFilter}
@@ -425,6 +433,7 @@ class MainView extends React.Component<Props, State> {
       equipmentInfoId,
       accessibilityPresetStatus,
       searchResults,
+      disableWheelmapSource,
     } = this.props;
     const category = this.props.category;
     const isNodeRoute = Boolean(featureId);
@@ -475,6 +484,7 @@ class MainView extends React.Component<Props, State> {
         zoom={zoom ? parseFloat(zoom) : null}
         extent={this.props.extent}
         includeSourceIds={this.props.includeSourceIds}
+        disableWheelmapSource={this.props.disableWheelmapSource}
         category={category}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
@@ -505,7 +515,7 @@ class MainView extends React.Component<Props, State> {
           <div className="behind-backdrop">
             {isMainMenuInBackground && mainMenu}
             {this.renderSearchToolbar(
-              { category, searchQuery, searchResults },
+              { category, searchQuery, searchResults, disableWheelmapSource },
               searchToolbarIsInert
             )}
             {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
