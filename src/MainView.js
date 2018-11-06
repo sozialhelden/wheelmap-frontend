@@ -59,7 +59,9 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+
   includeSourceIds: ?string,
+  disableWheelmapSource: ?boolean,
 
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -475,6 +477,7 @@ class MainView extends React.Component<Props, State> {
         zoom={zoom ? parseFloat(zoom) : null}
         extent={this.props.extent}
         includeSourceIds={this.props.includeSourceIds}
+        disableWheelmapSource={this.props.disableWheelmapSource}
         category={category}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
