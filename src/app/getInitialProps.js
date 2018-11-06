@@ -7,7 +7,7 @@ import {
   type Translations,
 } from '../lib/i18n';
 
-import Categories, { type CategoryLookupTables } from '../lib/Categories';
+import Categories, { type ACCategory, type WheelmapCategory } from '../lib/Categories';
 import { type UAResult, configureUserAgent } from '../lib/userAgent';
 import {
   type YesNoLimitedUnknown,
@@ -27,7 +27,7 @@ import MapData from './MapData';
 
 export type AppProps = {
   userAgent: UAResult,
-  categories: CategoryLookupTables,
+  categoryData: [ACCategory[], WheelmapCategory[], WheelmapCategory[]],
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
   hostName: string,
@@ -141,19 +141,19 @@ export async function getAppInitialProps(
   const preferredLocale = translations[0].headers.language;
 
   // load categories
-  let categories = useCache ? clientCache.categories : null;
-  const categoriesPromise = !categories
-    ? Categories.generateLookupTables({ locale: preferredLocale })
+  let categoryData = useCache ? clientCache.categoryData : null;
+  const categoriesPromise = !categoryData
+    ? Categories.fetchCategoryData({ locale: preferredLocale })
     : null;
 
   if (clientSideConfigurationPromise || categoriesPromise) {
     clientSideConfiguration = clientSideConfigurationPromise
       ? await clientSideConfigurationPromise
       : null;
-    categories = categoriesPromise ? await categoriesPromise : null;
+    categoryData = categoriesPromise ? await categoriesPromise : null;
   }
 
-  if (!categories) {
+  if (!categoryData) {
     throw new Error('missing categories lookup table');
   }
 
@@ -164,7 +164,7 @@ export async function getAppInitialProps(
   const appProps: AppProps = {
     userAgent,
     translations,
-    categories,
+    categoryData,
     clientSideConfiguration,
     category,
     extent,
@@ -184,7 +184,7 @@ const clientCache: $Shape<AppProps> = {};
 
 export function clientStoreAppInitialProps(props: $Shape<AppProps>) {
   clientCache.translations = props.translations || clientCache.translations;
-  clientCache.categories = props.categories || clientCache.categories;
+  clientCache.categoryData = props.categoryData || clientCache.categoryData;
   clientCache.clientSideConfiguration =
     props.clientSideConfiguration || clientCache.clientSideConfiguration;
 }
