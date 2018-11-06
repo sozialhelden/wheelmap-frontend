@@ -32,7 +32,7 @@ export type Props = PlaceFilter & {
   hidden: boolean,
   inert: boolean,
   category: ?string,
-  hideCategoryMenu?: boolean,
+  showCategoryMenu?: boolean,
   searchQuery: ?string,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
@@ -403,6 +403,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
   renderCategoryMenu() {
     if (!this.props.category && !this.props.isExpanded) return null;
+    if (!this.props.showCategoryMenu) return null;
 
     return (
       <CategoryMenu
