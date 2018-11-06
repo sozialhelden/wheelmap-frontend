@@ -38,10 +38,16 @@ import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapP
 import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
 
-function fetchFeature(featureId: string, useCache: boolean): Promise<Feature> {
+function fetchFeature(
+  featureId: string,
+  { useCache, disableWheelmapSource }: { useCache: boolean, disableWheelmapSource?: boolean }
+): Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
   if (isWheelmap) {
+    if (disableWheelmapSource) {
+      return null;
+    }
     return wheelmapFeatureCache.fetchFeature(featureId, { useCache });
   }
 
@@ -63,16 +69,16 @@ async function fetchSourceWithLicense(
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(async (source): Promise<
-        SourceWithLicense
-      > => {
-        if (typeof source.licenseId === 'string') {
-          return licenseCache.getLicenseWithId(source.licenseId, { useCache }).then(license => {
-            return { source, license };
-          });
+      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(
+        async (source): Promise<SourceWithLicense> => {
+          if (typeof source.licenseId === 'string') {
+            return licenseCache.getLicenseWithId(source.licenseId, { useCache }).then(license => {
+              return { source, license };
+            });
+          }
+          return { source, license: null };
         }
-        return { source, license: null };
-      })
+      )
     );
 
     return Promise.all(sourcesWithLicense);
@@ -81,8 +87,12 @@ async function fetchSourceWithLicense(
   return Promise.resolve([]);
 }
 
-function fetchPhotos(featureId: string | number, useCache: boolean) {
+function fetchPhotos(
+  featureId: string | number,
+  { useCache, disableWheelmapSource }: { useCache: boolean, disableWheelmapSource?: boolean }
+) {
   const isWheelmap = isWheelmapFeatureId(featureId);
+  const useWheelmap = isWheelmap && !disableWheelmapSource;
 
   var photosPromise = Promise.all([
     accessibilityCloudImageCache.getPhotosForFeature(featureId, { useCache }).then(acPhotos => {
@@ -91,7 +101,7 @@ function fetchPhotos(featureId: string | number, useCache: boolean) {
       }
       return [];
     }),
-    isWheelmap
+    useWheelmap
       ? wheelmapFeaturePhotosCache.getPhotosForFeature(featureId, { useCache }).then(wmPhotos => {
           if (wmPhotos) {
             return convertWheelmapPhotosToLightboxPhotos(wmPhotos);
@@ -120,11 +130,14 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
       // do not cache on server
       const useCache = !isServer;
+      const disableWheelmapSource = query.disableWheelmapSource;
 
-      const featurePromise = fetchFeature(featureId, useCache);
-      const photosPromise = fetchPhotos(featureId, useCache);
+      const featurePromise = fetchFeature(featureId, { useCache, disableWheelmapSource });
+      const photosPromise = fetchPhotos(featureId, { useCache, disableWheelmapSource });
       const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
-      const lightweightFeature = wheelmapLightweightFeatureCache.getCachedFeature(featureId);
+      const lightweightFeature = !disableWheelmapSource
+        ? wheelmapLightweightFeatureCache.getCachedFeature(featureId)
+        : null;
       const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, useCache);
 
       const feature = isServer ? await featurePromise : featurePromise;
@@ -193,7 +206,6 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       const extras = [];
       let fullTitle;
       let placeTitle;
-      let image;
 
       if (feature != null) {
         fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties);
