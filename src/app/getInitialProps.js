@@ -33,6 +33,7 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
+  disableWheelmapSource?: boolean,
   isCordovaBuild?: boolean,
   skipApplicationBody?: boolean,
 };
@@ -102,6 +103,7 @@ export async function getAppInitialProps(
     toilet,
     q,
     includeSourceIds,
+    disableWheelmapSource,
     ...query
   }: {
     userAgentString: string,
@@ -115,6 +117,7 @@ export async function getAppInitialProps(
     accessibility?: string,
     toilet?: string,
     includeSourceIds?: string,
+    disableWheelmapSource?: boolean,
     [key: string]: string,
   },
   isServer: boolean,
@@ -141,9 +144,9 @@ export async function getAppInitialProps(
   const preferredLocale = translations[0].headers.language;
 
   // load categories
-  let categoryData = useCache ? clientCache.categoryData : null;
-  const categoriesPromise = !categoryData
-    ? Categories.fetchCategoryData({ locale: preferredLocale })
+  let categories = useCache ? clientCache.categories : null;
+  const categoriesPromise = !categories
+    ? Categories.generateLookupTables({ locale: preferredLocale, disableWheelmapSource })
     : null;
 
   if (clientSideConfigurationPromise || categoriesPromise) {
@@ -176,6 +179,7 @@ export async function getAppInitialProps(
     toiletFilter,
     searchQuery: q,
     includeSourceIds,
+    disableWheelmapSource,
   };
   return appProps;
 }
