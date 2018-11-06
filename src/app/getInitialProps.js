@@ -117,7 +117,7 @@ export async function getAppInitialProps(
     accessibility?: string,
     toilet?: string,
     includeSourceIds?: string,
-    disableWheelmapSource?: boolean,
+    disableWheelmapSource?: string,
     [key: string]: string,
   },
   isServer: boolean,
@@ -146,7 +146,10 @@ export async function getAppInitialProps(
   // load categories
   let categories = useCache ? clientCache.categories : null;
   const categoriesPromise = !categories
-    ? Categories.generateLookupTables({ locale: preferredLocale, disableWheelmapSource })
+    ? Categories.generateLookupTables({
+        locale: preferredLocale,
+        disableWheelmapSource: disableWheelmapSource === 'true',
+      })
     : null;
 
   if (clientSideConfigurationPromise || categoriesPromise) {
@@ -179,7 +182,7 @@ export async function getAppInitialProps(
     toiletFilter,
     searchQuery: q,
     includeSourceIds,
-    disableWheelmapSource,
+    disableWheelmapSource: disableWheelmapSource === 'true',
   };
   return appProps;
 }

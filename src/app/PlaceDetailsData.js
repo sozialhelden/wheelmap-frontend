@@ -130,7 +130,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
       // do not cache on server
       const useCache = !isServer;
-      const disableWheelmapSource = query.disableWheelmapSource;
+      const disableWheelmapSource = query.disableWheelmapSource === 'true';
 
       const featurePromise = fetchFeature(featureId, { useCache, disableWheelmapSource });
       const photosPromise = fetchPhotos(featureId, { useCache, disableWheelmapSource });
