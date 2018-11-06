@@ -31,6 +31,7 @@ import NextRouterHistory from '../lib/NextRouteHistory';
 import { applyTranslations } from '../lib/i18n';
 import env from '../lib/env';
 import isCordova from '../lib/isCordova';
+import Categories from '../lib/Categories';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -182,8 +183,12 @@ export default class App extends BaseApp {
       isCordovaBuild,
       translations,
       skipApplicationBody,
+      categoryData,
       ...props
     } = receivedProps;
+
+    // build lookup table
+    props.categories = Categories.generateLookupTables(categoryData);
 
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova()) {

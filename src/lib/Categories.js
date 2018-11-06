@@ -173,13 +173,12 @@ export default class Categories {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static async generateLookupTables(options: { locale: string }) {
-    const lookupTable: CategoryLookupTables = {
-      synonymCache: null,
-      idsToWheelmapCategories: {},
-      wheelmapCategoryNamesToCategories: {},
-      wheelmapRootCategoryNamesToCategories: {},
-    };
+  static async fetchCategoryData(options: {
+    locale: string,
+  }): Promise<[ACCategory[], WheelmapCategory[], WheelmapCategory[]]> {
+    const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
+    const hasWheelmapCredentials =
+      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
 
     const countryCode = options.locale.substr(0, 2);
     const responseHandler = response => {
@@ -198,7 +197,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { cordova: true })
         .then(responseHandler)
-        .then(json => Categories.generateSynonymCache(lookupTable, json.results || []));
+        .then((json): ACCategory[] => json.results || []);
     }
 
     function wheelmapCategoriesFetch() {
@@ -208,7 +207,7 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.fillCategoryLookupTable(lookupTable, json.categories || []));
+        .then((json): WheelmapCategory[] => json.categories || []);
     }
 
     function wheelmapNodeTypesFetch() {
@@ -218,20 +217,29 @@ export default class Categories {
       return globalFetchManager
         .fetch(url, { mode: 'no-cors', cordova: true })
         .then(responseHandler)
-        .then(json => Categories.fillCategoryLookupTable(lookupTable, json.node_types || []));
+        .then((json): WheelmapCategory[] => json.node_types || []);
     }
 
-    const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
-    const hasWheelmapCredentials =
-      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
+    return await Promise.all([
+      hasAccessibilityCloudCredentials ? acCategoriesFetch() : [],
+      hasWheelmapCredentials ? wheelmapCategoriesFetch() : [],
+      hasWheelmapCredentials ? wheelmapNodeTypesFetch() : [],
+    ]);
+  }
 
-    await Promise.all(
-      [
-        hasAccessibilityCloudCredentials ? acCategoriesFetch() : null,
-        hasWheelmapCredentials ? wheelmapCategoriesFetch() : null,
-        hasWheelmapCredentials ? wheelmapNodeTypesFetch() : null,
-      ].filter(Boolean)
-    );
+  static generateLookupTables(
+    prefetchedData: [ACCategory[], WheelmapCategory[], WheelmapCategory[]]
+  ) {
+    const lookupTable: CategoryLookupTables = {
+      synonymCache: null,
+      idsToWheelmapCategories: {},
+      wheelmapCategoryNamesToCategories: {},
+      wheelmapRootCategoryNamesToCategories: {},
+    };
+
+    Categories.generateSynonymCache(lookupTable, prefetchedData[0]);
+    Categories.fillCategoryLookupTable(lookupTable, prefetchedData[1]);
+    Categories.fillCategoryLookupTable(lookupTable, prefetchedData[2]);
 
     return lookupTable;
   }
