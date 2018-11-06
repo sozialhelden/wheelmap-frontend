@@ -144,9 +144,9 @@ export async function getAppInitialProps(
   const preferredLocale = translations[0].headers.language;
 
   // load categories
-  let categories = useCache ? clientCache.categories : null;
-  const categoriesPromise = !categories
-    ? Categories.generateLookupTables({
+  let categoryData = useCache ? clientCache.categoryData : null;
+  const categoriesPromise = !categoryData
+    ? Categories.fetchCategoryData({
         locale: preferredLocale,
         disableWheelmapSource: disableWheelmapSource === 'true',
       })

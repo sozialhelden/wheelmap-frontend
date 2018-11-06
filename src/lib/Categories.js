@@ -173,8 +173,10 @@ export default class Categories {
     return this.getTranslatedRootCategoryNames()[name];
   }
 
-  static async fetchCategoryData(options: {locale: string, disableWheelmapSource?: boolean }:
-		 Promise<[ACCategory[], WheelmapCategory[], WheelmapCategory[]]> {
+  static async fetchCategoryData(options: {
+    locale: string,
+    disableWheelmapSource?: boolean,
+  }): Promise<[ACCategory[], WheelmapCategory[], WheelmapCategory[]]> {
     const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
     const hasWheelmapCredentials =
       config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
@@ -221,9 +223,9 @@ export default class Categories {
     }
 
     return await Promise.all([
-      hasAccessibilityCloudCredentials ? acCategoriesFetch() : [],
-      useWheelmapSource ? wheelmapCategoriesFetch() : [],
-      useWheelmapSource ? wheelmapNodeTypesFetch() : [],
+      hasAccessibilityCloudCredentials ? acCategoriesFetch() : Promise.resolve([]),
+      useWheelmapSource ? wheelmapCategoriesFetch() : Promise.resolve([]),
+      useWheelmapSource ? wheelmapNodeTypesFetch() : Promise.resolve([]),
     ]);
   }
 
