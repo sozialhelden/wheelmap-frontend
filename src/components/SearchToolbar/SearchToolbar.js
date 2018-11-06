@@ -296,7 +296,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   };
 
   ensureFullVisibility() {
-    if (this.toolbar instanceof Toolbar) {
+    if (this.toolbar && this.toolbar.ensureFullVisibility) {
       this.toolbar.ensureFullVisibility();
     }
   }
