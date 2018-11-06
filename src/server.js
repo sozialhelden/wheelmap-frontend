@@ -1,6 +1,9 @@
 const nextjs = require('next');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
+const cache = require('express-cache-headers');
+const compression = require('compression');
+
 const router = require('./app/router');
 const env = require('./lib/env');
 
@@ -11,6 +14,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+  server.use(cache(360));
+  server.use(compression());
 
   server.get(/beta\/.*/, (req, res) => {
     res.redirect(`${req.originalUrl.substr(5)}`);
