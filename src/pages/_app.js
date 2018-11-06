@@ -33,6 +33,10 @@ import env from '../lib/env';
 import isCordova from '../lib/isCordova';
 
 let isServer = false;
+// only used in serverSideRendering when getting the initial props
+// used for storing the initial props instead of serializing them for the client
+// to prevent sending too large html chunks, that break e.g. twitter cards
+let nonSerializedProps: ?{ appProps: AppProps, routeProps: any | void } = null;
 
 export default class App extends BaseApp {
   static async getInitialProps({
@@ -124,9 +128,21 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
+    // when requested by server side rendering only, skip serializing app props as these are huge
+    const userAgent = appProps.userAgent.ua || '';
+    const isTwitterBot = userAgent.includes('Twitterbot');
+    const doNotSerializeAppProps = isTwitterBot && isServer;
+
+    if (doNotSerializeAppProps) {
+      nonSerializedProps = { appProps, routeProps };
+      appProps = {};
+      routeProps = null;
+    }
+
     return {
       ...appProps,
       ...routeProps,
+      skipApplicationBody: isTwitterBot,
       routeName: ctx.query.routeName,
       path,
       isCordovaBuild,
@@ -145,6 +161,18 @@ export default class App extends BaseApp {
   };
 
   render() {
+    let receivedProps = this.props;
+
+    // merge non serialized props back in
+    if (isServer && nonSerializedProps) {
+      receivedProps = {
+        ...nonSerializedProps.appProps,
+        ...nonSerializedProps.routeProps,
+        ...receivedProps,
+      };
+      nonSerializedProps = null;
+    }
+
     const {
       Component: PageComponent,
       statusCode,
@@ -153,8 +181,9 @@ export default class App extends BaseApp {
       hostName,
       isCordovaBuild,
       translations,
+      skipApplicationBody,
       ...props
-    } = this.props;
+    } = receivedProps;
 
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova()) {
@@ -234,11 +263,13 @@ export default class App extends BaseApp {
           )}
           {facebook && <FacebookMeta facebook={facebook} />}
           {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
-          <PageComponent
-            routerHistory={this.routerHistory}
-            {...getRenderProps(routeName, props, isServer)}
-            routeName={routeName}
-          />
+          {!skipApplicationBody && (
+            <PageComponent
+              routerHistory={this.routerHistory}
+              {...getRenderProps(routeName, props, isServer)}
+              routeName={routeName}
+            />
+          )}
         </React.Fragment>
       </Container>
     );

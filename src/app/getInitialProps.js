@@ -34,6 +34,7 @@ export type AppProps = {
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   isCordovaBuild?: boolean,
+  skipApplicationBody?: boolean,
 };
 
 type DataTableQuery = {
