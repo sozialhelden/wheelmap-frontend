@@ -325,7 +325,8 @@ class MainView extends React.Component<Props, State> {
       onToggleMainMenu,
       clientSideConfiguration,
     } = this.props;
-    const { logoURL, customMainMenuLinks, addPlaceURL } = clientSideConfiguration;
+
+    const { logoURL, customMainMenuLinks, addPlaceURL, textContent } = clientSideConfiguration;
 
     return (
       <MainMenu
@@ -336,6 +337,7 @@ class MainView extends React.Component<Props, State> {
         isLocalizationLoaded={isLocalizationLoaded}
         onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         logoURL={logoURL}
+        claim={textContent.product.claim}
         links={customMainMenuLinks}
         addPlaceURL={addPlaceURL}
         {...{ lat, lon, zoom }}
