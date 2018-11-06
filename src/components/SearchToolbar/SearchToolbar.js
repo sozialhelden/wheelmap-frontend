@@ -32,6 +32,7 @@ export type Props = PlaceFilter & {
   hidden: boolean,
   inert: boolean,
   category: ?string,
+  hideCategoryMenu?: boolean,
   searchQuery: ?string,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,

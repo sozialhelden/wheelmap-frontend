@@ -17,6 +17,7 @@ import { getProductTitle } from '../lib/ClientSideConfiguration';
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
   searchQuery: ?string,
+  disableWheelmapSource?: boolean,
 };
 
 async function fetchWheelmapNode(
@@ -66,6 +67,8 @@ const SearchData: DataTableEntry<SearchProps> = {
     // TODO error handling for await
 
     const searchQuery = query.q;
+    const disableWheelmapSource = query.disableWheelmapSource === 'true';
+
     let trimmedSearchQuery;
     let searchResults: Promise<SearchResultCollection> | SearchResultCollection = {
       features: [],
@@ -82,6 +85,7 @@ const SearchData: DataTableEntry<SearchProps> = {
     }
 
     return {
+      disableWheelmapSource,
       searchResults,
       searchQuery,
     };
@@ -92,10 +96,18 @@ const SearchData: DataTableEntry<SearchProps> = {
       return props;
     }
 
-    let { searchResults } = props;
+    let { searchResults, disableWheelmapSource } = props;
 
     searchResults = Promise.resolve(searchResults).then(async results => {
       const useCache = !isServer;
+
+      if (disableWheelmapSource) {
+        return {
+          ...results,
+          wheelmapFeatures: [],
+        };
+      }
+
       let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
         fetchWheelmapNode(feature.properties, useCache)
       );
