@@ -161,8 +161,6 @@ class MainMenu extends React.Component<Props, State> {
 
         <GlobalActivityIndicator />
 
-        <div className="flexible-separator" />
-
         <div id="main-menu" role="menu">
           {links.map(link => {
             const url = translatedStringFromObject(link.url);
@@ -218,10 +216,10 @@ const StyledMainMenu = styled(MainMenu)`
     opacity: 0.6;
     transition: opacity 0.3s ease-out;
     padding-left: 5px;
+    flex: 1;
 
     @media (max-width: 1280px) {
       font-size: 80%;
-      max-width: 130px;
     }
     @media (max-width: 1160px) {
       opacity: 0;
@@ -231,15 +229,14 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  .flexible-separator {
-    flex: 1;
-  }
-
   #main-menu {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
+    height: 100%;
+    overflow: hidden;
+    flex: 3;
   }
 
   &.is-open {
@@ -249,7 +246,7 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   .nav-link {
-    padding: 10px;
+    padding: 2px 10px;
     box-sizing: border-box;
     border-radius: 4px;
 
@@ -339,8 +336,8 @@ const StyledMainMenu = styled(MainMenu)`
     right: 0;
 
     flex-wrap: wrap;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
 
     #main-menu {
       margin-right: 70px;
@@ -367,6 +364,7 @@ const StyledMainMenu = styled(MainMenu)`
       display: none;
       align-items: center;
       box-sizing: border-box;
+      text-align: left;
     }
 
     &.is-open {
