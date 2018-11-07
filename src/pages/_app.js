@@ -186,7 +186,7 @@ export default class App extends BaseApp {
       isCordovaBuild,
       translations,
       skipApplicationBody,
-      categoryData,
+      rawCategoryLists,
       ...props
     } = receivedProps;
 
@@ -205,7 +205,7 @@ export default class App extends BaseApp {
     }
 
     // build lookup table
-    props.categories = Categories.generateLookupTables(categoryData);
+    props.categories = Categories.generateLookupTables(rawCategoryLists);
 
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova()) {

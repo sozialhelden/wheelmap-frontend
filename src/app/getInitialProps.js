@@ -25,7 +25,7 @@ import MapData from './MapData';
 
 export type AppProps = {
   userAgent: UAResult,
-  categoryData: [ACCategory[], WheelmapCategory[], WheelmapCategory[]],
+  rawCategoryLists: RawCategoryLists,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
   hostName: string,
@@ -145,8 +145,8 @@ export async function getAppInitialProps(
   const preferredLocaleString = translations[0].headers.language;
 
   // load categories
-  let categoryData = useCache ? appPropsCache.categoryData : null;
-  const categoriesPromise = !categoryData
+  let rawCategoryLists = useCache ? appPropsCache.rawCategoryLists : null;
+  const categoriesPromise = !rawCategoryLists
     ? Categories.fetchCategoryData({
         locale: preferredLocaleString,
         disableWheelmapSource: disableWheelmapSource === 'true',
@@ -157,10 +157,10 @@ export async function getAppInitialProps(
     clientSideConfiguration = clientSideConfigurationPromise
       ? await clientSideConfigurationPromise
       : null;
-    categoryData = categoriesPromise ? await categoriesPromise : null;
+    rawCategoryLists = categoriesPromise ? await categoriesPromise : null;
   }
 
-  if (!categoryData) {
+  if (!rawCategoryLists) {
     throw new Error('missing categories lookup table');
   }
 
@@ -171,7 +171,7 @@ export async function getAppInitialProps(
   const appProps: AppProps = {
     userAgent,
     translations,
-    categoryData,
+    rawCategoryLists,
     clientSideConfiguration,
     category,
     extent,
@@ -194,7 +194,7 @@ export function clientStoreAppInitialProps(props: $Shape<AppProps>, isServer: bo
   if (!isServer) {
     appPropsCache.translations = props.translations || appPropsCache.translations;
   }
-  appPropsCache.categoryData = props.categoryData || appPropsCache.categoryData;
+  appPropsCache.rawCategoryLists = props.rawCategoryLists || appPropsCache.rawCategoryLists;
   appPropsCache.clientSideConfiguration =
     props.clientSideConfiguration || appPropsCache.clientSideConfiguration;
 }

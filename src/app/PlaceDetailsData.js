@@ -207,7 +207,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   getHead(props) {
-    const { feature, photos, clientSideConfiguration, categoryData, equipmentInfo } = props;
+    const { feature, photos, clientSideConfiguration, categories, equipmentInfo } = props;
     const { textContent, meta } = clientSideConfiguration;
 
     const renderTitle = (feature, photos) => {
@@ -216,14 +216,15 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       let placeTitle;
 
       if (feature != null) {
-        const categories = Categories.generateLookupTables(categoryData);
-        const resolvedCategories = Categories.getCategoriesForFeature(
+        // const categories = Categories.generateLookupTables(rawCategoryLists);
+        const { category, parentCategory } = Categories.getCategoriesForFeature(
           categories,
           (equipmentInfo && getDataIfAlreadyResolved(equipmentInfo)) ||
             getDataIfAlreadyResolved(feature)
         );
 
-        fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties);
+        fullTitle = placeTitle =
+          feature.properties && placeNameFor(feature.properties, category || parentCategory);
         const accessibilityTitle =
           feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
 

@@ -48,8 +48,12 @@ export default class SearchResult extends React.Component<Props, State> {
     }
 
     if (wheelmapFeature instanceof Promise) {
-      const categoryData = Categories.getCategoriesForFeature(categories, feature);
-      return { wheelmapFeature: null, wheelmapFeaturePromise: wheelmapFeature, ...categoryData };
+      const rawCategoryLists = Categories.getCategoriesForFeature(categories, feature);
+      return {
+        wheelmapFeature: null,
+        wheelmapFeaturePromise: wheelmapFeature,
+        ...rawCategoryLists,
+      };
     }
 
     const wheelmapCategoryData = Categories.getCategoriesForFeature(categories, feature);

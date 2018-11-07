@@ -39,6 +39,13 @@ type SynonymCache = {
   [key: string]: ACCategory,
 };
 
+// Contains data as supplied by the server
+export type RawCategoryLists = {
+  accessibilityCloud: ACCategory[],
+  wheelmapCategories: WheelmapCategory[],
+  wheelmapNodeTypes: WheelmapCategory[],
+};
+
 export type CategoryLookupTables = {
   synonymCache: ?SynonymCache,
   idsToWheelmapCategories: { [number]: WheelmapCategory },
@@ -176,7 +183,7 @@ export default class Categories {
   static async fetchCategoryData(options: {
     locale: string,
     disableWheelmapSource?: boolean,
-  }): Promise<[ACCategory[], WheelmapCategory[], WheelmapCategory[]]> {
+  }): Promise<RawCategoryLists> {
     const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
     const hasWheelmapCredentials =
       config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
@@ -222,16 +229,16 @@ export default class Categories {
         .then((json): WheelmapCategory[] => json.node_types || []);
     }
 
-    return await Promise.all([
+    const [accessibilityCloud, wheelmapCategories, wheelmapNodeTypes] = await Promise.all([
       hasAccessibilityCloudCredentials ? acCategoriesFetch() : Promise.resolve([]),
       useWheelmapSource ? wheelmapCategoriesFetch() : Promise.resolve([]),
       useWheelmapSource ? wheelmapNodeTypesFetch() : Promise.resolve([]),
     ]);
+
+    return { accessibilityCloud, wheelmapCategories, wheelmapNodeTypes };
   }
 
-  static generateLookupTables(
-    prefetchedData: [ACCategory[], WheelmapCategory[], WheelmapCategory[]]
-  ) {
+  static generateLookupTables(prefetchedData: RawCategoryLists) {
     const lookupTable: CategoryLookupTables = {
       synonymCache: null,
       idsToWheelmapCategories: {},
@@ -239,9 +246,9 @@ export default class Categories {
       wheelmapRootCategoryNamesToCategories: {},
     };
 
-    Categories.generateSynonymCache(lookupTable, prefetchedData[0]);
-    Categories.fillCategoryLookupTable(lookupTable, prefetchedData[1]);
-    Categories.fillCategoryLookupTable(lookupTable, prefetchedData[2]);
+    Categories.generateSynonymCache(lookupTable, prefetchedData.accessibilityCloud);
+    Categories.fillCategoryLookupTable(lookupTable, prefetchedData.wheelmapCategories);
+    Categories.fillCategoryLookupTable(lookupTable, prefetchedData.wheelmapNodeTypes);
 
     return lookupTable;
   }

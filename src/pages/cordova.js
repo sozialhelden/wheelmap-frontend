@@ -52,7 +52,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
       // TODO: Make locale overridable via parameter
       const translations = getAvailableTranslationsByPreference(allTranslations, localeStrings);
       addTranslationsToTTag(translations);
-      clientStoreAppInitialProps({ translations }, isBrowser);
+      clientStoreAppInitialProps({ translations }, isServer);
     }
 
     // inject the build time data into the initial props, these are only available on the initial route
@@ -96,16 +96,16 @@ class CordovaMain extends React.PureComponent<Props, State> {
   onInitialPropsFetched = (reloadedInitialProps: AppProps) => {
     console.log('Received new initial props from server.', reloadedInitialProps);
     // strip translations, no need to cache them
-    const { categoryData, clientSideConfiguration } = reloadedInitialProps;
+    const { rawCategoryLists, clientSideConfiguration } = reloadedInitialProps;
 
-    clientStoreAppInitialProps({ categoryData, clientSideConfiguration }, isServer);
+    clientStoreAppInitialProps({ rawCategoryLists, clientSideConfiguration }, isServer);
 
     this.setState({
-      storedInitialProps: { categoryData, clientSideConfiguration },
+      storedInitialProps: { rawCategoryLists, clientSideConfiguration },
     });
 
     saveState({
-      'initialProps.categoryData': JSON.stringify(categoryData),
+      'initialProps.rawCategoryLists': JSON.stringify(rawCategoryLists),
       'initialProps.clientSideConfiguration': JSON.stringify(clientSideConfiguration),
     });
   };
