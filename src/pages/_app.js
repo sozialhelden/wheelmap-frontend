@@ -221,7 +221,7 @@ export default class App extends BaseApp {
     }
 
     // always store app initial props
-    clientStoreAppInitialProps(this.props);
+    clientStoreAppInitialProps(this.props, isServer);
 
     if (!isServer) {
       if (routeName) {

@@ -189,8 +189,10 @@ export async function getAppInitialProps(
 
 const clientCache: $Shape<AppProps> = {};
 
-export function clientStoreAppInitialProps(props: $Shape<AppProps>) {
-  clientCache.translations = props.translations || clientCache.translations;
+export function clientStoreAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
+  if (!isServer) {
+    clientCache.translations = props.translations || clientCache.translations;
+  }
   clientCache.categoryData = props.categoryData || clientCache.categoryData;
   clientCache.clientSideConfiguration =
     props.clientSideConfiguration || clientCache.clientSideConfiguration;
