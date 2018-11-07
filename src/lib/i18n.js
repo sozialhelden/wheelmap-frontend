@@ -102,12 +102,15 @@ export function translatedStringFromObject(localizedString: ?LocalizedString): ?
     // add locales without country
     for (const localeString in localizedString) {
       const withoutCountry = localeWithoutCountry(localeFromString(localeString));
-      expandedLocalizedString[withoutCountry.string] = expandedLocalizedString[localeString];
+      if (!expandedLocalizedString[withoutCountry.string]) {
+        // this will lead to always use the first available country translation as fallback
+        expandedLocalizedString[withoutCountry.string] = expandedLocalizedString[localeString];
+      }
     }
 
     const locales = currentLocales;
     for (let i = 0; i < locales.length; i++) {
-      const translatedString = expandedLocalizedString[locales[i].string];
+      const translatedString = expandedLocalizedString[locales[i].underscoredString];
       if (translatedString) return translatedString;
     }
 

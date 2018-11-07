@@ -96,7 +96,7 @@ export default class App extends BaseApp {
       if (ctx.req) {
         if (ctx.req.headers['accept-language']) {
           localeStrings = parseAcceptLanguageString(ctx.req.headers['accept-language']);
-          console.log('Using languages:', localeStrings);
+          // console.log('Using languages:', localeStrings);
         }
       } else {
         localeStrings = getBrowserLocaleStrings();
