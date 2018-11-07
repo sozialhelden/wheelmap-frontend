@@ -77,9 +77,9 @@ export default class MarkerIcon extends L.Icon {
 
     const wheelchairAccessibilityText = accessibilityName(isWheelchairAccessible(properties));
 
-    const accessibleName = `${translatedStringFromObject(
-      properties.name
-    )} ${wheelchairAccessibilityText}`;
+    const accessibleName = `${String(translatedStringFromObject(properties.name))} ${String(
+      wheelchairAccessibilityText
+    )}`;
     link.setAttribute('aria-label', accessibleName);
     return link;
   }

@@ -25,8 +25,14 @@ import {
   getFeatureId,
 } from '../lib/Feature';
 
+import Categories from '../lib/Categories';
+
 import { type DataTableEntry } from './getInitialProps';
-import { type PlaceDetailsProps, type SourceWithLicense } from './PlaceDetailsProps';
+import {
+  type PlaceDetailsProps,
+  type SourceWithLicense,
+  getDataIfAlreadyResolved,
+} from './PlaceDetailsProps';
 import router from './router';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { type EquipmentInfo } from '../lib/EquipmentInfo';
@@ -43,7 +49,7 @@ import { translatedStringFromObject } from '../lib/i18n';
 function fetchFeature(
   featureId: string,
   { useCache, disableWheelmapSource }: { useCache: boolean, disableWheelmapSource?: boolean }
-): Promise<Feature> {
+): ?Promise<Feature> {
   const isWheelmap = isWheelmapFeatureId(featureId);
 
   if (isWheelmap) {
@@ -201,7 +207,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   getHead(props) {
-    const { feature, photos, clientSideConfiguration } = props;
+    const { feature, photos, clientSideConfiguration, categoryData, equipmentInfo } = props;
     const { textContent, meta } = clientSideConfiguration;
 
     const renderTitle = (feature, photos) => {
@@ -210,6 +216,13 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       let placeTitle;
 
       if (feature != null) {
+        const categories = Categories.generateLookupTables(categoryData);
+        const resolvedCategories = Categories.getCategoriesForFeature(
+          categories,
+          (equipmentInfo && getDataIfAlreadyResolved(equipmentInfo)) ||
+            getDataIfAlreadyResolved(feature)
+        );
+
         fullTitle = placeTitle = feature.properties && placeNameFor(feature.properties);
         const accessibilityTitle =
           feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));

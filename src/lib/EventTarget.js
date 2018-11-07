@@ -9,7 +9,7 @@ export class CustomEvent {
   }
 }
 
-export default class EventTarget<EventClass: CustomEvent> {
+export default class EventTarget<EventClass> {
   listeners = {};
 
   addEventListener(type: string, callback: (event: EventClass) => void) {

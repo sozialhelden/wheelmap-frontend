@@ -14,7 +14,7 @@ export type SourceWithLicense = {
 
 export type PotentialPromise<T> = T | Promise<T>;
 
-function getDataIfAlreadyResolved<T>(potentialPromise: PotentialPromise<T>): T | null {
+export function getDataIfAlreadyResolved<T>(potentialPromise: PotentialPromise<T>): T | null {
   if (potentialPromise instanceof Promise) {
     return null;
   }

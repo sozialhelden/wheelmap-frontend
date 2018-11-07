@@ -24,6 +24,9 @@ const DynamicApp = dynamic(import('../App'), {
   ssr: false,
 });
 
+const isBrowser = typeof window !== 'undefined';
+const isServer = !isBrowser;
+
 type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
 
 type State = {
@@ -44,24 +47,24 @@ class CordovaMain extends React.PureComponent<Props, State> {
     super(props);
 
     // always apply
-    if (typeof window !== 'undefined') {
+    if (isBrowser) {
       const localeStrings = getBrowserLocaleStrings();
       // TODO: Make locale overridable via parameter
       const translations = getAvailableTranslationsByPreference(allTranslations, localeStrings);
       addTranslationsToTTag(translations);
-      clientStoreAppInitialProps({ translations });
+      clientStoreAppInitialProps({ translations }, isBrowser);
     }
 
     // inject the build time data into the initial props, these are only available on the initial route
     if (props.buildTimeProps) {
       const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
       this.state.buildTimeProps = remainingBuildTimeProps;
-      clientStoreAppInitialProps(remainingBuildTimeProps);
+      clientStoreAppInitialProps(remainingBuildTimeProps, isServer);
     }
 
     // if we have stored props, use these to override the build time props
     if (savedState.initialProps) {
-      clientStoreAppInitialProps(savedState.initialProps);
+      clientStoreAppInitialProps(savedState.initialProps, isServer);
     }
   }
 
@@ -95,7 +98,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
     // strip translations, no need to cache them
     const { categoryData, clientSideConfiguration } = reloadedInitialProps;
 
-    clientStoreAppInitialProps({ categoryData, clientSideConfiguration });
+    clientStoreAppInitialProps({ categoryData, clientSideConfiguration }, isServer);
 
     this.setState({
       storedInitialProps: { categoryData, clientSideConfiguration },

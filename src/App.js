@@ -1,6 +1,5 @@
 // @flow
 
-import get from 'lodash/get';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import initReactFastclick from 'react-fastclick';
@@ -193,7 +192,7 @@ class App extends React.Component<Props, State> {
 
   onClickSearchButton = () => this.openSearch();
 
-  onToggleMainMenu = isMainMenuOpen => {
+  onToggleMainMenu = (isMainMenuOpen: boolean) => {
     this.setState({ isMainMenuOpen });
   };
 
@@ -203,13 +202,13 @@ class App extends React.Component<Props, State> {
     this.props.routerHistory.push('map');
   };
 
-  onMoveEnd = state => {
+  onMoveEnd = (state: $Shape<State>) => {
     let { zoom, lat, lon } = state;
 
     // Adjust zoom level to be stored in the local storage to make sure the user
     // can see some places when reloading the app after some time.
     const lastZoom = String(
-      Math.max(zoom, config.minZoomWithSetCategory, config.minZoomWithoutSetCategory)
+      Math.max(zoom || 0, config.minZoomWithSetCategory, config.minZoomWithoutSetCategory)
     );
 
     saveState({
@@ -382,7 +381,7 @@ class App extends React.Component<Props, State> {
     });
 
     accessibilityCloudImageCache
-      .uploadPhotoForFeature(featureId, photos, captchaSolution)
+      .uploadPhotoForFeature(String(featureId), photos, captchaSolution)
       .then(() => {
         console.log('Succeeded upload');
         this.onExitPhotoUploadFlow('waitingForReview');
@@ -587,7 +586,7 @@ class App extends React.Component<Props, State> {
     this.props.routerHistory.replace('equipment', { id: placeInfoId, eid: equipmentInfo._id });
   };
 
-  isNodeToolbarDisplayed(props = this.props, state = this.state) {
+  isNodeToolbarDisplayed(props: Props = this.props, state: State = this.state) {
     return (
       props.feature &&
       !state.isSearchToolbarExpanded &&
@@ -677,7 +676,6 @@ class App extends React.Component<Props, State> {
           onMoveEnd={this.onMoveEnd}
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
-          onError={this.onError}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
