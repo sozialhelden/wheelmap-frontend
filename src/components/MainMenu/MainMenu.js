@@ -234,6 +234,7 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-end;
+    align-items: center;
     height: 100%;
     overflow: hidden;
     flex: 3;
