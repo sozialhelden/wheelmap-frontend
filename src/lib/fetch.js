@@ -8,7 +8,7 @@ import isCordova from './isCordova';
 export default function(url: string, options: any) {
   options = options || {};
 
-  // console.log('Fetching', url, '…');
+  console.log('Fetching', url, '…');
 
   const start = Date.now();
   function afterEnd(data: any) {
@@ -16,10 +16,9 @@ export default function(url: string, options: any) {
     const elapsed = end - start;
     if (elapsed > 500) {
       console.warn('… ', url, ' fetched - took', elapsed, 'ms');
+    } else {
+      console.log('…', url, 'fetched - took', elapsed, 'ms');
     }
-    //else {
-    //   console.log('…', url, 'fetched - took', elapsed, 'ms');
-    //}
     return data;
   }
 
