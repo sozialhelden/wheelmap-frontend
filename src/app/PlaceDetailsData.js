@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { t } from 'ttag';
+import { get } from 'lodash';
 
 import {
   type Feature,
@@ -37,6 +38,7 @@ import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapP
 
 import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
+import { translatedStringFromObject } from '../lib/i18n';
 
 function fetchFeature(
   featureId: string,
@@ -218,7 +220,8 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
         const coordinates = normalizedCoordinatesForFeature(feature);
         // translator: Title for sharing a place detail page
-        const thisPlaceIsOn = t`This place is on ${textContent.product.name}: ${placeTitle}`;
+        const productName = translatedStringFromObject(get(textContent, 'product.name'));
+        const thisPlaceIsOn = t`This place is on ${productName}: ${placeTitle}`;
 
         if (coordinates) {
           extras.push(

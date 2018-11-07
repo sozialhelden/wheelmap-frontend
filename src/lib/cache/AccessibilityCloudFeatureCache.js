@@ -22,10 +22,11 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     id: number | string,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
+    const acLocaleString = currentLocales[0].underscoredString;
     return this.fetch(
       `${env.public.accessibilityCloud.baseUrl.cached}/place-infos/${id}.json?appToken=${
         env.public.accessibilityCloud.appToken
-      }&locale=${currentLocales[0]}&includePlacesWithoutAccessibility=1`,
+      }&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`,
       { cordova: true }
     );
   }

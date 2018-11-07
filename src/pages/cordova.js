@@ -12,10 +12,12 @@ import {
   type AppProps,
 } from '../app/getInitialProps';
 import {
-  applyTranslations,
-  expandedPreferredLocales,
-  loadExistingLocalizationByPreference,
+  addTranslationsToTTag,
+  getAvailableTranslationsByPreference,
+  getBrowserLocaleStrings,
 } from '../lib/i18n';
+
+import allTranslations from '../lib/translations.json';
 
 // dynamically load app only after cordova is ready
 const DynamicApp = dynamic(import('../App'), {
@@ -43,12 +45,10 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
     // always apply
     if (typeof window !== 'undefined') {
-      const languages = [window.navigator.language]
-        .concat(window.navigator.languages || [])
-        .filter(Boolean);
-      const locales = expandedPreferredLocales(languages);
-      const translations = loadExistingLocalizationByPreference(locales);
-      applyTranslations(translations);
+      const localeStrings = getBrowserLocaleStrings();
+      // TODO: Make locale overridable via parameter
+      const translations = getAvailableTranslationsByPreference(allTranslations, localeStrings);
+      addTranslationsToTTag(translations);
       clientStoreAppInitialProps({ translations });
     }
 
@@ -79,14 +79,11 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
   fetchInitialProps() {
     const userAgentString = window.navigator.userAgent;
-    const languages = [window.navigator.language]
-      .concat(window.navigator.languages || [])
-      .filter(Boolean);
-
+    const localeStrings = getBrowserLocaleStrings();
     const hostName = env.public.cordovaHostname;
 
     // try downloading new initial props after first mount
-    getAppInitialProps({ userAgentString, hostName, languages }, false, false)
+    getAppInitialProps({ userAgentString, hostName, localeStrings }, false, false)
       .then(this.onInitialPropsFetched)
       .catch(e => {
         console.warn('Failed loading new initial props from server, staying with build props.', e);
@@ -96,16 +93,16 @@ class CordovaMain extends React.PureComponent<Props, State> {
   onInitialPropsFetched = (reloadedInitialProps: AppProps) => {
     console.log('Received new initial props from server.', reloadedInitialProps);
     // strip translations, no need to cache them
-    const { categories, clientSideConfiguration } = reloadedInitialProps;
+    const { categoryData, clientSideConfiguration } = reloadedInitialProps;
 
-    clientStoreAppInitialProps({ categories, clientSideConfiguration });
+    clientStoreAppInitialProps({ categoryData, clientSideConfiguration });
 
     this.setState({
-      storedInitialProps: { categories, clientSideConfiguration },
+      storedInitialProps: { categoryData, clientSideConfiguration },
     });
 
     saveState({
-      'initialProps.categories': JSON.stringify(categories),
+      'initialProps.categoryData': JSON.stringify(categoryData),
       'initialProps.clientSideConfiguration': JSON.stringify(clientSideConfiguration),
     });
   };

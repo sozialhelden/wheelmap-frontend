@@ -2,11 +2,9 @@
 import React, { PureComponent } from 'react';
 import Head from 'next/head';
 
-import { type OpenGraphConfiguration } from '../lib/ClientSideConfiguration';
-
 type Props = {
-  productName: string,
-  description: string,
+  productName: ?string,
+  description: ?string,
 };
 
 class OpenGraph extends PureComponent<Props> {

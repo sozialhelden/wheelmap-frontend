@@ -191,7 +191,7 @@ export function lastUpdateString({
   };
 
   let dateString = lastUpdate.toLocaleDateString(
-    currentLocales.map(l => l.replace(/_/, '-')),
+    currentLocales.map(l => l.string),
     fullDateOptions
   );
   if (isExistingInformationOutdated(lastUpdate) && typeof isWorking !== 'undefined') {
@@ -202,7 +202,7 @@ export function lastUpdateString({
     if (isShortAgo) {
       const timeOptions = { hour: '2-digit', minute: '2-digit' };
       dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(
-        currentLocales.map(l => l.replace(/_/, '-')),
+        currentLocales.map(l => l.string),
         timeOptions
       )}`;
     }

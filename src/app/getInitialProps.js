@@ -1,11 +1,9 @@
 // @flow
 import UAParser from 'ua-parser-js';
 
-import {
-  expandedPreferredLocales,
-  loadExistingLocalizationByPreference,
-  type Translations,
-} from '../lib/i18n';
+import { getAvailableTranslationsByPreference, type Translations } from '../lib/i18n';
+
+import allTranslations from '../lib/translations.json';
 
 import Categories, { type ACCategory, type WheelmapCategory } from '../lib/Categories';
 import { type UAResult, configureUserAgent } from '../lib/userAgent';
@@ -92,13 +90,13 @@ export function getRenderProps<Props>(routeName: string, props: Props, isServer:
 export async function getAppInitialProps(
   {
     userAgentString,
-    languages,
+    localeStrings,
     hostName,
     category,
     extent,
     lat,
     lon,
-    locale,
+    locale: overriddenLocaleString,
     accessibility,
     toilet,
     q,
@@ -107,7 +105,7 @@ export async function getAppInitialProps(
     ...query
   }: {
     userAgentString: string,
-    languages: string[],
+    localeStrings: string[],
     hostName: string,
     category?: string,
     extent?: [number, number, number, number],
@@ -130,24 +128,27 @@ export async function getAppInitialProps(
   configureUserAgent(userAgent);
 
   // load application configuration
-  let clientSideConfiguration = useCache ? clientCache.clientSideConfiguration : null;
+  let clientSideConfiguration = useCache ? appPropsCache.clientSideConfiguration : null;
   const clientSideConfigurationPromise = !clientSideConfiguration
     ? fetchClientSideConfiguration(hostName)
     : null;
 
   // setup translations
-  const locales = expandedPreferredLocales(languages, locale);
   const translations =
-    useCache && clientCache.translations
-      ? clientCache.translations
-      : loadExistingLocalizationByPreference(locales);
-  const preferredLocale = translations[0].headers.language;
+    useCache && appPropsCache.translations
+      ? appPropsCache.translations
+      : getAvailableTranslationsByPreference(
+          allTranslations,
+          localeStrings,
+          overriddenLocaleString
+        );
+  const preferredLocaleString = translations[0].headers.language;
 
   // load categories
-  let categoryData = useCache ? clientCache.categoryData : null;
+  let categoryData = useCache ? appPropsCache.categoryData : null;
   const categoriesPromise = !categoryData
     ? Categories.fetchCategoryData({
-        locale: preferredLocale,
+        locale: preferredLocaleString,
         disableWheelmapSource: disableWheelmapSource === 'true',
       })
     : null;
@@ -177,7 +178,7 @@ export async function getAppInitialProps(
     lat,
     lon,
     hostName,
-    locale: preferredLocale,
+    preferredLocale: overriddenLocaleString,
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
@@ -187,15 +188,15 @@ export async function getAppInitialProps(
   return appProps;
 }
 
-const clientCache: $Shape<AppProps> = {};
+const appPropsCache: $Shape<AppProps> = {};
 
 export function clientStoreAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
   if (!isServer) {
-    clientCache.translations = props.translations || clientCache.translations;
+    appPropsCache.translations = props.translations || appPropsCache.translations;
   }
-  clientCache.categoryData = props.categoryData || clientCache.categoryData;
-  clientCache.clientSideConfiguration =
-    props.clientSideConfiguration || clientCache.clientSideConfiguration;
+  appPropsCache.categoryData = props.categoryData || appPropsCache.categoryData;
+  appPropsCache.clientSideConfiguration =
+    props.clientSideConfiguration || appPropsCache.clientSideConfiguration;
 }
 
 export function clientStoreInitialProps(routeName: string, props: any) {

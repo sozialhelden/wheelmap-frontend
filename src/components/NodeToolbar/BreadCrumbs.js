@@ -53,7 +53,7 @@ class BreadCrumbs extends React.Component<Props, State> {
         // Find best category translation … @TODO \o/ Sebastian! Right?
         const results = currentLocales
           .map(locale => {
-            return get(category, `translations._id.${locale}`);
+            return get(category, `translations._id.${locale.underscoredString}`);
           })
           .filter(Boolean);
 

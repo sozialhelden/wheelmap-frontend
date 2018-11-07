@@ -16,7 +16,14 @@ import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
-import { parseAcceptLanguageString, availableLocales } from '../lib/i18n';
+import {
+  parseAcceptLanguageString,
+  localeFromString,
+  getBrowserLocaleStrings,
+  translatedStringFromObject,
+  addTranslationsToTTag,
+  type Locale,
+} from '../lib/i18n';
 import router from '../app/router';
 import {
   getInitialProps,
@@ -28,10 +35,11 @@ import {
   type AppProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import { applyTranslations } from '../lib/i18n';
 import env from '../lib/env';
 import isCordova from '../lib/isCordova';
 import Categories from '../lib/Categories';
+
+import allTranslations from '../lib/translations.json';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -83,28 +91,23 @@ export default class App extends BaseApp {
         : window.location.hostname;
 
       // translations
-      let languages = ['en'];
+      let localeStrings: string[] = [];
 
       if (ctx.req) {
         if (ctx.req.headers['accept-language']) {
-          languages = parseAcceptLanguageString(ctx.req.headers['accept-language']);
+          localeStrings = parseAcceptLanguageString(ctx.req.headers['accept-language']);
+          console.log('Using languages:', localeStrings);
         }
       } else {
-        languages = [window.navigator.language]
-          .concat(window.navigator.languages || [])
-          .filter(Boolean);
+        localeStrings = getBrowserLocaleStrings();
       }
 
       if (!userAgentString) {
         throw new Error('User agent must be defined');
       }
 
-      if (!languages || languages.length === 0) {
-        throw new Error('Missing languages.');
-      }
-
       const appPropsPromise = getAppInitialProps(
-        { userAgentString, hostName, languages, ...ctx.query },
+        { userAgentString, hostName, localeStrings, ...ctx.query },
         isServer
       );
 
@@ -217,7 +220,7 @@ export default class App extends BaseApp {
     }
 
     if (translations) {
-      applyTranslations(translations);
+      addTranslationsToTTag(translations);
     }
 
     // always store app initial props
@@ -237,6 +240,11 @@ export default class App extends BaseApp {
     // TODO this feels like bad configuration
     const shareHost = `https://${hostName}/`;
 
+    const translatedDescription = translatedStringFromObject(description);
+    const translatedProductName = translatedStringFromObject(description);
+
+    const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
+
     return (
       <Container>
         <React.Fragment>
@@ -249,7 +257,11 @@ export default class App extends BaseApp {
             <link href={`${router.generatePath('map')}`} rel="home" title={t`Homepage`} />
 
             {/* Misc */}
-            <meta content={description} name="description" key="description" />
+            <meta
+              content={translatedStringFromObject(description)}
+              name="description"
+              key="description"
+            />
             <link rel="shortcut icon" href={`/favicon.ico`} />
 
             {/* iOS app */}
@@ -257,13 +269,13 @@ export default class App extends BaseApp {
               <meta content="app-id=399239476" name="apple-itunes-app" />
             )}
           </Head>
-          <OpenGraph productName={productName} description={description} />
+          <OpenGraph productName={translatedProductName} description={translatedDescription} />
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
             <TwitterMeta
               shareHost={shareHost}
-              productName={productName}
-              description={description}
+              productName={translatedProductName}
+              description={translatedDescription}
               twitter={twitter}
             />
           )}
@@ -282,12 +294,17 @@ export default class App extends BaseApp {
   }
 }
 
-function generateLocaleLinks(path, locales) {
+function generateLocaleLinks(path: string, locales: Locale[]) {
   if (path == null) {
     return null;
   }
 
   return locales.map(locale => (
-    <link key={locale} href={`${path}?locale=${locale}`} hrefLang={locale} rel="alternate" />
+    <link
+      key={locale.string}
+      href={`${path}?locale=${locale.string}`}
+      hrefLang={locale}
+      rel="alternate"
+    />
   ));
 }

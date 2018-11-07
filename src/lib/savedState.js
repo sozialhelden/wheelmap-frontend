@@ -4,13 +4,13 @@ import storage from 'local-storage-fallback';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
-const initialPropsCategoriesString = storage.getItem('wheelmap.initialProps.categories');
+const initialPropsCategoryDataString = storage.getItem('wheelmap.initialProps.categoryData');
 const initialPropsClientSideConfigurationString = storage.getItem(
   'wheelmap.initialProps.clientSideConfiguration'
 );
 
 const hasInitialProps = !!(
-  initialPropsCategoriesString && initialPropsClientSideConfigurationString
+  initialPropsCategoryDataString && initialPropsClientSideConfigurationString
 );
 
 const savedState = {
@@ -25,7 +25,7 @@ const savedState = {
   },
   initialProps: hasInitialProps
     ? {
-        categories: JSON.parse(initialPropsCategoriesString),
+        categoryData: JSON.parse(initialPropsCategoryDataString),
         clientSideConfiguration: JSON.parse(initialPropsClientSideConfigurationString),
       }
     : null,

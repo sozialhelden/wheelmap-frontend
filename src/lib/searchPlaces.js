@@ -47,7 +47,7 @@ export default function searchPlaces(
   { lat, lon }: { lat?: ?number, lon?: ?number }
 ): Promise<SearchResultCollection> {
   const locale = currentLocales[0];
-  const languageCode = locale && locale.substr(0, 2);
+  const languageCode = locale && locale.languageCode;
   const supportedLanguageCodes = ['en', 'de', 'fr', 'it']; // See Photon documentation
   let localeSuffix = '';
   if (includes(supportedLanguageCodes, languageCode)) {

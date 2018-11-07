@@ -6,8 +6,8 @@ import { type TwitterConfiguration } from '../lib/ClientSideConfiguration';
 
 type Props = {
   shareHost: string,
-  productName: string,
-  description: string,
+  productName: ?string,
+  description: ?string,
   twitter: TwitterConfiguration,
 };
 
