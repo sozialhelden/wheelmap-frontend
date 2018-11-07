@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Albanian (Albania) (https://www.transifex.com/sozialhelden/teams/16671/sq_AL/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: sq_AL\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 

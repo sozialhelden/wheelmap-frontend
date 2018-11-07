@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Romanian (Romania) (https://www.transifex.com/sozialhelden/teams/16671/ro_RO/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: ro_RO\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 

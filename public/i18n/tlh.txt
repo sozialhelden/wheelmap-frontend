@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Klingon (https://www.transifex.com/sozialhelden/teams/16671/tlh/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: tlh\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 

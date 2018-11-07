@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Latvian (https://www.transifex.com/sozialhelden/teams/16671/lv/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 

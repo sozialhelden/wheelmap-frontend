@@ -2,7 +2,7 @@ const gettextParser = require('gettext-parser');
 const fs = require('fs');
 const path = require('path');
 
-const i18nBasePath = './src/static/i18n';
+const i18nBasePath = './public/i18n';
 const outputFilename = './src/lib/translations.json';
 
 function removeEmptyTranslations(locale) {
@@ -31,7 +31,7 @@ function parseGettextFiles(filenames = getGettextFileNames()) {
   for (const filename of filenames) {
     console.log('Parsing', filename, '...');
     const locale = path.basename(filename, '.txt');
-    const poFile = fs.readFileSync(path.join(i18nBasePath, filename));
+    const poFile = fs.readFileSync(path.join(i18nBasePath, filename), {encoding: 'utf8'});
     const localization = removeEmptyTranslations(gettextParser.po.parse(poFile));
     result[locale] = localization;
   }

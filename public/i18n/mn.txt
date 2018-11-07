@@ -1,11 +1,12 @@
 # Translators:
-# Sebastian Felix Zappe <hypo@me.com>, 2018
 # Battulga <qwertybat1234@gmail.com>, 2018
+# Sebastian Felix Zappe <hypo@me.com>, 2018
+# 
 msgid ""
 msgstr ""
-"Last-Translator: Battulga <qwertybat1234@gmail.com>, 2018\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
 "Language-Team: Mongolian (https://www.transifex.com/sozialhelden/teams/16671/mn/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: mn\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 

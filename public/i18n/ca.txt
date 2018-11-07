@@ -1,11 +1,12 @@
 # Translators:
 # JOAQUIN GARCIA <joaquin.garcima@gmail.com>, 2018
 # Sebastian Felix Zappe <hypo@me.com>, 2018
+# 
 msgid ""
 msgstr ""
 "Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
 "Language-Team: Catalan (https://www.transifex.com/sozialhelden/teams/16671/ca/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 

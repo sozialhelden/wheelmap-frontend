@@ -1,11 +1,12 @@
 # Translators:
-# Developers, 2018
 # Sebastian Felix Zappe <hypo@me.com>, 2018
+# Developers, 2018
+# 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2018\n"
+"Last-Translator: Developers, 2018\n"
 "Language-Team: Arabic (https://www.transifex.com/sozialhelden/teams/16671/ar/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 

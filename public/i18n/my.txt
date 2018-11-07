@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Burmese (https://www.transifex.com/sozialhelden/teams/16671/my/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: my\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 

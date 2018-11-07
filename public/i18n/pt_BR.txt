@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Portuguese (Brazil) (https://www.transifex.com/sozialhelden/teams/16671/pt_BR/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 

@@ -2,11 +2,12 @@
 # Sebastian Felix Zappe <hypo@me.com>, 2018
 # ferit yazgan <ferityazgan@gmail.com>, 2018
 # Developers, 2018
+# 
 msgid ""
 msgstr ""
 "Last-Translator: Developers, 2018\n"
 "Language-Team: Turkish (https://www.transifex.com/sozialhelden/teams/16671/tr/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 

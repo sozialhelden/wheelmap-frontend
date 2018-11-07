@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Western Frisian (https://www.transifex.com/sozialhelden/teams/16671/fy/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: fy\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 

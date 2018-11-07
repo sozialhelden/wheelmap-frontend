@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Language-Team: Vietnamese (Viet Nam) (https://www.transifex.com/sozialhelden/teams/16671/vi_VN/)\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Language: vi_VN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
