@@ -14,12 +14,8 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
-  server.use(cache(360));
+  server.use(cache(3600));
   server.use(compression());
-  server.use((req, res, next) => {
-    res.set({ Vary: 'Accept-Language' });
-    next();
-  });
 
   server.get(/beta\/.*/, (req, res) => {
     res.redirect(`${req.originalUrl.substr(5)}`);

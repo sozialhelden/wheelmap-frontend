@@ -9,6 +9,7 @@ import BaseApp, { Container } from 'next/app';
 import Head from 'next/head';
 import Error from 'next/error';
 import { t } from 'ttag';
+import get from 'lodash/get';
 
 import AsyncNextHead from '../AsyncNextHead';
 import GoogleAnalytics from '../components/GoogleAnalytics';
@@ -23,6 +24,7 @@ import {
   translatedStringFromObject,
   addTranslationsToTTag,
   type Locale,
+  currentLocales,
 } from '../lib/i18n';
 import router from '../app/router';
 import {
@@ -102,10 +104,6 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
-      if (!userAgentString) {
-        throw new Error('User agent must be defined');
-      }
-
       const appPropsPromise = getAppInitialProps(
         { userAgentString, hostName, localeStrings, ...ctx.query },
         isServer
@@ -116,6 +114,20 @@ export default class App extends BaseApp {
         routeProps = await routePropsPromise;
       }
       appProps = await appPropsPromise;
+
+      if (isServer) {
+        ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant' });
+        if (currentLocales[0]) {
+          ctx.res.set('X-Locale-Variant', currentLocales[0].string);
+          ctx.res.set('Content-Language', currentLocales.map(l => l.string).join(', '));
+        }
+        const userAgentVariant =
+          get(appProps, 'userAgent.os.name') ||
+          (userAgentString && userAgentString.replace(/\/.*$/, ''));
+        if (userAgentVariant) {
+          ctx.res.set('X-User-Agent-Variant', userAgentVariant);
+        }
+      }
 
       if (ctx.req) {
         path = ctx.req.path;
@@ -134,7 +146,7 @@ export default class App extends BaseApp {
 
     // when requested by server side rendering only, skip serializing app props as these are huge
     const userAgent = appProps.userAgent.ua || '';
-    const isTwitterBot = userAgent.includes('Twitterbot');
+    const isTwitterBot = userAgent.match(/Twitterbot/i);
     const doNotSerializeAppProps = isTwitterBot && isServer;
 
     if (doNotSerializeAppProps) {
