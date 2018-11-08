@@ -82,7 +82,8 @@ type Props = {
   zoom?: ?number,
   extent: ?[number, number, number, number],
 
-  includeSourceIds: ?string,
+  includeSourceIds: Array<string>,
+  excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
@@ -456,7 +457,11 @@ export default class Map extends React.Component<Props, State> {
     if (!locale) {
       console.error('Could not load AC tile layer because no current locale is set.');
     }
-    const tileUrl = getAccessibilityCloudTileUrl(locale, this.props.includeSourceIds);
+    const tileUrl = getAccessibilityCloudTileUrl(
+      locale,
+      this.props.includeSourceIds,
+      this.props.excludeSourceIds
+    );
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
       featureCache: accessibilityCloudFeatureCache,
