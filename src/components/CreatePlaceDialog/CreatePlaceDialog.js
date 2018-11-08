@@ -16,9 +16,10 @@ import CloseLink from './CloseButton';
 
 export type Props = {
   hidden: boolean,
+  isExpanded?: boolean,
   onClose: ?() => void,
-  lat: ?string,
-  lon: ?string,
+  lat: ?number,
+  lon: ?number,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -82,7 +83,7 @@ const AppIcon = styled.img`
 `;
 
 type App = { title: string, href: string, icon: string };
-type AppFunction = (coords?: { lat: ?string, lon: ?string }) => App;
+type AppFunction = (coords?: { lat: ?number, lon: ?number }) => App;
 
 const apps: { [key: string]: AppFunction } = {
   vespucci: () => ({

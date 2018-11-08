@@ -27,7 +27,7 @@ export function generateOsmEditUrl(featureId: number) {
   return `https://www.openstreetmap.org/edit?node=${featureId}`;
 }
 
-type Coords = { lat: ?string, lon: ?string };
+type Coords = { lat: ?number, lon: ?number };
 
 export function generateOsmNoteUrlForCoords(coords: Coords) {
   if (coords && coords.lat && coords.lon) {
