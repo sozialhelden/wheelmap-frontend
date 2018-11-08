@@ -104,9 +104,9 @@ class App extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
-    lat: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null,
-    lon: (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null,
-    zoom: savedState.map.lastZoom || null,
+    lat: null,
+    lon: null,
+    zoom: null,
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
@@ -128,29 +128,40 @@ class App extends React.Component<Props, State> {
 
   mainView: UnstyledMainView;
 
-  static getDerivedStateFromProps(props: Props): $Shape<State> {
-    const state = {
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+    const newState: $Shape<State> = {
       isSearchToolbarExpanded: false,
       isSearchBarVisible: isStickySearchBarSupported(),
     };
 
     // close search results when leaving search route
     if (props.routeName === 'search') {
-      state.isSearchToolbarExpanded = true;
-      state.isSearchBarVisible = true;
+      newState.isSearchToolbarExpanded = true;
+      newState.isSearchBarVisible = true;
     }
 
     if (props.routeName === 'place_detail' || props.routeName === 'equipment') {
       const { accessibilityFilter, toiletFilter, category } = props;
 
-      state.isSearchBarVisible =
+      newState.isSearchBarVisible =
         isStickySearchBarSupported() &&
         !isAccessibilityFiltered(accessibilityFilter) &&
         !isToiletFiltered(toiletFilter) &&
         !category;
     }
 
-    return state;
+    const parsedZoom = typeof props.zoom === 'string' ? parseInt(props.zoom, 10) : null;
+    const parsedLat = typeof props.lat === 'string' ? parseFloat(props.lat) : null;
+    const parsedLon = typeof props.lon === 'string' ? parseFloat(props.lon) : null;
+
+    newState.extent = state.extent || props.extent || null;
+    newState.zoom = state.zoom || parsedZoom || savedState.map.lastZoom || null;
+    newState.lat =
+      state.lat || parsedLat || (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null;
+    newState.lon =
+      state.lon || parsedLon || (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null;
+
+    return newState;
   }
 
   componentDidMount() {
@@ -205,8 +216,8 @@ class App extends React.Component<Props, State> {
   onMoveEnd = (state: $Shape<State>) => {
     let { zoom, lat, lon } = state;
 
-    // Adjust zoom level to be stored in the local storage to make sure the user
-    // can see some places when reloading the app after some time.
+    // Adjust zoom level to be stored in the local storage to make sure the user can
+    // see some places when reloading the app after some time.
     const lastZoom = String(
       Math.max(zoom || 0, config.minZoomWithSetCategory, config.minZoomWithoutSetCategory)
     );
@@ -218,12 +229,7 @@ class App extends React.Component<Props, State> {
       'map.lastMoveDate': new Date().toString(),
     });
 
-    this.setState({
-      extent: null,
-      lat: null,
-      lon: null,
-      zoom: null,
-    });
+    this.setState({ extent: null, lat, lon, zoom });
   };
 
   onMapClick = () => {
@@ -293,29 +299,17 @@ class App extends React.Component<Props, State> {
 
     if (feature.properties.extent) {
       const extent = feature.properties.extent;
-      this.setState({
-        lat: null,
-        lon: null,
-        extent,
-      });
+      this.setState({ lat: null, lon: null, extent });
     } else {
       const [lon, lat] = feature.geometry.coordinates;
-      this.setState({
-        lat,
-        lon,
-        extent: null,
-      });
+      this.setState({ lat, lon, extent: null });
     }
 
     this.props.routerHistory.push(routeName, params);
   };
 
   onClickFullscreenBackdrop = () => {
-    this.setState({
-      isMainMenuOpen: false,
-      isOnboardingVisible: false,
-      modalNodeState: null,
-    });
+    this.setState({ isMainMenuOpen: false, isOnboardingVisible: false, modalNodeState: null });
     this.onCloseNodeToolbar();
   };
 
@@ -375,10 +369,7 @@ class App extends React.Component<Props, State> {
       return;
     }
 
-    this.setState({
-      waitingForPhotoUpload: true,
-      photoFlowNotification: 'uploadProgress',
-    });
+    this.setState({ waitingForPhotoUpload: true, photoFlowNotification: 'uploadProgress' });
 
     accessibilityCloudImageCache
       .uploadPhotoForFeature(String(featureId), photos, captchaSolution)
@@ -389,10 +380,7 @@ class App extends React.Component<Props, State> {
       .catch(reason => {
         console.error('Failed upload', reason);
         if (reason.message === InvalidCaptchaReason) {
-          this.setState({
-            waitingForPhotoUpload: false,
-            photoCaptchaFailed: true,
-          });
+          this.setState({ waitingForPhotoUpload: false, photoCaptchaFailed: true });
         } else {
           this.onExitPhotoUploadFlow('uploadFailed', reason && reason.message);
         }
@@ -400,10 +388,7 @@ class App extends React.Component<Props, State> {
   };
 
   onStartReportPhotoFlow = (photo: PhotoModel) => {
-    this.setState({
-      isSearchBarVisible: false,
-      photoMarkedForReport: photo,
-    });
+    this.setState({ isSearchBarVisible: false, photoMarkedForReport: photo });
   };
 
   onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
@@ -423,9 +408,7 @@ class App extends React.Component<Props, State> {
 
   onOpenReportMode = () => {
     if (this.props.featureId) {
-      this.setState({
-        modalNodeState: 'report',
-      });
+      this.setState({ modalNodeState: 'report' });
     }
   };
 
@@ -485,9 +468,7 @@ class App extends React.Component<Props, State> {
 
       this.props.routerHistory.push('map', params);
     } else {
-      this.setState({
-        modalNodeState: null,
-      });
+      this.setState({ modalNodeState: null });
     }
   };
 
@@ -523,25 +504,19 @@ class App extends React.Component<Props, State> {
 
   onOpenWheelchairAccessibility = () => {
     if (this.props.featureId) {
-      this.setState({
-        modalNodeState: 'edit-wheelchair-accessibility',
-      });
+      this.setState({ modalNodeState: 'edit-wheelchair-accessibility' });
     }
   };
 
   onOpenToiletAccessibility = () => {
     if (this.props.featureId) {
-      this.setState({
-        modalNodeState: 'edit-toilet-accessibility',
-      });
+      this.setState({ modalNodeState: 'edit-toilet-accessibility' });
     }
   };
 
   gotoCurrentFeature() {
     if (this.props.featureId) {
-      this.setState({
-        modalNodeState: null,
-      });
+      this.setState({ modalNodeState: null });
     }
   }
 
@@ -554,9 +529,7 @@ class App extends React.Component<Props, State> {
   };
 
   onAddMissingPlaceClick = () => {
-    this.setState({
-      modalNodeState: 'create',
-    });
+    this.setState({ modalNodeState: 'create' });
   };
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
@@ -583,7 +556,10 @@ class App extends React.Component<Props, State> {
   };
 
   onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
-    this.props.routerHistory.replace('equipment', { id: placeInfoId, eid: equipmentInfo._id });
+    this.props.routerHistory.replace('equipment', {
+      id: placeInfoId,
+      eid: equipmentInfo._id,
+    });
   };
 
   isNodeToolbarDisplayed(props: Props = this.props, state: State = this.state) {
@@ -627,10 +603,10 @@ class App extends React.Component<Props, State> {
       toiletFilter: this.props.toiletFilter,
       accessibilityFilter: this.props.accessibilityFilter,
       searchQuery: this.props.searchQuery,
-      lat: this.state.lat || this.props.lat,
-      lon: this.state.lon || this.props.lon,
-      zoom: this.state.zoom || this.props.zoom,
-      extent: this.state.extent || this.props.extent,
+      lat: this.state.lat,
+      lon: this.state.lon,
+      zoom: this.state.zoom,
+      extent: this.state.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isOnSmallViewport: this.state.isOnSmallViewport,
@@ -695,8 +671,7 @@ class App extends React.Component<Props, State> {
           onEquipmentSelected={this.onEquipmentSelected}
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
-          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
-          // photo feature
+          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick} // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
           onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}

@@ -55,9 +55,9 @@ type Props = {
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
   searchQuery: ?string,
-  lat: ?string,
-  lon: ?string,
-  zoom: ?string,
+  lat: ?number,
+  lon: ?number,
+  zoom: ?number,
   extent: ?[number, number, number, number],
 
   includeSourceIds: ?string,
