@@ -34,6 +34,10 @@ export type AppProps = {
   disableWheelmapSource?: boolean,
   isCordovaBuild?: boolean,
   skipApplicationBody?: boolean,
+
+  includeSourceIds: Array<string>,
+  excludeSourceIds: Array<string>,
+  disableWheelmapSource?: boolean,
 };
 
 type DataTableQuery = {
@@ -101,7 +105,9 @@ export async function getAppInitialProps(
     toilet,
     q,
     includeSourceIds,
+    excludeSourceIds,
     disableWheelmapSource,
+
     ...query
   }: {
     userAgentString: string,
@@ -115,6 +121,7 @@ export async function getAppInitialProps(
     accessibility?: string,
     toilet?: string,
     includeSourceIds?: string,
+    excludeSourceIds?: string,
     disableWheelmapSource?: string,
     [key: string]: string,
   },
@@ -167,6 +174,13 @@ export async function getAppInitialProps(
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
 
+  const includeSourceIdsArray =
+    (includeSourceIds ? includeSourceIds.split(/,/) : null) ||
+    (clientSideConfiguration ? clientSideConfiguration.includeSourceIds : []);
+  const excludeSourceIdsArray =
+    (excludeSourceIds ? excludeSourceIds.split(/,/) : null) ||
+    (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : []);
+
   // assign to local variable for better flow errors
   const appProps: AppProps = {
     userAgent,
@@ -182,7 +196,9 @@ export async function getAppInitialProps(
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
-    includeSourceIds,
+
+    includeSourceIds: includeSourceIdsArray,
+    excludeSourceIds: excludeSourceIdsArray,
     disableWheelmapSource: disableWheelmapSource === 'true',
   };
   return appProps;

@@ -64,8 +64,11 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
-  includeSourceIds: ?string,
+
+  includeSourceIds: Array<string>,
+  excludeSourceIds: Array<string>,
   disableWheelmapSource?: boolean,
+
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
 } & PlaceDetailsProps;
@@ -422,6 +425,8 @@ class App extends React.Component<Props, State> {
       equipmentInfoId,
       disableWheelmapSource,
       includeSourceIds,
+      excludeSourceIds,
+      clientSideConfiguration,
     } = this.props;
 
     if (category) {
@@ -445,8 +450,18 @@ class App extends React.Component<Props, State> {
     }
 
     // ensure to keep widget/custom whitelabel parameters
-    if (includeSourceIds) {
-      params.includeSourceIds = includeSourceIds;
+    if (includeSourceIds && includeSourceIds.length > 0) {
+      const includeSourceIdsAsString = includeSourceIds.join(',');
+      if (includeSourceIdsAsString !== clientSideConfiguration.includeSourceIds.join(',')) {
+        params.includeSourceIds = includeSourceIdsAsString;
+      }
+    }
+
+    if (excludeSourceIds && excludeSourceIds.length > 0) {
+      const excludeSourceIdsAsString = excludeSourceIds.join(',');
+      if (excludeSourceIdsAsString !== clientSideConfiguration.excludeSourceIds.join(',')) {
+        params.excludeSourceIds = excludeSourceIdsAsString;
+      }
     }
 
     if (disableWheelmapSource) {
@@ -615,6 +630,7 @@ class App extends React.Component<Props, State> {
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
+      excludeSourceIds: this.props.excludeSourceIds,
 
       // photo feature
       isPhotoUploadCaptchaToolbarVisible:
