@@ -37,7 +37,7 @@ import {
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import env from '../lib/env';
-import isCordova from '../lib/isCordova';
+import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
@@ -89,9 +89,15 @@ export default class App extends BaseApp {
     try {
       const userAgentString = isServer ? ctx.req.headers['user-agent'] : window.navigator.userAgent;
 
-      const hostName: string = isServer
-        ? ctx.req.headers.host.replace(/:.*$/, '')
-        : window.location.hostname;
+      let hostName: string;
+
+      if (isServer) {
+        hostName = ctx.req.headers.host.replace(/:.*$/, '');
+      } else if (isCordova() || isCordovaDebugMode()) {
+        hostName = env.public.cordovaHostname;
+      } else {
+        hostName = window.location.hostname;
+      }
 
       // translations
       let localeStrings: string[] = [];
@@ -201,7 +207,8 @@ export default class App extends BaseApp {
       translations,
       skipApplicationBody,
       rawCategoryLists,
-      ...renderProps
+      buildTimeProps,
+      ...appProps
     } = receivedProps;
 
     // Show generic error page for now and show as soon as possible
@@ -219,11 +226,13 @@ export default class App extends BaseApp {
     }
 
     // no need to render anything but the bare page in cordova
-    if (isCordovaBuild || isCordova()) {
+    if (isCordovaBuild || isCordova() || isCordovaDebugMode()) {
       return (
         <CordovaMain
+          appProps={appProps}
+          buildTimeProps={buildTimeProps}
+          getRenderProps={getRenderProps}
           routerHistory={this.routerHistory}
-          {...getRenderProps(routeName, renderProps, true)}
           routeName={routeName}
           isCordovaBuild={isCordovaBuild}
         />
@@ -231,7 +240,7 @@ export default class App extends BaseApp {
     }
 
     // build lookup table
-    renderProps.categories = Categories.generateLookupTables(rawCategoryLists);
+    appProps.categories = Categories.generateLookupTables(rawCategoryLists);
 
     if (translations) {
       addTranslationsToTTag(translations);
@@ -240,7 +249,7 @@ export default class App extends BaseApp {
     // store app initial props (use this props to cache rawCategoryLists)
     storeAppInitialProps(this.props, isServer);
     if (routeName) {
-      storeInitialRouteProps(routeName, renderProps);
+      storeInitialRouteProps(routeName, appProps);
     }
 
     const { textContent, meta } = this.props.clientSideConfiguration;
@@ -290,11 +299,11 @@ export default class App extends BaseApp {
             />
           )}
           {facebook && <FacebookMeta facebook={facebook} />}
-          {routeName != null && <AsyncNextHead head={getHead(routeName, renderProps)} />}
+          {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
           {!skipApplicationBody && (
             <PageComponent
               routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, renderProps, isServer)}
+              {...getRenderProps(routeName, appProps, isServer)}
               routeName={routeName}
             />
           )}

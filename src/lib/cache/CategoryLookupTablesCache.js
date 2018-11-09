@@ -44,7 +44,6 @@ export default class CategoryLookupTablesCache {
     locale: string,
     disableWheelmapSource?: boolean,
   }): Promise<RawCategoryLists> {
-
     const countryCode = options.locale.substr(0, 2);
 
     const storedPromise = this.lookupTablesCache.get(countryCode);
@@ -59,7 +58,6 @@ export default class CategoryLookupTablesCache {
 
   injectLookupTables(localeString: string, rawCategoryLists: RawCategoryLists) {
     const countryCode = localeString.substr(0, 2);
-
     this.lookupTablesCache.set(countryCode, Promise.resolve(rawCategoryLists));
   }
 }

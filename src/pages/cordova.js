@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import dynamic from 'next/dynamic';
-import Head from 'next/head';
 
 import savedState, { saveState } from '../lib/savedState';
 import env from '../lib/env';
@@ -16,22 +15,32 @@ import {
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
+import { type RouterHistory } from '../lib/RouterHistory';
+import MapLoading from '../components/Map/MapLoading';
+import { activateCordovaDebugMode, isCordovaDebugMode } from '../lib/isCordova';
 
 // dynamically load app only after cordova is ready
 const DynamicApp = dynamic(import('../App'), {
   ssr: false,
+  loading: () => <MapLoading />,
 });
 
 const isBrowser = typeof window !== 'undefined';
 const isBuilding = !isBrowser;
 
-const debugCordovaTest = isBrowser && !navigator.userAgent.match(/(iOS|Android)/i);
-
-if (debugCordovaTest) {
-  console.warn('EMULATING CORDOVA ON DESKTOP - behavior in Cordova will differ');
+const shouldActivateCordovaDebugMode = isBrowser && !navigator.userAgent.match(/(iOS|Android)/i);
+if (shouldActivateCordovaDebugMode) {
+  activateCordovaDebugMode();
 }
 
-type Props = AppProps & { buildTimeProps: AppProps, isCordovaBuild: boolean };
+type Props = {
+  buildTimeProps: AppProps,
+  appProps: AppProps,
+  routeName: string,
+  routerHistory: RouterHistory,
+  isCordovaBuild: boolean,
+  getRenderProps: (routeName: string, props: AppProps, isServer: boolean) => any,
+};
 
 type State = {
   buildTimeProps: $Shape<AppProps>,
@@ -55,9 +64,14 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
     // always apply
     if (isBrowser) {
+      const overrideLocaleString = props.appProps && props.appProps.preferredLocaleString;
       const localeStrings = getBrowserLocaleStrings();
-      // TODO: Make locale overridable via parameter
-      const translations = getAvailableTranslationsByPreference(allTranslations, localeStrings);
+      // Make locale overridable via parameter
+      const translations = getAvailableTranslationsByPreference(
+        allTranslations,
+        localeStrings,
+        overrideLocaleString
+      );
       addTranslationsToTTag(translations);
       storeAppInitialProps({ translations }, isBuilding);
     }
@@ -86,7 +100,8 @@ class CordovaMain extends React.PureComponent<Props, State> {
       false
     );
 
-    if (debugCordovaTest) {
+    // device ready is not fired
+    if (isCordovaDebugMode()) {
       document.dispatchEvent(new Event('deviceready'));
     }
   }
@@ -98,7 +113,8 @@ class CordovaMain extends React.PureComponent<Props, State> {
 
     // try downloading new initial props after first mount
     const queryProps: any = { userAgentString, hostName, localeStrings };
-    if (debugCordovaTest) {
+    // cors checks are active & no proxy is running
+    if (isCordovaDebugMode()) {
       queryProps.disableWheelmapSource = 'true';
     }
     const expectedPromise = getAppInitialProps(queryProps, false, false);
@@ -119,7 +135,6 @@ class CordovaMain extends React.PureComponent<Props, State> {
     if (promise !== this.state.expectedPromise) {
       return;
     }
-
     console.log('Received new initial props from server.', reloadedInitialProps);
     // strip translations, no need to cache them
     const { rawCategoryLists, clientSideConfiguration } = reloadedInitialProps;
@@ -135,33 +150,25 @@ class CordovaMain extends React.PureComponent<Props, State> {
   };
 
   render() {
-    const { isCordovaBuild, ...props } = this.props;
+    const { getRenderProps, appProps, routerHistory, routeName } = this.props;
     const { buildTimeProps, storedInitialProps, isDeviceReady } = this.state;
+
+    if (!isDeviceReady) {
+      return <MapLoading />;
+    }
 
     // build lookup table
     const bestAvailableRawCategoryLists =
-      props.rawCategoryLists ||
+      (appProps ? appProps.rawCategoryLists : null) ||
       (storedInitialProps ? storedInitialProps.rawCategoryLists : null) ||
       buildTimeProps.rawCategoryLists;
 
     const categories = Categories.generateLookupTables(bestAvailableRawCategoryLists);
+    const combinedAppProps = { ...buildTimeProps, ...storedInitialProps, ...appProps, categories };
+    const renderProps = getRenderProps(routeName, combinedAppProps, false);
 
     // do not pre-render this at build time, it is only needed in the real browser
-    return (
-      <React.Fragment>
-        <Head>
-          <script src="cordova.js" />
-        </Head>
-        {isDeviceReady && (
-          <DynamicApp
-            {...buildTimeProps}
-            {...storedInitialProps}
-            {...props}
-            categories={categories}
-          />
-        )}
-      </React.Fragment>
-    );
+    return <DynamicApp {...renderProps} routerHistory={routerHistory} routeName={routeName} />;
   }
 }
 
