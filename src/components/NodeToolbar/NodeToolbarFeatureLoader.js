@@ -100,6 +100,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return {
         ...state,
         ...resolvedCategories,
+        resolvedSources: resolvedPlaceDetails.sources,
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
         lastFeatureId: props.featureId,
         lastEquipmentInfoId: props.equipmentInfoId,
@@ -156,6 +157,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       const { feature, equipmentInfo } = resolvedPlaceDetails;
       this.setState({
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
+        resolvedSources: resolvedPlaceDetails.sources,
         ...resolvedCategories,
       });
     } else {

@@ -1,25 +1,28 @@
 // @flow
 import { globalFetchManager } from '../FetchManager';
 import { t } from 'ttag';
+
 import ResponseError from '../ResponseError';
+import TTLCache, { type TTLCacheOptions } from './TTLCache';
 
 // Provides a WhatWG-fetch-like API to make HTTP requests.
 // Caches response promises and returns an old promise if one is existing for the same URL.
 
 export default class URLDataCache<T> {
-  cache: { [key: string]: Promise<T> } = {};
+  cache: TTLCache<string, Promise<T>>;
 
-  fetch(url: string, resolve: (data: T) => void, reject: (response: any) => void) {
-    this.constructor.fetch(url, { cordova: true }).then((response: Response) => {
+  constructor(options?: $Shape<TTLCacheOptions>) {
+    this.cache = new TTLCache<string, Promise<T>>(options);
+  }
+
+  fetch(url: string): Promise<T> {
+    return this.constructor.fetch(url, { cordova: true }).then((response: Response) => {
       if (response.status === 200) {
-        return this.constructor.getDataFromResponse(response).then(fetchedData => {
-          resolve(fetchedData);
-        }, reject);
+        return this.constructor.getDataFromResponse(response);
       }
-      const error = new Error(response.statusText);
-      error.response = response;
-      return reject(response);
-    }, reject);
+
+      throw new ResponseError(response.statusText, response)();
+    });
   }
 
   /**
@@ -28,28 +31,26 @@ export default class URLDataCache<T> {
    */
   getData(url: string, options?: { useCache: boolean } = { useCache: true }): Promise<T> {
     if (!url) {
-      return new Promise((resolve, reject) => {
-        reject(null);
-      });
+      return Promise.reject(null);
     }
 
-    let promise = this.cache[url];
-    if (promise) return promise;
-    promise = new Promise((resolve, reject) => {
-      this.fetch(url, resolve, reject);
-    });
-    if (!options || options.useCache) this.cache[url] = promise;
+    let promise = this.cache.get(url);
+
+    if (promise) {
+      return promise;
+    }
+
+    promise = this.fetch(url);
+
+    if (!options || options.useCache) {
+      this.cache.set(url, promise);
+    }
+
     return promise;
   }
 
-  /** @private */ getCachedPromise(url: string): Promise<?T> {
-    return this.cache[url];
-  }
-
-  inject(url: string, result: ?T) {
-    if (result) {
-      this.cache[url] = Promise.resolve(result);
-    }
+  inject(url: string, result: T) {
+    this.cache.set(url, Promise.resolve(result));
   }
 
   static getDataFromResponse(response: Response): Promise<T> {
@@ -58,6 +59,7 @@ export default class URLDataCache<T> {
       const errorText = t`Error while loading data.`;
       throw new ResponseError(errorText, response);
     }
+
     return response.json();
   }
 

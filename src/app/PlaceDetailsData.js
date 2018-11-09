@@ -68,7 +68,7 @@ function fetchEquipment(equipmentId: string, useCache: boolean): Promise<Equipme
 
 async function fetchSourceWithLicense(
   featureId: string | number,
-  featurePromise: Promise<Feature>,
+  featurePromise: ?Promise<Feature>,
   useCache: boolean
 ): Promise<SourceWithLicense[]> {
   if (!isWheelmapFeatureId(featureId)) {
@@ -77,10 +77,10 @@ async function fetchSourceWithLicense(
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache.getDataSourceWithId(sourceId, { useCache }).then(
+      dataSourceCache.getDataSourceWithId(sourceId).then(
         async (source): Promise<SourceWithLicense> => {
           if (typeof source.licenseId === 'string') {
-            return licenseCache.getLicenseWithId(source.licenseId, { useCache }).then(license => {
+            return licenseCache.getLicenseWithId(source.licenseId).then(license => {
               return { source, license };
             });
           }
@@ -170,7 +170,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     }
   },
 
-  clientStoreInitialProps(props: PlaceDetailsProps) {
+  storeInitialRouteProps(props: PlaceDetailsProps) {
     const { feature, featureId, sources, photos, equipmentInfo } = props;
     // only store fully resolved data that comes from the server
     if (
@@ -194,14 +194,11 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const sourceWithLicenseArray = ((sources: any): SourceWithLicense[]);
     // inject sources & licenses
     sourceWithLicenseArray.forEach(sourceWithLicense => {
-      const source = sourceWithLicense.source;
-      const url = dataSourceCache.urlFromId(source._id);
-      dataSourceCache.inject(url, source);
+      const { license, source } = sourceWithLicense;
+      dataSourceCache.injectDataSource(source);
 
-      const license = sourceWithLicense.license;
       if (license) {
-        const url = licenseCache.urlFromId(license._id);
-        licenseCache.inject(url, license);
+        licenseCache.injectLicense(license);
       }
     });
   },

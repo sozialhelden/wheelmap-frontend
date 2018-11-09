@@ -47,6 +47,12 @@ android {
     compileSdkVersion cdvCompileSdkVersion
     buildToolsVersion cdvBuildToolsVersion
     publishNonDefault true
+    
+    // default is excluding folders starting with an _, like _next  
+    aaptOptions {
+      ignoreAssets '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini'
+      ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini'
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6

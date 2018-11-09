@@ -2,11 +2,7 @@
 
 import NextRouter from 'next/router';
 
-import AbstractRouterHistory, {
-  type RouterHistory,
-  type RouterHistoryMethod,
-  type RouteParams,
-} from './RouterHistory';
+import AbstractRouterHistory, { type RouterHistoryMethod, type RouteParams } from './RouterHistory';
 import Router from './Router';
 
 class NextRouterHistory extends AbstractRouterHistory {

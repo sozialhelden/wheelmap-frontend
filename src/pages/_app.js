@@ -7,7 +7,6 @@ import '@babel/polyfill';
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
 import Head from 'next/head';
-import Error from 'next/error';
 import { t } from 'ttag';
 import get from 'lodash/get';
 
@@ -31,17 +30,18 @@ import {
   getInitialProps,
   getAppInitialProps,
   getRenderProps,
-  clientStoreAppInitialProps,
-  clientStoreInitialProps,
+  storeAppInitialProps,
+  storeInitialRouteProps,
   getHead,
   type AppProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import env from '../lib/env';
-import isCordova from '../lib/isCordova';
+import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
+import CordovaMain from './cordova';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -65,11 +65,12 @@ export default class App extends BaseApp {
 
       // serve only english languages
       const initialBuildTimeProps = await getAppInitialProps(
-        { userAgentString: '', hostName, languages: ['en_US'], ...ctx.query },
+        { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
         true
       );
       // strip translations from initial props, no added inclusion needed for cordova
       const { translations, ...buildTimeProps } = initialBuildTimeProps;
+      // store buildTimeProps separately as we don't want runtime overrides of these
       return { buildTimeProps, isCordovaBuild };
     }
 
@@ -88,9 +89,15 @@ export default class App extends BaseApp {
     try {
       const userAgentString = isServer ? ctx.req.headers['user-agent'] : window.navigator.userAgent;
 
-      const hostName: string = isServer
-        ? ctx.req.headers.host.replace(/:.*$/, '')
-        : window.location.hostname;
+      let hostName: string;
+
+      if (isServer) {
+        hostName = ctx.req.headers.host.replace(/:.*$/, '');
+      } else if (isCordova() || isCordovaDebugMode()) {
+        hostName = env.public.cordovaHostname;
+      } else {
+        hostName = window.location.hostname;
+      }
 
       // translations
       let localeStrings: string[] = [];
@@ -169,7 +176,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild);
+    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild || isCordova());
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -189,6 +196,7 @@ export default class App extends BaseApp {
       nonSerializedProps = null;
     }
 
+    // strip out _app.js only props
     const {
       Component: PageComponent,
       statusCode,
@@ -199,13 +207,14 @@ export default class App extends BaseApp {
       translations,
       skipApplicationBody,
       rawCategoryLists,
-      ...props
+      buildTimeProps,
+      ...appProps
     } = receivedProps;
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.
     // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
-    if (statusCode >= 400) {
+    if (statusCode && statusCode >= 400) {
       return (
         <Container>
           <NotFound
@@ -216,36 +225,34 @@ export default class App extends BaseApp {
       );
     }
 
-    // build lookup table
-    props.categories = Categories.generateLookupTables(rawCategoryLists);
-
     // no need to render anything but the bare page in cordova
-    if (isCordovaBuild || isCordova()) {
+    if (isCordovaBuild || isCordova() || isCordovaDebugMode()) {
       return (
-        <PageComponent
+        <CordovaMain
+          appProps={appProps}
+          buildTimeProps={buildTimeProps}
+          getRenderProps={getRenderProps}
           routerHistory={this.routerHistory}
-          {...getRenderProps(routeName, props, isServer)}
           routeName={routeName}
           isCordovaBuild={isCordovaBuild}
         />
       );
     }
 
+    // build lookup table
+    appProps.categories = Categories.generateLookupTables(rawCategoryLists);
+
     if (translations) {
       addTranslationsToTTag(translations);
     }
 
-    // always store app initial props
-    clientStoreAppInitialProps(this.props, isServer);
-
-    if (!isServer) {
-      if (routeName) {
-        clientStoreInitialProps(routeName, props);
-      }
+    // store app initial props (use this props to cache rawCategoryLists)
+    storeAppInitialProps(this.props, isServer);
+    if (routeName) {
+      storeInitialRouteProps(routeName, appProps);
     }
 
-    const { clientSideConfiguration }: $Shape<AppProps> = props;
-    const { textContent, meta } = clientSideConfiguration;
+    const { textContent, meta } = this.props.clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
 
@@ -292,11 +299,11 @@ export default class App extends BaseApp {
             />
           )}
           {facebook && <FacebookMeta facebook={facebook} />}
-          {routeName != null && <AsyncNextHead head={getHead(routeName, props)} />}
+          {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
           {!skipApplicationBody && (
             <PageComponent
               routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, props, isServer)}
+              {...getRenderProps(routeName, appProps, isServer)}
               routeName={routeName}
             />
           )}

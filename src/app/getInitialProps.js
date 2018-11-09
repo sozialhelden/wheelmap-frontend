@@ -5,7 +5,7 @@ import { getAvailableTranslationsByPreference, type Translations } from '../lib/
 
 import allTranslations from '../lib/translations.json';
 
-import Categories, { type ACCategory, type WheelmapCategory } from '../lib/Categories';
+import { type RawCategoryLists } from '../lib/Categories';
 import { type UAResult, configureUserAgent } from '../lib/userAgent';
 import {
   type YesNoLimitedUnknown,
@@ -14,10 +14,10 @@ import {
   getToiletFilterFrom,
 } from '../lib/Feature';
 
-import {
-  fetchClientSideConfiguration,
-  type ClientSideConfiguration,
-} from '../lib/ClientSideConfiguration';
+import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+
+import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
+import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
@@ -31,8 +31,11 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  disableWheelmapSource?: boolean,
   isCordovaBuild?: boolean,
+  routeName?: string,
+  path?: string,
+  statusCode?: number,
+  preferredLocaleString: string,
   skipApplicationBody?: boolean,
 
   includeSourceIds: Array<string>,
@@ -48,7 +51,7 @@ export type DataTableEntry<Props> = {
   getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
   getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
-  clientStoreInitialProps?: (props: Props) => void,
+  storeInitialRouteProps?: (props: Props) => void,
 };
 
 type DataTable = {
@@ -135,10 +138,9 @@ export async function getAppInitialProps(
   configureUserAgent(userAgent);
 
   // load application configuration
-  let clientSideConfiguration = useCache ? appPropsCache.clientSideConfiguration : null;
-  const clientSideConfigurationPromise = !clientSideConfiguration
-    ? fetchClientSideConfiguration(hostName)
-    : null;
+  const clientSideConfigurationPromise = clientSideConfigurationCache.getClientSideConfiguration(
+    hostName
+  );
 
   // setup translations
   const translations =
@@ -152,23 +154,20 @@ export async function getAppInitialProps(
   const preferredLocaleString = translations[0].headers.language;
 
   // load categories
-  let rawCategoryLists = useCache ? appPropsCache.rawCategoryLists : null;
-  const categoriesPromise = !rawCategoryLists
-    ? Categories.fetchCategoryData({
-        locale: preferredLocaleString,
-        disableWheelmapSource: disableWheelmapSource === 'true',
-      })
-    : null;
+  const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
+    locale: preferredLocaleString,
+    disableWheelmapSource: disableWheelmapSource === 'true',
+  });
 
-  if (clientSideConfigurationPromise || categoriesPromise) {
-    clientSideConfiguration = clientSideConfigurationPromise
-      ? await clientSideConfigurationPromise
-      : null;
-    rawCategoryLists = categoriesPromise ? await categoriesPromise : null;
+  const clientSideConfiguration = await clientSideConfigurationPromise;
+  const rawCategoryLists = await rawCategoryListsPromise;
+
+  if (!clientSideConfiguration) {
+    throw new Error('missing clientSideConfiguration');
   }
 
   if (!rawCategoryLists) {
-    throw new Error('missing categories lookup table');
+    throw new Error('missing raw category data');
   }
 
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
@@ -192,7 +191,7 @@ export async function getAppInitialProps(
     lat,
     lon,
     hostName,
-    preferredLocale: overriddenLocaleString,
+    preferredLocaleString: preferredLocaleString,
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
@@ -206,23 +205,31 @@ export async function getAppInitialProps(
 
 const appPropsCache: $Shape<AppProps> = {};
 
-export function clientStoreAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
+export function storeAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
+  const { translations, rawCategoryLists, clientSideConfiguration, hostName, preferredLocaleString } = props;
+  
+  // only store translations on server
   if (!isServer) {
-    appPropsCache.translations = props.translations || appPropsCache.translations;
+    appPropsCache.translations = translations || appPropsCache.translations;
   }
-  appPropsCache.rawCategoryLists = props.rawCategoryLists || appPropsCache.rawCategoryLists;
-  appPropsCache.clientSideConfiguration =
-    props.clientSideConfiguration || appPropsCache.clientSideConfiguration;
+
+  if (clientSideConfigurationCache && hostName) {
+    clientSideConfigurationCache.injectClientSideConfiguration(hostName, clientSideConfiguration);
+  }
+
+  if (preferredLocaleString && rawCategoryLists) {
+    categoriesCache.injectLookupTables(preferredLocaleString, rawCategoryLists);
+  }
 }
 
-export function clientStoreInitialProps(routeName: string, props: any) {
+export function storeInitialRouteProps(routeName: string, props: any) {
   const dataItem = dataTable[routeName];
 
-  if (!dataItem || !dataItem.clientStoreInitialProps) {
+  if (!dataItem || !dataItem.storeInitialRouteProps) {
     return {};
   }
 
-  return dataItem.clientStoreInitialProps(props);
+  return dataItem.storeInitialRouteProps(props);
 }
 
 export function getHead(routeName: string, props: any) {

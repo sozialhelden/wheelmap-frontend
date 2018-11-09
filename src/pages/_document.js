@@ -8,21 +8,20 @@ import env from '../lib/env';
 const cordovaBlock = 'gap: file:';
 
 export default class MyDocument extends Document {
-  static getInitialProps({ renderPage }: NextDocumentContext) {
+  static getInitialProps({ renderPage, ...ctx }: NextDocumentContext) {
     const sheet = new ServerStyleSheet();
 
     // Hacky way to get the locale used when rendering the page.
-    let locale, isCordovaBuild;
+    let locale;
 
     const page = renderPage(App => props => {
       locale = props.locale;
-      isCordovaBuild = props.isCordovaBuild;
-
       return sheet.collectStyles(<App {...props} />);
     });
-
     const styleTags = sheet.getStyleElement();
 
+    // more lenient rules in cordova build
+    const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
     return { ...page, styleTags, locale, isCordovaBuild };
   }
 
@@ -31,6 +30,7 @@ export default class MyDocument extends Document {
 
     return (
       <html lang={locale}>
+        <head>{isCordovaBuild && <script src="cordova.js" />}</head>
         <Head>
           <meta charSet="utf-8" />
           <meta

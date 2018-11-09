@@ -6,12 +6,10 @@ import env from '../env';
 export type DataSource = { _id: string, licenseId: ?string };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {
-  getDataSourceWithId(
-    id: string,
-    options?: { useCache: boolean } = { useCache: true }
-  ): Promise<DataSource> {
+  getDataSourceWithId(id: string): Promise<DataSource> {
     const url = this.urlFromId(id);
-    return this.getData(url, options);
+
+    return this.getData(url);
   }
 
   urlFromId(id: string) {
@@ -19,6 +17,14 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
       env.public.accessibilityCloud.appToken
     }`;
   }
+
+  injectDataSource(source: DataSource) {
+    const url = this.urlFromId(source._id);
+
+    this.inject(url, source);
+  }
 }
 
-export const dataSourceCache = new DataSourceCache();
+export const dataSourceCache = new DataSourceCache({
+  ttl: 1000 * 60 * 60,
+});

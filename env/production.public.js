@@ -17,8 +17,8 @@ const config = {
       uncached: 'https://www.accessibility.cloud',
     },
   },
-  baseUrl: 'https://wheelmap.tech',
-  cordovaHostname: 'localhost',
+  baseUrl: 'https://wheelmap.org',
+  cordovaHostname: 'wheelmap.org',
 };
 
 module.exports = config;
