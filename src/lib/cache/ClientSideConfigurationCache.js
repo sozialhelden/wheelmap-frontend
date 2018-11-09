@@ -1,5 +1,6 @@
 // @flow
 import values from 'lodash/values';
+import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
@@ -17,11 +18,11 @@ export default class ClientSideConfigurationCache extends URLDataCache<
     const url = this.getUrl(hostName);
 
     return this.getData(url).then(app => {
-        return {
-          ...app.clientSideConfiguration,
-          customMainMenuLinks: values(get(app, 'related.appLinks') || {})
-        };
-      });
+      return {
+        ...app.clientSideConfiguration,
+        customMainMenuLinks: values(get(app, 'related.appLinks') || {}),
+      };
+    });
   }
 
   injectClientSideConfiguration(
@@ -29,11 +30,17 @@ export default class ClientSideConfigurationCache extends URLDataCache<
     clientSideConfiguration: ClientSideConfiguration
   ) {
     const url = this.getUrl(hostName);
+    const { customMainMenuLinks, ...clientSideConfigurationWithoutLinks } = clientSideConfiguration;
 
-    this.inject(url, { clientSideConfiguration });
+    this.inject(url, {
+      clientSideConfiguration: clientSideConfigurationWithoutLinks,
+      related: {
+        appLinks: keyBy(customMainMenuLinks, '_id'),
+      },
+    });
   }
 
-  getUrl(hostName : string) : string {
+  getUrl(hostName: string): string {
     const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
     const token = env.public.accessibilityCloud.appToken;
     // Allow test deployments on zeit
@@ -43,5 +50,5 @@ export default class ClientSideConfigurationCache extends URLDataCache<
 }
 
 export const clientSideConfigurationCache = new ClientSideConfigurationCache({
-  ttl: 1000 * 60 * 5
+  ttl: 1000 * 60 * 5,
 });
