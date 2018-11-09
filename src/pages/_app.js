@@ -41,7 +41,6 @@ import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
-import CordovaMain from './cordova';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -228,7 +227,7 @@ export default class App extends BaseApp {
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova() || isCordovaDebugMode()) {
       return (
-        <CordovaMain
+        <PageComponent
           appProps={appProps}
           buildTimeProps={buildTimeProps}
           getRenderProps={getRenderProps}
@@ -246,7 +245,7 @@ export default class App extends BaseApp {
       addTranslationsToTTag(translations);
     }
 
-    // store app initial props (use this props to cache rawCategoryLists)
+    // store app initial props (use this.props to cache rawCategoryLists)
     storeAppInitialProps(this.props, isServer);
     if (routeName) {
       storeInitialRouteProps(routeName, appProps);

@@ -213,7 +213,6 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       let placeTitle;
 
       if (feature != null) {
-        // const categories = Categories.generateLookupTables(rawCategoryLists);
         const { category, parentCategory } = Categories.getCategoriesForFeature(
           categories,
           (equipmentInfo && getDataIfAlreadyResolved(equipmentInfo)) ||
