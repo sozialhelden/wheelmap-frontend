@@ -7,7 +7,6 @@ import '@babel/polyfill';
 import React from 'react';
 import BaseApp, { Container } from 'next/app';
 import Head from 'next/head';
-import Error from 'next/error';
 import { t } from 'ttag';
 import get from 'lodash/get';
 
@@ -42,6 +41,7 @@ import isCordova from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
+import CordovaMain from './cordova';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -65,11 +65,12 @@ export default class App extends BaseApp {
 
       // serve only english languages
       const initialBuildTimeProps = await getAppInitialProps(
-        { userAgentString: '', hostName, languages: ['en_US'], ...ctx.query },
+        { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
         true
       );
       // strip translations from initial props, no added inclusion needed for cordova
       const { translations, ...buildTimeProps } = initialBuildTimeProps;
+      // store buildTimeProps separately as we don't want runtime overrides of these
       return { buildTimeProps, isCordovaBuild };
     }
 
@@ -169,7 +170,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild);
+    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild || isCordova());
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -217,20 +218,20 @@ export default class App extends BaseApp {
       );
     }
 
-    // build lookup table
-    renderProps.categories = Categories.generateLookupTables(rawCategoryLists);
-
     // no need to render anything but the bare page in cordova
     if (isCordovaBuild || isCordova()) {
       return (
-        <PageComponent
+        <CordovaMain
           routerHistory={this.routerHistory}
-          {...getRenderProps(routeName, renderProps, isServer)}
+          {...getRenderProps(routeName, renderProps, true)}
           routeName={routeName}
           isCordovaBuild={isCordovaBuild}
         />
       );
     }
+
+    // build lookup table
+    renderProps.categories = Categories.generateLookupTables(rawCategoryLists);
 
     if (translations) {
       addTranslationsToTTag(translations);
