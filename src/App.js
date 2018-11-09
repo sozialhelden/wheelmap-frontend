@@ -68,6 +68,7 @@ type Props = {
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   disableWheelmapSource?: boolean,
+  overriddenAppId?: boolean,
 
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -427,6 +428,7 @@ class App extends React.Component<Props, State> {
       includeSourceIds,
       excludeSourceIds,
       clientSideConfiguration,
+      overriddenAppId,
     } = this.props;
 
     if (category) {
@@ -465,7 +467,11 @@ class App extends React.Component<Props, State> {
     }
 
     if (disableWheelmapSource) {
-      params.disableWheelmapSource = disableWheelmapSource;
+      params.disableWheelmapSource = 'true';
+    }
+
+    if (overriddenAppId) {
+      params.appId = overriddenAppId;
     }
 
     return params;
