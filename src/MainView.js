@@ -146,10 +146,10 @@ function hrefForFeature(featureId: string, properties: ?NodeProperties | Equipme
   if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/beta/nodes/${placeInfoId}/equipment/${featureId}`;
+      return `/nodes/${placeInfoId}/equipment/${featureId}`;
     }
   }
-  return `/beta/nodes/${featureId}`;
+  return `/nodes/${featureId}`;
 }
 
 const DynamicMap = dynamic(import('./components/Map/Map'), {
