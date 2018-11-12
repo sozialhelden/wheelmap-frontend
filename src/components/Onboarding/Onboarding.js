@@ -208,6 +208,7 @@ const StyledOnboarding = styled(Onboarding)`
     .logo {
       width: 250px;
       height: 53px; // IE 11 does not preserve aspect ratio correctly and needs a fixed height.
+      object-fit: contain;
     }
 
     @media (max-width: 1199px) {
