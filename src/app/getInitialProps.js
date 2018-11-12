@@ -109,7 +109,8 @@ export async function getAppInitialProps(
     q,
     includeSourceIds,
     excludeSourceIds,
-    disableWheelmapSource,
+    disableWheelmapSource: overriddenWheelmapSource,
+    appId: overriddenAppId,
 
     ...query
   }: {
@@ -126,7 +127,8 @@ export async function getAppInitialProps(
     includeSourceIds?: string,
     excludeSourceIds?: string,
     disableWheelmapSource?: string,
-    [key: string]: string,
+    appId?: string,
+    [key: string]: ?string,
   },
   isServer: boolean,
   useCache: boolean = true
@@ -137,9 +139,11 @@ export async function getAppInitialProps(
   const userAgent = ((userAgentParser.getResult(): any): UAResult);
   configureUserAgent(userAgent);
 
+  const usedHostName = overriddenAppId || hostName;
+
   // load application configuration
   const clientSideConfigurationPromise = clientSideConfigurationCache.getClientSideConfiguration(
-    hostName
+    usedHostName
   );
 
   // setup translations
@@ -156,7 +160,7 @@ export async function getAppInitialProps(
   // load categories
   const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
     locale: preferredLocaleString,
-    disableWheelmapSource: disableWheelmapSource === 'true',
+    disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
   const clientSideConfiguration = await clientSideConfigurationPromise;
@@ -170,6 +174,10 @@ export async function getAppInitialProps(
     throw new Error('missing raw category data');
   }
 
+  const usedDisableWheelmapSource =
+    typeof overriddenWheelmapSource === 'undefined'
+      ? clientSideConfiguration.disableWheelmapSource
+      : overriddenWheelmapSource === 'true';
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
 
@@ -190,15 +198,16 @@ export async function getAppInitialProps(
     extent,
     lat,
     lon,
-    hostName,
+    hostName: usedHostName,
     preferredLocaleString: preferredLocaleString,
     accessibilityFilter,
     toiletFilter,
     searchQuery: q,
+    overriddenAppId,
 
     includeSourceIds: includeSourceIdsArray,
     excludeSourceIds: excludeSourceIdsArray,
-    disableWheelmapSource: disableWheelmapSource === 'true',
+    disableWheelmapSource: usedDisableWheelmapSource,
   };
   return appProps;
 }
@@ -206,8 +215,14 @@ export async function getAppInitialProps(
 const appPropsCache: $Shape<AppProps> = {};
 
 export function storeAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
-  const { translations, rawCategoryLists, clientSideConfiguration, hostName, preferredLocaleString } = props;
-  
+  const {
+    translations,
+    rawCategoryLists,
+    clientSideConfiguration,
+    hostName,
+    preferredLocaleString,
+  } = props;
+
   // only store translations on server
   if (!isServer) {
     appPropsCache.translations = translations || appPropsCache.translations;

@@ -68,6 +68,7 @@ type Props = {
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   disableWheelmapSource?: boolean,
+  overriddenAppId?: boolean,
 
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -213,7 +214,11 @@ class App extends React.Component<Props, State> {
   onMainMenuHomeClick = () => {
     saveState({ onboardingCompleted: 'false' });
     this.setState({ isOnboardingVisible: true });
-    this.props.routerHistory.push('map');
+
+    const params = this.getCurrentParams();
+    delete params.id;
+    delete params.eid;
+    this.props.routerHistory.push('map', params);
   };
 
   onMoveEnd = (state: $Shape<State>) => {
@@ -427,6 +432,7 @@ class App extends React.Component<Props, State> {
       includeSourceIds,
       excludeSourceIds,
       clientSideConfiguration,
+      overriddenAppId,
     } = this.props;
 
     if (category) {
@@ -464,8 +470,15 @@ class App extends React.Component<Props, State> {
       }
     }
 
-    if (disableWheelmapSource) {
-      params.disableWheelmapSource = disableWheelmapSource;
+    if (
+      typeof disableWheelmapSource !== 'undefined' &&
+      disableWheelmapSource !== clientSideConfiguration.disableWheelmapSource
+    ) {
+      params.disableWheelmapSource = disableWheelmapSource ? 'true' : 'false';
+    }
+
+    if (overriddenAppId) {
+      params.appId = overriddenAppId;
     }
 
     return params;

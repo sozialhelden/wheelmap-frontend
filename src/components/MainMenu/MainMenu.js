@@ -209,6 +209,7 @@ const StyledMainMenu = styled(MainMenu)`
 
   .logo {
     margin-left: 10px;
+    object-fit: contain;
   }
 
   .claim {

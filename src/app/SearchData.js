@@ -64,10 +64,7 @@ async function fetchWheelmapNode(
 
 const SearchData: DataTableEntry<SearchProps> = {
   async getInitialProps(query, isServer) {
-    // TODO error handling for await
-
     const searchQuery = query.q;
-    const disableWheelmapSource = query.disableWheelmapSource === 'true';
 
     let trimmedSearchQuery;
     let searchResults: Promise<SearchResultCollection> | SearchResultCollection = {
@@ -85,7 +82,6 @@ const SearchData: DataTableEntry<SearchProps> = {
     }
 
     return {
-      disableWheelmapSource,
       searchResults,
       searchQuery,
     };
