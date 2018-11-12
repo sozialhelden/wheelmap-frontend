@@ -43,7 +43,9 @@ import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 
 import type { PhotoModel } from './lib/PhotoModel';
 
-import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
+import { hasAllowedAnalytics } from './lib/savedState';
+import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
+import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 
 type Props = {
   className: string,
@@ -129,6 +131,7 @@ type Props = {
 
 type State = {
   isOnSmallViewport: boolean,
+  analyticsAllowed: boolean,
 };
 
 function updateTouchCapability() {
@@ -162,6 +165,7 @@ class MainView extends React.Component<Props, State> {
 
   state: State = {
     isOnSmallViewport: isOnSmallViewport(),
+    analyticsAllowed: hasAllowedAnalytics(),
   };
 
   map: ?{ focus: () => void, snapToFeature: () => void };
@@ -292,16 +296,39 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  analyticsAllowedChangedHandler = (value: boolean) => {
+    const { clientSideConfiguration } = this.props;
+    const { googleAnalytics } = clientSideConfiguration.meta;
+
+    this.setState({ analyticsAllowed: value });
+
+    if (googleAnalytics.trackingId) {
+      if (value) {
+        enableAnalytics(googleAnalytics.trackingId);
+      } else {
+        disableAnalytics(googleAnalytics.trackingId);
+      }
+    }
+  };
+
   renderOnboarding() {
     const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const { analyticsAllowed } = this.state;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
+    const { googleAnalytics } = clientSideConfiguration.meta;
     const { logoURL } = clientSideConfiguration;
+
+    const shouldShowAnalytics = !!(googleAnalytics && googleAnalytics.trackingId);
+
     return (
       <Onboarding
         isVisible={isOnboardingVisible}
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
         logoURL={logoURL}
+        analyticsShown={shouldShowAnalytics}
+        analyticsAllowed={analyticsAllowed}
+        analyticsAllowedChanged={this.analyticsAllowedChangedHandler}
       />
     );
   }

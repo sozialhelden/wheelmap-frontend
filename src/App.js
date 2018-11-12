@@ -42,6 +42,7 @@ import 'react-activity/dist/react-activity.css';
 import './App.css';
 import './Global.css';
 import 'focus-visible';
+import { trackModalView } from './lib/Analytics';
 
 initReactFastclick();
 
@@ -417,6 +418,7 @@ class App extends React.Component<Props, State> {
   onOpenReportMode = () => {
     if (this.props.featureId) {
       this.setState({ modalNodeState: 'report' });
+      trackModalView('report');
     }
   };
 
@@ -533,12 +535,14 @@ class App extends React.Component<Props, State> {
   onOpenWheelchairAccessibility = () => {
     if (this.props.featureId) {
       this.setState({ modalNodeState: 'edit-wheelchair-accessibility' });
+      trackModalView('edit-wheelchair-accessibility');
     }
   };
 
   onOpenToiletAccessibility = () => {
     if (this.props.featureId) {
       this.setState({ modalNodeState: 'edit-toilet-accessibility' });
+      trackModalView('edit-wheelchair-accessibility');
     }
   };
 
@@ -558,6 +562,7 @@ class App extends React.Component<Props, State> {
 
   onAddMissingPlaceClick = () => {
     this.setState({ modalNodeState: 'create' });
+    trackModalView('create');
   };
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
@@ -566,6 +571,7 @@ class App extends React.Component<Props, State> {
         modalNodeState: 'edit-wheelchair-accessibility',
         accessibilityPresetStatus: value,
       });
+      trackModalView('edit-wheelchair-accessibility');
     }
   };
 

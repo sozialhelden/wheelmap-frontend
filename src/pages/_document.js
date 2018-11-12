@@ -43,6 +43,7 @@ export default class MyDocument extends Document {
                 'self'
                 'unsafe-eval'
                 'unsafe-inline'
+                https://www.google-analytics.com
                 https://www.googletagmanager.com
                 https://ssl.gstatic.com
                 https://photon.komoot.de
@@ -64,6 +65,7 @@ export default class MyDocument extends Document {
                 data:
                 https://accessibility-cloud-uploads.s3.amazonaws.com
                 https://www.googletagmanager.com
+                https://www.google-analytics.com
                 https://api.mapbox.com
                 https://asset0.wheelmap.org
                 https://asset1.wheelmap.org

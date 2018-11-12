@@ -4,6 +4,7 @@ import NextRouter from 'next/router';
 
 import AbstractRouterHistory, { type RouterHistoryMethod, type RouteParams } from './RouterHistory';
 import Router from './Router';
+import { trackPageView } from './Analytics';
 
 class NextRouterHistory extends AbstractRouterHistory {
   isCordova: boolean;
@@ -34,6 +35,8 @@ class NextRouterHistory extends AbstractRouterHistory {
       const query = { routeName: route.name, ...params };
       NextRouter[method]({ pathname: '/main', query }, path);
     }
+
+    trackPageView(path);
   }
 }
 
