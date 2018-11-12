@@ -52,3 +52,16 @@ export function trackModalView(name: string | null) {
     }
   }
 }
+
+export function trackEvent(options: {
+  category: string,
+  action: string,
+  label?: string,
+  value?: number,
+  nonInteraction?: boolean,
+}) {
+  // if disableAnalytics was called, no need to do anything
+  if (typeof window !== 'undefined' && window.ga) {
+    ReactGA.event(options);
+  }
+}
