@@ -109,7 +109,7 @@ export async function getAppInitialProps(
     q,
     includeSourceIds,
     excludeSourceIds,
-    disableWheelmapSource,
+    disableWheelmapSource: overriddenWheelmapSource,
     appId: overriddenAppId,
 
     ...query
@@ -160,7 +160,7 @@ export async function getAppInitialProps(
   // load categories
   const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
     locale: preferredLocaleString,
-    disableWheelmapSource: disableWheelmapSource === 'true',
+    disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
   const clientSideConfiguration = await clientSideConfigurationPromise;
@@ -174,6 +174,10 @@ export async function getAppInitialProps(
     throw new Error('missing raw category data');
   }
 
+  const usedDisableWheelmapSource =
+    typeof overriddenWheelmapSource === 'undefined'
+      ? clientSideConfiguration.disableWheelmapSource
+      : overriddenWheelmapSource === 'true';
   const accessibilityFilter = getAccessibilityFilterFrom(accessibility);
   const toiletFilter = getToiletFilterFrom(toilet);
 
@@ -203,7 +207,7 @@ export async function getAppInitialProps(
 
     includeSourceIds: includeSourceIdsArray,
     excludeSourceIds: excludeSourceIdsArray,
-    disableWheelmapSource: disableWheelmapSource === 'true',
+    disableWheelmapSource: usedDisableWheelmapSource,
   };
   return appProps;
 }

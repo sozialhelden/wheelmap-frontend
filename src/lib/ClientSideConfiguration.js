@@ -29,6 +29,7 @@ export type ClientSideConfiguration = {
   allowedBaseURLs: Array<string>,
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
+  disableWheelmapSource: boolean,
   textContent: {
     onboarding: {
       headerMarkdown: LocalizedString,
