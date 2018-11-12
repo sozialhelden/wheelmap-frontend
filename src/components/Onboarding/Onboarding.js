@@ -38,10 +38,8 @@ function Onboarding(props: Props) {
 
   // translator: Cookie notice with link to privacy policy
   const cookieNotice = t`We use cookies to create a better and unique user experience. For more information about use and how to disable it, please see our <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Privacy Policy</a>. By using this website, you consent to the use of cookies.`;
-  // translator: Analytics checkbox
-  const analyticsCheckboxLabel = t`Share analytics data`;
-  // translator: Text asking for opt-in to analytics
-  const analyticsDescription = t`We use google analytics to improve your experience continously. Your decision to share data with google analytics can be revoked any time.`;
+  // translator: Google Analytics checkbox
+  const analyticsCheckboxLabel = t`Share analytics data with Google`;
 
   const onClose = event => {
     // Prevent that touch up opens a link underneath the primary button after closing
@@ -53,7 +51,7 @@ function Onboarding(props: Props) {
 
   return (
     <ModalDialog
-      className={`${props.className}`}
+      className={props.className}
       isVisible={props.isVisible}
       onClose={props.onClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
@@ -139,20 +137,17 @@ function Onboarding(props: Props) {
 
       {analyticsShown && (
         <section className="main-section analytics-section">
-          <p>{analyticsDescription}</p>
-          <div>
-            <label htmlFor="analytics-allowed-cb">
-              <input
-                type="checkbox"
-                id="analytics-allowed-cb"
-                value={analyticsAllowed}
-                checked={analyticsAllowed}
-                name={analyticsCheckboxLabel}
-                onChange={e => analyticsAllowedChanged(e.target.checked)}
-              />
-              {analyticsCheckboxLabel}
-            </label>
-          </div>
+          <label htmlFor="analytics-allowed-cb">
+            <input
+              type="checkbox"
+              id="analytics-allowed-cb"
+              value={analyticsAllowed}
+              checked={analyticsAllowed}
+              name={analyticsCheckboxLabel}
+              onChange={e => analyticsAllowedChanged(e.target.checked)}
+            />
+            {analyticsCheckboxLabel}
+          </label>
         </section>
       )}
 
@@ -255,10 +250,6 @@ const StyledOnboarding = styled(Onboarding)`
       text-align: center;
       max-width: 500px;
       align-self: center;
-    }
-
-    > section.main-section {
-      text-align: left;
     }
 
     ul {
