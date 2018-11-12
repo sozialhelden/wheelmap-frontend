@@ -544,7 +544,7 @@ class App extends React.Component<Props, State> {
   onOpenToiletAccessibility = () => {
     if (this.props.featureId) {
       this.setState({ modalNodeState: 'edit-toilet-accessibility' });
-      trackModalView('edit-wheelchair-accessibility');
+      trackModalView('edit-toilet-accessibility');
     }
   };
 
