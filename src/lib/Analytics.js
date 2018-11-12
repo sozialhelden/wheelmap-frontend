@@ -25,21 +25,30 @@ export function disableAnalytics(trackingId: string) {
   window[`ga-disable-${trackingId}`] = true;
   deleteCookie('_ga');
   deleteCookie('_gid');
+  deleteCookie('_gat');
   setAnalyticsAllowed(false);
   // otherwise reinitializing does not set cookies again
   delete window.ga;
 }
 
+let lastPath: string = '/';
+
 export function trackPageView(path: string) {
   // if disableAnalytics was called, no need to do anything
   if (typeof window !== 'undefined' && window.ga) {
     ReactGA.pageview(path);
+    lastPath = path;
   }
 }
 
-export function trackModalView(name: string) {
+export function trackModalView(name: string | null) {
   // if disableAnalytics was called, no need to do anything
   if (typeof window !== 'undefined' && window.ga) {
-    ReactGA.modalview(name);
+    if (name) {
+      ReactGA.modalview(name);
+    } else {
+      // track closing of modal dialogs
+      ReactGA.pageview(lastPath);
+    }
   }
 }

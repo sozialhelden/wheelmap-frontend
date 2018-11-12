@@ -319,6 +319,7 @@ class App extends React.Component<Props, State> {
 
   onClickFullscreenBackdrop = () => {
     this.setState({ isMainMenuOpen: false, isOnboardingVisible: false, modalNodeState: null });
+    trackModalView(null);
     this.onCloseNodeToolbar();
   };
 
@@ -499,6 +500,7 @@ class App extends React.Component<Props, State> {
       this.props.routerHistory.push('map', params);
     } else {
       this.setState({ modalNodeState: null });
+      trackModalView(null);
     }
   };
 
@@ -549,6 +551,7 @@ class App extends React.Component<Props, State> {
   gotoCurrentFeature() {
     if (this.props.featureId) {
       this.setState({ modalNodeState: null });
+      trackModalView(null);
     }
   }
 
