@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 import savedState, { saveState } from '../lib/savedState';
 import env from '../lib/env';
-import { getAppInitialProps, storeAppInitialProps, type AppProps } from '../app/getInitialProps';
+import { getInitialAppProps, storeInitialAppProps, type AppProps } from '../app/getInitialProps';
 import {
   addTranslationsToTTag,
   getAvailableTranslationsByPreference,
@@ -73,19 +73,19 @@ class CordovaMain extends React.PureComponent<Props, State> {
         overrideLocaleString
       );
       addTranslationsToTTag(translations);
-      storeAppInitialProps({ translations }, isBuilding);
+      storeInitialAppProps({ translations }, isBuilding);
     }
 
     // inject the build time data into the initial props, these are only available on the initial route
     if (props.buildTimeProps) {
       const { translations, ...remainingBuildTimeProps } = props.buildTimeProps;
       this.state.buildTimeProps = remainingBuildTimeProps;
-      storeAppInitialProps(remainingBuildTimeProps, isBuilding);
+      storeInitialAppProps(remainingBuildTimeProps, isBuilding);
     }
 
     // if we have stored props, use these to override the build time props
     if (savedState.initialProps) {
-      storeAppInitialProps(savedState.initialProps, isBuilding);
+      storeInitialAppProps(savedState.initialProps, isBuilding);
     }
   }
 
@@ -117,7 +117,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
     if (isCordovaDebugMode()) {
       queryProps.disableWheelmapSource = 'true';
     }
-    const expectedPromise = getAppInitialProps(queryProps, false, false);
+    const expectedPromise = getInitialAppProps(queryProps, false, false);
 
     this.setState({ expectedPromise }, () => {
       expectedPromise
@@ -139,7 +139,7 @@ class CordovaMain extends React.PureComponent<Props, State> {
     // strip translations, no need to cache them
     const { rawCategoryLists, clientSideConfiguration } = reloadedInitialProps;
 
-    storeAppInitialProps({ rawCategoryLists, clientSideConfiguration }, isBuilding);
+    storeInitialAppProps({ rawCategoryLists, clientSideConfiguration }, isBuilding);
     this.setState({
       storedInitialProps: { rawCategoryLists, clientSideConfiguration },
     });

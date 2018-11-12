@@ -27,10 +27,10 @@ import {
 } from '../lib/i18n';
 import router from '../app/router';
 import {
-  getInitialProps,
-  getAppInitialProps,
+  getInitialRouteProps,
+  getInitialAppProps,
   getRenderProps,
-  storeAppInitialProps,
+  storeInitialAppProps,
   storeInitialRouteProps,
   getHead,
   type AppProps,
@@ -49,13 +49,7 @@ let isServer = false;
 let nonSerializedProps: ?{ appProps: AppProps, routeProps: any | void } = null;
 
 export default class App extends BaseApp {
-  static async getInitialProps({
-    Component: PageComponent,
-    ctx,
-  }: {
-    Component: React.Component<>,
-    ctx: any,
-  }) {
+  static async getInitialProps({ ctx }: { ctx: any }) {
     // do not run usual routing stuff for cordova builds
     const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
     if (isCordovaBuild) {
@@ -63,7 +57,7 @@ export default class App extends BaseApp {
       const hostName = env.public.cordovaHostname;
 
       // serve only english languages
-      const initialBuildTimeProps = await getAppInitialProps(
+      const initialBuildTimeProps = await getInitialAppProps(
         { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
         true
       );
@@ -110,13 +104,13 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
-      const appPropsPromise = getAppInitialProps(
+      const appPropsPromise = getInitialAppProps(
         { userAgentString, hostName, localeStrings, ...ctx.query },
         isServer
       );
 
       if (ctx.query.routeName) {
-        const routePropsPromise = getInitialProps(ctx.query, isServer);
+        const routePropsPromise = getInitialRouteProps(ctx.query, isServer);
         routeProps = await routePropsPromise;
       }
       appProps = await appPropsPromise;
@@ -246,7 +240,7 @@ export default class App extends BaseApp {
     }
 
     // store app initial props (use this.props to cache rawCategoryLists)
-    storeAppInitialProps(this.props, isServer);
+    storeInitialAppProps(this.props, isServer);
     if (routeName) {
       storeInitialRouteProps(routeName, appProps);
     }
