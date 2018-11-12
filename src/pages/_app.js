@@ -41,13 +41,15 @@ import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
-import { restoreAnalytics } from '../lib/Analytics';
+import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
 // used for storing the initial props instead of serializing them for the client
 // to prevent sending too large html chunks, that break e.g. twitter cards
 let nonSerializedProps: ?{ appProps: AppProps, routeProps: any | void } = null;
+
+let isFirstTimeClientRender = true;
 
 export default class App extends BaseApp {
   static async getInitialProps({
@@ -211,11 +213,16 @@ export default class App extends BaseApp {
       ...appProps
     } = receivedProps;
 
-    // setup analytics for any server
-    if (!receivedProps.isServer && receivedProps.clientSideConfiguration) {
-      const { googleAnalytics } = receivedProps.clientSideConfiguration.meta;
-      if (googleAnalytics && googleAnalytics.trackingId) {
-        restoreAnalytics(googleAnalytics.trackingId);
+    if (!receivedProps.isServer && isFirstTimeClientRender) {
+      isFirstTimeClientRender = false;
+
+      // setup analytics for any client that has a google analytics tracking id
+      if (receivedProps.clientSideConfiguration) {
+        const { googleAnalytics } = receivedProps.clientSideConfiguration.meta;
+        if (googleAnalytics && googleAnalytics.trackingId) {
+          restoreAnalytics(googleAnalytics.trackingId);
+          trackPageView(path);
+        }
       }
     }
 
