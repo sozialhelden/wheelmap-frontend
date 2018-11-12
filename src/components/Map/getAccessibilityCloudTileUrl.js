@@ -14,13 +14,11 @@ export default function accessibilityCloudTileUrl(
   const wheelmapSourceId = 'LiBTS67TjmBcXdEmX';
 
   let sourceIdParams = '';
-  // exclude > include > defaults
-  if (excludeSourceIds) {
+  // include > exclude > defaults
+  if (includeSourceIds && includeSourceIds.length > 0) {
+    sourceIdParams = `includeSourceIds=${includeSourceIds.join(',')}`;
+  } else if (excludeSourceIds && excludeSourceIds.length > 0) {
     sourceIdParams = `excludeSourceIds=${[wheelmapSourceId, ...excludeSourceIds].join(',')}`;
-  } else if (includeSourceIds) {
-    sourceIdParams = `includeSourceIds=${includeSourceIds.join(
-      ','
-    )}&excludeSourceIds=${wheelmapSourceId}`;
   } else {
     sourceIdParams = `excludeSourceIds=${wheelmapSourceId}`;
   }
