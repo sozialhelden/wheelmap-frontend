@@ -313,7 +313,7 @@ function generateLocaleLinks(path: string, locales: Locale[]) {
     <link
       key={locale.string}
       href={`${path}?locale=${locale.string}`}
-      hrefLang={locale}
+      hrefLang={locale.string}
       rel="alternate"
     />
   ));
