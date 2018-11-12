@@ -5,6 +5,7 @@ import isCordova from '../../../lib/isCordova';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
+import { trackEvent } from '../../../lib/Analytics';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
@@ -45,6 +46,11 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       throw response;
     })
     .then(json => {
+      trackEvent({
+        category: 'UpdateAccessibilityData',
+        action: propertyName,
+        label: value,
+      });
       [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
         if (cache.getCachedFeature(String(featureId))) {
           cache.updateFeatureAttribute(String(featureId), { [propertyName]: value });
@@ -56,6 +62,12 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       if (typeof options.onClose === 'function') options.onClose();
       // translator: Shown after marking a place did not work, for example because the connection was interrupted
       window.alert(t`Sorry, this place could not be marked because of an error: ${e}`);
+
+      trackEvent({
+        category: 'UpdateAccessibilityData',
+        action: propertyName,
+        label: 'failed',
+      });
     });
 }
 
