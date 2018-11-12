@@ -104,16 +104,14 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
-      const appPropsPromise = getInitialAppProps(
+      if (ctx.query.routeName) {
+        routeProps = await getInitialRouteProps(ctx.query, isServer);
+      }
+
+      appProps = await getInitialAppProps(
         { userAgentString, hostName, localeStrings, ...ctx.query },
         isServer
       );
-
-      if (ctx.query.routeName) {
-        const routePropsPromise = getInitialRouteProps(ctx.query, isServer);
-        routeProps = await routePropsPromise;
-      }
-      appProps = await appPropsPromise;
 
       if (isServer) {
         ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant' });
