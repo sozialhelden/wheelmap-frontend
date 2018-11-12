@@ -56,6 +56,7 @@
     "react-axe": "^2.1.7",
     "react-dom": "^16.5.2",
     "react-fastclick": "^3.0.2",
+    "react-ga": "^2.5.3",
     "react-images": "^0.5.17",
     "react-photo-gallery": "^6.0.25",
     "react-radio-group": "^3.0.2",

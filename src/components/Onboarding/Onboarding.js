@@ -8,7 +8,6 @@ import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import Logo from '../../lib/Logo';
 import env from '../../lib/env';
 import Icon from '../Icon';
 import { translatedStringFromObject } from '../../lib/i18n';
@@ -19,14 +18,30 @@ type Props = {
   onClose: () => void,
   headerMarkdown: string,
   logoURL: string,
+  analyticsShown: boolean,
+  analyticsAllowed: boolean,
+  analyticsAllowedChanged: (value: boolean) => void,
 };
 
 function Onboarding(props: Props) {
-  const { logoURL, headerMarkdown } = props;
+  const {
+    logoURL,
+    headerMarkdown,
+    analyticsShown,
+    analyticsAllowed,
+    analyticsAllowedChanged,
+  } = props;
   // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
   // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
   const startButtonCaption = t`Okay, let’s go!`;
+
+  // translator: Cookie notice with link to privacy policy
+  const cookieNotice = t`We use cookies to create a better and unique user experience. For more information about use and how to disable it, please see our <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Privacy Policy</a>. By using this website, you consent to the use of cookies.`;
+  // translator: Analytics checkbox
+  const analyticsCheckboxLabel = t`Share analytics data`;
+  // translator: Text asking for opt-in to analytics
+  const analyticsDescription = t`We use google analytics to improve your experience continously. Your decision to share data with google analytics can be revoked any time.`;
 
   const onClose = event => {
     // Prevent that touch up opens a link underneath the primary button after closing
@@ -38,7 +53,7 @@ function Onboarding(props: Props) {
 
   return (
     <ModalDialog
-      className={props.className}
+      className={`${props.className}`}
       isVisible={props.isVisible}
       onClose={props.onClose}
       ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
@@ -118,6 +133,29 @@ function Onboarding(props: Props) {
         </ul>
       </section>
 
+      <section className="main-section cookies-section">
+        <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
+      </section>
+
+      {analyticsShown && (
+        <section className="main-section analytics-section">
+          <p>{analyticsDescription}</p>
+          <div>
+            <label htmlFor="analytics-allowed-cb">
+              <input
+                type="checkbox"
+                id="analytics-allowed-cb"
+                value={analyticsAllowed}
+                checked={analyticsAllowed}
+                name={analyticsCheckboxLabel}
+                onChange={e => analyticsAllowedChanged(e.target.checked)}
+              />
+              {analyticsCheckboxLabel}
+            </label>
+          </div>
+        </section>
+      )}
+
       <footer>
         <button className="button-cta-close focus-visible" onClick={onClose}>
           {startButtonCaption}
@@ -195,7 +233,7 @@ const StyledOnboarding = styled(Onboarding)`
 
   .modal-dialog-content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     max-width: 80%;
     padding: 15px;
     overflow: auto;
@@ -211,34 +249,16 @@ const StyledOnboarding = styled(Onboarding)`
       object-fit: contain;
     }
 
-    @media (max-width: 1199px) {
-      flex-direction: column !important;
-
-      > footer,
-      > header {
-        text-align: center;
-        max-width: 500px;
-        align-self: center;
-      }
+    > footer,
+    > header,
+    > section.main-section {
+      text-align: center;
+      max-width: 500px;
+      align-self: center;
     }
 
-    @media (min-width: 1200px) {
-      justify-content: center;
-      align-items: center;
-      max-width: 1200px;
-
-      > header,
-      footer {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-      }
-      header {
-        flex-direction: column;
-      }
-      > section {
-        flex: 2;
-      }
+    > section.main-section {
+      text-align: left;
     }
 
     ul {

@@ -41,6 +41,7 @@ import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
+import { restoreAnalytics } from '../lib/Analytics';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -209,6 +210,14 @@ export default class App extends BaseApp {
       buildTimeProps,
       ...appProps
     } = receivedProps;
+
+    // setup analytics for any server
+    if (!receivedProps.isServer && receivedProps.clientSideConfiguration) {
+      const { googleAnalytics } = receivedProps.clientSideConfiguration.meta;
+      if (googleAnalytics && googleAnalytics.trackingId) {
+        restoreAnalytics(googleAnalytics.trackingId);
+      }
+    }
 
     // Show generic error page for now and show as soon as possible
     // as props like client side configuration are not set then.

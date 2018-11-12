@@ -44,3 +44,11 @@ export function isFirstStart() {
 export function hasOpenedLocationHelp() {
   return storage.getItem('wheelmap.hasOpenedLocationHelp') === 'true';
 }
+
+export function hasAllowedAnalytics() {
+  return storage.getItem('wheelmap.analyticsAllowed') === 'true';
+}
+
+export function setAnalyticsAllowed(value: boolean) {
+  return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
+}
