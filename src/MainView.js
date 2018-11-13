@@ -184,10 +184,6 @@ class MainView extends React.Component<Props, State> {
     this.resizeListener();
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State) {
-    // this.manageFocus(prevProps, prevState);
-  }
-
   componentWillUnmount() {
     delete this.resizeListener;
     if (typeof window !== 'undefined') {
@@ -202,12 +198,6 @@ class MainView extends React.Component<Props, State> {
   focusSearchToolbar() {
     if (this.searchToolbar) {
       this.searchToolbar.focus();
-    }
-  }
-
-  focusNodeToolbar() {
-    if (this.nodeToolbar) {
-      this.nodeToolbar.focus();
     }
   }
 
