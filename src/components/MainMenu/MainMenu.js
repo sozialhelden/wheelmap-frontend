@@ -120,10 +120,39 @@ class MainMenu extends React.Component<Props, State> {
     );
   }
 
-  render() {
-    const { addMissingPlace } = strings();
+  renderAppLinks() {
+    return this.props.links.map(link => {
+      const url = translatedStringFromObject(link.url);
+      const label = translatedStringFromObject(link.label);
+      const className = ['nav-link'].filter(Boolean).join(' ');
+      return (
+        <a key={url} className={className} href={url} role="menuitem">
+          {label}
+        </a>
+      );
+    });
+  }
 
-    const { isOpen, className, links, addPlaceURL, claim } = this.props;
+  renderCloseButton() {
+    const { isOpen } = this.props;
+    return (
+      <button
+        className="btn-unstyled menu"
+        onClick={this.toggleMenu}
+        aria-hidden={!isMenuButtonVisible}
+        aria-label={t`Menu`}
+        aria-haspopup="true"
+        aria-expanded={isOpen}
+        aria-controls="main-menu"
+        onKeyDown={this.handleKeyDown}
+      >
+        {isOpen ? <CloseIcon /> : <MenuIcon />}
+      </button>
+    );
+  }
+
+  render() {
+    const { isOpen, className, claim } = this.props;
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -134,25 +163,6 @@ class MainMenu extends React.Component<Props, State> {
 
     const focusTrapIsActive = isMenuButtonVisible && isOpen;
 
-    let addPlaceLink = (
-      <button
-        className="nav-link add-place-link"
-        onClick={this.props.onAddMissingPlaceClick}
-        onKeyDown={this.handleKeyDown}
-        role="menuitem"
-      >
-        {addMissingPlace}
-      </button>
-    );
-
-    if (addPlaceURL) {
-      addPlaceLink = (
-        <a className="nav-link add-place-link" href={addPlaceURL} role="menuitem">
-          {addMissingPlace}
-        </a>
-      );
-    }
-
     return (
       <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
         {this.renderHomeLink()}
@@ -162,31 +172,10 @@ class MainMenu extends React.Component<Props, State> {
         <GlobalActivityIndicator />
 
         <div id="main-menu" role="menu">
-          {links.map(link => {
-            const url = translatedStringFromObject(link.url);
-            const label = translatedStringFromObject(link.label);
-            return (
-              <a key={url} className="nav-link" href={url} role="menuitem">
-                {label}
-              </a>
-            );
-          })}
-
-          {addPlaceLink}
+          {this.renderAppLinks()}
         </div>
 
-        <button
-          className="btn-unstyled menu"
-          onClick={this.toggleMenu}
-          aria-hidden={!isMenuButtonVisible}
-          aria-label={t`Menu`}
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-          aria-controls="main-menu"
-          onKeyDown={this.handleKeyDown}
-        >
-          {isOpen ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        {this.renderCloseButton()}
       </FocusTrap>
     );
   }
@@ -267,7 +256,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  .add-place-link {
+  .primary-link {
     font: inherit;
     border: 0;
     margin: 0;
