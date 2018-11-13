@@ -510,32 +510,15 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
 
-    if (isEmbeddedWidget) {
-      return (
-        <div className={classList.join(' ')}>
-          <ErrorBoundary>
-            {this.renderMap()}
-            {isNodeToolbarVisible && modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-            {this.props.isPhotoUploadCaptchaToolbarVisible &&
-              this.renderPhotoUploadCaptchaToolbar()}
-            {this.props.isPhotoUploadInstructionsToolbarVisible &&
-              this.renderPhotoUploadInstructionsToolbar()}
-            {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
-            {this.renderCreateDialog()}
-          </ErrorBoundary>
-        </div>
-      );
-    }
-
     return (
       <div className={classList.join(' ')}>
-        {!isMainMenuInBackground && this.renderMainMenu()}
+        {!isEmbeddedWidget && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
-            {isMainMenuInBackground && this.renderMainMenu()}
-            {this.renderSearchToolbar(searchToolbarIsInert)}
+            {!isEmbeddedWidget && isMainMenuInBackground && this.renderMainMenu()}
+            {!isEmbeddedWidget && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-            {isSearchButtonVisible && this.renderSearchButton()}
+            {!isEmbeddedWidget && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
