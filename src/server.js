@@ -17,6 +17,15 @@ app.prepare().then(() => {
   server.use(cache(3600));
   server.use(compression());
 
+  // TODO: Deploy new native apps that bring their own localizations and remove this redirect
+  server.use(
+    ['/beta/i18n/*'],
+    proxy({
+      target: 'http://classic.wheelmap.org',
+      changeOrigin: true,
+    })
+  );
+
   server.get(/beta\/.*/, (req, res) => {
     res.redirect(`${req.originalUrl.substr(5)}`);
   });
