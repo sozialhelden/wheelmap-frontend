@@ -213,14 +213,14 @@ class MainView extends React.Component<Props, State> {
     }
   };
 
-  renderNodeToolbar(
-    { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }: $Shape<Props>,
-    isNodeRoute: boolean
-  ) {
+  renderNodeToolbar(isNodeRoute: boolean) {
     return (
       <div className="node-toolbar">
         <NodeToolbarFeatureLoader
-          {...{ featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus }}
+          featureId={this.props.featureId}
+          equipmentInfoId={this.props.equipmentInfoId}
+          modalNodeState={this.props.modalNodeState}
+          accessibilityPresetStatus={this.props.accessibilityPresetStatus}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           lightweightFeature={this.props.lightweightFeature}
           feature={this.props.feature}
@@ -249,20 +249,17 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderSearchToolbar(
-    { category, searchQuery, searchResults, disableWheelmapSource }: $Shape<Props>,
-    isInert: boolean
-  ) {
+  renderSearchToolbar(isInert: boolean) {
     return (
       <SearchToolbar
         ref={searchToolbar => (this.searchToolbar = searchToolbar)}
         categories={this.props.categories}
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
-        category={category}
-        showCategoryMenu={!disableWheelmapSource}
-        searchQuery={searchQuery}
-        searchResults={searchResults}
+        category={this.props.category}
+        showCategoryMenu={!this.props.disableWheelmapSource}
+        searchQuery={this.props.searchQuery}
+        searchResults={this.props.searchResults}
         accessibilityFilter={this.props.accessibilityFilter}
         toiletFilter={this.props.toiletFilter}
         onChangeSearchQuery={this.props.onSearchQueryChange}
@@ -309,29 +306,29 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderMainMenu({ isLocalizationLoaded, lat, lon, zoom }: $Shape<Props>) {
+  renderMainMenu() {
     const {
-      isMainMenuOpen,
-      onMainMenuHomeClick,
-      onToggleMainMenu,
-      clientSideConfiguration,
-    } = this.props;
-
-    const { logoURL, customMainMenuLinks, addPlaceURL, textContent } = clientSideConfiguration;
+      logoURL,
+      customMainMenuLinks,
+      addPlaceURL,
+      textContent,
+    } = this.props.clientSideConfiguration;
 
     return (
       <MainMenu
         className="main-menu"
-        isOpen={isMainMenuOpen}
-        onToggle={onToggleMainMenu}
-        onHomeClick={onMainMenuHomeClick}
-        isLocalizationLoaded={isLocalizationLoaded}
+        isOpen={this.props.isMainMenuOpen}
+        onToggle={this.props.onToggleMainMenu}
+        onHomeClick={this.props.onMainMenuHomeClick}
+        isLocalizationLoaded={this.props.isLocalizationLoaded}
         onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         logoURL={logoURL}
         claim={textContent.product.claim}
         links={customMainMenuLinks}
         addPlaceURL={addPlaceURL}
-        {...{ lat, lon, zoom }}
+        lat={this.props.lat}
+        lon={this.props.lon}
+        zoom={this.props.zoom}
       />
     );
   }
@@ -470,12 +467,6 @@ class MainView extends React.Component<Props, State> {
   render() {
     const {
       featureId,
-      searchQuery,
-      equipmentInfoId,
-      accessibilityPresetStatus,
-      searchResults,
-      disableWheelmapSource,
-      category,
       className,
       isOnboardingVisible,
       isNotFoundVisible,
@@ -483,9 +474,6 @@ class MainView extends React.Component<Props, State> {
       isSearchBarVisible,
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
-      lat,
-      lon,
-      zoom,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -520,28 +508,19 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
 
-    const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
-    const nodeToolbar = this.renderNodeToolbar(
-      { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus },
-      isNodeRoute
-    );
-
     return (
       <div className={classList.join(' ')}>
-        {!isMainMenuInBackground && mainMenu}
+        {!isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
-            {isMainMenuInBackground && mainMenu}
-            {this.renderSearchToolbar(
-              { category, searchQuery, searchResults, disableWheelmapSource },
-              searchToolbarIsInert
-            )}
-            {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
+            {isMainMenuInBackground && this.renderMainMenu()}
+            {this.renderSearchToolbar(searchToolbarIsInert)}
+            {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
             {isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
-          {isNodeToolbarVisible && modalNodeState && nodeToolbar}
+          {isNodeToolbarVisible && modalNodeState && this.renderNodeToolbar(isNodeRoute)}
           {isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
