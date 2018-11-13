@@ -9,6 +9,11 @@ body.is-touch-device .leaflet-control-zoom {
     top: env(safe-area-inset-top);
     margin-top: 50px;
   }
+
+  .is-embedded-widget .leaflet-control-container .leaflet-top {
+    margin-top: 0;
+  }
+
   .leaflet-control-container .leaflet-right {
     right: 0px;
     right: constant(safe-area-inset-right);
