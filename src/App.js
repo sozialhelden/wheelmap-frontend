@@ -64,6 +64,7 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  isEmbeddedWidget: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -640,6 +641,7 @@ class App extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
+      isEmbeddedWidget: this.props.isEmbeddedWidget,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,

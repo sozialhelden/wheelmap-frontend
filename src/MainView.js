@@ -59,6 +59,7 @@ type Props = {
   lon: ?number,
   zoom: ?number,
   extent: ?[number, number, number, number],
+  isEmbeddedWidget: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -479,6 +480,7 @@ class MainView extends React.Component<Props, State> {
       isPhotoUploadInstructionsToolbarVisible,
       photoMarkedForReport,
       isReportMode,
+      isEmbeddedWidget,
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
@@ -507,6 +509,23 @@ class MainView extends React.Component<Props, State> {
     const isMainMenuInBackground = isOnboardingVisible || isNotFoundVisible || modalNodeState;
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
+
+    if (isEmbeddedWidget) {
+      return (
+        <div className={classList.join(' ')}>
+          <ErrorBoundary>
+            {this.renderMap()}
+            {isNodeToolbarVisible && modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {this.props.isPhotoUploadCaptchaToolbarVisible &&
+              this.renderPhotoUploadCaptchaToolbar()}
+            {this.props.isPhotoUploadInstructionsToolbarVisible &&
+              this.renderPhotoUploadInstructionsToolbar()}
+            {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
+            {this.renderCreateDialog()}
+          </ErrorBoundary>
+        </div>
+      );
+    }
 
     return (
       <div className={classList.join(' ')}>
