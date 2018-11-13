@@ -475,37 +475,50 @@ class MainView extends React.Component<Props, State> {
       accessibilityPresetStatus,
       searchResults,
       disableWheelmapSource,
+      category,
+      className,
+      isOnboardingVisible,
+      isNotFoundVisible,
+      isMainMenuOpen,
+      isSearchBarVisible,
+      isSearchButtonVisible,
+      isNodeToolbarDisplayed: isNodeToolbarVisible,
+      lat,
+      lon,
+      zoom,
+      modalNodeState,
+      isPhotoUploadCaptchaToolbarVisible,
+      isPhotoUploadInstructionsToolbarVisible,
+      photoMarkedForReport,
+      isReportMode,
     } = this.props;
-    const category = this.props.category;
+
     const isNodeRoute = Boolean(featureId);
-    const { lat, lon, zoom, modalNodeState } = this.props;
-    const isNodeToolbarVisible = this.props.isNodeToolbarDisplayed;
 
     const classList = uniq([
       'main-view',
-      this.props.className,
-      this.props.isOnboardingVisible ? 'is-dialog-visible' : null,
-      this.props.isNotFoundVisible ? 'is-dialog-visible' : null,
-      this.props.isMainMenuOpen ? 'is-main-menu-open' : null,
-      this.props.isSearchBarVisible ? 'is-search-bar-visible' : null,
+      className,
+      isOnboardingVisible ? 'is-dialog-visible' : null,
+      isNotFoundVisible ? 'is-dialog-visible' : null,
+      isMainMenuOpen ? 'is-main-menu-open' : null,
+      isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
       modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
-      this.props.isReportMode ? 'is-report-mode' : null,
+      isReportMode ? 'is-report-mode' : null,
     ]).filter(Boolean);
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
-      this.props.isPhotoUploadCaptchaToolbarVisible ||
-      this.props.isPhotoUploadInstructionsToolbarVisible ||
-      this.props.isOnboardingVisible ||
-      this.props.isNotFoundVisible ||
-      !!this.props.photoMarkedForReport;
+      isPhotoUploadCaptchaToolbarVisible ||
+      isPhotoUploadInstructionsToolbarVisible ||
+      isOnboardingVisible ||
+      isNotFoundVisible ||
+      !!photoMarkedForReport;
 
-    const isMainMenuInBackground =
-      this.props.isOnboardingVisible || this.props.isNotFoundVisible || this.props.modalNodeState;
+    const isMainMenuInBackground = isOnboardingVisible || isNotFoundVisible || modalNodeState;
 
-    const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
+    const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
 
     const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
     const nodeToolbar = this.renderNodeToolbar(
@@ -524,15 +537,14 @@ class MainView extends React.Component<Props, State> {
               searchToolbarIsInert
             )}
             {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
-            {this.props.isSearchButtonVisible && this.renderSearchButton()}
+            {isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
           {isNodeToolbarVisible && modalNodeState && nodeToolbar}
-          {this.props.isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
-          {this.props.isPhotoUploadInstructionsToolbarVisible &&
-            this.renderPhotoUploadInstructionsToolbar()}
-          {this.props.photoMarkedForReport && this.renderReportPhotoToolbar()}
+          {isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
+          {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
+          {photoMarkedForReport && this.renderReportPhotoToolbar()}
           {this.renderCreateDialog()}
           {this.renderOnboarding()}
         </ErrorBoundary>
