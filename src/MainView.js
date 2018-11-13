@@ -419,6 +419,54 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  renderMap() {
+    const {
+      lat,
+      lon,
+      zoom,
+      category,
+      featureId,
+      equipmentInfoId,
+      isNodeToolbarDisplayed: isNodeToolbarVisible,
+    } = this.props;
+    return (
+      <DynamicMap
+        forwardedRef={map => {
+          this.map = map;
+          if (typeof window !== 'undefined') {
+            window.map = map;
+          }
+        }}
+        onMoveEnd={this.props.onMoveEnd}
+        onClick={this.props.onMapClick}
+        onMarkerClick={this.props.onMarkerClick}
+        hrefForFeature={hrefForFeature}
+        onError={this.props.onError}
+        lat={lat ? parseFloat(lat) : null}
+        lon={lon ? parseFloat(lon) : null}
+        zoom={zoom ? parseFloat(zoom) : null}
+        extent={this.props.extent}
+        includeSourceIds={this.props.includeSourceIds}
+        excludeSourceIds={this.props.excludeSourceIds}
+        disableWheelmapSource={this.props.disableWheelmapSource}
+        category={category}
+        feature={this.props.lightweightFeature || this.props.feature}
+        featureId={featureId}
+        equipmentInfo={this.props.equipmentInfo}
+        equipmentInfoId={equipmentInfoId}
+        categories={this.props.categories}
+        accessibilityFilter={this.props.accessibilityFilter}
+        toiletFilter={this.props.toiletFilter}
+        locateOnStart={this.props.shouldLocateOnStart}
+        padding={this.getMapPadding()}
+        hideHints={
+          this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
+        }
+        {...config}
+      />
+    );
+  }
+
   render() {
     const {
       featureId,
@@ -459,43 +507,6 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || this.props.isMainMenuOpen;
 
-    const map = (
-      <DynamicMap
-        forwardedRef={map => {
-          this.map = map;
-          if (typeof window !== 'undefined') {
-            window.map = map;
-          }
-        }}
-        onMoveEnd={this.props.onMoveEnd}
-        onClick={this.props.onMapClick}
-        onMarkerClick={this.props.onMarkerClick}
-        hrefForFeature={hrefForFeature}
-        onError={this.props.onError}
-        lat={lat ? parseFloat(lat) : null}
-        lon={lon ? parseFloat(lon) : null}
-        zoom={zoom ? parseFloat(zoom) : null}
-        extent={this.props.extent}
-        includeSourceIds={this.props.includeSourceIds}
-        excludeSourceIds={this.props.excludeSourceIds}
-        disableWheelmapSource={this.props.disableWheelmapSource}
-        category={category}
-        feature={this.props.lightweightFeature || this.props.feature}
-        featureId={featureId}
-        equipmentInfo={this.props.equipmentInfo}
-        equipmentInfoId={equipmentInfoId}
-        categories={this.props.categories}
-        accessibilityFilter={this.props.accessibilityFilter}
-        toiletFilter={this.props.toiletFilter}
-        locateOnStart={this.props.shouldLocateOnStart}
-        padding={this.getMapPadding()}
-        hideHints={
-          this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
-        }
-        {...config}
-      />
-    );
-
     const mainMenu = this.renderMainMenu({ modalNodeState, lat, lon, zoom });
     const nodeToolbar = this.renderNodeToolbar(
       { featureId, equipmentInfoId, modalNodeState, accessibilityPresetStatus },
@@ -514,7 +525,7 @@ class MainView extends React.Component<Props, State> {
             )}
             {isNodeToolbarVisible && !modalNodeState && nodeToolbar}
             {this.props.isSearchButtonVisible && this.renderSearchButton()}
-            {map}
+            {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
           {isNodeToolbarVisible && modalNodeState && nodeToolbar}
