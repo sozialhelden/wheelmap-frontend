@@ -496,6 +496,7 @@ class MainView extends React.Component<Props, State> {
       modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       isReportMode ? 'is-report-mode' : null,
+      isEmbeddedWidget ? 'is-embedded-widget' : null,
     ]).filter(Boolean);
 
     const searchToolbarIsHidden =
