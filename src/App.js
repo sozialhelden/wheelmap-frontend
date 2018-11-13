@@ -434,6 +434,7 @@ class App extends React.Component<Props, State> {
       excludeSourceIds,
       clientSideConfiguration,
       overriddenAppId,
+      isEmbeddedWidget,
     } = this.props;
 
     if (category) {
@@ -480,6 +481,10 @@ class App extends React.Component<Props, State> {
 
     if (overriddenAppId) {
       params.appId = overriddenAppId;
+    }
+
+    if (isEmbeddedWidget) {
+      params.embedded = 'true';
     }
 
     return params;
