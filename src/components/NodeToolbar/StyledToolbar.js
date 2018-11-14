@@ -7,15 +7,19 @@ const StyledToolbar = styled(Toolbar)`
   top: ${props => (props.isEmbeddedWidget ? 0 : 110)}px;
   top: calc(${props => (props.isEmbeddedWidget ? 0 : 110)}px + constant(safe-area-inset-top));
   top: calc(${props => (props.isEmbeddedWidget ? 0 : 110)}px + env(safe-area-inset-top));
-  max-height: calc(100% - 120px);
-  max-height: calc(100% - 120px - constant(safe-area-inset-top));
-  max-height: calc(100% - 120px - env(safe-area-inset-top));
+  max-height: calc(100% - ${props => (props.isEmbeddedWidget ? 70 : 120)}px);
+  max-height: calc(
+    100% - ${props => (props.isEmbeddedWidget ? 70 : 120)}px - constant(safe-area-inset-top)
+  );
+  max-height: calc(
+    100% - ${props => (props.isEmbeddedWidget ? 70 : 120)}px - env(safe-area-inset-top)
+  );
   padding-top: 0;
 
   @media (max-width: 512px), (max-height: 512px) {
-    top: 50px;
-    top: calc(50px + constant(safe-area-inset-top));
-    top: calc(50px + env(safe-area-inset-top));
+    top: ${props => (props.isEmbeddedWidget ? 0 : 50)}px;
+    top: calc(${props => (props.isEmbeddedWidget ? 0 : 50)}px + constant(safe-area-inset-top));
+    top: calc(${props => (props.isEmbeddedWidget ? 0 : 50)}px + env(safe-area-inset-top));
 
     @media (orientation: landscape) {
       max-height: calc(100% - 80px);
