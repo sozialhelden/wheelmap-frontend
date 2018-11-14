@@ -172,7 +172,7 @@ class App extends React.Component<Props, State> {
   componentDidMount() {
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
-    } else if (this.props.routeName === 'map') {
+    } else if (this.props.routeName === 'map' && !this.props.inEmbedMode) {
       this.openSearch(true);
     }
   }
