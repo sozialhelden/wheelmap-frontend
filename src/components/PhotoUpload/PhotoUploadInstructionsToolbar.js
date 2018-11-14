@@ -14,7 +14,7 @@ import colors from '../../lib/colors';
 export type Props = {
   hidden: boolean,
   waitingForPhotoUpload?: boolean,
-  isEmbeddedWidget: boolean,
+  inEmbedMode: boolean,
   onClose: ?() => void,
   onCompleted: ?(photos: FileList) => void,
 };
@@ -296,7 +296,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
-        isEmbeddedWidget={this.props.isEmbeddedWidget}
+        inEmbedMode={this.props.inEmbedMode}
       >
         <header>
           {this.renderCloseLink()}

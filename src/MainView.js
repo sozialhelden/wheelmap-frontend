@@ -60,7 +60,7 @@ type Props = {
   lon: ?number,
   zoom: ?number,
   extent: ?[number, number, number, number],
-  isEmbeddedWidget: boolean,
+  inEmbedMode: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -246,7 +246,7 @@ class MainView extends React.Component<Props, State> {
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
-          isEmbeddedWidget={this.props.isEmbeddedWidget}
+          inEmbedMode={this.props.inEmbedMode}
         />
       </div>
     );
@@ -393,7 +393,7 @@ class MainView extends React.Component<Props, State> {
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         onClose={this.props.onAbortPhotoUploadFlow}
         onCompleted={this.props.onContinuePhotoUploadFlow}
-        isEmbeddedWidget={this.props.isEmbeddedWidget}
+        inEmbedMode={this.props.inEmbedMode}
       />
     );
   }
@@ -483,7 +483,7 @@ class MainView extends React.Component<Props, State> {
       isPhotoUploadInstructionsToolbarVisible,
       photoMarkedForReport,
       isReportMode,
-      isEmbeddedWidget,
+      inEmbedMode,
       clientSideConfiguration,
     } = this.props;
 
@@ -500,7 +500,7 @@ class MainView extends React.Component<Props, State> {
       modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       isReportMode ? 'is-report-mode' : null,
-      isEmbeddedWidget ? 'is-embedded-widget' : null,
+      inEmbedMode ? 'in-embed-mode' : null,
     ]).filter(Boolean);
 
     const searchToolbarIsHidden =
@@ -517,14 +517,14 @@ class MainView extends React.Component<Props, State> {
 
     return (
       <div className={classList.join(' ')}>
-        {!isEmbeddedWidget && !isMainMenuInBackground && this.renderMainMenu()}
+        {!inEmbedMode && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
-            {!isEmbeddedWidget && isMainMenuInBackground && this.renderMainMenu()}
-            {!isEmbeddedWidget && this.renderSearchToolbar(searchToolbarIsInert)}
+            {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
+            {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-            {!isEmbeddedWidget && isSearchButtonVisible && this.renderSearchButton()}
-            {isEmbeddedWidget && (
+            {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
+            {inEmbedMode && (
               <PositionedWheelmapHomeLink logoURL={clientSideConfiguration.logoURL} />
             )}
             {this.renderMap()}

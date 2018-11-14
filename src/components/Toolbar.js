@@ -374,12 +374,12 @@ const StyledToolbar = styled(Toolbar)`
       top: 0px;
       top: constant(safe-area-inset-top);
       top: env(safe-area-inset-top);
-      max-height: calc(100% - ${props => (props.isEmbeddedWidget ? 60 : 120)}px);
+      max-height: calc(100% - ${props => (props.inEmbedMode ? 60 : 120)}px);
       max-height: calc(
-        100% - ${props => (props.isEmbeddedWidget ? 60 : 120)}px - constant(safe-area-inset-top)
+        100% - ${props => (props.inEmbedMode ? 60 : 120)}px - constant(safe-area-inset-top)
       );
       max-height: calc(
-        100% - ${props => (props.isEmbeddedWidget ? 60 : 120)}px - env(safe-area-inset-top)
+        100% - ${props => (props.inEmbedMode ? 60 : 120)}px - env(safe-area-inset-top)
       );
       margin-top: 0;
     }

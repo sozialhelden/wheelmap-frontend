@@ -64,7 +64,7 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
-  isEmbeddedWidget: boolean,
+  inEmbedMode: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -434,7 +434,7 @@ class App extends React.Component<Props, State> {
       excludeSourceIds,
       clientSideConfiguration,
       overriddenAppId,
-      isEmbeddedWidget,
+      inEmbedMode,
     } = this.props;
 
     if (category) {
@@ -483,7 +483,7 @@ class App extends React.Component<Props, State> {
       params.appId = overriddenAppId;
     }
 
-    if (isEmbeddedWidget) {
+    if (inEmbedMode) {
       params.embedded = 'true';
     }
 
@@ -646,7 +646,7 @@ class App extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
-      isEmbeddedWidget: this.props.isEmbeddedWidget,
+      inEmbedMode: this.props.inEmbedMode,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,

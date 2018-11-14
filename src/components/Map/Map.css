@@ -10,7 +10,7 @@ body.is-touch-device .leaflet-control-zoom {
     margin-top: 50px;
   }
 
-  .is-embedded-widget .leaflet-control-container .leaflet-top {
+  .in-embed-mode .leaflet-control-container .leaflet-top {
     margin-top: 0;
   }
 
@@ -30,7 +30,7 @@ body.is-touch-device .leaflet-control-zoom {
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.is-embedded-widget .leaflet-container {
+.in-embed-mode .leaflet-container {
   height: 100vh;
 }
 

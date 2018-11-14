@@ -209,7 +209,7 @@ export async function getInitialAppProps(
     includeSourceIds: includeSourceIdsArray,
     excludeSourceIds: excludeSourceIdsArray,
     disableWheelmapSource: usedDisableWheelmapSource,
-    isEmbeddedWidget: embedded === 'true',
+    inEmbedMode: embedded === 'true',
   };
   return appProps;
 }
