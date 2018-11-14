@@ -30,6 +30,10 @@ body.is-touch-device .leaflet-control-zoom {
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+.is-embedded-widget .leaflet-container {
+  height: 100vh;
+}
+
 @media (max-width: 1024px) {
   .leaflet-container {
     height: 100vh;
