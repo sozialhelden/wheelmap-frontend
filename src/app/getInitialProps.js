@@ -48,7 +48,7 @@ type DataTableQuery = {
 };
 
 export type DataTableEntry<Props> = {
-  getInitialProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
+  getInitialRouteProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
   getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
   storeInitialRouteProps?: (props: Props) => void,
@@ -65,7 +65,7 @@ const dataTable: DataTable = Object.freeze({
   equipment: PlaceDetailsData,
 });
 
-export function getInitialProps(
+export function getInitialRouteProps(
   {
     routeName,
     ...query
@@ -77,11 +77,11 @@ export function getInitialProps(
 ) {
   const dataItem = dataTable[routeName];
 
-  if (!dataItem || !dataItem.getInitialProps) {
+  if (!dataItem || !dataItem.getInitialRouteProps) {
     return {};
   }
 
-  return dataItem.getInitialProps(query, isServer);
+  return dataItem.getInitialRouteProps(query, isServer);
 }
 
 export function getRenderProps<Props>(routeName: string, props: Props, isServer: boolean): Props {
@@ -94,7 +94,7 @@ export function getRenderProps<Props>(routeName: string, props: Props, isServer:
   return dataItem.getRenderProps(props, isServer);
 }
 
-export async function getAppInitialProps(
+export async function getInitialAppProps(
   {
     userAgentString,
     localeStrings,
@@ -214,7 +214,7 @@ export async function getAppInitialProps(
 
 const appPropsCache: $Shape<AppProps> = {};
 
-export function storeAppInitialProps(props: $Shape<AppProps>, isServer: boolean) {
+export function storeInitialAppProps(props: $Shape<AppProps>, isServer: boolean) {
   const {
     translations,
     rawCategoryLists,
