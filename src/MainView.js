@@ -17,6 +17,7 @@ import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptc
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 import MapLoading from './components/Map/MapLoading';
 import ErrorBoundary from './components/ErrorBoundary';
+import WheelmapHomeLink from './components/WheelmapHomeLink';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
@@ -483,6 +484,7 @@ class MainView extends React.Component<Props, State> {
       photoMarkedForReport,
       isReportMode,
       isEmbeddedWidget,
+      clientSideConfiguration,
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
@@ -522,6 +524,9 @@ class MainView extends React.Component<Props, State> {
             {!isEmbeddedWidget && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
             {!isEmbeddedWidget && isSearchButtonVisible && this.renderSearchButton()}
+            {isEmbeddedWidget && (
+              <PositionedWheelmapHomeLink logoURL={clientSideConfiguration.logoURL} />
+            )}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
@@ -602,6 +607,13 @@ const StyledMainView = styled(MainView)`
       z-index: 1001;
     }
   }
+`;
+
+const PositionedWheelmapHomeLink = styled(WheelmapHomeLink)`
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  z-index: 1001;
 `;
 
 export default StyledMainView;
