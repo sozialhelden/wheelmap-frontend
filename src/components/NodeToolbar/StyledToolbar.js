@@ -20,9 +20,13 @@ const StyledToolbar = styled(Toolbar)`
     top: calc(${props => (props.inEmbedMode ? 0 : 50)}px + env(safe-area-inset-top));
 
     @media (orientation: landscape) {
-      max-height: calc(100% - 80px);
-      max-height: calc(100% - 80px - constant(safe-area-inset-top));
-      max-height: calc(100% - 80px - env(safe-area-inset-top));
+      max-height: calc(100% - ${props => (props.inEmbedMode ? 0 : 80)}px);
+      max-height: calc(
+        100% - ${props => (props.inEmbedMode ? 0 : 80)}px - constant(safe-area-inset-top)
+      );
+      max-height: calc(
+        100% - ${props => (props.inEmbedMode ? 0 : 80)}px - env(safe-area-inset-top)
+      );
     }
   }
 `;

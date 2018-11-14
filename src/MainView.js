@@ -520,13 +520,13 @@ class MainView extends React.Component<Props, State> {
         {!inEmbedMode && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
+            {inEmbedMode && (
+              <PositionedWheelmapHomeLink logoURL={clientSideConfiguration.logoURL} />
+            )}
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
-            {inEmbedMode && (
-              <PositionedWheelmapHomeLink logoURL={clientSideConfiguration.logoURL} />
-            )}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
@@ -611,9 +611,14 @@ const StyledMainView = styled(MainView)`
 
 const PositionedWheelmapHomeLink = styled(WheelmapHomeLink)`
   position: absolute;
-  margin-top: 10px;
-  margin-left: 10px;
+  top: 10px;
+  right: 70px;
   z-index: 1001;
+
+  @media (max-width: 512px) {
+    right: initial;
+    left: 10px;
+  }
 `;
 
 export default StyledMainView;
