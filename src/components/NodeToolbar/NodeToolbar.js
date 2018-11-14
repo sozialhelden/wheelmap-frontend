@@ -57,6 +57,7 @@ type Props = {
   parentCategory: ?Category,
   hidden: boolean,
   modalNodeState: ModalNodeState,
+  isEmbeddedWidget: boolean,
   onClose: () => void,
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
@@ -349,6 +350,7 @@ class NodeToolbar extends React.Component<Props, State> {
         ariaLabel={this.placeName()}
         startTopOffset={offset}
         onScrollable={isScrollable => this.setState({ isScrollable })}
+        isEmbeddedWidget={this.props.isEmbeddedWidget}
       >
         <ErrorBoundary>
           <FocusTrap

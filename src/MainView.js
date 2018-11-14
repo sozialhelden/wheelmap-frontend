@@ -245,6 +245,7 @@ class MainView extends React.Component<Props, State> {
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
+          isEmbeddedWidget={this.props.isEmbeddedWidget}
         />
       </div>
     );
