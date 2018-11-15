@@ -25,3 +25,4 @@ vendor/.*
 .*/node_modules/styled-components/src/.*Native.*
 .*/node_modules/styled-components/src/.*primitives.*
 .*/node_modules/accessibility-cloud-widget/.*
+.*/broken.json
