@@ -251,7 +251,7 @@ class App extends React.Component<Props, State> {
   onMapClick = () => {
     if (this.state.isSearchToolbarExpanded) {
       this.closeSearch();
-      this.mainView.focusMap();
+      this.mainView && this.mainView.focusMap();
     }
   };
 
