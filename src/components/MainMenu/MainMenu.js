@@ -9,7 +9,6 @@ import CloseIcon from '../icons/actions/Close';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
-import strings from './strings';
 import type { Link } from '../../App';
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
 
@@ -121,7 +120,7 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   renderAppLinks() {
-    return this.props.links.map(link => {
+    return this.props.links.sort((a, b) => a.order - b.order).map(link => {
       const url = translatedStringFromObject(link.url);
       const label = translatedStringFromObject(link.label);
       const className = ['nav-link'].filter(Boolean).join(' ');
