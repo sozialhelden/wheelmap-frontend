@@ -3,6 +3,7 @@ const express = require('express');
 const proxy = require('http-proxy-middleware');
 const cache = require('express-cache-headers');
 const compression = require('compression');
+const querystring = require('querystring');
 
 const router = require('./app/router');
 const env = require('./lib/env');
@@ -43,7 +44,13 @@ app.prepare().then(() => {
     }
   );
 
-  server.get([/(\/[a-zA-Z_-]+)?\/embed.*/], (req, res) => res.redirect('/?embedded=true'));
+  server.get([/(\/[a-zA-Z_-]+)?\/embed.*/], (req, res) => {
+    const extendedQueryString = querystring.stringify({
+      ...req.query,
+      embedded: true,
+    });
+    res.redirect(`/?${extendedQueryString}`);
+  });
 
   server.get('/:lang?/map', (req, res) => {
     const lang = req.param('lang');
