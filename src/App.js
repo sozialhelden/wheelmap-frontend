@@ -134,7 +134,7 @@ class App extends React.Component<Props, State> {
 
   map: ?any;
 
-  mainView: UnstyledMainView;
+  mainView: ?UnstyledMainView;
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
     const newState: $Shape<State> = {
