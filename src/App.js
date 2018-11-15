@@ -49,6 +49,8 @@ initReactFastclick();
 export type Link = {
   label: LocalizedString,
   url: LocalizedString,
+  order?: number,
+  tags?: string[],
 };
 
 type Props = {
