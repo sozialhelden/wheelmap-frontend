@@ -9,6 +9,7 @@ flow-typed
 # e.g. "/collections/todos"
 # module.name_mapper='^\/\(.*\)$' -> '<PROJECT_ROOT>/\1'
 module.name_mapper.extension='css' -> '<PROJECT_ROOT>/CSSFlowStub'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/CSSFlowStub'
 module.system=haste
 esproposal.class_instance_fields=enable
 esproposal.class_static_fields=enable
