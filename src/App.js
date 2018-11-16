@@ -65,6 +65,7 @@ type Props = {
   lon: ?string,
   zoom: ?string,
   extent: ?[number, number, number, number],
+  inEmbedMode: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -170,9 +171,13 @@ class App extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    const { routeName, inEmbedMode } = this.props;
+
+    const shouldStartInSearch = routeName === 'map' && !inEmbedMode;
+
     if (isFirstStart()) {
       this.setState({ isOnboardingVisible: true });
-    } else if (this.props.routeName === 'map') {
+    } else if (shouldStartInSearch) {
       this.openSearch(true);
     }
   }
@@ -436,6 +441,7 @@ class App extends React.Component<Props, State> {
       excludeSourceIds,
       clientSideConfiguration,
       overriddenAppId,
+      inEmbedMode,
     } = this.props;
 
     if (category) {
@@ -482,6 +488,10 @@ class App extends React.Component<Props, State> {
 
     if (overriddenAppId) {
       params.appId = overriddenAppId;
+    }
+
+    if (inEmbedMode) {
+      params.embedded = 'true';
     }
 
     return params;
@@ -649,6 +659,7 @@ class App extends React.Component<Props, State> {
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
+      inEmbedMode: this.props.inEmbedMode,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,

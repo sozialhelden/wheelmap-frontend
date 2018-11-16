@@ -9,6 +9,11 @@ body.is-touch-device .leaflet-control-zoom {
     top: env(safe-area-inset-top);
     margin-top: 50px;
   }
+
+  .in-embed-mode .leaflet-control-container .leaflet-top {
+    margin-top: 0;
+  }
+
   .leaflet-control-container .leaflet-right {
     right: 0px;
     right: constant(safe-area-inset-right);
@@ -23,6 +28,10 @@ body.is-touch-device .leaflet-control-zoom {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.in-embed-mode .leaflet-container {
+  height: 100vh;
 }
 
 @media (max-width: 1024px) {

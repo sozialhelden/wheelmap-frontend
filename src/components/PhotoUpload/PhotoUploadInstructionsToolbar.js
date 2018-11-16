@@ -14,6 +14,7 @@ import colors from '../../lib/colors';
 export type Props = {
   hidden: boolean,
   waitingForPhotoUpload?: boolean,
+  inEmbedMode: boolean,
   onClose: ?() => void,
   onCompleted: ?(photos: FileList) => void,
 };
@@ -125,7 +126,7 @@ const StyledToolbar = styled(Toolbar)`
             .entrance-image { background-image: url('/static/images/photo-upload/entrancePlaceholder.png'); }
             .sitemap-image { background-image: url('/static/images/photo-upload/sitemapPlaceholder.png'); }
             .toilet-image { background-image: url('/static/images/photo-upload/toiletPlaceholder.png'); }
-            
+
             small {
               font-size: 0.8rem;
               padding-left: 0;
@@ -295,6 +296,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
+        inEmbedMode={this.props.inEmbedMode}
       >
         <header>
           {this.renderCloseLink()}

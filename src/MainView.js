@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
+import queryString from 'query-string';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -17,9 +18,11 @@ import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptc
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 import MapLoading from './components/Map/MapLoading';
 import ErrorBoundary from './components/ErrorBoundary';
+import WheelmapHomeLink from './components/WheelmapHomeLink';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import { translatedStringFromObject } from './lib/i18n';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import Onboarding from './components/Onboarding/Onboarding';
@@ -61,6 +64,7 @@ type Props = {
   lon: ?number,
   zoom: ?number,
   extent: ?[number, number, number, number],
+  inEmbedMode: boolean,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -248,6 +252,7 @@ class MainView extends React.Component<Props, State> {
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
+          inEmbedMode={this.props.inEmbedMode}
         />
       </div>
     );
@@ -417,6 +422,7 @@ class MainView extends React.Component<Props, State> {
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         onClose={this.props.onAbortPhotoUploadFlow}
         onCompleted={this.props.onContinuePhotoUploadFlow}
+        inEmbedMode={this.props.inEmbedMode}
       />
     );
   }
@@ -491,6 +497,24 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  renderWheelmapHomeLink() {
+    if (typeof window !== 'undefined') {
+      const { clientSideConfiguration } = this.props;
+      const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
+      const logoURL = clientSideConfiguration.logoURL;
+
+      const queryParams = queryString.parse(window.location.search);
+      delete queryParams.embedded;
+      const queryStringWithoutEmbeddedParam = queryString.stringify(queryParams);
+
+      const homeLinkHref = `${window.location.origin}${
+        window.location.pathname
+      }?${queryStringWithoutEmbeddedParam}`;
+
+      return <PositionedWheelmapHomeLink href={homeLinkHref} appName={appName} logoURL={logoURL} />;
+    }
+  }
+
   render() {
     const {
       featureId,
@@ -506,6 +530,7 @@ class MainView extends React.Component<Props, State> {
       isPhotoUploadInstructionsToolbarVisible,
       photoMarkedForReport,
       isReportMode,
+      inEmbedMode,
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
@@ -521,6 +546,7 @@ class MainView extends React.Component<Props, State> {
       modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       isReportMode ? 'is-report-mode' : null,
+      inEmbedMode ? 'in-embed-mode' : null,
     ]).filter(Boolean);
 
     const searchToolbarIsHidden =
@@ -537,13 +563,14 @@ class MainView extends React.Component<Props, State> {
 
     return (
       <div className={classList.join(' ')}>
-        {!isMainMenuInBackground && this.renderMainMenu()}
+        {!inEmbedMode && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
-            {isMainMenuInBackground && this.renderMainMenu()}
-            {this.renderSearchToolbar(searchToolbarIsInert)}
+            {inEmbedMode && this.renderWheelmapHomeLink()}
+            {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
+            {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-            {isSearchButtonVisible && this.renderSearchButton()}
+            {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
           {this.renderFullscreenBackdrop()}
@@ -623,6 +650,18 @@ const StyledMainView = styled(MainView)`
     > .main-menu {
       z-index: 1001;
     }
+  }
+`;
+
+const PositionedWheelmapHomeLink = styled(WheelmapHomeLink)`
+  position: absolute;
+  top: 10px;
+  right: 70px;
+  z-index: 1001;
+
+  @media (max-width: 512px) {
+    right: initial;
+    left: 10px;
   }
 `;
 

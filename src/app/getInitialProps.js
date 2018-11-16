@@ -111,7 +111,7 @@ export async function getInitialAppProps(
     excludeSourceIds,
     disableWheelmapSource: overriddenWheelmapSource,
     appId: overriddenAppId,
-
+    embedded,
     ...query
   }: {
     userAgentString: string,
@@ -128,6 +128,7 @@ export async function getInitialAppProps(
     excludeSourceIds?: string,
     disableWheelmapSource?: string,
     appId?: string,
+    embedded?: string,
     [key: string]: ?string,
   },
   isServer: boolean,
@@ -208,6 +209,7 @@ export async function getInitialAppProps(
     includeSourceIds: includeSourceIdsArray,
     excludeSourceIds: excludeSourceIdsArray,
     disableWheelmapSource: usedDisableWheelmapSource,
+    inEmbedMode: embedded === 'true',
   };
   return appProps;
 }

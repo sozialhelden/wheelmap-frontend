@@ -31,7 +31,12 @@ export default function PlaceWebsiteLink(props: Props) {
 
   return (
     typeof placeWebsiteUrl === 'string' && (
-      <NonBreakingLink className="link-button" href={placeWebsiteUrl}>
+      <NonBreakingLink
+        className="link-button"
+        href={placeWebsiteUrl}
+        target="_blank"
+        rel="noreferrer noopener"
+      >
         <WorldIcon />
         <span>{placeWebsiteUrl}</span>
       </NonBreakingLink>

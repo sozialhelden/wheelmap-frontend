@@ -29,6 +29,7 @@ type Props = {
   onShowPlaceDetails: (featureId: string | number) => void,
   hidden: boolean,
   modalNodeState: ModalNodeState,
+  inEmbedMode: boolean,
   onClose: () => void,
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
