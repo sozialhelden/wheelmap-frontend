@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import { findDOMNode } from 'react-dom';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import Gallery from 'react-photo-gallery';
@@ -50,6 +51,33 @@ class PhotoSection extends React.Component<Props, State> {
 
     return { thumbnailPhotos };
   }
+
+  componentDidMount() {
+    // This manual event handling is necessary, because the lib react-gallery
+    // does not offer a keyDown API and only works with clicks.
+    // In order to make it keyboard-focusable and operable with the 'Enter' key,
+    // we add this functionality directly on the DOM node.
+    const photoSectionDOMNode = findDOMNode(this.gallery);
+
+    if (photoSectionDOMNode instanceof Element) {
+      photoSectionDOMNode.setAttribute('tabindex', '0');
+      photoSectionDOMNode.addEventListener('keydown', this.photoSectionSelectedWithKeyboard);
+    }
+  }
+
+  componentWillUnmount() {
+    const photoSectionDOMNode = findDOMNode(this.gallery);
+
+    if (photoSectionDOMNode instanceof Element) {
+      photoSectionDOMNode.removeEventListener('keydown', this.photoSectionSelectedWithKeyboard);
+    }
+  }
+
+  photoSectionSelectedWithKeyboard = (event: KeyboardEvent) => {
+    if (event.key === 'Enter' || event.keyCode === 'Enter') {
+      this.thumbnailSelected(event, { index: 0 });
+    }
+  };
 
   thumbnailSelected = (event: UIEvent, obj: { index: number }) => {
     this.openLightbox(event, obj);
