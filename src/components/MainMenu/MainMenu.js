@@ -123,7 +123,8 @@ class MainMenu extends React.Component<Props, State> {
     return this.props.links.sort((a, b) => a.order - b.order).map(link => {
       const url = translatedStringFromObject(link.url);
       const label = translatedStringFromObject(link.label);
-      const className = ['nav-link'].filter(Boolean).join(' ');
+      const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
+      const className = ['nav-link'].concat(classNamesFromTags).join(' ');
       return (
         <a key={url} className={className} href={url} role="menuitem">
           {label}
