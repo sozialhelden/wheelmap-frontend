@@ -27,8 +27,8 @@ app.prepare().then(() => {
     })
   );
 
-  server.get(/beta\/.*/, (req, res) => {
-    res.redirect(`${req.originalUrl.substr(5)}`);
+  server.get(/\/beta/, (req, res) => {
+    res.redirect(`${req.originalUrl.replace(/\/beta\/?/, '/')}`);
   });
 
   // Old urls from the classic rails app
