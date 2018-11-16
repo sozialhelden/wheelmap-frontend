@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
+import queryString from 'query-string';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -21,6 +22,7 @@ import WheelmapHomeLink from './components/WheelmapHomeLink';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import { translatedStringFromObject } from './lib/i18n';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import Onboarding from './components/Onboarding/Onboarding';
@@ -468,6 +470,24 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  renderWheelmapHomeLink() {
+    if (typeof window !== 'undefined') {
+      const { clientSideConfiguration } = this.props;
+      const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
+      const logoURL = clientSideConfiguration.logoURL;
+
+      const queryParams = queryString.parse(window.location.search);
+      delete queryParams.embedded;
+      const queryStringWithoutEmbeddedParam = queryString.stringify(queryParams);
+
+      const homeLinkHref = `${window.location.origin}${
+        window.location.pathname
+      }?${queryStringWithoutEmbeddedParam}`;
+
+      return <PositionedWheelmapHomeLink href={homeLinkHref} appName={appName} logoURL={logoURL} />;
+    }
+  }
+
   render() {
     const {
       featureId,
@@ -484,7 +504,6 @@ class MainView extends React.Component<Props, State> {
       photoMarkedForReport,
       isReportMode,
       inEmbedMode,
-      clientSideConfiguration,
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
@@ -520,9 +539,7 @@ class MainView extends React.Component<Props, State> {
         {!inEmbedMode && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">
-            {inEmbedMode && (
-              <PositionedWheelmapHomeLink logoURL={clientSideConfiguration.logoURL} />
-            )}
+            {inEmbedMode && this.renderWheelmapHomeLink()}
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}

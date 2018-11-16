@@ -2,11 +2,12 @@ import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 
-const WheelmapHomeLink = ({ className, logoURL }) => (
+const WheelmapHomeLink = ({ className, logoURL, href, appName }) => (
   <a
     className={className}
-    href="https://wheelmap.org"
-    aria-label={t`Go to wheelmap.org`}
+    href={href}
+    // translator: The link name to go from the embedded to the complete app
+    aria-label={t`Go to ${appName}`}
     target="_blank"
     rel="noreferrer noopener"
   >
