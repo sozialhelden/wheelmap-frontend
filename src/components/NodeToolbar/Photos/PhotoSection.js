@@ -71,6 +71,8 @@ class PhotoSection extends React.Component<Props, State> {
     if (photoSectionDOMNode instanceof Element) {
       photoSectionDOMNode.removeEventListener('keydown', this.photoSectionSelectedWithKeyboard);
     }
+
+    window.removeEventListener('keydown', this.preventTabbing);
   }
 
   componentDidUpdate(_, prevState) {
