@@ -146,11 +146,15 @@ class PhotoSection extends React.Component<Props, State> {
 
     return [
       <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
-        <button
-          disabled={!canReportPhoto}
-          onClick={this.reportImage}
-          className="report-image"
-        >{t`Report image`}</button>
+        <div>
+          <kbd>esc</kbd>
+          <kbd>⇦</kbd>
+          <kbd>⇨</kbd>
+        </div>
+
+        {canReportPhoto && (
+          <button onClick={this.reportImage} className="report-image">{t`Report image`}</button>
+        )}
       </section>,
     ];
   };
@@ -214,16 +218,15 @@ const StyledPhotoSection = styled(PhotoSection)`
   &.lightbox-actions {
     position: absolute;
     width: 100%;
-    /* Use same height as lightbox pagination */
-    height: 40px;
+    /* Use same height and positioning as lightbox pagination */
+    height: 30px;
     bottom: 0;
     margin: 0;
-    padding: 0;
+    padding: 5px 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 
     button {
-      margin-top: 0.25rem;
       font-size: 0.9rem;
       font-weight: bold;
       color: white;
@@ -231,11 +234,22 @@ const StyledPhotoSection = styled(PhotoSection)`
       border: none;
       cursor: pointer;
       text-shadow: 0 1px 1px black;
+    }
 
-      /* Don't show button if you cannot interact with it */
-      &[disabled] {
-        display: none;
-      }
+    kbd {
+      background-color: #eee;
+      border-radius: 3px;
+      border: 1px solid #b4b4b4;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), 0 2px 0 0 rgba(255, 255, 255, 0.7) inset;
+      color: #333;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 2px 4px;
+      margin-left: 3px;
+      margin-right: 3px;
+      white-space: nowrap;
     }
   }
 `;
