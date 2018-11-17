@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import queryString from 'query-string';
+import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -440,7 +441,9 @@ class MainView extends React.Component<Props, State> {
 
   renderCreateDialog() {
     return (
-      <CreatePlaceDialog
+      <FocusTrap
+        active={this.props.modalNodeState === 'create'}
+        component={CreatePlaceDialog}
         hidden={this.props.modalNodeState !== 'create'}
         onClose={this.props.onCloseCreatePlaceDialog}
         lat={this.props.lat}
