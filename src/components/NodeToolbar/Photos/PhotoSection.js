@@ -88,7 +88,7 @@ class PhotoSection extends React.Component<Props, State> {
   }
 
   photoSectionSelectedWithKeyboard = (event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.keyCode === 'Enter') {
+    if (event.key === 'Enter' || event.keyCode === 13) {
       this.thumbnailSelected(event, { index: 0 });
     }
   };
