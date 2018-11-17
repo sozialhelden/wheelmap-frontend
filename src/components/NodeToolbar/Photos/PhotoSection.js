@@ -73,6 +73,20 @@ class PhotoSection extends React.Component<Props, State> {
     }
   }
 
+  componentDidUpdate(_, prevState) {
+    if (!prevState.isLightboxOpen && this.state.isLightboxOpen) {
+      window.addEventListener('keydown', this.preventTabbing);
+    } else if (prevState.isLightboxOpen && !this.state.isLightboxOpen) {
+      window.removeEventListener('keydown', this.preventTabbing);
+    }
+  }
+
+  preventTabbing(event: KeyboardEvent) {
+    if (event.key === 'Tab' || event.keyCode === 9) {
+      event.preventDefault();
+    }
+  }
+
   photoSectionSelectedWithKeyboard = (event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.keyCode === 'Enter') {
       this.thumbnailSelected(event, { index: 0 });
