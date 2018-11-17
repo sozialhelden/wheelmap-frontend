@@ -120,7 +120,7 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   renderAppLinks() {
-    return this.props.links.sort((a, b) => a.order - b.order).map(link => {
+    return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
       const url = translatedStringFromObject(link.url);
       const label = translatedStringFromObject(link.label);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
