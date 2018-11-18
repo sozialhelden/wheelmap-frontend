@@ -2,7 +2,7 @@ const Router = require('../lib/Router');
 
 const routes = [
   {
-    name: 'place_detail',
+    name: 'placeDetail',
     path: '/nodes/:id',
   },
   {
@@ -16,6 +16,10 @@ const routes = [
   {
     name: 'categories',
     path: '/categories/:category',
+  },
+  {
+    name: 'addPlace',
+    path: '/add-place',
   },
   {
     name: 'map',

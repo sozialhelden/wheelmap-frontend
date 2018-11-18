@@ -13,6 +13,48 @@ function makeid() {
 const links = [
   {
     appId: 'strut',
+    label: 'Start Mapping',
+    url: 'http://www.strutcanada.com/start-mapping',
+    order: 0,
+  },
+  {
+    appId: 'strut',
+    label: 'How to use',
+    url: 'http://www.strutcanada.com/how-to-use',
+    order: 1,
+  },
+  {
+    appId: 'strut',
+    label: 'Get Involved',
+    url: 'http://www.strutcanada.com/volunteer-form',
+    order: 2,
+  },
+  {
+    appId: 'strut',
+    label: 'News',
+    url: 'http://www.strutcanada.com/',
+    order: 3,
+  },
+  {
+    appId: 'strut',
+    label: 'Publications',
+    url: 'http://www.strutcanada.com/#publications',
+    order: 3,
+  },
+  {
+    appId: 'strut',
+    label: 'ARC',
+    url: 'http://www.strutcanada.com/arc',
+    order: 3,
+  },
+  {
+    appId: 'strut',
+    label: 'About CAF',
+    url: 'http://www.strutcanada.com/caf',
+    order: 3,
+  },
+  {
+    appId: 'strut',
     label: 'Add a new place',
     url: 'https://ee.humanitarianresponse.info/x/#uZ9a6QQt',
     order: 100,

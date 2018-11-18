@@ -105,7 +105,6 @@ type Props = {
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
-  onAddMissingPlaceClick: () => void,
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
@@ -354,7 +353,6 @@ class MainView extends React.Component<Props, State> {
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
-        onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         logoURL={logoURL}
         claim={textContent.product.claim}
         links={customMainMenuLinks}

@@ -19,7 +19,6 @@ type State = {
 type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
-  onAddMissingPlaceClick: () => void,
   onHomeClick: () => void,
   isOpen: boolean,
   lat: string,

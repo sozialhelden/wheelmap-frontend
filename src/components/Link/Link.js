@@ -1,5 +1,5 @@
 // @flow
-import React, { createContext, Component } from 'react';
+import React, { Component } from 'react';
 
 import { type RouterHistory, type RouteParams } from '../../lib/RouterHistory';
 import { type RouteContext, RouteConsumer, RouteProvider } from './RouteContext';
@@ -44,6 +44,7 @@ class Link extends Component<Props> {
     delete props.replace;
 
     return (
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
       <a
         {...props}
         href={href}
