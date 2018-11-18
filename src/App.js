@@ -142,13 +142,18 @@ class App extends React.Component<Props, State> {
       isSearchBarVisible: isStickySearchBarSupported(),
     };
 
-    // close search results when leaving search route
+    // open search results on search route
     if (props.routeName === 'search') {
       newState.isSearchToolbarExpanded = true;
       newState.isSearchBarVisible = true;
     }
 
-    if (props.routeName === 'place_detail' || props.routeName === 'equipment') {
+    if (props.routeName === 'createPlace' && state.modalNodeState !== 'create') {
+      newState.modalNodeState = 'create';
+      trackModalView('create');
+    }
+
+    if (props.routeName === 'placeDetail' || props.routeName === 'equipment') {
       const { accessibilityFilter, toiletFilter, category } = props;
 
       newState.isSearchBarVisible =
@@ -259,7 +264,7 @@ class App extends React.Component<Props, State> {
     const { routerHistory } = this.props;
 
     // show equipment inside their place details
-    let routeName = 'place_detail';
+    let routeName = 'placeDetail';
     const params = this.getCurrentParams();
 
     params.id = featureId;
@@ -304,7 +309,7 @@ class App extends React.Component<Props, State> {
       if (id) {
         params.id = id;
         delete params.eid;
-        routeName = 'place_detail';
+        routeName = 'placeDetail';
       }
     }
 
@@ -575,11 +580,6 @@ class App extends React.Component<Props, State> {
     this.gotoCurrentFeature();
   };
 
-  onAddMissingPlaceClick = () => {
-    this.setState({ modalNodeState: 'create' });
-    trackModalView('create');
-  };
-
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
     if (this.props.featureId) {
       this.setState({
@@ -717,7 +717,6 @@ class App extends React.Component<Props, State> {
           onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-          onAddMissingPlaceClick={this.onAddMissingPlaceClick}
           onSearchQueryChange={this.onSearchQueryChange}
           onEquipmentSelected={this.onEquipmentSelected}
           onShowPlaceDetails={this.showSelectedFeature}
