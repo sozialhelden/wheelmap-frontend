@@ -148,7 +148,7 @@ class App extends React.Component<Props, State> {
       newState.isSearchBarVisible = true;
     }
 
-    if (props.routeName === 'createPlace' && state.modalNodeState !== 'create') {
+    if (props.routeName === 'createPlace') {
       newState.modalNodeState = 'create';
       trackModalView('create');
     } else {
