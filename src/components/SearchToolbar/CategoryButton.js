@@ -58,7 +58,7 @@ function CategoryButton(props: Props) {
         return (
           <Link
             params={params}
-            routeName={context.name}
+            to={context.name}
             aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
             className={className}
             onFocus={props.onFocus}
