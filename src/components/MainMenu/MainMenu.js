@@ -129,7 +129,7 @@ class MainMenu extends React.Component<Props, State> {
         return (
           <RouteConsumer>
             {context => (
-              <Link routeName="createPlace" params={context.params}>
+              <Link key={url} routeName="createPlace" params={context.params}>
                 {label}
               </Link>
             )}
