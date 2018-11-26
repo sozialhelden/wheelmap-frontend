@@ -50,20 +50,18 @@ function MenuIcon(props) {
   );
 }
 
-const menuButtonVisibilityBreakpoint = 1024;
-const isMenuButtonVisible =
-  typeof window !== 'undefined' ? window.innerWidth <= menuButtonVisibilityBreakpoint : true;
+const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible,
+    isMenuButtonVisible: false,
   };
 
   boundOnResize: () => void;
 
   onResize = () => {
-    if (window.innerWidth > menuButtonVisibilityBreakpoint) {
+    if (window.innerWidth > MENU_BUTTON_VISIBILITY_BREAKPOINT) {
       this.setState({ isMenuButtonVisible: false });
     } else {
       this.setState({ isMenuButtonVisible: true });
@@ -72,10 +70,8 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.onResize);
-      this.onResize();
-    }
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   componentWillUnmount() {
@@ -137,11 +133,13 @@ class MainMenu extends React.Component<Props, State> {
 
   renderCloseButton() {
     const { isOpen } = this.props;
+    const { isMenuButtonVisible } = this.state;
     return (
       <button
         className="btn-unstyled menu"
         onClick={this.toggleMenu}
         aria-hidden={!isMenuButtonVisible}
+        tabIndex={isMenuButtonVisible ? 0 : -1}
         aria-label={t`Menu`}
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -321,7 +319,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  @media (max-width: ${menuButtonVisibilityBreakpoint}px) {
+  @media (max-width: ${MENU_BUTTON_VISIBILITY_BREAKPOINT}px) {
     position: absolute;
     top: 0;
     top: constant(safe-area-inset-top);
