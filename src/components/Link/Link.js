@@ -66,7 +66,7 @@ class Link extends React.Component<Props> {
   };
 
   renderExternalLink = (to: string) => (
-    <a {...this.props} href={to}>
+    <a {...this.props} href={to} target="_blank" rel="noopener noreferrer">
       {this.props.children}
     </a>
   );

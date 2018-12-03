@@ -134,7 +134,7 @@ class App extends React.Component<Props, State> {
 
   map: ?any;
 
-  mainView: UnstyledMainView;
+  mainView: ?UnstyledMainView;
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
     const newState: $Shape<State> = {
@@ -260,7 +260,7 @@ class App extends React.Component<Props, State> {
   onMapClick = () => {
     if (this.state.isSearchToolbarExpanded) {
       this.closeSearch();
-      this.mainView.focusMap();
+      this.mainView && this.mainView.focusMap();
     }
   };
 

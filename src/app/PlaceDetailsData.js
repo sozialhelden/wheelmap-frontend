@@ -131,7 +131,9 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
     try {
       if (!featureId) {
-        const error = new Error('No feature id passed into placeDetailsData');
+        const error: Error & { statusCode?: number } = new Error(
+          'No feature id passed into placeDetailsData'
+        );
         error.statusCode = 404;
         throw error;
       }
@@ -163,7 +165,9 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         equipmentInfo,
       };
     } catch (e) {
-      const error = new Error('Failed loading feature');
+      const error: Error & { parent?: any, statusCode?: number } = new Error(
+        'Failed loading feature'
+      );
       error.parent = e;
       error.statusCode = 404;
       throw error;

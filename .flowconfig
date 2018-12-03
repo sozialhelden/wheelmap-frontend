@@ -8,7 +8,8 @@ flow-typed
 # Absolute path support:
 # e.g. "/collections/todos"
 # module.name_mapper='^\/\(.*\)$' -> '<PROJECT_ROOT>/\1'
-module.name_mapper='.*\.css$' -> 'empty/object'
+module.name_mapper.extension='css' -> '<PROJECT_ROOT>/CSSFlowStub'
+module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/CSSFlowStub'
 module.system=haste
 esproposal.class_instance_fields=enable
 esproposal.class_static_fields=enable
@@ -25,3 +26,4 @@ vendor/.*
 .*/node_modules/styled-components/src/.*Native.*
 .*/node_modules/styled-components/src/.*primitives.*
 .*/node_modules/accessibility-cloud-widget/.*
+.*/broken.json

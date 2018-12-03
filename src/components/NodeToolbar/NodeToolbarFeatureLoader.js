@@ -159,6 +159,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       this.setState({
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
         resolvedSources: resolvedPlaceDetails.sources,
+        resolvedPhotos: resolvedPlaceDetails.photos,
         ...resolvedCategories,
       });
     } else {
