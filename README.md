@@ -4,9 +4,6 @@ This app is a refactored version of [Wheelmap](https://www.wheelmap.org)'s ‘cl
 Its purpose is to split frontend and backend development and to make deployments as independent as
 possible of each other.
 
-As of August 2017, the Rails application still contains frontend functions that we want to move into
-this React.js application, so the rewrite is not complete yet.
-
 
 ## Setup
 
@@ -103,4 +100,8 @@ Before deploying new versions:
 
 For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
 
+## Contributing Data and Code
 
+- You have a related project? You want your accessibility data visible on Wheelmap.org and in other apps, or your project would profit from Wheelmap.org’s data? Register an account on [accessibility.cloud](https://www.accessibility.cloud) (Wheelmap.org’s backend) and [contact us](mailto:support@accessibility.cloud)!
+- For reporting bugs or other issues, please create issues on our [GitHub issue tracker](https://github.com/sozialhelden/wheelmap-react-frontend/issues).
+- If you have a concrete bugfix, you can create a pull request - please create an issue first so we can organize collaboration together.
