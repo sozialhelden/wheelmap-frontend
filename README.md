@@ -96,7 +96,7 @@ Before deploying new versions:
 
 ## Testing
 
-<a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
+<a href="https://browserstack.com"><img src="src/static/images/Browserstack-logo.svg" width="200px"></a>
 
 For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
 
