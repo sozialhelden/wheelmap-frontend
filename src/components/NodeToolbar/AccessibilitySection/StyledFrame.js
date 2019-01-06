@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
-const StyledFrame = styled.summary`
+const StyledFrame = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
