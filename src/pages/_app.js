@@ -119,7 +119,7 @@ export default class App extends BaseApp {
       appProps = await appPropsPromise;
 
       if (isServer) {
-        ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant' });
+        ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant, Content-Language' });
         if (currentLocales[0]) {
           ctx.res.set('X-Locale-Variant', currentLocales[0].string);
           ctx.res.set('Content-Language', currentLocales.map(l => l.string).join(', '));
