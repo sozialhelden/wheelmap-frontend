@@ -535,16 +535,21 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
+    const isDialogVisible =
+      isOnboardingVisible ||
+      isNotFoundVisible ||
+      modalNodeState ||
+      isPhotoUploadCaptchaToolbarVisible ||
+      isPhotoUploadInstructionsToolbarVisible;
+    const isMainMenuInBackground = isDialogVisible;
 
     const classList = uniq([
       'main-view',
       className,
-      isOnboardingVisible ? 'is-dialog-visible' : null,
-      isNotFoundVisible ? 'is-dialog-visible' : null,
+      isDialogVisible ? 'is-dialog-visible' : null,
       isMainMenuOpen ? 'is-main-menu-open' : null,
       isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
-      modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       isReportMode ? 'is-report-mode' : null,
       inEmbedMode ? 'in-embed-mode' : null,
@@ -557,8 +562,6 @@ class MainView extends React.Component<Props, State> {
       isOnboardingVisible ||
       isNotFoundVisible ||
       !!photoMarkedForReport;
-
-    const isMainMenuInBackground = isOnboardingVisible || isNotFoundVisible || modalNodeState;
 
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
 
