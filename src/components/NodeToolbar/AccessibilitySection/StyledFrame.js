@@ -7,7 +7,7 @@ const StyledFrame = styled.summary`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 0 0 1rem 0;
+  margin: 8px 0 1rem 0;
   padding: 0.75rem 0.75rem 2px 0.75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
@@ -21,7 +21,7 @@ const StyledFrame = styled.summary`
     width: 12px;
     height: 8px;
     background: url('/static/images/triangle.svg') no-repeat;
-    z-index: 5;
+    z-index: 0;
   }
 
   > * {
