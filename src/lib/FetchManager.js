@@ -3,7 +3,7 @@
 import EventTarget, { CustomEvent } from './EventTarget';
 import customFetch from '../lib/fetch';
 
-export class FetchManager extends EventTarget {
+export class FetchManager extends EventTarget<CustomEvent> {
   lastError: ?Error = null;
   runningPromises: Map<Promise<Response>, boolean> = new Map();
   externalStatus = {};
