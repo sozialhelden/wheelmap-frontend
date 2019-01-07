@@ -14,7 +14,7 @@ const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop' }
   transition: opacity 0.3s ease-out;
   opacity: ${props => (props.isActive ? '1' : '0')};
   pointer-events: ${props => (props.isActive ? 'inherit' : 'none')} !important;
-  z-index: 1000;
+  z-index: 1;
   transform: none !important;
 `;
 
