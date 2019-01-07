@@ -191,7 +191,7 @@ const StyledMainMenu = styled(MainMenu)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
   z-index: 1000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -208,6 +208,9 @@ const StyledMainMenu = styled(MainMenu)`
     transition: opacity 0.3s ease-out;
     padding-left: 5px;
     flex: 1;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 
     @media (max-width: 1280px) {
       font-size: 80%;
@@ -222,10 +225,11 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-end;
-    align-items: center;
+    align-items: stretch;
     height: 100%;
     overflow: hidden;
     flex: 3;
+    min-height: 50px;
   }
 
   &.is-open {
@@ -238,6 +242,9 @@ const StyledMainMenu = styled(MainMenu)`
     padding: 2px 10px;
     box-sizing: border-box;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &,
     &:visited {
@@ -330,6 +337,7 @@ const StyledMainMenu = styled(MainMenu)`
 
     #main-menu {
       margin-right: 70px;
+      min-height: 0;
     }
 
     button.menu {

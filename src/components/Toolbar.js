@@ -509,7 +509,6 @@ const StyledToolbar = styled(Toolbar)`
 
     &[disabled] {
       opacity: 0.8;
-      color: ${colors.neutralColor};
       pointer-events: none;
     }
   }

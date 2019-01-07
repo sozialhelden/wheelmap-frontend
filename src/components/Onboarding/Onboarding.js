@@ -45,7 +45,7 @@ class Onboarding extends React.Component<Props, null> {
     const skipAnalyticsButtonCaption = t`Continue without cookies`;
 
     // translator: Cookie notice with link to privacy policy
-    const cookieNotice = t`We use cookies to improve this app for you. For more information, please see our <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Privacy Policy</a>.`;
+    const cookieNotice = t`We use cookies to improve this app for you. <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Read our Privacy Policy</a>.`;
 
     const onClose = event => {
       // Prevent that touch up opens a link underneath the primary button after closing
@@ -80,6 +80,7 @@ class Onboarding extends React.Component<Props, null> {
 
           <p
             id="wheelmap-claim-onboarding"
+            className="claim"
             dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
           />
         </header>
@@ -233,10 +234,6 @@ const StyledOnboarding = styled(Onboarding)`
 
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 90%;
-
-    .button-chromeless {
-      font-size: 90%;
-    }
   }
 
   .modal-dialog-fullscreen-overlay {
@@ -255,7 +252,7 @@ const StyledOnboarding = styled(Onboarding)`
     padding: 15px;
     overflow: auto;
     border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: rgba(255, 255, 255, 0.96);
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.5s linear;
     width: 100%; /* Fix IE 11. @TODO Safe to be moved to ModalDialog component? */
@@ -271,11 +268,17 @@ const StyledOnboarding = styled(Onboarding)`
       object-fit: contain;
     }
 
+    .claim {
+      @media (min-width: 414px) {
+        font-size: 1.25rem;
+      }
+    }
+
     > footer,
     > header,
     > section.main-section {
       text-align: center;
-      max-width: 500px;
+      max-width: 560px;
       align-self: center;
     }
 
@@ -285,7 +288,7 @@ const StyledOnboarding = styled(Onboarding)`
       justify-content: center;
       align-items: start;
       list-style-type: none;
-      margin: 50px 0;
+      margin: 20px 0;
       padding: 0px;
       @media (max-width: 768px) {
         margin: 0 !important;
@@ -398,7 +401,7 @@ const StyledOnboarding = styled(Onboarding)`
     .button-chromeless {
       padding: 0.5rem 0.75rem;
       border: none;
-      box-shadow: 0px 0px 0px 1px ${colors.textColorTonedDown};
+      box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
       border-radius: 0.5rem;
       @media (max-width: 768px) {
         box-shadow: 0px 0px 0px 1px transparent;
@@ -408,6 +411,9 @@ const StyledOnboarding = styled(Onboarding)`
         transition: box-shadow 0.2s;
       }
       font-size: 1rem;
+      @media (max-height: 320px), (max-width: 320px) {
+        font-size: 0.9rem;
+      }
       background-color: transparent;
       color: ${colors.textColorTonedDown};
       cursor: pointer;
