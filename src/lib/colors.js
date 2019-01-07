@@ -32,13 +32,13 @@ const colors = {
   halfTonedDownSelectedColor: null, // calculated below
   borderColor: null, // calculated below
   positiveColor: 'rgb(126, 197, 18)',
-  positiveColorDarker: '#4d790b',
+  positiveColorDarker: '#467500',
   positiveBackgroundColorTransparent: 'rgba(126, 197, 18, 0.1)',
   warningColor: 'rgb(243, 158, 59)',
-  warningColorDarker: '#a85e0b',
+  warningColorDarker: '#c16600',
   warningBackgroundColorTransparent: 'rgba(243, 158, 59, 0.1)',
   negativeColor: 'rgb(245, 75, 75)',
-  negativeColorDarker: '#d40c0c',
+  negativeColorDarker: '#c70000',
   negativeBackgroundColorTransparent: 'rgba(245, 75, 75, 0.1)',
   neutralColor: 'rgb(88, 87, 83)',
   neutralBackgroundColorTransparent: 'rgba(88, 87, 83, 0.11)',
