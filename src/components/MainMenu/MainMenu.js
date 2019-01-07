@@ -212,10 +212,7 @@ const StyledMainMenu = styled(MainMenu)`
     @media (max-width: 1280px) {
       font-size: 80%;
     }
-    @media (max-width: 1160px) {
-      opacity: 0;
-    }
-    @media (max-width: 1140px) {
+    @media (max-width: 1180px) {
       display: none;
     }
   }
