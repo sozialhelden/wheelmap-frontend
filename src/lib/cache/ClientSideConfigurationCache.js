@@ -11,6 +11,17 @@ type ClientSideConfigurationData = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
+const returnUrlRegexp = /{returnUrl}/g;
+
+export function replaceReturnUrl(url: ?string, baseUrl: string) {
+  const returnUrl = `${baseUrl}/contribution-thanks`;
+  let replacedUrl = url;
+  if (typeof replacedUrl === 'string') {
+    replacedUrl = replacedUrl.replace(returnUrlRegexp, returnUrl);
+  }
+  return replacedUrl;
+}
+
 export default class ClientSideConfigurationCache extends URLDataCache<
   ClientSideConfigurationData
 > {
@@ -18,9 +29,11 @@ export default class ClientSideConfigurationCache extends URLDataCache<
     const url = this.getUrl(hostName);
 
     return this.getData(url).then(app => {
+      const customMainMenuLinks = values(get(app, 'related.appLinks') || {});
+
       return {
         ...app.clientSideConfiguration,
-        customMainMenuLinks: values(get(app, 'related.appLinks') || {}),
+        customMainMenuLinks,
       };
     });
   }
