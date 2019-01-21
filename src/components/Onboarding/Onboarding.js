@@ -11,6 +11,7 @@ import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import env from '../../lib/env';
 import Icon from '../Icon';
 import { translatedStringFromObject } from '../../lib/i18n';
+import { ChromelessButton, CallToActionButton } from '../Button';
 
 type Props = {
   className: string,
@@ -144,18 +145,18 @@ class Onboarding extends React.Component<Props, null> {
 
         <footer className="button-footer">
           {analyticsShown && (
-            <button
-              className="button-continue-without-cookies button-chromeless"
+            <ChromelessButton
+              className="button-continue-without-cookies"
               onClick={() => {
                 analyticsAllowedChanged(false);
                 onClose();
               }}
             >
               {skipAnalyticsButtonCaption}
-            </button>
+            </ChromelessButton>
           )}
-          <button
-            className="button-cta-close"
+          <CallToActionButton
+            className="button-continue-with-cookies"
             data-focus-visible-added
             onClick={() => {
               analyticsAllowedChanged(true);
@@ -165,7 +166,7 @@ class Onboarding extends React.Component<Props, null> {
           >
             {startButtonCaption}
             <ChevronRight />
-          </button>
+          </CallToActionButton>
         </footer>
 
         <footer className="cookies-footer">
@@ -374,51 +375,6 @@ const StyledOnboarding = styled(Onboarding)`
       }
     }
 
-    button.button-cta-close {
-      border: none;
-      color: white;
-      background-color: ${colors.linkColor};
-      font-size: 1.25em;
-      line-height: 1;
-      padding: 0.5em 0.75em;
-      margin: 1em;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      > svg {
-        margin-left: 10px;
-        vertical-align: bottom;
-        path {
-          fill: rgba(255, 255, 255, 0.75);
-        }
-      }
-
-      &[data-focus-visible-added] {
-        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-        transition: box-shadow 0.2s;
-      }
-    }
-
-    .button-chromeless {
-      padding: 0.5rem 0.75rem;
-      border: none;
-      box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
-      border-radius: 0.5rem;
-      @media (max-width: 768px) {
-        box-shadow: 0px 0px 0px 1px transparent;
-      }
-      &[data-focus-visible-added] {
-        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-        transition: box-shadow 0.2s;
-      }
-      font-size: 1rem;
-      @media (max-height: 320px), (max-width: 320px) {
-        font-size: 0.9rem;
-      }
-      background-color: transparent;
-      color: ${colors.textColorTonedDown};
-      cursor: pointer;
-    }
-
     .ac-big-icon-marker {
       display: flex;
       justify-content: center;
@@ -439,6 +395,10 @@ const StyledOnboarding = styled(Onboarding)`
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column-reverse;
+    }
+
+    .button-continue-with-cookies {
+      margin: 1em;
     }
   }
 
