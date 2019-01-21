@@ -116,9 +116,6 @@ const apps: { [key: string]: AppFunction } = {
 export default class CreatePlaceDialog extends React.Component<Props> {
   props: Props;
 
-  addPlaceLink: ?HTMLLinkElement;
-  closeLink: ?HTMLLinkElement;
-
   componentDidMount() {
     if (!this.props.hidden) {
       this.focus();
