@@ -7,7 +7,7 @@ import { t } from 'ttag';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
-import { replaceReturnUrl } from '../../lib/cache/ClientSideConfigurationCache';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
 import colors from '../../lib/colors';
 import env from '../../lib/env';
 
@@ -120,7 +120,7 @@ class MainMenu extends React.Component<Props, State> {
 
   renderAppLinks() {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = replaceReturnUrl(translatedStringFromObject(link.url), env.public.baseUrl);
+      const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
       const label = translatedStringFromObject(link.label);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
@@ -132,6 +132,8 @@ class MainMenu extends React.Component<Props, State> {
           </Link>
         );
       }
+
+      return null;
     });
   }
 

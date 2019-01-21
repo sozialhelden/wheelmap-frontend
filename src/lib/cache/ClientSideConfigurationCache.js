@@ -11,13 +11,17 @@ type ClientSideConfigurationData = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
-const returnUrlRegexp = /{returnUrl}/g;
+export function insertPlaceholdersToAddPlaceUrl(url: ?string) {
+  const replacements = { returnUrl: `${env.public.baseUrl}/contribution-thanks` };
 
-export function replaceReturnUrl(url: ?string, baseUrl: string) {
-  const returnUrl = `${baseUrl}/contribution-thanks`;
   let replacedUrl = url;
   if (typeof replacedUrl === 'string') {
-    replacedUrl = replacedUrl.replace(returnUrlRegexp, returnUrl);
+    for (const key in replacements) {
+      if (replacements.hasOwnProperty(key)) {
+        const fieldRegexp = new RegExp(`{${key}}`, 'g');
+        replacedUrl = replacedUrl.replace(fieldRegexp, replacements[key]);
+      }
+    }
   }
   return replacedUrl;
 }
