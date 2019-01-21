@@ -22,6 +22,10 @@ const routes = [
     path: '/add-place',
   },
   {
+    name: 'contributionThanks',
+    path: '/contribution-thanks',
+  },
+  {
     name: 'map',
     path: '/',
   },

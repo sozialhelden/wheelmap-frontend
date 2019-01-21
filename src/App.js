@@ -153,6 +153,11 @@ class App extends React.Component<Props, State> {
       trackModalView('create');
     }
 
+    if (props.routeName === 'contributionThanks') {
+      newState.modalNodeState = 'contribution-thanks';
+      trackModalView('contribution-thanks');
+    }
+
     if (props.routeName === 'map') {
       newState.modalNodeState = null;
     }
@@ -525,7 +530,7 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onCloseCreatePlaceDialog = () => {
+  onCloseModalDialog = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
   };
@@ -720,7 +725,7 @@ class App extends React.Component<Props, State> {
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}
-          onCloseCreatePlaceDialog={this.onCloseCreatePlaceDialog}
+          onCloseModalDialog={this.onCloseModalDialog}
           onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.onOpenToiletAccessibility}
           onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}

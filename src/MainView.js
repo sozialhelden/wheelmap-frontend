@@ -50,6 +50,7 @@ import type { PhotoModel } from './lib/PhotoModel';
 import { hasAllowedAnalytics } from './lib/savedState';
 import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
+import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 
 type Props = {
   className: string,
@@ -100,7 +101,7 @@ type Props = {
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
-  onCloseCreatePlaceDialog: () => void,
+  onCloseModalDialog: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
@@ -443,7 +444,20 @@ class MainView extends React.Component<Props, State> {
         active={this.props.modalNodeState === 'create'}
         component={CreatePlaceDialog}
         hidden={this.props.modalNodeState !== 'create'}
-        onClose={this.props.onCloseCreatePlaceDialog}
+        onClose={this.props.onCloseModalDialog}
+        lat={this.props.lat}
+        lon={this.props.lon}
+      />
+    );
+  }
+
+  renderContributionThanksDialog() {
+    return (
+      <FocusTrap
+        active={this.props.modalNodeState === 'contribution-thanks'}
+        component={ContributionThanksDialog}
+        hidden={this.props.modalNodeState !== 'contribution-thanks'}
+        onClose={this.props.onCloseModalDialog}
         lat={this.props.lat}
         lon={this.props.lon}
       />
@@ -583,6 +597,7 @@ class MainView extends React.Component<Props, State> {
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
           {this.renderCreateDialog()}
+          {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
         </ErrorBoundary>
       </div>
