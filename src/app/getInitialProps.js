@@ -23,6 +23,7 @@ import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
 import MapData from './MapData';
 import CreatePlaceData from './CreatePlaceData';
+import ContributionThanksData from './ContributionThanksData';
 
 export type AppProps = {
   userAgent: UAResult,
@@ -65,6 +66,7 @@ const dataTable: DataTable = Object.freeze({
   map: MapData,
   equipment: PlaceDetailsData,
   createPlace: CreatePlaceData,
+  contributionThanks: ContributionThanksData,
 });
 
 export function getInitialRouteProps(
