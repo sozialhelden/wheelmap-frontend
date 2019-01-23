@@ -22,6 +22,7 @@ export type LinkDescription = {
   url?: LocalizedString,
   order?: number,
   type?: string,
+  tags?: string[],
 };
 
 export type ClientSideConfiguration = {

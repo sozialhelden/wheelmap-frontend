@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
+import find from 'lodash/find';
 import queryString from 'query-string';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
@@ -31,6 +32,8 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
+import env from './lib/env';
+
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
@@ -51,6 +54,7 @@ import { hasAllowedAnalytics } from './lib/savedState';
 import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
+import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 
 type Props = {
   className: string,
@@ -460,6 +464,25 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onCloseModalDialog}
         lat={this.props.lat}
         lon={this.props.lon}
+      />
+    );
+  }
+
+  renderContributionThanksDialog() {
+    const { clientSideConfiguration } = this.props;
+    const link = find(clientSideConfiguration.customMainMenuLinks, link =>
+      includes(link.tags, 'add-place')
+    );
+    const url = link ? insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url)) : null;
+
+    return (
+      <FocusTrap
+        active={this.props.modalNodeState === 'contribution-thanks'}
+        component={ContributionThanksDialog}
+        hidden={this.props.modalNodeState !== 'contribution-thanks'}
+        onClose={this.props.onCloseModalDialog}
+        
+     ={url}
       />
     );
   }

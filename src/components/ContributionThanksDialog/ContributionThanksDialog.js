@@ -17,6 +17,7 @@ export type Props = {
   onAddNextPlace: ?() => void,
   lat: ?number,
   lon: ?number,
+  addPlaceUrl: ?string,
 };
 
 const StyledToolbar = styled(Toolbar)`

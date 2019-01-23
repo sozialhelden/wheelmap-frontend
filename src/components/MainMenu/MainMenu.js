@@ -2,16 +2,20 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
+import { t } from 'ttag';
+
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
-// import Logo from '../../lib/Logo';
-import CloseIcon from '../icons/actions/Close';
+import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
 import colors from '../../lib/colors';
-import { t } from 'ttag';
+import env from '../../lib/env';
+
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import type { LinkData } from '../../App';
-import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
-import Link, { RouteConsumer } from '../Link/Link';
+import Link from '../Link/Link';
+
+import CloseIcon from '../icons/actions/Close';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -116,7 +120,7 @@ class MainMenu extends React.Component<Props, State> {
 
   renderAppLinks() {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = translatedStringFromObject(link.url);
+      const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
       const label = translatedStringFromObject(link.label);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
@@ -128,6 +132,8 @@ class MainMenu extends React.Component<Props, State> {
           </Link>
         );
       }
+
+      return null;
     });
   }
 
