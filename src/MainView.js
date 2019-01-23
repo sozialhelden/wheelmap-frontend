@@ -456,6 +456,19 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderContributionThanksDialog() {
+    return (
+      <FocusTrap
+        active={this.props.modalNodeState === 'contribution-thanks'}
+        component={ContributionThanksDialog}
+        hidden={this.props.modalNodeState !== 'contribution-thanks'}
+        onClose={this.props.onCloseModalDialog}
+        lat={this.props.lat}
+        lon={this.props.lon}
+      />
+    );
+  }
+
+  renderContributionThanksDialog() {
     const { clientSideConfiguration } = this.props;
     const link = find(clientSideConfiguration.customMainMenuLinks, link =>
       includes(link.tags, 'add-place')
@@ -468,7 +481,8 @@ class MainView extends React.Component<Props, State> {
         component={ContributionThanksDialog}
         hidden={this.props.modalNodeState !== 'contribution-thanks'}
         onClose={this.props.onCloseModalDialog}
-        addPlaceUrl={url}
+        
+     ={url}
       />
     );
   }

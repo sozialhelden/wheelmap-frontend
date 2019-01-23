@@ -14,6 +14,9 @@ export type Props = {
   hidden: boolean,
   isExpanded?: boolean,
   onClose: ?() => void,
+  onAddNextPlace: ?() => void,
+  lat: ?number,
+  lon: ?number,
   addPlaceUrl: ?string,
 };
 
@@ -72,10 +75,6 @@ export default class ContributionThanksDialog extends React.Component<Props> {
 
   focus() {}
 
-  onAddNextPlace = () => {
-    window.location.href = this.props.addPlaceUrl;
-  };
-
   render() {
     const className = ['contribution-thanks-dialog', this.props.isExpanded && 'is-expanded']
       .filter(Boolean)
@@ -96,12 +95,10 @@ export default class ContributionThanksDialog extends React.Component<Props> {
         <section>
           <p>{text}</p>
 
-          {this.props.addPlaceUrl && (
-            <CallToActionButton data-focus-visible-added onClick={this.onAddNextPlace}>
-              {addNextPlaceButtonCaption}
-              <ChevronRight />
-            </CallToActionButton>
-          )}
+          <CallToActionButton data-focus-visible-added onClick={this.props.onAddNextPlace}>
+            {addNextPlaceButtonCaption}
+            <ChevronRight />
+          </CallToActionButton>
 
           <ChromelessButton onClick={this.props.onClose}>{backToMapButtonCaption}</ChromelessButton>
         </section>
