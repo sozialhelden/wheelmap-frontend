@@ -326,6 +326,8 @@ export function hasAccessibleToilet(
   properties: WheelmapProperties | AccessibilityCloudProperties
 ): YesNoUnknown {
   if (!properties) return 'unknown';
+
+  // wheelmap classic result
   if (properties && properties.wheelchair_toilet) {
     if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
       return ((properties.wheelchair_toilet: any): YesNoUnknown);
@@ -333,6 +335,18 @@ export function hasAccessibleToilet(
     return 'unknown';
   }
 
+  const legacyAcResult = hasAccessibleToiletLegacyAcFormat(properties);
+  if (legacyAcResult !== 'unknown') {
+    return legacyAcResult;
+  }
+
+  return hasAccessibleToiletAcFormat(properties);
+}
+
+// legacy format has areas & so on
+function hasAccessibleToiletLegacyAcFormat(
+  properties: WheelmapProperties | AccessibilityCloudProperties
+): YesNoUnknown {
   if (!(get(properties, 'accessibility.areas') instanceof Array)) return 'unknown';
 
   if (!properties.accessibility) {
@@ -356,6 +370,32 @@ export function hasAccessibleToilet(
 
   if (accessibleCount >= 1) return 'yes';
   if (nonAccessibleCount > unknownCount) return 'no';
+  return 'unknown';
+}
+
+// new format has restrooms at root of a11y
+function hasAccessibleToiletAcFormat(
+  properties: WheelmapProperties | AccessibilityCloudProperties
+): YesNoUnknown {
+  const restrooms = get(properties, 'accessibility.restrooms');
+
+  // no restrooms
+  if (restrooms === null) {
+    return 'no';
+  }
+  if (typeof restrooms === 'undefined' || !Array.isArray(restrooms)) {
+    return 'unknown';
+  }
+
+  const restroomInfos = restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
+
+  const accessibleCount = restroomInfos.filter(a => a === true).length;
+  if (accessibleCount >= 1) return 'yes';
+
+  const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
+  const unknownCount = restroomInfos.filter(a => a === null || typeof a === 'undefined').length;
+  if (nonAccessibleCount > unknownCount) return 'no';
+
   return 'unknown';
 }
 
