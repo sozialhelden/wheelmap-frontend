@@ -15,7 +15,7 @@ import {
 import colors from '../../../lib/colors';
 import PenIcon from '../../icons/actions/PenIcon';
 import type { Feature } from '../../../lib/Feature';
-import { getCategoryId } from '../../../lib/Categories';
+import { getCategoryIdFromProperties } from '../../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
@@ -26,6 +26,8 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'tram_stop',
   'atm',
   'toilets',
+  'elevator',
+  'escalator',
 ];
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
@@ -48,13 +50,15 @@ const toiletIcons = {
 
 function ToiletDescription(accessibility: YesNoUnknown) {
   if (!accessibility) return;
+
   // translator: Button caption, shown in the place toolbar
   const editButtonCaption = t`Mark wheelchair accessibility of WC`;
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
   return (
     <React.Fragment>
-      {icon} <span>{description}</span>
+      {icon}
+      <span>{description}</span>
     </React.Fragment>
   );
 }
@@ -115,15 +119,11 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       return null;
     }
 
-    const category = properties.category;
-    const categoryId = getCategoryId(category);
+    const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
-    const isToiletStatusKnown = toiletAccessibility !== 'unknown';
-    const incentivizeToAddToiletStatus =
-      isWheelmapFeature(feature) &&
-      includes(['yes', 'limited'], wheelchairAccessibility) &&
-      !hasBlacklistedCategory;
-    const isToiletButtonShown = isToiletStatusKnown || incentivizeToAddToiletStatus;
+    const canAddToiletStatus =
+      isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
+    const isToiletButtonShown = !hasBlacklistedCategory && canAddToiletStatus;
 
     return (
       <div className={this.props.className}>
