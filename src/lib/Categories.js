@@ -7,7 +7,12 @@ import ResponseError from './ResponseError';
 import config from './config';
 import env from './env';
 
-import type { Feature } from './Feature';
+import type {
+  Feature,
+  WheelmapCategoryOrNodeType,
+  WheelmapProperties,
+  AccessibilityCloudProperties,
+} from './Feature';
 import type { SearchResultFeature } from './searchPlaces';
 import type { EquipmentInfo } from './EquipmentInfo';
 
@@ -267,17 +272,37 @@ export function categoryNameFor(category: Category): ?string {
   return translatedStringFromObject(idObject);
 }
 
-export function getCategoryId(category: ?Category | string): ?string {
+export function getCategoryId(category?: ?Category | string | WheelmapCategoryOrNodeType): ?string {
   if (!category) {
     return;
   }
+  // ac
   if (typeof category === 'string') {
     return category;
   }
-  if (typeof category.id === 'string') {
-    return category.id;
+
+  if (typeof category === 'object' && category) {
+    // wheelmap node_type or category
+    if (typeof category.identifier === 'string') {
+      return category.identifier;
+    }
+    // ac server category object
+    if (typeof category._id === 'string') {
+      return category._id;
+    }
   }
-  if (typeof category._id === 'string') {
-    return category._id;
+}
+
+export function getCategoryIdFromProperties(
+  props: AccessibilityCloudProperties | WheelmapProperties
+): ?string {
+  if (!props) {
+    return;
   }
+
+  if (props.node_type) {
+    return getCategoryId(props.node_type);
+  }
+
+  return getCategoryId(props.category);
 }
