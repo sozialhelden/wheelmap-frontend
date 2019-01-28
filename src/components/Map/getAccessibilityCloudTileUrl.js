@@ -3,13 +3,10 @@ import env from '../../lib/env';
 
 import { type Locale } from '../../lib/i18n';
 
-export default function accessibilityCloudTileUrl(
-  locale: Locale,
+export function buildSourceIdParams(
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>
 ): string {
-  const acLocaleString = locale.underscoredString;
-
   // always do not show wheelmap source, but all other sources
   const wheelmapSourceId = 'LiBTS67TjmBcXdEmX';
 
@@ -22,6 +19,17 @@ export default function accessibilityCloudTileUrl(
   } else {
     sourceIdParams = `excludeSourceIds=${wheelmapSourceId}`;
   }
+
+  return sourceIdParams;
+}
+
+export default function accessibilityCloudTileUrl(
+  locale: Locale,
+  includeSourceIds: Array<string>,
+  excludeSourceIds: Array<string>
+): string {
+  const acLocaleString = locale.underscoredString;
+  const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
 
   return `${
     env.public.accessibilityCloud.baseUrl.cached
