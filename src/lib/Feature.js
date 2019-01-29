@@ -543,6 +543,7 @@ export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
   return something;
 }
 
+// returns coordinates in [lon, lat] array
 export function normalizedCoordinatesForFeature(feature: Feature): ?[number, number] {
   const geometry = feature ? feature.geometry : null;
   if (!(geometry instanceof Object)) return null;
