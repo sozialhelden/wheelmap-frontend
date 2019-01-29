@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import styled from 'styled-components';
 
 import StyledFrame from './StyledFrame';
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
@@ -14,6 +13,7 @@ import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
 import { isWheelmapFeatureId } from '../../../lib/Feature';
+import Description from './Description';
 
 type Props = {
   featureId: ?string | number,
@@ -26,11 +26,6 @@ type Props = {
   feature: ?Feature,
   toiletsNearby: ?(Feature[]),
 };
-
-const Description = styled.footer.attrs({ className: 'description' })`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem !important;
-`;
 
 export default function PlaceAccessibilitySection(props: Props) {
   const { featureId, feature, toiletsNearby } = props;
@@ -49,7 +44,7 @@ export default function PlaceAccessibilitySection(props: Props) {
   if (properties && typeof properties.wheelchair_description === 'string') {
     description = properties.wheelchair_description;
   }
-  const descriptionElement = description ? <Description>“{description}”</Description> : null;
+  const descriptionElement = description ? <Description>{description}</Description> : null;
 
   return (
     <StyledFrame>
