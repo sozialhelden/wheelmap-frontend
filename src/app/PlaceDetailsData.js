@@ -27,7 +27,7 @@ import {
 
 import Categories from '../lib/Categories';
 
-import { type DataTableEntry } from './getInitialProps';
+import { type AppProps, type DataTableEntry } from './getInitialProps';
 import {
   type PlaceDetailsProps,
   type SourceWithLicense,
@@ -45,6 +45,7 @@ import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapP
 import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
 import { translatedStringFromObject } from '../lib/i18n';
+import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
 
 function fetchFeature(
   featureId: string,
@@ -124,6 +125,21 @@ function fetchPhotos(
   return photosPromise;
 }
 
+function fetchToiletsNearby(appPropsPromise: Promise<AppProps>, featurePromise: ?Promise<Feature>) {
+  return appPropsPromise.then(appProps => {
+    return featurePromise
+      ? featurePromise.then(feature => {
+          return fetchToiletsNearFeature(
+            feature,
+            appProps.disableWheelmapSource || false,
+            appProps.includeSourceIds,
+            appProps.includeSourceIds
+          );
+        })
+      : null;
+  });
+}
+
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialRouteProps(query, appPropsPromise, isServer): Promise<PlaceDetailsProps> {
     const featureId = query.id;
@@ -150,10 +166,16 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         : null;
       const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, useCache);
 
+      const toiletsNearbyPromise = fetchToiletsNearby(appPropsPromise, featurePromise);
+      if (toiletsNearbyPromise) {
+        toiletsNearbyPromise.then(console.log);
+      }
+
       const feature = isServer ? await featurePromise : featurePromise;
       const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
       const sources = isServer ? await sourcesPromise : sourcesPromise;
       const photos = isServer ? await photosPromise : photosPromise;
+      const toiletsNearby = isServer ? await toiletsNearbyPromise : toiletsNearbyPromise;
 
       return {
         feature,
@@ -163,6 +185,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         lightweightFeature,
         equipmentInfoId,
         equipmentInfo,
+        toiletsNearby,
       };
     } catch (e) {
       const error: Error & { parent?: any, statusCode?: number } = new Error(

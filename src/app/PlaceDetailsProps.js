@@ -45,6 +45,8 @@ export type PlaceDetailsProps = {
   equipmentInfoId: ?string,
   // the equimentInfo
   equipmentInfo: ?PotentialPromise<EquipmentInfo>,
+  // toilets around the selected feature
+  toiletsNearby: ?PotentialPromise<Feature[]>,
 };
 
 export type ResolvedPlaceDetailsProps = {
@@ -62,6 +64,8 @@ export type ResolvedPlaceDetailsProps = {
   equipmentInfoId: ?string,
   // the equimentInfo
   equipmentInfo: ?EquipmentInfo,
+  // toilets around the selected feature
+  toiletsNearby: ?(Feature[]),
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
@@ -73,11 +77,15 @@ export function getPlaceDetailsIfAlreadyResolved(
   const resolvedEquimentInfo = props.equipmentInfo
     ? getDataIfAlreadyResolved(props.equipmentInfo)
     : null;
+  const resolvedToiletsNearby = props.toiletsNearby
+    ? getDataIfAlreadyResolved(props.toiletsNearby)
+    : null;
 
   if (
     !resolvedSources ||
     !resolvedFeature ||
     (props.equipmentInfo && !resolvedEquimentInfo) ||
+    (props.toiletsNearby && !resolvedToiletsNearby) ||
     !resolvedPhotos
   ) {
     return null;
@@ -91,6 +99,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     photos: resolvedPhotos,
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquimentInfo,
+    toiletsNearby: resolvedToiletsNearby,
   };
 }
 
@@ -103,6 +112,9 @@ export async function awaitPlaceDetails(
   const resolvedEquipmentInfo = props.equipmentInfo
     ? await getDataPromise(props.equipmentInfo)
     : null;
+  const resolvedToiletsNearby = props.toiletsNearby
+    ? await getDataPromise(props.toiletsNearby)
+    : null;
 
   return {
     lightweightFeature: props.lightweightFeature,
@@ -112,5 +124,6 @@ export async function awaitPlaceDetails(
     photos: resolvedPhotos,
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquipmentInfo,
+    toiletsNearby: resolvedToiletsNearby,
   };
 }
