@@ -165,11 +165,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         ? wheelmapLightweightFeatureCache.getCachedFeature(featureId)
         : null;
       const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, useCache);
-
       const toiletsNearbyPromise = fetchToiletsNearby(appPropsPromise, featurePromise);
-      if (toiletsNearbyPromise) {
-        toiletsNearbyPromise.then(console.log);
-      }
 
       const feature = isServer ? await featurePromise : featurePromise;
       const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
