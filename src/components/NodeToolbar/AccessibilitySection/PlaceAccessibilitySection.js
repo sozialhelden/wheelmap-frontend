@@ -26,8 +26,8 @@ type Props = {
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   presetStatus: ?YesNoLimitedUnknown,
-  // history: RouterHistory,
   feature: ?Feature,
+  toiletsNearby: ?(Feature[]),
 };
 
 const Description = styled.footer.attrs({ className: 'description' })`
@@ -36,7 +36,7 @@ const Description = styled.footer.attrs({ className: 'description' })`
 `;
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature } = props;
+  const { featureId, feature, toiletsNearby } = props;
   const properties = feature && feature.properties;
   const wheelmapFeature = wheelmapFeatureFrom(feature);
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
@@ -67,6 +67,7 @@ export default function PlaceAccessibilitySection(props: Props) {
       <WheelchairAndToiletAccessibility
         isEditingEnabled={isWheelmapFeature}
         feature={feature}
+        toiletsNearby={toiletsNearby}
         onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={props.onOpenToiletAccessibility}
       />

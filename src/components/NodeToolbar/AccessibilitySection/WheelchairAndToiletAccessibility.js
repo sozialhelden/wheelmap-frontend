@@ -65,6 +65,7 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 
 type Props = {
   feature: Feature,
+  toiletsNearby: ?(Feature[]),
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   className: string,
@@ -107,7 +108,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -115,6 +116,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
 
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
+    console.log(toiletAccessibility, properties);
     if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
       return null;
     }
@@ -125,10 +127,13 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
     const isToiletButtonShown = !hasBlacklistedCategory && canAddToiletStatus;
 
+    const findToiletsNearby = toiletAccessibility !== 'yes';
+
     return (
       <div className={this.props.className}>
         {this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
+        {findToiletsNearby && (toiletsNearby ? toiletsNearby.length : ':(')}
       </div>
     );
   }

@@ -659,6 +659,7 @@ class App extends React.Component<Props, State> {
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
       photos: this.props.photos,
+      toiletsNearby: this.props.toiletsNearby,
       category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,

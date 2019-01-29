@@ -52,6 +52,7 @@ type Props = {
   featureId: string | number,
   sources: SourceWithLicense[],
   photos: PhotoModel[],
+  toiletsNearby: ?(Feature[]),
   categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,
