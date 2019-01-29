@@ -34,6 +34,7 @@ type Props = {
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,

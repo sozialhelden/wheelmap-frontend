@@ -25,6 +25,7 @@ type Props = {
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   presetStatus: ?YesNoLimitedUnknown,
   feature: ?Feature,
   toiletsNearby: ?(Feature[]),
@@ -70,6 +71,7 @@ export default function PlaceAccessibilitySection(props: Props) {
         toiletsNearby={toiletsNearby}
         onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={props.onOpenToiletAccessibility}
+        onOpenToiletNearby={props.onOpenToiletNearby}
       />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />

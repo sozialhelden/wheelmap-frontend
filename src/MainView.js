@@ -245,6 +245,7 @@ class MainView extends React.Component<Props, State> {
           userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+          onOpenToiletNearby={this.props.onOpenToiletNearby}
           onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.props.onCloseToiletAccessibility}
