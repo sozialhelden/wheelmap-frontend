@@ -50,7 +50,11 @@ type DataTableQuery = {
 };
 
 export type DataTableEntry<Props> = {
-  getInitialRouteProps?: (query: DataTableQuery, isServer: boolean) => Promise<Props>,
+  getInitialRouteProps?: (
+    query: DataTableQuery,
+    appPropsPromise: Promise<AppProps>,
+    isServer: boolean
+  ) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
   getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
   storeInitialRouteProps?: (props: Props) => void,
@@ -77,6 +81,7 @@ export function getInitialRouteProps(
     routeName: string,
     [key: string]: string,
   },
+  appPropsPromise: Promise<AppProps>,
   isServer: boolean
 ) {
   const dataItem = dataTable[routeName];
@@ -85,7 +90,7 @@ export function getInitialRouteProps(
     return {};
   }
 
-  return dataItem.getInitialRouteProps(query, isServer);
+  return dataItem.getInitialRouteProps(query, appPropsPromise, isServer);
 }
 
 export function getRenderProps<Props>(routeName: string, props: Props, isServer: boolean): Props {

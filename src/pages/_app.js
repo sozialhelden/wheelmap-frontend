@@ -113,7 +113,7 @@ export default class App extends BaseApp {
       );
 
       if (ctx.query.routeName) {
-        const routePropsPromise = getInitialRouteProps(ctx.query, isServer);
+        const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
         routeProps = await routePropsPromise;
       }
       appProps = await appPropsPromise;

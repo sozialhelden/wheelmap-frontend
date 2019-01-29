@@ -125,7 +125,7 @@ function fetchPhotos(
 }
 
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
-  async getInitialRouteProps(query, isServer): Promise<PlaceDetailsProps> {
+  async getInitialRouteProps(query, appPropsPromise, isServer): Promise<PlaceDetailsProps> {
     const featureId = query.id;
     const equipmentInfoId = query.eid;
 
