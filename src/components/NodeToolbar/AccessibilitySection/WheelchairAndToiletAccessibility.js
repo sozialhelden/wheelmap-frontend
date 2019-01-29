@@ -289,6 +289,10 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     .right-arrow {
       padding: 0 10px;
     }
+
+    &:hover {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
   }
 `;
 
