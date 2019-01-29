@@ -1,5 +1,6 @@
 // @flow
 import flatten from 'lodash/flatten';
+import sortBy from 'lodash/sortBy';
 
 import config from './config';
 import env from './env';
@@ -13,6 +14,7 @@ import {
   normalizedCoordinatesForFeature,
 } from './Feature';
 import { buildSourceIdParams } from '../components/Map/getAccessibilityCloudTileUrl';
+import { geoDistance } from './geoDistance';
 
 function calculateBoundingBox(lat: number, lon: number, radius: number) {
   const latRadian = (lat * Math.PI) / 180;
@@ -38,7 +40,7 @@ function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Pr
   const bbox = calculateBoundingBox(lat, lon, radius);
   const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${
     bbox.east
-  },${bbox.north}&per_page=50&wheelchair=yes&wheelchair_toilet=yes&api_key=${
+  },${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${
     config.wheelmapApiKey
   }`;
 
@@ -58,7 +60,7 @@ function fetchAcToiletPlaces(
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
   const url = `${
     env.public.accessibilityCloud.baseUrl.cached
-  }/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&appToken=${
+  }/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${
     env.public.accessibilityCloud.appToken
   }`;
   return globalFetchManager
@@ -79,6 +81,15 @@ function filterAccessibleToilets(feature: Feature): boolean {
   return hasToilet;
 }
 
+function getDistanceTo(coords: [number, number], feature: Feature) {
+  const featureCoords = normalizedCoordinatesForFeature(feature);
+  if (!featureCoords) {
+    return Number.POSITIVE_INFINITY;
+  }
+
+  return geoDistance(coords, featureCoords);
+}
+
 const nearbyRadiusMeters = 300;
 
 export function fetchToiletsNearby(
@@ -94,7 +105,8 @@ export function fetchToiletsNearby(
   const ac = fetchAcToiletPlaces(lat, lon, nearbyRadiusMeters, includeSourceIds, excludeSourceIds);
 
   return Promise.all([wm, ac]).then(results => {
-    return flatten(results).filter(filterAccessibleToilets);
+    const distanceMapping = getDistanceTo.bind(this, [lon, lat]);
+    return sortBy(flatten(results).filter(filterAccessibleToilets), distanceMapping);
   });
 }
 
