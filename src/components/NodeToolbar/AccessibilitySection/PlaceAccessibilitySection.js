@@ -13,11 +13,7 @@ import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
-import {
-  isWheelmapFeatureId,
-  wheelmapFeatureFrom,
-  isWheelchairAccessible,
-} from '../../../lib/Feature';
+import { isWheelmapFeatureId } from '../../../lib/Feature';
 
 type Props = {
   featureId: ?string | number,
@@ -39,15 +35,7 @@ const Description = styled.footer.attrs({ className: 'description' })`
 export default function PlaceAccessibilitySection(props: Props) {
   const { featureId, feature, toiletsNearby } = props;
   const properties = feature && feature.properties;
-  const wheelmapFeature = wheelmapFeatureFrom(feature);
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
-  if (
-    wheelmapFeature &&
-    wheelmapFeature.properties &&
-    isWheelchairAccessible(wheelmapFeature.properties) === 'unknown'
-  ) {
-    return null;
-  }
 
   const accessibilityTree =
     properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;

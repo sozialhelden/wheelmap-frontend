@@ -136,7 +136,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -145,21 +145,24 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
 
-    if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
-      return null;
-    }
-
+    const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
     const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =
       isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
-    const isToiletButtonShown = !hasBlacklistedCategory && canAddToiletStatus;
+    const isToiletButtonShown =
+      isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus;
 
-    const findToiletsNearby = toiletAccessibility !== 'yes';
+    const findToiletsNearby =
+      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
+    if (!hasContent) {
+      return null;
+    }
 
     return (
       <div className={this.props.className}>
-        {this.renderWheelchairButton(wheelchairAccessibility)}
+        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
       </div>
