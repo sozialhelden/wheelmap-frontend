@@ -11,6 +11,7 @@ import {
   accessibilityDescription,
   toiletDescription,
   isWheelmapFeature,
+  normalizedCoordinatesForFeature,
 } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import PenIcon from '../../icons/actions/PenIcon';
@@ -19,6 +20,8 @@ import { getCategoryIdFromProperties } from '../../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
+import { geoDistance } from '../../../lib/geoDistance';
+import { formatDistance } from '../../../lib/formatDistance';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -65,8 +68,10 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 
 type Props = {
   feature: Feature,
+  toiletsNearby: ?(Feature[]),
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   className: string,
   isEditingEnabled: boolean,
 };
@@ -106,8 +111,32 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     );
   }
 
+  renderNearbyToilets() {
+    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
+    if (!toiletsNearby) {
+      return;
+    }
+
+    const featureCoords = normalizedCoordinatesForFeature(feature);
+    // for now render only the closest toilet
+    return toiletsNearby.slice(0, 1).map((toiletFeature, i) => {
+      const toiletCoords = normalizedCoordinatesForFeature(toiletFeature);
+      const distance = geoDistance(featureCoords, toiletCoords);
+      const formattedDistance = formatDistance(distance);
+
+      return (
+        <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
+          {formattedDistance.distance}
+          {formattedDistance.unit}
+          <b className="right-arrow">⇢</b>
+          <ToiletStatusAccessibleIcon />
+        </button>
+      );
+    });
+  }
+
   render() {
-    const { feature } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -115,20 +144,27 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
 
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
-    if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
-      return null;
-    }
 
+    const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
     const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =
       isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
-    const isToiletButtonShown = !hasBlacklistedCategory && canAddToiletStatus;
+    const isToiletButtonShown =
+      isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus;
+
+    const findToiletsNearby =
+      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
+    if (!hasContent) {
+      return null;
+    }
 
     return (
       <div className={this.props.className}>
-        {this.renderWheelchairButton(wheelchairAccessibility)}
+        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
+        {findToiletsNearby && this.renderNearbyToilets()}
       </div>
     );
   }
@@ -244,6 +280,19 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .toilet-nearby {
+    display: flex;
+    align-items: center;
+
+    .right-arrow {
+      padding: 0 10px;
+    }
+
+    &:hover {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
   }
 `;
 

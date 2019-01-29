@@ -12,6 +12,10 @@ const StyledFrame = styled.div`
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;
 
+  &:empty {
+    display: none;
+  }
+
   &:before {
     display: block;
     position: absolute;

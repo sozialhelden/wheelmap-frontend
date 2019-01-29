@@ -15,7 +15,7 @@ import useImperialUnits from './useImperialUnits';
 import type { EquipmentInfo } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
-import { categoryNameFor } from './Categories';
+import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
 import type { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
 
@@ -326,7 +326,15 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
 export function hasAccessibleToilet(
   properties: WheelmapProperties | AccessibilityCloudProperties
 ): YesNoUnknown {
-  if (!properties) return 'unknown';
+  if (!properties) {
+    return 'unknown';
+  }
+
+  const isToilet = getCategoryIdFromProperties(properties) === 'toilets';
+  if (isToilet) {
+    const isAccessible = isWheelchairAccessible(properties);
+    return isAccessible === 'yes' ? 'yes' : 'no';
+  }
 
   // wheelmap classic result
   if (properties && properties.wheelchair_toilet) {
@@ -543,6 +551,7 @@ export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
   return something;
 }
 
+// returns coordinates in [lon, lat] array
 export function normalizedCoordinatesForFeature(feature: Feature): ?[number, number] {
   const geometry = feature ? feature.geometry : null;
   if (!(geometry instanceof Object)) return null;

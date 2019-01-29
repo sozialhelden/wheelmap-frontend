@@ -579,6 +579,13 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onOpenToiletNearby = (feature: Feature) => {
+    if (feature) {
+      const featureId = feature.id || feature.properties.id || feature.properties._id;
+      this.showSelectedFeature(featureId);
+    }
+  };
+
   gotoCurrentFeature() {
     if (this.props.featureId) {
       this.setState({ modalNodeState: null });
@@ -659,6 +666,7 @@ class App extends React.Component<Props, State> {
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
       photos: this.props.photos,
+      toiletsNearby: this.props.toiletsNearby,
       category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,
@@ -728,6 +736,7 @@ class App extends React.Component<Props, State> {
           onCloseModalDialog={this.onCloseModalDialog}
           onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+          onOpenToiletNearby={this.onOpenToiletNearby}
           onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.onCloseToiletAccessibility}
