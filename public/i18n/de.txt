@@ -1,5 +1,6 @@
 # Translators:
 # Developers, 2018
+# framefield_henrik, 2018
 # Sebastian Felix Zappe <hypo@me.com>, 2018
 # 
 msgid ""
@@ -131,7 +132,7 @@ msgstr "…sind interessant für Rollstuhlgerechtigkeit."
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "...were taken by me."
-msgstr "…habe ich gemacht."
+msgstr "…habe ich selbst gemacht."
 
 #: src/lib/Feature.js:371
 msgid "Accessible sink"

@@ -19,10 +19,6 @@ export type Props = {
   onCompleted: ?(photos: FileList) => void,
 };
 
-type State = {
-  guidelinesAccepted?: boolean,
-};
-
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   path {
     fill: ${props => props.color};
@@ -140,7 +136,6 @@ const StyledToolbar = styled(Toolbar)`
         small,
         ul {
           padding-left: 24px;
-          pointer-events: none;
         }
 
         span {
@@ -265,28 +260,16 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   };
 
-  onGuidelinesAcceptedChanged = (event: SyntheticEvent<HTMLInputElement>) => {
-    const input = this.checkBox;
-    if (!input) {
-      return;
-    }
-    this.setState({ guidelinesAccepted: input.checked });
-    event.stopPropagation();
-  };
-
   render() {
-    const { guidelinesAccepted } = this.state;
     const { waitingForPhotoUpload } = this.props;
-    const canSubmit = guidelinesAccepted && !waitingForPhotoUpload;
+    const canSubmit = !waitingForPhotoUpload;
 
     const captions = {
       header: t`The following images…`,
       content: t`...give useful information on accessibility.`,
       copyright: t`...were taken by me.`,
-      copyrightDetail: t`I grant Sozialhelden e.V. unlimited right to use and to republish the uploaded images under the <a href="https://creativecommons.org/licenses/by-sa/4.0/legalcode" target="_blank">Creative Commons CC-BY-SA license</a>.`,
       people: t`...do not show any identifiable persons.`,
-      peopleDetail: t`For identifiable persons, written consent must be obtained in accordance with <a href="https://en.wikipedia.org/wiki/General_Data_Protection_Regulation" target="_blank">GDPR</a>.`,
-      guidelines: t`…meet <a href="https://news.wheelmap.org/datenschutzerklaerung/" target="_blank">our guidelines</a>.`,
+      copyrightDetail: t`I hereby publish these images into the public domain and renounce copyright protection (<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank">CC0 1.0 Universal license</a>).`,
     };
 
     return (
@@ -336,21 +319,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                 <StyledCheckmarkIcon color={colors.linkColor} />
                 <p>{captions.people}</p>
               </span>
-              <small dangerouslySetInnerHTML={{ __html: captions.peopleDetail }} />
-            </li>
-            <li className="with-checkbox">
-              <label htmlFor="confirm-guidelines">
-                <input
-                  ref={cb => (this.checkBox = cb)}
-                  type="checkbox"
-                  id="confirm-guidelines"
-                  checked={guidelinesAccepted}
-                  value="confirm-guidelines"
-                  onChange={this.onGuidelinesAcceptedChanged}
-                />
-                <span dangerouslySetInnerHTML={{ __html: captions.guidelines }} />
-              </label>
-              <br />
             </li>
           </ul>
         </section>
