@@ -90,7 +90,7 @@ type Props = {
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
-  category: ?string,
+  categoryId: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
   hrefForFeature: (
@@ -161,7 +161,7 @@ export default class Map extends React.Component<Props, State> {
     let overrideZoom = props.zoom;
 
     // Prevent the map from being empty when navigating to a new category
-    if (props.category && (!lastProps || lastProps.category !== props.category)) {
+    if (props.categoryId && (!lastProps || lastProps.categoryId !== props.categoryId)) {
       overrideZoom = Math.min(
         props.minZoomWithSetCategory || 20,
         props.zoom || props.minZoomWithSetCategory
@@ -374,7 +374,7 @@ export default class Map extends React.Component<Props, State> {
       );
     }
 
-    if (prevProps.category !== this.props.category) {
+    if (prevProps.categoryId !== this.props.categoryId) {
       this.updateFeatureLayerVisibility(this.props);
     }
   }
@@ -488,11 +488,11 @@ export default class Map extends React.Component<Props, State> {
 
     if (!map || !featureLayer || !accessibilityCloudTileLayer) return;
 
-    const minimalZoomLevelForFeatures = this.props.category
+    const minimalZoomLevelForFeatures = this.props.categoryId
       ? this.props.minZoomWithSetCategory
       : this.props.minZoomWithoutSetCategory;
 
-    if (this.props.category) {
+    if (this.props.categoryId) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
         // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
@@ -543,7 +543,7 @@ export default class Map extends React.Component<Props, State> {
       onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
     }
 
-    const minimalZoomLevelForFeatures = this.props.category
+    const minimalZoomLevelForFeatures = this.props.categoryId
       ? this.props.minZoomWithSetCategory
       : this.props.minZoomWithoutSetCategory;
     const showZoomInfo = this.map ? this.map.getZoom() < minimalZoomLevelForFeatures : false;
@@ -576,14 +576,14 @@ export default class Map extends React.Component<Props, State> {
     this.updateFeatureLayerSourceUrls(props);
 
     // hide ac feature layer when category filter is set
-    if (this.props.category) {
+    if (this.props.categoryId) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
         // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
       }
     }
 
-    if (!props.category) {
+    if (!props.categoryId) {
       minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
       if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
         // console.log('Show AC layer...');
@@ -892,7 +892,7 @@ export default class Map extends React.Component<Props, State> {
     const baseUrl = props.wheelmapApiBaseUrl;
     if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = props.wheelmapApiKey;
-    const categoryName = props.category;
+    const categoryName = props.categoryId;
     if (!wheelmapApiKey) {
       return null;
     }
