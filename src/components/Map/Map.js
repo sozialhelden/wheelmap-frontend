@@ -87,6 +87,7 @@ type Props = {
   disableWheelmapSource: ?boolean,
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
+  onClusterClick: (features: Feature[]) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
@@ -301,9 +302,12 @@ export default class Map extends React.Component<Props, State> {
     map.addLayer(this.highLightLayer);
 
     const markerClusterGroup = this.createMarkerClusterGroup();
-
-    // markerClusterGroup.on('clusterclick', (cluster) => {   const markers =
-    // cluster.layer.getAllChildMarkers();   markers.forEach(marker => marker.) });
+    markerClusterGroup.on('clusterclick', cluster => {
+      if (this.props.zoom === this.props.maxZoom) {
+        const markers = cluster.layer.getAllChildMarkers();
+        this.props.onClusterClick(markers.map(m => m.feature));
+      }
+    });
 
     this.featureLayer = new L.LayerGroup();
     this.featureLayer.addLayer(markerClusterGroup);
@@ -713,6 +717,7 @@ export default class Map extends React.Component<Props, State> {
         }
         return new ClusterIcon(options);
       },
+      spiderfyOnMaxZoom: false,
       animate: true,
       chunkedLoading: true,
     });

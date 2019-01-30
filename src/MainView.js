@@ -100,6 +100,7 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
+  onClusterClick: (features: Feature[]) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
@@ -496,6 +497,7 @@ class MainView extends React.Component<Props, State> {
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
+        onClusterClick={this.props.onClusterClick}
         hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}

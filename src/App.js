@@ -10,7 +10,7 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 import { type RouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
-import type { WheelmapFeature } from './lib/Feature';
+import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
 
@@ -289,6 +289,10 @@ class App extends React.Component<Props, State> {
     }
 
     routerHistory.push(routeName, params);
+  };
+
+  showFeatureList = (features: Feature[]) => {
+    console.log(features);
   };
 
   onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
@@ -725,6 +729,7 @@ class App extends React.Component<Props, State> {
           onMoveEnd={this.onMoveEnd}
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
+          onClusterClick={this.showFeatureList}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
