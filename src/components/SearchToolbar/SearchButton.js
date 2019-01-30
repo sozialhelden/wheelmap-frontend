@@ -50,7 +50,7 @@ function SearchButton(props: Props) {
       )}
 
       <Caption>
-        {category ? Categories.translatedWheelmapRootCategoryName(category) : allPlacesCaption}
+        {category ? Categories.translatedRootCategoryName(category) : allPlacesCaption}
       </Caption>
     </MapButton>
   );

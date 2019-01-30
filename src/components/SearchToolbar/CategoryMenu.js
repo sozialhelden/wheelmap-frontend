@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import map from 'lodash/map';
 
 import { Circle } from '../IconButton';
 import CategoryButton from './CategoryButton';
@@ -18,29 +19,29 @@ type Props = {
 };
 
 function CategoryMenu(props: Props) {
-  let names = null;
   const { category } = props;
 
+  let rootCategories = Categories.getRootCategories();
+
   if (category) {
-    names = { [category]: Categories.translatedWheelmapRootCategoryName(category) };
-  } else {
-    names = Categories.getTranslatedRootCategoryNames();
+    rootCategories = { [category]: rootCategories[category] };
   }
 
   const showCloseButton = Boolean(category);
 
   return (
     <div className={props.className}>
-      {Object.keys(names).map((category, index) => (
+      {map(rootCategories, (value, categoryId) => (
         <CategoryButton
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}
           hasCircle={!showCloseButton && !isAccessibilityFiltered(props.accessibilityFilter)}
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}
-          key={category}
-          name={names[category]}
-          category={category}
+          key={categoryId}
+          name={value.name}
+          isMainCategory={!value.isSubCategory}
+          category={categoryId}
         />
       ))}
     </div>

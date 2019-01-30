@@ -22,10 +22,18 @@ type Props = {
   onClick: (category: string) => void,
   onFocus?: (event: UIEvent) => void,
   className?: string,
+  isMainCategory: boolean,
 };
 
 function CategoryButton(props: Props) {
-  const { category, accessibilityFilter, toiletFilter, showCloseButton, className } = props;
+  const {
+    category,
+    isMainCategory,
+    accessibilityFilter,
+    toiletFilter,
+    showCloseButton,
+    className,
+  } = props;
 
   let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
@@ -37,7 +45,7 @@ function CategoryButton(props: Props) {
       accessibilityFilter={shownAccessibilities}
       toiletFilter={toiletFilter}
       category={category || 'undefined'}
-      isMainCategory
+      isMainCategory={isMainCategory}
       size="medium"
       ariaHidden={true}
     />
