@@ -7,7 +7,6 @@ import styled, { css } from 'styled-components';
 import CombinedIcon from './CombinedIcon';
 import colors from '../../lib/colors';
 import IconButton, { Circle, Caption } from '../IconButton';
-import Button from '../Button';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
