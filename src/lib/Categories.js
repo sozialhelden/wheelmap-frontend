@@ -13,8 +13,9 @@ import type {
   WheelmapProperties,
   AccessibilityCloudProperties,
 } from './Feature';
-import type { SearchResultFeature } from './searchPlaces';
-import type { EquipmentInfo } from './EquipmentInfo';
+import { type SearchResultFeature } from './searchPlaces';
+import { hasAccessibleToilet } from './Feature';
+import { type EquipmentInfo } from './EquipmentInfo';
 
 export type ACCategory = {
   _id: string,
@@ -71,7 +72,14 @@ export function acCategoryFrom(category: ?Category): ?ACCategory {
   return null;
 }
 
-const rootCategoryTable = {
+type RootCategoryEntry = {
+  name: string,
+  isSubCategory?: boolean,
+  isMetaCategory?: boolean,
+  filter?: (feature: Feature) => boolean,
+};
+
+const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
   shopping: {
     // translator: Root category
     name: t`Shopping`,
@@ -119,13 +127,25 @@ const rootCategoryTable = {
   toilets: {
     // translator: Meta category for any toilet or any place with an accessible toilet
     name: t`Toilets`,
+    isMetaCategory: true,
     isSubCategory: true,
+    filter: (feature: Feature) => {
+      if (!feature.properties) {
+        return true;
+      }
+
+      return hasAccessibleToilet(feature.properties, true) === 'yes';
+    },
   },
 };
 
 export default class Categories {
   static getRootCategories() {
     return rootCategoryTable;
+  }
+
+  static getRootCategory(key: string) {
+    return rootCategoryTable[key];
   }
 
   static translatedRootCategoryName(key: string) {
