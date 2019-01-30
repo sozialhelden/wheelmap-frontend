@@ -897,12 +897,18 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
     if (categoryName) {
-      const category = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
-      if (!category) {
-        return null;
+      const rootCategory = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
+      if (!rootCategory) {
+        const subCategory = Categories.wheelmapCategoryWithName(props.categories, categoryName);
+        if (!subCategory) {
+          return null;
+        }
+        return `${baseUrl}/api/node_types/${
+          subCategory.id
+        }/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
       }
       return `${baseUrl}/api/categories/${
-        category.id
+        rootCategory.id
       }/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
     }
     return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
