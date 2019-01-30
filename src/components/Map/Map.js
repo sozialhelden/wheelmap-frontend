@@ -22,7 +22,10 @@ import {
   getFeatureId,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
-import Categories, { type CategoryLookupTables } from '../../lib/Categories';
+import Categories, {
+  type CategoryLookupTables,
+  type RootCategoryEntry,
+} from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
@@ -122,6 +125,7 @@ type State = {
   placeOrEquipment?: ?(Feature | EquipmentInfo),
   placeOrEquipmentPromise?: ?Promise<?Feature | ?EquipmentInfo>,
   zoomedToFeatureId: ?string,
+  category: ?RootCategoryEntry,
 };
 
 overrideLeafletZoomBehavior();
@@ -130,7 +134,10 @@ export default class Map extends React.Component<Props, State> {
   props: Props;
   state: State = {
     showLocationNotAllowedHint: false,
+    placeOrEquipment: null,
+    placeOrEquipmentPromise: null,
     zoomedToFeatureId: null,
+    category: null,
   };
   map: ?L.Map;
   mapElement: ?HTMLElement;
@@ -161,12 +168,12 @@ export default class Map extends React.Component<Props, State> {
     let overrideZoom = props.zoom;
 
     // Prevent the map from being empty when navigating to a new category
-    if (props.categoryId && (!lastProps || lastProps.categoryId !== props.categoryId)) {
-      overrideZoom = Math.min(
-        props.minZoomWithSetCategory || 20,
-        props.zoom || props.minZoomWithSetCategory
-      );
-    }
+    // if (props.categoryId && (!lastProps || lastProps.categoryId !== props.categoryId)) {
+    //   overrideZoom = Math.min(
+    //     props.minZoomWithSetCategory || 20,
+    //     props.zoom || props.minZoomWithSetCategory
+    //   );
+    // }
 
     const zoom = overrideZoom || fallbackZoom;
 
@@ -225,6 +232,7 @@ export default class Map extends React.Component<Props, State> {
     const { feature, equipmentInfo } = props;
 
     const placeOrEquipment = equipmentInfo || feature;
+    const category = Categories.getRootCategory(props.categoryId);
 
     // works also without a feature
     if (placeOrEquipment) {
@@ -233,17 +241,22 @@ export default class Map extends React.Component<Props, State> {
         placeOrEquipment === state.placeOrEquipmentPromise ||
         placeOrEquipment === state.placeOrEquipment
       ) {
-        return null;
+        return { category };
       }
 
       if (placeOrEquipment instanceof Promise) {
-        return { placeOrEquipment: null, placeOrEquipmentPromise: placeOrEquipment };
+        return { category, placeOrEquipment: null, placeOrEquipmentPromise: placeOrEquipment };
       }
 
-      return { placeOrEquipment, placeOrEquipmentPromise: null };
+      return { category, placeOrEquipment, placeOrEquipmentPromise: null };
     }
 
-    return { placeOrEquipment: null, placeOrEquipmentPromise: null, zoomedToFeatureId: null };
+    return {
+      category,
+      placeOrEquipment: null,
+      placeOrEquipmentPromise: null,
+      zoomedToFeatureId: null,
+    };
   }
 
   componentDidMount() {
@@ -309,10 +322,10 @@ export default class Map extends React.Component<Props, State> {
     this.featureLayer.addLayer(markerClusterGroup);
 
     this.setupAccessibilityCloudTileLayer(markerClusterGroup);
-    this.updateFeatureLayerVisibility(this.props);
+    this.updateFeatureLayerVisibility();
 
     this.setupWheelmapTileLayer(markerClusterGroup);
-    this.updateFeatureLayerVisibility(this.props);
+    this.updateFeatureLayerVisibility();
 
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
@@ -356,9 +369,16 @@ export default class Map extends React.Component<Props, State> {
       [...prevProps.toiletFilter].sort()
     );
 
-    if (accessibilityFilterChanged || toiletFilterChanged) {
+    const customFilterChanged =
+      this.props.categoryId !== prevProps.categoryId &&
+      ((prevState.category && prevState.category.isMetaCategory) ||
+        (this.state.category && this.state.category.isMetaCategory));
+
+    const filterNeedsRefreshing =
+      accessibilityFilterChanged || toiletFilterChanged || customFilterChanged;
+    if (filterNeedsRefreshing) {
       setTimeout(() => {
-        // console.log("Resetting layers");
+        // console.log("Resetting layers", accessibilityFilterChanged, toiletFilterChanged, customFilterChanged);
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
         if (this.accessibilityCloudTileLayer)
@@ -375,7 +395,7 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (prevProps.categoryId !== this.props.categoryId) {
-      this.updateFeatureLayerVisibility(this.props);
+      this.updateFeatureLayerVisibility();
     }
   }
 
@@ -492,7 +512,7 @@ export default class Map extends React.Component<Props, State> {
       ? this.props.minZoomWithSetCategory
       : this.props.minZoomWithoutSetCategory;
 
-    if (this.props.categoryId) {
+    if (!this.shouldShowAccessibilityCloudLayer(this.props, this.state)) {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
         // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
@@ -526,7 +546,7 @@ export default class Map extends React.Component<Props, State> {
 
     const targetMapState = Map.getMapStateFromProps(this.map, state, props, lastProps);
     this.updateMapCenter(targetMapState, props.padding, this.state);
-    this.updateFeatureLayerVisibility(props);
+    this.updateFeatureLayerVisibility(props, state);
   }
 
   onMoveEnd() {
@@ -552,54 +572,63 @@ export default class Map extends React.Component<Props, State> {
     this.updateTabIndexes();
   }
 
-  updateFeatureLayerVisibility = debounce((props: Props = this.props) => {
-    // console.log('Update feature layer visibility...');
-    const map: L.Map = this.map;
-    const featureLayer = this.featureLayer;
-    const wheelmapTileLayer = this.wheelmapTileLayer;
-    const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
+  updateFeatureLayerVisibility = debounce(
+    (props: Props = this.props, state: State = this.state) => {
+      // console.log('Update feature layer visibility...');
+      const map: L.Map = this.map;
+      const featureLayer = this.featureLayer;
+      const wheelmapTileLayer = this.wheelmapTileLayer;
+      const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
 
-    if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
+      if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
 
-    let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
+      let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
-    if (map.getZoom() >= minimalZoomLevelForFeatures) {
-      if (!map.hasLayer(featureLayer)) {
-        // console.log('Show feature layer...');
-        map.addLayer(featureLayer);
+      if (map.getZoom() >= minimalZoomLevelForFeatures) {
+        if (!map.hasLayer(featureLayer)) {
+          // console.log('Show feature layer...');
+          map.addLayer(featureLayer);
+        }
+      } else if (map.hasLayer(featureLayer)) {
+        // console.log('Hide feature layer...');
+        map.removeLayer(featureLayer);
       }
-    } else if (map.hasLayer(featureLayer)) {
-      // console.log('Hide feature layer...');
-      map.removeLayer(featureLayer);
-    }
 
-    this.updateFeatureLayerSourceUrls(props);
+      this.updateFeatureLayerSourceUrls(props);
 
-    // hide ac feature layer when category filter is set
-    if (this.props.categoryId) {
-      if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        // console.log('Hide AC layer...');
-        featureLayer.removeLayer(this.accessibilityCloudTileLayer);
+      if (this.shouldShowAccessibilityCloudLayer(props, state)) {
+        minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
+        if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
+          // console.log('Show AC layer...');
+          featureLayer.addLayer(this.accessibilityCloudTileLayer);
+          accessibilityCloudTileLayer._update(map.getCenter());
+        }
+      } else {
+        if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
+          // console.log('Hide AC layer...');
+          featureLayer.removeLayer(this.accessibilityCloudTileLayer);
+        }
       }
-    }
 
-    if (!props.categoryId) {
-      minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
-      if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
-        // console.log('Show AC layer...');
-        featureLayer.addLayer(this.accessibilityCloudTileLayer);
-        accessibilityCloudTileLayer._update(map.getCenter());
+      if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
+        // console.log('Show wheelmap layer...');
+        featureLayer.addLayer(wheelmapTileLayer);
+        wheelmapTileLayer._update(map.getCenter());
       }
+
+      this.updateHighlightedMarker(props);
+    },
+    100
+  );
+
+  shouldShowAccessibilityCloudLayer(props: Props = this.props, state: State = this.state): boolean {
+    // always show if no category was selected
+    if (!state.category) {
+      return true;
     }
 
-    if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
-      // console.log('Show wheelmap layer...');
-      featureLayer.addLayer(wheelmapTileLayer);
-      wheelmapTileLayer._update(map.getCenter());
-    }
-
-    this.updateHighlightedMarker(props);
-  }, 100);
+    return !!state.category.isMetaCategory;
+  }
 
   // calculate bounds with variable pixel padding
   calculateBoundsWithPadding(padding: Padding) {
@@ -760,7 +789,12 @@ export default class Map extends React.Component<Props, State> {
     const properties = feature.properties;
     const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
     const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));
-    return hasMatchingA11y && hasMatchingToilet;
+
+    let matchesCustomCategoryFilter = true;
+    if (this.state.category && this.state.category.filter) {
+      matchesCustomCategoryFilter = this.state.category.filter(feature);
+    }
+    return hasMatchingA11y && hasMatchingToilet && matchesCustomCategoryFilter;
   }
 
   updateFeatureLayerSourceUrls = debounce((props: Props = this.props) => {
@@ -886,7 +920,7 @@ export default class Map extends React.Component<Props, State> {
     );
   }
 
-  wheelmapTileUrl(props: Props = this.props): ?string {
+  wheelmapTileUrl(props: Props = this.props, state: State = this.state): ?string {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
     const baseUrl = props.wheelmapApiBaseUrl;
@@ -896,7 +930,8 @@ export default class Map extends React.Component<Props, State> {
     if (!wheelmapApiKey) {
       return null;
     }
-    if (categoryName) {
+    const isMetaCategory = state.category && state.category.isMetaCategory;
+    if (categoryName && !isMetaCategory) {
       const rootCategory = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
       if (!rootCategory) {
         const subCategory = Categories.wheelmapCategoryWithName(props.categories, categoryName);
