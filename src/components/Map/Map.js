@@ -313,6 +313,7 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupWheelmapTileLayer(markerClusterGroup);
     this.updateFeatureLayerVisibility(this.props);
+
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
     });
@@ -371,6 +372,10 @@ export default class Map extends React.Component<Props, State> {
       placeOrEquipmentPromise.then(placeOrEquipment =>
         this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
       );
+    }
+
+    if (prevProps.category !== this.props.category) {
+      this.updateFeatureLayerVisibility(this.props);
     }
   }
 
@@ -438,8 +443,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   setupWheelmapTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
-    const wheelmapTileUrl = this.wheelmapTileUrl();
-    if (wheelmapTileUrl && !this.props.disableWheelmapSource) {
+    if (!this.props.disableWheelmapSource) {
+      // always create wheelmap tile layer, even if the url is empty
+      // if we don't do this, and if the app is started with an unknown
+      // category selected, a wheelmap layer is never created
+      const wheelmapTileUrl = this.wheelmapTileUrl();
       this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
         featureCache: wheelmapLightweightFeatureCache,
         layerGroup: markerClusterGroup,
@@ -566,6 +574,14 @@ export default class Map extends React.Component<Props, State> {
     }
 
     this.updateFeatureLayerSourceUrls(props);
+
+    // hide ac feature layer when category filter is set
+    if (this.props.category) {
+      if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
+        // console.log('Hide AC layer...');
+        featureLayer.removeLayer(this.accessibilityCloudTileLayer);
+      }
+    }
 
     if (!props.category) {
       minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
@@ -753,7 +769,7 @@ export default class Map extends React.Component<Props, State> {
     const url = this.wheelmapTileUrl(props);
     const featureLayer = this.featureLayer;
     if (featureLayer && wheelmapTileLayer._url !== url) {
-      console.log('Setting new URL on wheelmap layer / removing + re-adding layer:', url);
+      // console.log('Setting new URL on wheelmap layer / removing + re-adding layer:', url);
       wheelmapTileLayer._reset();
       featureLayer.removeLayer(wheelmapTileLayer);
       featureLayer.addLayer(wheelmapTileLayer);
