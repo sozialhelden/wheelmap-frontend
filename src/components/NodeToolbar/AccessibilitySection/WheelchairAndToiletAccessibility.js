@@ -151,7 +151,8 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     const canAddToiletStatus =
       isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
     const isToiletButtonShown =
-      isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus;
+      (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
+      toiletAccessibility === 'yes';
 
     const findToiletsNearby =
       toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
