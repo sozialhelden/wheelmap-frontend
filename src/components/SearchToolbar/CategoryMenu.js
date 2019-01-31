@@ -31,7 +31,7 @@ function CategoryMenu(props: Props) {
 
   return (
     <div className={props.className}>
-      {map(rootCategories, (value, categoryId) => (
+      {map(rootCategories, (category, categoryId) => (
         <CategoryButton
           onFocus={props.onFocus}
           showCloseButton={showCloseButton}
@@ -39,8 +39,8 @@ function CategoryMenu(props: Props) {
           accessibilityFilter={props.accessibilityFilter}
           toiletFilter={props.toiletFilter}
           key={categoryId}
-          name={value.name}
-          isMainCategory={!value.isSubCategory}
+          name={category.name}
+          isMainCategory={!category.isSubCategory}
           category={categoryId}
         />
       ))}
