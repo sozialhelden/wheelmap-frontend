@@ -480,7 +480,7 @@ class MainView extends React.Component<Props, State> {
       lat,
       lon,
       zoom,
-      category,
+      category: categoryId,
       featureId,
       equipmentInfoId,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
@@ -505,7 +505,7 @@ class MainView extends React.Component<Props, State> {
         includeSourceIds={this.props.includeSourceIds}
         excludeSourceIds={this.props.excludeSourceIds}
         disableWheelmapSource={this.props.disableWheelmapSource}
-        category={category}
+        categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
         equipmentInfo={this.props.equipmentInfo}
