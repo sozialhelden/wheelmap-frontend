@@ -55,6 +55,7 @@ import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
+import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 
 type Props = {
   className: string,
@@ -261,6 +262,19 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
+        />
+      </div>
+    );
+  }
+
+  renderClusterPanel() {
+    return (
+      <div className="toolbar">
+        <FeatureClusterPanel
+          hidden={!this.props.activeCluster}
+          inEmbedMode={this.props.inEmbedMode}
+          features={this.props.activeCluster}
+          categories={this.props.categories}
         />
       </div>
     );
@@ -601,6 +615,7 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
