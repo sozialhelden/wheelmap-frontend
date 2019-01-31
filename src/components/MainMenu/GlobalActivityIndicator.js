@@ -36,7 +36,7 @@ export default class GlobalActivityIndicator extends React.Component<{}, State> 
 
   render() {
     if (this.state.isShown) {
-      return <Dots />;
+      return <Dots className={this.props.className} />;
     }
     return null;
   }

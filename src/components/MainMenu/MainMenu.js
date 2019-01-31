@@ -175,7 +175,7 @@ class MainMenu extends React.Component<Props, State> {
 
         <div className="claim">{translatedStringFromObject(claim)}</div>
 
-        <GlobalActivityIndicator />
+        <GlobalActivityIndicator className="activity-indicator" />
 
         <div id="main-menu" role="menu">
           {this.renderAppLinks()}
@@ -197,7 +197,7 @@ const StyledMainMenu = styled(MainMenu)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: center;
   z-index: 1000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -344,6 +344,18 @@ const StyledMainMenu = styled(MainMenu)`
     #main-menu {
       margin-right: 70px;
       min-height: 0;
+    }
+
+    .activity-indicator {
+      position: fixed;
+      top: 0;
+      top: constant(safe-area-inset-top);
+      top: env(safe-area-inset-top);
+      right: 0;
+      right: constant(safe-area-inset-right);
+      right: env(safe-area-inset-right);
+      margin-right: 80px;
+      margin-top: 20px;
     }
 
     button.menu {
