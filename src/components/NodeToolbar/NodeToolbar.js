@@ -357,7 +357,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <ErrorBoundary>
           <FocusTrap
             component="div"
-            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be pervented.
+            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
             focusTrapOptions={{ clickOutsideDeactivates: true }}
           >
             {this.renderCloseLink()}
