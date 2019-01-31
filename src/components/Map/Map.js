@@ -44,6 +44,7 @@ import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
+import { type Cluster } from './Cluster';
 
 import './Leaflet.css';
 import './Map.css';
@@ -87,7 +88,7 @@ type Props = {
   disableWheelmapSource: ?boolean,
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
-  onClusterClick: (features: Feature[]) => void,
+  onClusterClick: (cluster: Cluster) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
@@ -305,7 +306,9 @@ export default class Map extends React.Component<Props, State> {
     markerClusterGroup.on('clusterclick', cluster => {
       if (this.props.zoom === this.props.maxZoom) {
         const markers = cluster.layer.getAllChildMarkers();
-        this.props.onClusterClick(markers.map(m => m.feature));
+        this.props.onClusterClick({
+          features: markers.map(m => m.feature),
+        });
       }
     });
 
