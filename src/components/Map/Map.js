@@ -314,6 +314,8 @@ export default class Map extends React.Component<Props, State> {
           center: cluster.latlng,
           features: markers.map(m => m.feature),
         });
+        cluster.originalEvent.preventDefault();
+        cluster.originalEvent.stopPropagation();
       }
     });
 
