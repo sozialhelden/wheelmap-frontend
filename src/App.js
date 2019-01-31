@@ -752,7 +752,7 @@ class App extends React.Component<Props, State> {
           onMarkerClick={this.showSelectedFeature}
           onClusterClick={this.showCluster}
           onCloseClusterPanel={this.closeActiveCluster}
-          onSelectFeatureFromList={this.onShowSelectedFeature}
+          onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}

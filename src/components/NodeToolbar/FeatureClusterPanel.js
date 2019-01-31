@@ -24,6 +24,7 @@ type Props = {
   features: Feature[],
   categories: CategoryLookupTables,
   onClose: () => void,
+  onFeatureSelected: (feature: Feature) => void,
 };
 
 type State = {
@@ -53,7 +54,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     );
 
     return (
-      <button>
+      <button onClick={() => this.props.onFeatureSelected(feature)}>
         <NodeHeader
           feature={feature}
           categories={this.props.categories}
