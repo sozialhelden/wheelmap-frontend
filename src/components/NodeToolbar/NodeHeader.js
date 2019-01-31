@@ -15,7 +15,7 @@ import type { Category } from '../../lib/Categories';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
 
-const StyledNodeHeader = styled.header`
+export const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
   position: sticky;
   top: 0px;

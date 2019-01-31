@@ -96,6 +96,7 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+  activeCluster?: Feature[],
 
   // map controls
   lat?: ?number,
@@ -160,6 +161,8 @@ class App extends React.Component<Props, State> {
 
     if (props.routeName === 'map') {
       newState.modalNodeState = null;
+    } else {
+      newState.activeCluster = null;
     }
 
     if (props.routeName === 'placeDetail' || props.routeName === 'equipment') {
@@ -267,6 +270,9 @@ class App extends React.Component<Props, State> {
       this.closeSearch();
       this.mainView && this.mainView.focusMap();
     }
+    if (this.state.activeCluster) {
+      this.closeActiveCluster();
+    }
   };
 
   showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
@@ -291,8 +297,20 @@ class App extends React.Component<Props, State> {
     routerHistory.push(routeName, params);
   };
 
-  showFeatureList = (features: Feature[]) => {
+  showCluster = (features: Feature[]) => {
     console.log(features);
+
+    const params = this.getCurrentParams();
+    delete params.id;
+    delete params.eid;
+    this.props.routerHistory.push('map', params);
+
+    this.closeSearch();
+    this.setState({ activeCluster: features });
+  };
+
+  closeActiveCluster = () => {
+    this.setState({ activeCluster: null });
   };
 
   onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
@@ -583,7 +601,7 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onOpenToiletNearby = (feature: Feature) => {
+  onShowSelectedFeature = (feature: Feature) => {
     if (feature) {
       const featureId = feature.id || feature.properties.id || feature.properties._id;
       this.showSelectedFeature(featureId);
@@ -708,6 +726,9 @@ class App extends React.Component<Props, State> {
       // simple 3-button status editor feature
       accessibilityPresetStatus: this.state.accessibilityPresetStatus,
 
+      // feature list (e.g. cluster panel)
+      activeCluster: this.state.activeCluster,
+
       clientSideConfiguration: this.props.clientSideConfiguration,
     };
 
@@ -729,7 +750,9 @@ class App extends React.Component<Props, State> {
           onMoveEnd={this.onMoveEnd}
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
-          onClusterClick={this.showFeatureList}
+          onClusterClick={this.showCluster}
+          onCloseClusterPanel={this.closeActiveCluster}
+          onSelectFeatureFromList={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
@@ -741,7 +764,7 @@ class App extends React.Component<Props, State> {
           onCloseModalDialog={this.onCloseModalDialog}
           onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.onOpenToiletAccessibility}
-          onOpenToiletNearby={this.onOpenToiletNearby}
+          onOpenToiletNearby={this.onShowSelectedFeature}
           onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.onCloseToiletAccessibility}
@@ -749,7 +772,8 @@ class App extends React.Component<Props, State> {
           onEquipmentSelected={this.onEquipmentSelected}
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
-          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick} // photo feature
+          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
+          // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
           onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}
