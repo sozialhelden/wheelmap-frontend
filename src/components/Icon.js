@@ -33,7 +33,7 @@ function width(size: Size) {
   }[size];
 }
 
-const StyledIconContainer = styled('figure')`
+export const StyledIconContainer = styled('figure')`
   position: relative;
   margin: 0;
 
@@ -47,7 +47,7 @@ const StyledIconContainer = styled('figure')`
   justify-content: center;
 
   ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} ${props =>
-      props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''} svg {
+    props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''} svg {
     &.background {
       position: absolute;
       width: 100%;
