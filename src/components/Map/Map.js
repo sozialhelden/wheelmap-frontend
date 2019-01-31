@@ -41,7 +41,7 @@ import { globalFetchManager } from '../../lib/FetchManager';
 import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
-import colors from '../../lib/colors';
+import colors, { interpolateWheelchairAccessibilityColors } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
@@ -305,8 +305,13 @@ export default class Map extends React.Component<Props, State> {
     const markerClusterGroup = this.createMarkerClusterGroup();
     markerClusterGroup.on('clusterclick', cluster => {
       if (this.props.zoom === this.props.maxZoom) {
+        console.log(cluster);
         const markers = cluster.layer.getAllChildMarkers();
+        const props = markers.map(m => m.feature.properties).filter(Boolean);
+        const color = interpolateWheelchairAccessibilityColors(props);
         this.props.onClusterClick({
+          color,
+          center: cluster.latlng,
           features: markers.map(m => m.feature),
         });
       }

@@ -23,7 +23,7 @@ type Props = {
   hidden?: boolean,
   inEmbedMode?: boolean,
   modalNodeState?: boolean,
-  cluster: Cluster,
+  cluster: ?Cluster,
   categories: CategoryLookupTables,
   onClose: () => void,
   onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
@@ -130,7 +130,8 @@ const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
       ${Circle} {
         font-size: 24px;
         color: white;
-        background-color: ${props => props.clusterColor || colors.tonedDownSelectedColor};
+        background-color: ${props =>
+          (props.cluster && props.cluster.color) || colors.tonedDownSelectedColor};
       }
     }
 
