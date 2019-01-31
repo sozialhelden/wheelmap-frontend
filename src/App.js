@@ -13,6 +13,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -96,7 +97,7 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
-  activeCluster?: Feature[],
+  activeCluster?: Cluster,
 
   // map controls
   lat?: ?number,
@@ -297,16 +298,14 @@ class App extends React.Component<Props, State> {
     routerHistory.push(routeName, params);
   };
 
-  showCluster = (features: Feature[]) => {
-    console.log(features);
-
+  showCluster = cluster => {
     const params = this.getCurrentParams();
     delete params.id;
     delete params.eid;
     this.props.routerHistory.push('map', params);
 
     this.closeSearch();
-    this.setState({ activeCluster: features });
+    this.setState({ activeCluster: cluster });
   };
 
   closeActiveCluster = () => {
@@ -601,11 +600,16 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onShowSelectedFeature = (feature: Feature) => {
-    if (feature) {
-      const featureId = feature.id || feature.properties.id || feature.properties._id;
-      this.showSelectedFeature(featureId);
+  onShowSelectedFeature = (feature: Feature | EquipmentInfo) => {
+    if (!feature) {
+      return;
     }
+
+    const featureId =
+      feature._id ||
+      feature.id ||
+      (feature.properties && (feature.properties.id || feature.properties._id));
+    this.showSelectedFeature(featureId, feature.properties);
   };
 
   gotoCurrentFeature() {

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import { type Feature } from '../../lib/Feature';
+import { type EquipmentInfo } from '../../lib/EquipmentInfo';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
 import { hasBigViewport } from '../../lib/ViewportSize';
@@ -16,15 +17,16 @@ import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
 import colors from '../../lib/colors';
 import Categories from '../../lib/Categories';
+import { type Cluster } from '../Map/Cluster';
 
 type Props = {
   hidden?: boolean,
   inEmbedMode?: boolean,
   modalNodeState?: boolean,
-  features: Feature[],
+  cluster: Cluster,
   categories: CategoryLookupTables,
   onClose: () => void,
-  onFeatureSelected: (feature: Feature) => void,
+  onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
 };
 
 type State = {
@@ -47,7 +49,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
-  renderClusterEntry(feature: Feature) {
+  renderClusterEntry(feature: Feature | EquipmentInfo) {
     const { category, parentCategory } = Categories.getCategoriesForFeature(
       this.props.categories,
       feature
@@ -67,18 +69,16 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     );
   }
 
-  renderClusterEntries() {
-    const { features } = this.props;
-
+  renderClusterEntries(features: ArrayLike<Feature | EquipmentInfo>) {
     return features.map((f, i) => <li key={i}>{this.renderClusterEntry(f)}</li>);
   }
 
   render() {
-    const { features } = this.props;
+    const { cluster } = this.props;
     const hasWindow = typeof window !== 'undefined';
     const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
-    if (!features || features.length === 0) {
+    if (!cluster || cluster.features.length === 0) {
       return null;
     }
 
@@ -103,13 +103,13 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
               <StyledNodeHeader>
                 <PlaceName>
                   <StyledIconContainer size="medium">
-                    <Circle>{features.length}</Circle>
+                    <Circle>{cluster.features.length}</Circle>
                   </StyledIconContainer>
                   {t`Places`}
                 </PlaceName>
               </StyledNodeHeader>
               <StyledFrame className="entry-list">
-                <ul>{this.renderClusterEntries()}</ul>
+                <ul>{this.renderClusterEntries(cluster.features)}</ul>
               </StyledFrame>
             </section>
           </FocusTrap>
