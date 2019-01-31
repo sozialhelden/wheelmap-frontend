@@ -148,6 +148,7 @@ class App extends React.Component<Props, State> {
     if (props.routeName === 'search') {
       newState.isSearchToolbarExpanded = true;
       newState.isSearchBarVisible = true;
+      newState.activeCluster = null;
     }
 
     if (props.routeName === 'createPlace') {
@@ -162,11 +163,10 @@ class App extends React.Component<Props, State> {
 
     if (props.routeName === 'map') {
       newState.modalNodeState = null;
-    } else {
-      newState.activeCluster = null;
     }
 
-    if (props.routeName === 'placeDetail' || props.routeName === 'equipment') {
+    const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
+    if (placeDetailsRoute) {
       const { accessibilityFilter, toiletFilter, category } = props;
 
       newState.isSearchBarVisible =
@@ -271,9 +271,6 @@ class App extends React.Component<Props, State> {
       this.closeSearch();
       this.mainView && this.mainView.focusMap();
     }
-    if (this.state.activeCluster) {
-      this.closeActiveCluster();
-    }
   };
 
   showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
@@ -295,17 +292,18 @@ class App extends React.Component<Props, State> {
       }
     }
 
-    routerHistory.push(routeName, params);
+    this.setState({ activeCluster: null }, () => {
+      routerHistory.push(routeName, params);
+    });
   };
 
   showCluster = cluster => {
-    const params = this.getCurrentParams();
-    delete params.id;
-    delete params.eid;
-    this.props.routerHistory.push('map', params);
-
-    this.closeSearch();
-    this.setState({ activeCluster: cluster });
+    this.setState({ activeCluster: cluster }, () => {
+      const params = this.getCurrentParams();
+      delete params.id;
+      delete params.eid;
+      this.props.routerHistory.push('map', params);
+    });
   };
 
   closeActiveCluster = () => {
