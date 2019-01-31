@@ -102,6 +102,8 @@ type Props = {
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onClusterClick: (features: Feature[]) => void,
+  onCloseClusterPanel: () => void,
+  onSelectFeatureFromCluster: (features: Feature) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
@@ -275,6 +277,8 @@ class MainView extends React.Component<Props, State> {
           inEmbedMode={this.props.inEmbedMode}
           features={this.props.activeCluster}
           categories={this.props.categories}
+          onClose={this.props.onCloseClusterPanel}
+          onFeatureSelected={this.props.onSelectFeatureFromCluster}
         />
       </div>
     );
