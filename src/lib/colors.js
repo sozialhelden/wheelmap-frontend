@@ -85,7 +85,53 @@ const interpolateYesLimited = interpolateLab(
   colors.markers.background.yes
 );
 
-const definedAccessibilityColorScale = scaleLinear()
+function calculateWheelchairAccessibility(propertiesArray: NodeProperties[]) {
+  if (!propertiesArray || propertiesArray.length === 0) {
+    return { definedCount: 0 };
+  }
+
+  // take a 'random' selection when there are too many places
+  const filterMod = Math.floor(propertiesArray.length / 30);
+  const selectedEntries =
+    filterMod > 0 ? propertiesArray.filter((e, i) => i % filterMod === 0) : propertiesArray;
+
+  const accessibilityValues = selectedEntries.map(isWheelchairAccessible);
+  const undefinedCount = accessibilityValues.filter(c => c === 'unknown').length;
+  const definedCount = accessibilityValues.length - undefinedCount;
+  if (definedCount === 0) {
+    return { definedCount: 0 };
+  }
+  const ratingForAccessibility = accessibility =>
+    ({ unknown: 0, no: 0, limited: 0.5, yes: 1 }[accessibility]);
+  const reduceFn = (acc, accessibility) => acc + ratingForAccessibility(accessibility);
+  const totalRatingForDefined = reduce(accessibilityValues, reduceFn, 0);
+  const averageRatingForDefined = totalRatingForDefined / definedCount;
+  const definedRatio = definedCount / accessibilityValues.length;
+  // Don't take unknown values into account that much
+  const clampedDefinedRatio = Math.min(1.0, 0.5 + definedRatio);
+
+  return { definedCount, averageRatingForDefined, clampedDefinedRatio };
+}
+
+const definedAccessibilityMapping = [['yes', 0.8], ['limited', 0.2], ['no', 0]];
+
+function getWheelchairAccessibility(
+  definedCount: number,
+  averageRatingForDefined: number,
+  clampedDefinedRatio: number
+) {
+  if (definedCount === 0) {
+    return 'unknown';
+  }
+
+  for (const [accessibility, maxValue] of definedAccessibilityMapping) {
+    if (averageRatingForDefined > maxValue) return accessibility;
+  }
+
+  return 'unknown';
+}
+
+const definedAccessibilityBackgroundColorScale = scaleLinear()
   .domain([0, 0.2, 0.4, 0.6, 0.8, 1])
   .range([
     colors.markers.background.no,
@@ -96,28 +142,77 @@ const definedAccessibilityColorScale = scaleLinear()
     colors.markers.background.yes,
   ]);
 
-export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
-  if (!propertiesArray || propertiesArray.length === 0) {
-    return colors.markers.background.unknown;
-  }
-  const accessibilityValues = propertiesArray.map(isWheelchairAccessible);
-  const undefinedCount = accessibilityValues.filter(c => c === 'unknown').length;
-  const definedCount = accessibilityValues.length - undefinedCount;
+const definedAccessibilityForegroundColorScale = scaleLinear()
+  .domain([0, 0.2, 1])
+  .range([
+    colors.markers.foreground.no,
+    colors.markers.foreground.limited,
+    colors.markers.foreground.yes,
+  ]);
+
+function getWheelchairAccessibilityColors(
+  definedCount: number,
+  averageRatingForDefined: number,
+  clampedDefinedRatio: number
+) {
   if (definedCount === 0) {
-    return colors.markers.background.unknown;
+    return {
+      backgroundColor: colors.markers.background.unknown,
+      foregroundColor: colors.markers.foreground.unknown,
+    };
   }
-  const ratingForAccessibility = accessibility =>
-    ({ unknown: 0, no: 0, limited: 0.5, yes: 1 }[accessibility]);
-  const reduceFn = (acc, accessibility) => acc + ratingForAccessibility(accessibility);
-  const totalRatingForDefined = reduce(accessibilityValues, reduceFn, 0);
-  const averageRatingForDefined = totalRatingForDefined / definedCount;
-  const averageAccessibilityForDefined = definedAccessibilityColorScale(averageRatingForDefined);
-  const definedRatio = definedCount / accessibilityValues.length;
-  // Don't take unknown values into account that much
-  const clampedDefinedRatio = Math.min(1.0, 0.5 + definedRatio);
-  return interpolateLab(colors.markers.background.unknown, averageAccessibilityForDefined)(
+
+  const averageAccessibilityForDefinedBackground = definedAccessibilityBackgroundColorScale(
+    averageRatingForDefined
+  );
+  const backgroundColor = interpolateLab(
+    colors.markers.background.unknown,
+    averageAccessibilityForDefinedBackground
+  )(clampedDefinedRatio);
+
+  const averageAccessibilityForDefinedForeground = definedAccessibilityForegroundColorScale(
+    averageRatingForDefined
+  );
+  const foregroundColor = interpolateLab(
+    colors.markers.foreground.unknown,
+    averageAccessibilityForDefinedForeground
+  )(clampedDefinedRatio);
+
+  return { backgroundColor, foregroundColor };
+}
+
+export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
+  const {
+    definedCount,
+    averageRatingForDefined,
+    clampedDefinedRatio,
+  } = calculateWheelchairAccessibility(propertiesArray);
+
+  return getWheelchairAccessibilityColors(
+    definedCount,
+    averageRatingForDefined,
     clampedDefinedRatio
   );
+}
+
+export function interpolateWheelchairAccessibility(propertiesArray: NodeProperties[]) {
+  const {
+    definedCount,
+    averageRatingForDefined,
+    clampedDefinedRatio,
+  } = calculateWheelchairAccessibility(propertiesArray);
+  const colors = getWheelchairAccessibilityColors(
+    definedCount,
+    averageRatingForDefined,
+    clampedDefinedRatio
+  );
+  const accessibility = getWheelchairAccessibility(
+    definedCount,
+    averageRatingForDefined,
+    clampedDefinedRatio
+  );
+
+  return { ...colors, accessibility };
 }
 
 export default colors;
