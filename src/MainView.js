@@ -263,6 +263,7 @@ class MainView extends React.Component<Props, State> {
           photoFlowErrorMessage={this.props.photoFlowErrorMessage}
           onOpenReportMode={this.props.onOpenReportMode}
           onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
+          onClickCurrentCluster={this.props.onCloseNodeToolbar}
           onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}

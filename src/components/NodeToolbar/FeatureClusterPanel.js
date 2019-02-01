@@ -43,6 +43,48 @@ const PositionedCloseLink = styled(StyledCloseLink)`
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
+const ClusterIcon = function({ cluster, className, onSelectClusterIcon }) {
+  const accessibility = cluster.accessibility || 'unknown';
+  const MarkerComponent = markers[`${accessibility}WithoutArrow`] || Circle;
+
+  return (
+    <StyledIconContainer className={className} size="medium" onClick={onSelectClusterIcon}>
+      <MarkerComponent />
+      <div>{cluster.features.length}</div>
+    </StyledIconContainer>
+  );
+};
+
+export const StyledClusterIcon = styled(ClusterIcon)`
+  margin-block-start: 0;
+  margin-block-end: 0;
+  display: flex;
+  cursor: pointer;
+
+  > div {
+    color: ${props => (props.cluster && props.cluster.foregroundColor) || 'white'};
+    font-size: 24px;
+    z-index: 300;
+  }
+
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  svg g,
+  svg polygon,
+  svg path,
+  svg circle,
+  svg rect {
+    fill: ${props =>
+      (props.cluster && props.cluster.backgroundColor) || colors.tonedDownSelectedColor};
+  }
+`;
+
 class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
   state: State = {};
 
@@ -88,16 +130,13 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
   }
 
   render() {
-    const { cluster, onSelectClusterIcon } = this.props;
+    const { cluster } = this.props;
     const hasWindow = typeof window !== 'undefined';
     const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
     if (!cluster || cluster.features.length === 0) {
       return null;
     }
-
-    const accessibility = cluster.accessibility || 'unknown';
-    const MarkerComponent = markers[`${accessibility}WithoutArrow`] || Circle;
 
     return (
       <StyledToolbar
@@ -119,14 +158,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
             <section className="cluster-entries">
               <StyledNodeHeader>
                 <PlaceName>
-                  <StyledIconContainer
-                    className="marker"
-                    size="medium"
-                    onClick={onSelectClusterIcon}
-                  >
-                    <MarkerComponent />
-                    <div>{cluster.features.length}</div>
-                  </StyledIconContainer>
+                  <StyledClusterIcon {...this.props} />
                   {t`Places`}
                 </PlaceName>
               </StyledNodeHeader>
@@ -143,37 +175,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
 
 const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
   section.cluster-entries {    
-    > header {
-      figure.marker {
-        margin-block-start: 0;
-        margin-block-end: 0;
-        display: flex;
-
-        > div {
-          color:${props => (props.cluster && props.cluster.foregroundColor) || 'white'};
-          font-size: 24px;
-          z-index: 300;
-        }
-
-        svg {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-
-        svg g,
-        svg polygon,
-        svg path,
-        svg circle,
-        svg rect  {
-          fill: ${props =>
-            (props.cluster && props.cluster.backgroundColor) || colors.tonedDownSelectedColor};
-        }
-      }
-    }
-
     > .entry-list {
       padding: 0;
       > ul {
