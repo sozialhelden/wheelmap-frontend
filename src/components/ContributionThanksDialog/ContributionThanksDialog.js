@@ -8,13 +8,12 @@ import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CreatePlaceDialog/CloseButton';
-import { ChromelessButton, CallToActionButton } from '../Button';
+import { ChromelessButton, CallToActionLink } from '../Button';
 
 export type Props = {
   hidden: boolean,
   isExpanded?: boolean,
   onClose: ?() => void,
-  onAddNextPlace: ?() => void,
   lat: ?number,
   lon: ?number,
   addPlaceUrl: ?string,
@@ -95,10 +94,12 @@ export default class ContributionThanksDialog extends React.Component<Props> {
         <section>
           <p>{text}</p>
 
-          <CallToActionButton data-focus-visible-added onClick={this.props.onAddNextPlace}>
-            {addNextPlaceButtonCaption}
-            <ChevronRight />
-          </CallToActionButton>
+          {this.props.addPlaceUrl && (
+            <CallToActionLink data-focus-visible-added href={this.props.addPlaceUrl}>
+              {addNextPlaceButtonCaption}
+              <ChevronRight />
+            </CallToActionLink>
+          )}
 
           <ChromelessButton onClick={this.props.onClose}>{backToMapButtonCaption}</ChromelessButton>
         </section>
