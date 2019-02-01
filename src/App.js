@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import includes from 'lodash/includes';
+import findIndex from 'lodash/findIndex';
 import initReactFastclick from 'react-fastclick';
 
 import config from './lib/config';
@@ -155,11 +156,13 @@ class App extends React.Component<Props, State> {
     if (props.routeName === 'createPlace') {
       newState.modalNodeState = 'create';
       trackModalView('create');
+      newState.activeCluster = null;
     }
 
     if (props.routeName === 'contributionThanks') {
       newState.modalNodeState = 'contribution-thanks';
       trackModalView('contribution-thanks');
+      newState.activeCluster = null;
     }
 
     if (props.routeName === 'map') {
@@ -293,7 +296,17 @@ class App extends React.Component<Props, State> {
       }
     }
 
-    this.setState({ activeCluster: null }, () => {
+    let activeCluster = null;
+    if (this.state.activeCluster) {
+      const index = findIndex(
+        this.state.activeCluster.features,
+        f => (f.id || f._id) === featureId
+      );
+      console.log(index, featureId, activeCluster);
+      activeCluster = index !== -1 ? this.state.activeCluster : null;
+    }
+
+    this.setState({ activeCluster }, () => {
       routerHistory.push(routeName, params);
     });
   };

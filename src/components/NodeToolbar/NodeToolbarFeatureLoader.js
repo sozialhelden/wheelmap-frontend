@@ -18,6 +18,7 @@ import {
 
 type Props = {
   categories: CategoryLookupTables,
+  cluster: ?Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
   onOpenReportMode: ?() => void,

@@ -37,6 +37,7 @@ import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import IconButtonList from './IconButtonList/IconButtonList';
 import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
+import { type Cluster } from '../Map/Cluster';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
@@ -50,6 +51,7 @@ type Props = {
   equipmentInfo: ?EquipmentInfo,
   feature: Feature,
   featureId: string | number,
+  cluster: ?Cluster,
   sources: SourceWithLicense[],
   photos: PhotoModel[],
   toiletsNearby: ?(Feature[]),
