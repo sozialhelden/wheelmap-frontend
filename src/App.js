@@ -302,7 +302,6 @@ class App extends React.Component<Props, State> {
         this.state.activeCluster.features,
         f => (f.id || f._id) === featureId
       );
-      console.log(index, featureId, activeCluster);
       activeCluster = index !== -1 ? this.state.activeCluster : null;
     }
 
