@@ -229,75 +229,30 @@ body.is-touch-device .leaflet-control-zoom {
   fill: white;
 }
 
-.ac-marker-current {
-  background-color: transparent;
-  box-shadow: none;
-  /* Force currently selected marker to be  shown on top of all markers */
-  z-index: 100000000 !important;
-  /* Allow to select PoIs behind the currently highlighted marker */
-  pointer-events: none !important;
-}
-
-.ac-marker-current > figure {
-  opacity: 0;
-}
-
 @media (hover), (-moz-touch-enabled: 0) {
-  .leaflet-marker-pane > .ac-marker:not(.ac-marker-current):hover {
+  .leaflet-marker-pane > .ac-marker:hover {
     box-shadow: 0 0 2px black;
   }
 }
 
 .ac-marker-cluster {
   display: flex;
-  justify-content: center;
-  align-items: center;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
 }
 
-/* increase click region of marker clusters */
-.ac-marker-cluster::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  border: 25px transparent solid;
-  border-radius: 100%;
-}
-
-.ac-marker-cluster.over-fifty {
-  margin-left: -13px !important;
-  margin-top: -13px !important;
-  width: 24px !important;
-  height: 24px !important;
-  border-radius: 12px !important;
-}
-
-.ac-marker-cluster.over-hundred {
-  margin-left: -14px !important;
-  margin-top: -14px !important;
-  width: 26px !important;
-  height: 26px !important;
-  border-radius: 13px !important;
-  opacity: 0.9 !important;
-  font-size: 115%;
-}
-
-.ac-marker-cluster.over-fivehundred {
-  margin-left: -21px !important;
-  margin-top: -21px !important;
+.ac-marker-cluster.over-fifty figure {
   width: 40px !important;
   height: 40px !important;
-  border-radius: 20px !important;
-  opacity: 0.9 !important;
-  font-size: 125%;
 }
 
-@media (hover), (-moz-touch-enabled: 0) {
-  .ac-marker-cluster:hover {
-    opacity: 1 !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-  }
+.ac-marker-cluster.over-hundred figure {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.ac-marker-cluster.over-fivehundred figure {
+  width: 60px !important;
+  height: 60px !important;
 }
 
 .leaflet-control-locate {

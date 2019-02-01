@@ -97,6 +97,7 @@ type State = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
   activeCluster?: Cluster,
 
   // map controls

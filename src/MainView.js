@@ -56,6 +56,8 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
+import type { Cluster } from './components/Map/Cluster';
+import type { Feature } from './lib/Feature';
 
 type Props = {
   className: string,
@@ -101,9 +103,6 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
-  onClusterClick: (cluster: Cluster) => void,
-  onCloseClusterPanel: () => void,
-  onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onOpenReportMode: () => void,
@@ -117,6 +116,7 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
@@ -138,6 +138,12 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
+  // cluster feature
+  activeCluster?: Cluster,
+  onClusterClick: (cluster: Cluster) => void,
+  onCloseClusterPanel: () => void,
+  onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   clientSideConfiguration: ClientSideConfiguration,
 } & PlaceDetailsProps;
@@ -526,6 +532,7 @@ class MainView extends React.Component<Props, State> {
         excludeSourceIds={this.props.excludeSourceIds}
         disableWheelmapSource={this.props.disableWheelmapSource}
         categoryId={categoryId}
+        activeCluster={this.props.activeCluster}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
         equipmentInfo={this.props.equipmentInfo}
