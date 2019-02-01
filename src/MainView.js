@@ -242,6 +242,7 @@ class MainView extends React.Component<Props, State> {
         <NodeToolbarFeatureLoader
           featureId={this.props.featureId}
           equipmentInfoId={this.props.equipmentInfoId}
+          cluster={this.props.activeCluster}
           modalNodeState={this.props.modalNodeState}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
