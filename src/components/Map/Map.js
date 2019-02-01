@@ -44,7 +44,7 @@ import { globalFetchManager } from '../../lib/FetchManager';
 import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
-import colors, { interpolateWheelchairAccessibilityColors } from '../../lib/colors';
+import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
@@ -89,6 +89,8 @@ type Props = {
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
+
+  activeCluster?: Cluster,
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onClusterClick: (cluster: Cluster) => void,
@@ -146,6 +148,7 @@ export default class Map extends React.Component<Props, State> {
   featureLayer: ?L.LayerGroup;
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
+  markerClusterGroup: ?L.MarkerClusterGroup;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
@@ -315,30 +318,33 @@ export default class Map extends React.Component<Props, State> {
     this.highLightLayer = new L.LayerGroup();
     map.addLayer(this.highLightLayer);
 
-    const markerClusterGroup = this.createMarkerClusterGroup();
-    markerClusterGroup.on('clusterclick', cluster => {
+    this.markerClusterGroup = this.createMarkerClusterGroup();
+    this.markerClusterGroup.on('clusterclick', event => {
       if (this.props.zoom === this.props.maxZoom) {
-        console.log(cluster);
-        const markers = cluster.layer.getAllChildMarkers();
+        console.log(event);
+        const markers = event.layer.getAllChildMarkers();
         const props = markers.map(m => m.feature.properties).filter(Boolean);
-        const color = interpolateWheelchairAccessibilityColors(props);
+        const interpolatedA11y = interpolateWheelchairAccessibility(props);
+
         this.props.onClusterClick({
-          color,
-          center: cluster.latlng,
+          ...interpolatedA11y,
+          center: event.latlng,
+          leafletMarker: event.layer,
           features: markers.map(m => m.feature),
         });
-        cluster.originalEvent.preventDefault();
-        cluster.originalEvent.stopPropagation();
+
+        event.originalEvent.preventDefault();
+        event.originalEvent.stopPropagation();
       }
     });
 
     this.featureLayer = new L.LayerGroup();
-    this.featureLayer.addLayer(markerClusterGroup);
+    this.featureLayer.addLayer(this.markerClusterGroup);
 
-    this.setupAccessibilityCloudTileLayer(markerClusterGroup);
+    this.setupAccessibilityCloudTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
-    this.setupWheelmapTileLayer(markerClusterGroup);
+    this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
     map.on('moveend', () => {
@@ -426,6 +432,7 @@ export default class Map extends React.Component<Props, State> {
     delete this.featureLayer;
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
+    delete this.markerClusterGroup;
   }
 
   handlePromiseResolved(
@@ -734,6 +741,11 @@ export default class Map extends React.Component<Props, State> {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
       if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
       highlightMarkers(this.highLightLayer, []);
+    }
+
+    if (props.activeCluster) {
+      window.CLU = props.activeClusterop;
+      console.log(props.activeCluster);
     }
   }
 
