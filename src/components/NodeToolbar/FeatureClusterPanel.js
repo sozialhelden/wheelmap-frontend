@@ -181,6 +181,7 @@ const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
         list-style: none;
         margin: 0;
         padding: 0;
+
         > li {
           &:not(:first-child) {
             border-top: 1px solid ${colors.borderColor};
@@ -198,6 +199,7 @@ const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
             > header {
               /* prevent clipping borders of styled frame */
               background: unset;
+              padding-right: 1rem;
               
               &:hover,
               &:focus {

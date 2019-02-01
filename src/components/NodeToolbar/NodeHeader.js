@@ -25,7 +25,7 @@ export const StyledNodeHeader = styled.header`
   z-index: 1;
   background-color: ${colors.colorizedBackgroundColor};
   margin: 0 -1rem;
-  padding: 0.5rem 1rem 0.6rem;
+  padding: 0.5rem 0 0.4rem 1rem;
   transition: box-shadow 0.3s ease-out;
   box-shadow: ${props =>
     props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
