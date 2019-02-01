@@ -180,15 +180,30 @@ export default class Map extends React.Component<Props, State> {
       );
     }
 
-    const zoom = overrideZoom || fallbackZoom;
-
-    const placeOrEquipment = state.placeOrEquipment;
-
+    let zoom = overrideZoom || fallbackZoom;
     let center = [0, 0];
     let bounds = null;
     let zoomedToFeatureId = state.zoomedToFeatureId;
+    let centerDefined = false;
 
-    // use the feature coordinates, but only if they changed
+    // try the cluster coordinates if no place set
+    if (
+      !state.placeOrEquipment &&
+      !state.placeOrEquipmentPromise &&
+      props.activeCluster &&
+      props.activeCluster.leafletMarker &&
+      props.activeCluster.leafletMarker._leaflet_id !== state.zoomedToFeatureId
+    ) {
+      const coords = props.activeCluster.center;
+      const clusterCoords = coords && normalizeCoordinates([coords.lat, coords.lng]);
+      center = clusterCoords || fallbackCenter;
+      zoomedToFeatureId = props.activeCluster.leafletMarker._leaflet_id;
+      centerDefined = true;
+      zoom = props.maxZoom;
+    }
+
+    // use the feature coordinates, if we did not zoom there yet
+    const placeOrEquipment = state.placeOrEquipment;
     if (
       placeOrEquipment &&
       getFeatureId(placeOrEquipment) !== state.zoomedToFeatureId &&
@@ -202,7 +217,10 @@ export default class Map extends React.Component<Props, State> {
 
       // Store feature id to make sure we only zoom to the place once.
       zoomedToFeatureId = getFeatureId(placeOrEquipment);
-    } else {
+      centerDefined = true;
+    }
+
+    if (!centerDefined) {
       if (props.extent) {
         // only use changed bounds once
         const newBounds = new L.LatLngBounds([
@@ -259,13 +277,12 @@ export default class Map extends React.Component<Props, State> {
     return {
       category,
       placeOrEquipment: null,
-      placeOrEquipmentPromise: null,
-      zoomedToFeatureId: null,
+      placeOrEquipmentPromise: null
     };
   }
 
   componentDidMount() {
-    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props);
+    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props, {});
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
       center: initialMapState.center,
@@ -717,7 +734,7 @@ export default class Map extends React.Component<Props, State> {
       map.setZoom(zoom, { animate: true });
     }
 
-    // prevent zooming in on
+    // prevent zooming in again
     if (this.state.zoomedToFeatureId !== targetMapState.zoomedToFeatureId) {
       this.setState({
         zoomedToFeatureId: targetMapState.zoomedToFeatureId,
@@ -862,7 +879,8 @@ export default class Map extends React.Component<Props, State> {
       const targetState = Map.getMapStateFromProps(
         map,
         { ...this.state, zoomedToFeatureId: null },
-        this.props
+        this.props,
+        {}
       );
       map.flyTo(targetState.center, targetState.zoom, {
         animate: true,

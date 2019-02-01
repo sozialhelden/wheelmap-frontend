@@ -282,6 +282,7 @@ class MainView extends React.Component<Props, State> {
           cluster={this.props.activeCluster}
           categories={this.props.categories}
           onClose={this.props.onCloseClusterPanel}
+          onSelectClusterIcon={this.onClickCurrentMarkerIcon}
           onFeatureSelected={this.props.onSelectFeatureFromCluster}
         />
       </div>
