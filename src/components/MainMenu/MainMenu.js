@@ -54,6 +54,16 @@ function MenuIcon(props) {
   );
 }
 
+const Badge = styled.span`
+  background-color: ${colors.warningColor};
+  border-radius: 0.5rlh;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: white;
+  margin: 0.1rem;
+`;
+
 const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
 
 class MainMenu extends React.Component<Props, State> {
@@ -122,6 +132,7 @@ class MainMenu extends React.Component<Props, State> {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
       const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
       const label = translatedStringFromObject(link.label);
+      const badgeLabel = translatedStringFromObject(link.badgeLabel);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
@@ -129,6 +140,7 @@ class MainMenu extends React.Component<Props, State> {
         return (
           <Link key={url} className={className} to={url} role="menuitem">
             {label}
+            {badgeLabel && <Badge>{badgeLabel}</Badge>}
           </Link>
         );
       }
