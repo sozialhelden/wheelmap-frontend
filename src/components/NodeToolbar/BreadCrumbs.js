@@ -83,7 +83,6 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    line-height: 24px;
   }
 
   .breadcrumb:last-child .chevron-right {

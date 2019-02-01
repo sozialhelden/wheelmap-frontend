@@ -68,6 +68,7 @@ type Props = {
   onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
@@ -156,10 +157,12 @@ class NodeToolbar extends React.Component<Props, State> {
       feature,
       equipmentInfo,
       equipmentInfoId,
+      cluster,
       category,
       categories,
       parentCategory,
       onClickCurrentMarkerIcon,
+      onClickCurrentCluster,
     } = this.props;
 
     const statesWithIcon = ['edit-toilet-accessibility', 'report'];
@@ -172,8 +175,10 @@ class NodeToolbar extends React.Component<Props, State> {
         categories={categories}
         equipmentInfo={equipmentInfo}
         equipmentInfoId={equipmentInfoId}
+        cluster={cluster}
         category={category}
         parentCategory={parentCategory}
+        onClickCurrentCluster={onClickCurrentCluster}
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
         hasShadow={this.state.isScrollable}

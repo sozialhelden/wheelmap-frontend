@@ -18,6 +18,7 @@ import Description from './Description';
 type Props = {
   featureId: ?string | number,
   category: ?Category,
+  cluster: ?any,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
@@ -28,7 +29,7 @@ type Props = {
 };
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature, toiletsNearby } = props;
+  const { featureId, feature, toiletsNearby, cluster } = props;
   const properties = feature && feature.properties;
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
 
@@ -47,7 +48,7 @@ export default function PlaceAccessibilitySection(props: Props) {
   const descriptionElement = description ? <Description>{description}</Description> : null;
 
   return (
-    <StyledFrame>
+    <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
       <WheelchairAndToiletAccessibility
         isEditingEnabled={isWheelmapFeature}
         feature={feature}
