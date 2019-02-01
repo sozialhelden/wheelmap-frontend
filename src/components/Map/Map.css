@@ -240,6 +240,27 @@ body.is-touch-device .leaflet-control-zoom {
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
 }
 
+.ac-marker-cluster figure {
+  display: flex;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.75);
+}
+
+@keyframes popUpHighlightCluster {
+  0% {
+    transform: scale3d(1.0, 1.0, 1.0) translate3d(0, 0px, 0);
+  }
+  50% {
+    transform: scale3d(0.75, 0.75, 0.75) translate3d(0, -20px, 0);
+  }
+  100% {
+    transform: scale3d(2, 2, 2) translate3d(0, 0px, 0);
+  }
+}
+.ac-marker-cluster.highlighted figure {
+  animation: popUpHighlightCluster 0.2s ease;
+  transform: scale3d(2, 2, 2) translate3d(0, 0px, 0);
+}
+
 .ac-marker-cluster.over-fifty figure {
   width: 40px !important;
   height: 40px !important;
