@@ -2,6 +2,7 @@
 import styled from 'styled-components';
 
 import colors from '../lib/colors';
+import Link from './Link/Link';
 
 const StyledButton = styled.button`
   appearance: none;
@@ -40,6 +41,33 @@ export const ChromelessButton = styled.button`
 export const CallToActionButton = styled.button`
   border: none;
   color: white;
+  background-color: ${colors.linkColor};
+  font-size: 1.25em;
+  line-height: 1;
+  padding: 0.5em 0.75em;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: space-between;
+
+  > svg {
+    margin-left: 10px;
+    vertical-align: bottom;
+    path,
+    polygon {
+      fill: rgba(255, 255, 255, 0.75);
+    }
+  }
+
+  &[data-focus-visible-added] {
+    box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+    transition: box-shadow 0.2s;
+  }
+`;
+
+export const CallToActionLink = styled.a`
+  border: none;
+  color: white !important;
   background-color: ${colors.linkColor};
   font-size: 1.25em;
   line-height: 1;
