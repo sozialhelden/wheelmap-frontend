@@ -308,7 +308,6 @@ export default class Map extends React.Component<Props, State> {
     this.markerClusterGroup = this.createMarkerClusterGroup();
     this.markerClusterGroup.on('clusterclick', event => {
       if (this.props.zoom === this.props.maxZoom) {
-        console.log(event);
         const markers = event.layer.getAllChildMarkers();
         const props = markers.map(m => m.feature.properties).filter(Boolean);
         const interpolatedA11y = interpolateWheelchairAccessibility(props);
@@ -384,6 +383,10 @@ export default class Map extends React.Component<Props, State> {
           this.accessibilityCloudTileLayer._update(map.getCenter());
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
+    }
+
+    if (prevProps.activeCluster && prevProps.activeCluster !== this.props.activeCluster) {
+      this.setClusterHighlight(prevProps.activeCluster, false);
     }
 
     const { placeOrEquipmentPromise } = this.state;
@@ -699,8 +702,19 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (props.activeCluster) {
-      window.CLU = props.activeClusterop;
-      console.log(props.activeCluster);
+      this.setClusterHighlight(props.activeCluster, !props.featureId);
+    }
+  }
+
+  setClusterHighlight(cluster: Cluster, highlight: boolean) {
+    const elem = cluster.leafletMarker && cluster.leafletMarker.getElement();
+
+    if (elem) {
+      if (highlight) {
+        elem.classList.add('highlighted');
+      } else {
+        elem.classList.remove('highlighted');
+      }
     }
   }
 
