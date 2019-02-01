@@ -214,6 +214,7 @@ const StyledPhotoSection = styled(PhotoSection)`
     img {
       object-fit: contain;
       max-height: 150px;
+      image-orientation: from-image;
     }
   }
 
