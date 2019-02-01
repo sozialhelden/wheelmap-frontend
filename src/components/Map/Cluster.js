@@ -12,6 +12,6 @@ export type Cluster = {
   leafletMarker: any,
   center: {
     lat: number,
-    lon: number,
+    lng: number,
   },
 };

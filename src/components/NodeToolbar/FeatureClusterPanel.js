@@ -27,6 +27,7 @@ type Props = {
   cluster: ?Cluster,
   categories: CategoryLookupTables,
   onClose: () => void,
+  onSelectClusterIcon: () => void,
   onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
 };
 
@@ -75,7 +76,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
   }
 
   render() {
-    const { cluster } = this.props;
+    const { cluster, onSelectClusterIcon } = this.props;
     const hasWindow = typeof window !== 'undefined';
     const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
@@ -106,7 +107,11 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
             <section className="cluster-entries">
               <StyledNodeHeader>
                 <PlaceName>
-                  <StyledIconContainer className="marker" size="medium">
+                  <StyledIconContainer
+                    className="marker"
+                    size="medium"
+                    onClick={onSelectClusterIcon}
+                  >
                     <MarkerComponent />
                     <div>{cluster.features.length}</div>
                   </StyledIconContainer>
