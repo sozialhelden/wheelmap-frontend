@@ -14,6 +14,9 @@ import BreadCrumbs from './BreadCrumbs';
 import type { Category } from '../../lib/Categories';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
+import { type Cluster } from '../Map/Cluster';
+import ChevronRight from '../ChevronRight';
+import { StyledClusterIcon } from './FeatureClusterPanel';
 
 export const StyledNodeHeader = styled.header`
   color: rgba(0, 0, 0, 0.8);
@@ -22,25 +25,29 @@ export const StyledNodeHeader = styled.header`
   z-index: 1;
   background-color: ${colors.colorizedBackgroundColor};
   margin: 0 -1rem;
-  padding: 0.5rem 1rem 0.1rem;
+  padding: 0.5rem 1rem 0.6rem;
   transition: box-shadow 0.3s ease-out;
   box-shadow: ${props =>
     props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
+  display: flex;
+  align-items: center;
 `;
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
   margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
-  margin-bottom: 0.5rem;
+  font-size: 16px;
 `;
 
 type Props = {
   feature: ?Feature,
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
+  cluster: ?Cluster,
   category: ?Category,
   categories: CategoryLookupTables,
   parentCategory: ?Category,
   hasIcon: boolean,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   hasShadow: boolean,
 };
@@ -86,12 +93,6 @@ export default class NodeHeader extends React.Component<Props> {
         onClick={this.onClickCurrentMarkerIcon}
       />
     );
-    const placeNameElement = (
-      <PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
-        {this.props.hasIcon && icon}
-        {placeName}
-      </PlaceName>
-    );
 
     const categoryElement = properties.name ? (
       <StyledBreadCrumbs
@@ -99,14 +100,31 @@ export default class NodeHeader extends React.Component<Props> {
         category={this.props.category}
         categories={this.props.categories}
         parentCategory={this.props.parentCategory}
-        hasPadding={this.props.hasIcon}
       />
     ) : null;
 
+    const placeNameElement = (
+      <PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
+        {this.props.hasIcon && icon}
+        <div className="place-content">
+          {placeName}
+          {categoryElement}
+        </div>
+      </PlaceName>
+    );
+
+    const { cluster, onClickCurrentCluster } = this.props;
+    const clusterElement = cluster && (
+      <React.Fragment>
+        <StyledClusterIcon cluster={cluster} onSelectClusterIcon={onClickCurrentCluster} />
+        <ChevronRight style={{ marginRight: '4px' }} />
+      </React.Fragment>
+    );
+
     return (
       <StyledNodeHeader hasShadow={this.props.hasShadow}>
+        {clusterElement}
         {placeNameElement}
-        {categoryElement}
       </StyledNodeHeader>
     );
   }

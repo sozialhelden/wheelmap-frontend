@@ -38,6 +38,7 @@ type Props = {
   onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
