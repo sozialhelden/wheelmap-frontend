@@ -144,17 +144,6 @@ class Onboarding extends React.Component<Props, null> {
         </section>
 
         <footer className="button-footer">
-          {analyticsShown && (
-            <ChromelessButton
-              className="button-continue-without-cookies"
-              onClick={() => {
-                analyticsAllowedChanged(false);
-                onClose();
-              }}
-            >
-              {skipAnalyticsButtonCaption}
-            </ChromelessButton>
-          )}
           <CallToActionButton
             className="button-continue-with-cookies"
             data-focus-visible-added
@@ -168,6 +157,18 @@ class Onboarding extends React.Component<Props, null> {
             <ChevronRight />
           </CallToActionButton>
         </footer>
+
+        {analyticsShown && (
+          <ChromelessButton
+            className="button-continue-without-cookies"
+            onClick={() => {
+              analyticsAllowedChanged(false);
+              onClose();
+            }}
+          >
+            {skipAnalyticsButtonCaption}
+          </ChromelessButton>
+        )}
 
         <footer className="cookies-footer">
           <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
@@ -392,10 +393,8 @@ const StyledOnboarding = styled(Onboarding)`
   }
 
   .button-footer {
-    @media (max-width: 768px) {
-      display: flex;
-      flex-direction: column-reverse;
-    }
+    display: flex;
+    flex-direction: column;
 
     .button-continue-with-cookies {
       margin: 1em;
