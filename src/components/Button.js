@@ -19,7 +19,7 @@ const StyledButton = styled.button`
 export const ChromelessButton = styled.button`
   padding: 0.5rem 0.75rem;
   border: none;
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 0px 1px transparent;
   border-radius: 0.5rem;
   @media (max-width: 768px) {
     box-shadow: 0px 0px 0px 1px transparent;
