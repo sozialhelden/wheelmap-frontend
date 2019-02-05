@@ -99,7 +99,7 @@ type State = {
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
 
-  activeCluster?: Cluster,
+  activeCluster?: Cluster | null,
 
   // map controls
   lat?: ?number,
