@@ -130,6 +130,7 @@
     "promise": "8.0.1",
     "react-dev-utils": "^4.0.1",
     "react-flow-types": "^0.1.1",
+    "rimraf": "^2.6.3",
     "svgr": "^1.7.0",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
@@ -162,7 +163,7 @@
     "version": "cordova-version-sync",
     "flow": "flow",
     "server": "server",
-    "push-translations": "npm run build && tx push -s",
+    "push-translations": "npm run clear-babel-cache && npm run build && tx push -s",
     "pull-translations": "tx pull -af",
     "retranslate": "npm run build && npm run pull-translations && NEW_SOURCE_PO='./src/static/i18n/en_US.txt' retranslate/run.sh",
     "create-js-translations": "node scripts/parseGettextFiles.js",
@@ -174,7 +175,8 @@
     "compile-action-icons": "basedir=src/components/icons/actions npm run compile-svg-directory",
     "compile-svgs": "npm run compile-category-icons; npm run compile-markers; npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js; ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
-    "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write"
+    "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write",
+    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
   },
   "babel": {
     "presets": [
