@@ -124,11 +124,14 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       const distanceInMeters = geoDistance(featureCoords, toiletCoords);
       const formattedDistance = formatDistance(distanceInMeters);
       const { distance, unit } = formattedDistance;
-      const caption = t`Show next wheelchair accessible toilet (${distance}${unit})`;
+      const caption = t`Show next wheelchair accessible toilet`;
       return (
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
-          {caption}
-          <ToiletStatusAccessibleIcon />
+          {caption}{' '}
+          <span className="subtle">
+            {distance}
+            {unit}
+          </span>
         </button>
       );
     });
@@ -186,7 +189,10 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     background-color: transparent;
     :not(:disabled) {
       cursor: pointer;
-
+      &.toilet-nearby {
+        color: ${colors.linkColor};
+        font-weight: bold;
+      }
       &:hover {
         &.accessibility-yes {
           background-color: ${colors.positiveBackgroundColorTransparent};
