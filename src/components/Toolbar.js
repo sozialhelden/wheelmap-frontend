@@ -386,10 +386,6 @@ const StyledToolbar = styled(Toolbar)`
       margin-top: 0;
     }
   }
-  @media (max-width: 768px) {
-    width: calc(55%);
-    min-width: 250px;
-  }
 
   margin: 10px;
   padding: 12px 15px 5px 15px;
