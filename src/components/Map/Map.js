@@ -735,12 +735,13 @@ export default class Map extends React.Component<Props, State> {
       map.setZoom(zoom, { animate: true });
     }
 
-    // prevent zooming in again
-    if (this.state.zoomedToFeatureId !== targetMapState.zoomedToFeatureId) {
-      this.setState({
-        zoomedToFeatureId: targetMapState.zoomedToFeatureId,
-      });
-    }
+    // TODO: Include this code again, but in a fashion that does not setState inside a `setState`
+    // callback, which leads to an infinite loop
+    // if (this.state.zoomedToFeatureId !== targetMapState.zoomedToFeatureId) {
+    //   this.setState({
+    //     zoomedToFeatureId: targetMapState.zoomedToFeatureId,
+    //   });
+    // }
   }
 
   updateHighlightedMarker(props: Props) {
