@@ -381,6 +381,9 @@ class MainView extends React.Component<Props, State> {
 
     return (
       <MainMenu
+        productName={translatedStringFromObject(
+          this.props.clientSideConfiguration.textContent.product.name
+        )}
         className="main-menu"
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}

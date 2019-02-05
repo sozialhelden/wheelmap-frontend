@@ -23,6 +23,7 @@ type State = {
 
 type Props = {
   className: string,
+  productName: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   isOpen: boolean,
@@ -121,7 +122,7 @@ class MainMenu extends React.Component<Props, State> {
             src={this.props.logoURL}
             width={156}
             height={30}
-            alt={t`App Logo`}
+            alt={this.props.productName}
           />
         </button>
       </div>
