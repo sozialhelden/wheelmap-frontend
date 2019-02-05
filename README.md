@@ -4,12 +4,11 @@ This app is a refactored version of [Wheelmap](https://www.wheelmap.org)'s ‘cl
 Its purpose is to split frontend and backend development and to make deployments as independent as
 possible of each other.
 
-
 ## Setup
 
 Prepare the environment
 
-```
+```bash
 # Environment variables
 cp .env.test .env.development
 
@@ -38,16 +37,15 @@ The app itself is a [React.js](https://facebook.github.io/react/) application, a
 
 The web server serves the app as static page, running on the same domain as the backend API.
 
-
 ### Recompile SVG
-All svg-graphics have to be converted to react JS components, e.g. with...
 
-```
+You have to convert SVG graphics to React JS components, e.g. with…
+
+```bash
 yarn compile-svgs
 ```
 
-Check the `package.json` defines additional yarn tasks that can speed up this task.
-
+Check `package.json`, it defines more scripts that can speed up this task.
 
 ## Website deployment
 
@@ -66,7 +64,7 @@ Before this, you need a `.env.production` file in your root folder. If you alrea
 npx cordova prepare android ios
 # for ios
 npm run build-ios
-# for android 
+# for android
 npm run build-android
 ```
 
@@ -91,12 +89,22 @@ Before deploying new versions:
 
 - Please test every app feature before deploying.
 - Ensure that translated strings show up translated in the UI. Set your device/browser language to anything else than `en-US` to test this.
-- If a new feature needs new strings, coordinate necessary translation tasks with the rest of the team. Sometimes, the strings you need might be provided by other features already – reuse them!
+- If a new feature needs new strings, coordinate necessary translation tasks with the rest of the team. Sometimes, other features might already provide the strings you need – reuse them!
 - Test new features inside the Cordova iOS/Android apps. Cordova has some differences because it serves the app from the file system, which affects CORS and other security features. Running inside an in-app browser means that features like alert dialogs or opening something in a new tab work differently. We use a wrapper around `fetch()` and the a cordova HTTP plugin to overcome some of these limitations.
+
+## Translation process
+
+Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
+
+We deploy every new feature in English and German first, and add support for all 27 languages in the following sprint.
+
+When there are new strings on transifex, you can run `npm run pull-translations` to pull them into the local project.
+
+We have a retranslate tool that allows to use the `en_US` language on transifex to refine source strings directly in the source code. This parses the whole source code into an abstract syntax tree using Babel, then re-assembles it with new versions of the strings fetched from the `en_US` locale. Re-assembly can break formatting.
 
 ## Testing
 
-<a href="https://browserstack.com"><img src="src/static/images/Browserstack-logo.svg" width="200px"></a>
+<a href=https://browserstack.com]<img src="src/static/images/Browserstack-logo.svg" width="200px"></a>
 
 For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
 
