@@ -9,7 +9,7 @@ const Description = styled.footer.attrs({ className: 'description' })`
   text-overflow: ellipsis;
 
   color: rgba(0, 0, 0, 0.6);
-  quotes: '“', '”';
+  quotes: '“' '”';
 
   &:before {
     color: rgba(0, 0, 0, 0.8);
