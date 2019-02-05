@@ -56,6 +56,8 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
+import type { Cluster } from './components/Map/Cluster';
+import type { Feature } from './lib/Feature';
 
 type Props = {
   className: string,
@@ -506,7 +508,7 @@ class MainView extends React.Component<Props, State> {
       lat,
       lon,
       zoom,
-      category,
+      category: categoryId,
       featureId,
       equipmentInfoId,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
@@ -532,7 +534,7 @@ class MainView extends React.Component<Props, State> {
         includeSourceIds={this.props.includeSourceIds}
         excludeSourceIds={this.props.excludeSourceIds}
         disableWheelmapSource={this.props.disableWheelmapSource}
-        category={category}
+        categoryId={categoryId}
         activeCluster={this.props.activeCluster}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}

@@ -365,7 +365,7 @@ body.is-touch-device .leaflet-control-zoom {
   right: env(safe-area-inset-right);
   bottom: constant(safe-area-inset-bottom);
   bottom: env(safe-area-inset-bottom);
-  position: absolute;
+  position: fixed;
   display: block;
   padding: 5px 10px 5px 2px;
   z-index: 1000;
@@ -378,7 +378,7 @@ body.is-touch-device .leaflet-control-zoom {
 }
 
 .mapbox-wordmark {
-  position: absolute;
+  position: fixed;
   display: block;
   height: 20px;
   width: 65px;
@@ -414,3 +414,4 @@ body.is-touch-device .leaflet-control-zoom {
     margin-bottom: 3px;
   }
 }
+

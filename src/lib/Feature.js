@@ -324,16 +324,17 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
 }
 
 export function hasAccessibleToilet(
-  properties: WheelmapProperties | AccessibilityCloudProperties
+  properties: WheelmapProperties | AccessibilityCloudProperties,
+  allowToiletsOfAnyAccessibility?: boolean = false
 ): YesNoUnknown {
   if (!properties) {
     return 'unknown';
   }
 
+  const isAccessible = isWheelchairAccessible(properties);
   const isToilet = getCategoryIdFromProperties(properties) === 'toilets';
   if (isToilet) {
-    const isAccessible = isWheelchairAccessible(properties);
-    return isAccessible === 'yes' ? 'yes' : 'no';
+    return allowToiletsOfAnyAccessibility || isAccessible === 'yes' ? 'yes' : 'no';
   }
 
   // wheelmap classic result

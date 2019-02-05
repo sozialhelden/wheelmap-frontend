@@ -45,7 +45,7 @@ msgstr[1] "${ count } asansör hizmet dışı"
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "hizmet durumu bilinmeyen ${ count } asansör"
-msgstr[1] "hizmet durumu bilinmeyen ${ count } asansör"
+msgstr[1] "hizmet durumu belirsiz ${ count } asansör"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:33
 msgid "${ count } escalator in service"
@@ -63,7 +63,7 @@ msgstr[1] "${ count } asansör hizmet dışı"
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "bilinmeyen hizmet durumuna sahip ${ count } yürüyen merdiven"
-msgstr[1] "bilinmeyen hizmet durumuna sahip ${ count } yürüyen merdiven"
+msgstr[1] "hizmet durumu belirsiz ${ count } yürüyen merdiven"
 
 #. Email body used when sharing a place with known name via email.// Email
 #. subject used for sharing a place via email.
@@ -141,7 +141,7 @@ msgstr "Ulaşılabilir lavabo"
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:162
 #: src/components/MainMenu/strings.js:22
 msgid "Add a new place"
-msgstr "Haritada olmayan bir mekan ekle"
+msgstr "Yeni bir mekan ekle"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
 msgid "Add a place on OpenStreetMap"
@@ -154,7 +154,7 @@ msgstr "Görüntü ekle"
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
 msgid "Add info on ${ sourceNameString }"
-msgstr "${ sourceNameString } üzerinde geliştir"
+msgstr "${ sourceNameString } hakkında bilgi ekle"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
 msgid "All elevators and escalators"
@@ -509,7 +509,7 @@ msgstr "Yayıncı"
 #. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:88
 msgid "In operation"
-msgstr "çalışır durumda"
+msgstr "Çalışır durumda"
 
 #. Gives credits to the external organization this place comes from. The
 #. organization's name is mentioned after this text.
@@ -995,13 +995,13 @@ msgstr "Belirsiz"
 
 #: src/lib/Feature.js:312
 msgid "Unknown accessibility"
-msgstr "Durumu belirsiz"
+msgstr "Tekerlekli sandalye erişimine uygunluğu belirsiz"
 
 #. An equipment or facility status. The facility might be an elevator,
 #. escalator, switch, sitemap, …
 #: src/lib/EquipmentInfo.js:92
 msgid "Unknown operational status"
-msgstr "durumu bilinmiyor"
+msgstr "Hizmet durumu belirsiz"
 
 #. Place name shown in search results for places with unknown name / category.
 #: src/components/SearchToolbar/SearchResult.js:197
@@ -1068,8 +1068,7 @@ msgstr "Evet"
 #: src/components/NodeToolbar/Report/strings.js:20
 msgid "You can change this place’s information on OpenStreetMap directly."
 msgstr ""
-"OpenStreetMap'te bu mekanın bilgilerini doğrudan değiştirebileceğinizi "
-"biliyor muydunuz?"
+" Bu mekanın bilgilerini OpenStreetMap üzerinde doğrudan değiştirebilirsiniz."
 
 #. Explains that you need to go to OSM to change a place's position on the
 #. map.
