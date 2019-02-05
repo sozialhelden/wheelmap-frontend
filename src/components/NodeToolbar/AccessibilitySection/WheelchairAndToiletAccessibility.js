@@ -121,14 +121,13 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     // for now render only the closest toilet
     return toiletsNearby.slice(0, 1).map((toiletFeature, i) => {
       const toiletCoords = normalizedCoordinatesForFeature(toiletFeature);
-      const distance = geoDistance(featureCoords, toiletCoords);
-      const formattedDistance = formatDistance(distance);
-
+      const distanceInMeters = geoDistance(featureCoords, toiletCoords);
+      const formattedDistance = formatDistance(distanceInMeters);
+      const { distance, unit } = formattedDistance;
+      const caption = t`Show next wheelchair accessible toilet (${distance}${unit})`;
       return (
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
-          {formattedDistance.distance}
-          {formattedDistance.unit}
-          <b className="right-arrow">⇢</b>
+          {caption}
           <ToiletStatusAccessibleIcon />
         </button>
       );
@@ -152,7 +151,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
     const isToiletButtonShown =
       (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
-      toiletAccessibility === 'yes';
+      (toiletAccessibility === 'yes' && categoryId !== 'toilets');
 
     const findToiletsNearby =
       toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
