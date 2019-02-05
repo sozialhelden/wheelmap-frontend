@@ -72,7 +72,7 @@ export const StyledIconContainer = styled('figure')`
 
   ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} 
   ${props => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : '')}
-    
+
   svg {
     &.background {
       position: absolute;
@@ -80,16 +80,6 @@ export const StyledIconContainer = styled('figure')`
       height: 100%;
       top: 0;
       left: 0;
-      g,
-      polygon,
-      path,
-      circle,
-      rect {
-        fill: ${props =>
-          props.accessibility
-            ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || 'white'};
-      }
     }
 
     &.icon {
@@ -115,7 +105,7 @@ export const StyledIconContainer = styled('figure')`
 export default function Icon({
   accessibility,
   children,
-  backgroundColor,
+  backgroundColor = colors.markers.background[accessibility],
   foregroundColor,
   category,
   isMainCategory,
@@ -153,7 +143,9 @@ export default function Icon({
       centered={centered}
       onClick={onClick}
     >
-      {accessibility && MarkerComponent ? <MarkerComponent className="background" /> : null}
+      {accessibility && MarkerComponent ? (
+        <MarkerComponent className="background" fill={backgroundColor} />
+      ) : null}
       {children}
       {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
     </StyledIconContainer>

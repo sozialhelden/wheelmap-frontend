@@ -13,7 +13,7 @@ import Icon, { StyledIconContainer } from '../Icon';
 export default class ClusterIcon extends L.Icon {
   constructor(options: typeof L.Icon.options) {
     // increased tap region for icons, rendered size might differ
-    const size = 60;
+    const size = 40;
     const iconAnchorOffset = options.iconAnchorOffset || L.point(0, 0);
 
     const defaults = {
@@ -62,7 +62,7 @@ export default class ClusterIcon extends L.Icon {
       if (iconNames[0]) {
         ReactDOM.render(
           <Icon {...commonOptions} category={iconNames[0]}>
-            <MarkerComponent className="background" />
+            <MarkerComponent className="background" fill={actualBackgroundColor.toString()} />
           </Icon>,
           elem
         );
@@ -73,7 +73,7 @@ export default class ClusterIcon extends L.Icon {
     if (!hasIcon) {
       ReactDOM.render(
         <StyledIconContainer {...commonOptions}>
-          <MarkerComponent className="background" />
+          <MarkerComponent className="background" fill={actualBackgroundColor.toString()} />
           <div className="foreground">{propertiesArray.length}</div>
         </StyledIconContainer>,
         elem

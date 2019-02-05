@@ -22,7 +22,7 @@ type Options = typeof L.Icon.options & {
 export default class MarkerIcon extends L.Icon {
   constructor(options: Options) {
     // increased tap region for icons, rendered size might differ
-    const size = 60;
+    const size = 40;
     const iconAnchorOffset = options.iconAnchorOffset || L.point(0, 0);
     const defaults = {
       number: '',

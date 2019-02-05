@@ -142,14 +142,6 @@ const definedAccessibilityBackgroundColorScale = scaleLinear()
     colors.markers.background.yes,
   ]);
 
-const definedAccessibilityForegroundColorScale = scaleLinear()
-  .domain([0, 0.2, 1])
-  .range([
-    colors.markers.foreground.no,
-    colors.markers.foreground.limited,
-    colors.markers.foreground.yes,
-  ]);
-
 function getWheelchairAccessibilityColors(
   definedCount: number,
   averageRatingForDefined: number,
@@ -170,13 +162,7 @@ function getWheelchairAccessibilityColors(
     averageAccessibilityForDefinedBackground
   )(clampedDefinedRatio);
 
-  const averageAccessibilityForDefinedForeground = definedAccessibilityForegroundColorScale(
-    averageRatingForDefined
-  );
-  const foregroundColor = interpolateLab(
-    colors.markers.foreground.unknown,
-    averageAccessibilityForDefinedForeground
-  )(clampedDefinedRatio);
+  const foregroundColor = 'white';
 
   return { backgroundColor, foregroundColor };
 }
