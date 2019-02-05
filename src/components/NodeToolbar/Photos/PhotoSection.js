@@ -150,8 +150,8 @@ class PhotoSection extends React.Component<Props, State> {
       <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
         <div>
           <kbd>esc</kbd>
-          <kbd className={currentImageIndex === 0 ? 'disabled' : ''}>⇦</kbd>
-          <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>⇨</kbd>
+          <kbd className={currentImageIndex === 0 ? 'disabled' : ''}>←</kbd>
+          <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
         </div>
 
         {canReportPhoto && (
@@ -242,7 +242,9 @@ const StyledPhotoSection = styled(PhotoSection)`
 
     kbd {
       font-size: 18px;
-
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+        Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol';
       &.disabled {
         opacity: 0.5;
       }
