@@ -23,7 +23,6 @@ export const StyledNodeHeader = styled.header`
   align-items: center;
   position: sticky;
   top: 0px;
-  width: calc(100% + 2rem);
   z-index: 1;
   margin: 0 -1rem;
   padding: 0.5rem 0 0.4rem 1rem;
