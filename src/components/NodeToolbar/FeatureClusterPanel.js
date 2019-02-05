@@ -138,6 +138,9 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
       return null;
     }
 
+    // translator: Label caption of a cluster that contains multiple nodes with its count, e.g. '(3) Places'
+    const placesLabel = t`Places`;
+
     return (
       <StyledToolbar
         className={this.props.className}
@@ -159,7 +162,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
               <StyledNodeHeader>
                 <PlaceName>
                   <StyledClusterIcon {...this.props} />
-                  {t`Places`}
+                  {placesLabel}
                 </PlaceName>
               </StyledNodeHeader>
               <StyledFrame className="entry-list">
