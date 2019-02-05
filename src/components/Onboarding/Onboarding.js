@@ -259,6 +259,10 @@ const StyledOnboarding = styled(Onboarding)`
     animation: fadeIn 0.5s linear;
     width: 100%; /* Fix IE 11. @TODO Safe to be moved to ModalDialog component? */
 
+    @media (max-height: 414px) {
+      font-size: 0.8rem;
+    }
+
     .logo {
       width: 250px;
       height: 53px; /* IE 11 does not preserve aspect ratio correctly and needs a fixed height. */
@@ -267,11 +271,17 @@ const StyledOnboarding = styled(Onboarding)`
         width: 200px;
         height: 42px;
       }
+
+      @media (max-height: 414px) {
+        width: 150px;
+        height: 32px;
+      }
+
       object-fit: contain;
     }
 
     .claim {
-      @media (min-width: 414px) {
+      @media (min-width: 414px, min-height: 414px) {
         font-size: 1.25rem;
       }
     }
@@ -288,19 +298,28 @@ const StyledOnboarding = styled(Onboarding)`
       display: flex;
       flex-direction: row;
       justify-content: center;
-      align-items: start;
+
       list-style-type: none;
-      margin: 20px 0;
-      padding: 0px;
-      @media (max-width: 768px) {
-        margin: 0 !important;
+
+      @media (orientation: portrait) {
+        align-items: start;
       }
+      @media (orientation: landscape) {
+        margin: 1rem 0;
+      }
+
+      /* @media (max-width: 768px) {
+        margin: 0 !important;
+      } */
       @media (max-width: 414px) {
         flex-direction: column !important;
       }
+      @media (max-height: 414px) {
+        flex-wrap: wrap;
+      }
 
       li {
-        flex: 1;
+        /* flex: 1; */
         display: flex;
         flex-direction: column;
 
@@ -311,14 +330,15 @@ const StyledOnboarding = styled(Onboarding)`
         overflow-x: hidden;
         overflow-wrap: break-word;
 
-        @media (max-width: 414px) {
+        @media (max-width: 414px), (max-height: 414px) {
           height: 3em;
           flex-direction: row !important;
           text-align: left !important;
-          padding: 0 10px !important;
+          /* padding: 0 10px !important; */
 
           figure {
-            margin-right: 10px;
+            margin-right: 0.5rem;
+            min-width: 40px;
             width: 40px;
             height: 40px;
           }
@@ -354,7 +374,7 @@ const StyledOnboarding = styled(Onboarding)`
 
         header {
           margin-bottom: 10px;
-          max-width: 100%;
+          max-width: 10rem;
           @media (max-width: 768px) {
             margin-bottom: 0px !important;
             flex: 1;
@@ -397,7 +417,7 @@ const StyledOnboarding = styled(Onboarding)`
     flex-direction: column;
 
     .button-continue-with-cookies {
-      margin: 1em;
+      margin: 0.5em;
     }
   }
 

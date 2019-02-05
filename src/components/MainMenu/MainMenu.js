@@ -435,8 +435,10 @@ const StyledMainMenu = styled(MainMenu)`
     padding-left: constant(safe-area-inset-left);
     padding-left: env(safe-area-inset-left);
     &,
-    button.menu {
+    button.menu,
+    button.home-button {
       height: 44px;
+      min-height: auto;
     }
     &.is-open {
       height: auto;
