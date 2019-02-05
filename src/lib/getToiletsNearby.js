@@ -65,9 +65,14 @@ function fetchAcToiletPlaces(
   }`;
   return globalFetchManager
     .fetch(url, { cordova: true })
-    .then(response => response.json())
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return null;
+    })
     .then(responseJson => {
-      const parsed = accessibilityCloudFeatureCollectionFromResponse(responseJson);
+      const parsed = responseJson && accessibilityCloudFeatureCollectionFromResponse(responseJson);
       return parsed ? parsed.features : [];
     });
 }
