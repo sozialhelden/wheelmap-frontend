@@ -56,6 +56,7 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
+import EventsToolbar from './components/EventsToolbar/EventsToolbar';
 
 type Props = {
   className: string,
@@ -87,6 +88,7 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
+  isEventsToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -273,6 +275,10 @@ class MainView extends React.Component<Props, State> {
         />
       </div>
     );
+  }
+
+  renderEventsToolbar() {
+    return <EventsToolbar />;
   }
 
   renderClusterPanel() {
@@ -582,6 +588,7 @@ class MainView extends React.Component<Props, State> {
       isSearchBarVisible,
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
+      isEventsToolbarVisible,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -630,6 +637,7 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {isEventsToolbarVisible && this.renderEventsToolbar()}
             {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}

@@ -88,6 +88,7 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+  isEventsToolbarVisible: boolean,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -127,6 +128,7 @@ class App extends React.Component<Props, State> {
     accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+    isEventsToolbarVisible: false,
 
     // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
@@ -167,6 +169,12 @@ class App extends React.Component<Props, State> {
 
     if (props.routeName === 'map') {
       newState.modalNodeState = null;
+    }
+
+    if (props.routeName === 'events') {
+      newState.isEventsToolbarVisible = true;
+    } else {
+      newState.isEventsToolbarVisible = false;
     }
 
     const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
@@ -688,11 +696,13 @@ class App extends React.Component<Props, State> {
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
     const isSearchButtonVisible = !isSearchBarVisible;
+    const isEventsToolbarVisible = this.state.isEventsToolbarVisible;
 
     const extraProps = {
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
+      isEventsToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
       isSearchBarVisible,
