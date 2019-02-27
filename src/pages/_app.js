@@ -43,6 +43,8 @@ import Categories from '../lib/Categories';
 import allTranslations from '../lib/translations.json';
 import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 
+import eventsFixture from './sample.json';
+
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
 // used for storing the initial props instead of serializing them for the client
@@ -117,6 +119,8 @@ export default class App extends BaseApp {
         routeProps = await routePropsPromise;
       }
       appProps = await appPropsPromise;
+
+      appProps = { ...appProps, events: eventsFixture };
 
       if (isServer) {
         ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant, Content-Language' });
