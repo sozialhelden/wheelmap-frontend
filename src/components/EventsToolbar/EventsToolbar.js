@@ -1,12 +1,80 @@
 import React from 'react';
 import { t } from 'ttag';
+import styled from 'styled-components';
 
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import Toolbar from '../Toolbar';
 
-const EventsToolbar = () => (
-  <StyledToolbar>
-    <h4>{t`Events`}</h4>
-  </StyledToolbar>
+const EventsToolbar = ({ className, events }) => (
+  <Toolbar className={className}>
+    <header>
+      <div className="number-badge">{events.length}</div>
+      <div>
+        <h2>{t`Events`}</h2>
+        <p>{t`Meet the community and map the accessibility of places around you`}</p>
+      </div>
+      <span>X</span>
+    </header>
+    <ul>
+      {events.map(event => (
+        <li>
+          <a href={`/events/${event._id}`} className="link-button">
+            <h3>{event.name}</h3>
+            <p>{event.regionName}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </Toolbar>
 );
 
-export default EventsToolbar;
+const StyledEventsToolbar = styled(EventsToolbar)`
+  header {
+    display: flex;
+    align-items: start;
+  }
+  h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 400;
+    color: #000c;
+  }
+
+  p {
+    color: #0009;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    padding: 0;
+  }
+
+  .link-button {
+    width: 100%;
+    text-align: left;
+  }
+
+  .number-badge {
+    background-color: #2e6ce0;
+    border-radius: 100%;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    height: 20px;
+  }
+`;
+
+export default StyledEventsToolbar;

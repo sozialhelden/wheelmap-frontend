@@ -278,7 +278,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderEventsToolbar() {
-    return <EventsToolbar />;
+    return <EventsToolbar events={this.props.events} />;
   }
 
   renderClusterPanel() {
