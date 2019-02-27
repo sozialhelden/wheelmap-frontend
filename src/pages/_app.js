@@ -125,7 +125,7 @@ export default class App extends BaseApp {
       appProps = { ...appProps, events: eventsFixture };
       if (ctx.query.routeName === 'event') {
         const event = eventsFixture.find(event => event._id === ctx.query.id);
-        appProps = { ...appProps, event };
+        appProps = { ...appProps, event, extent: event.extent };
       }
 
       if (isServer) {

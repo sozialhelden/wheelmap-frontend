@@ -122,6 +122,7 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+  onEventLinkClick: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -284,8 +285,14 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderEventsToolbar() {
-    const { events, onCloseEventsToolbar } = this.props;
-    return <EventsToolbar events={events} onClose={onCloseEventsToolbar} />;
+    const { events, onCloseEventsToolbar, onEventLinkClick } = this.props;
+    return (
+      <EventsToolbar
+        events={events}
+        onClose={onCloseEventsToolbar}
+        onEventLinkClick={onEventLinkClick}
+      />
+    );
   }
 
   renderEventToolbar() {

@@ -6,7 +6,7 @@ import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
 import CloseLink from '../CloseLink';
 
-const EventsToolbar = ({ className, events, onClose }) => (
+const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
   <Toolbar className={className}>
     <header>
       <div className="number-badge">{events.length}</div>
@@ -18,8 +18,13 @@ const EventsToolbar = ({ className, events, onClose }) => (
     </header>
     <ul>
       {events.map(event => (
-        <li>
-          <Link key={event._id} to={`event`} params={{ id: event._id }} className="link-button">
+        <li key={event._id}>
+          <Link
+            to={`event`}
+            params={{ id: event._id }}
+            className="link-button"
+            onClick={() => onEventLinkClick(event._id)}
+          >
             <h3>{event.name}</h3>
             <p>{event.regionName}</p>
           </Link>

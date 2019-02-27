@@ -70,6 +70,7 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
+  events: Array,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -700,6 +701,11 @@ class App extends React.Component<Props, State> {
     );
   }
 
+  onEventLinkClick = (eventId: string) => {
+    const { events } = this.props;
+    this.setState({ extent: events[eventId].extent });
+  };
+
   render() {
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
@@ -816,6 +822,7 @@ class App extends React.Component<Props, State> {
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
           onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
+          onEventLinkClick={this.onEventLinkClick}
           // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
