@@ -78,6 +78,8 @@ type Props = {
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
+  events: Array,
+
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -105,6 +107,7 @@ type Props = {
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
+  onCloseEventsToolbar: () => void,
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
@@ -278,7 +281,8 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderEventsToolbar() {
-    return <EventsToolbar events={this.props.events} />;
+    const { events, onCloseEventsToolbar } = this.props;
+    return <EventsToolbar events={events} onClose={onCloseEventsToolbar} />;
   }
 
   renderClusterPanel() {

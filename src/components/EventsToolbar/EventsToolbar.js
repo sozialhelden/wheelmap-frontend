@@ -3,8 +3,9 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import CloseLink from '../CloseLink';
 
-const EventsToolbar = ({ className, events }) => (
+const EventsToolbar = ({ className, events, onClose }) => (
   <Toolbar className={className}>
     <header>
       <div className="number-badge">{events.length}</div>
@@ -12,7 +13,7 @@ const EventsToolbar = ({ className, events }) => (
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
-      <span>X</span>
+      <CloseLink onClick={onClose}>X</CloseLink>
     </header>
     <ul>
       {events.map(event => (
@@ -49,6 +50,7 @@ const StyledEventsToolbar = styled(EventsToolbar)`
     font-size: 16px;
     font-weight: 400;
     margin: 0;
+    line-height: 1.2;
   }
 
   ul {
@@ -74,6 +76,7 @@ const StyledEventsToolbar = styled(EventsToolbar)`
     text-align: center;
     width: 40px;
     height: 20px;
+    margin-right: 10px;
   }
 `;
 

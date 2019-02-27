@@ -570,6 +570,11 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onCloseEventsToolbar = () => {
+    const params = this.getCurrentParams();
+    this.props.routerHistory.push('map', params);
+  };
+
   onCloseModalDialog = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
@@ -783,6 +788,7 @@ class App extends React.Component<Props, State> {
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
           onCloseNodeToolbar={this.onCloseNodeToolbar}
+          onCloseEventsToolbar={this.onCloseEventsToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
