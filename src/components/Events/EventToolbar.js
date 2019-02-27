@@ -3,15 +3,16 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import Link from '../Link/Link';
 import CloseLink from '../CloseLink';
 import ChevronLeft from '../ChevronLeft';
 
 const EventToolbar = ({ className, event, onClose }) => (
   <Toolbar className={className}>
     <header>
-      <a href="/events">
+      <Link to="events">
         <ChevronLeft />
-      </a>
+      </Link>
       <div>
         <h2>{event.name}</h2>
         <p>{event.startTime}</p>

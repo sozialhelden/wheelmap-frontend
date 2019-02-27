@@ -3,6 +3,7 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import Link from '../Link/Link';
 import CloseLink from '../CloseLink';
 
 const EventsToolbar = ({ className, events, onClose }) => (
@@ -18,10 +19,10 @@ const EventsToolbar = ({ className, events, onClose }) => (
     <ul>
       {events.map(event => (
         <li>
-          <a key={event._id} href={`/events/${event._id}`} className="link-button">
+          <Link key={event._id} to={`event`} params={{ id: event._id }} className="link-button">
             <h3>{event.name}</h3>
             <p>{event.regionName}</p>
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
