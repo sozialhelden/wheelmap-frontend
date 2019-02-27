@@ -18,7 +18,7 @@ const EventsToolbar = ({ className, events, onClose }) => (
     <ul>
       {events.map(event => (
         <li>
-          <a href={`/events/${event._id}`} className="link-button">
+          <a key={event._id} href={`/events/${event._id}`} className="link-button">
             <h3>{event.name}</h3>
             <p>{event.regionName}</p>
           </a>

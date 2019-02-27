@@ -43,7 +43,7 @@ import Categories from '../lib/Categories';
 import allTranslations from '../lib/translations.json';
 import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 
-import eventsFixture from './sample.json';
+import eventsFixture from './events.json';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -117,10 +117,16 @@ export default class App extends BaseApp {
       if (ctx.query.routeName) {
         const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
         routeProps = await routePropsPromise;
+        routeProps = { ...routeProps };
       }
       appProps = await appPropsPromise;
 
+      // FIXME replace with real data
       appProps = { ...appProps, events: eventsFixture };
+      if (ctx.query.routeName === 'event') {
+        const event = eventsFixture.find(event => event._id === ctx.query.id);
+        appProps = { ...appProps, event };
+      }
 
       if (isServer) {
         ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant, Content-Language' });

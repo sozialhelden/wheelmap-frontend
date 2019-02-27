@@ -56,7 +56,8 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
-import EventsToolbar from './components/EventsToolbar/EventsToolbar';
+import EventsToolbar from './components/Events/EventsToolbar';
+import EventToolbar from './components/Events/EventToolbar';
 
 type Props = {
   className: string,
@@ -79,6 +80,7 @@ type Props = {
   disableWheelmapSource: ?boolean,
 
   events: Array,
+  event: Object,
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
@@ -91,6 +93,7 @@ type Props = {
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
   isEventsToolbarVisible: boolean,
+  isEventToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -283,6 +286,11 @@ class MainView extends React.Component<Props, State> {
   renderEventsToolbar() {
     const { events, onCloseEventsToolbar } = this.props;
     return <EventsToolbar events={events} onClose={onCloseEventsToolbar} />;
+  }
+
+  renderEventToolbar() {
+    const { event, onCloseEventsToolbar } = this.props;
+    return <EventToolbar event={event} onClose={onCloseEventsToolbar} />;
   }
 
   renderClusterPanel() {
@@ -593,6 +601,7 @@ class MainView extends React.Component<Props, State> {
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
       isEventsToolbarVisible,
+      isEventToolbarVisible,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -642,6 +651,7 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
             {isEventsToolbarVisible && this.renderEventsToolbar()}
+            {isEventToolbarVisible && this.renderEventToolbar()}
             {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}

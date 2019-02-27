@@ -30,6 +30,10 @@ const routes = [
     path: '/events',
   },
   {
+    name: 'event',
+    path: '/events/:id',
+  },
+  {
     name: 'map',
     path: '/',
   },

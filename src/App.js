@@ -89,6 +89,7 @@ type State = {
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
   isEventsToolbarVisible: boolean,
+  isEventToolbarVisible: boolean,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -129,6 +130,7 @@ class App extends React.Component<Props, State> {
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
     isEventsToolbarVisible: false,
+    isEventToolbarVisible: false,
 
     // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
@@ -175,6 +177,12 @@ class App extends React.Component<Props, State> {
       newState.isEventsToolbarVisible = true;
     } else {
       newState.isEventsToolbarVisible = false;
+    }
+
+    if (props.routeName === 'event') {
+      newState.isEventToolbarVisible = true;
+    } else {
+      newState.isEventToolbarVisible = false;
     }
 
     const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
@@ -702,12 +710,14 @@ class App extends React.Component<Props, State> {
     const isSearchBarVisible = this.state.isSearchBarVisible;
     const isSearchButtonVisible = !isSearchBarVisible;
     const isEventsToolbarVisible = this.state.isEventsToolbarVisible;
+    const isEventToolbarVisible = this.state.isEventToolbarVisible;
 
     const extraProps = {
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
       isEventsToolbarVisible,
+      isEventToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
       isSearchBarVisible,
@@ -737,6 +747,7 @@ class App extends React.Component<Props, State> {
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
       events: this.props.events,
+      event: this.props.event,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
