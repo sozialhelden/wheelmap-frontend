@@ -26,6 +26,7 @@ type Props = {
   productName: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
+  onEventsLinkClick: () => void,
   isOpen: boolean,
   lat: string,
   lon: string,
@@ -137,9 +138,11 @@ class MainMenu extends React.Component<Props, State> {
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
+      const onClick = url === '/events' ? this.props.onEventsLinkClick : null;
+
       if (typeof url === 'string') {
         return (
-          <Link key={url} className={className} to={url} role="menuitem">
+          <Link key={url} className={className} to={url} role="menuitem" onClick={onClick}>
             {label}
             {badgeLabel && <Badge>{badgeLabel}</Badge>}
           </Link>

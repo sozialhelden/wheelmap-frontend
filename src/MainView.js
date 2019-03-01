@@ -123,6 +123,7 @@ type Props = {
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
   onEventLinkClick: () => void,
+  onEventsLinkClick: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -413,6 +414,7 @@ class MainView extends React.Component<Props, State> {
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
+        onEventsLinkClick={this.props.onEventsLinkClick}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}

@@ -712,6 +712,10 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onEventsLinkClick = () => {
+    this.setState({ isMainMenuOpen: false });
+  };
+
   render() {
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
@@ -813,6 +817,7 @@ class App extends React.Component<Props, State> {
           onCloseNodeToolbar={this.onCloseNodeToolbar}
           onCloseEventsToolbar={this.onCloseEventsToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
+          onEventsLinkClick={this.onEventsLinkClick}
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}
