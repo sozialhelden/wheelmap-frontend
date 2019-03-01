@@ -7,30 +7,32 @@ import Link from '../Link/Link';
 import CloseLink from '../CloseLink';
 import ChevronLeft from '../ChevronLeft';
 
-const EventToolbar = ({ className, event, onClose }) => (
-  <Toolbar className={className}>
-    <header>
-      <Link to="events">
-        <ChevronLeft />
-      </Link>
-      <div>
-        <h2>{event.name}</h2>
-        <p>{event.startTime}</p>
+const EventToolbar = ({ className, event, onClose }) => {
+  return (
+    <Toolbar className={className}>
+      <header>
+        <Link to="events">
+          <ChevronLeft />
+        </Link>
+        <div>
+          <h2>{event.name}</h2>
+          <p>{new Date(event.startTime.$date).toDateString()}</p>
+        </div>
+        <CloseLink onClick={onClose}>X</CloseLink>
+      </header>
+      <div className="statistics">
+        <div>
+          <div>{event.statistics.mappedPlacesCount}</div>
+          <div>{t`map places`}</div>
+        </div>
+        <div>
+          <div>{event.statistics.invitedParticipantCount}</div>
+          <div>{t`people invited`}</div>
+        </div>
       </div>
-      <CloseLink onClick={onClose}>X</CloseLink>
-    </header>
-    <div className="statistics">
-      <div>
-        <div>{event.statistics.mappedPlacesCount}</div>
-        <div>{t`map places`}</div>
-      </div>
-      <div>
-        <div>{event.statistics.invitedParticipantCount}</div>
-        <div>{t`people invited`}</div>
-      </div>
-    </div>
-  </Toolbar>
-);
+    </Toolbar>
+  );
+};
 
 const StyledEventToolbar = styled(EventToolbar)`
   header {

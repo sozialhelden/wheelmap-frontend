@@ -14,6 +14,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import { type Events, type Event } from './lib/cache/EventsCache';
 import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
@@ -70,7 +71,8 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
-  events: Array,
+  events: Events,
+  event?: Event,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -180,7 +182,7 @@ class App extends React.Component<Props, State> {
       newState.isEventsToolbarVisible = false;
     }
 
-    if (props.routeName === 'event') {
+    if (props.routeName === 'eventDetail') {
       newState.isEventToolbarVisible = true;
     } else {
       newState.isEventToolbarVisible = false;
@@ -702,8 +704,12 @@ class App extends React.Component<Props, State> {
   }
 
   onEventLinkClick = (eventId: string) => {
-    const { events } = this.props;
-    this.setState({ extent: events[eventId].extent });
+    const event = this.props.events.find(event => event._id === eventId);
+    const extent = event && event.extent;
+
+    if (extent) {
+      this.setState({ extent });
+    }
   };
 
   render() {

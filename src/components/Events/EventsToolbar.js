@@ -20,7 +20,7 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
       {events.map(event => (
         <li key={event._id}>
           <Link
-            to={`event`}
+            to={`eventDetail`}
             params={{ id: event._id }}
             className="link-button"
             onClick={() => onEventLinkClick(event._id)}

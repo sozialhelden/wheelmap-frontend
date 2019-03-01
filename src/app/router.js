@@ -30,7 +30,7 @@ const routes = [
     path: '/events',
   },
   {
-    name: 'event',
+    name: 'eventDetail',
     path: '/events/:id',
   },
   {
