@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 
 import colors from '../lib/colors';
-import Link from './Link/Link';
 
 const StyledButton = styled.button`
   appearance: none;
