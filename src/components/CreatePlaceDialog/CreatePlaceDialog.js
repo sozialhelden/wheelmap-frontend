@@ -12,7 +12,7 @@ import {
 } from '../../lib/generateOsmUrls';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../ChevronRight';
-import CloseLink from './CloseButton';
+import CloseLink from '../CloseButton';
 
 export type Props = {
   hidden: boolean,

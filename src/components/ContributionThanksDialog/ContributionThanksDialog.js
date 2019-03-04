@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../icons/actions/ChevronRight';
-import CloseLink from '../CreatePlaceDialog/CloseButton';
+import CloseLink from '../CloseButton';
 import { ChromelessButton, CallToActionLink } from '../Button';
 
 export type Props = {
@@ -57,7 +57,7 @@ const StyledToolbar = styled(Toolbar)`
       margin-bottom: 60px;
     }
 
-    > button {      
+    > button {
       margin: 0 1em 0.5em;
     }
   }
