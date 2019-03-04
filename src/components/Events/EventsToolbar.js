@@ -14,7 +14,7 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
-      <CloseButton onClick={onClose} />
+      <EventsToolbarCloseButton onClick={onClose} />
     </header>
     <ul>
       {events.map(event => (
@@ -33,6 +33,13 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
     </ul>
   </Toolbar>
 );
+
+const EventsToolbarCloseButton = styled(CloseButton)`
+  align-self: flex-start;
+  margin-top: -10px;
+  margin-right: -10px;
+  z-index: 4;
+`;
 
 const StyledEventsToolbar = styled(EventsToolbar)`
   color: #22262d;
@@ -76,11 +83,6 @@ const StyledEventsToolbar = styled(EventsToolbar)`
 
   .link-button {
     width: 100%;
-  }
-
-  .close-link {
-    padding: 5px;
-    align-self: flex-start;
   }
 
   .number-badge {
