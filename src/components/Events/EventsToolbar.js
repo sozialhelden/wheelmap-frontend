@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
+import CloseButton from '../CloseButton';
 
 const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
   <Toolbar className={className}>
@@ -13,6 +14,7 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
+      <CloseButton onClick={onClose} />
     </header>
     <ul>
       {events.map(event => (
@@ -74,6 +76,11 @@ const StyledEventsToolbar = styled(EventsToolbar)`
 
   .link-button {
     width: 100%;
+  }
+
+  .close-link {
+    padding: 5px;
+    align-self: flex-start;
   }
 
   .number-badge {
