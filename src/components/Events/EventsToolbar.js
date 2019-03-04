@@ -4,17 +4,15 @@ import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
-import CloseLink from '../CloseLink';
 
 const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
   <Toolbar className={className}>
     <header>
-      <div className="number-badge">{events.length}</div>
-      <div>
+      <span className="number-badge">{events.length}</span>
+      <div className="header-title">
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
-      <CloseLink onClick={onClose}>X</CloseLink>
     </header>
     <ul>
       {events.map(event => (
@@ -35,28 +33,33 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
 );
 
 const StyledEventsToolbar = styled(EventsToolbar)`
+  color: #22262d;
+  line-height: 1.2;
+
   header {
     display: flex;
-    align-items: start;
+    align-items: center;
+    margin-bottom: 10px;
   }
+
   h2 {
-    font-size: 18px;
+    font-size: 20px;
     margin: 0;
   }
 
   h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 400;
-    color: #000c;
+    font-size: 16px;
+    font-weight: 700;
+    color: #22262d;
   }
 
   p {
-    color: #0009;
+    color: #676b72;
     font-size: 16px;
     font-weight: 400;
-    margin: 0;
     line-height: 1.2;
+    margin: 0;
   }
 
   ul {
@@ -71,18 +74,19 @@ const StyledEventsToolbar = styled(EventsToolbar)`
 
   .link-button {
     width: 100%;
-    text-align: left;
   }
 
   .number-badge {
     background-color: #2e6ce0;
     border-radius: 100%;
     color: #ffffff;
+    font-size: 20px;
     font-weight: bold;
     text-align: center;
-    width: 40px;
-    height: 20px;
+    padding: 4px 0;
     margin-right: 10px;
+    min-width: 30px;
+    line-height: 22px;
   }
 `;
 
