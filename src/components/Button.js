@@ -16,6 +16,30 @@ const StyledButton = styled.button`
   width: 100%;
 `;
 
+export const PrimaryButton = styled(StyledButton)`
+  color: #ffffff;
+  background-color: ${colors.linkColor};
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75;
+  padding: 0.375rem 0.3125em;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  text-align: center;
+
+  &.focus-visible {
+    box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+    transition: box-shadow 0.2s;
+  }
+`;
+
+export const SecondaryButton = styled(PrimaryButton)`
+  color: #22262d;
+  background-color: #ffffff;
+  font-size: 1rem;
+  border: 1px solid #a5a8b0;
+`;
+
 export const ChromelessButton = styled.button`
   padding: 0.5rem 0.75rem;
   border: none;
