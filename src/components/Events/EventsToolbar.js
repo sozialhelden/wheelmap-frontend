@@ -8,13 +8,13 @@ import CloseButton from '../CloseButton';
 
 const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
   <Toolbar className={className}>
+    <EventsToolbarCloseButton onClick={onClose} />
     <header>
       <span className="number-badge">{events.length}</span>
       <div className="header-title">
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
-      <EventsToolbarCloseButton onClick={onClose} />
     </header>
     <ul>
       {events.map(event => (
@@ -35,19 +35,22 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
 );
 
 const EventsToolbarCloseButton = styled(CloseButton)`
-  align-self: flex-start;
-  margin-top: -10px;
+  position: sticky;
+  top: 0px;
+  float: right;
   margin-right: -10px;
   z-index: 4;
 `;
 
 const StyledEventsToolbar = styled(EventsToolbar)`
+  padding-top: 0;
   color: #22262d;
   line-height: 1.2;
 
   header {
     display: flex;
     align-items: center;
+    margin-top: 10px;
     margin-bottom: 10px;
   }
 

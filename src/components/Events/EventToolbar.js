@@ -13,6 +13,7 @@ import BellIcon from './BellIcon';
 const EventToolbar = ({ className, event, onClose }) => {
   return (
     <Toolbar className={className}>
+      <EventToolbarCloseButton onClick={onClose} />
       <header>
         <Link to="events">
           <EventToolbarChevronLeft />
@@ -21,12 +22,11 @@ const EventToolbar = ({ className, event, onClose }) => {
           <h2>{event.name}</h2>
           <p>{new Date(event.startTime.$date).toDateString()}</p>
         </div>
-        <EventToolbarCloseButton onClick={onClose} />
       </header>
       <div className="actions">
         <SecondaryButton>{`Share link`}</SecondaryButton>
       </div>
-      <img className="event-image" src="/static/images/eventPlaceholder.png" alt="" />
+      {event.photoUrl && <img className="event-image" src={event.photoUrl} alt="" />}
       <div className="statistics">
         <div>
           <div className="statistics-count">
@@ -49,24 +49,29 @@ const EventToolbar = ({ className, event, onClose }) => {
 };
 
 const EventToolbarChevronLeft = styled(ChevronLeft)`
-  margin-left: 0px;
+  margin-left: 0;
+  padding: 15px 30px 15px 0;
+  z-index: 4;
 `;
 
 const EventToolbarCloseButton = styled(CloseButton)`
-  align-self: flex-start;
-  margin-top: -11px;
+  position: sticky;
+  top: 0px;
+  float: right;
   margin-right: -10px;
   z-index: 4;
 `;
 
 const StyledEventToolbar = styled(EventToolbar)`
+  padding-top: 0;
   color: #22262d;
   line-height: 1.2;
 
   header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
 
