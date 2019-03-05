@@ -1,10 +1,11 @@
 import React from 'react';
 import { t } from 'ttag';
+import styled from 'styled-components';
 
 import ShareBar from '../ShareBar/ShareBar';
 
-const EventShareBar = ({ event, buttonCaption }) => {
-  const url = 'something'; //window.location.href;
+const EventShareBar = ({ className, event, buttonCaption }) => {
+  const url = event ? `https://wheelmap.org/events/${event._id}` : 'https://wheelmap.org';
   let mailSubject = t`Wheelmap.org`;
   let mailBody = t`I found a place on Wheelmap: ${url}`;
 
@@ -14,6 +15,7 @@ const EventShareBar = ({ event, buttonCaption }) => {
 
   return (
     <ShareBar
+      className={className}
       url={url}
       shareButtonCaption={buttonCaption}
       pageDescription={event.description}
@@ -23,4 +25,8 @@ const EventShareBar = ({ event, buttonCaption }) => {
   );
 };
 
-export default EventShareBar;
+const StyledEventShareBar = styled(EventShareBar)`
+  width: 100%;
+`;
+
+export default StyledEventShareBar;

@@ -89,6 +89,22 @@ const StyledEventToolbar = styled(EventToolbar)`
     line-height: 1.2;
   }
 
+  .link-button {
+    display: flex;
+    align-items: center;
+  }
+
+  .link-button:not(:hover) {
+    color: #494e53;
+  }
+
+  .link-button svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+    fill: #89939e;
+  }
+
   .actions {
     display: flex;
     margin-bottom: 20px;
