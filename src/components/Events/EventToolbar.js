@@ -3,10 +3,10 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
+import EventShareBar from './EventShareBar';
 import Link from '../Link/Link';
 import CloseButton from '../CloseButton';
 import ChevronLeft from '../ChevronLeft';
-import { SecondaryButton } from '../Button';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 
@@ -23,9 +23,6 @@ const EventToolbar = ({ className, event, onClose }) => {
           <p>{new Date(event.startTime.$date).toDateString()}</p>
         </div>
       </header>
-      <div className="actions">
-        <SecondaryButton>{`Share link`}</SecondaryButton>
-      </div>
       {event.photoUrl && <img className="event-image" src={event.photoUrl} alt="" />}
       <div className="statistics">
         <div>
@@ -42,6 +39,9 @@ const EventToolbar = ({ className, event, onClose }) => {
           </div>
           <div className="statistics-description">{t`people invited`}</div>
         </div>
+      </div>
+      <div className="actions">
+        <EventShareBar event={event} buttonCaption={t`Share link`} />
       </div>
       <div className="event-description">{event.description}</div>
     </Toolbar>
