@@ -23,7 +23,11 @@ const EventToolbar = ({ className, event, onClose }) => {
           <p>{new Date(event.startTime.$date).toDateString()}</p>
         </div>
       </header>
-      {event.photoUrl && <img className="event-image" src={event.photoUrl} alt="" />}
+      <img
+        className="event-image"
+        src={event.photoUrl ? event.photoUrl : '/static/images/eventPlaceholder.png'}
+        alt=""
+      />
       <div className="statistics">
         <div>
           <div className="statistics-count">
