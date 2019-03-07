@@ -48,9 +48,11 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
+import type { Events } from '../../lib/cache/EventsCache';
 
 import './Leaflet.css';
 import './Map.css';
+import A11yMarkerIcon from './A11yMarkerIcon';
 
 window.L = L;
 
@@ -77,6 +79,7 @@ type TargetMapState = {
 type Props = {
   featureId?: ?string,
   feature?: PotentialPromise<?Feature>,
+  events?: Events,
   equipmentInfoId?: ?string,
   equipmentInfo?: ?PotentialPromise<?EquipmentInfo>,
 
@@ -94,6 +97,7 @@ type Props = {
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onClusterClick: (cluster: Cluster) => void,
+  onEventClick: (eventId: string) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
@@ -149,6 +153,7 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   markerClusterGroup: ?L.MarkerClusterGroup;
+  eventsLayer: ?L.Layer;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
@@ -277,7 +282,7 @@ export default class Map extends React.Component<Props, State> {
     return {
       category,
       placeOrEquipment: null,
-      placeOrEquipmentPromise: null
+      placeOrEquipmentPromise: null,
     };
   }
 
@@ -362,6 +367,33 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
+
+    this.eventsLayer = new L.LayerGroup();
+    map.addLayer(this.eventsLayer);
+
+    // this.props.events &&
+    //   this.props.events.forEach(event => {
+    //     const eventFeature = event.meetingPoint;
+
+    //     if (!eventFeature) {
+    //       return;
+    //     }
+
+    //     const eventLat = eventFeature.geometry.coordinates[1];
+    //     const eventLon = eventFeature.geometry.coordinates[0];
+
+    //     const eventMarker = new HighlightableMarker(
+    //       new L.LatLng(eventLat, eventLon),
+    //       new MarkerIcon({
+    //         hrefForFeature: () => `/events/${event._id}`,
+    //         onClick: () => this.props.onEventClick(event._id),
+    //         feature: eventFeature,
+    //         featureId: event._id,
+    //       })
+    //     );
+
+    //     this.eventsLayer.addLayer(eventMarker);
+    //   });
 
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
@@ -540,6 +572,13 @@ export default class Map extends React.Component<Props, State> {
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,
     });
+  }
+
+  setupEventsLayer() {
+    // this.eventsLayer = new L.Layer();
+    // this.map.addLayer(this.eventsLayer);
+    // const eventMarker = new HighlightableMarker(new L.LatLng(52.49659, 13.3987522));
+    // eventMarker.addTo(this.eventsLayer);
   }
 
   removeLayersNotVisibleInZoomLevel() {
@@ -757,6 +796,16 @@ export default class Map extends React.Component<Props, State> {
         }
         acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
+
+      if (this.eventsLayer) {
+        const selectedEventMarker = Object.keys(this.eventsLayer._layers)
+          .map(key => this.eventsLayer._layers[key])
+          .find(marker => marker.featureId === props.featureId);
+
+        if (selectedEventMarker) {
+          highlightMarkers(this.highLightLayer, [selectedEventMarker]);
+        }
+      }
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
       if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
@@ -832,11 +881,14 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
 
-    return new HighlightableMarker(latlng, {
-      onClick: this.props.onMarkerClick,
-      hrefForFeature: this.props.hrefForFeature,
-      feature,
-      categories: this.props.categories,
+    return new HighlightableMarker(latlng, extraOptions => {
+      return new A11yMarkerIcon({
+        onClick: this.props.onMarkerClick,
+        hrefForFeature: this.props.hrefForFeature,
+        feature,
+        categories: this.props.categories,
+        ...extraOptions,
+      });
     });
   };
 

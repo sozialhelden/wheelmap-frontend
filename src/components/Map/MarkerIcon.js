@@ -1,22 +1,12 @@
 // @flow
 
 import L from 'leaflet';
-import * as React from 'react';
-import ReactDOM from 'react-dom';
-import * as categoryIcons from '../icons/categories';
-import getIconNameForProperties from './getIconNameForProperties';
-import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 import type { NodeProperties } from '../../lib/Feature';
-import { translatedStringFromObject } from '../../lib/i18n';
-import Icon from '../Icon';
-import { type CategoryLookupTables } from '../../lib/Categories';
-
-// Extend Leaflet-icon to support colors and category images
 
 type Options = typeof L.Icon.options & {
   onClick: (featureId: string, properties: ?NodeProperties) => void,
   hrefForFeature: (featureId: string) => ?string,
-  categories: CategoryLookupTables,
+  highlighted?: boolean,
 };
 
 export default class MarkerIcon extends L.Icon {
@@ -45,47 +35,12 @@ export default class MarkerIcon extends L.Icon {
   }
 
   createIcon() {
-    const link = document.createElement('a');
-    const { feature, categories } = this.options;
-    const properties = feature.properties;
-    const featureId = properties.id || properties._id || feature._id;
-    link.href = this.options.hrefForFeature(featureId);
-
-    const iconName = getIconNameForProperties(categories, properties) || 'place';
-    const accessibility = isWheelchairAccessible(properties);
-    const IconComponent = categoryIcons[iconName];
-    if (IconComponent) {
-      ReactDOM.render(
-        <Icon
-          accessibility={accessibility}
-          category={iconName}
-          size={this.options.size}
-          withArrow={this.options.withArrow}
-          shadowed
-          centered
-          ariaHidden={this.options.ariaHidden}
-        />,
-        link
-      );
-    }
-    link.style.touchAction = 'none';
-    link.addEventListener('click', (event: MouseEvent) => {
-      event.preventDefault();
-      this.options.onClick(featureId, properties);
-    });
-    this._setIconStyles(link, 'icon');
-
-    const wheelchairAccessibilityText = accessibilityName(isWheelchairAccessible(properties));
-
-    const accessibleName = `${String(translatedStringFromObject(properties.name))} ${String(
-      wheelchairAccessibilityText
-    )}`;
-    link.setAttribute('aria-label', accessibleName);
-    return link;
+    throw new Error(
+      'createIcon should be implemented in a subclass of MarkerIcon. You probably used MarkerIcon directly.'
+    );
   }
 
   createShadow() {
-    // eslint-disable-line class-methods-use-this
     return null;
   }
 }
