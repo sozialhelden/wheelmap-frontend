@@ -70,7 +70,7 @@ export default class EventMarkerIcon extends MarkerIcon {
     });
     this._setIconStyles(link, 'icon');
 
-    const accessibleName = t`Mapping Event`;
+    const accessibleName = t`Event Map Marker`;
     link.setAttribute('aria-label', accessibleName);
     return link;
   }
