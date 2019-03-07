@@ -6,12 +6,13 @@ import type MarkerIcon from './MarkerIcon';
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
 
-  constructor(latlng: L.LatLng, createMarkerIcon: () => MarkerIcon) {
+  constructor(latlng: L.LatLng, featureId: string, createMarkerIcon: () => MarkerIcon) {
     super(latlng, {
       icon: createMarkerIcon(),
     });
 
     this.createMarkerIcon = createMarkerIcon;
+    this.featureId = featureId;
   }
 
   updateIcon() {

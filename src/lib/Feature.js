@@ -169,6 +169,16 @@ export type AccessibilityCloudFeature = {
   properties: AccessibilityCloudProperties,
 };
 
+export type EventFeatureProperties = {
+  description: string,
+};
+
+export type EventFeature = {
+  type: 'Feature',
+  geometry: GeometryObject,
+  properties: EventFeatureProperties,
+};
+
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',
   features: T[],
@@ -211,7 +221,7 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[],
 };
 
-export type Feature = AccessibilityCloudFeature | WheelmapFeature;
+export type Feature = AccessibilityCloudFeature | WheelmapFeature | EventFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature | EquipmentInfo) {

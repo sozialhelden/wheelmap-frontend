@@ -329,6 +329,12 @@ class App extends React.Component<Props, State> {
     });
   };
 
+  showSelectedEvent = (eventId: string) => {
+    const params = this.getCurrentParams();
+    params.id = eventId;
+    this.props.routerHistory.push('eventDetail', params);
+  };
+
   showCluster = cluster => {
     this.setState({ activeCluster: cluster }, () => {
       const params = this.getCurrentParams();
@@ -809,6 +815,7 @@ class App extends React.Component<Props, State> {
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
           onClusterClick={this.showCluster}
+          onEventClick={this.showSelectedEvent}
           onCloseClusterPanel={this.closeActiveCluster}
           onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}

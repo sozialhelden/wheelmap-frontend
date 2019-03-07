@@ -49,10 +49,11 @@ import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
 import type { Events } from '../../lib/cache/EventsCache';
+import A11yMarkerIcon from './A11yMarkerIcon';
+import EventMarkerIcon from './EventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
-import A11yMarkerIcon from './A11yMarkerIcon';
 
 window.L = L;
 
@@ -371,29 +372,32 @@ export default class Map extends React.Component<Props, State> {
     this.eventsLayer = new L.LayerGroup();
     map.addLayer(this.eventsLayer);
 
-    // this.props.events &&
-    //   this.props.events.forEach(event => {
-    //     const eventFeature = event.meetingPoint;
+    this.props.events &&
+      this.props.events.forEach(event => {
+        const eventFeature = event.meetingPoint;
 
-    //     if (!eventFeature) {
-    //       return;
-    //     }
+        if (!eventFeature) {
+          return;
+        }
 
-    //     const eventLat = eventFeature.geometry.coordinates[1];
-    //     const eventLon = eventFeature.geometry.coordinates[0];
+        const eventLat = eventFeature.geometry.coordinates[1];
+        const eventLon = eventFeature.geometry.coordinates[0];
 
-    //     const eventMarker = new HighlightableMarker(
-    //       new L.LatLng(eventLat, eventLon),
-    //       new MarkerIcon({
-    //         hrefForFeature: () => `/events/${event._id}`,
-    //         onClick: () => this.props.onEventClick(event._id),
-    //         feature: eventFeature,
-    //         featureId: event._id,
-    //       })
-    //     );
+        const eventMarker = new HighlightableMarker(
+          new L.LatLng(eventLat, eventLon),
+          event._id,
+          extraOptions =>
+            new EventMarkerIcon({
+              hrefForFeature: () => `/events/${event._id}`,
+              onClick: () => this.props.onEventClick(event._id),
+              feature: eventFeature,
+              featureId: event._id,
+              ...extraOptions,
+            })
+        );
 
-    //     this.eventsLayer.addLayer(eventMarker);
-    //   });
+        this.eventsLayer.addLayer(eventMarker);
+      });
 
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
@@ -572,13 +576,6 @@ export default class Map extends React.Component<Props, State> {
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,
     });
-  }
-
-  setupEventsLayer() {
-    // this.eventsLayer = new L.Layer();
-    // this.map.addLayer(this.eventsLayer);
-    // const eventMarker = new HighlightableMarker(new L.LatLng(52.49659, 13.3987522));
-    // eventMarker.addTo(this.eventsLayer);
   }
 
   removeLayersNotVisibleInZoomLevel() {
@@ -881,7 +878,7 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
 
-    return new HighlightableMarker(latlng, extraOptions => {
+    return new HighlightableMarker(latlng, feature._id, extraOptions => {
       return new A11yMarkerIcon({
         onClick: this.props.onMarkerClick,
         hrefForFeature: this.props.hrefForFeature,

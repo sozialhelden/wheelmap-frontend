@@ -18,10 +18,14 @@ const EventDetailData: DataTableEntry<EventDetailDataProps> = {
 
   async getInitialRouteProps(query, appPropsPromise, isServer) {
     const appProps = await appPropsPromise;
+    const event = this.getEvent(query.id, appProps);
+    const eventFeature = event.meetingPoint;
 
     return {
       ...appProps,
-      event: this.getEvent(query.id, appProps),
+      event,
+      feature: eventFeature,
+      featureId: event._id,
     };
   },
 };

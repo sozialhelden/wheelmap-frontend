@@ -108,6 +108,7 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
+  onEventClick: (eventId: string) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
   onCloseEventsToolbar: () => void,
@@ -553,6 +554,7 @@ class MainView extends React.Component<Props, State> {
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
         onClusterClick={this.props.onClusterClick}
+        onEventClick={this.props.onEventClick}
         hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
@@ -566,6 +568,7 @@ class MainView extends React.Component<Props, State> {
         categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
+        events={this.props.events}
         equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         categories={this.props.categories}

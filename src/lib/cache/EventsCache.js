@@ -2,6 +2,7 @@
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
+import type { EventFeature } from '../Feature';
 
 // Types
 type EventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
@@ -26,6 +27,7 @@ export interface Event {
   sourceId?: string;
   name?: string;
   description?: string;
+  meetingPoint: EventFeature;
   regionName?: string;
   region?: EventRegion;
   extent?: [number, number, number, number];
