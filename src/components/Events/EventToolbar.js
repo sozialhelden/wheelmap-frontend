@@ -11,6 +11,8 @@ import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 
 const EventToolbar = ({ className, event, onClose, productName }) => {
+  const date = new Date(event.startTime.$date);
+
   return (
     <Toolbar className={className}>
       <EventToolbarCloseButton onClick={onClose} />
@@ -20,7 +22,7 @@ const EventToolbar = ({ className, event, onClose, productName }) => {
         </Link>
         <div>
           <h2>{event.name}</h2>
-          <p>{new Date(event.startTime.$date).toDateString()}</p>
+          <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
         </div>
       </header>
       <img
