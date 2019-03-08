@@ -282,8 +282,10 @@ export default class App extends BaseApp {
       if (event) {
         pageTitle = translatedProductName ? `${event.name} - ${translatedProductName}` : event.name;
         translatedDescription = event.description || event.name;
-        facebookMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
-        twitterMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
+        facebookMetaData.imageURL =
+          event.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+        twitterMetaData.imageUrl =
+          event.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
         ogUrl = `${baseUrl}/events/${event._id}`;
       }
     }
