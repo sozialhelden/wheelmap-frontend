@@ -67,6 +67,7 @@ const ShareButtons = ({
       sharedObjectTitle={sharedObjectTitle}
       mailToLink={mailToLink}
       onToggle={onToggle}
+      featureId={featureId}
       className={className}
     />
   );

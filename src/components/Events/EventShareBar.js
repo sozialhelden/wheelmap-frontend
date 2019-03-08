@@ -30,6 +30,7 @@ const EventShareBar = ({ className, event, buttonCaption, productName }) => {
       shareButtonCaption={buttonCaption}
       pageDescription={description}
       sharedObjectTitle={sharedObjectTitle}
+      featureId={event._id}
       mailToLink={mailToLink}
     />
   );

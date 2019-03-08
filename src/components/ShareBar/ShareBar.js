@@ -30,6 +30,7 @@ type Props = {
   pageDescription: string,
   sharedObjectTitle: string,
   mailToLink: string,
+  featureId: string,
   onToggle: () => void,
 };
 
@@ -37,7 +38,7 @@ type State = {
   isExpanded: boolean,
 };
 
-class ExpandableShareButtons extends React.Component<Props, State> {
+class ShareBar extends React.Component<Props, State> {
   collapseButton: ?HTMLButtonElement;
   shareButton: ?HTMLButtonElement;
 
@@ -52,12 +53,11 @@ class ExpandableShareButtons extends React.Component<Props, State> {
     if (this.props.onToggle) this.props.onToggle();
   }
 
-  // FIXME Why needed?
-  // componentWillReceiveProps(newProps: Props) {
-  //   if (newProps.featureId !== this.props.featureId) {
-  //     this.toggle(false);
-  //   }
-  // }
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
+    if (newProps.featureId !== this.props.featureId) {
+      this.toggle(false);
+    }
+  }
 
   componentDidUpdate(prevProps, prevState) {
     this.manageFocus(prevProps, prevState);
@@ -241,7 +241,7 @@ const StyledIconButton = styled(IconButton)`
   }
 `;
 
-const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
+const StyledShareBar = styled(ShareBar)`
   margin: 0 -10px;
   padding: 0 5px 0 0;
   display: flex;
@@ -309,4 +309,4 @@ const StyledExpandableShareButtons = styled(ExpandableShareButtons)`
   }
 `;
 
-export default StyledExpandableShareButtons;
+export default StyledShareBar;
