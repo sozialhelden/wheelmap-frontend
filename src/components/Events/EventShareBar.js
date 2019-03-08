@@ -1,13 +1,23 @@
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
+import env from '../../lib/env';
 
 import ShareBar from '../ShareBar/ShareBar';
 
-const EventShareBar = ({ className, event, buttonCaption }) => {
-  const url = event ? `https://wheelmap.org/events/${event._id}` : 'https://wheelmap.org';
-  let mailSubject = t`Wheelmap.org`;
-  let mailBody = t`I found a place on Wheelmap: ${url}`;
+const EventShareBar = ({ className, event, buttonCaption, productName }) => {
+  const baseUrl = env.public.baseUrl;
+  const url = event ? `${baseUrl}/${event._id}` : baseUrl;
+
+  const sharedObjectTitle = productName ? `${event.name} - ${productName}` : event.name;
+
+  const description = event.description || event.name;
+
+  const mailSubject = sharedObjectTitle;
+  // translator: Email text used when sharing an event via email.
+  let mailBody = t`Help us out and join the ${
+    event.name
+  } mapping event on ${productName}. You can find more info here: ${url}`;
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody
@@ -18,8 +28,8 @@ const EventShareBar = ({ className, event, buttonCaption }) => {
       className={className}
       url={url}
       shareButtonCaption={buttonCaption}
-      pageDescription={event.description}
-      sharedObjectTitle={event.name}
+      pageDescription={description}
+      sharedObjectTitle={sharedObjectTitle}
       mailToLink={mailToLink}
     />
   );

@@ -10,7 +10,7 @@ import ChevronLeft from '../ChevronLeft';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 
-const EventToolbar = ({ className, event, onClose }) => {
+const EventToolbar = ({ className, event, onClose, productName }) => {
   return (
     <Toolbar className={className}>
       <EventToolbarCloseButton onClick={onClose} />
@@ -45,7 +45,7 @@ const EventToolbar = ({ className, event, onClose }) => {
         </div>
       </div>
       <div className="actions">
-        <EventShareBar event={event} buttonCaption={t`Share link`} />
+        <EventShareBar event={event} buttonCaption={t`Share link`} productName={productName} />
       </div>
       <div className="event-description">{event.description}</div>
     </Toolbar>

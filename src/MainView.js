@@ -298,8 +298,16 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderEventToolbar() {
-    const { event, onCloseEventsToolbar } = this.props;
-    return <EventToolbar event={event} onClose={onCloseEventsToolbar} />;
+    const { event, onCloseEventsToolbar, clientSideConfiguration } = this.props;
+    const productName = clientSideConfiguration.textContent.product.name;
+    const translatedProductName = translatedStringFromObject(productName);
+    return (
+      <EventToolbar
+        event={event}
+        onClose={onCloseEventsToolbar}
+        productName={translatedProductName}
+      />
+    );
   }
 
   renderClusterPanel() {
