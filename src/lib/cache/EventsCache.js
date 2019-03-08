@@ -25,7 +25,7 @@ export interface Event {
   _id: string;
   organizationId: string;
   sourceId?: string;
-  name?: string;
+  name: string;
   description?: string;
   meetingPoint: EventFeature;
   regionName?: string;

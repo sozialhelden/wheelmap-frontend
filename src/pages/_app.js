@@ -269,8 +269,21 @@ export default class App extends BaseApp {
     // TODO this feels like bad configuration
     const shareHost = `https://${hostName}/`;
 
-    const translatedDescription = translatedStringFromObject(description);
-    const translatedProductName = translatedStringFromObject(description);
+    let translatedDescription = translatedStringFromObject(description);
+    let translatedProductName = translatedStringFromObject(productName);
+    let pageTitle = translatedProductName;
+    let facebookMetaData = { ...facebook };
+    let twitterMetaData = { ...twitter };
+
+    if (routeName === 'eventDetail') {
+      const event = this.props.events.find(event => event._id === this.props.featureId);
+      if (event) {
+        pageTitle = translatedProductName ? `${event.name} - ${translatedProductName}` : event.name;
+        translatedDescription = event.description || event.name;
+        facebookMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
+        twitterMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
+      }
+    }
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
@@ -298,7 +311,12 @@ export default class App extends BaseApp {
               <meta content="app-id=399239476" name="apple-itunes-app" />
             )}
           </Head>
-          <OpenGraph productName={translatedProductName} description={translatedDescription} />
+
+          <OpenGraph
+            productName={translatedProductName}
+            title={pageTitle}
+            description={translatedDescription}
+          />
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
             <TwitterMeta
@@ -308,7 +326,8 @@ export default class App extends BaseApp {
               twitter={twitter}
             />
           )}
-          {facebook && <FacebookMeta facebook={facebook} />}
+          {facebook && <FacebookMeta facebook={facebookMetaData} />}
+
           {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
           {!skipApplicationBody && (
             <PageComponent
