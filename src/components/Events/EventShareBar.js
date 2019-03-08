@@ -7,7 +7,7 @@ import ShareBar from '../ShareBar/ShareBar';
 
 const EventShareBar = ({ className, event, buttonCaption, productName }) => {
   const baseUrl = env.public.baseUrl;
-  const url = event ? `${baseUrl}/${event._id}` : baseUrl;
+  const url = event ? `${baseUrl}/events/${event._id}` : baseUrl;
 
   const sharedObjectTitle = productName ? `${event.name} - ${productName}` : event.name;
 
