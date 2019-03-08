@@ -274,6 +274,8 @@ export default class App extends BaseApp {
     let pageTitle = translatedProductName;
     let facebookMetaData = { ...facebook };
     let twitterMetaData = { ...twitter };
+    const baseUrl = env.public.baseUrl;
+    let ogUrl = baseUrl;
 
     if (routeName === 'eventDetail') {
       const event = this.props.events.find(event => event._id === this.props.featureId);
@@ -282,6 +284,7 @@ export default class App extends BaseApp {
         translatedDescription = event.description || event.name;
         facebookMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
         twitterMetaData.imageUrl = event.photoUrl || '/static/images/eventPlaceholder.png';
+        ogUrl = `${baseUrl}/events/${event._id}`;
       }
     }
 
@@ -316,6 +319,7 @@ export default class App extends BaseApp {
             productName={translatedProductName}
             title={pageTitle}
             description={translatedDescription}
+            url={ogUrl}
           />
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
