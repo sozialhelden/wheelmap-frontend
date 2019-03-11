@@ -26,6 +26,18 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
           <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
         </div>
       </header>
+      <div className="actions">
+        <AppContextConsumer>
+          {appContext => (
+            <MappingEventShareBar
+              mappingEvent={mappingEvent}
+              buttonCaption={t`Share link`}
+              baseUrl={appContext.baseUrl}
+              productName={productName}
+            />
+          )}
+        </AppContextConsumer>
+      </div>
       <img
         className="mapping-event-image"
         src={mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'}
@@ -46,18 +58,6 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
           </div>
           <div className="statistics-description">{t`people invited`}</div>
         </div>
-      </div>
-      <div className="actions">
-        <AppContextConsumer>
-          {appContext => (
-            <MappingEventShareBar
-              mappingEvent={mappingEvent}
-              buttonCaption={t`Share link`}
-              baseUrl={appContext.baseUrl}
-              productName={productName}
-            />
-          )}
-        </AppContextConsumer>
       </div>
       <div className="mapping-event-description">{mappingEvent.description}</div>
     </Toolbar>
