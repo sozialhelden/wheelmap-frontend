@@ -5,8 +5,21 @@ import styled from 'styled-components';
 import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
 import CloseButton from '../CloseButton';
+import { MappingEvents } from '../../lib/cache/MappingEventsCache';
 
-const MappingEventsToolbar = ({ className, mappingEvents, onClose, onMappingEventLinkClick }) => (
+type MappingEventsToolbarProps = {
+  className: string,
+  mappingEvents: MappingEvents,
+  onClose: () => void,
+  onMappingEventLinkClick: (eventId: string) => void,
+};
+
+const MappingEventsToolbar = ({
+  className,
+  mappingEvents,
+  onClose,
+  onMappingEventLinkClick,
+}: MappingEventsToolbarProps) => (
   <Toolbar className={className}>
     <MappingEventsToolbarCloseButton onClick={onClose} />
     <header>
@@ -17,7 +30,7 @@ const MappingEventsToolbar = ({ className, mappingEvents, onClose, onMappingEven
       </div>
     </header>
     <ul>
-      {mappingEvents.map(event => (
+      {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
         <li key={event._id}>
           <Link
             to={`mappingEventDetail`}

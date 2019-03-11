@@ -373,31 +373,33 @@ export default class Map extends React.Component<Props, State> {
     map.addLayer(this.mappingEventsLayer);
 
     this.props.mappingEvents &&
-      this.props.mappingEvents.forEach(event => {
-        const eventFeature = event.meetingPoint;
+      this.props.mappingEvents
+        .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
+        .forEach(event => {
+          const eventFeature = event.meetingPoint;
 
-        if (!eventFeature) {
-          return;
-        }
+          if (!eventFeature) {
+            return;
+          }
 
-        const eventLat = eventFeature.geometry.coordinates[1];
-        const eventLon = eventFeature.geometry.coordinates[0];
+          const eventLat = eventFeature.geometry.coordinates[1];
+          const eventLon = eventFeature.geometry.coordinates[0];
 
-        const eventMarker = new HighlightableMarker(
-          new L.LatLng(eventLat, eventLon),
-          event._id,
-          extraOptions =>
-            new MappingEventMarkerIcon({
-              hrefForFeature: () => `/mappingEvents/${event._id}`,
-              onClick: () => this.props.onMappingEventClick(event._id),
-              feature: eventFeature,
-              featureId: event._id,
-              ...extraOptions,
-            })
-        );
+          const eventMarker = new HighlightableMarker(
+            new L.LatLng(eventLat, eventLon),
+            event._id,
+            extraOptions =>
+              new MappingEventMarkerIcon({
+                hrefForFeature: () => `/mappingEvents/${event._id}`,
+                onClick: () => this.props.onMappingEventClick(event._id),
+                feature: eventFeature,
+                featureId: event._id,
+                ...extraOptions,
+              })
+          );
 
-        this.mappingEventsLayer.addLayer(eventMarker);
-      });
+          this.mappingEventsLayer.addLayer(eventMarker);
+        });
 
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
