@@ -6,7 +6,7 @@ import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
 import CloseButton from '../CloseButton';
 
-const MappingEventsToolbar = ({ className, mappingEvents, onClose, onEventLinkClick }) => (
+const MappingEventsToolbar = ({ className, mappingEvents, onClose, onMappingEventLinkClick }) => (
   <Toolbar className={className}>
     <MappingEventsToolbarCloseButton onClick={onClose} />
     <header>
@@ -23,7 +23,7 @@ const MappingEventsToolbar = ({ className, mappingEvents, onClose, onEventLinkCl
             to={`mappingEventDetail`}
             params={{ id: event._id }}
             className="link-button"
-            onClick={() => onEventLinkClick(event._id)}
+            onClick={() => onMappingEventLinkClick(event._id)}
           >
             <h3>{event.name}</h3>
             <p>{event.regionName}</p>

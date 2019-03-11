@@ -221,7 +221,7 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[],
 };
 
-export type Feature = AccessibilityCloudFeature | WheelmapFeature | EventFeature;
+export type Feature = AccessibilityCloudFeature | WheelmapFeature | MappingEventFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature | EquipmentInfo) {

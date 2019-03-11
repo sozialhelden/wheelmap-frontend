@@ -563,7 +563,7 @@ class MainView extends React.Component<Props, State> {
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
         onClusterClick={this.props.onClusterClick}
-        onEventClick={this.props.onEventClick}
+        onMappingEventClick={this.props.onMappingEventClick}
         hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
@@ -577,7 +577,7 @@ class MainView extends React.Component<Props, State> {
         categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
-        events={this.props.events}
+        mappingEvents={this.props.mappingEvents}
         equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         categories={this.props.categories}

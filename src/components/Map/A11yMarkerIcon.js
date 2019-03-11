@@ -33,9 +33,7 @@ export default class A11yMarkerIcon extends MarkerIcon {
     const featureId = properties.id || properties._id || feature._id;
     link.href = this.options.hrefForFeature(featureId);
 
-    const iconName = categories
-      ? getIconNameForProperties(categories, properties) || 'place'
-      : 'event';
+    const iconName = getIconNameForProperties(categories, properties);
 
     const iconClassNames = `marker-icon${this.options.highlighted ? ' highlighted-marker' : ''}`;
 

@@ -6,4 +6,4 @@ export { default as unknownWithArrow } from './unknownWithArrow';
 export { default as unknownWithoutArrow } from './unknownWithoutArrow';
 export { default as yesWithArrow } from './yesWithArrow';
 export { default as yesWithoutArrow } from './yesWithoutArrow';
-export { default as mappingEvent } from './MappingEvent';
+export { default as mappingEvent } from './mappingEvent';
