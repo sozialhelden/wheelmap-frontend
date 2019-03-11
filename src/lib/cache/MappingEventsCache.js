@@ -45,7 +45,7 @@ export interface MappingEvent {
   statistics: IMappingEventStatistics;
 }
 
-export type MappingEvents = Event[];
+export type MappingEvents = MappingEvent[];
 
 type MappingEventsData = {
   results: MappingEvents,
