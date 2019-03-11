@@ -4,17 +4,19 @@ import styled from 'styled-components';
 
 import ShareBar from '../ShareBar/ShareBar';
 
-const EventShareBar = ({ className, event, buttonCaption, baseUrl, productName }) => {
-  const url = event ? `${baseUrl}/events/${event._id}` : baseUrl;
+const MappingEventShareBar = ({ className, mappingEvent, buttonCaption, baseUrl, productName }) => {
+  const url = mappingEvent ? `${baseUrl}/events/${mappingEvent._id}` : baseUrl;
 
-  const sharedObjectTitle = productName ? `${event.name} - ${productName}` : event.name;
+  const sharedObjectTitle = productName
+    ? `${mappingEvent.name} - ${productName}`
+    : mappingEvent.name;
 
-  const description = event.description || event.name;
+  const description = mappingEvent.description || mappingEvent.name;
 
   const mailSubject = sharedObjectTitle;
-  // translator: Email text used when sharing an event via email.
+  // translator: Email text used when sharing a mapping event via email.
   let mailBody = t`Help us out and join the ${
-    event.name
+    mappingEvent.name
   } mapping event on ${productName}. You can find more info here: ${url}`;
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
@@ -28,13 +30,13 @@ const EventShareBar = ({ className, event, buttonCaption, baseUrl, productName }
       shareButtonCaption={buttonCaption}
       pageDescription={description}
       sharedObjectTitle={sharedObjectTitle}
-      featureId={event._id}
+      featureId={mappingEvent._id}
       mailToLink={mailToLink}
     />
   );
 };
 
-const StyledEventShareBar = styled(EventShareBar)`
+const StyledEventShareBar = styled(MappingEventShareBar)`
   width: 100%;
 `;
 

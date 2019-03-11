@@ -3,7 +3,7 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
-import EventShareBar from './EventShareBar';
+import MappingEventShareBar from './MappingEventShareBar';
 import Link from '../Link/Link';
 import CloseButton from '../CloseButton';
 import ChevronLeft from '../ChevronLeft';
@@ -11,38 +11,38 @@ import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
 
-const EventToolbar = ({ className, event, onClose, productName }) => {
-  const date = new Date(event.startTime.$date);
+const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
+  const date = new Date(mappingEvent.startTime.$date);
 
   return (
     <Toolbar className={className}>
-      <EventToolbarCloseButton onClick={onClose} />
+      <MappingEventToolbarCloseButton onClick={onClose} />
       <header>
-        <Link to="events">
-          <EventToolbarChevronLeft />
+        <Link to="mappingEvents">
+          <MappingEventToolbarChevronLeft />
         </Link>
         <div>
-          <h2>{event.name}</h2>
+          <h2>{mappingEvent.name}</h2>
           <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
         </div>
       </header>
       <img
-        className="event-image"
-        src={event.photoUrl ? event.photoUrl : '/static/images/eventPlaceholder.png'}
+        className="mapping-event-image"
+        src={mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'}
         alt=""
       />
       <div className="statistics">
         <div>
           <div className="statistics-count">
             <MapPinWithPlusIcon />
-            <span>{event.statistics.mappedPlacesCount}</span>
+            <span>{mappingEvent.statistics.mappedPlacesCount}</span>
           </div>
           <div className="statistics-description">{t`map places`}</div>
         </div>
         <div>
           <div className="statistics-count">
             <BellIcon />
-            <span>{event.statistics.invitedParticipantCount}</span>
+            <span>{mappingEvent.statistics.invitedParticipantCount}</span>
           </div>
           <div className="statistics-description">{t`people invited`}</div>
         </div>
@@ -50,8 +50,8 @@ const EventToolbar = ({ className, event, onClose, productName }) => {
       <div className="actions">
         <AppContextConsumer>
           {appContext => (
-            <EventShareBar
-              event={event}
+            <MappingEventShareBar
+              mappingEvent={mappingEvent}
               buttonCaption={t`Share link`}
               baseUrl={appContext.baseUrl}
               productName={productName}
@@ -59,18 +59,18 @@ const EventToolbar = ({ className, event, onClose, productName }) => {
           )}
         </AppContextConsumer>
       </div>
-      <div className="event-description">{event.description}</div>
+      <div className="mapping-event-description">{mappingEvent.description}</div>
     </Toolbar>
   );
 };
 
-const EventToolbarChevronLeft = styled(ChevronLeft)`
+const MappingEventToolbarChevronLeft = styled(ChevronLeft)`
   margin-left: 0;
   padding: 15px 30px 15px 0;
   z-index: 4;
 `;
 
-const EventToolbarCloseButton = styled(CloseButton)`
+const MappingEventToolbarCloseButton = styled(CloseButton)`
   position: sticky;
   top: 0px;
   float: right;
@@ -78,7 +78,7 @@ const EventToolbarCloseButton = styled(CloseButton)`
   z-index: 4;
 `;
 
-const StyledEventToolbar = styled(EventToolbar)`
+const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   padding-top: 0;
   color: #22262d;
   line-height: 1.2;
@@ -126,7 +126,7 @@ const StyledEventToolbar = styled(EventToolbar)`
     margin-bottom: 20px;
   }
 
-  .event-image {
+  .mapping-event-image {
     width: calc(100% + 30px);
     margin: 0 -15px 20px;
   }
@@ -156,9 +156,9 @@ const StyledEventToolbar = styled(EventToolbar)`
     color: #22262d;
   }
 
-  .event-description {
+  .mapping-event-description {
     margin-bottom: 20px;
   }
 `;
 
-export default StyledEventToolbar;
+export default StyledMappingEventToolbar;

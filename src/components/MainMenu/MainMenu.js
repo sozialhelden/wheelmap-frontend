@@ -9,7 +9,6 @@ import FocusTrap from '@sozialhelden/focus-trap-react';
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
 import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
 import colors from '../../lib/colors';
-import env from '../../lib/env';
 
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import type { LinkData } from '../../App';
@@ -26,7 +25,7 @@ type Props = {
   productName: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
-  onEventsLinkClick: () => void,
+  onMappingEventsLinkClick: () => void,
   isOpen: boolean,
   lat: string,
   lon: string,
@@ -138,7 +137,7 @@ class MainMenu extends React.Component<Props, State> {
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const onClick = url === '/events' ? this.props.onEventsLinkClick : null;
+      const onClick = url === '/events' ? this.props.onMappingEventsLinkClick : null;
 
       if (typeof url === 'string') {
         return (

@@ -26,11 +26,11 @@ const routes = [
     path: '/contribution-thanks',
   },
   {
-    name: 'events',
+    name: 'mappingEvents',
     path: '/events',
   },
   {
-    name: 'eventDetail',
+    name: 'mappingEventDetail',
     path: '/events/:id',
   },
   {

@@ -21,9 +21,9 @@ type Options = typeof L.Icon.options & {
   highlighted?: boolean,
 };
 
-const EventMarkerSVG = markers['event'];
+const MappingEventMarkerSVG = markers['mappingEvent'];
 
-const StyledEventMarkerSVG = styled(EventMarkerSVG)`
+const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
   width: 25px;
   height: 25px;
 
@@ -54,7 +54,7 @@ export default class EventMarkerIcon extends MarkerIcon {
     const iconClassNames = `marker-icon${this.options.highlighted ? ' highlighted-marker' : ''}`;
 
     ReactDOM.render(
-      <StyledEventMarkerSVG
+      <StyledMappingEventMarkerSVG
         className={iconClassNames}
         shadowed={this.options.highlighted}
         centered

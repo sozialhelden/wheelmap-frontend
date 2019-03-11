@@ -277,16 +277,20 @@ export default class App extends BaseApp {
     let twitterMetaData = { ...twitter };
     let ogUrl = baseUrl;
 
-    if (routeName === 'eventDetail') {
-      const event = this.props.events.find(event => event._id === this.props.featureId);
-      if (event) {
-        pageTitle = translatedProductName ? `${event.name} - ${translatedProductName}` : event.name;
-        translatedDescription = event.description || event.name;
+    if (routeName === 'mappingEventDetail') {
+      const mappingEvent = this.props.mappingEvents.find(
+        event => event._id === this.props.featureId
+      );
+      if (mappingEvent) {
+        pageTitle = translatedProductName
+          ? `${mappingEvent.name} - ${translatedProductName}`
+          : mappingEvent.name;
+        translatedDescription = mappingEvent.description || mappingEvent.name;
         facebookMetaData.imageURL =
-          event.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
         twitterMetaData.imageUrl =
-          event.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
-        ogUrl = `${baseUrl}/events/${event._id}`;
+          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+        ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
       }
     }
 

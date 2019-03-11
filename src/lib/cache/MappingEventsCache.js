@@ -2,18 +2,18 @@
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
-import type { EventFeature } from '../Feature';
+import type { MappingEventFeature } from '../Feature';
 
 // Types
-type EventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
-type EventOpenForEnum = 'inviteOnly' | 'everyone';
+type MappingEventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
+type MappingEventOpenForEnum = 'inviteOnly' | 'everyone';
 
-interface EventRegion {
+interface MappingEventRegion {
   topLeft: { latitude: number, longitude: number };
   bottomRight: { latitude: number, longitude: number };
 }
 
-interface IEventStatistics {
+interface IMappingEventStatistics {
   fullParticipantCount: number;
   invitedParticipantCount: number;
   draftParticipantCount: number;
@@ -21,15 +21,15 @@ interface IEventStatistics {
   mappedPlacesCount: number;
 }
 
-export interface Event {
+export interface MappingEvent {
   _id: string;
   organizationId: string;
   sourceId?: string;
   name: string;
   description?: string;
-  meetingPoint: EventFeature;
+  meetingPoint: MappingEventFeature;
   regionName?: string;
-  region?: EventRegion;
+  region?: MappingEventRegion;
   extent?: [number, number, number, number];
   startTime?: Date;
   endTime?: Date;
@@ -40,18 +40,18 @@ export interface Event {
   targets?: {
     mappedPlacesCount?: number,
   };
-  status: EventStatusEnum;
-  openFor: EventOpenForEnum;
-  statistics: IEventStatistics;
+  status: MappingEventStatusEnum;
+  openFor: MappingEventOpenForEnum;
+  statistics: IMappingEventStatistics;
 }
 
-export type Events = Event[];
+export type MappingEvents = Event[];
 
-type EventsData = {
-  results: Events,
+type MappingEventsData = {
+  results: MappingEvents,
 };
 
-export const addExtentsDerivedFromRegions = (events: Events = []): Events => {
+export const addExtentsDerivedFromRegions = (events: MappingEvents = []): MappingEvents => {
   events.map(event => {
     if (event.region) {
       event.extent = [
@@ -67,17 +67,17 @@ export const addExtentsDerivedFromRegions = (events: Events = []): Events => {
   return events;
 };
 
-export default class EventsCache extends URLDataCache<EventsData> {
+export default class MappingEventsCache extends URLDataCache<MappingEventsData> {
   baseUrl = env.public.accessibilityCloud.baseUrl.cached;
   appToken = env.public.accessibilityCloud.appToken;
 
-  async getEvents() {
+  async getMappingEvents() {
     const url = `${this.baseUrl}/events.json?appToken=${this.appToken}`;
     const data = await this.getData(url);
     return data.results;
   }
 }
 
-export const eventsCache = new EventsCache({
+export const mappingEventsCache = new MappingEventsCache({
   ttl: 1000 * 60 * 2, // 2 minutes
 });

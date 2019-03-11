@@ -14,7 +14,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
-import { type Events, type Event } from './lib/cache/EventsCache';
+import { type MappingEvents, type MappingEvent } from './lib/cache/MappingEventsCache';
 import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
@@ -71,8 +71,8 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
-  events: Events,
-  event?: Event,
+  mappingEvents: MappingEvents,
+  mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -91,8 +91,8 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
-  isEventsToolbarVisible: boolean,
-  isEventToolbarVisible: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -132,8 +132,8 @@ class App extends React.Component<Props, State> {
     accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
-    isEventsToolbarVisible: false,
-    isEventToolbarVisible: false,
+    isMappingEventsToolbarVisible: false,
+    isMappingEventToolbarVisible: false,
 
     // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
@@ -176,16 +176,16 @@ class App extends React.Component<Props, State> {
       newState.modalNodeState = null;
     }
 
-    if (props.routeName === 'events') {
-      newState.isEventsToolbarVisible = true;
+    if (props.routeName === 'mappingEvents') {
+      newState.isMappingEventsToolbarVisible = true;
     } else {
-      newState.isEventsToolbarVisible = false;
+      newState.isMappingEventsToolbarVisible = false;
     }
 
-    if (props.routeName === 'eventDetail') {
-      newState.isEventToolbarVisible = true;
+    if (props.routeName === 'mappingEventDetail') {
+      newState.isMappingEventToolbarVisible = true;
     } else {
-      newState.isEventToolbarVisible = false;
+      newState.isMappingEventToolbarVisible = false;
     }
 
     const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
@@ -329,10 +329,10 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  showSelectedEvent = (eventId: string) => {
+  showSelectedMappingEvent = (eventId: string) => {
     const params = this.getCurrentParams();
     params.id = eventId;
-    this.props.routerHistory.push('eventDetail', params);
+    this.props.routerHistory.push('mappingEventDetail', params);
   };
 
   showCluster = cluster => {
@@ -587,7 +587,7 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onCloseEventsToolbar = () => {
+  onCloseMappingEventsToolbar = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
   };
@@ -709,8 +709,8 @@ class App extends React.Component<Props, State> {
     );
   }
 
-  onEventLinkClick = (eventId: string) => {
-    const event = this.props.events.find(event => event._id === eventId);
+  onMappingEventLinkClick = (eventId: string) => {
+    const event = this.props.mappingEvents.find(event => event._id === eventId);
     const extent = event && event.extent;
 
     if (extent) {
@@ -718,7 +718,7 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onEventsLinkClick = () => {
+  onMappingEventsLinkClick = () => {
     this.setState({ isMainMenuOpen: false });
   };
 
@@ -731,15 +731,15 @@ class App extends React.Component<Props, State> {
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
     const isSearchButtonVisible = !isSearchBarVisible;
-    const isEventsToolbarVisible = this.state.isEventsToolbarVisible;
-    const isEventToolbarVisible = this.state.isEventToolbarVisible;
+    const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
+    const isMappingEventToolbarVisible = this.state.isMappingEventToolbarVisible;
 
     const extraProps = {
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
-      isEventsToolbarVisible,
-      isEventToolbarVisible,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
       isSearchBarVisible,
@@ -768,8 +768,8 @@ class App extends React.Component<Props, State> {
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
-      events: this.props.events,
-      event: this.props.event,
+      mappingEvents: this.props.mappingEvents,
+      mappingEvent: this.props.mappingEvent,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
@@ -815,16 +815,16 @@ class App extends React.Component<Props, State> {
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
           onClusterClick={this.showCluster}
-          onEventClick={this.showSelectedEvent}
+          onMappingEventClick={this.showSelectedMappingEvent}
           onCloseClusterPanel={this.closeActiveCluster}
           onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
           onCloseNodeToolbar={this.onCloseNodeToolbar}
-          onCloseEventsToolbar={this.onCloseEventsToolbar}
+          onCloseMappingEventsToolbar={this.onCloseMappingEventsToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
-          onEventsLinkClick={this.onEventsLinkClick}
+          onMappingEventsLinkClick={this.onMappingEventsLinkClick}
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}
@@ -840,7 +840,7 @@ class App extends React.Component<Props, State> {
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
           onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
-          onEventLinkClick={this.onEventLinkClick}
+          onMappingEventLinkClick={this.onMappingEventLinkClick}
           // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

@@ -18,21 +18,25 @@ import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
-import { eventsCache, type Events, addExtentsDerivedFromRegions } from '../lib/cache/EventsCache';
+import {
+  mappingEventsCache,
+  type MappingEvents,
+  addExtentsDerivedFromRegions,
+} from '../lib/cache/MappingEventsCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
 import MapData from './MapData';
 import CreatePlaceData from './CreatePlaceData';
 import ContributionThanksData from './ContributionThanksData';
-import EventDetailData from './EventDetailData';
+import MappingEventDetailData from './MappingEventDetailData';
 
 export type AppProps = {
   userAgent: UAResult,
   rawCategoryLists: RawCategoryLists,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
-  events: Events,
+  mappingEvents: MappingEvents,
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -74,7 +78,7 @@ const dataTable: DataTable = Object.freeze({
   equipment: PlaceDetailsData,
   createPlace: CreatePlaceData,
   contributionThanks: ContributionThanksData,
-  eventDetail: EventDetailData,
+  mappingEventDetail: MappingEventDetailData,
 });
 
 export function getInitialRouteProps(
@@ -177,13 +181,13 @@ export async function getInitialAppProps(
     disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
-  // load events
-  const eventsPromise = eventsCache.getEvents();
+  // load mapping events
+  const mappingEventsPromise = mappingEventsCache.getMappingEvents();
 
   const clientSideConfiguration = await clientSideConfigurationPromise;
   const rawCategoryLists = await rawCategoryListsPromise;
-  let events = await eventsPromise;
-  events = addExtentsDerivedFromRegions(events);
+  let mappingEvents = await mappingEventsPromise;
+  mappingEvents = addExtentsDerivedFromRegions(mappingEvents);
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');
@@ -214,7 +218,7 @@ export async function getInitialAppProps(
     rawCategoryLists,
     clientSideConfiguration,
     category,
-    events,
+    mappingEvents,
     extent,
     lat,
     lon,

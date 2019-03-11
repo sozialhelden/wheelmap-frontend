@@ -32,7 +32,6 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
-import env from './lib/env';
 
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
@@ -56,8 +55,9 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
-import EventsToolbar from './components/Events/EventsToolbar';
-import EventToolbar from './components/Events/EventToolbar';
+import type { MappingEvent, MappingEvents } from './lib/cache/MappingEventsCache';
+import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
+import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 
 type Props = {
   className: string,
@@ -79,8 +79,8 @@ type Props = {
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
-  events: Array,
-  event: Object,
+  mappingEvents: MappingEvents,
+  mappingEvent: MappingEvent,
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
@@ -92,8 +92,8 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
-  isEventsToolbarVisible: boolean,
-  isEventToolbarVisible: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -108,10 +108,10 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
-  onEventClick: (eventId: string) => void,
+  onMappingEventClick: (eventId: string) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
-  onCloseEventsToolbar: () => void,
+  onCloseMappingEventsToolbar: () => void,
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
@@ -123,8 +123,8 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
-  onEventLinkClick: () => void,
-  onEventsLinkClick: () => void,
+  onMappingEventLinkClick: () => void,
+  onMappingEventsLinkClick: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -286,25 +286,26 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderEventsToolbar() {
-    const { events, onCloseEventsToolbar, onEventLinkClick } = this.props;
+  renderMappingEventsToolbar() {
+    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventLinkClick } = this.props;
     return (
-      <EventsToolbar
-        events={events}
-        onClose={onCloseEventsToolbar}
-        onEventLinkClick={onEventLinkClick}
+      <MappingEventsToolbar
+        mappingEvents={mappingEvents}
+        onClose={onCloseMappingEventsToolbar}
+        onMappingEventLinkClick={onMappingEventLinkClick}
       />
     );
   }
 
-  renderEventToolbar() {
-    const { event, onCloseEventsToolbar, clientSideConfiguration } = this.props;
+  renderMappingEventToolbar() {
+    const { mappingEvent, onCloseMappingEventsToolbar, clientSideConfiguration } = this.props;
     const productName = clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
+
     return (
-      <EventToolbar
-        event={event}
-        onClose={onCloseEventsToolbar}
+      <MappingEventToolbar
+        mappingEvent={mappingEvent}
+        onClose={onCloseMappingEventsToolbar}
         productName={translatedProductName}
       />
     );
@@ -423,7 +424,7 @@ class MainView extends React.Component<Props, State> {
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
-        onEventsLinkClick={this.props.onEventsLinkClick}
+        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}
@@ -620,8 +621,8 @@ class MainView extends React.Component<Props, State> {
       isSearchBarVisible,
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
-      isEventsToolbarVisible,
-      isEventToolbarVisible,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -670,8 +671,8 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-            {isEventsToolbarVisible && this.renderEventsToolbar()}
-            {isEventToolbarVisible && this.renderEventToolbar()}
+            {isMappingEventsToolbarVisible && this.renderMappingEventsToolbar()}
+            {isMappingEventToolbarVisible && this.renderMappingEventToolbar()}
             {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}

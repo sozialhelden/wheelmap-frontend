@@ -6,21 +6,21 @@ import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
 import CloseButton from '../CloseButton';
 
-const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
+const MappingEventsToolbar = ({ className, mappingEvents, onClose, onEventLinkClick }) => (
   <Toolbar className={className}>
-    <EventsToolbarCloseButton onClick={onClose} />
+    <MappingEventsToolbarCloseButton onClick={onClose} />
     <header>
-      <span className="number-badge">{events.length}</span>
+      <span className="number-badge">{mappingEvents.length}</span>
       <div className="header-title">
         <h2>{t`Events`}</h2>
         <p>{t`Meet the community and map the accessibility of places around you`}</p>
       </div>
     </header>
     <ul>
-      {events.map(event => (
+      {mappingEvents.map(event => (
         <li key={event._id}>
           <Link
-            to={`eventDetail`}
+            to={`mappingEventDetail`}
             params={{ id: event._id }}
             className="link-button"
             onClick={() => onEventLinkClick(event._id)}
@@ -34,7 +34,7 @@ const EventsToolbar = ({ className, events, onClose, onEventLinkClick }) => (
   </Toolbar>
 );
 
-const EventsToolbarCloseButton = styled(CloseButton)`
+const MappingEventsToolbarCloseButton = styled(CloseButton)`
   position: sticky;
   top: 0px;
   float: right;
@@ -42,7 +42,7 @@ const EventsToolbarCloseButton = styled(CloseButton)`
   z-index: 4;
 `;
 
-const StyledEventsToolbar = styled(EventsToolbar)`
+const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
   padding-top: 0;
   color: #22262d;
   line-height: 1.2;
@@ -102,4 +102,4 @@ const StyledEventsToolbar = styled(EventsToolbar)`
   }
 `;
 
-export default StyledEventsToolbar;
+export default StyledMappingEventsToolbar;

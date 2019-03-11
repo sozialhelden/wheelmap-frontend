@@ -169,14 +169,14 @@ export type AccessibilityCloudFeature = {
   properties: AccessibilityCloudProperties,
 };
 
-export type EventFeatureProperties = {
+export type MappingEventFeatureProperties = {
   description: string,
 };
 
-export type EventFeature = {
+export type MappingEventFeature = {
   type: 'Feature',
   geometry: GeometryObject,
-  properties: EventFeatureProperties,
+  properties: MappingEventFeatureProperties,
 };
 
 export type FeatureCollection<T> = {

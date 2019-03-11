@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Event = props => (
+const MappingEvent = props => (
   <svg viewBox="0 0 54 72" width="1em" height="1em" {...props}>
     <g fill="none" fillRule="evenodd">
       <ellipse fill="#000" fillRule="nonzero" opacity={0.1} cx={27.5} cy={69.5} rx={3.5} ry={2} />
@@ -19,4 +19,4 @@ const Event = props => (
   </svg>
 );
 
-export default Event;
+export default MappingEvent;

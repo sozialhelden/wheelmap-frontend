@@ -48,9 +48,9 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
-import type { Events } from '../../lib/cache/EventsCache';
+import type { MappingEvents } from '../../lib/cache/MappingEventsCache';
 import A11yMarkerIcon from './A11yMarkerIcon';
-import EventMarkerIcon from './EventMarkerIcon';
+import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
@@ -80,7 +80,7 @@ type TargetMapState = {
 type Props = {
   featureId?: ?string,
   feature?: PotentialPromise<?Feature>,
-  events?: Events,
+  mappingEvents?: MappingEvents,
   equipmentInfoId?: ?string,
   equipmentInfo?: ?PotentialPromise<?EquipmentInfo>,
 
@@ -98,7 +98,7 @@ type Props = {
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onClusterClick: (cluster: Cluster) => void,
-  onEventClick: (eventId: string) => void,
+  onMappingEventClick: (eventId: string) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
@@ -154,7 +154,7 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   markerClusterGroup: ?L.MarkerClusterGroup;
-  eventsLayer: ?L.Layer;
+  mappingEventsLayer: ?L.Layer;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
@@ -369,11 +369,11 @@ export default class Map extends React.Component<Props, State> {
     this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
-    this.eventsLayer = new L.LayerGroup();
-    map.addLayer(this.eventsLayer);
+    this.mappingEventsLayer = new L.LayerGroup();
+    map.addLayer(this.mappingEventsLayer);
 
-    this.props.events &&
-      this.props.events.forEach(event => {
+    this.props.mappingEvents &&
+      this.props.mappingEvents.forEach(event => {
         const eventFeature = event.meetingPoint;
 
         if (!eventFeature) {
@@ -387,16 +387,16 @@ export default class Map extends React.Component<Props, State> {
           new L.LatLng(eventLat, eventLon),
           event._id,
           extraOptions =>
-            new EventMarkerIcon({
-              hrefForFeature: () => `/events/${event._id}`,
-              onClick: () => this.props.onEventClick(event._id),
+            new MappingEventMarkerIcon({
+              hrefForFeature: () => `/mappingEvents/${event._id}`,
+              onClick: () => this.props.onMappingEventClick(event._id),
               feature: eventFeature,
               featureId: event._id,
               ...extraOptions,
             })
         );
 
-        this.eventsLayer.addLayer(eventMarker);
+        this.mappingEventsLayer.addLayer(eventMarker);
       });
 
     map.on('moveend', () => {
@@ -794,13 +794,13 @@ export default class Map extends React.Component<Props, State> {
         acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
 
-      if (this.eventsLayer) {
-        const selectedEventMarker = Object.keys(this.eventsLayer._layers)
-          .map(key => this.eventsLayer._layers[key])
+      if (this.mappingEventsLayer) {
+        const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
+          .map(key => this.mappingEventsLayer._layers[key])
           .find(marker => marker.featureId === props.featureId);
 
-        if (selectedEventMarker) {
-          highlightMarkers(this.highLightLayer, [selectedEventMarker]);
+        if (selectedMappingEventMarker) {
+          highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);
         }
       }
     } else {
