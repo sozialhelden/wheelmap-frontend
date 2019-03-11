@@ -16,6 +16,8 @@ import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
+import { AppContextProvider } from '../AppContext';
+
 import {
   parseAcceptLanguageString,
   localeFromString,
@@ -266,15 +268,13 @@ export default class App extends BaseApp {
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
 
-    // TODO this feels like bad configuration
-    const shareHost = `https://${hostName}/`;
+    const baseUrl = `https://${hostName}`;
 
     let translatedDescription = translatedStringFromObject(description);
     let translatedProductName = translatedStringFromObject(productName);
     let pageTitle = translatedProductName;
     let facebookMetaData = { ...facebook };
     let twitterMetaData = { ...twitter };
-    const baseUrl = env.public.baseUrl;
     let ogUrl = baseUrl;
 
     if (routeName === 'eventDetail') {
@@ -291,6 +291,8 @@ export default class App extends BaseApp {
     }
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
+
+    const appContext = { baseUrl };
 
     return (
       <Container>
@@ -326,7 +328,7 @@ export default class App extends BaseApp {
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
             <TwitterMeta
-              shareHost={shareHost}
+              shareHost={baseUrl}
               productName={translatedProductName}
               description={translatedDescription}
               twitter={twitter}
@@ -336,11 +338,13 @@ export default class App extends BaseApp {
 
           {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
           {!skipApplicationBody && (
-            <PageComponent
-              routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, appProps, isServer)}
-              routeName={routeName}
-            />
+            <AppContextProvider value={appContext}>
+              <PageComponent
+                routerHistory={this.routerHistory}
+                {...getRenderProps(routeName, appProps, isServer)}
+                routeName={routeName}
+              />
+            </AppContextProvider>
           )}
         </React.Fragment>
       </Container>

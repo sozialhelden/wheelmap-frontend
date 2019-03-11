@@ -1,12 +1,10 @@
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
-import env from '../../lib/env';
 
 import ShareBar from '../ShareBar/ShareBar';
 
-const EventShareBar = ({ className, event, buttonCaption, productName }) => {
-  const baseUrl = env.public.baseUrl;
+const EventShareBar = ({ className, event, buttonCaption, baseUrl, productName }) => {
   const url = event ? `${baseUrl}/events/${event._id}` : baseUrl;
 
   const sharedObjectTitle = productName ? `${event.name} - ${productName}` : event.name;

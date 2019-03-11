@@ -9,6 +9,7 @@ import CloseButton from '../CloseButton';
 import ChevronLeft from '../ChevronLeft';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
+import { AppContextConsumer } from '../../AppContext';
 
 const EventToolbar = ({ className, event, onClose, productName }) => {
   const date = new Date(event.startTime.$date);
@@ -47,7 +48,16 @@ const EventToolbar = ({ className, event, onClose, productName }) => {
         </div>
       </div>
       <div className="actions">
-        <EventShareBar event={event} buttonCaption={t`Share link`} productName={productName} />
+        <AppContextConsumer>
+          {appContext => (
+            <EventShareBar
+              event={event}
+              buttonCaption={t`Share link`}
+              baseUrl={appContext.baseUrl}
+              productName={productName}
+            />
+          )}
+        </AppContextConsumer>
       </div>
       <div className="event-description">{event.description}</div>
     </Toolbar>
