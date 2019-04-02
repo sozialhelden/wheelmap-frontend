@@ -11,7 +11,7 @@ export function gtag(...args: any[]) {
 }
 
 type Props = {
-  googleAnalytics: GoogleAnalyticsConfiguration,
+  googleAnalytics?: GoogleAnalyticsConfiguration,
 };
 
 class GoogleAnalytics extends PureComponent<Props> {
@@ -24,6 +24,7 @@ class GoogleAnalytics extends PureComponent<Props> {
   }
 
   track() {
+    if (!this.props.googleAnalytics) return;
     const { trackingId } = this.props.googleAnalytics;
 
     if (!trackingId) {
@@ -35,6 +36,10 @@ class GoogleAnalytics extends PureComponent<Props> {
   }
 
   render() {
+    if (!this.props.googleAnalytics) {
+      return null;
+    }
+
     const { trackingId, siteVerification } = this.props.googleAnalytics;
 
     return (

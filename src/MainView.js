@@ -376,7 +376,7 @@ class MainView extends React.Component<Props, State> {
 
     this.setState({ analyticsAllowed: value });
 
-    if (googleAnalytics.trackingId) {
+    if (googleAnalytics && googleAnalytics.trackingId) {
       if (value) {
         enableAnalytics(googleAnalytics.trackingId);
       } else {
