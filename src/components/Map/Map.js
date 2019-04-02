@@ -54,6 +54,8 @@ import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
+import { mappingEventHalo } from '../icons/markers';
+import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
 
 window.L = L;
 
@@ -155,6 +157,7 @@ export default class Map extends React.Component<Props, State> {
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   markerClusterGroup: ?L.MarkerClusterGroup;
   mappingEventsLayer: ?L.Layer;
+  mappingEventsHaloLayer: ?L.Layer;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
@@ -369,6 +372,9 @@ export default class Map extends React.Component<Props, State> {
     this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
+    this.mappingEventsHaloLayer = new L.LayerGroup();
+    map.addLayer(this.mappingEventsHaloLayer);
+
     this.mappingEventsLayer = new L.LayerGroup();
     map.addLayer(this.mappingEventsLayer);
 
@@ -384,6 +390,14 @@ export default class Map extends React.Component<Props, State> {
 
           const eventLat = eventFeature.geometry.coordinates[1];
           const eventLon = eventFeature.geometry.coordinates[0];
+
+          const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
+            icon: new MappingEventHaloMarkerIcon(),
+            keyboard: false,
+            pane: 'shadowPane',
+          });
+
+          this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
 
           const eventMarker = new HighlightableMarker(
             new L.LatLng(eventLat, eventLon),
@@ -406,6 +420,7 @@ export default class Map extends React.Component<Props, State> {
     });
     map.on('zoomend', () => {
       this.updateFeatureLayerVisibility();
+      this.updateMappingEventsHaloLayerVisibility();
     });
     map.on('zoomstart', () => {
       this.removeLayersNotVisibleInZoomLevel();
@@ -699,6 +714,26 @@ export default class Map extends React.Component<Props, State> {
     },
     100
   );
+
+  updateMappingEventsHaloLayerVisibility() {
+    const map = this.map;
+
+    if (!map) {
+      return;
+    }
+
+    const mappingEventsHaloLayer = this.mappingEventsHaloLayer;
+    let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
+
+    // show event marker halo layer only together with feature layers
+    if (map.getZoom() >= minimalZoomLevelForFeatures) {
+      if (!map.hasLayer(mappingEventsHaloLayer)) {
+        map.addLayer(mappingEventsHaloLayer);
+      }
+    } else if (map.hasLayer(mappingEventsHaloLayer)) {
+      map.removeLayer(mappingEventsHaloLayer);
+    }
+  }
 
   shouldShowAccessibilityCloudLayer(props: Props = this.props, state: State = this.state): boolean {
     // always show if no category was selected

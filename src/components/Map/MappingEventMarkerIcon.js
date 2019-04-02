@@ -31,11 +31,6 @@ const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
   top: calc(50% - ${props => ICON_SIZES[props.size]}px);
   width: ${props => ICON_SIZES[props.size]}px;
   height: ${props => ICON_SIZES[props.size]}px;
-
-  &:not(.highlighted-marker) {
-    background-color: #226be591;
-    box-shadow: 0px 0px 200px 100px #226be5b0;
-  }
 `;
 
 export default class MappingEventMarkerIcon extends MarkerIcon {
