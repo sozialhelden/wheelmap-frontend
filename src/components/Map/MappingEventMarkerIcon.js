@@ -23,21 +23,18 @@ type Options = typeof L.Icon.options & {
 
 const MappingEventMarkerSVG = markers['mappingEvent'];
 
+const ICON_SIZES = { small: 25, medium: 40, big: 60 };
+
 const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
-  width: 25px;
-  height: 25px;
+  position: relative;
+  left: calc(50% - ${props => ICON_SIZES[props.size] / 2}px);
+  top: calc(50% - ${props => ICON_SIZES[props.size]}px);
+  width: ${props => ICON_SIZES[props.size]}px;
+  height: ${props => ICON_SIZES[props.size]}px;
 
   &:not(.highlighted-marker) {
     background-color: #226be591;
     box-shadow: 0px 0px 200px 100px #226be5b0;
-  }
-
-  &.highlighted-marker {
-    width: 40px;
-    height: 40px;
-    position: relative;
-    left: -8px;
-    top: 5px;
   }
 `;
 
@@ -57,6 +54,7 @@ export default class MappingEventMarkerIcon extends MarkerIcon {
       <StyledMappingEventMarkerSVG
         className={iconClassNames}
         shadowed={this.options.highlighted}
+        size={this.options.highlighted ? 'big' : 'small'}
         centered
         ariaHidden={this.options.highlighted}
       />,
