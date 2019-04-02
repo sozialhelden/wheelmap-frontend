@@ -41,7 +41,7 @@ const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
   }
 `;
 
-export default class EventMarkerIcon extends MarkerIcon {
+export default class MappingEventMarkerIcon extends MarkerIcon {
   options: Options;
 
   createIcon() {
@@ -70,7 +70,7 @@ export default class EventMarkerIcon extends MarkerIcon {
     });
     this._setIconStyles(link, 'icon');
 
-    const accessibleName = t`Event Map Marker`;
+    const accessibleName = t`Mapping Event Map Marker`;
     link.setAttribute('aria-label', accessibleName);
     return link;
   }
