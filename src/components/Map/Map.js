@@ -390,6 +390,7 @@ export default class Map extends React.Component<Props, State> {
 
           const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
             icon: new MappingEventHaloMarkerIcon(),
+            interactive: false,
             keyboard: false,
             pane: 'shadowPane',
           });
