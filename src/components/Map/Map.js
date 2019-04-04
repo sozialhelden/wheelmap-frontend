@@ -401,15 +401,13 @@ export default class Map extends React.Component<Props, State> {
 
           const eventMarker = new HighlightableMarker(
             new L.LatLng(eventLat, eventLon),
-            event._id,
-            extraOptions =>
-              new MappingEventMarkerIcon({
-                hrefForFeature: () => `/mappingEvents/${event._id}`,
-                onClick: () => this.props.onMappingEventClick(event._id),
-                feature: eventFeature,
-                featureId: event._id,
-                ...extraOptions,
-              })
+            MappingEventMarkerIcon,
+            {
+              eventName: event.name,
+              href: `/mappingEvents/${event._id}`,
+              onClick: () => this.props.onMappingEventClick(event._id),
+            },
+            event._id
           );
 
           this.mappingEventsLayer.addLayer(eventMarker);
@@ -915,14 +913,13 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
 
-    return new HighlightableMarker(latlng, feature._id, extraOptions => {
-      return new A11yMarkerIcon({
-        onClick: this.props.onMarkerClick,
-        hrefForFeature: this.props.hrefForFeature,
-        feature,
-        categories: this.props.categories,
-        ...extraOptions,
-      });
+    const featureId: string = properties.id || properties._id || feature._id;
+
+    return new HighlightableMarker(latlng, A11yMarkerIcon, {
+      onClick: () => this.props.onMarkerClick(featureId, properties),
+      href: this.props.hrefForFeature(feature),
+      feature,
+      categories: this.props.categories,
     });
   };
 

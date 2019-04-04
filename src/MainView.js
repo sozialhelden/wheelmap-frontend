@@ -173,13 +173,18 @@ function updateTouchCapability() {
   }
 }
 
-function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
+// second parameter seems not be used anywhere
+// TODO this function should be a helper in its own file or bundled with other helpers
+function hrefForFeature(feature: Feature, properties: ?NodeProperties | EquipmentInfoProperties) {
+  const featureId = feature.id || feature.properties._id;
+
   if (properties && typeof properties.placeInfoId === 'string') {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/nodes/${placeInfoId}/equipment/${featureId}`;
     }
   }
+
   return `/nodes/${featureId}`;
 }
 

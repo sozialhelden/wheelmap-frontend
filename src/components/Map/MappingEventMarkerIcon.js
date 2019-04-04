@@ -1,23 +1,15 @@
 // @flow
 
-import L from 'leaflet';
+import L, { type IconOptions } from 'leaflet';
 import * as React from 'react';
-import ReactDOM from 'react-dom';
 import * as markers from '../icons/markers';
-import type { NodeProperties } from '../../lib/Feature';
 import MarkerIcon from './MarkerIcon';
-import { type CategoryLookupTables } from '../../lib/Categories';
-import type { Feature } from '../../lib/Feature';
-import { t } from 'ttag';
 import styled from 'styled-components';
+import { t } from 'ttag';
 
-// Extend Leaflet-icon to support colors and category images
-
-type Options = typeof L.Icon.options & {
-  onClick: (featureId: string, properties: ?NodeProperties) => void,
-  hrefForFeature: (featureId: string) => ?string,
-  feature: Feature,
-  categories: CategoryLookupTables,
+type Options = IconOptions & {
+  onClick: () => void,
+  href: string,
   highlighted?: boolean,
 };
 
@@ -34,37 +26,22 @@ const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
 `;
 
 export default class MappingEventMarkerIcon extends MarkerIcon {
-  options: Options;
+  constructor(options: Options) {
+    const { eventName, highlighted, ...restOptions } = options;
 
-  createIcon() {
-    const link = document.createElement('a');
-    const { feature } = this.options;
-    const properties = feature.properties;
-    const featureId = properties.id || properties._id || feature._id;
-    link.href = this.options.hrefForFeature();
+    const iconAnchorOffset = L.point(0, 0);
+    // translator: Description for mapping event map markers
+    const accessibleName = t`${eventName} Mapping Event Map Marker`;
 
-    const iconClassNames = `marker-icon${this.options.highlighted ? ' highlighted-marker' : ''}`;
+    super({ iconAnchorOffset, highlighted, accessibleName, ...restOptions });
 
-    ReactDOM.render(
+    this.iconSvgElement = (
       <StyledMappingEventMarkerSVG
-        className={iconClassNames}
-        shadowed={this.options.highlighted}
-        size={this.options.highlighted ? 'big' : 'small'}
+        shadowed={highlighted}
+        size={highlighted ? 'big' : 'small'}
         centered
-        ariaHidden={this.options.highlighted}
-      />,
-      link
+        ariaHidden={highlighted}
+      />
     );
-    link.style.touchAction = 'none';
-
-    link.addEventListener('click', (event: MouseEvent) => {
-      event.preventDefault();
-      this.options.onClick(featureId, properties);
-    });
-    this._setIconStyles(link, 'icon');
-
-    const accessibleName = t`Mapping Event Map Marker`;
-    link.setAttribute('aria-label', accessibleName);
-    return link;
   }
 }

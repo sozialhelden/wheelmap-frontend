@@ -1,46 +1,49 @@
 // @flow
 
-import L from 'leaflet';
-import type { NodeProperties } from '../../lib/Feature';
+import L, { type IconOptions } from 'leaflet';
+import ReactDOM from 'react-dom';
 
-type Options = typeof L.Icon.options & {
-  onClick: (featureId: string, properties: ?NodeProperties) => void,
-  hrefForFeature: (featureId: string) => ?string,
-  highlighted?: boolean,
+type Options = IconOptions & {
+  href: string,
+  onClick: () => void,
+  iconAnchorOffset: L.Point,
 };
 
 export default class MarkerIcon extends L.Icon {
   constructor(options: Options) {
     // increased tap region for icons, rendered size might differ
     const size = 40;
-    const iconAnchorOffset = options.iconAnchorOffset || L.point(0, 0);
-    const defaults = {
-      number: '',
-      shadowUrl: null,
+    const { iconAnchorOffset, onClick, href, highlighted, accessibleName } = options;
+    const leafletOptions = {
       iconSize: new L.Point(size, size),
-      iconAnchor: new L.Point(
-        size * 0.5 + iconAnchorOffset.x,
-        size * 0.5 + 1.5 + iconAnchorOffset.y
-      ),
-      popupAnchor: new L.Point(size * 0.5, size * 0.5),
-      tooltipAnchor: new L.Point(size * 0.5, size * 0.5 + 25),
-      onClick: (featureId: string, properties: ?NodeProperties) => {},
-      hrefForFeature: (featureId: string) => null,
-      className: 'marker-icon',
-      size: 'small',
-      withArrow: false,
+      iconAnchor: new L.Point(size * 0.5 + iconAnchorOffset.x, size * 0.5 + iconAnchorOffset.y),
+      className: `marker-icon${highlighted ? ' highlighted-marker' : ''}`,
     };
 
-    super(Object.assign(defaults, options));
+    super(leafletOptions);
+
+    this.onClick = onClick;
+    this.href = href;
+    this.highlighted = highlighted;
+    this.accessibleName = accessibleName;
   }
 
   createIcon() {
-    throw new Error(
-      'createIcon should be implemented in a subclass of MarkerIcon. You probably used MarkerIcon directly.'
-    );
-  }
+    const link = document.createElement('a');
+    link.href = this.href;
 
-  createShadow() {
-    return null;
+    if (this.iconSvgElement) {
+      ReactDOM.render(this.iconSvgElement, link);
+    }
+    link.style.touchAction = 'none';
+
+    link.addEventListener('click', (event: MouseEvent) => {
+      event.preventDefault();
+      this.onClick();
+    });
+    this._setIconStyles(link, 'icon');
+
+    link.setAttribute('aria-label', this.accessibleName);
+    return link;
   }
 }

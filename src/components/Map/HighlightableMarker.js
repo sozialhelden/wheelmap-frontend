@@ -1,22 +1,25 @@
 // @flow
 
 import L from 'leaflet';
-import type MarkerIcon from './MarkerIcon';
 
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
 
-  constructor(latlng: L.LatLng, featureId: string, createMarkerIcon: () => MarkerIcon) {
+  constructor(latlng: L.LatLng, markerIconType, markerIconOptions, featureId?: string) {
+    const markerIcon = new markerIconType(markerIconOptions);
+
     super(latlng, {
-      icon: createMarkerIcon(),
+      icon: markerIcon,
     });
 
-    this.createMarkerIcon = createMarkerIcon;
+    this.markerIcon = markerIcon;
+    this.markerIconType = markerIconType;
+    this.markerIconOptions = markerIconOptions;
     this.featureId = featureId;
   }
 
   updateIcon() {
-    this.setIcon(this.createMarkerIcon());
+    this.setIcon(this.markerIcon);
   }
 
   hasHighlight() {
@@ -35,11 +38,7 @@ export default class HighlightableMarker extends L.Marker {
     if (!this.highlightedMarker && highLightLayer) {
       this.highlightedMarker = new L.Marker(this.getLatLng(), {
         zIndexOffset: 100,
-        icon: this.createMarkerIcon({
-          iconAnchorOffset: L.point(0, 20),
-          className: 'marker-icon highlighted-marker',
-          highlighted: true,
-        }),
+        icon: new this.markerIconType({ ...this.markerIconOptions, highlighted: true }),
       });
       if (animated) {
         this.highlightedMarker.on('add', n => {
