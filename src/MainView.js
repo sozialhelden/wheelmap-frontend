@@ -37,8 +37,6 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
 
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
-
 import type { ModalNodeState } from './lib/ModalNodeState';
 
 import { isTouchDevice, type UAResult } from './lib/userAgent';
@@ -55,7 +53,7 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
-import type { MappingEvent, MappingEvents } from './lib/cache/MappingEventsCache';
+import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 
@@ -171,21 +169,6 @@ function updateTouchCapability() {
   } else {
     body.classList.remove('is-touch-device');
   }
-}
-
-// second parameter seems not be used anywhere
-// TODO this function should be a helper in its own file or bundled with other helpers
-function hrefForFeature(feature: Feature, properties: ?NodeProperties | EquipmentInfoProperties) {
-  const featureId = feature.id || feature.properties._id;
-
-  if (properties && typeof properties.placeInfoId === 'string') {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-
-  return `/nodes/${featureId}`;
 }
 
 const DynamicMap = dynamic(import('./components/Map/Map'), {
@@ -569,7 +552,6 @@ class MainView extends React.Component<Props, State> {
         onMarkerClick={this.props.onMarkerClick}
         onClusterClick={this.props.onClusterClick}
         onMappingEventClick={this.props.onMappingEventClick}
-        hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}

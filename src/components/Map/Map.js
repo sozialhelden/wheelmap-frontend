@@ -11,7 +11,7 @@ import SozialheldenLogo from './SozialheldenLogo';
 import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { isWheelmapFeature } from '../../lib/Feature';
+import { isWheelmapFeature, hrefForFeature } from '../../lib/Feature';
 import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {
@@ -56,6 +56,7 @@ import './Leaflet.css';
 import './Map.css';
 import { mappingEventHalo } from '../icons/markers';
 import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
+import { hrefForMappingEvent } from '../../lib/MappingEvent';
 
 window.L = L;
 
@@ -107,10 +108,6 @@ type Props = {
   categoryId: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  hrefForFeature: (
-    featureId: string,
-    properties: ?NodeProperties | EquipmentInfoProperties
-  ) => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -404,7 +401,7 @@ export default class Map extends React.Component<Props, State> {
             MappingEventMarkerIcon,
             {
               eventName: event.name,
-              href: `/mappingEvents/${event._id}`,
+              href: hrefForMappingEvent(event),
               onClick: () => this.props.onMappingEventClick(event._id),
             },
             event._id
@@ -917,7 +914,7 @@ export default class Map extends React.Component<Props, State> {
 
     return new HighlightableMarker(latlng, A11yMarkerIcon, {
       onClick: () => this.props.onMarkerClick(featureId, properties),
-      href: this.props.hrefForFeature(feature),
+      href: hrefForFeature(feature, properties),
       feature,
       categories: this.props.categories,
     });
