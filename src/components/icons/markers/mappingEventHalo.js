@@ -7,7 +7,7 @@ const MappingEventHalo = props => (
         <feGaussianBlur stdDeviation={50} in="SourceGraphic" />
       </filter>
     </defs>
-    <circle fill="#226BE5" filter="url(#a)" cx={222} cy={222} r={100} fillRule="evenodd" />
+    <circle fill="#226BE59A" filter="url(#a)" cx={222} cy={222} r={100} fillRule="evenodd" />
   </svg>
 );
 
