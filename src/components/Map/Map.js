@@ -718,11 +718,17 @@ export default class Map extends React.Component<Props, State> {
       return;
     }
 
+    const props = this.props;
+
     const mappingEventsHaloLayer = this.mappingEventsHaloLayer;
     let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
+    const mapIsZoomedCloseEnough = map.getZoom() >= minimalZoomLevelForFeatures;
+    const featureIsSelected = !!props.feature;
+    const eventMarkerHalosVisible = mapIsZoomedCloseEnough && !featureIsSelected;
+
     // show event marker halo layer only together with feature layers
-    if (map.getZoom() >= minimalZoomLevelForFeatures) {
+    if (eventMarkerHalosVisible) {
       if (!map.hasLayer(mappingEventsHaloLayer)) {
         map.addLayer(mappingEventsHaloLayer);
       }
@@ -840,6 +846,10 @@ export default class Map extends React.Component<Props, State> {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
       if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
       highlightMarkers(this.highLightLayer, []);
+    }
+
+    if (this.mappingEventsLayer) {
+      this.updateMappingEventsHaloLayerVisibility();
     }
 
     if (props.activeCluster) {
