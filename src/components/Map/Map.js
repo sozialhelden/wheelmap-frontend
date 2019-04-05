@@ -863,7 +863,8 @@ export default class Map extends React.Component<Props, State> {
     const map = this.map;
     if (!map) return;
     map.eachLayer(layer => {
-      if (layer.getElement && layer.getLatLng) {
+      const layerIsTabbable = layer.options.keyboard;
+      if (layer.getElement && layer.getLatLng && layerIsTabbable) {
         const isInViewport = map.getBounds().contains(layer.getLatLng());
         const layerElement = layer.getElement();
         if (layerElement) {

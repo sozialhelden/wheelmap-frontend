@@ -21,6 +21,7 @@ export default class MappingEventHaloMarkerIcon extends L.Icon {
     const span = document.createElement('span');
     ReactDOM.render(<MappingEventHaloSvg width={this.size} height={this.size} />, span);
     this._setIconStyles(span, 'icon');
+    span.tabIndex = -1;
     return span;
   }
 }
