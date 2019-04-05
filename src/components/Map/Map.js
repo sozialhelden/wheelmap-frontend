@@ -369,47 +369,7 @@ export default class Map extends React.Component<Props, State> {
     this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
-    this.mappingEventsHaloLayer = new L.LayerGroup();
-    map.addLayer(this.mappingEventsHaloLayer);
-
-    this.mappingEventsLayer = new L.LayerGroup();
-    map.addLayer(this.mappingEventsLayer);
-
-    this.props.mappingEvents &&
-      this.props.mappingEvents
-        .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
-        .forEach(event => {
-          const eventFeature = event.meetingPoint;
-
-          if (!eventFeature) {
-            return;
-          }
-
-          const eventLat = eventFeature.geometry.coordinates[1];
-          const eventLon = eventFeature.geometry.coordinates[0];
-
-          const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
-            icon: new MappingEventHaloMarkerIcon(),
-            interactive: false,
-            keyboard: false,
-            pane: 'shadowPane',
-          });
-
-          this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
-
-          const eventMarker = new HighlightableMarker(
-            new L.LatLng(eventLat, eventLon),
-            MappingEventMarkerIcon,
-            {
-              eventName: event.name,
-              href: hrefForMappingEvent(event),
-              onClick: () => this.props.onMappingEventClick(event._id),
-            },
-            event._id
-          );
-
-          this.mappingEventsLayer.addLayer(eventMarker);
-        });
+    this.setupMappingEvents();
 
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
@@ -589,6 +549,53 @@ export default class Map extends React.Component<Props, State> {
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,
     });
+  }
+
+  setupMappingEvents() {
+    if (!this.map && !this.props.mappingEvents) {
+      return;
+    }
+
+    this.mappingEventsHaloLayer = new L.LayerGroup();
+    this.map.addLayer(this.mappingEventsHaloLayer);
+
+    this.mappingEventsLayer = new L.LayerGroup();
+    this.map.addLayer(this.mappingEventsLayer);
+
+    this.props.mappingEvents
+      .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
+      .forEach(event => {
+        const eventFeature = event.meetingPoint;
+
+        if (!eventFeature) {
+          return;
+        }
+
+        const eventLat = eventFeature.geometry.coordinates[1];
+        const eventLon = eventFeature.geometry.coordinates[0];
+
+        const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
+          icon: new MappingEventHaloMarkerIcon(),
+          interactive: false,
+          keyboard: false,
+          pane: 'shadowPane',
+        });
+
+        this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
+
+        const eventMarker = new HighlightableMarker(
+          new L.LatLng(eventLat, eventLon),
+          MappingEventMarkerIcon,
+          {
+            eventName: event.name,
+            href: hrefForMappingEvent(event),
+            onClick: () => this.props.onMappingEventClick(event._id),
+          },
+          event._id
+        );
+
+        this.mappingEventsLayer.addLayer(eventMarker);
+      });
   }
 
   removeLayersNotVisibleInZoomLevel() {
