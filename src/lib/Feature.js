@@ -18,6 +18,7 @@ import type { Category } from './Categories';
 import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
 import type { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
+import type { SearchResultFeature } from './searchPlaces';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -169,15 +170,7 @@ export type AccessibilityCloudFeature = {
   properties: AccessibilityCloudProperties,
 };
 
-export type MappingEventFeatureProperties = {
-  description: string,
-};
-
-export type MappingEventFeature = {
-  type: 'Feature',
-  geometry: GeometryObject,
-  properties: MappingEventFeatureProperties,
-};
+export type MappingEventFeature = SearchResultFeature;
 
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',

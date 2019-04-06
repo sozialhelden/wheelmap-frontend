@@ -711,7 +711,7 @@ class App extends React.Component<Props, State> {
 
   onMappingEventLinkClick = (eventId: string) => {
     const event = this.props.mappingEvents.find(event => event._id === eventId);
-    const extent = event && event.extent;
+    const extent = event && event.area.extent;
 
     if (extent) {
       this.setState({ extent });

@@ -10,9 +10,14 @@ import ChevronLeft from '../ChevronLeft';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
+import { buildFullImageUrl } from '../../lib/Image';
 
 const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
-  const date = new Date(mappingEvent.startTime.$date);
+  const date = new Date(mappingEvent.startTime);
+
+  const imageSource = mappingEvent.photos[0]
+    ? buildFullImageUrl(mappingEvent.photos[0])
+    : '/static/images/eventPlaceholder.png';
 
   return (
     <Toolbar className={className}>
@@ -38,11 +43,7 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
           )}
         </AppContextConsumer>
       </div>
-      <img
-        className="mapping-event-image"
-        src={mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'}
-        alt=""
-      />
+      <img className="mapping-event-image" src={imageSource} alt="" />
       <div className="statistics">
         <div>
           <div className="statistics-count">

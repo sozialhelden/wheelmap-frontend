@@ -8,22 +8,6 @@ type MappingEventsData = {
   results: MappingEvents,
 };
 
-export const addExtentsDerivedFromRegions = (events: MappingEvents = []): MappingEvents => {
-  events.map(event => {
-    if (event.region) {
-      event.extent = [
-        event.region.topLeft.longitude,
-        event.region.topLeft.latitude,
-        event.region.bottomRight.longitude,
-        event.region.bottomRight.latitude,
-      ];
-    }
-    return event;
-  });
-
-  return events;
-};
-
 export default class MappingEventsCache extends URLDataCache<MappingEventsData> {
   baseUrl = env.public.accessibilityCloud.baseUrl.cached;
   appToken = env.public.accessibilityCloud.appToken;
