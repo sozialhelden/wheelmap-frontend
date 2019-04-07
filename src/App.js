@@ -178,12 +178,14 @@ class App extends React.Component<Props, State> {
 
     if (props.routeName === 'mappingEvents') {
       newState.isMappingEventsToolbarVisible = true;
+      newState.isSearchBarVisible = false;
     } else {
       newState.isMappingEventsToolbarVisible = false;
     }
 
     if (props.routeName === 'mappingEventDetail') {
       newState.isMappingEventToolbarVisible = true;
+      newState.isSearchBarVisible = false;
     } else {
       newState.isMappingEventToolbarVisible = false;
     }
@@ -730,9 +732,10 @@ class App extends React.Component<Props, State> {
       !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
-    const isSearchButtonVisible = !isSearchBarVisible;
     const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
     const isMappingEventToolbarVisible = this.state.isMappingEventToolbarVisible;
+    const isSearchButtonVisible =
+      !isSearchBarVisible && !isMappingEventsToolbarVisible && !isMappingEventToolbarVisible;
 
     const extraProps = {
       isNodeRoute,

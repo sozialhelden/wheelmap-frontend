@@ -320,7 +320,7 @@ class Toolbar extends React.Component<Props, State> {
           ref={nav => {
             this.scrollElement = nav;
           }}
-          aria-hidden={this.props.inert}
+          aria-hidden={this.props.inert || this.props.hidden}
           role={this.props.role}
           aria-label={this.props.ariaLabel}
           aria-describedby={this.props.ariaDescribedBy}
