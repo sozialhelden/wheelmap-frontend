@@ -1,6 +1,7 @@
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
+import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
@@ -15,52 +16,56 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
   const date = new Date(mappingEvent.startTime.$date);
 
   return (
-    <Toolbar className={className}>
-      <MappingEventToolbarCloseButton onClick={onClose} />
-      <header>
-        <Link to="mappingEvents">
-          <MappingEventToolbarChevronLeft />
-        </Link>
-        <div>
-          <h2>{mappingEvent.name}</h2>
-          <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
-        </div>
-      </header>
-      <div className="actions">
-        <AppContextConsumer>
-          {appContext => (
-            <MappingEventShareBar
-              mappingEvent={mappingEvent}
-              buttonCaption={t`Share link`}
-              baseUrl={appContext.baseUrl}
-              productName={productName}
-            />
-          )}
-        </AppContextConsumer>
-      </div>
-      <img
-        className="mapping-event-image"
-        src={mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'}
-        alt=""
-      />
-      <div className="statistics">
-        <div>
-          <div className="statistics-count">
-            <MapPinWithPlusIcon />
-            <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
+      <Toolbar className={className}>
+        <MappingEventToolbarCloseButton onClick={onClose} />
+        <header>
+          <Link to="mappingEvents">
+            <MappingEventToolbarChevronLeft />
+          </Link>
+          <div>
+            <h2>{mappingEvent.name}</h2>
+            <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
           </div>
-          <div className="statistics-description">{t`map places`}</div>
+        </header>
+        <div className="actions">
+          <AppContextConsumer>
+            {appContext => (
+              <MappingEventShareBar
+                mappingEvent={mappingEvent}
+                buttonCaption={t`Share link`}
+                baseUrl={appContext.baseUrl}
+                productName={productName}
+              />
+            )}
+          </AppContextConsumer>
         </div>
-        <div>
-          <div className="statistics-count">
-            <BellIcon />
-            <span>{mappingEvent.statistics.invitedParticipantCount}</span>
+        <img
+          className="mapping-event-image"
+          src={
+            mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'
+          }
+          alt=""
+        />
+        <div className="statistics">
+          <div>
+            <div className="statistics-count">
+              <MapPinWithPlusIcon />
+              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+            </div>
+            <div className="statistics-description">{t`map places`}</div>
           </div>
-          <div className="statistics-description">{t`people invited`}</div>
+          <div>
+            <div className="statistics-count">
+              <BellIcon />
+              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
+            </div>
+            <div className="statistics-description">{t`people invited`}</div>
+          </div>
         </div>
-      </div>
-      <div className="mapping-event-description">{mappingEvent.description}</div>
-    </Toolbar>
+        <div className="mapping-event-description">{mappingEvent.description}</div>
+      </Toolbar>
+    </FocusTrap>
   );
 };
 
