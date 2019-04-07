@@ -1,6 +1,7 @@
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
+import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
@@ -20,31 +21,35 @@ const MappingEventsToolbar = ({
   onClose,
   onMappingEventLinkClick,
 }: MappingEventsToolbarProps) => (
-  <Toolbar className={className}>
-    <MappingEventsToolbarCloseButton onClick={onClose} />
-    <header>
-      <span className="number-badge">{mappingEvents.length}</span>
-      <div className="header-title">
-        <h2>{t`Events`}</h2>
-        <p>{t`Meet the community and map the accessibility of places around you`}</p>
-      </div>
-    </header>
-    <ul>
-      {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
-        <li key={event._id}>
-          <Link
-            to={`mappingEventDetail`}
-            params={{ id: event._id }}
-            className="link-button"
-            onClick={() => onMappingEventLinkClick(event._id)}
-          >
-            <h3>{event.name}</h3>
-            <p>{event.regionName}</p>
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </Toolbar>
+  <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
+    <Toolbar className={className} ariaLabel={t`Mapping Events Liste`} role="dialog">
+      <MappingEventsToolbarCloseButton onClick={onClose} />
+      <header>
+        <span className="number-badge" aria-hidden={true}>
+          {mappingEvents.length}
+        </span>
+        <div className="header-title">
+          <h2 aria-label={t`${mappingEvents.length} aktive Mapping Events`}>{t`Events`}</h2>
+          <p>{t`Meet the community and map the accessibility of places around you`}</p>
+        </div>
+      </header>
+      <ul>
+        {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
+          <li key={event._id}>
+            <Link
+              to={`mappingEventDetail`}
+              params={{ id: event._id }}
+              className="link-button"
+              onClick={() => onMappingEventLinkClick(event._id)}
+            >
+              <h3>{event.name}</h3>
+              <p>{event.regionName}</p>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </Toolbar>
+  </FocusTrap>
 );
 
 const MappingEventsToolbarCloseButton = styled(CloseButton)`
