@@ -17,10 +17,14 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <Toolbar className={className}>
+      <Toolbar
+        className={className}
+        ariaLabel={t`Mapping Event ${mappingEvent.name}`}
+        role="dialog"
+      >
         <MappingEventToolbarCloseButton onClick={onClose} />
         <header>
-          <Link to="mappingEvents">
+          <Link to="mappingEvents" aria-label={t`Zurück zur Mapping Events Liste`}>
             <MappingEventToolbarChevronLeft />
           </Link>
           <div>
@@ -47,7 +51,7 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
           }
           alt=""
         />
-        <div className="statistics">
+        <section className="statistics" aria-label={t`Mapping Event Zahlen`}>
           <div>
             <div className="statistics-count">
               <MapPinWithPlusIcon />
@@ -62,7 +66,7 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
             </div>
             <div className="statistics-description">{t`people invited`}</div>
           </div>
-        </div>
+        </section>
         <div className="mapping-event-description">{mappingEvent.description}</div>
       </Toolbar>
     </FocusTrap>
