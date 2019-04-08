@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import Link from '../Link/Link';
-import CloseButton from '../CloseButton';
+import CloseButton from './CloseButton';
 import { MappingEvents } from '../../lib/cache/MappingEventsCache';
 
 type MappingEventsToolbarProps = {
@@ -23,7 +23,7 @@ const MappingEventsToolbar = ({
 }: MappingEventsToolbarProps) => (
   <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
     <Toolbar className={className} ariaLabel={t`Mapping Events Liste`} role="dialog">
-      <MappingEventsToolbarCloseButton onClick={onClose} />
+      <CloseButton onClick={onClose} />
       <header>
         <span className="number-badge" aria-hidden={true}>
           {mappingEvents.length}
@@ -51,14 +51,6 @@ const MappingEventsToolbar = ({
     </Toolbar>
   </FocusTrap>
 );
-
-const MappingEventsToolbarCloseButton = styled(CloseButton)`
-  position: sticky;
-  top: 0px;
-  float: right;
-  margin-right: -10px;
-  z-index: 4;
-`;
 
 const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
   padding-top: 0;

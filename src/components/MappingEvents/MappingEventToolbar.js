@@ -6,11 +6,11 @@ import FocusTrap from 'focus-trap-react';
 import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Link from '../Link/Link';
-import CloseButton from '../CloseButton';
-import ChevronLeft from '../ChevronLeft';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
+import ChevronLeft from './ChevronLeft';
+import CloseButton from './CloseButton';
 
 const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
   const date = new Date(mappingEvent.startTime.$date);
@@ -22,10 +22,10 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
         ariaLabel={t`Mapping Event ${mappingEvent.name}`}
         role="dialog"
       >
-        <MappingEventToolbarCloseButton onClick={onClose} />
+        <CloseButton onClick={onClose} />
         <header>
           <Link to="mappingEvents" aria-label={t`Zurück zur Mapping Events Liste`}>
-            <MappingEventToolbarChevronLeft />
+            <ChevronLeft />
           </Link>
           <div>
             <h2>{mappingEvent.name}</h2>
@@ -72,20 +72,6 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
     </FocusTrap>
   );
 };
-
-const MappingEventToolbarChevronLeft = styled(ChevronLeft)`
-  margin-left: 0;
-  padding: 15px 30px 15px 0;
-  z-index: 4;
-`;
-
-const MappingEventToolbarCloseButton = styled(CloseButton)`
-  position: sticky;
-  top: 0px;
-  float: right;
-  margin-right: -10px;
-  z-index: 4;
-`;
 
 const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   padding-top: 0;
