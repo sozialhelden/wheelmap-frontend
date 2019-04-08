@@ -255,7 +255,8 @@ export default class Map extends React.Component<Props, State> {
     const { feature, equipmentInfo } = props;
 
     const placeOrEquipment = equipmentInfo || feature;
-    const category = Categories.getRootCategory(props.categoryId);
+
+    const category = props.categoryId ? Categories.getRootCategory(props.categoryId) : null;
 
     // works also without a feature
     if (placeOrEquipment) {
@@ -277,12 +278,12 @@ export default class Map extends React.Component<Props, State> {
     return {
       category,
       placeOrEquipment: null,
-      placeOrEquipmentPromise: null
+      placeOrEquipmentPromise: null,
     };
   }
 
   componentDidMount() {
-    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props, {});
+    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props);
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
       center: initialMapState.center,
@@ -509,15 +510,17 @@ export default class Map extends React.Component<Props, State> {
       // if we don't do this, and if the app is started with an unknown
       // category selected, a wheelmap layer is never created
       const wheelmapTileUrl = this.wheelmapTileUrl();
-      this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
-        featureCache: wheelmapLightweightFeatureCache,
-        layerGroup: markerClusterGroup,
-        featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-        pointToLayer: this.createMarkerFromFeature,
-        filter: this.isFeatureVisible.bind(this),
-        maxZoom: this.props.maxZoom,
-        cordova: true,
-      });
+      if (wheelmapTileUrl) {
+        this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
+          featureCache: wheelmapLightweightFeatureCache,
+          layerGroup: markerClusterGroup,
+          featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
+          pointToLayer: this.createMarkerFromFeature,
+          filter: this.isFeatureVisible.bind(this),
+          maxZoom: this.props.maxZoom,
+          cordova: true,
+        });
+      }
     }
   }
 
@@ -879,8 +882,7 @@ export default class Map extends React.Component<Props, State> {
       const targetState = Map.getMapStateFromProps(
         map,
         { ...this.state, zoomedToFeatureId: null },
-        this.props,
-        {}
+        this.props
       );
       map.flyTo(targetState.center, targetState.zoom, {
         animate: true,
