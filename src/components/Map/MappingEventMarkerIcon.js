@@ -36,12 +36,7 @@ export default class MappingEventMarkerIcon extends MarkerIcon {
     super({ iconAnchorOffset, highlighted, accessibleName, ...restOptions });
 
     this.iconSvgElement = (
-      <StyledMappingEventMarkerSVG
-        shadowed={highlighted}
-        size={highlighted ? 'big' : 'small'}
-        centered
-        ariaHidden={highlighted}
-      />
+      <StyledMappingEventMarkerSVG size={highlighted ? 'big' : 'small'} aria-hidden={highlighted} />
     );
   }
 }
