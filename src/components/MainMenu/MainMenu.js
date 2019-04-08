@@ -2,15 +2,20 @@
 import * as React from 'react';
 import { hsl } from 'd3-color';
 import styled from 'styled-components';
+import { t } from 'ttag';
+
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
-// import Logo from '../../lib/Logo';
-import CloseIcon from '../icons/actions/Close';
-import colors from '../../lib/colors';
-import { t } from 'ttag';
-import GlobalActivityIndicator from './GlobalActivityIndicator';
-import type { Link } from '../../App';
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
+import colors from '../../lib/colors';
+import env from '../../lib/env';
+
+import GlobalActivityIndicator from './GlobalActivityIndicator';
+import type { LinkData } from '../../App';
+import Link from '../Link/Link';
+
+import CloseIcon from '../icons/actions/Close';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -18,8 +23,8 @@ type State = {
 
 type Props = {
   className: string,
+  productName: string,
   onToggle: (isMainMenuOpen: boolean) => void,
-  onAddMissingPlaceClick: () => void,
   onHomeClick: () => void,
   isOpen: boolean,
   lat: string,
@@ -27,8 +32,7 @@ type Props = {
   zoom: string,
   logoURL: string,
   claim: LocalizedString,
-  links: Array<Link>,
-  addPlaceURL: string,
+  links: Array<LinkData>,
 };
 
 function MenuIcon(props) {
@@ -51,20 +55,28 @@ function MenuIcon(props) {
   );
 }
 
-const menuButtonVisibilityBreakpoint = 1024;
-const isMenuButtonVisible =
-  typeof window !== 'undefined' ? window.innerWidth <= menuButtonVisibilityBreakpoint : true;
+const Badge = styled.span`
+  background-color: ${colors.warningColor};
+  border-radius: 0.5rlh;
+  padding: 0.2rem 0.3rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: white;
+  margin: 0.1rem;
+`;
+
+const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
 
 class MainMenu extends React.Component<Props, State> {
   props: Props;
   state: State = {
-    isMenuButtonVisible,
+    isMenuButtonVisible: false,
   };
 
   boundOnResize: () => void;
 
   onResize = () => {
-    if (window.innerWidth > menuButtonVisibilityBreakpoint) {
+    if (window.innerWidth > MENU_BUTTON_VISIBILITY_BREAKPOINT) {
       this.setState({ isMenuButtonVisible: false });
     } else {
       this.setState({ isMenuButtonVisible: true });
@@ -73,10 +85,8 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.onResize);
-      this.onResize();
-    }
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
   }
 
   componentWillUnmount() {
@@ -112,7 +122,7 @@ class MainMenu extends React.Component<Props, State> {
             src={this.props.logoURL}
             width={156}
             height={30}
-            alt={t`App Logo`}
+            alt={this.props.productName}
           />
         </button>
       </div>
@@ -121,25 +131,34 @@ class MainMenu extends React.Component<Props, State> {
 
   renderAppLinks() {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = translatedStringFromObject(link.url);
+      const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
       const label = translatedStringFromObject(link.label);
+      const badgeLabel = translatedStringFromObject(link.badgeLabel);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
-      return (
-        <a key={url} className={className} href={url} role="menuitem">
-          {label}
-        </a>
-      );
+
+      if (typeof url === 'string') {
+        return (
+          <Link key={url} className={className} to={url} role="menuitem">
+            {label}
+            {badgeLabel && <Badge>{badgeLabel}</Badge>}
+          </Link>
+        );
+      }
+
+      return null;
     });
   }
 
   renderCloseButton() {
     const { isOpen } = this.props;
+    const { isMenuButtonVisible } = this.state;
     return (
       <button
         className="btn-unstyled menu"
         onClick={this.toggleMenu}
         aria-hidden={!isMenuButtonVisible}
+        tabIndex={isMenuButtonVisible ? 0 : -1}
         aria-label={t`Menu`}
         aria-haspopup="true"
         aria-expanded={isOpen}
@@ -169,7 +188,7 @@ class MainMenu extends React.Component<Props, State> {
 
         <div className="claim">{translatedStringFromObject(claim)}</div>
 
-        <GlobalActivityIndicator />
+        <GlobalActivityIndicator className="activity-indicator" />
 
         <div id="main-menu" role="menu">
           {this.renderAppLinks()}
@@ -208,14 +227,14 @@ const StyledMainMenu = styled(MainMenu)`
     transition: opacity 0.3s ease-out;
     padding-left: 5px;
     flex: 1;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 
     @media (max-width: 1280px) {
       font-size: 80%;
     }
-    @media (max-width: 1160px) {
-      opacity: 0;
-    }
-    @media (max-width: 1140px) {
+    @media (max-width: 1180px) {
       display: none;
     }
   }
@@ -225,10 +244,11 @@ const StyledMainMenu = styled(MainMenu)`
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-end;
-    align-items: center;
+    align-items: stretch;
     height: 100%;
     overflow: hidden;
     flex: 3;
+    min-height: 50px;
   }
 
   &.is-open {
@@ -241,6 +261,9 @@ const StyledMainMenu = styled(MainMenu)`
     padding: 2px 10px;
     box-sizing: border-box;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &,
     &:visited {
@@ -319,7 +342,7 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  @media (max-width: ${menuButtonVisibilityBreakpoint}px) {
+  @media (max-width: ${MENU_BUTTON_VISIBILITY_BREAKPOINT}px) {
     position: absolute;
     top: 0;
     top: constant(safe-area-inset-top);
@@ -333,6 +356,19 @@ const StyledMainMenu = styled(MainMenu)`
 
     #main-menu {
       margin-right: 70px;
+      min-height: 0;
+    }
+
+    .activity-indicator {
+      position: fixed;
+      top: 0;
+      top: constant(safe-area-inset-top);
+      top: env(safe-area-inset-top);
+      right: 0;
+      right: constant(safe-area-inset-right);
+      right: env(safe-area-inset-right);
+      margin-right: 80px;
+      margin-top: 20px;
     }
 
     button.menu {
@@ -400,8 +436,10 @@ const StyledMainMenu = styled(MainMenu)`
     padding-left: constant(safe-area-inset-left);
     padding-left: env(safe-area-inset-left);
     &,
-    button.menu {
+    button.menu,
+    button.home-button {
       height: 44px;
+      min-height: auto;
     }
     &.is-open {
       height: auto;

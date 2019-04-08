@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
+import find from 'lodash/find';
 import queryString from 'query-string';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
@@ -31,6 +32,8 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
+import env from './lib/env';
+
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
@@ -50,6 +53,9 @@ import type { PhotoModel } from './lib/PhotoModel';
 import { hasAllowedAnalytics } from './lib/savedState';
 import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
+import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
+import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
+import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 
 type Props = {
   className: string,
@@ -100,15 +106,15 @@ type Props = {
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
-  onCloseCreatePlaceDialog: () => void,
+  onCloseModalDialog: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
-  onAddMissingPlaceClick: () => void,
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
@@ -130,6 +136,12 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
+
+  // cluster feature
+  activeCluster?: Cluster,
+  onClusterClick: (cluster: Cluster) => void,
+  onCloseClusterPanel: () => void,
+  onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   clientSideConfiguration: ClientSideConfiguration,
 } & PlaceDetailsProps;
@@ -228,6 +240,7 @@ class MainView extends React.Component<Props, State> {
         <NodeToolbarFeatureLoader
           featureId={this.props.featureId}
           equipmentInfoId={this.props.equipmentInfoId}
+          cluster={this.props.activeCluster}
           modalNodeState={this.props.modalNodeState}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
@@ -237,9 +250,11 @@ class MainView extends React.Component<Props, State> {
           categories={this.props.categories}
           sources={this.props.sources}
           photos={this.props.photos}
+          toiletsNearby={this.props.toiletsNearby}
           userAgent={this.props.userAgent}
           onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+          onOpenToiletNearby={this.props.onOpenToiletNearby}
           onSelectWheelchairAccessibility={this.props.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.props.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.props.onCloseToiletAccessibility}
@@ -248,12 +263,29 @@ class MainView extends React.Component<Props, State> {
           photoFlowErrorMessage={this.props.photoFlowErrorMessage}
           onOpenReportMode={this.props.onOpenReportMode}
           onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
+          onClickCurrentCluster={this.props.onCloseNodeToolbar}
           onClickCurrentMarkerIcon={this.onClickCurrentMarkerIcon}
           onClose={this.props.onCloseNodeToolbar}
           onReportPhoto={this.props.onStartReportPhotoFlow}
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
+        />
+      </div>
+    );
+  }
+
+  renderClusterPanel() {
+    return (
+      <div className="toolbar">
+        <FeatureClusterPanel
+          hidden={!this.props.activeCluster}
+          inEmbedMode={this.props.inEmbedMode}
+          cluster={this.props.activeCluster}
+          categories={this.props.categories}
+          onClose={this.props.onCloseClusterPanel}
+          onSelectClusterIcon={this.onClickCurrentMarkerIcon}
+          onFeatureSelected={this.props.onSelectFeatureFromCluster}
         />
       </div>
     );
@@ -308,7 +340,7 @@ class MainView extends React.Component<Props, State> {
 
     this.setState({ analyticsAllowed: value });
 
-    if (googleAnalytics.trackingId) {
+    if (googleAnalytics && googleAnalytics.trackingId) {
       if (value) {
         enableAnalytics(googleAnalytics.trackingId);
       } else {
@@ -349,12 +381,14 @@ class MainView extends React.Component<Props, State> {
 
     return (
       <MainMenu
+        productName={translatedStringFromObject(
+          this.props.clientSideConfiguration.textContent.product.name
+        )}
         className="main-menu"
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
-        onAddMissingPlaceClick={this.props.onAddMissingPlaceClick}
         logoURL={logoURL}
         claim={textContent.product.claim}
         links={customMainMenuLinks}
@@ -445,9 +479,27 @@ class MainView extends React.Component<Props, State> {
         active={this.props.modalNodeState === 'create'}
         component={CreatePlaceDialog}
         hidden={this.props.modalNodeState !== 'create'}
-        onClose={this.props.onCloseCreatePlaceDialog}
+        onClose={this.props.onCloseModalDialog}
         lat={this.props.lat}
         lon={this.props.lon}
+      />
+    );
+  }
+
+  renderContributionThanksDialog() {
+    const { clientSideConfiguration } = this.props;
+    const link = find(clientSideConfiguration.customMainMenuLinks, link =>
+      includes(link.tags, 'add-place')
+    );
+    const url = link ? insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url)) : null;
+
+    return (
+      <FocusTrap
+        active={this.props.modalNodeState === 'contribution-thanks'}
+        component={ContributionThanksDialog}
+        hidden={this.props.modalNodeState !== 'contribution-thanks'}
+        onClose={this.props.onCloseModalDialog}
+        addPlaceUrl={url}
       />
     );
   }
@@ -457,7 +509,7 @@ class MainView extends React.Component<Props, State> {
       lat,
       lon,
       zoom,
-      category,
+      category: categoryId,
       featureId,
       equipmentInfoId,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
@@ -473,6 +525,7 @@ class MainView extends React.Component<Props, State> {
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
+        onClusterClick={this.props.onClusterClick}
         hrefForFeature={hrefForFeature}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
@@ -482,7 +535,8 @@ class MainView extends React.Component<Props, State> {
         includeSourceIds={this.props.includeSourceIds}
         excludeSourceIds={this.props.excludeSourceIds}
         disableWheelmapSource={this.props.disableWheelmapSource}
-        category={category}
+        activeCluster={this.props.activeCluster}
+        categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
         equipmentInfo={this.props.equipmentInfo}
@@ -537,16 +591,21 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
+    const isDialogVisible =
+      isOnboardingVisible ||
+      isNotFoundVisible ||
+      modalNodeState ||
+      isPhotoUploadCaptchaToolbarVisible ||
+      isPhotoUploadInstructionsToolbarVisible;
+    const isMainMenuInBackground = isDialogVisible;
 
     const classList = uniq([
       'main-view',
       className,
-      isOnboardingVisible ? 'is-dialog-visible' : null,
-      isNotFoundVisible ? 'is-dialog-visible' : null,
+      isDialogVisible ? 'is-dialog-visible' : null,
       isMainMenuOpen ? 'is-main-menu-open' : null,
       isSearchBarVisible ? 'is-search-bar-visible' : null,
       isNodeToolbarVisible ? 'is-node-toolbar-visible' : null,
-      modalNodeState ? 'is-dialog-visible' : null,
       modalNodeState ? 'is-modal' : null,
       isReportMode ? 'is-report-mode' : null,
       inEmbedMode ? 'in-embed-mode' : null,
@@ -560,8 +619,6 @@ class MainView extends React.Component<Props, State> {
       isNotFoundVisible ||
       !!photoMarkedForReport;
 
-    const isMainMenuInBackground = isOnboardingVisible || isNotFoundVisible || modalNodeState;
-
     const searchToolbarIsInert: boolean = searchToolbarIsHidden || isMainMenuOpen;
 
     return (
@@ -573,6 +630,7 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
           </div>
@@ -582,6 +640,7 @@ class MainView extends React.Component<Props, State> {
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
           {this.renderCreateDialog()}
+          {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
         </ErrorBoundary>
       </div>

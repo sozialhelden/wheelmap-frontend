@@ -21,7 +21,7 @@ export default class URLDataCache<T> {
         return this.constructor.getDataFromResponse(response);
       }
 
-      throw new ResponseError(response.statusText, response)();
+      throw new ResponseError(response.statusText, response);
     });
   }
 

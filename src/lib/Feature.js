@@ -15,7 +15,7 @@ import useImperialUnits from './useImperialUnits';
 import type { EquipmentInfo } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
-import { categoryNameFor } from './Categories';
+import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
 import type { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
 
@@ -138,6 +138,7 @@ export type AccessibilityCloudProperties = {
   name?: ?LocalizedString,
   accessibility?: MinimalAccessibility,
   category?: string,
+  node_type: typeof undefined,
   placeInfoId?: string,
   address?:
     | {
@@ -323,9 +324,20 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
 }
 
 export function hasAccessibleToilet(
-  properties: WheelmapProperties | AccessibilityCloudProperties
+  properties: WheelmapProperties | AccessibilityCloudProperties,
+  allowToiletsOfAnyAccessibility?: boolean = false
 ): YesNoUnknown {
-  if (!properties) return 'unknown';
+  if (!properties) {
+    return 'unknown';
+  }
+
+  const isAccessible = isWheelchairAccessible(properties);
+  const isToilet = getCategoryIdFromProperties(properties) === 'toilets';
+  if (isToilet) {
+    return allowToiletsOfAnyAccessibility || isAccessible === 'yes' ? 'yes' : 'no';
+  }
+
+  // wheelmap classic result
   if (properties && properties.wheelchair_toilet) {
     if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
       return ((properties.wheelchair_toilet: any): YesNoUnknown);
@@ -333,6 +345,18 @@ export function hasAccessibleToilet(
     return 'unknown';
   }
 
+  const legacyAcResult = hasAccessibleToiletLegacyAcFormat(properties);
+  if (legacyAcResult !== 'unknown') {
+    return legacyAcResult;
+  }
+
+  return hasAccessibleToiletAcFormat(properties);
+}
+
+// legacy format has areas & so on
+function hasAccessibleToiletLegacyAcFormat(
+  properties: WheelmapProperties | AccessibilityCloudProperties
+): YesNoUnknown {
   if (!(get(properties, 'accessibility.areas') instanceof Array)) return 'unknown';
 
   if (!properties.accessibility) {
@@ -356,6 +380,32 @@ export function hasAccessibleToilet(
 
   if (accessibleCount >= 1) return 'yes';
   if (nonAccessibleCount > unknownCount) return 'no';
+  return 'unknown';
+}
+
+// new format has restrooms at root of a11y
+function hasAccessibleToiletAcFormat(
+  properties: WheelmapProperties | AccessibilityCloudProperties
+): YesNoUnknown {
+  const restrooms = get(properties, 'accessibility.restrooms');
+
+  // no restrooms
+  if (restrooms === null) {
+    return 'no';
+  }
+  if (typeof restrooms === 'undefined' || !Array.isArray(restrooms)) {
+    return 'unknown';
+  }
+
+  const restroomInfos = restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
+
+  const accessibleCount = restroomInfos.filter(a => a === true).length;
+  if (accessibleCount >= 1) return 'yes';
+
+  const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
+  const unknownCount = restroomInfos.filter(a => a === null || typeof a === 'undefined').length;
+  if (nonAccessibleCount > unknownCount) return 'no';
+
   return 'unknown';
 }
 
@@ -502,6 +552,7 @@ export function removeNullAndUndefinedFields<T: {} | {}[]>(something: T): ?T {
   return something;
 }
 
+// returns coordinates in [lon, lat] array
 export function normalizedCoordinatesForFeature(feature: Feature): ?[number, number] {
   const geometry = feature ? feature.geometry : null;
   if (!(geometry instanceof Object)) return null;

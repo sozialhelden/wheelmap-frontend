@@ -7,9 +7,15 @@ import ResponseError from './ResponseError';
 import config from './config';
 import env from './env';
 
-import type { Feature } from './Feature';
-import type { SearchResultFeature } from './searchPlaces';
-import type { EquipmentInfo } from './EquipmentInfo';
+import type {
+  Feature,
+  WheelmapCategoryOrNodeType,
+  WheelmapProperties,
+  AccessibilityCloudProperties,
+} from './Feature';
+import { type SearchResultFeature } from './searchPlaces';
+import { hasAccessibleToilet } from './Feature';
+import { type EquipmentInfo } from './EquipmentInfo';
 
 export type ACCategory = {
   _id: string,
@@ -66,34 +72,84 @@ export function acCategoryFrom(category: ?Category): ?ACCategory {
   return null;
 }
 
+type RootCategoryEntry = {
+  name: string,
+  isSubCategory?: boolean,
+  isMetaCategory?: boolean,
+  filter?: (feature: Feature) => boolean,
+};
+
+const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
+  shopping: {
+    // translator: Root category
+    name: t`Shopping`,
+  },
+  food: {
+    // translator: Root category
+    name: t`Food & Drinks`,
+  },
+  public_transfer: {
+    // translator: Root category
+    name: t`Transport`,
+  },
+  leisure: {
+    // translator: Root category
+    name: t`Leisure`,
+  },
+  accommodation: {
+    // translator: Root category
+    name: t`Hotels`,
+  },
+  tourism: {
+    // translator: Root category
+    name: t`Tourism`,
+  },
+  education: {
+    // translator: Root category
+    name: t`Education`,
+  },
+  government: {
+    // translator: Root category
+    name: t`Authorities`,
+  },
+  health: {
+    // translator: Root category
+    name: t`Health`,
+  },
+  money_post: {
+    // translator: Root category
+    name: t`Money`,
+  },
+  sport: {
+    // translator: Root category
+    name: t`Sports`,
+  },
+  toilets: {
+    // translator: Meta category for any toilet or any place with an accessible toilet
+    name: t`Toilets`,
+    isMetaCategory: true,
+    isSubCategory: true,
+    filter: (feature: Feature) => {
+      if (!feature.properties) {
+        return true;
+      }
+
+      return hasAccessibleToilet(feature.properties, true) === 'yes';
+    },
+  },
+};
+
 export default class Categories {
-  static getTranslatedRootCategoryNames() {
-    return {
-      // translator: Root category
-      shopping: t`Shopping`,
-      // translator: Root category
-      food: t`Food & Drinks`,
-      // translator: Root category
-      public_transfer: t`Transport`,
-      // translator: Root category
-      leisure: t`Leisure`,
-      // translator: Root category
-      accommodation: t`Hotels`,
-      // translator: Root category
-      tourism: t`Tourism`,
-      // translator: Root category
-      education: t`Education`,
-      // translator: Root category
-      government: t`Authorities`,
-      // translator: Root category
-      health: t`Health`,
-      // translator: Root category
-      money_post: t`Money`,
-      // translator: Root category
-      sport: t`Sports`,
-      // translator: Root category
-      misc: t`Miscellaneous`,
-    };
+  static getRootCategories() {
+    return rootCategoryTable;
+  }
+
+  static getRootCategory(key: string) {
+    return rootCategoryTable[key];
+  }
+
+  static translatedRootCategoryName(key: string) {
+    return rootCategoryTable[key].name;
   }
 
   static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
@@ -174,10 +230,6 @@ export default class Categories {
 
   static wheelmapRootCategoryWithName(lookupTable: CategoryLookupTables, name: string) {
     return lookupTable.wheelmapRootCategoryNamesToCategories[name];
-  }
-
-  static translatedWheelmapRootCategoryName(name: string) {
-    return this.getTranslatedRootCategoryNames()[name];
   }
 
   static async fetchCategoryData(options: {
@@ -267,17 +319,37 @@ export function categoryNameFor(category: Category): ?string {
   return translatedStringFromObject(idObject);
 }
 
-export function getCategoryId(category: ?Category | string): ?string {
+export function getCategoryId(category?: ?Category | string | WheelmapCategoryOrNodeType): ?string {
   if (!category) {
     return;
   }
+  // ac
   if (typeof category === 'string') {
     return category;
   }
-  if (typeof category.id === 'string') {
-    return category.id;
+
+  if (typeof category === 'object' && category) {
+    // wheelmap node_type or category
+    if (typeof category.identifier === 'string') {
+      return category.identifier;
+    }
+    // ac server category object
+    if (typeof category._id === 'string') {
+      return category._id;
+    }
   }
-  if (typeof category._id === 'string') {
-    return category._id;
+}
+
+export function getCategoryIdFromProperties(
+  props: AccessibilityCloudProperties | WheelmapProperties
+): ?string {
+  if (!props) {
+    return;
   }
+
+  if (props.node_type) {
+    return getCategoryId(props.node_type);
+  }
+
+  return getCategoryId(props.category);
 }

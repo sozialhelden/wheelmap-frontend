@@ -37,6 +37,7 @@ import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import IconButtonList from './IconButtonList/IconButtonList';
 import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
+import { type Cluster } from '../Map/Cluster';
 
 const PositionedCloseLink = styled(CloseLink)`
   top: 0;
@@ -50,8 +51,10 @@ type Props = {
   equipmentInfo: ?EquipmentInfo,
   feature: Feature,
   featureId: string | number,
+  cluster: ?Cluster,
   sources: SourceWithLicense[],
   photos: PhotoModel[],
+  toiletsNearby: ?(Feature[]),
   categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,
@@ -62,8 +65,10 @@ type Props = {
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
@@ -152,10 +157,12 @@ class NodeToolbar extends React.Component<Props, State> {
       feature,
       equipmentInfo,
       equipmentInfoId,
+      cluster,
       category,
       categories,
       parentCategory,
       onClickCurrentMarkerIcon,
+      onClickCurrentCluster,
     } = this.props;
 
     const statesWithIcon = ['edit-toilet-accessibility', 'report'];
@@ -168,8 +175,10 @@ class NodeToolbar extends React.Component<Props, State> {
         categories={categories}
         equipmentInfo={equipmentInfo}
         equipmentInfoId={equipmentInfoId}
+        cluster={cluster}
         category={category}
         parentCategory={parentCategory}
+        onClickCurrentCluster={onClickCurrentCluster}
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
         hasShadow={this.state.isScrollable}
@@ -355,7 +364,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <ErrorBoundary>
           <FocusTrap
             component="div"
-            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be pervented.
+            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
             focusTrapOptions={{ clickOutsideDeactivates: true }}
           >
             {this.renderCloseLink()}

@@ -11,6 +11,7 @@ import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import env from '../../lib/env';
 import Icon from '../Icon';
 import { translatedStringFromObject } from '../../lib/i18n';
+import { ChromelessButton, CallToActionButton } from '../Button';
 
 type Props = {
   className: string,
@@ -23,143 +24,160 @@ type Props = {
   analyticsAllowedChanged: (value: boolean) => void,
 };
 
-function Onboarding(props: Props) {
-  const {
-    logoURL,
-    headerMarkdown,
-    analyticsShown,
-    analyticsAllowed,
-    analyticsAllowedChanged,
-  } = props;
-  // translator: Shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
-  // translator: Button caption shown on the onboarding screen. To visit it, open Wheelmap in an incognito window.
-  const startButtonCaption = t`Okay, let’s go!`;
+class Onboarding extends React.Component<Props, null> {
+  callToActionButton: React.Ref<'button'> = React.createRef<'button'>();
 
-  // translator: Cookie notice with link to privacy policy
-  const cookieNotice = t`We use cookies to create a better and unique user experience. For more information about use and how to disable it, please see our <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Privacy Policy</a>. By using this website, you consent to the use of cookies.`;
-  // translator: Google Analytics checkbox
-  const analyticsCheckboxLabel = t`Share analytics data with Google`;
+  componentDidMount() {
+    setTimeout(() => {
+      if (this.callToActionButton.current instanceof HTMLButtonElement) {
+        this.callToActionButton.current.focus();
+      }
+    }, 100);
+  }
 
-  const onClose = event => {
-    // Prevent that touch up opens a link underneath the primary button after closing
-    // the onboarding dialog
-    setTimeout(() => props.onClose(), 10);
-  };
+  render() {
+    const { props } = this;
+    const { logoURL, headerMarkdown, analyticsShown, analyticsAllowedChanged } = props;
+    // translator: Shown on the onboarding screen. To find it, click the logo at the top.
+    const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+    // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
+    const startButtonCaption = t`Okay, let’s go!`;
+    // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
+    const skipAnalyticsButtonCaption = t`Continue without cookies`;
 
-  const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown), { sanitize: true });
+    // translator: Cookie notice with link to privacy policy
+    const cookieNotice = t`We use cookies to improve this app for you. <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Read our Privacy Policy</a>.`;
 
-  return (
-    <ModalDialog
-      className={props.className}
-      isVisible={props.isVisible}
-      onClose={props.onClose}
-      ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
-      ariaLabel={t`Start screen`}
-    >
-      <header>
-        {/* translator: The alternative desription of the app logo for screenreaders */}
-        <img
-          className="logo"
-          src={logoURL}
-          width={123}
-          height={30}
-          alt={t`App Logo`}
-          aria-hidden={true}
-        />
+    const onClose = event => {
+      // Prevent that touch up opens a link underneath the primary button after closing
+      // the onboarding dialog
+      setTimeout(() => props.onClose(), 10);
+    };
 
-        <p
-          id="wheelmap-claim-onboarding"
-          dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
-        />
-      </header>
+    const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown), {
+      sanitize: true,
+    });
 
-      <section>
-        <ul id="wheelmap-icon-descriptions">
-          <li className="ac-marker-yes">
-            <Icon
-              accessibility="yes"
-              category={{ _id: 'other' }}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('yes')}</header>
-            <footer>{accessibilityDescription('yes')}</footer>
-          </li>
-          <li className="ac-marker-limited">
-            <Icon
-              accessibility="limited"
-              category={{ _id: 'other' }}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('limited')}</header>
-            <footer>{accessibilityDescription('limited')}</footer>
-          </li>
-          <li className="ac-marker-no">
-            <Icon
-              accessibility="no"
-              category={{ _id: 'other' }}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('no')}</header>
-            <footer>{accessibilityDescription('no')}</footer>
-          </li>
-          <li className="ac-marker-unknown">
-            <Icon
-              accessibility="unknown"
-              category={{ _id: 'other' }}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('unknown')}</header>
-            <footer>{unknownAccessibilityIncentiveText}</footer>
-          </li>
-        </ul>
-      </section>
+    /* translator: The alternative desription of the app logo for screenreaders */
+    const appLogoAltText = t`App Logo`;
 
-      <section className="main-section cookies-section">
-        <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
-      </section>
+    return (
+      <ModalDialog
+        className={props.className}
+        isVisible={props.isVisible}
+        onClose={props.onClose}
+        ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
+        ariaLabel={t`Start screen`}
+      >
+        <header>
+          <img
+            className="logo"
+            src={logoURL}
+            width={123}
+            height={30}
+            alt={appLogoAltText}
+            aria-hidden={true}
+          />
 
-      {analyticsShown && (
-        <section className="main-section analytics-section">
-          <label htmlFor="analytics-allowed-cb">
-            <input
-              type="checkbox"
-              id="analytics-allowed-cb"
-              value={analyticsAllowed}
-              checked={analyticsAllowed}
-              name={analyticsCheckboxLabel}
-              onChange={e => analyticsAllowedChanged(e.target.checked)}
-            />
-            {analyticsCheckboxLabel}
-          </label>
+          <p
+            id="wheelmap-claim-onboarding"
+            className="claim"
+            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
+          />
+        </header>
+
+        <section>
+          <ul id="wheelmap-icon-descriptions">
+            <li className="ac-marker-yes">
+              <Icon
+                accessibility="yes"
+                category={{ _id: 'other' }}
+                isMainCategory
+                size="big"
+                withArrow
+                shadowed
+                centered
+              />
+              <header>{accessibilityName('yes')}</header>
+              <footer>{accessibilityDescription('yes')}</footer>
+            </li>
+            <li className="ac-marker-limited">
+              <Icon
+                accessibility="limited"
+                category={{ _id: 'other' }}
+                isMainCategory
+                size="big"
+                withArrow
+                shadowed
+                centered
+              />
+              <header>{accessibilityName('limited')}</header>
+              <footer>{accessibilityDescription('limited')}</footer>
+            </li>
+            <li className="ac-marker-no">
+              <Icon
+                accessibility="no"
+                category={{ _id: 'other' }}
+                isMainCategory
+                size="big"
+                withArrow
+                shadowed
+                centered
+              />
+              <header>{accessibilityName('no')}</header>
+              <footer>{accessibilityDescription('no')}</footer>
+            </li>
+            <li className="ac-marker-unknown">
+              <Icon
+                accessibility="unknown"
+                category={{ _id: 'other' }}
+                isMainCategory
+                size="big"
+                withArrow
+                shadowed
+                centered
+              />
+              <header>{accessibilityName('unknown')}</header>
+              <footer>{unknownAccessibilityIncentiveText}</footer>
+            </li>
+          </ul>
         </section>
-      )}
 
-      <footer>
-        <button className="button-cta-close focus-visible" onClick={onClose}>
-          {startButtonCaption}
-          <ChevronRight />
-        </button>
-      </footer>
-      <Version>{env.public.version}</Version>
-    </ModalDialog>
-  );
+        <footer className="button-footer">
+          <CallToActionButton
+            className="button-continue-with-cookies"
+            data-focus-visible-added
+            onClick={() => {
+              analyticsAllowedChanged(true);
+              onClose();
+            }}
+            ref={this.callToActionButton}
+          >
+            {startButtonCaption}
+            <ChevronRight />
+          </CallToActionButton>
+        </footer>
+
+        {analyticsShown && (
+          <ChromelessButton
+            className="button-continue-without-cookies"
+            onClick={() => {
+              analyticsAllowedChanged(false);
+              onClose();
+            }}
+          >
+            {skipAnalyticsButtonCaption}
+          </ChromelessButton>
+        )}
+
+        <footer className="cookies-footer">
+          <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
+        </footer>
+
+        <Version>{env.public.version}</Version>
+      </ModalDialog>
+    );
+  }
 }
 
 const Version = styled.div`
@@ -167,6 +185,8 @@ const Version = styled.div`
   right: 5px;
   bottom: 5px;
   font-size: 12px;
+  color: white;
+  opacity: 0.5;
 `;
 
 const StyledOnboarding = styled(Onboarding)`
@@ -230,25 +250,47 @@ const StyledOnboarding = styled(Onboarding)`
     display: flex;
     flex-direction: column;
     max-width: 80%;
+    max-width: 800px;
     padding: 15px;
     overflow: auto;
     border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: rgba(255, 255, 255, 0.96);
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.5s linear;
-    width: 100%; // Fix IE 11. @TODO Safe to be moved to ModalDialog component?
+    width: 100%; /* Fix IE 11. @TODO Safe to be moved to ModalDialog component? */
+
+    @media (max-height: 414px) {
+      font-size: 0.8rem;
+    }
 
     .logo {
       width: 250px;
-      height: 53px; // IE 11 does not preserve aspect ratio correctly and needs a fixed height.
+      height: 53px; /* IE 11 does not preserve aspect ratio correctly and needs a fixed height. */
+
+      @media (max-width: 414px) {
+        width: 200px;
+        height: 42px;
+      }
+
+      @media (max-height: 414px) {
+        width: 150px;
+        height: 32px;
+      }
+
       object-fit: contain;
+    }
+
+    .claim {
+      @media (min-width: 414px, min-height: 414px) {
+        font-size: 1.25rem;
+      }
     }
 
     > footer,
     > header,
     > section.main-section {
       text-align: center;
-      max-width: 500px;
+      max-width: 560px;
       align-self: center;
     }
 
@@ -256,19 +298,28 @@ const StyledOnboarding = styled(Onboarding)`
       display: flex;
       flex-direction: row;
       justify-content: center;
-      align-items: start;
+
       list-style-type: none;
-      margin: 50px 0;
-      padding: 0px;
-      @media (max-width: 768px) {
-        margin: 10px 0 !important;
+
+      @media (orientation: portrait) {
+        align-items: start;
       }
+      @media (orientation: landscape) {
+        margin: 1rem 0;
+      }
+
+      /* @media (max-width: 768px) {
+        margin: 0 !important;
+      } */
       @media (max-width: 414px) {
         flex-direction: column !important;
       }
+      @media (max-height: 414px) {
+        flex-wrap: wrap;
+      }
 
       li {
-        flex: 1;
+        /* flex: 1; */
         display: flex;
         flex-direction: column;
 
@@ -279,14 +330,15 @@ const StyledOnboarding = styled(Onboarding)`
         overflow-x: hidden;
         overflow-wrap: break-word;
 
-        @media (max-width: 414px) {
-          height: 4em;
+        @media (max-width: 414px), (max-height: 414px) {
+          height: 3em;
           flex-direction: row !important;
           text-align: left !important;
-          padding: 0 10px !important;
+          /* padding: 0 10px !important; */
 
           figure {
-            margin-right: 10px;
+            margin-right: 0.5rem;
+            min-width: 40px;
             width: 40px;
             height: 40px;
           }
@@ -322,7 +374,7 @@ const StyledOnboarding = styled(Onboarding)`
 
         header {
           margin-bottom: 10px;
-          max-width: 100%;
+          max-width: 10rem;
           @media (max-width: 768px) {
             margin-bottom: 0px !important;
             flex: 1;
@@ -344,25 +396,6 @@ const StyledOnboarding = styled(Onboarding)`
       }
     }
 
-    button.button-cta-close {
-      border: none;
-      color: white;
-      background-color: ${colors.linkColor};
-      font-size: 1.25em;
-      line-height: 1;
-      padding: 0.5em 0.75em;
-      margin: 1em;
-      cursor: pointer;
-      > svg {
-        margin-left: 10px;
-      }
-
-      &.focus-visible {
-        box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-        transition: box-shadow 0.2s;
-      }
-    }
-
     .ac-big-icon-marker {
       display: flex;
       justify-content: center;
@@ -377,6 +410,23 @@ const StyledOnboarding = styled(Onboarding)`
         opacity: 0.6;
       }
     }
+  }
+
+  .button-footer {
+    display: flex;
+    flex-direction: column;
+
+    .button-continue-with-cookies {
+      margin: 0.5em;
+    }
+  }
+
+  .cookies-footer {
+    opacity: 0.5;
+  }
+
+  p {
+    margin: 1em;
   }
 `;
 

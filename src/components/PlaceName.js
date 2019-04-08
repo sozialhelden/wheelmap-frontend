@@ -3,7 +3,7 @@
 import styled from 'styled-components';
 
 const PlaceName = styled.h1`
-  margin: 0 30px 0 0;
+  margin: 0;
   line-height: 1;
   font-weight: 400;
   display: flex;

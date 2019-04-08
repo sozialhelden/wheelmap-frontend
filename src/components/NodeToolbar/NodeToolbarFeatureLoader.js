@@ -18,6 +18,7 @@ import {
 
 type Props = {
   categories: CategoryLookupTables,
+  cluster: ?Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
   onOpenReportMode: ?() => void,
@@ -34,8 +35,10 @@ type Props = {
   onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
@@ -102,6 +105,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         ...state,
         ...resolvedCategories,
         resolvedSources: resolvedPlaceDetails.sources,
+        resolvedPhotos: resolvedPlaceDetails.photos,
+        resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
         lastFeatureId: props.featureId,
         lastEquipmentInfoId: props.equipmentInfoId,
@@ -124,6 +129,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       requiredDataPromise: null,
       resolvedPhotos: null,
       resolvedSources: null,
+      resolvedToiletsNearby: null,
     };
   }
 
@@ -159,15 +165,18 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       this.setState({
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
         resolvedSources: resolvedPlaceDetails.sources,
+        resolvedPhotos: resolvedPlaceDetails.photos,
+        resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
         ...resolvedCategories,
       });
     } else {
-      const { feature, equipmentInfo, sources, photos } = this.props;
+      const { feature, equipmentInfo, sources, photos, toiletsNearby } = this.props;
 
       // they are always all promises, this is to make flow happy
       if (
         feature instanceof Promise &&
         (!equipmentInfo || equipmentInfo instanceof Promise) &&
+        (!toiletsNearby || toiletsNearby instanceof Promise) &&
         sources instanceof Promise &&
         photos instanceof Promise
       ) {
@@ -186,6 +195,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           );
           photos.then(resolved => this.handlePhotosFetched(photos, resolved));
           sources.then(resolved => this.handleSourcesFetched(sources, resolved));
+          toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
         });
       } else {
         console.warn('received mixed promise / resolved results - this should never happen!');
@@ -219,6 +229,17 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     this.setState({ resolvedPhotos });
   }
 
+  handleToiletsNearbyFetched(
+    toiletsNearbyPromise: Promise<Feature[]>,
+    resolvedToiletsNearby: Feature[]
+  ) {
+    // ignore unwanted promise results (e.g. after unmounting)
+    if (toiletsNearbyPromise !== this.props.toiletsNearby) {
+      return;
+    }
+    this.setState({ resolvedToiletsNearby });
+  }
+
   handleSourcesFetched(
     sourcesPromise: Promise<SourceWithLicense[]>,
     resolvedSources: SourceWithLicense[]
@@ -237,6 +258,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       resolvedRequiredData,
       resolvedPhotos,
       resolvedSources,
+      resolvedToiletsNearby,
     } = this.state;
     // strip promises from props
     const {
@@ -245,6 +267,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       equipmentInfo,
       lightweightFeature,
       photos,
+      toiletsNearby,
       ...remainingProps
     } = this.props;
 
@@ -262,6 +285,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           equipmentInfo={resolvedEquipmentInfo}
           sources={resolvedSources || []}
           photos={resolvedPhotos || []}
+          toiletsNearby={resolvedToiletsNearby || []}
           ref={t => (this.nodeToolbar = t)}
         />
       );
@@ -275,6 +299,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           parentCategory={parentCategory}
           feature={lightweightFeature}
           equipmentInfo={null}
+          toiletsNearby={null}
           sources={[]}
           photos={[]}
           ref={t => (this.nodeToolbar = t)}

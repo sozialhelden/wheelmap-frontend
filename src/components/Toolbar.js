@@ -239,7 +239,7 @@ class Toolbar extends React.Component<Props, State> {
 
   isFullyExpanded() {
     const stops = this.getStops();
-    return this.state.topOffset === stops[0];
+    return (this.state.topOffset || this.state.lastTopOffset) === stops[0];
   }
 
   isAtTopmostPosition() {
@@ -278,7 +278,9 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   cancelTouchIfMoving = (event: TouchEvent) => {
-    const isScrollable = this.isAtTopmostPosition();
+    const scrollElementHasMoreContentThanShown =
+      !!this.scrollElement && this.scrollElement.scrollHeight > this.scrollElement.clientHeight;
+    const isScrollable = this.isAtTopmostPosition() && scrollElementHasMoreContentThanShown;
     if (this.props.onScrollable) {
       this.props.onScrollable(isScrollable);
     }
@@ -383,10 +385,6 @@ const StyledToolbar = styled(Toolbar)`
       );
       margin-top: 0;
     }
-  }
-  @media (max-width: 768px) {
-    width: calc(55%);
-    min-width: 250px;
   }
 
   margin: 10px;
@@ -507,7 +505,6 @@ const StyledToolbar = styled(Toolbar)`
 
     &[disabled] {
       opacity: 0.8;
-      color: ${colors.neutralColor};
       pointer-events: none;
     }
   }

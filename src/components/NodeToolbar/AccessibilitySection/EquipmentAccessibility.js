@@ -35,7 +35,7 @@ function EquipmentAccessibility(props: Props) {
   const accessibility = properties.accessibility;
 
   return (
-    <summary className={`equipment-accessibility ${props.className}`}>
+    <div className={`equipment-accessibility ${props.className}`}>
       <header
         className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
       >
@@ -43,7 +43,7 @@ function EquipmentAccessibility(props: Props) {
       </header>
       <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
       {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
-    </summary>
+    </div>
   );
 }
 

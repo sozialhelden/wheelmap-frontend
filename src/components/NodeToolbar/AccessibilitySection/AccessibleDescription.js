@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import Description from './Description';
 
 interface AccessibleDescriptionInterface {
   description?: string;
@@ -22,11 +23,14 @@ export default function AccessibleDescription(props: Props) {
   const properties = props.properties;
   if (!properties) return null;
   const { description, longDescription, shortDescription } = properties;
-  if (!description && !longDescription && !shortDescription) return null;
+
+  const descriptionText = shortDescription || description || longDescription;
+
+  if (!descriptionText) return null;
 
   return (
-    <p className={props.className} aria-label={longDescription || description || shortDescription}>
-      {shortDescription || description || longDescription}
-    </p>
+    <Description className={props.className} aria-label={descriptionText}>
+      {descriptionText}
+    </Description>
   );
 }

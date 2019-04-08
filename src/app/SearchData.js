@@ -63,7 +63,7 @@ async function fetchWheelmapNode(
 }
 
 const SearchData: DataTableEntry<SearchProps> = {
-  async getInitialRouteProps(query, isServer) {
+  async getInitialRouteProps(query, appProps, isServer) {
     const searchQuery = query.q;
 
     let trimmedSearchQuery;

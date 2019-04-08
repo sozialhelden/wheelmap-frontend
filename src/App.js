@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import includes from 'lodash/includes';
+import findIndex from 'lodash/findIndex';
 import initReactFastclick from 'react-fastclick';
 
 import config from './lib/config';
@@ -10,9 +11,10 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 import { type RouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
-import type { WheelmapFeature } from './lib/Feature';
+import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -46,7 +48,7 @@ import { trackModalView } from './lib/Analytics';
 
 initReactFastclick();
 
-export type Link = {
+export type LinkData = {
   label: LocalizedString,
   url: LocalizedString,
   order?: number,
@@ -97,6 +99,8 @@ type State = {
   photoFlowErrorMessage: ?string,
   photoMarkedForReport: PhotoModel | null,
 
+  activeCluster?: Cluster | null,
+
   // map controls
   lat?: ?number,
   lon?: ?number,
@@ -142,13 +146,31 @@ class App extends React.Component<Props, State> {
       isSearchBarVisible: isStickySearchBarSupported(),
     };
 
-    // close search results when leaving search route
+    // open search results on search route
     if (props.routeName === 'search') {
       newState.isSearchToolbarExpanded = true;
       newState.isSearchBarVisible = true;
+      newState.activeCluster = null;
     }
 
-    if (props.routeName === 'place_detail' || props.routeName === 'equipment') {
+    if (props.routeName === 'createPlace') {
+      newState.modalNodeState = 'create';
+      trackModalView('create');
+      newState.activeCluster = null;
+    }
+
+    if (props.routeName === 'contributionThanks') {
+      newState.modalNodeState = 'contribution-thanks';
+      trackModalView('contribution-thanks');
+      newState.activeCluster = null;
+    }
+
+    if (props.routeName === 'map') {
+      newState.modalNodeState = null;
+    }
+
+    const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
+    if (placeDetailsRoute) {
       const { accessibilityFilter, toiletFilter, category } = props;
 
       newState.isSearchBarVisible =
@@ -259,7 +281,7 @@ class App extends React.Component<Props, State> {
     const { routerHistory } = this.props;
 
     // show equipment inside their place details
-    let routeName = 'place_detail';
+    let routeName = 'placeDetail';
     const params = this.getCurrentParams();
 
     params.id = featureId;
@@ -274,7 +296,31 @@ class App extends React.Component<Props, State> {
       }
     }
 
-    routerHistory.push(routeName, params);
+    let activeCluster = null;
+    if (this.state.activeCluster) {
+      const index = findIndex(
+        this.state.activeCluster.features,
+        f => (f.id || f._id) === featureId
+      );
+      activeCluster = index !== -1 ? this.state.activeCluster : null;
+    }
+
+    this.setState({ activeCluster }, () => {
+      routerHistory.push(routeName, params);
+    });
+  };
+
+  showCluster = cluster => {
+    this.setState({ activeCluster: cluster }, () => {
+      const params = this.getCurrentParams();
+      delete params.id;
+      delete params.eid;
+      this.props.routerHistory.push('map', params);
+    });
+  };
+
+  closeActiveCluster = () => {
+    this.setState({ activeCluster: null });
   };
 
   onAccessibilityFilterButtonClick = (filter: PlaceFilter) => {
@@ -304,7 +350,7 @@ class App extends React.Component<Props, State> {
       if (id) {
         params.id = id;
         delete params.eid;
-        routeName = 'place_detail';
+        routeName = 'placeDetail';
       }
     }
 
@@ -516,6 +562,11 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onCloseModalDialog = () => {
+    const params = this.getCurrentParams();
+    this.props.routerHistory.push('map', params);
+  };
+
   onCloseOnboarding = () => {
     saveState({ onboardingCompleted: 'true' });
     this.setState({ isOnboardingVisible: false });
@@ -560,6 +611,18 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onShowSelectedFeature = (feature: Feature | EquipmentInfo) => {
+    if (!feature) {
+      return;
+    }
+
+    const featureId =
+      feature._id ||
+      feature.id ||
+      (feature.properties && (feature.properties.id || feature.properties._id));
+    this.showSelectedFeature(featureId, feature.properties);
+  };
+
   gotoCurrentFeature() {
     if (this.props.featureId) {
       this.setState({ modalNodeState: null });
@@ -573,11 +636,6 @@ class App extends React.Component<Props, State> {
 
   onCloseToiletAccessibility = () => {
     this.gotoCurrentFeature();
-  };
-
-  onAddMissingPlaceClick = () => {
-    this.setState({ modalNodeState: 'create' });
-    trackModalView('create');
   };
 
   onSelectWheelchairAccessibility = (value: YesNoLimitedUnknown) => {
@@ -645,6 +703,7 @@ class App extends React.Component<Props, State> {
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
       photos: this.props.photos,
+      toiletsNearby: this.props.toiletsNearby,
       category: this.props.category,
       categories: this.props.categories,
       sources: this.props.sources,
@@ -682,6 +741,9 @@ class App extends React.Component<Props, State> {
       // simple 3-button status editor feature
       accessibilityPresetStatus: this.state.accessibilityPresetStatus,
 
+      // feature list (e.g. cluster panel)
+      activeCluster: this.state.activeCluster,
+
       clientSideConfiguration: this.props.clientSideConfiguration,
     };
 
@@ -703,6 +765,9 @@ class App extends React.Component<Props, State> {
           onMoveEnd={this.onMoveEnd}
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
+          onClusterClick={this.showCluster}
+          onCloseClusterPanel={this.closeActiveCluster}
+          onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
@@ -711,18 +776,19 @@ class App extends React.Component<Props, State> {
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}
-          onCloseCreatePlaceDialog={this.onCloseNodeToolbar}
+          onCloseModalDialog={this.onCloseModalDialog}
           onOpenWheelchairAccessibility={this.onOpenWheelchairAccessibility}
           onOpenToiletAccessibility={this.onOpenToiletAccessibility}
+          onOpenToiletNearby={this.onShowSelectedFeature}
           onSelectWheelchairAccessibility={this.onSelectWheelchairAccessibility}
           onCloseWheelchairAccessibility={this.onCloseWheelchairAccessibility}
           onCloseToiletAccessibility={this.onCloseToiletAccessibility}
-          onAddMissingPlaceClick={this.onAddMissingPlaceClick}
           onSearchQueryChange={this.onSearchQueryChange}
           onEquipmentSelected={this.onEquipmentSelected}
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
-          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick} // photo feature
+          onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
+          // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}
           onContinuePhotoUploadFlow={this.onContinuePhotoUploadFlow}

@@ -1,5 +1,6 @@
 // @flow
 
+import { CustomEvent } from '../../lib/EventTarget';
 import { globalFetchManager, type FetchManager } from '../../lib/FetchManager';
 
 import L from 'leaflet';

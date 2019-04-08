@@ -7,7 +7,6 @@ import styled, { css } from 'styled-components';
 import CombinedIcon from './CombinedIcon';
 import colors from '../../lib/colors';
 import IconButton, { Circle, Caption } from '../IconButton';
-import Button from '../Button';
 import CloseIcon from '../icons/actions/Close';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
@@ -23,10 +22,18 @@ type Props = {
   onClick: (category: string) => void,
   onFocus?: (event: UIEvent) => void,
   className?: string,
+  isMainCategory: boolean,
 };
 
 function CategoryButton(props: Props) {
-  const { category, accessibilityFilter, toiletFilter, showCloseButton, className } = props;
+  const {
+    category,
+    isMainCategory,
+    accessibilityFilter,
+    toiletFilter,
+    showCloseButton,
+    className,
+  } = props;
 
   let shownAccessibilities = accessibilityFilter;
   if (showCloseButton || !isAccessibilityFiltered(accessibilityFilter)) {
@@ -38,7 +45,7 @@ function CategoryButton(props: Props) {
       accessibilityFilter={shownAccessibilities}
       toiletFilter={toiletFilter}
       category={category || 'undefined'}
-      isMainCategory
+      isMainCategory={isMainCategory}
       size="medium"
       ariaHidden={true}
     />
@@ -58,7 +65,7 @@ function CategoryButton(props: Props) {
         return (
           <Link
             params={params}
-            routeName={context.name}
+            to={context.name}
             aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
             className={className}
             onFocus={props.onFocus}

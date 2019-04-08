@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import styled from 'styled-components';
 
 import StyledFrame from './StyledFrame';
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
@@ -13,40 +12,26 @@ import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
-import {
-  isWheelmapFeatureId,
-  wheelmapFeatureFrom,
-  isWheelchairAccessible,
-} from '../../../lib/Feature';
+import { isWheelmapFeatureId } from '../../../lib/Feature';
+import Description from './Description';
 
 type Props = {
   featureId: ?string | number,
   category: ?Category,
+  cluster: ?any,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   presetStatus: ?YesNoLimitedUnknown,
-  // history: RouterHistory,
   feature: ?Feature,
+  toiletsNearby: ?(Feature[]),
 };
 
-const Description = styled.footer.attrs({ className: 'description' })`
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem !important;
-`;
-
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature } = props;
+  const { featureId, feature, toiletsNearby, cluster } = props;
   const properties = feature && feature.properties;
-  const wheelmapFeature = wheelmapFeatureFrom(feature);
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
-  if (
-    wheelmapFeature &&
-    wheelmapFeature.properties &&
-    isWheelchairAccessible(wheelmapFeature.properties) === 'unknown'
-  ) {
-    return null;
-  }
 
   const accessibilityTree =
     properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
@@ -60,15 +45,17 @@ export default function PlaceAccessibilitySection(props: Props) {
   if (properties && typeof properties.wheelchair_description === 'string') {
     description = properties.wheelchair_description;
   }
-  const descriptionElement = description ? <Description>“{description}”</Description> : null;
+  const descriptionElement = description ? <Description>{description}</Description> : null;
 
   return (
-    <StyledFrame>
+    <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
       <WheelchairAndToiletAccessibility
         isEditingEnabled={isWheelmapFeature}
         feature={feature}
+        toiletsNearby={toiletsNearby}
         onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={props.onOpenToiletAccessibility}
+        onOpenToiletNearby={props.onOpenToiletNearby}
       />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />

@@ -6,7 +6,7 @@ const UnknownWithoutArrow = props => (
       strokeOpacity={0.25}
       stroke="#000"
       d="M.707 12.5l11.794 11.793 11.798-11.79L12.5.707.707 12.5z"
-      fill="none"
+      fill={props.fill}
       fillRule="evenodd"
     />
   </svg>

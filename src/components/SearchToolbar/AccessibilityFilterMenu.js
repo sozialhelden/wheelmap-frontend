@@ -39,6 +39,7 @@ function getAvailableFilters() {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially accessible with accessible WC`,
       accessibilityFilter: ['yes', 'limited'],
+      isVisible: (category: string) => category !== 'toilets',
       toiletFilter: ['yes'],
     },
     fully: {
@@ -51,6 +52,7 @@ function getAvailableFilters() {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Only fully accessible with accessible WC`,
       accessibilityFilter: ['yes'],
+      isVisible: (category: string) => category !== 'toilets',
       toiletFilter: ['yes'],
     },
     unknown: {
@@ -89,19 +91,27 @@ function AccessibilityFilterMenu(props: Props) {
 
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
-      {shownFilterKeys.map(key => (
-        <AccessibilityFilterButton
-          accessibilityFilter={[...availableFilters[key].accessibilityFilter].sort()}
-          toiletFilter={availableFilters[key].toiletFilter}
-          caption={availableFilters[key].caption}
-          category={category}
-          isMainCategory
-          isActive={Boolean(currentFilterKey)}
-          showCloseButton={shownFilterKeys.length === 1}
-          onClick={onButtonClick}
-          key={key}
-        />
-      ))}
+      {shownFilterKeys.map(key => {
+        const item = availableFilters[key];
+
+        if (typeof item.isVisible === 'function' && !item.isVisible(category)) {
+          return null;
+        }
+
+        return (
+          <AccessibilityFilterButton
+            accessibilityFilter={[...item.accessibilityFilter].sort()}
+            toiletFilter={item.toiletFilter}
+            caption={item.caption}
+            category={category}
+            isMainCategory
+            isActive={Boolean(currentFilterKey)}
+            showCloseButton={shownFilterKeys.length === 1}
+            onClick={onButtonClick}
+            key={key}
+          />
+        );
+      })}
     </section>
   );
 }

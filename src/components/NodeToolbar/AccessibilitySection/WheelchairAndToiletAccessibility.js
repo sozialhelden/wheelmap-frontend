@@ -11,14 +11,17 @@ import {
   accessibilityDescription,
   toiletDescription,
   isWheelmapFeature,
+  normalizedCoordinatesForFeature,
 } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import PenIcon from '../../icons/actions/PenIcon';
 import type { Feature } from '../../../lib/Feature';
-import { getCategoryId } from '../../../lib/Categories';
+import { getCategoryIdFromProperties } from '../../../lib/Categories';
 import type { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
+import { geoDistance } from '../../../lib/geoDistance';
+import { formatDistance } from '../../../lib/formatDistance';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -26,6 +29,8 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'tram_stop',
   'atm',
   'toilets',
+  'elevator',
+  'escalator',
 ];
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
@@ -48,21 +53,25 @@ const toiletIcons = {
 
 function ToiletDescription(accessibility: YesNoUnknown) {
   if (!accessibility) return;
+
   // translator: Button caption, shown in the place toolbar
   const editButtonCaption = t`Mark wheelchair accessibility of WC`;
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
   return (
     <React.Fragment>
-      {icon} <span>{description}</span>
+      {icon}
+      <span>{description}</span>
     </React.Fragment>
   );
 }
 
 type Props = {
   feature: Feature,
+  toiletsNearby: ?(Feature[]),
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
+  onOpenToiletNearby: (feature: Feature) => void,
   className: string,
   isEditingEnabled: boolean,
 };
@@ -102,8 +111,34 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     );
   }
 
+  renderNearbyToilets() {
+    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
+    if (!toiletsNearby) {
+      return;
+    }
+
+    const featureCoords = normalizedCoordinatesForFeature(feature);
+    // for now render only the closest toilet
+    return toiletsNearby.slice(0, 1).map((toiletFeature, i) => {
+      const toiletCoords = normalizedCoordinatesForFeature(toiletFeature);
+      const distanceInMeters = geoDistance(featureCoords, toiletCoords);
+      const formattedDistance = formatDistance(distanceInMeters);
+      const { distance, unit } = formattedDistance;
+      const caption = t`Show next wheelchair accessible toilet`;
+      return (
+        <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
+          {caption}{' '}
+          <span className="subtle">
+            {distance}
+            {unit}
+          </span>
+        </button>
+      );
+    });
+  }
+
   render() {
-    const { feature } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -111,24 +146,28 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
 
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
-    if (wheelchairAccessibility === 'unknown' && toiletAccessibility === 'unknown') {
+
+    const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
+    const categoryId = getCategoryIdFromProperties(properties);
+    const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
+    const canAddToiletStatus =
+      isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
+    const isToiletButtonShown =
+      (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
+      (toiletAccessibility === 'yes' && categoryId !== 'toilets');
+
+    const findToiletsNearby =
+      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
+    if (!hasContent) {
       return null;
     }
 
-    const category = properties.category;
-    const categoryId = getCategoryId(category);
-    const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
-    const isToiletStatusKnown = toiletAccessibility !== 'unknown';
-    const incentivizeToAddToiletStatus =
-      isWheelmapFeature(feature) &&
-      includes(['yes', 'limited'], wheelchairAccessibility) &&
-      !hasBlacklistedCategory;
-    const isToiletButtonShown = isToiletStatusKnown || incentivizeToAddToiletStatus;
-
     return (
       <div className={this.props.className}>
-        {this.renderWheelchairButton(wheelchairAccessibility)}
+        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
+        {findToiletsNearby && this.renderNearbyToilets()}
       </div>
     );
   }
@@ -150,7 +189,10 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     background-color: transparent;
     :not(:disabled) {
       cursor: pointer;
-
+      &.toilet-nearby {
+        color: ${colors.linkColor};
+        font-weight: bold;
+      }
       &:hover {
         &.accessibility-yes {
           background-color: ${colors.positiveBackgroundColorTransparent};
@@ -244,6 +286,19 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .toilet-nearby {
+    display: flex;
+    align-items: center;
+
+    .right-arrow {
+      padding: 0 10px;
+    }
+
+    &:hover {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
   }
 `;
 

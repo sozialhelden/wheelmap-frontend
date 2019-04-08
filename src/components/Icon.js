@@ -33,7 +33,15 @@ function width(size: Size) {
   }[size];
 }
 
-const StyledIconContainer = styled('figure')`
+function fontSize(size: Size) {
+  return {
+    big: 32,
+    medium: 24,
+    small: 14,
+  }[size];
+}
+
+export const StyledIconContainer = styled('figure')`
   position: relative;
   margin: 0;
 
@@ -44,26 +52,34 @@ const StyledIconContainer = styled('figure')`
   line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center;    
+  
+  > .foreground {
+    z-index: 300;
+    font-size: ${props => fontSize(props.size)}px;
+    color: ${props =>
+      props.accessibility
+        ? colors.markers.foreground[props.accessibility]
+        : props.foregroundColor || '#888'};
+  }
 
-  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} ${props =>
-      props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ''} svg {
+  > small {
+    position: absolute;
+    bottom: 1px;
+    right 1px;
+    font-size: 8px;
+  }
+
+  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} 
+  ${props => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : '')}
+
+  svg {
     &.background {
       position: absolute;
       width: 100%;
       height: 100%;
       top: 0;
       left: 0;
-      g,
-      polygon,
-      path,
-      circle,
-      rect {
-        fill: ${props =>
-          props.accessibility
-            ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || 'white'};
-      }
     }
 
     &.icon {
@@ -88,6 +104,9 @@ const StyledIconContainer = styled('figure')`
 // @TODO Rename it to CategoryIcon
 export default function Icon({
   accessibility,
+  children,
+  backgroundColor = colors.markers.background[accessibility],
+  foregroundColor,
   category,
   isMainCategory,
   className,
@@ -119,10 +138,15 @@ export default function Icon({
       className={className}
       aria-hidden={ariaHidden}
       accessibility={accessibility}
+      backgroundColor={backgroundColor}
+      foregroundColor={foregroundColor}
       centered={centered}
       onClick={onClick}
     >
-      {accessibility && MarkerComponent ? <MarkerComponent className="background" /> : null}
+      {accessibility && MarkerComponent ? (
+        <MarkerComponent className="background" fill={backgroundColor} />
+      ) : null}
+      {children}
       {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
     </StyledIconContainer>
   );

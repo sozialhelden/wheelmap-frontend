@@ -132,6 +132,8 @@ class GeoJSONTileLayer extends TileLayer {
     Object.keys(this._idsToShownLayers).forEach(id => delete this._idsToShownLayers[id]);
     this._layerGroup.clearLayers();
     this._loadedTileUrls = {};
+    this._tiles = {};
+    this._tilesToLoad = 0;
   }
 
   _addTile(tilePoint) {
@@ -215,6 +217,14 @@ class GeoJSONTileLayer extends TileLayer {
 
     tile.coords = tilePoint; // eslint-disable-line no-param-reassign
     tile.url = url;
+    tile.el = {};
+
+    let tileRequestAborted = false;
+    tile.request = {
+      abort: () => {
+        tileRequestAborted = true;
+      },
+    };
 
     this.fire('tileloadstart', {
       tile,
@@ -222,9 +232,6 @@ class GeoJSONTileLayer extends TileLayer {
     });
 
     if (this._loadedTileUrls[url]) {
-      // This is needed to not crash in superclasses, which assume that every tile has a request
-      tile.el = {};
-      tile.request = { abort() {} };
       return;
     }
 
@@ -233,6 +240,13 @@ class GeoJSONTileLayer extends TileLayer {
     const featureCollectionFromResponse = this.options.featureCollectionFromResponse || (r => r);
 
     const loadGeoJSON = responseText => {
+      // ensure that the request url does not change in between
+      const actualUrl = this.getTileUrl(tilePoint);
+      if (actualUrl !== url) {
+        // console.log("Received outdated tile!", url, actualUrl, tileRequestAborted);
+        return;
+      }
+
       let geoJSON;
       let response = null;
       try {
@@ -252,20 +266,22 @@ class GeoJSONTileLayer extends TileLayer {
       tileLayer._tileOnLoad(tile, url);
     };
 
-    tile.request = { abort() {} };
     if (isCordova() && this.options.cordova) {
       const options = { headers: { Accept: 'application/json' } };
       fetchViaCordova(url, options)
         .then(r => r.text())
-        .then(responseText => loadGeoJSON(responseText))
+        .then(responseText => !tileRequestAborted && loadGeoJSON(responseText))
         .catch(error => tileLayer._tileOnError(tile, url));
     } else {
       const request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
       tile.request = request;
       request.open('GET', url, true);
       request.setRequestHeader('Accept', 'application/json');
+      request.addEventListener('abort', function load() {
+        tileRequestAborted = true;
+      });
       request.addEventListener('load', function load() {
-        if (!this.responseText || this.status >= 400) return;
+        if (!this.responseText || this.status >= 400 || tileRequestAborted) return;
         loadGeoJSON(this.responseText);
       });
       request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
