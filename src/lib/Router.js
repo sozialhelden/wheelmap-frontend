@@ -38,6 +38,11 @@ class Router {
 
   generatePath(name, params = {}) {
     const route = this.getRoute(name, true);
+
+    if (!route) {
+      return null;
+    }
+
     const compiledRoute = this.getCompiledRoute(route);
     const path = compiledRoute.generate(params);
 
@@ -83,7 +88,8 @@ class Router {
   getRoute(nameOrPath, strict = false) {
     const route = this.routes.find(route => route.name === nameOrPath || route.path === nameOrPath);
     if (strict && !route) {
-      throw new Error(`Unknown route: ${nameOrPath}.`);
+      console.log(`Could not find route ${nameOrPath} in router configuration`);
+      return null;
     }
 
     return route;
