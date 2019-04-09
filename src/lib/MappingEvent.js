@@ -2,7 +2,6 @@ import type { MappingEventFeature } from './Feature';
 import type { IImage } from './Image';
 
 type MappingEventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
-type MappingEventOpenForEnum = 'inviteOnly' | 'everyone';
 
 interface MappingEventStatistics {
   fullParticipantCount: number;
@@ -21,7 +20,7 @@ export interface MappingEvent {
   welcomeMessage?: string;
   meetingPoint: MappingEventFeature;
   area?: MappingEventFeature;
-  startTime?: Date;
+  startTime: Date;
   endTime?: Date;
   webSiteUrl?: string;
   photos?: IImage[];
@@ -29,7 +28,6 @@ export interface MappingEvent {
     mappedPlacesCount?: number,
   };
   status: MappingEventStatusEnum;
-  openFor: MappingEventOpenForEnum;
   statistics: MappingEventStatistics;
 }
 
