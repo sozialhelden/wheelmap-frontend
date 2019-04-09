@@ -1,5 +1,7 @@
 // @flow
 
+import env from './env';
+
 export type ImageContext = 'place' | 'event' | 'app' | 'organization';
 
 export interface IImage {
@@ -20,12 +22,8 @@ export interface IImage {
   isUploadedToS3: boolean;
 }
 
-export function buildFullImageUrl(image) {
-  //FIXME where do we get the s3 settings from?
-  const s3 = Meteor.settings.public.aws.s3;
+export function buildFullImageUrl(image: IImage) {
+  const bucketName = env.public.aws.s3.bucket;
 
-  if (s3.bucketEndpoint) {
-    return `${s3.bucketEndpoint}/${image.remotePath}`;
-  }
-  return `https://${s3.bucket}.s3.amazonaws.com/${image.remotePath}`;
+  return `https://${bucketName}.s3.amazonaws.com/${image.remotePath}`;
 }
