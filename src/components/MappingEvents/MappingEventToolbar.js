@@ -13,11 +13,17 @@ import { AppContextConsumer } from '../../AppContext';
 import { buildFullImageUrl } from '../../lib/Image';
 
 const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
-  const date = new Date(mappingEvent.startTime);
+  const startDate = new Date(mappingEvent.startTime);
+  const endDate = new Date(mappingEvent.endTime);
 
   const imageSource = mappingEvent.photos[0]
     ? buildFullImageUrl(mappingEvent.photos[0])
     : '/static/images/eventPlaceholder.png';
+
+  let dateString = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()}`;
+  if (endDate) {
+    dateString += ` - ${endDate.toLocaleDateString} ${endDate.toLocaleTimeString}`;
+  }
 
   return (
     <Toolbar className={className}>
@@ -28,7 +34,7 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
         </Link>
         <div>
           <h2>{mappingEvent.name}</h2>
-          <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
+          <p>{dateString}</p>
         </div>
       </header>
       <div className="actions">
