@@ -80,9 +80,11 @@ const MappingEventToolbar = ({
         </div>
         <img className="mapping-event-image" src={imageSource} alt="" />
         <section className="statistics" aria-label={t`Mapping Event Zahlen`}>
-          <div className="statistics-count">
-            <MapPinWithPlusIcon />
-            <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+          <div>
+            <div className="statistics-count">
+              <MapPinWithPlusIcon />
+              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+            </div>
             <div className="statistics-description">{t`map places`}</div>
           </div>
           <div>
