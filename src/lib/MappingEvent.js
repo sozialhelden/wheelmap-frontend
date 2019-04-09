@@ -20,8 +20,8 @@ export interface MappingEvent {
   name: string;
   description?: string;
   welcomeMessage?: string;
-  meetingPoint: MappingEventFeature;
-  area?: MappingEventFeature;
+  meetingPoint?: MappingEventFeature;
+  area: MappingEventFeature;
   startTime: Date;
   endTime?: Date;
   webSiteUrl?: string;
