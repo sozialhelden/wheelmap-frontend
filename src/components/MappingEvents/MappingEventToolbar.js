@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
@@ -11,18 +13,32 @@ import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
 import { buildFullImageUrl } from '../../lib/Image';
+import type { MappingEvent } from '../../lib/MappingEvent';
 
-const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
+interface MappingEventToolbarProps {
+  className: string;
+  mappingEvent: MappingEvent;
+  onClose: () => void;
+  productName: string;
+}
+
+const MappingEventToolbar = ({
+  className,
+  mappingEvent,
+  onClose,
+  productName,
+}: MappingEventToolbarProps) => {
   const startDate = new Date(mappingEvent.startTime);
-  const endDate = new Date(mappingEvent.endTime);
+  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
 
-  const imageSource = mappingEvent.photos[0]
-    ? buildFullImageUrl(mappingEvent.photos[0])
-    : '/static/images/eventPlaceholder.png';
+  const imageSource =
+    mappingEvent.photos && mappingEvent.photos[0]
+      ? buildFullImageUrl(mappingEvent.photos[0])
+      : '/static/images/eventPlaceholder.png';
 
   let dateString = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()}`;
   if (endDate) {
-    dateString += ` - ${endDate.toLocaleDateString} ${endDate.toLocaleTimeString}`;
+    dateString += ` - ${endDate.toLocaleDateString()} ${endDate.toLocaleTimeString()}`;
   }
 
   return (

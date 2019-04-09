@@ -1,3 +1,5 @@
+// @flow
+
 import type { MappingEventFeature } from './Feature';
 import type { IImage } from './Image';
 
