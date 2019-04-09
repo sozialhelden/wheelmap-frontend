@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
@@ -11,9 +13,37 @@ import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
+import { buildFullImageUrl } from '../../lib/Image';
+import type { MappingEvent } from '../../lib/MappingEvent';
 
-const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) => {
-  const date = new Date(mappingEvent.startTime.$date);
+interface MappingEventToolbarProps {
+  className: string;
+  mappingEvent: MappingEvent;
+  onClose: () => void;
+  productName: string;
+}
+
+const MappingEventToolbar = ({
+  className,
+  mappingEvent,
+  onClose,
+  productName,
+}: MappingEventToolbarProps) => {
+  const startDate = new Date(mappingEvent.startTime);
+  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
+
+  const imageSource =
+    mappingEvent.photos && mappingEvent.photos[0]
+      ? buildFullImageUrl(mappingEvent.photos[0])
+      : '/static/images/eventPlaceholder.png';
+
+  let dateString = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()}`;
+  if (endDate) {
+    dateString += ` - ${endDate.toLocaleDateString()} ${endDate.toLocaleTimeString()}`;
+  }
+
+  const areaName = mappingEvent.area.properties.name;
+  const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -29,7 +59,11 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
           </Link>
           <div>
             <h2>{mappingEvent.name}</h2>
-            <p>{`${date.toLocaleDateString()} ${date.toLocaleTimeString()}`}</p>
+            <p>{dateString}</p>
+            <address>
+              {areaName && <p>{areaName}</p>}
+              {meetingPointName && <p>{meetingPointName}</p>}
+            </address>
           </div>
         </header>
         <div className="actions">
@@ -44,19 +78,11 @@ const MappingEventToolbar = ({ className, mappingEvent, onClose, productName }) 
             )}
           </AppContextConsumer>
         </div>
-        <img
-          className="mapping-event-image"
-          src={
-            mappingEvent.photoUrl ? mappingEvent.photoUrl : '/static/images/eventPlaceholder.png'
-          }
-          alt=""
-        />
+        <img className="mapping-event-image" src={imageSource} alt="" />
         <section className="statistics" aria-label={t`Mapping Event Zahlen`}>
-          <div>
-            <div className="statistics-count">
-              <MapPinWithPlusIcon />
-              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
-            </div>
+          <div className="statistics-count">
+            <MapPinWithPlusIcon />
+            <span>{mappingEvent.statistics.mappedPlacesCount}</span>
             <div className="statistics-description">{t`map places`}</div>
           </div>
           <div>

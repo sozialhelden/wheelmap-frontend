@@ -1,14 +1,11 @@
+// @flow
+
 import type { MappingEventFeature } from './Feature';
+import type { IImage } from './Image';
 
 type MappingEventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
-type MappingEventOpenForEnum = 'inviteOnly' | 'everyone';
 
-interface MappingEventRegion {
-  topLeft: { latitude: number, longitude: number };
-  bottomRight: { latitude: number, longitude: number };
-}
-
-interface IMappingEventStatistics {
+interface MappingEventStatistics {
   fullParticipantCount: number;
   invitedParticipantCount: number;
   draftParticipantCount: number;
@@ -22,22 +19,18 @@ export interface MappingEvent {
   sourceId?: string;
   name: string;
   description?: string;
-  meetingPoint: MappingEventFeature;
-  regionName?: string;
-  region?: MappingEventRegion;
-  extent?: [number, number, number, number];
-  startTime?: Date;
+  welcomeMessage?: string;
+  meetingPoint?: MappingEventFeature;
+  area: MappingEventFeature;
+  startTime: Date;
   endTime?: Date;
   webSiteUrl?: string;
-  photoUrl?: string;
-  invitationToken?: string;
-  verifyGpsPositionsOfEdits?: boolean;
+  photos?: IImage[];
   targets?: {
     mappedPlacesCount?: number,
   };
   status: MappingEventStatusEnum;
-  openFor: MappingEventOpenForEnum;
-  statistics: IMappingEventStatistics;
+  statistics: MappingEventStatistics;
 }
 
 export type MappingEvents = MappingEvent[];

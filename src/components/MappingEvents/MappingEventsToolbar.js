@@ -43,7 +43,7 @@ const MappingEventsToolbar = ({
               onClick={() => onMappingEventLinkClick(event._id)}
             >
               <h3>{event.name}</h3>
-              <p>{event.regionName}</p>
+              {event.area && <p>{event.area.properties.name}</p>}
             </Link>
           </li>
         ))}

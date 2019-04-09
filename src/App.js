@@ -14,7 +14,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
-import { type MappingEvents, type MappingEvent } from './lib/cache/MappingEventsCache';
+import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
@@ -713,7 +713,7 @@ class App extends React.Component<Props, State> {
 
   onMappingEventLinkClick = (eventId: string) => {
     const event = this.props.mappingEvents.find(event => event._id === eventId);
-    const extent = event && event.extent;
+    const extent = event && event.area.properties.extent;
 
     if (extent) {
       this.setState({ extent });

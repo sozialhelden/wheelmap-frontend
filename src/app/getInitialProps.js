@@ -18,11 +18,7 @@ import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
-import {
-  mappingEventsCache,
-  type MappingEvents,
-  addExtentsDerivedFromRegions,
-} from '../lib/cache/MappingEventsCache';
+import { mappingEventsCache, type MappingEvents } from '../lib/cache/MappingEventsCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
@@ -186,8 +182,7 @@ export async function getInitialAppProps(
 
   const clientSideConfiguration = await clientSideConfigurationPromise;
   const rawCategoryLists = await rawCategoryListsPromise;
-  let mappingEvents = await mappingEventsPromise;
-  mappingEvents = addExtentsDerivedFromRegions(mappingEvents);
+  const mappingEvents = await mappingEventsPromise;
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');

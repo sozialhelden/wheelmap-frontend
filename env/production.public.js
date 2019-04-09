@@ -17,6 +17,12 @@ const config = {
       uncached: 'https://www.accessibility.cloud',
     },
   },
+  aws: {
+    region: 'eu-central-1',
+    s3: {
+      bucket: 'accessibility-cloud-uploads',
+    },
+  },
   baseUrl: 'https://wheelmap.org',
   cordovaHostname: 'wheelmap.org',
 };
