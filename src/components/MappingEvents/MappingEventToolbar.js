@@ -45,16 +45,25 @@ const MappingEventToolbar = ({
   const areaName = mappingEvent.area.properties.name;
   const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
 
+  // translator: Screenreader description for a mapping event
+  const toolbarAriaLabel = t`Mapping Event ${mappingEvent.name}`;
+  // translator: Screenreader description for the back link that leads to the list of mapping events
+  const backLinkAriaLabel = t`Zurück zur Mapping Events Liste`;
+  // translator: Button name for social media sharing the current mapping event
+  const shareButtonCaption = t`Share link`;
+  // translator: Screenreader description for the statistics/numbers part of a mapping event
+  const statisticsRegionAriaLabel = t`Mapping Event Zahlen`;
+  // translator: Screenreader description for number of already mapped places in the mapping event
+  const mapPlacesStatisticAriaLabel = t`map places`;
+  // translator: Screenreader description for number of people invited to the current mapping event
+  const inviteesCountAriaLabel = t`people invited`;
+
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <Toolbar
-        className={className}
-        ariaLabel={t`Mapping Event ${mappingEvent.name}`}
-        role="dialog"
-      >
+      <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
-          <Link to="mappingEvents" aria-label={t`Zurück zur Mapping Events Liste`}>
+          <Link to="mappingEvents" aria-label={backLinkAriaLabel}>
             <ChevronLeft />
           </Link>
           <div>
@@ -71,7 +80,7 @@ const MappingEventToolbar = ({
             {appContext => (
               <MappingEventShareBar
                 mappingEvent={mappingEvent}
-                buttonCaption={t`Share link`}
+                buttonCaption={shareButtonCaption}
                 baseUrl={appContext.baseUrl}
                 productName={productName}
               />
@@ -79,20 +88,20 @@ const MappingEventToolbar = ({
           </AppContextConsumer>
         </div>
         <img className="mapping-event-image" src={imageSource} alt="" />
-        <section className="statistics" aria-label={t`Mapping Event Zahlen`}>
+        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
           <div>
             <div className="statistics-count">
               <MapPinWithPlusIcon />
               <span>{mappingEvent.statistics.mappedPlacesCount}</span>
             </div>
-            <div className="statistics-description">{t`map places`}</div>
+            <div className="statistics-description">{mapPlacesStatisticAriaLabel}</div>
           </div>
           <div>
             <div className="statistics-count">
               <BellIcon />
               <span>{mappingEvent.statistics.invitedParticipantCount}</span>
             </div>
-            <div className="statistics-description">{t`people invited`}</div>
+            <div className="statistics-description">{inviteesCountAriaLabel}</div>
           </div>
         </section>
         <div className="mapping-event-description">{mappingEvent.description}</div>

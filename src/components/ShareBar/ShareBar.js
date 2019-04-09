@@ -82,11 +82,14 @@ class ShareBar extends React.Component<Props, State> {
   render() {
     const { shareButtonCaption, url, pageDescription, sharedObjectTitle, mailToLink } = this.props;
 
+    // translator: Screenreader description for the button that expands the share menu
+    const shareMenuExpandButtonAriaLabel = t`Expand share menu`;
+
     const expandButton = (
       <button
         ref={shareButton => (this.shareButton = shareButton)}
         className={'link-button expand-button full-width-button'}
-        aria-label={t`Expand share menu`}
+        aria-label={shareMenuExpandButtonAriaLabel}
         aria-expanded={this.state.isExpanded}
         onClick={() => this.toggle(true)}
       >
@@ -106,6 +109,9 @@ class ShareBar extends React.Component<Props, State> {
       ? { openWindow: false, onClick: link => (window.location.href = link) }
       : {};
 
+    // translator: Screenreader description for the share menu collapse button
+    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;
+
     return (
       <div className={this.props.className}>
         <button
@@ -113,7 +119,7 @@ class ShareBar extends React.Component<Props, State> {
           className={'link-button collapse-button'}
           onClick={() => this.toggle(false)}
           aria-expanded={this.state.isExpanded}
-          aria-label={t`Collapse share menu`}
+          aria-label={shareMenuCollapseButtonAriaLabel}
         >
           <ChevronLeft />
         </button>

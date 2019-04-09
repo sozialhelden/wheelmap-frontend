@@ -20,37 +20,48 @@ const MappingEventsToolbar = ({
   mappingEvents,
   onClose,
   onMappingEventLinkClick,
-}: MappingEventsToolbarProps) => (
-  <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-    <Toolbar className={className} ariaLabel={t`Mapping Events Liste`} role="dialog">
-      <CloseButton onClick={onClose} />
-      <header>
-        <span className="number-badge" aria-hidden={true}>
-          {mappingEvents.length}
-        </span>
-        <div className="header-title">
-          <h2 aria-label={t`${mappingEvents.length} aktive Mapping Events`}>{t`Events`}</h2>
-          <p>{t`Meet the community and map the accessibility of places around you`}</p>
-        </div>
-      </header>
-      <ul>
-        {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
-          <li key={event._id}>
-            <Link
-              to={`mappingEventDetail`}
-              params={{ id: event._id }}
-              className="link-button"
-              onClick={() => onMappingEventLinkClick(event._id)}
-            >
-              <h3>{event.name}</h3>
-              {event.area && <p>{event.area.properties.name}</p>}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </Toolbar>
-  </FocusTrap>
-);
+}: MappingEventsToolbarProps) => {
+  // translator: Screenreader description for the mapping events list
+  const mappingEventsListAriaLabel = t`Mapping Events Liste`;
+  // translator: Screenreader description for the number of active mapping events in the shown list
+  const activeMappingEventsCountAriaLabel = t`${mappingEvents.length} aktive Mapping Events`;
+  // translator: Generic name for mapping events
+  const eventsText = t`Events`;
+  // translator: Tagline describing the purpose of mapping events
+  const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you`;
+
+  return (
+    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
+      <Toolbar className={className} ariaLabel={mappingEventsListAriaLabel} role="dialog">
+        <CloseButton onClick={onClose} />
+        <header>
+          <span className="number-badge" aria-hidden={true}>
+            {mappingEvents.length}
+          </span>
+          <div className="header-title">
+            <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
+            <p>{mappingEventsTagLine}</p>
+          </div>
+        </header>
+        <ul>
+          {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
+            <li key={event._id}>
+              <Link
+                to={'mappingEventDetail'}
+                params={{ id: event._id }}
+                className="link-button"
+                onClick={() => onMappingEventLinkClick(event._id)}
+              >
+                <h3>{event.name}</h3>
+                {event.area && <p>{event.area.properties.name}</p>}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Toolbar>
+    </FocusTrap>
+  );
+};
 
 const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
   padding-top: 0;

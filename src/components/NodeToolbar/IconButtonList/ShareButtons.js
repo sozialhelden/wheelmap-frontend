@@ -34,7 +34,7 @@ const ShareButtons = ({
   let mailSubject = t`Wheelmap.org`;
   // translator: First line in an email and shared object title used when sharing a place via email or a social network.
   let sharedObjectTitle = t`I found a place on Wheelmap…`;
-  // Shown as button caption in the place toolbar
+  // translator: Shown as button caption in the place toolbar
   const shareButtonCaption = t`Share`;
 
   if (feature && feature.properties) {
@@ -53,6 +53,7 @@ const ShareButtons = ({
 
     // translator: Additional description text for sharing a place in a social network.
     pageDescription = description || t`Learn more about the accessibility of this place`;
+    // translator: Text for mail body for shared place asking to click a link to open the shared place
     mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
   }
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(

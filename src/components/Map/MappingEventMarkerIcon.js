@@ -30,7 +30,7 @@ export default class MappingEventMarkerIcon extends MarkerIcon {
     const { eventName, highlighted, ...restOptions } = options;
 
     const iconAnchorOffset = L.point(0, 0);
-    // translator: Description for mapping event map markers
+    // translator: Screenreader description for a map marker showing a mapping event meeting point
     const accessibleName = t`${eventName} Mapping Event Map Marker`;
 
     super({ iconAnchorOffset, highlighted, accessibleName, ...restOptions });
