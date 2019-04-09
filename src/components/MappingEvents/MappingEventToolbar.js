@@ -41,6 +41,9 @@ const MappingEventToolbar = ({
     dateString += ` - ${endDate.toLocaleDateString()} ${endDate.toLocaleTimeString()}`;
   }
 
+  const areaName = mappingEvent.area.properties.name;
+  const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
+
   return (
     <Toolbar className={className}>
       <MappingEventToolbarCloseButton onClick={onClose} />
@@ -51,6 +54,10 @@ const MappingEventToolbar = ({
         <div>
           <h2>{mappingEvent.name}</h2>
           <p>{dateString}</p>
+          <address>
+            {areaName && <p>{areaName}</p>}
+            {meetingPointName && <p>{meetingPointName}</p>}
+          </address>
         </div>
       </header>
       <div className="actions">
