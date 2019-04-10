@@ -37,7 +37,7 @@ const MappingEventShareBar = ({ className, mappingEvent, buttonCaption, baseUrl,
 };
 
 const StyledEventShareBar = styled(MappingEventShareBar)`
-  width: 100%;
+  ${ShareBar};
 `;
 
 export default StyledEventShareBar;

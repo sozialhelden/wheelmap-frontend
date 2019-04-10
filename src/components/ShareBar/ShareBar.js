@@ -11,6 +11,7 @@ import {
 import { t } from 'ttag';
 import colors from '../../lib/colors';
 import IconButton, { Circle, Caption } from '../IconButton';
+import { ChromelessButton } from '../Button';
 import isCordova from '../../lib/isCordova';
 import { interpolateLab } from 'd3-interpolate';
 
@@ -86,16 +87,16 @@ class ShareBar extends React.Component<Props, State> {
     const shareMenuExpandButtonAriaLabel = t`Expand share menu`;
 
     const expandButton = (
-      <button
+      <ChromelessButton
         ref={shareButton => (this.shareButton = shareButton)}
-        className={'link-button expand-button full-width-button'}
+        className="expand-button"
         aria-label={shareMenuExpandButtonAriaLabel}
         aria-expanded={this.state.isExpanded}
         onClick={() => this.toggle(true)}
       >
         <ShareIcon />
         <span>{shareButtonCaption}</span>
-      </button>
+      </ChromelessButton>
     );
 
     if (!this.state.isExpanded) return expandButton;
@@ -114,15 +115,15 @@ class ShareBar extends React.Component<Props, State> {
 
     return (
       <div className={this.props.className}>
-        <button
+        <ChromelessButton
           ref={collapseButton => (this.collapseButton = collapseButton)}
-          className={'link-button collapse-button'}
+          className="collapse-button"
           onClick={() => this.toggle(false)}
           aria-expanded={this.state.isExpanded}
           aria-label={shareMenuCollapseButtonAriaLabel}
         >
           <ChevronLeft />
-        </button>
+        </ChromelessButton>
 
         <footer className={this.state.isExpanded ? 'is-visible' : ''}>
           <FacebookShareButton

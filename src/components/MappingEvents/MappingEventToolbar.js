@@ -15,6 +15,7 @@ import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import type { MappingEvent } from '../../lib/MappingEvent';
+import { PrimaryButton, ChromelessButton } from '../Button';
 
 interface MappingEventToolbarProps {
   className: string;
@@ -57,6 +58,8 @@ const MappingEventToolbar = ({
   const mapPlacesStatisticAriaLabel = t`map places`;
   // translator: Screenreader description for number of people invited to the current mapping event
   const inviteesCountAriaLabel = t`people invited`;
+  // translator: Button caption for joining an event
+  const joinButtonCaption = t`Event Beitreten`;
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -76,6 +79,7 @@ const MappingEventToolbar = ({
           </div>
         </header>
         <div className="actions">
+          <PrimaryButton>Hello</PrimaryButton>
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar
@@ -137,7 +141,15 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     line-height: 1.2;
   }
 
-  .link-button {
+  ${PrimaryButton} {
+    margin-bottom: 10px;
+  }
+
+  ${ChromelessButton}.expand-button {
+    width: 100%;
+  }
+
+  /* .link-button {
     display: flex;
     align-items: center;
   }
@@ -151,10 +163,10 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     height: 1.5rem;
     margin-right: 1rem;
     fill: #89939e;
-  }
+  } */
 
   .actions {
-    display: flex;
+    /* display: flex; */
     margin-bottom: 20px;
   }
 
