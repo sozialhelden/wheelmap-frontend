@@ -34,6 +34,10 @@ const routes = [
     path: '/events/:id',
   },
   {
+    name: 'mappingEventJoin',
+    path: '/events/:id/join',
+  },
+  {
     name: 'map',
     path: '/',
   },
