@@ -41,18 +41,15 @@ export const SecondaryButton = styled(PrimaryButton)`
 `;
 
 export const ChromelessButton = styled.button`
-  padding: 0.5rem 0.75rem;
+  padding: 0.375rem 0.75rem;
   border: none;
   box-shadow: 0px 0px 0px 1px transparent;
   border-radius: 0.5rem;
   @media (max-width: 768px) {
     box-shadow: 0px 0px 0px 1px transparent;
   }
-  &[data-focus-visible-added] {
-    box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
-    transition: box-shadow 0.2s;
-  }
   font-size: 1rem;
+  line-height: 1.75;
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 0.9rem;
   }
