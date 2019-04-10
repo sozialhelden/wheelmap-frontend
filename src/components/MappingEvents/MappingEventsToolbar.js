@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
-import Link from '../Link/Link';
+import Link, { RouteConsumer } from '../Link/Link';
 import CloseButton from './CloseButton';
 import { MappingEvents } from '../../lib/cache/MappingEventsCache';
 
@@ -12,14 +12,14 @@ type MappingEventsToolbarProps = {
   className: string,
   mappingEvents: MappingEvents,
   onClose: () => void,
-  onMappingEventLinkClick: (eventId: string) => void,
+  onMappingEventClick: (eventId: string) => void,
 };
 
 const MappingEventsToolbar = ({
   className,
   mappingEvents,
   onClose,
-  onMappingEventLinkClick,
+  onMappingEventClick,
 }: MappingEventsToolbarProps) => {
   // translator: Screenreader description for the mapping events list
   const mappingEventsListAriaLabel = t`Mapping Events Liste`;
@@ -46,15 +46,23 @@ const MappingEventsToolbar = ({
         <ul>
           {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
             <li key={event._id}>
-              <Link
-                to={'mappingEventDetail'}
-                params={{ id: event._id }}
-                className="link-button"
-                onClick={() => onMappingEventLinkClick(event._id)}
-              >
-                <h3>{event.name}</h3>
-                {event.area && <p>{event.area.properties.name}</p>}
-              </Link>
+              <RouteConsumer>
+                {context => {
+                  let params = { ...context.params, id: event._id };
+
+                  return (
+                    <Link
+                      to={'mappingEventDetail'}
+                      params={params}
+                      className="link-button"
+                      onClick={() => onMappingEventClick(event._id)}
+                    >
+                      <h3>{event.name}</h3>
+                      {event.area && <p>{event.area.properties.name}</p>}
+                    </Link>
+                  );
+                }}
+              </RouteConsumer>
             </li>
           ))}
         </ul>

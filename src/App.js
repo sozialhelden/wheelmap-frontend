@@ -332,6 +332,13 @@ class App extends React.Component<Props, State> {
   };
 
   showSelectedMappingEvent = (eventId: string) => {
+    const event = this.props.mappingEvents.find(event => event._id === eventId);
+    const extent = event && event.area.properties.extent;
+
+    if (extent) {
+      this.setState({ extent });
+    }
+
     const params = this.getCurrentParams();
     params.id = eventId;
     this.props.routerHistory.push('mappingEventDetail', params);
@@ -711,15 +718,6 @@ class App extends React.Component<Props, State> {
     );
   }
 
-  onMappingEventLinkClick = (eventId: string) => {
-    const event = this.props.mappingEvents.find(event => event._id === eventId);
-    const extent = event && event.area.properties.extent;
-
-    if (extent) {
-      this.setState({ extent });
-    }
-  };
-
   onMappingEventsLinkClick = () => {
     this.setState({ isMainMenuOpen: false });
   };
@@ -843,7 +841,6 @@ class App extends React.Component<Props, State> {
           onShowPlaceDetails={this.showSelectedFeature}
           onMainMenuHomeClick={this.onMainMenuHomeClick}
           onAccessibilityFilterButtonClick={this.onAccessibilityFilterButtonClick}
-          onMappingEventLinkClick={this.onMappingEventLinkClick}
           // photo feature
           onStartPhotoUploadFlow={this.onStartPhotoUploadFlow}
           onAbortPhotoUploadFlow={this.onExitPhotoUploadFlow}

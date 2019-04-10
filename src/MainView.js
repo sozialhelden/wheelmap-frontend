@@ -121,7 +121,6 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
-  onMappingEventLinkClick: () => void,
   onMappingEventsLinkClick: () => void,
 
   // simple 3-button status editor feature
@@ -275,12 +274,12 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventsToolbar() {
-    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventLinkClick } = this.props;
+    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick } = this.props;
     return (
       <MappingEventsToolbar
         mappingEvents={mappingEvents}
         onClose={onCloseMappingEventsToolbar}
-        onMappingEventLinkClick={onMappingEventLinkClick}
+        onMappingEventClick={onMappingEventClick}
       />
     );
   }
