@@ -64,7 +64,7 @@ GEM
       xcodeproj (>= 1.8.1, < 2.0.0)
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
-    fastlane-plugin-browserstack (0.2.0)
+    fastlane-plugin-browserstack (0.3.1)
       rest-client (~> 2.0, >= 2.0.2)
     fastlane-plugin-cordova (2.2.1)
     fastlane-plugin-increment_version_code (0.4.3)
