@@ -6,7 +6,7 @@ for_platform :android do
   app_identifier "org.wheelmap.android.online"
 end
 
-apple_id("raul@sozialhelden.de")
+apple_id(ENV["APPLE_DEVELOPER_USERNAME"])
 
 itc_team_id("422407") # iTunes Connect Team ID
 team_id("LY797X36V6") # Developer Portal Team ID
