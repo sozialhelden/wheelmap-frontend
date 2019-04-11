@@ -234,13 +234,23 @@ class App extends React.Component<Props, State> {
       this.openSearch(true);
     }
 
-    this.getActiveMappingEventId();
+    this.initializeActiveMappingEvent();
   }
 
-  getActiveMappingEventId() {
-    const activeMappingEventId = getActiveMappingEventId();
-    if (activeMappingEventId) {
-      this.setState({ activeMappingEventId });
+  initializeActiveMappingEvent() {
+    const {
+      routeName,
+      router: { query },
+    } = this.props;
+
+    const activeMappingEventId =
+      routeName === 'mappingEventJoin' ? query.id : getActiveMappingEventId();
+
+    this.setActiveMappingEvent(activeMappingEventId);
+
+    // redirect the user to the joined event detail page immediately
+    if (routeName === 'mappingEventJoin') {
+      this.props.routerHistory.replace('mappingEventDetail', query);
     }
   }
 
@@ -249,7 +259,7 @@ class App extends React.Component<Props, State> {
     this.setState({ activeMappingEventId: null });
   };
 
-  setActiveMappingEvent = (activeMappingEventId: string) => {
+  setActiveMappingEvent = (activeMappingEventId: ?string) => {
     setActiveMappingEventId(activeMappingEventId);
     this.setState({ activeMappingEventId });
   };
