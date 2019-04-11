@@ -50,6 +50,7 @@ export default class MyDocument extends Document {
                 ${env.public.wheelmap.baseUrl}
                 ${env.public.accessibilityCloud.baseUrl.cached}
                 ${env.public.accessibilityCloud.baseUrl.uncached}
+                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
                 ${env.public.allowAdditionalDataUrls || ''};
               style-src 
                 'self' 
@@ -73,6 +74,7 @@ export default class MyDocument extends Document {
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
                 ${env.public.accessibilityCloud.baseUrl.cached}
+                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
                 ${env.public.allowAdditionalImageUrls || ''}
                 ${isCordovaBuild ? cordovaBlock : ''};
             `}
