@@ -15,6 +15,7 @@ import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import type { MappingEvent } from '../../lib/MappingEvent';
+import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
 interface MappingEventToolbarProps {
   className: string;
@@ -57,6 +58,18 @@ const MappingEventToolbar = ({
   const mapPlacesStatisticAriaLabel = t`map places`;
   // translator: Screenreader description for number of people invited to the current mapping event
   const inviteesCountAriaLabel = t`people invited`;
+  // translator: Button caption for joining an event
+  const joinButtonCaption = t`Mitmachen`;
+  // translator: Button caption for leaving an event
+  const leaveButtonCaption = t`Event verlassen`;
+
+  const userParticipatesInMappingEvent = true;
+
+  const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
+    <DangerButton>{leaveButtonCaption}</DangerButton>
+  ) : (
+    <PrimaryButton>{joinButtonCaption}</PrimaryButton>
+  );
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -76,6 +89,7 @@ const MappingEventToolbar = ({
           </div>
         </header>
         <div className="actions">
+          {eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar
@@ -137,24 +151,24 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     line-height: 1.2;
   }
 
-  .link-button {
+  ${PrimaryButton} {
+    margin-bottom: 10px;
+  }
+
+  ${ChromelessButton}.expand-button {
     display: flex;
-    align-items: center;
-  }
+    justify-content: center;
+    width: 100%;
 
-  .link-button:not(:hover) {
-    color: #494e53;
-  }
-
-  .link-button svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    fill: #89939e;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      fill: #89939e;
+    }
   }
 
   .actions {
-    display: flex;
     margin-bottom: 20px;
   }
 
