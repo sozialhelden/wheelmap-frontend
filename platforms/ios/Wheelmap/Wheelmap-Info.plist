@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>CFBundleDevelopmentRegion</key>
-    <string>English</string>
+	<string>en_US</string>
     <key>CFBundleDisplayName</key>
     <string>Wheelmap</string>
     <key>CFBundleExecutable</key>
@@ -24,6 +24,25 @@
     <string>4.23.11</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
+		<key>NSMainNibFile</key>
+		<string/>
+		<key>NSMainNibFile~ipad</key>
+		<string/>
+		<key>UIRequiresFullScreen</key>
+		<true/>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
     <key>NSAppTransportSecurity</key>
     <dict>
       <key>NSExceptionDomains</key>
@@ -58,35 +77,8 @@
         <dict/>
       </dict>
     </dict>
-    <key>NSMainNibFile</key>
-    <string/>
-    <key>NSMainNibFile~ipad</key>
-    <string/>
     <key>UILaunchStoryboardName</key>
     <string>CDVLaunchScreen</string>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-      <string>gamekit</string>
-    </array>
-    <key>UIRequiresFullScreen</key>
-    <true/>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>UISupportedInterfaceOrientations~ipad</key>
-    <array>
-      <string>UIInterfaceOrientationPortrait</string>
-      <string>UIInterfaceOrientationLandscapeLeft</string>
-      <string>UIInterfaceOrientationPortraitUpsideDown</string>
-      <string>UIInterfaceOrientationLandscapeRight</string>
-    </array>
-    <key>NSCameraUsageDescription</key>
-    <string>You have to allow Wheelmap to use the camera to upload photos.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>Location access is only used to show where you are on the map.</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Location access is used to show where you are on the map.</string>
   </dict>
