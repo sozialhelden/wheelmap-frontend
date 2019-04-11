@@ -53,11 +53,11 @@ export function setAnalyticsAllowed(value: boolean) {
   return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
 }
 
-export function getActiveMappingEventId(): string {
+export function getActiveMappingEventId(): ?string {
   return storage.getItem('wheelmap.activeMappingEventId');
 }
 
-export function setActiveMappingEventId(mappingEventId: string) {
+export function setActiveMappingEventId(mappingEventId: ?string) {
   storage.setItem('wheelmap.activeMappingEventId', mappingEventId);
 }
 
