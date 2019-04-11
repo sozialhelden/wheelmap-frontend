@@ -37,25 +37,25 @@ platform :ios do
     # push_to_git_remote
     cordova(platform: 'ios')
     commit_version_bump(xcodeproj: xcodeproj, include: %w[package.json config.xml platforms/ios/Wheelmap/Wheelmap-Info.plist platforms/ios/Wheelmap/config.xml])
-    zip(
-      path: "platforms/ios/build/device/Wheelmap.app.dSYM",
-      output_path: "platforms/ios/build/device/Wheelmap.app.dSYM.zip",
-      verbose: false
-    )
-    hockey(
-      api_token: ENV["HOCKEY_API_TOKEN_IOS"],
-      ipa: 'platforms/ios/build/device/Wheelmap.ipa'
-    )
+    # zip(
+    #   path: "platforms/ios/build/device/Wheelmap.app.dSYM",
+    #   output_path: "platforms/ios/build/device/Wheelmap.app.dSYM.zip",
+    #   verbose: false
+    # )
+    # hockey(
+    #   api_token: ENV["HOCKEY_API_TOKEN_IOS"],
+    #   ipa: 'platforms/ios/build/device/Wheelmap.ipa'
+    # )
     upload_to_testflight(
       ipa: './platforms/ios/build/device/Wheelmap.ipa'
     )
     slack(
-      message: "Pushed a beta build to Testflight and HockeyApp! You can be a beta tester by opening the URL below on your iPhone/iPad, or by registering as beta tester with your email address.",
+      message: "Pushed a beta build to Testflight! You can be a beta tester by downloading TestFlight and registering as a beta tester with your email address.",
       username: "buildbot",
       channel: "#wheelmap",  # Optional, by default will post to the default channel configured for the POST URL.
       success: true, # Optional, defaults to true.
       payload: {  # Optional, lets you specify any number of your own Slack attachments.
-        "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
+        # "App download URL" => lane_context[SharedValues::HOCKEY_DOWNLOAD_LINK],
         "Version" => JSON.parse(IO.read("../package.json"))["version"],
       },
       default_payloads: [:git_branch, :git_author], # Optional, lets you specify a whitelist of default payloads to include. Pass an empty array to suppress all the default payloads.
