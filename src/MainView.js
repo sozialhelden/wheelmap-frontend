@@ -32,13 +32,10 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
-import env from './lib/env';
 
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
 import type { ModalNodeState } from './lib/ModalNodeState';
 
@@ -56,6 +53,9 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
+import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
+import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
+import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 
 type Props = {
   className: string,
@@ -77,6 +77,9 @@ type Props = {
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
+  mappingEvents: MappingEvents,
+  mappingEvent: MappingEvent,
+
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
   isMainMenuOpen: boolean,
@@ -87,6 +90,8 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -101,8 +106,10 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
+  onMappingEventClick: (eventId: string) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
+  onCloseMappingEventsToolbar: () => void,
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
@@ -114,6 +121,7 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+  onMappingEventsLinkClick: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -160,16 +168,6 @@ function updateTouchCapability() {
   } else {
     body.classList.remove('is-touch-device');
   }
-}
-
-function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string') {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-  return `/nodes/${featureId}`;
 }
 
 const DynamicMap = dynamic(import('./components/Map/Map'), {
@@ -272,6 +270,31 @@ class MainView extends React.Component<Props, State> {
           inEmbedMode={this.props.inEmbedMode}
         />
       </div>
+    );
+  }
+
+  renderMappingEventsToolbar() {
+    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick } = this.props;
+    return (
+      <MappingEventsToolbar
+        mappingEvents={mappingEvents}
+        onClose={onCloseMappingEventsToolbar}
+        onMappingEventClick={onMappingEventClick}
+      />
+    );
+  }
+
+  renderMappingEventToolbar() {
+    const { mappingEvent, onCloseMappingEventsToolbar, clientSideConfiguration } = this.props;
+    const productName = clientSideConfiguration.textContent.product.name;
+    const translatedProductName = translatedStringFromObject(productName);
+
+    return (
+      <MappingEventToolbar
+        mappingEvent={mappingEvent}
+        onClose={onCloseMappingEventsToolbar}
+        productName={translatedProductName}
+      />
     );
   }
 
@@ -388,6 +411,7 @@ class MainView extends React.Component<Props, State> {
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
+        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}
@@ -526,7 +550,7 @@ class MainView extends React.Component<Props, State> {
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
         onClusterClick={this.props.onClusterClick}
-        hrefForFeature={hrefForFeature}
+        onMappingEventClick={this.props.onMappingEventClick}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
@@ -539,6 +563,7 @@ class MainView extends React.Component<Props, State> {
         categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
+        mappingEvents={this.props.mappingEvents}
         equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         categories={this.props.categories}
@@ -582,6 +607,8 @@ class MainView extends React.Component<Props, State> {
       isSearchBarVisible,
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -630,6 +657,8 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {isMappingEventsToolbarVisible && this.renderMappingEventsToolbar()}
+            {isMappingEventToolbarVisible && this.renderMappingEventToolbar()}
             {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}

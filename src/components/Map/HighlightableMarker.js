@@ -1,47 +1,25 @@
 // @flow
 
 import L from 'leaflet';
-import MarkerIcon from './MarkerIcon';
-import { type Feature, type NodeProperties } from '../../lib/Feature';
-import { type CategoryLookupTables } from '../../lib/Categories';
-import { type EquipmentInfoProperties } from '../../lib/EquipmentInfo';
-
-type Options = typeof L.Marker.Options & {
-  feature: Feature,
-  onClick: (featureId: string, properties: ?NodeProperties) => void,
-  hrefForFeature: (
-    featureId: string,
-    properties: ?NodeProperties | EquipmentInfoProperties
-  ) => string,
-  categories: CategoryLookupTables,
-};
 
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
 
-  constructor(latlng: L.LatLng, options: Options) {
+  constructor(latlng: L.LatLng, markerIconType, markerIconOptions, featureId?: string) {
+    const markerIcon = new markerIconType(markerIconOptions);
+
     super(latlng, {
-      icon: new MarkerIcon({
-        hrefForFeature: options.hrefForFeature,
-        onClick: options.onClick,
-        feature: options.feature,
-        categories: options.categories,
-      }),
-      ...options,
+      icon: markerIcon,
     });
+
+    this.markerIcon = markerIcon;
+    this.markerIconType = markerIconType;
+    this.markerIconOptions = markerIconOptions;
+    this.featureId = featureId;
   }
 
-  updateIcon(feature: Feature) {
-    this.options.feature = feature;
-
-    this.setIcon(
-      new MarkerIcon({
-        hrefForFeature: this.options.hrefForFeature,
-        onClick: this.options.onClick,
-        feature: feature,
-        categories: this.options.categories,
-      })
-    );
+  updateIcon() {
+    this.setIcon(this.markerIcon);
   }
 
   hasHighlight() {
@@ -58,21 +36,9 @@ export default class HighlightableMarker extends L.Marker {
 
   highlight(highLightLayer: L.Layer, animated: boolean): boolean {
     if (!this.highlightedMarker && highLightLayer) {
-      const options = this.options;
       this.highlightedMarker = new L.Marker(this.getLatLng(), {
         zIndexOffset: 100,
-        icon: new MarkerIcon({
-          hrefForFeature: options.hrefForFeature,
-          onClick: options.onClick,
-          feature: options.feature,
-          withArrow: true,
-          shadowed: true,
-          size: 'big',
-          ariaHidden: true,
-          iconAnchorOffset: L.point(0, 20),
-          className: 'marker-icon highlighted-marker',
-          categories: this.options.categories,
-        }),
+        icon: new this.markerIconType({ ...this.markerIconOptions, highlighted: true }),
       });
       if (animated) {
         this.highlightedMarker.on('add', n => {

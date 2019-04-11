@@ -1,5 +1,7 @@
 export { default as limitedWithArrow } from './limitedWithArrow';
 export { default as limitedWithoutArrow } from './limitedWithoutArrow';
+export { default as mappingEvent } from './mappingEvent';
+export { default as mappingEventHalo } from './mappingEventHalo';
 export { default as noWithArrow } from './noWithArrow';
 export { default as noWithoutArrow } from './noWithoutArrow';
 export { default as unknownWithArrow } from './unknownWithArrow';

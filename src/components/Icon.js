@@ -52,8 +52,8 @@ export const StyledIconContainer = styled('figure')`
   line-height: 1;
   display: flex;
   align-items: center;
-  justify-content: center;    
-  
+  justify-content: center;
+
   > .foreground {
     z-index: 300;
     font-size: ${props => fontSize(props.size)}px;
@@ -70,7 +70,7 @@ export const StyledIconContainer = styled('figure')`
     font-size: 8px;
   }
 
-  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')} 
+  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')}
   ${props => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : '')}
 
   svg {

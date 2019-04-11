@@ -14,6 +14,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
+import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
@@ -70,6 +71,8 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
+  mappingEvents: MappingEvents,
+  mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -88,6 +91,8 @@ type State = {
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -127,6 +132,8 @@ class App extends React.Component<Props, State> {
     accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+    isMappingEventsToolbarVisible: false,
+    isMappingEventToolbarVisible: false,
 
     // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
@@ -167,6 +174,20 @@ class App extends React.Component<Props, State> {
 
     if (props.routeName === 'map') {
       newState.modalNodeState = null;
+    }
+
+    if (props.routeName === 'mappingEvents') {
+      newState.isMappingEventsToolbarVisible = true;
+      newState.isSearchBarVisible = false;
+    } else {
+      newState.isMappingEventsToolbarVisible = false;
+    }
+
+    if (props.routeName === 'mappingEventDetail') {
+      newState.isMappingEventToolbarVisible = true;
+      newState.isSearchBarVisible = false;
+    } else {
+      newState.isMappingEventToolbarVisible = false;
     }
 
     const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
@@ -308,6 +329,19 @@ class App extends React.Component<Props, State> {
     this.setState({ activeCluster }, () => {
       routerHistory.push(routeName, params);
     });
+  };
+
+  showSelectedMappingEvent = (eventId: string) => {
+    const event = this.props.mappingEvents.find(event => event._id === eventId);
+    const extent = event && event.area.properties.extent;
+
+    if (extent) {
+      this.setState({ extent });
+    }
+
+    const params = this.getCurrentParams();
+    params.id = eventId;
+    this.props.routerHistory.push('mappingEventDetail', params);
   };
 
   showCluster = cluster => {
@@ -562,6 +596,11 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onCloseMappingEventsToolbar = () => {
+    const params = this.getCurrentParams();
+    this.props.routerHistory.push('map', params);
+  };
+
   onCloseModalDialog = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
@@ -679,6 +718,10 @@ class App extends React.Component<Props, State> {
     );
   }
 
+  onMappingEventsLinkClick = () => {
+    this.setState({ isMainMenuOpen: false });
+  };
+
   render() {
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
@@ -687,12 +730,17 @@ class App extends React.Component<Props, State> {
       !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
-    const isSearchButtonVisible = !isSearchBarVisible;
+    const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
+    const isMappingEventToolbarVisible = this.state.isMappingEventToolbarVisible;
+    const isSearchButtonVisible =
+      !isSearchBarVisible && !isMappingEventsToolbarVisible && !isMappingEventToolbarVisible;
 
     const extraProps = {
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
       isSearchBarVisible,
@@ -721,6 +769,8 @@ class App extends React.Component<Props, State> {
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
+      mappingEvents: this.props.mappingEvents,
+      mappingEvent: this.props.mappingEvent,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
@@ -766,13 +816,16 @@ class App extends React.Component<Props, State> {
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
           onClusterClick={this.showCluster}
+          onMappingEventClick={this.showSelectedMappingEvent}
           onCloseClusterPanel={this.closeActiveCluster}
           onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
           onCloseNodeToolbar={this.onCloseNodeToolbar}
+          onCloseMappingEventsToolbar={this.onCloseMappingEventsToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
+          onMappingEventsLinkClick={this.onMappingEventsLinkClick}
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}

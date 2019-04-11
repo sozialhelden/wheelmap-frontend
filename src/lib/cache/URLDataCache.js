@@ -1,6 +1,7 @@
 // @flow
 import { globalFetchManager } from '../FetchManager';
 import { t } from 'ttag';
+import EJSON from 'ejson';
 
 import ResponseError from '../ResponseError';
 import TTLCache, { type TTLCacheOptions } from './TTLCache';
@@ -60,7 +61,9 @@ export default class URLDataCache<T> {
       throw new ResponseError(errorText, response);
     }
 
-    return response.json();
+    // We need to use the EJSON parser instead of plain JSON parser since our
+    // backend stores data in EJSON format
+    return response.text().then(EJSON.parse);
   }
 
   /**

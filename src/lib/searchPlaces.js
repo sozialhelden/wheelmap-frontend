@@ -24,6 +24,7 @@ export type SearchResultProperties = {
 };
 
 export type SearchResultFeature = {
+  type: 'Feature',
   geometry: Point,
   properties: SearchResultProperties,
 };

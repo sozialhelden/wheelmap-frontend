@@ -18,18 +18,21 @@ import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
+import { mappingEventsCache, type MappingEvents } from '../lib/cache/MappingEventsCache';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
 import MapData from './MapData';
 import CreatePlaceData from './CreatePlaceData';
 import ContributionThanksData from './ContributionThanksData';
+import MappingEventDetailData from './MappingEventDetailData';
 
 export type AppProps = {
   userAgent: UAResult,
   rawCategoryLists: RawCategoryLists,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
+  mappingEvents: MappingEvents,
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -71,6 +74,7 @@ const dataTable: DataTable = Object.freeze({
   equipment: PlaceDetailsData,
   createPlace: CreatePlaceData,
   contributionThanks: ContributionThanksData,
+  mappingEventDetail: MappingEventDetailData,
 });
 
 export function getInitialRouteProps(
@@ -173,8 +177,12 @@ export async function getInitialAppProps(
     disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
+  // load mapping events
+  const mappingEventsPromise = mappingEventsCache.getMappingEvents();
+
   const clientSideConfiguration = await clientSideConfigurationPromise;
   const rawCategoryLists = await rawCategoryListsPromise;
+  const mappingEvents = await mappingEventsPromise;
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');
@@ -205,6 +213,7 @@ export async function getInitialAppProps(
     rawCategoryLists,
     clientSideConfiguration,
     category,
+    mappingEvents,
     extent,
     lat,
     lon,

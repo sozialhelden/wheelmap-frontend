@@ -26,6 +26,18 @@ const routes = [
     path: '/contribution-thanks',
   },
   {
+    name: 'mappingEvents',
+    path: '/events',
+  },
+  {
+    name: 'mappingEventDetail',
+    path: '/events/:id',
+  },
+  {
+    name: 'mappingEventJoin',
+    path: '/events/:id/join',
+  },
+  {
     name: 'map',
     path: '/',
   },

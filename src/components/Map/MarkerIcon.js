@@ -1,91 +1,49 @@
 // @flow
 
-import L from 'leaflet';
-import * as React from 'react';
+import L, { type IconOptions } from 'leaflet';
 import ReactDOM from 'react-dom';
-import * as categoryIcons from '../icons/categories';
-import getIconNameForProperties from './getIconNameForProperties';
-import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
-import type { NodeProperties } from '../../lib/Feature';
-import { translatedStringFromObject } from '../../lib/i18n';
-import Icon from '../Icon';
-import { type CategoryLookupTables } from '../../lib/Categories';
 
-// Extend Leaflet-icon to support colors and category images
-
-type Options = typeof L.Icon.options & {
-  onClick: (featureId: string, properties: ?NodeProperties) => void,
-  hrefForFeature: (featureId: string) => ?string,
-  categories: CategoryLookupTables,
+type Options = IconOptions & {
+  href: string,
+  onClick: () => void,
+  iconAnchorOffset: L.Point,
 };
 
 export default class MarkerIcon extends L.Icon {
   constructor(options: Options) {
     // increased tap region for icons, rendered size might differ
     const size = 40;
-    const iconAnchorOffset = options.iconAnchorOffset || L.point(0, 0);
-    const defaults = {
-      number: '',
-      shadowUrl: null,
+    const { iconAnchorOffset, onClick, href, highlighted, accessibleName } = options;
+    const leafletOptions = {
       iconSize: new L.Point(size, size),
-      iconAnchor: new L.Point(
-        size * 0.5 + iconAnchorOffset.x,
-        size * 0.5 + 1.5 + iconAnchorOffset.y
-      ),
-      popupAnchor: new L.Point(size * 0.5, size * 0.5),
-      tooltipAnchor: new L.Point(size * 0.5, size * 0.5 + 25),
-      onClick: (featureId: string, properties: ?NodeProperties) => {},
-      hrefForFeature: (featureId: string) => null,
-      className: 'marker-icon',
-      size: 'small',
-      withArrow: false,
+      iconAnchor: new L.Point(size * 0.5 + iconAnchorOffset.x, size * 0.5 + iconAnchorOffset.y),
+      className: `marker-icon${highlighted ? ' highlighted-marker' : ''}`,
     };
 
-    super(Object.assign(defaults, options));
+    super(leafletOptions);
+
+    this.onClick = onClick;
+    this.href = href;
+    this.highlighted = highlighted;
+    this.accessibleName = accessibleName;
   }
 
   createIcon() {
     const link = document.createElement('a');
-    const { feature, categories } = this.options;
-    const properties = feature.properties;
-    const featureId = properties.id || properties._id || feature._id;
-    link.href = this.options.hrefForFeature(featureId);
+    link.href = this.href;
 
-    const iconName = getIconNameForProperties(categories, properties) || 'place';
-    const accessibility = isWheelchairAccessible(properties);
-    const IconComponent = categoryIcons[iconName];
-    if (IconComponent) {
-      ReactDOM.render(
-        <Icon
-          accessibility={accessibility}
-          category={iconName}
-          size={this.options.size}
-          withArrow={this.options.withArrow}
-          shadowed
-          centered
-          ariaHidden={this.options.ariaHidden}
-        />,
-        link
-      );
+    if (this.iconSvgElement) {
+      ReactDOM.render(this.iconSvgElement, link);
     }
     link.style.touchAction = 'none';
+
     link.addEventListener('click', (event: MouseEvent) => {
       event.preventDefault();
-      this.options.onClick(featureId, properties);
+      this.onClick();
     });
     this._setIconStyles(link, 'icon');
 
-    const wheelchairAccessibilityText = accessibilityName(isWheelchairAccessible(properties));
-
-    const accessibleName = `${String(translatedStringFromObject(properties.name))} ${String(
-      wheelchairAccessibilityText
-    )}`;
-    link.setAttribute('aria-label', accessibleName);
+    link.setAttribute('aria-label', this.accessibleName);
     return link;
-  }
-
-  createShadow() {
-    // eslint-disable-line class-methods-use-this
-    return null;
   }
 }
