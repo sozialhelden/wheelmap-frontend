@@ -13,7 +13,7 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
   appToken = env.public.accessibilityCloud.appToken;
 
   async getMappingEvents() {
-    const url = `${this.baseUrl}/events.json?appToken=${this.appToken}`;
+    const url = `${this.baseUrl}/mapping-events.json?appToken=${this.appToken}`;
     const data = await this.getData(url);
     return data.results;
   }
