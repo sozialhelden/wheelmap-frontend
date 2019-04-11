@@ -71,7 +71,9 @@
     "ttag": "^1.3.4",
     "ua-parser-js": "^0.7.18",
     "underscore.string": "^3.3.5",
-    "unfetch": "^3.1.2"
+    "unfetch": "^3.1.2",
+    "cordova-ios": "^4.5.4",
+    "cordova-android": "~7.0.0"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0",
