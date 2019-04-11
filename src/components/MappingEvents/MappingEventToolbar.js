@@ -20,6 +20,11 @@ import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 interface MappingEventToolbarProps {
   className: string;
   mappingEvent: MappingEvent;
+  activeMappingEventId: ?String;
+  mappingEventHandlers: {
+    setActiveMappingEvent: (activeMappingEventId: string) => void,
+    leaveActiveMappingEvent: () => void,
+  };
   onClose: () => void;
   productName: string;
 }
@@ -27,6 +32,8 @@ interface MappingEventToolbarProps {
 const MappingEventToolbar = ({
   className,
   mappingEvent,
+  mappingEventHandlers: { setActiveMappingEvent, leaveActiveMappingEvent },
+  activeMappingEventId,
   onClose,
   productName,
 }: MappingEventToolbarProps) => {
@@ -63,12 +70,14 @@ const MappingEventToolbar = ({
   // translator: Button caption for leaving an event
   const leaveButtonCaption = t`Event verlassen`;
 
-  const userParticipatesInMappingEvent = true;
+  const userParticipatesInMappingEvent = mappingEvent._id === activeMappingEventId;
 
   const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
-    <DangerButton>{leaveButtonCaption}</DangerButton>
+    <DangerButton onClick={leaveActiveMappingEvent}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton>{joinButtonCaption}</PrimaryButton>
+    <PrimaryButton onClick={() => setActiveMappingEvent(mappingEvent._id)}>
+      {joinButtonCaption}
+    </PrimaryButton>
   );
 
   return (
@@ -151,12 +160,9 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     line-height: 1.2;
   }
 
-  ${PrimaryButton} {
-    margin-bottom: 10px;
-  }
-
   ${ChromelessButton}.expand-button {
     display: flex;
+    margin-top: 10px;
     justify-content: center;
     width: 100%;
 

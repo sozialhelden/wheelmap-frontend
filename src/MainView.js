@@ -152,6 +152,11 @@ type Props = {
   onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   clientSideConfiguration: ClientSideConfiguration,
+  mappingEventHandlers: {
+    setActiveMappingEvent: (activeMappingEventId: string) => void,
+    leaveActiveMappingEvent: () => void,
+  },
+  activeMappingEventId: ?string,
 } & PlaceDetailsProps;
 
 type State = {
@@ -285,13 +290,21 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventToolbar() {
-    const { mappingEvent, onCloseMappingEventsToolbar, clientSideConfiguration } = this.props;
+    const {
+      mappingEvent,
+      mappingEventHandlers,
+      activeMappingEventId,
+      onCloseMappingEventsToolbar,
+      clientSideConfiguration,
+    } = this.props;
     const productName = clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
 
     return (
       <MappingEventToolbar
         mappingEvent={mappingEvent}
+        activeMappingEventId={activeMappingEventId}
+        mappingEventHandlers={mappingEventHandlers}
         onClose={onCloseMappingEventsToolbar}
         productName={translatedProductName}
       />

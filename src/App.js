@@ -6,7 +6,13 @@ import findIndex from 'lodash/findIndex';
 import initReactFastclick from 'react-fastclick';
 
 import config from './lib/config';
-import savedState, { saveState, isFirstStart } from './lib/savedState';
+import savedState, {
+  saveState,
+  isFirstStart,
+  getActiveMappingEventId,
+  setActiveMappingEventId,
+  removeActiveMappingEventId,
+} from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 import { type RouterHistory } from './lib/RouterHistory';
@@ -85,6 +91,7 @@ type Props = {
 
 type State = {
   isOnboardingVisible: boolean,
+  activeMappingEventId: ?string,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
   accessibilityPresetStatus?: ?YesNoLimitedUnknown,
@@ -127,6 +134,7 @@ class App extends React.Component<Props, State> {
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
+    activeMappingEventId: null,
     isMainMenuOpen: false,
     modalNodeState: null,
     accessibilityPresetStatus: null,
@@ -225,7 +233,26 @@ class App extends React.Component<Props, State> {
     } else if (shouldStartInSearch) {
       this.openSearch(true);
     }
+
+    this.getActiveMappingEventId();
   }
+
+  getActiveMappingEventId() {
+    const activeMappingEventId = getActiveMappingEventId();
+    if (activeMappingEventId) {
+      this.setState({ activeMappingEventId });
+    }
+  }
+
+  leaveActiveMappingEvent = () => {
+    removeActiveMappingEventId();
+    this.setState({ activeMappingEventId: null });
+  };
+
+  setActiveMappingEvent = (activeMappingEventId: string) => {
+    setActiveMappingEventId(activeMappingEventId);
+    this.setState({ activeMappingEventId });
+  };
 
   openSearch(replace: boolean = false) {
     if (this.props.routeName === 'search') {
@@ -849,6 +876,11 @@ class App extends React.Component<Props, State> {
           onStartReportPhotoFlow={this.onStartReportPhotoFlow}
           onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
           onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
+          mappingEventHandlers={{
+            setActiveMappingEvent: this.setActiveMappingEvent,
+            leaveActiveMappingEvent: this.leaveActiveMappingEvent,
+          }}
+          activeMappingEventId={this.state.activeMappingEventId}
         />
       </RouteProvider>
     );
