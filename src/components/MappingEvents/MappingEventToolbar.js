@@ -8,6 +8,7 @@ import FocusTrap from 'focus-trap-react';
 import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Link from '../Link/Link';
+import { RouteConsumer } from '../Link/RouteContext';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
@@ -85,9 +86,18 @@ const MappingEventToolbar = ({
       <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
-          <Link to="mappingEvents" aria-label={backLinkAriaLabel}>
-            <ChevronLeft />
-          </Link>
+          <RouteConsumer>
+            {context => {
+              const params = { ...context.params };
+              delete params.id;
+
+              return (
+                <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
+                  <ChevronLeft />
+                </Link>
+              );
+            }}
+          </RouteConsumer>
           <div>
             <h2>{mappingEvent.name}</h2>
             <p>{dateString}</p>
