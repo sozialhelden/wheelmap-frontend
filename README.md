@@ -80,7 +80,7 @@ To deploy:
 - get a `.env.production` file from the person in charge
 - Make Cordova builds for iOS and Android like described above
 - Pre-test the builds with local devices
-- Run `npm run deploy-ios-beta` to upload an internal Testflight build
+- Run `APPLE_DEVELOPER_USERNAME=… npm run deploy-ios-beta` to upload an internal Testflight build (set `…` to your Apple developer email account address)
 - Run `npm run deploy-android-beta` to upload a public (← ⚠️) PlayStore beta build
 
 Note that each deployment increments the app version's patch level by one.
