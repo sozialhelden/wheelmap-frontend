@@ -58,6 +58,7 @@
     <access origin="https://photon.komoot.de" />
     <access origin="https://accessibility-cloud-uploads.s3.amazonaws.com" />
     <allow-navigation href="http://localhost:*/*" />
+    <allow-navigation href="gap://*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
 		0D36D3A6875642A094816B21 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C17E79AF00644DD18562361D /* CoreLocation.framework */; };
@@ -319,7 +318,7 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = LY797X36V6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -455,6 +454,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.sozialhelden.wheelmap.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Manual;
 			};
 			name = Debug;
 		};
@@ -477,6 +477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.sozialhelden.wheelmap.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				CODE_SIGN_STYLE = Manual;
 			};
 			name = Release;
 		};
@@ -520,6 +521,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.sozialhelden.wheelmap.iphone;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
+				CODE_SIGN_STYLE = Manual;
 			};
 			name = Debug;
 		};
@@ -561,6 +563,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = de.sozialhelden.wheelmap.iphone;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
+				CODE_SIGN_STYLE = Manual;
 			};
 			name = Release;
 		};
