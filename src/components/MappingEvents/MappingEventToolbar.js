@@ -15,7 +15,7 @@ import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import type { MappingEvent } from '../../lib/MappingEvent';
-import { PrimaryButton, ChromelessButton } from '../Button';
+import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
 interface MappingEventToolbarProps {
   className: string;
@@ -59,7 +59,17 @@ const MappingEventToolbar = ({
   // translator: Screenreader description for number of people invited to the current mapping event
   const inviteesCountAriaLabel = t`people invited`;
   // translator: Button caption for joining an event
-  const joinButtonCaption = t`Event Beitreten`;
+  const joinButtonCaption = t`Mitmachen`;
+  // translator: Button caption for leaving an event
+  const leaveButtonCaption = t`Event verlassen`;
+
+  const userParticipatesInMappingEvent = true;
+
+  const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
+    <DangerButton>{leaveButtonCaption}</DangerButton>
+  ) : (
+    <PrimaryButton>{joinButtonCaption}</PrimaryButton>
+  );
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -79,7 +89,7 @@ const MappingEventToolbar = ({
           </div>
         </header>
         <div className="actions">
-          <PrimaryButton>Hello</PrimaryButton>
+          {eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar
@@ -154,9 +164,10 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     align-items: center;
   }
 
-  .link-button:not(:hover) {
-    color: #494e53;
-  }
+  ${ChromelessButton}.expand-button {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 
   .link-button svg {
     width: 1.5rem;
@@ -167,6 +178,12 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
 
   .actions {
     /* display: flex; */
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      fill: #89939e;
+    }
     margin-bottom: 20px;
   }
 

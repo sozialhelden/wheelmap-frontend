@@ -33,18 +33,38 @@ export const PrimaryButton = styled(StyledButton)`
   }
 `;
 
-export const SecondaryButton = styled(PrimaryButton)`
+export const SecondaryButton = styled(StyledButton)`
   color: #22262d;
-  background-color: #ffffff;
+  background-color: #0000;
   font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75;
+  padding: 0.375rem 0.3125em;
   border: 1px solid #a5a8b0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover,
+  &.focus-visible {
+    background-color: neutralBackgroundColorTransparent;
+  }
+`;
+
+export const DangerButton = styled(SecondaryButton)`
+  color: ${colors.negativeColorDarker};
+  border: none;
+  &:hover,
+  &.focus-visible {
+    background-color: ${colors.negativeBackgroundColorTransparent};
+  }
 `;
 
 export const ChromelessButton = styled.button`
   padding: 0.375rem 0.75rem;
   border: none;
   box-shadow: 0px 0px 0px 1px transparent;
-  border-radius: 0.5rem;
+  border-radius: 0.25rem;
   @media (max-width: 768px) {
     box-shadow: 0px 0px 0px 1px transparent;
   }
@@ -56,6 +76,10 @@ export const ChromelessButton = styled.button`
   background-color: transparent;
   color: ${colors.textColorTonedDown};
   cursor: pointer;
+  &:hover,
+  &.focus-visible {
+    background-color: ${colors.neutralBackgroundColorTransparent};
+  }
 `;
 
 export const CallToActionButton = styled.button`

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Toolbar from '../Toolbar';
+import { ChromelessButton } from '../Button';
+import colors from '../../lib/colors';
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
@@ -27,6 +29,30 @@ const StyledToolbar = styled(Toolbar)`
       max-height: calc(
         100% - ${props => (props.inEmbedMode ? 0 : 80)}px - env(safe-area-inset-top)
       );
+    }
+  }
+
+  ${ChromelessButton}.expand-button {
+    margin: 0 -10px;
+    padding: 8px 10px;
+    display: flex;
+    justify-content: left;
+    width: 100%;
+
+    &.focus-visible {
+      background-color: transparent;
+    }
+
+    &:hover {
+      color: ${colors.linkColor};
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
+
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 1rem;
+      fill: #89939e;
     }
   }
 `;
