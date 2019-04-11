@@ -2,6 +2,7 @@
 
 import storage from 'local-storage-fallback';
 import debounce from 'lodash/debounce';
+import uuidv4 from 'uuid/v4';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
@@ -76,5 +77,18 @@ export function hasAllowedAnalytics() {
 }
 
 export function setAnalyticsAllowed(value: boolean) {
-  return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
+  if (value === false) {
+    storage.removeItem('wheelmap.userUUID');
+  } else {
+    if (!storage.getItem('wheelmap.userUUID')) {
+      storage.setItem('wheelmap.userUUID', uuidv4());
+    }
+  }
+
+  storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
+  notifyListeners();
+}
+
+export function getUUID() {
+  return storage.getItem('wheelmap.userUUID');
 }
