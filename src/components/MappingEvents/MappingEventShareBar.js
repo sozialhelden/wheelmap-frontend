@@ -1,7 +1,5 @@
 import React from 'react';
 import { t } from 'ttag';
-import styled from 'styled-components';
-
 import ShareBar from '../ShareBar/ShareBar';
 
 const MappingEventShareBar = ({ className, mappingEvent, buttonCaption, baseUrl, productName }) => {
@@ -36,8 +34,4 @@ const MappingEventShareBar = ({ className, mappingEvent, buttonCaption, baseUrl,
   );
 };
 
-const StyledEventShareBar = styled(MappingEventShareBar)`
-  width: 100%;
-`;
-
-export default StyledEventShareBar;
+export default MappingEventShareBar;
