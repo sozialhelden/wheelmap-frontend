@@ -11,21 +11,6 @@ type ClientSideConfigurationData = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
-export function insertPlaceholdersToAddPlaceUrl(url: ?string) {
-  const replacements = { returnUrl: `${env.public.baseUrl}/contribution-thanks` };
-
-  let replacedUrl = url;
-  if (typeof replacedUrl === 'string') {
-    for (const key in replacements) {
-      if (replacements.hasOwnProperty(key)) {
-        const fieldRegexp = new RegExp(`{${key}}`, 'g');
-        replacedUrl = replacedUrl.replace(fieldRegexp, replacements[key]);
-      }
-    }
-  }
-  return replacedUrl;
-}
-
 export default class ClientSideConfigurationCache extends URLDataCache<
   ClientSideConfigurationData
 > {

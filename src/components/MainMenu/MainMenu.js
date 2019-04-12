@@ -7,7 +7,7 @@ import { t } from 'ttag';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
-import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 import colors from '../../lib/colors';
 
 import GlobalActivityIndicator from './GlobalActivityIndicator';
@@ -23,9 +23,11 @@ type State = {
 type Props = {
   className: string,
   productName: string,
+  uniqueSurveyId: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
+  onAddPlaceLinkClick: () => void,
   isOpen: boolean,
   lat: string,
   lon: string,
@@ -131,14 +133,22 @@ class MainMenu extends React.Component<Props, State> {
 
   renderAppLinks() {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
+      const url = insertPlaceholdersToAddPlaceUrl(
+        translatedStringFromObject(link.url),
+        this.props.uniqueSurveyId
+      );
       const label = translatedStringFromObject(link.label);
       const badgeLabel = translatedStringFromObject(link.badgeLabel);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const onClick = url === '/events' ? this.props.onMappingEventsLinkClick : null;
-
+      let onClick = undefined;
+      if (url === '/events') {
+        onClick = this.props.onMappingEventsLinkClick;
+      }
+      if (link.tags && link.tags.includes('add-place')) {
+        onClick = this.props.onAddPlaceLinkClick;
+      }
       if (typeof url === 'string') {
         return (
           <Link key={url} className={className} to={url} role="menuitem" onClick={onClick}>

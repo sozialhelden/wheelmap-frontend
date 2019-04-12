@@ -17,6 +17,7 @@ export type Props = {
   lat: ?number,
   lon: ?number,
   addPlaceUrl: ?string,
+  onAddPlaceLinkClick?: () => void,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -95,7 +96,12 @@ export default class ContributionThanksDialog extends React.Component<Props> {
           <p>{text}</p>
 
           {this.props.addPlaceUrl && (
-            <CallToActionLink data-focus-visible-added href={this.props.addPlaceUrl}>
+            <CallToActionLink
+              data-focus-visible-added
+              href={this.props.addPlaceUrl}
+              target="_blank"
+              onClick={this.props.onAddPlaceLinkClick}
+            >
               {addNextPlaceButtonCaption}
               <ChevronRight />
             </CallToActionLink>
