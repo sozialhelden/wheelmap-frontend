@@ -427,6 +427,9 @@ class MainView extends React.Component<Props, State> {
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        joinedMappingEvent={this.props.mappingEvents.find(
+          event => event._id === this.props.joinedMappingEventId
+        )}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}

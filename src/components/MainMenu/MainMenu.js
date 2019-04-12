@@ -9,10 +9,11 @@ import FocusTrap from '@sozialhelden/focus-trap-react';
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
 import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
 import colors from '../../lib/colors';
+import type { MappingEvent } from '../../lib/MappingEvent';
 
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import type { LinkData } from '../../App';
-import Link from '../Link/Link';
+import Link, { RouteConsumer } from '../Link/Link';
 
 import CloseIcon from '../icons/actions/Close';
 
@@ -26,6 +27,7 @@ type Props = {
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
+  joinedMappingEvent: ?MappingEvent,
   isOpen: boolean,
   lat: string,
   lon: string,
@@ -137,11 +139,15 @@ class MainMenu extends React.Component<Props, State> {
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const onClick = url === '/events' ? this.props.onMappingEventsLinkClick : null;
+      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
+
+      if (isEventsLink) {
+        return this.renderEventsOrJoinedEventLink(label, url, className);
+      }
 
       if (typeof url === 'string') {
         return (
-          <Link key={url} className={className} to={url} role="menuitem" onClick={onClick}>
+          <Link key={url} className={className} to={url} role="menuitem">
             {label}
             {badgeLabel && <Badge>{badgeLabel}</Badge>}
           </Link>
@@ -150,6 +156,47 @@ class MainMenu extends React.Component<Props, State> {
 
       return null;
     });
+  }
+
+  renderEventsOrJoinedEventLink(label: ?string, url: ?string, className: string) {
+    const joinedMappingEvent = this.props.joinedMappingEvent;
+    if (joinedMappingEvent) {
+      return (
+        <Link
+          key={url}
+          className={className}
+          to="mappingEventDetail"
+          params={{ id: joinedMappingEvent._id }}
+          role="menuitem"
+          onClick={this.props.onMappingEventsLinkClick}
+        >
+          {joinedMappingEvent.name}
+        </Link>
+      );
+    } else {
+      return (
+        <RouteConsumer>
+          {context => {
+            let params = { ...context.params };
+
+            delete params.id;
+
+            return (
+              <Link
+                key={url}
+                className={className}
+                to="mappingEvents"
+                params={params}
+                role="menuitem"
+                onClick={this.props.onMappingEventsLinkClick}
+              >
+                {label}
+              </Link>
+            );
+          }}
+        </RouteConsumer>
+      );
+    }
   }
 
   renderCloseButton() {
