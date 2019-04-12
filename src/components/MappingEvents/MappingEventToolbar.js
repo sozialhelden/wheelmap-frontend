@@ -85,18 +85,20 @@ const MappingEventToolbar = ({
       <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
-          <RouteConsumer>
-            {context => {
-              const params = { ...context.params };
-              delete params.id;
+          {!joinedMappingEventId && (
+            <RouteConsumer>
+              {context => {
+                const params = { ...context.params };
+                delete params.id;
 
-              return (
-                <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
-                  <ChevronLeft />
-                </Link>
-              );
-            }}
-          </RouteConsumer>
+                return (
+                  <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
+                    <ChevronLeft />
+                  </Link>
+                );
+              }}
+            </RouteConsumer>
+          )}
           <div>
             <h2>{mappingEvent.name}</h2>
             <p>{dateString}</p>
