@@ -18,7 +18,8 @@ import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
-import { mappingEventsCache, type MappingEvents } from '../lib/cache/MappingEventsCache';
+import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
+import type { MappingEvents } from '../lib/MappingEvent';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
@@ -75,6 +76,7 @@ const dataTable: DataTable = Object.freeze({
   createPlace: CreatePlaceData,
   contributionThanks: ContributionThanksData,
   mappingEventDetail: MappingEventDetailData,
+  mappingEventJoin: MappingEventDetailData,
 });
 
 export function getInitialRouteProps(
