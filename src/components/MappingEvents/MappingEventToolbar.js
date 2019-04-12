@@ -23,8 +23,7 @@ interface MappingEventToolbarProps {
   mappingEvent: MappingEvent;
   activeMappingEventId: ?String;
   mappingEventHandlers: {
-    setActiveMappingEvent: (activeMappingEventId: string) => void,
-    leaveActiveMappingEvent: () => void,
+    updateActiveMappingEvent: (activeMappingEventId: ?string) => void,
   };
   onClose: () => void;
   productName: string;
@@ -33,7 +32,7 @@ interface MappingEventToolbarProps {
 const MappingEventToolbar = ({
   className,
   mappingEvent,
-  mappingEventHandlers: { setActiveMappingEvent, leaveActiveMappingEvent },
+  mappingEventHandlers: { updateActiveMappingEvent },
   activeMappingEventId,
   onClose,
   productName,
@@ -74,9 +73,9 @@ const MappingEventToolbar = ({
   const userParticipatesInMappingEvent = mappingEvent._id === activeMappingEventId;
 
   const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
-    <DangerButton onClick={leaveActiveMappingEvent}>{leaveButtonCaption}</DangerButton>
+    <DangerButton onClick={() => updateActiveMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton onClick={() => setActiveMappingEvent(mappingEvent._id)}>
+    <PrimaryButton onClick={() => updateActiveMappingEvent(mappingEvent._id)}>
       {joinButtonCaption}
     </PrimaryButton>
   );

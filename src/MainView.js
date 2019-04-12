@@ -56,6 +56,7 @@ import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
+import ModalDialog from './components/ModalDialog';
 
 type Props = {
   className: string,
@@ -82,6 +83,7 @@ type Props = {
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
+  isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
@@ -122,6 +124,7 @@ type Props = {
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
   onMappingEventsLinkClick: () => void,
+  onMappingEventWelcomeDialogClose: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -153,8 +156,7 @@ type Props = {
 
   clientSideConfiguration: ClientSideConfiguration,
   mappingEventHandlers: {
-    setActiveMappingEvent: (activeMappingEventId: string) => void,
-    leaveActiveMappingEvent: () => void,
+    updateActiveMappingEvent: (activeMappingEventId: ?string) => void,
   },
   activeMappingEventId: ?string,
 } & PlaceDetailsProps;
@@ -457,6 +459,7 @@ class MainView extends React.Component<Props, State> {
     const isActive =
       this.props.isMainMenuOpen ||
       this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
@@ -610,11 +613,23 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
+  renderMappingEventWelcomeDialog() {
+    const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
+
+    return (
+      <ModalDialog isVisible={true} onClose={onMappingEventWelcomeDialogClose}>
+        {/* {mappingEvent.welcomeMessage} */}
+        <button onClick={onMappingEventWelcomeDialogClose}>Let's go</button>
+      </ModalDialog>
+    );
+  }
+
   render() {
     const {
       featureId,
       className,
       isOnboardingVisible,
+      isMappingEventWelcomeDialogVisible,
       isNotFoundVisible,
       isMainMenuOpen,
       isSearchBarVisible,
@@ -633,6 +648,7 @@ class MainView extends React.Component<Props, State> {
     const isNodeRoute = Boolean(featureId);
     const isDialogVisible =
       isOnboardingVisible ||
+      isMappingEventWelcomeDialogVisible ||
       isNotFoundVisible ||
       modalNodeState ||
       isPhotoUploadCaptchaToolbarVisible ||
@@ -684,6 +700,7 @@ class MainView extends React.Component<Props, State> {
           {this.renderCreateDialog()}
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
+          {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}
         </ErrorBoundary>
       </div>
     );

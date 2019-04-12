@@ -4,6 +4,7 @@ import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import initReactFastclick from 'react-fastclick';
+import type { Router } from 'next/router';
 
 import config from './lib/config';
 import savedState, {
@@ -11,7 +12,6 @@ import savedState, {
   isFirstStart,
   getActiveMappingEventId,
   setActiveMappingEventId,
-  removeActiveMappingEventId,
 } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
@@ -64,6 +64,7 @@ export type LinkData = {
 
 type Props = {
   className?: string,
+  router: Router,
   routerHistory: RouterHistory,
   routeName: string,
   categories?: CategoryLookupTables,
@@ -92,6 +93,8 @@ type Props = {
 type State = {
   isOnboardingVisible: boolean,
   activeMappingEventId: ?string,
+  isActiveMappingEventIdInitial: boolean,
+  isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
   accessibilityPresetStatus?: ?YesNoLimitedUnknown,
@@ -135,6 +138,8 @@ class App extends React.Component<Props, State> {
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
     activeMappingEventId: null,
+    isActiveMappingEventIdInitial: false,
+    isMappingEventWelcomeDialogVisible: false,
     isMainMenuOpen: false,
     modalNodeState: null,
     accessibilityPresetStatus: null,
@@ -237,31 +242,60 @@ class App extends React.Component<Props, State> {
     this.initializeActiveMappingEvent();
   }
 
+  componentDidUpdate(_: Props, prevState: State) {
+    this.updateMappingEventWelcomeDialogVisibility(prevState);
+  }
+
   initializeActiveMappingEvent() {
     const {
       routeName,
       router: { query },
     } = this.props;
 
-    const activeMappingEventId =
-      routeName === 'mappingEventJoin' ? query.id : getActiveMappingEventId();
-
-    this.setActiveMappingEvent(activeMappingEventId);
-
-    // redirect the user to the joined event detail page immediately
     if (routeName === 'mappingEventJoin') {
-      this.props.routerHistory.replace('mappingEventDetail', query);
+      const activeMappingEventId = query.id;
+      setActiveMappingEventId(activeMappingEventId);
+      this.props.routerHistory.replace('mappingEventDetail', { id: activeMappingEventId });
+      this.setState({
+        activeMappingEventId,
+        isActiveMappingEventIdInitial: true,
+        isMappingEventWelcomeDialogVisible: true,
+      });
+    } else {
+      const activeMappingEventId = getActiveMappingEventId();
+      this.setState({
+        isActiveMappingEventIdInitial: true,
+        activeMappingEventId,
+      });
     }
   }
 
-  leaveActiveMappingEvent = () => {
-    removeActiveMappingEventId();
-    this.setState({ activeMappingEventId: null });
+  updateMappingEventWelcomeDialogVisibility(prevState: State) {
+    const isActiveMappingEventIdInitial = this.state.isActiveMappingEventIdInitial;
+
+    // only continue if the joined event id is not the initial one anymore
+    if (isActiveMappingEventIdInitial) {
+      return;
+    }
+
+    const activeMappingEventIsSetNow = Boolean(this.state.activeMappingEventId);
+    const activeMappingEventChanged =
+      prevState.activeMappingEventId !== this.state.activeMappingEventId;
+
+    if (activeMappingEventIsSetNow && activeMappingEventChanged) {
+      this.setState({ isMappingEventWelcomeDialogVisible: true });
+    }
+  }
+
+  updateActiveMappingEvent = (activeMappingEventId: ?string) => {
+    setActiveMappingEventId(activeMappingEventId);
+    this.setState({ activeMappingEventId, isActiveMappingEventIdInitial: false });
   };
 
-  setActiveMappingEvent = (activeMappingEventId: ?string) => {
-    setActiveMappingEventId(activeMappingEventId);
-    this.setState({ activeMappingEventId });
+  onMappingEventWelcomeDialogClose = () => {
+    this.setState({
+      isMappingEventWelcomeDialogVisible: false,
+    });
   };
 
   openSearch(replace: boolean = false) {
@@ -801,6 +835,7 @@ class App extends React.Component<Props, State> {
       zoom: this.state.zoom,
       extent: this.state.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
+      isMappingEventWelcomeDialogVisible: this.state.isMappingEventWelcomeDialogVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
@@ -887,10 +922,10 @@ class App extends React.Component<Props, State> {
           onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
           onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
           mappingEventHandlers={{
-            setActiveMappingEvent: this.setActiveMappingEvent,
-            leaveActiveMappingEvent: this.leaveActiveMappingEvent,
+            updateActiveMappingEvent: this.updateActiveMappingEvent,
           }}
           activeMappingEventId={this.state.activeMappingEventId}
+          onMappingEventWelcomeDialogClose={this.onMappingEventWelcomeDialogClose}
         />
       </RouteProvider>
     );
