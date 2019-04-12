@@ -156,9 +156,9 @@ type Props = {
 
   clientSideConfiguration: ClientSideConfiguration,
   mappingEventHandlers: {
-    updateActiveMappingEvent: (activeMappingEventId: ?string) => void,
+    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
   },
-  activeMappingEventId: ?string,
+  joinedMappingEventId: ?string,
 } & PlaceDetailsProps;
 
 type State = {
@@ -295,7 +295,7 @@ class MainView extends React.Component<Props, State> {
     const {
       mappingEvent,
       mappingEventHandlers,
-      activeMappingEventId,
+      joinedMappingEventId,
       onCloseMappingEventsToolbar,
       clientSideConfiguration,
     } = this.props;
@@ -305,7 +305,7 @@ class MainView extends React.Component<Props, State> {
     return (
       <MappingEventToolbar
         mappingEvent={mappingEvent}
-        activeMappingEventId={activeMappingEventId}
+        joinedMappingEventId={joinedMappingEventId}
         mappingEventHandlers={mappingEventHandlers}
         onClose={onCloseMappingEventsToolbar}
         productName={translatedProductName}

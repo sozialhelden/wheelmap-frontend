@@ -21,9 +21,9 @@ import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 interface MappingEventToolbarProps {
   className: string;
   mappingEvent: MappingEvent;
-  activeMappingEventId: ?String;
+  joinedMappingEventId: ?String;
   mappingEventHandlers: {
-    updateActiveMappingEvent: (activeMappingEventId: ?string) => void,
+    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
   };
   onClose: () => void;
   productName: string;
@@ -32,8 +32,8 @@ interface MappingEventToolbarProps {
 const MappingEventToolbar = ({
   className,
   mappingEvent,
-  mappingEventHandlers: { updateActiveMappingEvent },
-  activeMappingEventId,
+  mappingEventHandlers: { updateJoinedMappingEvent },
+  joinedMappingEventId,
   onClose,
   productName,
 }: MappingEventToolbarProps) => {
@@ -70,12 +70,12 @@ const MappingEventToolbar = ({
   // translator: Button caption for leaving an event
   const leaveButtonCaption = t`Event verlassen`;
 
-  const userParticipatesInMappingEvent = mappingEvent._id === activeMappingEventId;
+  const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
-  const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
-    <DangerButton onClick={() => updateActiveMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
+  const eventJoinOrLeaveButton = userJoinedMappingEvent ? (
+    <DangerButton onClick={() => updateJoinedMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton onClick={() => updateActiveMappingEvent(mappingEvent._id)}>
+    <PrimaryButton onClick={() => updateJoinedMappingEvent(mappingEvent._id)}>
       {joinButtonCaption}
     </PrimaryButton>
   );

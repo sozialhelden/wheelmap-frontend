@@ -53,10 +53,10 @@ export function setAnalyticsAllowed(value: boolean) {
   return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
 }
 
-export function getActiveMappingEventId(): ?string {
-  return JSON.parse(storage.getItem('wheelmap.activeMappingEventId'));
+export function getJoinedMappingEventId(): ?string {
+  return JSON.parse(storage.getItem('wheelmap.joinedMappingEventId'));
 }
 
-export function setActiveMappingEventId(mappingEventId: ?string) {
-  storage.setItem('wheelmap.activeMappingEventId', JSON.stringify(mappingEventId));
+export function setJoinedMappingEventId(mappingEventId: ?string) {
+  storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
 }

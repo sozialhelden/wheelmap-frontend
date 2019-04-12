@@ -10,8 +10,8 @@ import config from './lib/config';
 import savedState, {
   saveState,
   isFirstStart,
-  getActiveMappingEventId,
-  setActiveMappingEventId,
+  getJoinedMappingEventId,
+  setJoinedMappingEventId,
 } from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
@@ -92,8 +92,8 @@ type Props = {
 
 type State = {
   isOnboardingVisible: boolean,
-  activeMappingEventId: ?string,
-  isActiveMappingEventIdInitial: boolean,
+  joinedMappingEventId: ?string,
+  isJoinedMappingEventIdInitial: boolean,
   isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
@@ -137,8 +137,8 @@ class App extends React.Component<Props, State> {
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
-    activeMappingEventId: null,
-    isActiveMappingEventIdInitial: false,
+    joinedMappingEventId: null,
+    isJoinedMappingEventIdInitial: false,
     isMappingEventWelcomeDialogVisible: false,
     isMainMenuOpen: false,
     modalNodeState: null,
@@ -239,57 +239,57 @@ class App extends React.Component<Props, State> {
       this.openSearch(true);
     }
 
-    this.initializeActiveMappingEvent();
+    this.initializeJoinedMappingEvent();
   }
 
   componentDidUpdate(_: Props, prevState: State) {
     this.updateMappingEventWelcomeDialogVisibility(prevState);
   }
 
-  initializeActiveMappingEvent() {
+  initializeJoinedMappingEvent() {
     const {
       routeName,
       router: { query },
     } = this.props;
 
     if (routeName === 'mappingEventJoin') {
-      const activeMappingEventId = query.id;
-      setActiveMappingEventId(activeMappingEventId);
-      this.props.routerHistory.replace('mappingEventDetail', { id: activeMappingEventId });
+      const joinedMappingEventId = query.id;
+      setJoinedMappingEventId(joinedMappingEventId);
+      this.props.routerHistory.replace('mappingEventDetail', { id: joinedMappingEventId });
       this.setState({
-        activeMappingEventId,
-        isActiveMappingEventIdInitial: true,
+        joinedMappingEventId,
+        isJoinedMappingEventIdInitial: true,
         isMappingEventWelcomeDialogVisible: true,
       });
     } else {
-      const activeMappingEventId = getActiveMappingEventId();
+      const joinedMappingEventId = getJoinedMappingEventId();
       this.setState({
-        isActiveMappingEventIdInitial: true,
-        activeMappingEventId,
+        isJoinedMappingEventIdInitial: true,
+        joinedMappingEventId,
       });
     }
   }
 
   updateMappingEventWelcomeDialogVisibility(prevState: State) {
-    const isActiveMappingEventIdInitial = this.state.isActiveMappingEventIdInitial;
+    const isJoinedMappingEventIdInitial = this.state.isJoinedMappingEventIdInitial;
 
     // only continue if the joined event id is not the initial one anymore
-    if (isActiveMappingEventIdInitial) {
+    if (isJoinedMappingEventIdInitial) {
       return;
     }
 
-    const activeMappingEventIsSetNow = Boolean(this.state.activeMappingEventId);
-    const activeMappingEventChanged =
-      prevState.activeMappingEventId !== this.state.activeMappingEventId;
+    const joinedMappingEventIsSetNow = Boolean(this.state.joinedMappingEventId);
+    const joinedMappingEventChanged =
+      prevState.joinedMappingEventId !== this.state.joinedMappingEventId;
 
-    if (activeMappingEventIsSetNow && activeMappingEventChanged) {
+    if (joinedMappingEventIsSetNow && joinedMappingEventChanged) {
       this.setState({ isMappingEventWelcomeDialogVisible: true });
     }
   }
 
-  updateActiveMappingEvent = (activeMappingEventId: ?string) => {
-    setActiveMappingEventId(activeMappingEventId);
-    this.setState({ activeMappingEventId, isActiveMappingEventIdInitial: false });
+  updateJoinedMappingEvent = (joinedMappingEventId: ?string) => {
+    setJoinedMappingEventId(joinedMappingEventId);
+    this.setState({ joinedMappingEventId, isJoinedMappingEventIdInitial: false });
   };
 
   onMappingEventWelcomeDialogClose = () => {
@@ -922,9 +922,9 @@ class App extends React.Component<Props, State> {
           onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
           onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
           mappingEventHandlers={{
-            updateActiveMappingEvent: this.updateActiveMappingEvent,
+            updateJoinedMappingEvent: this.updateJoinedMappingEvent,
           }}
-          activeMappingEventId={this.state.activeMappingEventId}
+          joinedMappingEventId={this.state.joinedMappingEventId}
           onMappingEventWelcomeDialogClose={this.onMappingEventWelcomeDialogClose}
         />
       </RouteProvider>
