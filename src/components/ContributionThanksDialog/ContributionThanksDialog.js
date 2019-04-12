@@ -8,7 +8,9 @@ import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
+import queryString from 'query-string';
 import { ChromelessButton, CallToActionLink } from '../Button';
+import TrackingEventBackend, { trackingEventBackend } from '../../lib/TrackingEventBackend';
 
 export type Props = {
   hidden: boolean,
@@ -70,6 +72,17 @@ export default class ContributionThanksDialog extends React.Component<Props> {
   componentDidMount() {
     if (!this.props.hidden) {
       this.focus();
+    }
+
+    // log event on client
+    if (typeof window !== 'undefined') {
+      const queryParams = queryString.parse(window.location.search);
+      if (queryParams.uniqueSurveyId) {
+        trackingEventBackend.track({
+          type: 'SurveyCompleted',
+          uniqueSurveyId: queryParams.uniqueSurveyId,
+        });
+      }
     }
   }
 

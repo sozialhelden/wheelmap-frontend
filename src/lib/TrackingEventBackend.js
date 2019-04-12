@@ -15,7 +15,12 @@ export type AttributeChangedTrackingEvent = {
   parentCategory?: string,
 };
 
-export type TrackingEvent = AttributeChangedTrackingEvent;
+export type SurveyCompletedTrackingEvent = {
+  type: 'SurveyCompleted',
+  uniqueSurveyId: string,
+};
+
+export type TrackingEvent = AttributeChangedTrackingEvent | SurveyCompletedTrackingEvent;
 
 export default class TrackingEventBackend {
   track(event: TrackingEvent): Promise<boolean> {
