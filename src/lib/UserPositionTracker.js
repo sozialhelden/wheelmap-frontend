@@ -6,8 +6,6 @@ import { shouldLocate, addListener } from './savedState';
  * collects positions while it is turned on.
  */
 export default class UserPositionTracker {
-  userLocation: null | Position = null;
-
   constructor() {
     if (typeof navigator === 'undefined' || !navigator.geolocation) {
       return;
@@ -48,7 +46,10 @@ export default class UserPositionTracker {
     this.userLocation = null;
   }
 
-  _watch: number | null = null;
+  userLocation: ?Position = null;
+
+  // private
+  _watch: ?number = null;
 }
 
 export const userPositionTracker = new UserPositionTracker();
