@@ -56,7 +56,7 @@ import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
-import ModalDialog from './components/ModalDialog';
+import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 
 type Props = {
   className: string,
@@ -617,10 +617,10 @@ class MainView extends React.Component<Props, State> {
     const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
 
     return (
-      <ModalDialog isVisible={true} onClose={onMappingEventWelcomeDialogClose}>
-        {/* {mappingEvent.welcomeMessage} */}
-        <button onClick={onMappingEventWelcomeDialogClose}>Let's go</button>
-      </ModalDialog>
+      <MappingEventWelcomeDialog
+        mappingEvent={mappingEvent}
+        onMappingEventWelcomeDialogClose={onMappingEventWelcomeDialogClose}
+      />
     );
   }
 
