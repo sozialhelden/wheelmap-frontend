@@ -31,29 +31,33 @@ export default class TrackingEventBackend {
     // determine userUUID
     const userUUID = getUUID() || 'do-not-track';
 
+    const body = JSON.stringify({
+      ...event,
+      userUUID,
+      timestamp: Math.round(Date.now() / 1000),
+      userAgent: getUserAgent(),
+      userLocation: userLocation && {
+        type: 'Point',
+        coordinates: [userLocation.coords.longitude, userLocation.coords.latitude],
+      },
+    });
+
+    const fetchRequest = {
+      body,
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const fetchUrl = `${
+      env.public.accessibilityCloud.baseUrl.accessibilityApps
+    }/tracking-events/report?appToken=${env.public.accessibilityCloud.appToken}`;
+
     const uploadPromise = new Promise((resolve, reject) => {
       globalFetchManager
-        .fetch(
-          `${
-            env.public.accessibilityCloud.baseUrl.accessibilityApps
-          }/tracking-events/report?appToken=${env.public.accessibilityCloud.appToken}`,
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              ...event,
-              userUUID,
-              timestamp: (Date.now() / 1000) | 0,
-              userAgent: getUserAgent(),
-              userLocation: userLocation
-                ? [userLocation.coords.longitude, userLocation.coords.latitude]
-                : undefined,
-            }),
-          }
-        )
+        .fetch(fetchUrl, fetchRequest)
         .then((response: Response) => {
           if (response.ok) {
             resolve(true);
