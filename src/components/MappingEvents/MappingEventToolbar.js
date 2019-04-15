@@ -109,7 +109,7 @@ const MappingEventToolbar = ({
           </div>
         </header>
         <div className="actions">
-          {eventJoinOrLeaveButton}
+          {mappingEvent.status === 'ongoing' && eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar
