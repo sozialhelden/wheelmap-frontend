@@ -28,7 +28,8 @@ const DynamicApp = dynamic(import('../App'), {
 const isBrowser = typeof window !== 'undefined';
 const isBuilding = !isBrowser;
 
-const shouldActivateCordovaDebugMode = isBrowser && !navigator.userAgent.match(/(iOS|Android)/i);
+const shouldActivateCordovaDebugMode =
+  isBrowser && !navigator.userAgent.match(/(iOS|iPhone|Android)/i);
 if (shouldActivateCordovaDebugMode) {
   activateCordovaDebugMode();
 }
