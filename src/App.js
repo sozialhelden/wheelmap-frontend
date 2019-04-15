@@ -246,34 +246,59 @@ class App extends React.Component<Props, State> {
     this.updateMappingEventWelcomeDialogVisibility(prevState);
   }
 
+  isMappingEventOngoing(mappingEventId: ?string) {
+    const { mappingEvents } = this.props;
+    if (mappingEventId) {
+      const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
+      return joinedMappingEvent && joinedMappingEvent.status === 'ongoing';
+    }
+
+    return false;
+  }
+
   initializeJoinedMappingEvent() {
     const {
       routeName,
       router: { query },
     } = this.props;
 
-    if (routeName === 'mappingEventJoin') {
-      const joinedMappingEventId = query.id;
+    let joinedMappingEventId = getJoinedMappingEventId();
+
+    // invalidate already locally stored mapping event if it already expired
+    if (!this.isMappingEventOngoing(joinedMappingEventId)) {
+      joinedMappingEventId = null;
       setJoinedMappingEventId(joinedMappingEventId);
-      this.props.routerHistory.replace('mappingEventDetail', { id: joinedMappingEventId });
-      this.setState({
-        joinedMappingEventId,
-        isJoinedMappingEventIdInitial: true,
-        isMappingEventWelcomeDialogVisible: true,
-      });
-    } else {
-      const joinedMappingEventId = getJoinedMappingEventId();
-      this.setState({
-        isJoinedMappingEventIdInitial: true,
-        joinedMappingEventId,
-      });
     }
+
+    const state = {
+      joinedMappingEventId,
+      isJoinedMappingEventIdInitial: true,
+      isMappingEventWelcomeDialogVisible: false,
+    };
+
+    if (routeName === 'mappingEventJoin') {
+      const mappingEventIdToJoin = query.id;
+
+      if (this.isMappingEventOngoing(mappingEventIdToJoin)) {
+        setJoinedMappingEventId(mappingEventIdToJoin);
+        state.joinedMappingEventId = mappingEventIdToJoin;
+        state.isMappingEventWelcomeDialogVisible = true;
+        this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
+      } else {
+        this.props.routerHistory.replace('map');
+      }
+    }
+
+    this.setState(state);
   }
 
   updateMappingEventWelcomeDialogVisibility(prevState: State) {
     const isJoinedMappingEventIdInitial = this.state.isJoinedMappingEventIdInitial;
 
-    // only continue if the joined event id is not the initial one anymore
+    // Only continue if the joined event id is not still marked as initial. We
+    // need this because else we cannot distinguish below if the mapping event
+    // id change was caused by our initial loading from local storage
+    // (null->someId) or actually caused by a user action.
     if (isJoinedMappingEventIdInitial) {
       return;
     }
