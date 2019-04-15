@@ -146,7 +146,7 @@ export async function getInitialAppProps(
     embedded?: string,
     [key: string]: ?string,
   },
-  isServer: boolean,
+  isCordovaBuild: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
   // flow type is not synced with actual APIs
@@ -179,12 +179,10 @@ export async function getInitialAppProps(
     disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
-  // load mapping events
-  const mappingEventsPromise = mappingEventsCache.getMappingEvents();
-
   const clientSideConfiguration = await clientSideConfigurationPromise;
   const rawCategoryLists = await rawCategoryListsPromise;
-  const mappingEvents = await mappingEventsPromise;
+  // load mapping events, but only if we are not inside a cordova build
+  const mappingEvents = isCordovaBuild ? [] : await mappingEventsCache.getMappingEvents();
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');
