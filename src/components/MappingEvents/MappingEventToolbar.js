@@ -58,13 +58,13 @@ const MappingEventToolbar = ({
   // translator: Screenreader description for the back link that leads to the list of mapping events
   const backLinkAriaLabel = t`Zurück zur Mapping Events Liste`;
   // translator: Button name for social media sharing the current mapping event
-  const shareButtonCaption = t`Share link`;
+  const shareButtonCaption = t`Teilen`;
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Zahlen`;
-  // translator: Screenreader description for number of already mapped places in the mapping event
-  const mapPlacesStatisticAriaLabel = t`map places`;
-  // translator: Screenreader description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`people invited`;
+  // translator: Description for number of already mapped places in the mapping event
+  const mappedPlacesLabel = t`Neue Orte`;
+  // translator: Description for number of people invited to the current mapping event
+  const inviteesCountAriaLabel = t`Teilnehmer`;
   // translator: Button caption for joining an event
   const joinButtonCaption = t`Mitmachen`;
   // translator: Button caption for leaving an event
@@ -108,6 +108,24 @@ const MappingEventToolbar = ({
             </address>
           </div>
         </header>
+        <img className="mapping-event-image" src={imageSource} alt="" />
+        <div className="mapping-event-description">{mappingEvent.description}</div>
+        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
+          <div>
+            <div className="statistics-count">
+              <MapPinWithPlusIcon />
+              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+            </div>
+            <div className="statistics-description">{mappedPlacesLabel}</div>
+          </div>
+          <div>
+            <div className="statistics-count">
+              <BellIcon />
+              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
+            </div>
+            <div className="statistics-description">{inviteesCountAriaLabel}</div>
+          </div>
+        </section>
         <div className="actions">
           {mappingEvent.status === 'ongoing' && eventJoinOrLeaveButton}
           <AppContextConsumer>
@@ -121,24 +139,6 @@ const MappingEventToolbar = ({
             )}
           </AppContextConsumer>
         </div>
-        <img className="mapping-event-image" src={imageSource} alt="" />
-        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
-          <div>
-            <div className="statistics-count">
-              <MapPinWithPlusIcon />
-              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
-            </div>
-            <div className="statistics-description">{mapPlacesStatisticAriaLabel}</div>
-          </div>
-          <div>
-            <div className="statistics-count">
-              <BellIcon />
-              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
-            </div>
-            <div className="statistics-description">{inviteesCountAriaLabel}</div>
-          </div>
-        </section>
-        <div className="mapping-event-description">{mappingEvent.description}</div>
       </Toolbar>
     </FocusTrap>
   );
