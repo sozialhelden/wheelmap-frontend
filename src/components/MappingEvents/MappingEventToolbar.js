@@ -41,8 +41,8 @@ const MappingEventToolbar = ({
   const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
 
   const imageSource =
-    mappingEvent.photos && mappingEvent.photos[0]
-      ? buildFullImageUrl(mappingEvent.photos[0])
+    mappingEvent.images && mappingEvent.images[0]
+      ? buildFullImageUrl(mappingEvent.images[0])
       : '/static/images/eventPlaceholder.png';
 
   let dateString = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()}`;
