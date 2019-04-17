@@ -175,35 +175,16 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
 
   ${ChromelessButton}.expand-button {
     width: 100%;
-  }
-
-  /* .link-button {
     display: flex;
-    align-items: center;
-  }
-
-  ${ChromelessButton}.expand-button {
-    display: flex;
-    margin-top: 10px;
     justify-content: center;
-    width: 100%;
+    margin-top: 10px;
 
-  .link-button svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    fill: #89939e;
-  } */
-
-  .actions {
-    /* display: flex; */
-    svg {
+    > svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 0.5rem;
       fill: #89939e;
     }
-    margin-bottom: 20px;
   }
 
   .mapping-event-image {
