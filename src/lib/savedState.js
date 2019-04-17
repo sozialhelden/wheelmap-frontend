@@ -52,3 +52,11 @@ export function hasAllowedAnalytics() {
 export function setAnalyticsAllowed(value: boolean) {
   return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
 }
+
+export function getJoinedMappingEventId(): ?string {
+  return JSON.parse(storage.getItem('wheelmap.joinedMappingEventId'));
+}
+
+export function setJoinedMappingEventId(mappingEventId: ?string) {
+  storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
+}

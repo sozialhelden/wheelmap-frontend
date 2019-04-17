@@ -54,8 +54,7 @@ export const SecondaryButton = styled(StyledButton)`
 export const DangerButton = styled(SecondaryButton)`
   color: ${colors.negativeColorDarker};
   border: none;
-  &:hover,
-  &.focus-visible {
+  &:hover {
     background-color: ${colors.negativeBackgroundColorTransparent};
   }
 `;
@@ -76,8 +75,7 @@ export const ChromelessButton = styled.button`
   background-color: transparent;
   color: ${colors.textColorTonedDown};
   cursor: pointer;
-  &:hover,
-  &.focus-visible {
+  &:hover {
     background-color: ${colors.neutralBackgroundColorTransparent};
   }
 `;

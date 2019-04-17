@@ -8,6 +8,7 @@ import FocusTrap from 'focus-trap-react';
 import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Link from '../Link/Link';
+import { RouteConsumer } from '../Link/RouteContext';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { AppContextConsumer } from '../../AppContext';
@@ -20,22 +21,30 @@ import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 interface MappingEventToolbarProps {
   className: string;
   mappingEvent: MappingEvent;
+  joinedMappingEventId: ?String;
+  mappingEventHandlers: {
+    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
+  };
   onClose: () => void;
   productName: string;
+  focusTrapActive: Boolean;
 }
 
 const MappingEventToolbar = ({
   className,
   mappingEvent,
+  mappingEventHandlers: { updateJoinedMappingEvent },
+  joinedMappingEventId,
   onClose,
   productName,
+  focusTrapActive,
 }: MappingEventToolbarProps) => {
   const startDate = new Date(mappingEvent.startTime);
   const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
 
   const imageSource =
-    mappingEvent.photos && mappingEvent.photos[0]
-      ? buildFullImageUrl(mappingEvent.photos[0])
+    mappingEvent.images && mappingEvent.images[0]
+      ? buildFullImageUrl(mappingEvent.images[0])
       : '/static/images/eventPlaceholder.png';
 
   let dateString = `${startDate.toLocaleDateString()} ${startDate.toLocaleTimeString()}`;
@@ -51,34 +60,47 @@ const MappingEventToolbar = ({
   // translator: Screenreader description for the back link that leads to the list of mapping events
   const backLinkAriaLabel = t`Zurück zur Mapping Events Liste`;
   // translator: Button name for social media sharing the current mapping event
-  const shareButtonCaption = t`Share link`;
+  const shareButtonCaption = t`Teilen`;
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Zahlen`;
-  // translator: Screenreader description for number of already mapped places in the mapping event
-  const mapPlacesStatisticAriaLabel = t`map places`;
-  // translator: Screenreader description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`people invited`;
+  // translator: Description for number of already mapped places in the mapping event
+  const mappedPlacesLabel = t`Neue Orte`;
+  // translator: Description for number of people invited to the current mapping event
+  const inviteesCountAriaLabel = t`Teilnehmer`;
   // translator: Button caption for joining an event
   const joinButtonCaption = t`Mitmachen`;
   // translator: Button caption for leaving an event
   const leaveButtonCaption = t`Event verlassen`;
 
-  const userParticipatesInMappingEvent = true;
+  const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
-  const eventJoinOrLeaveButton = userParticipatesInMappingEvent ? (
-    <DangerButton>{leaveButtonCaption}</DangerButton>
+  const eventJoinOrLeaveButton = userJoinedMappingEvent ? (
+    <DangerButton onClick={() => updateJoinedMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton>{joinButtonCaption}</PrimaryButton>
+    <PrimaryButton onClick={() => updateJoinedMappingEvent(mappingEvent._id)}>
+      {joinButtonCaption}
+    </PrimaryButton>
   );
 
   return (
-    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
+    <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
-          <Link to="mappingEvents" aria-label={backLinkAriaLabel}>
-            <ChevronLeft />
-          </Link>
+          {!joinedMappingEventId && (
+            <RouteConsumer>
+              {context => {
+                const params = { ...context.params };
+                delete params.id;
+
+                return (
+                  <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
+                    <ChevronLeft />
+                  </Link>
+                );
+              }}
+            </RouteConsumer>
+          )}
           <div>
             <h2>{mappingEvent.name}</h2>
             <p>{dateString}</p>
@@ -88,8 +110,26 @@ const MappingEventToolbar = ({
             </address>
           </div>
         </header>
+        <img className="mapping-event-image" src={imageSource} alt="" />
+        <div className="mapping-event-description">{mappingEvent.description}</div>
+        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
+          <div>
+            <div className="statistics-count">
+              <MapPinWithPlusIcon />
+              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
+            </div>
+            <div className="statistics-description">{mappedPlacesLabel}</div>
+          </div>
+          <div>
+            <div className="statistics-count">
+              <BellIcon />
+              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
+            </div>
+            <div className="statistics-description">{inviteesCountAriaLabel}</div>
+          </div>
+        </section>
         <div className="actions">
-          {eventJoinOrLeaveButton}
+          {mappingEvent.status === 'ongoing' && eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar
@@ -101,24 +141,6 @@ const MappingEventToolbar = ({
             )}
           </AppContextConsumer>
         </div>
-        <img className="mapping-event-image" src={imageSource} alt="" />
-        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
-          <div>
-            <div className="statistics-count">
-              <MapPinWithPlusIcon />
-              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
-            </div>
-            <div className="statistics-description">{mapPlacesStatisticAriaLabel}</div>
-          </div>
-          <div>
-            <div className="statistics-count">
-              <BellIcon />
-              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
-            </div>
-            <div className="statistics-description">{inviteesCountAriaLabel}</div>
-          </div>
-        </section>
-        <div className="mapping-event-description">{mappingEvent.description}</div>
       </Toolbar>
     </FocusTrap>
   );
@@ -151,40 +173,18 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     line-height: 1.2;
   }
 
-  ${PrimaryButton} {
-    margin-bottom: 10px;
-  }
-
   ${ChromelessButton}.expand-button {
     width: 100%;
-  }
-
-  /* .link-button {
-    display: flex;
-    align-items: center;
-  }
-
-  ${ChromelessButton}.expand-button {
     display: flex;
     justify-content: center;
-    width: 100%;
+    margin-top: 10px;
 
-  .link-button svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
-    fill: #89939e;
-  } */
-
-  .actions {
-    /* display: flex; */
-    svg {
+    > svg {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 0.5rem;
       fill: #89939e;
     }
-    margin-bottom: 20px;
   }
 
   .mapping-event-image {

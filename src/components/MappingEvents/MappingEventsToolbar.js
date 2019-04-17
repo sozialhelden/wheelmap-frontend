@@ -30,13 +30,14 @@ const MappingEventsToolbar = ({
   // translator: Tagline describing the purpose of mapping events
   const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you`;
 
+  const ongoingMappingEvents = mappingEvents.filter(event => event.status === 'ongoing');
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <Toolbar className={className} ariaLabel={mappingEventsListAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
           <span className="number-badge" aria-hidden={true}>
-            {mappingEvents.length}
+            {ongoingMappingEvents.length}
           </span>
           <div className="header-title">
             <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
@@ -44,7 +45,7 @@ const MappingEventsToolbar = ({
           </div>
         </header>
         <ul>
-          {mappingEvents.filter(event => event.status === 'ongoing').map(event => (
+          {ongoingMappingEvents.map(event => (
             <li key={event._id}>
               <RouteConsumer>
                 {context => {
