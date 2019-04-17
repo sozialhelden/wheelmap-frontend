@@ -25,7 +25,7 @@ export interface MappingEvent {
   startTime: Date;
   endTime?: Date;
   webSiteUrl?: string;
-  photos?: IImage[];
+  images?: IImage[];
   targets?: {
     mappedPlacesCount?: number,
   };
