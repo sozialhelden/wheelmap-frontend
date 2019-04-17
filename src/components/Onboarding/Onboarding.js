@@ -156,19 +156,18 @@ class Onboarding extends React.Component<Props, null> {
             {startButtonCaption}
             <ChevronRight />
           </CallToActionButton>
+          {analyticsShown && (
+            <ChromelessButton
+              className="button-continue-without-cookies"
+              onClick={() => {
+                analyticsAllowedChanged(false);
+                onClose();
+              }}
+            >
+              {skipAnalyticsButtonCaption}
+            </ChromelessButton>
+          )}
         </footer>
-
-        {analyticsShown && (
-          <ChromelessButton
-            className="button-continue-without-cookies"
-            onClick={() => {
-              analyticsAllowedChanged(false);
-              onClose();
-            }}
-          >
-            {skipAnalyticsButtonCaption}
-          </ChromelessButton>
-        )}
 
         <footer className="cookies-footer">
           <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />

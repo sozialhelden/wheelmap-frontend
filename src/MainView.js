@@ -57,6 +57,7 @@ import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
+import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 
 type Props = {
   className: string,
@@ -83,6 +84,7 @@ type Props = {
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
+  isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
@@ -123,6 +125,7 @@ type Props = {
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
   onMappingEventsLinkClick: () => void,
+  onMappingEventWelcomeDialogClose: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -153,6 +156,10 @@ type Props = {
   onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   clientSideConfiguration: ClientSideConfiguration,
+  mappingEventHandlers: {
+    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
+  },
+  joinedMappingEventId: ?string,
 } & PlaceDetailsProps;
 
 type State = {
@@ -292,15 +299,26 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventToolbar() {
-    const { mappingEvent, onCloseMappingEventsToolbar, clientSideConfiguration } = this.props;
+    const {
+      mappingEvent,
+      mappingEventHandlers,
+      joinedMappingEventId,
+      onCloseMappingEventsToolbar,
+      clientSideConfiguration,
+    } = this.props;
     const productName = clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
+
+    const focusTrapActive = !this.isAnyDialogVisible();
 
     return (
       <MappingEventToolbar
         mappingEvent={mappingEvent}
+        joinedMappingEventId={joinedMappingEventId}
+        mappingEventHandlers={mappingEventHandlers}
         onClose={onCloseMappingEventsToolbar}
         productName={translatedProductName}
+        focusTrapActive={focusTrapActive}
       />
     );
   }
@@ -380,7 +398,12 @@ class MainView extends React.Component<Props, State> {
   };
 
   renderOnboarding() {
-    const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const {
+      isOnboardingVisible,
+      onCloseOnboarding,
+      clientSideConfiguration,
+      isMappingEventWelcomeDialogVisible,
+    } = this.props;
     const { analyticsAllowed } = this.state;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
     const { googleAnalytics } = clientSideConfiguration.meta;
@@ -388,9 +411,12 @@ class MainView extends React.Component<Props, State> {
 
     const shouldShowAnalytics = !!(googleAnalytics && googleAnalytics.trackingId);
 
+    // if mapping event welcome dialog is also visible, don't show onboarding dialog
+    const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
+
     return (
       <Onboarding
-        isVisible={isOnboardingVisible}
+        isVisible={isVisible}
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
         logoURL={logoURL}
@@ -420,6 +446,9 @@ class MainView extends React.Component<Props, State> {
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        joinedMappingEvent={this.props.mappingEvents.find(
+          event => event._id === this.props.joinedMappingEventId
+        )}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}
@@ -453,6 +482,7 @@ class MainView extends React.Component<Props, State> {
     const isActive =
       this.props.isMainMenuOpen ||
       this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
@@ -614,11 +644,34 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
+  renderMappingEventWelcomeDialog() {
+    const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
+
+    return (
+      <MappingEventWelcomeDialog
+        mappingEvent={mappingEvent}
+        onMappingEventWelcomeDialogClose={onMappingEventWelcomeDialogClose}
+      />
+    );
+  }
+
+  isAnyDialogVisible(): boolean {
+    return (
+      this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
+      this.props.isNotFoundVisible ||
+      this.props.modalNodeState ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible
+    );
+  }
+
   render() {
     const {
       featureId,
       className,
       isOnboardingVisible,
+      isMappingEventWelcomeDialogVisible,
       isNotFoundVisible,
       isMainMenuOpen,
       isSearchBarVisible,
@@ -635,12 +688,7 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
-    const isDialogVisible =
-      isOnboardingVisible ||
-      isNotFoundVisible ||
-      modalNodeState ||
-      isPhotoUploadCaptchaToolbarVisible ||
-      isPhotoUploadInstructionsToolbarVisible;
+    const isDialogVisible = this.isAnyDialogVisible();
     const isMainMenuInBackground = isDialogVisible;
 
     const classList = uniq([
@@ -688,6 +736,7 @@ class MainView extends React.Component<Props, State> {
           {this.renderCreateDialog()}
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
+          {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}
         </ErrorBoundary>
       </div>
     );

@@ -48,13 +48,12 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
-import type { MappingEvents } from '../../lib/cache/MappingEventsCache';
+import type { MappingEvents } from '../../lib/MappingEvent';
 import A11yMarkerIcon from './A11yMarkerIcon';
 import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
-import { mappingEventHalo } from '../icons/markers';
 import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
 

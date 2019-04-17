@@ -92,3 +92,11 @@ export function setAnalyticsAllowed(value: boolean) {
 export function getUUID() {
   return storage.getItem('wheelmap.userUUID');
 }
+
+export function getJoinedMappingEventId(): ?string {
+  return JSON.parse(storage.getItem('wheelmap.joinedMappingEventId'));
+}
+
+export function setJoinedMappingEventId(mappingEventId: ?string) {
+  storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
+}

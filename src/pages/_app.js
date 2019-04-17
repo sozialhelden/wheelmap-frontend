@@ -64,7 +64,7 @@ export default class App extends BaseApp {
       // serve only english languages
       const initialBuildTimeProps = await getInitialAppProps(
         { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
-        true
+        isCordovaBuild
       );
       // strip translations from initial props, no added inclusion needed for cordova
       const { translations, ...buildTimeProps } = initialBuildTimeProps;
@@ -111,7 +111,7 @@ export default class App extends BaseApp {
 
       const appPropsPromise = getInitialAppProps(
         { userAgentString, hostName, localeStrings, ...ctx.query },
-        isServer
+        isCordovaBuild
       );
 
       if (ctx.query.routeName) {
