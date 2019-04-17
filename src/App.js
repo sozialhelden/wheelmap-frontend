@@ -39,6 +39,7 @@ import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
+
 import type { ModalNodeState } from './lib/ModalNodeState';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
@@ -52,6 +53,7 @@ import './App.css';
 import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
+import { mappingEventsCache } from './lib/cache/MappingEventsCache';
 
 initReactFastclick();
 
@@ -78,7 +80,7 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
-  mappingEvents: MappingEvents,
+  mappingEvents: ?MappingEvents,
   mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
@@ -91,6 +93,7 @@ type Props = {
 } & PlaceDetailsProps;
 
 type State = {
+  mappingEvents: ?MappingEvents,
   isOnboardingVisible: boolean,
   joinedMappingEventId: ?string,
   isJoinedMappingEventIdInitial: boolean,
@@ -134,6 +137,7 @@ class App extends React.Component<Props, State> {
     lat: null,
     lon: null,
     zoom: null,
+    mappingEvents: this.props.mappingEvents,
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
@@ -239,15 +243,26 @@ class App extends React.Component<Props, State> {
       this.openSearch(true);
     }
 
-    this.initializeJoinedMappingEvent();
+    this.setupMappingEvents();
   }
 
   componentDidUpdate(_: Props, prevState: State) {
     this.updateMappingEventWelcomeDialogVisibility(prevState);
   }
 
-  isMappingEventOngoing(mappingEventId: ?string) {
-    const { mappingEvents } = this.props;
+  async setupMappingEvents() {
+    let mappingEvents;
+    if (this.state.mappingEvents) {
+      mappingEvents = this.state.mappingEvents;
+    } else {
+      mappingEvents = await mappingEventsCache.getMappingEvents();
+      this.setState({ mappingEvents });
+    }
+
+    this.initializeJoinedMappingEvent(mappingEvents);
+  }
+
+  isMappingEventOngoing(mappingEventId: ?string, mappingEvents: MappingEvents) {
     if (mappingEventId) {
       const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
       return joinedMappingEvent && joinedMappingEvent.status === 'ongoing';
@@ -256,7 +271,7 @@ class App extends React.Component<Props, State> {
     return false;
   }
 
-  initializeJoinedMappingEvent() {
+  initializeJoinedMappingEvent(mappingEvents: MappingEvents) {
     const {
       routeName,
       router: { query },
@@ -265,7 +280,7 @@ class App extends React.Component<Props, State> {
     let joinedMappingEventId = getJoinedMappingEventId();
 
     // invalidate already locally stored mapping event if it already expired
-    if (!this.isMappingEventOngoing(joinedMappingEventId)) {
+    if (!this.isMappingEventOngoing(joinedMappingEventId, mappingEvents)) {
       joinedMappingEventId = null;
       setJoinedMappingEventId(joinedMappingEventId);
     }
@@ -279,7 +294,7 @@ class App extends React.Component<Props, State> {
     if (routeName === 'mappingEventJoin') {
       const mappingEventIdToJoin = query.id;
 
-      if (this.isMappingEventOngoing(mappingEventIdToJoin)) {
+      if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
         setJoinedMappingEventId(mappingEventIdToJoin);
         state.joinedMappingEventId = mappingEventIdToJoin;
         state.isMappingEventWelcomeDialogVisible = true;
@@ -427,7 +442,8 @@ class App extends React.Component<Props, State> {
   };
 
   showSelectedMappingEvent = (eventId: string) => {
-    const event = this.props.mappingEvents.find(event => event._id === eventId);
+    const event =
+      this.state.mappingEvents && this.state.mappingEvents.find(event => event._id === eventId);
     const extent = event && event.area.properties.extent;
 
     if (extent) {
