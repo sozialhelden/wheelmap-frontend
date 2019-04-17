@@ -27,6 +27,7 @@ interface MappingEventToolbarProps {
   };
   onClose: () => void;
   productName: string;
+  focusTrapActive: Boolean;
 }
 
 const MappingEventToolbar = ({
@@ -36,6 +37,7 @@ const MappingEventToolbar = ({
   joinedMappingEventId,
   onClose,
   productName,
+  focusTrapActive,
 }: MappingEventToolbarProps) => {
   const startDate = new Date(mappingEvent.startTime);
   const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
@@ -81,7 +83,7 @@ const MappingEventToolbar = ({
   );
 
   return (
-    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
+    <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>

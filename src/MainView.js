@@ -302,6 +302,8 @@ class MainView extends React.Component<Props, State> {
     const productName = clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
 
+    const focusTrapActive = !this.isAnyDialogVisible();
+
     return (
       <MappingEventToolbar
         mappingEvent={mappingEvent}
@@ -309,6 +311,7 @@ class MainView extends React.Component<Props, State> {
         mappingEventHandlers={mappingEventHandlers}
         onClose={onCloseMappingEventsToolbar}
         productName={translatedProductName}
+        focusTrapActive={focusTrapActive}
       />
     );
   }
@@ -388,7 +391,12 @@ class MainView extends React.Component<Props, State> {
   };
 
   renderOnboarding() {
-    const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const {
+      isOnboardingVisible,
+      onCloseOnboarding,
+      clientSideConfiguration,
+      isMappingEventWelcomeDialogVisible,
+    } = this.props;
     const { analyticsAllowed } = this.state;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
     const { googleAnalytics } = clientSideConfiguration.meta;
@@ -396,9 +404,12 @@ class MainView extends React.Component<Props, State> {
 
     const shouldShowAnalytics = !!(googleAnalytics && googleAnalytics.trackingId);
 
+    // if mapping event welcome dialog is also visible, don't show onboarding dialog
+    const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
+
     return (
       <Onboarding
-        isVisible={isOnboardingVisible}
+        isVisible={isVisible}
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
         logoURL={logoURL}
@@ -627,6 +638,17 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  isAnyDialogVisible(): boolean {
+    return (
+      this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
+      this.props.isNotFoundVisible ||
+      this.props.modalNodeState ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible
+    );
+  }
+
   render() {
     const {
       featureId,
@@ -649,13 +671,7 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
-    const isDialogVisible =
-      isOnboardingVisible ||
-      isMappingEventWelcomeDialogVisible ||
-      isNotFoundVisible ||
-      modalNodeState ||
-      isPhotoUploadCaptchaToolbarVisible ||
-      isPhotoUploadInstructionsToolbarVisible;
+    const isDialogVisible = this.isAnyDialogVisible();
     const isMainMenuInBackground = isDialogVisible;
 
     const classList = uniq([
