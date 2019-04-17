@@ -175,7 +175,7 @@ class MainMenu extends React.Component<Props, State> {
       );
     } else {
       return (
-        <RouteConsumer>
+        <RouteConsumer key={url}>
           {context => {
             let params = { ...context.params };
 
@@ -183,7 +183,6 @@ class MainMenu extends React.Component<Props, State> {
 
             return (
               <Link
-                key={url}
                 className={className}
                 to="mappingEvents"
                 params={params}
