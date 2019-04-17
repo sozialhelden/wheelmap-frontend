@@ -283,10 +283,9 @@ class App extends React.Component<Props, State> {
         setJoinedMappingEventId(mappingEventIdToJoin);
         state.joinedMappingEventId = mappingEventIdToJoin;
         state.isMappingEventWelcomeDialogVisible = true;
-        this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
-      } else {
-        this.props.routerHistory.replace('map');
       }
+
+      this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
     }
 
     this.setState(state);
