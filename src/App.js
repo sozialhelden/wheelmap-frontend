@@ -766,15 +766,13 @@ class App extends React.Component<Props, State> {
   };
 
   onShowSelectedFeature = (feature: Feature | EquipmentInfo) => {
-    if (!feature) {
+    const featureId = getFeatureId(feature);
+
+    if (!featureId) {
       return;
     }
 
-    const featureId = getFeatureId(feature);
-
-    if (typeof featureId === 'string') {
-      this.showSelectedFeature(featureId, feature.properties);
-    }
+    this.showSelectedFeature(featureId, feature.properties);
   };
 
   gotoCurrentFeature() {
