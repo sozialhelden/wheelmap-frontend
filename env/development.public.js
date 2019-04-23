@@ -17,6 +17,12 @@ const config = {
       uncached: 'https://www.accessibility.cloud',
     },
   },
+  aws: {
+    region: 'eu-central-1',
+    s3: {
+      bucket: 'accessibility-cloud-uploads',
+    },
+  },
   baseUrl: 'http://localhost:3000',
   cordovaHostname: 'localhost',
 };

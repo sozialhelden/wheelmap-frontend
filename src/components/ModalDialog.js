@@ -12,14 +12,13 @@ type Props = {
   ariaLabel: string,
   ariaDescribedBy: string,
   isKeyboardShown: boolean,
-  isRenderedIfInvisible: boolean,
   children: React.Node,
 };
 
 function ModalDialog(props: Props) {
   const isVisible = props.isVisible;
 
-  if (!isVisible && !props.isRenderedIfInvisible) {
+  if (!isVisible) {
     return null;
   }
 

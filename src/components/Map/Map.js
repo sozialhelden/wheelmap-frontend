@@ -11,7 +11,7 @@ import SozialheldenLogo from './SozialheldenLogo';
 import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { isWheelmapFeature } from '../../lib/Feature';
+import { isWheelmapFeature, hrefForFeature } from '../../lib/Feature';
 import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {
@@ -48,9 +48,14 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
+import type { MappingEvents } from '../../lib/MappingEvent';
+import A11yMarkerIcon from './A11yMarkerIcon';
+import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
+import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
+import { hrefForMappingEvent } from '../../lib/MappingEvent';
 
 window.L = L;
 
@@ -77,6 +82,7 @@ type TargetMapState = {
 type Props = {
   featureId?: ?string,
   feature?: PotentialPromise<?Feature>,
+  mappingEvents?: MappingEvents,
   equipmentInfoId?: ?string,
   equipmentInfo?: ?PotentialPromise<?EquipmentInfo>,
 
@@ -94,16 +100,13 @@ type Props = {
 
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
   onClusterClick: (cluster: Cluster) => void,
+  onMappingEventClick: (eventId: string) => void,
   onMoveEnd?: (args: MoveArgs) => void,
   onClick?: () => void,
   onError?: (error: ?Error | string) => void,
   categoryId: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  hrefForFeature: (
-    featureId: string,
-    properties: ?NodeProperties | EquipmentInfoProperties
-  ) => string,
   accessibilityCloudAppToken: string,
   accessibilityCloudBaseUrl: string,
   wheelmapApiBaseUrl: string,
@@ -149,6 +152,8 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
   markerClusterGroup: ?L.MarkerClusterGroup;
+  mappingEventsLayer: ?L.Layer;
+  mappingEventsHaloLayer: ?L.Layer;
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
@@ -364,11 +369,14 @@ export default class Map extends React.Component<Props, State> {
     this.setupWheelmapTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
+    this.setupMappingEvents();
+
     map.on('moveend', () => {
       this.updateFeatureLayerVisibility();
     });
     map.on('zoomend', () => {
       this.updateFeatureLayerVisibility();
+      this.updateMappingEventsHaloLayerVisibility();
     });
     map.on('zoomstart', () => {
       this.removeLayersNotVisibleInZoomLevel();
@@ -545,6 +553,53 @@ export default class Map extends React.Component<Props, State> {
     });
   }
 
+  setupMappingEvents() {
+    if (!this.map && !this.props.mappingEvents) {
+      return;
+    }
+
+    this.mappingEventsHaloLayer = new L.LayerGroup();
+    this.map.addLayer(this.mappingEventsHaloLayer);
+
+    this.mappingEventsLayer = new L.LayerGroup();
+    this.map.addLayer(this.mappingEventsLayer);
+
+    this.props.mappingEvents
+      .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
+      .forEach(event => {
+        const eventFeature = event.meetingPoint;
+
+        if (!eventFeature) {
+          return;
+        }
+
+        const eventLat = eventFeature.geometry.coordinates[1];
+        const eventLon = eventFeature.geometry.coordinates[0];
+
+        const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
+          icon: new MappingEventHaloMarkerIcon(),
+          interactive: false,
+          keyboard: false,
+          pane: 'shadowPane',
+        });
+
+        this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
+
+        const eventMarker = new HighlightableMarker(
+          new L.LatLng(eventLat, eventLon),
+          MappingEventMarkerIcon,
+          {
+            eventName: event.name,
+            href: hrefForMappingEvent(event),
+            onClick: () => this.props.onMappingEventClick(event._id),
+          },
+          event._id
+        );
+
+        this.mappingEventsLayer.addLayer(eventMarker);
+      });
+  }
+
   removeLayersNotVisibleInZoomLevel() {
     const map: L.Map = this.map;
     const featureLayer = this.featureLayer;
@@ -665,6 +720,32 @@ export default class Map extends React.Component<Props, State> {
     100
   );
 
+  updateMappingEventsHaloLayerVisibility() {
+    const map = this.map;
+
+    if (!map) {
+      return;
+    }
+
+    const props = this.props;
+
+    const mappingEventsHaloLayer = this.mappingEventsHaloLayer;
+    let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
+
+    const mapIsZoomedCloseEnough = map.getZoom() >= minimalZoomLevelForFeatures;
+    const featureIsSelected = !!props.feature;
+    const eventMarkerHalosVisible = mapIsZoomedCloseEnough && !featureIsSelected;
+
+    // show event marker halo layer only together with feature layers
+    if (eventMarkerHalosVisible) {
+      if (!map.hasLayer(mappingEventsHaloLayer)) {
+        map.addLayer(mappingEventsHaloLayer);
+      }
+    } else if (map.hasLayer(mappingEventsHaloLayer)) {
+      map.removeLayer(mappingEventsHaloLayer);
+    }
+  }
+
   shouldShowAccessibilityCloudLayer(props: Props = this.props, state: State = this.state): boolean {
     // always show if no category was selected
     if (!state.category) {
@@ -760,10 +841,24 @@ export default class Map extends React.Component<Props, State> {
         }
         acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
+
+      if (this.mappingEventsLayer) {
+        const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
+          .map(key => this.mappingEventsLayer._layers[key])
+          .find(marker => marker.featureId === props.featureId);
+
+        if (selectedMappingEventMarker) {
+          highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);
+        }
+      }
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
       if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
       highlightMarkers(this.highLightLayer, []);
+    }
+
+    if (this.mappingEventsLayer) {
+      this.updateMappingEventsHaloLayerVisibility();
     }
 
     if (props.activeCluster) {
@@ -787,7 +882,8 @@ export default class Map extends React.Component<Props, State> {
     const map = this.map;
     if (!map) return;
     map.eachLayer(layer => {
-      if (layer.getElement && layer.getLatLng) {
+      const layerIsTabbable = layer.options.keyboard;
+      if (layer.getElement && layer.getLatLng && layerIsTabbable) {
         const isInViewport = map.getBounds().contains(layer.getLatLng());
         const layerElement = layer.getElement();
         if (layerElement) {
@@ -835,9 +931,11 @@ export default class Map extends React.Component<Props, State> {
       return null;
     }
 
-    return new HighlightableMarker(latlng, {
-      onClick: this.props.onMarkerClick,
-      hrefForFeature: this.props.hrefForFeature,
+    const featureId: string = properties.id || properties._id || feature._id;
+
+    return new HighlightableMarker(latlng, A11yMarkerIcon, {
+      onClick: () => this.props.onMarkerClick(featureId, properties),
+      href: hrefForFeature(feature, properties),
       feature,
       categories: this.props.categories,
     });

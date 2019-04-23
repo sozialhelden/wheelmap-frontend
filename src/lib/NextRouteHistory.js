@@ -30,7 +30,7 @@ class NextRouterHistory extends AbstractRouterHistory {
     if (this.isCordova) {
       const query = { routeName: route.name, path, ...params };
       const pathname = window.location.pathname;
-      NextRouter[method]({ pathname: '/cordova', query }, { pathname });
+      NextRouter[method]({ pathname: '/cordova-main', query }, { pathname });
     } else {
       const query = { routeName: route.name, ...params };
       NextRouter[method]({ pathname: '/main', query }, path);

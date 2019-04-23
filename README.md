@@ -63,7 +63,7 @@ Before this, you need a `.env.production` file in your root folder. If you alrea
 ```bash
 npx cordova prepare android ios
 # for ios
-npm run build-ios
+APPLE_DEVELOPER_USERNAME=… npm run build-ios # replace `…` with your developer account email address
 # for android
 npm run build-android
 ```
@@ -79,8 +79,8 @@ To deploy:
 - get access to the shared certificate repository for [fastlane match](https://docs.fastlane.tools/actions/match/)
 - get a `.env.production` file from the person in charge
 - Make Cordova builds for iOS and Android like described above
-- Pre-test the builds with local devices
-- Run `npm run deploy-ios-beta` to upload an internal Testflight build
+- Pre-test the builds with local devices. You can open the Xcode project with `open platforms/ios/Wheelmap.xcworkspace`.
+- Run `APPLE_DEVELOPER_USERNAME=… npm run deploy-ios-beta` to upload an internal Testflight build (set `…` to your Apple developer email account address)
 - Run `npm run deploy-android-beta` to upload a public (← ⚠️) PlayStore beta build
 
 Note that each deployment increments the app version's patch level by one.

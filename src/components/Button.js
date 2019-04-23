@@ -2,7 +2,6 @@
 import styled from 'styled-components';
 
 import colors from '../lib/colors';
-import Link from './Link/Link';
 
 const StyledButton = styled.button`
   appearance: none;
@@ -17,25 +16,68 @@ const StyledButton = styled.button`
   width: 100%;
 `;
 
-export const ChromelessButton = styled.button`
-  padding: 0.5rem 0.75rem;
-  border: none;
-  box-shadow: 0px 0px 0px 1px transparent;
-  border-radius: 0.5rem;
-  @media (max-width: 768px) {
-    box-shadow: 0px 0px 0px 1px transparent;
-  }
-  &[data-focus-visible-added] {
+export const PrimaryButton = styled(StyledButton)`
+  color: #ffffff;
+  background-color: ${colors.linkColor};
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75;
+  padding: 0.375rem 0.3125em;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  text-align: center;
+
+  &.focus-visible {
     box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
     transition: box-shadow 0.2s;
   }
+`;
+
+export const SecondaryButton = styled(StyledButton)`
+  color: #22262d;
+  background-color: #0000;
   font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75;
+  padding: 0.375rem 0.3125em;
+  border: 1px solid #a5a8b0;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  text-align: center;
+
+  &:hover,
+  &.focus-visible {
+    background-color: neutralBackgroundColorTransparent;
+  }
+`;
+
+export const DangerButton = styled(SecondaryButton)`
+  color: ${colors.negativeColorDarker};
+  border: none;
+  &:hover {
+    background-color: ${colors.negativeBackgroundColorTransparent};
+  }
+`;
+
+export const ChromelessButton = styled.button`
+  padding: 0.375rem 0.75rem;
+  border: none;
+  box-shadow: 0px 0px 0px 1px transparent;
+  border-radius: 0.25rem;
+  @media (max-width: 768px) {
+    box-shadow: 0px 0px 0px 1px transparent;
+  }
+  font-size: 1rem;
+  line-height: 1.75;
   @media (max-height: 320px), (max-width: 320px) {
     font-size: 0.9rem;
   }
   background-color: transparent;
   color: ${colors.textColorTonedDown};
   cursor: pointer;
+  &:hover {
+    background-color: ${colors.neutralBackgroundColorTransparent};
+  }
 `;
 
 export const CallToActionButton = styled.button`

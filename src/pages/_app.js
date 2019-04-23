@@ -16,6 +16,8 @@ import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
+import { AppContextProvider } from '../AppContext';
+
 import {
   parseAcceptLanguageString,
   localeFromString,
@@ -62,7 +64,7 @@ export default class App extends BaseApp {
       // serve only english languages
       const initialBuildTimeProps = await getInitialAppProps(
         { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
-        true
+        isCordovaBuild
       );
       // strip translations from initial props, no added inclusion needed for cordova
       const { translations, ...buildTimeProps } = initialBuildTimeProps;
@@ -109,12 +111,13 @@ export default class App extends BaseApp {
 
       const appPropsPromise = getInitialAppProps(
         { userAgentString, hostName, localeStrings, ...ctx.query },
-        isServer
+        isCordovaBuild
       );
 
       if (ctx.query.routeName) {
         const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
         routeProps = await routePropsPromise;
+        routeProps = { ...routeProps };
       }
       appProps = await appPropsPromise;
 
@@ -265,13 +268,35 @@ export default class App extends BaseApp {
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
 
-    // TODO this feels like bad configuration
-    const shareHost = `https://${hostName}/`;
+    const baseUrl = `https://${hostName}`;
 
-    const translatedDescription = translatedStringFromObject(description);
-    const translatedProductName = translatedStringFromObject(description);
+    let translatedDescription = translatedStringFromObject(description);
+    let translatedProductName = translatedStringFromObject(productName);
+    let pageTitle = translatedProductName;
+    let facebookMetaData = { ...facebook };
+    let twitterMetaData = { ...twitter };
+    let ogUrl = baseUrl;
+
+    if (routeName === 'mappingEventDetail') {
+      const mappingEvent = this.props.mappingEvents.find(
+        event => event._id === this.props.featureId
+      );
+      if (mappingEvent) {
+        pageTitle = translatedProductName
+          ? `${mappingEvent.name} - ${translatedProductName}`
+          : mappingEvent.name;
+        translatedDescription = mappingEvent.description || mappingEvent.name;
+        facebookMetaData.imageURL =
+          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+        twitterMetaData.imageUrl =
+          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+        ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
+      }
+    }
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
+
+    const appContext = { baseUrl };
 
     return (
       <Container>
@@ -297,24 +322,33 @@ export default class App extends BaseApp {
               <meta content="app-id=399239476" name="apple-itunes-app" />
             )}
           </Head>
-          <OpenGraph productName={translatedProductName} description={translatedDescription} />
+
+          <OpenGraph
+            productName={translatedProductName}
+            title={pageTitle}
+            description={translatedDescription}
+            url={ogUrl}
+          />
           {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
           {twitter && (
             <TwitterMeta
-              shareHost={shareHost}
+              shareHost={baseUrl}
               productName={translatedProductName}
               description={translatedDescription}
               twitter={twitter}
             />
           )}
-          {facebook && <FacebookMeta facebook={facebook} />}
+          {facebook && <FacebookMeta facebook={facebookMetaData} />}
+
           {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
           {!skipApplicationBody && (
-            <PageComponent
-              routerHistory={this.routerHistory}
-              {...getRenderProps(routeName, appProps, isServer)}
-              routeName={routeName}
-            />
+            <AppContextProvider value={appContext}>
+              <PageComponent
+                routerHistory={this.routerHistory}
+                {...getRenderProps(routeName, appProps, isServer)}
+                routeName={routeName}
+              />
+            </AppContextProvider>
           )}
         </React.Fragment>
       </Container>

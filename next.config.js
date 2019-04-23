@@ -16,10 +16,10 @@ module.exports = withCss(
     },
     // Disabling file-system routing to always use custom server.
     useFileSystemPublicRoutes: false,
-    exportPathMap: () => { 
+    exportPathMap: () => {
       return {
-        '/': { page: '/cordova' },
+        '/': { page: '/cordova-main' },
       };
-    }
+    },
   })
 );

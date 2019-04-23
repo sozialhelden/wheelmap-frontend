@@ -12,12 +12,13 @@ import type { GeometryObject } from 'geojson-flow';
 import { translatedStringFromObject } from './i18n';
 
 import useImperialUnits from './useImperialUnits';
-import type { EquipmentInfo } from './EquipmentInfo';
+import type { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import type { Category } from './Categories';
 import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
 import type { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
+import type { SearchResultFeature } from './searchPlaces';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -169,6 +170,8 @@ export type AccessibilityCloudFeature = {
   properties: AccessibilityCloudProperties,
 };
 
+export type MappingEventFeature = SearchResultFeature;
+
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',
   features: T[],
@@ -211,7 +214,7 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[],
 };
 
-export type Feature = AccessibilityCloudFeature | WheelmapFeature;
+export type Feature = AccessibilityCloudFeature | WheelmapFeature | MappingEventFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature | EquipmentInfo): ?string {
@@ -224,6 +227,26 @@ export function getFeatureId(feature: Feature | EquipmentInfo): ?string {
   ];
   const result = idProperties.filter(Boolean)[0];
   return result ? String(result) : null;
+}
+
+export function hrefForFeature(
+  feature: Feature,
+  properties: ?NodeProperties | EquipmentInfoProperties
+) {
+  const featureId = getFeatureId(feature);
+
+  if (!featureId) {
+    throw new Error('Could not create href because featureId seems to be not defined');
+  }
+
+  if (properties && typeof properties.placeInfoId === 'string') {
+    const placeInfoId = properties.placeInfoId;
+    if (includes(['elevator', 'escalator'], properties.category)) {
+      return `/nodes/${placeInfoId}/equipment/${featureId}`;
+    }
+  }
+
+  return `/nodes/${featureId}`;
 }
 
 function isNumeric(id: string | number | null): boolean {

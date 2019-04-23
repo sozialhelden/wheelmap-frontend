@@ -49,6 +49,12 @@ class Link extends React.Component<Props> {
         {(context: RouteContext) => {
           const params = this.props.params || context.params;
 
+          const href = context.history.generatePath(routeName, params);
+
+          if (!href) {
+            return null;
+          }
+
           return (
             <a
               {...props}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="72px" viewBox="0 0 54 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>c/icon/on-map/mappathon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="J02-map-with-event-details" transform="translate(-641.000000, -363.000000)">
+            <g id="c/icon/on-map/mappathon" transform="translate(641.000000, 363.000000)">
+                <g id="mappathon-icon">
+                    <ellipse id="Oval" fill="#000000" fill-rule="nonzero" opacity="0.100000001" cx="27.5" cy="69.5" rx="3.5" ry="2"></ellipse>
+                    <path d="M8.97109268,42.3380034 C3.63343231,37.0115892 0,30.6284091 0,26.8700577 C0,12.0301346 12.0883118,0 27,0 C41.9116882,0 54,12.0301346 54,26.8700577 C54,30.6371849 50.6803986,36.8208586 45.6477783,42.0496742 L27.7155963,69 L8.97109268,42.3380034 Z" id="Combined-Shape" fill="#2D6AE0" fill-rule="nonzero"></path>
+                    <path d="M8.75,36.5 L8.75,30 C8.75,27.2385763 10.9885763,25 13.75,25 L13.75,25 C16.5114237,25 18.75,27.2385763 18.75,30 L18.75,36.5" id="Path-6" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero"></path>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero" cx="14.5" cy="18.5" r="3.5"></circle>
+                    <path d="M36,36.5 L36,30 C36,27.2385763 38.2385763,25 41,25 L41,25 C43.7614237,25 46,27.2385763 46,30 L46,36.5" id="Path-6" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero"></path>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero" cx="41.75" cy="18.5" r="3.5"></circle>
+                    <path d="M22,30.5 L22,24 C22,21.2385763 24.2385763,19 27,19 L27,19 C29.7614237,19 32,21.2385763 32,24 L32,30.5" id="Path-6" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero"></path>
+                    <circle id="Oval" stroke="#FFFFFF" stroke-width="3" fill-rule="nonzero" cx="27.75" cy="12.5" r="3.5"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

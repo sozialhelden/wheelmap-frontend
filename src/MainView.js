@@ -33,13 +33,10 @@ import FullscreenBackdrop from './components/FullscreenBackdrop';
 
 import config from './lib/config';
 import colors from './lib/colors';
-import env from './lib/env';
 
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 
 import type { NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-
-import type { EquipmentInfoProperties } from './lib/EquipmentInfo';
 
 import type { ModalNodeState } from './lib/ModalNodeState';
 
@@ -57,6 +54,10 @@ import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/cache/ClientSideConfigurationCache';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
+import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
+import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
+import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
+import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 
 type Props = {
   className: string,
@@ -78,8 +79,12 @@ type Props = {
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
+  mappingEvents: MappingEvents,
+  mappingEvent: MappingEvent,
+
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
+  isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   isNotFoundVisible: boolean,
   modalNodeState: ModalNodeState,
@@ -88,6 +93,8 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -102,8 +109,10 @@ type Props = {
   onMoveEnd: () => void,
   onMapClick: () => void,
   onMarkerClick: (featureId: string, properties: ?NodeProperties) => void,
+  onMappingEventClick: (eventId: string) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
+  onCloseMappingEventsToolbar: () => void,
   onOpenReportMode: () => void,
   onAbortReportPhotoFlow: () => void,
   onCloseOnboarding: () => void,
@@ -116,6 +125,8 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+  onMappingEventsLinkClick: () => void,
+  onMappingEventWelcomeDialogClose: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -146,6 +157,10 @@ type Props = {
   onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   clientSideConfiguration: ClientSideConfiguration,
+  mappingEventHandlers: {
+    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
+  },
+  joinedMappingEventId: ?string,
 } & PlaceDetailsProps;
 
 type State = {
@@ -162,16 +177,6 @@ function updateTouchCapability() {
   } else {
     body.classList.remove('is-touch-device');
   }
-}
-
-function hrefForFeature(featureId: string, properties: ?NodeProperties | EquipmentInfoProperties) {
-  if (properties && typeof properties.placeInfoId === 'string') {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-  return `/nodes/${featureId}`;
 }
 
 const DynamicMap = dynamic(import('./components/Map/Map'), {
@@ -277,6 +282,42 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
+  renderMappingEventsToolbar() {
+    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick } = this.props;
+    return (
+      <MappingEventsToolbar
+        mappingEvents={mappingEvents}
+        onClose={onCloseMappingEventsToolbar}
+        onMappingEventClick={onMappingEventClick}
+      />
+    );
+  }
+
+  renderMappingEventToolbar() {
+    const {
+      mappingEvent,
+      mappingEventHandlers,
+      joinedMappingEventId,
+      onCloseMappingEventsToolbar,
+      clientSideConfiguration,
+    } = this.props;
+    const productName = clientSideConfiguration.textContent.product.name;
+    const translatedProductName = translatedStringFromObject(productName);
+
+    const focusTrapActive = !this.isAnyDialogVisible();
+
+    return (
+      <MappingEventToolbar
+        mappingEvent={mappingEvent}
+        joinedMappingEventId={joinedMappingEventId}
+        mappingEventHandlers={mappingEventHandlers}
+        onClose={onCloseMappingEventsToolbar}
+        productName={translatedProductName}
+        focusTrapActive={focusTrapActive}
+      />
+    );
+  }
+
   renderClusterPanel() {
     return (
       <div className="toolbar">
@@ -352,7 +393,12 @@ class MainView extends React.Component<Props, State> {
   };
 
   renderOnboarding() {
-    const { isOnboardingVisible, onCloseOnboarding, clientSideConfiguration } = this.props;
+    const {
+      isOnboardingVisible,
+      onCloseOnboarding,
+      clientSideConfiguration,
+      isMappingEventWelcomeDialogVisible,
+    } = this.props;
     const { analyticsAllowed } = this.state;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
     const { googleAnalytics } = clientSideConfiguration.meta;
@@ -360,9 +406,12 @@ class MainView extends React.Component<Props, State> {
 
     const shouldShowAnalytics = !!(googleAnalytics && googleAnalytics.trackingId);
 
+    // if mapping event welcome dialog is also visible, don't show onboarding dialog
+    const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
+
     return (
       <Onboarding
-        isVisible={isOnboardingVisible}
+        isVisible={isVisible}
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
         logoURL={logoURL}
@@ -390,6 +439,10 @@ class MainView extends React.Component<Props, State> {
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
+        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        joinedMappingEvent={this.props.mappingEvents.find(
+          event => event._id === this.props.joinedMappingEventId
+        )}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}
@@ -422,6 +475,7 @@ class MainView extends React.Component<Props, State> {
     const isActive =
       this.props.isMainMenuOpen ||
       this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
@@ -528,7 +582,7 @@ class MainView extends React.Component<Props, State> {
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
         onClusterClick={this.props.onClusterClick}
-        hrefForFeature={hrefForFeature}
+        onMappingEventClick={this.props.onMappingEventClick}
         onError={this.props.onError}
         lat={lat ? parseFloat(lat) : null}
         lon={lon ? parseFloat(lon) : null}
@@ -541,6 +595,7 @@ class MainView extends React.Component<Props, State> {
         categoryId={categoryId}
         feature={this.props.lightweightFeature || this.props.feature}
         featureId={featureId}
+        mappingEvents={this.props.mappingEvents}
         equipmentInfo={this.props.equipmentInfo}
         equipmentInfoId={equipmentInfoId}
         categories={this.props.categories}
@@ -574,16 +629,41 @@ class MainView extends React.Component<Props, State> {
     }
   }
 
+  renderMappingEventWelcomeDialog() {
+    const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
+
+    return (
+      <MappingEventWelcomeDialog
+        mappingEvent={mappingEvent}
+        onMappingEventWelcomeDialogClose={onMappingEventWelcomeDialogClose}
+      />
+    );
+  }
+
+  isAnyDialogVisible(): boolean {
+    return (
+      this.props.isOnboardingVisible ||
+      this.props.isMappingEventWelcomeDialogVisible ||
+      this.props.isNotFoundVisible ||
+      this.props.modalNodeState ||
+      this.props.isPhotoUploadCaptchaToolbarVisible ||
+      this.props.isPhotoUploadInstructionsToolbarVisible
+    );
+  }
+
   render() {
     const {
       featureId,
       className,
       isOnboardingVisible,
+      isMappingEventWelcomeDialogVisible,
       isNotFoundVisible,
       isMainMenuOpen,
       isSearchBarVisible,
       isSearchButtonVisible,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       modalNodeState,
       isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
@@ -593,12 +673,7 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     const isNodeRoute = Boolean(featureId);
-    const isDialogVisible =
-      isOnboardingVisible ||
-      isNotFoundVisible ||
-      modalNodeState ||
-      isPhotoUploadCaptchaToolbarVisible ||
-      isPhotoUploadInstructionsToolbarVisible;
+    const isDialogVisible = this.isAnyDialogVisible();
     const isMainMenuInBackground = isDialogVisible;
 
     const classList = uniq([
@@ -632,6 +707,8 @@ class MainView extends React.Component<Props, State> {
             {!inEmbedMode && isMainMenuInBackground && this.renderMainMenu()}
             {!inEmbedMode && this.renderSearchToolbar(searchToolbarIsInert)}
             {isNodeToolbarVisible && !modalNodeState && this.renderNodeToolbar(isNodeRoute)}
+            {isMappingEventsToolbarVisible && this.renderMappingEventsToolbar()}
+            {isMappingEventToolbarVisible && this.renderMappingEventToolbar()}
             {!isNodeToolbarVisible && this.renderClusterPanel()}
             {!inEmbedMode && isSearchButtonVisible && this.renderSearchButton()}
             {this.renderMap()}
@@ -644,6 +721,7 @@ class MainView extends React.Component<Props, State> {
           {this.renderCreateDialog()}
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
+          {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}
         </ErrorBoundary>
       </div>
     );

@@ -18,18 +18,22 @@ import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
+import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
+import type { MappingEvents } from '../lib/MappingEvent';
 
 import SearchData from './SearchData';
 import PlaceDetailsData from './PlaceDetailsData';
 import MapData from './MapData';
 import CreatePlaceData from './CreatePlaceData';
 import ContributionThanksData from './ContributionThanksData';
+import MappingEventDetailData from './MappingEventDetailData';
 
 export type AppProps = {
   userAgent: UAResult,
   rawCategoryLists: RawCategoryLists,
   translations: Translations[],
   clientSideConfiguration: ClientSideConfiguration,
+  mappingEvents: MappingEvents,
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
@@ -71,6 +75,8 @@ const dataTable: DataTable = Object.freeze({
   equipment: PlaceDetailsData,
   createPlace: CreatePlaceData,
   contributionThanks: ContributionThanksData,
+  mappingEventDetail: MappingEventDetailData,
+  mappingEventJoin: MappingEventDetailData,
 });
 
 export function getInitialRouteProps(
@@ -140,7 +146,7 @@ export async function getInitialAppProps(
     embedded?: string,
     [key: string]: ?string,
   },
-  isServer: boolean,
+  isCordovaBuild: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
   // flow type is not synced with actual APIs
@@ -175,6 +181,8 @@ export async function getInitialAppProps(
 
   const clientSideConfiguration = await clientSideConfigurationPromise;
   const rawCategoryLists = await rawCategoryListsPromise;
+  // load mapping events, but only if we are not inside a cordova build
+  const mappingEvents = isCordovaBuild ? null : await mappingEventsCache.getMappingEvents();
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');
@@ -205,6 +213,7 @@ export async function getInitialAppProps(
     rawCategoryLists,
     clientSideConfiguration,
     category,
+    mappingEvents,
     extent,
     lat,
     lon,

@@ -4,9 +4,15 @@ import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import initReactFastclick from 'react-fastclick';
+import type { Router } from 'next/router';
 
 import config from './lib/config';
-import savedState, { saveState, isFirstStart } from './lib/savedState';
+import savedState, {
+  saveState,
+  isFirstStart,
+  getJoinedMappingEventId,
+  setJoinedMappingEventId,
+} from './lib/savedState';
 import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, type UAResult } from './lib/userAgent';
 import { type RouterHistory } from './lib/RouterHistory';
@@ -14,6 +20,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
+import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 
 import MainView, { UnstyledMainView } from './MainView';
@@ -32,6 +39,7 @@ import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
+
 import type { ModalNodeState } from './lib/ModalNodeState';
 import { type CategoryLookupTables } from './lib/Categories';
 import { type PhotoModel } from './lib/PhotoModel';
@@ -45,6 +53,7 @@ import './App.css';
 import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
+import { mappingEventsCache } from './lib/cache/MappingEventsCache';
 
 initReactFastclick();
 
@@ -57,6 +66,7 @@ export type LinkData = {
 
 type Props = {
   className?: string,
+  router: Router,
   routerHistory: RouterHistory,
   routeName: string,
   categories?: CategoryLookupTables,
@@ -70,6 +80,8 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
+  mappingEvents: ?MappingEvents,
+  mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
@@ -81,13 +93,19 @@ type Props = {
 } & PlaceDetailsProps;
 
 type State = {
+  mappingEvents: ?MappingEvents,
   isOnboardingVisible: boolean,
+  joinedMappingEventId: ?string,
+  isJoinedMappingEventIdInitial: boolean,
+  isMappingEventWelcomeDialogVisible: boolean,
   isMainMenuOpen: boolean,
   modalNodeState: ModalNodeState,
   accessibilityPresetStatus?: ?YesNoLimitedUnknown,
   isSearchBarVisible: boolean,
   isOnSmallViewport: boolean,
   isSearchToolbarExpanded: boolean,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
 
   // photo feature
   isPhotoUploadCaptchaToolbarVisible: boolean,
@@ -119,14 +137,20 @@ class App extends React.Component<Props, State> {
     lat: null,
     lon: null,
     zoom: null,
+    mappingEvents: this.props.mappingEvents,
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
+    joinedMappingEventId: null,
+    isJoinedMappingEventIdInitial: false,
+    isMappingEventWelcomeDialogVisible: false,
     isMainMenuOpen: false,
     modalNodeState: null,
     accessibilityPresetStatus: null,
     isOnSmallViewport: false,
     isSearchToolbarExpanded: false,
+    isMappingEventsToolbarVisible: false,
+    isMappingEventToolbarVisible: false,
 
     // photo feature
     isPhotoUploadCaptchaToolbarVisible: false,
@@ -169,6 +193,20 @@ class App extends React.Component<Props, State> {
       newState.modalNodeState = null;
     }
 
+    if (props.routeName === 'mappingEvents') {
+      newState.isMappingEventsToolbarVisible = true;
+      newState.isSearchBarVisible = false;
+    } else {
+      newState.isMappingEventsToolbarVisible = false;
+    }
+
+    if (props.routeName === 'mappingEventDetail') {
+      newState.isMappingEventToolbarVisible = true;
+      newState.isSearchBarVisible = false;
+    } else {
+      newState.isMappingEventToolbarVisible = false;
+    }
+
     const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
     if (placeDetailsRoute) {
       const { accessibilityFilter, toiletFilter, category } = props;
@@ -204,7 +242,100 @@ class App extends React.Component<Props, State> {
     } else if (shouldStartInSearch) {
       this.openSearch(true);
     }
+
+    this.setupMappingEvents();
   }
+
+  componentDidUpdate(_: Props, prevState: State) {
+    this.updateMappingEventWelcomeDialogVisibility(prevState);
+  }
+
+  async setupMappingEvents() {
+    let mappingEvents;
+    if (this.state.mappingEvents) {
+      mappingEvents = this.state.mappingEvents;
+    } else {
+      mappingEvents = await mappingEventsCache.getMappingEvents();
+      this.setState({ mappingEvents });
+    }
+
+    this.initializeJoinedMappingEvent(mappingEvents);
+  }
+
+  isMappingEventOngoing(mappingEventId: ?string, mappingEvents: MappingEvents) {
+    if (mappingEventId) {
+      const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
+      return joinedMappingEvent && joinedMappingEvent.status === 'ongoing';
+    }
+
+    return false;
+  }
+
+  initializeJoinedMappingEvent(mappingEvents: MappingEvents) {
+    const {
+      routeName,
+      router: { query },
+    } = this.props;
+
+    let joinedMappingEventId = getJoinedMappingEventId();
+
+    // invalidate already locally stored mapping event if it already expired
+    if (!this.isMappingEventOngoing(joinedMappingEventId, mappingEvents)) {
+      joinedMappingEventId = null;
+      setJoinedMappingEventId(joinedMappingEventId);
+    }
+
+    const state = {
+      joinedMappingEventId,
+      isJoinedMappingEventIdInitial: true,
+      isMappingEventWelcomeDialogVisible: false,
+    };
+
+    if (routeName === 'mappingEventJoin') {
+      const mappingEventIdToJoin = query.id;
+
+      if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
+        setJoinedMappingEventId(mappingEventIdToJoin);
+        state.joinedMappingEventId = mappingEventIdToJoin;
+        state.isMappingEventWelcomeDialogVisible = true;
+      }
+
+      this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
+    }
+
+    this.setState(state);
+  }
+
+  updateMappingEventWelcomeDialogVisibility(prevState: State) {
+    const isJoinedMappingEventIdInitial = this.state.isJoinedMappingEventIdInitial;
+
+    // Only continue if the joined event id is not still marked as initial. We
+    // need this because else we cannot distinguish below if the mapping event
+    // id change was caused by our initial loading from local storage
+    // (null->someId) or actually caused by a user action.
+    if (isJoinedMappingEventIdInitial) {
+      return;
+    }
+
+    const joinedMappingEventIsSetNow = Boolean(this.state.joinedMappingEventId);
+    const joinedMappingEventChanged =
+      prevState.joinedMappingEventId !== this.state.joinedMappingEventId;
+
+    if (joinedMappingEventIsSetNow && joinedMappingEventChanged) {
+      this.setState({ isMappingEventWelcomeDialogVisible: true });
+    }
+  }
+
+  updateJoinedMappingEvent = (joinedMappingEventId: ?string) => {
+    setJoinedMappingEventId(joinedMappingEventId);
+    this.setState({ joinedMappingEventId, isJoinedMappingEventIdInitial: false });
+  };
+
+  onMappingEventWelcomeDialogClose = () => {
+    this.setState({
+      isMappingEventWelcomeDialogVisible: false,
+    });
+  };
 
   openSearch(replace: boolean = false) {
     if (this.props.routeName === 'search') {
@@ -312,6 +443,20 @@ class App extends React.Component<Props, State> {
     this.setState({ activeCluster }, () => {
       routerHistory.push(routeName, params);
     });
+  };
+
+  showSelectedMappingEvent = (eventId: string) => {
+    const event =
+      this.state.mappingEvents && this.state.mappingEvents.find(event => event._id === eventId);
+    const extent = event && event.area.properties.extent;
+
+    if (extent) {
+      this.setState({ extent });
+    }
+
+    const params = this.getCurrentParams();
+    params.id = eventId;
+    this.props.routerHistory.push('mappingEventDetail', params);
   };
 
   showCluster = (cluster: Cluster) => {
@@ -566,6 +711,11 @@ class App extends React.Component<Props, State> {
     }
   };
 
+  onCloseMappingEventsToolbar = () => {
+    const params = this.getCurrentParams();
+    this.props.routerHistory.push('map', params);
+  };
+
   onCloseModalDialog = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
@@ -683,6 +833,10 @@ class App extends React.Component<Props, State> {
     );
   }
 
+  onMappingEventsLinkClick = () => {
+    this.setState({ isMainMenuOpen: false });
+  };
+
   render() {
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
@@ -691,12 +845,17 @@ class App extends React.Component<Props, State> {
       !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
-    const isSearchButtonVisible = !isSearchBarVisible;
+    const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
+    const isMappingEventToolbarVisible = this.state.isMappingEventToolbarVisible;
+    const isSearchButtonVisible =
+      !isSearchBarVisible && !isMappingEventsToolbarVisible && !isMappingEventToolbarVisible;
 
     const extraProps = {
       isNodeRoute,
       modalNodeState: this.state.modalNodeState,
       isNodeToolbarDisplayed,
+      isMappingEventsToolbarVisible,
+      isMappingEventToolbarVisible,
       shouldLocateOnStart,
       isSearchButtonVisible,
       isSearchBarVisible,
@@ -720,11 +879,14 @@ class App extends React.Component<Props, State> {
       zoom: this.state.zoom,
       extent: this.state.extent,
       isOnboardingVisible: this.state.isOnboardingVisible,
+      isMappingEventWelcomeDialogVisible: this.state.isMappingEventWelcomeDialogVisible,
       isMainMenuOpen: this.state.isMainMenuOpen,
       isOnSmallViewport: this.state.isOnSmallViewport,
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
+      mappingEvents: this.props.mappingEvents,
+      mappingEvent: this.props.mappingEvent,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,
@@ -770,13 +932,16 @@ class App extends React.Component<Props, State> {
           onMapClick={this.onMapClick}
           onMarkerClick={this.showSelectedFeature}
           onClusterClick={this.showCluster}
+          onMappingEventClick={this.showSelectedMappingEvent}
           onCloseClusterPanel={this.closeActiveCluster}
           onSelectFeatureFromCluster={this.onShowSelectedFeature}
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
           onCloseNodeToolbar={this.onCloseNodeToolbar}
+          onCloseMappingEventsToolbar={this.onCloseMappingEventsToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
+          onMappingEventsLinkClick={this.onMappingEventsLinkClick}
           onSearchToolbarClick={this.onSearchToolbarClick}
           onSearchToolbarClose={this.onSearchToolbarClose}
           onSearchToolbarSubmit={this.onSearchToolbarSubmit}
@@ -800,6 +965,11 @@ class App extends React.Component<Props, State> {
           onStartReportPhotoFlow={this.onStartReportPhotoFlow}
           onFinishReportPhotoFlow={this.onFinishReportPhotoFlow}
           onAbortReportPhotoFlow={this.onExitReportPhotoFlow}
+          mappingEventHandlers={{
+            updateJoinedMappingEvent: this.updateJoinedMappingEvent,
+          }}
+          joinedMappingEventId={this.state.joinedMappingEventId}
+          onMappingEventWelcomeDialogClose={this.onMappingEventWelcomeDialogClose}
         />
       </RouteProvider>
     );
