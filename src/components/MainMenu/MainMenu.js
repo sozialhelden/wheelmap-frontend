@@ -7,7 +7,7 @@ import { t } from 'ttag';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
-import { insertPlaceholdersToAddPlaceUrl } from '../../lib/cache/ClientSideConfigurationCache';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 import colors from '../../lib/colors';
 import type { MappingEvent } from '../../lib/MappingEvent';
 
@@ -24,9 +24,11 @@ type State = {
 type Props = {
   className: string,
   productName: string,
+  uniqueSurveyId: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
+  onAddPlaceLinkClick: () => void,
   joinedMappingEvent: ?MappingEvent,
   isOpen: boolean,
   lat: string,
@@ -133,14 +135,32 @@ class MainMenu extends React.Component<Props, State> {
 
   renderAppLinks() {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = insertPlaceholdersToAddPlaceUrl(translatedStringFromObject(link.url));
+      const url = insertPlaceholdersToAddPlaceUrl(
+        translatedStringFromObject(link.url),
+        this.props.uniqueSurveyId
+      );
       const label = translatedStringFromObject(link.label);
       const badgeLabel = translatedStringFromObject(link.badgeLabel);
       const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
       const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
+      const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
+      if (isAddPlaceLink) {
+        return (
+          <Link
+            key={url}
+            className={className}
+            to={url}
+            role="menuitem"
+            onClick={this.props.onAddPlaceLinkClick}
+          >
+            {label}
+            {badgeLabel && <Badge>{badgeLabel}</Badge>}
+          </Link>
+        );
+      }
 
+      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
       if (isEventsLink) {
         return this.renderEventsOrJoinedEventLink(label, url, className);
       }

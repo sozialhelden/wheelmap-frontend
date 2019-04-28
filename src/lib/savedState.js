@@ -1,6 +1,8 @@
 // @flow
 
 import storage from 'local-storage-fallback';
+import debounce from 'lodash/debounce';
+import uuidv4 from 'uuid/v4';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
@@ -33,8 +35,29 @@ const savedState = {
 
 export default savedState;
 
+const _listeners = new Set<() => void>();
+
+export function addListener(l: () => void) {
+  _listeners.add(l);
+}
+
+export function removeListener(l: () => void) {
+  _listeners.delete(l);
+}
+
+const notifyListeners = debounce(() => {
+  _listeners.forEach(l => {
+    try {
+      l();
+    } catch (e) {
+      console.error('Error in event handler', l, e);
+    }
+  });
+}, 100);
+
 export function saveState(state: { [key: string]: string }) {
   Object.keys(state).forEach(key => storage.setItem(`wheelmap.${key}`, state[key]));
+  notifyListeners();
 }
 
 export function isFirstStart() {
@@ -45,12 +68,29 @@ export function hasOpenedLocationHelp() {
   return storage.getItem('wheelmap.hasOpenedLocationHelp') === 'true';
 }
 
+export function shouldLocate() {
+  return storage.getItem('wheelmap.map.locate') === 'true';
+}
+
 export function hasAllowedAnalytics() {
   return storage.getItem('wheelmap.analyticsAllowed') === 'true';
 }
 
 export function setAnalyticsAllowed(value: boolean) {
-  return storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
+  if (value === false) {
+    storage.removeItem('wheelmap.userUUID');
+  } else {
+    if (!storage.getItem('wheelmap.userUUID')) {
+      storage.setItem('wheelmap.userUUID', uuidv4());
+    }
+  }
+
+  storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
+  notifyListeners();
+}
+
+export function getUUID() {
+  return storage.getItem('wheelmap.userUUID');
 }
 
 export function getJoinedMappingEventId(): ?string {

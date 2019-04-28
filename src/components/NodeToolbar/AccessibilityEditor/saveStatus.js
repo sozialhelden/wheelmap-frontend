@@ -1,14 +1,22 @@
+// @flow
+
 import { t } from 'ttag';
 import fetch from '../../../lib/fetch';
+import get from 'lodash/get';
 import config from '../../../lib/config';
 import isCordova from '../../../lib/isCordova';
+import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
-import { YesNoLimitedUnknown } from '../../../lib/Feature';
+import type { WheelmapFeature, YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import { trackEvent } from '../../../lib/Analytics';
+import Categories from '../../../lib/Categories';
+import { type CategoryLookupTables } from '../../../lib/Categories';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
+  categories: CategoryLookupTables,
+  feature: WheelmapFeature,
   value: T,
   onSave: ?(value: T) => void,
   onClose: () => void,
@@ -20,11 +28,26 @@ type SaveOptions<T> = ExternalSaveOptions<T> & {
   jsonPropertyName: string,
 };
 
+function trackAttributeChanged<T>(options: SaveOptions<T>) {
+  const { value, categories, feature, featureId, propertyName } = options;
+
+  const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
+  trackingEventBackend.track({
+    type: 'AttributeChanged',
+    category: category ? category._id : 'unknown',
+    parentCategory: parentCategory ? parentCategory._id : undefined,
+    placeInfoId: featureId,
+    attributePath: `properties.${propertyName}`,
+    previousValue: get(feature, `properties.${propertyName}`),
+    newValue: value,
+  });
+}
+
 function save<T>(options: SaveOptions<T>): Promise<Response> {
   const { url, value, featureId, propertyName } = options;
 
   const formData = new FormData();
-  formData.append(options.jsonPropertyName, value);
+  formData.append(options.jsonPropertyName, String(value));
 
   const body = isCordova() ? { [options.jsonPropertyName]: value } : formData;
 
@@ -49,8 +72,9 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       trackEvent({
         category: 'UpdateAccessibilityData',
         action: propertyName,
-        label: value,
+        label: String(value),
       });
+      trackAttributeChanged(options);
       [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
         if (cache.getCachedFeature(String(featureId))) {
           cache.updateFeatureAttribute(String(featureId), { [propertyName]: value });

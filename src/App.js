@@ -59,6 +59,7 @@ initReactFastclick();
 
 export type LinkData = {
   label: LocalizedString,
+  badgeLabel?: LocalizedString,
   url: LocalizedString,
   order?: number,
   tags?: string[],

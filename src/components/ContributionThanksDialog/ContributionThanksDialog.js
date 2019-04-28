@@ -8,7 +8,9 @@ import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
+import queryString from 'query-string';
 import { ChromelessButton, CallToActionLink } from '../Button';
+import TrackingEventBackend, { trackingEventBackend } from '../../lib/TrackingEventBackend';
 
 export type Props = {
   hidden: boolean,
@@ -17,6 +19,7 @@ export type Props = {
   lat: ?number,
   lon: ?number,
   addPlaceUrl: ?string,
+  onAddPlaceLinkClick?: () => void,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -70,6 +73,17 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     if (!this.props.hidden) {
       this.focus();
     }
+
+    // log event on client
+    if (typeof window !== 'undefined') {
+      const queryParams = queryString.parse(window.location.search);
+      if (queryParams.uniqueSurveyId) {
+        trackingEventBackend.track({
+          type: 'SurveyCompleted',
+          uniqueSurveyId: queryParams.uniqueSurveyId,
+        });
+      }
+    }
   }
 
   focus() {}
@@ -95,7 +109,12 @@ export default class ContributionThanksDialog extends React.Component<Props> {
           <p>{text}</p>
 
           {this.props.addPlaceUrl && (
-            <CallToActionLink data-focus-visible-added href={this.props.addPlaceUrl}>
+            <CallToActionLink
+              data-focus-visible-added
+              href={this.props.addPlaceUrl}
+              target="_blank"
+              onClick={this.props.onAddPlaceLinkClick}
+            >
               {addNextPlaceButtonCaption}
               <ChevronRight />
             </CallToActionLink>

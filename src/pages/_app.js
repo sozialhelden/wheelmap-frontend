@@ -296,7 +296,11 @@ export default class App extends BaseApp {
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
-    const appContext = { baseUrl };
+    const appContext = {
+      baseUrl,
+      categories: appProps.categories,
+      // TODO add joined mapping event here
+    };
 
     return (
       <Container>

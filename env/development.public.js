@@ -15,6 +15,7 @@ const config = {
     baseUrl: {
       cached: 'https://accessibility-cloud.freetls.fastly.net',
       uncached: 'https://www.accessibility.cloud',
+      accessibilityApps: 'https://www.wheelmap.pro'
     },
   },
   aws: {
