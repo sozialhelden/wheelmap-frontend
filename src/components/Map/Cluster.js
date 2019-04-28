@@ -4,7 +4,7 @@ import { type EquipmentInfo } from '../../lib/EquipmentInfo';
 import { type Feature, type YesNoUnknown } from '../../lib/Feature';
 
 export type Cluster = {
-  features: ArrayLike<Feature | EquipmentInfo>,
+  features: Array<Feature | EquipmentInfo>,
   backgroundColor?: string,
   foregroundColor?: string,
   accessibility?: YesNoUnknown,

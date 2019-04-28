@@ -72,7 +72,7 @@ export function acCategoryFrom(category: ?Category): ?ACCategory {
   return null;
 }
 
-type RootCategoryEntry = {
+export type RootCategoryEntry = {
   name: string,
   isSubCategory?: boolean,
   isMetaCategory?: boolean,

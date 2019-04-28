@@ -19,7 +19,7 @@ import { type RouterHistory } from './lib/RouterHistory';
 import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
-import type { EquipmentInfo } from './lib/EquipmentInfo';
+import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 
@@ -409,14 +409,18 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  showSelectedFeature = (featureId: string, properties: ?NodeProperties) => {
+  showSelectedFeature = (
+    featureId: string | number,
+    properties: ?NodeProperties | ?EquipmentInfoProperties
+  ) => {
+    const featureIdString = featureId.toString();
     const { routerHistory } = this.props;
 
     // show equipment inside their place details
     let routeName = 'placeDetail';
     const params = this.getCurrentParams();
 
-    params.id = featureId;
+    params.id = featureIdString;
     delete params.eid;
 
     if (properties && typeof properties.placeInfoId === 'string') {
@@ -424,7 +428,7 @@ class App extends React.Component<Props, State> {
       if (includes(['elevator', 'escalator'], properties.category)) {
         routeName = 'equipment';
         params.id = placeInfoId;
-        params.eid = featureId;
+        params.eid = featureIdString;
       }
     }
 
@@ -432,7 +436,7 @@ class App extends React.Component<Props, State> {
     if (this.state.activeCluster) {
       const index = findIndex(
         this.state.activeCluster.features,
-        f => (f.id || f._id) === featureId
+        f => (f.id || f._id) === featureIdString
       );
       activeCluster = index !== -1 ? this.state.activeCluster : null;
     }
@@ -456,7 +460,7 @@ class App extends React.Component<Props, State> {
     this.props.routerHistory.push('mappingEventDetail', params);
   };
 
-  showCluster = cluster => {
+  showCluster = (cluster: Cluster) => {
     this.setState({ activeCluster: cluster }, () => {
       const params = this.getCurrentParams();
       delete params.id;
@@ -763,14 +767,12 @@ class App extends React.Component<Props, State> {
   };
 
   onShowSelectedFeature = (feature: Feature | EquipmentInfo) => {
-    if (!feature) {
+    const featureId = getFeatureId(feature);
+
+    if (!featureId) {
       return;
     }
 
-    const featureId =
-      feature._id ||
-      feature.id ||
-      (feature.properties && (feature.properties.id || feature.properties._id));
     this.showSelectedFeature(featureId, feature.properties);
   };
 

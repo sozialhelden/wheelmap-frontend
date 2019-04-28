@@ -23,9 +23,10 @@ import MapLoading from './components/Map/MapLoading';
 import ErrorBoundary from './components/ErrorBoundary';
 import WheelmapHomeLink from './components/WheelmapHomeLink';
 import type { SearchResultFeature } from './lib/searchPlaces';
-import type { WheelmapFeature } from './lib/Feature';
+import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { EquipmentInfo } from './lib/EquipmentInfo';
 import { translatedStringFromObject } from './lib/i18n';
+import { type Cluster } from './components/Map/Cluster';
 
 import SearchButton from './components/SearchToolbar/SearchButton';
 import Onboarding from './components/Onboarding/Onboarding';
@@ -121,6 +122,7 @@ type Props = {
   onOpenToiletAccessibility: () => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
+  onOpenToiletNearby: () => void,
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
