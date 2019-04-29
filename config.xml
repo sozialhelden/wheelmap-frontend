@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.29.0"
-    xmlns="http://www.w3.org/ns/widgets"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<widget android-packageName="org.wheelmap.android.online" id="de.sozialhelden.wheelmap.iphone" version="4.30.0" 
+    xmlns="http://www.w3.org/ns/widgets" 
+    xmlns:android="http://schemas.android.com/apk/res/android" 
     xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Wheelmap</name>
     <description>
@@ -15,6 +15,8 @@
     <access origin="https://*.wheelmap.org" />
     <access origin="http://176.9.63.170" />
     <access origin="https://176.9.63.170" />
+    <access origin="http://classic.wheelmap.org" />
+    <access origin="https://classic.wheelmap.org" />
     <access origin="https://accessibility-cloud.freetls.fastly.net" />
     <access origin="https://api.mapbox.com" />
     <access origin="https://accessibility.cloud" />

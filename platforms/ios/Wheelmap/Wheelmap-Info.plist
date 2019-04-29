@@ -62,6 +62,11 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
+			<key>classic.wheelmap.org</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>accessibility-cloud.freetls.fastly.net</key>
 			<dict/>
 			<key>api.mapbox.com</key>
