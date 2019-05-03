@@ -2,7 +2,7 @@
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
-import type { MappingEvents } from '../MappingEvent';
+import type { MappingEvents, MappingEvent } from '../MappingEvent';
 
 type MappingEventsData = {
   results: MappingEvents,
@@ -23,6 +23,11 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
         .map(_id => data.related.images[_id])
         .filter(image => image.objectId === mappingEvent._id),
     }));
+  }
+
+  async getMappingEvent(_id: string): Promise<MappingEvent | undefined> {
+    const mappingEvents = await this.getMappingEvents();
+    return mappingEvents.find(mappingEvent => mappingEvent._id === _id);
   }
 }
 

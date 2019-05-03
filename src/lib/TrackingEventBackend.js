@@ -1,10 +1,12 @@
 // @flow
 
 import env from './env';
+import pick from 'lodash/pick';
 import { globalFetchManager } from './FetchManager';
 import { getUserAgent } from './userAgent';
-import { hasAllowedAnalytics, getUUID } from './savedState';
+import { hasAllowedAnalytics, getUUID, getJoinedMappingEventId } from './savedState';
 import { userPositionTracker } from './UserPositionTracker';
+import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
 
 export type AttributeChangedTrackingEvent = {
   type: 'AttributeChanged',
@@ -23,12 +25,14 @@ export type SurveyCompletedTrackingEvent = {
 export type TrackingEvent = AttributeChangedTrackingEvent | SurveyCompletedTrackingEvent;
 
 export default class TrackingEventBackend {
-  track(event: TrackingEvent): Promise<boolean> {
+  async track(event: TrackingEvent): Promise<boolean> {
     if (!hasAllowedAnalytics()) {
       return Promise.reject(false);
     }
 
-    // TODO get active event and all data from somewhere
+    const joinedMappingEventId = getJoinedMappingEventId();
+    const mappingEvent =
+      joinedMappingEventId && (await mappingEventsCache.getMappingEvent(joinedMappingEventId));
 
     // get userLocation
     const userLocation = userPositionTracker.userLocation;
@@ -38,6 +42,9 @@ export default class TrackingEventBackend {
 
     const body = JSON.stringify({
       ...event,
+      organizationId,
+      appId,
+      mappingEvent: mappingEvent && pick(mappingEvent, '_id', 'name'),
       userUUID,
       timestamp: Math.round(Date.now() / 1000),
       userAgent: getUserAgent(),

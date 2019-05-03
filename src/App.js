@@ -252,7 +252,7 @@ class App extends React.Component<Props, State> {
   }
 
   async setupMappingEvents() {
-    let mappingEvents;
+    let mappingEvents: ?MappingEvents;
     if (this.state.mappingEvents) {
       mappingEvents = this.state.mappingEvents;
     } else {

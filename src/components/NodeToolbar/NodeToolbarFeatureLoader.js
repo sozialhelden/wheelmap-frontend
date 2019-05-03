@@ -5,6 +5,7 @@ import * as React from 'react';
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
+import { type Cluster } from '../../components/Map/Cluster';
 import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';

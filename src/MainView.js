@@ -284,6 +284,7 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
+          clientSideConfiguration={this.props.clientSideConfiguration}
         />
       </div>
     );

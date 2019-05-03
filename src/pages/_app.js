@@ -299,7 +299,6 @@ export default class App extends BaseApp {
     const appContext = {
       baseUrl,
       categories: appProps.categories,
-      // TODO add joined mapping event here
     };
 
     return (

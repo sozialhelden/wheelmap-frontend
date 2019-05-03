@@ -14,7 +14,7 @@ import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatu
 import { type CategoryLookupTables } from '../../../lib/Categories';
 
 type SaveOptions = {
-  featureId: string | number,
+  featureId: string,
   onSave: ?(value: YesNoUnknown) => void,
   onClose: () => void,
 };
@@ -24,12 +24,16 @@ type Props = SaveOptions & {
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
   className?: string,
   presetStatus?: ?YesNoUnknown,
+  appId: string,
+  organizationId: string,
 };
 
 function AccessibleToiletDescription() {
   return (
     <ul>
-      {accessibleToiletDescription(useImperialUnits()).map(text => <li key={text}>{text}</li>)}
+      {accessibleToiletDescription(useImperialUnits()).map(text => (
+        <li key={text}>{text}</li>
+      ))}
     </ul>
   );
 }

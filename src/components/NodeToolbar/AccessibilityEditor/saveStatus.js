@@ -20,6 +20,8 @@ type ExternalSaveOptions<T> = {
   value: T,
   onSave: ?(value: T) => void,
   onClose: () => void,
+  appId: string,
+  organizationId: string,
 };
 
 type SaveOptions<T> = ExternalSaveOptions<T> & {

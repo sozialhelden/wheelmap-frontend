@@ -11,7 +11,7 @@ import Icon from '../../Icon';
 import { type CategoryLookupTables } from '../../../lib/Categories';
 
 type SaveOptions = {
-  featureId: string | number,
+  featureId: string,
   onSave: ?(value: YesNoLimitedUnknown) => void,
   onClose: () => void,
 };
