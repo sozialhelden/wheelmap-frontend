@@ -227,8 +227,8 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   getHead(props) {
-    const { feature, photos, clientSideConfiguration, categories, equipmentInfo } = props;
-    const { textContent, meta } = clientSideConfiguration;
+    const { feature, photos, app, categories, equipmentInfo } = props;
+    const { textContent, meta } = app.clientSideConfiguration;
 
     const renderTitle = (feature, photos) => {
       const extras = [];
@@ -299,7 +299,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
       extras.unshift(
         <meta content="place" property="og:type" key="og:type" />,
-        <title key="title">{getProductTitle(clientSideConfiguration, fullTitle)}</title>
+        <title key="title">{getProductTitle(app.clientSideConfiguration, fullTitle)}</title>
       );
 
       return <React.Fragment>{extras}</React.Fragment>;

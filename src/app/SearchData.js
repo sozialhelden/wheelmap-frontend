@@ -123,7 +123,7 @@ const SearchData: DataTableEntry<SearchProps> = {
   },
 
   getHead(props) {
-    const { clientSideConfiguration, searchQuery } = props;
+    const { app, searchQuery } = props;
     let searchTitle;
 
     if (searchQuery) {
@@ -131,7 +131,7 @@ const SearchData: DataTableEntry<SearchProps> = {
       searchTitle = t`Search results`;
     }
 
-    return <title key="title">{getProductTitle(clientSideConfiguration, searchTitle)}</title>;
+    return <title key="title">{getProductTitle(app.clientSideConfiguration, searchTitle)}</title>;
   },
 };
 

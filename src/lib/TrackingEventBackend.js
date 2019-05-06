@@ -42,9 +42,9 @@ export default class TrackingEventBackend {
 
     const body = JSON.stringify({
       ...event,
-      organizationId,
-      appId,
-      mappingEvent: mappingEvent && pick(mappingEvent, '_id', 'name'),
+      mappingEvent:
+        mappingEvent &&
+        pick(mappingEvent, '_id', 'name', 'organizationId', 'appId', 'startTime', 'endTime'),
       userUUID,
       timestamp: Math.round(Date.now() / 1000),
       userAgent: getUserAgent(),

@@ -22,6 +22,7 @@ import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
+import { type AppModel } from './lib/App';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -75,7 +76,7 @@ type Props = {
   searchQuery?: ?string,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
   category?: string,
-  clientSideConfiguration: ClientSideConfiguration,
+  app: AppModel,
   lat: ?string,
   lon: ?string,
   zoom: ?string,
@@ -629,6 +630,7 @@ class App extends React.Component<Props, State> {
   getCurrentParams() {
     const params = {};
     const {
+      app,
       category,
       accessibilityFilter,
       toiletFilter,
@@ -637,7 +639,6 @@ class App extends React.Component<Props, State> {
       disableWheelmapSource,
       includeSourceIds,
       excludeSourceIds,
-      clientSideConfiguration,
       overriddenAppId,
       inEmbedMode,
     } = this.props;
@@ -665,21 +666,21 @@ class App extends React.Component<Props, State> {
     // ensure to keep widget/custom whitelabel parameters
     if (includeSourceIds && includeSourceIds.length > 0) {
       const includeSourceIdsAsString = includeSourceIds.join(',');
-      if (includeSourceIdsAsString !== clientSideConfiguration.includeSourceIds.join(',')) {
+      if (includeSourceIdsAsString !== app.clientSideConfiguration.includeSourceIds.join(',')) {
         params.includeSourceIds = includeSourceIdsAsString;
       }
     }
 
     if (excludeSourceIds && excludeSourceIds.length > 0) {
       const excludeSourceIdsAsString = excludeSourceIds.join(',');
-      if (excludeSourceIdsAsString !== clientSideConfiguration.excludeSourceIds.join(',')) {
+      if (excludeSourceIdsAsString !== app.clientSideConfiguration.excludeSourceIds.join(',')) {
         params.excludeSourceIds = excludeSourceIdsAsString;
       }
     }
 
     if (
       typeof disableWheelmapSource !== 'undefined' &&
-      disableWheelmapSource !== clientSideConfiguration.disableWheelmapSource
+      disableWheelmapSource !== app.clientSideConfiguration.disableWheelmapSource
     ) {
       params.disableWheelmapSource = disableWheelmapSource ? 'true' : 'false';
     }
@@ -909,7 +910,7 @@ class App extends React.Component<Props, State> {
       // feature list (e.g. cluster panel)
       activeCluster: this.state.activeCluster,
 
-      clientSideConfiguration: this.props.clientSideConfiguration,
+      app: this.props.app,
     };
 
     return (

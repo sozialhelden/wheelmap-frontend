@@ -6,6 +6,8 @@ import { type CategoryLookupTables } from './lib/Categories';
 // Only extend this with value that are sensible global values that potentially might be needed
 // everywhere
 export type AppContext = {
+  organizationId?: string,
+  appId?: string,
   baseUrl: string,
   categories: CategoryLookupTables,
 };

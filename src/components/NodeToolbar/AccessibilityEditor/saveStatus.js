@@ -12,6 +12,7 @@ import type { WheelmapFeature, YesNoLimitedUnknown, YesNoUnknown } from '../../.
 import { trackEvent } from '../../../lib/Analytics';
 import Categories from '../../../lib/Categories';
 import { type CategoryLookupTables } from '../../../lib/Categories';
+import { type AppContext } from '../../../AppContext';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
@@ -20,8 +21,7 @@ type ExternalSaveOptions<T> = {
   value: T,
   onSave: ?(value: T) => void,
   onClose: () => void,
-  appId: string,
-  organizationId: string,
+  appContext: AppContext,
 };
 
 type SaveOptions<T> = ExternalSaveOptions<T> & {
@@ -31,7 +31,7 @@ type SaveOptions<T> = ExternalSaveOptions<T> & {
 };
 
 function trackAttributeChanged<T>(options: SaveOptions<T>) {
-  const { value, categories, feature, featureId, propertyName } = options;
+  const { value, categories, feature, featureId, propertyName, appContext } = options;
 
   const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
   trackingEventBackend.track({
@@ -41,6 +41,8 @@ function trackAttributeChanged<T>(options: SaveOptions<T>) {
     placeInfoId: featureId,
     attributePath: `properties.${propertyName}`,
     previousValue: get(feature, `properties.${propertyName}`),
+    organizationId: appContext.organizationId,
+    appId: appContext.appId,
     newValue: value,
   });
 }
@@ -50,7 +52,6 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
 
   const formData = new FormData();
   formData.append(options.jsonPropertyName, String(value));
-
   const body = isCordova() ? { [options.jsonPropertyName]: value } : formData;
 
   const requestOptions = {
@@ -71,6 +72,7 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       throw response;
     })
     .then(json => {
+      debugger;
       trackEvent({
         category: 'UpdateAccessibilityData',
         action: propertyName,

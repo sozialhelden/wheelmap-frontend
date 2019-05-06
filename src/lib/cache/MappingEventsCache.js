@@ -25,7 +25,7 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
     }));
   }
 
-  async getMappingEvent(_id: string): Promise<MappingEvent | undefined> {
+  async getMappingEvent(_id: string): Promise<MappingEvent | typeof undefined> {
     const mappingEvents = await this.getMappingEvents();
     return mappingEvents.find(mappingEvent => mappingEvent._id === _id);
   }

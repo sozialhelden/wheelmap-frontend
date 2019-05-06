@@ -7,13 +7,9 @@ import uuidv4 from 'uuid/v4';
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
 const initialPropsCategoryDataString = storage.getItem('wheelmap.initialProps.rawCategoryLists');
-const initialPropsClientSideConfigurationString = storage.getItem(
-  'wheelmap.initialProps.clientSideConfiguration'
-);
+const initialPropsAppString = storage.getItem('wheelmap.initialProps.app');
 
-const hasInitialProps = !!(
-  initialPropsCategoryDataString && initialPropsClientSideConfigurationString
-);
+const hasInitialProps = !!(initialPropsCategoryDataString && initialPropsAppString);
 
 const savedState = {
   map: {
@@ -28,7 +24,7 @@ const savedState = {
   initialProps: hasInitialProps
     ? {
         rawCategoryLists: JSON.parse(initialPropsCategoryDataString),
-        clientSideConfiguration: JSON.parse(initialPropsClientSideConfigurationString),
+        app: JSON.parse(initialPropsAppString),
       }
     : null,
 };

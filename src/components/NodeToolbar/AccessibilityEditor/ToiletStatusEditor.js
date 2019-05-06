@@ -12,6 +12,7 @@ import RadioStatusEditor from './RadioStatusEditor';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 import { type CategoryLookupTables } from '../../../lib/Categories';
+import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
   featureId: string,
@@ -60,17 +61,21 @@ export default function ToiletStatusEditor(props: Props) {
   };
 
   return (
-    <RadioStatusEditor
-      {...props}
-      undefinedStringValue="unknown"
-      getValueFromFeature={feature => feature.properties.wheelchair_toilet}
-      saveValue={value => saveToiletStatus({ ...props, value })}
-      renderChildrenForValue={({ value, categoryId }) => icons[value]}
-      shownStatusOptions={['yes', 'no']}
-      captionForValue={value => captions[value]}
-      descriptionForValue={value => descriptions[value]}
-    >
-      <header id="wheelchair-accessibility-header">{headerText}</header>
-    </RadioStatusEditor>
+    <AppContextConsumer>
+      {appContext => (
+        <RadioStatusEditor
+          {...props}
+          undefinedStringValue="unknown"
+          getValueFromFeature={feature => feature.properties.wheelchair_toilet}
+          saveValue={value => saveToiletStatus({ ...props, appContext, value })}
+          renderChildrenForValue={({ value, categoryId }) => icons[value]}
+          shownStatusOptions={['yes', 'no']}
+          captionForValue={value => captions[value]}
+          descriptionForValue={value => descriptions[value]}
+        >
+          <header id="wheelchair-accessibility-header">{headerText}</header>
+        </RadioStatusEditor>
+      )}
+    </AppContextConsumer>
   );
 }
