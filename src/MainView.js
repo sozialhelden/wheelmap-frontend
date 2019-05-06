@@ -310,7 +310,7 @@ class MainView extends React.Component<Props, State> {
       onCloseMappingEventsToolbar,
       app,
     } = this.props;
-    const productName = app.textContent.product.name;
+    const productName = app.clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
 
     const focusTrapActive = !this.isAnyDialogVisible();
@@ -388,7 +388,7 @@ class MainView extends React.Component<Props, State> {
 
   analyticsAllowedChangedHandler = (value: boolean) => {
     const { app } = this.props;
-    const { googleAnalytics } = app.meta;
+    const { googleAnalytics } = app.clientSideConfiguration.meta;
 
     this.setState({ analyticsAllowed: value });
 
@@ -625,8 +625,9 @@ class MainView extends React.Component<Props, State> {
   renderWheelmapHomeLink() {
     if (typeof window !== 'undefined') {
       const { app } = this.props;
-      const appName = translatedStringFromObject(app.textContent.product.name);
-      const logoURL = app.logoURL;
+      const { clientSideConfiguration } = app;
+      const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
+      const { logoURL } = clientSideConfiguration;
 
       const queryParams = queryString.parse(window.location.search);
       delete queryParams.embedded;
