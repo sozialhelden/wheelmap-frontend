@@ -6,36 +6,28 @@ import get from 'lodash/get';
 import URLDataCache from './URLDataCache';
 import env from '../env';
 import { type ClientSideConfiguration } from '../ClientSideConfiguration';
+import { type App } from '../App';
 
-type ClientSideConfigurationData = {
-  clientSideConfiguration: ClientSideConfiguration,
-};
-
-export default class ClientSideConfigurationCache extends URLDataCache<
-  ClientSideConfigurationData
-> {
-  getClientSideConfiguration(hostName: string): Promise<ClientSideConfiguration> {
+export default class AppCache extends URLDataCache<App> {
+  getApp(hostName: string): Promise<ClientSideConfiguration> {
     const url = this.getUrl(hostName);
 
     return this.getData(url).then(app => {
       const customMainMenuLinks = values(get(app, 'related.appLinks') || {});
 
       return {
-        ...app.clientSideConfiguration,
+        ...app,
         customMainMenuLinks,
       };
     });
   }
 
-  injectClientSideConfiguration(
-    hostName: string,
-    clientSideConfiguration: ClientSideConfiguration
-  ) {
+  injectApp(hostName: string, app: App) {
     const url = this.getUrl(hostName);
-    const { customMainMenuLinks, ...clientSideConfigurationWithoutLinks } = clientSideConfiguration;
+    const { customMainMenuLinks, ...appWithoutLinks } = app;
 
     this.inject(url, {
-      clientSideConfiguration: clientSideConfigurationWithoutLinks,
+      ...appWithoutLinks,
       related: {
         appLinks: keyBy(customMainMenuLinks, '_id'),
       },
@@ -51,6 +43,6 @@ export default class ClientSideConfigurationCache extends URLDataCache<
   }
 }
 
-export const clientSideConfigurationCache = new ClientSideConfigurationCache({
+export const appCache = new AppCache({
   ttl: 1000 * 60 * 5,
 });

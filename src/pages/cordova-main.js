@@ -138,15 +138,15 @@ class CordovaMain extends React.PureComponent<Props, State> {
     }
     console.log('Received new initial props from server.', reloadedInitialProps);
     // strip translations, no need to cache them
-    const { rawCategoryLists, clientSideConfiguration } = reloadedInitialProps;
+    const { rawCategoryLists, app } = reloadedInitialProps;
 
-    storeInitialAppProps({ rawCategoryLists, clientSideConfiguration }, isBuilding);
+    storeInitialAppProps({ rawCategoryLists, app }, isBuilding);
     this.setState({
-      storedInitialProps: { rawCategoryLists, clientSideConfiguration },
+      storedInitialProps: { rawCategoryLists, app },
     });
     saveState({
       'initialProps.rawCategoryLists': JSON.stringify(rawCategoryLists),
-      'initialProps.clientSideConfiguration': JSON.stringify(clientSideConfiguration),
+      'initialProps.app': JSON.stringify(app),
     });
   };
 

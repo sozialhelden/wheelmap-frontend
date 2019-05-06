@@ -16,6 +16,7 @@ interface MappingEventStatistics {
 export interface MappingEvent {
   _id: string;
   organizationId: string;
+  appId?: string;
   sourceId?: string;
   name: string;
   description?: string;

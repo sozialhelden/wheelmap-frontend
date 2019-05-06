@@ -14,9 +14,9 @@ import {
   getToiletFilterFrom,
 } from '../lib/Feature';
 
-import { type ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+import { type App } from '../lib/App';
 
-import { clientSideConfigurationCache } from '../lib/cache/ClientSideConfigurationCache';
+import { appCache } from '../lib/cache/AppCache';
 import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
 import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
 import type { MappingEvents } from '../lib/MappingEvent';
@@ -29,10 +29,10 @@ import ContributionThanksData from './ContributionThanksData';
 import MappingEventDetailData from './MappingEventDetailData';
 
 export type AppProps = {
+  app: App,
   userAgent: UAResult,
   rawCategoryLists: RawCategoryLists,
   translations: Translations[],
-  clientSideConfiguration: ClientSideConfiguration,
   mappingEvents: MappingEvents,
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
@@ -158,9 +158,7 @@ export async function getInitialAppProps(
   const usedHostName = overriddenAppId || hostName;
 
   // load application configuration
-  const clientSideConfigurationPromise = clientSideConfigurationCache.getClientSideConfiguration(
-    usedHostName
-  );
+  const appPromise = appCache.getApp(usedHostName);
 
   // setup translations
   const translations =
@@ -179,7 +177,8 @@ export async function getInitialAppProps(
     disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
-  const clientSideConfiguration = await clientSideConfigurationPromise;
+  const app = await appPromise;
+  const clientSideConfiguration = app.clientSideConfiguration;
   const rawCategoryLists = await rawCategoryListsPromise;
   // load mapping events, but only if we are not inside a cordova build
   const mappingEvents = isCordovaBuild ? null : await mappingEventsCache.getMappingEvents();
@@ -212,6 +211,7 @@ export async function getInitialAppProps(
     translations,
     rawCategoryLists,
     clientSideConfiguration,
+    app,
     category,
     mappingEvents,
     extent,
@@ -235,21 +235,15 @@ export async function getInitialAppProps(
 const appPropsCache: $Shape<AppProps> = {};
 
 export function storeInitialAppProps(props: $Shape<AppProps>, isServer: boolean) {
-  const {
-    translations,
-    rawCategoryLists,
-    clientSideConfiguration,
-    hostName,
-    preferredLocaleString,
-  } = props;
+  const { translations, rawCategoryLists, app, hostName, preferredLocaleString } = props;
 
   // only store translations on server
   if (!isServer) {
     appPropsCache.translations = translations || appPropsCache.translations;
   }
 
-  if (clientSideConfigurationCache && hostName) {
-    clientSideConfigurationCache.injectClientSideConfiguration(hostName, clientSideConfiguration);
+  if (appCache && hostName) {
+    appCache.injectApp(hostName, app);
   }
 
   if (preferredLocaleString && rawCategoryLists) {

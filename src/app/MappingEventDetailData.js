@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import { type DataTableEntry, type AppProps } from './getInitialProps';
-import { type MappingEvent } from '../lib/cache/MappingEventsCache';
+import { type MappingEvent } from '../lib/MappingEvent';
 import { translatedStringFromObject } from '../lib/i18n';
 
 type MappingEventDetailDataProps = {
@@ -9,9 +9,9 @@ type MappingEventDetailDataProps = {
 };
 
 const MappingEventDetailData: DataTableEntry<MappingEventDetailDataProps> = {
-  getHead({ mappingEvent, clientSideConfiguration }) {
+  getHead({ mappingEvent, app }) {
     const translatedProductName = translatedStringFromObject(
-      clientSideConfiguration.textContent.product.name
+      app.clientSideConfiguration.textContent.product.name
     );
     const title = translatedProductName
       ? `${mappingEvent.name} - ${translatedProductName}`

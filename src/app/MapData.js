@@ -9,7 +9,7 @@ type MapProps = {};
 
 const MapData: DataTableEntry<MapProps> = {
   getHead(props) {
-    return <title key="title">{getProductTitle(props.clientSideConfiguration)}</title>;
+    return <title key="title">{getProductTitle(props.app.clientSideConfiguration)}</title>;
   },
 };
 

@@ -50,7 +50,7 @@ import { type PlaceDetailsProps } from './app/PlaceDetailsProps';
 import type { PhotoModel } from './lib/PhotoModel';
 
 import { hasAllowedAnalytics } from './lib/savedState';
-import { ClientSideConfiguration } from './lib/ClientSideConfiguration';
+import { type App } from './lib/App';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import { insertPlaceholdersToAddPlaceUrl } from './lib/insertPlaceholdersToAddPlaceUrl';
@@ -157,7 +157,7 @@ type Props = {
   onCloseClusterPanel: () => void,
   onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
-  clientSideConfiguration: ClientSideConfiguration,
+  app: App,
   mappingEventHandlers: {
     updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
   },
@@ -254,6 +254,7 @@ class MainView extends React.Component<Props, State> {
         <NodeToolbarFeatureLoader
           featureId={this.props.featureId}
           equipmentInfoId={this.props.equipmentInfoId}
+          app={this.props.app}
           cluster={this.props.activeCluster}
           modalNodeState={this.props.modalNodeState}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
@@ -284,7 +285,7 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
-          clientSideConfiguration={this.props.clientSideConfiguration}
+          app={this.props.app}
         />
       </div>
     );
@@ -307,9 +308,9 @@ class MainView extends React.Component<Props, State> {
       mappingEventHandlers,
       joinedMappingEventId,
       onCloseMappingEventsToolbar,
-      clientSideConfiguration,
+      app,
     } = this.props;
-    const productName = clientSideConfiguration.textContent.product.name;
+    const productName = app.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
 
     const focusTrapActive = !this.isAnyDialogVisible();
@@ -386,8 +387,8 @@ class MainView extends React.Component<Props, State> {
   }
 
   analyticsAllowedChangedHandler = (value: boolean) => {
-    const { clientSideConfiguration } = this.props;
-    const { googleAnalytics } = clientSideConfiguration.meta;
+    const { app } = this.props;
+    const { googleAnalytics } = app.meta;
 
     this.setState({ analyticsAllowed: value });
 
@@ -404,10 +405,11 @@ class MainView extends React.Component<Props, State> {
     const {
       isOnboardingVisible,
       onCloseOnboarding,
-      clientSideConfiguration,
+      app,
       isMappingEventWelcomeDialogVisible,
     } = this.props;
     const { analyticsAllowed } = this.state;
+    const { clientSideConfiguration } = app;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
     const { googleAnalytics } = clientSideConfiguration.meta;
     const { logoURL } = clientSideConfiguration;
@@ -431,18 +433,11 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMainMenu() {
-    const {
-      logoURL,
-      customMainMenuLinks,
-      addPlaceURL,
-      textContent,
-    } = this.props.clientSideConfiguration;
-
+    const { customMainMenuLinks } = this.props.app;
+    const { logoURL, addPlaceURL, textContent } = this.props.app.clientSideConfiguration;
     return (
       <MainMenu
-        productName={translatedStringFromObject(
-          this.props.clientSideConfiguration.textContent.product.name
-        )}
+        productName={translatedStringFromObject(textContent.product.name)}
         className="main-menu"
         uniqueSurveyId={this.state.uniqueSurveyId}
         isOpen={this.props.isMainMenuOpen}
@@ -553,12 +548,10 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderContributionThanksDialog() {
-    const { clientSideConfiguration } = this.props;
+    const { app } = this.props;
 
     // find add place link
-    const link = find(clientSideConfiguration.customMainMenuLinks, link =>
-      includes(link.tags, 'add-place')
-    );
+    const link = find(app.customMainMenuLinks, link => includes(link.tags, 'add-place'));
     const url = link
       ? insertPlaceholdersToAddPlaceUrl(
           translatedStringFromObject(link.url),
@@ -631,9 +624,9 @@ class MainView extends React.Component<Props, State> {
 
   renderWheelmapHomeLink() {
     if (typeof window !== 'undefined') {
-      const { clientSideConfiguration } = this.props;
-      const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
-      const logoURL = clientSideConfiguration.logoURL;
+      const { app } = this.props;
+      const appName = translatedStringFromObject(app.textContent.product.name);
+      const logoURL = app.logoURL;
 
       const queryParams = queryString.parse(window.location.search);
       delete queryParams.embedded;

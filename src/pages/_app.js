@@ -214,8 +214,8 @@ export default class App extends BaseApp {
       isFirstTimeClientRender = false;
 
       // setup analytics for any client that has a google analytics tracking id
-      if (receivedProps.clientSideConfiguration) {
-        const { googleAnalytics } = receivedProps.clientSideConfiguration.meta;
+      if (receivedProps.app) {
+        const { googleAnalytics } = receivedProps.app.clientSideConfiguration.meta;
         if (googleAnalytics && googleAnalytics.trackingId) {
           restoreAnalytics(googleAnalytics.trackingId);
           trackPageView(path);
@@ -264,7 +264,7 @@ export default class App extends BaseApp {
       storeInitialRouteProps(routeName, appProps);
     }
 
-    const { textContent, meta } = this.props.clientSideConfiguration;
+    const { textContent, meta } = this.props.app.clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, googleAnalytics, facebook } = meta;
 
@@ -297,6 +297,8 @@ export default class App extends BaseApp {
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
     const appContext = {
+      appId: this.props.app._id,
+      organizationId: this.props.app.organizationId,
       baseUrl,
       categories: appProps.categories,
     };

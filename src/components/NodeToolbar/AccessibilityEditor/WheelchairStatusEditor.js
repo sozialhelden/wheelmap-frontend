@@ -9,6 +9,7 @@ import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
 import { type CategoryLookupTables } from '../../../lib/Categories';
+import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
   featureId: string,
@@ -25,26 +26,30 @@ type Props = SaveOptions & {
 
 export default function WheelchairStatusEditor(props: Props) {
   return (
-    <RadioStatusEditor
-      {...props}
-      undefinedStringValue="unknown"
-      getValueFromFeature={feature => feature.properties.wheelchair}
-      saveValue={value => saveWheelchairStatus({ ...props, value })}
-      renderChildrenForValue={({ value, categoryId }) => (
-        <Icon
-          accessibility={value}
-          category={categoryId}
-          size="medium"
-          withArrow
-          shadowed
-          centered
-        />
+    <AppContextConsumer>
+      {appContext => (
+        <RadioStatusEditor
+          {...props}
+          undefinedStringValue="unknown"
+          getValueFromFeature={feature => feature.properties.wheelchair}
+          saveValue={value => saveWheelchairStatus({ ...props, appContext, value })}
+          renderChildrenForValue={({ value, categoryId }) => (
+            <Icon
+              accessibility={value}
+              category={categoryId}
+              size="medium"
+              withArrow
+              shadowed
+              centered
+            />
+          )}
+          shownStatusOptions={['yes', 'limited', 'no']}
+          captionForValue={value => shortAccessibilityName(value)}
+          descriptionForValue={value => accessibilityDescription(value)}
+        >
+          <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
+        </RadioStatusEditor>
       )}
-      shownStatusOptions={['yes', 'limited', 'no']}
-      captionForValue={value => shortAccessibilityName(value)}
-      descriptionForValue={value => accessibilityDescription(value)}
-    >
-      <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
-    </RadioStatusEditor>
+    </AppContextConsumer>
   );
 }
