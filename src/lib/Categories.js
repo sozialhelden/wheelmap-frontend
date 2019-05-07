@@ -17,7 +17,20 @@ import { type SearchResultFeature } from './searchPlaces';
 import { hasAccessibleToilet } from './Feature';
 import { type EquipmentInfo } from './EquipmentInfo';
 
-export type ACCategory = {
+/*
+  Using the | characters around the type definitions of `ACCategory` and
+  `WheelmapCategory` has a very specific reason. This feature of Flow is called
+  exact object types, and it's used here on purpose. Without it it's tough for
+  Flow to determine the actual specific type when it sees the `Category` union
+  type in parts of our codebase.
+
+  This is a pretty "debatable" feature of Flow and we should be aware of this
+  when we migrate our code to TypeScript in the future. Flow's own explanation
+  of why we need this can be found here:
+  https://flow.org/en/docs/types/unions/#toc-disjoint-unions-with-exact-types
+  https://flow.org/en/docs/lang/width-subtyping/
+*/
+export type ACCategory = {|
   _id: string,
   icon: string,
   parentIds: string[],
@@ -25,9 +38,9 @@ export type ACCategory = {
     _id: string,
   },
   synonyms: string[],
-};
+|};
 
-export type WheelmapCategory = {
+export type WheelmapCategory = {|
   id: number,
   identifier: string,
   category_id: number,
@@ -37,7 +50,7 @@ export type WheelmapCategory = {
   },
   localized_name: string,
   icon: string,
-};
+|};
 
 export type Category = WheelmapCategory | ACCategory;
 
@@ -58,19 +71,6 @@ export type CategoryLookupTables = {
   wheelmapCategoryNamesToCategories: { [string]: WheelmapCategory },
   wheelmapRootCategoryNamesToCategories: { [string]: WheelmapCategory },
 };
-
-export function isACCategory(category: any): boolean {
-  return !!(category && category._id);
-}
-
-// This is just for typecasting.
-export function acCategoryFrom(category: ?Category): ?ACCategory {
-  if (category && isACCategory(category)) {
-    return ((category: any): ACCategory);
-  }
-
-  return null;
-}
 
 export type RootCategoryEntry = {
   name: string,
@@ -310,10 +310,8 @@ export function categoryNameFor(category: Category): ?string {
   if (!category) return null;
   let idObject = null;
 
-  const acCategory = acCategoryFrom(category);
-
-  if (acCategory) {
-    idObject = acCategory.translations._id;
+  if (category.translations) {
+    idObject = category.translations._id;
   }
 
   return translatedStringFromObject(idObject);
