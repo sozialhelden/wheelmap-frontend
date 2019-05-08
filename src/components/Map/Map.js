@@ -565,45 +565,46 @@ export default class Map extends React.Component<Props, State> {
     }
 
     this.mappingEventsHaloLayer = new L.LayerGroup();
-    this.map.addLayer(this.mappingEventsHaloLayer);
+    this.map && this.map.addLayer(this.mappingEventsHaloLayer);
 
     this.mappingEventsLayer = new L.LayerGroup();
-    this.map.addLayer(this.mappingEventsLayer);
+    this.map && this.map.addLayer(this.mappingEventsLayer);
 
-    this.props.mappingEvents
-      .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
-      .forEach(event => {
-        const eventFeature = event.meetingPoint;
+    this.props.mappingEvents &&
+      this.props.mappingEvents
+        .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
+        .forEach(event => {
+          const eventFeature = event.meetingPoint;
 
-        if (!eventFeature) {
-          return;
-        }
+          if (!eventFeature) {
+            return;
+          }
 
-        const eventLat = eventFeature.geometry.coordinates[1];
-        const eventLon = eventFeature.geometry.coordinates[0];
+          const eventLat = eventFeature.geometry.coordinates[1];
+          const eventLon = eventFeature.geometry.coordinates[0];
 
-        const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
-          icon: new MappingEventHaloMarkerIcon(),
-          interactive: false,
-          keyboard: false,
-          pane: 'shadowPane',
+          const eventHaloMarker = new L.Marker(new L.LatLng(eventLat, eventLon), {
+            icon: new MappingEventHaloMarkerIcon(),
+            interactive: false,
+            keyboard: false,
+            pane: 'shadowPane',
+          });
+
+          this.mappingEventsHaloLayer && this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
+
+          const eventMarker = new HighlightableMarker(
+            new L.LatLng(eventLat, eventLon),
+            MappingEventMarkerIcon,
+            {
+              eventName: event.name,
+              href: hrefForMappingEvent(event),
+              onClick: () => this.props.onMappingEventClick(event._id),
+            },
+            event._id
+          );
+
+          this.mappingEventsLayer && this.mappingEventsLayer.addLayer(eventMarker);
         });
-
-        this.mappingEventsHaloLayer.addLayer(eventHaloMarker);
-
-        const eventMarker = new HighlightableMarker(
-          new L.LatLng(eventLat, eventLon),
-          MappingEventMarkerIcon,
-          {
-            eventName: event.name,
-            href: hrefForMappingEvent(event),
-            onClick: () => this.props.onMappingEventClick(event._id),
-          },
-          event._id
-        );
-
-        this.mappingEventsLayer.addLayer(eventMarker);
-      });
   }
 
   removeLayersNotVisibleInZoomLevel() {
@@ -850,8 +851,8 @@ export default class Map extends React.Component<Props, State> {
 
       if (this.mappingEventsLayer) {
         const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
-          .map(key => this.mappingEventsLayer._layers[key])
-          .find(marker => marker.featureId === props.featureId);
+          .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
+          .find(marker => marker && marker.featureId === props.featureId);
 
         if (selectedMappingEventMarker) {
           highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);

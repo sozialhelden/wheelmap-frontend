@@ -119,7 +119,7 @@ function getWheelchairAccessibility(
   definedCount: number,
   averageRatingForDefined: number,
   clampedDefinedRatio: number
-) {
+): YesNoLimitedUnknown {
   if (definedCount === 0) {
     return 'unknown';
   }

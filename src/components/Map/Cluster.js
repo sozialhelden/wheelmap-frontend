@@ -1,13 +1,13 @@
 // @flow
 
 import { type EquipmentInfo } from '../../lib/EquipmentInfo';
-import { type Feature, type YesNoUnknown } from '../../lib/Feature';
+import { type Feature, type YesNoLimitedUnknown } from '../../lib/Feature';
 
 export type Cluster = {
   features: Array<Feature | EquipmentInfo>,
   backgroundColor?: string,
   foregroundColor?: string,
-  accessibility?: YesNoUnknown,
+  accessibility?: YesNoLimitedUnknown,
   // do not expose leaflet types
   leafletMarker: any,
   center: {
