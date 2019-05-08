@@ -160,7 +160,7 @@
     "deploy-ios-beta": "rm -f platforms/ios/build/device/Wheelmap.ipa && npm version patch && bundle exec fastlane ios beta --env=production",
     "deploy-android-beta": "rm -rf ./platforms/android/app/build && npm version patch && CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\\://services.gradle.org/distributions/gradle-4.4-all.zip bundle exec fastlane android beta --env=production",
     "deploy-ios-release": "dotenv -e .env.production bundle exec fastlane ios publish",
-    "version": "cordova-version-sync",
+    "version": "cordova-version-sync && git commit -am 'Version bump'",
     "flow": "flow",
     "server": "server",
     "push-translations": "npm run clear-babel-cache && npm run build && tx push -s",
