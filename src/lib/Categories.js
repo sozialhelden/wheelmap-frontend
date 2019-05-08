@@ -17,6 +17,7 @@ import type {
 import { type SearchResultFeature } from './searchPlaces';
 import { hasAccessibleToilet } from './Feature';
 import { type EquipmentInfo } from './EquipmentInfo';
+import { type LocalizedString } from './i18n';
 
 /*
   Using the | characters around the type definitions of `ACCategory` and
@@ -33,12 +34,12 @@ import { type EquipmentInfo } from './EquipmentInfo';
 */
 export type ACCategory = {|
   _id: string,
-  icon: string,
-  parentIds: string[],
   translations: {
-    _id: string,
+    _id: LocalizedString,
   },
   synonyms: string[],
+  icon: string,
+  parentIds: string[],
 |};
 
 export type WheelmapCategory = {|
@@ -181,7 +182,7 @@ export default class Categories {
   }
 
   static getCategoriesForFeature(
-    categories: CategoryLookupTables,
+    categoryLookupTables: CategoryLookupTables,
     feature: ?Feature | ?EquipmentInfo | ?SearchResultFeature
   ): { category: ?Category, parentCategory?: Category } {
     if (!feature) {
@@ -193,24 +194,26 @@ export default class Categories {
       return { category: null };
     }
 
-    // wheelmap classic node
-    const wheelmapCategory =
-      properties.node_type && typeof properties.node_type.identifier === 'string'
-        ? properties.node_type.identifier
-        : null;
-    // properties.category also exists on wheelmap classic nodes, resolve this afterwards
-    const acCategoryId = properties.category ? properties.category : null;
-    // search result node from komoot
-    const baseOsmCategory = properties.osm_key ? properties.osm_value || properties.osm_key : null;
+    let categoryId = null;
 
-    const categoryId = [wheelmapCategory, acCategoryId, baseOsmCategory].filter(Boolean)[0];
+    if (properties.node_type && typeof properties.node_type.identifier === 'string') {
+      // wheelmap classic node
+      categoryId = properties.node_type.identifier;
+    } else if (properties.category) {
+      // ac node
+      categoryId = properties.category;
+    } else if (properties.osm_key) {
+      // search result node from komoot
+      categoryId = properties.osm_value || properties.osm_key;
+    }
 
     if (!categoryId) {
       return { category: null };
     }
 
-    const category = Categories.getCategory(categories, String(categoryId));
-    const parentCategory = category && Categories.getCategory(categories, category.parentIds[0]);
+    const category = Categories.getCategory(categoryLookupTables, String(categoryId));
+    const parentCategory =
+      category && Categories.getCategory(categoryLookupTables, category.parentIds[0]);
 
     return { category, parentCategory };
   }
@@ -349,8 +352,8 @@ export function getCategoryIdFromProperties(
     return;
   }
 
-  if (props.node_type) {
-    return getCategoryId(props.node_type);
+  if (props.node_type && typeof props.node_type.identifier === 'string') {
+    return getCategoryId(props.node_type.identifier);
   }
 
   return getCategoryId(props.category);

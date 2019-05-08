@@ -1,12 +1,9 @@
 // @flow
 import { t } from 'ttag';
 import type { Point } from 'geojson-flow';
-import queryString from 'query-string';
 
 import type { FeatureCollection, YesNoLimitedUnknown } from './Feature';
-import { categoryNameFor } from './Categories';
 import { currentLocales, translatedStringFromObject } from './i18n';
-import { normalizeCoordinates } from './normalizeCoordinates';
 
 export type CategoryString =
   | 'elevator'
@@ -108,18 +105,7 @@ export function equipmentInfoNameFor(
   } else {
     description = properties.shortDescription || description;
   }
-  return (
-    translatedStringFromObject(description) || categoryNameFor(properties.category) || unknownName
-  );
-}
-
-function equimentInfoUrlFor(placeInfoId: string, equipmentInfo: EquipmentInfo) {
-  const href = `/nodes/${placeInfoId}/equipment/${equipmentInfo._id}`;
-  const { geometry } = equipmentInfo;
-  const [lat, lon] = normalizeCoordinates(geometry.coordinates);
-  const params = { zoom: 19, lat, lon };
-
-  return `${href}?${queryString.stringify(params)}`;
+  return translatedStringFromObject(description) || unknownName;
 }
 
 export function equipmentStatusTitle(isWorking: ?boolean, isOutdated: boolean) {

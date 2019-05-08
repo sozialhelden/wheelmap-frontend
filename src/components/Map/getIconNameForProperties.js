@@ -1,9 +1,13 @@
 // @flow
 
 import Categories, { type CategoryLookupTables } from '../../lib/Categories';
+import { type NodeProperties } from '../../lib/Feature';
 import includes from 'lodash/includes';
 
-export default function getIconNameForProperties(lookup: CategoryLookupTables, properties) {
+export default function getIconNameForProperties(
+  lookup: CategoryLookupTables,
+  properties: NodeProperties
+) {
   const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
 
   let givenCategoryId = null;
@@ -21,6 +25,6 @@ export default function getIconNameForProperties(lookup: CategoryLookupTables, p
     categoryIdOrSynonym = 'second_hand';
   }
 
-  const category = Categories.getCategory(lookup, categoryIdOrSynonym);
+  const category = categoryIdOrSynonym ? Categories.getCategory(lookup, categoryIdOrSynonym) : null;
   return category ? category._id : null;
 }

@@ -139,7 +139,6 @@ export type AccessibilityCloudProperties = {
   name?: ?LocalizedString,
   accessibility?: MinimalAccessibility,
   category?: string,
-  node_type: typeof undefined,
   placeInfoId?: string,
   address?:
     | {

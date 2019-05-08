@@ -8,16 +8,16 @@ import isCordova from '../../../lib/isCordova';
 import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
-import type { WheelmapFeature, YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
+import type { Feature, YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import { trackEvent } from '../../../lib/Analytics';
-import Categories from '../../../lib/Categories';
+import Categories, { getCategoryId } from '../../../lib/Categories';
 import { type CategoryLookupTables } from '../../../lib/Categories';
 import { type AppContext } from '../../../AppContext';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
   categories: CategoryLookupTables,
-  feature: WheelmapFeature,
+  feature: Feature,
   value: T,
   onSave: ?(value: T) => void,
   onClose: () => void,
@@ -34,10 +34,14 @@ function trackAttributeChanged<T>(options: SaveOptions<T>) {
   const { value, categories, feature, featureId, propertyName, appContext } = options;
 
   const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
+
+  const categoryId = getCategoryId(category);
+  const parentCategoryId = getCategoryId(parentCategory);
+
   trackingEventBackend.track(appContext.app, {
     type: 'AttributeChanged',
-    category: category ? category._id : 'unknown',
-    parentCategory: parentCategory ? parentCategory._id : undefined,
+    category: categoryId ? categoryId : 'unknown',
+    parentCategory: parentCategoryId ? parentCategoryId : undefined,
     placeInfoId: featureId,
     attributePath: `properties.${propertyName}`,
     previousValue: get(feature, `properties.${propertyName}`),
