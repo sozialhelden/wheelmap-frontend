@@ -72,7 +72,6 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       throw response;
     })
     .then(json => {
-      debugger;
       trackEvent({
         category: 'UpdateAccessibilityData',
         action: propertyName,
