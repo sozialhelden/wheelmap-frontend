@@ -12,6 +12,7 @@ import type {
   WheelmapCategoryOrNodeType,
   WheelmapProperties,
   AccessibilityCloudProperties,
+  NodeProperties,
 } from './Feature';
 import { type SearchResultFeature } from './searchPlaces';
 import { hasAccessibleToilet } from './Feature';
@@ -76,7 +77,7 @@ export type RootCategoryEntry = {
   name: string,
   isSubCategory?: boolean,
   isMetaCategory?: boolean,
-  filter?: (feature: Feature) => boolean,
+  filter?: (properties: ?NodeProperties) => boolean,
 };
 
 const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
@@ -129,12 +130,12 @@ const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
     name: t`Toilets`,
     isMetaCategory: true,
     isSubCategory: true,
-    filter: (feature: Feature) => {
-      if (!feature.properties) {
+    filter: (properties: ?NodeProperties) => {
+      if (!properties) {
         return true;
       }
 
-      return hasAccessibleToilet(feature.properties, true) === 'yes';
+      return hasAccessibleToilet(properties, true) === 'yes';
     },
   },
 };

@@ -957,7 +957,7 @@ export default class Map extends React.Component<Props, State> {
 
     let matchesCustomCategoryFilter = true;
     if (this.state.category && this.state.category.filter) {
-      matchesCustomCategoryFilter = this.state.category.filter(feature);
+      matchesCustomCategoryFilter = this.state.category.filter(feature.properties);
     }
     return hasMatchingA11y && hasMatchingToilet && matchesCustomCategoryFilter;
   }
