@@ -214,7 +214,9 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[],
 };
 
-export type Feature = AccessibilityCloudFeature | WheelmapFeature | MappingEventFeature;
+// TODO We might want to rename this type to NodeFeature to better describe that
+// it's a specific geojson Feature
+export type Feature = AccessibilityCloudFeature | WheelmapFeature;
 export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 
 export function getFeatureId(feature: Feature | EquipmentInfo): ?string {
