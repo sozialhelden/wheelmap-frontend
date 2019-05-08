@@ -44,6 +44,7 @@ import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
 import { restoreAnalytics, trackPageView } from '../lib/Analytics';
+import { buildFullImageUrl } from '../lib/Image';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -286,10 +287,21 @@ export default class App extends BaseApp {
           ? `${mappingEvent.name} - ${translatedProductName}`
           : mappingEvent.name;
         translatedDescription = mappingEvent.description || mappingEvent.name;
+
+        const mappingEventImage = mappingEvent.images && mappingEvent.images[0];
+        const mappingEventImageUrl = mappingEventImage && buildFullImageUrl(mappingEventImage);
+
         facebookMetaData.imageURL =
-          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+          mappingEventImageUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+
+        // 2048x1288 is the dimension of the placeholder image
+        facebookMetaData.imageWidth = mappingEventImage ? mappingEventImage.dimensions.width : 2048;
+        facebookMetaData.imageHeight = mappingEventImage
+          ? mappingEventImage.dimensions.height
+          : 1288;
+
         twitterMetaData.imageUrl =
-          mappingEvent.photoUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+          mappingEventImageUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
         ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
       }
     }
