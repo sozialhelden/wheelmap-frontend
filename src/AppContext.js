@@ -1,6 +1,6 @@
 // @flow
 
-import { createContext, type Context } from 'react';
+import { createContext } from 'react';
 import { type CategoryLookupTables } from './lib/Categories';
 import { App } from './lib/App';
 

@@ -36,7 +36,7 @@ import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
 import type { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import type { EquipmentInfo, EquipmentInfoProperties } from '../../lib/EquipmentInfo';
+import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { PotentialPromise } from '../../app/PlaceDetailsProps';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
