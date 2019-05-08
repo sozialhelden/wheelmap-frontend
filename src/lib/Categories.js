@@ -194,11 +194,14 @@ export default class Categories {
     }
 
     // wheelmap classic node
-    const wheelmapCategory = properties.node_type ? properties.node_type.identifier : null;
+    const wheelmapCategory =
+      properties.node_type && typeof properties.node_type.identifier === 'string'
+        ? properties.node_type.identifier
+        : null;
     // properties.category also exists on wheelmap classic nodes, resolve this afterwards
     const acCategoryId = properties.category ? properties.category : null;
     // search result node from komoot
-    const baseOsmCategory = properties.osm_value || properties.osm_key;
+    const baseOsmCategory = properties.osm_key ? properties.osm_value || properties.osm_key : null;
 
     const categoryId = [wheelmapCategory, acCategoryId, baseOsmCategory].filter(Boolean)[0];
 
