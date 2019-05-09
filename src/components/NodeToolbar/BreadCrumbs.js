@@ -32,11 +32,11 @@ class BreadCrumbs extends React.Component<Props, State> {
     this.state.displayedCategoryNames = this.getCategoryNames(props);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({ displayedCategoryNames: this.getCategoryNames(this.props) });
   }
 
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     this.setState({ displayedCategoryNames: this.getCategoryNames(props) });
   }
 
