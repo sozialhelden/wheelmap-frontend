@@ -91,7 +91,7 @@ class Onboarding extends React.Component<Props, null> {
             <li className="ac-marker-yes">
               <Icon
                 accessibility="yes"
-                category={{ _id: 'other' }}
+                category={null}
                 isMainCategory
                 size="big"
                 withArrow
@@ -104,7 +104,7 @@ class Onboarding extends React.Component<Props, null> {
             <li className="ac-marker-limited">
               <Icon
                 accessibility="limited"
-                category={{ _id: 'other' }}
+                category={null}
                 isMainCategory
                 size="big"
                 withArrow
@@ -117,7 +117,7 @@ class Onboarding extends React.Component<Props, null> {
             <li className="ac-marker-no">
               <Icon
                 accessibility="no"
-                category={{ _id: 'other' }}
+                category={null}
                 isMainCategory
                 size="big"
                 withArrow
@@ -130,7 +130,7 @@ class Onboarding extends React.Component<Props, null> {
             <li className="ac-marker-unknown">
               <Icon
                 accessibility="unknown"
-                category={{ _id: 'other' }}
+                category={null}
                 isMainCategory
                 size="big"
                 withArrow
