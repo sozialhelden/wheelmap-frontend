@@ -56,6 +56,15 @@ To deploy the web application:
 - Log in once on the staging/production server
 - Deploy the application with `yarn deploy-staging` or `yarn deploy-production`.
 
+
+## Embed/Widget Mode of Wheelmap
+
+The wheelmap web app can be embedded in any other website with embed code like this:
+
+```<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true" allow="geolocation"></iframe>```
+
+Having the `embedded=true` query parameter attached to the URL ensures that the website is rendered with less UI (no search, no header etc.) and `allow="geolocation"` is essential so that the iframe is allowed to access the browser's locate feature.
+
 ## Setting up / building the Cordova apps
 
 Before this, you need a `.env.production` file in your root folder. If you already have `.env.development`, you can copy it.
