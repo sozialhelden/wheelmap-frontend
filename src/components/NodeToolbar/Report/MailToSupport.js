@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react';
 import type { Feature } from '../../../lib/Feature';
-import type { Category } from '../../../lib/Categories';
+import { getCategoryId, type Category } from '../../../lib/Categories';
 import strings from './strings';
 
 type Props = {
@@ -46,7 +46,7 @@ export default class ReportProblemButton extends React.Component<Props> {
     const url = `https://wheelmap.org/nodes/${featureId}`;
     const properties = feature.properties;
     const categoryOrParentCategory = this.props.category || this.props.parentCategory;
-    const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+    const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
 
     const {
       reportBody,

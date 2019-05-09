@@ -7,11 +7,15 @@ import type { Feature } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 
-import { categoryNameFor, type CategoryLookupTables } from '../../lib/Categories';
+import {
+  categoryNameFor,
+  getCategoryId,
+  type CategoryLookupTables,
+  type Category,
+} from '../../lib/Categories';
 import Icon from '../Icon';
 import PlaceName from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
-import type { Category } from '../../lib/Categories';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
 import { type Cluster } from '../Map/Cluster';
@@ -70,7 +74,7 @@ export default class NodeHeader extends React.Component<Props> {
     const { category, parentCategory } = this.props;
     const shownCategory = category || parentCategory;
     let categoryName = shownCategory && categoryNameFor(shownCategory);
-    const shownCategoryId = shownCategory && shownCategory._id;
+    const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
     let placeName = placeNameFor(properties, category || parentCategory);
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
