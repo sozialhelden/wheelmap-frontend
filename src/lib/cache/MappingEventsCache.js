@@ -3,6 +3,7 @@
 import URLDataCache from './URLDataCache';
 import env from '../env';
 import type { MappingEvents, MappingEvent } from '../MappingEvent';
+import { type App } from '../App';
 
 type MappingEventsData = {
   results: MappingEvents,
@@ -10,11 +11,10 @@ type MappingEventsData = {
 
 export default class MappingEventsCache extends URLDataCache<MappingEventsData> {
   baseUrl = env.public.accessibilityCloud.baseUrl.cached;
-  appToken = env.public.accessibilityCloud.appToken;
 
-  async getMappingEvents() {
+  async getMappingEvents(app: App): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${
-      this.appToken
+      app.tokenString
     }&includeRelated=images`;
     const data = await this.getData(url);
     return data.results.map(mappingEvent => ({
@@ -25,8 +25,8 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
     }));
   }
 
-  async getMappingEvent(_id: string): Promise<MappingEvent | typeof undefined> {
-    const mappingEvents = await this.getMappingEvents();
+  async getMappingEvent(app: App, _id: string): Promise<MappingEvent | typeof undefined> {
+    const mappingEvents = await this.getMappingEvents(app);
     return mappingEvents.find(mappingEvent => mappingEvent._id === _id);
   }
 }

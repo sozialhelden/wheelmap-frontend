@@ -25,8 +25,6 @@ type Props = SaveOptions & {
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
   className?: string,
   presetStatus?: ?YesNoUnknown,
-  appId: string,
-  organizationId: string,
 };
 
 function AccessibleToiletDescription() {

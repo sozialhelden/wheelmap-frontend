@@ -7,8 +7,10 @@ import Toolbar from '../Toolbar';
 import Link, { RouteConsumer } from '../Link/Link';
 import CloseButton from './CloseButton';
 import { MappingEvents } from '../../lib/cache/MappingEventsCache';
+import { App } from '../../lib/App';
 
 type MappingEventsToolbarProps = {
+  app: App,
   className: string,
   mappingEvents: MappingEvents,
   onClose: () => void,
@@ -16,28 +18,32 @@ type MappingEventsToolbarProps = {
 };
 
 const MappingEventsToolbar = ({
+  app,
   className,
   mappingEvents,
   onClose,
   onMappingEventClick,
 }: MappingEventsToolbarProps) => {
   // translator: Screenreader description for the mapping events list
-  const mappingEventsListAriaLabel = t`Mapping Events Liste`;
+  const mappingEventsListAriaLabel = t`Mapping events list`;
   // translator: Screenreader description for the number of active mapping events in the shown list
-  const activeMappingEventsCountAriaLabel = t`${mappingEvents.length} aktive Mapping Events`;
+  const activeMappingEventsCountAriaLabel = t`${mappingEvents.length} active mapping events`;
   // translator: Generic name for mapping events
   const eventsText = t`Events`;
   // translator: Tagline describing the purpose of mapping events
-  const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you`;
+  const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you!`;
+  debugger;
+  const listedMappingEvents = mappingEvents
+    .filter(event => event.status === 'ongoing' || event.status === 'planned')
+    .filter(event => event.organizationId === app.organizationId);
 
-  const ongoingMappingEvents = mappingEvents.filter(event => event.status === 'ongoing');
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <Toolbar className={className} ariaLabel={mappingEventsListAriaLabel} role="dialog">
         <CloseButton onClick={onClose} />
         <header>
           <span className="number-badge" aria-hidden={true}>
-            {ongoingMappingEvents.length}
+            {listedMappingEvents.length}
           </span>
           <div className="header-title">
             <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
@@ -45,7 +51,7 @@ const MappingEventsToolbar = ({
           </div>
         </header>
         <ul>
-          {ongoingMappingEvents.map(event => (
+          {listedMappingEvents.map(event => (
             <li key={event._id}>
               <RouteConsumer>
                 {context => {

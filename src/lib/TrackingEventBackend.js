@@ -7,12 +7,13 @@ import { getUserAgent } from './userAgent';
 import { hasAllowedAnalytics, getUUID, getJoinedMappingEventId } from './savedState';
 import { userPositionTracker } from './UserPositionTracker';
 import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
+import { type AppContext } from '../AppContext';
 
 export type AttributeChangedTrackingEvent = {
   type: 'AttributeChanged',
   attributePath: string,
-  previousValue?: string | object | number,
-  newValue: string | object | number,
+  previousValue?: any,
+  newValue: any,
   category: string,
   parentCategory?: string,
 };
@@ -25,14 +26,15 @@ export type SurveyCompletedTrackingEvent = {
 export type TrackingEvent = AttributeChangedTrackingEvent | SurveyCompletedTrackingEvent;
 
 export default class TrackingEventBackend {
-  async track(event: TrackingEvent): Promise<boolean> {
+  async track(appContext: AppContext, event: TrackingEvent): Promise<boolean> {
     if (!hasAllowedAnalytics()) {
       return Promise.reject(false);
     }
 
     const joinedMappingEventId = getJoinedMappingEventId();
     const mappingEvent =
-      joinedMappingEventId && (await mappingEventsCache.getMappingEvent(joinedMappingEventId));
+      joinedMappingEventId &&
+      (await mappingEventsCache.getMappingEvent(appContext.app, joinedMappingEventId));
 
     // get userLocation
     const userLocation = userPositionTracker.userLocation;

@@ -5,4 +5,5 @@ export type App = {
   organizationId: string,
   name: string,
   clientSideConfiguration?: ClientSideConfiguration,
+  tokenString: string,
 };

@@ -59,6 +59,7 @@ import type { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
+import { AppContextConsumer } from './AppContext';
 
 type Props = {
   className: string,
@@ -292,9 +293,10 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventsToolbar() {
-    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick } = this.props;
+    const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick, app } = this.props;
     return (
       <MappingEventsToolbar
+        app={app}
         mappingEvents={mappingEvents}
         onClose={onCloseMappingEventsToolbar}
         onMappingEventClick={onMappingEventClick}
@@ -560,14 +562,19 @@ class MainView extends React.Component<Props, State> {
       : null;
 
     return (
-      <FocusTrap
-        active={this.props.modalNodeState === 'contribution-thanks'}
-        component={ContributionThanksDialog}
-        hidden={this.props.modalNodeState !== 'contribution-thanks'}
-        onClose={this.props.onCloseModalDialog}
-        addPlaceUrl={url}
-        onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-      />
+      <AppContextConsumer>
+        {appContext => (
+          <FocusTrap
+            active={this.props.modalNodeState === 'contribution-thanks'}
+            component={ContributionThanksDialog}
+            hidden={this.props.modalNodeState !== 'contribution-thanks'}
+            onClose={this.props.onCloseModalDialog}
+            addPlaceUrl={url}
+            onAddPlaceLinkClick={this.onAddPlaceLinkClick}
+            appContext={appContext}
+          />
+        )}
+      </AppContextConsumer>
     );
   }
 

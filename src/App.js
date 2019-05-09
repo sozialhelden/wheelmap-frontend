@@ -257,7 +257,7 @@ class App extends React.Component<Props, State> {
     if (this.state.mappingEvents) {
       mappingEvents = this.state.mappingEvents;
     } else {
-      mappingEvents = await mappingEventsCache.getMappingEvents();
+      mappingEvents = await mappingEventsCache.getMappingEvents(this.props.app);
       this.setState({ mappingEvents });
     }
 

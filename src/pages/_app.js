@@ -309,6 +309,7 @@ export default class App extends BaseApp {
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
     const appContext = {
+      app: this.props.app,
       appId: this.props.app._id,
       organizationId: this.props.app.organizationId,
       baseUrl,

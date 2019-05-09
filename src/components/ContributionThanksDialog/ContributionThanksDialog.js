@@ -10,7 +10,8 @@ import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
 import queryString from 'query-string';
 import { ChromelessButton, CallToActionLink } from '../Button';
-import TrackingEventBackend, { trackingEventBackend } from '../../lib/TrackingEventBackend';
+import { trackingEventBackend } from '../../lib/TrackingEventBackend';
+import { type AppContext } from '../../AppContext';
 
 export type Props = {
   hidden: boolean,
@@ -20,6 +21,7 @@ export type Props = {
   lon: ?number,
   addPlaceUrl: ?string,
   onAddPlaceLinkClick?: () => void,
+  appContext: AppContext,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -78,7 +80,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search);
       if (queryParams.uniqueSurveyId) {
-        trackingEventBackend.track({
+        trackingEventBackend.track(this.props.appContext, {
           type: 'SurveyCompleted',
           uniqueSurveyId: queryParams.uniqueSurveyId,
         });

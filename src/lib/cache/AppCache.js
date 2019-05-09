@@ -35,7 +35,7 @@ export default class AppCache extends URLDataCache<App> {
   }
 
   getUrl(hostName: string): string {
-    const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
+    const baseUrl = env.public.accessibilityCloud.baseUrl.accessibilityApps;
     const token = env.public.accessibilityCloud.appToken;
     // Allow test deployments on zeit
     const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
