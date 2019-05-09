@@ -17,7 +17,7 @@ import PlaceName from '../PlaceName';
 import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
 import colors from '../../lib/colors';
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { type Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
 
