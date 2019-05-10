@@ -21,8 +21,23 @@ type Props = {
   ariaRole: string,
 };
 
-class SearchInputField extends React.Component<Props> {
+type State = {
+  value: ?string,
+};
+
+class SearchInputField extends React.Component<Props, State> {
   input: ?HTMLInputElement;
+
+  state = {
+    value: null,
+  };
+
+  getDerivedStateFromProps(nextProps) {
+    const value = nextProps.placeholder || nextProps.searchQuery || '';
+    return {
+      value,
+    };
+  }
 
   focus() {
     if (!this.input) return;
@@ -43,7 +58,6 @@ class SearchInputField extends React.Component<Props> {
 
   render() {
     const {
-      searchQuery,
       onChange,
       disabled,
       hidden,
@@ -51,12 +65,12 @@ class SearchInputField extends React.Component<Props> {
       onBlur,
       onClick,
       className,
-      placeholder,
       ariaRole,
     } = this.props;
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`;
-    const value = placeholder || searchQuery || '';
+
+    const { value } = this.state;
 
     return (
       <input
