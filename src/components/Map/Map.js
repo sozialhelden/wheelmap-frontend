@@ -1,6 +1,8 @@
 // @flow
 
 import L from 'leaflet';
+import { GestureHandling } from 'leaflet-gesture-handling';
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
 import { t } from 'ttag';
 import includes from 'lodash/includes';
@@ -56,6 +58,8 @@ import './Leaflet.css';
 import './Map.css';
 import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
+
+L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
 window.L = L;
 
@@ -124,6 +128,7 @@ type Props = {
   hideHints?: boolean,
   onLocationError: (error: any) => void,
   forwardedRef: ?(map: ?Map) => void,
+  inEmbedMode: boolean,
 };
 
 type State = {
@@ -295,6 +300,7 @@ export default class Map extends React.Component<Props, State> {
       zoom: initialMapState.zoom,
       minZoom: 2,
       zoomControl: false,
+      gestureHandling: this.props.inEmbedMode,
     });
 
     if (!map) {

@@ -587,6 +587,7 @@ class MainView extends React.Component<Props, State> {
       featureId,
       equipmentInfoId,
       isNodeToolbarDisplayed: isNodeToolbarVisible,
+      inEmbedMode,
     } = this.props;
     return (
       <DynamicMap
@@ -624,6 +625,7 @@ class MainView extends React.Component<Props, State> {
         hideHints={
           this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
         }
+        inEmbedMode={inEmbedMode}
         {...config}
       />
     );
