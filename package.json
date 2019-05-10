@@ -40,6 +40,7 @@
     "is-url": "^1.2.4",
     "isomorphic-unfetch": "^2.1.1",
     "leaflet": "^1.0.3",
+    "leaflet-gesture-handling": "sozialhelden/Leaflet.GestureHandling",
     "leaflet-tilelayer-geojson": "^1.0.4",
     "leaflet.markercluster": "^1.0.4",
     "local-storage-fallback": "^4.1.1",
