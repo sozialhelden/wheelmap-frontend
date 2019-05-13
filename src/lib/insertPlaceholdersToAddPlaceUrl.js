@@ -1,9 +1,11 @@
-import env from './env';
-
-export function insertPlaceholdersToAddPlaceUrl(url: ?string, uniqueSurveyId: string) {
+export function insertPlaceholdersToAddPlaceUrl(
+  baseUrl: string,
+  url: ?string,
+  uniqueSurveyId: string
+) {
   const replacements = {
     returnUrl: encodeURIComponent(
-      `${env.public.baseUrl}/contribution-thanks?uniqueSurveyId=${uniqueSurveyId}`
+      `${baseUrl}/contribution-thanks?uniqueSurveyId=${uniqueSurveyId}`
     ),
   };
 
