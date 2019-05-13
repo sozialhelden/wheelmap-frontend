@@ -14,6 +14,7 @@ import type { MappingEvent } from '../../lib/MappingEvent';
 import GlobalActivityIndicator from './GlobalActivityIndicator';
 import type { LinkData } from '../../App';
 import Link, { RouteConsumer } from '../Link/Link';
+import { AppContextConsumer } from '../../AppContext';
 
 import CloseIcon from '../icons/actions/Close';
 
@@ -133,9 +134,10 @@ class MainMenu extends React.Component<Props, State> {
     );
   }
 
-  renderAppLinks() {
+  renderAppLinks(baseUrl: string) {
     return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
       const url = insertPlaceholdersToAddPlaceUrl(
+        baseUrl,
         translatedStringFromObject(link.url),
         this.props.uniqueSurveyId
       );
@@ -259,7 +261,9 @@ class MainMenu extends React.Component<Props, State> {
         <GlobalActivityIndicator className="activity-indicator" />
 
         <div id="main-menu" role="menu">
-          {this.renderAppLinks()}
+          <AppContextConsumer>
+            {appContext => this.renderAppLinks(appContext.baseUrl)}
+          </AppContextConsumer>
         </div>
 
         {this.renderCloseButton()}
