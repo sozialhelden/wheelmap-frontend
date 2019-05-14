@@ -32,7 +32,6 @@ const MappingEventsToolbar = ({
   const eventsText = t`Events`;
   // translator: Tagline describing the purpose of mapping events
   const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you!`;
-  debugger;
   const listedMappingEvents = mappingEvents
     .filter(event => event.status === 'ongoing' || event.status === 'planned')
     .filter(event => event.organizationId === app.organizationId);
