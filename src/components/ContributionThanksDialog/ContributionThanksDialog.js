@@ -80,7 +80,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search);
       if (queryParams.uniqueSurveyId) {
-        trackingEventBackend.track(this.props.appContext, {
+        trackingEventBackend.track(this.props.appContext.app, {
           type: 'SurveyCompleted',
           uniqueSurveyId: queryParams.uniqueSurveyId,
         });

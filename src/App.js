@@ -4,6 +4,7 @@ import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import type { Router } from 'next/router';
+import queryString from 'query-string';
 
 import config from './lib/config';
 import savedState, {
@@ -54,6 +55,7 @@ import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
 import { mappingEventsCache } from './lib/cache/MappingEventsCache';
+import { trackingEventBackend } from './lib/TrackingEventBackend';
 
 export type LinkData = {
   label: LocalizedString,
@@ -243,6 +245,11 @@ class App extends React.Component<Props, State> {
     }
 
     this.setupMappingEvents();
+
+    trackingEventBackend.track(this.props.app, {
+      type: 'AppOpened',
+      query: queryString.parse(window.location.search),
+    });
   }
 
   componentDidUpdate(_: Props, prevState: State) {
@@ -304,6 +311,12 @@ class App extends React.Component<Props, State> {
           mappingEvent.welcomeMessage.trim().length !== 0;
 
         state.isMappingEventWelcomeDialogVisible = mappingEventWelcomeMessageExists;
+
+        trackingEventBackend.track(this.props.app, {
+          type: 'MappingEventJoined',
+          joinedVia: 'url',
+          query: queryString.parse(window.location.search),
+        });
       }
 
       this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
@@ -345,7 +358,23 @@ class App extends React.Component<Props, State> {
   }
 
   updateJoinedMappingEvent = (joinedMappingEventId: ?string) => {
+    const previouslyJoinedMappingEventId = getJoinedMappingEventId();
+
     setJoinedMappingEventId(joinedMappingEventId);
+    if (joinedMappingEventId === null) {
+      trackingEventBackend.track(this.props.app, {
+        type: 'MappingEventLeft',
+        leftMappingEventId: previouslyJoinedMappingEventId,
+        query: queryString.parse(window.location.search),
+      });
+    } else {
+      trackingEventBackend.track(this.props.app, {
+        type: 'MappingEventJoined',
+        joinedVia: 'button',
+        query: queryString.parse(window.location.search),
+      });
+    }
+
     this.setState({ joinedMappingEventId, isJoinedMappingEventIdInitial: false });
   };
 

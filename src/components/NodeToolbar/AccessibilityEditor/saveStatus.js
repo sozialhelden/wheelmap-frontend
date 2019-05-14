@@ -34,7 +34,7 @@ function trackAttributeChanged<T>(options: SaveOptions<T>) {
   const { value, categories, feature, featureId, propertyName, appContext } = options;
 
   const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
-  trackingEventBackend.track(appContext, {
+  trackingEventBackend.track(appContext.app, {
     type: 'AttributeChanged',
     category: category ? category._id : 'unknown',
     parentCategory: parentCategory ? parentCategory._id : undefined,
