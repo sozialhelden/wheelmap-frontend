@@ -296,7 +296,14 @@ class App extends React.Component<Props, State> {
       if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
         setJoinedMappingEventId(mappingEventIdToJoin);
         state.joinedMappingEventId = mappingEventIdToJoin;
-        state.isMappingEventWelcomeDialogVisible = true;
+
+        const mappingEvent = mappingEvents[mappingEventIdToJoin];
+        const mappingEventWelcomeMessageExists =
+          mappingEvent &&
+          typeof mappingEvent.welcomeMessage === 'string' &&
+          mappingEvent.welcomeMessage.length !== 0;
+
+        state.isMappingEventWelcomeDialogVisible = mappingEventWelcomeMessageExists;
       }
 
       this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
@@ -316,11 +323,23 @@ class App extends React.Component<Props, State> {
       return;
     }
 
-    const joinedMappingEventIsSetNow = Boolean(this.state.joinedMappingEventId);
-    const joinedMappingEventChanged =
-      prevState.joinedMappingEventId !== this.state.joinedMappingEventId;
+    const { mappingEvents, joinedMappingEventId } = this.state;
+    const joinedMappingEventIsSetNow = Boolean(joinedMappingEventId);
+    const joinedMappingEventChanged = prevState.joinedMappingEventId !== joinedMappingEventId;
 
-    if (joinedMappingEventIsSetNow && joinedMappingEventChanged) {
+    const mappingEvent =
+      mappingEvents && mappingEvents.find(event => event._id === joinedMappingEventId);
+
+    const mappingEventWelcomeMessageExists =
+      mappingEvent &&
+      typeof mappingEvent.welcomeMessage === 'string' &&
+      mappingEvent.welcomeMessage.length !== 0;
+
+    if (
+      joinedMappingEventIsSetNow &&
+      joinedMappingEventChanged &&
+      mappingEventWelcomeMessageExists
+    ) {
       this.setState({ isMappingEventWelcomeDialogVisible: true });
     }
   }
