@@ -7,7 +7,7 @@ import { getUserAgent } from './userAgent';
 import { hasAllowedAnalytics, getUUID, getJoinedMappingEventId } from './savedState';
 import { userPositionTracker } from './UserPositionTracker';
 import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
-import { type AppContext } from '../AppContext';
+import { type App } from '../lib/App';
 
 export type AttributeChangedTrackingEvent = {
   type: 'AttributeChanged',
@@ -23,18 +23,45 @@ export type SurveyCompletedTrackingEvent = {
   uniqueSurveyId: string,
 };
 
-export type TrackingEvent = AttributeChangedTrackingEvent | SurveyCompletedTrackingEvent;
+export type AppOpenedTrackingEvent = {
+  type: 'AppOpened',
+  query: {
+    [key: string]: string,
+  },
+};
+
+export type MappingEventJoinedTrackingEvent = {
+  type: 'MappingEventJoined',
+  joinedVia: 'url' | 'button',
+  query: {
+    [key: string]: string,
+  },
+};
+
+export type MappingEventLeftTrackingEvent = {
+  type: 'MappingEventLeft',
+  leftMappingEventId: string,
+  query: {
+    [key: string]: string,
+  },
+};
+
+export type TrackingEvent =
+  | AttributeChangedTrackingEvent
+  | SurveyCompletedTrackingEvent
+  | AppOpenedTrackingEvent
+  | MappingEventJoinedTrackingEvent
+  | MappingEventLeftTrackingEvent;
 
 export default class TrackingEventBackend {
-  async track(appContext: AppContext, event: TrackingEvent): Promise<boolean> {
+  async track(app: App, event: TrackingEvent): Promise<boolean> {
     if (!hasAllowedAnalytics()) {
       return Promise.reject(false);
     }
 
     const joinedMappingEventId = getJoinedMappingEventId();
     const mappingEvent =
-      joinedMappingEventId &&
-      (await mappingEventsCache.getMappingEvent(appContext.app, joinedMappingEventId));
+      joinedMappingEventId && (await mappingEventsCache.getMappingEvent(app, joinedMappingEventId));
 
     // get userLocation
     const userLocation = userPositionTracker.userLocation;
