@@ -554,26 +554,30 @@ class MainView extends React.Component<Props, State> {
 
     // find add place link
     const link = find(app.customMainMenuLinks, link => includes(link.tags, 'add-place'));
-    const url = link
-      ? insertPlaceholdersToAddPlaceUrl(
-          translatedStringFromObject(link.url),
-          this.state.uniqueSurveyId
-        )
-      : null;
 
     return (
       <AppContextConsumer>
-        {appContext => (
-          <FocusTrap
-            active={this.props.modalNodeState === 'contribution-thanks'}
-            component={ContributionThanksDialog}
-            hidden={this.props.modalNodeState !== 'contribution-thanks'}
-            onClose={this.props.onCloseModalDialog}
-            addPlaceUrl={url}
-            onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-            appContext={appContext}
-          />
-        )}
+        {appContext => {
+          const url = link
+            ? insertPlaceholdersToAddPlaceUrl(
+                appContext.baseUrl,
+                translatedStringFromObject(link.url),
+                this.state.uniqueSurveyId
+              )
+            : null;
+
+          return (
+            <FocusTrap
+              active={this.props.modalNodeState === 'contribution-thanks'}
+              component={ContributionThanksDialog}
+              hidden={this.props.modalNodeState !== 'contribution-thanks'}
+              onClose={this.props.onCloseModalDialog}
+              addPlaceUrl={url}
+              onAddPlaceLinkClick={this.onAddPlaceLinkClick}
+              appContext={appContext}
+            />
+          );
+        }}
       </AppContextConsumer>
     );
   }
