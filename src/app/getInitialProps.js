@@ -181,7 +181,6 @@ export async function getInitialAppProps(
   const clientSideConfiguration = app.clientSideConfiguration;
   const rawCategoryLists = await rawCategoryListsPromise;
   // load mapping events, but only if we are not inside a cordova build
-  console.log('App:', app);
   const mappingEvents = isCordovaBuild ? [] : await mappingEventsCache.getMappingEvents(app);
 
   if (!clientSideConfiguration) {
