@@ -40,6 +40,7 @@ export type MappingEventJoinedTrackingEvent = {
 
 export type MappingEventLeftTrackingEvent = {
   type: 'MappingEventLeft',
+  leftMappingEventId: string,
   query: {
     [key: string]: string,
   },
