@@ -301,7 +301,7 @@ class App extends React.Component<Props, State> {
         const mappingEventWelcomeMessageExists =
           mappingEvent &&
           typeof mappingEvent.welcomeMessage === 'string' &&
-          mappingEvent.welcomeMessage.length !== 0;
+          mappingEvent.welcomeMessage.trim().length !== 0;
 
         state.isMappingEventWelcomeDialogVisible = mappingEventWelcomeMessageExists;
       }
@@ -333,7 +333,7 @@ class App extends React.Component<Props, State> {
     const mappingEventWelcomeMessageExists =
       mappingEvent &&
       typeof mappingEvent.welcomeMessage === 'string' &&
-      mappingEvent.welcomeMessage.length !== 0;
+      mappingEvent.welcomeMessage.trim().length !== 0;
 
     if (
       joinedMappingEventIsSetNow &&
