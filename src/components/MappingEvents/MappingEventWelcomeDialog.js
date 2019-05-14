@@ -30,9 +30,7 @@ const StyledMappingEventWelcomeDialog = styled(MappingEventWelcomeDialog)`
     background-color: rgba(255, 255, 255, 0.96);
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.5s linear;
-    width: 100%;
     max-width: 80%;
-    max-width: 400px;
     text-align: center;
 
     p {
