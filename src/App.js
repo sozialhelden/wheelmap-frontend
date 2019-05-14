@@ -3,7 +3,6 @@
 import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
-import initReactFastclick from 'react-fastclick';
 import type { Router } from 'next/router';
 
 import config from './lib/config';
@@ -55,8 +54,6 @@ import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
 import { mappingEventsCache } from './lib/cache/MappingEventsCache';
-
-initReactFastclick();
 
 export type LinkData = {
   label: LocalizedString,
