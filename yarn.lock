@@ -8977,7 +8977,7 @@ lcid@^2.0.0:
 
 leaflet-gesture-handling@sozialhelden/Leaflet.GestureHandling:
   version "1.1.8"
-  resolved "https://codeload.github.com/sozialhelden/Leaflet.GestureHandling/tar.gz/2960dc02100c97443fc89694500edd2c29d95495"
+  resolved "https://codeload.github.com/sozialhelden/Leaflet.GestureHandling/tar.gz/ff6ec8de9526396fe114af90a26cf048254b3760"
 
 leaflet-tilelayer-geojson@^1.0.4:
   version "1.0.4"
