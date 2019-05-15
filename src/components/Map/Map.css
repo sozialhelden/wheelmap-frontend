@@ -40,7 +40,7 @@ body.is-touch-device .leaflet-control-zoom {
   }
 }
 
-.leaflet-container.focus-visible::after {
+.leaflet-container.focus-visible::before {
   content: "";
   border-radius: 4px;
   box-shadow: inset 0px 0px 0px 6px #4469e1;
