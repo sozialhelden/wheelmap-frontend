@@ -16,7 +16,7 @@ import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
-import { AppContextProvider } from '../AppContext';
+import { AppContextProvider, type AppContext } from '../AppContext';
 
 import {
   parseAcceptLanguageString,
@@ -308,10 +308,8 @@ export default class App extends BaseApp {
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
-    const appContext = {
+    const appContext: AppContext = {
       app: this.props.app,
-      appId: this.props.app._id,
-      organizationId: this.props.app.organizationId,
       baseUrl,
       categories: appProps.categories,
     };

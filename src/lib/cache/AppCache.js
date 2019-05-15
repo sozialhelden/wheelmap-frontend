@@ -5,26 +5,53 @@ import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
-import { type ClientSideConfiguration } from '../ClientSideConfiguration';
+import { type ClientSideConfiguration, type LinkDescription } from '../ClientSideConfiguration';
+
 import { type App } from '../App';
 
-export default class AppCache extends URLDataCache<App> {
-  getApp(hostName: string): Promise<ClientSideConfiguration> {
+type AppApiData = {
+  _id: string,
+  organizationId: string,
+  name: string,
+  description?: String,
+  clientSideConfiguration?: ClientSideConfiguration,
+  tokenString: string,
+  related?: {
+    appLinks?: {
+      [key: string]: LinkDescription,
+    },
+  },
+};
+
+export default class AppCache extends URLDataCache<AppApiData> {
+  getApp(hostName: string): Promise<App> {
     const url = this.getUrl(hostName);
 
-    return this.getData(url).then(app => {
-      const customMainMenuLinks = values(get(app, 'related.appLinks') || {});
+    return this.getData(url).then(appData => {
+      // extract the appLinks from the related property and put them under
+      // clientSideConfiguration.customMainMenuLinks
+      const { related, ...appDataWithoutRelatedProp } = appData;
+      const customMainMenuLinks: LinkDescription[] = values(get(related, 'appLinks') || {});
 
       return {
-        ...app,
-        customMainMenuLinks,
+        ...appDataWithoutRelatedProp,
+        clientSideConfiguration: {
+          ...appDataWithoutRelatedProp.clientSideConfiguration,
+          customMainMenuLinks,
+        },
       };
     });
   }
 
   injectApp(hostName: string, app: App) {
     const url = this.getUrl(hostName);
-    const { customMainMenuLinks, ...appWithoutLinks } = app;
+
+    const { customMainMenuLinks, ...configWithoutLinks } = app.clientSideConfiguration;
+
+    const appWithoutLinks = {
+      ...app,
+      clientSideConfiguration: configWithoutLinks,
+    };
 
     this.inject(url, {
       ...appWithoutLinks,

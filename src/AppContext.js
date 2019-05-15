@@ -2,13 +2,11 @@
 
 import { createContext } from 'react';
 import { type CategoryLookupTables } from './lib/Categories';
-import { App } from './lib/App';
+import { type App } from './lib/App';
 
-// Only extend this with value that are sensible global values that potentially might be needed
+// Only extend this with values that are sensible global values that potentially might be needed
 // everywhere
 export type AppContext = {
-  organizationId?: string,
-  appId?: string,
   app?: App,
   baseUrl: string,
   categories: CategoryLookupTables,

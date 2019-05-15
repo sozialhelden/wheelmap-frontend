@@ -257,7 +257,6 @@ class MainView extends React.Component<Props, State> {
         <NodeToolbarFeatureLoader
           featureId={this.props.featureId}
           equipmentInfoId={this.props.equipmentInfoId}
-          app={this.props.app}
           cluster={this.props.activeCluster}
           modalNodeState={this.props.modalNodeState}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
@@ -288,7 +287,6 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
-          app={this.props.app}
         />
       </div>
     );
@@ -314,6 +312,7 @@ class MainView extends React.Component<Props, State> {
       onCloseMappingEventsToolbar,
       app,
     } = this.props;
+
     const productName = app.clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
 
@@ -392,8 +391,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   analyticsAllowedChangedHandler = (value: boolean) => {
-    const { app } = this.props;
-    const { googleAnalytics } = app.clientSideConfiguration.meta;
+    const googleAnalytics = this.props.app.clientSideConfiguration.meta.googleAnalytics;
 
     this.setState({ analyticsAllowed: value });
 
@@ -438,8 +436,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMainMenu() {
-    const { customMainMenuLinks } = this.props.app;
-    const { logoURL, addPlaceURL, textContent } = this.props.app.clientSideConfiguration;
+    const {
+      customMainMenuLinks,
+      logoURL,
+      addPlaceURL,
+      textContent,
+    } = this.props.app.clientSideConfiguration;
+
     return (
       <MainMenu
         productName={translatedStringFromObject(textContent.product.name)}
@@ -553,10 +556,10 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderContributionThanksDialog() {
-    const { app } = this.props;
+    const { customMainMenuLinks } = this.props.app.clientSideConfiguration;
 
     // find add place link
-    const link = find(app.customMainMenuLinks, link => includes(link.tags, 'add-place'));
+    const link = find(customMainMenuLinks, link => includes(link.tags, 'add-place'));
 
     return (
       <AppContextConsumer>
@@ -640,8 +643,7 @@ class MainView extends React.Component<Props, State> {
 
   renderWheelmapHomeLink() {
     if (typeof window !== 'undefined') {
-      const { app } = this.props;
-      const { clientSideConfiguration } = app;
+      const { clientSideConfiguration } = this.props.app;
       const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
       const { logoURL } = clientSideConfiguration;
 

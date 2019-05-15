@@ -22,7 +22,7 @@ import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
-import { type AppModel } from './lib/App';
+import { type App as AppModel } from './lib/App';
 
 import MainView, { UnstyledMainView } from './MainView';
 
