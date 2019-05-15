@@ -4,7 +4,7 @@ import * as React from 'react';
 import { t } from 'ttag';
 
 import type { Feature } from '../../../lib/Feature';
-import type { Category } from '../../../lib/Categories';
+import { type Category, getCategoryId } from '../../../lib/Categories';
 import ShareBar from '../../ShareBar/ShareBar';
 
 type Props = {
@@ -41,7 +41,7 @@ const ShareButtons = ({
     const properties = feature.properties;
     const description: ?string = properties.wheelchair_description;
     const categoryOrParentCategory = category || parentCategory;
-    const categoryName = categoryOrParentCategory ? categoryOrParentCategory._id : null;
+    const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
     // translator: Used to describe a place with unknown name, but known category (when sharing)
     const placeName = properties.name || (categoryName && t`${categoryName} on Wheelmap`);
     if (placeName) {

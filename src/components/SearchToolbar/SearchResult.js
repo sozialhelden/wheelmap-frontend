@@ -4,7 +4,11 @@ import { t } from 'ttag';
 import * as React from 'react';
 
 import getAddressString from '../../lib/getAddressString';
-import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
+import Categories, {
+  getCategoryId,
+  type Category,
+  type CategoryLookupTables,
+} from '../../lib/Categories';
 import { isWheelchairAccessible, type WheelmapFeature } from '../../lib/Feature';
 import type { SearchResultFeature } from '../../lib/searchPlaces';
 
@@ -127,7 +131,7 @@ export default class SearchResult extends React.Component<Props, State> {
       });
 
     const shownCategory = category || parentCategory;
-    const shownCategoryId = shownCategory && shownCategory._id;
+    const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
     const wheelmapFeatureProperties = wheelmapFeature ? wheelmapFeature.properties : null;
     const accessibility =

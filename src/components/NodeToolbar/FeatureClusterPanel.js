@@ -17,7 +17,7 @@ import PlaceName from '../PlaceName';
 import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
 import colors from '../../lib/colors';
-import Categories from '../../lib/Categories';
+import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { type Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
 
@@ -177,7 +177,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
 }
 
 const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
-  section.cluster-entries {    
+  section.cluster-entries {
     > .entry-list {
       padding: 0;
       > ul {
@@ -203,7 +203,7 @@ const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
               /* prevent clipping borders of styled frame */
               background: unset;
               padding-right: 1rem;
-              
+
               &:hover,
               &:focus {
                 color: ${colors.linkColorDarker};

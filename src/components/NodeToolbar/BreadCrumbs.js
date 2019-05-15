@@ -8,6 +8,7 @@ import type { Category } from '../../lib/Categories';
 import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { currentLocales } from '../../lib/i18n';
 import type { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
+import { getCategoryId } from '../../lib/Categories';
 
 type Props = {
   className: string,
@@ -31,16 +32,16 @@ class BreadCrumbs extends React.Component<Props, State> {
     this.state.displayedCategoryNames = this.getCategoryNames(props);
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.setState({ displayedCategoryNames: this.getCategoryNames(this.props) });
   }
 
-  componentWillReceiveProps(props: Props) {
+  UNSAFE_componentWillReceiveProps(props: Props) {
     this.setState({ displayedCategoryNames: this.getCategoryNames(props) });
   }
 
   categoryIds(props) {
-    const categoryId = props.category && props.category._id;
+    const categoryId = props.category && getCategoryId(props.category);
     return [categoryId];
   }
 

@@ -35,7 +35,6 @@ import {
   getFeatureId,
 } from './lib/Feature';
 
-import type { ClientSideConfiguration } from './lib/ClientSideConfiguration';
 import {
   accessibilityCloudImageCache,
   InvalidCaptchaReason,

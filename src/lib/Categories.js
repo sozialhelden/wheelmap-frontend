@@ -12,22 +12,37 @@ import type {
   WheelmapCategoryOrNodeType,
   WheelmapProperties,
   AccessibilityCloudProperties,
+  NodeProperties,
 } from './Feature';
 import { type SearchResultFeature } from './searchPlaces';
 import { hasAccessibleToilet } from './Feature';
 import { type EquipmentInfo } from './EquipmentInfo';
+import { type LocalizedString } from './i18n';
 
-export type ACCategory = {
+/*
+  Using the | characters around the type definitions of `ACCategory` and
+  `WheelmapCategory` has a very specific reason. This feature of Flow is called
+  exact object types, and it's used here on purpose. Without it it's tough for
+  Flow to determine the actual specific type when it sees the `Category` union
+  type in parts of our codebase.
+
+  This is a pretty "debatable" feature of Flow and we should be aware of this
+  when we migrate our code to TypeScript in the future. Flow's own explanation
+  of why we need this can be found here:
+  https://flow.org/en/docs/types/unions/#toc-disjoint-unions-with-exact-types
+  https://flow.org/en/docs/lang/width-subtyping/
+*/
+export type ACCategory = {|
   _id: string,
-  icon: string,
-  parentIds: string[],
   translations: {
-    _id: string,
+    _id: LocalizedString,
   },
   synonyms: string[],
-};
+  icon: string,
+  parentIds: string[],
+|};
 
-export type WheelmapCategory = {
+export type WheelmapCategory = {|
   id: number,
   identifier: string,
   category_id: number,
@@ -37,7 +52,7 @@ export type WheelmapCategory = {
   },
   localized_name: string,
   icon: string,
-};
+|};
 
 export type Category = WheelmapCategory | ACCategory;
 
@@ -59,24 +74,11 @@ export type CategoryLookupTables = {
   wheelmapRootCategoryNamesToCategories: { [string]: WheelmapCategory },
 };
 
-export function isACCategory(category: any): boolean {
-  return !!(category && category._id);
-}
-
-// This is just for typecasting.
-export function acCategoryFrom(category: ?Category): ?ACCategory {
-  if (category && isACCategory(category)) {
-    return ((category: any): ACCategory);
-  }
-
-  return null;
-}
-
 export type RootCategoryEntry = {
   name: string,
   isSubCategory?: boolean,
   isMetaCategory?: boolean,
-  filter?: (feature: Feature) => boolean,
+  filter?: (properties: ?NodeProperties) => boolean,
 };
 
 const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
@@ -129,12 +131,12 @@ const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
     name: t`Toilets`,
     isMetaCategory: true,
     isSubCategory: true,
-    filter: (feature: Feature) => {
-      if (!feature.properties) {
+    filter: (properties: ?NodeProperties) => {
+      if (!properties) {
         return true;
       }
 
-      return hasAccessibleToilet(feature.properties, true) === 'yes';
+      return hasAccessibleToilet(properties, true) === 'yes';
     },
   },
 };
@@ -180,7 +182,7 @@ export default class Categories {
   }
 
   static getCategoriesForFeature(
-    categories: CategoryLookupTables,
+    categoryLookupTables: CategoryLookupTables,
     feature: ?Feature | ?EquipmentInfo | ?SearchResultFeature
   ): { category: ?Category, parentCategory?: Category } {
     if (!feature) {
@@ -192,21 +194,26 @@ export default class Categories {
       return { category: null };
     }
 
-    // wheelmap classic node
-    const wheelmapCategory = properties.node_type ? properties.node_type.identifier : null;
-    // properties.category also exists on wheelmap classic nodes, resolve this afterwards
-    const acCategoryId = properties.category ? properties.category : null;
-    // search result node from komoot
-    const baseOsmCategory = properties.osm_value || properties.osm_key;
+    let categoryId = null;
 
-    const categoryId = [wheelmapCategory, acCategoryId, baseOsmCategory].filter(Boolean)[0];
+    if (properties.node_type && typeof properties.node_type.identifier === 'string') {
+      // wheelmap classic node
+      categoryId = properties.node_type.identifier;
+    } else if (properties.category) {
+      // ac node
+      categoryId = properties.category;
+    } else if (properties.osm_key) {
+      // search result node from komoot
+      categoryId = properties.osm_value || properties.osm_key;
+    }
 
     if (!categoryId) {
       return { category: null };
     }
 
-    const category = Categories.getCategory(categories, String(categoryId));
-    const parentCategory = category && Categories.getCategory(categories, category.parentIds[0]);
+    const category = Categories.getCategory(categoryLookupTables, String(categoryId));
+    const parentCategory =
+      category && Categories.getCategory(categoryLookupTables, category.parentIds[0]);
 
     return { category, parentCategory };
   }
@@ -310,10 +317,8 @@ export function categoryNameFor(category: Category): ?string {
   if (!category) return null;
   let idObject = null;
 
-  const acCategory = acCategoryFrom(category);
-
-  if (acCategory) {
-    idObject = acCategory.translations._id;
+  if (category.translations) {
+    idObject = category.translations._id;
   }
 
   return translatedStringFromObject(idObject);
@@ -347,8 +352,8 @@ export function getCategoryIdFromProperties(
     return;
   }
 
-  if (props.node_type) {
-    return getCategoryId(props.node_type);
+  if (props.node_type && typeof props.node_type.identifier === 'string') {
+    return getCategoryId(props.node_type.identifier);
   }
 
   return getCategoryId(props.category);

@@ -19,7 +19,7 @@ suppress_type=$FlowFixMe
 
 [ignore]
 <PROJECT_ROOT>/lib/.*
-vendor/.*
+.*/vendor/.*
 .*/node_modules/styled-components/src/no-parser/.*
 .*/node_modules/styled-components/src/.*test.*
 .*/node_modules/styled-components/src/.*native.*
