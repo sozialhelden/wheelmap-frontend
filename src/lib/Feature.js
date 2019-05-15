@@ -224,6 +224,9 @@ export function getFeatureId(feature: Feature | EquipmentInfo): ?string {
     typeof feature._id === 'string' && feature._id,
     feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
     feature.properties && typeof feature.properties._id === 'string' && feature.properties._id,
+    feature.properties &&
+      typeof feature.properties.osm_id === 'number' &&
+      feature.properties.osm_id,
   ];
   const result = idProperties.filter(Boolean)[0];
   return result ? String(result) : null;

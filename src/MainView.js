@@ -245,6 +245,8 @@ class MainView extends React.Component<Props, State> {
     }
   };
 
+  onMappingEventHeaderClick = () => this.map && this.map.snapToFeature();
+
   onAddPlaceLinkClick = () => {
     this.setState(() => ({ uniqueSurveyId: uuidv4() }));
   };
@@ -323,6 +325,7 @@ class MainView extends React.Component<Props, State> {
         joinedMappingEventId={joinedMappingEventId}
         mappingEventHandlers={mappingEventHandlers}
         onClose={onCloseMappingEventsToolbar}
+        onHeaderClick={this.onMappingEventHeaderClick}
         productName={translatedProductName}
         focusTrapActive={focusTrapActive}
       />

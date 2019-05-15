@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type KeyboardEvent } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
@@ -26,6 +26,7 @@ interface MappingEventToolbarProps {
     updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
   };
   onClose: () => void;
+  onHeaderClick: () => void;
   productName: string;
   focusTrapActive: Boolean;
 }
@@ -36,6 +37,7 @@ const MappingEventToolbar = ({
   mappingEventHandlers: { updateJoinedMappingEvent },
   joinedMappingEventId,
   onClose,
+  onHeaderClick,
   productName,
   focusTrapActive,
 }: MappingEventToolbarProps) => {
@@ -82,6 +84,9 @@ const MappingEventToolbar = ({
     </PrimaryButton>
   );
 
+  const onHeaderKeyPress = (event: KeyboardEvent<HTMLDivElement>) =>
+    event.key === 'Enter' && onHeaderClick();
+
   return (
     <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
       <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
@@ -101,7 +106,7 @@ const MappingEventToolbar = ({
               }}
             </RouteConsumer>
           )}
-          <div>
+          <div onClick={onHeaderClick} role="button" tabIndex="0" onKeyPress={onHeaderKeyPress}>
             <h2>{mappingEvent.name}</h2>
             <p>{dateString}</p>
             <address>
