@@ -71,6 +71,7 @@ export default class TrackingEventBackend {
 
     const body = JSON.stringify({
       ...event,
+      appId: app._id,
       mappingEvent:
         mappingEvent &&
         pick(mappingEvent, '_id', 'name', 'organizationId', 'appId', 'startTime', 'endTime'),
