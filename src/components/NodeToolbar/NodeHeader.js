@@ -43,6 +43,7 @@ const StyledBreadCrumbs = styled(BreadCrumbs)`
 `;
 
 type Props = {
+  children?: React.Node,
   feature: ?Feature,
   equipmentInfoId: ?string,
   equipmentInfo: ?EquipmentInfo,
@@ -71,7 +72,7 @@ export default class NodeHeader extends React.Component<Props> {
     const properties = feature.properties;
     if (!properties) return null;
 
-    const { category, parentCategory } = this.props;
+    const { category, parentCategory, children } = this.props;
     const shownCategory = category || parentCategory;
     let categoryName = shownCategory && categoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
@@ -127,6 +128,7 @@ export default class NodeHeader extends React.Component<Props> {
 
     return (
       <StyledNodeHeader hasShadow={this.props.hasShadow}>
+        {children}
         {clusterElement}
         {placeNameElement}
       </StyledNodeHeader>
