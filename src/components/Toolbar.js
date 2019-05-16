@@ -422,12 +422,13 @@ const StyledToolbar = styled(Toolbar)`
       display: block;
       position: sticky;
       top: 0;
+      left: 50%;
       z-index: 3;
-      width: 100%;
+      width: 50%;
       height: 10px;
       margin: -10px 0 -20px 0;
       padding: 15px;
-      transform: translateZ(0);
+      transform: translateZ(0) translateX(-50%);
       touch-action: none;
       background-color: transparent;
       &:before {
