@@ -86,8 +86,7 @@ const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
   header {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 0.5rem 0;
   }
 
   h2 {
