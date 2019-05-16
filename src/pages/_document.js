@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import Document, { Head, Main, NextScript, type NextDocumentContext } from 'next/document';
+import Document, { Html, Head, Main, NextScript, type NextDocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 import env from '../lib/env';
@@ -29,10 +29,10 @@ export default class MyDocument extends Document {
     const { locale, isCordovaBuild } = this.props;
 
     return (
-      <html lang={locale}>
+      <Html lang={locale}>
         <head>{isCordovaBuild && <script src="cordova.js" />}</head>
         <Head>
-          <meta charSet="utf-8" />
+          <meta charSet="utf-8" key="charSet" />
           <meta
             httpEquiv="Content-Security-Policy"
             content={`
@@ -79,10 +79,6 @@ export default class MyDocument extends Document {
                 ${isCordovaBuild ? cordovaBlock : ''};
             `}
           />
-          <meta
-            name="viewport"
-            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
-          />
 
           {/* Google Bots */}
           <meta content="follow index" name="robots" />
@@ -97,7 +93,7 @@ export default class MyDocument extends Document {
           <Main />
           <NextScript />
         </body>
-      </html>
+      </Html>
     );
   }
 }

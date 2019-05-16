@@ -59,6 +59,10 @@ class AsyncNextHead extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if (!this.state.head) {
+      return null;
+    }
+
     return <Head>{this.state.head}</Head>;
   }
 }
