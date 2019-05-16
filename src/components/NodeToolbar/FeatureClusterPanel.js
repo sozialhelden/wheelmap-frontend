@@ -37,9 +37,9 @@ type State = {
 };
 
 const PositionedCloseLink = styled(StyledCloseLink)`
+  position: absolute;
   top: 0;
-  z-index: 4;
-  margin: -5px -16px -2px -2px; /* move close button to the same position as in search toolbar */
+  right: 0;
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
@@ -157,9 +157,9 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
             // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
             focusTrapOptions={{ clickOutsideDeactivates: true }}
           >
-            {this.renderCloseLink()}
             <section className="cluster-entries">
               <StyledNodeHeader>
+                {this.renderCloseLink()}
                 <PlaceName>
                   <StyledClusterIcon {...this.props} />
                   {placesLabel}
