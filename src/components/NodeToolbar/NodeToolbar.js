@@ -40,9 +40,9 @@ import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 
 const PositionedCloseLink = styled(CloseLink)`
+  position: absolute;
   top: 0;
-  z-index: 4;
-  margin: -5px -16px -2px -2px; /* move close button to the same position as in search toolbar */
+  right: 0;
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
@@ -182,7 +182,9 @@ class NodeToolbar extends React.Component<Props, State> {
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
         hasShadow={this.state.isScrollable}
-      />
+      >
+        {this.renderCloseLink()}
+      </NodeHeader>
     );
   }
 
@@ -367,7 +369,6 @@ class NodeToolbar extends React.Component<Props, State> {
             // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
             focusTrapOptions={{ clickOutsideDeactivates: true }}
           >
-            {this.renderCloseLink()}
             {this.renderNodeHeader()}
             {this.renderContentBelowHeader()}
           </FocusTrap>
