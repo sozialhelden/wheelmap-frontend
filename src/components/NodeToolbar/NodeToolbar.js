@@ -40,9 +40,9 @@ import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 
 const PositionedCloseLink = styled(CloseLink)`
-  position: absolute;
-  top: 0;
-  right: 0;
+  align-self: flex-start;
+  margin-top: -8px;
+  margin-right: 1px;
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 

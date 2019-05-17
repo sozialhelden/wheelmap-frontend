@@ -37,9 +37,9 @@ type State = {
 };
 
 const PositionedCloseLink = styled(StyledCloseLink)`
-  position: absolute;
-  top: 0;
-  right: 0;
+  align-self: flex-start;
+  margin-top: -8px;
+  margin-right: 1px;
 `;
 PositionedCloseLink.displayName = 'PositionedCloseLink';
 
@@ -159,11 +159,11 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
           >
             <section className="cluster-entries">
               <StyledNodeHeader>
-                {this.renderCloseLink()}
                 <PlaceName>
                   <StyledClusterIcon {...this.props} />
                   {placesLabel}
                 </PlaceName>
+                {this.renderCloseLink()}
               </StyledNodeHeader>
               <StyledFrame className="entry-list">
                 <ul>{this.renderClusterEntries(cluster.features)}</ul>
