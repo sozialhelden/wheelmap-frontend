@@ -26,6 +26,7 @@ import { formatDistance } from '../../../lib/formatDistance';
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
   'parking', // because this mostly affects parking lots
+  'bus_stop',
   'tram_stop',
   'atm',
   'toilets',
