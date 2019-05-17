@@ -319,15 +319,20 @@ class MainView extends React.Component<Props, State> {
     const focusTrapActive = !this.isAnyDialogVisible();
 
     return (
-      <MappingEventToolbar
-        mappingEvent={mappingEvent}
-        joinedMappingEventId={joinedMappingEventId}
-        mappingEventHandlers={mappingEventHandlers}
-        onClose={onCloseMappingEventsToolbar}
-        onHeaderClick={this.onMappingEventHeaderClick}
-        productName={translatedProductName}
-        focusTrapActive={focusTrapActive}
-      />
+      <AppContextConsumer>
+        {({ preferredLanguage }) => (
+          <MappingEventToolbar
+            mappingEvent={mappingEvent}
+            joinedMappingEventId={joinedMappingEventId}
+            mappingEventHandlers={mappingEventHandlers}
+            onClose={onCloseMappingEventsToolbar}
+            onHeaderClick={this.onMappingEventHeaderClick}
+            productName={translatedProductName}
+            focusTrapActive={focusTrapActive}
+            preferredLanguage={preferredLanguage}
+          />
+        )}
+      </AppContextConsumer>
     );
   }
 
