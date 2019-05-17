@@ -76,6 +76,7 @@ export default class App extends BaseApp {
     let appProps;
     let routeProps;
     let path;
+    let localeStrings: string[] = [];
 
     isServer = !!(ctx && ctx.req);
 
@@ -99,8 +100,6 @@ export default class App extends BaseApp {
       }
 
       // translations
-      let localeStrings: string[] = [];
-
       if (ctx.req) {
         if (ctx.req.headers['accept-language']) {
           localeStrings = parseAcceptLanguageString(ctx.req.headers['accept-language']);
@@ -167,6 +166,7 @@ export default class App extends BaseApp {
       ...routeProps,
       skipApplicationBody: isTwitterBot,
       routeName: ctx.query.routeName,
+      preferredLanguage: localeStrings[0],
       path,
       isCordovaBuild,
     };
@@ -208,6 +208,7 @@ export default class App extends BaseApp {
       skipApplicationBody,
       rawCategoryLists,
       buildTimeProps,
+      preferredLanguage,
       ...appProps
     } = receivedProps;
 
@@ -312,6 +313,7 @@ export default class App extends BaseApp {
       app: this.props.app,
       baseUrl,
       categories: appProps.categories,
+      preferredLanguage,
     };
 
     return (

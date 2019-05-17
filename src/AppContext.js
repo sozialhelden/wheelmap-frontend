@@ -10,6 +10,7 @@ export type AppContext = {
   app?: App,
   baseUrl: string,
   categories: CategoryLookupTables,
+  preferredLanguage?: string,
 };
 
 const { Provider, Consumer } = createContext<AppContext>({
