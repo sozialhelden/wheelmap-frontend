@@ -35,6 +35,10 @@ export const StyledNodeHeader = styled.header`
   transition: box-shadow 0.3s ease-out;
   box-shadow: ${props =>
     props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
+
+  ${PlaceName} {
+    flex-grow: 2;
+  }
 `;
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
@@ -128,9 +132,9 @@ export default class NodeHeader extends React.Component<Props> {
 
     return (
       <StyledNodeHeader hasShadow={this.props.hasShadow}>
-        {children}
         {clusterElement}
         {placeNameElement}
+        {children}
       </StyledNodeHeader>
     );
   }
