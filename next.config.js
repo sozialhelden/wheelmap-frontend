@@ -16,10 +16,10 @@ module.exports = withCss(
     },
     // Disabling file-system routing to always use custom server.
     useFileSystemPublicRoutes: false,
-    exportPathMap: () => {
-      return {
-        '/': { page: '/main' },
-      };
-    },
+    // exportPathMap: () => {
+    //   return {
+    //     '/': { page: '/main' },
+    //   };
+    // },
   })
 );

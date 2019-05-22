@@ -1,16 +1,17 @@
 const nextjs = require('next');
+const path = require('path');
 const express = require('express');
 const proxy = require('http-proxy-middleware');
 const cache = require('express-cache-headers');
 const compression = require('compression');
 const querystring = require('querystring');
 
-const router = require('./app/router');
-const env = require('./lib/env');
+const router = require('../app/router');
+const env = require('../lib/env');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
-const app = nextjs({ dir: __dirname, dev });
+const app = nextjs({ dir: path.join(__dirname, '..'), dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
