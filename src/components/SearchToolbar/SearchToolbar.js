@@ -2,6 +2,7 @@
 
 import { t } from 'ttag';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Dots } from 'react-activity';
 import styled, { css } from 'styled-components';
 
@@ -310,6 +311,12 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   }
 
   focus() {
+    if (
+      window.document.activeElement === ReactDOM.findDOMNode(this.goButton) ||
+      window.document.activeElement === ReactDOM.findDOMNode(this.searchInputField)
+    ) {
+      return;
+    }
     if (isOnSmallViewport()) {
       if (!this.goButton) return;
       this.goButton.focus();
