@@ -1,7 +1,7 @@
 {
   "name": "wheelmap-react",
   "displayName": "Wheelmap",
-  "version": "4.59.0",
+  "version": "4.60.0",
   "homepage": "https://wheelmap.org/beta/",
   "main": "lib/App.js",
   "license": "MIT",
@@ -163,7 +163,7 @@
     "deploy-ios-beta": "rm -f platforms/ios/build/device/Wheelmap.ipa && npm version patch && bundle exec fastlane ios beta --env=production",
     "deploy-android-beta": "rm -rf ./platforms/android/app/build && npm version patch && CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\\://services.gradle.org/distributions/gradle-4.4-all.zip bundle exec fastlane android beta --env=production",
     "deploy-ios-release": "dotenv -e .env.production bundle exec fastlane ios publish",
-    "version": "cordova-version-sync && git commit -am 'Version bump'",
+    "version": "echo TODO: Add version syncing to bundle configurations for native apps + `git commit -am 'Version bump'` to package.json",
     "flow": "flow",
     "server": "server",
     "push-translations": "npm run clear-babel-cache && npm run build && tx push -s",
