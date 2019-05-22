@@ -497,6 +497,9 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   @media (max-width: 400px) {
+    #main-menu {
+      margin-right: 0;
+    }
     .nav-link {
       width: 100%;
       max-width: 100%;
