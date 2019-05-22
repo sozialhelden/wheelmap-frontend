@@ -18,7 +18,7 @@ module.exports = withCss(
     useFileSystemPublicRoutes: false,
     exportPathMap: () => {
       return {
-        '/': { page: '/cordova-main' },
+        '/': { page: '/main' },
       };
     },
   })

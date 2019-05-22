@@ -27,14 +27,8 @@ class NextRouterHistory extends AbstractRouterHistory {
     const route = this.getRoute(name);
     const path = this.generatePath(name, params);
 
-    if (this.isCordova) {
-      const query = { routeName: route.name, path, ...params };
-      const pathname = window.location.pathname;
-      NextRouter[method]({ pathname: '/cordova-main', query }, { pathname });
-    } else {
-      const query = { routeName: route.name, ...params };
-      NextRouter[method]({ pathname: '/main', query }, path);
-    }
+    const query = { routeName: route.name, ...params };
+    NextRouter[method]({ pathname: '/main', query }, path);
 
     trackPageView(path);
   }
