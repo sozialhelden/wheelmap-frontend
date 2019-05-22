@@ -7,6 +7,7 @@
   "license": "MIT",
   "dependencies": {
     "@sozialhelden/focus-trap-react": "^5.0.0-react-component-compat",
+    "acorn-dynamic-import": "^4.0.0",
     "babel-eslint": "^9.0.0",
     "browser-image-resizer": "^1.2.0",
     "caniuse-lite": "^1.0.30000957",
@@ -77,6 +78,7 @@
     "@zeit/next-sass": "^1.0.1",
     "@zeit/next-source-maps": "0.0.3",
     "autoprefixer": "7.1.2",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
     "babel-plugin-styled-components": "^1.10.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-ttag": "^1.7.8",
@@ -138,7 +140,7 @@
     "wdio": "^3.0.3",
     "wdio-mocha-framework": "^0.6.2",
     "webdriverio": "^4.13.1",
-    "webpack": "^4.29.6",
+    "webpack": "^4.28.4",
     "webpack-dev-server": "^3.3.1",
     "webpack-manifest-plugin": "1.2.1",
     "webworkify-webpack": "^2.0.4",
@@ -178,27 +180,6 @@
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write",
     "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
-  },
-  "babel": {
-    "presets": [
-      "next/babel", {
-        "preset-env": {
-          "modules": "commonjs"
-        }
-      }
-    ],
-    "plugins": [
-      "transform-flow-strip-types",
-      [
-        "ttag",
-        {
-          "extract": {
-            "output": "public/i18n/translations.pot"
-          }
-        }
-      ],
-      "babel-plugin-styled-components"
-    ]
   },
   "husky": {
     "hooks": {

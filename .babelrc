@@ -1,0 +1,15 @@
+{
+  "presets": ["next/babel"], // https://goo.gl/aqbWJY
+  "plugins": [
+    "transform-flow-strip-types",
+    [
+      "ttag",
+      {
+        "extract": {
+          "output": "public/i18n/translations.pot"
+        }
+      }
+    ],
+    "babel-plugin-styled-components"
+  ]
+}
