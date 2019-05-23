@@ -35,7 +35,7 @@ const MappingEventsToolbar = ({
 
   const listedMappingEvents = mappingEvents
     .filter(event => event.status === 'ongoing' || event.status === 'planned')
-    .filter(event => event.organizationId === app.organizationId);
+    .filter(event => event.appId === app._id);
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
