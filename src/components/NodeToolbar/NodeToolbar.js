@@ -317,7 +317,7 @@ class NodeToolbar extends React.Component<Props, State> {
     );
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
-    const photoSection = isWheelmapFeature && this.renderPhotoSection();
+    const photoSection = this.renderPhotoSection();
 
     const equipmentOverview = !isWheelmapFeature &&
       !!(feature.properties && feature.properties.equipmentInfos) && (
