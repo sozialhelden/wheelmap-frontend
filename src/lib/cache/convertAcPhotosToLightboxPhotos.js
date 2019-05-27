@@ -12,7 +12,7 @@ const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
 };
 
 const makeCachedImageSrcSetEntry = (acPhoto: AccessibilityCloudImage, size: number) => {
-  return `${makeSrcUrl(acPhoto, size)} ${size}w`;
+  return `${makeSrcUrl(acPhoto, size)} ${size / 2}w`;
 };
 
 const thumbnailSizes = [96, 192, 384];
@@ -24,9 +24,9 @@ const thumbnailMediaSelector = [
 
 const fullScreenSizes = [480, 960, 1920];
 const fullScreenMediaSelector = [
-  `(min-width: 480) 480px`,
-  `(min-width: 960) 960px`,
-  `(min-width: 1920) 1920px`,
+  `(min-width: 480px) 480px`,
+  `(min-width: 960px) 960px`,
+  `(min-width: 1920px) 1920px`,
   `960px`,
 ];
 
