@@ -11,6 +11,7 @@ import Link from '../Link/Link';
 import { RouteConsumer } from '../Link/RouteContext';
 import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
+import { UserIcon } from '../icons/ui-elements/index';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
@@ -62,6 +63,10 @@ const MappingEventToolbar = ({
   let startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
   let endDateString = null;
 
+  let remainingDaysStat;
+
+  const remainingDaysLeft = 27;
+
   if (endDate) {
     startDateString += ' -';
     endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
@@ -82,6 +87,8 @@ const MappingEventToolbar = ({
   const mappedPlacesLabel = t`Neue Orte`;
   // translator: Description for number of people invited to the current mapping event
   const inviteesCountAriaLabel = t`Teilnehmer`;
+  // translator: Description for number of days left in the mapping event
+  const daysLeftLabel = t`Verbleibende Tage`;
   // translator: Button caption for joining an event
   const joinButtonCaption = t`Mitmachen`;
   // translator: Button caption for leaving an event
@@ -132,20 +139,29 @@ const MappingEventToolbar = ({
         <img className="mapping-event-image" src={imageSource} alt="" />
         <div className="mapping-event-description">{mappingEvent.description}</div>
         <section className="statistics" aria-label={statisticsRegionAriaLabel}>
-          <div>
+          <div className="statistic">
             <div className="statistics-count">
               <MapPinWithPlusIcon />
               <span>{mappingEvent.statistics.mappedPlacesCount}</span>
             </div>
             <div className="statistics-description">{mappedPlacesLabel}</div>
           </div>
-          <div>
+          <div className="statistic">
             <div className="statistics-count">
-              <BellIcon />
+              <UserIcon />
               <span>{mappingEvent.statistics.invitedParticipantCount}</span>
             </div>
             <div className="statistics-description">{inviteesCountAriaLabel}</div>
           </div>
+          {remainingDaysLeft && (
+            <div className="statistic">
+              <div className="statistics-count">
+                <BellIcon />
+                <span>{remainingDaysLeft}</span>
+              </div>
+              <div className="statistics-description">{daysLeftLabel}</div>
+            </div>
+          )}
         </section>
         <div className="actions">
           {(mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
@@ -221,6 +237,10 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     svg {
       margin-right: 10px;
     }
+  }
+
+  .statistic {
+    width: 100%;
   }
 
   .statistics-count {
