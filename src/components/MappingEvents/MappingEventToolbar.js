@@ -63,9 +63,10 @@ const MappingEventToolbar = ({
   let startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
   let endDateString = null;
 
-  let remainingDaysStat;
-
-  const remainingDaysLeft = 27;
+  const remainingDaysLeft =
+    endDate && endDate > new Date()
+      ? Math.floor((endDate - startDate) / 1000 / 60 / 60 / 24) + 1
+      : null;
 
   if (endDate) {
     startDateString += ' -';
