@@ -572,7 +572,12 @@ export default class Map extends React.Component<Props, State> {
 
     this.props.mappingEvents &&
       this.props.mappingEvents
-        .filter(event => event.status === 'ongoing' || event._id === this.props.featureId)
+        .filter(
+          event =>
+            event.status === 'ongoing' ||
+            event.status === 'planned' ||
+            event._id === this.props.featureId
+        )
         .forEach(event => {
           const eventFeature = event.meetingPoint;
 
