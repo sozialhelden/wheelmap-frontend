@@ -270,7 +270,10 @@ class App extends React.Component<Props, State> {
   isMappingEventOngoing(mappingEventId: ?string, mappingEvents: MappingEvents) {
     if (mappingEventId) {
       const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
-      return joinedMappingEvent && joinedMappingEvent.status === 'ongoing';
+      return (
+        joinedMappingEvent &&
+        (joinedMappingEvent.status === 'ongoing' || joinedMappingEvent.status === 'planned')
+      );
     }
 
     return false;
