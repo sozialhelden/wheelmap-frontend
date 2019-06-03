@@ -7,11 +7,9 @@ import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
+import Statistics from './Statistics';
 import Link from '../Link/Link';
 import { RouteConsumer } from '../Link/RouteContext';
-import MapPinWithPlusIcon from './MapPinWithPlusIcon';
-import BellIcon from './BellIcon';
-import { UserIcon } from '../icons/ui-elements/index';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
@@ -63,11 +61,6 @@ const MappingEventToolbar = ({
   let startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
   let endDateString = null;
 
-  const remainingDaysLeft =
-    endDate && endDate > new Date()
-      ? Math.floor((endDate - startDate) / 1000 / 60 / 60 / 24) + 1
-      : null;
-
   if (endDate) {
     startDateString += ' -';
     endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
@@ -82,14 +75,6 @@ const MappingEventToolbar = ({
   const backLinkAriaLabel = t`Zurück zur Mapping Events Liste`;
   // translator: Button name for social media sharing the current mapping event
   const shareButtonCaption = t`Teilen`;
-  // translator: Screenreader description for the statistics/numbers part of a mapping event
-  const statisticsRegionAriaLabel = t`Mapping Event Zahlen`;
-  // translator: Description for number of already mapped places in the mapping event
-  const mappedPlacesLabel = t`Neue Orte`;
-  // translator: Description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`Teilnehmer`;
-  // translator: Description for number of days left in the mapping event
-  const daysLeftLabel = t`Verbleibende Tage`;
   // translator: Button caption for joining an event
   const joinButtonCaption = t`Mitmachen`;
   // translator: Button caption for leaving an event
@@ -139,31 +124,12 @@ const MappingEventToolbar = ({
         </header>
         <img className="mapping-event-image" src={imageSource} alt="" />
         <div className="mapping-event-description">{mappingEvent.description}</div>
-        <section className="statistics" aria-label={statisticsRegionAriaLabel}>
-          <div className="statistic">
-            <div className="statistics-count">
-              <MapPinWithPlusIcon />
-              <span>{mappingEvent.statistics.mappedPlacesCount}</span>
-            </div>
-            <div className="statistics-description">{mappedPlacesLabel}</div>
-          </div>
-          <div className="statistic">
-            <div className="statistics-count">
-              <UserIcon />
-              <span>{mappingEvent.statistics.invitedParticipantCount}</span>
-            </div>
-            <div className="statistics-description">{inviteesCountAriaLabel}</div>
-          </div>
-          {remainingDaysLeft && (
-            <div className="statistic">
-              <div className="statistics-count">
-                <BellIcon />
-                <span>{remainingDaysLeft}</span>
-              </div>
-              <div className="statistics-description">{daysLeftLabel}</div>
-            </div>
-          )}
-        </section>
+        <Statistics
+          mappedPlacesCount={mappingEvent.statistics.mappedPlacesCount}
+          invitedParticipantCount={mappingEvent.statistics.invitedParticipantCount}
+          startDate={startDate}
+          endDate={endDate}
+        />
         <div className="actions">
           {(mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
             eventJoinOrLeaveButton}
@@ -227,35 +193,6 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   .mapping-event-image {
     width: calc(100% + 30px);
     margin: 0 -15px 20px;
-  }
-
-  .statistics {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    margin-bottom: 20px;
-
-    svg {
-      margin-right: 10px;
-    }
-  }
-
-  .statistic {
-    width: 100%;
-  }
-
-  .statistics-count {
-    font-size: 27px;
-    font-weight: 300;
-    color: #37404d;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .statistics-description {
-    font-size: 14px;
-    color: #22262d;
   }
 
   .mapping-event-description {
