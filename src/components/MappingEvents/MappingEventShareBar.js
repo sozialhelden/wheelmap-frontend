@@ -1,8 +1,25 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import ShareBar from '../ShareBar/ShareBar';
+import { type MappingEvent } from '../../lib/MappingEvent';
 
-const MappingEventShareBar = ({ className, mappingEvent, buttonCaption, baseUrl, productName }) => {
+interface MappingEventShareBarProps {
+  className: string;
+  mappingEvent: MappingEvent;
+  buttonCaption: string;
+  baseUrl: string;
+  productName: string;
+}
+
+const MappingEventShareBar = ({
+  className,
+  mappingEvent,
+  buttonCaption,
+  baseUrl,
+  productName,
+}: MappingEventShareBarProps) => {
   const url = mappingEvent ? `${baseUrl}/events/${mappingEvent._id}` : baseUrl;
 
   const sharedObjectTitle = productName
