@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
@@ -6,8 +8,8 @@ import FocusTrap from 'focus-trap-react';
 import Toolbar from '../Toolbar';
 import Link, { RouteConsumer } from '../Link/Link';
 import CloseButton from './CloseButton';
-import { MappingEvents } from '../../lib/cache/MappingEventsCache';
-import { App } from '../../lib/App';
+import { type MappingEvents } from '../../lib/MappingEvent';
+import { type App } from '../../lib/App';
 import { isMappingEventVisible } from '../../lib/MappingEvent';
 
 type MappingEventsToolbarProps = {
