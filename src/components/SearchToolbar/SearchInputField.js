@@ -8,34 +8,30 @@ import { t } from 'ttag';
 
 type Props = {
   onSubmit: ?(event: UIEvent) => void,
-  onChange: ?(event: UIEvent) => void,
+  onChange: (value: string) => void,
   onBlur: ?(event: UIEvent) => void,
   onFocus: ?(event: UIEvent) => void,
   onClick: ?(event: UIEvent) => void,
   ref: (input: HTMLInputElement) => void,
   searchQuery: ?string,
   className: string,
-  placeholder: ?string,
   disabled: ?boolean,
   hidden: boolean,
   ariaRole: string,
 };
 
 type State = {
-  value: ?string,
+  value: string,
 };
 
 class SearchInputField extends React.Component<Props, State> {
   input: ?HTMLInputElement;
 
-  state = {
-    value: null,
-  };
+  constructor(props) {
+    super(props);
 
-  getDerivedStateFromProps(nextProps) {
-    const value = nextProps.placeholder || nextProps.searchQuery || '';
-    return {
-      value,
+    this.state = {
+      value: props.searchQuery || '',
     };
   }
 
@@ -56,28 +52,24 @@ class SearchInputField extends React.Component<Props, State> {
     }
   };
 
+  onChange = event => {
+    const value = event.target.value;
+    this.setState({ value });
+    this.props.onChange(value);
+  };
+
   render() {
-    const {
-      onChange,
-      disabled,
-      hidden,
-      onFocus,
-      onBlur,
-      onClick,
-      className,
-      ariaRole,
-    } = this.props;
+    const { disabled, hidden, onFocus, onBlur, onClick, className, ariaRole } = this.props;
+    const { value } = this.state;
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`;
-
-    const { value } = this.state;
 
     return (
       <input
         ref={input => (this.input = input)}
         value={value}
         name="search"
-        onChange={onChange}
+        onChange={this.onChange}
         disabled={disabled}
         tabIndex={hidden ? -1 : 0}
         onFocus={onFocus}
@@ -85,7 +77,7 @@ class SearchInputField extends React.Component<Props, State> {
         onClick={onClick}
         onKeyPress={this.keyPressed}
         className={`search-input ${className}`}
-        placeholder={!value ? defaultPlaceholder : null}
+        placeholder={defaultPlaceholder}
         aria-label={defaultPlaceholder}
         role={ariaRole}
         autoComplete="off"
