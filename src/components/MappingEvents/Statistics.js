@@ -30,9 +30,10 @@ const Statistics = ({
   // translator: Description for number of days left in the mapping event
   const daysLeftLabel = t`Verbleibende Tage`;
 
+  const currentDate = new Date();
   const remainingDaysLeft =
-    endDate && endDate > new Date()
-      ? Math.floor((endDate - startDate) / 1000 / 60 / 60 / 24) + 1
+    endDate && endDate > currentDate
+      ? Math.floor((endDate - currentDate) / 1000 / 60 / 60 / 24) + 1
       : null;
 
   return (
