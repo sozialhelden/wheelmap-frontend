@@ -33,7 +33,7 @@ const Statistics = ({
   const currentDate = new Date();
   const remainingDaysLeft =
     endDate && endDate > currentDate
-      ? Math.floor((endDate - currentDate) / 1000 / 60 / 60 / 24) + 1
+      ? Math.ceil((endDate - currentDate) / 1000 / 60 / 60 / 24)
       : null;
 
   return (
