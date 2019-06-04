@@ -600,7 +600,8 @@ export default class Map extends React.Component<Props, State> {
               href: hrefForMappingEvent(event),
               onClick: () => this.props.onMappingEventClick(event._id),
             },
-            event._id
+            event._id,
+            -1000
           );
 
           this.mappingEventsLayer && this.mappingEventsLayer.addLayer(eventMarker);
