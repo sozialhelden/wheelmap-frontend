@@ -5,11 +5,18 @@ import L from 'leaflet';
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
 
-  constructor(latlng: L.LatLng, markerIconType, markerIconOptions, featureId?: string) {
+  constructor(
+    latlng: L.LatLng,
+    markerIconType,
+    markerIconOptions,
+    featureId?: string,
+    zIndexOffset?: number = 0
+  ) {
     const markerIcon = new markerIconType(markerIconOptions);
 
     super(latlng, {
       icon: markerIcon,
+      zIndexOffset: zIndexOffset,
     });
 
     this.markerIcon = markerIcon;
