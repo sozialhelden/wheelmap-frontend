@@ -50,7 +50,7 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
-import type { MappingEvents } from '../../lib/MappingEvent';
+import { type MappingEvents, isMappingEventVisible } from '../../lib/MappingEvent';
 import A11yMarkerIcon from './A11yMarkerIcon';
 import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
@@ -572,12 +572,7 @@ export default class Map extends React.Component<Props, State> {
 
     this.props.mappingEvents &&
       this.props.mappingEvents
-        .filter(
-          event =>
-            event.status === 'ongoing' ||
-            event.status === 'planned' ||
-            event._id === this.props.featureId
-        )
+        .filter(event => isMappingEventVisible(event) || event._id === this.props.featureId)
         .forEach(event => {
           const eventFeature = event.meetingPoint;
 

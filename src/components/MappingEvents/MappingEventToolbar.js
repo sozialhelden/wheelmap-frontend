@@ -15,7 +15,7 @@ import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
-import type { MappingEvent } from '../../lib/MappingEvent';
+import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
 interface MappingEventToolbarProps {
@@ -148,8 +148,7 @@ const MappingEventToolbar = ({
           </div>
         </section>
         <div className="actions">
-          {(mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
-            eventJoinOrLeaveButton}
+          {isMappingEventVisible(mappingEvent) && eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar

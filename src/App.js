@@ -20,7 +20,7 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
-import type { MappingEvents, MappingEvent } from './lib/MappingEvent';
+import { type MappingEvents, type MappingEvent, isMappingEventVisible } from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 import { type App as AppModel } from './lib/App';
 
@@ -270,10 +270,7 @@ class App extends React.Component<Props, State> {
   isMappingEventOngoing(mappingEventId: ?string, mappingEvents: MappingEvents) {
     if (mappingEventId) {
       const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
-      return (
-        joinedMappingEvent &&
-        (joinedMappingEvent.status === 'ongoing' || joinedMappingEvent.status === 'planned')
-      );
+      return joinedMappingEvent && isMappingEventVisible(joinedMappingEvent);
     }
 
     return false;

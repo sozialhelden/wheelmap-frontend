@@ -8,6 +8,7 @@ import Link, { RouteConsumer } from '../Link/Link';
 import CloseButton from './CloseButton';
 import { MappingEvents } from '../../lib/cache/MappingEventsCache';
 import { App } from '../../lib/App';
+import { isMappingEventVisible } from '../../lib/MappingEvent';
 
 type MappingEventsToolbarProps = {
   app: App,
@@ -34,7 +35,7 @@ const MappingEventsToolbar = ({
   const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you!`;
 
   const listedMappingEvents = mappingEvents
-    .filter(event => event.status === 'ongoing' || event.status === 'planned')
+    .filter(isMappingEventVisible)
     .filter(event => event.appId === app._id);
 
   return (
