@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type KeyboardEvent } from 'react';
+import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
@@ -90,7 +90,7 @@ const MappingEventToolbar = ({
     </PrimaryButton>
   );
 
-  const onHeaderKeyPress = (event: KeyboardEvent<HTMLDivElement>) =>
+  const onHeaderKeyPress = (event: SyntheticKeyboardEvent<HTMLDivElement>) =>
     event.key === 'Enter' && onHeaderClick();
 
   return (
