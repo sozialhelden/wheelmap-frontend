@@ -13,7 +13,7 @@ import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
 type Props = {
   onClick: () => void,
-  className: string,
+  className?: string,
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],

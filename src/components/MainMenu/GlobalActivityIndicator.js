@@ -4,12 +4,16 @@ import { Dots } from 'react-activity';
 import * as React from 'react';
 import { globalFetchManager } from '../../lib/FetchManager';
 
+type Props = {
+  className?: string,
+};
+
 type State = {
   isShown: boolean,
   lastError?: ?Error,
 };
 
-export default class GlobalActivityIndicator extends React.Component<{}, State> {
+export default class GlobalActivityIndicator extends React.Component<Props, State> {
   state = { isShown: false };
 
   updateState = debounce(

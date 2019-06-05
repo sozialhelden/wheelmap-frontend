@@ -11,7 +11,7 @@ import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
-  className: string,
+  className?: string,
   onSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   isExpanded: boolean,

@@ -30,6 +30,7 @@ type Props = {
   onClose: () => void,
   onSelectClusterIcon: () => void,
   onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
+  className?: string,
 };
 
 type State = {

@@ -6,7 +6,7 @@ import ShareBar from '../ShareBar/ShareBar';
 import { type MappingEvent } from '../../lib/MappingEvent';
 
 interface MappingEventShareBarProps {
-  className: string;
+  className?: string;
   mappingEvent: MappingEvent;
   buttonCaption: string;
   baseUrl: string;

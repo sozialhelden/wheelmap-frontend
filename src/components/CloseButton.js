@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import CloseIcon from './icons/actions/Close';
 
 type Props = {
-  className: string,
+  className?: string,
   ariaLabel: ?string,
   onClick: () => void,
   onFocus: () => void,

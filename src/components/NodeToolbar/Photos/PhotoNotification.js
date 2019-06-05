@@ -8,7 +8,7 @@ import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 
 type Props = {
-  className: string,
+  className?: string,
   notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
   uploadProgress?: number, // between 0 and 100
   photoFlowErrorMessage?: string,

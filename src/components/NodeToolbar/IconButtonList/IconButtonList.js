@@ -19,7 +19,7 @@ type Props = {
   featureId: ?string | number,
   category: ?Category,
   parentCategory: ?Category,
-  className: string,
+  className?: string,
   equipmentInfoId: ?string,
 };
 

@@ -73,7 +73,7 @@ type Props = {
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
-  className: string,
+  className?: string,
   isEditingEnabled: boolean,
 };
 

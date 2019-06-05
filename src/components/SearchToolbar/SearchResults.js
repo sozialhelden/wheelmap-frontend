@@ -14,7 +14,7 @@ import { type CategoryLookupTables } from '../../lib/Categories';
 type Props = {
   searchResults: SearchResultCollection,
   categories: CategoryLookupTables,
-  className: string,
+  className?: string,
   hidden: ?boolean,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   refFirst: ?(result: ?SearchResult) => void,

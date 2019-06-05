@@ -20,7 +20,7 @@ function capitalizeFirstLetter(string): string {
 
 type Props = {
   equipmentInfo: EquipmentInfo,
-  className: string,
+  className?: string,
 };
 
 function EquipmentAccessibility(props: Props) {

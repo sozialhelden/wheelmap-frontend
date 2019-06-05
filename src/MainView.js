@@ -62,7 +62,7 @@ import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWe
 import { AppContextConsumer } from './AppContext';
 
 type Props = {
-  className: string,
+  className?: string,
 
   category: ?string,
   categories: CategoryLookupTables,

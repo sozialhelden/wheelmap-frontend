@@ -12,7 +12,7 @@ import colors from '../../../lib/colors';
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  className: string,
+  className?: string,
   outerClassName: string,
   isExpanded: boolean,
   placeInfoId: string,

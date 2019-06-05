@@ -9,7 +9,7 @@ import CameraIcon from './CameraIcon';
 import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
 type Props = {
-  className: string,
+  className?: string,
   onClick?: (event: UIEvent) => void,
 };
 

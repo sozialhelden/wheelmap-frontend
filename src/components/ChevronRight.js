@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 
 type Props = {
-  className: string,
+  className?: string,
 };
 
 const ChevronRight = styled((props: Props) => (

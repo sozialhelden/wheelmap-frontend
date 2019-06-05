@@ -14,7 +14,7 @@ type Props = {
   onClick: ?(event: UIEvent) => void,
   ref: (input: HTMLInputElement) => void,
   searchQuery: ?string,
-  className: string,
+  className?: string,
   disabled: ?boolean,
   hidden: boolean,
   ariaRole: string,

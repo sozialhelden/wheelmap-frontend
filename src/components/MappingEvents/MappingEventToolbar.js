@@ -18,7 +18,7 @@ import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
 interface MappingEventToolbarProps {
-  className: string;
+  className?: string;
   mappingEvent: MappingEvent;
   joinedMappingEventId: ?String;
   mappingEventHandlers: {

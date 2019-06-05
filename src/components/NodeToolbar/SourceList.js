@@ -13,7 +13,7 @@ type Props = {
   featureId: ?string | number,
   sources: SourceWithLicense[],
   equipmentInfoId: ?string,
-  className: string,
+  className?: string,
 };
 
 function renderLicenseHint(sourceWithLicense: SourceWithLicense) {

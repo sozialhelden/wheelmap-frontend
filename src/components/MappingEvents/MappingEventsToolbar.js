@@ -14,7 +14,7 @@ import { isMappingEventVisible } from '../../lib/MappingEvent';
 
 type MappingEventsToolbarProps = {
   app: App,
-  className: string,
+  className?: string,
   mappingEvents: MappingEvents,
   onClose: () => void,
   onMappingEventClick: (eventId: string) => void,

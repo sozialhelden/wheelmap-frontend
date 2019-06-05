@@ -10,7 +10,7 @@ type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
 type KeyDownHandler = (el: HTMLElement, ev: KeyboardEvent) => void;
 
 type Props = {
-  className: string,
+  className?: string,
   ariaLabel: ?string,
   onClick: ClickHandler,
   onFocus: FocusHandler,

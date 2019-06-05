@@ -12,7 +12,7 @@ import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
 
 type Props = {
-  className: string,
+  className?: string,
   children: AnyReactElement,
   hidden?: boolean,
   inert?: boolean,
