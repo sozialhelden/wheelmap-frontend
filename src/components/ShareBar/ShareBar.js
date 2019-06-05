@@ -32,7 +32,7 @@ type Props = {
   sharedObjectTitle: string,
   mailToLink: string,
   featureId: string,
-  onToggle: () => void,
+  onToggle?: () => void,
 };
 
 type State = {
