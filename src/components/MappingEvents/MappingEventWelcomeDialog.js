@@ -1,17 +1,35 @@
+// @flow
+
 import React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
 
 import ModalDialog from '../ModalDialog';
 import { PrimaryButton } from '../Button';
+import { type MappingEvent } from '../../lib/MappingEvent';
+
+type Props = {
+  className?: string,
+  mappingEvent: MappingEvent,
+  onMappingEventWelcomeDialogClose: () => void,
+};
 
 const MappingEventWelcomeDialog = ({
   className,
   mappingEvent,
   onMappingEventWelcomeDialogClose,
-}) => {
+}: Props) => {
+  const dialogAriaLabel = t`Welcome`;
+
   return (
-    <ModalDialog className={className} isVisible={true} onClose={onMappingEventWelcomeDialogClose}>
-      <p>{mappingEvent.welcomeMessage}</p>
+    <ModalDialog
+      className={className}
+      isVisible={true}
+      onClose={onMappingEventWelcomeDialogClose}
+      ariaLabel={dialogAriaLabel}
+      ariaDescribedBy="mapping-event-welcome-message"
+    >
+      <p id="mapping-event-welcome-message">{mappingEvent.welcomeMessage}</p>
       <PrimaryButton onClick={onMappingEventWelcomeDialogClose}>Let's go</PrimaryButton>
     </ModalDialog>
   );
