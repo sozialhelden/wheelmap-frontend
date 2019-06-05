@@ -7,10 +7,10 @@ import CloseIcon from './icons/actions/Close';
 
 type Props = {
   className?: string,
-  ariaLabel: ?string,
+  ariaLabel?: ?string,
   onClick: () => void,
-  onFocus: () => void,
-  onBlur: () => void,
+  onFocus?: () => void,
+  onBlur?: () => void,
 };
 
 class CloseButton extends React.Component<Props> {
