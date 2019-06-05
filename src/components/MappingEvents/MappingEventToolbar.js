@@ -17,19 +17,19 @@ import { buildFullImageUrl } from '../../lib/Image';
 import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
-interface MappingEventToolbarProps {
-  className?: string;
-  mappingEvent: MappingEvent;
-  joinedMappingEventId: ?String;
+type MappingEventToolbarProps = {
+  className?: string,
+  mappingEvent: MappingEvent,
+  joinedMappingEventId: ?String,
   mappingEventHandlers: {
     updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
-  };
-  onClose: () => void;
-  onHeaderClick: () => void;
-  productName: string;
-  focusTrapActive: Boolean;
-  preferredLanguage: string;
-}
+  },
+  onClose: () => void,
+  onHeaderClick: () => void,
+  productName: string,
+  focusTrapActive: Boolean,
+  preferredLanguage: string,
+};
 
 const MappingEventToolbar = ({
   className,

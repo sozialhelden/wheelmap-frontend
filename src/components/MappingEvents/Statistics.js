@@ -6,13 +6,13 @@ import MapPinWithPlusIcon from './MapPinWithPlusIcon';
 import BellIcon from './BellIcon';
 import { UserIcon } from '../icons/ui-elements/index';
 
-interface Props {
-  mappedPlacesCount: number;
-  invitedParticipantCount: number;
-  startDate: Date;
-  endDate: ?Date;
-  className: string;
-}
+type Props = {
+  mappedPlacesCount: number,
+  invitedParticipantCount: number,
+  startDate: Date,
+  endDate: ?Date,
+  className: string,
+};
 
 const Statistics = ({
   mappedPlacesCount,

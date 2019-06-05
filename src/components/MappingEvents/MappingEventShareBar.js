@@ -5,13 +5,13 @@ import { t } from 'ttag';
 import ShareBar from '../ShareBar/ShareBar';
 import { type MappingEvent } from '../../lib/MappingEvent';
 
-interface MappingEventShareBarProps {
-  className?: string;
-  mappingEvent: MappingEvent;
-  buttonCaption: string;
-  baseUrl: string;
-  productName: string;
-}
+type MappingEventShareBarProps = {
+  className?: string,
+  mappingEvent: MappingEvent,
+  buttonCaption: string,
+  baseUrl: string,
+  productName: string,
+};
 
 const MappingEventShareBar = ({
   className,
