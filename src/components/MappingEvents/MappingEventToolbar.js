@@ -9,12 +9,13 @@ import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Statistics from './Statistics';
 import Link from '../Link/Link';
-import { RouteConsumer } from '../Link/RouteContext';
+import { RouteConsumer, type RouteContext } from '../Link/RouteContext';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
+import { type RouteParams } from '../../lib/RouterHistory';
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
 type MappingEventToolbarProps = {
@@ -100,8 +101,8 @@ const MappingEventToolbar = ({
         <header>
           {!joinedMappingEventId && (
             <RouteConsumer>
-              {context => {
-                const params = { ...context.params };
+              {(context: RouteContext) => {
+                const params: RouteParams = { ...context.params };
                 delete params.id;
 
                 return (
