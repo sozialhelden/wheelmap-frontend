@@ -13,7 +13,7 @@ type Props = {
   invitedParticipantCount: number,
   startDate: Date,
   endDate: ?Date,
-  className: string,
+  className?: string,
 };
 
 const Statistics = ({
