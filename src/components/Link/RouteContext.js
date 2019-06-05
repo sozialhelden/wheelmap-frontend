@@ -1,11 +1,7 @@
 // @flow
-import React, { createContext, Component } from 'react';
+import React, { createContext } from 'react';
 
-import {
-  type RouterHistory,
-  type RouterHistoryMethod,
-  type RouteParams,
-} from '../../lib/RouterHistory';
+import { type RouterHistory, type RouteParams } from '../../lib/RouterHistory';
 
 export type RouteContext = {
   params: RouteParams,
