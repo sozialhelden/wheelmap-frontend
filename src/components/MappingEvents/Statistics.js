@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
