@@ -3,7 +3,6 @@
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import * as React from 'react';
-import type { AnyReactElement } from 'react-flow-types';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import EquipmentItem from './EquipmentItem';
 import styled from 'styled-components';
@@ -16,7 +15,7 @@ type Props = {
   outerClassName: string,
   isExpanded: boolean,
   placeInfoId: string,
-  children: AnyReactElement,
+  children: React.Node,
 };
 
 function EquipmentList(props: Props) {

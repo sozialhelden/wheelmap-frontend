@@ -12337,11 +12337,6 @@ react-error-overlay@^2.0.1:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
-react-flow-types@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/react-flow-types/-/react-flow-types-0.1.1.tgz#e7a2f7784d5c234f73dd1173b354f1c86be23179"
-  integrity sha1-56L3eE1cI09z3RFzs1TxyGviMXk=
-
 react-ga@^2.5.3:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/react-ga/-/react-ga-2.5.3.tgz#0f447c73664c069a5fc341f6f431262e3d4c23c4"
