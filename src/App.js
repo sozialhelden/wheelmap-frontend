@@ -54,7 +54,10 @@ import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
 import { mappingEventsCache } from './lib/cache/MappingEventsCache';
-import { trackingEventBackend } from './lib/TrackingEventBackend';
+import {
+  trackingEventBackend,
+  type MappingEventLeftTrackingEvent,
+} from './lib/TrackingEventBackend';
 
 export type LinkData = {
   label: LocalizedString,
@@ -359,11 +362,13 @@ class App extends React.Component<Props, State> {
       return;
     }
 
+    const search: string = window.location.search;
+
     if (previouslyJoinedMappingEventId) {
       trackingEventBackend.track(this.props.app, {
         type: 'MappingEventLeft',
         leftMappingEventId: previouslyJoinedMappingEventId,
-        query: queryString.parse(window.location.search),
+        query: queryString.parse(search),
       });
     }
 
@@ -372,7 +377,7 @@ class App extends React.Component<Props, State> {
         type: 'MappingEventJoined',
         joinedMappingEventId: joinedMappingEventId,
         joinedVia: reason,
-        query: queryString.parse(window.location.search),
+        query: queryString.parse(search),
       });
     }
   };

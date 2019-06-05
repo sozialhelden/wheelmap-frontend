@@ -9,6 +9,10 @@ import { userPositionTracker } from './UserPositionTracker';
 import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
 import { type App } from '../lib/App';
 
+export type Query = {
+  [string]: string | Array<string> | null,
+};
+
 export type AttributeChangedTrackingEvent = {
   type: 'AttributeChanged',
   attributePath: string,
@@ -25,26 +29,20 @@ export type SurveyCompletedTrackingEvent = {
 
 export type AppOpenedTrackingEvent = {
   type: 'AppOpened',
-  query: {
-    [key: string]: string,
-  },
+  query: Query,
 };
 
 export type MappingEventJoinedTrackingEvent = {
   type: 'MappingEventJoined',
   joinedMappingEventId: string,
   joinedVia: 'url' | 'button',
-  query: {
-    [key: string]: string,
-  },
+  query: Query,
 };
 
 export type MappingEventLeftTrackingEvent = {
   type: 'MappingEventLeft',
   leftMappingEventId: string,
-  query: {
-    [key: string]: string,
-  },
+  query: Query,
 };
 
 export type TrackingEvent =
