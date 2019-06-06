@@ -936,7 +936,7 @@ class App extends React.Component<Props, State> {
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
-      mappingEvents: this.props.mappingEvents,
+      mappingEvents: this.state.mappingEvents,
       mappingEvent: this.props.mappingEvent,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
