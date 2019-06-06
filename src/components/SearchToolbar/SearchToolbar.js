@@ -361,7 +361,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           }, 300);
         }}
         onChange={this.props.onChangeSearchQuery}
-        onSubmit={event => {
+        onSubmit={(event: SyntheticEvent<HTMLInputElement>) => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();
             if (this.firstResult) {
@@ -369,7 +369,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
             }
           });
 
-          this.props.onSubmit(event.target.value);
+          this.props.onSubmit(event.currentTarget.value);
         }}
         ariaRole="searchbox"
       />

@@ -12,7 +12,7 @@ import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
 type Props = {
-  onClick: () => void,
+  onClick: (event: SyntheticMouseEvent<HTMLButtonElement>) => void,
   className?: string,
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],

@@ -113,7 +113,7 @@ class RadioStatusEditor extends React.Component<Props, State> {
     }
   };
 
-  closeButtonClick = event => {
+  closeButtonClick = (event: SyntheticMouseEvent<HTMLButtonElement>) => {
     if (typeof this.props.onClose === 'function') {
       this.props.onClose();
       // prevent clicking the next close button as well

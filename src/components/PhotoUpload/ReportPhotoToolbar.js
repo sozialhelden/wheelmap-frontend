@@ -147,7 +147,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   };
 
-  onClose = (event: UIEvent) => {
+  onClose = (event: SyntheticMouseEvent<HTMLButtonElement>) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
