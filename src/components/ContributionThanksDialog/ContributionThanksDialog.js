@@ -16,7 +16,7 @@ import { type AppContext } from '../../AppContext';
 export type Props = {
   hidden: boolean,
   isExpanded?: boolean,
-  onClose: ?() => void,
+  onClose: () => void,
   lat: ?number,
   lon: ?number,
   addPlaceUrl: ?string,
