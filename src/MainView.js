@@ -82,7 +82,7 @@ type Props = {
   disableWheelmapSource: ?boolean,
 
   mappingEvents: MappingEvents,
-  mappingEvent: MappingEvent,
+  mappingEvent: ?MappingEvent,
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,

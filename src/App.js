@@ -80,7 +80,7 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
-  mappingEvents: ?MappingEvents,
+  mappingEvents: MappingEvents,
   mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
@@ -93,7 +93,7 @@ type Props = {
 } & PlaceDetailsProps;
 
 type State = {
-  mappingEvents: ?MappingEvents,
+  mappingEvents: MappingEvents,
   isOnboardingVisible: boolean,
   joinedMappingEventId: ?string,
   isJoinedMappingEventIdInitial: boolean,
