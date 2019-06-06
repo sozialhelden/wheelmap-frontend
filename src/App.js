@@ -54,10 +54,7 @@ import './Global.css';
 import 'focus-visible';
 import { trackModalView } from './lib/Analytics';
 import { mappingEventsCache } from './lib/cache/MappingEventsCache';
-import {
-  trackingEventBackend,
-  type MappingEventLeftTrackingEvent,
-} from './lib/TrackingEventBackend';
+import { trackingEventBackend } from './lib/TrackingEventBackend';
 
 export type LinkData = {
   label: LocalizedString,
