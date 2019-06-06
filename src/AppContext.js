@@ -10,7 +10,7 @@ export type AppContext = {
   app?: App,
   baseUrl: string,
   categories: CategoryLookupTables,
-  preferredLanguage?: string,
+  preferredLanguage: string,
 };
 
 const { Provider, Consumer } = createContext<AppContext>({
@@ -21,6 +21,7 @@ const { Provider, Consumer } = createContext<AppContext>({
     wheelmapCategoryNamesToCategories: {},
     wheelmapRootCategoryNamesToCategories: {},
   },
+  preferredLanguage: '',
 });
 
 export { Provider as AppContextProvider, Consumer as AppContextConsumer };

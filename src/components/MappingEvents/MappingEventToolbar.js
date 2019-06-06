@@ -21,14 +21,14 @@ import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 type MappingEventToolbarProps = {
   className?: string,
   mappingEvent: MappingEvent,
-  joinedMappingEventId: ?String,
+  joinedMappingEventId: ?string,
   mappingEventHandlers: {
     updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
   },
   onClose: () => void,
   onHeaderClick: () => void,
-  productName: string,
-  focusTrapActive: Boolean,
+  productName: ?string,
+  focusTrapActive: boolean,
   preferredLanguage: string,
 };
 

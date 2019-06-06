@@ -10,7 +10,7 @@ type MappingEventShareBarProps = {
   mappingEvent: MappingEvent,
   buttonCaption: string,
   baseUrl: string,
-  productName: string,
+  productName: ?string,
 };
 
 const MappingEventShareBar = ({
@@ -30,9 +30,9 @@ const MappingEventShareBar = ({
 
   const mailSubject = sharedObjectTitle;
   // translator: Email text used when sharing a mapping event via email.
-  let mailBody = t`Help us out and join the ${
-    mappingEvent.name
-  } mapping event on ${productName}. You can find more info here: ${url}`;
+  let mailBody = t`Help us out and join the ${mappingEvent.name} mapping event${
+    productName ? ` on ${productName}` : ''
+  }. You can find more info here: ${url}`;
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody
