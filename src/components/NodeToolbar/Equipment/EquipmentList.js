@@ -20,7 +20,7 @@ type Props = {
 
 function EquipmentList(props: Props) {
   return (
-    <div className={`${props.outerClassName} ${props.className}`} role="region">
+    <div className={`${props.outerClassName} ${props.className || ''}`} role="region">
       {props.children}
       {Array.from(props.equipmentInfoArrays).map(equipmentInfos => (
         <EquipmentItem

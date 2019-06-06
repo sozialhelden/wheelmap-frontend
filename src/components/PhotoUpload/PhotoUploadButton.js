@@ -23,7 +23,7 @@ class PhotoUploadButton extends React.Component<Props> {
     return (
       <button
         onClick={this.onClick}
-        className={`link-button ${className}`}
+        className={`link-button ${className || ''}`}
         aria-label={t`Add images`}
       >
         <CameraIcon />

@@ -77,7 +77,7 @@ class PhotoNotification extends React.Component<Props, State> {
     };
 
     return (
-      <div className={`${className} notification-mode-${usedType}`}>
+      <div className={`${className || ''} notification-mode-${usedType}`}>
         {notificationComponents[usedType]}
       </div>
     );

@@ -38,7 +38,7 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
   render() {
     const extraInfo = this.state.extraInfo;
     if (!extraInfo) return null;
-    return <p className={`${this.props.className} extra-info`}>{extraInfo}</p>;
+    return <p className={`${this.props.className || ''} extra-info`}>{extraInfo}</p>;
   }
 }
 

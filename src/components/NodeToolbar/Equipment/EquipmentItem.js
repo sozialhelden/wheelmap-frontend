@@ -114,7 +114,7 @@ function EquipmentItem(props: Props) {
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
   return (
     <button
-      className={`link-button full-width-button ${props.className} ${
+      className={`link-button full-width-button ${props.className || ''} ${
         isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''
       }`}
       key={description}

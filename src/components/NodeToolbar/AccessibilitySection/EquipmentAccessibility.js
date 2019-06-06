@@ -35,7 +35,7 @@ function EquipmentAccessibility(props: Props) {
   const accessibility = properties.accessibility;
 
   return (
-    <div className={`equipment-accessibility ${props.className}`}>
+    <div className={`equipment-accessibility ${props.className || ''}`}>
       <header
         className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
       >
