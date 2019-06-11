@@ -300,7 +300,6 @@ class App extends React.Component<Props, State> {
       const mappingEventIdToJoin = query.id;
 
       if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
-        setJoinedMappingEventId(mappingEventIdToJoin);
         state.joinedMappingEventId = mappingEventIdToJoin;
 
         const mappingEvent = mappingEvents[mappingEventIdToJoin];
@@ -311,11 +310,7 @@ class App extends React.Component<Props, State> {
 
         state.isMappingEventWelcomeDialogVisible = mappingEventWelcomeMessageExists;
 
-        trackingEventBackend.track(this.props.app, {
-          type: 'MappingEventJoined',
-          joinedVia: 'url',
-          query: queryString.parse(window.location.search),
-        });
+        this.trackJoinedMappingEvent('url', mappingEventIdToJoin);
       }
 
       this.props.routerHistory.replace('mappingEventDetail', { id: mappingEventIdToJoin });
@@ -356,24 +351,34 @@ class App extends React.Component<Props, State> {
     }
   }
 
-  updateJoinedMappingEvent = (joinedMappingEventId: ?string) => {
+  trackJoinedMappingEvent = (reason: 'url' | 'button', joinedMappingEventId: ?string) => {
     const previouslyJoinedMappingEventId = getJoinedMappingEventId();
-
     setJoinedMappingEventId(joinedMappingEventId);
-    if (joinedMappingEventId === null) {
+
+    if (previouslyJoinedMappingEventId === joinedMappingEventId) {
+      return;
+    }
+
+    if (previouslyJoinedMappingEventId) {
       trackingEventBackend.track(this.props.app, {
         type: 'MappingEventLeft',
         leftMappingEventId: previouslyJoinedMappingEventId,
         query: queryString.parse(window.location.search),
       });
-    } else {
+    }
+
+    if (joinedMappingEventId) {
       trackingEventBackend.track(this.props.app, {
         type: 'MappingEventJoined',
-        joinedVia: 'button',
+        joinedMappingEventId: joinedMappingEventId,
+        joinedVia: reason,
         query: queryString.parse(window.location.search),
       });
     }
+  };
 
+  updateJoinedMappingEvent = (joinedMappingEventId: ?string) => {
+    this.trackJoinedMappingEvent('button', joinedMappingEventId);
     this.setState({ joinedMappingEventId, isJoinedMappingEventIdInitial: false });
   };
 

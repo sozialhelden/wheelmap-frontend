@@ -32,6 +32,7 @@ export type AppOpenedTrackingEvent = {
 
 export type MappingEventJoinedTrackingEvent = {
   type: 'MappingEventJoined',
+  joinedMappingEventId: string,
   joinedVia: 'url' | 'button',
   query: {
     [key: string]: string,
