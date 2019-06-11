@@ -23,7 +23,7 @@ export interface MappingEvent {
   welcomeMessage?: string;
   meetingPoint?: MappingEventFeature;
   area: MappingEventFeature;
-  startTime: Date;
+  startTime?: Date;
   endTime?: Date;
   webSiteUrl?: string;
   images?: IImage[];

@@ -43,9 +43,6 @@ const MappingEventToolbar = ({
   focusTrapActive,
   preferredLanguage,
 }: MappingEventToolbarProps) => {
-  const startDate = new Date(mappingEvent.startTime);
-  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
-
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])
@@ -59,12 +56,18 @@ const MappingEventToolbar = ({
     minute: 'numeric',
   };
 
-  let startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
+  const startDate = mappingEvent.startTime ? new Date(mappingEvent.startTime) : null;
+  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
+  let startDateString = null;
   let endDateString = null;
 
-  if (endDate) {
-    startDateString += ' -';
-    endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+  if (startDate) {
+    startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
+
+    if (endDate) {
+      startDateString += ' -';
+      endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+    }
   }
 
   const areaName = mappingEvent.area.properties.name;
@@ -115,7 +118,7 @@ const MappingEventToolbar = ({
           )}
           <div onClick={onHeaderClick} role="button" tabIndex="0" onKeyPress={onHeaderKeyPress}>
             <h2>{mappingEvent.name}</h2>
-            <p>{startDateString}</p>
+            {startDateString && <p>{startDateString}</p>}
             {endDateString && <p>{endDateString}</p>}
             <address>
               {areaName && <p>{areaName}</p>}
