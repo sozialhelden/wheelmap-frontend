@@ -14,7 +14,7 @@ import { type CategoryLookupTables } from '../../lib/Categories';
 type Props = {
   searchResults: SearchResultCollection,
   categories: CategoryLookupTables,
-  className: string,
+  className?: string,
   hidden: ?boolean,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   refFirst: ?(result: ?SearchResult) => void,
@@ -36,7 +36,7 @@ function SearchResults(props: Props) {
   const renderedFeatureIds = [];
 
   return (
-    <ul className={`search-results ${props.className}`} aria-label={t`Search results`}>
+    <ul className={`search-results ${props.className || ''}`} aria-label={t`Search results`}>
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
       {features.map((feature, index) => {

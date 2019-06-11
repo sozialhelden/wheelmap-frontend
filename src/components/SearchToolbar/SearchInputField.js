@@ -7,14 +7,14 @@ import colors from '../../lib/colors';
 import { t } from 'ttag';
 
 type Props = {
-  onSubmit: ?(event: UIEvent) => void,
+  onSubmit: ?(event: SyntheticEvent<HTMLInputElement>) => void,
   onChange: (value: string) => void,
-  onBlur: ?(event: UIEvent) => void,
-  onFocus: ?(event: UIEvent) => void,
-  onClick: ?(event: UIEvent) => void,
+  onBlur: ?(event: SyntheticEvent<>) => void,
+  onFocus: ?(event: SyntheticEvent<>) => void,
+  onClick: ?(event: SyntheticEvent<>) => void,
   ref: (input: HTMLInputElement) => void,
   searchQuery: ?string,
-  className: string,
+  className?: string,
   disabled: ?boolean,
   hidden: boolean,
   ariaRole: string,
@@ -45,7 +45,7 @@ class SearchInputField extends React.Component<Props, State> {
     this.input.blur();
   }
 
-  keyPressed = (event: UIEvent) => {
+  keyPressed = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
     if (event.which === 13 && this.props.onSubmit) {
       this.props.onSubmit(event);
       event.preventDefault();
@@ -76,7 +76,7 @@ class SearchInputField extends React.Component<Props, State> {
         onBlur={onBlur}
         onClick={onClick}
         onKeyPress={this.keyPressed}
-        className={`search-input ${className}`}
+        className={`search-input ${className || ''}`}
         placeholder={defaultPlaceholder}
         aria-label={defaultPlaceholder}
         role={ariaRole}

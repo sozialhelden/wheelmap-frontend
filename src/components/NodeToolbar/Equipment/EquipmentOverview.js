@@ -14,7 +14,7 @@ type Props = {
   equipmentInfos: { [key: string]: EquipmentInfo },
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
-  className: string,
+  className?: string,
   equipmentInfoId: ?string,
 };
 

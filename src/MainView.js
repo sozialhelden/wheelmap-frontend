@@ -62,7 +62,7 @@ import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWe
 import { AppContextConsumer } from './AppContext';
 
 type Props = {
-  className: string,
+  className?: string,
 
   category: ?string,
   categories: CategoryLookupTables,
@@ -82,7 +82,7 @@ type Props = {
   disableWheelmapSource: ?boolean,
 
   mappingEvents: MappingEvents,
-  mappingEvent: MappingEvent,
+  mappingEvent: ?MappingEvent,
 
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
@@ -245,7 +245,9 @@ class MainView extends React.Component<Props, State> {
     }
   };
 
-  onMappingEventHeaderClick = () => this.map && this.map.snapToFeature();
+  onMappingEventHeaderClick = () => {
+    this.map && this.map.snapToFeature();
+  };
 
   onAddPlaceLinkClick = () => {
     this.setState(() => ({ uniqueSurveyId: uuidv4() }));
@@ -312,6 +314,10 @@ class MainView extends React.Component<Props, State> {
       onCloseMappingEventsToolbar,
       app,
     } = this.props;
+
+    if (!mappingEvent) {
+      return null;
+    }
 
     const productName = app.clientSideConfiguration.textContent.product.name;
     const translatedProductName = translatedStringFromObject(productName);
@@ -666,6 +672,10 @@ class MainView extends React.Component<Props, State> {
 
   renderMappingEventWelcomeDialog() {
     const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
+
+    if (!mappingEvent) {
+      return null;
+    }
 
     return (
       <MappingEventWelcomeDialog

@@ -14,7 +14,7 @@ type Props = {
   toiletFilter?: YesNoUnknown[],
   category?: ?string,
   isMainCategory?: boolean,
-  className: string,
+  className?: string,
 };
 
 function CombinedIcon(props: Props) {

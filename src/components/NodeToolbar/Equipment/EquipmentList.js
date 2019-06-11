@@ -3,7 +3,6 @@
 import get from 'lodash/get';
 import sortBy from 'lodash/sortBy';
 import * as React from 'react';
-import type { AnyReactElement } from 'react-flow-types';
 import type { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import EquipmentItem from './EquipmentItem';
 import styled from 'styled-components';
@@ -12,16 +11,16 @@ import colors from '../../../lib/colors';
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  className: string,
+  className?: string,
   outerClassName: string,
   isExpanded: boolean,
   placeInfoId: string,
-  children: AnyReactElement,
+  children: React.Node,
 };
 
 function EquipmentList(props: Props) {
   return (
-    <div className={`${props.outerClassName} ${props.className}`} role="region">
+    <div className={`${props.outerClassName} ${props.className || ''}`} role="region">
       {props.children}
       {Array.from(props.equipmentInfoArrays).map(equipmentInfos => (
         <EquipmentItem

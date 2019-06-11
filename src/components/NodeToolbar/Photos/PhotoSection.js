@@ -14,7 +14,7 @@ import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 
 type Props = {
   featureId: string,
-  className: string,
+  className?: string,
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   photos: PhotoModel[],

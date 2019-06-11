@@ -5,7 +5,7 @@ import * as React from 'react';
 
 type Props = {
   sourceId: ?string,
-  className: string,
+  className?: string,
   license: any,
   source: any,
 };

@@ -11,7 +11,7 @@ import type { AccessibilityCloudProperties, WheelmapProperties } from '../../lib
 import { getCategoryId } from '../../lib/Categories';
 
 type Props = {
-  className: string,
+  className?: string,
   category: ?Category,
   categories: CategoryLookupTables,
   parentCategory: ?Category,

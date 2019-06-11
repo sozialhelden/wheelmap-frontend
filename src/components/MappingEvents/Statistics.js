@@ -1,26 +1,21 @@
+// @flow
+
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 
-import MapPinWithPlusIcon from './MapPinWithPlusIcon';
-import BellIcon from './BellIcon';
+import MapPinWithPlusIcon from '../icons/ui-elements/MapPinWithPlusIcon';
+import BellIcon from '../icons/ui-elements/BellIcon';
 import { UserIcon } from '../icons/ui-elements/index';
 
-interface Props {
-  mappedPlacesCount: number;
-  invitedParticipantCount: number;
-  startDate: Date;
-  endDate: ?Date;
-  className: string;
-}
+type Props = {
+  mappedPlacesCount: number,
+  invitedParticipantCount: number,
+  endDate: ?Date,
+  className?: string,
+};
 
-const Statistics = ({
-  mappedPlacesCount,
-  invitedParticipantCount,
-  startDate,
-  endDate,
-  className,
-}: Props) => {
+const Statistics = ({ mappedPlacesCount, invitedParticipantCount, endDate, className }: Props) => {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event

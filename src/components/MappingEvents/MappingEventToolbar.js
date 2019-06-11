@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type KeyboardEvent } from 'react';
+import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
@@ -9,27 +9,28 @@ import Toolbar from '../Toolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Statistics from './Statistics';
 import Link from '../Link/Link';
-import { RouteConsumer } from '../Link/RouteContext';
+import { RouteConsumer, type RouteContext } from '../Link/RouteContext';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
+import { type RouteParams } from '../../lib/RouterHistory';
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 
-interface MappingEventToolbarProps {
-  className: string;
-  mappingEvent: MappingEvent;
-  joinedMappingEventId: ?String;
+type MappingEventToolbarProps = {
+  className?: string,
+  mappingEvent: MappingEvent,
+  joinedMappingEventId: ?string,
   mappingEventHandlers: {
     updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
-  };
-  onClose: () => void;
-  onHeaderClick: () => void;
-  productName: string;
-  focusTrapActive: Boolean;
-  preferredLanguage: string;
-}
+  },
+  onClose: () => void,
+  onHeaderClick: () => void,
+  productName: ?string,
+  focusTrapActive: boolean,
+  preferredLanguage: string,
+};
 
 const MappingEventToolbar = ({
   className,
@@ -42,9 +43,6 @@ const MappingEventToolbar = ({
   focusTrapActive,
   preferredLanguage,
 }: MappingEventToolbarProps) => {
-  const startDate = new Date(mappingEvent.startTime);
-  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
-
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])
@@ -58,12 +56,18 @@ const MappingEventToolbar = ({
     minute: 'numeric',
   };
 
-  let startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
+  const startDate = mappingEvent.startTime ? new Date(mappingEvent.startTime) : null;
+  const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
+  let startDateString = null;
   let endDateString = null;
 
-  if (endDate) {
-    startDateString += ' -';
-    endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+  if (startDate) {
+    startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
+
+    if (endDate) {
+      startDateString += ' -';
+      endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+    }
   }
 
   const areaName = mappingEvent.area.properties.name;
@@ -90,7 +94,7 @@ const MappingEventToolbar = ({
     </PrimaryButton>
   );
 
-  const onHeaderKeyPress = (event: KeyboardEvent<HTMLDivElement>) =>
+  const onHeaderKeyPress = (event: SyntheticKeyboardEvent<HTMLDivElement>) =>
     event.key === 'Enter' && onHeaderClick();
 
   return (
@@ -100,8 +104,8 @@ const MappingEventToolbar = ({
         <header>
           {!joinedMappingEventId && (
             <RouteConsumer>
-              {context => {
-                const params = { ...context.params };
+              {(context: RouteContext) => {
+                const params: RouteParams = { ...context.params };
                 delete params.id;
 
                 return (
@@ -114,7 +118,7 @@ const MappingEventToolbar = ({
           )}
           <div onClick={onHeaderClick} role="button" tabIndex="0" onKeyPress={onHeaderKeyPress}>
             <h2>{mappingEvent.name}</h2>
-            <p>{startDateString}</p>
+            {startDateString && <p>{startDateString}</p>}
             {endDateString && <p>{endDateString}</p>}
             <address>
               {areaName && <p>{areaName}</p>}
@@ -127,7 +131,6 @@ const MappingEventToolbar = ({
         <Statistics
           mappedPlacesCount={mappingEvent.statistics.mappedPlacesCount}
           invitedParticipantCount={mappingEvent.statistics.invitedParticipantCount}
-          startDate={startDate}
           endDate={endDate}
         />
         <div className="actions">

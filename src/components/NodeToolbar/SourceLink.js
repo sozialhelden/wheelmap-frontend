@@ -9,7 +9,7 @@ import WorldIcon from '../icons/actions/World';
 
 type Props = {
   properties: AccessibilityCloudProperties,
-  className: string,
+  className?: string,
   knownSourceNameCaption: (value: string) => string,
   propertyName: 'infoPageUrl' | 'editPageUrl',
 };
@@ -66,7 +66,7 @@ class SourceLink extends React.Component<Props, State> {
     const caption = sourceName ? knownSourceNameCaption : unknownSourceNameCaption;
 
     return (
-      <a href={href} className={`${className} link-button`}>
+      <a href={href} className={`${className || ''} link-button`}>
         <WorldIcon />
         <span>{caption}</span>
       </a>

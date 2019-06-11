@@ -7,7 +7,7 @@ export interface Route {
 
 export type RouterHistoryMethod = 'push' | 'replace';
 
-export type RouteParams = { [name: string]: any };
+export type RouteParams = { [name: string]: mixed };
 
 export interface RouterHistory {
   push(name: string, params?: RouteParams): void;

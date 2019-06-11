@@ -77,7 +77,7 @@ type Props = {
   categories: CategoryLookupTables,
   feature: Feature,
   featureId: string | number | null,
-  className: string,
+  className?: string,
   onClose: () => void,
   onCloseButtonChanged: () => void,
   onReportComponentChanged: () => void,

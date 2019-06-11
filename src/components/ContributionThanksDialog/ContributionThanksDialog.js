@@ -16,7 +16,7 @@ import { type AppContext } from '../../AppContext';
 export type Props = {
   hidden: boolean,
   isExpanded?: boolean,
-  onClose: ?() => void,
+  onClose: () => void,
   lat: ?number,
   lon: ?number,
   addPlaceUrl: ?string,
@@ -79,10 +79,11 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     // log event on client
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search);
-      if (queryParams.uniqueSurveyId) {
+      const uniqueSurveyId = queryParams.uniqueSurveyId;
+      if (uniqueSurveyId && typeof uniqueSurveyId === 'string') {
         trackingEventBackend.track(this.props.appContext.app, {
           type: 'SurveyCompleted',
-          uniqueSurveyId: queryParams.uniqueSurveyId,
+          uniqueSurveyId: uniqueSurveyId,
         });
       }
     }

@@ -13,7 +13,7 @@ import Logo from '../../lib/Logo';
 import Button from '../Button';
 
 type Props = {
-  className: string,
+  className?: string,
   onReturnHomeClick: () => void,
   statusCode: number,
 };

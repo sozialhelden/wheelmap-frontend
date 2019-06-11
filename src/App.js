@@ -80,7 +80,7 @@ type Props = {
   zoom: ?string,
   extent: ?[number, number, number, number],
   inEmbedMode: boolean,
-  mappingEvents: ?MappingEvents,
+  mappingEvents: MappingEvents,
   mappingEvent?: MappingEvent,
 
   includeSourceIds: Array<string>,
@@ -93,7 +93,7 @@ type Props = {
 } & PlaceDetailsProps;
 
 type State = {
-  mappingEvents: ?MappingEvents,
+  mappingEvents: MappingEvents,
   isOnboardingVisible: boolean,
   joinedMappingEventId: ?string,
   isJoinedMappingEventIdInitial: boolean,
@@ -359,11 +359,13 @@ class App extends React.Component<Props, State> {
       return;
     }
 
+    const search: string = window.location.search;
+
     if (previouslyJoinedMappingEventId) {
       trackingEventBackend.track(this.props.app, {
         type: 'MappingEventLeft',
         leftMappingEventId: previouslyJoinedMappingEventId,
-        query: queryString.parse(window.location.search),
+        query: queryString.parse(search),
       });
     }
 
@@ -372,7 +374,7 @@ class App extends React.Component<Props, State> {
         type: 'MappingEventJoined',
         joinedMappingEventId: joinedMappingEventId,
         joinedVia: reason,
-        query: queryString.parse(window.location.search),
+        query: queryString.parse(search),
       });
     }
   };
@@ -934,7 +936,7 @@ class App extends React.Component<Props, State> {
       isSearchToolbarExpanded: this.state.isSearchToolbarExpanded,
       searchResults: this.props.searchResults,
       inEmbedMode: this.props.inEmbedMode,
-      mappingEvents: this.props.mappingEvents,
+      mappingEvents: this.state.mappingEvents,
       mappingEvent: this.props.mappingEvent,
 
       disableWheelmapSource: this.props.disableWheelmapSource,

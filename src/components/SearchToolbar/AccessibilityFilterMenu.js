@@ -12,7 +12,7 @@ import type { YesNoLimitedUnknown } from '../../lib/Feature';
 import { yesNoUnknownArray } from '../../lib/Feature';
 
 type Props = PlaceFilter & {
-  className: string,
+  className?: string,
   hidden: boolean,
   onCloseClicked: () => void,
   onBlur: () => void,

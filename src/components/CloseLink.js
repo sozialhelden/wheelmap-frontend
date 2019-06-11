@@ -4,18 +4,13 @@ import styled from 'styled-components';
 import CloseIcon from './icons/actions/Close';
 import { t } from 'ttag';
 
-type ClickHandler = (el: HTMLElement, ev: MouseEvent) => void;
-type FocusHandler = (el: HTMLElement, ev: MouseEvent) => void;
-type BlurHandler = (el: HTMLElement, ev: MouseEvent) => void;
-type KeyDownHandler = (el: HTMLElement, ev: KeyboardEvent) => void;
-
 type Props = {
-  className: string,
-  ariaLabel: ?string,
-  onClick: ClickHandler,
-  onFocus: FocusHandler,
-  onBlur: BlurHandler,
-  onKeyDown: KeyDownHandler,
+  className?: string,
+  ariaLabel?: string,
+  onClick: (event: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  onFocus?: (event: SyntheticEvent<>) => void,
+  onBlur?: (event: SyntheticEvent<>) => void,
+  onKeyDown?: (event: SyntheticKeyboardEvent<>) => void,
 };
 
 class CloseLink extends React.Component<Props> {

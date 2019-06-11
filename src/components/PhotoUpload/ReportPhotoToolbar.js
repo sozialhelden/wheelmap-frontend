@@ -95,7 +95,7 @@ const StyledToolbar = styled(Toolbar)`
     }
 
     img {
-      margin: 0;      
+      margin: 0;
       width: 100%;
       object-fit: contain;
     }
@@ -122,7 +122,7 @@ const StyledToolbar = styled(Toolbar)`
       text-align: center;
     }
   }
-  
+
   .link-button[disabled] {
     opacity: 0.8;
     background-color: ${colors.neutralBackgroundColor};
@@ -147,15 +147,15 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   };
 
-  onClose = (event: UIEvent) => {
+  onClose = (event: SyntheticMouseEvent<HTMLButtonElement>) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
     }
   };
 
-  onRadioGroupKeyDown = (event: SyntheticEvent<HTMLInputElement>) => {
-    if (event.nativeEvent.key === 'Enter') {
+  onRadioGroupKeyDown = (event: SyntheticKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
       this.onSubmit(event);
     }
   };

@@ -12,7 +12,7 @@ type Props = {
   ariaHidden?: boolean,
   topPosition: number,
   color: string,
-  className: string,
+  className?: string,
 };
 
 function NotificationButton(props: Props) {

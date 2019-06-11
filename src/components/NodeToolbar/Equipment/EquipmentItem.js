@@ -11,7 +11,7 @@ import getHumanEnumeration from '../../../lib/getHumanEnumeration';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
-  className: string,
+  className?: string,
   onSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   isExpanded: boolean,
@@ -114,7 +114,7 @@ function EquipmentItem(props: Props) {
   // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
   return (
     <button
-      className={`link-button full-width-button ${props.className} ${
+      className={`link-button full-width-button ${props.className || ''} ${
         isExpanded && hasBrokenEquipment ? 'has-broken-equipment' : ''
       }`}
       key={description}

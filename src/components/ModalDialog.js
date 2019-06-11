@@ -6,12 +6,11 @@ import * as React from 'react';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
 type Props = {
-  onClose: () => {},
+  onClose?: () => void,
   isVisible: boolean,
-  className: string,
+  className?: string,
   ariaLabel: string,
   ariaDescribedBy: string,
-  isKeyboardShown: boolean,
   children: React.Node,
 };
 
@@ -22,12 +21,12 @@ function ModalDialog(props: Props) {
     return null;
   }
 
-  const hasKeyboard = props.isKeyboardShown;
-
   return (
     <FocusTrap
       component="section"
-      className={`modal-dialog ${props.className} ${!isVisible ? 'modal-dialog-hidden' : ''}`}
+      className={`modal-dialog ${props.className ? props.className : ''} ${
+        !isVisible ? 'modal-dialog-hidden' : ''
+      }`}
       role="dialog"
       aria-label={props.ariaLabel}
       aria-describedby={props.ariaDescribedBy}
@@ -37,7 +36,7 @@ function ModalDialog(props: Props) {
         onClick={props.onClose}
         aria-hidden="true"
       />
-      <div className={`modal-dialog-inner ${hasKeyboard ? 'with-shown-keyboard' : ''}`}>
+      <div className="modal-dialog-inner">
         <div className={'modal-dialog-content'}>
           <button className={'close-dialog'} onClick={props.onClose}>
             <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">

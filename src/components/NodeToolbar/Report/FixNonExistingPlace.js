@@ -20,37 +20,21 @@ export default class ReportProblemButton extends React.Component<Props> {
     this.editLink && this.editLink.focus();
   }
 
-  trapFocus = ({ nativeEvent }: { nativeEvent: Event }) => {
-    if (
-      nativeEvent.target === this.howToLink &&
-      nativeEvent.key === 'Tab' &&
-      nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
+  trapFocus = (event: SyntheticKeyboardEvent<>) => {
+    if (event.target === this.howToLink && event.key === 'Tab' && event.shiftKey) {
+      event.preventDefault();
       this.editLink && this.editLink.focus();
     }
-    if (
-      nativeEvent.target === this.editLink &&
-      nativeEvent.key === 'Tab' &&
-      !nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
+    if (event.target === this.editLink && event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
       this.noteLink && this.noteLink.focus();
     }
-    if (
-      nativeEvent.target === this.noteLink &&
-      nativeEvent.key === 'Tab' &&
-      !nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
+    if (event.target === this.noteLink && event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
       this.backButton && this.backButton.focus();
     }
-    if (
-      nativeEvent.target === this.backButton &&
-      nativeEvent.key === 'Tab' &&
-      !nativeEvent.shiftKey
-    ) {
-      nativeEvent.preventDefault();
+    if (event.target === this.backButton && event.key === 'Tab' && !event.shiftKey) {
+      event.preventDefault();
       this.howToLink && this.howToLink.focus();
     }
   };

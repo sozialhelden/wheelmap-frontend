@@ -7,13 +7,12 @@ import styled from 'styled-components';
 import debounce from 'lodash/debounce';
 import Swipeable from 'react-swipeable';
 import * as React from 'react';
-import type { AnyReactElement } from 'react-flow-types';
 import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
 
 type Props = {
-  className: string,
-  children: AnyReactElement,
+  className?: string,
+  children: React.Node,
   hidden?: boolean,
   inert?: boolean,
   role?: string,

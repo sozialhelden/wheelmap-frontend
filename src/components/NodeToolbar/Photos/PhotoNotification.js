@@ -8,7 +8,7 @@ import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 
 type Props = {
-  className: string,
+  className?: string,
   notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
   uploadProgress?: number, // between 0 and 100
   photoFlowErrorMessage?: string,
@@ -77,7 +77,7 @@ class PhotoNotification extends React.Component<Props, State> {
     };
 
     return (
-      <div className={`${className} notification-mode-${usedType}`}>
+      <div className={`${className || ''} notification-mode-${usedType}`}>
         {notificationComponents[usedType]}
       </div>
     );

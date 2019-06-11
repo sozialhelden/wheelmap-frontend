@@ -12,8 +12,8 @@ import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
 type Props = {
-  onClick: () => void,
-  className: string,
+  onClick: (event: SyntheticMouseEvent<HTMLButtonElement>) => void,
+  className?: string,
   category: ?string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],

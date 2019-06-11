@@ -14,7 +14,7 @@ import { translatedStringFromObject } from '../../lib/i18n';
 import { ChromelessButton, CallToActionButton } from '../Button';
 
 type Props = {
-  className: string,
+  className?: string,
   isVisible: boolean,
   onClose: () => void,
   headerMarkdown: string,

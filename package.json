@@ -133,7 +133,6 @@
     "prettier-eslint-cli": "^4.7.1",
     "promise": "8.0.1",
     "react-dev-utils": "^4.0.1",
-    "react-flow-types": "^0.1.1",
     "rimraf": "^2.6.3",
     "svgr": "^1.7.0",
     "sw-precache-webpack-plugin": "0.11.4",
