@@ -5,9 +5,12 @@ import styled from 'styled-components';
 import * as React from 'react';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 
+import { PrimaryButton } from './Button';
+
 type Props = {
   onClose?: () => void,
   isVisible: boolean,
+  showCloseButton?: boolean,
   className?: string,
   ariaLabel: string,
   ariaDescribedBy: string,
@@ -37,19 +40,21 @@ function ModalDialog(props: Props) {
         aria-hidden="true"
       />
       <div className="modal-dialog-inner">
-        <div className={'modal-dialog-content'}>
-          <button className={'close-dialog'} onClick={props.onClose}>
-            <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
-              <polygon
-                id="\xD7"
-                stroke="none"
-                fill="#000"
-                opacity="0.8"
-                fillRule="evenodd"
-                points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031"
-              />
-            </svg>
-          </button>
+        <div className="modal-dialog-content">
+          {props.showCloseButton && (
+            <button className={'close-dialog'} onClick={props.onClose}>
+              <svg width="0.5em" height="0.5em" viewBox="168 231 31 31" version="1.1">
+                <polygon
+                  id="\xD7"
+                  stroke="none"
+                  fill="#000"
+                  opacity="0.8"
+                  fillRule="evenodd"
+                  points="180.121094 246.582031 168.90625 235.296875 172.351562 231.816406   183.601562 243.066406 194.957031 231.816406 198.4375 235.191406 187.046875 246.582031 198.367188 257.902344 194.957031 261.277344 183.601562 250.027344 172.351562 261.207031 168.976562 257.832031"
+                />
+              </svg>
+            </button>
+          )}
           {props.children}
         </div>
       </div>
@@ -123,32 +128,30 @@ const StyledModalDialog = styled(ModalDialog)`
     background-color: rgba(200, 200, 200, 0.8);
   }
   .modal-dialog-fullscreen-overlay {
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: transparent;
   }
-  .modal-dialog-default .modal-dialog-content {
-    position: relative;
-    box-sizing: border-box;
-    overflow: auto;
-    max-width: 40em;
-    max-height: 100%;
-    padding: 3em 1em 2em 1em;
-    color: #333;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-  .modal-dialog-default .modal-dialog-content h1 {
-    margin: 0.5em 0;
-    font-size: 2em;
-  }
-  .modal-dialog-default .modal-dialog-content button {
-    border: none;
-    outline: none;
-    border-radius: 0;
-  }
-  .modal-dialog-default .modal-dialog-content button:hover,
-  .modal-dialog-default .modal-dialog-content button:active {
-    font-size: 1em;
-    color: #fff;
+  .modal-dialog-content {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15), 0 2px 5px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.5s linear;
+    max-width: 80%;
+    text-align: center;
+
+    p {
+      margin-top: 0;
+      max-width: 400px;
+      align-self: center;
+    }
+
+    ${PrimaryButton} {
+      margin-top: 20px;
+      max-width: 250px;
+      align-self: center;
+    }
   }
 `;
 export default StyledModalDialog;
