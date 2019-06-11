@@ -22,17 +22,18 @@ const Statistics = ({
   className,
 }: Props) => {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
-  const statisticsRegionAriaLabel = t`Mapping Event Zahlen`;
+  const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event
-  const mappedPlacesLabel = t`Neue Orte`;
+  const mappedPlacesLabel = t`Mapped Places`;
   // translator: Description for number of people invited to the current mapping event
-  const inviteesCountAriaLabel = t`Teilnehmer`;
+  const inviteesCountAriaLabel = t`Participants`;
   // translator: Description for number of days left in the mapping event
-  const daysLeftLabel = t`Verbleibende Tage`;
+  const daysLeftLabel = t`Days Left`;
 
+  const currentDate = new Date();
   const remainingDaysLeft =
-    endDate && endDate > new Date()
-      ? Math.floor((endDate - startDate) / 1000 / 60 / 60 / 24) + 1
+    endDate && endDate > currentDate
+      ? Math.ceil((endDate - currentDate) / 1000 / 60 / 60 / 24)
       : null;
 
   return (
