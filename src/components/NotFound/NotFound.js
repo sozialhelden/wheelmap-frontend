@@ -10,7 +10,7 @@ import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import Logo from '../../lib/Logo';
-import Button from '../Button';
+import { PrimaryButton } from '../Button';
 
 type Props = {
   className?: string,
@@ -71,14 +71,14 @@ class NotFound extends React.Component<Props> {
     const retryCaption = t`Retry`;
 
     const returnHomeLink = (
-      <Button
+      <PrimaryButton
         className="button-cta-close focus-visible"
         onClick={this.props.onReturnHomeClick}
         onKeyDown={this.manageFocus}
         ref={button => (this.closeButton = findDOMNode(button))}
       >
         {returnHomeButtonCaption} <ChevronRight />
-      </Button>
+      </PrimaryButton>
     );
 
     const reloadButton = (
