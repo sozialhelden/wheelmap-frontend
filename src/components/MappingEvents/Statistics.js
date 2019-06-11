@@ -11,18 +11,11 @@ import { UserIcon } from '../icons/ui-elements/index';
 type Props = {
   mappedPlacesCount: number,
   invitedParticipantCount: number,
-  startDate: Date,
   endDate: ?Date,
   className?: string,
 };
 
-const Statistics = ({
-  mappedPlacesCount,
-  invitedParticipantCount,
-  startDate,
-  endDate,
-  className,
-}: Props) => {
+const Statistics = ({ mappedPlacesCount, invitedParticipantCount, endDate, className }: Props) => {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event

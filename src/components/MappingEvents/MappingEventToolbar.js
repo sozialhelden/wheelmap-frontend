@@ -128,7 +128,6 @@ const MappingEventToolbar = ({
         <Statistics
           mappedPlacesCount={mappingEvent.statistics.mappedPlacesCount}
           invitedParticipantCount={mappingEvent.statistics.invitedParticipantCount}
-          startDate={startDate}
           endDate={endDate}
         />
         <div className="actions">
