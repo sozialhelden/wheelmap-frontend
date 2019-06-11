@@ -103,6 +103,8 @@ Before deploying new versions:
 
 ## Translation process
 
+Ensure the transifex client is correctly setup https://docs.transifex.com/client/client-configuration#-transifexrc
+
 Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
 
 We deploy every new feature in English and German first, and add support for all 27 languages in the following sprint.
