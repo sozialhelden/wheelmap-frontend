@@ -1,549 +1,141 @@
 # Translators:
-# Sebastian Felix Zappe <hypo@me.com>, 2018
-# Developers, 2018
+# Developers, 2019
+# Sebastian Felix Zappe <hypo@me.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2018\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2019\n"
 "Language-Team: Polish (https://www.transifex.com/sozialhelden/teams/16671/pl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: pl\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#. Conjunction between two words (like the ‘and’ in ‘humans and animals’).
-#. Please don't forget to include necessary spaces.
-#: src/lib/getHumanEnumeration.js:26
-msgid " and "
-msgstr "oraz"
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:337
+msgid "Search"
+msgstr "Szukaj"
 
-#. Conjunction between two words (like the ‘or’ in ‘humans or animals’).
-#. Please don't forget to include necessary spaces.
-#: src/lib/getHumanEnumeration.js:20
-msgid " or "
-msgstr "albo"
-
-#. Used to describe a place with unknown name, but known category (when
-#. sharing)
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:129
-msgid "${ categoryName } on Wheelmap"
-msgstr "${ categoryName } na Wheelmap"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:32
-msgid "${ count } elevator in service"
-msgid_plural "${ count } elevators in service"
-msgstr[0] "${ count } czynna winda"
-msgstr[1] "${ count } czynne windy"
-msgstr[2] "${ count } czynnych wind"
-msgstr[3] "${ count } czynnych wind"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
-msgid "${ count } elevator out of service"
-msgid_plural "${ count } elevators out of service"
-msgstr[0] "${ count } nieczynna winda"
-msgstr[1] "${ count } nieczynne windy"
-msgstr[2] "${ count } nieczynnych wind"
-msgstr[3] "${ count } nieczynne windy"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:40
-msgid "${ count } elevator with unknown operational status"
-msgid_plural "${ count } elevators with unknown operational status"
-msgstr[0] "${ count } winda o nieznanym stanie działania"
-msgstr[1] "${ count } windy o nieznanym stanie działania"
-msgstr[2] "${ count } wind o nieznanym stanie działania"
-msgstr[3] "${ count } windy o nieznanym stanie działania"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:33
-msgid "${ count } escalator in service"
-msgid_plural "${ count } escalators in service"
-msgstr[0] "${ count } czynna winda"
-msgstr[1] "${ count } czynne windy"
-msgstr[2] "${ count } czynnych wind"
-msgstr[3] "${ count } czynnych wind"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:37
-msgid "${ count } escalator out of service"
-msgid_plural "${ count } escalators out of service"
-msgstr[0] "${ count } nieczynna winda"
-msgstr[1] "${ count } nieczynne windy"
-msgstr[2] "${ count } nieczynnych wind"
-msgstr[3] "${ count } nieczynnych wind"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
-msgid "${ count } escalator with unknown operational status"
-msgid_plural "${ count } escalators with unknown operational status"
-msgstr[0] "${ count } winda o nieznanym stanie działania"
-msgstr[1] "${ count } windy o nieznanym stanie działania"
-msgstr[2] "${ count } wind o nieznanym stanie działania"
-msgstr[3] "${ count } wind o nieznanym stanie działania"
-
-#. Email body used when sharing a place with known name via email.// Email
-#. subject used for sharing a place via email.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:134
-msgid "${ placeName } on Wheelmap.org"
-msgstr "${ placeName } na Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:138
-msgid "${ sharedObjectTitle }\\n\\nClick on this link to open it: ${ url }"
-msgstr "${ sharedObjectTitle }\\n\\nKliknij ten link, aby otworzyć: ${ url }"
-
-#. Explains that edits don't get propagated back to Wheelmap directly after
-#. editing
-#: src/components/NodeToolbar/Report/strings.js:34
-msgid ""
-"(Note that it can take some time after editing until the place is updated on"
-" Wheelmap.)"
+#: src/pages/_app.js:338
+msgid "Homepage"
 msgstr ""
-"(Pamiętaj, że po dokonaniu edycji może minąć trochę czasu, zanim miejsce "
-"zostanie zaktualizowane na Wheelmap)."
 
-#. Explains that you have to log in before editing places on OSM and that
-#. edits don't get propagated back directly
-#: src/components/NodeToolbar/Report/strings.js:22
-msgid ""
-"(Note that you need to log in to do this, and that it can take some time "
-"until the place is updated on Wheelmap.)"
-msgstr ""
-"(Pamiętaj, że aby to zrobić, musisz najpierw się zalogować; poza tym "
-"aktualizacja miejsca na Wheelmap może zająć trochę czasu)."
-
-#. Report email body with place URL
-#: src/components/NodeToolbar/Report/strings.js:41
-msgid ""
-"(Please only write in English or German.)\\n\\nDear "
-"Sozialhelden,\\n\\nsomething about this place is wrong: ${ url }\\n\\nThe "
-"problem is:\\n\\nMy browser:\\n\\n${ navigator.userAgent }"
-msgstr ""
-"(Pisz tylko po angielsku lub niemiecku).\\n\\nCześć Sozialhelden,\\n\\ncoś z"
-" tym miejscem jest nie tak: ${ url }\\n\\nProblem "
-"dotyczy:\\n\\nPrzeglądarka:\\n\\n${ navigator.userAgent }"
-
-#. In a comma-separated serial enumeration, this string is the ', and'
-#. conjunction before the last word, with a serial comma at the beginning if
-#. the language has a serial comma
-#. (https://en.wikipedia.org/wiki/Serial_comma).
-#: src/lib/getHumanEnumeration.js:24
-msgid ", and"
-msgstr "oraz"
-
-#. In a comma-separated serial enumeration, this string is the ', or'
-#. conjunction before the last word, with a serial comma at the beginning if
-#. the language has a serial comma
-#. (https://en.wikipedia.org/wiki/Serial_comma).
-#: src/lib/getHumanEnumeration.js:18
-msgid ", or "
-msgstr "albo"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
-msgid "...do not show any identifiable persons."
-msgstr "...nie pokazują możliwych do zidentyfikowania osób."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
-msgid "...give useful information on accessibility."
-msgstr "...dostarczają przydatnych informacji o dostępności."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
-msgid "...were taken by me."
-msgstr "...zostały zrobione przeze mnie. "
-
-#: src/lib/Feature.js:371
-msgid "Accessible sink"
-msgstr "Dostępna umywalka"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:162
-#: src/components/MainMenu/strings.js:22
-msgid "Add a new place"
-msgstr "Dodaj brakujące miejsce"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
-msgid "Add a place on OpenStreetMap"
-msgstr "Dodaj miejsce w OpenStreetMap"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:23
-#: src/components/PhotoUpload/PhotoUploadButton.js:25
-msgid "Add images"
-msgstr "Dodaj obrazy"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
-msgid "Add info on ${ sourceNameString }"
-msgstr "Popraw ${ sourceNameString }"
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "All elevators and escalators"
-msgstr "Wszystkie windy i schody ruchome"
-
-#. Shown in collapsed search/filter combi button when there is no category
-#. filter set
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "Wszystkie miejsca"
-
-#. Root category
-#: src/lib/Categories.js:62
-msgid "Authorities"
-msgstr "Urzędy"
-
-#. Button caption in photo captcha dialog
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
-#: src/components/NodeToolbar/Report/strings.js:28
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:319
-msgid "Back"
-msgstr "Wróć"
-
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:22
-msgid "Call ${ phoneNumber }"
-msgstr "Zadzwoń pod ${ phoneNumber }"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:166
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:320
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:193
-msgid "Cancel"
-msgstr "Anuluj"
-
-#. Button caption shown while editing a place’s wheelchair statu
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:160
-msgid "Change"
-msgstr "Zmień"
-
-#: src/components/SearchToolbar/SearchToolbar.js:400
-msgid "Clear search"
-msgstr "Wyczyść wyszukiwanie"
-
-#: src/lib/Feature.js:371
-msgid "Clear turning space ≥ 150 cm wide"
-msgstr "Wolna powierzchnia ≥ 150 cm szerokości"
-
-#: src/lib/Feature.js:371
-msgid "Clear turning space ≥ 59 inches wide"
-msgstr "Wolna powierzchnia ≥ 59 cali szerokości"
-
-#. Explains how to reach the place details on the external page the place
-#. comes from (for example Jaccede).
-#: src/components/NodeToolbar/Report/strings.js:32
-msgid "Click the link below for details about the place and for editing."
-msgstr ""
-"Użyj poniższego linku, aby dowiedzieć się więcej o miejscu i edytowaniu."
-
-#. Button caption in photo upload Instructions dialog
-#: src/components/CloseLink.js:46
-#: src/components/CreatePlaceDialog/CloseButton.js:26
-#: src/components/NodeToolbar/Photos/PhotoSection.js:163
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:231
-msgid "Close"
-msgstr "Zamknij"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:181
-msgid "Close (Esc)"
-msgstr "Zamknij (Esc)"
-
-#: src/components/Toolbar.js:287
-msgid "Collapse panel"
-msgstr "Rozwijany panel"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:150
-msgid "Collapse share menu"
-msgstr "Zwiń menu udostępniania"
-
-#. Button caption shown while editing a place’s wheelchair statu
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:157
-msgid "Confirm"
-msgstr "Potwierdź"
-
-#. Main menu item
-#: src/components/MainMenu/strings.js:16
-msgid "Contact"
-msgstr "Kontakt"
-
-#. Button caption in report dialog
-#: src/components/NodeToolbar/Report/strings.js:36
-msgid "Contact the Wheelmap support team"
-msgstr "Skontaktuj się z zespołem wsparcia Wheelmap"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:163
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:323
-msgid "Continue"
-msgstr "Kontynuuj"
-
-#. Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.js:168 src/lib/cache/WheelmapFeatureCache.js:22
-msgid "Could not load this place."
-msgstr "Nie można załadować tego miejsca."
-
-#. Button caption in the place toolbar. Navigates to a place's details on an
-#. external page.
-#: src/components/NodeToolbar/SourceLink.js:60
-msgid "Details"
-msgstr "Szczegóły"
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:64
-msgid "Disruptions at this location"
-msgstr "Problemy w tej lokalizacji"
-
-#: src/lib/Feature.js:371
-msgid "Doorways' inner width ≥ 35 inches"
-msgstr "Szerokość wewnętrzna otworu drzwi ≥ 35 cali"
-
-#: src/lib/Feature.js:371
-msgid "Doorways' inner width ≥ 90 cm"
-msgstr "Szerokość wewnętrzna otworu drzwi ≥ 90 cm"
-
-#. Button caption in report dialog
-#: src/components/NodeToolbar/Report/strings.js:24
-msgid "Edit this place on OpenStreetMap"
-msgstr "Edytuj to miejsce na OpenStreetMap"
-
-#. Root category
-#: src/lib/Categories.js:60
-msgid "Education"
-msgstr "Edukacja"
-
-#: src/lib/EquipmentInfo.js:124
-msgid "Elevator"
-msgstr "winda"
-
-#: src/lib/Feature.js:350
-msgid ""
-"Entrance has a high step or several steps, none of the rooms are accessible."
-msgstr "Wejście ma stopień lub kilka stopni, pomieszczenia są niedostępne."
-
-#: src/lib/Feature.js:341
-msgid "Entrance has no steps, and all rooms are accessible without steps."
-msgstr "Wejście bez stopni, wszystkie pomieszczenia bez stopni."
-
-#. Describes criteria for marking places as partially wheelchair accessible on
-#. Wheelmap, using imperial unit
-#: src/lib/Feature.js:345
-msgid ""
-"Entrance has one step with max. 3 inches height, most rooms are without "
-"steps."
-msgstr ""
-"Wejście posiada jeden stopień o wysokości maksymalnie 3 cali. Większość "
-"pokoi nie posiada stopni. "
-
-#. Describes criteria for marking places as partially wheelchair accessible on
-#. Wheelmap, using metric unit
-#: src/lib/Feature.js:347
-msgid ""
-"Entrance has one step with max. 7 cm height, most rooms are without steps."
-msgstr ""
-"Wejście posiada jeden stopień o wysokości maksymalnie 7 cm. Większość pokoi "
-"nie ma stopni."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:292
-msgid "Entrances"
-msgstr "Wejścia"
-
-#. Shown as header text on the error page.
-#: src/components/NotFound/NotFound.js:44
-#: src/components/NotFound/NotFound.js:77
+#: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
+#: src/components/NotFound/NotFound.js:98
 msgid "Error"
 msgstr "Błąd"
 
-#. Shown when there was an error while loading a place.
-#: src/lib/cache/URLDataCache.js:50
-msgid "Error while loading data."
-msgstr "Błąd przesyłania danych."
+#: src/components/NotFound/NotFound.js:51
+msgid ""
+"This URL does not work anymore. If you think the place does exist, you can "
+"use the search to find it."
+msgstr ""
+"URL nie działa. Jeśli sądzisz, że to miejsce istnieje, możesz skorzystać z "
+"wyszukiwarki do jego odnalezienia. "
 
-#. Shown when there was an error while loading category data from the backend.
-#: src/lib/Categories.js:127
-msgid "Error while loading place categories."
-msgstr "Błąd wczytywania kategorii miejsca. "
+#: src/components/NotFound/NotFound.js:54
+msgid "Sorry, we are offline!"
+msgstr "Przepraszamy, jesteśmy offline!"
 
-#: src/lib/EquipmentInfo.js:123
-msgid "Escalator"
-msgstr "schody ruchome"
+#: src/components/ErrorBoundary.js:44 src/components/NotFound/NotFound.js:67
+msgid "Sorry, that should not have happened!"
+msgstr "Przepraszamy, to nie powinno było się zdarzyć!"
 
-#: src/components/Toolbar.js:287
-msgid "Expand panel"
-msgstr "Rozszerz panel"
+#: src/components/ErrorBoundary.js:47 src/components/NotFound/NotFound.js:69
+msgid "Return home"
+msgstr "Powrót do strony głównej"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:142
-msgid "Expand share menu"
-msgstr "Rozwiń menu udostępniania"
+#: src/components/NotFound/NotFound.js:71
+msgid "Retry"
+msgstr "Ponów"
 
-#. Main menu item
-#: src/components/MainMenu/strings.js:20
-msgid "FAQ"
-msgstr "FAQ"
+#: src/lib/Categories.js:87
+msgid "Shopping"
+msgstr "Zakupy"
 
-#. An equipment or facility whose category we don't know. It might be an
-#. elevator, escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:126
-msgid "Facility"
-msgstr "obiekt"
-
-#. Link caption to the explanatory article that shows how to mark a place as
-#. closed.
-#: src/components/NodeToolbar/Report/strings.js:18
-msgid "Find out how"
-msgstr "Dowiedz się jak"
-
-#. Claim in the main menu toolbar, next to the logo
-#: src/components/MainMenu/strings.js:24
-msgid "Find wheelchair accessible places"
-msgstr "Znajdź miejsca dostępne dla wózków"
-
-#: src/lib/Feature.js:371
-msgid "Foldable grab rails"
-msgstr "Składane uchwyty"
-
-#. Root category
-#: src/lib/Categories.js:50
+#: src/lib/Categories.js:91
 msgid "Food & Drinks"
 msgstr "Jedzenie i picie"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
-msgid ""
-"For identifiable persons, written consent must be obtained in accordance "
-"with <a "
-"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
-"target=\"_blank\">GDPR</a>."
-msgstr ""
-"W przypadku osób możliwych do zidentyfikowania należy uzyskać pisemne "
-"pozwolenie zgodnie z <a "
-"href=\"https://en.wikipedia.org/wiki/General_Data_Protection_Regulation\" "
-"target=\"_blank\">RODO</a>."
+#: src/lib/Categories.js:95
+msgid "Transport"
+msgstr "Transport"
 
-#: src/lib/Feature.js:322
-msgid "Fully"
-msgstr "W pełni"
+#: src/lib/Categories.js:99
+msgid "Leisure"
+msgstr "Rekreacja"
 
-#: src/lib/Feature.js:303
-msgid "Fully wheelchair accessible"
-msgstr "W pełni dostępne dla wózków"
-
-#. Main menu item
-#: src/components/MainMenu/strings.js:10
-msgid "Get involved"
-msgstr "Zaangażuj się"
-
-#. button shown next to the search bar
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:326
-#: src/components/SearchToolbar/SearchToolbar.js:408
-msgid "Go"
-msgstr "Idź"
-
-#. Root category
-#: src/lib/Categories.js:64
-msgid "Health"
-msgstr "Zdrowie"
-
-#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
-#. window.
-#: src/components/Onboarding/Onboarding.js:29
-msgid "Help out by marking places!"
-msgstr "Pomóż, oznaczając miejsca!"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:380
-msgid "Hi Wheelmap Team, I have an image of the following place:"
-msgstr "Cześć, załogo Wheelmap! Posiadam obraz następującego miejsca:"
-
-#: src/components/MainMenu/MainMenu.js:164
-msgid "Home"
-msgstr "Strona główna"
-
-#. Root category
-#: src/lib/Categories.js:56
+#: src/lib/Categories.js:103
 msgid "Hotels"
 msgstr "Hotele"
 
-#. Shown as header/title when you edit wheelchair accessibility of a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:26
-#: src/components/NodeToolbar/NodeToolbar.js:224
-msgid "How wheelchair accessible is this place?"
-msgstr "Jak dostępne dla wózków jest to miejsce?"
+#: src/lib/Categories.js:107
+msgid "Tourism"
+msgstr "Turystyka"
 
-#. Email body used when sharing a place without known name/category via email.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:115
-msgid "I found a place on Wheelmap: ${ url }"
-msgstr "Udało mi się znaleźć miejsce na Wheelmap: ${ url }"
+#: src/lib/Categories.js:111
+msgid "Education"
+msgstr "Edukacja"
 
-#. First line in an email and shared object title used when sharing a place
-#. via email or a social network.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:119
-msgid "I found a place on Wheelmap…"
-msgstr "Udało mi się znaleźć miejsce na Wheelmap…"
+#: src/lib/Categories.js:115
+msgid "Authorities"
+msgstr "Urzędy"
 
-#. First line in an email and shared object title used when sharing a place
-#. via email or a social network.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:132
-msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "Udało mi się znaleźć to miejsce na Wheelmap: ${ placeName }"
+#: src/lib/Categories.js:119
+msgid "Health"
+msgstr "Zdrowie"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
-msgid ""
-"I grant Sozialhelden e.V. unlimited right to use and to republish the "
-"uploaded images under the <a href=\"https://creativecommons.org/licenses/by-"
-"sa/4.0/legalcode\" target=\"_blank\">Creative Commons CC-BY-SA license</a>."
+#: src/lib/Categories.js:123
+msgid "Money"
+msgstr "Pieniądze"
+
+#: src/lib/Categories.js:127
+msgid "Sports"
+msgstr "Sport"
+
+#: src/lib/Categories.js:131
+msgid "Toilets"
 msgstr ""
-"Udzielam Sozialhelden e.V. nielimitowanego prawa do wykorzystywania i "
-"ponownego opublikowania przesłanych obrazów na podstawie <a "
-"href=\"https://creativecommons.org/licenses/by-sa/4.0/legalcode\" "
-"target=\"_blank\">licencji Creative Commons CC-BY-SA</a>."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:36
-msgid "I have more information about this place."
-msgstr "Mam więcej informacji o tym miejscu."
+#: src/lib/Categories.js:255
+msgid "Error while loading place categories."
+msgstr "Błąd wczytywania kategorii miejsca. "
 
-#. Explains that you need to go to OSM to mark a place as closed.
-#: src/components/NodeToolbar/Report/strings.js:16
-msgid ""
-"If the place has closed permanently, you can tag the place as ‘disused’ on "
-"OpenStreetMap."
-msgstr ""
-"Jeśli miejsce jest zamknięte na stałe, możesz oznaczyć je jako „opuszczone” "
-"na OpenStreetMap."
+#: src/lib/EquipmentInfo.js:100
+msgid "Unnamed facility"
+msgstr "Obiekt bez nazwy"
 
-#. Shown below the captcha input field before uploading an image. We try to
-#. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:390
-msgid ""
-"If you cannot read or enter this, please contribute your image via email!"
-msgstr ""
-"Jeśli nie możesz tego przeczytać lub wprowadzić, prosimy o przesłanie obrazu"
-" e-mailem!"
-
-#. title for a report option where the photo does not match the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
-msgid "Image shows another place."
-msgstr "Obraz pokazuje inne miejsce."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:380
-msgid "Image upload"
-msgstr "Przesyłanie obrazu"
-
-#. Main menu item
-#: src/components/MainMenu/strings.js:18
-msgid "Imprint"
-msgstr "Informacje prawne"
-
-#. An equipment or facility status. The facility might be an elevator,
-#. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:88
+#: src/lib/EquipmentInfo.js:114
 msgid "In operation"
 msgstr "Działający"
 
-#. Gives credits to the external organization this place comes from. The
-#. organization's name is mentioned after this text.
-#: src/components/NodeToolbar/Report/strings.js:30
-msgid ""
-"Information about this place has kindly been provided by another "
-"organization."
-msgstr ""
-"Informacje dotyczące tego miejsca uzyskano dzięki pomocy innej organizacji"
+#: src/lib/EquipmentInfo.js:116
+msgid "Out of order"
+msgstr "nieczynne"
 
-#. Header for the toilet status prompt. Asks the user if the edited place’s
-#. toilet is wheelchair accessible.
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:35
-msgid "Is the toilet here wheelchair accessible?"
-msgstr "Czy toaleta tutaj jest dostępna dla wózków?"
+#: src/lib/EquipmentInfo.js:118
+msgid "Unknown operational status"
+msgstr "nieznany status"
 
-#. Header of the report dialog
-#: src/components/NodeToolbar/Report/strings.js:8
-msgid "Is there a problem with this place?"
-msgstr "Jest jakiś problem z tym miejscem?"
+#: src/lib/EquipmentInfo.js:159
+msgid "Escalator"
+msgstr "schody ruchome"
 
-#. Shown for equipment when the last known status information is too old.
-#: src/lib/EquipmentInfo.js:141
+#: src/lib/EquipmentInfo.js:160
+msgid "Elevator"
+msgstr "winda"
+
+#: src/lib/EquipmentInfo.js:162
+msgid "Facility"
+msgstr "obiekt"
+
+#: src/lib/EquipmentInfo.js:166
+msgid "today"
+msgstr "dziś"
+
+#: src/lib/EquipmentInfo.js:167
+msgid "yesterday"
+msgstr "wczoraj"
+
+#: src/lib/EquipmentInfo.js:186
 msgid ""
 "Last known operational status: ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
@@ -551,71 +143,367 @@ msgstr ""
 "Ostatnią rzeczą, którą wiemy, jest to, że element ${ "
 "translatedEquipmentCategory } był ${ lastStatus } dnia ${ dateString }."
 
-#. Shown next to equipment status.
-#: src/lib/EquipmentInfo.js:148
+#: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
 msgstr "Ostatnia aktualizacja: ${ dateString }."
 
-#. Additional description text for sharing a place in a social network.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:137
-msgid "Learn more about the accessibility of this place"
-msgstr "Dowiedz się o dostępności tego miejsca."
+#: src/lib/Feature.js:469
+msgid "Fully wheelchair accessible"
+msgstr "W pełni dostępne dla wózków"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
-#: src/components/NodeToolbar/Report/strings.js:26
-msgid "Leave a note on OpenStreetMap"
-msgstr "Zostaw notatkę w OpenStreetMap"
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
+#: src/lib/Feature.js:472
+msgid "Partially wheelchair accessible"
+msgstr "Częściowo dostępne dla wózków"
 
-#. Root category
-#: src/lib/Categories.js:54
-msgid "Leisure"
-msgstr "Rekreacja"
+#: src/lib/Feature.js:475
+msgid "Not wheelchair accessible"
+msgstr "Niedostępne dla wózków"
 
-#. Shown while loading a captcha from the server. We try to avoid the word
-#. 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:384
-msgid "Loading..."
-msgstr "Ładowanie..."
+#: src/lib/Feature.js:478
+msgid "Unknown accessibility"
+msgstr "Nieznany status"
 
-#. Explains that Wheelmap's data comes from OpenStreetMap.
-#: src/components/NodeToolbar/Report/strings.js:10
-msgid "Many places on Wheelmap.org come from OpenStreetMap."
-msgstr "Wheelmap wykorzystuje dane z OpenStreetMap, aby wyświetlać miejsca."
+#: src/lib/Feature.js:488
+msgid "Fully"
+msgstr "W pełni"
 
-#: src/components/Map/Map.js:575
+#: src/lib/Feature.js:491
+msgid "Partially"
+msgstr "Częściowo"
+
+#: src/lib/Feature.js:494
+msgid "Not at all"
+msgstr "Wcale"
+
+#: src/lib/Feature.js:497
+msgid "Unknown"
+msgstr "Nieznany"
+
+#: src/lib/Feature.js:507
+msgid "Entrance has no steps, and all rooms are accessible without steps."
+msgstr "Wejście bez stopni, wszystkie pomieszczenia bez stopni."
+
+#: src/lib/Feature.js:511
+msgid ""
+"Entrance has one step with max. 3 inches height, most rooms are without "
+"steps."
+msgstr ""
+"Wejście posiada jeden stopień o wysokości maksymalnie 3 cali. Większość "
+"pokoi nie posiada stopni. "
+
+#: src/lib/Feature.js:513
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+"Wejście posiada jeden stopień o wysokości maksymalnie 7 cm. Większość pokoi "
+"nie ma stopni."
+
+#: src/lib/Feature.js:516
+msgid ""
+"Entrance has a high step or several steps, none of the rooms are accessible."
+msgstr "Wejście ma stopień lub kilka stopni, pomieszczenia są niedostępne."
+
+#: src/lib/Feature.js:527
+msgid "Wheelchair accessible toilet"
+msgstr "Toalety z dostępem dla osób na wózkach inwalidzkich"
+
+#: src/lib/Feature.js:530
+msgid "No wheelchair accessible toilet"
+msgstr "Brak toalety dostępnej dla wózków."
+
+#: src/lib/Feature.js:538
+msgid "Doorways' inner width ≥ 35 inches"
+msgstr "Szerokość wewnętrzna otworu drzwi ≥ 35 cali"
+
+#: src/lib/Feature.js:538
+msgid "Doorways' inner width ≥ 90 cm"
+msgstr "Szerokość wewnętrzna otworu drzwi ≥ 90 cm"
+
+#: src/lib/Feature.js:539
+msgid "Clear turning space ≥ 59 inches wide"
+msgstr "Wolna powierzchnia ≥ 59 cali szerokości"
+
+#: src/lib/Feature.js:539
+msgid "Clear turning space ≥ 150 cm wide"
+msgstr "Wolna powierzchnia ≥ 150 cm szerokości"
+
+#: src/lib/Feature.js:540
+msgid "Wheelchair-height toilet seat"
+msgstr "Sedes na wysokości wózka"
+
+#: src/lib/Feature.js:541
+msgid "Foldable grab rails"
+msgstr "Składane uchwyty"
+
+#: src/lib/Feature.js:542
+msgid "Accessible sink"
+msgstr "Dostępna umywalka"
+
+#: src/lib/Feature.js:549
+msgid "Unnamed place"
+msgstr "Miejsce bez nazwy"
+
+#: src/lib/cache/URLDataCache.js:60
+msgid "Error while loading data."
+msgstr "Błąd przesyłania danych."
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:22
+msgid "Welcome"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:77
+msgid "Mapping event ${ mappingEvent.name }"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:79
+msgid "Back to the mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:81
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+msgid "Share"
+msgstr "Udostępnij"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:83
+msgid "Join mapping event"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:85
+msgid "Leave mapping event"
+msgstr ""
+
+#: src/components/Map/Map.js:1005
+msgid "Zoom in closer to see more places"
+msgstr "Przybliż, aby zobaczyć więcej miejsc"
+
+#: src/components/Map/Map.js:1021
+msgid "Turn on location services"
+msgstr "Włącz usługi lokalizacyjne"
+
+#: src/components/Map/Map.js:1054
 msgid "Map"
 msgstr "Mapa"
 
-#. Shown on the onboarding screen. To visit it, open Wheelmap in an incognito
-#. window.
-#: src/components/Onboarding/Onboarding.js:27
-msgid ""
-"Mark and find wheelchair accessible places — worldwide and for free. It’s "
-"easy with our traffic light system:"
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
 msgstr ""
-"Oznacz i znajdź miejsca dostępne dla wózków – na całym świecie i za darmo. "
-"To łatwe dzięki naszemu systemowi kolorów:"
 
-#. Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:41
-msgid "Mark wheelchair accessibility of WC"
-msgstr "Dodaj status toalety"
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr ""
 
-#: src/components/MainMenu/MainMenu.js:177
-msgid "Menu"
-msgstr "Menu"
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr ""
 
-#. Root category
-#: src/lib/Categories.js:70
-msgid "Miscellaneous"
-msgstr "Różne"
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr ""
 
-#. Root category
-#: src/lib/Categories.js:66
-msgid "Money"
-msgstr "Pieniądze"
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
 
+#: src/components/Toolbar.js:332
+msgid "Collapse details"
+msgstr ""
+
+#: src/components/Toolbar.js:332
+msgid "Expand details"
+msgstr ""
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:44
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr ""
+"Zlokalizuj swoje położenie na mapie, otwórz ustawienia przeglądarki i zezwól"
+" Wheelmap.org na korzystanie z usług lokalizacyjnych. "
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "Pokaż, gdzie jestem"
+
+#: src/components/CloseButton.js:32 src/components/CloseLink.js:36
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:232
+msgid "Close"
+msgstr "Zamknij"
+
+#: src/components/ShareBar/ShareBar.js:87
+msgid "Expand share menu"
+msgstr "Rozwiń menu udostępniania"
+
+#: src/components/ShareBar/ShareBar.js:114
+msgid "Collapse share menu"
+msgstr "Zwiń menu udostępniania"
+
+#: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:34
+msgid "Could not load this place."
+msgstr "Nie można załadować tego miejsca."
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:31
+msgid "Mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:33
+msgid "${ mappingEvents.length } active mapping events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:35
+msgid "Events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:37
+msgid "Meet the community and map the accessibility of places around you!"
+msgstr ""
+
+#: src/components/NodeToolbar/FeatureClusterPanel.js:143
+msgid "Places"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:99
+msgid "Thank you!"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:100
+msgid "Please give us a moment to verify your contribution."
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:102
+msgid "Add next place"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
+msgid "Back to map"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "Wszystkie miejsca"
+
+#: src/components/WheelmapHomeLink.js:10
+msgid "Go to ${ appName }"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:62
+#: src/components/WheelmapHomeLink.js:15
+msgid "App Logo"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "Pomóż, oznaczając miejsca!"
+
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "OK, dalej!"
+
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:70
+msgid "Start screen"
+msgstr "Ekran startowy Wheelmap"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
+msgid "Image shows another place."
+msgstr "Obraz pokazuje inne miejsce."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
+msgid "Outdated"
+msgstr "Nieaktualne"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
+msgid "Offensive or inappropriate"
+msgstr "Nieprzyzwoity lub niestosowny"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
+msgid "Other problems"
+msgstr "Inne problemy"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
+msgid "This image does not depict this place."
+msgstr "Obraz nie przedstawia tego miejsca. "
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
+msgid "This image does not show the current state of this place."
+msgstr "Obraz nie pokazuje aktualnego stanu widniejącego na nim miejsca."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+"Obraz pokazuje treść o charakterze seksualnym, przedstawia przemoc lub jest "
+"niestosowny w inny sposób. "
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
+msgid "This image infringes on my copyright or has other problems."
+msgstr "Obraz narusza moje prawa autorskie lub stanowi inny problem. "
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
+msgid "Reason for reporting image"
+msgstr "Powód zgłoszenia zdjęcia"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:186
+msgid "To report"
+msgstr "Zgłosić"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
+msgid "Which problem would you like to report?"
+msgstr "Jaki problem chcesz zgłosić?"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:327
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:215
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:222
+msgid "Send"
+msgstr "Wyślij"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
+msgid "“Vespucci” in PlayStore"
+msgstr "„Vespucci” w PlayStore"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
+msgid "Use the OpenStreetMap web editor"
+msgstr "Skorzystaj z edytora strony OpenStreetMap"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
+msgid "“Go Map!!” in App Store"
+msgstr "„Go Map!!” w App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
+msgid "“MAPS.ME” in App Store"
+msgstr "„MAPS.ME” w App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
+msgid "“MAPS.ME” in PlayStore"
+msgstr "„MAPS.ME” w PlayStore"
+
+#: src/app/CreatePlaceData.js:12
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
+msgid "Add a new place"
+msgstr "Dodaj brakujące miejsce"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
 "Most places shown here are from <a "
 "href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
@@ -625,185 +513,66 @@ msgstr ""
 "href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. Jeśli dodasz "
 "miejsca do OSM, pojawią się one tutaj z niewielkim opóźnieniem. "
 
-#. Main menu item
-#: src/components/MainMenu/strings.js:12
-msgid "News"
-msgstr "Aktualności"
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
+#: src/components/NodeToolbar/Report/strings.js:26
+msgid "Leave a note on OpenStreetMap"
+msgstr "Zostaw notatkę w OpenStreetMap"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:177
-msgid "Next (right arrow key)"
-msgstr "Dalej (strzałka w prawo)"
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
+msgid "Add a place on OpenStreetMap"
+msgstr "Dodaj miejsce w OpenStreetMap"
 
-#. Caption for the ‘no’ radio button (while marking toilet status)
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:41
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
-msgid "No"
-msgstr "Nie"
+#: src/components/SearchToolbar/SearchToolbar.js:459
+msgid "Clear search"
+msgstr "Wyczyść wyszukiwanie"
 
-#. Text in search results when an error occurred
-#: src/components/SearchToolbar/SearchResults.js:35
-msgid "No results available. Please try again later!"
-msgstr "Brak dostępnych wyników. Prosimy spróbować ponownie później!"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:354
+#: src/components/SearchToolbar/SearchToolbar.js:470
+msgid "Go"
+msgstr "Idź"
 
-#. Text in search results when nothing was found
-#: src/components/SearchToolbar/SearchResults.js:32
-msgid "No results found"
-msgstr "Brak wyników"
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
+#: src/components/NodeToolbar/Report/strings.js:28
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:341
+msgid "Back"
+msgstr "Wróć"
 
-#: src/lib/Feature.js:364
-msgid "No wheelchair accessible toilet"
-msgstr "Brak toalety dostępnej dla wózków."
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:365
+msgid "Show different characters"
+msgstr "Pokaż nietypowe znaki"
 
-#: src/lib/Feature.js:328
-msgid "Not at all"
-msgstr "Wcale"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Image upload"
+msgstr "Przesyłanie obrazu"
 
-#: src/lib/Feature.js:309
-msgid "Not wheelchair accessible"
-msgstr "Niedostępne dla wózków"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Hi Wheelmap Team, I have an image of the following place:"
+msgstr "Cześć, załogo Wheelmap! Posiadam obraz następującego miejsca:"
 
-#. title for a report option where the photo is nsfw
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
-msgid "Offensive or inappropriate"
-msgstr "Nieprzyzwoity lub niestosowny"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+msgid "Loading..."
+msgstr "Ładowanie..."
 
-#. Button caption shown on the onboarding screen. To visit it, open Wheelmap
-#. in an incognito window.
-#: src/components/Onboarding/Onboarding.js:31
-msgid "Okay, let’s go!"
-msgstr "OK, dalej!"
-
-#. Button caption in the filter toolbar. Answer to the question 'which places
-#. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:52
-msgid "Only fully accessible with accessible WC"
-msgstr ""
-"Są w pełni dostępne tylko wtedy, kiedy posiadają pełen dostęp do toalety"
-
-#. Button caption in the filter toolbar. Answer to the question 'which places
-#. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:46
-msgid "Only fully wheelchair accessible"
-msgstr "Tylko w pełni dostępne dla wózków"
-
-#. Checkbox caption on the filter toolbar. If the checkbox is clicked, only
-#. places that are not wheelchair accessible are shown.
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:64
-msgid "Only places that are not accessible"
-msgstr "Tylko miejsca, które nie są dostępne"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
-#: src/lib/openButtonCaption.js:6
-msgid "Open on ${ sourceNameString }"
-msgstr "Otwórz na ${ sourceNameString }"
-
-#. title for a report option where the photo has another problem
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
-msgid "Other problems"
-msgstr "Inne problemy"
-
-#. An equipment or facility status. This does not mean the facility is broken:
-#. It might just be in maintenance! The facility might be an elevator,
-#. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:90
-msgid "Out of order"
-msgstr "nieczynne"
-
-#. title for a report option where the photo does not match the current state
-#. of the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
-msgid "Outdated"
-msgstr "Nieaktualne"
-
-#: src/lib/Feature.js:325
-msgid "Partially"
-msgstr "Częściowo"
-
-#. Button caption in the filter toolbar. Answer to the question 'which places
-#. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
-msgid "Partially accessible with accessible WC"
-msgstr "Częściowo dostępne z dostępną toaletą"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
-#: src/lib/Feature.js:306
-msgid "Partially wheelchair accessible"
-msgstr "Częściowo dostępne dla wózków"
-
-#. Button caption in the filter toolbar. Answer to the question 'which places
-#. you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:58
-msgid "Places that I can contribute information to"
-msgstr "Miejsca, które mogę oznaczyć"
-
-#. Shown above the captcha input field before uploading an image. We try to
-#. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:386
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:420
 msgid "Please enter these characters."
 msgstr "Prosimy wprowadzić te znaki."
 
-#. Main menu item
-#: src/components/MainMenu/strings.js:14
-msgid "Press"
-msgstr "Prasa"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:422
+msgid "Then we know that you are human."
+msgstr "Ma to na celu potwierdzić, że jesteś człowiekiem."
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:179
-msgid "Previous (left arrow key)"
-msgstr "Poprzedni (strzałka w lewo)"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:424
+msgid ""
+"If you cannot read or enter this, please contribute your image via email!"
+msgstr ""
+"Jeśli nie możesz tego przeczytać lub wprowadzić, prosimy o przesłanie obrazu"
+" e-mailem!"
 
-#. Screen reader description for the 'report photo' reason choice dialog
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
-msgid "Reason for reporting image"
-msgstr "Powód zgłoszenia zdjęcia"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:426
+msgid "Thanks! Starting to upload..."
+msgstr "Dziękujemy! Rozpoczęcie przesyłania..."
 
-#: src/components/SearchToolbar/AccessibilityFilterButton.js:81
-msgid "Remove ${ caption } Filter"
-msgstr "Usuń filtr: ${ caption }"
-
-#: src/components/SearchToolbar/CategoryButton.js:124
-msgid "Remove ${ props.name } Filter"
-msgstr "Usuń filtr: { props.name }"
-
-#. Button caption shown in the PoI details panel
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
-msgid "Report a problem"
-msgstr "Zgłoś problem"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:162
-msgid "Report image"
-msgstr "Zgłoś obraz"
-
-#. Shown as button caption when there is no internet connection. Tapping the
-#. button retries to load the data.
-#: src/components/NotFound/NotFound.js:67
-msgid "Retry"
-msgstr "Ponów"
-
-#. Shown on the error page.
-#: src/components/NotFound/NotFound.js:65
-msgid "Return home"
-msgstr "Powrót do strony głównej"
-
-#: src/components/SearchToolbar/SearchButton.js:37
-msgid "Search"
-msgstr "Szukaj"
-
-#. Placeholder for search input field
-#: src/components/SearchToolbar/SearchInputField.js:58
-msgid "Search for place or address"
-msgstr "Szukaj miejsca lub adresu"
-
-#: src/components/SearchToolbar/SearchResults.js:37
-msgid "Search results"
-msgstr "Wyniki wyszukiwania"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:196
-msgid "Send"
-msgstr "Wyślij"
-
-#. Error message when captcha could not be loaded. We try to avoid the word
-#. 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:394
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:428
 msgid ""
 "Server cannot be reached. Please try again later and let us know if the "
 "problem persists!"
@@ -811,43 +580,7 @@ msgstr ""
 "Serwer jest niedostępny. Prosimy spróbować ponownie później lub poinformować"
 " nas o problemie!"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:121
-msgid "Share"
-msgstr "Udostępnij"
-
-#. Root category
-#: src/lib/Categories.js:48
-msgid "Shopping"
-msgstr "Zakupy"
-
-#. button shown next to the captcha
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:335
-msgid "Show different characters"
-msgstr "Pokaż nietypowe znaki"
-
-#. Locate button aria-label on the map
-#: src/components/Map/addLocateControlToMap.js:42
-msgid "Show me where I am"
-msgstr "Pokaż, gdzie jestem"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:296
-msgid "Site map"
-msgstr "Mapa strony"
-
-#. Apologizes for the issue and mentions that the support team can help you.
-#: src/components/NodeToolbar/Report/strings.js:38
-msgid ""
-"Sorry about that! Just drop us a line so we can help you to fix the problem."
-msgstr "Przepraszamy! Napisz do nas, abyśmy mogli rozwiązać ten problem."
-
-#. Shown as apology text / description on the error page.
-#: src/components/NotFound/NotFound.js:63
-msgid "Sorry, that should not have happened!"
-msgstr "Przepraszamy, to nie powinno było się zdarzyć!"
-
-#. Error message when captcha was incorrectly entered. We try to avoid the
-#. word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:396
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:430
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
@@ -855,33 +588,399 @@ msgstr ""
 "Przepraszamy, coś nie zadziałało! Prosimy sprawdzić, czy wszystkie znaki są "
 "poprawne, a następnie spróbować ponownie. "
 
-#. Shown after marking a place did not work, for example because the
-#. connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:54
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:268
+msgid "The following images…"
+msgstr "Następujące obrazy..."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
+msgid "...give useful information on accessibility."
+msgstr "...dostarczają przydatnych informacji o dostępności."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:270
+msgid "...were taken by me."
+msgstr "...zostały zrobione przeze mnie. "
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
+msgid "...do not show any identifiable persons."
+msgstr "...nie pokazują możliwych do zidentyfikowania osób."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+msgid ""
+"I hereby publish these images into the public domain and renounce copyright "
+"protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
+"target=\"_blank\">CC0 1.0 Universal license</a>)."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
+msgid "Entrances"
+msgstr "Wejścia"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+msgid "Site map"
+msgstr "Mapa strony"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+msgid "toilets"
+msgstr "toalety"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:334
+msgid "Continue"
+msgstr "Kontynuuj"
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "Strona główna"
+
+#: src/components/MainMenu/MainMenu.js:232
+msgid "Menu"
+msgstr "Menu"
+
+#: src/app/ContributionThanksData.js:12
+msgid "Thank you for the contribution!"
+msgstr ""
+
+#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
+msgid "Search results"
+msgstr "Wyniki wyszukiwania"
+
+#: src/app/PlaceDetailsData.js:257
+msgid "This place is on ${ productName }: ${ placeTitle }"
+msgstr ""
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
+msgid "Partially accessible with accessible WC"
+msgstr "Częściowo dostępne z dostępną toaletą"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
+msgid "Only fully wheelchair accessible"
+msgstr "Tylko w pełni dostępne dla wózków"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
+msgid "Only fully accessible with accessible WC"
+msgstr ""
+"Są w pełni dostępne tylko wtedy, kiedy posiadają pełen dostęp do toalety"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:60
+msgid "Places that I can contribute information to"
+msgstr "Miejsca, które mogę oznaczyć"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:66
+msgid "Only places that are not accessible"
+msgstr "Tylko miejsca, które nie są dostępne"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
+msgid "Wheelchair accessibility filter"
+msgstr "Filtr dostępności dla wózków"
+
+#: src/components/SearchToolbar/SearchInputField.js:65
+msgid "Search for place or address"
+msgstr "Szukaj miejsca lub adresu"
+
+#: src/components/SearchToolbar/SearchResults.js:31
+msgid "No results found"
+msgstr "Brak wyników"
+
+#: src/components/SearchToolbar/SearchResults.js:34
+msgid "No results available. Please try again later!"
+msgstr "Brak dostępnych wyników. Prosimy spróbować ponownie później!"
+
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
+#: src/components/NodeToolbar/NodeToolbar.js:265
+msgid "How wheelchair accessible is this place?"
+msgstr "Jak dostępne dla wózków jest to miejsce?"
+
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:54
+msgid "Remove ${ caption } Filter"
+msgstr "Usuń filtr: ${ caption }"
+
+#: src/components/SearchToolbar/SearchResult.js:122
+msgid "Unnamed"
+msgstr "Bez nazwy"
+
+#: src/components/SearchToolbar/CategoryButton.js:69
+msgid "Remove ${ props.name } Filter"
+msgstr "Usuń filtr: { props.name }"
+
+#: src/components/NodeToolbar/SourceList.js:33
+msgid "Source:"
+msgstr "Źródło:"
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
+msgid "Is the toilet here wheelchair accessible?"
+msgstr "Czy toaleta tutaj jest dostępna dla wózków?"
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:46
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:15
+msgid "Yes"
+msgstr "Tak"
+
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:48
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
+msgid "No"
+msgstr "Nie"
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+msgid "Wheelchair accessibility"
+msgstr "Dostępność dla wózków"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:37
+msgid ""
+"The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
+msgstr ""
+"Miejsce zostało oznaczone jako „${ accessibilityDescription }”, ale to "
+"nieprawda!"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:46
+msgid ""
+"The toilet accessibility of the place is marked incorrectly or is missing."
+msgstr "Brakujący lub nieprawidłowy status toalety."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:53
+msgid "I have more information about this place."
+msgstr "Mam więcej informacji o tym miejscu."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:59
+msgid "The place does not exist."
+msgstr "Miejsce nie istnieje."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:65
+msgid "The place is at the wrong location."
+msgstr "Położenie tego miejsca jest nieprawidłowe."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:71
+msgid "The problem isn’t listed here…"
+msgstr "Mojego problemu nie ma na liście..."
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "Disruptions at this location"
+msgstr "Problemy w tej lokalizacji"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
+msgid "All elevators and escalators"
+msgstr "Wszystkie windy i schody ruchome"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:158
+msgid "Report image"
+msgstr "Zgłoś obraz"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:184
+msgid "of"
+msgstr "z "
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:186
+msgid "Next (right arrow key)"
+msgstr "Dalej (strzałka w prawo)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:188
+msgid "Previous (left arrow key)"
+msgstr "Poprzedni (strzałka w lewo)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:190
+msgid "Close (Esc)"
+msgstr "Zamknij (Esc)"
+
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
 "Przepraszamy, miejsce nie może zostać oznaczone ze względu na błąd: ${ e }"
 
-#. Shown when device is offline.
-#: src/components/NotFound/NotFound.js:50
-msgid "Sorry, we are offline!"
-msgstr "Przepraszamy, jesteśmy offline!"
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
+msgid "Confirm"
+msgstr "Potwierdź"
 
-#. Prefix for the sources on the PoI details panel
-#: src/components/NodeToolbar/SourceList.js:39
-msgid "Source:"
-msgstr "Źródło:"
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
+msgid "Change"
+msgstr "Zmień"
 
-#. Root category
-#: src/lib/Categories.js:68
-msgid "Sports"
-msgstr "Sport"
+#: src/components/NodeToolbar/Report/strings.js:8
+msgid "Is there a problem with this place?"
+msgstr "Jest jakiś problem z tym miejscem?"
 
-#: src/components/Onboarding/Onboarding.js:48
-msgid "Start screen"
-msgstr "Ekran startowy Wheelmap"
+#: src/components/NodeToolbar/Report/strings.js:10
+msgid "Many places on Wheelmap.org come from OpenStreetMap."
+msgstr "Wheelmap wykorzystuje dane z OpenStreetMap, aby wyświetlać miejsca."
 
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:62
+#: src/components/NodeToolbar/Report/strings.js:12
+msgid "You can remove non-existing places on OpenStreetMap."
+msgstr "Możesz usunąć nieistniejące miejsca na OpenStreetMap."
+
+#: src/components/NodeToolbar/Report/strings.js:14
+msgid "You can change this place’s location on OpenStreetMap."
+msgstr "Możesz zmienić położenie tego miejsca na OpenStreetMap."
+
+#: src/components/NodeToolbar/Report/strings.js:16
+msgid ""
+"If the place has closed permanently, you can tag the place as ‘disused’ on "
+"OpenStreetMap."
+msgstr ""
+"Jeśli miejsce jest zamknięte na stałe, możesz oznaczyć je jako „opuszczone” "
+"na OpenStreetMap."
+
+#: src/components/NodeToolbar/Report/strings.js:18
+msgid "Find out how"
+msgstr "Dowiedz się jak"
+
+#: src/components/NodeToolbar/Report/strings.js:20
+msgid "You can change this place’s information on OpenStreetMap directly."
+msgstr ""
+"Wiesz, że możesz zmienić dane dotyczące tego miejsca bezpośrednio na "
+"OpenStreetMap?"
+
+#: src/components/NodeToolbar/Report/strings.js:22
+msgid ""
+"(Note that you need to log in to do this, and that it can take some time "
+"until the place is updated on Wheelmap.)"
+msgstr ""
+"(Pamiętaj, że aby to zrobić, musisz najpierw się zalogować; poza tym "
+"aktualizacja miejsca na Wheelmap może zająć trochę czasu)."
+
+#: src/components/NodeToolbar/Report/strings.js:24
+msgid "Edit this place on OpenStreetMap"
+msgstr "Edytuj to miejsce na OpenStreetMap"
+
+#: src/components/NodeToolbar/Report/strings.js:30
+msgid ""
+"Information about this place has kindly been provided by another "
+"organization."
+msgstr ""
+"Informacje dotyczące tego miejsca uzyskano dzięki pomocy innej organizacji"
+
+#: src/components/NodeToolbar/Report/strings.js:32
+msgid "Click the link below for details about the place and for editing."
+msgstr ""
+"Użyj poniższego linku, aby dowiedzieć się więcej o miejscu i edytowaniu."
+
+#: src/components/NodeToolbar/Report/strings.js:34
+msgid ""
+"(Note that it can take some time after editing until the place is updated on"
+" Wheelmap.)"
+msgstr ""
+"(Pamiętaj, że po dokonaniu edycji może minąć trochę czasu, zanim miejsce "
+"zostanie zaktualizowane na Wheelmap)."
+
+#: src/components/NodeToolbar/Report/strings.js:36
+msgid "Contact the Wheelmap support team"
+msgstr "Skontaktuj się z zespołem wsparcia Wheelmap"
+
+#: src/components/NodeToolbar/Report/strings.js:38
+msgid ""
+"Sorry about that! Just drop us a line so we can help you to fix the problem."
+msgstr "Przepraszamy! Napisz do nas, abyśmy mogli rozwiązać ten problem."
+
+#: src/components/NodeToolbar/Report/strings.js:41
+msgid ""
+"(Please only write in English or German.)\n"
+"\n"
+"Dear Sozialhelden,\n"
+"\n"
+"something about this place is wrong: ${ url }\n"
+"\n"
+"The problem is:\n"
+"\n"
+"My browser:\n"
+"\n"
+"${ navigator.userAgent }"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/strings.js:47
+msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
+msgstr "[Wheelmap] Problem z ${ placeName } na Wheelmap"
+
+#: src/components/NodeToolbar/Report/strings.js:49
+msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
+msgstr "[Wheelmap] Problem z ${ categoryName } na Wheelmap"
+
+#: src/components/NodeToolbar/Report/strings.js:51
+msgid "[Wheelmap] Problem with a place on Wheelmap"
+msgstr "[Wheelmap] Problem z miejscem na Wheelmap"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:59
+msgid "Mark wheelchair accessibility of WC"
+msgstr "Dodaj status toalety"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:128
+msgid "Show next wheelchair accessible toilet"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
+msgid "Call ${ phoneNumber }"
+msgstr "Zadzwoń pod ${ phoneNumber }"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "Otwórz na ${ sourceNameString }"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+msgid "Add info on ${ sourceNameString }"
+msgstr "Popraw ${ sourceNameString }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+msgid "Learn more about the accessibility of this place"
+msgstr "Dowiedz się o dostępności tego miejsca."
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "Udało mi się znaleźć miejsce na Wheelmap: ${ url }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+msgid "I found a place on Wheelmap…"
+msgstr "Udało mi się znaleźć miejsce na Wheelmap…"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+msgid "${ categoryName } on Wheelmap"
+msgstr "${ categoryName } na Wheelmap"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "Udało mi się znaleźć to miejsce na Wheelmap: ${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+msgid "${ placeName } on Wheelmap.org"
+msgstr "${ placeName } na Wheelmap.org"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+msgid ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Click on this link to open it: ${ url }"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "Zgłoś problem"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "Popraw swoją karmę!"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:27
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr "Dodaj obrazy"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
+msgid "Upload in progress..."
+msgstr "W trakcie przesyłania..."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
+msgid "Upload failed: server error or file-format not supported"
+msgstr ""
+"Przesłanie nie powiodło się: błąd serwera lub format pliku nie jest "
+"obsługiwany"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "Dziękujemy za zgłoszenie obrazu. Przyjrzymy mu się. "
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
 msgid ""
 "Thank you for contributing. Your image will be visible after we have checked"
 " it."
@@ -889,273 +988,70 @@ msgstr ""
 "Dziękujemy za wkład w rozwój strony. Obraz będzie widoczny po jego "
 "sprawdzeniu."
 
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
-msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "Dziękujemy za zgłoszenie obrazu. Przyjrzymy mu się. "
+#: src/components/NodeToolbar/SourceLink.js:63
+msgid "Details"
+msgstr "Szczegóły"
 
-#. Shown while uploading an image after user has entered the captcha
-#. correctly. We try to avoid the word 'captcha' because normal users might
-#. not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:392
-msgid "Thanks! Starting to upload..."
-msgstr "Dziękujemy! Rozpoczęcie przesyłania..."
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
+msgid "${ count } elevator in service"
+msgid_plural "${ count } elevators in service"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
-msgid "The following images…"
-msgstr "Następujące obrazy..."
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
+msgid "${ count } escalator in service"
+msgid_plural "${ count } escalators in service"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:41
-msgid "The place does not exist."
-msgstr "Miejsce nie istnieje."
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
+msgid "${ count } elevator out of service"
+msgid_plural "${ count } elevators out of service"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:46
-msgid "The place is at the wrong location."
-msgstr "Położenie tego miejsca jest nieprawidłowe."
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
+msgid "${ count } escalator out of service"
+msgid_plural "${ count } escalators out of service"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#. Shown as issue description in the report dialog
-#: src/components/NodeToolbar/Report/ReportDialog.js:25
-msgid ""
-"The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
-msgstr ""
-"Miejsce zostało oznaczone jako „${ accessibilityDescription }”, ale to "
-"nieprawda!"
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
+msgid "${ count } elevator with unknown operational status"
+msgid_plural "${ count } elevators with unknown operational status"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:51
-msgid "The problem isn’t listed here…"
-msgstr "Mojego problemu nie ma na liście..."
+#: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
+msgid "${ count } escalator with unknown operational status"
+msgid_plural "${ count } escalators with unknown operational status"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:31
-msgid ""
-"The toilet accessibility of the place is marked incorrectly or is missing."
-msgstr "Brakujący lub nieprawidłowy status toalety."
+#: src/lib/getHumanEnumeration.js:18
+msgid ", or "
+msgstr "albo"
 
-#. Shown below the captcha input field before uploading an image. We try to
-#. avoid the word 'captcha' because normal users might not know what it means.
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:388
-msgid "Then we know that you are human."
-msgstr "Ma to na celu potwierdzić, że jesteś człowiekiem."
+#: src/lib/getHumanEnumeration.js:20
+msgid " or "
+msgstr "albo"
 
-#. Shown as header text on the error page when the URL is not found.
-#: src/components/NotFound/NotFound.js:47
-msgid ""
-"This URL does not work anymore. If you think the place does exist, you can "
-"use the search to find it."
-msgstr ""
-"URL nie działa. Jeśli sądzisz, że to miejsce istnieje, możesz skorzystać z "
-"wyszukiwarki do jego odnalezienia. "
+#: src/lib/getHumanEnumeration.js:24
+msgid ", and"
+msgstr "oraz"
 
-#. title for a report option where the photo does not match the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
-msgid "This image does not depict this place."
-msgstr "Obraz nie przedstawia tego miejsca. "
-
-#. title for a report option where the photo does not match the current state
-#. of the place
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
-msgid "This image does not show the current state of this place."
-msgstr "Obraz nie pokazuje aktualnego stanu widniejącego na nim miejsca."
-
-#. title for a report option where the photo has another problem
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
-msgid "This image infringes on my copyright or has other problems."
-msgstr "Obraz narusza moje prawa autorskie lub stanowi inny problem. "
-
-#. title for a report option where the photo is nsfw
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
-msgid ""
-"This image shows sexually explicit content, depicts violence or is "
-"inappropriate in another way."
-msgstr ""
-"Obraz pokazuje treść o charakterze seksualnym, przedstawia przemoc lub jest "
-"niestosowny w inny sposób. "
-
-#: src/lib/goToLocationSettings.js:34
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr ""
-"Zlokalizuj swoje położenie na mapie, otwórz ustawienia przeglądarki i zezwól"
-" Wheelmap.org na korzystanie z usług lokalizacyjnych. "
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:180
-msgid "To report"
-msgstr "Zgłosić"
-
-#. Root category
-#: src/lib/Categories.js:58
-msgid "Tourism"
-msgstr "Turystyka"
-
-#. Root category
-#: src/lib/Categories.js:52
-msgid "Transport"
-msgstr "Transport"
-
-#. Main menu item
-#: src/components/MainMenu/strings.js:8
-msgid "Travel guide"
-msgstr "Przewodnik turystyczny"
-
-#. Shown next to the locate-me button when location services are not enabled
-#: src/components/Map/Map.js:563
-msgid "Turn on location services"
-msgstr "Włącz usługi lokalizacyjne"
-
-#: src/lib/Feature.js:331
-msgid "Unknown"
-msgstr "Nieznany"
-
-#: src/lib/Feature.js:312
-msgid "Unknown accessibility"
-msgstr "Nieznany status"
-
-#. An equipment or facility status. The facility might be an elevator,
-#. escalator, switch, sitemap, …
-#: src/lib/EquipmentInfo.js:92
-msgid "Unknown operational status"
-msgstr "nieznany status"
-
-#. Place name shown in search results for places with unknown name / category.
-#: src/components/SearchToolbar/SearchResult.js:197
-msgid "Unnamed"
-msgstr "Bez nazwy"
-
-#: src/lib/EquipmentInfo.js:74
-msgid "Unnamed facility"
-msgstr "Obiekt bez nazwy"
-
-#: src/lib/Feature.js:374
-msgid "Unnamed place"
-msgstr "Miejsce bez nazwy"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:54
-msgid "Upload failed: server error or file-format not supported"
-msgstr ""
-"Przesłanie nie powiodło się: błąd serwera lub format pliku nie jest "
-"obsługiwany"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:50
-msgid "Upload in progress..."
-msgstr "W trakcie przesyłania..."
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:96
-msgid "Use the OpenStreetMap web editor"
-msgstr "Skorzystaj z edytora strony OpenStreetMap"
-
-#. Screen reader description for the accessibility choice buttons for gray
-#. place
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:120
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:139
-msgid "Wheelchair accessibility"
-msgstr "Dostępność dla wózków"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:87
-msgid "Wheelchair accessibility filter"
-msgstr "Filtr dostępności dla wózków"
-
-#: src/lib/Feature.js:361
-msgid "Wheelchair accessible toilet"
-msgstr "Toalety z dostępem dla osób na wózkach inwalidzkich"
-
-#: src/lib/Feature.js:371
-msgid "Wheelchair-height toilet seat"
-msgstr "Sedes na wysokości wózka"
-
-#. Email body used when sharing a place without known name/category via
-#. email.// Email subject used for sharing a place via email.
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:117
-msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:182
-msgid "Which problem would you like to report?"
-msgstr "Jaki problem chcesz zgłosić?"
-
-#. Caption for the ‘yes’ radio button (while marking toilet status)
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:39
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:15
-msgid "Yes"
-msgstr "Tak"
-
-#. Points the user to OSM for changing place detail
-#: src/components/NodeToolbar/Report/strings.js:20
-msgid "You can change this place’s information on OpenStreetMap directly."
-msgstr ""
-"Wiesz, że możesz zmienić dane dotyczące tego miejsca bezpośrednio na "
-"OpenStreetMap?"
-
-#. Explains that you need to go to OSM to change a place's position on the
-#. map.
-#: src/components/NodeToolbar/Report/strings.js:14
-msgid "You can change this place’s location on OpenStreetMap."
-msgstr "Możesz zmienić położenie tego miejsca na OpenStreetMap."
-
-#. Explains that you need to go to OSM to remove places.
-#: src/components/NodeToolbar/Report/strings.js:12
-msgid "You can remove non-existing places on OpenStreetMap."
-msgstr "Możesz usunąć nieistniejące miejsca na OpenStreetMap."
-
-#. Text that incentivizes the user to edit a place's accessibility.
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "Popraw swoją karmę!"
-
-#. Shown when zoomed out to far
-#: src/components/Map/Map.js:557
-msgid "Zoom in closer to see more places"
-msgstr "Przybliż, aby zobaczyć więcej miejsc"
-
-#: src/components/NodeToolbar/Report/strings.js:45
-msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] Problem z ${ placeName } na Wheelmap"
-
-#: src/components/NodeToolbar/Report/strings.js:47
-msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] Problem z ${ categoryName } na Wheelmap"
-
-#. Report email subject if neither place name nor category name is known
-#: src/components/NodeToolbar/Report/strings.js:49
-msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr "[Wheelmap] Problem z miejscem na Wheelmap"
-
-#. divider between <currentImageIndex> and <imageCount> in lightbox, such as 1
-#. of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.js:175
-msgid "of"
-msgstr "z "
-
-#: src/lib/EquipmentInfo.js:130
-msgid "today"
-msgstr "dziś"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:300
-msgid "toilets"
-msgstr "toalety"
-
-#: src/lib/EquipmentInfo.js:131
-msgid "yesterday"
-msgstr "wczoraj"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:101
-msgid "“Go Map!!” in App Store"
-msgstr "„Go Map!!” w App Store"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:106
-msgid "“MAPS.ME” in App Store"
-msgstr "„MAPS.ME” w App Store"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:111
-msgid "“MAPS.ME” in PlayStore"
-msgstr "„MAPS.ME” w PlayStore"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:91
-msgid "“Vespucci” in PlayStore"
-msgstr "„Vespucci” w PlayStore"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
-msgid ""
-"…meet <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
-"target=\"_blank\">our guidelines</a>."
-msgstr ""
-"...spełnia <a href=\"https://news.wheelmap.org/datenschutzerklaerung/\" "
-"target=\"_blank\">nasze wytyczne</a>."
+#: src/lib/getHumanEnumeration.js:26
+msgid " and "
+msgstr "oraz"
