@@ -47,6 +47,8 @@ export type AppProps = {
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   disableWheelmapSource?: boolean,
+  inEmbedMode: boolean,
+  embedToken?: string,
 };
 
 type DataTableQuery = {
@@ -127,6 +129,7 @@ export async function getInitialAppProps(
     disableWheelmapSource: overriddenWheelmapSource,
     appId: overriddenAppId,
     embedded,
+    embedToken,
     ...query
   }: {
     userAgentString: string,
@@ -144,6 +147,7 @@ export async function getInitialAppProps(
     disableWheelmapSource?: string,
     appId?: string,
     embedded?: string,
+    embedToken?: string,
     [key: string]: ?string,
   },
   isCordovaBuild: boolean,
@@ -228,6 +232,7 @@ export async function getInitialAppProps(
     excludeSourceIds: excludeSourceIdsArray,
     disableWheelmapSource: usedDisableWheelmapSource,
     inEmbedMode: embedded === 'true',
+    embedToken,
   };
   return appProps;
 }

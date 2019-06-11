@@ -45,6 +45,8 @@ import Categories from '../lib/Categories';
 import allTranslations from '../lib/translations.json';
 import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
+import validateEmbedToken from '../lib/validateEmbedToken';
+import ModalDialog from '../components/ModalDialog';
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
@@ -150,6 +152,11 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
+    let embedModeGranted = true;
+    if (isServer && appProps.inEmbedMode) {
+      embedModeGranted = await validateEmbedToken(appProps.embedToken);
+    }
+
     // when requested by server side rendering only, skip serializing app props as these are huge
     const userAgent = appProps.userAgent.ua || '';
     const isTwitterBot = userAgent.match(/Twitterbot/i);
@@ -164,7 +171,8 @@ export default class App extends BaseApp {
     return {
       ...appProps,
       ...routeProps,
-      skipApplicationBody: isTwitterBot,
+      skipApplicationBody: isTwitterBot || !embedModeGranted,
+      embedModeGranted,
       routeName: ctx.query.routeName,
       preferredLanguage: localeStrings[0],
       path,
@@ -206,6 +214,7 @@ export default class App extends BaseApp {
       isCordovaBuild,
       translations,
       skipApplicationBody,
+      embedModeGranted,
       rawCategoryLists,
       buildTimeProps,
       preferredLanguage,
@@ -316,11 +325,16 @@ export default class App extends BaseApp {
       preferredLanguage,
     };
 
+    // translator: Aria label for dialog showing up when the embedded mode cannot be displayed because of no valid token
+    const embedModeDeniedDialogAriaLabel = t`Embed mode can not be used`;
+    // translator: Dialog description that the embed mode can not be displayend and where to reach out to
+    const embedModeDeniedDescription = `This page can't load this map correctly. Do you own this website? Then reach out:`;
+
     return (
       <Container>
         <React.Fragment>
           <Head>
-            {/* 
+            {/*
               Move viewport meta into Head from next/head to allow deduplication to work. Do not rely on deduplication by key,
               as React.mapChildren will prefix keys with ".$", but the default keys in next are not prefixed. Deduplication by
               name works fine.
@@ -377,6 +391,20 @@ export default class App extends BaseApp {
                 routeName={routeName}
               />
             </AppContextProvider>
+          )}
+          {!embedModeGranted && (
+            <ModalDialog
+              isVisible={true}
+              ariaDescribedBy="embed-mode-denied-description"
+              ariaLabel={embedModeDeniedDialogAriaLabel}
+            >
+              <p id="embed-mode-denied-description">{embedModeDeniedDescription}</p>
+              <p>
+                <a href="https://news.wheelmap.org/en/contact/">
+                  https://news.wheelmap.org/en/contact/
+                </a>
+              </p>
+            </ModalDialog>
           )}
         </React.Fragment>
       </Container>
