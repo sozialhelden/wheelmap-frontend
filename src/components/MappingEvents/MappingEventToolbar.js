@@ -74,15 +74,15 @@ const MappingEventToolbar = ({
   const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
 
   // translator: Screenreader description for a mapping event
-  const toolbarAriaLabel = t`Mapping Event ${mappingEvent.name}`;
+  const toolbarAriaLabel = t`Mapping event ${mappingEvent.name}`;
   // translator: Screenreader description for the back link that leads to the list of mapping events
-  const backLinkAriaLabel = t`Zurück zur Mapping Events Liste`;
+  const backLinkAriaLabel = t`Back to the mapping events list`;
   // translator: Button name for social media sharing the current mapping event
-  const shareButtonCaption = t`Teilen`;
+  const shareButtonCaption = t`Share`;
   // translator: Button caption for joining an event
-  const joinButtonCaption = t`Mitmachen`;
+  const joinButtonCaption = t`Join mapping event`;
   // translator: Button caption for leaving an event
-  const leaveButtonCaption = t`Event verlassen`;
+  const leaveButtonCaption = t`Leave mapping event`;
 
   const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
