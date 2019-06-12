@@ -45,7 +45,7 @@ import Categories from '../lib/Categories';
 import allTranslations from '../lib/translations.json';
 import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
-import validateEmbedToken from '../lib/validateEmbedToken';
+import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import ModalDialog from '../components/ModalDialog';
 
 let isServer = false;
@@ -152,9 +152,14 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
-    let embedModeGranted = true;
-    if (isServer && appProps.inEmbedMode) {
-      embedModeGranted = await validateEmbedToken(appProps.embedToken);
+    let embedModeDenied = false;
+    const { inEmbedMode, embedToken, app } = appProps;
+    if (isServer && inEmbedMode) {
+      const validEmbedTokenProvided = await isEmbedTokenValid(
+        embedToken,
+        app.clientSideConfiguration.embedTokens
+      );
+      embedModeDenied = !validEmbedTokenProvided;
     }
 
     // when requested by server side rendering only, skip serializing app props as these are huge
@@ -171,8 +176,8 @@ export default class App extends BaseApp {
     return {
       ...appProps,
       ...routeProps,
-      skipApplicationBody: isTwitterBot || !embedModeGranted,
-      embedModeGranted,
+      skipApplicationBody: isTwitterBot || embedModeDenied,
+      embedModeDenied,
       routeName: ctx.query.routeName,
       preferredLanguage: localeStrings[0],
       path,
@@ -214,7 +219,7 @@ export default class App extends BaseApp {
       isCordovaBuild,
       translations,
       skipApplicationBody,
-      embedModeGranted,
+      embedModeDenied,
       rawCategoryLists,
       buildTimeProps,
       preferredLanguage,
@@ -392,7 +397,7 @@ export default class App extends BaseApp {
               />
             </AppContextProvider>
           )}
-          {!embedModeGranted && (
+          {embedModeDenied && (
             <ModalDialog
               isVisible={true}
               ariaDescribedBy="embed-mode-denied-description"
