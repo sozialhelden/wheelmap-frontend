@@ -889,11 +889,10 @@ class App extends React.Component<Props, State> {
     const { isSpecificLatLonProvided } = this.state;
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
+    const mapMoveDate = savedState.map.lastMoveDate;
+    const wasMapMovedRecently = mapMoveDate && new Date() - mapMoveDate < config.locateTimeout;
 
-    const shouldLocateOnStart =
-      !isSpecificLatLonProvided &&
-      !isNodeRoute &&
-      +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
+    const shouldLocateOnStart = !isSpecificLatLonProvided && !isNodeRoute && !wasMapMovedRecently;
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
     const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
