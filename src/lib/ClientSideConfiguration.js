@@ -25,9 +25,15 @@ export type LinkDescription = {
   tags?: string[],
 };
 
+export type EmbedToken = {
+  token: string,
+  expiresOn: string,
+};
+
 export type ClientSideConfiguration = {
   logoURL: string,
-  allowedBaseURLs: Array<string>,
+  allowedBaseUrls: Array<string>,
+  embedTokens: EmbedToken[],
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   disableWheelmapSource: boolean,
