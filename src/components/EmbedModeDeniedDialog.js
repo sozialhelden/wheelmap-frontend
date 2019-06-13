@@ -1,12 +1,21 @@
 import React from 'react';
 import ModalDialog from './ModalDialog';
+import Link from './Link/Link';
 import { t } from 'ttag';
 
-const EmbedModeDeniedDialog = () => {
+type Props = {
+  language: string,
+};
+
+const EmbedModeDeniedDialog = ({ language }: Props) => {
   // translator: Aria label for dialog showing up when the embedded mode cannot be displayed because of no valid token
   const embedModeDeniedDialogAriaLabel = t`Embed mode can not be used`;
-  // translator: Dialog description that the embed mode can not be displayend and where to reach out to
+  // translator: Dialog description that the embed mode can not be displayed and where to reach out to
   const embedModeDeniedDescription = `This page can't load this map correctly. Do you own this website? Then reach out:`;
+
+  const contactUrl = language.startsWith('de')
+    ? 'https://news.wheelmap.org/kontakt/'
+    : 'https://news.wheelmap.org/en/contact/';
 
   return (
     <ModalDialog
@@ -15,9 +24,7 @@ const EmbedModeDeniedDialog = () => {
       ariaLabel={embedModeDeniedDialogAriaLabel}
     >
       <p id="embed-mode-denied-description">{embedModeDeniedDescription}</p>
-      <p>
-        <a href="https://news.wheelmap.org/en/contact/">https://news.wheelmap.org/en/contact/</a>
-      </p>
+      <Link to={contactUrl}>{contactUrl}</Link>
     </ModalDialog>
   );
 };
