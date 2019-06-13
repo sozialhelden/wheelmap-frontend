@@ -17,6 +17,8 @@ import { buildFullImageUrl } from '../../lib/Image';
 import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
 import { type RouteParams } from '../../lib/RouterHistory';
 import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
+import MapPinIcon from '../icons/ui-elements/MapPinIcon';
+import GlobeIcon from '../icons/ui-elements/GlobeIcon';
 
 type MappingEventToolbarProps = {
   className?: string,
@@ -121,8 +123,18 @@ const MappingEventToolbar = ({
             {startDateString && <p>{startDateString}</p>}
             {endDateString && <p>{endDateString}</p>}
             <address>
-              {areaName && <p>{areaName}</p>}
-              {meetingPointName && <p>{meetingPointName}</p>}
+              {meetingPointName && (
+                <p>
+                  <MapPinIcon />
+                  {meetingPointName}
+                </p>
+              )}
+              {areaName && (
+                <p>
+                  <GlobeIcon />
+                  {areaName}
+                </p>
+              )}
             </address>
           </div>
         </header>
