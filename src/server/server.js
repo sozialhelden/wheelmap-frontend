@@ -66,11 +66,6 @@ app.prepare().then(() => {
       return next();
     }
 
-    const embedTokenProvided = Boolean(req.query.embedToken);
-    if (!embedTokenProvided) {
-      res.set('X-Frame-Options', 'deny');
-    }
-
     app.render(req, res, '/main', { ...match.params, ...req.query, routeName: match.route.name });
   });
 
