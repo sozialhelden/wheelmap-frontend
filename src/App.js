@@ -122,6 +122,7 @@ type State = {
   // map controls
   lat?: ?number,
   lon?: ?number,
+  isSpecificLatLonProvided: boolean,
   zoom?: ?number,
   extent?: ?[number, number, number, number],
 };
@@ -136,6 +137,7 @@ class App extends React.Component<Props, State> {
   state: State = {
     lat: null,
     lon: null,
+    isSpecificLatLonProvided: false,
     zoom: null,
     mappingEvents: this.props.mappingEvents,
 
@@ -228,6 +230,8 @@ class App extends React.Component<Props, State> {
       state.lat || parsedLat || (savedState.map.lastCenter && savedState.map.lastCenter[0]) || null;
     newState.lon =
       state.lon || parsedLon || (savedState.map.lastCenter && savedState.map.lastCenter[1]) || null;
+
+    newState.isSpecificLatLonProvided = Boolean(parsedLat) && Boolean(parsedLon);
 
     return newState;
   }
@@ -889,11 +893,13 @@ class App extends React.Component<Props, State> {
   };
 
   render() {
+    const { isSpecificLatLonProvided } = this.state;
     const isNodeRoute = Boolean(this.props.featureId);
     const isNodeToolbarDisplayed = this.isNodeToolbarDisplayed();
+    const mapMoveDate = savedState.map.lastMoveDate;
+    const wasMapMovedRecently = mapMoveDate && new Date() - mapMoveDate < config.locateTimeout;
 
-    const shouldLocateOnStart =
-      !isNodeRoute && +new Date() - (savedState.map.lastMoveDate || 0) > config.locateTimeout;
+    const shouldLocateOnStart = !isSpecificLatLonProvided && !isNodeRoute && !wasMapMovedRecently;
 
     const isSearchBarVisible = this.state.isSearchBarVisible;
     const isMappingEventsToolbarVisible = this.state.isMappingEventsToolbarVisible;
