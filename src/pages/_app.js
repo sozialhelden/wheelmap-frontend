@@ -400,7 +400,7 @@ export default class App extends BaseApp {
               />
             </AppContextProvider>
           )}
-          {embedModeDenied && <EmbedModeDeniedDialog />}
+          {embedModeDenied && <EmbedModeDeniedDialog language={preferredLanguage} />}
         </React.Fragment>
       </Container>
     );
