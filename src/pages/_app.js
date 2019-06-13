@@ -152,23 +152,7 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
-    // handle embed mode access
-    let embedModeDenied = false;
-    if (isServer) {
-      const { embedToken, app } = appProps;
-      if (embedToken) {
-        const { embedTokens, allowedBaseUrls = [] } = app.clientSideConfiguration;
-        const validEmbedTokenProvided = await isEmbedTokenValid(embedToken, embedTokens);
-        embedModeDenied = !validEmbedTokenProvided;
-
-        ctx.res.set(
-          'Content-Security-Policy',
-          `frame-ancestors file://* ${allowedBaseUrls.join(' ')}`
-        );
-      } else {
-        ctx.res.set('X-Frame-Options', 'deny');
-      }
-    }
+    const embedModeDenied = this.handleEmbedModeAccess(isServer, appProps, ctx.res);
 
     // when requested by server side rendering only, skip serializing app props as these are huge
     const userAgent = appProps.userAgent.ua || '';
@@ -191,6 +175,24 @@ export default class App extends BaseApp {
       path,
       isCordovaBuild,
     };
+  }
+
+  static handleEmbedModeAccess(isServer: boolean, appProps: AppProps, res: Response) {
+    let embedModeDenied = false;
+    if (isServer) {
+      const { embedToken, app } = appProps;
+      if (embedToken) {
+        const { embedTokens, allowedBaseUrls = [] } = app.clientSideConfiguration;
+        const validEmbedTokenProvided = isEmbedTokenValid(embedToken, embedTokens);
+        embedModeDenied = !validEmbedTokenProvided;
+
+        res.set('Content-Security-Policy', `frame-ancestors file://* ${allowedBaseUrls.join(' ')}`);
+      } else {
+        res.set('X-Frame-Options', 'deny');
+      }
+    }
+
+    return embedModeDenied;
   }
 
   routerHistory: NextRouterHistory;

@@ -1,6 +1,6 @@
 import { type EmbedToken } from './ClientSideConfiguration';
 
-const isEmbedTokenValid = async (embedToken: ?string, appEmbedTokens: ?(EmbedToken[])) => {
+const isEmbedTokenValid = (embedToken: ?string, appEmbedTokens: ?(EmbedToken[])) => {
   if (!embedToken || !appEmbedTokens) {
     return false;
   }
