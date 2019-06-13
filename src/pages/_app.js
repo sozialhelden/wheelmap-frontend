@@ -152,14 +152,22 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
+    // handle embed mode access
     let embedModeDenied = false;
-    const { inEmbedMode, embedToken, app } = appProps;
-    if (isServer && inEmbedMode) {
-      const validEmbedTokenProvided = await isEmbedTokenValid(
-        embedToken,
-        app.clientSideConfiguration.embedTokens
-      );
-      embedModeDenied = !validEmbedTokenProvided;
+    if (isServer) {
+      const { embedToken, app } = appProps;
+      if (embedToken) {
+        const { embedTokens, allowedBaseUrls = [] } = app.clientSideConfiguration;
+        const validEmbedTokenProvided = await isEmbedTokenValid(embedToken, embedTokens);
+        embedModeDenied = !validEmbedTokenProvided;
+
+        ctx.res.set(
+          'Content-Security-Policy',
+          `frame-ancestors file://* ${allowedBaseUrls.join(' ')}`
+        );
+      } else {
+        ctx.res.set('X-Frame-Options', 'deny');
+      }
     }
 
     // when requested by server side rendering only, skip serializing app props as these are huge
