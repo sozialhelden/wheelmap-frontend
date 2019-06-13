@@ -5,11 +5,11 @@ const isEmbedTokenValid = async (embedToken: ?string, appEmbedTokens: ?(EmbedTok
     return false;
   }
 
-  const embedTokenFound = appEmbedTokens.find(token => token.token === embedToken);
+  const matchingToken = appEmbedTokens.find(token => token.token === embedToken);
 
-  if (embedTokenFound) {
+  if (matchingToken) {
     const now = new Date();
-    const expiryDate = new Date(embedToken.expiresOn);
+    const expiryDate = new Date(matchingToken.expiresOn);
     return expiryDate > now;
   }
 
