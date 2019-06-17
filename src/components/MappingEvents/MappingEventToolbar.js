@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { Fragment } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
@@ -68,8 +68,21 @@ const MappingEventToolbar = ({
     startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
 
     if (endDate) {
-      startDateString += ' -';
+      startDateString = `${startDateString} -`;
       endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+    } else {
+      // translator: Prefix for the mapping event start date ("starting 01.12.2019")
+      const startingDatePrefix = t`starting`;
+      startDateString = `${startingDatePrefix} ${startDateString}`;
+    }
+  } else {
+    // translator: Prefix for the mapping event end date ("until 01.12.2019")
+    const untilDatePrefix = t`until`;
+    if (endDate) {
+      endDateString = `${untilDatePrefix} ${Intl.DateTimeFormat(
+        preferredLanguage,
+        dateFormatOptions
+      ).format(endDate)}`;
     }
   }
 
@@ -139,9 +152,13 @@ const MappingEventToolbar = ({
               <p className="event-date" title={eventDateLabel}>
                 <CalendarIcon className="date-icon" />
                 <span>
-                  <span title={eventStartDateLabel}>{startDateString}</span>
-                  <br />
-                  <span title={eventEndDateLabel}>{endDateString}</span>
+                  {startDateString && (
+                    <Fragment>
+                      <span title={eventStartDateLabel}>{startDateString}</span>
+                      <br />
+                    </Fragment>
+                  )}
+                  {endDateString && <span title={eventEndDateLabel}>{endDateString}</span>}
                 </span>
               </p>
             )}
