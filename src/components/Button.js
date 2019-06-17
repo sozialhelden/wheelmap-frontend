@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import colors from '../lib/colors';
 
-const StyledButton = styled.button`
+export const UnstyledButton = styled.button`
   appearance: none;
   font: inherit;
   background: none;
@@ -16,7 +16,7 @@ const StyledButton = styled.button`
   width: 100%;
 `;
 
-export const PrimaryButton = styled(StyledButton)`
+export const PrimaryButton = styled(UnstyledButton)`
   color: #ffffff;
   background-color: ${colors.linkColor};
   font-size: 1rem;
@@ -33,7 +33,7 @@ export const PrimaryButton = styled(StyledButton)`
   }
 `;
 
-export const SecondaryButton = styled(StyledButton)`
+export const SecondaryButton = styled(UnstyledButton)`
   color: #22262d;
   background-color: #0000;
   font-size: 1rem;
@@ -134,4 +134,4 @@ export const CallToActionLink = styled.a`
   }
 `;
 
-export default StyledButton;
+export default UnstyledButton;
