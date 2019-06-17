@@ -16,9 +16,10 @@ import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
 import { type RouteParams } from '../../lib/RouterHistory';
-import { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
+import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
 import GlobeIcon from '../icons/ui-elements/GlobeIcon';
+import CalendarIcon from '../icons/ui-elements/CalendarIcon';
 
 type MappingEventToolbarProps = {
   className?: string,
@@ -77,6 +78,18 @@ const MappingEventToolbar = ({
 
   // translator: Screenreader description for a mapping event
   const toolbarAriaLabel = t`Mapping event ${mappingEvent.name}`;
+  // translator: Label for clickable mapping event name that makes the map jump to the event's position
+  const centerMapOnMappingEvent = t`Center map on mapping event`;
+  // translator: Label for the meeting point of a mapping event
+  const meetingPointLabel = t`Meeting point`;
+  // translator: Label for the area of a mapping event
+  const areaNameLabel = t`Area name`;
+  // translator: Label for the date of a mapping event
+  const eventDateLabel = t`Event date`;
+  // translator: Label for the start date of a mapping event
+  const eventStartDateLabel = t`Event start date`;
+  // translator: Label for the end date of a mapping event
+  const eventEndDateLabel = t`Event end date`;
   // translator: Screenreader description for the back link that leads to the list of mapping events
   const backLinkAriaLabel = t`Back to the mapping events list`;
   // translator: Button name for social media sharing the current mapping event
@@ -95,9 +108,6 @@ const MappingEventToolbar = ({
       {joinButtonCaption}
     </PrimaryButton>
   );
-
-  const onHeaderKeyPress = (event: SyntheticKeyboardEvent<HTMLDivElement>) =>
-    event.key === 'Enter' && onHeaderClick();
 
   return (
     <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
@@ -118,24 +128,35 @@ const MappingEventToolbar = ({
               }}
             </RouteConsumer>
           )}
-          <div onClick={onHeaderClick} role="button" tabIndex="0" onKeyPress={onHeaderKeyPress}>
-            <h2>{mappingEvent.name}</h2>
-            {startDateString && <p>{startDateString}</p>}
-            {endDateString && <p>{endDateString}</p>}
-            <address>
-              {meetingPointName && (
-                <p>
-                  <MapPinIcon />
-                  {meetingPointName}
-                </p>
-              )}
-              {areaName && (
-                <p>
-                  <GlobeIcon />
-                  {areaName}
-                </p>
-              )}
-            </address>
+          <div>
+            <h2>
+              <Button onClick={onHeaderClick} title={centerMapOnMappingEvent}>
+                {mappingEvent.name}
+              </Button>
+            </h2>
+
+            {(startDateString || endDateString) && (
+              <p className="event-date" title={eventDateLabel}>
+                <CalendarIcon className="date-icon" />
+                <span>
+                  <span title={eventStartDateLabel}>{startDateString}</span>
+                  <br />
+                  <span title={eventEndDateLabel}>{endDateString}</span>
+                </span>
+              </p>
+            )}
+            {meetingPointName && (
+              <p className="meeting-point" title={meetingPointLabel}>
+                <MapPinIcon className="meeting-point-icon" />
+                {meetingPointName}
+              </p>
+            )}
+            {areaName && (
+              <p className="area-name" title={areaNameLabel}>
+                <GlobeIcon className="area-name-icon" />
+                {areaName}
+              </p>
+            )}
           </div>
         </header>
         <img className="mapping-event-image" src={imageSource} alt="" />
@@ -179,7 +200,7 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   h2 {
     font-size: 20px;
     font-weight: 700;
-    margin: 0;
+    margin: 0 0 10px 0;
   }
 
   p {
@@ -188,6 +209,19 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     font-weight: 400;
     margin: 0;
     line-height: 1.2;
+  }
+
+  .event-date,
+  .meeting-point,
+  .area-name {
+    display: flex;
+    align-items: center;
+  }
+
+  .date-icon,
+  .meeting-point-icon,
+  .area-name-icon {
+    margin-right: 4px;
   }
 
   ${ChromelessButton}.expand-button {
