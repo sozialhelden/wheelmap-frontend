@@ -2,7 +2,7 @@
 export NEW_SOURCE_PO=${NEW_SOURCE_PO:-'./public/i18n/en_US.txt'}
 export NODE_ENV=development
 
-# ensure i18n & src folder are clean 
+# ensure i18n & src folder are clean
 if [ -n "$(git status --porcelain src public/i18n)" ]
 then
   echo "Your repo must be clean. Exiting."
@@ -10,7 +10,7 @@ then
 fi
 
 # build plugin
-yarn run babel \
+npm run babel \
   -f retranslate/babel-plugin-retranslate/.babelrc \
   retranslate/babel-plugin-retranslate/src/plugin.js \
   -o retranslate/babel-plugin-retranslate/dist-plugin.js
@@ -19,7 +19,7 @@ yarn run babel \
 mv retranslate/.babelrc .babelrc
 
 # run plugin on test
-yarn run babel \
+npm run babel \
   -f .babelrc \
   src \
   --out-dir src
@@ -29,13 +29,13 @@ mv .babelrc retranslate/.babelrc
 
 
 # build rewrite script
-yarn run babel \
+npm run babel \
   -f retranslate/rewrite-pos/.babelrc \
   retranslate/rewrite-pos/rewrite-pos.js \
   -o retranslate/rewrite-pos/dist-rewrite-pos.js
 
 # run script
-yarn node retranslate/rewrite-pos/dist-rewrite-pos.js
+node retranslate/rewrite-pos/dist-rewrite-pos.js
 
 # ignore all changes on non c-3po files
 ag -L "ttag" src | (xargs git checkout -- || true)

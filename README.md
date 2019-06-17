@@ -13,7 +13,7 @@ Prepare the environment
 cp .env.test .env.development
 
 # npm dependencies
-yarn install
+npm install
 
 # fastlane dependencies
 bundle install
@@ -42,7 +42,7 @@ The web server serves the app as static page, running on the same domain as the 
 You have to convert SVG graphics to React JS components, e.g. with…
 
 ```bash
-yarn compile-svgs
+npm run compile-svgs
 ```
 
 Check `package.json`, it defines more scripts that can speed up this task.
@@ -54,7 +54,7 @@ To deploy the web application:
 - ask the backend maintainers to include your public SSH key in the authorized deployment keys
 - Add hostnames for the staging/production systems to your `/etc/hosts`
 - Log in once on the staging/production server
-- Deploy the application with `yarn deploy-staging` or `yarn deploy-production`.
+- Deploy the application with `npm run deploy-staging` or `npm run deploy-production`.
 
 
 ## Embed/Widget Mode of Wheelmap

@@ -26,8 +26,6 @@ Desktop.ini
 # Misc
 .env*
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Cordova iOS
 /platforms/ios/build/
