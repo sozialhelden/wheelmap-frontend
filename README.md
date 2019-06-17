@@ -61,11 +61,11 @@ To deploy the web application:
 
 The wheelmap web app can be embedded in any other website with embed code like this:
 
-```<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true&embedCode=12345&lat=52.5212&lon=13.4104" allow="geolocation"></iframe>```
+```<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true&embedToken=12345&lat=52.5212&lon=13.4104" allow="geolocation"></iframe>```
 
 Having the `embedded=true` query parameter attached to the URL ensures that the website is rendered with less UI (no search, no header etc.) and `allow="geolocation"` is essential so that the iframe is allowed to access the browser's locate feature.
 The widget as with the app in general can be configured to initially position the map at a certain lat/lon with respective parameters.
-The app disallows embedding via `<iframe>` if no valid `embedCode` for the app is provided. These embed codes can be created in the widget options in the admin interface of the app.
+The app disallows embedding via `<iframe>` if no valid `embedToken` for the app is provided. These embed tokens can be created in the widget options in the admin interface of the app.
 
 ## Setting up / building the Cordova apps
 
