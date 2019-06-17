@@ -305,15 +305,7 @@ class App extends React.Component<Props, State> {
 
       if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
         state.joinedMappingEventId = mappingEventIdToJoin;
-
-        const mappingEvent = mappingEvents[mappingEventIdToJoin];
-        const mappingEventWelcomeMessageExists =
-          mappingEvent &&
-          typeof mappingEvent.welcomeMessage === 'string' &&
-          mappingEvent.welcomeMessage.trim().length !== 0;
-
-        state.isMappingEventWelcomeDialogVisible = mappingEventWelcomeMessageExists;
-
+        state.isMappingEventWelcomeDialogVisible = true;
         this.trackJoinedMappingEvent('url', mappingEventIdToJoin);
       }
 
@@ -334,23 +326,11 @@ class App extends React.Component<Props, State> {
       return;
     }
 
-    const { mappingEvents, joinedMappingEventId } = this.state;
+    const { joinedMappingEventId } = this.state;
     const joinedMappingEventIsSetNow = Boolean(joinedMappingEventId);
     const joinedMappingEventChanged = prevState.joinedMappingEventId !== joinedMappingEventId;
 
-    const mappingEvent =
-      mappingEvents && mappingEvents.find(event => event._id === joinedMappingEventId);
-
-    const mappingEventWelcomeMessageExists =
-      mappingEvent &&
-      typeof mappingEvent.welcomeMessage === 'string' &&
-      mappingEvent.welcomeMessage.trim().length !== 0;
-
-    if (
-      joinedMappingEventIsSetNow &&
-      joinedMappingEventChanged &&
-      mappingEventWelcomeMessageExists
-    ) {
+    if (joinedMappingEventIsSetNow && joinedMappingEventChanged) {
       this.setState({ isMappingEventWelcomeDialogVisible: true });
     }
   }
