@@ -226,7 +226,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     });
   },
 
-  getHead(props) {
+  getHead(props, baseUrl) {
     const { feature, photos, app, categories, equipmentInfo } = props;
     const { textContent, meta } = app.clientSideConfiguration;
 
@@ -268,13 +268,12 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
           );
         }
 
-        extras.push(
-          <meta
-            content={router.generatePath('placeDetail', { id: getFeatureId(feature) })}
-            property="og:url"
-            key="og:url"
-          />
-        );
+        const placeDetailPath = router.generatePath('placeDetail', {
+          id: getFeatureId(feature),
+        });
+        const ogUrl = baseUrl ? `${baseUrl}${placeDetailPath}` : placeDetailPath;
+
+        extras.push(<meta content={ogUrl} property="og:url" key="og:url" />);
 
         if (placeTitle) {
           extras.push(<meta content={thisPlaceIsOn} property="og:title" key="og:title" />);

@@ -392,7 +392,9 @@ export default class App extends BaseApp {
           )}
           {facebook && <FacebookMeta facebook={facebookMetaData} />}
 
-          {routeName != null && <AsyncNextHead head={getHead(routeName, appProps)} />}
+          {routeName != null && (
+            <AsyncNextHead head={getHead(routeName, appProps, appContext.baseUrl)} />
+          )}
           {!skipApplicationBody && (
             <AppContextProvider value={appContext}>
               <PageComponent
