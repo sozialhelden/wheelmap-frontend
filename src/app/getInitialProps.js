@@ -62,7 +62,10 @@ export type DataTableEntry<Props> = {
     isServer: boolean
   ) => Promise<Props>,
   getRenderProps?: (props: Props, isServer: boolean) => Props,
-  getHead?: (props: Props & AppProps) => Promise<React$Element<any>> | React$Element<any>,
+  getHead?: (
+    props: Props & AppProps,
+    baseUrl?: string
+  ) => Promise<React$Element<any>> | React$Element<any>,
   storeInitialRouteProps?: (props: Props) => void,
 };
 
@@ -266,12 +269,12 @@ export function storeInitialRouteProps(routeName: string, props: any) {
   return dataItem.storeInitialRouteProps(props);
 }
 
-export function getHead(routeName: string, props: any) {
+export function getHead(routeName: string, props: any, baseUrl?: string) {
   const dataItem = dataTable[routeName];
 
   if (!dataItem || !dataItem.getHead) {
     return null;
   }
 
-  return dataItem.getHead(props);
+  return dataItem.getHead(props, baseUrl);
 }
