@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import FocusTrap from '@sozialhelden/focus-trap-react';
 import sortBy from 'lodash/sortBy';
 
-import { type Feature, placeNameFor } from '../../lib/Feature';
+import { type Feature, placeNameFor, getFeatureId } from '../../lib/Feature';
 import { type EquipmentInfo } from '../../lib/EquipmentInfo';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
@@ -127,7 +127,9 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
       return placeNameFor(feature.properties, category || parentCategory);
     });
 
-    return sortedFeatures.map((f, i) => <li key={f._id || f.id}>{this.renderClusterEntry(f)}</li>);
+    return sortedFeatures.map(feature => (
+      <li key={getFeatureId(feature)}>{this.renderClusterEntry(feature)}</li>
+    ));
   }
 
   render() {
