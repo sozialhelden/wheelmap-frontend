@@ -83,21 +83,15 @@ const StyledToolbar = styled(Toolbar)`
     flex-direction: column;
     top: 0;
     z-index: 1;
-    height: 200px;
 
     .close-link {
       position: absolute;
       right: 0px;
     }
 
-    > div {
-      display: flex;
-    }
-
     img {
       margin: 0;
       width: 100%;
-      object-fit: contain;
     }
 
     h3 {
@@ -181,7 +175,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         isModal
       >
         <header>
-          {this.renderCloseLink()}
           <div>
             <img src={photo.src} alt={t`To report`} />
           </div>
