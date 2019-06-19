@@ -46,6 +46,8 @@ class PhotoSection extends React.Component<Props, State> {
         sizes: p.thumbnailSizes || p.sizes,
       });
       delete clone.imageId;
+      delete clone.thumbnailSrcSet;
+      delete clone.thumbnailSizes;
       return clone;
     });
 
