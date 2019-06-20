@@ -8,15 +8,16 @@ import CloseIcon from './icons/actions/Close';
 type Props = {
   className?: string,
   ariaLabel?: ?string,
-  onClick: () => void,
+  onClick: (event: SyntheticMouseEvent<HTMLButtonElement>) => void,
   onFocus?: () => void,
   onBlur?: () => void,
 };
 
 class CloseButton extends React.Component<Props> {
-  onClick = event => {
+  onClick = (event: SyntheticMouseEvent<HTMLButtonElement>) => {
+    // TODO This check might not be needed anymore. onClick is now mandatory
     if (this.props.onClick) {
-      this.props.onClick();
+      this.props.onClick(event);
       return;
     }
     event.preventDefault();
@@ -37,7 +38,7 @@ class CloseButton extends React.Component<Props> {
   }
 }
 
-const StyledCloseButton = styled(CloseButton)`
+export default styled(CloseButton)`
   display: inline-block;
   padding: 16px;
   font-size: 30px;
@@ -56,5 +57,3 @@ const StyledCloseButton = styled(CloseButton)`
     display: block;
   }
 `;
-
-export default StyledCloseButton;
