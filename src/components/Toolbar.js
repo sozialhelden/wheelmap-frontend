@@ -371,6 +371,8 @@ const StyledToolbar = styled(Toolbar)`
   max-height: calc(100% - 120px - env(safe-area-inset-top));
 
   &.toolbar-is-modal {
+    z-index: 1000;
+
     @media (max-height: 512px), (max-width: 512px) {
       top: 0px;
       top: constant(safe-area-inset-top);
