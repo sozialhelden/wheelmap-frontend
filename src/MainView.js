@@ -503,7 +503,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
-      this.props.isPhotoUploadInstructionsToolbarVisible;
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
+      Boolean(this.props.photoMarkedForReport);
 
     return (
       <FullscreenBackdrop onClick={this.props.onClickFullscreenBackdrop} isActive={isActive} />
@@ -692,7 +693,8 @@ class MainView extends React.Component<Props, State> {
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
-      this.props.isPhotoUploadInstructionsToolbarVisible
+      this.props.isPhotoUploadInstructionsToolbarVisible ||
+      Boolean(this.props.photoMarkedForReport)
     );
   }
 
