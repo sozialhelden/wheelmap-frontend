@@ -6,7 +6,6 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "@sozialhelden/focus-trap-react": "^5.0.0-react-component-compat",
     "acorn-dynamic-import": "^4.0.0",
     "babel-eslint": "^9.0.0",
     "browser-image-resizer": "^1.2.0",
