@@ -4,19 +4,23 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
-import CloseLink from '../CloseLink';
 import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
+
 export type Props = {
   hidden: boolean,
   waitingForPhotoUpload?: boolean,
   inEmbedMode: boolean,
   onClose: ?() => void,
   onCompleted: ?(photos: FileList) => void,
+};
+
+type State = {
+  guidelinesAccepted: boolean,
 };
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
@@ -221,7 +225,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
 
   fileInput: ?HTMLInputElement;
   checkBox: ?HTMLInputElement;
-  backLink: ?React.ElementRef<typeof CloseLink>;
+  backLink: ?HTMLButtonElement;
   goButton: ?React.ElementRef<'button'>;
 
   renderCloseLink() {

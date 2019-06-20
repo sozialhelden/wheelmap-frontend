@@ -17,8 +17,6 @@ export type Props = {
   hidden: boolean,
   isExpanded?: boolean,
   onClose: () => void,
-  lat: ?number,
-  lon: ?number,
   addPlaceUrl: ?string,
   onAddPlaceLinkClick?: () => void,
   appContext: AppContext,
@@ -72,10 +70,6 @@ export default class ContributionThanksDialog extends React.Component<Props> {
   props: Props;
 
   componentDidMount() {
-    if (!this.props.hidden) {
-      this.focus();
-    }
-
     // log event on client
     if (typeof window !== 'undefined') {
       const queryParams = queryString.parse(window.location.search);
@@ -88,8 +82,6 @@ export default class ContributionThanksDialog extends React.Component<Props> {
       }
     }
   }
-
-  focus() {}
 
   render() {
     const className = ['contribution-thanks-dialog', this.props.isExpanded && 'is-expanded']
