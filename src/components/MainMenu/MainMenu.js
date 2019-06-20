@@ -4,7 +4,7 @@ import { hsl } from 'd3-color';
 import styled from 'styled-components';
 import { t } from 'ttag';
 
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
 import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
@@ -135,49 +135,51 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   renderAppLinks(baseUrl: string) {
-    return this.props.links.sort((a, b) => (a.order || 0) - (b.order || 0)).map(link => {
-      const url = insertPlaceholdersToAddPlaceUrl(
-        baseUrl,
-        translatedStringFromObject(link.url),
-        this.props.uniqueSurveyId
-      );
-      const label = translatedStringFromObject(link.label);
-      const badgeLabel = translatedStringFromObject(link.badgeLabel);
-      const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
-      const className = ['nav-link'].concat(classNamesFromTags).join(' ');
-
-      const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-      if (isAddPlaceLink) {
-        return (
-          <Link
-            key={url}
-            className={className}
-            to={url}
-            role="menuitem"
-            onClick={this.props.onAddPlaceLinkClick}
-          >
-            {label}
-            {badgeLabel && <Badge>{badgeLabel}</Badge>}
-          </Link>
+    return this.props.links
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .map(link => {
+        const url = insertPlaceholdersToAddPlaceUrl(
+          baseUrl,
+          translatedStringFromObject(link.url),
+          this.props.uniqueSurveyId
         );
-      }
+        const label = translatedStringFromObject(link.label);
+        const badgeLabel = translatedStringFromObject(link.badgeLabel);
+        const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
+        const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
-      if (isEventsLink) {
-        return this.renderEventsOrJoinedEventLink(label, url, className);
-      }
+        const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
+        if (isAddPlaceLink) {
+          return (
+            <Link
+              key={url}
+              className={className}
+              to={url}
+              role="menuitem"
+              onClick={this.props.onAddPlaceLinkClick}
+            >
+              {label}
+              {badgeLabel && <Badge>{badgeLabel}</Badge>}
+            </Link>
+          );
+        }
 
-      if (typeof url === 'string') {
-        return (
-          <Link key={url} className={className} to={url} role="menuitem">
-            {label}
-            {badgeLabel && <Badge>{badgeLabel}</Badge>}
-          </Link>
-        );
-      }
+        const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
+        if (isEventsLink) {
+          return this.renderEventsOrJoinedEventLink(label, url, className);
+        }
 
-      return null;
-    });
+        if (typeof url === 'string') {
+          return (
+            <Link key={url} className={className} to={url} role="menuitem">
+              {label}
+              {badgeLabel && <Badge>{badgeLabel}</Badge>}
+            </Link>
+          );
+        }
+
+        return null;
+      });
   }
 
   renderEventsOrJoinedEventLink(label: ?string, url: ?string, className: string) {
@@ -253,20 +255,22 @@ class MainMenu extends React.Component<Props, State> {
     const focusTrapIsActive = isMenuButtonVisible && isOpen;
 
     return (
-      <FocusTrap component="nav" className={classList.join(' ')} active={focusTrapIsActive}>
-        {this.renderHomeLink()}
+      <FocusTrap active={focusTrapIsActive}>
+        <nav className={classList.join(' ')}>
+          {this.renderHomeLink()}
 
-        <div className="claim">{translatedStringFromObject(claim)}</div>
+          <div className="claim">{translatedStringFromObject(claim)}</div>
 
-        <GlobalActivityIndicator className="activity-indicator" />
+          <GlobalActivityIndicator className="activity-indicator" />
 
-        <div id="main-menu" role="menu">
-          <AppContextConsumer>
-            {appContext => this.renderAppLinks(appContext.baseUrl)}
-          </AppContextConsumer>
-        </div>
+          <div id="main-menu" role="menu">
+            <AppContextConsumer>
+              {appContext => this.renderAppLinks(appContext.baseUrl)}
+            </AppContextConsumer>
+          </div>
 
-        {this.renderCloseButton()}
+          {this.renderCloseButton()}
+        </nav>
       </FocusTrap>
     );
   }

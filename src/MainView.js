@@ -9,7 +9,7 @@ import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
 import queryString from 'query-string';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
@@ -556,14 +556,14 @@ class MainView extends React.Component<Props, State> {
 
   renderCreateDialog() {
     return (
-      <FocusTrap
-        active={this.props.modalNodeState === 'create'}
-        component={CreatePlaceDialog}
-        hidden={this.props.modalNodeState !== 'create'}
-        onClose={this.props.onCloseModalDialog}
-        lat={this.props.lat}
-        lon={this.props.lon}
-      />
+      <FocusTrap active={this.props.modalNodeState === 'create'}>
+        <CreatePlaceDialog
+          hidden={this.props.modalNodeState !== 'create'}
+          onClose={this.props.onCloseModalDialog}
+          lat={this.props.lat}
+          lon={this.props.lon}
+        />
+      </FocusTrap>
     );
   }
 
@@ -585,15 +585,15 @@ class MainView extends React.Component<Props, State> {
             : null;
 
           return (
-            <FocusTrap
-              active={this.props.modalNodeState === 'contribution-thanks'}
-              component={ContributionThanksDialog}
-              hidden={this.props.modalNodeState !== 'contribution-thanks'}
-              onClose={this.props.onCloseModalDialog}
-              addPlaceUrl={url}
-              onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-              appContext={appContext}
-            />
+            <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
+              <ContributionThanksDialog
+                hidden={this.props.modalNodeState !== 'contribution-thanks'}
+                onClose={this.props.onCloseModalDialog}
+                addPlaceUrl={url}
+                onAddPlaceLinkClick={this.onAddPlaceLinkClick}
+                appContext={appContext}
+              />
+            </FocusTrap>
           );
         }}
       </AppContextConsumer>

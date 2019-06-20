@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { type CategoryLookupTables } from '../../../lib/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import type { WheelmapFeature } from '../../../lib/Feature';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 import CloseLink from '../../CloseLink';
@@ -210,16 +210,17 @@ class RadioStatusEditor extends React.Component<Props, State> {
 
   render() {
     return (
-      <FocusTrap
-        component="section"
-        className={this.props.className}
-        role="dialog"
-        aria-labelledby="wheelchair-accessibility-header"
-      >
-        {this.props.children}
-        {this.renderCloseButton()}
-        {this.renderRadioGroup()}
-        {this.renderFooter()}
+      <FocusTrap>
+        <section
+          className={this.props.className}
+          role="dialog"
+          aria-labelledby="wheelchair-accessibility-header"
+        >
+          {this.props.children}
+          {this.renderCloseButton()}
+          {this.renderRadioGroup()}
+          {this.renderFooter()}
+        </section>
       </FocusTrap>
     );
   }
