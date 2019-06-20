@@ -57,6 +57,7 @@ function reportDescription(reportValue: ReportOptions): ?string {
 }
 
 export type Props = {
+  className?: string,
   hidden: boolean,
   photo: PhotoModel | null,
   onClose: () => void,
@@ -67,63 +68,7 @@ type State = {
   selectedValue: ReportOptions | null,
 };
 
-/* Overwrite Style of wrapper Toolbar component  */
-const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  border-top: none;
-  border-radius: 3px;
-  z-index: 1000;
-
-  > header {
-    position: sticky;
-    display: flex;
-    flex-direction: column;
-    top: 0;
-    z-index: 1;
-
-    .close-link {
-      position: absolute;
-      right: 0px;
-    }
-
-    img {
-      margin: 0;
-      width: 100%;
-    }
-
-    h3 {
-      margin: 0.75rem 0;
-    }
-  }
-
-  > .radio-group {
-    margin-top: 1em;
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-
-  > footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    height: 50px;
-
-    label.link-button {
-      text-align: center;
-    }
-  }
-
-  .link-button[disabled] {
-    opacity: 0.8;
-    background-color: ${colors.neutralBackgroundColor};
-  }
-`;
-
-export default class PhotoUploadInstructionsToolbar extends React.Component<Props, State> {
+class ReportPhotoToolbar extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
@@ -168,8 +113,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     const ariaLabel = t`Reason for reporting image`;
 
     return (
-      <StyledToolbar
-        className="photoupload-instructions-toolbar"
+      <Toolbar
+        className={this.props.className}
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
@@ -215,7 +160,52 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             {t`Send`}
           </button>
         </footer>
-      </StyledToolbar>
+      </Toolbar>
     );
   }
 }
+
+export default styled(ReportPhotoToolbar)`
+  > header {
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    z-index: 1;
+
+    .close-link {
+      position: absolute;
+      right: 0px;
+    }
+
+    img {
+      margin: 0;
+      width: 100%;
+    }
+
+    h3 {
+      margin: 0.75rem 0;
+    }
+  }
+
+  > .radio-group {
+    margin-top: 1em;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  > footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 50px;
+
+    label.link-button {
+      text-align: center;
+    }
+  }
+
+  .link-button[disabled] {
+    opacity: 0.8;
+    background-color: ${colors.neutralBackgroundColor};
+  }
+`;
