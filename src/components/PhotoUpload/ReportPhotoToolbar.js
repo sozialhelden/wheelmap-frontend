@@ -13,6 +13,7 @@ import CustomRadio from '../NodeToolbar/AccessibilityEditor/CustomRadio';
 import StyledRadioGroup from '../NodeToolbar/AccessibilityEditor/StyledRadioGroup';
 
 import type { PhotoModel } from '../NodeToolbar/Photos/PhotoModel';
+import CloseButton from '../CloseButton';
 
 export type ReportOptions = 'wrong-place' | 'outdated' | 'offensive' | 'other';
 
@@ -120,7 +121,8 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
         isModal
       >
         <header>
-          <div>
+          <CloseButton onClick={this.onClose} />
+          <div className="image-container">
             <img src={photo.src} alt={t`To report`} />
           </div>
           <h3>{t`Which problem would you like to report?`}</h3>
@@ -172,14 +174,15 @@ export default styled(ReportPhotoToolbar)`
     top: 0;
     z-index: 1;
 
-    .close-link {
-      position: absolute;
-      right: 0px;
+    .image-container {
+      height: 200px;
     }
 
     img {
       margin: 0;
       width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     h3 {
@@ -202,6 +205,12 @@ export default styled(ReportPhotoToolbar)`
     label.link-button {
       text-align: center;
     }
+  }
+
+  ${CloseButton} {
+    position: absolute;
+    top: 0px;
+    right: 0px;
   }
 
   .link-button[disabled] {
