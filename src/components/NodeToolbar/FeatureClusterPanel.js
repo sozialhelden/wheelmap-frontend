@@ -2,7 +2,7 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 import sortBy from 'lodash/sortBy';
 
 import { type Feature, placeNameFor, getFeatureId } from '../../lib/Feature';
@@ -145,21 +145,20 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     const placesLabel = t`Places`;
 
     return (
-      <StyledToolbar
-        className={this.props.className}
-        hidden={this.props.hidden}
-        isModal={this.props.modalNodeState}
-        role="dialog"
-        startTopOffset={offset}
-        onScrollable={isScrollable => this.setState({ isScrollable })}
-        inEmbedMode={this.props.inEmbedMode}
+      <FocusTrap
+        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
-        <ErrorBoundary>
-          <FocusTrap
-            component="div"
-            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-            focusTrapOptions={{ clickOutsideDeactivates: true }}
-          >
+        <StyledToolbar
+          className={this.props.className}
+          hidden={this.props.hidden}
+          isModal={this.props.modalNodeState}
+          role="dialog"
+          startTopOffset={offset}
+          onScrollable={isScrollable => this.setState({ isScrollable })}
+          inEmbedMode={this.props.inEmbedMode}
+        >
+          <ErrorBoundary>
             <section className="cluster-entries">
               <StyledNodeHeader>
                 <PlaceName>
@@ -172,9 +171,9 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
                 <ul>{this.renderClusterEntries(cluster.features)}</ul>
               </StyledFrame>
             </section>
-          </FocusTrap>
-        </ErrorBoundary>
-      </StyledToolbar>
+          </ErrorBoundary>
+        </StyledToolbar>
+      </FocusTrap>
     );
   }
 }

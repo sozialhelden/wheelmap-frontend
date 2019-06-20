@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { t } from 'ttag';
-import FocusTrap from '@sozialhelden/focus-trap-react';
+import FocusTrap from 'focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
@@ -353,27 +353,26 @@ class NodeToolbar extends React.Component<Props, State> {
     const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
     return (
-      <StyledToolbar
-        ref={toolbar => (this.toolbar = toolbar)}
-        hidden={this.props.hidden}
-        isModal={this.props.modalNodeState}
-        role="dialog"
-        ariaLabel={this.placeName()}
-        startTopOffset={offset}
-        onScrollable={isScrollable => this.setState({ isScrollable })}
-        inEmbedMode={this.props.inEmbedMode}
+      <FocusTrap
+        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
-        <ErrorBoundary>
-          <FocusTrap
-            component="div"
-            // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-            focusTrapOptions={{ clickOutsideDeactivates: true }}
-          >
+        <StyledToolbar
+          ref={toolbar => (this.toolbar = toolbar)}
+          hidden={this.props.hidden}
+          isModal={this.props.modalNodeState}
+          role="dialog"
+          ariaLabel={this.placeName()}
+          startTopOffset={offset}
+          onScrollable={isScrollable => this.setState({ isScrollable })}
+          inEmbedMode={this.props.inEmbedMode}
+        >
+          <ErrorBoundary>
             {this.renderNodeHeader()}
             {this.renderContentBelowHeader()}
-          </FocusTrap>
-        </ErrorBoundary>
-      </StyledToolbar>
+          </ErrorBoundary>
+        </StyledToolbar>
+      </FocusTrap>
     );
   }
 }
