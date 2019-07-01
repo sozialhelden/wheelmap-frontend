@@ -86,7 +86,9 @@ const MappingEventToolbar = ({
     }
   }
 
-  const areaName = mappingEvent.area.properties.name;
+  const hasMeetingPoint = Boolean(mappingEvent.meetingPoint);
+
+  const areaName = mappingEvent.area ? mappingEvent.area.properties.name : null;
   const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
 
   // translator: Screenreader description for a mapping event
@@ -143,7 +145,11 @@ const MappingEventToolbar = ({
           )}
           <div>
             <h2>
-              <Button onClick={onHeaderClick} title={centerMapOnMappingEvent}>
+              <Button
+                onClick={onHeaderClick}
+                title={centerMapOnMappingEvent}
+                disabled={!hasMeetingPoint}
+              >
                 {mappingEvent.name}
               </Button>
             </h2>
