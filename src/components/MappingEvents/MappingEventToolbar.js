@@ -179,8 +179,11 @@ const MappingEventToolbar = ({
         <img className="mapping-event-image" src={imageSource} alt="" />
         <div className="mapping-event-description">{mappingEvent.description}</div>
         <Statistics
-          mappedPlacesCount={mappingEvent.statistics.mappedPlacesCount}
-          invitedParticipantCount={mappingEvent.statistics.invitedParticipantCount}
+          mappedPlacesCount={
+            (mappingEvent.statistics.attributeChangedCount || 0) +
+            (mappingEvent.statistics.surveyCompletedCount || 0)
+          }
+          participantCount={mappingEvent.statistics.joinedParticipantCount || 0}
           endDate={endDate}
         />
         <div className="actions">
