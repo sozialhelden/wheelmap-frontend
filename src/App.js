@@ -485,7 +485,7 @@ class App extends React.Component<Props, State> {
   showSelectedMappingEvent = (eventId: string) => {
     const event =
       this.state.mappingEvents && this.state.mappingEvents.find(event => event._id === eventId);
-    const extent = event && event.area.properties.extent;
+    const extent = event && event.area && event.area.properties.extent;
 
     if (extent) {
       this.setState({ extent });
