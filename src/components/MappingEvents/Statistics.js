@@ -10,12 +10,12 @@ import { UserIcon } from '../icons/ui-elements/index';
 
 type Props = {
   mappedPlacesCount: number,
-  invitedParticipantCount: number,
+  participantCount: number,
   endDate: ?Date,
   className?: string,
 };
 
-const Statistics = ({ mappedPlacesCount, invitedParticipantCount, endDate, className }: Props) => {
+const Statistics = ({ mappedPlacesCount, participantCount, endDate, className }: Props) => {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event
@@ -43,7 +43,7 @@ const Statistics = ({ mappedPlacesCount, invitedParticipantCount, endDate, class
       <div className="statistic">
         <div className="statistic-count">
           <UserIcon />
-          <span>{invitedParticipantCount}</span>
+          <span>{participantCount}</span>
         </div>
         <div className="statistic-description">{inviteesCountAriaLabel}</div>
       </div>

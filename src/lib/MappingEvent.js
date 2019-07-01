@@ -6,11 +6,20 @@ import type { IImage } from './Image';
 type MappingEventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
 
 interface MappingEventStatistics {
-  fullParticipantCount: number;
-  invitedParticipantCount: number;
-  draftParticipantCount: number;
-  acceptedParticipantCount: number;
-  mappedPlacesCount: number;
+  // deprecated, do not use
+  fullParticipantCount?: number;
+  // deprecated, do not use
+  draftParticipantCount?: number;
+  // deprecated, do not use
+  acceptedParticipantCount?: number;
+  // deprecated, do not use
+  mappedPlacesCount?: number;
+
+  invitedParticipantCount?: number;
+  joinedParticipantCount?: number;
+
+  attributeChangedCount?: number;
+  surveyCompletedCount?: number;
 }
 
 export interface MappingEvent {
