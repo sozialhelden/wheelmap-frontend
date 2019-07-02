@@ -73,20 +73,24 @@ export function hasAllowedAnalytics() {
 }
 
 export function setAnalyticsAllowed(value: boolean) {
-  if (value === false) {
-    storage.removeItem('wheelmap.userUUID');
-  } else {
-    if (!storage.getItem('wheelmap.userUUID')) {
-      storage.setItem('wheelmap.userUUID', uuidv4());
-    }
-  }
-
   storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
   notifyListeners();
 }
 
 export function getUUID() {
-  return storage.getItem('wheelmap.userUUID');
+  let result = storage.getItem('wheelmap.userUUID');
+  if (!result) {
+    result = uuidv4();
+    storage.setItem('wheelmap.userUUID', result);
+    notifyListeners();
+  }
+
+  return result;
+}
+
+export function resetUUID() {
+  storage.removeItem('wheelmap.userUUID');
+  notifyListeners();
 }
 
 export function getJoinedMappingEventId(): ?string {

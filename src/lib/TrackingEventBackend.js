@@ -54,10 +54,6 @@ export type TrackingEvent =
 
 export default class TrackingEventBackend {
   async track(app: App, event: TrackingEvent): Promise<boolean> {
-    if (!hasAllowedAnalytics()) {
-      return Promise.reject(false);
-    }
-
     const joinedMappingEventId = getJoinedMappingEventId();
     const mappingEvent =
       joinedMappingEventId && (await mappingEventsCache.getMappingEvent(app, joinedMappingEventId));
@@ -66,7 +62,7 @@ export default class TrackingEventBackend {
     const userLocation = userPositionTracker.userLocation;
 
     // determine userUUID
-    const userUUID = getUUID() || 'do-not-track';
+    const userUUID = getUUID();
 
     const body = JSON.stringify({
       ...event,
@@ -92,9 +88,7 @@ export default class TrackingEventBackend {
       },
     };
 
-    const fetchUrl = `${
-      env.public.accessibilityCloud.baseUrl.accessibilityApps
-    }/tracking-events/report?appToken=${env.public.accessibilityCloud.appToken}`;
+    const fetchUrl = `${env.public.accessibilityCloud.baseUrl.accessibilityApps}/tracking-events/report?appToken=${env.public.accessibilityCloud.appToken}`;
 
     const uploadPromise = new Promise((resolve, reject) => {
       globalFetchManager
