@@ -30,6 +30,8 @@ const StyledToolbar = styled(Toolbar)`
         100% - ${props => (props.inEmbedMode ? 0 : 80)}px - env(safe-area-inset-top)
       );
     }
+
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   ${ChromelessButton}.expand-button {
