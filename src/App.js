@@ -861,6 +861,7 @@ class App extends React.Component<Props, State> {
   isNodeToolbarDisplayed(props: Props = this.props, state: State = this.state) {
     return (
       props.feature &&
+      !props.mappingEvent &&
       !state.isSearchToolbarExpanded &&
       !state.isPhotoUploadCaptchaToolbarVisible &&
       !state.isPhotoUploadInstructionsToolbarVisible &&
