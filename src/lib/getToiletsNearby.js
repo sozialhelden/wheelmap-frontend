@@ -41,7 +41,7 @@ function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Pr
   const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${config.wheelmapApiKey}`;
 
   return globalFetchManager
-    .fetch(url, { cordova: true })
+    .fetch(url)
     .then(response => response.json())
     .then(responseJson => responseJson.nodes.map(convertResponseToWheelmapFeature));
 }
@@ -56,7 +56,7 @@ function fetchAcToiletPlaces(
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
   const url = `${env.public.accessibilityCloud.baseUrl.cached}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${env.public.accessibilityCloud.appToken}`;
   return globalFetchManager
-    .fetch(url, { cordova: true })
+    .fetch(url)
     .then(response => {
       if (response.status === 200) {
         return response.json();

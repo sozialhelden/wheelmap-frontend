@@ -67,7 +67,7 @@ export default function searchPlaces(
   // }
 
   return globalFetchManager
-    .fetch(url, { cordova: true })
+    .fetch(url)
     .then(response => {
       return response.json();
     })

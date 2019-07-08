@@ -38,8 +38,6 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
-import fetchViaCordova from '../../lib/fetchViaCordova';
-import isCordova from '../../lib/isCordova';
 
 const TileLayer = L.TileLayer;
 
@@ -266,27 +264,19 @@ class GeoJSONTileLayer extends TileLayer {
       tileLayer._tileOnLoad(tile, url);
     };
 
-    if (isCordova() && this.options.cordova) {
-      const options = { headers: { Accept: 'application/json' } };
-      fetchViaCordova(url, options)
-        .then(r => r.text())
-        .then(responseText => !tileRequestAborted && loadGeoJSON(responseText))
-        .catch(error => tileLayer._tileOnError(tile, url));
-    } else {
-      const request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
-      tile.request = request;
-      request.open('GET', url, true);
-      request.setRequestHeader('Accept', 'application/json');
-      request.addEventListener('abort', function load() {
-        tileRequestAborted = true;
-      });
-      request.addEventListener('load', function load() {
-        if (!this.responseText || this.status >= 400 || tileRequestAborted) return;
-        loadGeoJSON(this.responseText);
-      });
-      request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
-      request.send();
-    }
+    const request = new XMLHttpRequest(); // eslint-disable-line no-param-reassign
+    tile.request = request;
+    request.open('GET', url, true);
+    request.setRequestHeader('Accept', 'application/json');
+    request.addEventListener('abort', function load() {
+      tileRequestAborted = true;
+    });
+    request.addEventListener('load', function load() {
+      if (!this.responseText || this.status >= 400 || tileRequestAborted) return;
+      loadGeoJSON(this.responseText);
+    });
+    request.addEventListener('error', () => tileLayer._tileOnError(tile, url));
+    request.send();
 
     tile.el = {}; // eslint-disable-line no-param-reassign
   }

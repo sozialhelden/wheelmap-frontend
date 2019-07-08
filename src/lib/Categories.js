@@ -259,31 +259,25 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const url = `${env.public.accessibilityCloud.baseUrl.cached}/categories.json?appToken=${
-        env.public.accessibilityCloud.appToken
-      }`;
+      const url = `${env.public.accessibilityCloud.baseUrl.cached}/categories.json?appToken=${env.public.accessibilityCloud.appToken}`;
       return globalFetchManager
-        .fetch(url, { cordova: true })
+        .fetch(url)
         .then(responseHandler)
         .then((json): ACCategory[] => json.results || []);
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${
-        env.public.wheelmap.apiKey
-      }&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.public.wheelmap.apiKey}&locale=${countryCode}`;
       return globalFetchManager
-        .fetch(url, { mode: 'no-cors', cordova: true })
+        .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
         .then((json): WheelmapCategory[] => json.categories || []);
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${
-        config.wheelmapApiKey
-      }&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
       return globalFetchManager
-        .fetch(url, { mode: 'no-cors', cordova: true })
+        .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
         .then((json): WheelmapCategory[] => json.node_types || []);
     }

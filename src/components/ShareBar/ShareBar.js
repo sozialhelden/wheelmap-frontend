@@ -12,7 +12,6 @@ import { t } from 'ttag';
 import colors from '../../lib/colors';
 import IconButton, { Circle, Caption } from '../IconButton';
 import { ChromelessButton } from '../Button';
-import isCordova from '../../lib/isCordova';
 import { interpolateLab } from 'd3-interpolate';
 
 import ChevronLeft from './icons/ChevronLeft';
@@ -101,14 +100,7 @@ class ShareBar extends React.Component<Props, State> {
 
     if (!this.state.isExpanded) return expandButton;
 
-    // The share button lib we're using is using window.open() by default which
-    // seems to not work in our Cordova app for some reason. If we are a Cordova
-    // app then we configure the share buttons to use window.location.href which
-    // works in Cordova.
-    // If we are on web we just use the default behavior of the share buttons.
-    const linkOpeningViaLocationHrefProps = isCordova()
-      ? { openWindow: false, onClick: link => (window.location.href = link) }
-      : {};
+    const linkOpeningViaLocationHrefProps = {};
 
     // translator: Screenreader description for the share menu collapse button
     const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;

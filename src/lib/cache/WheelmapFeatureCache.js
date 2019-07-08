@@ -18,7 +18,6 @@ export default class WheelmapFeatureCache extends FeatureCache<
     return this.fetch(
       `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`,
       {
-        cordova: true,
         ...options,
       }
     );

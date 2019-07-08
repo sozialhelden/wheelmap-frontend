@@ -4,7 +4,6 @@ import { t } from 'ttag';
 import fetch from '../../../lib/fetch';
 import get from 'lodash/get';
 import config from '../../../lib/config';
-import isCordova from '../../../lib/isCordova';
 import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
@@ -56,12 +55,11 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
 
   const formData = new FormData();
   formData.append(options.jsonPropertyName, String(value));
-  const body = isCordova() ? { [options.jsonPropertyName]: value } : formData;
+  const body = formData;
 
   const requestOptions = {
     method: 'PUT',
     body,
-    cordova: true,
     serializer: 'urlencoded',
     headers: {
       Accept: 'application/json',
@@ -103,15 +101,11 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
 }
 
 export function saveToiletStatus(options: ExternalSaveOptions<YesNoUnknown>) {
-  const url = `${config.wheelmapApiBaseUrl}/nodes/${options.featureId}/update_toilet.js?api_key=${
-    config.wheelmapApiKey
-  }`;
+  const url = `${config.wheelmapApiBaseUrl}/nodes/${options.featureId}/update_toilet.js?api_key=${config.wheelmapApiKey}`;
   return save({ ...options, url, propertyName: 'wheelchair_toilet', jsonPropertyName: 'toilet' });
 }
 
 export function saveWheelchairStatus(options: ExternalSaveOptions<YesNoLimitedUnknown>) {
-  const url = `${config.wheelmapApiBaseUrl}/nodes/${
-    options.featureId
-  }/update_wheelchair.js?api_key=${config.wheelmapApiKey}`;
+  const url = `${config.wheelmapApiBaseUrl}/nodes/${options.featureId}/update_wheelchair.js?api_key=${config.wheelmapApiKey}`;
   return save({ ...options, url, propertyName: 'wheelchair', jsonPropertyName: 'wheelchair' });
 }
