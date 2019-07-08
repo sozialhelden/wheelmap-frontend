@@ -67,6 +67,7 @@ type State = {
   requiredDataPromise: ?Promise<RequiredData>,
   resolvedSources: ?(SourceWithLicense[]),
   resolvedPhotos: ?(PhotoModel[]),
+  isLoadingToiletsNearby: boolean,
   lastFeatureId: ?(string | number),
   lastEquipmentInfoId: ?string,
 };
@@ -79,6 +80,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     resolvedRequiredData: null,
     resolvedSources: null,
     resolvedPhotos: null,
+    isLoadingToiletsNearby: false,
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
@@ -301,6 +303,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           feature={lightweightFeature}
           equipmentInfo={null}
           toiletsNearby={null}
+          isLoadingToiletsNearby={true}
           sources={[]}
           photos={[]}
           ref={t => (this.nodeToolbar = t)}

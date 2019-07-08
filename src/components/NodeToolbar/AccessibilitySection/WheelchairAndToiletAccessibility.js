@@ -22,6 +22,7 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
+import { Dots } from 'react-activity';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -70,6 +71,7 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 type Props = {
   feature: Feature,
   toiletsNearby: ?(Feature[]),
+  isLoadingToiletsNearby: boolean,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
@@ -113,9 +115,21 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   renderNearbyToilets() {
-    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
+    const { feature, toiletsNearby, onOpenToiletNearby, isLoadingToiletsNearby } = this.props;
     if (!toiletsNearby) {
       return;
+    }
+
+    if (isLoadingToiletsNearby) {
+      const caption = t`Searching accessible toilet`;
+      return (
+        <button className="toilet-nearby" disabled={true}>
+          {caption}
+          <span className="subtle">
+            <Dots size={14} color={'rgba(0, 0, 0, 0.4)'} />
+          </span>
+        </button>
+      );
     }
 
     const featureCoords = normalizedCoordinatesForFeature(feature);
@@ -139,7 +153,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature, toiletsNearby } = this.props;
+    const { feature, toiletsNearby, isLoadingToiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -158,7 +172,9 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       (toiletAccessibility === 'yes' && categoryId !== 'toilets');
 
     const findToiletsNearby =
-      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
+      toiletAccessibility !== 'yes' &&
+      toiletsNearby &&
+      (isLoadingToiletsNearby || toiletsNearby.length > 0);
     const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
     if (!hasContent) {
       return null;
