@@ -5,7 +5,7 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
 
-import Toolbar from '../Toolbar';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import MappingEventShareBar from './MappingEventShareBar';
 import Statistics from './Statistics';
 import Link from '../Link/Link';
@@ -126,7 +126,12 @@ const MappingEventToolbar = ({
 
   return (
     <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <Toolbar className={className} ariaLabel={toolbarAriaLabel} role="dialog">
+      <StyledToolbar
+        className={className}
+        ariaLabel={toolbarAriaLabel}
+        role="dialog"
+        minimalHeight={205}
+      >
         <CloseButton onClick={onClose} />
         <header>
           {!joinedMappingEventId && (
@@ -205,7 +210,7 @@ const MappingEventToolbar = ({
             )}
           </AppContextConsumer>
         </div>
-      </Toolbar>
+      </StyledToolbar>
     </FocusTrap>
   );
 };
