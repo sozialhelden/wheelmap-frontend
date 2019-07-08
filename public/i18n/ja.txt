@@ -10,12 +10,16 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:337
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:361
 msgid "Search"
 msgstr "検索"
 
-#: src/pages/_app.js:338
+#: src/pages/_app.js:362
 msgid "Homepage"
+msgstr ""
+
+#: src/components/EmbedModeDeniedDialog.js:12
+msgid "Embed mode can not be used"
 msgstr ""
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
@@ -97,6 +101,19 @@ msgstr ""
 msgid "Error while loading place categories."
 msgstr "場所の分類の読み込み中のエラー"
 
+#: src/app/ContributionThanksData.js:12
+msgid "Thank you for the contribution!"
+msgstr ""
+
+#: src/app/CreatePlaceData.js:12
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
+msgid "Add a new place"
+msgstr "欠けている場所を追加する"
+
+#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
+msgid "Search results"
+msgstr "検索結果"
+
 #: src/lib/EquipmentInfo.js:100
 msgid "Unnamed facility"
 msgstr "名前なしの施設"
@@ -144,6 +161,10 @@ msgstr ""
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
 msgstr "前回の更新日${ dateString }。"
+
+#: src/app/PlaceDetailsData.js:276
+msgid "This place is on ${ productName }: ${ placeTitle }"
+msgstr ""
 
 #: src/lib/Feature.js:469
 msgid "Fully wheelchair accessible"
@@ -238,147 +259,13 @@ msgstr "車椅子対応の洗面台"
 msgid "Unnamed place"
 msgstr "名前なしの場所"
 
-#: src/lib/cache/URLDataCache.js:60
-msgid "Error while loading data."
-msgstr "データ読み込み中のエラー"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:22
-msgid "Welcome"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:77
-msgid "Mapping event ${ mappingEvent.name }"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:79
-msgid "Back to the mapping events list"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:81
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
-msgid "Share"
-msgstr "共有する"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:83
-msgid "Join mapping event"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:85
-msgid "Leave mapping event"
-msgstr ""
-
-#: src/components/Map/Map.js:1005
-msgid "Zoom in closer to see more places"
-msgstr "もっとたくさんの場所を見るにはズームインします"
-
-#: src/components/Map/Map.js:1021
-msgid "Turn on location services"
-msgstr "位置情報サービスをオンにする"
-
-#: src/components/Map/Map.js:1054
-msgid "Map"
-msgstr "地図"
-
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
-msgstr ""
-
-#: src/components/Toolbar.js:332
-msgid "Collapse details"
-msgstr ""
-
-#: src/components/Toolbar.js:332
-msgid "Expand details"
-msgstr ""
-
-#: src/components/Map/MappingEventMarkerIcon.js:34
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
-
-#: src/lib/goToLocationSettings.js:44
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr "自分の場所を地図上に表示するには、ブラウザの設定メニューを開いてWheelmap.orgに位置情報の使用を許可してください"
-
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "自分の場所を表示"
-
-#: src/components/CloseButton.js:32 src/components/CloseLink.js:36
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:232
-msgid "Close"
-msgstr "とじる"
-
-#: src/components/ShareBar/ShareBar.js:87
-msgid "Expand share menu"
-msgstr "共有メニューを拡張する"
-
-#: src/components/ShareBar/ShareBar.js:114
-msgid "Collapse share menu"
-msgstr "共有メニューを折りたたむ"
-
 #: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:34
 msgid "Could not load this place."
 msgstr "この場所を読み込めませんでした 。"
 
-#: src/components/MappingEvents/MappingEventsToolbar.js:31
-msgid "Mapping events list"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:33
-msgid "${ mappingEvents.length } active mapping events"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:35
-msgid "Events"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:37
-msgid "Meet the community and map the accessibility of places around you!"
-msgstr ""
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:143
-msgid "Places"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:99
-msgid "Thank you!"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:100
-msgid "Please give us a moment to verify your contribution."
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:102
-msgid "Add next place"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
-msgid "Back to map"
-msgstr ""
-
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "すべての場所"
+#: src/lib/cache/URLDataCache.js:120
+msgid "Error while loading data."
+msgstr "データ読み込み中のエラー"
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
@@ -389,84 +276,13 @@ msgstr ""
 msgid "App Logo"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "場所に印を付けるお手伝いをしてください！"
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "すべての場所"
 
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "さあ、行きましょう！"
-
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
+#: src/components/NodeToolbar/FeatureClusterPanel.js:145
+msgid "Places"
 msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
-msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:70
-msgid "Start screen"
-msgstr "ホイールマップスタート画面"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
-msgid "Image shows another place."
-msgstr "画像はほかの場所のものです。"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
-msgid "Outdated"
-msgstr "期限切れ"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
-msgid "Offensive or inappropriate"
-msgstr "不快または不適切"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
-msgid "Other problems"
-msgstr "他の問題"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
-msgid "This image does not depict this place."
-msgstr "この画像はこの場所のものではありません"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
-msgid "This image does not show the current state of this place."
-msgstr "この画像はこの場所の現在の状態を示していません"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
-msgid ""
-"This image shows sexually explicit content, depicts violence or is "
-"inappropriate in another way."
-msgstr "この画像はわいせつ、暴力的、またはその他の理由で不適切です。"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
-msgid "This image infringes on my copyright or has other problems."
-msgstr "この画像には、私の著作権への侵害、または他の問題があります。"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
-msgid "Reason for reporting image"
-msgstr "画像を報告する理由"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:186
-msgid "To report"
-msgstr "報告する"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
-msgid "Which problem would you like to report?"
-msgstr "どのような問題を伝えたいですか？"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:327
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:215
-msgid "Cancel"
-msgstr "キャンセル"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:222
-msgid "Send"
-msgstr "送信"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
 msgid "“Vespucci” in PlayStore"
@@ -488,11 +304,6 @@ msgstr "App Storeの“MAPS.ME”  "
 msgid "“MAPS.ME” in PlayStore"
 msgstr "PlayStoreの\"MAPS.ME\""
 
-#: src/app/CreatePlaceData.js:12
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
-msgid "Add a new place"
-msgstr "欠けている場所を追加する"
-
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
 "Most places shown here are from <a "
@@ -511,6 +322,62 @@ msgstr "OpenStreetMapにメモをのこす"
 msgid "Add a place on OpenStreetMap"
 msgstr "OpenStreetMapに場所を追加する"
 
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Image shows another place."
+msgstr "画像はほかの場所のものです。"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr "期限切れ"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or inappropriate"
+msgstr "不快または不適切"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other problems"
+msgstr "他の問題"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This image does not depict this place."
+msgstr "この画像はこの場所のものではありません"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This image does not show the current state of this place."
+msgstr "この画像はこの場所の現在の状態を示していません"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr "この画像はわいせつ、暴力的、またはその他の理由で不適切です。"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This image infringes on my copyright or has other problems."
+msgstr "この画像には、私の著作権への侵害、または他の問題があります。"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
+msgid "Reason for reporting image"
+msgstr "画像を報告する理由"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:126
+msgid "To report"
+msgstr "報告する"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:128
+msgid "Which problem would you like to report?"
+msgstr "どのような問題を伝えたいですか？"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:155
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:162
+msgid "Send"
+msgstr "送信"
+
 #: src/components/SearchToolbar/SearchToolbar.js:459
 msgid "Clear search"
 msgstr "検索履歴を削除する"
@@ -519,6 +386,60 @@ msgstr "検索履歴を削除する"
 #: src/components/SearchToolbar/SearchToolbar.js:470
 msgid "Go"
 msgstr "Go"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
+msgid "Thank you!"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
+msgid "Please give us a moment to verify your contribution."
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
+msgid "Add next place"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
+msgid "Back to map"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:31
+msgid "Mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:33
+msgid "${ mappingEvents.length } active mapping events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:35
+msgid "Events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:37
+msgid "Meet the community and map the accessibility of places around you!"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
+msgid "Welcome"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
+msgid ""
+"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
+"step: Rate and add the accessibility of places."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
+msgid "Let's go"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "ホーム"
+
+#: src/components/MainMenu/MainMenu.js:234
+msgid "Menu"
+msgstr "メニュー"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
 #: src/components/NodeToolbar/Report/strings.js:28
@@ -571,65 +492,138 @@ msgid ""
 "retry."
 msgstr "残念！失敗してしまいました。全てのキャラクターが正しいか確認してもう一度お試しください。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:268
+#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
+msgid "Close"
+msgstr "とじる"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
 msgid "The following images…"
 msgstr "この画像は..."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "...give useful information on accessibility."
 msgstr "...アクセシビリティについて役立つ情報を提供します"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:270
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
 msgid "...were taken by me."
 msgstr "...の撮影者は私です。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
 msgid "...do not show any identifiable persons."
 msgstr "...は特定可能な人物を示しません"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid ""
 "I hereby publish these images into the public domain and renounce copyright "
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal license</a>)."
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
 msgstr "入口"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
 msgid "Site map"
 msgstr "サイトマップ"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
 msgid "toilets"
 msgstr "トイレ"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:334
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
 msgid "Continue"
 msgstr "続ける"
 
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "ホーム"
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "場所に印を付けるお手伝いをしてください！"
 
-#: src/components/MainMenu/MainMenu.js:232
-msgid "Menu"
-msgstr "メニュー"
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "さあ、行きましょう！"
 
-#: src/app/ContributionThanksData.js:12
-msgid "Thank you for the contribution!"
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
 msgstr ""
 
-#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
-msgid "Search results"
-msgstr "検索結果"
-
-#: src/app/PlaceDetailsData.js:257
-msgid "This place is on ${ productName }: ${ placeTitle }"
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
 msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:70
+msgid "Start screen"
+msgstr "ホイールマップスタート画面"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:75
+msgid "starting"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:80
+msgid "until"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:95
+msgid "Mapping event ${ mappingEvent.name }"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:97
+msgid "Center map on mapping event"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:99
+msgid "Meeting point"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:101
+msgid "Area name"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:103
+msgid "Event date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:105
+msgid "Event start date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:107
+msgid "Event end date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:109
+msgid "Back to the mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:111
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+msgid "Share"
+msgstr "共有する"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:113
+msgid "Join mapping event"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:115
+msgid "Leave mapping event"
+msgstr ""
+
+#: src/components/Map/Map.js:1005
+msgid "Zoom in closer to see more places"
+msgstr "もっとたくさんの場所を見るにはズームインします"
+
+#: src/components/Map/Map.js:1021
+msgid "Turn on location services"
+msgstr "位置情報サービスをオンにする"
+
+#: src/components/Map/Map.js:1054
+msgid "Map"
+msgstr "地図"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
@@ -655,10 +649,6 @@ msgstr "アクセスできない場所のみ"
 msgid "Wheelchair accessibility filter"
 msgstr "車椅子対応状況フィルター"
 
-#: src/components/SearchToolbar/SearchInputField.js:65
-msgid "Search for place or address"
-msgstr "場所または住所を検索する"
-
 #: src/components/SearchToolbar/SearchResults.js:31
 msgid "No results found"
 msgstr "検索結果がありませんでした"
@@ -667,10 +657,58 @@ msgstr "検索結果がありませんでした"
 msgid "No results available. Please try again later!"
 msgstr "結果がありません。しばらくまってお試しください"
 
+#: src/components/SearchToolbar/SearchInputField.js:65
+msgid "Search for place or address"
+msgstr "場所または住所を検索する"
+
+#: src/components/Toolbar.js:332
+msgid "Collapse details"
+msgstr ""
+
+#: src/components/Toolbar.js:332
+msgid "Expand details"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/NodeToolbar/NodeToolbar.js:266
 msgid "How wheelchair accessible is this place?"
 msgstr "この場所は車椅子にどれぐらい対応していますか？"
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:44
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr "自分の場所を地図上に表示するには、ブラウザの設定メニューを開いてWheelmap.orgに位置情報の使用を許可してください"
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "自分の場所を表示"
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
 msgid "Remove ${ caption } Filter"
@@ -684,9 +722,18 @@ msgstr "名前なし"
 msgid "Remove ${ props.name } Filter"
 msgstr " ${ props.name } フィルターをはずす"
 
-#: src/components/NodeToolbar/SourceList.js:33
-msgid "Source:"
-msgstr "出典："
+#: src/components/ShareBar/ShareBar.js:87
+msgid "Expand share menu"
+msgstr "共有メニューを拡張する"
+
+#: src/components/ShareBar/ShareBar.js:114
+msgid "Collapse share menu"
+msgstr "共有メニューを折りたたむ"
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+msgid "Wheelchair accessibility"
+msgstr "車椅子の対応"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 msgid "Is the toilet here wheelchair accessible?"
@@ -702,10 +749,37 @@ msgstr "はい"
 msgid "No"
 msgstr "いいえ"
 
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
-msgid "Wheelchair accessibility"
-msgstr "車椅子の対応"
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "Disruptions at this location"
+msgstr "この場所では交通が停止しているか通行止めになっています。"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
+msgid "All elevators and escalators"
+msgstr "すべてのエレベーターとエスカレーター"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:160
+msgid "Report image"
+msgstr "画像を報告する"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:186
+msgid "of"
+msgstr "の"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:188
+msgid "Next (right arrow key)"
+msgstr "次 (右矢印キー)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:190
+msgid "Previous (left arrow key)"
+msgstr "前 (左矢印キー)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:192
+msgid "Close (Esc)"
+msgstr "閉じる (Esc)"
+
+#: src/components/NodeToolbar/SourceList.js:33
+msgid "Source:"
+msgstr "出典："
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:37
 msgid ""
@@ -733,37 +807,58 @@ msgstr "この場所は位置が間違っています。"
 msgid "The problem isn’t listed here…"
 msgstr "私の問題がこのリストに載っていません..."
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "Disruptions at this location"
-msgstr "この場所では交通が停止しているか通行止めになっています。"
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
+msgid "Call ${ phoneNumber }"
+msgstr "${ phoneNumber }に電話する"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
-msgid "All elevators and escalators"
-msgstr "すべてのエレベーターとエスカレーター"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "${ sourceNameString }で開ける"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:158
-msgid "Report image"
-msgstr "画像を報告する"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+msgid "Add info on ${ sourceNameString }"
+msgstr "${ sourceNameString }を改善する"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:184
-msgid "of"
-msgstr "の"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+msgid "Learn more about the accessibility of this place"
+msgstr "この場所が車椅子対応かどうかを確認しましょう"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:186
-msgid "Next (right arrow key)"
-msgstr "次 (右矢印キー)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "ホイールマップで場所を見つけました: ${ url }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:188
-msgid "Previous (left arrow key)"
-msgstr "前 (左矢印キー)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:190
-msgid "Close (Esc)"
-msgstr "閉じる (Esc)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+msgid "I found a place on Wheelmap…"
+msgstr " Wheelmapで場所を見つけました..."
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
-msgid "Sorry, this place could not be marked because of an error: ${ e }"
-msgstr "この場所はマークできませんでした。エラー番号： ${ e }"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+msgid "${ categoryName } on Wheelmap"
+msgstr "ホイールマップの${ categoryName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "ホイールマップでこの場所を見つけました: ${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+msgid "${ placeName } on Wheelmap.org"
+msgstr "Wheelmap.org内の${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+msgid ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Click on this link to open it: ${ url }"
+msgstr ""
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "問題を報告する"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -772,6 +867,49 @@ msgstr "確認する"
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
 msgid "Change"
 msgstr "変更する"
+
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr "この場所はマークできませんでした。エラー番号： ${ e }"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+msgid "Mark wheelchair accessibility of WC"
+msgstr "トイレの状況を追加する"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
+msgid "Searching accessible toilet"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
+msgid "Show next wheelchair accessible toilet"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "宿命を上向きにしましょう！"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:27
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr "画像を追加する"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
+msgid "Upload in progress..."
+msgstr "アップロード中です..."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
+msgid "Upload failed: server error or file-format not supported"
+msgstr "アップロード失敗：サーバーエラー、またはサポートされないファイル形式"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "画像をお送りいただきありがとうございます。チェックします。"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for contributing. Your image will be visible after we have checked"
+" it."
+msgstr "情報ご提供ありがとうございます。画像は私たちのチェックのあと、表示されるようになります。"
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -865,94 +1003,6 @@ msgstr "[Wheelmap] ホイールマップでの ${ categoryName } 上の問題"
 #: src/components/NodeToolbar/Report/strings.js:51
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap]ホイールマップでの場所上の問題"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:59
-msgid "Mark wheelchair accessibility of WC"
-msgstr "トイレの状況を追加する"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:128
-msgid "Show next wheelchair accessible toilet"
-msgstr ""
-
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
-msgid "Call ${ phoneNumber }"
-msgstr "${ phoneNumber }に電話する"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
-#: src/lib/openButtonCaption.js:6
-msgid "Open on ${ sourceNameString }"
-msgstr "${ sourceNameString }で開ける"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
-msgid "Add info on ${ sourceNameString }"
-msgstr "${ sourceNameString }を改善する"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
-msgid "Learn more about the accessibility of this place"
-msgstr "この場所が車椅子対応かどうかを確認しましょう"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
-msgid "I found a place on Wheelmap: ${ url }"
-msgstr "ホイールマップで場所を見つけました: ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
-msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
-msgid "I found a place on Wheelmap…"
-msgstr " Wheelmapで場所を見つけました..."
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
-msgid "${ categoryName } on Wheelmap"
-msgstr "ホイールマップの${ categoryName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
-msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "ホイールマップでこの場所を見つけました: ${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
-msgid "${ placeName } on Wheelmap.org"
-msgstr "Wheelmap.org内の${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
-msgid ""
-"${ sharedObjectTitle }\n"
-"\n"
-"Click on this link to open it: ${ url }"
-msgstr ""
-
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
-msgid "Report a problem"
-msgstr "問題を報告する"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "宿命を上向きにしましょう！"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:30
-msgid "Add images"
-msgstr "画像を追加する"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
-msgid "Upload in progress..."
-msgstr "アップロード中です..."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
-msgid "Upload failed: server error or file-format not supported"
-msgstr "アップロード失敗：サーバーエラー、またはサポートされないファイル形式"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
-msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "画像をお送りいただきありがとうございます。チェックします。"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
-msgid ""
-"Thank you for contributing. Your image will be visible after we have checked"
-" it."
-msgstr "情報ご提供ありがとうございます。画像は私たちのチェックのあと、表示されるようになります。"
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"

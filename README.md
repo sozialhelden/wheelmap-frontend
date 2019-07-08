@@ -113,6 +113,8 @@ We deploy every new feature in English and German first, and add support for all
 
 When there are new strings on transifex, you can run `npm run pull-translations` to pull them into the local project.
 
+Then run `npm run create-js-translations` to inject the translations into the application.
+
 We have a retranslate tool that allows to use the `en_US` language on transifex to refine source strings directly in the source code. This parses the whole source code into an abstract syntax tree using Babel, then re-assembles it with new versions of the strings fetched from the `en_US` locale. Re-assembly can break formatting.
 
 ## Testing

@@ -11,12 +11,16 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:337
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:361
 msgid "Search"
 msgstr "Αναζήτηση"
 
-#: src/pages/_app.js:338
+#: src/pages/_app.js:362
 msgid "Homepage"
+msgstr ""
+
+#: src/components/EmbedModeDeniedDialog.js:12
+msgid "Embed mode can not be used"
 msgstr ""
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
@@ -100,6 +104,19 @@ msgstr ""
 msgid "Error while loading place categories."
 msgstr "Σφάλμα κατά την φόρτωση των κατηγοριών τοποθεσίας"
 
+#: src/app/ContributionThanksData.js:12
+msgid "Thank you for the contribution!"
+msgstr ""
+
+#: src/app/CreatePlaceData.js:12
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
+msgid "Add a new place"
+msgstr "Προσθήκη μέρους που λείπει"
+
+#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
+msgid "Search results"
+msgstr "Αναζήτηση αποτελεσμάτων"
+
 #: src/lib/EquipmentInfo.js:100
 msgid "Unnamed facility"
 msgstr "Εγκατάσταση χωρίς ονομασία"
@@ -147,6 +164,10 @@ msgstr ""
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
 msgstr "Τελευταία ενημέρωση ${ dateString }."
+
+#: src/app/PlaceDetailsData.js:276
+msgid "This place is on ${ productName }: ${ placeTitle }"
+msgstr ""
 
 #: src/lib/Feature.js:469
 msgid "Fully wheelchair accessible"
@@ -248,150 +269,13 @@ msgstr "Προσβάσιμος νιπτήρας"
 msgid "Unnamed place"
 msgstr "Μέρος χωρίς ονομασία"
 
-#: src/lib/cache/URLDataCache.js:60
-msgid "Error while loading data."
-msgstr "Σφάλμα κατά την φόρτωση δεδομένων"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:22
-msgid "Welcome"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:77
-msgid "Mapping event ${ mappingEvent.name }"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:79
-msgid "Back to the mapping events list"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:81
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
-msgid "Share"
-msgstr "Κοινοποίηση"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:83
-msgid "Join mapping event"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventToolbar.js:85
-msgid "Leave mapping event"
-msgstr ""
-
-#: src/components/Map/Map.js:1005
-msgid "Zoom in closer to see more places"
-msgstr "Μεγεθύνετε πιο κοντά για να δείτε περισσότερα μέρη"
-
-#: src/components/Map/Map.js:1021
-msgid "Turn on location services"
-msgstr "Ενεργοποιήστε τις υπηρεσίες εντοπισμού"
-
-#: src/components/Map/Map.js:1054
-msgid "Map"
-msgstr "Χάρτης"
-
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
-msgstr ""
-
-#: src/components/Toolbar.js:332
-msgid "Collapse details"
-msgstr ""
-
-#: src/components/Toolbar.js:332
-msgid "Expand details"
-msgstr ""
-
-#: src/components/Map/MappingEventMarkerIcon.js:34
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
-
-#: src/lib/goToLocationSettings.js:44
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr ""
-"Για να εντοπίσετε τον εαυτό σας στο χάρτη, ανοίξτε τις ρυθμίσεις του "
-"προγράμματος περιήγησης και επιτρέψτε στο Wheelmap.org να χρησιμοποιεί τις "
-"υπηρεσίες εντοπισμού θέσης."
-
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "Δείξτε μου πού είμαι"
-
-#: src/components/CloseButton.js:32 src/components/CloseLink.js:36
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:232
-msgid "Close"
-msgstr "Κλείστε"
-
-#: src/components/ShareBar/ShareBar.js:87
-msgid "Expand share menu"
-msgstr "Επέκταση Μενού Κοινοποίησης"
-
-#: src/components/ShareBar/ShareBar.js:114
-msgid "Collapse share menu"
-msgstr "Σύμπτυξη Μενού Κοινοποίησης"
-
 #: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:34
 msgid "Could not load this place."
 msgstr "Δεν ήταν δυνατή η φόρτωση αυτού του μέρους."
 
-#: src/components/MappingEvents/MappingEventsToolbar.js:31
-msgid "Mapping events list"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:33
-msgid "${ mappingEvents.length } active mapping events"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:35
-msgid "Events"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:37
-msgid "Meet the community and map the accessibility of places around you!"
-msgstr ""
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:143
-msgid "Places"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:99
-msgid "Thank you!"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:100
-msgid "Please give us a moment to verify your contribution."
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:102
-msgid "Add next place"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
-msgid "Back to map"
-msgstr ""
-
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "Όλες οι τοποθεσίες"
+#: src/lib/cache/URLDataCache.js:120
+msgid "Error while loading data."
+msgstr "Σφάλμα κατά την φόρτωση δεδομένων"
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
@@ -402,88 +286,13 @@ msgstr ""
 msgid "App Logo"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "Βοηθήστε, επισημαίνοντας μέρη!"
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "Όλες οι τοποθεσίες"
 
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "Ωραία, ας ξεκινήσουμε!"
-
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
+#: src/components/NodeToolbar/FeatureClusterPanel.js:145
+msgid "Places"
 msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
-msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:70
-msgid "Start screen"
-msgstr "Οθόνη εκκίνησης Wheelmap"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
-msgid "Image shows another place."
-msgstr "Η εικόνα δείχνει μία άλλη τοποθεσία."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
-msgid "Outdated"
-msgstr "Δεν ισχύει πια"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
-msgid "Offensive or inappropriate"
-msgstr "Προσβλητικό ή ακατάλληλο"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
-msgid "Other problems"
-msgstr "Άλλα προβλήματα"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
-msgid "This image does not depict this place."
-msgstr "Αυτή η εικόνα δεν απεικονίζει αυτή την τοποθεσία."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
-msgid "This image does not show the current state of this place."
-msgstr "Αυτή η εικόνα δεν δείχνει την τωρινή κατάσταση της τοποθεσίας."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
-msgid ""
-"This image shows sexually explicit content, depicts violence or is "
-"inappropriate in another way."
-msgstr ""
-"Αυτή η εικόνα εμφανίζει άσεμνο σεξουαλικό περιεχόμενο, απεικονίζει βία ή "
-"είναι ακατάλληλη με κάποιον άλλο τρόπο."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
-msgid "This image infringes on my copyright or has other problems."
-msgstr ""
-"Αυτή η εικόνα παραβιάζει τα πνευματικά δικαιώματά μου ή έχει άλλα "
-"προβλήματα."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
-msgid "Reason for reporting image"
-msgstr "Λόγος αναφοράς εικόνας"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:186
-msgid "To report"
-msgstr "Προς αναφορά"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
-msgid "Which problem would you like to report?"
-msgstr "Ποίο πρόβλημα θα θέλατε να αναφέρετε;"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:327
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:215
-msgid "Cancel"
-msgstr "Ακύρωση"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:222
-msgid "Send"
-msgstr "Αποστολή"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
 msgid "“Vespucci” in PlayStore"
@@ -505,11 +314,6 @@ msgstr "Το «MAPS.ME» στο App Store"
 msgid "“MAPS.ME” in PlayStore"
 msgstr "Το «MAPS.ME» στο PlayStore"
 
-#: src/app/CreatePlaceData.js:12
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
-msgid "Add a new place"
-msgstr "Προσθήκη μέρους που λείπει"
-
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
 "Most places shown here are from <a "
@@ -529,6 +333,66 @@ msgstr "Αφήστε μία σημείωση στο OpenStreetMap"
 msgid "Add a place on OpenStreetMap"
 msgstr "Προσθέστε μία τοποθεσία στο OpenStreetMap"
 
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Image shows another place."
+msgstr "Η εικόνα δείχνει μία άλλη τοποθεσία."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr "Δεν ισχύει πια"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or inappropriate"
+msgstr "Προσβλητικό ή ακατάλληλο"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other problems"
+msgstr "Άλλα προβλήματα"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This image does not depict this place."
+msgstr "Αυτή η εικόνα δεν απεικονίζει αυτή την τοποθεσία."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This image does not show the current state of this place."
+msgstr "Αυτή η εικόνα δεν δείχνει την τωρινή κατάσταση της τοποθεσίας."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+"Αυτή η εικόνα εμφανίζει άσεμνο σεξουαλικό περιεχόμενο, απεικονίζει βία ή "
+"είναι ακατάλληλη με κάποιον άλλο τρόπο."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This image infringes on my copyright or has other problems."
+msgstr ""
+"Αυτή η εικόνα παραβιάζει τα πνευματικά δικαιώματά μου ή έχει άλλα "
+"προβλήματα."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
+msgid "Reason for reporting image"
+msgstr "Λόγος αναφοράς εικόνας"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:126
+msgid "To report"
+msgstr "Προς αναφορά"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:128
+msgid "Which problem would you like to report?"
+msgstr "Ποίο πρόβλημα θα θέλατε να αναφέρετε;"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:155
+msgid "Cancel"
+msgstr "Ακύρωση"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:162
+msgid "Send"
+msgstr "Αποστολή"
+
 #: src/components/SearchToolbar/SearchToolbar.js:459
 msgid "Clear search"
 msgstr "Εκκαθάριση Αναζήτησης"
@@ -537,6 +401,60 @@ msgstr "Εκκαθάριση Αναζήτησης"
 #: src/components/SearchToolbar/SearchToolbar.js:470
 msgid "Go"
 msgstr "Πηγαίνετε"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
+msgid "Thank you!"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
+msgid "Please give us a moment to verify your contribution."
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
+msgid "Add next place"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
+msgid "Back to map"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:31
+msgid "Mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:33
+msgid "${ mappingEvents.length } active mapping events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:35
+msgid "Events"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:37
+msgid "Meet the community and map the accessibility of places around you!"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
+msgid "Welcome"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
+msgid ""
+"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
+"step: Rate and add the accessibility of places."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
+msgid "Let's go"
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "Κεντρική Σελίδα"
+
+#: src/components/MainMenu/MainMenu.js:234
+msgid "Menu"
+msgstr "Μενού"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
 #: src/components/NodeToolbar/Report/strings.js:28
@@ -595,65 +513,138 @@ msgstr ""
 "Συγνώμη, αυτό δεν λειτούργησε! Παρακαλώ ελέγξτε αν όλοι οι χαρακτήρες είναι "
 "σωστοί και μετά ξαναπροσπαθήστε."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:268
+#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
+msgid "Close"
+msgstr "Κλείστε"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
 msgid "The following images…"
 msgstr "Οι παρακάτω εικόνες..."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "...give useful information on accessibility."
 msgstr "... παρέχει χρήσιμες πληροφορίες σχετικά με την προσβασιμότητα."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:270
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
 msgid "...were taken by me."
 msgstr "... ελήφθησαν από εμένα."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
 msgid "...do not show any identifiable persons."
 msgstr "...δεν δείχνουν κανένα αναγνωρίσιμο άτομο."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid ""
 "I hereby publish these images into the public domain and renounce copyright "
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal license</a>)."
 msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
 msgstr "Είσοδοι"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
 msgid "Site map"
 msgstr "Χάρτης ιστοσελίδας"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
 msgid "toilets"
 msgstr "τουαλέτες"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:334
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "Κεντρική Σελίδα"
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "Βοηθήστε, επισημαίνοντας μέρη!"
 
-#: src/components/MainMenu/MainMenu.js:232
-msgid "Menu"
-msgstr "Μενού"
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "Ωραία, ας ξεκινήσουμε!"
 
-#: src/app/ContributionThanksData.js:12
-msgid "Thank you for the contribution!"
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
 msgstr ""
 
-#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
-msgid "Search results"
-msgstr "Αναζήτηση αποτελεσμάτων"
-
-#: src/app/PlaceDetailsData.js:257
-msgid "This place is on ${ productName }: ${ placeTitle }"
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
 msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:70
+msgid "Start screen"
+msgstr "Οθόνη εκκίνησης Wheelmap"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:75
+msgid "starting"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:80
+msgid "until"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:95
+msgid "Mapping event ${ mappingEvent.name }"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:97
+msgid "Center map on mapping event"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:99
+msgid "Meeting point"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:101
+msgid "Area name"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:103
+msgid "Event date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:105
+msgid "Event start date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:107
+msgid "Event end date"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:109
+msgid "Back to the mapping events list"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:111
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+msgid "Share"
+msgstr "Κοινοποίηση"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:113
+msgid "Join mapping event"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventToolbar.js:115
+msgid "Leave mapping event"
+msgstr ""
+
+#: src/components/Map/Map.js:1005
+msgid "Zoom in closer to see more places"
+msgstr "Μεγεθύνετε πιο κοντά για να δείτε περισσότερα μέρη"
+
+#: src/components/Map/Map.js:1021
+msgid "Turn on location services"
+msgstr "Ενεργοποιήστε τις υπηρεσίες εντοπισμού"
+
+#: src/components/Map/Map.js:1054
+msgid "Map"
+msgstr "Χάρτης"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
@@ -679,10 +670,6 @@ msgstr "Μόνο τοποθεσίες που δεν είναι προσβάσι�
 msgid "Wheelchair accessibility filter"
 msgstr "Φίλτρο Προσβασιμότητας σε Αναπηρικά Αμαξίδια"
 
-#: src/components/SearchToolbar/SearchInputField.js:65
-msgid "Search for place or address"
-msgstr "Αναζήτηση τοποθεσίας ή διεύθυνσης"
-
 #: src/components/SearchToolbar/SearchResults.js:31
 msgid "No results found"
 msgstr "Δεν βρέθηκαν αποτελέσματα"
@@ -692,10 +679,61 @@ msgid "No results available. Please try again later!"
 msgstr ""
 "Δεν υπάρχουν διαθέσιμα αποτελέσματα. Παρακαλώ δοκιμάστε ξανά αργότερα!"
 
+#: src/components/SearchToolbar/SearchInputField.js:65
+msgid "Search for place or address"
+msgstr "Αναζήτηση τοποθεσίας ή διεύθυνσης"
+
+#: src/components/Toolbar.js:332
+msgid "Collapse details"
+msgstr ""
+
+#: src/components/Toolbar.js:332
+msgid "Expand details"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/NodeToolbar/NodeToolbar.js:266
 msgid "How wheelchair accessible is this place?"
 msgstr "Σε τι βαθμό είναι το μέρος προσβάσιμο σε αναπηρικά αμαξίδια;"
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:44
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr ""
+"Για να εντοπίσετε τον εαυτό σας στο χάρτη, ανοίξτε τις ρυθμίσεις του "
+"προγράμματος περιήγησης και επιτρέψτε στο Wheelmap.org να χρησιμοποιεί τις "
+"υπηρεσίες εντοπισμού θέσης."
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "Δείξτε μου πού είμαι"
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
 msgid "Remove ${ caption } Filter"
@@ -709,9 +747,18 @@ msgstr "Χωρίς ονομασία"
 msgid "Remove ${ props.name } Filter"
 msgstr "Αφαιρέστε το ${ props.name } Φίλτρο"
 
-#: src/components/NodeToolbar/SourceList.js:33
-msgid "Source:"
-msgstr "Πηγή:"
+#: src/components/ShareBar/ShareBar.js:87
+msgid "Expand share menu"
+msgstr "Επέκταση Μενού Κοινοποίησης"
+
+#: src/components/ShareBar/ShareBar.js:114
+msgid "Collapse share menu"
+msgstr "Σύμπτυξη Μενού Κοινοποίησης"
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+msgid "Wheelchair accessibility"
+msgstr "Προσβασιμότητα σε Αναπηρικά Αμαξίδια"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 msgid "Is the toilet here wheelchair accessible?"
@@ -727,10 +774,37 @@ msgstr "Ναι"
 msgid "No"
 msgstr "Όχι"
 
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
-msgid "Wheelchair accessibility"
-msgstr "Προσβασιμότητα σε Αναπηρικά Αμαξίδια"
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "Disruptions at this location"
+msgstr "Αναστάτωση σε αυτή την τοποθεσία"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
+msgid "All elevators and escalators"
+msgstr "Όλοι οι ανελκυστήρες και οι κυλιόμενες σκάλες"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:160
+msgid "Report image"
+msgstr "Αναφορά εικόνας"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:186
+msgid "of"
+msgstr "από"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:188
+msgid "Next (right arrow key)"
+msgstr "Επόμενο (δεξί πλήκτρο βέλους)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:190
+msgid "Previous (left arrow key)"
+msgstr "Προηγούμενο (αριστερό πλήκτρο βέλους)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:192
+msgid "Close (Esc)"
+msgstr "Κλείστε (Esc)"
+
+#: src/components/NodeToolbar/SourceList.js:33
+msgid "Source:"
+msgstr "Πηγή:"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:37
 msgid ""
@@ -761,39 +835,58 @@ msgstr "Το μέρος είναι σε λανθασμένη τοποθεσία.
 msgid "The problem isn’t listed here…"
 msgstr "Το πρόβλημά μου δεν περιλαμβάνεται σε αυτή τη λίστα..."
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "Disruptions at this location"
-msgstr "Αναστάτωση σε αυτή την τοποθεσία"
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
+msgid "Call ${ phoneNumber }"
+msgstr "Καλέστε στο ${ phoneNumber }"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
-msgid "All elevators and escalators"
-msgstr "Όλοι οι ανελκυστήρες και οι κυλιόμενες σκάλες"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "Άνοιγμα σε ${ sourceNameString }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:158
-msgid "Report image"
-msgstr "Αναφορά εικόνας"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+msgid "Add info on ${ sourceNameString }"
+msgstr "Βελτίωση σε ${ sourceNameString }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:184
-msgid "of"
-msgstr "από"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+msgid "Learn more about the accessibility of this place"
+msgstr "Μάθετε για την προσβασιμότητα αυτού του μέρους"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:186
-msgid "Next (right arrow key)"
-msgstr "Επόμενο (δεξί πλήκτρο βέλους)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "Βρήκα ένα μέρος στο Wheelmap: ${ url }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:188
-msgid "Previous (left arrow key)"
-msgstr "Προηγούμενο (αριστερό πλήκτρο βέλους)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:190
-msgid "Close (Esc)"
-msgstr "Κλείστε (Esc)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+msgid "I found a place on Wheelmap…"
+msgstr "Βρήκα ένα μέρος στο Wheelmap…"
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
-msgid "Sorry, this place could not be marked because of an error: ${ e }"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+msgid "${ categoryName } on Wheelmap"
+msgstr "${ categoryName } σε Wheelmap"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "Βρήκα αυτό το μέρος στο Wheelmap: ${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+msgid "${ placeName } on Wheelmap.org"
+msgstr "${ placeName } στο Wheelmap.org"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+msgid ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Click on this link to open it: ${ url }"
 msgstr ""
-"Λυπούμαστε, η τοποθεσία δεν ήταν δυνατό να επισημανθεί λόγω ενός σφάλματος: "
-"${ e }"
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "Αναφέρετε ένα πρόβλημα"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -802,6 +895,54 @@ msgstr "Επιβεβαίωση"
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
 msgid "Change"
 msgstr "Αλλαγή"
+
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr ""
+"Λυπούμαστε, η τοποθεσία δεν ήταν δυνατό να επισημανθεί λόγω ενός σφάλματος: "
+"${ e }"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+msgid "Mark wheelchair accessibility of WC"
+msgstr "Προσθήκη κατάστασης τουαλέτας"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
+msgid "Searching accessible toilet"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
+msgid "Show next wheelchair accessible toilet"
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "Βελτιώστε το κάρμα σας!"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:27
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr "Προσθέστε εικόνες"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
+msgid "Upload in progress..."
+msgstr "Φόρτωση σε εξέλιξη..."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
+msgid "Upload failed: server error or file-format not supported"
+msgstr ""
+"Η φόρτωση απέτυχε: σφάλμα διακομιστή ή δεν υποστηρίζεται η μορφή αρχείου"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "Ευχαριστούμε που αναφέρατε αυτή την εικόνα. Θα την εξετάσουμε."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for contributing. Your image will be visible after we have checked"
+" it."
+msgstr ""
+"Ευχαριστούμε για την συνεισφορά σας. Η εικόνα σας θα είναι ορατή αφού την "
+"ελέγξουμε."
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -909,97 +1050,6 @@ msgstr "[Wheelmap] Πρόβλημα με ${ categoryName } στο Wheelmap"
 #: src/components/NodeToolbar/Report/strings.js:51
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Πρόβλημα με μία τοποθεσία στο Wheelmap"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:59
-msgid "Mark wheelchair accessibility of WC"
-msgstr "Προσθήκη κατάστασης τουαλέτας"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:128
-msgid "Show next wheelchair accessible toilet"
-msgstr ""
-
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
-msgid "Call ${ phoneNumber }"
-msgstr "Καλέστε στο ${ phoneNumber }"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
-#: src/lib/openButtonCaption.js:6
-msgid "Open on ${ sourceNameString }"
-msgstr "Άνοιγμα σε ${ sourceNameString }"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
-msgid "Add info on ${ sourceNameString }"
-msgstr "Βελτίωση σε ${ sourceNameString }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
-msgid "Learn more about the accessibility of this place"
-msgstr "Μάθετε για την προσβασιμότητα αυτού του μέρους"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
-msgid "I found a place on Wheelmap: ${ url }"
-msgstr "Βρήκα ένα μέρος στο Wheelmap: ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
-msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
-msgid "I found a place on Wheelmap…"
-msgstr "Βρήκα ένα μέρος στο Wheelmap…"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
-msgid "${ categoryName } on Wheelmap"
-msgstr "${ categoryName } σε Wheelmap"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
-msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "Βρήκα αυτό το μέρος στο Wheelmap: ${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
-msgid "${ placeName } on Wheelmap.org"
-msgstr "${ placeName } στο Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
-msgid ""
-"${ sharedObjectTitle }\n"
-"\n"
-"Click on this link to open it: ${ url }"
-msgstr ""
-
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
-msgid "Report a problem"
-msgstr "Αναφέρετε ένα πρόβλημα"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "Βελτιώστε το κάρμα σας!"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:30
-msgid "Add images"
-msgstr "Προσθέστε εικόνες"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
-msgid "Upload in progress..."
-msgstr "Φόρτωση σε εξέλιξη..."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
-msgid "Upload failed: server error or file-format not supported"
-msgstr ""
-"Η φόρτωση απέτυχε: σφάλμα διακομιστή ή δεν υποστηρίζεται η μορφή αρχείου"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
-msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "Ευχαριστούμε που αναφέρατε αυτή την εικόνα. Θα την εξετάσουμε."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
-msgid ""
-"Thank you for contributing. Your image will be visible after we have checked"
-" it."
-msgstr ""
-"Ευχαριστούμε για την συνεισφορά σας. Η εικόνα σας θα είναι ορατή αφού την "
-"ελέγξουμε."
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
