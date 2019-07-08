@@ -237,7 +237,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
     let { toiletsNearby, feature } = props;
     if (!toiletsNearby) {
-      console.log('I NEEDA SOMEA TOILETS!', props, feature);
+      // fetch toilets for client
       const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature);
       toiletsNearby = fetchToiletsNearby(Promise.resolve(props), featurePromise);
     }
