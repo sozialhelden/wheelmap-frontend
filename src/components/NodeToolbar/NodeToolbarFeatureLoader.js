@@ -197,7 +197,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     // toilets nearby promise
-    if (!toiletsNearby || toiletsNearby instanceof Promise) {
+    if (toiletsNearby instanceof Promise) {
       this.setState({ isLoadingToiletsNearby: true }, () => {
         toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
       });
