@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Toolbar from '../Toolbar';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
 
 import colors from '../../lib/colors';
 
@@ -114,11 +114,12 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
     const ariaLabel = t`Reason for reporting image`;
 
     return (
-      <Toolbar
+      <StyledToolbar
         className={this.props.className}
         hidden={this.props.hidden}
         isSwipeable={false}
-        isModal
+        minimalHeight={180}
+        isModal={true}
       >
         <header>
           <CloseButton onClick={this.onClose} />
@@ -162,7 +163,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
             {t`Send`}
           </button>
         </footer>
-      </Toolbar>
+      </StyledToolbar>
     );
   }
 }
