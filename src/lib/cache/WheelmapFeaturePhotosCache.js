@@ -16,4 +16,6 @@ export default class WheelmapFeaturePhotosCache extends URLDataCache<?WheelmapFe
   }
 }
 
-export const wheelmapFeaturePhotosCache = new WheelmapFeaturePhotosCache();
+export const wheelmapFeaturePhotosCache = new WheelmapFeaturePhotosCache({
+  ttl: 1000 * 60 * 5, // 5 minutes
+});

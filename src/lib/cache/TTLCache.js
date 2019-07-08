@@ -2,6 +2,8 @@
 export interface TTLCacheItem<T> {
   value: T;
   expire: number;
+  storageTimestamp: number;
+  isReloading: boolean;
 }
 
 export type TTLCacheOptions = {
@@ -41,6 +43,8 @@ class TTLCache<K, V> {
     const item: TTLCacheItem<V> = {
       value,
       expire,
+      isReloading: false,
+      storageTimestamp: now,
     };
 
     while (this.cache.size >= this.options.max) {
@@ -73,6 +77,17 @@ class TTLCache<K, V> {
     }
 
     return value;
+  }
+
+  getCacheItem(key: K): ?TTLCacheItem<V> {
+    const item = this.cache.get(key);
+
+    // Test against null and undefined
+    if (item == null) {
+      return null;
+    }
+
+    return item;
   }
 
   has(key: K): boolean {

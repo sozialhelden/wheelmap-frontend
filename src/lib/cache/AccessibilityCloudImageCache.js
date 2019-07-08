@@ -31,11 +31,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     options: { useCache: boolean } = { useCache: true }
   ): Promise<?AccessibilityCloudImages> {
     return this.getData(
-      `${
-        env.public.accessibilityCloud.baseUrl.cached
-      }/images.json?context=${context}&objectId=${objectId}&appToken=${
-        env.public.accessibilityCloud.appToken
-      }`,
+      `${env.public.accessibilityCloud.baseUrl.cached}/images.json?context=${context}&objectId=${objectId}&appToken=${env.public.accessibilityCloud.appToken}`,
       options
     );
   }
@@ -46,11 +42,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     captchaSolution: string
   ): Promise<any> {
     const image = images[0];
-    const url = `${
-      env.public.accessibilityCloud.baseUrl.uncached
-    }/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${
-      env.public.accessibilityCloud.appToken
-    }`;
+    const url = `${env.public.accessibilityCloud.baseUrl.uncached}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${env.public.accessibilityCloud.appToken}`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await this.constructor.fetch(url, {
       method: 'POST',
@@ -80,11 +72,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
-          `${
-            env.public.accessibilityCloud.baseUrl.uncached
-          }/images/report?imageId=${photoId}&reason=${reason}&appToken=${
-            env.public.accessibilityCloud.appToken
-          }`,
+          `${env.public.accessibilityCloud.baseUrl.uncached}/images/report?imageId=${photoId}&reason=${reason}&appToken=${env.public.accessibilityCloud.appToken}`,
           {
             method: 'POST',
             headers: {
@@ -125,9 +113,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
         resolve(this.lastCaptcha);
       } else {
         this.lastCaptcha = null;
-        const url = `${
-          env.public.accessibilityCloud.baseUrl.cached
-        }/captcha.svg?${cacheBuster}&appToken=${env.public.accessibilityCloud.appToken}`;
+        const url = `${env.public.accessibilityCloud.baseUrl.cached}/captcha.svg?${cacheBuster}&appToken=${env.public.accessibilityCloud.appToken}`;
         console.log('Requesting new captcha');
         return this.constructor
           .fetch(url)
@@ -189,4 +175,6 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   captchaSolution: string | null = null;
 }
 
-export const accessibilityCloudImageCache = new AccessibilityCloudImageCache();
+export const accessibilityCloudImageCache = new AccessibilityCloudImageCache({
+  ttl: 1000 * 60 * 5, // 5 minutes
+});
