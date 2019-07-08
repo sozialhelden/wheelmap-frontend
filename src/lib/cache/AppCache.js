@@ -71,5 +71,6 @@ export default class AppCache extends URLDataCache<AppApiData> {
 }
 
 export const appCache = new AppCache({
-  ttl: 1000 * 60 * 5,
+  reloadInBackground: true,
+  maxAllowedCacheAgeBeforeReload: 1000 * 60 * 5, // 5 minutes
 });

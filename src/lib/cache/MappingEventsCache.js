@@ -13,9 +13,7 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
   baseUrl = env.public.accessibilityCloud.baseUrl.cached;
 
   async getMappingEvents(app: App): Promise<MappingEvent[]> {
-    const url = `${this.baseUrl}/mapping-events.json?appToken=${
-      app.tokenString
-    }&includeRelated=images`;
+    const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
     const data = await this.getData(url);
     return data.results.map(mappingEvent => ({
       ...mappingEvent,
@@ -32,5 +30,6 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
 }
 
 export const mappingEventsCache = new MappingEventsCache({
-  ttl: 1000 * 60 * 2, // 2 minutes
+  reloadInBackground: true,
+  maxAllowedCacheAgeBeforeReload: 1000 * 30, // 30 seconds
 });
