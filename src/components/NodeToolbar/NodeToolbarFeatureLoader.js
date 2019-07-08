@@ -67,6 +67,8 @@ type State = {
   requiredDataPromise: ?Promise<RequiredData>,
   resolvedSources: ?(SourceWithLicense[]),
   resolvedPhotos: ?(PhotoModel[]),
+  resolvedToiletsNearby: ?(Feature[]),
+  isLoadingToiletsNearby: boolean,
   lastFeatureId: ?(string | number),
   lastEquipmentInfoId: ?string,
 };
@@ -79,6 +81,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     resolvedRequiredData: null,
     resolvedSources: null,
     resolvedPhotos: null,
+    resolvedToiletsNearby: null,
+    isLoadingToiletsNearby: false,
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
@@ -95,7 +99,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     const resolvedPlaceDetails = getPlaceDetailsIfAlreadyResolved(props);
-    // use resolved data if available (on server everything is preloaded)
+    // use resolved data if available (on server at least the required data is preloaded)
     if (resolvedPlaceDetails) {
       const resolvedCategories = Categories.getCategoriesForFeature(
         props.categories,
@@ -141,6 +145,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   componentDidUpdate(prevProps: Props, prevState: State) {
     const prevFeatureId = prevProps.featureId;
     const prevEquipmentInfoId = prevProps.equipmentInfoId;
+
     if (
       prevFeatureId !== this.props.featureId ||
       prevEquipmentInfoId !== this.props.equipmentInfoId
@@ -170,38 +175,42 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
         ...resolvedCategories,
       });
-    } else {
-      const { feature, equipmentInfo, sources, photos, toiletsNearby } = this.props;
+    }
 
-      // they are always all promises, this is to make flow happy
-      if (
-        feature instanceof Promise &&
-        (!equipmentInfo || equipmentInfo instanceof Promise) &&
-        (!toiletsNearby || toiletsNearby instanceof Promise) &&
-        sources instanceof Promise &&
-        photos instanceof Promise
-      ) {
-        // wait for required data
-        const requiredDataPromise: Promise<RequiredData> = feature.then(async resolvedFeature => {
-          let resolvedEquipmentInfo = null;
-          if (equipmentInfo) {
-            resolvedEquipmentInfo = await equipmentInfo;
-          }
-          return { resolvedFeature, resolvedEquipmentInfo };
-        });
+    const { feature, equipmentInfo, sources, photos, toiletsNearby } = this.props;
 
-        this.setState({ requiredDataPromise }, () => {
-          requiredDataPromise.then(resolved =>
-            this.handleRequiredDataFetched(requiredDataPromise, resolved)
-          );
-          photos.then(resolved => this.handlePhotosFetched(photos, resolved));
-          sources.then(resolved => this.handleSourcesFetched(sources, resolved));
-          toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
-        });
-      } else {
-        console.warn('received mixed promise / resolved results - this should never happen!');
-        return;
-      }
+    // required data promise
+    if (feature instanceof Promise && (!equipmentInfo || equipmentInfo instanceof Promise)) {
+      const requiredDataPromise: Promise<RequiredData> = feature.then(async resolvedFeature => {
+        let resolvedEquipmentInfo = null;
+        if (equipmentInfo) {
+          resolvedEquipmentInfo = await equipmentInfo;
+        }
+        return { resolvedFeature, resolvedEquipmentInfo };
+      });
+
+      this.setState({ requiredDataPromise }, () => {
+        requiredDataPromise.then(resolved =>
+          this.handleRequiredDataFetched(requiredDataPromise, resolved)
+        );
+      });
+    }
+
+    // toilets nearby promise
+    if (toiletsNearby instanceof Promise) {
+      this.setState({ isLoadingToiletsNearby: true }, () => {
+        toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
+      });
+    }
+
+    // sources promise
+    if (sources instanceof Promise) {
+      sources.then(resolved => this.handleSourcesFetched(sources, resolved));
+    }
+
+    // photos promise
+    if (photos instanceof Promise) {
+      photos.then(resolved => this.handlePhotosFetched(photos, resolved));
     }
   }
 
@@ -238,7 +247,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (toiletsNearbyPromise !== this.props.toiletsNearby) {
       return;
     }
-    this.setState({ resolvedToiletsNearby });
+    this.setState({ resolvedToiletsNearby, isLoadingToiletsNearby: false });
   }
 
   handleSourcesFetched(
@@ -287,6 +296,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           sources={resolvedSources || []}
           photos={resolvedPhotos || []}
           toiletsNearby={resolvedToiletsNearby || []}
+          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
           ref={t => (this.nodeToolbar = t)}
         />
       );
@@ -301,6 +311,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           feature={lightweightFeature}
           equipmentInfo={null}
           toiletsNearby={null}
+          isLoadingToiletsNearby={true}
           sources={[]}
           photos={[]}
           ref={t => (this.nodeToolbar = t)}

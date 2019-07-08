@@ -1,6 +1,6 @@
 # Translators:
-# Developers, 2019
 # Sebastian Felix Zappe <hypo@me.com>, 2019
+# Developers, 2019
 # framefield_henrik, 2019
 # 
 msgid ""
@@ -11,13 +11,17 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:337
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:361
 msgid "Search"
 msgstr "Suchen"
 
-#: src/pages/_app.js:338
+#: src/pages/_app.js:362
 msgid "Homepage"
 msgstr "Startseite"
+
+#: src/components/EmbedModeDeniedDialog.js:12
+msgid "Embed mode can not be used"
+msgstr "Einbettungsmodus konnte nicht benutzt werden"
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
@@ -100,6 +104,19 @@ msgstr "Toiletten"
 msgid "Error while loading place categories."
 msgstr "Fehler während des Ladens der Kategorien."
 
+#: src/app/ContributionThanksData.js:12
+msgid "Thank you for the contribution!"
+msgstr "Danke für’s Mithelfen!"
+
+#: src/app/CreatePlaceData.js:12
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
+msgid "Add a new place"
+msgstr "Neuen Ort hinzufügen"
+
+#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
+msgid "Search results"
+msgstr "Suchergebnisse"
+
 #: src/lib/EquipmentInfo.js:100
 msgid "Unnamed facility"
 msgstr "Unbenannte Einrichtung"
@@ -147,6 +164,10 @@ msgstr ""
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
 msgstr "Letztes Update: ${ dateString }."
+
+#: src/app/PlaceDetailsData.js:276
+msgid "This place is on ${ productName }: ${ placeTitle }"
+msgstr "Dieser Ort ist auf ${ productName }: ${ placeTitle }"
 
 #: src/lib/Feature.js:469
 msgid "Fully wheelchair accessible"
@@ -246,153 +267,13 @@ msgstr "Unterfahrbares Waschbecken"
 msgid "Unnamed place"
 msgstr "Unbenannter Ort"
 
-#: src/lib/cache/URLDataCache.js:60
-msgid "Error while loading data."
-msgstr "Fehler beim Laden der Daten vom Server."
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:22
-msgid "Welcome"
-msgstr "Willkommen"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:77
-msgid "Mapping event ${ mappingEvent.name }"
-msgstr "Mapping Event ${ mappingEvent.name }"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:79
-msgid "Back to the mapping events list"
-msgstr "Zurück zur Mapping-Event Liste"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:81
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
-msgid "Share"
-msgstr "Teilen"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:83
-msgid "Join mapping event"
-msgstr "Teilnehmen"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:85
-msgid "Leave mapping event"
-msgstr "Event verlassen"
-
-#: src/components/Map/Map.js:1005
-msgid "Zoom in closer to see more places"
-msgstr "Für mehr Orte näher ranzoomen"
-
-#: src/components/Map/Map.js:1021
-msgid "Turn on location services"
-msgstr "Ortungsdienste anschalten"
-
-#: src/components/Map/Map.js:1054
-msgid "Map"
-msgstr "Karte"
-
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr "Mapping-Event Statistiken"
-
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr "Markierte Orte"
-
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr "Teilnehmer"
-
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr "Tage verbleibend"
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
-msgstr ""
-"Hilf uns und nimm am Mapping Event ${ mappingEvent.name } teil${ "
-"productNameString }. Hier findest du mehr Information: ${ url }"
-
-#: src/components/Toolbar.js:332
-msgid "Collapse details"
-msgstr "Details zuklappen"
-
-#: src/components/Toolbar.js:332
-msgid "Expand details"
-msgstr "Details aufklappen"
-
-#: src/components/Map/MappingEventMarkerIcon.js:34
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr "${ eventName } Mapping Event Kartenmarkierung"
-
-#: src/lib/goToLocationSettings.js:44
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr ""
-"Um dich selbst zu orten, öffne die Browsereinstellungen und erlaube "
-"Ortungsdienste für Wheelmap.org."
-
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "Meinen Standort anzeigen"
-
-#: src/components/CloseButton.js:32 src/components/CloseLink.js:36
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:232
-msgid "Close"
-msgstr "Schließen"
-
-#: src/components/ShareBar/ShareBar.js:87
-msgid "Expand share menu"
-msgstr "Teilen-Menü ausklappen"
-
-#: src/components/ShareBar/ShareBar.js:114
-msgid "Collapse share menu"
-msgstr "Teilen-Menü zuklappen"
-
 #: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:34
 msgid "Could not load this place."
-msgstr "Konnte diesen Ort nicht laden."
+msgstr "Ort konnte nicht geladen werden."
 
-#: src/components/MappingEvents/MappingEventsToolbar.js:31
-msgid "Mapping events list"
-msgstr "Mapping-Event Liste"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:33
-msgid "${ mappingEvents.length } active mapping events"
-msgstr "${ mappingEvents.length } aktive Mapping-Events"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:35
-msgid "Events"
-msgstr "Mapping-Events"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:37
-msgid "Meet the community and map the accessibility of places around you!"
-msgstr ""
-"Triff die Community und markiere die Barrierefreiheit von Orten um dich "
-"herum!"
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:143
-msgid "Places"
-msgstr "Orte"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:99
-msgid "Thank you!"
-msgstr "Vielen Dank!"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:100
-msgid "Please give us a moment to verify your contribution."
-msgstr "Bitte gib uns ein bisschen Zeit, um Deinen Beitrag zu bestätigen."
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:102
-msgid "Add next place"
-msgstr "Weiteren Ort hinzufügen"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
-msgid "Back to map"
-msgstr "Zurück zur Karte"
-
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "Alle Orte"
+#: src/lib/cache/URLDataCache.js:120
+msgid "Error while loading data."
+msgstr "Fehler beim Laden der Daten vom Server."
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
@@ -401,89 +282,15 @@ msgstr "Zu ${ appName } gehen"
 #: src/components/Onboarding/Onboarding.js:62
 #: src/components/WheelmapHomeLink.js:15
 msgid "App Logo"
-msgstr "Applikations Logo"
+msgstr "Logo der App"
 
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "Hilf mit und markiere Orte!"
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "Alle Orte"
 
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "Okay, los geht’s!"
-
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
-msgstr "Ohne Cookies weitermachen"
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
-msgstr ""
-"Wir verwenden Cookies, um diese App für Dich zu verbessern. "
-"Datenschutzerklärung lesen</a>"
-
-#: src/components/Onboarding/Onboarding.js:70
-msgid "Start screen"
-msgstr "Startbildschirm"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:25
-msgid "Image shows another place."
-msgstr "Das Foto zeigt einen anderen Ort."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:28
-msgid "Outdated"
-msgstr "Veraltet"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:31
-msgid "Offensive or inappropriate"
-msgstr "Beleidigend oder unangemessen"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:34
-msgid "Other problems"
-msgstr "Andere Probleme"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:44
-msgid "This image does not depict this place."
-msgstr "Das Foto zeigt diesen Ort nicht an."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:47
-msgid "This image does not show the current state of this place."
-msgstr "Das Foto zeigt nicht die aktuelle Ansicht dieses Ortes."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:50
-msgid ""
-"This image shows sexually explicit content, depicts violence or is "
-"inappropriate in another way."
-msgstr "Das Foto ist sexuell anstößig, zeigt Gewalt oder ist unangebracht."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:53
-msgid "This image infringes on my copyright or has other problems."
-msgstr ""
-"Das Foto verletzt mein Urheberrecht oder es gibt ein anderes Problem. "
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:174
-msgid "Reason for reporting image"
-msgstr "Meldegrund"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:186
-msgid "To report"
-msgstr "Zum Melden"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:188
-msgid "Which problem would you like to report?"
-msgstr "Welche Sache möchtest du melden?"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:327
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:215
-msgid "Cancel"
-msgstr "Abbrechen"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:222
-msgid "Send"
-msgstr "Absenden"
+#: src/components/NodeToolbar/FeatureClusterPanel.js:145
+msgid "Places"
+msgstr "Orte"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
 msgid "“Vespucci” in PlayStore"
@@ -505,11 +312,6 @@ msgstr "„MAPS.ME“ im App Store"
 msgid "“MAPS.ME” in PlayStore"
 msgstr "„MAPS.ME“ im Play Store"
 
-#: src/app/CreatePlaceData.js:12
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
-msgid "Add a new place"
-msgstr "Neuen Ort hinzufügen"
-
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
 "Most places shown here are from <a "
@@ -529,6 +331,62 @@ msgstr "Notiz auf OpenStreetMap hinterlassen"
 msgid "Add a place on OpenStreetMap"
 msgstr "Ort auf OpenStreetMap hinzufügen"
 
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Image shows another place."
+msgstr "Das Foto zeigt einen anderen Ort."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr "Veraltet"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or inappropriate"
+msgstr "Beleidigend oder unangemessen"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other problems"
+msgstr "Andere Probleme"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This image does not depict this place."
+msgstr "Das Foto zeigt diesen Ort nicht an."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This image does not show the current state of this place."
+msgstr "Das Foto zeigt nicht die aktuelle Ansicht dieses Ortes."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr "Das Foto ist sexuell anstößig, zeigt Gewalt oder ist unangebracht."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This image infringes on my copyright or has other problems."
+msgstr "Das Foto verletzt mein Urheberrecht oder es gibt ein anderes Problem."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
+msgid "Reason for reporting image"
+msgstr "Grund der Meldung"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:126
+msgid "To report"
+msgstr "Zum Melden"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:128
+msgid "Which problem would you like to report?"
+msgstr "Welche Sache möchtest du melden?"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:155
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:162
+msgid "Send"
+msgstr "Absenden"
+
 #: src/components/SearchToolbar/SearchToolbar.js:459
 msgid "Clear search"
 msgstr "Suche löschen"
@@ -537,6 +395,64 @@ msgstr "Suche löschen"
 #: src/components/SearchToolbar/SearchToolbar.js:470
 msgid "Go"
 msgstr "Los!"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
+msgid "Thank you!"
+msgstr "Vielen Dank!"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
+msgid "Please give us a moment to verify your contribution."
+msgstr "Bitte hab einen Moment Geduld. Wir bestätigen deinen Beitrag..."
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
+msgid "Add next place"
+msgstr "Weiteren Ort hinzufügen"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
+msgid "Back to map"
+msgstr "Zurück zur Karte"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:31
+msgid "Mapping events list"
+msgstr "Alle Mapping-Events"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:33
+msgid "${ mappingEvents.length } active mapping events"
+msgstr "${ mappingEvents.length } aktive Mapping-Events"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:35
+msgid "Events"
+msgstr "Mapping-Events"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:37
+msgid "Meet the community and map the accessibility of places around you!"
+msgstr ""
+"Lerne die Community kennen und bewerte die Barrierefreiheit von Orten in "
+"deiner Nähe!"
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
+msgid "Welcome"
+msgstr "Willkommen"
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
+msgid ""
+"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
+"step: Rate and add the accessibility of places."
+msgstr ""
+"Du bist nun Teil der Mapping Events ${ mappingEvent.name } ❤ Dein nächster "
+"Schritt: Bewerte die Barrierefreiheit von Orten hinzu oder lege neue Orte an"
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
+msgid "Let's go"
+msgstr "Los geht's!"
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "Start"
+
+#: src/components/MainMenu/MainMenu.js:234
+msgid "Menu"
+msgstr "Menü"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
 #: src/components/NodeToolbar/Report/strings.js:28
@@ -595,23 +511,28 @@ msgstr ""
 "Sorry, das hat nicht geklappt! Bitte überprüfe alle Zeichen und probier's "
 "dann nochmal."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:268
+#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
+msgid "Close"
+msgstr "Schließen"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
 msgid "The following images…"
 msgstr "Die folgenden Bilder…"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "...give useful information on accessibility."
 msgstr "…sind interessant für Rollstuhlgerechtigkeit."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:270
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
 msgid "...were taken by me."
 msgstr "…habe ich selbst gemacht."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:271
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
 msgid "...do not show any identifiable persons."
 msgstr "…zeigen keine identifizierbaren Menschen."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid ""
 "I hereby publish these images into the public domain and renounce copyright "
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
@@ -621,42 +542,113 @@ msgstr ""
 "href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">unter der CC0 1.0 Universal-Lizenz</a>)"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
 msgstr "Eingänge"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
 msgid "Site map"
 msgstr "Lageplan"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
 msgid "toilets"
 msgstr "Toiletten"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:334
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
 msgid "Continue"
 msgstr "Weiter"
 
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "Start"
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "Mach mit und bewerte Orte!"
 
-#: src/components/MainMenu/MainMenu.js:232
-msgid "Menu"
-msgstr "Menü"
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "Okay, los geht’s!"
 
-#: src/app/ContributionThanksData.js:12
-msgid "Thank you for the contribution!"
-msgstr "Danke für’s Mithelfen!"
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
+msgstr "Ohne Cookies weitermachen"
 
-#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
-msgid "Search results"
-msgstr "Suchergebnisse"
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
+msgstr ""
+"Wir verwenden Cookies, um diese App für dich zu verbessern. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" "
+"target=\"_blank\">Datenschutzerklärung lesen</a>."
 
-#: src/app/PlaceDetailsData.js:257
-msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr "Dieser Ort ist auf ${ productName }: ${ placeTitle }"
+#: src/components/Onboarding/Onboarding.js:70
+msgid "Start screen"
+msgstr "Startbildschirm"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:75
+msgid "starting"
+msgstr "beginnt"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:80
+msgid "until"
+msgstr "bis"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:95
+msgid "Mapping event ${ mappingEvent.name }"
+msgstr "Mapping Event ${ mappingEvent.name }"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:97
+msgid "Center map on mapping event"
+msgstr "Karte auf Mapping Event zentrieren"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:99
+msgid "Meeting point"
+msgstr "Treffpunkt"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:101
+msgid "Area name"
+msgstr "Bereich"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:103
+msgid "Event date"
+msgstr "Datum"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:105
+msgid "Event start date"
+msgstr "Startdatum"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:107
+msgid "Event end date"
+msgstr "Enddatum"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:109
+msgid "Back to the mapping events list"
+msgstr "Zurück zur Liste der Mapping-Events"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:111
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+msgid "Share"
+msgstr "Teilen"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:113
+msgid "Join mapping event"
+msgstr "Teilnehmen"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:115
+msgid "Leave mapping event"
+msgstr "Event verlassen"
+
+#: src/components/Map/Map.js:1005
+msgid "Zoom in closer to see more places"
+msgstr "Für mehr Orte näher ranzoomen"
+
+#: src/components/Map/Map.js:1021
+msgid "Turn on location services"
+msgstr "Ortungsdienste anschalten"
+
+#: src/components/Map/Map.js:1054
+msgid "Map"
+msgstr "Karte"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
@@ -682,10 +674,6 @@ msgstr "Nur Orte, die nicht rollstuhlgerecht sind"
 msgid "Wheelchair accessibility filter"
 msgstr "Filtern nach Rollstuhlgerechtigkeit"
 
-#: src/components/SearchToolbar/SearchInputField.js:65
-msgid "Search for place or address"
-msgstr "Suche nach Ort oder Adresse"
-
 #: src/components/SearchToolbar/SearchResults.js:31
 msgid "No results found"
 msgstr "Keine Ergebnisse gefunden"
@@ -694,10 +682,62 @@ msgstr "Keine Ergebnisse gefunden"
 msgid "No results available. Please try again later!"
 msgstr "Keine Ergebnisse verfügbar. Probiere es später nochmal!"
 
+#: src/components/SearchToolbar/SearchInputField.js:65
+msgid "Search for place or address"
+msgstr "Suche nach Ort oder Adresse"
+
+#: src/components/Toolbar.js:332
+msgid "Collapse details"
+msgstr "Details ansehen"
+
+#: src/components/Toolbar.js:332
+msgid "Expand details"
+msgstr "Details schließen"
+
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
+msgstr "Statistik zum Mapping-Event"
+
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr "Bewertete Orte"
+
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr "Teilnehmer"
+
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr "Tage bis zum Start"
+
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
+"Mach mit und nimm am Mapping Event ${ mappingEvent.name } teil${ "
+"productNameString }. Hier findest du mehr Information: ${ url }"
+
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
-#: src/components/NodeToolbar/NodeToolbar.js:265
+#: src/components/NodeToolbar/NodeToolbar.js:266
 msgid "How wheelchair accessible is this place?"
 msgstr "Wie rollstuhlgerecht ist dieser Ort?"
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr "${ eventName } Mapping Event Kartenmarkierung"
+
+#: src/lib/goToLocationSettings.js:44
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr ""
+"Um deinen Standort zu bestimmen, öffne die Browsereinstellungen und erlaube "
+"Ortungsdienste für Wheelmap.org."
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "Meinen Standort anzeigen"
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
 msgid "Remove ${ caption } Filter"
@@ -711,9 +751,18 @@ msgstr "Unbenannt"
 msgid "Remove ${ props.name } Filter"
 msgstr "${ props.name }-Filter entfernen"
 
-#: src/components/NodeToolbar/SourceList.js:33
-msgid "Source:"
-msgstr "Quelle:"
+#: src/components/ShareBar/ShareBar.js:87
+msgid "Expand share menu"
+msgstr "Teilen-Menü anzeigen"
+
+#: src/components/ShareBar/ShareBar.js:114
+msgid "Collapse share menu"
+msgstr "Teilen-Menü schließen"
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+msgid "Wheelchair accessibility"
+msgstr "Rollstuhlgerechtigkeit"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 msgid "Is the toilet here wheelchair accessible?"
@@ -729,23 +778,50 @@ msgstr "Ja"
 msgid "No"
 msgstr "Nein"
 
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
-msgid "Wheelchair accessibility"
-msgstr "Rollstuhlgerechtigkeit"
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "Disruptions at this location"
+msgstr "Störungen vor Ort"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
+msgid "All elevators and escalators"
+msgstr "Alle Aufzüge und Fahrtreppen"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:160
+msgid "Report image"
+msgstr "Foto melden"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:186
+msgid "of"
+msgstr "von"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:188
+msgid "Next (right arrow key)"
+msgstr "Weiter (Pfeil nach rechts)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:190
+msgid "Previous (left arrow key)"
+msgstr "Zurück (Pfeil nach links)"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.js:192
+msgid "Close (Esc)"
+msgstr "Schließen (Esc)"
+
+#: src/components/NodeToolbar/SourceList.js:33
+msgid "Source:"
+msgstr "Quelle:"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:37
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
-"Der Ort ist als ,${ accessibilityDescription }‘ markiert, aber das ist "
+"Der Ort ist als ,${ accessibilityDescription }‘ bewertet, aber das ist "
 "falsch!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:46
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr ""
-"Die Rollstuhlgerechtigkeit der Toilette hier ist falsch markiert oder fehlt."
+"Die Rollstuhlgerechtigkeit der Toilette hier ist falsch bewertet oder fehlt."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:53
 msgid "I have more information about this place."
@@ -763,37 +839,61 @@ msgstr "Der Ort ist an der falschen Stelle."
 msgid "The problem isn’t listed here…"
 msgstr "Das Problem steht hier nicht…"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "Disruptions at this location"
-msgstr "Störungen vor Ort"
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
+msgid "Call ${ phoneNumber }"
+msgstr "${ phoneNumber } anrufen"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
-msgid "All elevators and escalators"
-msgstr "Alle Aufzüge und Fahrtreppen"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "Öffnen auf ${ sourceNameString }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:158
-msgid "Report image"
-msgstr "Foto melden"
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
+msgid "Add info on ${ sourceNameString }"
+msgstr "Infos auf ${ sourceNameString } hinzufügen"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:184
-msgid "of"
-msgstr "von"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+msgid "Learn more about the accessibility of this place"
+msgstr "Erfahre, wie rollstuhlgerecht dieser Ort ist."
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:186
-msgid "Next (right arrow key)"
-msgstr "Weiter (Pfeil nach rechts)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "Ich habe einen Ort auf Wheelmap gefunden: ${ url }"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:188
-msgid "Previous (left arrow key)"
-msgstr "Zurück (Pfeil nach links)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.js:190
-msgid "Close (Esc)"
-msgstr "Schließen (Esc)"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+msgid "I found a place on Wheelmap…"
+msgstr "Ich habe einen Ort auf Wheelmap gefunden…"
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
-msgid "Sorry, this place could not be marked because of an error: ${ e }"
-msgstr "Sorry, beim Markieren trat ein Fehler auf: ${ e }"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+msgid "${ categoryName } on Wheelmap"
+msgstr "${ categoryName } auf Wheelmap"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "Ich habe diesen Ort auf Wheelmap gefunden: ${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+msgid "${ placeName } on Wheelmap.org"
+msgstr "${ placeName } auf Wheelmap.org"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+msgid ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Click on this link to open it: ${ url }"
+msgstr ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Klicke zum Betrachten auf diesen Link: ${ url }"
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "Problem melden"
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -802,6 +902,51 @@ msgstr "Bestätigen"
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
 msgid "Change"
 msgstr "Ändern"
+
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr "Sorry, beim Bewerten trat ein Fehler auf: ${ e }"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+msgid "Mark wheelchair accessibility of WC"
+msgstr "Bewerte die Rollstuhlgerechtigkeit des WCs"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
+msgid "Searching accessible toilet"
+msgstr "Suche barrierefreie Toiletten"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
+msgid "Show next wheelchair accessible toilet"
+msgstr "Nächste rollstuhlgerechte Toilette anzeigen"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "Deine gute Tat!"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:27
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr "Bilder hinzufügen"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
+msgid "Upload in progress..."
+msgstr "Lade hoch…"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
+msgid "Upload failed: server error or file-format not supported"
+msgstr "Upload-Fehler: Serverfehler oder Dateiformat nicht unterstützt"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "Danke, dass du das Foto gemeldet hast! Wir sehen uns das an."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
+msgid ""
+"Thank you for contributing. Your image will be visible after we have checked"
+" it."
+msgstr ""
+"Danke für deine Mithilfe! Dein Beitrag ist in Kürze auch für andere "
+"sichtbar."
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -920,99 +1065,6 @@ msgstr "[Wheelmap] Problem mit ${ categoryName } auf Wheelmap"
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Problem mit einem Ort auf Wheelmap"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:59
-msgid "Mark wheelchair accessibility of WC"
-msgstr "Markiere die Rollstuhlgerechtigkeit des WCs"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:128
-msgid "Show next wheelchair accessible toilet"
-msgstr "Nächste rollstuhlgerechte Toilette anzeigen"
-
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
-msgid "Call ${ phoneNumber }"
-msgstr "${ phoneNumber } anrufen"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
-#: src/lib/openButtonCaption.js:6
-msgid "Open on ${ sourceNameString }"
-msgstr "Öffnen auf ${ sourceNameString }"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
-msgid "Add info on ${ sourceNameString }"
-msgstr "Infos auf ${ sourceNameString } hinzufügen"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
-msgid "Learn more about the accessibility of this place"
-msgstr "Erfahre, wie rollstuhlgerecht dieser Ort ist."
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
-msgid "I found a place on Wheelmap: ${ url }"
-msgstr "Ich habe einen Ort auf Wheelmap gefunden: ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
-msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
-msgid "I found a place on Wheelmap…"
-msgstr "Ich habe einen Ort auf Wheelmap gefunden…"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
-msgid "${ categoryName } on Wheelmap"
-msgstr "${ categoryName } auf Wheelmap"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
-msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "Ich habe diesen Ort auf Wheelmap gefunden: ${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
-msgid "${ placeName } on Wheelmap.org"
-msgstr "${ placeName } auf Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
-msgid ""
-"${ sharedObjectTitle }\n"
-"\n"
-"Click on this link to open it: ${ url }"
-msgstr ""
-"${ sharedObjectTitle }\n"
-"\n"
-"Klicke zum Betrachten auf diesen Link: ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
-msgid "Report a problem"
-msgstr "Problem melden"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "Deine gute Tat!"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:30
-msgid "Add images"
-msgstr "Bilder hinzufügen"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
-msgid "Upload in progress..."
-msgstr "Lade hoch…"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
-msgid "Upload failed: server error or file-format not supported"
-msgstr "Upload-Fehler: Serverfehler oder Dateiformat nicht unterstützt"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
-msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "Danke, dass du das Foto gemeldet hast! Wir sehen uns das an."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
-msgid ""
-"Thank you for contributing. Your image will be visible after we have checked"
-" it."
-msgstr ""
-"Danke für deine Mithilfe! Dein Beitrag ist in Kürze auch für andere "
-"sichtbar."
-
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
 msgstr "Details"
@@ -1045,13 +1097,13 @@ msgstr[1] "${ count } Fahrtreppen außer Betrieb"
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } Aufzug ohne bekannten Status"
-msgstr[1] "${ count } Aufzüge ohne bekannten Status"
+msgstr[1] "${ count } Aufzüge mit unbekanntem Status"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "${ count } Fahrtreppe ohne bekannten Status"
-msgstr[1] "${ count } Fahrtreppen ohne bekannten Status"
+msgstr[1] "${ count } Fahrtreppen mit unbekanntem Status"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "

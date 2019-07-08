@@ -55,6 +55,7 @@ type Props = {
   sources: SourceWithLicense[],
   photos: PhotoModel[],
   toiletsNearby: ?(Feature[]),
+  isLoadingToiletsNearby: boolean,
   categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,

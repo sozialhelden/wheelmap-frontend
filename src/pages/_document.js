@@ -84,8 +84,14 @@ export default class MyDocument extends Document {
           <meta content="follow index" name="robots" />
 
           {/* iOS link to "native" app and configuration for web app */}
-          <meta content="yes" name="apple-mobile-web-app-capable" />
-          <meta content="white" name="apple-mobile-web-app-status-bar-style" />
+          <meta name="apple-mobile-web-app-title" content="Wheelmap" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+
+          <link rel="apple-touch-icon" href="/static/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="76x76" href="/static/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="120x120" href="/static/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/static/wheely_big.jpg" />
 
           {this.props.styleTags}
         </Head>

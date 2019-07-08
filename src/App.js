@@ -90,6 +90,8 @@ type Props = {
 
   toiletFilter: YesNoUnknown[],
   accessibilityFilter: YesNoLimitedUnknown[],
+
+  toiletsNearby: ?PotentialPromise<Feature[]>,
 } & PlaceDetailsProps;
 
 type State = {
