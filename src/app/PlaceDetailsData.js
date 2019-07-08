@@ -78,16 +78,16 @@ async function fetchSourceWithLicense(
 
     // console.log("loading", { sources });
     const sourcesWithLicense = sourceIds.map(sourceId =>
-      dataSourceCache.getDataSourceWithId(sourceId).then(
-        async (source): Promise<SourceWithLicense> => {
+      dataSourceCache
+        .getDataSourceWithId(sourceId)
+        .then(async (source): Promise<SourceWithLicense> => {
           if (typeof source.licenseId === 'string') {
             return licenseCache.getLicenseWithId(source.licenseId).then(license => {
               return { source, license };
             });
           }
           return { source, license: null };
-        }
-      )
+        })
     );
 
     return Promise.all(sourcesWithLicense);
@@ -125,7 +125,10 @@ function fetchPhotos(
   return photosPromise;
 }
 
-function fetchToiletsNearby(appPropsPromise: Promise<AppProps>, featurePromise: ?Promise<Feature>) {
+function fetchToiletsNearby(
+  appPropsPromise: Promise<AppProps>,
+  featurePromise: ?Promise<Feature>
+): Promise<Feature[]> {
   return appPropsPromise.then(appProps => {
     return featurePromise
       ? featurePromise.then(feature => {
@@ -136,7 +139,7 @@ function fetchToiletsNearby(appPropsPromise: Promise<AppProps>, featurePromise: 
             appProps.includeSourceIds
           );
         })
-      : null;
+      : [];
   });
 }
 
@@ -154,24 +157,25 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         throw error;
       }
 
-      // do not cache on server
+      // do not cache features on server
       const useCache = !isServer;
       const disableWheelmapSource = query.disableWheelmapSource === 'true';
 
       const featurePromise = fetchFeature(featureId, { useCache, disableWheelmapSource });
-      const photosPromise = fetchPhotos(featureId, { useCache, disableWheelmapSource });
+      const photosPromise = fetchPhotos(featureId, { disableWheelmapSource, useCache: true });
       const equipmentPromise = equipmentInfoId ? fetchEquipment(equipmentInfoId, useCache) : null;
       const lightweightFeature = !disableWheelmapSource
         ? wheelmapLightweightFeatureCache.getCachedFeature(featureId)
         : null;
-      const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, useCache);
-      const toiletsNearbyPromise = fetchToiletsNearby(appPropsPromise, featurePromise);
+      const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, true);
+      const toiletsNearby = isServer
+        ? undefined
+        : fetchToiletsNearby(appPropsPromise, featurePromise);
 
       const feature = isServer ? await featurePromise : featurePromise;
       const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
       const sources = isServer ? await sourcesPromise : sourcesPromise;
       const photos = isServer ? await photosPromise : photosPromise;
-      const toiletsNearby = isServer ? await toiletsNearbyPromise : toiletsNearbyPromise;
 
       return {
         feature,
@@ -195,12 +199,12 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
   storeInitialRouteProps(props: PlaceDetailsProps) {
     const { feature, featureId, sources, photos, equipmentInfo } = props;
+
     // only store fully resolved data that comes from the server
     if (
       !feature ||
       feature instanceof Promise ||
       sources instanceof Promise ||
-      photos instanceof Promise ||
       equipmentInfo instanceof Promise
     ) {
       return;
@@ -224,6 +228,21 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         licenseCache.injectLicense(license);
       }
     });
+  },
+
+  getRenderProps(props, isServer) {
+    if (isServer) {
+      return props;
+    }
+
+    let { toiletsNearby, feature } = props;
+    if (!toiletsNearby) {
+      console.log('I NEEDA SOMEA TOILETS!', props, feature);
+      const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature);
+      toiletsNearby = fetchToiletsNearby(Promise.resolve(props), featurePromise);
+    }
+
+    return { ...props, toiletsNearby };
   },
 
   getHead(props, baseUrl) {

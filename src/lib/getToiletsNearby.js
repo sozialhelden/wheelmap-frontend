@@ -38,11 +38,7 @@ function calculateBoundingBox(lat: number, lon: number, radius: number) {
 
 function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Promise<Feature[]> {
   const bbox = calculateBoundingBox(lat, lon, radius);
-  const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${
-    bbox.east
-  },${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${
-    config.wheelmapApiKey
-  }`;
+  const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${config.wheelmapApiKey}`;
 
   return globalFetchManager
     .fetch(url, { cordova: true })
@@ -58,11 +54,7 @@ function fetchAcToiletPlaces(
   excludeSourceIds: Array<string>
 ): Promise<Feature[]> {
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
-  const url = `${
-    env.public.accessibilityCloud.baseUrl.cached
-  }/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${
-    env.public.accessibilityCloud.appToken
-  }`;
+  const url = `${env.public.accessibilityCloud.baseUrl.cached}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${env.public.accessibilityCloud.appToken}`;
   return globalFetchManager
     .fetch(url, { cordova: true })
     .then(response => {
@@ -122,16 +114,16 @@ export function fetchToiletsNearFeature(
   excludeSourceIds: Array<string>
 ) {
   if (!feature) {
-    return null;
+    return [];
   }
 
   if (feature.properties && hasAccessibleToilet(feature.properties) === 'yes') {
-    return null;
+    return [];
   }
 
   const coords = normalizedCoordinatesForFeature(feature);
   if (!coords) {
-    return;
+    return [];
   }
 
   const [lon, lat] = coords;

@@ -81,13 +81,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     ? getDataIfAlreadyResolved(props.toiletsNearby)
     : null;
 
-  if (
-    !resolvedSources ||
-    !resolvedFeature ||
-    (props.equipmentInfo && !resolvedEquimentInfo) ||
-    (props.toiletsNearby && !resolvedToiletsNearby) ||
-    !resolvedPhotos
-  ) {
+  if (!resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
     return null;
   }
 
@@ -95,11 +89,11 @@ export function getPlaceDetailsIfAlreadyResolved(
     lightweightFeature: props.lightweightFeature,
     feature: resolvedFeature,
     featureId: props.featureId,
-    sources: resolvedSources,
-    photos: resolvedPhotos,
+    sources: resolvedSources || [],
+    photos: resolvedPhotos || [],
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquimentInfo,
-    toiletsNearby: resolvedToiletsNearby,
+    toiletsNearby: resolvedToiletsNearby || [],
   };
 }
 
