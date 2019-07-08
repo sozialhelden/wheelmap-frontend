@@ -176,6 +176,7 @@ class Toolbar extends React.Component<Props, State> {
       const isSwipingUp = deltaY > 0;
       const stops = this.getStops();
       const newIndex = isSwipingUp ? 0 : stops.length - 1;
+
       this.setState({
         lastTopOffset: stops[newIndex],
         topOffset: 0,
@@ -334,6 +335,9 @@ class Toolbar extends React.Component<Props, State> {
                 if (this.isFullyExpanded()) {
                   const stops = this.getStops();
                   const offset = stops[stops.length - 1];
+
+                  // reset scroll position
+                  this.scrollElement.scrollTop = 0;
                   this.setState({ lastTopOffset: offset, topOffset: offset });
                 } else {
                   this.ensureFullVisibility();
