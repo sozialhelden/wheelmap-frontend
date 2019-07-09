@@ -37,7 +37,6 @@ export type AppProps = {
   hostName: string,
   accessibilityFilter: YesNoLimitedUnknown[],
   toiletFilter: YesNoUnknown[],
-  isCordovaBuild?: boolean,
   routeName?: string,
   path?: string,
   statusCode?: number,
@@ -153,7 +152,6 @@ export async function getInitialAppProps(
     embedToken?: string,
     [key: string]: ?string,
   },
-  isCordovaBuild: boolean,
   useCache: boolean = true
 ): Promise<AppProps> {
   // flow type is not synced with actual APIs
@@ -187,8 +185,7 @@ export async function getInitialAppProps(
   const app = await appPromise;
   const clientSideConfiguration = app.clientSideConfiguration;
   const rawCategoryLists = await rawCategoryListsPromise;
-  // load mapping events, but only if we are not inside a cordova build
-  const mappingEvents = isCordovaBuild ? [] : await mappingEventsCache.getMappingEvents(app);
+  const mappingEvents = await mappingEventsCache.getMappingEvents(app);
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');

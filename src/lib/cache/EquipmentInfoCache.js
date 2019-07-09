@@ -13,10 +13,8 @@ export default class EquipmentInfoCache extends FeatureCache<
     id: string | number,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
-    const url = `${
-      env.public.accessibilityCloud.baseUrl.cached
-    }/equipment-infos/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
-    return this.fetch(url, { cordova: true });
+    const url = `${env.public.accessibilityCloud.baseUrl.cached}/equipment-infos/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
+    return this.fetch(url);
   }
 
   static getIdForFeature(feature: EquipmentInfo): string {

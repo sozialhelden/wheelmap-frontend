@@ -3,18 +3,9 @@
 import NextRouter from 'next/router';
 
 import AbstractRouterHistory, { type RouterHistoryMethod, type RouteParams } from './RouterHistory';
-import Router from './Router';
 import { trackPageView } from './Analytics';
 
 class NextRouterHistory extends AbstractRouterHistory {
-  isCordova: boolean;
-
-  constructor(router: Router, isCordova: boolean = false) {
-    super(router);
-
-    this.isCordova = isCordova;
-  }
-
   push(name: string, params: RouteParams = {}) {
     this.change('push', name, params);
   }

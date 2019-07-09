@@ -5,8 +5,6 @@ import { ServerStyleSheet } from 'styled-components';
 
 import env from '../lib/env';
 
-const cordovaBlock = 'gap: file:';
-
 export default class MyDocument extends Document {
   static getInitialProps({ renderPage, ...ctx }: NextDocumentContext) {
     const sheet = new ServerStyleSheet();
@@ -18,19 +16,16 @@ export default class MyDocument extends Document {
       locale = props.locale;
       return sheet.collectStyles(<App {...props} />);
     });
-    const styleTags = sheet.getStyleElement();
 
-    // more lenient rules in cordova build
-    const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
-    return { ...page, styleTags, locale, isCordovaBuild };
+    const styleTags = sheet.getStyleElement();
+    return { ...page, styleTags, locale };
   }
 
   render() {
-    const { locale, isCordovaBuild } = this.props;
+    const { locale } = this.props;
 
     return (
       <Html lang={locale}>
-        <head>{isCordovaBuild && <script src="cordova.js" />}</head>
         <Head>
           <meta charSet="utf-8" key="charSet" />
           <meta
@@ -38,7 +33,6 @@ export default class MyDocument extends Document {
             content={`
               default-src
                 ws:
-                ${isCordovaBuild ? cordovaBlock : ''}
                 data:
                 'self'
                 'unsafe-eval'
@@ -56,11 +50,9 @@ export default class MyDocument extends Document {
                 'self' 
                 'unsafe-inline';
               frame-src 
-                'self'
-                ${isCordovaBuild ? cordovaBlock : ''};
+                'self';
               media-src 
-                'self' 
-                ${isCordovaBuild ? cordovaBlock : ''};
+                'self';
               img-src
                 'self'
                 data:
@@ -75,8 +67,7 @@ export default class MyDocument extends Document {
                 https://asset4.wheelmap.org
                 ${env.public.accessibilityCloud.baseUrl.cached}
                 ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
-                ${env.public.allowAdditionalImageUrls || ''}
-                ${isCordovaBuild ? cordovaBlock : ''};
+                ${env.public.allowAdditionalImageUrls || ''};
             `}
           />
 

@@ -2,9 +2,6 @@
 
 import unfetch from 'isomorphic-unfetch';
 
-import fetchViaCordova from './fetchViaCordova';
-import isCordova from './isCordova';
-
 export default function(url: string, options: any) {
   options = options || {};
 
@@ -20,12 +17,6 @@ export default function(url: string, options: any) {
       console.log('…', url, 'fetched - took', elapsed, 'ms');
     }
     return data;
-  }
-
-  // If we're running in a cordova app and it has http, make our lives easier by using native HTTP
-  // connections.
-  if (isCordova() && options.cordova === true) {
-    return fetchViaCordova(url, options).then(afterEnd);
   }
 
   if (typeof fetch === 'function') {

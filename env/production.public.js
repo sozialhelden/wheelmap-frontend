@@ -25,7 +25,6 @@ const config = {
     },
   },
   baseUrl: 'https://wheelmap.org',
-  cordovaHostname: 'wheelmap.org',
 };
 
 module.exports = config;

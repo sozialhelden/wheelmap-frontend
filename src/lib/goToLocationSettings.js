@@ -1,5 +1,4 @@
 import { t } from 'ttag';
-import isCordova from './isCordova';
 import { getUserAgent } from '../lib/userAgent';
 import { saveState } from './savedState';
 
@@ -10,22 +9,10 @@ export default function goToLocationSettings() {
 
   const userAgent = getUserAgent();
 
-  if (isCordova()) {
-    if (
-      userAgent.os.name === 'Android' &&
-      typeof window !== 'undefined' &&
-      window.cordova &&
-      window.cordova.diagnostics &&
-      typeof window.cordova.diagnostics.switchToLocationSettings === 'function'
-    ) {
-      window.cordova.diagnostics.switchToLocationSettings();
-    } else if (userAgent.os.name === 'iOS') {
-      window.location.href = 'https://support.apple.com/en-us/ht203033';
-    }
-    return;
-  }
+  const identity = userAgent.browser.name;
 
   const supportURLs = {
+    // android https://support.google.com/nexus/answer/3467281
     Safari: 'https://support.apple.com/en-us/ht204690',
     'Mobile Safari': 'https://support.apple.com/en-us/ht203033',
     Chrome: 'https://support.google.com/chrome/answer/142065',
@@ -33,7 +20,7 @@ export default function goToLocationSettings() {
     Edge: 'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/',
   };
 
-  const supportURL = supportURLs[userAgent.browser.name];
+  const supportURL = supportURLs[identity];
 
   if (supportURL) {
     window.open(supportURL, '_blank');

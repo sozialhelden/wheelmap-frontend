@@ -1,9 +1,7 @@
 import env from './env';
 
-import isCordova from './isCordova';
-
-// use base url on server or in cordova builds, otherwise use the proxy running on the hosting server
-const useAbsoluteWheelmapBaseUrl = typeof window === 'undefined' || isCordova();
+// use base url on server, otherwise use the proxy running on the hosting server
+const useAbsoluteWheelmapBaseUrl = typeof window === 'undefined';
 
 export default {
   locateTimeout: 60 * 60 * 1000,
@@ -12,9 +10,7 @@ export default {
   maxZoom: 20,
   minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
-  mapboxTileUrl: `https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${
-    env.public.mapbox.accessToken
-  }`,
+  mapboxTileUrl: `https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${env.public.mapbox.accessToken}`,
   wheelmapApiKey: env.public.wheelmap.apiKey,
   wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.public.wheelmap.baseUrl : '',
 };

@@ -1,4 +1,0 @@
-- Completely overhauled app with improved layout
-- Many more additional places with more accessibility details
-- See if public elevators and escalators are in operation
-- Share places on Whatsapp and Telegram

@@ -39,7 +39,6 @@ import {
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import env from '../lib/env';
-import isCordova, { isCordovaDebugMode } from '../lib/isCordova';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
@@ -58,23 +57,6 @@ let isFirstTimeClientRender = true;
 
 export default class App extends BaseApp {
   static async getInitialProps({ ctx }: { ctx: any }) {
-    // do not run usual routing stuff for cordova builds
-    const isCordovaBuild = ctx && ctx.req && !ctx.req.headers;
-    if (isCordovaBuild) {
-      // take hostname from config
-      const hostName = env.public.cordovaHostname;
-
-      // serve only english languages
-      const initialBuildTimeProps = await getInitialAppProps(
-        { userAgentString: '', hostName, localeStrings: ['en_US'], ...ctx.query },
-        isCordovaBuild
-      );
-      // strip translations from initial props, no added inclusion needed for cordova
-      const { translations, ...buildTimeProps } = initialBuildTimeProps;
-      // store buildTimeProps separately as we don't want runtime overrides of these
-      return { buildTimeProps, isCordovaBuild };
-    }
-
     let appProps;
     let routeProps;
     let path;
@@ -95,8 +77,6 @@ export default class App extends BaseApp {
 
       if (isServer) {
         hostName = ctx.req.headers.host.replace(/:.*$/, '');
-      } else if (isCordova() || isCordovaDebugMode()) {
-        hostName = env.public.cordovaHostname;
       } else {
         hostName = window.location.hostname;
       }
@@ -111,10 +91,12 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
-      const appPropsPromise = getInitialAppProps(
-        { userAgentString, hostName, localeStrings, ...ctx.query },
-        isCordovaBuild
-      );
+      const appPropsPromise = getInitialAppProps({
+        userAgentString,
+        hostName,
+        localeStrings,
+        ...ctx.query,
+      });
 
       if (ctx.query.routeName) {
         const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
@@ -173,7 +155,6 @@ export default class App extends BaseApp {
       routeName: ctx.query.routeName,
       preferredLanguage: localeStrings[0],
       path,
-      isCordovaBuild,
     };
   }
 
@@ -199,7 +180,7 @@ export default class App extends BaseApp {
 
   constructor(props: $Shape<AppProps>) {
     super(props);
-    this.routerHistory = new NextRouterHistory(router, props.isCordovaBuild || isCordova());
+    this.routerHistory = new NextRouterHistory(router);
   }
 
   handleNotFoundReturnHomeClick = () => {
@@ -226,7 +207,6 @@ export default class App extends BaseApp {
       routeName,
       path,
       hostName,
-      isCordovaBuild,
       translations,
       skipApplicationBody,
       embedModeDenied,
@@ -260,20 +240,6 @@ export default class App extends BaseApp {
             onReturnHomeClick={this.handleNotFoundReturnHomeClick}
           />
         </Container>
-      );
-    }
-
-    // no need to render anything but the bare page in cordova
-    if (isCordovaBuild || isCordova() || isCordovaDebugMode()) {
-      return (
-        <PageComponent
-          appProps={appProps}
-          buildTimeProps={buildTimeProps}
-          getRenderProps={getRenderProps}
-          routerHistory={this.routerHistory}
-          routeName={routeName}
-          isCordovaBuild={isCordovaBuild}
-        />
       );
     }
 

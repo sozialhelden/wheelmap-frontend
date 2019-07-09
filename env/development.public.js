@@ -15,7 +15,7 @@ const config = {
     baseUrl: {
       cached: 'https://accessibility-cloud.freetls.fastly.net',
       uncached: 'https://www.accessibility.cloud',
-      accessibilityApps: 'https://www.wheelmap.pro'
+      accessibilityApps: 'https://www.wheelmap.pro',
     },
   },
   aws: {
@@ -25,7 +25,6 @@ const config = {
     },
   },
   baseUrl: 'http://localhost:3000',
-  cordovaHostname: 'localhost',
 };
 
 module.exports = config;

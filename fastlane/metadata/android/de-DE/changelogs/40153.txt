@@ -1,4 +1,0 @@
-- Komplett überarbeitete App mit verbessertem Layout
-- Mehr Orte, mehr Details über die Barrierefreiheit von Orten
-- Neu: sichtbarer Betriebsstatus von Aufzügen und Rolltreppen
-- Teile Orte jetzt auch auf Whatsapp and Telegram
