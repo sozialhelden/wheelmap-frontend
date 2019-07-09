@@ -77,12 +77,12 @@ export default class MyDocument extends Document {
           {/* iOS link to "native" app and configuration for web app */}
           <meta name="apple-mobile-web-app-title" content="Wheelmap" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-          <link rel="apple-touch-icon" href="/static/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="76x76" href="/static/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="120x120" href="/static/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="152x152" href="/static/wheely_big.jpg" />
+          <link rel="apple-touch-icon" href="/static/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="76x76" href="/static/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="120x120" href="/static/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
         </Head>
