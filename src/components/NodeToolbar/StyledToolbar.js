@@ -16,6 +16,10 @@ const StyledToolbar = styled(Toolbar)`
   max-height: calc(100% - ${props => (props.inEmbedMode ? 70 : 120)}px - env(safe-area-inset-top));
   padding-top: 0;
 
+  padding-bottom: 0px;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+
   @media (max-width: 512px), (max-height: 512px) {
     top: ${props => (props.inEmbedMode ? 0 : 50)}px;
     top: calc(${props => (props.inEmbedMode ? 0 : 50)}px + constant(safe-area-inset-top));
@@ -30,8 +34,6 @@ const StyledToolbar = styled(Toolbar)`
         100% - ${props => (props.inEmbedMode ? 0 : 80)}px - env(safe-area-inset-top)
       );
     }
-
-    padding-bottom: env(safe-area-inset-bottom);
   }
 
   ${ChromelessButton}.expand-button {

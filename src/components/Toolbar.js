@@ -91,7 +91,7 @@ class Toolbar extends React.Component<Props, State> {
     this.startTopOffsetTimeoutId = setTimeout(() => {
       this.startTopOffsetTimeoutId = undefined;
       this.onResize(this.props.startTopOffset);
-    }, 100);
+    }, 150);
   }
 
   componentWillUnmount() {
@@ -126,15 +126,14 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   onResize(preferredTopOffset: number = this.state.topOffset) {
-    this.setState({
-      viewportSize: {
-        width: typeof window === 'undefined' ? 1024 : window.innerWidth,
-        height: typeof window === 'undefined' ? 768 : window.innerHeight,
-      },
-    });
+    const viewportSize = {
+      width: typeof window === 'undefined' ? 1024 : window.innerWidth,
+      height: typeof window === 'undefined' ? 768 : window.innerHeight,
+    };
 
     const topOffset = this.getNearestStopForTopOffset(preferredTopOffset);
     this.setState({
+      viewportSize,
       topOffset,
       lastTopOffset: topOffset,
     });
@@ -217,6 +216,7 @@ class Toolbar extends React.Component<Props, State> {
       toolbarHeight =
         parseFloat(style.marginTop) +
         parseFloat(style.marginBottom) +
+        parseFloat(style.paddingBottom) +
         (this.scrollElement ? this.scrollElement.scrollHeight : 0);
     }
     return Math.max(60, this.state.viewportSize.height - toolbarHeight - 60);
