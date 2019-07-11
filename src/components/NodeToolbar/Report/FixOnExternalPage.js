@@ -1,12 +1,16 @@
 // @flow
-import strings from './strings';
+
 import * as React from 'react';
+import { t } from 'ttag';
+
 import SourceLink from '../SourceLink';
 import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
-import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
+import { type DataSource } from '../../../lib/cache/DataSourceCache';
+import strings from './strings';
 
 type Props = {
   feature: Feature,
+  source: ?DataSource,
   onClose: (event: UIEvent) => void,
   properties: AccessibilityCloudProperties,
 };
@@ -15,63 +19,37 @@ type State = {
   sourceName: ?string,
 };
 
-const defaultState: State = { sourceName: null };
+const callToActions = {
+  // translator: View on external webpage link in report dialog.
+  infoPageUrl: name => t`View this place on ${name}`,
+  // translator: Edit on external webpage link in report dialog.
+  editPageUrl: name => t`Edit this place on ${name}`,
+};
 
 class FixOnExternalPage extends React.Component<Props, State> {
   props: Props;
-  state: State = defaultState;
-
-  fetchSource(props: Props) {
-    if (!props.properties || !props.properties.sourceId) {
-      this.setState(defaultState);
-      return;
-    }
-    const sourceId = props.properties.sourceId;
-
-    if (typeof sourceId !== 'string') return;
-
-    dataSourceCache.getDataSourceWithId(sourceId).then(
-      source => {
-        this.setState({ sourceName: source.name });
-      },
-      () => {
-        this.setState(defaultState);
-      }
-    );
-  }
-
-  componentDidMount() {
-    this.fetchSource(this.props);
-  }
-
-  componentWillReceiveProps(newProps: Props) {
-    this.fetchSource(newProps);
-  }
 
   render() {
-    const { feature } = this.props;
-    if (!feature || !feature.properties) return null;
-    const properties = feature.properties;
+    const { feature, source, properties } = this.props;
 
-    const sourceName = this.state.sourceName;
-    const {
-      externalDataHint,
-      useLinkExplanation,
-      editingDelayExplanation,
-      backButtonCaption,
-    } = strings();
+    if (!feature || !properties || !source) return null;
+
+    const { useLinkExplanation, editingDelayExplanation, backButtonCaption } = strings();
 
     return (
       <section>
-        <p>
-          {externalDataHint}
-          {sourceName ? ` ({sourceName})` : null}.
-        </p>
         {properties.infoPageUrl ? (
           <div>
             <p>{useLinkExplanation}</p>
             <p className="subtle">{editingDelayExplanation}</p>
-            <SourceLink properties={properties} />
+            {['infoPageUrl', 'editPageUrl'].map(propertyName => (
+              <SourceLink
+                key={propertyName}
+                properties={properties}
+                knownSourceNameCaption={callToActions[propertyName]}
+                propertyName={propertyName}
+              />
+            ))}
           </div>
         ) : null}
         <button className="link-button negative-button" onClick={this.props.onClose}>

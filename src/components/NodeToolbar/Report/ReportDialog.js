@@ -8,29 +8,37 @@ import {
 } from '../../../lib/Feature';
 
 import { t } from 'ttag';
-import type { Feature, NodeProperties } from '../../../lib/Feature';
+import type {
+  Feature,
+  NodeProperties,
+  AccessibilityCloudProperties,
+  WheelmapProperties,
+} from '../../../lib/Feature';
 import { type CategoryLookupTables } from '../../../lib/Categories';
+import { type AppContext } from '../../../AppContext';
 
 import strings from './strings';
-import FixComment from './FixComment';
+import FixOsmComment from './FixOsmComment';
 import MailToSupport from './MailToSupport';
-import FixPlacePosition from './FixPlacePosition';
+import FixOsmPlacePosition from './FixOsmPlacePosition';
 import FixOnExternalPage from './FixOnExternalPage';
-import FixNonExistingPlace from './FixNonExistingPlace';
+import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
+import { type DataSource, dataSourceCache } from '../../../lib/cache/DataSourceCache';
 
 type IssueEntry = {
-  className: string,
-  issueText: () => string,
-  component: Class<React.Component<any>>,
+  className?: string,
+  issueHeader?: () => React.Node,
+  issueLink?: () => React.Node,
+  component?: React.ComponentType<any>,
 };
 
-const generateIssues = (properties: NodeProperties): IssueEntry[] =>
+const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] =>
   [
     {
       className: 'wrong-wheelchair-accessibility',
-      issueText() {
+      issueLink: () => {
         const accessibilityDescription =
           accessibilityName(isWheelchairAccessible(properties)) || '';
         // translator: Shown as issue description in the report dialog
@@ -42,7 +50,7 @@ const generateIssues = (properties: NodeProperties): IssueEntry[] =>
       ? {
           className: 'wrong-toilet-accessibility',
           // translator: Shown as issue description in the report dialog
-          issueText: () =>
+          issueLink: () =>
             t`The toilet accessibility of the place is marked incorrectly or is missing.`,
           component: ToiletStatusEditor,
         }
@@ -50,30 +58,66 @@ const generateIssues = (properties: NodeProperties): IssueEntry[] =>
     {
       className: 'information-missing',
       // translator: Shown as issue description in the report dialog
-      issueText: () => t`I have more information about this place.`,
-      component: FixComment,
+      issueLink: () => t`I have more information about this place.`,
+      component: FixOsmComment,
     },
     {
       className: 'non-existing-place',
       // translator: Shown as issue description in the report dialog
-      issueText: () => t`The place does not exist.`,
-      component: FixNonExistingPlace,
+      issueLink: () => t`The place does not exist.`,
+      component: FixOsmNonExistingPlace,
     },
     {
       className: 'wrong-position',
       // translator: Shown as issue description in the report dialog
-      issueText: () => t`The place is at the wrong location.`,
-      component: FixPlacePosition,
+      issueLink: () => t`The place is at the wrong location.`,
+      component: FixOsmPlacePosition,
     },
     {
       className: 'other-issue',
       // translator: Shown as issue description in the report dialog
-      issueText: () => t`The problem isn’t listed here…`,
+      issueLink: () => t`The problem isn’t listed here…`,
       component: MailToSupport,
     },
   ].filter(Boolean);
 
+const generateAcIssues = (
+  properties: AccessibilityCloudProperties,
+  appContext: AppContext,
+  source: ?DataSource
+): IssueEntry[] => {
+  const isExternal = source && source.organizationId !== appContext.app.organizationId;
+  const hasExternalPage = Boolean(properties['infoPageUrl'] || properties['editPageUrl']);
+  const sourceName = (source && (source.shortName || source.name)) || t`Unknown`;
+
+  return [
+    isExternal
+      ? {
+          className: 'subtle',
+          // translator: Gives credits to the external data source this place comes from.
+          issueHeader: () =>
+            t`Information about this place has kindly been provided by another organization, it is a part of ${sourceName}.`,
+        }
+      : null,
+    hasExternalPage
+      ? {
+          className: 'fix-on-external-page',
+          // translator: Shown as issue description in the report dialog
+          issueLink: () => t`Fix on external page.`,
+          component: FixOnExternalPage,
+        }
+      : null,
+    {
+      className: 'other-issue',
+      // translator: Shown as issue description in the report dialog
+      issueLink: () => t`The problem isn’t listed here…`,
+      component: MailToSupport,
+    },
+  ].filter(Boolean);
+};
+
 type Props = {
+  appContext: AppContext,
   categories: CategoryLookupTables,
   feature: Feature,
   featureId: string | number | null,
@@ -85,7 +129,8 @@ type Props = {
 
 type State = {
   lastFeatureId: ?(string | number),
-  SelectedComponentClass: ?Class<React.Component<*, *>>,
+  SelectedComponentClass: ?React.ComponentType<any>,
+  source: ?DataSource,
 };
 
 class ReportDialog extends React.Component<Props, State> {
@@ -94,15 +139,16 @@ class ReportDialog extends React.Component<Props, State> {
   state = {
     lastFeatureId: null,
     SelectedComponentClass: null,
+    source: null,
   };
 
   static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
-    if (!isWheelmapFeatureId(props.featureId)) {
-      return { SelectedComponentClass: FixOnExternalPage };
-    }
-
     if (props.featureId !== state.lastFeatureId) {
-      return { SelectedComponentClass: null, lastFeatureId: props.featureId };
+      return {
+        SelectedComponentClass: null,
+        lastFeatureId: props.featureId,
+        source: null,
+      };
     }
 
     return null;
@@ -116,6 +162,22 @@ class ReportDialog extends React.Component<Props, State> {
     document.removeEventListener('keydown', this.escapeHandler);
   }
 
+  generateIssues(featureId: string | number, props: NodeProperties) {
+    if (isWheelmapFeatureId(featureId)) {
+      return generateWheelmapClassicIssues(((props: any): WheelmapProperties));
+    }
+
+    const acProps = ((props: any): AccessibilityCloudProperties);
+
+    if (!this.state.source) {
+      dataSourceCache.getDataSourceWithId(acProps.sourceId).then(source => {
+        this.setState({ source });
+      });
+    }
+
+    return generateAcIssues(acProps, this.props.appContext, this.state.source);
+  }
+
   escapeHandler = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       this.props.onClose();
@@ -125,60 +187,71 @@ class ReportDialog extends React.Component<Props, State> {
   };
 
   onClose = (event: ?UIEvent) => {
-    if (this.props.onClose) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    if (this.state.SelectedComponentClass) {
+      this.setState({ SelectedComponentClass: null });
+    } else if (this.props.onClose) {
       this.props.onClose();
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
     }
   };
 
-  onSelectComponentClass = (issue: IssueEntry, event: UIEvent) => {
-    this.setState({ SelectedComponentClass: issue.component }, this.props.onReportComponentChanged);
+  onSelectComponentClass = (component: React.ComponentType<any>, event: UIEvent) => {
+    this.setState({ SelectedComponentClass: component }, this.props.onReportComponentChanged);
     event.stopPropagation();
     event.preventDefault();
   };
 
   render() {
     const { featureId, feature, categories } = this.props;
-    if (!featureId || !feature || !feature.properties) return null;
+    const { properties } = feature;
+    if (!featureId || !feature || !properties) return null;
 
     const ComponentClass = this.state.SelectedComponentClass;
-    const { backButtonCaption, reportIssueHeader } = strings();
-
-    const properties: NodeProperties = feature.properties;
-    const issues = generateIssues(properties);
 
     if (ComponentClass) {
       return (
         <ComponentClass
           categories={categories}
           feature={feature}
+          properties={properties}
           featureId={featureId}
           onClose={this.onClose}
           inline={true}
+          source={this.state.source}
         />
       );
     }
 
+    const { backButtonCaption, reportIssueHeader } = strings();
+    const issues = this.generateIssues(featureId, properties);
+
     return (
       <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
         <header id="report-dialog-header">{reportIssueHeader}</header>
-
         <ul className="issue-types">
-          {issues.map((issue, index) => (
-            <li key={issue.className} className={issue.className}>
-              <button
-                className={`link-button full-width-button ${issue.className}`}
-                onClick={this.onSelectComponentClass.bind(this, issue)}
-              >
-                {issue.issueText()}
-              </button>
-            </li>
-          ))}
+          {issues.map((issue, index) => {
+            const link = issue.issueLink ? issue.issueLink() : null;
+            const header = issue.issueHeader ? issue.issueHeader() : null;
+            const { component } = issue;
+            return (
+              <li key={issue.className || index} className={issue.className || ''}>
+                {header && <p>{header}</p>}
+                {link && component && (
+                  <button
+                    className={`link-button full-width-button`}
+                    onClick={this.onSelectComponentClass.bind(this, component)}
+                  >
+                    {link}
+                  </button>
+                )}
+              </li>
+            );
+          })}
         </ul>
-
         <button className="link-button negative-button" onClick={this.onClose}>
           {backButtonCaption}
         </button>
@@ -189,6 +262,7 @@ class ReportDialog extends React.Component<Props, State> {
 
 const StyledReportDialog = styled(ReportDialog)`
   header {
+    margin-top: 0.5em;
     margin-bottom: 0.5em;
   }
   ul.issue-types {

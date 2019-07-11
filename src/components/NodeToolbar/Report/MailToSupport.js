@@ -12,7 +12,7 @@ type Props = {
   onClose: (event: UIEvent) => void,
 };
 
-export default class ReportProblemButton extends React.Component<Props> {
+export default class MailToSupport extends React.Component<Props> {
   constructor(props) {
     super(props);
 
