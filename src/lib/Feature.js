@@ -136,6 +136,7 @@ export type WheelmapLightweightFeature = $Supertype<WheelmapFeature>;
 
 export type AccessibilityCloudProperties = {
   _id: string,
+  sourceId: string,
   name?: ?LocalizedString,
   accessibility?: MinimalAccessibility,
   category?: string,

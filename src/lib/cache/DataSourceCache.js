@@ -3,7 +3,14 @@
 import URLDataCache from './URLDataCache';
 import env from '../env';
 
-export type DataSource = { _id: string, licenseId: ?string };
+export type DataSource = {
+  _id: string,
+  organizationId: string,
+  licenseId: ?string,
+  shortName: ?string,
+  name: ?string,
+  originWebsiteURL: ?string,
+};
 
 export default class DataSourceCache extends URLDataCache<DataSource> {
   getDataSourceWithId(id: string): Promise<DataSource> {
@@ -13,9 +20,7 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string) {
-    return `${env.public.accessibilityCloud.baseUrl.cached}/sources/${id}.json?appToken=${
-      env.public.accessibilityCloud.appToken
-    }`;
+    return `${env.public.accessibilityCloud.baseUrl.cached}/sources/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
   }
 
   injectDataSource(source: DataSource) {
