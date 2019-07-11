@@ -26,8 +26,6 @@ export default function strings() {
     noteButtonCaption: t`Leave a note on OpenStreetMap`,
     // translator: Button caption in report dialog
     backButtonCaption: t`Back`,
-    // translator: Gives credits to the external organization this place comes from. The organization's name is mentioned after this text.
-    externalDataHint: t`Information about this place has kindly been provided by another organization.`,
     // translator: Explains how to reach the place details on the external page the place comes from (for example Jaccede).
     useLinkExplanation: t`Click the link below for details about the place and for editing.`,
     // translator: Explains that edits don't get propagated back to Wheelmap directly after editing
@@ -38,9 +36,7 @@ export default function strings() {
     apologyAndSolution: t`Sorry about that! Just drop us a line so we can help you to fix the problem.`,
     reportBody(url: string) {
       // translator: Report email body with place URL
-      return t`(Please only write in English or German.)\n\nDear Sozialhelden,\n\nsomething about this place is wrong: ${url}\n\nThe problem is:\n\nMy browser:\n\n${
-        navigator.userAgent
-      }`;
+      return t`(Please only write in English or German.)\n\nDear Sozialhelden,\n\nsomething about this place is wrong: ${url}\n\nThe problem is:\n\nMy browser:\n\n${navigator.userAgent}`;
     },
     reportSubject(placeName: ?string, categoryName: ?string) {
       // translator: Report email subject if place name is known

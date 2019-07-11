@@ -38,6 +38,7 @@ import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWhe
 import IconButtonList from './IconButtonList/IconButtonList';
 import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
+import { AppContextConsumer } from '../../AppContext';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -126,19 +127,24 @@ class NodeToolbar extends React.Component<Props, State> {
 
   renderReportDialog() {
     return (
-      <ReportDialog
-        categories={this.props.categories}
-        feature={this.props.feature}
-        featureId={this.props.featureId}
-        onReportComponentChanged={() => {
-          if (this.toolbar) {
-            this.toolbar.ensureFullVisibility();
-          }
-        }}
-        onClose={() => {
-          if (this.props.onClose) this.props.onClose();
-        }}
-      />
+      <AppContextConsumer>
+        {appContext => (
+          <ReportDialog
+            appContext={appContext}
+            categories={this.props.categories}
+            feature={this.props.feature}
+            featureId={this.props.featureId}
+            onReportComponentChanged={() => {
+              if (this.toolbar) {
+                this.toolbar.ensureFullVisibility();
+              }
+            }}
+            onClose={() => {
+              if (this.props.onClose) this.props.onClose();
+            }}
+          />
+        )}
+      </AppContextConsumer>
     );
   }
 

@@ -10,7 +10,7 @@ type Props = {
   onClose: (event: UIEvent) => void,
 };
 
-export default class ReportProblemButton extends React.Component<Props> {
+export default class FixOsmNonExistingPlace extends React.Component<Props> {
   howToLink: ?HTMLElement;
   editLink: ?HTMLElement;
   noteLink: ?HTMLElement;
