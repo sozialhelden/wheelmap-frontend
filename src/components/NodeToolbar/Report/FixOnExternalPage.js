@@ -15,10 +15,6 @@ type Props = {
   properties: AccessibilityCloudProperties,
 };
 
-type State = {
-  sourceName: ?string,
-};
-
 const callToActions = {
   // translator: View on external webpage link in report dialog.
   infoPageUrl: name => t`View this place on ${name}`,
@@ -26,38 +22,32 @@ const callToActions = {
   editPageUrl: name => t`Edit this place on ${name}`,
 };
 
-class FixOnExternalPage extends React.Component<Props, State> {
-  props: Props;
+const FixOnExternalPage = (props: Props) => {
+  const { feature, source, properties, onClose } = props;
+  if (!feature || !properties || !source) return null;
+  const { useLinkExplanation, editingDelayExplanation, backButtonCaption } = strings();
 
-  render() {
-    const { feature, source, properties } = this.props;
-
-    if (!feature || !properties || !source) return null;
-
-    const { useLinkExplanation, editingDelayExplanation, backButtonCaption } = strings();
-
-    return (
-      <section>
-        {properties.infoPageUrl ? (
-          <div>
-            <p>{useLinkExplanation}</p>
-            <p className="subtle">{editingDelayExplanation}</p>
-            {['infoPageUrl', 'editPageUrl'].map(propertyName => (
-              <SourceLink
-                key={propertyName}
-                properties={properties}
-                knownSourceNameCaption={callToActions[propertyName]}
-                propertyName={propertyName}
-              />
-            ))}
-          </div>
-        ) : null}
-        <button className="link-button negative-button" onClick={this.props.onClose}>
-          {backButtonCaption}
-        </button>
-      </section>
-    );
-  }
-}
+  return (
+    <section>
+      {properties.infoPageUrl ? (
+        <div>
+          <p>{useLinkExplanation}</p>
+          <p className="subtle">{editingDelayExplanation}</p>
+          {['infoPageUrl', 'editPageUrl'].map(propertyName => (
+            <SourceLink
+              key={propertyName}
+              properties={properties}
+              knownSourceNameCaption={callToActions[propertyName]}
+              propertyName={propertyName}
+            />
+          ))}
+        </div>
+      ) : null}
+      <button className="link-button negative-button" onClick={onClose}>
+        {backButtonCaption}
+      </button>
+    </section>
+  );
+};
 
 export default FixOnExternalPage;
