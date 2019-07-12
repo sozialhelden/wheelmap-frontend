@@ -45,6 +45,37 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
 
     super.cacheFeature(feature, response);
   }
+
+  reportPlace(placeId: string, reason: string, message: string): Promise<boolean> {
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.public.accessibilityCloud.baseUrl.accessibilityApps}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${env.public.accessibilityCloud.appToken}`,
+          {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            resolve(true);
+          } else {
+            response
+              .json()
+              .then(json => {
+                reject('unknown');
+              })
+              .catch(reject);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return uploadPromise;
+  }
 }
 
 export const accessibilityCloudFeatureCache = new AccessibilityCloudFeatureCache();

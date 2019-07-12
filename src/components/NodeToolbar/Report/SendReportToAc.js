@@ -7,6 +7,7 @@ import { Dots } from 'react-activity';
 
 import strings from './strings';
 import colors from '../../../lib/colors';
+import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 
 type ReportReasons =
   | 'invalid-place'
@@ -43,17 +44,6 @@ export const reportStrings = () => {
     // translator: Shown as issue description in the report dialog for invalid place
     'invalid-place': t`The place does not exist.`,
   };
-};
-
-const fakeSend = (id: string, reason: string, message: string): Promise<boolean> => {
-  return new Promise<boolean>((resolve, reject) => {
-    setTimeout(() => {
-      console.log('SEND', id, reason, message);
-      const isOkay = Math.random() < 0.5;
-      if (isOkay) resolve(true);
-      else reject(new Error('EVERYTHING IS AWFUL!'));
-    }, 2000);
-  });
 };
 
 class SendReportToAc extends React.Component<Props, State> {
@@ -108,7 +98,7 @@ class SendReportToAc extends React.Component<Props, State> {
     this.setState(
       {
         isLoading: true,
-        request: fakeSend(featureId, reportReason, reportMessage),
+        request: accessibilityCloudFeatureCache.reportPlace(featureId, reportReason, reportMessage),
       },
       () => this.awaitResponse()
     );
