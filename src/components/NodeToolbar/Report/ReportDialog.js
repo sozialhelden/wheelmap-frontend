@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
+import { map } from 'lodash';
+
 import {
   accessibilityName,
   isWheelchairAccessible,
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
-
-import { t } from 'ttag';
 import type {
   Feature,
   NodeProperties,
@@ -20,6 +21,7 @@ import { type AppContext } from '../../../AppContext';
 import strings from './strings';
 import FixOsmComment from './FixOsmComment';
 import MailToSupport from './MailToSupport';
+import SendReportToAc, { reportStrings } from './SendReportToAc';
 import FixOsmPlacePosition from './FixOsmPlacePosition';
 import FixOnExternalPage from './FixOnExternalPage';
 import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
@@ -90,6 +92,8 @@ const generateAcIssues = (
   const hasExternalPage = Boolean(properties['infoPageUrl'] || properties['editPageUrl']);
   const sourceName = (source && (source.shortName || source.name)) || t`Unknown`;
 
+  const sendReportToAcStrings = reportStrings();
+
   return [
     isExternal
       ? {
@@ -107,6 +111,15 @@ const generateAcIssues = (
           component: FixOnExternalPage,
         }
       : null,
+    ...map(sendReportToAcStrings, (value, key) => {
+      return {
+        className: key,
+        issueLink: () => value,
+        component: (props: { featureId: string, onClose: () => void }) => (
+          <SendReportToAc {...props} reportReason={key} />
+        ),
+      };
+    }),
     {
       className: 'other-issue',
       // translator: Shown as issue description in the report dialog
