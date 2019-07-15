@@ -10,11 +10,11 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:361
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:327
 msgid "Search"
 msgstr "Caută"
 
-#: src/pages/_app.js:362
+#: src/pages/_app.js:328
 msgid "Homepage"
 msgstr ""
 
@@ -103,14 +103,14 @@ msgstr ""
 msgid "Error while loading place categories."
 msgstr "Eroare la încărcarea categoriilor locului."
 
-#: src/app/ContributionThanksData.js:12
-msgid "Thank you for the contribution!"
-msgstr ""
-
 #: src/app/CreatePlaceData.js:12
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
 msgid "Add a new place"
 msgstr "Adaugă loc lipsă"
+
+#: src/app/ContributionThanksData.js:12
+msgid "Thank you for the contribution!"
+msgstr ""
 
 #: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
@@ -168,44 +168,44 @@ msgstr "Ultima actualizare ${ dateString }."
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr ""
 
-#: src/lib/Feature.js:469
+#: src/lib/Feature.js:470
 msgid "Fully wheelchair accessible"
 msgstr "Complet accesibil scaunelor cu rotile"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
-#: src/lib/Feature.js:472
+#: src/lib/Feature.js:473
 msgid "Partially wheelchair accessible"
 msgstr "Parțial accesibil scaunelor cu rotile"
 
-#: src/lib/Feature.js:475
+#: src/lib/Feature.js:476
 msgid "Not wheelchair accessible"
 msgstr "Inaccesibil scaunelor cu rotile"
 
-#: src/lib/Feature.js:478
+#: src/lib/Feature.js:479
 msgid "Unknown accessibility"
 msgstr "Statut necunoscut"
 
-#: src/lib/Feature.js:488
+#: src/lib/Feature.js:489
 msgid "Fully"
 msgstr "Complet"
 
-#: src/lib/Feature.js:491
+#: src/lib/Feature.js:492
 msgid "Partially"
 msgstr "Parțial"
 
-#: src/lib/Feature.js:494
+#: src/lib/Feature.js:495
 msgid "Not at all"
 msgstr "Nicidecum"
 
-#: src/lib/Feature.js:497
+#: src/components/NodeToolbar/Report/ReportDialog.js:93 src/lib/Feature.js:498
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: src/lib/Feature.js:507
+#: src/lib/Feature.js:508
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Intrare fără trepte, toate camerele nu au trepte."
 
-#: src/lib/Feature.js:511
+#: src/lib/Feature.js:512
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -213,60 +213,60 @@ msgstr ""
 "Intrarea are o treaptă cu o înălțime maximă de 3 inch, majoritatea camerelor"
 " nu au trepte."
 
-#: src/lib/Feature.js:513
+#: src/lib/Feature.js:514
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Intrarea are o treaptă cu o înălțime maximă de 7 cm, majoritatea camerelor "
 "nu au trepte."
 
-#: src/lib/Feature.js:516
+#: src/lib/Feature.js:517
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "Intrarea are o treaptă sau câteva trepte, camerele nu sunt accesibile."
 
-#: src/lib/Feature.js:527
+#: src/lib/Feature.js:528
 msgid "Wheelchair accessible toilet"
 msgstr "Toaletă accesibilă scaunelor cu rotile"
 
-#: src/lib/Feature.js:530
+#: src/lib/Feature.js:531
 msgid "No wheelchair accessible toilet"
 msgstr "Nicio toaletă accesibilă scaunelor cu rotile"
 
-#: src/lib/Feature.js:538
+#: src/lib/Feature.js:539
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Lățimea interioară a uşii ≥ 35 inch"
 
-#: src/lib/Feature.js:538
+#: src/lib/Feature.js:539
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Lățimea interioară a uşii ≥ 90 cm"
 
-#: src/lib/Feature.js:539
+#: src/lib/Feature.js:540
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Spațiu liber pe podea ≥ 59 inch lățime"
 
-#: src/lib/Feature.js:539
+#: src/lib/Feature.js:540
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Spațiul liber al podelei ≥ 150 cm lățime"
 
-#: src/lib/Feature.js:540
+#: src/lib/Feature.js:541
 msgid "Wheelchair-height toilet seat"
 msgstr "Înălțimea scaunului de toaletă este adecvată scaunului cu rotile"
 
-#: src/lib/Feature.js:541
+#: src/lib/Feature.js:542
 msgid "Foldable grab rails"
 msgstr "Bare de sprijin rabatabile"
 
-#: src/lib/Feature.js:542
+#: src/lib/Feature.js:543
 msgid "Accessible sink"
 msgstr "Chiuvetă accesibilă"
 
-#: src/lib/Feature.js:549
+#: src/lib/Feature.js:550
 msgid "Unnamed place"
 msgstr "Loc fără nume"
 
-#: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:34
+#: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:33
 msgid "Could not load this place."
 msgstr "Nu s-a putut încărca acest loc."
 
@@ -274,143 +274,18 @@ msgstr "Nu s-a putut încărca acest loc."
 msgid "Error while loading data."
 msgstr "Eroare la încărcarea datelor"
 
-#: src/components/WheelmapHomeLink.js:10
-msgid "Go to ${ appName }"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
+msgid "Welcome"
 msgstr ""
 
-#: src/components/Onboarding/Onboarding.js:62
-#: src/components/WheelmapHomeLink.js:15
-msgid "App Logo"
-msgstr ""
-
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "Toate locurile"
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:145
-msgid "Places"
-msgstr ""
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
-msgid "“Vespucci” in PlayStore"
-msgstr "\"Vespucci\" în PlayStore"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
-msgid "Use the OpenStreetMap web editor"
-msgstr "Utilizează editorul web OpenStreetMap"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
-msgid "“Go Map!!” in App Store"
-msgstr "“Go Map!!” în App Store"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
-msgid "“MAPS.ME” in App Store"
-msgstr "\"MAPS.ME\" în App Store"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
-msgid "“MAPS.ME” in PlayStore"
-msgstr "\"MAPS.ME\" în PlayStore"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
 msgid ""
-"Most places shown here are from <a "
-"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
-"on OSM, they will appear here a bit later."
-msgstr ""
-"Majoritatea locurilor prezentate aici sunt de pe <a "
-"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. Dacă adaugi locuri"
-" pe OSM, acestea vor apărea aici puțin mai târziu."
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
-#: src/components/NodeToolbar/Report/strings.js:26
-msgid "Leave a note on OpenStreetMap"
-msgstr "Lasă o notă pe OpenStreetMap"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
-msgid "Add a place on OpenStreetMap"
-msgstr "Adaugă un loc pe OpenStreetMap"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
-msgid "Image shows another place."
-msgstr "Imaginea arată alt loc."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
-msgid "Outdated"
-msgstr "Învechit"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
-msgid "Offensive or inappropriate"
-msgstr "Ofensator sau inadecvat"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
-msgid "Other problems"
-msgstr "Alte probleme"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
-msgid "This image does not depict this place."
-msgstr "Această imagine nu descrie acest loc."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
-msgid "This image does not show the current state of this place."
-msgstr "Această imagine nu arată starea actuală a acestui loc."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
-msgid ""
-"This image shows sexually explicit content, depicts violence or is "
-"inappropriate in another way."
-msgstr ""
-"Această imagine arată conținut sexual explicit, descrie violență sau este "
-"inadecvată într-un alt mod."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
-msgid "This image infringes on my copyright or has other problems."
-msgstr "Această imagine afectează drepturile de autor sau are alte probleme."
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
-msgid "Reason for reporting image"
-msgstr "Motiv pentru raportarea imaginii"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:126
-msgid "To report"
-msgstr "De raportat"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:128
-msgid "Which problem would you like to report?"
-msgstr "Ce problemă ai vrea să raportezi?"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:155
-msgid "Cancel"
-msgstr "Anulează"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:162
-msgid "Send"
-msgstr "Trimite"
-
-#: src/components/SearchToolbar/SearchToolbar.js:459
-msgid "Clear search"
-msgstr "Şterge Căutarea"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:354
-#: src/components/SearchToolbar/SearchToolbar.js:470
-msgid "Go"
-msgstr "Gata"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
-msgid "Thank you!"
+"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
+"step: Rate and add the accessibility of places."
 msgstr ""
 
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
-msgid "Please give us a moment to verify your contribution."
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
-msgid "Add next place"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
-msgid "Back to map"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
+msgid "Let's go"
 msgstr ""
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
@@ -428,153 +303,6 @@ msgstr ""
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
-msgid "Welcome"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
-msgid ""
-"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
-"step: Rate and add the accessibility of places."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
-msgid "Let's go"
-msgstr ""
-
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "Acasă"
-
-#: src/components/MainMenu/MainMenu.js:234
-msgid "Menu"
-msgstr "Meniu"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
-#: src/components/NodeToolbar/Report/strings.js:28
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:341
-msgid "Back"
-msgstr "Înapoi"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:365
-msgid "Show different characters"
-msgstr "Arată caractere diferite"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
-msgid "Image upload"
-msgstr "Încărcare imagine"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
-msgid "Hi Wheelmap Team, I have an image of the following place:"
-msgstr "Bună Echipa Wheelmap, am o imagine cu următorul loc:"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
-msgid "Loading..."
-msgstr "Se încarcă..."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:420
-msgid "Please enter these characters."
-msgstr "Te rugăm introdu aceste caractere."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:422
-msgid "Then we know that you are human."
-msgstr "Atunci vom ști că ești om."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:424
-msgid ""
-"If you cannot read or enter this, please contribute your image via email!"
-msgstr ""
-"Dacă nu poți să citești sau să introduci asta, te rugăm să contribui cu "
-"imaginea ta prin email!"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:426
-msgid "Thanks! Starting to upload..."
-msgstr "Mulțumesc! Începe încărcarea..."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:428
-msgid ""
-"Server cannot be reached. Please try again later and let us know if the "
-"problem persists!"
-msgstr ""
-"Nu se poate face conexiunea la serverul. Te rugăm încearcă din nou mai "
-"târziu şi anunță-ne dacă problema persistă!"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:430
-msgid ""
-"Sorry, this did not work! Please check if all characters are correct, then "
-"retry."
-msgstr ""
-"Ne pare rău, aceasta nu a funcționat! Te rugăm verifică dacă toate "
-"caracterele sunt corecte, apoi încearcă din nou."
-
-#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
-msgid "Close"
-msgstr "Închide"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
-msgid "The following images…"
-msgstr "Următoarele imagini..."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
-msgid "...give useful information on accessibility."
-msgstr "...oferă informații utile despre accesibilitate."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
-msgid "...were taken by me."
-msgstr "...au fost realizate de mine."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
-msgid "...do not show any identifiable persons."
-msgstr "...nu arăta nicio persoană identificabilă."
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
-msgid ""
-"I hereby publish these images into the public domain and renounce copyright "
-"protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
-"target=\"_blank\">CC0 1.0 Universal license</a>)."
-msgstr ""
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
-msgid "Entrances"
-msgstr "Intrări"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
-msgid "Site map"
-msgstr "Hartă site"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
-msgid "toilets"
-msgstr "toalete"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
-msgid "Continue"
-msgstr "Continuă"
-
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "Ajută prin marcarea locurilor!"
-
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "Ok, să mergem!"
-
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
-msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
-msgstr ""
-
-#: src/components/Onboarding/Onboarding.js:70
-msgid "Start screen"
-msgstr "Ecran de pornire Wheelmap"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
@@ -629,17 +357,352 @@ msgstr ""
 msgid "Leave mapping event"
 msgstr ""
 
-#: src/components/Map/Map.js:1005
+#: src/components/Map/Map.js:1004
 msgid "Zoom in closer to see more places"
 msgstr "Mărește pentru a vedea mai multe locuri"
 
-#: src/components/Map/Map.js:1021
+#: src/components/Map/Map.js:1020
 msgid "Turn on location services"
 msgstr "Pornește serviciile de localizare"
 
-#: src/components/Map/Map.js:1054
+#: src/components/Map/Map.js:1053
 msgid "Map"
 msgstr "Hartă"
+
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr ""
+
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr ""
+
+#: src/lib/goToLocationSettings.js:36
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr ""
+"Pentru a te localiza pe hartă, deschide setările browserului și permite "
+"Wheelmap.org să utilizeze serviciile de localizare."
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "Arată-mi unde sunt"
+
+#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
+msgid "Close"
+msgstr "Închide"
+
+#: src/components/ShareBar/ShareBar.js:86
+msgid "Expand share menu"
+msgstr "Deschide Meniu Partajare"
+
+#: src/components/ShareBar/ShareBar.js:106
+msgid "Collapse share menu"
+msgstr "Închide Meniu Partajare"
+
+#: src/components/Toolbar.js:333
+msgid "Collapse details"
+msgstr ""
+
+#: src/components/Toolbar.js:333
+msgid "Expand details"
+msgstr ""
+
+#: src/components/NodeToolbar/FeatureClusterPanel.js:145
+msgid "Places"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
+msgid "Thank you!"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
+msgid "Please give us a moment to verify your contribution."
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
+msgid "Add next place"
+msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
+msgid "Back to map"
+msgstr ""
+
+#: src/components/WheelmapHomeLink.js:10
+msgid "Go to ${ appName }"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:62
+#: src/components/WheelmapHomeLink.js:15
+msgid "App Logo"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchButton.js:35
+msgid "All places"
+msgstr "Toate locurile"
+
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "Ajută prin marcarea locurilor!"
+
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "Ok, să mergem!"
+
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
+msgstr ""
+
+#: src/components/Onboarding/Onboarding.js:70
+msgid "Start screen"
+msgstr "Ecran de pornire Wheelmap"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+msgid "Image shows another place."
+msgstr "Imaginea arată alt loc."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+msgid "Outdated"
+msgstr "Învechit"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+msgid "Offensive or inappropriate"
+msgstr "Ofensator sau inadecvat"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+msgid "Other problems"
+msgstr "Alte probleme"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+msgid "This image does not depict this place."
+msgstr "Această imagine nu descrie acest loc."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+msgid "This image does not show the current state of this place."
+msgstr "Această imagine nu arată starea actuală a acestui loc."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+msgid ""
+"This image shows sexually explicit content, depicts violence or is "
+"inappropriate in another way."
+msgstr ""
+"Această imagine arată conținut sexual explicit, descrie violență sau este "
+"inadecvată într-un alt mod."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+msgid "This image infringes on my copyright or has other problems."
+msgstr "Această imagine afectează drepturile de autor sau are alte probleme."
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
+msgid "Reason for reporting image"
+msgstr "Motiv pentru raportarea imaginii"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:127
+msgid "To report"
+msgstr "De raportat"
+
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:129
+msgid "Which problem would you like to report?"
+msgstr "Ce problemă ai vrea să raportezi?"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:156
+msgid "Cancel"
+msgstr "Anulează"
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:126
+#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+msgid "Send"
+msgstr "Trimite"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
+msgid "“Vespucci” in PlayStore"
+msgstr "\"Vespucci\" în PlayStore"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
+msgid "Use the OpenStreetMap web editor"
+msgstr "Utilizează editorul web OpenStreetMap"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
+msgid "“Go Map!!” in App Store"
+msgstr "“Go Map!!” în App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
+msgid "“MAPS.ME” in App Store"
+msgstr "\"MAPS.ME\" în App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
+msgid "“MAPS.ME” in PlayStore"
+msgstr "\"MAPS.ME\" în PlayStore"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"on OSM, they will appear here a bit later."
+msgstr ""
+"Majoritatea locurilor prezentate aici sunt de pe <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. Dacă adaugi locuri"
+" pe OSM, acestea vor apărea aici puțin mai târziu."
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
+#: src/components/NodeToolbar/Report/strings.js:26
+msgid "Leave a note on OpenStreetMap"
+msgstr "Lasă o notă pe OpenStreetMap"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
+msgid "Add a place on OpenStreetMap"
+msgstr "Adaugă un loc pe OpenStreetMap"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+msgid "The following images…"
+msgstr "Următoarele imagini..."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
+msgid "...give useful information on accessibility."
+msgstr "...oferă informații utile despre accesibilitate."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
+msgid "...were taken by me."
+msgstr "...au fost realizate de mine."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
+msgid "...do not show any identifiable persons."
+msgstr "...nu arăta nicio persoană identificabilă."
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
+msgid ""
+"I hereby publish these images into the public domain and renounce copyright "
+"protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
+"target=\"_blank\">CC0 1.0 Universal license</a>)."
+msgstr ""
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+msgid "Entrances"
+msgstr "Intrări"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+msgid "Site map"
+msgstr "Hartă site"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
+msgid "toilets"
+msgstr "toalete"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
+msgid "Continue"
+msgstr "Continuă"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
+#: src/components/NodeToolbar/Report/strings.js:28
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:341
+msgid "Back"
+msgstr "Înapoi"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:354
+#: src/components/SearchToolbar/SearchToolbar.js:470
+msgid "Go"
+msgstr "Gata"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:365
+msgid "Show different characters"
+msgstr "Arată caractere diferite"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Image upload"
+msgstr "Încărcare imagine"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+msgid "Hi Wheelmap Team, I have an image of the following place:"
+msgstr "Bună Echipa Wheelmap, am o imagine cu următorul loc:"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+msgid "Loading..."
+msgstr "Se încarcă..."
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:420
+msgid "Please enter these characters."
+msgstr "Te rugăm introdu aceste caractere."
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:422
+msgid "Then we know that you are human."
+msgstr "Atunci vom ști că ești om."
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:424
+msgid ""
+"If you cannot read or enter this, please contribute your image via email!"
+msgstr ""
+"Dacă nu poți să citești sau să introduci asta, te rugăm să contribui cu "
+"imaginea ta prin email!"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:426
+msgid "Thanks! Starting to upload..."
+msgstr "Mulțumesc! Începe încărcarea..."
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:428
+msgid ""
+"Server cannot be reached. Please try again later and let us know if the "
+"problem persists!"
+msgstr ""
+"Nu se poate face conexiunea la serverul. Te rugăm încearcă din nou mai "
+"târziu şi anunță-ne dacă problema persistă!"
+
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:430
+msgid ""
+"Sorry, this did not work! Please check if all characters are correct, then "
+"retry."
+msgstr ""
+"Ne pare rău, aceasta nu a funcționat! Te rugăm verifică dacă toate "
+"caracterele sunt corecte, apoi încearcă din nou."
+
+#: src/components/SearchToolbar/SearchToolbar.js:459
+msgid "Clear search"
+msgstr "Şterge Căutarea"
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "Acasă"
+
+#: src/components/MainMenu/MainMenu.js:234
+msgid "Menu"
+msgstr "Meniu"
+
+#: src/components/SearchToolbar/SearchResults.js:31
+msgid "No results found"
+msgstr "Nu s-a găsit niciun rezultat"
+
+#: src/components/SearchToolbar/SearchResults.js:34
+msgid "No results available. Please try again later!"
+msgstr "Niciun rezultat disponibil! Te rugăm încearcă din nou mai târziu!"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
@@ -665,72 +728,14 @@ msgstr "Doar locuri care nu sunt accesibile"
 msgid "Wheelchair accessibility filter"
 msgstr "Filtru Accesibilitate scaun cu rotile"
 
-#: src/components/SearchToolbar/SearchResults.js:31
-msgid "No results found"
-msgstr "Nu s-a găsit niciun rezultat"
-
-#: src/components/SearchToolbar/SearchResults.js:34
-msgid "No results available. Please try again later!"
-msgstr "Niciun rezultat disponibil! Te rugăm încearcă din nou mai târziu!"
-
 #: src/components/SearchToolbar/SearchInputField.js:65
 msgid "Search for place or address"
 msgstr "Caută loc sau adresă"
 
-#: src/components/Toolbar.js:332
-msgid "Collapse details"
-msgstr ""
-
-#: src/components/Toolbar.js:332
-msgid "Expand details"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr ""
-
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
-msgstr ""
-
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
-#: src/components/NodeToolbar/NodeToolbar.js:266
+#: src/components/NodeToolbar/NodeToolbar.js:272
 msgid "How wheelchair accessible is this place?"
 msgstr "Cât de accesibil este acest loc pentru scaunele cu rotile?"
-
-#: src/components/Map/MappingEventMarkerIcon.js:34
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
-
-#: src/lib/goToLocationSettings.js:44
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr ""
-"Pentru a te localiza pe hartă, deschide setările browserului și permite "
-"Wheelmap.org să utilizeze serviciile de localizare."
-
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "Arată-mi unde sunt"
-
-#: src/components/SearchToolbar/AccessibilityFilterButton.js:54
-msgid "Remove ${ caption } Filter"
-msgstr "Elimină ${ caption } Filtru"
 
 #: src/components/SearchToolbar/SearchResult.js:122
 msgid "Unnamed"
@@ -740,18 +745,13 @@ msgstr "Fără nume"
 msgid "Remove ${ props.name } Filter"
 msgstr "Elimină ${ props.name } Filtru"
 
-#: src/components/ShareBar/ShareBar.js:87
-msgid "Expand share menu"
-msgstr "Deschide Meniu Partajare"
+#: src/components/SearchToolbar/AccessibilityFilterButton.js:54
+msgid "Remove ${ caption } Filter"
+msgstr "Elimină ${ caption } Filtru"
 
-#: src/components/ShareBar/ShareBar.js:114
-msgid "Collapse share menu"
-msgstr "Închide Meniu Partajare"
-
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
-msgid "Wheelchair accessibility"
-msgstr "Accesibilitate scaun cu rotile"
+#: src/components/NodeToolbar/SourceList.js:33
+msgid "Source:"
+msgstr "Sursa:"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 msgid "Is the toilet here wheelchair accessible?"
@@ -766,6 +766,11 @@ msgstr "Da"
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
 msgid "No"
 msgstr "Nu"
+
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+msgid "Wheelchair accessibility"
+msgstr "Accesibilitate scaun cu rotile"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
 msgid "Disruptions at this location"
@@ -795,35 +800,58 @@ msgstr "Anterior (tasta săgeată stânga)"
 msgid "Close (Esc)"
 msgstr "Închide (Esc)"
 
-#: src/components/NodeToolbar/SourceList.js:33
-msgid "Source:"
-msgstr "Sursa:"
-
-#: src/components/NodeToolbar/Report/ReportDialog.js:37
+#: src/components/NodeToolbar/Report/ReportDialog.js:47
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr "Locul este marcat ca '${ accesibilityDescription }', dar este greşit!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:46
+#: src/components/NodeToolbar/Report/ReportDialog.js:56
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "Statutul toaletei din acest loc este greşit sau lipseşte."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:53
+#: src/components/NodeToolbar/Report/ReportDialog.js:63
+#: src/components/NodeToolbar/Report/SendReportToAc.js:37
 msgid "I have more information about this place."
 msgstr "Am mai multe informații despre acest loc."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:59
+#: src/components/NodeToolbar/Report/ReportDialog.js:69
+#: src/components/NodeToolbar/Report/SendReportToAc.js:45
 msgid "The place does not exist."
 msgstr "Locul nu există."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:65
+#: src/components/NodeToolbar/Report/ReportDialog.js:75
+#: src/components/NodeToolbar/Report/SendReportToAc.js:41
 msgid "The place is at the wrong location."
 msgstr "Locul este în poziția greşită."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:71
+#: src/components/NodeToolbar/Report/ReportDialog.js:81
+#: src/components/NodeToolbar/Report/ReportDialog.js:126
 msgid "The problem isn’t listed here…"
 msgstr "Problema mea nu este listată aici..."
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:103
+msgid ""
+"Information about this place has kindly been provided by another "
+"organization, it is a part of ${ sourceName }."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:110
+msgid "Fix on external page."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
+msgid "Confirm"
+msgstr "Confirmă"
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
+msgid "Change"
+msgstr "Modifică"
+
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:93
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr ""
+"Ne pare rău, acest loc nu a putut fi marcat din cauza unei erori: ${ e }"
 
 #: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
 msgid "Call ${ phoneNumber }"
@@ -878,40 +906,6 @@ msgstr ""
 msgid "Report a problem"
 msgstr "Raportează o problemă"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
-msgid "Confirm"
-msgstr "Confirmă"
-
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
-msgid "Change"
-msgstr "Modifică"
-
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:95
-msgid "Sorry, this place could not be marked because of an error: ${ e }"
-msgstr ""
-"Ne pare rău, acest loc nu a putut fi marcat din cauza unei erori: ${ e }"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
-msgid "Mark wheelchair accessibility of WC"
-msgstr "Adaugă statut toaletă"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
-msgid "Searching accessible toilet"
-msgstr ""
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
-msgid "Show next wheelchair accessible toilet"
-msgstr ""
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "Îmbunătățeşte-ți karma!"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:30
-msgid "Add images"
-msgstr "Adaugă imagini"
-
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:52
 msgid "Upload in progress..."
 msgstr "Încărcare în desfășurare..."
@@ -932,6 +926,27 @@ msgid ""
 " it."
 msgstr ""
 "Mulțumim pentru contribuție. Imaginea ta va fi vizibilă după ce o verificăm."
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:21
+msgid "Your good deed of the day!"
+msgstr "Îmbunătățeşte-ți karma!"
+
+#: src/components/PhotoUpload/PhotoUploadButton.js:27
+#: src/components/PhotoUpload/PhotoUploadButton.js:30
+msgid "Add images"
+msgstr "Adaugă imagini"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+msgid "Mark wheelchair accessibility of WC"
+msgstr "Adaugă statut toaletă"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
+msgid "Searching accessible toilet"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
+msgid "Show next wheelchair accessible toilet"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -980,18 +995,10 @@ msgid "Edit this place on OpenStreetMap"
 msgstr "Editează acest loc pe OpenStreetMap"
 
 #: src/components/NodeToolbar/Report/strings.js:30
-msgid ""
-"Information about this place has kindly been provided by another "
-"organization."
-msgstr ""
-"Informațiile despre acest loc au fost oferite cu amabilitate de altă "
-"organizație"
-
-#: src/components/NodeToolbar/Report/strings.js:32
 msgid "Click the link below for details about the place and for editing."
 msgstr "Utilizează linkul de mai jos pentru detalii despre loc şi editare."
 
-#: src/components/NodeToolbar/Report/strings.js:34
+#: src/components/NodeToolbar/Report/strings.js:32
 msgid ""
 "(Note that it can take some time after editing until the place is updated on"
 " Wheelmap.)"
@@ -999,18 +1006,18 @@ msgstr ""
 "(Reține că poate dura un timp până când locul este actualizat pe Wheelmap "
 "după editare.)"
 
-#: src/components/NodeToolbar/Report/strings.js:36
+#: src/components/NodeToolbar/Report/strings.js:34
 msgid "Contact the Wheelmap support team"
 msgstr "Contactează echipa suport Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:38
+#: src/components/NodeToolbar/Report/strings.js:36
 msgid ""
 "Sorry about that! Just drop us a line so we can help you to fix the problem."
 msgstr ""
 "Ne pare rău pentru asta! Scrie-ne un rând ca să putem să te ajutăm să "
 "remediezi problema."
 
-#: src/components/NodeToolbar/Report/strings.js:41
+#: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
 "(Please only write in English or German.)\n"
 "\n"
@@ -1025,17 +1032,47 @@ msgid ""
 "${ navigator.userAgent }"
 msgstr ""
 
-#: src/components/NodeToolbar/Report/strings.js:47
+#: src/components/NodeToolbar/Report/strings.js:43
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Problemă cu ${ placeName } pe Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:49
+#: src/components/NodeToolbar/Report/strings.js:45
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Problemă cu o ${ categoryName } pe Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:51
+#: src/components/NodeToolbar/Report/strings.js:47
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Problemă cu locul pe Wheelmap"
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:39
+msgid "The accessibility of the place is marked incorrectly."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:43
+msgid "The place is permanently closed."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:127
+msgid ""
+"Thank you! The place was reported successfully. We will take a look at your "
+"report as soon as possible."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:128
+msgid "Something went wrong reporting the place. Please try again later."
+msgstr ""
+
+#: src/components/NodeToolbar/Report/SendReportToAc.js:141
+msgid "Feel free to add some additional information…"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
+msgid "View this place on ${ name }"
+msgstr ""
+
+#: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
+msgid "Edit this place on ${ name }"
+msgstr ""
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
