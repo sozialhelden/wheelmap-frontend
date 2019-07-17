@@ -183,6 +183,10 @@ const Version = styled.div`
   position: absolute;
   right: 5px;
   bottom: 5px;
+  margin-right: constant(safe-area-inset-right);
+  margin-right: env(safe-area-inset-right);
+  margin-bottom: constant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
   font-size: 12px;
   color: white;
   opacity: 0.5;
