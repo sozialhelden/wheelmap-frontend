@@ -37,6 +37,14 @@ function UnstyledIconButtonList(props: Props) {
 }
 
 const IconButtonList = styled(UnstyledIconButtonList)`
+  .link-button,
+  .expand-button {
+    svg {
+      margin-left: 0.3rem;
+      margin-right: 0.7rem;
+    }
+  }
+
   .link-button {
     display: flex;
     flex-direction: row;
@@ -45,7 +53,6 @@ const IconButtonList = styled(UnstyledIconButtonList)`
     svg {
       width: 1.5rem;
       height: 1.5rem;
-      margin-right: 1rem;
 
       g,
       rect,
@@ -54,6 +61,7 @@ const IconButtonList = styled(UnstyledIconButtonList)`
         fill: ${colors.tonedDownSelectedColor};
       }
     }
+
     &:not(:hover) {
       color: ${colors.textColorTonedDown};
     }

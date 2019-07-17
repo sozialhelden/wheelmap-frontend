@@ -15,6 +15,8 @@ import { placeNameFor } from '../../../lib/Feature';
 import openButtonCaption from '../../../lib/openButtonCaption';
 import type { Category } from '../../../lib/Categories';
 import PlaceIcon from '../../icons/actions/Place';
+import RouteIcon from '../../icons/actions/Route';
+
 import { type UAResult } from '../../../lib/userAgent';
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): ?string {
@@ -54,7 +56,7 @@ export default class PlaceAddress extends React.Component<Props, void> {
       <React.Fragment>
         {openInMaps && (
           <a className="link-button" href={openInMaps.url}>
-            <PlaceIcon />
+            <RouteIcon />
             <span>{addressString || openInMaps.caption}</span>
           </a>
         )}

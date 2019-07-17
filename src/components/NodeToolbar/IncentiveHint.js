@@ -28,12 +28,11 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
   border-radius: 0.25em;
   text-align: center;
   font-size: 90%;
-  font-weight: 300;
+  font-weight: 500;
   color: white;
   opacity: 0;
   background: ${color};
   animation: slideIn 1.5s 1s ease-out forwards;
-  text-shadow: 0 0px 1px rgba(0, 0, 0, 0.5);
 
   &:before {
     content: '';
