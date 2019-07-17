@@ -1,7 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Toolbar from '../Toolbar';
 import { ChromelessButton } from '../Button';
 import colors from '../../lib/colors';
+
+const safeAreaBottomPadding = css`
+  padding-bottom: 0px;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+`;
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
@@ -16,9 +22,7 @@ const StyledToolbar = styled(Toolbar)`
   max-height: calc(100% - ${props => (props.inEmbedMode ? 70 : 120)}px - env(safe-area-inset-top));
   padding-top: 0;
 
-  padding-bottom: 0px;
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
+  ${props => (props.isModal ? '' : safeAreaBottomPadding)}
 
   @media (max-width: 512px), (max-height: 512px) {
     top: ${props => (props.inEmbedMode ? 0 : 50)}px;
@@ -55,7 +59,6 @@ const StyledToolbar = styled(Toolbar)`
     svg {
       width: 1.5rem;
       height: 1.5rem;
-      margin-right: 1rem;
       fill: #89939e;
     }
   }

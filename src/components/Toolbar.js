@@ -9,6 +9,8 @@ import Swipeable from 'react-swipeable';
 import * as React from 'react';
 import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
+import * as safeAreaInsets from 'safe-area-insets';
+import Measure from 'react-measure';
 
 type Props = {
   className?: string,
@@ -27,6 +29,10 @@ type Props = {
 };
 
 type State = {
+  dimensions?: {
+    width: number,
+    height: number,
+  },
   topOffset: number,
   lastTopOffset: number,
   scrollTop: number,
@@ -88,23 +94,23 @@ class Toolbar extends React.Component<Props, State> {
   componentDidMount() {
     this.onResize(this.props.startTopOffset);
     if (this.props.isModal) this.ensureFullVisibility();
-    this.startTopOffsetTimeoutId = setTimeout(() => {
+    this.startTopOffsetTimeoutId = window.setTimeout(() => {
       this.startTopOffsetTimeoutId = undefined;
       this.onResize(this.props.startTopOffset);
-    }, 150);
+    }, 120);
   }
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onWindowResize);
-    }
-    if (this.ensureVisibilityTimeoutId) {
-      clearTimeout(this.ensureVisibilityTimeoutId);
-      this.ensureVisibilityTimeoutId = undefined;
-    }
-    if (this.startTopOffsetTimeoutId) {
-      clearTimeout(this.startTopOffsetTimeoutId);
-      this.startTopOffsetTimeoutId = undefined;
+      if (this.ensureVisibilityTimeoutId) {
+        window.clearTimeout(this.ensureVisibilityTimeoutId);
+        this.ensureVisibilityTimeoutId = undefined;
+      }
+      if (this.startTopOffsetTimeoutId) {
+        window.clearTimeout(this.startTopOffsetTimeoutId);
+        this.startTopOffsetTimeoutId = undefined;
+      }
     }
   }
 
@@ -116,8 +122,11 @@ class Toolbar extends React.Component<Props, State> {
 
   /** Moves the toolbar to show as much of its content as possible. */
   ensureFullVisibility() {
-    if (!this._ensureVisibilityTimeoutId) {
-      this.ensureVisibilityTimeoutId = setTimeout(() => {
+    if (typeof window !== 'undefined') {
+      if (this.ensureVisibilityTimeoutId) {
+        window.clearTimeout(this.ensureVisibilityTimeoutId);
+      }
+      this.ensureVisibilityTimeoutId = window.setTimeout(() => {
         this.ensureVisibilityTimeoutId = undefined;
         this.setState({ topOffset: 0 });
         this.onResize();
@@ -210,16 +219,8 @@ class Toolbar extends React.Component<Props, State> {
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
   getTopmostPosition(): number {
-    let toolbarHeight = 0;
-    if (this.scrollElement) {
-      const style = window.getComputedStyle(this.scrollElement);
-      toolbarHeight =
-        parseFloat(style.marginTop) +
-        parseFloat(style.marginBottom) +
-        parseFloat(style.paddingBottom) +
-        (this.scrollElement ? this.scrollElement.scrollHeight : 0);
-    }
-    return Math.max(60, this.state.viewportSize.height - toolbarHeight - 60);
+    let toolbarHeight = this.state.dimensions ? this.state.dimensions.height : 0;
+    return Math.max(60, this.state.viewportSize.height - toolbarHeight - 100);
   }
 
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
@@ -232,7 +233,9 @@ class Toolbar extends React.Component<Props, State> {
     const stops = uniq([
       topmostPosition,
       Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)),
-      this.state.viewportSize.height - (this.props.minimalHeight || 0),
+      this.state.viewportSize.height -
+        (this.props.minimalHeight || 70) -
+        (typeof window !== 'undefined' ? safeAreaInsets.bottom : 0),
     ]);
     return stops;
   }
@@ -310,44 +313,61 @@ class Toolbar extends React.Component<Props, State> {
     const className = classNames.filter(Boolean).join(' ');
 
     return (
-      <Swipeable
-        onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
-        onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
+      <Measure
+        bounds
+        onResize={contentRect => {
+          this.setState({ dimensions: contentRect.bounds });
+        }}
       >
-        <section
-          className={className}
-          style={this.getStyle()}
-          ref={nav => {
-            this.scrollElement = nav;
-          }}
-          aria-hidden={this.props.inert || this.props.hidden}
-          role={this.props.role}
-          aria-label={this.props.ariaLabel}
-          aria-describedby={this.props.ariaDescribedBy}
-          data-last-top-offset={this.state.lastTopOffset}
-          onTouchMove={this.cancelTouchIfMoving}
-        >
-          {this.props.isSwipeable && !this.props.isModal ? (
-            <button
-              className="grab-handle"
-              aria-label={this.isFullyExpanded() ? t`Collapse details` : t`Expand details`}
-              onClick={() => {
-                if (this.isFullyExpanded()) {
-                  const stops = this.getStops();
-                  const offset = stops[stops.length - 1];
-
-                  // reset scroll position
-                  this.scrollElement.scrollTop = 0;
-                  this.setState({ lastTopOffset: offset, topOffset: offset });
-                } else {
-                  this.ensureFullVisibility();
-                }
+        {({ measureRef }) => (
+          <Swipeable
+            onSwiping={(e, deltaX, deltaY) => this.onSwiping(e, deltaX, deltaY)}
+            onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
+          >
+            <section
+              className={className}
+              style={this.getStyle()}
+              ref={nav => {
+                this.scrollElement = nav;
+                measureRef(nav);
               }}
-            />
-          ) : null}
-          {this.props.children}
-        </section>
-      </Swipeable>
+              aria-hidden={this.props.inert || this.props.hidden}
+              role={this.props.role}
+              aria-label={this.props.ariaLabel}
+              aria-describedby={this.props.ariaDescribedBy}
+              data-last-top-offset={this.state.lastTopOffset}
+              data-dimensions-viewport-height={
+                this.state.viewportSize && this.state.viewportSize.height
+              }
+              data-dimensions-height={this.state.dimensions && this.state.dimensions.height}
+              data-stops={this.getStops().toString()}
+              onTouchMove={this.cancelTouchIfMoving}
+            >
+              {this.props.isSwipeable && !this.props.isModal ? (
+                <button
+                  className="grab-handle"
+                  aria-label={this.isFullyExpanded() ? t`Collapse details` : t`Expand details`}
+                  onClick={() => {
+                    if (this.isFullyExpanded()) {
+                      const stops = this.getStops();
+                      const offset = stops[stops.length - 1];
+
+                      // reset scroll position
+                      if (this.scrollElement) {
+                        this.scrollElement.scrollTop = 0;
+                      }
+                      this.setState({ lastTopOffset: offset, topOffset: offset });
+                    } else {
+                      this.ensureFullVisibility();
+                    }
+                  }}
+                />
+              ) : null}
+              {this.props.children}
+            </section>
+          </Swipeable>
+        )}
+      </Measure>
     );
   }
 }
@@ -396,7 +416,7 @@ const StyledToolbar = styled(Toolbar)`
   padding: 12px 15px 5px 15px;
   outline: none;
 
-  border-radius: 5px;
+  border-radius: 9px;
   font-size: 16px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
   background-color: ${colors.colorizedBackgroundColor};
@@ -420,8 +440,6 @@ const StyledToolbar = styled(Toolbar)`
     margin: 10px 0 0 0;
 
     border-top: ${colors.colorizedBackgroundColor} 8px solid;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
 
     .grab-handle {
       display: block;

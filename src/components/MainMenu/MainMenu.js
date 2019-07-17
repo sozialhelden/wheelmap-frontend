@@ -456,8 +456,10 @@ const StyledMainMenu = styled(MainMenu)`
       display: none;
     }
 
-    .home-button {
-      padding-left: 1em;
+    .home-link {
+      /* margin-left: 1em; */
+      margin-left: constant(safe-area-inset-left);
+      margin-left: env(safe-area-inset-left);
     }
 
     .nav-link {
