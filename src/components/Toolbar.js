@@ -44,10 +44,13 @@ type State = {
 };
 
 /**
- * A toolbar that shows as a card that you can swipe up and down on small viewports, and that has
- * a fixed position on bigger viewports.
+ * A toolbar that shows as a card that you can swipe up and down on small viewports,
+ * and that has a fixed position on bigger viewports.
  *
  * Automatically becomes scrollable when fully visible.
+ *
+ * When dragged with a swipe gesture, it transitions smoothly between expanding/collapsing
+ * and scrolling its content.
  *
  * Can be modal and is not swipeable then.
  */
@@ -227,16 +230,28 @@ class Toolbar extends React.Component<Props, State> {
 
   getStops(): number[] {
     const topmostPosition = this.getTopmostPosition();
+
+    // On landscape phones, the toolbar is fixed on the left side.
     if (this.isLandscapePhone()) {
       return [topmostPosition];
     }
-    const stops = uniq([
+
+    // iPhone X and other phones have an area that reacts to user gestures and that
+    // we can't use inside the app.
+    const safeBottomAreaInset = typeof window !== 'undefined' ? safeAreaInsets.bottom : 0;
+
+    // The toolbar needs a minimal height be draggable from the bottom when minimized
+    const minimalHeight = Math.max(this.props.minimalHeight || 0, 90) + safeBottomAreaInset;
+
+    const middlePosition = Math.max(
       topmostPosition,
-      Math.max(topmostPosition, Math.floor(this.state.viewportSize.height / 2)),
-      this.state.viewportSize.height -
-        (this.props.minimalHeight || 70) -
-        (typeof window !== 'undefined' ? safeAreaInsets.bottom : 0),
-    ]);
+      Math.floor(this.state.viewportSize.height / 2)
+    );
+    const bottomPosition = this.state.viewportSize.height - minimalHeight;
+
+    // Define 3 default stop positions
+    const stops = uniq([topmostPosition, middlePosition, bottomPosition]);
+
     return stops;
   }
 
