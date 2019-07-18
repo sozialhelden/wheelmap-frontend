@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Launch localhost",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/",
+      "webRoot": "${workspaceFolder}",
+      "showAsyncStacks": true
+    },
+    {
       "type": "node",
       "request": "attach",
       "name": "Attach",
@@ -12,3 +20,4 @@
     }
   ]
 }
+
