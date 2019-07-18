@@ -81,7 +81,12 @@ export type RootCategoryEntry = {
   filter?: (properties: ?NodeProperties) => boolean,
 };
 
-const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
+// This must be a function - Results from t`` are dependent on the current context.
+// If t`` is called at root level of a module, it doesn't know the translations yet
+// as they are loaded later, at runtime.
+// Using it inside a function while rendering ensures the runtime-loaded translations
+// are correctly returned.
+const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
   shopping: {
     // translator: Root category
     name: t`Shopping`,
@@ -139,19 +144,19 @@ const rootCategoryTable: { [key: string]: RootCategoryEntry } = {
       return hasAccessibleToilet(properties, true) === 'yes';
     },
   },
-};
+});
 
 export default class Categories {
   static getRootCategories() {
-    return rootCategoryTable;
+    return getRootCategoryTable();
   }
 
   static getRootCategory(key: string) {
-    return rootCategoryTable[key];
+    return getRootCategoryTable()[key];
   }
 
   static translatedRootCategoryName(key: string) {
-    return rootCategoryTable[key].name;
+    return getRootCategoryTable()[key].name;
   }
 
   static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
