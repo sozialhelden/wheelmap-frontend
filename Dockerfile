@@ -36,8 +36,7 @@ RUN npm set progress=false && npm config set depth 0
 # install ALL node_modules, including 'devDependencies'
 RUN npm install
 COPY . .
-RUN npm run build
-RUN npm prune --production
+RUN npm run build && npm prune --production
 
 #
 # ---- Test ----
