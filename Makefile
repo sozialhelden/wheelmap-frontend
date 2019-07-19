@@ -13,7 +13,9 @@ build:
 
 push: build
 	docker tag wheelmap-react-frontend sozialhelden/wheelmap-react-frontend:${npm_package_version}
+	docker tag wheelmap-react-frontend sozialhelden/wheelmap-react-frontend:latest
 	docker push sozialhelden/wheelmap-react-frontend:${npm_package_version}
+	docker push sozialhelden/wheelmap-react-frontend:latest
 
 deploy: push
 	kubectl apply -f k8s
