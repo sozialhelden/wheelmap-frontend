@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN npm set progress=false && npm config set depth 0
 RUN npm install
 COPY . .
-RUN npm run build && npm prune --production && rm -rf ./node_modules/.cache
+RUN npm run build && npm prune --production && rm -rf ./node_modules/.cache && touch .env
 
 # run linters, setup and tests
 # FROM buildenv AS test
@@ -49,6 +49,8 @@ RUN npm run build && npm prune --production && rm -rf ./node_modules/.cache
 FROM base AS release
 
 COPY --from=buildenv /usr/app/package.json .
+COPY --from=buildenv /usr/app/.env .
+COPY --from=buildenv /usr/app/.env.example .
 COPY --from=buildenv /usr/app/src ./src
 COPY --from=buildenv /usr/app/node_modules ./node_modules
 
