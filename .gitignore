@@ -25,6 +25,7 @@ Desktop.ini
 
 # Misc
 .env*
+!.env.example
 npm-debug.log*
 
 # This contains source translations for transifex.
