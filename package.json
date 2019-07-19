@@ -122,7 +122,7 @@
   },
   "scripts": {
     "dev": "nodemon --icu-data-dir=node_modules/full-icu --inspect --watch src/server/server.js --watch src/app/router.js src/server/server.js",
-    "start": "NODE_ENV=production node --icu-data-dir=node_modules/full-icu src/server/server.js",
+    "start": "pwd; env; cat .env; node --icu-data-dir=node_modules/full-icu src/server/server.js",
     "build": "rm -rf src/.next/* && next build src/",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
