@@ -13,7 +13,9 @@ export default class EquipmentInfoCache extends FeatureCache<
     id: string | number,
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
-    const url = `${env.public.accessibilityCloud.baseUrl.cached}/equipment-infos/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+    const url = `${baseUrl}/equipment-infos/${id}.json?appToken=${appToken}`;
     return this.fetch(url);
   }
 

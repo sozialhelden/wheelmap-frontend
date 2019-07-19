@@ -8,10 +8,10 @@ import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import env from '../../lib/env';
 import Icon from '../Icon';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { ChromelessButton, CallToActionButton } from '../Button';
+import env from '../../lib/env';
 
 type Props = {
   className?: string,
@@ -173,7 +173,7 @@ class Onboarding extends React.Component<Props, null> {
           <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
         </footer>
 
-        <Version>{env.public.version}</Version>
+        <Version>{env.npm_package_version}</Version>
       </ModalDialog>
     );
   }

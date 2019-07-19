@@ -9,7 +9,7 @@ import BaseApp, { Container } from 'next/app';
 import Head from 'next/head';
 import { t } from 'ttag';
 import get from 'lodash/get';
-
+// import apm from '../lib/apm';
 import AsyncNextHead from '../AsyncNextHead';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
@@ -38,7 +38,6 @@ import {
   type AppProps,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import env from '../lib/env';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
@@ -91,6 +90,7 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
+      // const getInitialAppPropsSpan = apm.startSpan('Getting app props');
       const appPropsPromise = getInitialAppProps({
         userAgentString,
         hostName,
@@ -99,11 +99,14 @@ export default class App extends BaseApp {
       });
 
       if (ctx.query.routeName) {
+        // const getInitialRoutePropsSpan = apm.startSpan('Getting route props');
         const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
         routeProps = await routePropsPromise;
+        // getInitialRoutePropsSpan.end();
         routeProps = { ...routeProps };
       }
       appProps = await appPropsPromise;
+      // getInitialAppPropsSpan.end();
 
       if (isServer) {
         ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant, Content-Language' });

@@ -1,9 +1,11 @@
-import env from './env';
-import fetch from './fetch';
+// @flow
 
-export default function getAppConfiguration(hostName) {
-  const baseUrl = env.public.accessibilityCloud.baseUrl.cached;
-  const token = env.public.accessibilityCloud.appToken;
+import fetch from './fetch';
+import env from './env';
+
+export default function getAppConfiguration(hostName: string) {
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const token = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
   const url = `${baseUrl}/apps/${hostName}.json?appToken=${token}`;
   console.log(hostName);
   return fetch(url).then(r => r.json());

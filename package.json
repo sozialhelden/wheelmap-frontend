@@ -7,7 +7,9 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
+    "@elastic/apm-rum": "^4.3.0",
     "acorn-dynamic-import": "^4.0.0",
+    "async_hooks": "^1.0.0",
     "browser-image-resizer": "^1.2.0",
     "caniuse-lite": "^1.0.30000976",
     "cheerio": "^0.22.0",
@@ -18,6 +20,7 @@
     "d3-interpolate": "^1.1.5",
     "d3-scale": "^1.0.6",
     "ejson": "^2.1.2",
+    "elastic-apm-node": "^2.12.1",
     "elementtree": "^0.1.7",
     "es6-set": "^0.1.5",
     "es6-symbol": "^3.1.1",
@@ -26,6 +29,7 @@
     "express": "^4.17.1",
     "express-cache-headers": "^0.1.4",
     "fast-levenshtein": "^2.0.6",
+    "fibers": "^4.0.1",
     "focus-trap-react": "^6.0.0",
     "focus-visible": "^5.0.1",
     "focus-within": "^2.0.0",
@@ -120,12 +124,8 @@
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
     "promise": "8.0.1",
-    "react-dev-utils": "^4.0.1",
     "rimraf": "^2.6.3",
-    "url-loader": "^1.1.2",
-    "wdio": "^3.0.3",
-    "wdio-mocha-framework": "^0.6.2",
-    "webdriverio": "^4.13.1"
+    "url-loader": "^1.1.2"
   },
   "scripts": {
     "dev": "nodemon --icu-data-dir=node_modules/full-icu --inspect --watch src/server/server.js --watch src/app/router.js src/server/server.js",
@@ -133,11 +133,10 @@
     "build": "rm -rf src/.next/* && next build src/",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
-    "test-browserstack-ios": "dotenv -e .env.production bundle exec fastlane ios screenshots",
-    "test-browserstack-android": "dotenv -e .env.production bundle exec fastlane android screenshots",
     "deploy-classic-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "deploy-classic-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",
     "deploy-web": "npm version minor && export DEPLOY_TAG=\"deploy-`date \"+%Y-%m-%d_%H-%M-%S\"`\" && git tag $DEPLOY_TAG && git push origin $DEPLOY_TAG && npx now deploy",
+    "push-to-registry": "npm version minor && export DEPLOY_TAG=\"deploy-`date \"+%Y-%m-%d_%H-%M-%S\"`\" && git tag $DEPLOY_TAG && git push origin $DEPLOY_TAG && make push",
     "version": "echo TODO: Add version syncing to bundle configurations for native apps + git commit -am 'Version bump' to package.json",
     "flow": "flow",
     "server": "server",
@@ -216,5 +215,8 @@
       "jsx",
       "node"
     ]
+  },
+  "engines": {
+    "node": "10.x"
   }
 }

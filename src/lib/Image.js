@@ -1,5 +1,4 @@
 // @flow
-
 import env from './env';
 
 export type ImageContext = 'place' | 'event' | 'app' | 'organization';
@@ -23,7 +22,7 @@ export interface IImage {
 }
 
 export function buildFullImageUrl(image: IImage) {
-  const bucketName = env.public.aws.s3.bucket;
+  const bucketName = env.AWS_S3_BUCKET_NAME || '';
 
   return `https://${bucketName}.s3.amazonaws.com/${image.remotePath}`;
 }

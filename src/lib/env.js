@@ -1,9 +1,13 @@
-const nodeEnv = process.env.NODE_ENV || 'development';
-const publicEnv = require(`../../env/${nodeEnv}.public`);
-let privateEnv = {};
+let env = (typeof window !== 'undefined' && window.env) || {};
+
 if (typeof window === 'undefined') {
-  privateEnv = require(`../../env/${nodeEnv}`);
+  const dotenvConfig = require('dotenv').config();
+  if (dotenvConfig.error) {
+    throw dotenvConfig.error;
+  }
+  console.log(dotenvConfig.parsed);
+
+  Object.assign(env, dotenvConfig.parsed, process.env);
 }
 
-const env = { ...privateEnv, public: publicEnv };
 module.exports = env;

@@ -1,16 +1,16 @@
 // @flow
 
 import URLDataCache from './URLDataCache';
-import env from '../env';
 import type { MappingEvents, MappingEvent } from '../MappingEvent';
 import { type App } from '../App';
+import env from '../env';
 
 type MappingEventsData = {
   results: MappingEvents,
 };
 
 export default class MappingEventsCache extends URLDataCache<MappingEventsData> {
-  baseUrl = env.public.accessibilityCloud.baseUrl.cached;
+  baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
 
   async getMappingEvents(app: App): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;

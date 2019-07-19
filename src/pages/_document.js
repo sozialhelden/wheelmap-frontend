@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript, type NextDocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-
 import env from '../lib/env';
 
 export default class MyDocument extends Document {
@@ -41,17 +40,18 @@ export default class MyDocument extends Document {
                 https://www.googletagmanager.com
                 https://ssl.gstatic.com
                 https://photon.komoot.de
-                ${env.public.wheelmap.baseUrl}
-                ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.accessibilityCloud.baseUrl.uncached}
-                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
-                ${env.public.allowAdditionalDataUrls || ''};
-              style-src 
-                'self' 
+                https://sozialhelden.matomo.cloud
+                ${env.REACT_APP_WHEELMAP_API_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
+              style-src
+                'self'
                 'unsafe-inline';
-              frame-src 
+              frame-src
                 'self';
-              media-src 
+              media-src
                 'self';
               img-src
                 'self'
@@ -65,9 +65,10 @@ export default class MyDocument extends Document {
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
-                ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
-                ${env.public.allowAdditionalImageUrls || ''};
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
             `}
           />
 
@@ -85,6 +86,7 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
+          <script src="/clientEnv.js"></script>
         </Head>
         <body>
           <Main />

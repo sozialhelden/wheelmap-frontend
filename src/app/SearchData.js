@@ -10,9 +10,9 @@ import searchPlaces, {
 } from '../lib/searchPlaces';
 import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import env from '../lib/env';
 import { type WheelmapFeature } from '../lib/Feature';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
+import env from '../lib/env';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -24,7 +24,8 @@ async function fetchWheelmapNode(
   searchResultProperties: SearchResultProperties,
   useCache: boolean
 ): Promise<?WheelmapFeature> {
-  if (!env.public.wheelmap.apiKey) {
+  if (!env.REACT_APP_WHEELMAP_API_KEY) {
+    console.log('Warning: REACT_APP_WHEELMAP_API_KEY not set, cannot fetch place.');
     return null;
   }
 

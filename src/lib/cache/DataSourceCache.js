@@ -20,7 +20,9 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string) {
-    return `${env.public.accessibilityCloud.baseUrl.cached}/sources/${id}.json?appToken=${env.public.accessibilityCloud.appToken}`;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+    return `${baseUrl}/sources/${id}.json?appToken=${appToken}`;
   }
 
   injectDataSource(source: DataSource) {
