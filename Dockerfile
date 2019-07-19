@@ -37,6 +37,7 @@ RUN npm set progress=false && npm config set depth 0
 RUN npm install
 COPY . .
 RUN npm run build
+RUN npm prune --production
 
 #
 # ---- Test ----
@@ -51,7 +52,6 @@ FROM base AS release
 # copy production node_modules
 COPY --from=dependencies /usr/app/src/.next ./src/.next
 COPY --from=dependencies /usr/app/node_modules ./node_modules
-RUN npm prune --production
 # expose port and define CMD
 EXPOSE 3000
 CMD npm run start
