@@ -3,8 +3,7 @@ const pick = require('lodash/pick');
 if (dotenvConfig.error) {
   throw dotenvConfig.error;
 }
-console.log(dotenvConfig.parsed);
-
+console.log('Parsed .env config:', dotenvConfig.parsed);
 console.log('Node version:', process.version);
 
 const apm = require('../lib/apm/ServerSide');
