@@ -41,6 +41,8 @@ export default class MyDocument extends Document {
                 https://ssl.gstatic.com
                 https://photon.komoot.de
                 https://sozialhelden.matomo.cloud
+                https://cdn.matomo.cloud
+                http://cdn.matomo.cloud
                 ${env.REACT_APP_WHEELMAP_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
@@ -59,6 +61,7 @@ export default class MyDocument extends Document {
                 https://accessibility-cloud-uploads.s3.amazonaws.com
                 https://www.googletagmanager.com
                 https://www.google-analytics.com
+                https://sozialhelden.matomo.cloud
                 https://api.mapbox.com
                 https://asset0.wheelmap.org
                 https://asset1.wheelmap.org
@@ -86,6 +89,24 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
+
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var _paq = window._paq || [];
+                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                (function() {
+                  var u="https://sozialhelden.matomo.cloud/";
+                  _paq.push(['setTrackerUrl', u+'matomo.php']);
+                  _paq.push(['setSiteId', '1']);
+                  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                  g.type='text/javascript'; g.async=true; g.defer=true; g.src='//cdn.matomo.cloud/sozialhelden.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+                })();`,
+            }}
+          ></script>
           <script src="/clientEnv.js"></script>
         </Head>
         <body>
