@@ -45,6 +45,7 @@ export default class MyDocument extends Document {
                 http://cdn.matomo.cloud
 
                 ${env.REACT_APP_WHEELMAP_API_BASE_URL || ''}
+                ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}

@@ -98,7 +98,7 @@ app.prepare().then(() => {
   server.use(
     ['/api/*', '/nodes/*'],
     proxy({
-      target: process.env.REACT_APP_CLASSIC_WHEELMAP_API_BASE_URL,
+      target: process.env.REACT_APP_LEGACY_API_BASE_URL,
       changeOrigin: true,
     })
   );

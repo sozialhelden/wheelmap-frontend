@@ -52,7 +52,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
-          `${env.REACT_APP_CLASSIC_WHEELMAP_API_BASE_URL ||
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
             ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${process
             .env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || ''}`,
           {
