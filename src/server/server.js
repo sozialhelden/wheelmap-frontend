@@ -80,7 +80,8 @@ app.prepare().then(() => {
         )
       )
     );
-    res.setHeader('Cache-Control', 'max-age=300').send(`window.env = ${filteredEnvObject};`);
+    res.setHeader('Cache-Control', 'max-age=300');
+    res.send(`window.env = ${filteredEnvObject};`);
   });
 
   server.get('*', (req, res, next) => {
