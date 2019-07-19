@@ -18,6 +18,7 @@
     "d3-color": "^1.0.3",
     "d3-interpolate": "^1.1.5",
     "d3-scale": "^1.0.6",
+    "dotenv": "^4.0.0",
     "ejson": "^2.1.2",
     "elastic-apm-node": "^2.12.1",
     "es6-set": "^0.1.5",
@@ -46,6 +47,7 @@
     "lodash": "^4.17.14",
     "marked": "^0.6.2",
     "mkdirp": "^0.5.1",
+    "next": "^9.0.2",
     "npm": "^6.10.1",
     "path-to-regexp": "^2.4.0",
     "plist": "^3.0.1",
@@ -65,8 +67,7 @@
     "ttag": "^1.7.17",
     "ua-parser-js": "^0.7.20",
     "underscore.string": "^3.3.5",
-    "unfetch": "^3.1.2",
-    "dotenv": "^4.0.0"
+    "unfetch": "^3.1.2"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -104,7 +105,6 @@
     "husky": "^1.0.0-rc.13",
     "jest": "^24.7.1",
     "lint-staged": "^8.2.1",
-    "next": "^8.1.0",
     "next-runtime-dotenv": "^1.1.1",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.1",
