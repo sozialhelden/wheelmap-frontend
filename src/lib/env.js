@@ -5,7 +5,6 @@ if (typeof window === 'undefined') {
   if (dotenvConfig.error) {
     throw dotenvConfig.error;
   }
-  console.log(dotenvConfig.parsed);
 
   Object.assign(env, dotenvConfig.parsed, process.env);
 }
