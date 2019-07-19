@@ -17,6 +17,7 @@ const compression = require('compression');
 const querystring = require('querystring');
 
 const router = require('../app/router');
+const registerHealthChecks = require('./healthChecks');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -101,6 +102,8 @@ app.prepare().then(() => {
       changeOrigin: true,
     })
   );
+
+  registerHealthChecks(server);
 
   // Fallback for routes not found.
   server.get('*', (req, res) => {
