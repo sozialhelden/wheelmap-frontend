@@ -1,10 +1,10 @@
 // @flow
 
 import type { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } from '../Feature';
-import env from '../env';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
 import { currentLocales } from '../i18n';
+import env from '../env';
 
 type CacheMap = {
   [key: string]: FeatureCache<*, *>,
@@ -23,8 +23,10 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     options: { useCache: boolean } = { useCache: true }
   ): Promise<Response> {
     const acLocaleString = currentLocales[0].underscoredString;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
     return this.fetch(
-      `${env.public.accessibilityCloud.baseUrl.cached}/place-infos/${id}.json?appToken=${env.public.accessibilityCloud.appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`
+      `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`
     );
   }
 
@@ -50,7 +52,9 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
-          `${env.public.accessibilityCloud.baseUrl.accessibilityApps}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${env.public.accessibilityCloud.appToken}`,
+          `${env.REACT_APP_CLASSIC_WHEELMAP_API_BASE_URL ||
+            ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${process
+            .env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || ''}`,
           {
             method: 'POST',
             headers: {

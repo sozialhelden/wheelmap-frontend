@@ -2,7 +2,6 @@
 
 import URLDataCache from './URLDataCache';
 import env from '../env';
-
 export type License = { _id: string };
 
 export default class LicenseCache extends URLDataCache<License> {
@@ -13,9 +12,9 @@ export default class LicenseCache extends URLDataCache<License> {
   }
 
   urlFromId(id: string) {
-    return `${env.public.accessibilityCloud.baseUrl.cached}/licenses/${id}.json?appToken=${
-      env.public.accessibilityCloud.appToken
-    }`;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+    return `${baseUrl}/licenses/${id}.json?appToken=${appToken}`;
   }
 
   injectLicense(license: License) {

@@ -1,10 +1,9 @@
 // @flow
 
 import readAndCompressImage from 'browser-image-resizer';
-
+import env from '../env';
 import URLDataCache from './URLDataCache';
 import type { AccessibilityCloudImages } from '../Feature';
-import env from '../env';
 
 export const InvalidCaptchaReason = 'invalid-captcha';
 export const UnknownReason = 'unknown';
@@ -16,6 +15,10 @@ const imageResizeConfig = {
   autoRotate: true,
   debug: true,
 };
+
+const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
+const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   getPhotosForFeature(
@@ -31,7 +34,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     options: { useCache: boolean } = { useCache: true }
   ): Promise<?AccessibilityCloudImages> {
     return this.getData(
-      `${env.public.accessibilityCloud.baseUrl.cached}/images.json?context=${context}&objectId=${objectId}&appToken=${env.public.accessibilityCloud.appToken}`,
+      `${baseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`,
       options
     );
   }
@@ -42,7 +45,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     captchaSolution: string
   ): Promise<any> {
     const image = images[0];
-    const url = `${env.public.accessibilityCloud.baseUrl.uncached}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${env.public.accessibilityCloud.appToken}`;
+    const url = `${baseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${appToken}`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await this.constructor.fetch(url, {
       method: 'POST',
@@ -72,7 +75,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
-          `${env.public.accessibilityCloud.baseUrl.uncached}/images/report?imageId=${photoId}&reason=${reason}&appToken=${env.public.accessibilityCloud.appToken}`,
+          `${uncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${appToken}`,
           {
             method: 'POST',
             headers: {
@@ -113,7 +116,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
         resolve(this.lastCaptcha);
       } else {
         this.lastCaptcha = null;
-        const url = `${env.public.accessibilityCloud.baseUrl.cached}/captcha.svg?${cacheBuster}&appToken=${env.public.accessibilityCloud.appToken}`;
+        const url = `${baseUrl}/captcha.svg?${cacheBuster}&appToken=${appToken}`;
         console.log('Requesting new captcha');
         return this.constructor
           .fetch(url)

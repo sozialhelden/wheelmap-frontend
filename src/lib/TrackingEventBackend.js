@@ -1,13 +1,12 @@
 // @flow
-
-import env from './env';
 import pick from 'lodash/pick';
 import { globalFetchManager } from './FetchManager';
 import { getUserAgent } from './userAgent';
 import { hasAllowedAnalytics, getUUID, getJoinedMappingEventId } from './savedState';
 import { userPositionTracker } from './UserPositionTracker';
-import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
-import { type App } from '../lib/App';
+import { mappingEventsCache } from './cache/MappingEventsCache';
+import { type App } from './App';
+import env from './env';
 
 export type Query = {
   [string]: string | Array<string> | null,
@@ -88,7 +87,7 @@ export default class TrackingEventBackend {
       },
     };
 
-    const fetchUrl = `${env.public.accessibilityCloud.baseUrl.accessibilityApps}/tracking-events/report?appToken=${env.public.accessibilityCloud.appToken}`;
+    const fetchUrl = `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL}/tracking-events/report?appToken=${env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}`;
 
     const uploadPromise = new Promise((resolve, reject) => {
       globalFetchManager

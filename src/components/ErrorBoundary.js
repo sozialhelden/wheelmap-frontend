@@ -2,10 +2,10 @@
 import React, { Component, Fragment } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
+import env from '../lib/env';
 
 import Link from './Link/Link';
 import colors from '../lib/colors';
-import env from '../lib/env';
 
 type Props = {
   className?: string,
@@ -53,7 +53,7 @@ class ErrorBoundary extends Component<Props, State> {
           <p>{apologyText}</p>
 
           <ErrorDetail>
-            {env.public.version}
+            {env.npm_package_version}
             {error && error.message && ` — ${error.message}`}
           </ErrorDetail>
 

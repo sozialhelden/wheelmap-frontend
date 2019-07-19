@@ -53,6 +53,7 @@ const IconButtonList = styled(UnstyledIconButtonList)`
     svg {
       width: 1.5rem;
       height: 1.5rem;
+      min-width: 1.5rem;
 
       g,
       rect,

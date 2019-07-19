@@ -1,12 +1,12 @@
 // @flow
 
-import env from '../env';
 import config from '../config';
 import TTLCache, { type TTLCacheOptions } from './TTLCache';
 import Categories, { type RawCategoryLists } from '../Categories';
 import ACCategoryCache from './ACCategoryCache';
 import WheelmapCategoryCache from './WheelmapCategoryCache';
 import WheelmapNodeTypeCache from './WheelmapNodeTypeCache';
+import env from '../env';
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean,
@@ -32,11 +32,11 @@ export default class CategoryLookupTablesCache {
 
     this.lookupTablesCache = new TTLCache<string, Promise<RawCategoryLists>>();
 
-    if (env.public.accessibilityCloud.appToken && env.public.accessibilityCloud.baseUrl.cached) {
+    if (env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN && env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL) {
       this.acCategoryCache = new ACCategoryCache({
         ttlCache: options,
-        appToken: env.public.accessibilityCloud.appToken,
-        baseUrl: env.public.accessibilityCloud.baseUrl.cached,
+        appToken: env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN,
+        baseUrl: env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
       });
     }
 

@@ -1,5 +1,6 @@
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
+const webpack = require('webpack');
 
 module.exports = withCss(
   withSass({
@@ -11,15 +12,12 @@ module.exports = withCss(
         net: 'empty',
         tls: 'empty',
         child_process: 'empty',
+        async_hooks: 'mock',
+        'elastic-apm-node': 'empty',
       };
       return config;
     },
     // Disabling file-system routing to always use custom server.
     useFileSystemPublicRoutes: false,
-    // exportPathMap: () => {
-    //   return {
-    //     '/': { page: '/main' },
-    //   };
-    // },
   })
 );

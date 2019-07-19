@@ -248,7 +248,7 @@ export default class Categories {
     locale: string,
     disableWheelmapSource?: boolean,
   }): Promise<RawCategoryLists> {
-    const hasAccessibilityCloudCredentials = Boolean(env.public.accessibilityCloud.appToken);
+    const hasAccessibilityCloudCredentials = Boolean(env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN);
     const hasWheelmapCredentials =
       config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
     const useWheelmapSource = hasWheelmapCredentials && !options.disableWheelmapSource;
@@ -264,7 +264,10 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const url = `${env.public.accessibilityCloud.baseUrl.cached}/categories.json?appToken=${env.public.accessibilityCloud.appToken}`;
+      const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+      const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+
+      const url = `${baseUrl}/categories.json?appToken=${appToken}`;
       return globalFetchManager
         .fetch(url)
         .then(responseHandler)
@@ -272,7 +275,7 @@ export default class Categories {
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.public.wheelmap.apiKey}&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${countryCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
@@ -280,7 +283,7 @@ export default class Categories {
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${config.wheelmapApiKey}&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${countryCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)

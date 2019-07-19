@@ -1,0 +1,8 @@
+.env
+.env.*
+node_modules
+npm-debug.log
+dist/
+src/.next/
+lib/
+res

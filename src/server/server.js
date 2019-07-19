@@ -1,3 +1,13 @@
+const dotenvConfig = require('dotenv').config();
+const pick = require('lodash/pick');
+if (dotenvConfig.error) {
+  throw dotenvConfig.error;
+}
+console.log(dotenvConfig.parsed);
+
+console.log('Node version:', process.version);
+
+const apm = require('../lib/apm/ServerSide');
 const nextjs = require('next');
 const path = require('path');
 const express = require('express');
@@ -7,7 +17,6 @@ const compression = require('compression');
 const querystring = require('querystring');
 
 const router = require('../app/router');
-const env = require('../lib/env');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -59,6 +68,21 @@ app.prepare().then(() => {
     res.redirect(`/${lang ? `?locale=${lang}` : ''}`);
   });
 
+  // Defines a filtered set of environment variables to the client.
+  server.get('/clientEnv.js', (req, res) => {
+    const envAndDotEnv = { ...dotenvConfig.parsed, ...process.env };
+    const filteredEnvObject = JSON.stringify(
+      pick(
+        envAndDotEnv,
+        Object.keys(envAndDotEnv).filter(
+          k =>
+            k.match(/^REACT_APP_/) || k === 'npm_package_version' || k === 'npm_config_node_version'
+        )
+      )
+    );
+    res.setHeader('Cache-Control', 'max-age=300').send(`window.env = ${filteredEnvObject};`);
+  });
+
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
 
@@ -73,7 +97,7 @@ app.prepare().then(() => {
   server.use(
     ['/api/*', '/nodes/*'],
     proxy({
-      target: env.public.wheelmap.baseUrl,
+      target: process.env.REACT_APP_CLASSIC_WHEELMAP_API_BASE_URL,
       changeOrigin: true,
     })
   );

@@ -1,9 +1,8 @@
 // @flow
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
-
-import config from './config';
 import env from './env';
+import config from './config';
 import type { Feature } from './Feature';
 
 import { globalFetchManager } from './FetchManager';
@@ -54,7 +53,9 @@ function fetchAcToiletPlaces(
   excludeSourceIds: Array<string>
 ): Promise<Feature[]> {
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
-  const url = `${env.public.accessibilityCloud.baseUrl.cached}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${env.public.accessibilityCloud.appToken}`;
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+  const url = `${baseUrl}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${appToken}`;
   return globalFetchManager
     .fetch(url)
     .then(response => {

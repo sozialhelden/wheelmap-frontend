@@ -10,7 +10,7 @@ export default {
   maxZoom: 20,
   minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
-  mapboxTileUrl: `https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${env.public.mapbox.accessToken}`,
-  wheelmapApiKey: env.public.wheelmap.apiKey,
-  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.public.wheelmap.baseUrl : '',
+  mapboxTileUrl: `https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}@2x?access_token=${env.REACT_APP_MAPBOX_ACCESS_TOKEN}`,
+  wheelmapApiKey: env.REACT_APP_WHEELMAP_API_KEY,
+  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.REACT_APP_CLASSIC_WHEELMAP_API_BASE_URL : '',
 };

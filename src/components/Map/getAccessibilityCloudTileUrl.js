@@ -1,7 +1,6 @@
 // @flow
-import env from '../../lib/env';
-
 import { type Locale } from '../../lib/i18n';
+import env from '../../lib/env';
 
 export function buildSourceIdParams(
   includeSourceIds: Array<string>,
@@ -30,10 +29,7 @@ export default function accessibilityCloudTileUrl(
 ): string {
   const acLocaleString = locale.underscoredString;
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
-
-  return `${
-    env.public.accessibilityCloud.baseUrl.cached
-  }/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${
-    env.public.accessibilityCloud.appToken
-  }&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const token = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
+  return `${baseUrl}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${token}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
 }

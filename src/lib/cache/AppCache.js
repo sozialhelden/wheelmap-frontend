@@ -4,10 +4,10 @@ import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
-import env from '../env';
 import { type ClientSideConfiguration, type LinkDescription } from '../ClientSideConfiguration';
 
 import { type App } from '../App';
+import env from '../env';
 
 type AppApiData = {
   _id: string,
@@ -62,8 +62,8 @@ export default class AppCache extends URLDataCache<AppApiData> {
   }
 
   getUrl(hostName: string): string {
-    const baseUrl = env.public.accessibilityCloud.baseUrl.accessibilityApps;
-    const token = env.public.accessibilityCloud.appToken;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL;
+    const token = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
     // Allow test deployments on zeit
     const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
     return `${baseUrl}/apps/${cleanedHostName}.json?appToken=${token}`;

@@ -2,7 +2,6 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript, type NextDocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
-
 import env from '../lib/env';
 
 export default class MyDocument extends Document {
@@ -42,14 +41,17 @@ export default class MyDocument extends Document {
                 https://ssl.gstatic.com
                 https://photon.komoot.de
                 https://sozialhelden.matomo.cloud
+
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud
-                ${env.public.wheelmap.baseUrl}
-                ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.accessibilityCloud.baseUrl.uncached}
-                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
-                ${env.public.allowAdditionalDataUrls || ''};
-              style-src
+
+                ${env.REACT_APP_WHEELMAP_API_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
+
+                style-src
                 'self'
                 'unsafe-inline';
               frame-src
@@ -69,9 +71,10 @@ export default class MyDocument extends Document {
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
-                ${env.public.accessibilityCloud.baseUrl.cached}
-                ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
-                ${env.public.allowAdditionalImageUrls || ''};
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
             `}
           />
 
@@ -89,7 +92,6 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
-
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
