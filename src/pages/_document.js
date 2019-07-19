@@ -41,7 +41,6 @@ export default class MyDocument extends Document {
                 https://ssl.gstatic.com
                 https://photon.komoot.de
                 https://sozialhelden.matomo.cloud
-
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud
 
@@ -92,6 +91,7 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
+
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
@@ -144,6 +144,7 @@ export default class MyDocument extends Document {
                 _paq.push(['trackPageView']);
                 _paq.push(['enableLinkTracking']);
                 _paq.push(['enableHeartBeatTimer']);
+
                 (function() {
                   var u="https://sozialhelden.matomo.cloud/";
                   _paq.push(['setTrackerUrl', u+'matomo.php']);
