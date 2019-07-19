@@ -40,3 +40,6 @@ retranslate/rewrite-pos/dist-rewrite-pos.js
 .next
 env/*
 !env/.gitkeep
+
+*secret.yaml
+*secret.yml
