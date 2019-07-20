@@ -7,6 +7,7 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
     "@elastic/apm-rum": "^4.3.0",
     "acorn-dynamic-import": "^4.0.0",
     "async_hooks": "^1.0.0",
@@ -71,7 +72,6 @@
     "unfetch": "^3.1.2"
   },
   "devDependencies": {
-    "@babel/polyfill": "^7.4.4",
     "@svgr/cli": "^4.3.0",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
