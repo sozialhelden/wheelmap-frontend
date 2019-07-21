@@ -27,3 +27,4 @@ suppress_type=$FlowFixMe
 .*/node_modules/styled-components/src/.*primitives.*
 .*/node_modules/accessibility-cloud-widget/.*
 .*/broken.json
+.*/.next/.*
