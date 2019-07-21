@@ -45,6 +45,9 @@ import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
+if (typeof window !== 'undefined') {
+  require('../lib/apm/ClientSide');
+}
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props
