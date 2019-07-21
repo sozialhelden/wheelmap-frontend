@@ -184,8 +184,10 @@ export async function getInitialAppProps(
 
   const app = await appPromise;
   const clientSideConfiguration = app.clientSideConfiguration;
-  const rawCategoryLists = await rawCategoryListsPromise;
-  const mappingEvents = await mappingEventsCache.getMappingEvents(app);
+  const [rawCategoryLists, mappingEvents] = await Promise.all([
+    rawCategoryListsPromise,
+    mappingEventsCache.getMappingEvents(app),
+  ]);
 
   if (!clientSideConfiguration) {
     throw new Error('missing clientSideConfiguration');
