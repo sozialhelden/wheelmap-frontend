@@ -20,14 +20,16 @@ module.exports = withSourceMaps(
           'elastic-apm-node': 'empty',
         };
 
-        config.plugins.unshift(new ElasticAPMSourceMapPlugin({
-          serviceName: 'wheelmap-react-frontend',
-          serviceVersion: env.npm_package_version,
-          serverURL: env.REACT_APP_ELASTIC_APM_SERVER_URL,
-          publicPath: `${env.PUBLIC_URL}/_next/static/chunks`,
-          secret: env.ELASTIC_APM_SECRET_TOKEN,
-          logLevel: 'debug'
-        }));
+        if (process.env.NODE_ENV === 'production') {
+          config.plugins.unshift(new ElasticAPMSourceMapPlugin({
+            serviceName: 'wheelmap-react-frontend',
+            serviceVersion: env.npm_package_version,
+            serverURL: env.REACT_APP_ELASTIC_APM_SERVER_URL,
+            publicPath: `${env.PUBLIC_URL}/_next/static/chunks`,
+            secret: env.ELASTIC_APM_SECRET_TOKEN,
+            logLevel: 'debug'
+          }));
+        }
 
         return config;
       },
