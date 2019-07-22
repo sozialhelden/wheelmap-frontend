@@ -1,9 +1,6 @@
-const dotenvConfig = require('dotenv').config();
 const pick = require('lodash/pick');
-if (dotenvConfig.error) {
-  throw dotenvConfig.error;
-}
-console.log('Parsed .env config:', dotenvConfig.parsed);
+const dotenvConfig = require('../lib/env');
+console.log('Parsed .env config:', dotenvConfig);
 console.log('Node version:', process.version);
 
 const apm = require('../lib/apm/ServerSide');
@@ -70,7 +67,7 @@ app.prepare().then(() => {
 
   // Defines a filtered set of environment variables to the client.
   server.get('/clientEnv.js', (req, res) => {
-    const envAndDotEnv = { ...dotenvConfig.parsed, ...process.env };
+    const envAndDotEnv = { ...dotenvConfig, ...process.env };
     const filteredEnvObject = JSON.stringify(
       pick(
         envAndDotEnv,
