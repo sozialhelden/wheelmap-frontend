@@ -1,6 +1,6 @@
 // @flow
+import Document, { Head, Html, Main, NextDocumentContext, NextScript } from 'next/document';
 import * as React from 'react';
-import Document, { Html, Head, Main, NextScript, type NextDocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
 
@@ -49,6 +49,7 @@ export default class MyDocument extends Document {
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_REACT_APP_ELASTIC_APM_SERVER_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
 
                 style-src
