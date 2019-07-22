@@ -1,4 +1,4 @@
-const ElasticAPMSourceMapPlugin = require('elastic-apm-sourcemap-webpack-plugin').default;
+const ElasticAPMSourceMapPlugin = require('@hypo808/elastic-apm-sourcemap-webpack-plugin').default;
 const withSass = require('@zeit/next-sass');
 const withCss = require('@zeit/next-css');
 const webpack = require('webpack');
