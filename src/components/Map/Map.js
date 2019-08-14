@@ -162,6 +162,7 @@ export default class Map extends React.Component<Props, State> {
   highLightLayer: ?L.Layer;
   locateControl: ?LeafletLocateControl;
   mapHasBeenMoved: boolean = false;
+  sizeInvalidationInterval: ?IntervalID;
 
   static getMapStateFromProps(
     map: ?L.Map,
@@ -400,6 +401,11 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (this.props.forwardedRef) this.props.forwardedRef(this);
+    this.sizeInvalidationInterval = setInterval(() => {
+      if (this.map) {
+        this.map.invalidateSize();
+      }
+    }, 1000);
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -468,6 +474,10 @@ export default class Map extends React.Component<Props, State> {
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
     delete this.markerClusterGroup;
+
+    if (this.sizeInvalidationInterval) {
+      clearInterval(this.sizeInvalidationInterval);
+    }
   }
 
   handlePromiseResolved(
