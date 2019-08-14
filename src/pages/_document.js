@@ -41,27 +41,31 @@ export default class MyDocument extends Document {
                 https://www.googletagmanager.com
                 https://ssl.gstatic.com
                 https://photon.komoot.de
+                https://sozialhelden.matomo.cloud
+                https://cdn.matomo.cloud
+                http://cdn.matomo.cloud
                 ${env.public.wheelmap.baseUrl}
                 ${env.public.accessibilityCloud.baseUrl.cached}
                 ${env.public.accessibilityCloud.baseUrl.uncached}
                 ${env.public.accessibilityCloud.baseUrl.accessibilityApps}
                 ${env.public.allowAdditionalDataUrls || ''};
-              style-src 
-                'self' 
+              style-src
+                'self'
                 'unsafe-inline';
-              frame-src 
+              frame-src
                 'self';
-              media-src 
+              media-src
                 'self';
               img-src
                 'self'
                 data:
                 https://accessibility-cloud-uploads.s3.amazonaws.com
-                https://www.googletagmanager.com
-                https://www.google-analytics.com
+                https://sozialhelden.matomo.cloud
                 https://api.mapbox.com
                 https://asset0.wheelmap.org
                 https://asset1.wheelmap.org
+                https://www.googletagmanager.com
+                https://www.google-analytics.com
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
@@ -85,6 +89,26 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
 
           {this.props.styleTags}
+
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var _paq = window._paq || [];
+                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                _paq.push(['trackPageView']);
+                _paq.push(['enableLinkTracking']);
+                _paq.push(['enableHeartBeatTimer']);
+                (function() {
+                  var u="https://sozialhelden.matomo.cloud/";
+                  _paq.push(['setTrackerUrl', u+'matomo.php']);
+                  _paq.push(['setSiteId', '1']);
+                  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                  g.type='text/javascript'; g.async=true; g.defer=true; g.src='//cdn.matomo.cloud/sozialhelden.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+                })();`,
+            }}
+          ></script>
+          <script src="/clientEnv.js"></script>
         </Head>
         <body>
           <Main />

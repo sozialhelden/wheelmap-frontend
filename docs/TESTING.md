@@ -257,6 +257,7 @@ This document explains the steps to test the main functionality of the wheelmap 
  - correct language is detected from headers
 - Open graph tags
 - GoogleAnalytics integration
+- Matomo integration
 - Twitter Meta data
 - Facebook Meta data
 

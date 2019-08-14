@@ -169,9 +169,11 @@ class Onboarding extends React.Component<Props, null> {
           )}
         </footer>
 
-        <footer className="cookies-footer">
-          <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
-        </footer>
+        {analyticsShown && (
+          <footer className="cookies-footer">
+            <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
+          </footer>
+        )}
 
         <Version>{env.public.version}</Version>
       </ModalDialog>
