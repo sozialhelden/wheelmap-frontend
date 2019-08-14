@@ -48,6 +48,8 @@ function trackAttributeChanged<T>(options: SaveOptions<T>) {
     appId: appContext.appId,
     newValue: value,
   });
+
+  window._paq.push('trackEvent', 'Marking', 'AttributeChanged', propertyName, value);
 }
 
 function save<T>(options: SaveOptions<T>): Promise<Response> {

@@ -79,6 +79,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
           type: 'SurveyCompleted',
           uniqueSurveyId: uniqueSurveyId,
         });
+        window._paq.push('trackEvent', 'Survey', 'Completed', 'uniqueSurveyId', uniqueSurveyId);
       }
     }
   }

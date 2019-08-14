@@ -255,6 +255,7 @@ class App extends React.Component<Props, State> {
       type: 'AppOpened',
       query: queryString.parse(window.location.search),
     });
+    // No Matomo tracking necessary here as Matomo tracks URLs automatically
   }
 
   componentDidUpdate(_: Props, prevState: State) {
@@ -353,6 +354,13 @@ class App extends React.Component<Props, State> {
         leftMappingEventId: previouslyJoinedMappingEventId,
         query: queryString.parse(search),
       });
+      window._paq.push(
+        'trackEvent',
+        'MappingEvent',
+        'Left',
+        'mappingEventId',
+        previouslyJoinedMappingEventId
+      );
     }
 
     if (joinedMappingEventId) {
@@ -362,6 +370,13 @@ class App extends React.Component<Props, State> {
         joinedVia: reason,
         query: queryString.parse(search),
       });
+      window._paq.push(
+        'trackEvent',
+        'MappingEvent',
+        'Joined',
+        'mappingEventId',
+        joinedMappingEventId
+      );
     }
   };
 
