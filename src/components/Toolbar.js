@@ -2,6 +2,7 @@
 import { t } from 'ttag';
 import { hsl } from 'd3-color';
 import uniq from 'lodash/uniq';
+import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
 import debounce from 'lodash/debounce';
@@ -331,7 +332,9 @@ class Toolbar extends React.Component<Props, State> {
       <Measure
         bounds
         onResize={contentRect => {
-          this.setState({ dimensions: contentRect.bounds });
+          if (!isEqual(contentRect.bounds, this.state.dimensions)) {
+            this.setState({ dimensions: contentRect.bounds });
+          }
         }}
       >
         {({ measureRef }) => (
@@ -343,8 +346,12 @@ class Toolbar extends React.Component<Props, State> {
               className={className}
               style={this.getStyle()}
               ref={nav => {
-                this.scrollElement = nav;
-                measureRef(nav);
+                // Without this check, the toolbar would re-render every frame.
+                // https://github.com/souporserious/react-measure/issues/90#issuecomment-479679303
+                if (!this.scrollElement) {
+                  measureRef(nav);
+                  this.scrollElement = nav;
+                }
               }}
               aria-hidden={this.props.inert || this.props.hidden}
               role={this.props.role}
