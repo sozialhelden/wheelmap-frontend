@@ -1,10 +1,11 @@
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2019
+# Maximilian Lienig <maximilian@sozialhelden.de>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2019\n"
+"Last-Translator: Maximilian Lienig <maximilian@sozialhelden.de>, 2019\n"
 "Language-Team: Finnish (https://www.transifex.com/sozialhelden/teams/16671/fi/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: fi\n"
@@ -16,11 +17,11 @@ msgstr "Hae"
 
 #: src/pages/_app.js:328
 msgid "Homepage"
-msgstr ""
+msgstr "Kotisivu"
 
 #: src/components/EmbedModeDeniedDialog.js:12
 msgid "Embed mode can not be used"
-msgstr ""
+msgstr "Upotustilaa ei voida käyttää"
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
@@ -97,7 +98,7 @@ msgstr "Urheilu"
 
 #: src/lib/Categories.js:131
 msgid "Toilets"
-msgstr ""
+msgstr "Käymälät"
 
 #: src/lib/Categories.js:255
 msgid "Error while loading place categories."
@@ -110,7 +111,7 @@ msgstr "Lisää puuttuva paikka"
 
 #: src/app/ContributionThanksData.js:12
 msgid "Thank you for the contribution!"
-msgstr ""
+msgstr "Kiitoksia panoksestasi!"
 
 #: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
@@ -166,7 +167,7 @@ msgstr "Päivitetty viimeksi ${ dateString }."
 
 #: src/app/PlaceDetailsData.js:276
 msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr ""
+msgstr "Tämä paikka löytyy kohteesta ${ productName }: ${ placeTitle }"
 
 #: src/lib/Feature.js:470
 msgid "Fully wheelchair accessible"
@@ -277,73 +278,76 @@ msgstr "Virhe ladattaessa tietoja."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
 msgid "Welcome"
-msgstr ""
+msgstr "Tervetuloa"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
 msgid ""
 "You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
 "step: Rate and add the accessibility of places."
 msgstr ""
+"Olet nyt mukana kartoitustapahtumassa ${ mappingEvent.name } ❤ Seuraava "
+"vaihe: arvioi ja lisää paikkojen käytettävyystiedot."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
 msgid "Let's go"
-msgstr ""
+msgstr "Antaa mennä"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
 msgid "Mapping events list"
-msgstr ""
+msgstr "Kartoitustapahtumien luettelo"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:33
 msgid "${ mappingEvents.length } active mapping events"
-msgstr ""
+msgstr "${ mappingEvents.length } aktiivista kartoitustapahtumaa"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:35
 msgid "Events"
-msgstr ""
+msgstr "Tapahtumat"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr ""
+"Tutustu yhteisöön ja kartoita ympärilläsi olevien paikkojen käytettävyys!"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
-msgstr ""
+msgstr "alkaa"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:80
 msgid "until"
-msgstr ""
+msgstr "päättyy"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:95
 msgid "Mapping event ${ mappingEvent.name }"
-msgstr ""
+msgstr "Kartoitustapahtuma ${ mappingEvent.name }"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:97
 msgid "Center map on mapping event"
-msgstr ""
+msgstr "Keskitä kartta kartoitustapahtumaan"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:99
 msgid "Meeting point"
-msgstr ""
+msgstr "Kohtauspaikka"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:101
 msgid "Area name"
-msgstr ""
+msgstr "Alueen nimi"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:103
 msgid "Event date"
-msgstr ""
+msgstr "Tapahtumapäivä"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:105
 msgid "Event start date"
-msgstr ""
+msgstr "Tapahtuman alkamispäivä"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:107
 msgid "Event end date"
-msgstr ""
+msgstr "Tapahtuman päättymispäivä"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:109
 msgid "Back to the mapping events list"
-msgstr ""
+msgstr "Takaisin kartoitustapahtumien luetteloon"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:111
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
@@ -352,11 +356,11 @@ msgstr "Jaa"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:113
 msgid "Join mapping event"
-msgstr ""
+msgstr "Liity kartoitustapahtumaan"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:115
 msgid "Leave mapping event"
-msgstr ""
+msgstr "Poistu kartoitustapahtumasta"
 
 #: src/components/Map/Map.js:1004
 msgid "Zoom in closer to see more places"
@@ -372,29 +376,31 @@ msgstr "Kartta"
 
 #: src/components/MappingEvents/Statistics.js:20
 msgid "Mapping Event Numbers"
-msgstr ""
+msgstr "Kartoitustapahtumien numerot"
 
 #: src/components/MappingEvents/Statistics.js:22
 msgid "Mapped Places"
-msgstr ""
+msgstr "Kartoitetut paikat"
 
 #: src/components/MappingEvents/Statistics.js:24
 msgid "Participants"
-msgstr ""
+msgstr "Osallistujat"
 
 #: src/components/MappingEvents/Statistics.js:26
 msgid "Days Left"
-msgstr ""
+msgstr "Päivää jäljellä"
 
 #: src/components/MappingEvents/MappingEventShareBar.js:34
 msgid ""
 "Help us out and join the ${ mappingEvent.name } mapping event${ "
 "productNameString }. You can find more info here: ${ url }"
 msgstr ""
+"Auta meitä ja liity ${ mappingEvent.name } kartoitustapahtumaan ${ "
+"productNameString }. Lisätietoja asiasta löytyy täältä: ${ url }"
 
 #: src/components/Map/MappingEventMarkerIcon.js:34
 msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
+msgstr "${ eventName } -kartoitustapahtuman karttamerkki"
 
 #: src/lib/goToLocationSettings.js:36
 msgid ""
@@ -423,40 +429,40 @@ msgstr "Piilota Jaa-valikko"
 
 #: src/components/Toolbar.js:333
 msgid "Collapse details"
-msgstr ""
+msgstr "Kutista tiedot"
 
 #: src/components/Toolbar.js:333
 msgid "Expand details"
-msgstr ""
+msgstr "Laajenna tietoja"
 
 #: src/components/NodeToolbar/FeatureClusterPanel.js:145
 msgid "Places"
-msgstr ""
+msgstr "Paikat"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
 msgid "Thank you!"
-msgstr ""
+msgstr "Kiitoksia!"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
 msgid "Please give us a moment to verify your contribution."
-msgstr ""
+msgstr "Anna meille hetki aikaa työpanoksesi vahvistamiseen."
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
 msgid "Add next place"
-msgstr ""
+msgstr "Lisää seuraava paikka"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
 msgid "Back to map"
-msgstr ""
+msgstr "Takaisin kartalle"
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
-msgstr ""
+msgstr "Siirry ${ appName } -sovellukseen"
 
 #: src/components/Onboarding/Onboarding.js:62
 #: src/components/WheelmapHomeLink.js:15
 msgid "App Logo"
-msgstr ""
+msgstr "Sovelluksen logo"
 
 #: src/components/SearchToolbar/SearchButton.js:35
 msgid "All places"
@@ -472,7 +478,7 @@ msgstr "Okei, mennään!"
 
 #: src/components/Onboarding/Onboarding.js:46
 msgid "Continue without cookies"
-msgstr ""
+msgstr "Jatka ilman evästeitä"
 
 #: src/components/Onboarding/Onboarding.js:49
 msgid ""
@@ -480,6 +486,9 @@ msgid ""
 "href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
 "Privacy Policy</a>."
 msgstr ""
+"Käytämme evästeitä tämän sovelluksen käyttökokemuksen parantamiseksi. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Tutustu "
+"tietosuojakäytäntöömme</a>."
 
 #: src/components/Onboarding/Onboarding.js:70
 msgid "Start screen"
@@ -606,6 +615,9 @@ msgid ""
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal license</a>)."
 msgstr ""
+"Annan täten nämä kuvat julkiseen käyttöön ja luovun käyttöoikeussuojasta (<a"
+" href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
+"target=\"_blank\">CC0 1.0 yleinen lisenssi</a>)."
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
@@ -839,10 +851,12 @@ msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr ""
+"Toinen organisaatio on antanut meille tietoja tästä paikasta: se on osa "
+"kohdetta ${ sourceName }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:110
 msgid "Fix on external page."
-msgstr ""
+msgstr "Korjaa ulkoisella sivulla."
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -906,6 +920,9 @@ msgid ""
 "\n"
 "Click on this link to open it: ${ url }"
 msgstr ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Napauta tätä linkkiä avataksesi sen: ${ url }"
 
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
 msgid "Report a problem"
@@ -946,11 +963,11 @@ msgstr "Lisää wc:n tila"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
-msgstr ""
+msgstr "Haetaan käytettävää käymälää"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
 msgid "Show next wheelchair accessible toilet"
-msgstr ""
+msgstr "Näytä seuraava pyörätuolilla käytettävä käymälä"
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -1034,6 +1051,17 @@ msgid ""
 "\n"
 "${ navigator.userAgent }"
 msgstr ""
+"(Kirjoita ainoastaan englanniksi tai saksaksi)\n"
+"\n"
+"Dear Sozialhelden,\n"
+"\n"
+"something about this place is wrong: ${ url }\n"
+"\n"
+"The problem is:\n"
+"\n"
+"My browser:\n"
+"\n"
+"${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.js:43
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
@@ -1049,33 +1077,37 @@ msgstr "[Wheelmap] Ongelma koskien paikkaa Wheelmapissa"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:39
 msgid "The accessibility of the place is marked incorrectly."
-msgstr ""
+msgstr "Tämän paikan käytettävyystiedoissa on virhe."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:43
 msgid "The place is permanently closed."
-msgstr ""
+msgstr "Tämä paikka on suljettu pysyvästi."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:127
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr ""
+"Kiitoksia! Paikka on nyt ilmoitettu. Tarkistamme ilmoituksesi mahdollisimman"
+" nopeasti."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:128
 msgid "Something went wrong reporting the place. Please try again later."
 msgstr ""
+"Jokin meni vikaan paikan ilmoittamisen yhteydessä. Yritä myöhemmin "
+"uudelleen."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:141
 msgid "Feel free to add some additional information…"
-msgstr ""
+msgstr "Voit antaa lisätietoja halutessasi..."
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
 msgid "View this place on ${ name }"
-msgstr ""
+msgstr "Näytä tämä paikka kohteessa ${ name }"
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
 msgid "Edit this place on ${ name }"
-msgstr ""
+msgstr "Muokkaa tätä paikkaa kohteessa ${ name }"
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
@@ -1084,38 +1116,38 @@ msgstr "Tiedot"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } hissi käytössä"
+msgstr[1] "${ count } hissiä käytössä"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
 msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rullaportaikko käytettävissä"
+msgstr[1] "${ count } rullaportaikkoa käytettävissä"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } hissi poissa käytöstä"
+msgstr[1] "${ count } hissiä poissa käytöstä"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } liukuportaikko poissa käytöstä"
+msgstr[1] "${ count } liukuportaikkoa poissa käytöstä"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } hissi, jonka käyttötila on tuntematon"
+msgstr[1] "${ count } hissiä, joiden käyttötila on tuntematon"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rullaportaikko, jonka käyttötila on tuntematon"
+msgstr[1] "${ count } rullaportaikkoa, joiden käyttötila on tuntematon"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "

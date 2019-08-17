@@ -1,10 +1,11 @@
 # Translators:
-# Developers, 2019
 # Sebastian Felix Zappe <hypo@me.com>, 2019
+# Developers, 2019
+# Maximilian Lienig <maximilian@sozialhelden.de>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2019\n"
+"Last-Translator: Maximilian Lienig <maximilian@sozialhelden.de>, 2019\n"
 "Language-Team: Danish (https://www.transifex.com/sozialhelden/teams/16671/da/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: da\n"
@@ -16,11 +17,11 @@ msgstr "Søg "
 
 #: src/pages/_app.js:328
 msgid "Homepage"
-msgstr ""
+msgstr "Forside"
 
 #: src/components/EmbedModeDeniedDialog.js:12
 msgid "Embed mode can not be used"
-msgstr ""
+msgstr "Indlejringstilstand kan ikke bruges"
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
@@ -97,7 +98,7 @@ msgstr "Sport"
 
 #: src/lib/Categories.js:131
 msgid "Toilets"
-msgstr ""
+msgstr "Toiletter"
 
 #: src/lib/Categories.js:255
 msgid "Error while loading place categories."
@@ -110,7 +111,7 @@ msgstr "Tilføj manglende sted"
 
 #: src/app/ContributionThanksData.js:12
 msgid "Thank you for the contribution!"
-msgstr ""
+msgstr "Tak for dit bidrag!"
 
 #: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
@@ -157,16 +158,16 @@ msgid ""
 "Last known operational status: ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
-"Den seneste oplysning vi har er at ${ translatedEquipmentCategory } var ${ "
+"Den seneste oplysning vi har er at: ${ translatedEquipmentCategory } var ${ "
 "lastStatus } den ${ dateString }."
 
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
-msgstr "Seneste opdatering ${ dateString }"
+msgstr "Seneste opdatering: ${ dateString }"
 
 #: src/app/PlaceDetailsData.js:276
 msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr ""
+msgstr "Dette sted er på ${ productName }: ${ placeTitle }"
 
 #: src/lib/Feature.js:470
 msgid "Fully wheelchair accessible"
@@ -274,73 +275,75 @@ msgstr "Fejl under hentning af data. "
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
 msgid "Welcome"
-msgstr ""
+msgstr "Velkommen"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
 msgid ""
 "You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
 "step: Rate and add the accessibility of places."
 msgstr ""
+"Du er nu en del af kortlægningsbegivenheden ${ mappingEvent.name } ❤ Dit "
+"næste skridt: Bedøm og tilføj tilgængelighed for steder."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
 msgid "Let's go"
-msgstr ""
+msgstr "Kom så"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
 msgid "Mapping events list"
-msgstr ""
+msgstr "Liste over kortlægningsbegivenheder"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:33
 msgid "${ mappingEvents.length } active mapping events"
-msgstr ""
+msgstr "${ mappingEvents.length } aktive kortlægningsbegivenheder"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:35
 msgid "Events"
-msgstr ""
+msgstr "Begivenheder"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
-msgstr ""
+msgstr "Mød fællesskabet og kortlæg tilgængeligheden for steder omkring dig!"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
-msgstr ""
+msgstr "starter"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:80
 msgid "until"
-msgstr ""
+msgstr "indtil"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:95
 msgid "Mapping event ${ mappingEvent.name }"
-msgstr ""
+msgstr "Kortlægningsbegivenhed ${ mappingEvent.name }"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:97
 msgid "Center map on mapping event"
-msgstr ""
+msgstr "Centrer kort omkring kortlægningsbegivenhed"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:99
 msgid "Meeting point"
-msgstr ""
+msgstr "Mødepunkt"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:101
 msgid "Area name"
-msgstr ""
+msgstr "Områdenavn"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:103
 msgid "Event date"
-msgstr ""
+msgstr "Slutdato"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:105
 msgid "Event start date"
-msgstr ""
+msgstr "Begivenhedens startdato"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:107
 msgid "Event end date"
-msgstr ""
+msgstr "Begivenheds slutdato"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:109
 msgid "Back to the mapping events list"
-msgstr ""
+msgstr "Tilbage til listen over kortlægningsbegivenheder"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:111
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
@@ -349,11 +352,11 @@ msgstr "Del"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:113
 msgid "Join mapping event"
-msgstr ""
+msgstr "Tilmeld kortlægningsbegivenhed"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:115
 msgid "Leave mapping event"
-msgstr ""
+msgstr "Forlad kortlægningsbegivenhed"
 
 #: src/components/Map/Map.js:1004
 msgid "Zoom in closer to see more places"
@@ -369,29 +372,31 @@ msgstr "Kort"
 
 #: src/components/MappingEvents/Statistics.js:20
 msgid "Mapping Event Numbers"
-msgstr ""
+msgstr "Kortlægningsbegivenhedsnumre"
 
 #: src/components/MappingEvents/Statistics.js:22
 msgid "Mapped Places"
-msgstr ""
+msgstr "Kortlagte steder"
 
 #: src/components/MappingEvents/Statistics.js:24
 msgid "Participants"
-msgstr ""
+msgstr "Deltagere"
 
 #: src/components/MappingEvents/Statistics.js:26
 msgid "Days Left"
-msgstr ""
+msgstr "Dage tilbage"
 
 #: src/components/MappingEvents/MappingEventShareBar.js:34
 msgid ""
 "Help us out and join the ${ mappingEvent.name } mapping event${ "
 "productNameString }. You can find more info here: ${ url }"
 msgstr ""
+"Hjælp os og tilmeld dig ${ mappingEvent.name } kortlægningsbegivenheden ${ "
+"productNameString }. Du kan finde yderligere oplysninger her: ${ url }"
 
 #: src/components/Map/MappingEventMarkerIcon.js:34
 msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
+msgstr "${ eventName } Kortmarkør til kortlægningsbegivenhed"
 
 #: src/lib/goToLocationSettings.js:36
 msgid ""
@@ -420,40 +425,40 @@ msgstr "Luk del-menu"
 
 #: src/components/Toolbar.js:333
 msgid "Collapse details"
-msgstr ""
+msgstr "Skjul oplysninger"
 
 #: src/components/Toolbar.js:333
 msgid "Expand details"
-msgstr ""
+msgstr "Udvid oplysninger"
 
 #: src/components/NodeToolbar/FeatureClusterPanel.js:145
 msgid "Places"
-msgstr ""
+msgstr "Steder"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
 msgid "Thank you!"
-msgstr ""
+msgstr "Tak!"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
 msgid "Please give us a moment to verify your contribution."
-msgstr ""
+msgstr "Giv os et øjeblik til at bekræfte dit bidrag."
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
 msgid "Add next place"
-msgstr ""
+msgstr "Tilføj næste sted"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
 msgid "Back to map"
-msgstr ""
+msgstr "Tilbage til kort"
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
-msgstr ""
+msgstr "Gå til ${ appName }"
 
 #: src/components/Onboarding/Onboarding.js:62
 #: src/components/WheelmapHomeLink.js:15
 msgid "App Logo"
-msgstr ""
+msgstr "App-logo"
 
 #: src/components/SearchToolbar/SearchButton.js:35
 msgid "All places"
@@ -469,7 +474,7 @@ msgstr "Okay, lad os tage afsted!"
 
 #: src/components/Onboarding/Onboarding.js:46
 msgid "Continue without cookies"
-msgstr ""
+msgstr "Fortsæt uden cookies"
 
 #: src/components/Onboarding/Onboarding.js:49
 msgid ""
@@ -477,6 +482,9 @@ msgid ""
 "href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
 "Privacy Policy</a>."
 msgstr ""
+"Vi bruger cookies for at forbedre denne app for dig. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Læs vores"
+" privatlivspolitik</a>."
 
 #: src/components/Onboarding/Onboarding.js:70
 msgid "Start screen"
@@ -603,6 +611,10 @@ msgid ""
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal license</a>)."
 msgstr ""
+"Jeg offentliggør hermed disse billeder til det offentlige rum, og frasiger "
+"mig ophavsretten (<a "
+"href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
+"target=\"_blank\">CC0 1.0 Universallicens</a>)."
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
@@ -835,10 +847,12 @@ msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr ""
+"Oplysninger om dette sted er blevet leveret af en anden organisation, som er"
+" en del af ${ sourceName }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:110
 msgid "Fix on external page."
-msgstr ""
+msgstr "Ret på ekstern side."
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -900,6 +914,9 @@ msgid ""
 "\n"
 "Click on this link to open it: ${ url }"
 msgstr ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Klik på dette link, for at åbne det: ${ url }"
 
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
 msgid "Report a problem"
@@ -940,11 +957,11 @@ msgstr "Tilføj toiletstatus"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
-msgstr ""
+msgstr "Søger efter tilgængeligt toilet"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
 msgid "Show next wheelchair accessible toilet"
-msgstr ""
+msgstr "Vis næste toilet med tilgængelighed for kørestole"
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -967,7 +984,7 @@ msgid ""
 "If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
-"Hvis stedet er lukket permanent, kan du tagge stedet som 'nedlagt' på "
+"Hvis stedet er lukket permanent, kan du tagge stedet som 'disused' på "
 "OpenStreetMap."
 
 #: src/components/NodeToolbar/Report/strings.js:18
@@ -1027,6 +1044,17 @@ msgid ""
 "\n"
 "${ navigator.userAgent }"
 msgstr ""
+"(Skriv venligst kun på engelsk eller tysk.)\n"
+"\n"
+"Dear Sozialhelden,\n"
+"\n"
+"something about this place is wrong: ${ url }\n"
+"\n"
+"The problem is:\n"
+"\n"
+"My browser:\n"
+"\n"
+"${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.js:43
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
@@ -1042,33 +1070,35 @@ msgstr "[Wheelmap] Problem med et sted på Wheelmap"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:39
 msgid "The accessibility of the place is marked incorrectly."
-msgstr ""
+msgstr "Tilgængeligheden for dette sted er kortlagt forkert."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:43
 msgid "The place is permanently closed."
-msgstr ""
+msgstr "Stedet er permanent lukket."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:127
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr ""
+"Tak! Stedet blev rapporteret. Vi tager et kig på din anmeldelse snarest "
+"muligt."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:128
 msgid "Something went wrong reporting the place. Please try again later."
-msgstr ""
+msgstr "Noget gik galt ved anmeldelsen af stedet. Prøv venligst igen senere."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:141
 msgid "Feel free to add some additional information…"
-msgstr ""
+msgstr "Tilføj endelig yderligere oplysninger..."
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
 msgid "View this place on ${ name }"
-msgstr ""
+msgstr "Se dette sted på ${ name }"
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
 msgid "Edit this place on ${ name }"
-msgstr ""
+msgstr "Redigér dette sted på ${ name }"
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
@@ -1077,38 +1107,38 @@ msgstr "Detaljer"
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator er i drift"
+msgstr[1] "${ count } elevatorer er i drift"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
 msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rulletrappe i drift"
+msgstr[1] "${ count } rulletrapper i drift"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator er ude af drift"
+msgstr[1] "${ count } elevatorer er ude af drift"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rulletrappe er ude af drift"
+msgstr[1] "${ count } rulletrapper er ude af drift"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } elevator med ukendt driftsstatus"
+msgstr[1] "${ count } elevatorer med ukendt driftsstatus"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "${ count } rulletrapper med ukendt driftsstatus"
+msgstr[1] "${ count } rulletrapper med ukendt driftsstatus"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "

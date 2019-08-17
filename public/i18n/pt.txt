@@ -1,11 +1,11 @@
 # Translators:
-# Developers, 2019
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Rui <xymarior@yandex.com>, 2019
+# Developers, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Rui <xymarior@yandex.com>, 2019\n"
+"Last-Translator: Developers, 2019\n"
 "Language-Team: Portuguese (https://www.transifex.com/sozialhelden/teams/16671/pt/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: pt\n"
@@ -21,7 +21,7 @@ msgstr "Página inicial"
 
 #: src/components/EmbedModeDeniedDialog.js:12
 msgid "Embed mode can not be used"
-msgstr ""
+msgstr "Não é possível usar o modo de incorporação"
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
@@ -32,7 +32,9 @@ msgstr "Erro"
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
-msgstr "Parece que este local não está no Wheelmap"
+msgstr ""
+"Esta URL não funciona mais. Se você acha que o lugar existe, pode usar a "
+"busca para encontrá-lo."
 
 #: src/components/NotFound/NotFound.js:54
 msgid "Sorry, we are offline!"
@@ -100,7 +102,7 @@ msgstr "Casas de banho"
 
 #: src/lib/Categories.js:255
 msgid "Error while loading place categories."
-msgstr "Ocorreu um erro ao carregar do servidor as categorias"
+msgstr "Ocorreu um erro ao carregar do servidor as categorias."
 
 #: src/app/CreatePlaceData.js:12
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
@@ -121,7 +123,7 @@ msgstr "Infraestrutura sem nome"
 
 #: src/lib/EquipmentInfo.js:114
 msgid "In operation"
-msgstr "A funcionar"
+msgstr "Em serviço"
 
 #: src/lib/EquipmentInfo.js:116
 msgid "Out of order"
@@ -129,7 +131,7 @@ msgstr "Fora de serviço"
 
 #: src/lib/EquipmentInfo.js:118
 msgid "Unknown operational status"
-msgstr "estado desconhecido"
+msgstr "Estado desconhecido"
 
 #: src/lib/EquipmentInfo.js:159
 msgid "Escalator"
@@ -137,7 +139,7 @@ msgstr "Escada rolante"
 
 #: src/lib/EquipmentInfo.js:160
 msgid "Elevator"
-msgstr "elevador"
+msgstr "Elevador"
 
 #: src/lib/EquipmentInfo.js:162
 msgid "Facility"
@@ -230,7 +232,7 @@ msgstr "Casa de banho acessível a cadeira de rodas"
 
 #: src/lib/Feature.js:531
 msgid "No wheelchair accessible toilet"
-msgstr "Sem casa de banho acessível a deficientes."
+msgstr "Sem casa de banho acessível a deficientes"
 
 #: src/lib/Feature.js:539
 msgid "Doorways' inner width ≥ 35 inches"
@@ -274,73 +276,76 @@ msgstr "Ocorreu um erro ao carregar do servidor os dados."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
 msgid "Welcome"
-msgstr ""
+msgstr "Bem-vindo"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
 msgid ""
 "You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
 "step: Rate and add the accessibility of places."
 msgstr ""
+"Agora fazes parte do evento de mapeamento ${ mappingEvent.name } ❤ O teu "
+"próximo passo: avaliar e adicionar a acessibilidade dos locais."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
 msgid "Let's go"
-msgstr ""
+msgstr "Vamos"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
 msgid "Mapping events list"
-msgstr ""
+msgstr "Lista de eventos de mapeamento"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:33
 msgid "${ mappingEvents.length } active mapping events"
-msgstr ""
+msgstr "${ mappingEvents.length } eventos de mapeamento ativos"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:35
 msgid "Events"
-msgstr ""
+msgstr "Eventos"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr ""
+"Conhece a comunidade e mapeia a acessibilidade dos locais à tua volta!"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
-msgstr ""
+msgstr "a começar"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:80
 msgid "until"
-msgstr ""
+msgstr "até"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:95
 msgid "Mapping event ${ mappingEvent.name }"
-msgstr ""
+msgstr "Evento de mapeamento ${ mappingEvent.name }"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:97
 msgid "Center map on mapping event"
-msgstr ""
+msgstr "Centrar o mapa no evento de mapeamento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:99
 msgid "Meeting point"
-msgstr ""
+msgstr "Local de encontro"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:101
 msgid "Area name"
-msgstr ""
+msgstr "Nome da área"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:103
 msgid "Event date"
-msgstr ""
+msgstr "Data do evento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:105
 msgid "Event start date"
-msgstr ""
+msgstr "Data de início do evento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:107
 msgid "Event end date"
-msgstr ""
+msgstr "Data do fim do evento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:109
 msgid "Back to the mapping events list"
-msgstr ""
+msgstr "Voltar à lista de eventos de mapeamento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:111
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
@@ -349,11 +354,11 @@ msgstr "Partilhar"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:113
 msgid "Join mapping event"
-msgstr ""
+msgstr "Participar no evento de mapeamento"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:115
 msgid "Leave mapping event"
-msgstr ""
+msgstr "Deixar evento de mapeamento"
 
 #: src/components/Map/Map.js:1004
 msgid "Zoom in closer to see more places"
@@ -369,29 +374,31 @@ msgstr "Mapa"
 
 #: src/components/MappingEvents/Statistics.js:20
 msgid "Mapping Event Numbers"
-msgstr ""
+msgstr "Números do evento de mapeamento"
 
 #: src/components/MappingEvents/Statistics.js:22
 msgid "Mapped Places"
-msgstr ""
+msgstr "Locais mapeados"
 
 #: src/components/MappingEvents/Statistics.js:24
 msgid "Participants"
-msgstr ""
+msgstr "Participantes"
 
 #: src/components/MappingEvents/Statistics.js:26
 msgid "Days Left"
-msgstr ""
+msgstr "Dias restantes"
 
 #: src/components/MappingEvents/MappingEventShareBar.js:34
 msgid ""
 "Help us out and join the ${ mappingEvent.name } mapping event${ "
 "productNameString }. You can find more info here: ${ url }"
 msgstr ""
+"Ajuda-nos e junta-te ao evento de mapeamento ${ mappingEvent.name } ${ "
+"productNameString }. Podes saber mais informações aqui: ${ url }"
 
 #: src/components/Map/MappingEventMarkerIcon.js:34
 msgid "${ eventName } Mapping Event Map Marker"
-msgstr ""
+msgstr "Marcador de mapa do evento de mapeamento ${ eventName }"
 
 #: src/lib/goToLocationSettings.js:36
 msgid ""
@@ -413,11 +420,11 @@ msgstr "Fechar"
 
 #: src/components/ShareBar/ShareBar.js:86
 msgid "Expand share menu"
-msgstr "Expandir o Menu de Partilha"
+msgstr "Expandir o menu de partilha"
 
 #: src/components/ShareBar/ShareBar.js:106
 msgid "Collapse share menu"
-msgstr "Colapsar Menu de Partilha"
+msgstr "Colapsar menu de partilha"
 
 #: src/components/Toolbar.js:333
 msgid "Collapse details"
@@ -479,12 +486,12 @@ msgid ""
 "Privacy Policy</a>."
 msgstr ""
 "Usamos cookies para melhorar esta aplicação para si. <a "
-"href=\"https://news.wheelmap.org/en/terms-of-use/\" target=\"_blank\">Leia a"
-" nossa política de privacidade</a>."
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Leia a "
+"nossa política de privacidade</a>."
 
 #: src/components/Onboarding/Onboarding.js:70
 msgid "Start screen"
-msgstr "Ecrã inicial do Wheelmap"
+msgstr "Ecrã inicial"
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
 msgid "Image shows another place."
@@ -547,7 +554,7 @@ msgstr "Enviar"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
 msgid "“Vespucci” in PlayStore"
-msgstr "Vespucci na PlayStore"
+msgstr "\"Vespucci\" na PlayStore"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
 msgid "Use the OpenStreetMap web editor"
@@ -555,15 +562,15 @@ msgstr "Usar o editor web do OpenStreetMap"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
 msgid "“Go Map!!” in App Store"
-msgstr "Vamos Mapear! na App Store"
+msgstr "“Go Map!!” na App Store"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
 msgid "“MAPS.ME” in App Store"
-msgstr "MAPS.ME na App Store"
+msgstr "\"MAPS.ME\" na App Store"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
 msgid "“MAPS.ME” in PlayStore"
-msgstr "MAPS.ME na PlayStore"
+msgstr "\"MAPS.ME\" na PlayStore"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
@@ -608,7 +615,7 @@ msgid ""
 msgstr ""
 "Pelo presente, publico estas imagens em domínio público e renuncio à "
 "proteção de direitos de autor de acordo com a licença (<a "
-"href=\"https://creativecommons.org/publicdomain/zero/1.0/deed.pt\" "
+"href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal</a>)."
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
@@ -645,7 +652,7 @@ msgstr "Carregar nova"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Image upload"
-msgstr "Envio de Fotos Wheelmap"
+msgstr "Envio de fotos Wheelmap"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Hi Wheelmap Team, I have an image of the following place:"
@@ -688,11 +695,11 @@ msgid ""
 "retry."
 msgstr ""
 "Desculpe, isto não funcionou! Por favor confirme se todos os caracteres "
-"estão corretos e então tente novamente,"
+"estão corretos e então tente novamente."
 
 #: src/components/SearchToolbar/SearchToolbar.js:459
 msgid "Clear search"
-msgstr "Limpar Pesquisa"
+msgstr "Limpar pesquisa"
 
 #: src/components/MainMenu/MainMenu.js:120
 msgid "Home"
@@ -712,7 +719,7 @@ msgstr "Não foi possível carregar os resultados. Por favor tente mais tarde!"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
-msgstr "Pelo menos parcialmente acessível a cadeira de rodas + WC"
+msgstr "Parcialmente acessível a cadeira de rodas + WC"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
@@ -732,7 +739,7 @@ msgstr "Apenas locais que não são acessíveis"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair accessibility filter"
-msgstr "Filtro de Acessibilidade a Cadeiras de Rodas"
+msgstr "Filtro de acessibilidade a cadeiras de rodas"
 
 #: src/components/SearchToolbar/SearchInputField.js:65
 msgid "Search for place or address"
@@ -749,11 +756,11 @@ msgstr "Sem nome"
 
 #: src/components/SearchToolbar/CategoryButton.js:69
 msgid "Remove ${ props.name } Filter"
-msgstr "Remover Filtro ${ props.name }"
+msgstr "Remover filtro ${ props.name }"
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
 msgid "Remove ${ caption } Filter"
-msgstr "Remover Filtro ${ caption }"
+msgstr "Remover filtro ${ caption }"
 
 #: src/components/NodeToolbar/SourceList.js:33
 msgid "Source:"
@@ -776,7 +783,7 @@ msgstr "Não"
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
 msgid "Wheelchair accessibility"
-msgstr "Acessibilidade a Cadeiras de Rodas"
+msgstr "Acessibilidade a cadeiras de rodas"
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
 msgid "Disruptions at this location"
@@ -844,10 +851,12 @@ msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr ""
+"A informação sobre este local foi oferecida por outra organização, faz parte"
+" de ${ sourceName }."
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:110
 msgid "Fix on external page."
-msgstr ""
+msgstr "Corrige em página externa."
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
@@ -910,6 +919,9 @@ msgid ""
 "\n"
 "Click on this link to open it: ${ url }"
 msgstr ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Clica nesta ligação para abri-la: ${ url }"
 
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
 msgid "Report a problem"
@@ -950,7 +962,7 @@ msgstr "Adicionar estado da casa de banho"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
-msgstr ""
+msgstr "À procura de casa de banho acessível"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
 msgid "Show next wheelchair accessible toilet"
@@ -1039,48 +1051,61 @@ msgid ""
 "\n"
 "${ navigator.userAgent }"
 msgstr ""
+"(Escreva apenas em inglês ou alemão).\n"
+"\n"
+"Dear Sozialhelden,\n"
+"\n"
+"something about this place is wrong: ${ url }\n"
+"\n"
+"The problem is:\n"
+"\n"
+"My browser:\n"
+"\n"
+"${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.js:43
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "[Wheelmap] Problema com ${ placeName } no Wheelmap"
+msgstr "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:45
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[Wheelmap] Problema com ${ categoryName } no Wheelmap"
+msgstr "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 
 #: src/components/NodeToolbar/Report/strings.js:47
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr "[Wheelmap] Problema com um local no Wheelmap"
+msgstr "[Wheelmap] Problem with a place on Wheelmap"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:39
 msgid "The accessibility of the place is marked incorrectly."
-msgstr ""
+msgstr "A acessibilidade do local está marcada incorretamente."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:43
 msgid "The place is permanently closed."
-msgstr ""
+msgstr "O local está permanentemente fechado."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:127
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr ""
+"Obrigado! O local foi reportado com sucesso. Analisaremos o teu relatório "
+"assim que possível."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:128
 msgid "Something went wrong reporting the place. Please try again later."
-msgstr ""
+msgstr "Algo correu mal ao reportar este local. Tenta novamente mais tarde."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:141
 msgid "Feel free to add some additional information…"
-msgstr ""
+msgstr "Sente-te à vontade para adicionar mais informação..."
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
 msgid "View this place on ${ name }"
-msgstr ""
+msgstr "Ver este local em ${ name }"
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
 msgid "Edit this place on ${ name }"
-msgstr ""
+msgstr "Editar este local em ${ name }"
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
@@ -1108,7 +1133,7 @@ msgstr[1] "${ count } elevadores fora de serviço"
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
 msgstr[0] "${ count } escada rolante fora de serviço"
-msgstr[1] "${ count }escadas rolantes fora de serviço"
+msgstr[1] "${ count } escadas rolantes fora de serviço"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
 msgid "${ count } elevator with unknown operational status"
