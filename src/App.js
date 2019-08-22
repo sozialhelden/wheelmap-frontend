@@ -353,13 +353,13 @@ class App extends React.Component<Props, State> {
         leftMappingEventId: previouslyJoinedMappingEventId,
         query: queryString.parse(search),
       });
-      window._paq.push(
+      window._paq.push([
         'trackEvent',
         'MappingEvent',
         'Left',
         'mappingEventId',
-        previouslyJoinedMappingEventId
-      );
+        previouslyJoinedMappingEventId,
+      ]);
     }
 
     if (joinedMappingEventId) {
@@ -369,13 +369,13 @@ class App extends React.Component<Props, State> {
         joinedVia: reason,
         query: queryString.parse(search),
       });
-      window._paq.push(
+      window._paq.push([
         'trackEvent',
         'MappingEvent',
         'Joined',
         'mappingEventId',
-        joinedMappingEventId
-      );
+        joinedMappingEventId,
+      ]);
     }
   };
 
