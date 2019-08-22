@@ -96,6 +96,49 @@ export default class MyDocument extends Document {
               __html: `
                 var _paq = window._paq || [];
                 /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+
+                function trackNativeAppStats() {
+                  try {
+                    var isNative = !!window.navigator.userAgent.match(/AllyApp/);
+  
+                    window._paq.push([
+                      'setCustomDimension',
+                      1, // Native app used
+                      isNative ? 'Native Mobile App' : 'Desktop Browser'
+                    ]);
+  
+                    if (!isNative) {
+                      return;
+                    }
+  
+                    var nativeAppVersionMatch = window.navigator.userAgent.match(
+                      /AllyApp (?:([^ ]+)(?: \(([^)]+)\))?)/
+                    );
+                    if (!nativeAppVersionMatch[1]) {
+                      return;
+                    }
+  
+                    window._paq.push([
+                      'setCustomDimension',
+                      2, // Native app version
+                      nativeAppVersionMatch[1]
+                    ]);
+  
+                    if (!nativeAppVersionMatch[2]) {
+                      return;
+                    }
+  
+                    window._paq.push([
+                      'setCustomDimension',
+                      3, // Native app OS
+                      nativeAppVersionMatch[2],
+                    ]);
+                  } catch (e) {
+                    console.log('Error: Could not track native app usage:', e);
+                  }
+                }
+
+                trackNativeAppStats();
                 _paq.push(['trackPageView']);
                 _paq.push(['enableLinkTracking']);
                 _paq.push(['enableHeartBeatTimer']);

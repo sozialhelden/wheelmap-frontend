@@ -255,55 +255,6 @@ class App extends React.Component<Props, State> {
       type: 'AppOpened',
       query: queryString.parse(window.location.search),
     });
-
-    // No Matomo tracking necessary for app opening as Matomo tracks URLs automatically
-
-    this.trackNativeAppUsage();
-  }
-
-  trackNativeAppUsage() {
-    if (typeof window === 'undefined' || !window._paq) {
-      return;
-    }
-
-    try {
-      const isNative = !!window.navigator.userAgent.match(/AllyApp/);
-
-      window._paq.push([
-        'setCustomDimension',
-        1, // Native app used
-        isNative ? 'Native Mobile App' : 'Desktop Browser',
-      ]);
-
-      if (!isNative) {
-        return;
-      }
-
-      const nativeAppVersionMatch = window.navigator.userAgent.match(
-        /AllyApp (?:([^ ]+)(?: \(([^)]+)\))?)/
-      );
-      if (!nativeAppVersionMatch[1]) {
-        return;
-      }
-
-      window._paq.push([
-        'setCustomDimension',
-        2, // Native app version
-        nativeAppVersionMatch[1],
-      ]);
-
-      if (!nativeAppVersionMatch[2]) {
-        return;
-      }
-
-      window._paq.push([
-        'setCustomDimension',
-        3, // Native app OS
-        nativeAppVersionMatch[2],
-      ]);
-    } catch (e) {
-      console.log('Error: Could not track native app usage:', e);
-    }
   }
 
   componentDidUpdate(_: Props, prevState: State) {
