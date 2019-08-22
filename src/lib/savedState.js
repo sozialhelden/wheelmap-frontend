@@ -72,7 +72,7 @@ export function hasAllowedAnalytics() {
   return storage.getItem('wheelmap.analyticsAllowed') === 'true';
 }
 
-export function setAnalyticsAllowed(value: boolean) {
+export function setThirdPartyAnalyticsAllowed(value: boolean) {
   storage.setItem('wheelmap.analyticsAllowed', value ? 'true' : 'false');
   notifyListeners();
 }

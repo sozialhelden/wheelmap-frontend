@@ -1,7 +1,7 @@
 // @flow
 
 import ReactGA from 'react-ga';
-import { setAnalyticsAllowed, hasAllowedAnalytics } from './savedState';
+import { setThirdPartyAnalyticsAllowed, hasAllowedAnalytics } from './savedState';
 
 export function restoreAnalytics(trackingId: string) {
   if (hasAllowedAnalytics()) {
@@ -11,7 +11,7 @@ export function restoreAnalytics(trackingId: string) {
 
 export function enableAnalytics(trackingId: string) {
   delete window[`ga-disable-${trackingId}`];
-  setAnalyticsAllowed(true);
+  setThirdPartyAnalyticsAllowed(true);
   ReactGA.initialize(trackingId);
 }
 
@@ -26,18 +26,24 @@ export function disableAnalytics(trackingId: string) {
   deleteCookie('_ga');
   deleteCookie('_gid');
   deleteCookie('_gat');
-  setAnalyticsAllowed(false);
+  setThirdPartyAnalyticsAllowed(false);
   // otherwise reinitializing does not set cookies again
   delete window.ga;
 }
 
 let lastPath: string = '/';
+let lastModalName: string = '';
 
 export function trackPageView(path: string) {
   // if disableAnalytics was called, no need to do anything
   if (typeof window !== 'undefined' && window.ga) {
     ReactGA.pageview(path);
     lastPath = path;
+  }
+  // Matomo
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push(['setDocumentTitle', window.document.title]);
+    window._paq.push(['trackPageView']);
   }
 }
 
@@ -51,17 +57,38 @@ export function trackModalView(name: string | null) {
       ReactGA.pageview(lastPath);
     }
   }
+  lastModalName = name || '';
+  // Matomo
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push([
+      'trackEvent',
+      'Modal',
+      name ? 'Open' : 'Close',
+      'Name',
+      name ? String(name) : String(lastModalName),
+    ]);
+  }
 }
 
 export function trackEvent(options: {
   category: string,
   action: string,
   label?: string,
-  value?: number,
+  value?: any,
   nonInteraction?: boolean,
 }) {
   // if disableAnalytics was called, no need to do anything
   if (typeof window !== 'undefined' && window.ga) {
     ReactGA.event(options);
+  }
+  // Matomo
+  if (typeof window._paq !== 'undefined') {
+    window._paq.push([
+      'trackEvent',
+      options.category,
+      options.action,
+      options.label,
+      String(options.value),
+    ]);
   }
 }

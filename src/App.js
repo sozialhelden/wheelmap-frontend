@@ -52,7 +52,7 @@ import 'react-activity/dist/react-activity.css';
 import './App.css';
 import './Global.css';
 import 'focus-visible';
-import { trackModalView } from './lib/Analytics';
+import { trackModalView, trackEvent } from './lib/Analytics';
 import { mappingEventsCache } from './lib/cache/MappingEventsCache';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
 
@@ -353,13 +353,12 @@ class App extends React.Component<Props, State> {
         leftMappingEventId: previouslyJoinedMappingEventId,
         query: queryString.parse(search),
       });
-      window._paq.push([
-        'trackEvent',
-        'MappingEvent',
-        'Left',
-        'mappingEventId',
-        previouslyJoinedMappingEventId,
-      ]);
+      trackEvent({
+        category: 'MappingEvent',
+        action: 'Left',
+        label: 'mappingEventId',
+        value: previouslyJoinedMappingEventId,
+      });
     }
 
     if (joinedMappingEventId) {
@@ -369,13 +368,12 @@ class App extends React.Component<Props, State> {
         joinedVia: reason,
         query: queryString.parse(search),
       });
-      window._paq.push([
-        'trackEvent',
-        'MappingEvent',
-        'Joined',
-        'mappingEventId',
-        joinedMappingEventId,
-      ]);
+      trackEvent({
+        category: 'MappingEvent',
+        action: 'Joined',
+        label: 'mappingEventId',
+        value: joinedMappingEventId,
+      });
     }
   };
 

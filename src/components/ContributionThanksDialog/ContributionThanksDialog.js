@@ -12,6 +12,7 @@ import queryString from 'query-string';
 import { ChromelessButton, CallToActionLink } from '../Button';
 import { trackingEventBackend } from '../../lib/TrackingEventBackend';
 import { type AppContext } from '../../AppContext';
+import { trackEvent } from '../../lib/Analytics';
 
 export type Props = {
   hidden: boolean,
@@ -79,7 +80,12 @@ export default class ContributionThanksDialog extends React.Component<Props> {
           type: 'SurveyCompleted',
           uniqueSurveyId: uniqueSurveyId,
         });
-        window._paq.push(['trackEvent', 'Survey', 'Completed', 'uniqueSurveyId', uniqueSurveyId]);
+        trackEvent({
+          category: 'Survey',
+          action: 'Completed',
+          label: 'uniqueSurveyId',
+          value: uniqueSurveyId,
+        });
       }
     }
   }
