@@ -83,8 +83,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
         trackEvent({
           category: 'Survey',
           action: 'Completed',
-          label: 'uniqueSurveyId',
-          value: uniqueSurveyId,
+          label: uniqueSurveyId,
         });
       }
     }

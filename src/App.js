@@ -356,8 +356,7 @@ class App extends React.Component<Props, State> {
       trackEvent({
         category: 'MappingEvent',
         action: 'Left',
-        label: 'mappingEventId',
-        value: previouslyJoinedMappingEventId,
+        label: previouslyJoinedMappingEventId,
       });
     }
 
@@ -371,8 +370,7 @@ class App extends React.Component<Props, State> {
       trackEvent({
         category: 'MappingEvent',
         action: 'Joined',
-        label: 'mappingEventId',
-        value: joinedMappingEventId,
+        label: joinedMappingEventId,
       });
     }
   };

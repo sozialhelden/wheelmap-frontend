@@ -64,7 +64,6 @@ export function trackModalView(name: string | null) {
       'trackEvent',
       'Modal',
       name ? 'Open' : 'Close',
-      'Name',
       name ? String(name) : String(lastModalName),
     ]);
   }
@@ -74,7 +73,7 @@ export function trackEvent(options: {
   category: string,
   action: string,
   label?: string,
-  value?: any,
+  value?: number,
   nonInteraction?: boolean,
 }) {
   // if disableAnalytics was called, no need to do anything
@@ -88,7 +87,7 @@ export function trackEvent(options: {
       options.category,
       options.action,
       options.label,
-      String(options.value),
+      options.value,
     ]);
   }
 }
