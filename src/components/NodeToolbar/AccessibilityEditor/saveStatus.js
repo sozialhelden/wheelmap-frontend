@@ -75,9 +75,10 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
     })
     .then(json => {
       trackEvent({
-        category: 'UpdateAccessibilityData',
-        action: propertyName,
-        label: String(value),
+        category: 'Accessibility',
+        action: 'Edit',
+        label: propertyName,
+        value: String(value),
       });
       trackAttributeChanged(options);
       [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
@@ -93,9 +94,10 @@ function save<T>(options: SaveOptions<T>): Promise<Response> {
       window.alert(t`Sorry, this place could not be marked because of an error: ${e}`);
 
       trackEvent({
-        category: 'UpdateAccessibilityData',
-        action: propertyName,
-        label: 'failed',
+        category: 'Accessibility',
+        action: 'Edit',
+        label: propertyName,
+        value: 'failed',
       });
     });
 }
