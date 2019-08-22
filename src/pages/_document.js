@@ -112,7 +112,7 @@ export default class MyDocument extends Document {
                     }
   
                     var nativeAppVersionMatch = window.navigator.userAgent.match(
-                      /AllyApp\/(?:([^ ]+)(?: \(([^)]+)\))?)/
+                      /AllyApp\\/(?:([^ ]+)(?: \\(([^)]+)\\))?)/
                     );
                     if (!nativeAppVersionMatch[1]) {
                       return;
