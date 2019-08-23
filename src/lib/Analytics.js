@@ -62,8 +62,7 @@ export function trackModalView(name: string | null) {
   if (typeof window._paq !== 'undefined') {
     window._paq.push([
       'trackEvent',
-      'Modal',
-      name ? 'Open' : 'Close',
+      name ? 'ModalOpen' : 'ModalClose',
       name ? String(name) : String(lastModalName),
     ]);
   }
