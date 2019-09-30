@@ -54,9 +54,7 @@ class Onboarding extends React.Component<Props, null> {
       setTimeout(() => props.onClose(), 10);
     };
 
-    const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown), {
-      sanitize: true,
-    });
+    const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown));
 
     /* translator: The alternative desription of the app logo for screenreaders */
     const appLogoAltText = t`App Logo`;
