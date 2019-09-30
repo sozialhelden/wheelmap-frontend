@@ -66,6 +66,15 @@ app.prepare().then(() => {
   });
 
   // Defines a filtered set of environment variables to the client.
+  //
+  // This enables us to configure the app at runtime, without having to re-compile/deploy the code.
+  // It avoids introducing subtle build-system related bugs when changing the configuration, e.g.
+  // when debugging problems that arise from a configuration error alone.
+  //
+  // This is intentionally different from the defaults offered by Webpack.
+  //
+  // Please read https://12factor.net/config if this concept is new to you.
+
   server.get('/clientEnv.js', (req, res) => {
     const envAndDotEnv = { ...dotenvConfig, ...process.env };
     const filteredEnvObject = JSON.stringify(
