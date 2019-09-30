@@ -35,8 +35,13 @@ let lastPath: string = '/';
 let lastModalName: string = '';
 
 export function trackPageView(path: string) {
+  if (typeof window === 'undefined') {
+    // Don't track anything when running on server
+    return;
+  }
+
   // if disableAnalytics was called, no need to do anything
-  if (typeof window !== 'undefined' && window.ga) {
+  if (window.ga) {
     ReactGA.pageview(path);
     lastPath = path;
   }
@@ -48,8 +53,13 @@ export function trackPageView(path: string) {
 }
 
 export function trackModalView(name: string | null) {
+  if (typeof window === 'undefined') {
+    // Don't track anything when running on server
+    return;
+  }
+
   // if disableAnalytics was called, no need to do anything
-  if (typeof window !== 'undefined' && window.ga) {
+  if (window.ga) {
     if (name) {
       ReactGA.modalview(name);
     } else {
@@ -75,10 +85,16 @@ export function trackEvent(options: {
   value?: number,
   nonInteraction?: boolean,
 }) {
+  if (typeof window === 'undefined') {
+    // Don't track anything when running on server
+    return;
+  }
+
   // if disableAnalytics was called, no need to do anything
-  if (typeof window !== 'undefined' && window.ga) {
+  if (window.ga) {
     ReactGA.event(options);
   }
+
   // Matomo
   if (typeof window._paq !== 'undefined') {
     window._paq.push([
