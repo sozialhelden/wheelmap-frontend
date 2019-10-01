@@ -5,6 +5,7 @@ import * as React from 'react';
 import SourceLink from '../SourceLink';
 import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
 import type { Feature } from '../../../lib/Feature';
+import { AppContextConsumer } from '../../../AppContext';
 
 type Props = {
   feature: ?Feature,
@@ -26,12 +27,17 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
   if (!properties) return null;
   const links = ['infoPageUrl', 'editPageUrl'].map(propertyName => {
     return (
-      <SourceLink
-        key={propertyName}
-        properties={properties}
-        knownSourceNameCaption={captions[propertyName]}
-        propertyName={propertyName}
-      />
+      <AppContextConsumer>
+        {appContext => (
+          <SourceLink
+            key={propertyName}
+            properties={properties}
+            knownSourceNameCaption={captions[propertyName]}
+            propertyName={propertyName}
+            appToken={appContext.app.tokenString}
+          />
+        )}
+      </AppContextConsumer>
     );
   });
 

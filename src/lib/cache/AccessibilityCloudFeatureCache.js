@@ -20,11 +20,11 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
 > {
   static fetchFeature(
     id: number | string,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<Response> {
     const acLocaleString = currentLocales[0].underscoredString;
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
     return this.fetch(
       `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`
     );
@@ -48,13 +48,17 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     super.cacheFeature(feature, response);
   }
 
-  reportPlace(placeId: string, reason: string, message: string): Promise<boolean> {
+  reportPlace(
+    placeId: string,
+    reason: string,
+    message: string,
+    appToken: string
+  ): Promise<boolean> {
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
           `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
-            ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${process
-            .env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || ''}`,
+            ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
           {
             method: 'POST',
             headers: {

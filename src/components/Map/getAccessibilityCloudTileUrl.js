@@ -25,11 +25,11 @@ export function buildSourceIdParams(
 export default function accessibilityCloudTileUrl(
   locale: Locale,
   includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>
+  excludeSourceIds: Array<string>,
+  appToken: string
 ): string {
   const acLocaleString = locale.underscoredString;
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  const token = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
-  return `${baseUrl}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${token}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
+  return `${baseUrl}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
 }

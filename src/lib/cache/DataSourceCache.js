@@ -13,20 +13,19 @@ export type DataSource = {
 };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {
-  getDataSourceWithId(id: string): Promise<DataSource> {
-    const url = this.urlFromId(id);
+  getDataSourceWithId(id: string, appToken: string): Promise<DataSource> {
+    const url = this.urlFromId(id, appToken);
 
     return this.getData(url);
   }
 
-  urlFromId(id: string) {
+  urlFromId(id: string, appToken: string) {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
     return `${baseUrl}/sources/${id}.json?appToken=${appToken}`;
   }
 
-  injectDataSource(source: DataSource) {
-    const url = this.urlFromId(source._id);
+  injectDataSource(source: DataSource, appToken: string) {
+    const url = this.urlFromId(source._id, appToken);
 
     this.inject(url, source);
   }

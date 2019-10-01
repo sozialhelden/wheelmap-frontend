@@ -86,7 +86,8 @@ const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEnt
 const generateAcIssues = (
   properties: AccessibilityCloudProperties,
   appContext: AppContext,
-  source: ?DataSource
+  source: ?DataSource,
+  appToken: string
 ): IssueEntry[] => {
   const isExternal = source && source.organizationId !== appContext.app.organizationId;
   const hasExternalPage = Boolean(properties['infoPageUrl'] || properties['editPageUrl']);
@@ -116,7 +117,7 @@ const generateAcIssues = (
         className: key,
         issueLink: () => value,
         component: (props: { featureId: string, onClose: () => void }) => (
-          <SendReportToAc {...props} reportReason={key} />
+          <SendReportToAc {...props} reportReason={key} appToken={appToken} />
         ),
       };
     }),
@@ -175,7 +176,7 @@ class ReportDialog extends React.Component<Props, State> {
     document.removeEventListener('keydown', this.escapeHandler);
   }
 
-  generateIssues(featureId: string | number, props: NodeProperties) {
+  generateIssues(featureId: string | number, props: NodeProperties, appToken: string) {
     if (isWheelmapFeatureId(featureId)) {
       return generateWheelmapClassicIssues(((props: any): WheelmapProperties));
     }
@@ -183,12 +184,12 @@ class ReportDialog extends React.Component<Props, State> {
     const acProps = ((props: any): AccessibilityCloudProperties);
 
     if (!this.state.source) {
-      dataSourceCache.getDataSourceWithId(acProps.sourceId).then(source => {
+      dataSourceCache.getDataSourceWithId(acProps.sourceId, appToken).then(source => {
         this.setState({ source });
       });
     }
 
-    return generateAcIssues(acProps, this.props.appContext, this.state.source);
+    return generateAcIssues(acProps, this.props.appContext, this.state.source, appToken);
   }
 
   escapeHandler = (event: KeyboardEvent) => {
@@ -240,7 +241,11 @@ class ReportDialog extends React.Component<Props, State> {
     }
 
     const { backButtonCaption, reportIssueHeader } = strings();
-    const issues = this.generateIssues(featureId, properties);
+    const issues = this.generateIssues(
+      featureId,
+      properties,
+      this.props.appContext.app.tokenString
+    );
 
     return (
       <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">

@@ -25,7 +25,9 @@ type AppApiData = {
 
 export default class AppCache extends URLDataCache<AppApiData> {
   getApp(hostName: string): Promise<App> {
-    const url = this.getUrl(hostName);
+    // For bootstrapping, we need to use Wheelmap's token - it can load any app's info.
+    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
+    const url = this.getUrl(hostName, appToken);
 
     return this.getData(url).then(appData => {
       // extract the appLinks from the related property and put them under
@@ -43,8 +45,8 @@ export default class AppCache extends URLDataCache<AppApiData> {
     });
   }
 
-  injectApp(hostName: string, app: App) {
-    const url = this.getUrl(hostName);
+  injectApp(hostName: string, app: App, appToken: string) {
+    const url = this.getUrl(hostName, appToken);
 
     const { customMainMenuLinks, ...configWithoutLinks } = app.clientSideConfiguration;
 
@@ -61,12 +63,11 @@ export default class AppCache extends URLDataCache<AppApiData> {
     });
   }
 
-  getUrl(hostName: string): string {
+  getUrl(hostName: string, appToken: string): string {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL;
-    const token = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
     // Allow test deployments on zeit
     const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
-    return `${baseUrl}/apps/${cleanedHostName}.json?appToken=${token}`;
+    return `${baseUrl}/apps/${cleanedHostName}.json?appToken=${appToken}`;
   }
 }
 

@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react';
-import { type DataTableEntry, type AppProps } from './getInitialProps';
+import { type DataTableEntry, type RenderContext } from './getInitialProps';
 import { type MappingEvent } from '../lib/MappingEvent';
 import { translatedStringFromObject } from '../lib/i18n';
 
@@ -19,17 +19,17 @@ const MappingEventDetailData: DataTableEntry<MappingEventDetailDataProps> = {
     return <title key="title">{title}</title>;
   },
 
-  getMappingEvent(eventId: string, appProps: AppProps) {
-    return appProps.mappingEvents.find(event => event._id === eventId);
+  getMappingEvent(eventId: string, renderContext: RenderContext) {
+    return renderContext.mappingEvents.find(event => event._id === eventId);
   },
 
-  async getInitialRouteProps(query, appPropsPromise, isServer) {
-    const appProps = await appPropsPromise;
-    const mappingEvent = this.getMappingEvent(query.id, appProps);
+  async getInitialRouteProps(query, renderContextPromise, isServer) {
+    const renderContext = await renderContextPromise;
+    const mappingEvent = this.getMappingEvent(query.id, renderContext);
     const eventFeature = mappingEvent.meetingPoint;
 
     return {
-      ...appProps,
+      ...renderContext,
       mappingEvent,
       feature: eventFeature,
       featureId: mappingEvent._id,

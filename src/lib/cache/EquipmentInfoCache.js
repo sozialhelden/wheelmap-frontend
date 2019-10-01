@@ -11,10 +11,10 @@ export default class EquipmentInfoCache extends FeatureCache<
 > {
   static fetchFeature(
     id: string | number,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<Response> {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
     const url = `${baseUrl}/equipment-infos/${id}.json?appToken=${appToken}`;
     return this.fetch(url);
   }

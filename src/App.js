@@ -576,7 +576,7 @@ class App extends React.Component<Props, State> {
 
   onStartPhotoUploadFlow = () => {
     // start requesting captcha early
-    accessibilityCloudImageCache.getCaptcha();
+    accessibilityCloudImageCache.getCaptcha(this.props.app.tokenString);
 
     this.setState({
       isSearchBarVisible: false,
@@ -633,7 +633,7 @@ class App extends React.Component<Props, State> {
     this.setState({ waitingForPhotoUpload: true, photoFlowNotification: 'uploadProgress' });
 
     accessibilityCloudImageCache
-      .uploadPhotoForFeature(String(featureId), photos, captchaSolution)
+      .uploadPhotoForFeature(String(featureId), photos, this.props.app.tokenString, captchaSolution)
       .then(() => {
         console.log('Succeeded upload');
         this.onExitPhotoUploadFlow('waitingForReview');
@@ -654,7 +654,11 @@ class App extends React.Component<Props, State> {
 
   onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
     if (photo.source === 'accessibility-cloud') {
-      accessibilityCloudImageCache.reportPhoto(String(photo.imageId), reason);
+      accessibilityCloudImageCache.reportPhoto(
+        String(photo.imageId),
+        reason,
+        this.props.app.tokenString
+      );
       this.onExitReportPhotoFlow('reported');
     }
   };

@@ -5,20 +5,19 @@ import env from '../env';
 export type License = { _id: string };
 
 export default class LicenseCache extends URLDataCache<License> {
-  getLicenseWithId(id: string): Promise<License> {
-    const url = this.urlFromId(id);
+  getLicenseWithId(id: string, appToken: string): Promise<License> {
+    const url = this.urlFromId(id, appToken);
 
     return this.getData(url);
   }
 
-  urlFromId(id: string) {
+  urlFromId(id: string, appToken: string) {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-    const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
     return `${baseUrl}/licenses/${id}.json?appToken=${appToken}`;
   }
 
-  injectLicense(license: License) {
-    const url = this.urlFromId(license._id);
+  injectLicense(license: License, appToken: string) {
+    const url = this.urlFromId(license._id, appToken);
 
     this.inject(url, license);
   }

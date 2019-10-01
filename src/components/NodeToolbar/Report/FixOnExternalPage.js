@@ -7,6 +7,7 @@ import SourceLink from '../SourceLink';
 import type { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
 import { type DataSource } from '../../../lib/cache/DataSourceCache';
 import strings from './strings';
+import { AppContextConsumer } from '../../../AppContext';
 
 type Props = {
   feature: Feature,
@@ -33,14 +34,19 @@ const FixOnExternalPage = (props: Props) => {
         <div>
           <p>{useLinkExplanation}</p>
           <p className="subtle">{editingDelayExplanation}</p>
-          {['infoPageUrl', 'editPageUrl'].map(propertyName => (
-            <SourceLink
-              key={propertyName}
-              properties={properties}
-              knownSourceNameCaption={callToActions[propertyName]}
-              propertyName={propertyName}
-            />
-          ))}
+          <AppContextConsumer>
+            {appContext =>
+              ['infoPageUrl', 'editPageUrl'].map(propertyName => (
+                <SourceLink
+                  key={propertyName}
+                  properties={properties}
+                  knownSourceNameCaption={callToActions[propertyName]}
+                  propertyName={propertyName}
+                  appToken={appContext.app.tokenString}
+                />
+              ))
+            }
+          </AppContextConsumer>
         </div>
       ) : null}
       <button className="link-button negative-button" onClick={onClose}>

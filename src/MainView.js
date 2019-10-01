@@ -524,6 +524,7 @@ class MainView extends React.Component<Props, State> {
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         photoCaptchaFailed={this.props.photoCaptchaFailed}
         photoFlowErrorMessage={this.props.photoFlowErrorMessage}
+        appToken={this.props.app.tokenString}
       />
     );
   }
@@ -663,9 +664,7 @@ class MainView extends React.Component<Props, State> {
       delete queryParams.embedded;
       const queryStringWithoutEmbeddedParam = queryString.stringify(queryParams);
 
-      const homeLinkHref = `${window.location.origin}${
-        window.location.pathname
-      }?${queryStringWithoutEmbeddedParam}`;
+      const homeLinkHref = `${window.location.origin}${window.location.pathname}?${queryStringWithoutEmbeddedParam}`;
 
       return <PositionedWheelmapHomeLink href={homeLinkHref} appName={appName} logoURL={logoURL} />;
     }

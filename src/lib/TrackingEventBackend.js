@@ -87,7 +87,7 @@ export default class TrackingEventBackend {
       },
     };
 
-    const fetchUrl = `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL}/tracking-events/report?appToken=${env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN}`;
+    const fetchUrl = `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
 
     const uploadPromise = new Promise((resolve, reject) => {
       globalFetchManager

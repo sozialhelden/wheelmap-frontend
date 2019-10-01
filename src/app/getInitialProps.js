@@ -17,7 +17,7 @@ import {
 import { type App } from '../lib/App';
 
 import { appCache } from '../lib/cache/AppCache';
-import { categoriesCache } from '../lib/cache/CategoryLookupTablesCache';
+import CategoryLookupTablesCache from '../lib/cache/CategoryLookupTablesCache';
 import { mappingEventsCache } from '../lib/cache/MappingEventsCache';
 import type { MappingEvents } from '../lib/MappingEvent';
 
@@ -28,8 +28,9 @@ import CreatePlaceData from './CreatePlaceData';
 import ContributionThanksData from './ContributionThanksData';
 import MappingEventDetailData from './MappingEventDetailData';
 
-export type AppProps = {
+export type RenderContext = {
   app: App,
+
   userAgent: UAResult,
   rawCategoryLists: RawCategoryLists,
   translations: Translations[],
@@ -57,15 +58,15 @@ type DataTableQuery = {
 export type DataTableEntry<Props> = {
   getInitialRouteProps?: (
     query: DataTableQuery,
-    appPropsPromise: Promise<AppProps>,
+    renderContextPromise: Promise<RenderContext>,
     isServer: boolean
   ) => Promise<Props>,
-  getRenderProps?: (props: Props, isServer: boolean) => Props,
+  getAdditionalPageComponentProps?: (props: Props, isServer: boolean) => Props,
   getHead?: (
-    props: Props & AppProps,
+    props: Props & RenderContext,
     baseUrl?: string
   ) => Promise<React$Element<any>> | React$Element<any>,
-  storeInitialRouteProps?: (props: Props) => void,
+  storeInitialRouteProps?: (props: Props, appToken: string) => void,
 };
 
 type DataTable = {
@@ -83,6 +84,11 @@ const dataTable: DataTable = Object.freeze({
   mappingEventJoin: MappingEventDetailData,
 });
 
+export const categoriesCache = new CategoryLookupTablesCache({
+  reloadInBackground: true,
+  maxAllowedCacheAgeBeforeReload: 1000 * 60 * 60, // 1 hour
+});
+
 export function getInitialRouteProps(
   {
     routeName,
@@ -91,7 +97,7 @@ export function getInitialRouteProps(
     routeName: string,
     [key: string]: string,
   },
-  appPropsPromise: Promise<AppProps>,
+  renderContextPromise: Promise<RenderContext>,
   isServer: boolean
 ) {
   const dataItem = dataTable[routeName];
@@ -100,20 +106,24 @@ export function getInitialRouteProps(
     return {};
   }
 
-  return dataItem.getInitialRouteProps(query, appPropsPromise, isServer);
+  return dataItem.getInitialRouteProps(query, renderContextPromise, isServer);
 }
 
-export function getRenderProps<Props>(routeName: string, props: Props, isServer: boolean): Props {
+export function getAdditionalPageComponentProps<Props>(
+  routeName: string,
+  props: Props,
+  isServer: boolean
+): Props {
   const dataItem = dataTable[routeName];
 
-  if (!dataItem || !dataItem.getRenderProps) {
+  if (!dataItem || !dataItem.getAdditionalPageComponentProps) {
     return props;
   }
 
-  return dataItem.getRenderProps(props, isServer);
+  return dataItem.getAdditionalPageComponentProps(props, isServer);
 }
 
-export async function getInitialAppProps(
+export async function getInitialRenderContext(
   {
     userAgentString,
     localeStrings,
@@ -153,7 +163,7 @@ export async function getInitialAppProps(
     [key: string]: ?string,
   },
   useCache: boolean = true
-): Promise<AppProps> {
+): Promise<RenderContext> {
   // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
@@ -167,8 +177,8 @@ export async function getInitialAppProps(
 
   // setup translations
   const translations =
-    useCache && appPropsCache.translations
-      ? appPropsCache.translations
+    useCache && cachedTranslations
+      ? cachedTranslations
       : getAvailableTranslationsByPreference(
           allTranslations,
           localeStrings,
@@ -176,13 +186,15 @@ export async function getInitialAppProps(
         );
   const preferredLocaleString = translations[0].headers.language;
 
+  const app = await appPromise;
+
   // load categories
   const rawCategoryListsPromise = categoriesCache.getRawCategoryLists({
+    appToken: app.tokenString,
     locale: preferredLocaleString,
     disableWheelmapSource: overriddenWheelmapSource === 'true',
   });
 
-  const app = await appPromise;
   const clientSideConfiguration = app.clientSideConfiguration;
   const [rawCategoryLists, mappingEvents] = await Promise.all([
     rawCategoryListsPromise,
@@ -212,7 +224,7 @@ export async function getInitialAppProps(
     (clientSideConfiguration ? clientSideConfiguration.excludeSourceIds : []);
 
   // assign to local variable for better flow errors
-  const appProps: AppProps = {
+  const renderContext: RenderContext = {
     userAgent,
     translations,
     rawCategoryLists,
@@ -236,21 +248,25 @@ export async function getInitialAppProps(
     inEmbedMode: embedded === 'true',
     embedToken,
   };
-  return appProps;
+  return renderContext;
 }
 
-const appPropsCache: $Shape<AppProps> = {};
+let cachedTranslations: Translations[] = [];
 
-export function storeInitialAppProps(props: $Shape<AppProps>, isServer: boolean) {
+export function storeInitialRenderContext(
+  props: $Shape<RenderContext>,
+  isServer: boolean,
+  appToken: string
+) {
   const { translations, rawCategoryLists, app, hostName, preferredLocaleString } = props;
 
   // only store translations on server
   if (!isServer) {
-    appPropsCache.translations = translations || appPropsCache.translations;
+    cachedTranslations = translations || cachedTranslations;
   }
 
   if (appCache && hostName) {
-    appCache.injectApp(hostName, app);
+    appCache.injectApp(hostName, app, appToken);
   }
 
   if (preferredLocaleString && rawCategoryLists) {
@@ -258,14 +274,14 @@ export function storeInitialAppProps(props: $Shape<AppProps>, isServer: boolean)
   }
 }
 
-export function storeInitialRouteProps(routeName: string, props: any) {
+export function storeInitialRouteProps(routeName: string, props: any, appToken: string) {
   const dataItem = dataTable[routeName];
 
   if (!dataItem || !dataItem.storeInitialRouteProps) {
     return {};
   }
 
-  return dataItem.storeInitialRouteProps(props);
+  return dataItem.storeInitialRouteProps(props, appToken);
 }
 
 export function getHead(routeName: string, props: any, baseUrl?: string) {

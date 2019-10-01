@@ -21,6 +21,7 @@ type Props = {
   featureId: string,
   onClose: (event: UIEvent) => void,
   className?: string,
+  appToken: string,
 };
 
 type State = {
@@ -92,13 +93,18 @@ class SendReportToAc extends React.Component<Props, State> {
   }
 
   startRequest() {
-    const { featureId, reportReason } = this.props;
+    const { featureId, reportReason, appToken } = this.props;
     const reportMessage = this.textarea.current ? this.textarea.current.value : '';
 
     this.setState(
       {
         isLoading: true,
-        request: accessibilityCloudFeatureCache.reportPlace(featureId, reportReason, reportMessage),
+        request: accessibilityCloudFeatureCache.reportPlace(
+          featureId,
+          reportReason,
+          reportMessage,
+          appToken
+        ),
       },
       () => this.awaitResponse()
     );

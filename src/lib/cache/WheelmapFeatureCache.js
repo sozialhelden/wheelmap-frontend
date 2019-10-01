@@ -13,13 +13,11 @@ export default class WheelmapFeatureCache extends FeatureCache<
 > {
   static fetchFeature(
     id: number | string,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<Response> {
     return this.fetch(
-      `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`,
-      {
-        ...options,
-      }
+      `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`
     );
   }
 

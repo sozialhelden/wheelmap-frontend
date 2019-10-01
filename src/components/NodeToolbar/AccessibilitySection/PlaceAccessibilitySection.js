@@ -14,8 +14,10 @@ import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
 import { isWheelmapFeatureId } from '../../../lib/Feature';
 import Description from './Description';
+import { AppContextConsumer } from '../../../AppContext';
 
 type Props = {
+  appToken: string,
   featureId: ?string | number,
   category: ?Category,
   cluster: ?any,
@@ -62,7 +64,14 @@ export default function PlaceAccessibilitySection(props: Props) {
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />
       {accessibilityDetailsTree}
-      <AccessibilitySourceDisclaimer properties={properties} />
+      <AppContextConsumer>
+        {appContext => (
+          <AccessibilitySourceDisclaimer
+            properties={properties}
+            appToken={appContext.app.tokenString}
+          />
+        )}
+      </AppContextConsumer>
     </StyledFrame>
   );
 }

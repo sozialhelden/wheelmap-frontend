@@ -12,6 +12,7 @@ type Props = {
   className?: string,
   knownSourceNameCaption: (value: string) => string,
   propertyName: 'infoPageUrl' | 'editPageUrl',
+  appToken: string,
 };
 
 type State = {
@@ -29,18 +30,20 @@ class SourceLink extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
-    dataSourceCache.getDataSourceWithId(String(props.properties.sourceId)).then(
-      source => {
-        if (source && typeof source.name === 'string') {
-          this.setState({ sourceName: source.name });
-        } else {
+    dataSourceCache
+      .getDataSourceWithId(String(props.properties.sourceId), this.props.appToken)
+      .then(
+        source => {
+          if (source && typeof source.name === 'string') {
+            this.setState({ sourceName: source.name });
+          } else {
+            this.setState(defaultState);
+          }
+        },
+        () => {
           this.setState(defaultState);
         }
-      },
-      () => {
-        this.setState(defaultState);
-      }
-    );
+      );
   }
 
   componentDidMount() {

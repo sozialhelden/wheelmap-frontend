@@ -555,7 +555,8 @@ export default class Map extends React.Component<Props, State> {
     const tileUrl = getAccessibilityCloudTileUrl(
       locale,
       this.props.includeSourceIds,
-      this.props.excludeSourceIds
+      this.props.excludeSourceIds,
+      this.props.accessibilityCloudAppToken
     );
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {

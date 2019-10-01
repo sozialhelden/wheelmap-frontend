@@ -15,6 +15,7 @@ import colors from '../../lib/colors';
 import { accessibilityCloudImageCache } from '../../lib/cache/AccessibilityCloudImageCache';
 
 export type Props = {
+  appToken: string,
   hidden: boolean,
   photosMarkedForUpload: FileList | null,
   onClose: ?() => void,
@@ -258,7 +259,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     }
 
     accessibilityCloudImageCache
-      .getCaptcha()
+      .getCaptcha(this.props.appToken)
       .then(captcha => {
         this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
       })
@@ -300,7 +301,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     if (!accessibilityCloudImageCache.hasValidCaptcha()) {
       this.setState({ waitingForCaptcha: true });
       accessibilityCloudImageCache
-        .getCaptcha()
+        .getCaptcha(this.props.appToken)
         .then(captcha => {
           this.setState({ waitingForCaptcha: false, captcha, captchaError: false });
         })
@@ -373,7 +374,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
 
   onForceRefreshCaptcha = () => {
     this.clearTimer();
-    accessibilityCloudImageCache.resetCaptcha();
+    accessibilityCloudImageCache.resetCaptcha(this.props.appToken);
     this.refreshCaptcha();
     this.startTimer();
   };

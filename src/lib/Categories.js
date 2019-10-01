@@ -247,8 +247,9 @@ export default class Categories {
   static async fetchCategoryData(options: {
     locale: string,
     disableWheelmapSource?: boolean,
+    appToken: string,
   }): Promise<RawCategoryLists> {
-    const hasAccessibilityCloudCredentials = Boolean(env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN);
+    const hasAccessibilityCloudCredentials = Boolean(options.appToken);
     const hasWheelmapCredentials =
       config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
     const useWheelmapSource = hasWheelmapCredentials && !options.disableWheelmapSource;
@@ -265,9 +266,7 @@ export default class Categories {
 
     function acCategoriesFetch() {
       const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-      const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
-
-      const url = `${baseUrl}/categories.json?appToken=${appToken}`;
+      const url = `${baseUrl}/categories.json?appToken=${options.appToken}`;
       return globalFetchManager
         .fetch(url)
         .then(responseHandler)

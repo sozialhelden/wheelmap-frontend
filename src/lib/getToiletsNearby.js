@@ -50,11 +50,11 @@ function fetchAcToiletPlaces(
   lon: number,
   radius: number,
   includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>
+  excludeSourceIds: Array<string>,
+  appToken: string
 ): Promise<Feature[]> {
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
   const url = `${baseUrl}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${appToken}`;
   return globalFetchManager
     .fetch(url)

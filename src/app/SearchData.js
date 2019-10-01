@@ -22,6 +22,7 @@ type SearchProps = {
 
 async function fetchWheelmapNode(
   searchResultProperties: SearchResultProperties,
+  appToken: string,
   useCache: boolean
 ): Promise<?WheelmapFeature> {
   if (!env.REACT_APP_WHEELMAP_API_KEY) {
@@ -47,7 +48,7 @@ async function fetchWheelmapNode(
   }
 
   try {
-    const feature = await wheelmapFeatureCache.getFeature(String(osmId), { useCache });
+    const feature = await wheelmapFeatureCache.getFeature(String(osmId), appToken, useCache);
 
     if (feature == null || feature.properties == null) {
       return null;
@@ -64,7 +65,7 @@ async function fetchWheelmapNode(
 }
 
 const SearchData: DataTableEntry<SearchProps> = {
-  async getInitialRouteProps(query, appProps, isServer) {
+  async getInitialRouteProps(query, renderContext, isServer) {
     const searchQuery = query.q;
 
     let trimmedSearchQuery;
@@ -88,7 +89,7 @@ const SearchData: DataTableEntry<SearchProps> = {
     };
   },
 
-  getRenderProps(props, isServer) {
+  getAdditionalPageComponentProps(props, appContext, isServer) {
     if (isServer) {
       return props;
     }
@@ -106,7 +107,7 @@ const SearchData: DataTableEntry<SearchProps> = {
       }
 
       let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
-        fetchWheelmapNode(feature.properties, useCache)
+        fetchWheelmapNode(feature.properties, appContext.app.tokenString, useCache)
       );
 
       // Fetch all wheelmap features when on server.

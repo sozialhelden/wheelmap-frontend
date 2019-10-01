@@ -30,12 +30,12 @@ import {
 import router from '../app/router';
 import {
   getInitialRouteProps,
-  getInitialAppProps,
-  getRenderProps,
-  storeInitialAppProps,
+  getInitialRenderContext,
+  getAdditionalPageComponentProps,
+  storeInitialRenderContext,
   storeInitialRouteProps,
   getHead,
-  type AppProps,
+  type RenderContext,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
 import Categories from '../lib/Categories';
@@ -53,13 +53,13 @@ let isServer = false;
 // only used in serverSideRendering when getting the initial props
 // used for storing the initial props instead of serializing them for the client
 // to prevent sending too large html chunks, that break e.g. twitter cards
-let nonSerializedProps: ?{ appProps: AppProps, routeProps: any | void } = null;
+let nonSerializedProps: ?{ renderContext: RenderContext, routeProps: any | void } = null;
 
 let isFirstTimeClientRender = true;
 
 export default class App extends BaseApp {
   static async getInitialProps({ ctx }: { ctx: any }) {
-    let appProps;
+    let renderContext;
     let routeProps;
     let path;
     let localeStrings: string[] = [];
@@ -93,8 +93,8 @@ export default class App extends BaseApp {
         localeStrings = getBrowserLocaleStrings();
       }
 
-      // const getInitialAppPropsSpan = apm.startSpan('Getting app props');
-      const appPropsPromise = getInitialAppProps({
+      // const getInitialRenderContextSpan = apm.startSpan('Getting app props');
+      const renderContextPromise = getInitialRenderContext({
         userAgentString,
         hostName,
         localeStrings,
@@ -103,13 +103,13 @@ export default class App extends BaseApp {
 
       if (ctx.query.routeName) {
         // const getInitialRoutePropsSpan = apm.startSpan('Getting route props');
-        const routePropsPromise = getInitialRouteProps(ctx.query, appPropsPromise, isServer);
+        const routePropsPromise = getInitialRouteProps(ctx.query, renderContextPromise, isServer);
         routeProps = await routePropsPromise;
         // getInitialRoutePropsSpan.end();
         routeProps = { ...routeProps };
       }
-      appProps = await appPropsPromise;
-      // getInitialAppPropsSpan.end();
+      renderContext = await renderContextPromise;
+      // getInitialRenderContextSpan.end();
 
       if (isServer) {
         ctx.res.set({ Vary: 'X-User-Agent-Variant, X-Locale-Variant, Content-Language' });
@@ -118,7 +118,7 @@ export default class App extends BaseApp {
           ctx.res.set('Content-Language', currentLocales.map(l => l.string).join(', '));
         }
         const userAgentVariant =
-          get(appProps, 'userAgent.os.name') ||
+          get(renderContext, 'userAgent.os.name') ||
           (userAgentString && userAgentString.replace(/\/.*$/, ''));
         if (userAgentVariant) {
           ctx.res.set('X-User-Agent-Variant', userAgentVariant);
@@ -140,21 +140,21 @@ export default class App extends BaseApp {
       return { statusCode };
     }
 
-    const embedModeDenied = this.handleEmbedModeAccess(isServer, appProps, ctx.res);
+    const embedModeDenied = this.handleEmbedModeAccess(isServer, renderContext, ctx.res);
 
     // when requested by server side rendering only, skip serializing app props as these are huge
-    const userAgent = appProps.userAgent.ua || '';
+    const userAgent = renderContext.userAgent.ua || '';
     const isTwitterBot = userAgent.match(/Twitterbot/i);
-    const doNotSerializeAppProps = isTwitterBot && isServer;
+    const doNotSerializeRenderContext = isTwitterBot && isServer;
 
-    if (doNotSerializeAppProps) {
-      nonSerializedProps = { appProps, routeProps };
-      appProps = {};
+    if (doNotSerializeRenderContext) {
+      nonSerializedProps = { renderContext, routeProps };
+      renderContext = {};
       routeProps = null;
     }
 
     return {
-      ...appProps,
+      ...renderContext,
       ...routeProps,
       skipApplicationBody: isTwitterBot || embedModeDenied,
       embedModeDenied,
@@ -164,10 +164,10 @@ export default class App extends BaseApp {
     };
   }
 
-  static handleEmbedModeAccess(isServer: boolean, appProps: AppProps, res: Response) {
+  static handleEmbedModeAccess(isServer: boolean, renderContext: RenderContext, res: Response) {
     let embedModeDenied = false;
     if (isServer) {
-      const { embedToken, app } = appProps;
+      const { embedToken, app } = renderContext;
       if (embedToken) {
         const { embedTokens, allowedBaseUrls = [] } = app.clientSideConfiguration;
         const validEmbedTokenProvided = isEmbedTokenValid(embedToken, embedTokens);
@@ -184,7 +184,7 @@ export default class App extends BaseApp {
 
   routerHistory: NextRouterHistory;
 
-  constructor(props: $Shape<AppProps>) {
+  constructor(props: $Shape<RenderContext>) {
     super(props);
     this.routerHistory = new NextRouterHistory(router);
   }
@@ -199,7 +199,7 @@ export default class App extends BaseApp {
     // merge non serialized props back in
     if (isServer && nonSerializedProps) {
       receivedProps = {
-        ...nonSerializedProps.appProps,
+        ...nonSerializedProps.renderContext,
         ...nonSerializedProps.routeProps,
         ...receivedProps,
       };
@@ -219,7 +219,7 @@ export default class App extends BaseApp {
       rawCategoryLists,
       buildTimeProps,
       preferredLanguage,
-      ...appProps
+      ...renderContext
     } = receivedProps;
 
     if (!receivedProps.isServer && isFirstTimeClientRender) {
@@ -250,16 +250,16 @@ export default class App extends BaseApp {
     }
 
     // build lookup table
-    appProps.categories = Categories.generateLookupTables(rawCategoryLists);
+    renderContext.categories = Categories.generateLookupTables(rawCategoryLists);
 
     if (translations) {
       addTranslationsToTTag(translations);
     }
 
     // store app initial props (use this.props to cache rawCategoryLists)
-    storeInitialAppProps(this.props, isServer);
+    storeInitialRenderContext(this.props, isServer, renderContext.app.tokenString);
     if (routeName) {
-      storeInitialRouteProps(routeName, appProps);
+      storeInitialRouteProps(routeName, renderContext, renderContext.app.tokenString);
     }
 
     const { textContent, meta } = this.props.app.clientSideConfiguration;
@@ -308,7 +308,7 @@ export default class App extends BaseApp {
     const appContext: AppContext = {
       app: this.props.app,
       baseUrl,
-      categories: appProps.categories,
+      categories: renderContext.categories,
       preferredLanguage,
     };
 
@@ -365,13 +365,13 @@ export default class App extends BaseApp {
           {facebook && <FacebookMeta facebook={facebookMetaData} />}
 
           {routeName != null && (
-            <AsyncNextHead head={getHead(routeName, appProps, appContext.baseUrl)} />
+            <AsyncNextHead head={getHead(routeName, renderContext, appContext.baseUrl)} />
           )}
           {!skipApplicationBody && (
             <AppContextProvider value={appContext}>
               <PageComponent
                 routerHistory={this.routerHistory}
-                {...getRenderProps(routeName, appProps, isServer)}
+                {...getAdditionalPageComponentProps(routeName, appContext, isServer)}
                 routeName={routeName}
               />
             </AppContextProvider>

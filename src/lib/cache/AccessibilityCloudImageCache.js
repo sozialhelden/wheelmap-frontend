@@ -18,30 +18,32 @@ const imageResizeConfig = {
 
 const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
 const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN || '';
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   getPhotosForFeature(
     featureId: string | number,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<?AccessibilityCloudImages> {
-    return this.getImage('place', String(featureId), options);
+    return this.getImage('place', String(featureId), appToken, useCache);
   }
 
   getImage(
     context: string,
     objectId: string,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<?AccessibilityCloudImages> {
     return this.getData(
       `${baseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`,
-      options
+      { useCache }
     );
   }
 
   async uploadPhotoForFeature(
     featureId: string,
     images: FileList,
+    appToken: string,
     captchaSolution: string
   ): Promise<any> {
     const image = images[0];
@@ -71,7 +73,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     }
   }
 
-  reportPhoto(photoId: string, reason: string): Promise<boolean> {
+  reportPhoto(photoId: string, reason: string, appToken: string): Promise<boolean> {
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
@@ -102,7 +104,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return uploadPromise;
   }
 
-  getCaptcha(fetchParams?: any): Promise<string> {
+  getCaptcha(appToken: string, fetchParams?: any): Promise<string> {
     let promise = this.captchaRequest;
     if (promise) return promise;
 
@@ -152,12 +154,12 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     return promise;
   }
 
-  resetCaptcha() {
+  resetCaptcha(appToken: string) {
     if (!this.captchaRequest) {
       this.lastCaptcha = null;
       this.captchaSolution = null;
     }
-    return this.getCaptcha({
+    return this.getCaptcha(appToken, {
       headers: { pragma: 'no-cache', 'cache-control': 'no-cache' },
       cache: 'reload',
     });

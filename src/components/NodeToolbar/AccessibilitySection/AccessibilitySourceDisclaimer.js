@@ -8,6 +8,7 @@ import type { AccessibilityCloudProperties } from '../../../lib/Feature';
 type Props = {
   properties: AccessibilityCloudProperties, // eslint-disable-line react/no-unused-prop-types
   className?: string,
+  appToken: string,
 };
 
 type State = {
@@ -25,7 +26,7 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
-    dataSourceCache.getDataSourceWithId(newProps.properties.sourceId).then(
+    dataSourceCache.getDataSourceWithId(newProps.properties.sourceId, newProps.appToken).then(
       source => {
         this.setState({ extraInfo: source.additionalAccessibilityInformation });
       },

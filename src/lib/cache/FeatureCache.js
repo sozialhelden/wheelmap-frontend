@@ -115,21 +115,18 @@ export default class FeatureCache<
     geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
   }
 
-  async fetchFeature(
-    id: string,
-    options: { useCache: boolean } = { useCache: true }
-  ): Promise<FeatureType> {
+  async fetchFeature(id: string, appToken: string, useCache: boolean = true): Promise<FeatureType> {
     // check if have already downloaded a feature with this id
-    if (options.useCache && this.cache[id]) {
+    if (useCache && this.cache[id]) {
       return this.cache[id];
     }
 
-    const response = await this.constructor.fetchFeature(id, options);
+    const response = await this.constructor.fetchFeature(id, appToken, useCache);
 
     if (response.status === 200) {
       const feature = await this.constructor.getFeatureFromResponse(response);
 
-      if (options.useCache) {
+      if (useCache) {
         this.cacheFeature(feature, response);
       }
 
@@ -160,22 +157,14 @@ export default class FeatureCache<
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  async getFeature(
-    id: string,
-    options: { useCache: boolean } = { useCache: true }
-  ): Promise<?FeatureType> {
+  async getFeature(id: string, appToken: string, useCache: boolean = true): Promise<?FeatureType> {
     const feature = this.getCachedFeature(id);
 
     if (feature || feature === null) {
       return feature;
     }
 
-    return this.fetchFeature(id, options);
-  }
-
-  reloadFeature(id: string): Promise<?FeatureType> {
-    delete this.cache[id];
-    return this.getFeature(id);
+    return this.fetchFeature(id, appToken, useCache);
   }
 
   /** @protected */ getCachedFeature(id: string): ?FeatureType {
@@ -219,7 +208,8 @@ export default class FeatureCache<
   // eslint-disable-next-line
   /** @protected @abstract */ static fetchFeature(
     id: string,
-    options: { useCache: boolean } = { useCache: true }
+    appToken: string,
+    useCache: boolean = true
   ): Promise<Response> {
     throw new Error('Not implemented. Please override this method in your subclass.');
   }

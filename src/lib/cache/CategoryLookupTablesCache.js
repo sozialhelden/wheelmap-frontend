@@ -1,26 +1,17 @@
 // @flow
 
-import config from '../config';
 import TTLCache, { type TTLCacheOptions } from './TTLCache';
 import Categories, { type RawCategoryLists } from '../Categories';
-import ACCategoryCache from './ACCategoryCache';
-import WheelmapCategoryCache from './WheelmapCategoryCache';
-import WheelmapNodeTypeCache from './WheelmapNodeTypeCache';
-import env from '../env';
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean,
   // time in milliseconds
   maxAllowedCacheAgeBeforeReload: number,
+  appToken: string,
 };
-
-const defaultLocales = ['de', 'en'];
 
 export default class CategoryLookupTablesCache {
   lookupTablesCache: TTLCache<string, Promise<RawCategoryLists>>;
-  acCategoryCache: ?ACCategoryCache;
-  wheelmapCategoryCache: ?WheelmapCategoryCache;
-  wheelmapNodeTypeCache: ?WheelmapNodeTypeCache;
   options: CategoryLookupTablesCacheOptions;
 
   constructor(options: $Shape<TTLCacheOptions & CategoryLookupTablesCacheOptions>) {
@@ -31,46 +22,19 @@ export default class CategoryLookupTablesCache {
     };
 
     this.lookupTablesCache = new TTLCache<string, Promise<RawCategoryLists>>();
-
-    if (env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN && env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL) {
-      this.acCategoryCache = new ACCategoryCache({
-        ttlCache: options,
-        appToken: env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN,
-        baseUrl: env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
-      });
-    }
-
-    if (config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string') {
-      this.wheelmapCategoryCache = new WheelmapCategoryCache({
-        ttlCache: options,
-        apiKey: config.wheelmapApiKey,
-        baseUrl: config.wheelmapApiBaseUrl,
-      });
-
-      this.wheelmapNodeTypeCache = new WheelmapNodeTypeCache({
-        ttlCache: options,
-        apiKey: config.wheelmapApiKey,
-        baseUrl: config.wheelmapApiBaseUrl,
-      });
-    }
-
-    // preload some of the locales already
-    for (const locale of defaultLocales) {
-      console.log('Preloading categories for', locale);
-      this.getRawCategoryLists({ locale });
-    }
   }
 
   getRawCategoryLists(options: {
     locale: string,
     disableWheelmapSource?: boolean,
+    appToken: string,
   }): Promise<RawCategoryLists> {
     const countryCode = options.locale.substr(0, 2);
 
     const storedPromise = this.lookupTablesCache.get(countryCode);
     if (storedPromise) {
       if (this.options.reloadInBackground) {
-        this.reloadInBackground(countryCode);
+        this.reloadInBackground(countryCode, options.appToken);
       }
 
       return storedPromise;
@@ -100,7 +64,7 @@ export default class CategoryLookupTablesCache {
    * when the ttl entry is expired. This would increase the complexity too much for
    * an edge case that no one will care about.
    */
-  reloadInBackground(countryCode: string) {
+  reloadInBackground(countryCode: string, appToken: string) {
     const now = Date.now();
     const cacheEntry = this.lookupTablesCache.getCacheItem(countryCode);
 
@@ -118,7 +82,7 @@ export default class CategoryLookupTablesCache {
     if (elapsed > this.options.maxAllowedCacheAgeBeforeReload) {
       cacheEntry.isReloading = true;
       // download data
-      const promise = this.getRawCategoryLists({ locale: countryCode });
+      const promise = this.getRawCategoryLists({ locale: countryCode, appToken });
       // only update the cache when the promise resolves
       promise
         .then(() => {
@@ -131,8 +95,3 @@ export default class CategoryLookupTablesCache {
     }
   }
 }
-
-export const categoriesCache = new CategoryLookupTablesCache({
-  reloadInBackground: true,
-  maxAllowedCacheAgeBeforeReload: 1000 * 60 * 60, // 1 hour
-});
