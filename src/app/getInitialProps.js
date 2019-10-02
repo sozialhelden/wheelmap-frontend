@@ -177,7 +177,7 @@ export async function getInitialRenderContext(
 
   // setup translations
   const translations =
-    useCache && cachedTranslations
+    useCache && cachedTranslations.length
       ? cachedTranslations
       : getAvailableTranslationsByPreference(
           allTranslations,
