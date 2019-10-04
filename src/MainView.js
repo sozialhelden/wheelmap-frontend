@@ -620,6 +620,7 @@ class MainView extends React.Component<Props, State> {
             window.map = map;
           }
         }}
+        accessibilityCloudAppToken={this.props.app.tokenString}
         onMoveEnd={this.props.onMoveEnd}
         onClick={this.props.onMapClick}
         onMarkerClick={this.props.onMarkerClick}
