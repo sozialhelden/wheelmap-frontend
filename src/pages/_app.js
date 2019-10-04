@@ -371,7 +371,7 @@ export default class App extends BaseApp {
             <AppContextProvider value={appContext}>
               <PageComponent
                 routerHistory={this.routerHistory}
-                {...getAdditionalPageComponentProps(routeName, appContext, isServer)}
+                {...getAdditionalPageComponentProps(routeName, renderContext, isServer)}
                 routeName={routeName}
               />
             </AppContextProvider>
