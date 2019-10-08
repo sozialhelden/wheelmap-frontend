@@ -161,10 +161,6 @@ export function getAvailableTranslationsByPreference(
   );
   // console.log('Missing locales:', missingLocales);
 
-  if (missingLocales.length === 0) {
-    return [];
-  }
-
   // If the missing locale has no country suffix, maybe we find a loaded variant with a country
   // suffix that we can use instead.
   missingLocales.forEach(missingLocale => {
