@@ -123,47 +123,44 @@ export function getAdditionalPageComponentProps<Props>(
   return dataItem.getAdditionalPageComponentProps(props, isServer);
 }
 
-export async function getInitialRenderContext(
-  {
-    userAgentString,
-    localeStrings,
-    hostName,
-    category,
-    extent,
-    lat,
-    lon,
-    locale: overriddenLocaleString,
-    accessibility,
-    toilet,
-    q,
-    includeSourceIds,
-    excludeSourceIds,
-    disableWheelmapSource: overriddenWheelmapSource,
-    appId: overriddenAppId,
-    embedded,
-    embedToken,
-    ...query
-  }: {
-    userAgentString: string,
-    localeStrings: string[],
-    hostName: string,
-    category?: string,
-    extent?: [number, number, number, number],
-    lat?: number,
-    lon?: number,
-    locale?: string,
-    accessibility?: string,
-    toilet?: string,
-    includeSourceIds?: string,
-    excludeSourceIds?: string,
-    disableWheelmapSource?: string,
-    appId?: string,
-    embedded?: string,
-    embedToken?: string,
-    [key: string]: ?string,
-  },
-  useCache: boolean = true
-): Promise<RenderContext> {
+export async function getInitialRenderContext({
+  userAgentString,
+  localeStrings,
+  hostName,
+  category,
+  extent,
+  lat,
+  lon,
+  locale: overriddenLocaleString,
+  accessibility,
+  toilet,
+  q,
+  includeSourceIds,
+  excludeSourceIds,
+  disableWheelmapSource: overriddenWheelmapSource,
+  appId: overriddenAppId,
+  embedded,
+  embedToken,
+  ...query
+}: {
+  userAgentString: string,
+  localeStrings: string[],
+  hostName: string,
+  category?: string,
+  extent?: [number, number, number, number],
+  lat?: number,
+  lon?: number,
+  locale?: string,
+  accessibility?: string,
+  toilet?: string,
+  includeSourceIds?: string,
+  excludeSourceIds?: string,
+  disableWheelmapSource?: string,
+  appId?: string,
+  embedded?: string,
+  embedToken?: string,
+  [key: string]: ?string,
+}): Promise<RenderContext> {
   // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument
   const userAgentParser = new UAParser(userAgentString);
@@ -176,14 +173,12 @@ export async function getInitialRenderContext(
   const appPromise = appCache.getApp(usedHostName);
 
   // setup translations
-  const translations =
-    useCache && cachedTranslations.length
-      ? cachedTranslations
-      : getAvailableTranslationsByPreference(
-          allTranslations,
-          localeStrings,
-          overriddenLocaleString
-        );
+  const translations = getAvailableTranslationsByPreference(
+    allTranslations,
+    localeStrings,
+    overriddenLocaleString
+  );
+
   const preferredLocaleString = translations[0].headers.language;
 
   const app = await appPromise;
