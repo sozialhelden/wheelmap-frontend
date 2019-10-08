@@ -1,6 +1,9 @@
 // @flow
 
 import uniqBy from 'lodash/uniqBy';
+import compact from 'lodash/compact';
+import uniq from 'lodash/uniq';
+import upperFirst from 'lodash/upperFirst';
 import differenceBy from 'lodash/differenceBy';
 import intersectionBy from 'lodash/intersectionBy';
 import flatten from 'lodash/flatten';
@@ -24,22 +27,35 @@ export type LocalesToTranslations = { [string]: Translations };
 
 export type Locale = {
   languageCode: ?string,
-  countryCode: ?string,
+  countryCodeOrScript: ?string,
   string: string,
-  underscoredString: string,
+  /**
+   * In this string, an underscore separates language and country code subtag (e.g. pt_BR)/
+   * A dash separates language and script subtag (e.g. zh-Hans)
+   */
+  transifexLanguageIdentifier: string,
   isEqual: (otherLocale: Locale) => boolean,
 };
 
+function isScript(countryCodeOrScript: string): boolean {
+  return ['Hans', 'Hant'].includes(countryCodeOrScript);
+}
 export function localeFromString(localeString: string): Locale {
   const lowercaseLocale = localeString.toLowerCase().replace(/_/, '-');
-  const [languageCode, countryCode] = localeString.split(/[-_]/);
+  const [languageCode, countryCodeOrScript] = localeString.split(/[-_]/);
+  // Transifex uses `-` to separate subtags if the second subtag is a script, and '_' otherwise
+  const transifexLanguageIdentifier = isScript(countryCodeOrScript)
+    ? `${languageCode}${
+        countryCodeOrScript ? `-${upperFirst(countryCodeOrScript.toLowerCase())}` : ''
+      }`
+    : `${languageCode}${countryCodeOrScript ? `_${countryCodeOrScript.toUpperCase()}` : ''}`;
   return {
     languageCode,
-    countryCode,
+    countryCodeOrScript,
     // e.g. en or en-uk
     string: lowercaseLocale,
     // e.g. en or en_UK
-    underscoredString: `${languageCode}${countryCode ? `_${countryCode.toUpperCase()}` : ''}`,
+    transifexLanguageIdentifier,
     isEqual(otherLocale) {
       return otherLocale.string === lowercaseLocale;
     },
@@ -49,10 +65,55 @@ export function localeFromString(localeString: string): Locale {
 const defaultLocale = localeFromString('en-us');
 export const currentLocales: Locale[] = ['en-us', 'en'].map(localeFromString);
 
-// Returns the locale as language code without country code etc. removed (for
-// example "en" if given "en-GB").
+/**
+ * Currently, we support `zh-Hans` (Chinese Simplified) and zh-Hant (Chinese Traditional) language
+ * codes. This function returns the right script variant for the given language tag if it contains
+ * a region code.
+ */
 
-export function localeWithoutCountry(locale: Locale): Locale {
+export function normalizeChineseLanguageCode(languageTag: string): string {
+  const [languageCode, countryCodeOrScript] = languageTag.split(/[-_]/);
+  // Hardwire old-style chinese locale codes to new-style script subtags
+  if (languageCode === 'zh') {
+    if (!countryCodeOrScript) {
+      // The string contains no country code or script -
+      // 90% of our readers will prefer Simplified Chinese so we fall back to it
+      return 'zh-Hans';
+    }
+    if (!['Hans', 'Hant'].includes(countryCodeOrScript)) {
+      switch (countryCodeOrScript) {
+        // Countries using Simplified script
+        case 'CN': // Mainland China
+        case 'SG': // Singapure
+        case 'MY': // Malaysia
+          return 'zh-Hans';
+        // Countries using Traditional script
+        case 'TW': // Taiwan
+        case 'MO': // Macau
+        case 'HK': // Hong Kong
+        default:
+          // overseas Chinese uses Traditional script in most cases
+          return 'zh-Hant';
+      }
+    }
+  }
+  return languageTag;
+}
+
+// Returns a fallback locale for the given locale. Might use a language code without country code
+// etc. removed (for example "en" if given "en-GB"). This is preliminary, a 'real' mechanism should
+// use a more complex locale matching approach.
+//
+// If you want to implement this, be careful. In Sebastian's tests, neither Unicode's two proposed
+// matching algorithms from TR-35 nor IETF language tag matching have worked as intended with
+// locales like `zh-Hans` across all platforms -- talk to Sebastian about this :)
+//
+// Go has an implementation that seems to do the trick and solves many issues with aforementioned
+// specs/proposals: https://blog.golang.org/matchlang
+//
+// Maybe we can implement this algorithm as a library using WebAssembly.
+
+export function nextFallbackLocale(locale: Locale): Locale {
   return localeFromString(locale.string.substring(0, 2));
 }
 
@@ -65,6 +126,8 @@ export function addTranslationsToTTag(translations: Translations[]) {
     addLocale(locale.string, t);
     localesToUse.push(locale);
   }
+
+  console.log('Available locales:', localesToUse.map(l => l.string));
 
   // set locale in ttag
   useLocales(localesToUse.map(locale => locale.string));
@@ -81,44 +144,55 @@ export function getBrowserLocaleStrings(): string[] {
   return [window.navigator.language].concat(window.navigator.languages || []).filter(Boolean);
 }
 
-// Returns an expanded list of preferred locales.
 export function expandedPreferredLocales(locales: Locale[], overriddenLocale?: ?Locale): Locale[] {
-  const overridden = [overriddenLocale, ...locales, defaultLocale].filter(Boolean);
+  const overridden = [overriddenLocale, ...locales, defaultLocale]
+    // .map(hardcodedLocaleReplacement)
+    .filter(Boolean);
   const overriddenWithCountryCombinations = flatten(
-    overridden.map(l => [l, localeWithoutCountry(l)])
+    overridden.map(l => [l, nextFallbackLocale(l)])
   );
   // Try all locales without country code, too
   return uniqBy(overriddenWithCountryCombinations, locale => locale.string);
 }
 
-export function translatedStringFromObject(localizedString: ?LocalizedString): ?string {
-  if (!localizedString) return null;
-  if (typeof localizedString === 'string') {
-    return localizedString;
+export function translatedStringFromObject(string: ?LocalizedString): ?string {
+  if (typeof string === 'undefined' || string === null) {
+    return;
   }
 
-  if (typeof localizedString === 'object') {
-    const expandedLocalizedString: { [string]: string } = { ...localizedString };
-    // add locales without country
-    for (const localeString in localizedString) {
-      const withoutCountry = localeWithoutCountry(localeFromString(localeString));
-      if (!expandedLocalizedString[withoutCountry.string]) {
-        // this will lead to always use the first available country translation as fallback
-        expandedLocalizedString[withoutCountry.string] = expandedLocalizedString[localeString];
-      }
-    }
+  if (typeof string === 'string') return string;
+  if (typeof string === 'object') {
+    const firstAvailableLocale = Object.keys(string)[0];
 
-    const locales = currentLocales;
-    for (let i = 0; i < locales.length; i++) {
-      const translatedString = expandedLocalizedString[locales[i].underscoredString];
-      if (translatedString) return translatedString;
-    }
+    const normalizedRequestedLanguageTags = currentLocales.map(
+      locale => locale.transifexLanguageIdentifier
+    );
 
-    const firstAvailableLocaleString = Object.keys(expandedLocalizedString)[0];
-    // return the untranslated string as last option
-    return expandedLocalizedString[firstAvailableLocaleString];
+    const normalizedChineseLanguageTags = normalizedRequestedLanguageTags.map(
+      normalizeChineseLanguageCode
+    );
+    const languageTagsWithoutCountryCodes = normalizedRequestedLanguageTags.map(l => l.slice(0, 2));
+
+    const localesToTry = compact(
+      uniq([
+        ...normalizedRequestedLanguageTags,
+        ...normalizedChineseLanguageTags,
+        ...languageTagsWithoutCountryCodes,
+        'en_US',
+        'en',
+        firstAvailableLocale,
+      ])
+    );
+
+    const foundLocale = localesToTry.find(
+      languageTag =>
+        typeof string === 'object' && string !== null && typeof string[languageTag] === 'string'
+    );
+
+    if (foundLocale) return string[foundLocale];
   }
-  return null;
+
+  return;
 }
 
 function getTranslationsForLocale(
@@ -126,7 +200,7 @@ function getTranslationsForLocale(
   locale: Locale
 ): ?Translations {
   // In our translations JSON, we might have underscores, not dashes. Support both variants.
-  return translations[locale.string] || translations[locale.underscoredString];
+  return translations[locale.string] || translations[locale.transifexLanguageIdentifier];
 }
 
 export function getAvailableTranslationsByPreference(
@@ -135,7 +209,7 @@ export function getAvailableTranslationsByPreference(
   overriddenLocaleString: ?string
 ): Translations[] {
   const preferredLocales = expandedPreferredLocales(
-    preferredLocaleStrings.map(localeFromString),
+    preferredLocaleStrings.map(normalizeChineseLanguageCode).map(localeFromString),
     overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
   );
 
@@ -153,25 +227,25 @@ export function getAvailableTranslationsByPreference(
   const availableLocales: Locale[] = availableTranslations
     .map(t => t.headers.language)
     .map(localeFromString);
-  // console.log('Currently available locales:', availableLocales);
+  console.log('Currently available locales:', availableLocales);
   const missingLocales: Locale[] = differenceBy(
     preferredLocales,
     availableLocales,
     locale => locale.string
   );
-  // console.log('Missing locales:', missingLocales);
+  console.log('Missing locales:', missingLocales);
 
   // If the missing locale has no country suffix, maybe we find a loaded variant with a country
   // suffix that we can use instead.
   missingLocales.forEach(missingLocale => {
-    if (missingLocale.countryCode) {
+    if (missingLocale.countryCodeOrScript) {
       return;
     }
     const replacementLocale = availableLocales.find(loadedLocale =>
-      localeWithoutCountry(loadedLocale).isEqual(missingLocale)
+      nextFallbackLocale(loadedLocale).isEqual(missingLocale)
     );
     if (replacementLocale) {
-      // console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
+      console.log('Replaced requested', missingLocale, 'locale with data from', replacementLocale);
       const translation = getTranslationsForLocale(allTranslations, replacementLocale);
       if (!translation) throw new Error('Could not find a translation that should be loaded. Wat?');
       const replacement: Translations = {

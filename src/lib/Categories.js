@@ -254,7 +254,7 @@ export default class Categories {
       config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
     const useWheelmapSource = hasWheelmapCredentials && !options.disableWheelmapSource;
 
-    const countryCode = options.locale.substr(0, 2);
+    const languageCode = options.locale.substr(0, 2);
     const responseHandler = response => {
       if (!response.ok) {
         // translator: Shown when there was an error while loading category data from the backend.
@@ -274,7 +274,7 @@ export default class Categories {
     }
 
     function wheelmapCategoriesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
@@ -282,7 +282,7 @@ export default class Categories {
     }
 
     function wheelmapNodeTypesFetch() {
-      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${countryCode}`;
+      const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
