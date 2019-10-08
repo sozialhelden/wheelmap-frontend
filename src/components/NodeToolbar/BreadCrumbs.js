@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import ChevronRight from '../ChevronRight';
 import type { Category } from '../../lib/Categories';
 import Categories, { type CategoryLookupTables } from '../../lib/Categories';
-import { currentLocales } from '../../lib/i18n';
+import { translatedStringFromObject } from '../../lib/i18n';
 import type { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
 import { getCategoryId } from '../../lib/Categories';
 
@@ -50,15 +50,8 @@ class BreadCrumbs extends React.Component<Props, State> {
       .filter(Boolean)
       .map(id => {
         const category = Categories.getCategory(props.categories, id);
-
-        // Find best category translation … @TODO \o/ Sebastian! Right?
-        const results = currentLocales
-          .map(locale => {
-            return get(category, `translations._id.${locale.underscoredString}`);
-          })
-          .filter(Boolean);
-
-        return results[0];
+        return translatedStringFromObject(category.translations._id);
+        // return category;
       });
   }
 
