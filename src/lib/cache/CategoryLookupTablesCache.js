@@ -29,25 +29,25 @@ export default class CategoryLookupTablesCache {
     disableWheelmapSource?: boolean,
     appToken: string,
   }): Promise<RawCategoryLists> {
-    const countryCode = options.locale.substr(0, 2);
+    const languageCode = options.locale.substr(0, 2);
 
-    const storedPromise = this.lookupTablesCache.get(countryCode);
+    const storedPromise = this.lookupTablesCache.get(languageCode);
     if (storedPromise) {
       if (this.options.reloadInBackground) {
-        this.reloadInBackground(countryCode, options.appToken);
+        this.reloadInBackground(languageCode, options.appToken);
       }
 
       return storedPromise;
     }
 
     const promise = Categories.fetchCategoryData(options);
-    this.lookupTablesCache.set(countryCode, promise);
+    this.lookupTablesCache.set(languageCode, promise);
     return promise;
   }
 
   injectLookupTables(localeString: string, rawCategoryLists: RawCategoryLists) {
-    const countryCode = localeString.substr(0, 2);
-    this.lookupTablesCache.set(countryCode, Promise.resolve(rawCategoryLists));
+    const languageCode = localeString.substr(0, 2);
+    this.lookupTablesCache.set(languageCode, Promise.resolve(rawCategoryLists));
   }
 
   /**
@@ -64,9 +64,9 @@ export default class CategoryLookupTablesCache {
    * when the ttl entry is expired. This would increase the complexity too much for
    * an edge case that no one will care about.
    */
-  reloadInBackground(countryCode: string, appToken: string) {
+  reloadInBackground(languageCode: string, appToken: string) {
     const now = Date.now();
-    const cacheEntry = this.lookupTablesCache.getCacheItem(countryCode);
+    const cacheEntry = this.lookupTablesCache.getCacheItem(languageCode);
 
     if (!cacheEntry) {
       // something went wrong, this should not happen
@@ -82,12 +82,12 @@ export default class CategoryLookupTablesCache {
     if (elapsed > this.options.maxAllowedCacheAgeBeforeReload) {
       cacheEntry.isReloading = true;
       // download data
-      const promise = this.getRawCategoryLists({ locale: countryCode, appToken });
+      const promise = this.getRawCategoryLists({ locale: languageCode, appToken });
       // only update the cache when the promise resolves
       promise
         .then(() => {
           cacheEntry.isReloading = false;
-          this.lookupTablesCache.set(countryCode, promise);
+          this.lookupTablesCache.set(languageCode, promise);
         })
         .catch(e => {
           cacheEntry.isReloading = false;
