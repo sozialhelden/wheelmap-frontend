@@ -298,7 +298,7 @@ const StyledMainMenu = styled(MainMenu)`
   }
 
   .claim {
-    font-weight: lighter;
+    font-weight: 300;
     opacity: 0.6;
     transition: opacity 0.3s ease-out;
     padding-left: 5px;
