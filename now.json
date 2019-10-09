@@ -1,3 +1,22 @@
 {
-  "version": 1
+  "version": 1,
+  "env": {
+    "AWS_REGION": "@aws_region",
+    "AWS_S3_BUCKET_NAME": "@aws_s3_bucket_name",
+    "ELASTIC_APM_SECRET_TOKEN": "@elastic_apm_secret_token",
+    "ELASTIC_APM_SERVER_URL": "@elastic_apm_server_url",
+    "PUBLIC_URL": "@public_url",
+    "BASE_URL": "@base_url",
+    "REACT_APP_ACCESSIBILITY_APPS_BASE_URL": "@react_app_accessibility_apps_base_url",
+    "REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN": "@react_app_accessibility_cloud_app_token",
+    "REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL": "@react_app_accessibility_cloud_base_url",
+    "REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL": "@react_app_accessibility_cloud_uncached_base_url",
+    "REACT_APP_ALLOW_ADDITIONAL_DATA_URLS": "react_app_allow_additional_data_url",
+    "REACT_APP_ELASTIC_APM_SECRET_TOKEN": "@react_app_elastic_apm_secret_token",
+    "REACT_APP_ELASTIC_APM_SERVER_URL": "@react_app_elastic_apm_server_url",
+    "REACT_APP_MAPBOX_ACCESS_TOKEN": "@react_app_mapbox_access_token",
+    "REACT_APP_WHEELMAP_API_BASE_URL": "react_app_wheelmap_api_base_ur",
+    "REACT_APP_LEGACY_API_BASE_URL": "@react_app_legacy_api_base_url",
+    "REACT_APP_WHEELMAP_API_KEY": "@react_app_wheelmap_api_key"
+  }
 }
