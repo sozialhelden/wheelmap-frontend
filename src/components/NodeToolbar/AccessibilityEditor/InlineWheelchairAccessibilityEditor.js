@@ -18,6 +18,7 @@ type Props = {
 const Row = styled.section`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin: 1rem 0;
 
   button {
