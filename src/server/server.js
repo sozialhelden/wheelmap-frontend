@@ -1,6 +1,6 @@
 const pick = require('lodash/pick');
-const dotenvConfig = require('../lib/env');
-console.log('Parsed .env config:', dotenvConfig);
+const env = require('../lib/env');
+const { createEnvironmentJSResponseHandler } = require('@sozialhelden/twelve-factor-dotenv');
 console.log('Node version:', process.version);
 
 const apm = require('../lib/apm/ServerSide');
@@ -65,30 +65,9 @@ app.prepare().then(() => {
     res.redirect(`/${lang ? `?locale=${lang}` : ''}`);
   });
 
-  // Defines a filtered set of environment variables to the client.
-  //
-  // This enables us to configure the app at runtime, without having to re-compile/deploy the code.
-  // It avoids introducing subtle build-system related bugs when changing the configuration, e.g.
-  // when debugging problems that arise from a configuration error alone.
-  //
-  // This is intentionally different from the defaults offered by Webpack.
-  //
-  // Please read https://12factor.net/config if this concept is new to you.
-
-  server.get('/clientEnv.js', (req, res) => {
-    const envAndDotEnv = { ...dotenvConfig, ...process.env };
-    const filteredEnvObject = JSON.stringify(
-      pick(
-        envAndDotEnv,
-        Object.keys(envAndDotEnv).filter(
-          k =>
-            k.match(/^REACT_APP_/) || k === 'npm_package_version' || k === 'npm_config_node_version'
-        )
-      )
-    );
-    res.setHeader('Cache-Control', 'max-age=300');
-    res.send(`window.env = ${filteredEnvObject};`);
-  });
+  // Provides access to a filtered set of environment variables on the client.
+  // Read https://github.com/sozialhelden/twelve-factor-dotenv for more infos.
+  server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
