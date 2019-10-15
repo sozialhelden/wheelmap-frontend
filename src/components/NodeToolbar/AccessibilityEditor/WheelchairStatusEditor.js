@@ -9,6 +9,7 @@ import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
 import { type CategoryLookupTables } from '../../../lib/Categories';
+import { isOnSmallViewport } from '../../../lib/ViewportSize';
 import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
@@ -37,7 +38,7 @@ export default function WheelchairStatusEditor(props: Props) {
             <Icon
               accessibility={value}
               category={categoryId}
-              size="medium"
+              size={isOnSmallViewport() ? 'small' : 'medium'}
               withArrow
               shadowed
               centered

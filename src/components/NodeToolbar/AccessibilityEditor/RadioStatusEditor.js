@@ -253,6 +253,16 @@ const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
     display: flex;
     flex-direction: row-reverse;
   }
+
+  @media (max-width: 414px) {
+    .radio-group {
+      label:not(.is-selected) {
+        footer {
+          display: none;
+        }
+      }
+    }
+  }
 `;
 
 export default StyledWheelchairStatusEditor;

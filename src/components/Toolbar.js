@@ -220,11 +220,20 @@ class Toolbar extends React.Component<Props, State> {
     return result;
   }
 
+  getMinimalTopPosition(): number {
+    return (
+      (typeof window !== 'undefined' ? safeAreaInsets.top : 0) + (this.props.isModal ? 10 : 60)
+    );
+  }
+
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
   getTopmostPosition(): number {
     let toolbarHeight = this.state.dimensions ? this.state.dimensions.height : 0;
-    return Math.max(60, this.state.viewportSize.height - toolbarHeight - 100);
+    return Math.max(
+      this.getMinimalTopPosition(),
+      this.state.viewportSize.height - toolbarHeight - 100
+    );
   }
 
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
@@ -423,12 +432,12 @@ const StyledToolbar = styled(Toolbar)`
       top: 0px;
       top: constant(safe-area-inset-top);
       top: env(safe-area-inset-top);
-      max-height: calc(100% - ${props => (props.inEmbedMode ? 60 : 120)}px);
+      max-height: calc(100% - ${props => (props.inEmbedMode ? 60 : 90)}px);
       max-height: calc(
-        100% - ${props => (props.inEmbedMode ? 60 : 120)}px - constant(safe-area-inset-top)
+        100% - ${props => (props.inEmbedMode ? 60 : 90)}px - constant(safe-area-inset-top)
       );
       max-height: calc(
-        100% - ${props => (props.inEmbedMode ? 60 : 120)}px - env(safe-area-inset-top)
+        100% - ${props => (props.inEmbedMode ? 60 : 90)}px - env(safe-area-inset-top)
       );
       margin-top: 0;
     }
