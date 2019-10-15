@@ -237,7 +237,7 @@ const StyledOnboarding = styled(Onboarding)`
     }
   }
 
-  @media (max-height: 320px), (max-width: 320px) {
+  @media (max-width: 320px) {
     font-size: 90%;
   }
 
@@ -262,8 +262,11 @@ const StyledOnboarding = styled(Onboarding)`
     animation: fadeIn 0.5s linear;
     width: 100%; /* Fix IE 11. @TODO Safe to be moved to ModalDialog component? */
 
-    @media (max-height: 414px) {
+    @media (max-height: 478px) {
       font-size: 0.8rem;
+      #wheelmap-icon-descriptions {
+        margin: 0;
+      }
     }
 
     .logo {
@@ -275,7 +278,7 @@ const StyledOnboarding = styled(Onboarding)`
         height: 42px;
       }
 
-      @media (max-height: 414px) {
+      @media (max-height: 478px) {
         width: 150px;
         height: 32px;
       }
@@ -341,9 +344,9 @@ const StyledOnboarding = styled(Onboarding)`
 
           figure {
             margin-right: 0.5rem;
-            min-width: 40px;
-            width: 40px;
-            height: 40px;
+            min-width: 30px;
+            width: 30px;
+            height: 30px;
           }
         }
 
@@ -418,6 +421,7 @@ const StyledOnboarding = styled(Onboarding)`
   .button-footer {
     display: flex;
     flex-direction: column;
+    min-height: 80px;
 
     .button-continue-with-cookies {
       margin: 0.5em;
