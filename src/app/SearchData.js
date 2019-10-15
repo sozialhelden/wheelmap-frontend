@@ -89,7 +89,7 @@ const SearchData: DataTableEntry<SearchProps> = {
     };
   },
 
-  getAdditionalPageComponentProps(props, appContext, isServer) {
+  getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
       return props;
     }
@@ -107,7 +107,7 @@ const SearchData: DataTableEntry<SearchProps> = {
       }
 
       let wheelmapFeatures: Promise<?WheelmapFeature>[] = results.features.map(feature =>
-        fetchWheelmapNode(feature.properties, appContext.app.tokenString, useCache)
+        fetchWheelmapNode(feature.properties, props.app.tokenString, useCache)
       );
 
       // Fetch all wheelmap features when on server.

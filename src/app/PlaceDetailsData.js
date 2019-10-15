@@ -244,7 +244,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     });
   },
 
-  getAdditionalPageComponentProps(props, appContext, isServer) {
+  getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
       return props;
     }
