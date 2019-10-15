@@ -11,7 +11,6 @@
     "REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN": "@react_app_accessibility_cloud_app_token",
     "REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL": "@react_app_accessibility_cloud_base_url",
     "REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL": "@react_app_accessibility_cloud_uncached_base_url",
-    "REACT_APP_ALLOW_ADDITIONAL_DATA_URLS": "@react_app_allow_additional_data_urls",
     "REACT_APP_ELASTIC_APM_SECRET_TOKEN": "@react_app_elastic_apm_secret_token",
     "REACT_APP_ELASTIC_APM_SERVER_URL": "@react_app_elastic_apm_server_url",
     "REACT_APP_MAPBOX_ACCESS_TOKEN": "@react_app_mapbox_access_token",
