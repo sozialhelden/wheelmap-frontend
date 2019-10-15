@@ -15,7 +15,6 @@
     "REACT_APP_ELASTIC_APM_SECRET_TOKEN": "@react_app_elastic_apm_secret_token",
     "REACT_APP_ELASTIC_APM_SERVER_URL": "@react_app_elastic_apm_server_url",
     "REACT_APP_MAPBOX_ACCESS_TOKEN": "@react_app_mapbox_access_token",
-    "REACT_APP_WHEELMAP_API_BASE_URL": "@react_app_wheelmap_api_base_url",
     "REACT_APP_LEGACY_API_BASE_URL": "@react_app_legacy_api_base_url",
     "REACT_APP_WHEELMAP_API_KEY": "@react_app_wheelmap_api_key"
   }
