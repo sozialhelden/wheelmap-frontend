@@ -27,7 +27,7 @@ export default function ExternalInfoAndEditPageLinks(props: Props) {
   if (!properties) return null;
   const links = ['infoPageUrl', 'editPageUrl'].map(propertyName => {
     return (
-      <AppContextConsumer>
+      <AppContextConsumer key={propertyName}>
         {appContext => (
           <SourceLink
             key={propertyName}

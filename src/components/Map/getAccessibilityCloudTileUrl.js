@@ -22,14 +22,16 @@ export function buildSourceIdParams(
   return sourceIdParams;
 }
 
-export default function accessibilityCloudTileUrl(
+export default function getAccessibilityCloudTileUrl(
   locale: Locale,
+  resourceType: 'place-infos' | 'equipment-infos',
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
   appToken: string
 ): string {
   const acLocaleString = locale.transifexLanguageIdentifier;
-  const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
+  const sourceIdParams =
+    resourceType == 'place-infos' ? buildSourceIdParams(includeSourceIds, excludeSourceIds) : '';
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  return `${baseUrl}/place-infos.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
+  return `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
 }

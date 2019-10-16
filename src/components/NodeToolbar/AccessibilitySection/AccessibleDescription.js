@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import Description from './Description';
+import { translatedStringFromObject } from '../../../lib/i18n';
 
 interface AccessibleDescriptionInterface {
   description?: string;
@@ -28,9 +29,11 @@ export default function AccessibleDescription(props: Props) {
 
   if (!descriptionText) return null;
 
+  const string = translatedStringFromObject(descriptionText);
+
   return (
-    <Description className={props.className} aria-label={descriptionText}>
-      {descriptionText}
+    <Description className={props.className} aria-label={string}>
+      {string}
     </Description>
   );
 }

@@ -156,6 +156,7 @@ export default class Map extends React.Component<Props, State> {
   featureLayer: ?L.LayerGroup;
   wheelmapTileLayer: ?GeoJSONTileLayer;
   accessibilityCloudTileLayer: ?GeoJSONTileLayer;
+  equipmentTileLayer: ?GeoJSONTileLayer;
   markerClusterGroup: ?L.MarkerClusterGroup;
   mappingEventsLayer: ?L.Layer;
   highLightLayer: ?L.Layer;
@@ -370,6 +371,7 @@ export default class Map extends React.Component<Props, State> {
     this.featureLayer.addLayer(this.markerClusterGroup);
 
     this.setupAccessibilityCloudTileLayer(this.markerClusterGroup);
+    this.setupEquipmentTileLayer(this.markerClusterGroup);
     this.updateFeatureLayerVisibility();
 
     this.setupWheelmapTileLayer(this.markerClusterGroup);
@@ -435,9 +437,14 @@ export default class Map extends React.Component<Props, State> {
       setTimeout(() => {
         // console.log("Resetting layers", accessibilityFilterChanged, toiletFilterChanged, customFilterChanged);
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
+        if (this.equipmentTileLayer) this.equipmentTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
-        if (this.accessibilityCloudTileLayer)
+        if (this.accessibilityCloudTileLayer) {
           this.accessibilityCloudTileLayer._update(map.getCenter());
+        }
+        if (this.equipmentTileLayer) {
+          this.equipmentTileLayer._update(map.getCenter());
+        }
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
     }
@@ -471,6 +478,7 @@ export default class Map extends React.Component<Props, State> {
     delete this.featureLayer;
     delete this.wheelmapTileLayer;
     delete this.accessibilityCloudTileLayer;
+    delete this.equipmentTileLayer;
     delete this.markerClusterGroup;
 
     if (this.sizeInvalidationInterval) {
@@ -545,6 +553,30 @@ export default class Map extends React.Component<Props, State> {
     }
   }
 
+  setupEquipmentTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
+    const locale = currentLocales[0];
+    if (!locale) {
+      console.error('Could not load AC equipment tile layer because no current locale is set.');
+    }
+    const tileUrl = getAccessibilityCloudTileUrl(
+      locale,
+      'equipment-infos',
+      [],
+      [],
+      this.props.accessibilityCloudAppToken
+    );
+
+    this.equipmentTileLayer = new GeoJSONTileLayer(tileUrl, {
+      featureCache: equipmentInfoCache,
+      maxNativeZoom: 14,
+      layerGroup: markerClusterGroup,
+      featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
+      pointToLayer: this.createMarkerFromFeature,
+      filter: this.isFeatureVisible.bind(this),
+      maxZoom: this.props.maxZoom,
+    });
+  }
+
   setupAccessibilityCloudTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
     const locale = currentLocales[0];
     if (!locale) {
@@ -552,6 +584,7 @@ export default class Map extends React.Component<Props, State> {
     }
     const tileUrl = getAccessibilityCloudTileUrl(
       locale,
+      'place-infos',
       this.props.includeSourceIds,
       this.props.excludeSourceIds,
       this.props.accessibilityCloudAppToken
@@ -621,6 +654,7 @@ export default class Map extends React.Component<Props, State> {
       if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
         // console.log('Hide AC layer...');
         featureLayer.removeLayer(this.accessibilityCloudTileLayer);
+        featureLayer.removeLayer(this.equipmentTileLayer);
       }
     }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
@@ -684,7 +718,7 @@ export default class Map extends React.Component<Props, State> {
       const featureLayer = this.featureLayer;
       const wheelmapTileLayer = this.wheelmapTileLayer;
       const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
-
+      const equipmentTileLayer = this.equipmentTileLayer;
       if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
 
       let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
@@ -705,13 +739,16 @@ export default class Map extends React.Component<Props, State> {
         minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
         if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
           // console.log('Show AC layer...');
-          featureLayer.addLayer(this.accessibilityCloudTileLayer);
+          featureLayer.addLayer(accessibilityCloudTileLayer);
           accessibilityCloudTileLayer._update(map.getCenter());
+          featureLayer.addLayer(equipmentTileLayer);
+          equipmentTileLayer._update(map.getCenter());
         }
       } else {
         if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
           // console.log('Hide AC layer...');
           featureLayer.removeLayer(this.accessibilityCloudTileLayer);
+          featureLayer.removeLayer(this.equipmentTileLayer);
         }
       }
 
@@ -822,6 +859,15 @@ export default class Map extends React.Component<Props, State> {
         acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
       }
 
+      const equipmentLayer = this.equipmentTileLayer;
+      if (equipmentLayer) {
+        let ids = [String(props.equipmentInfoId)];
+        if (typeof props.equipmentInfoId === 'string') {
+          ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
+        }
+        equipmentLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+      }
+
       if (this.mappingEventsLayer) {
         const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
           .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
@@ -834,6 +880,7 @@ export default class Map extends React.Component<Props, State> {
     } else {
       if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
       if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
+      if (this.equipmentTileLayer) this.equipmentTileLayer.resetHighlights();
       highlightMarkers(this.highLightLayer, []);
     }
 
