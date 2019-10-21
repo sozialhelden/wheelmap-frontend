@@ -16,6 +16,7 @@ type Props = {
   featureId: number,
   feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
   categories: CategoryLookupTables,
+  hideUnselectedCaptions?: Boolean,
 
   onSave: ?(value: string) => void,
   onClose: () => void,
@@ -212,7 +213,12 @@ class RadioStatusEditor extends React.Component<Props, State> {
     return (
       <FocusTrap>
         <section
-          className={this.props.className}
+          className={[
+            this.props.className,
+            this.props.hideUnselectedCaptions && 'hide-unselected-captions',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           role="dialog"
           aria-labelledby="wheelchair-accessibility-header"
         >
@@ -255,10 +261,12 @@ const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
   }
 
   @media (max-width: 414px) {
-    .radio-group {
-      label:not(.is-selected) {
-        footer {
-          display: none;
+    &.hide-unselected-captions {
+      .radio-group {
+        label:not(.is-selected) {
+          footer {
+            display: none;
+          }
         }
       }
     }

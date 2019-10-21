@@ -31,6 +31,7 @@ export default function WheelchairStatusEditor(props: Props) {
       {appContext => (
         <RadioStatusEditor
           {...props}
+          hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => feature.properties.wheelchair}
           saveValue={value => saveWheelchairStatus({ ...props, appContext, value })}

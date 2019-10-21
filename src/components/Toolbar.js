@@ -342,7 +342,9 @@ class Toolbar extends React.Component<Props, State> {
         bounds
         onResize={contentRect => {
           if (!isEqual(contentRect.bounds, this.state.dimensions)) {
-            this.setState({ dimensions: contentRect.bounds });
+            this.setState({ dimensions: contentRect.bounds }, () => {
+              this.ensureFullVisibility();
+            });
           }
         }}
       >
