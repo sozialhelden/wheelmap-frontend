@@ -10,7 +10,7 @@
     "@babel/polyfill": "^7.4.4",
     "@elastic/apm-rum": "^4.3.0",
     "@hypo808/elastic-apm-sourcemap-webpack-plugin": "^1.5.2",
-    "@sozialhelden/twelve-factor-dotenv": "^14.0.0",
+    "@sozialhelden/twelve-factor-dotenv": "^15.0.0",
     "acorn-dynamic-import": "^4.0.0",
     "async_hooks": "^1.0.0",
     "browser-image-resizer": "^1.2.0",

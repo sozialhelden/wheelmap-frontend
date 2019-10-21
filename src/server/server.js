@@ -1,6 +1,8 @@
 const pick = require('lodash/pick');
 const env = require('../lib/env');
-const { createEnvironmentJSResponseHandler } = require('@sozialhelden/twelve-factor-dotenv');
+const {
+  createEnvironmentJSResponseHandler,
+} = require('@sozialhelden/twelve-factor-dotenv/dist/cjs/index.js');
 console.log('Node version:', process.version);
 
 const apm = require('../lib/apm/ServerSide');
