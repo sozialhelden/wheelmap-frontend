@@ -1,47 +1,50 @@
-# Wheelmap React.js frontend
+# Wheelmap
 
-This app is a refactored version of [Wheelmap](https://www.wheelmap.org)'s ‘classic’ Rails frontend.
-Its purpose is to split frontend and backend development and to make deployments as independent as
-possible of each other.
+[Wheelmap.org](https://www.wheelmap.org) by [Sozialhelden e.V.](https://sozialhelden.de) is the world’s largest free online map for accessible places.
 
+[<img alt="Sozialhelden e.V." src='./doc/sozialhelden-logo.svg' width="200" style="vertical-align: middle;">](https://sozialhelden.de)
 
-## Setup
+[<img alt="Wheelmap.org" src='./doc/wheelmap-logo.svg' width="200" style="vertical-align: middle;">](https://wheelmap.org)
 
-Prepare the environment
+This project contains the Node.js/React.js-based frontend for the app.
+
+## Development
+
+The app itself is a [React.js](https://facebook.github.io/react/) application, and [wrapped into native apps](https://github.com/sozialhelden/wheelmap-native-wrapper) for Android and iOS. [Next.js](https://nextjs.org) provides a server and webpack compilation process. For CSS styling, we use [styled-components](https://www.styled-components.com).
+
+The web server serves the app as server-side rendered static page, and runs on the same domain as the backend API in production.
+
+### Setup
+
+Prepare your development environment:
 
 ```bash
 # Environment variables
-cp .env.test .env.development
+cp .env.example .env
 
 # npm dependencies
 npm install
 
 # install transifex i18n / localization tool
 pip install transifex-client
+
+# start a local test web server
+npm run dev
 ```
 
+You will get some error messages from the Elastic APM client (our error collector for both [server](https://www.elastic.co/products/apm) and [client](https://www.elastic.co/guide/en/apm/agent/rum-js/4.x/getting-started.html)). If you want to test/develop the Elastic APM integration, you can get a valid token from the project maintainers.
 
-## Development
-
-We bootstrapped this project with [Create React App](https://github.com/facebookincubator/create-react-app).
-
-You can find the most recent version of the Create React App development guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
-
-The app itself is a [React.js](https://facebook.github.io/react/) application, and wrapped into native apps for Android and iOS.
-
-The web server serves the app as static page, running on the same domain as the backend API.
-
+You can configure the app using process environment variables or a `.env` file. Process environment variables override values set in the `.env` file. Note that the build configuration [deviates from Webpack’s default behavior](https://github.com/sozialhelden/twelve-factor-dotenv) to improve build and bug reproducibility.
 
 ### Recompile SVG
 
-You have to convert SVG graphics to React JS components, e.g. with…
+You have to convert SVG graphics to React JS components to make them styleable with CSS. Run this command:
 
 ```bash
 npm run compile-svgs
 ```
 
 Check `package.json`, it defines more scripts that can speed up this task.
-
 
 ## Website deployment
 
@@ -52,25 +55,23 @@ To deploy the web application:
 - Log in once on the staging/production server
 - Deploy the application with `npm run deploy-staging` or `npm run deploy-production`.
 
+## Embedding Wheelmap as a widget on other websites
 
-## Embed/Widget Mode of Wheelmap
-
-The wheelmap web app can be embedded in any other website with embed code like this:
+You can embed the Wheelmap web app in any other website’s HTML like this:
 
 ```<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true&embedToken=12345&lat=52.5212&lon=13.4104" allow="geolocation"></iframe>```
 
-Having the `embedded=true` query parameter attached to the URL ensures that the website is rendered with less UI (no search, no header etc.) and `allow="geolocation"` is essential so that the iframe is allowed to access the browser's locate feature.
-The widget as with the app in general can be configured to initially position the map at a certain lat/lon with respective parameters.
-The app disallows embedding via `<iframe>` if no valid `embedToken` for the app is provided. These embed tokens can be created in the widget options in the admin interface of the app.
-
+Having the `embedded=true` query parameter attached to the URL ensures that the app renders less UI (no search, no header etc.). Add `allow="geolocation"` to let the `<iframe>` access the browser’s location feature.
+Like the full app, the widget can initially position the map at a certain location defined by `lat` and `lon` URL parameters.
+The app disallows embedding via `<iframe>` if you provide no valid `embedToken` URL parameter. You can create an embed token on accessibility.cloud’s app admin interface (in the widget options).
 
 ## Translation process
 
-Ensure the transifex client is correctly setup https://docs.transifex.com/client/client-configuration#-transifexrc
+Ensure the transifex client is setup https://docs.transifex.com/client/client-configuration#-transifexrc
 
 Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
 
-We deploy every new feature in English and German first, and add support for all 27 languages in the following sprint.
+We deploy every new feature in English and German first, and add support for all languages in the following sprint.
 
 When there are new strings on transifex, you can run `npm run pull-translations` to pull them into the local project.
 
@@ -78,16 +79,18 @@ Then run `npm run create-js-translations` to inject the translations into the ap
 
 We have a retranslate tool that allows to use the `en_US` language on transifex to refine source strings directly in the source code. This parses the whole source code into an abstract syntax tree using Babel, then re-assembles it with new versions of the strings fetched from the `en_US` locale. Re-assembly can break formatting.
 
-
 ## Testing
 
 <a href="https://browserstack.com"><img src="src/static/images/Browserstack-logo.svg" width="200px"></a>
 
 For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
 
-
-## Contributing Data and Code
+## Contributing data and code
 
 - You have a related project? You want your accessibility data visible on Wheelmap.org and in other apps, or your project would profit from Wheelmap.org’s data? Register an account on [accessibility.cloud](https://www.accessibility.cloud) (Wheelmap.org’s backend) and [contact us](mailto:support@accessibility.cloud)!
 - For reporting bugs or other issues, please create issues on our [GitHub issue tracker](https://github.com/sozialhelden/wheelmap-react-frontend/issues).
 - If you have a concrete bugfix, you can create a pull request - please create an issue first so we can organize collaboration together.
+
+## Code of Conduct
+
+We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
