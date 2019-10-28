@@ -9,12 +9,31 @@ const safeAreaBottomPadding = css`
   padding-bottom: env(safe-area-inset-bottom);
 `;
 
+const ToolbarTopOffsets = {
+  None: 0,
+  TitleBar: 50,
+  TitleBarAndSearch: 110,
+};
+
+function determineOffset(props, smallScreen?: boolean) {
+  if (props.inEmbedMode) {
+    return ToolbarTopOffsets.None;
+  }
+
+  const isBelowSearch = !smallScreen && props.isBelowSearchField;
+  if (isBelowSearch) {
+    return ToolbarTopOffsets.TitleBarAndSearch;
+  }
+
+  return ToolbarTopOffsets.TitleBar;
+}
+
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
 
-  top: ${props => (props.inEmbedMode ? 0 : 110)}px;
-  top: calc(${props => (props.inEmbedMode ? 0 : 110)}px + constant(safe-area-inset-top));
-  top: calc(${props => (props.inEmbedMode ? 0 : 110)}px + env(safe-area-inset-top));
+  top: ${props => determineOffset(props)}px;
+  top: calc(${props => determineOffset(props)}px + constant(safe-area-inset-top));
+  top: calc(${props => determineOffset(props)}px + env(safe-area-inset-top));
   max-height: calc(100% - ${props => (props.inEmbedMode ? 70 : 120)}px);
   max-height: calc(
     100% - ${props => (props.inEmbedMode ? 70 : 120)}px - constant(safe-area-inset-top)
@@ -25,9 +44,9 @@ const StyledToolbar = styled(Toolbar)`
   ${props => (props.isModal ? '' : safeAreaBottomPadding)}
 
   @media (max-width: 512px), (max-height: 512px) {
-    top: ${props => (props.inEmbedMode ? 0 : 50)}px;
-    top: calc(${props => (props.inEmbedMode ? 0 : 50)}px + constant(safe-area-inset-top));
-    top: calc(${props => (props.inEmbedMode ? 0 : 50)}px + env(safe-area-inset-top));
+    top: ${props => determineOffset(props)}px;
+    top: calc(${props => determineOffset(props)}px + constant(safe-area-inset-top));
+    top: calc(${props => determineOffset(props)}px + env(safe-area-inset-top));
 
     @media (orientation: landscape) {
       max-height: calc(100% - ${props => (props.inEmbedMode ? 0 : 80)}px);

@@ -373,6 +373,7 @@ class NodeToolbar extends React.Component<Props, State> {
           startTopOffset={offset}
           onScrollable={isScrollable => this.setState({ isScrollable })}
           inEmbedMode={this.props.inEmbedMode}
+          isBelowSearchField={true}
         >
           <ErrorBoundary>
             {this.renderNodeHeader()}
