@@ -413,6 +413,10 @@ export default class Map extends React.Component<Props, State> {
 
     this.navigate(this.state, this.props, prevProps);
 
+    if (prevProps.mappingEvents !== this.props.mappingEvents) {
+      this.setupMappingEvents();
+    }
+
     // Sort is mutable. Create a new array and sort this one instead.
     const accessibilityFilterChanged = !isEqual(
       [...this.props.accessibilityFilter].sort(),
@@ -602,6 +606,12 @@ export default class Map extends React.Component<Props, State> {
   setupMappingEvents() {
     const map = this.map;
     const mappingEvents = this.props.mappingEvents;
+
+    if (map && this.mappingEventsLayer) {
+      map.removeLayer(this.mappingEventsLayer);
+      this.mappingEventsLayer = null;
+    }
+
     if (!map || !mappingEvents) {
       return;
     }
