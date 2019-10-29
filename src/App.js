@@ -133,6 +133,17 @@ function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();
 }
 
+// filters mapping events for the active app & shown mapping event
+function filterMappingEvents(
+  mappingEvents: MappingEvents,
+  appId: string,
+  activeEventId?: string
+): MappingEvents {
+  return mappingEvents
+    .filter(event => isMappingEventVisible(event) || activeEventId === event._id)
+    .filter(event => appId === event.appId);
+}
+
 class App extends React.Component<Props, State> {
   props: Props;
 
@@ -141,7 +152,11 @@ class App extends React.Component<Props, State> {
     lon: null,
     isSpecificLatLonProvided: false,
     zoom: null,
-    mappingEvents: this.props.mappingEvents,
+    mappingEvents: filterMappingEvents(
+      this.props.mappingEvents,
+      this.props.app._id,
+      this.props.mappingEvent && this.props.mappingEvent._id
+    ),
 
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
@@ -257,20 +272,21 @@ class App extends React.Component<Props, State> {
     });
   }
 
-  componentDidUpdate(_: Props, prevState: State) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
+    // update filter, to include change in shown mapping event
+    if (prevProps.mappingEvent !== this.props.mappingEvent) {
+      this.setupMappingEvents();
+    }
     this.updateMappingEventWelcomeDialogVisibility(prevState);
   }
 
   async setupMappingEvents() {
-    let mappingEvents: ?MappingEvents;
-
-    if (this.state.mappingEvents) {
-      mappingEvents = this.state.mappingEvents;
-    } else {
-      mappingEvents = await mappingEventsCache.getMappingEvents(this.props.app);
-      this.setState({ mappingEvents });
-    }
-
+    const mappingEvents = filterMappingEvents(
+      this.props.mappingEvents,
+      this.props.app._id,
+      this.props.mappingEvent && this.props.mappingEvent._id
+    );
+    this.setState({ mappingEvents });
     this.initializeJoinedMappingEvent(mappingEvents);
   }
 

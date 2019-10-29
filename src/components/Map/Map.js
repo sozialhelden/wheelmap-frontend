@@ -50,13 +50,12 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { type Cluster } from './Cluster';
-import { type MappingEvents, isMappingEventVisible } from '../../lib/MappingEvent';
+import { type MappingEvents } from '../../lib/MappingEvent';
 import A11yMarkerIcon from './A11yMarkerIcon';
 import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import './Leaflet.css';
 import './Map.css';
-import MappingEventHaloMarkerIcon from './MappingEventHaloMarkerIcon';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
 
 L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
@@ -611,32 +610,30 @@ export default class Map extends React.Component<Props, State> {
     this.mappingEventsLayer = mappingEventsLayer;
     map.addLayer(mappingEventsLayer);
 
-    mappingEvents
-      .filter(event => isMappingEventVisible(event) || event._id === this.props.featureId)
-      .forEach(event => {
-        const eventFeature = event.meetingPoint;
+    mappingEvents.forEach(event => {
+      const eventFeature = event.meetingPoint;
 
-        if (!eventFeature) {
-          return;
-        }
+      if (!eventFeature) {
+        return;
+      }
 
-        const eventLat = eventFeature.geometry.coordinates[1];
-        const eventLon = eventFeature.geometry.coordinates[0];
+      const eventLat = eventFeature.geometry.coordinates[1];
+      const eventLon = eventFeature.geometry.coordinates[0];
 
-        const eventMarker = new HighlightableMarker(
-          new L.LatLng(eventLat, eventLon),
-          MappingEventMarkerIcon,
-          {
-            eventName: event.name,
-            href: hrefForMappingEvent(event),
-            onClick: () => this.props.onMappingEventClick(event._id),
-          },
-          event._id,
-          -1000
-        );
+      const eventMarker = new HighlightableMarker(
+        new L.LatLng(eventLat, eventLon),
+        MappingEventMarkerIcon,
+        {
+          eventName: event.name,
+          href: hrefForMappingEvent(event),
+          onClick: () => this.props.onMappingEventClick(event._id),
+        },
+        event._id,
+        -1000
+      );
 
-        mappingEventsLayer.addLayer(eventMarker);
-      });
+      mappingEventsLayer.addLayer(eventMarker);
+    });
   }
 
   removeLayersNotVisibleInZoomLevel() {
