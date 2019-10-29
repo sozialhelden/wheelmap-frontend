@@ -10,7 +10,6 @@ import Link, { RouteConsumer } from '../Link/Link';
 import CloseButton from './CloseButton';
 import { type MappingEvents } from '../../lib/MappingEvent';
 import { type App } from '../../lib/App';
-import { isMappingEventVisible } from '../../lib/MappingEvent';
 
 type MappingEventsToolbarProps = {
   app: App,
@@ -36,9 +35,7 @@ const MappingEventsToolbar = ({
   // translator: Tagline describing the purpose of mapping events
   const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you!`;
 
-  const listedMappingEvents = mappingEvents
-    .filter(isMappingEventVisible)
-    .filter(event => event.appId === app._id);
+  const listedMappingEvents = mappingEvents;
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
