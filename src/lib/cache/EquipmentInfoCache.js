@@ -37,7 +37,7 @@ export default class EquipmentInfoCache extends FeatureCache<
     const equipmentInfosWithSameDescription = equipmentInfos.filter(e => {
       return get(e, ['properties', 'description']) === description;
     });
-    return equipmentInfosWithSameDescription.map(e => get(e, '_id'));
+    return equipmentInfosWithSameDescription.map(e => get(e, 'properties._id'));
   }
 }
 
