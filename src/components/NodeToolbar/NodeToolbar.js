@@ -5,6 +5,7 @@ import { t } from 'ttag';
 import FocusTrap from 'focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
+import fromPairs from 'lodash/fromPairs';
 import styled from 'styled-components';
 
 import Toolbar from '../Toolbar';
@@ -39,6 +40,7 @@ import IconButtonList from './IconButtonList/IconButtonList';
 import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 import { AppContextConsumer } from '../../AppContext';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -113,10 +115,6 @@ class NodeToolbar extends React.Component<Props, State> {
 
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
-  }
-
-  isEquipment() {
-    return !!this.props.equipmentInfoId;
   }
 
   focus() {
@@ -283,9 +281,44 @@ class NodeToolbar extends React.Component<Props, State> {
     );
   }
 
+  renderEquipmentInfos() {
+    const { featureId, equipmentInfoId, onEquipmentSelected } = this.props;
+    if (!featureId) {
+      return;
+    }
+    const isWheelmapFeature = isWheelmapFeatureId(featureId);
+    if (isWheelmapFeature) {
+      return;
+    }
+
+    const equipmentInfoSet = equipmentInfoCache.getIndexedFeatures(
+      'properties.placeInfoId',
+      featureId
+    );
+    if (!equipmentInfoSet) {
+      return;
+    }
+
+    const equipmentInfos = fromPairs(
+      Array.from(equipmentInfoSet).map(equipmentInfo => [
+        get(equipmentInfo, 'properties._id'),
+        equipmentInfo,
+      ])
+    );
+
+    return (
+      <EquipmentOverview
+        placeInfoId={String(featureId)}
+        equipmentInfos={equipmentInfos}
+        equipmentInfoId={equipmentInfoId}
+        onEquipmentSelected={onEquipmentSelected}
+      />
+    );
+  }
+
   renderContentBelowHeader() {
-    const { featureId } = this.props;
-    const isEquipment = this.isEquipment();
+    const { featureId, equipmentInfoId, equipmentInfo } = this.props;
+    const isEquipment = !!equipmentInfoId;
 
     if (featureId && !isEquipment) {
       switch (this.props.modalNodeState) {
@@ -300,13 +333,8 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const {
-      feature,
-      equipmentInfoId,
-      onOpenReportMode,
-      sources,
-      accessibilityPresetStatus,
-    } = this.props;
+    const { feature, onOpenReportMode, sources, accessibilityPresetStatus } = this.props;
+
     const sourceLinkProps = {
       featureId,
       feature,
@@ -316,9 +344,8 @@ class NodeToolbar extends React.Component<Props, State> {
     };
     if (!featureId) return;
 
-    const isWheelmapFeature = isWheelmapFeatureId(featureId);
     const accessibilitySection = isEquipment ? (
-      <EquipmentAccessibility equipmentInfo={this.props.equipmentInfo} />
+      <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
       <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
     );
@@ -326,15 +353,7 @@ class NodeToolbar extends React.Component<Props, State> {
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = this.renderPhotoSection();
 
-    const equipmentOverview = !isWheelmapFeature &&
-      !!(feature.properties && feature.properties.equipmentInfos) && (
-        <EquipmentOverview
-          placeInfoId={featureId}
-          equipmentInfos={feature.properties.equipmentInfos}
-          equipmentInfoId={equipmentInfoId}
-          onEquipmentSelected={this.props.onEquipmentSelected}
-        />
-      );
+    const equipmentOverview = this.renderEquipmentInfos();
 
     return (
       <div>
