@@ -851,44 +851,35 @@ export default class Map extends React.Component<Props, State> {
   }
 
   updateHighlightedMarker(props: Props) {
-    if (props.featureId) {
-      if (this.wheelmapTileLayer) {
-        this.wheelmapTileLayer.highlightMarkersWithIds(this.highLightLayer, [
-          String(props.featureId),
-        ]);
-      }
-      const acLayer = this.accessibilityCloudTileLayer;
-      if (acLayer) {
-        let ids = [String(props.featureId)];
-        if (typeof props.equipmentInfoId === 'string') {
-          ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
-        }
-        acLayer.highlightMarkersWithIds(this.highLightLayer, ids);
-      }
+    let ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
+      .map(String)
+      .concat(
+        typeof props.equipmentInfoId === 'string'
+          ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
+          : []
+      )
+      .filter(Boolean);
 
-      const equipmentLayer = this.equipmentTileLayer;
-      if (equipmentLayer) {
-        let ids = [String(props.equipmentInfoId)];
-        if (typeof props.equipmentInfoId === 'string') {
-          ids = equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId);
-        }
-        equipmentLayer.highlightMarkersWithIds(this.highLightLayer, ids);
-      }
+    if (this.wheelmapTileLayer) {
+      this.wheelmapTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+    }
 
-      if (this.mappingEventsLayer) {
-        const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
-          .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
-          .find(marker => marker && marker.featureId === props.featureId);
+    if (this.accessibilityCloudTileLayer) {
+      this.accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+    }
 
-        if (selectedMappingEventMarker) {
-          highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);
-        }
+    if (this.equipmentTileLayer) {
+      this.equipmentTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+    }
+
+    if (this.mappingEventsLayer) {
+      const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
+        .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
+        .find(marker => marker && marker.featureId === props.featureId);
+
+      if (selectedMappingEventMarker) {
+        highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);
       }
-    } else {
-      if (this.wheelmapTileLayer) this.wheelmapTileLayer.resetHighlights();
-      if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer.resetHighlights();
-      if (this.equipmentTileLayer) this.equipmentTileLayer.resetHighlights();
-      highlightMarkers(this.highLightLayer, []);
     }
 
     if (props.activeCluster) {
