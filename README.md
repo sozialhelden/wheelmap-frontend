@@ -1,10 +1,8 @@
-# Wheelmap
+# [<img alt="Wheelmap.org" src='./doc/wheelmap-logo.svg' width="200" style="vertical-align: middle;">](https://wheelmap.org)
 
 [Wheelmap.org](https://www.wheelmap.org) by [Sozialhelden e.V.](https://sozialhelden.de) is the world’s largest free online map for accessible places.
 
 [<img alt="Sozialhelden e.V." src='./doc/sozialhelden-logo.svg' width="200" style="vertical-align: middle;">](https://sozialhelden.de)
-
-[<img alt="Wheelmap.org" src='./doc/wheelmap-logo.svg' width="200" style="vertical-align: middle;">](https://wheelmap.org)
 
 This project contains the Node.js/React.js-based frontend for the app.
 
