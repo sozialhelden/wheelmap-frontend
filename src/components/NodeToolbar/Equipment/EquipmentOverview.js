@@ -35,12 +35,12 @@ class EquipmentOverview extends React.Component<Props, State> {
   render() {
     const { equipmentInfos, placeInfoId } = this.props;
 
-    const filteredEquipmentInfos = sortBy(Object.values(equipmentInfos), [
+    const sortedEquipmentInfos = sortBy(Object.values(equipmentInfos), [
       'properties.category',
       'properties.description',
-    ]).filter(equipmentInfo => equipmentInfo._id !== this.props.equipmentInfoId);
+    ]);
 
-    const equipmentInfoArrays = groupEquipmentByName(filteredEquipmentInfos);
+    const equipmentInfoArrays = groupEquipmentByName(sortedEquipmentInfos);
 
     const brokenEquipmentInfoArrays = equipmentInfoArrays.filter(equipmentInfos =>
       equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
@@ -50,14 +50,14 @@ class EquipmentOverview extends React.Component<Props, State> {
         !equipmentInfos.find(equipmentInfo => get(equipmentInfo, 'properties.isWorking') === false)
     );
 
-    if (filteredEquipmentInfos.length === 0) return null;
+    if (sortedEquipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
     const hasWorkingEquipment =
       workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
     const shouldBeExpandable =
-      filteredEquipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
-    const isExpanded = this.state.expanded || filteredEquipmentInfos.length <= 2;
+      sortedEquipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
+    const isExpanded = this.state.expanded || sortedEquipmentInfos.length <= 2;
 
     return (
       <div className={this.props.className}>

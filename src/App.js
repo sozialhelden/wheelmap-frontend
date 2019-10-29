@@ -3,6 +3,7 @@
 import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
+import get from 'lodash/get';
 import type { Router } from 'next/router';
 import queryString from 'query-string';
 
@@ -887,7 +888,7 @@ class App extends React.Component<Props, State> {
   onEquipmentSelected = (placeInfoId: string, equipmentInfo: EquipmentInfo) => {
     this.props.routerHistory.replace('equipment', {
       id: placeInfoId,
-      eid: equipmentInfo._id,
+      eid: get(equipmentInfo, 'properties._id'),
     });
   };
 

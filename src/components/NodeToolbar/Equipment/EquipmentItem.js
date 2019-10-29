@@ -27,8 +27,8 @@ function EquipmentIconWrapper({
   isCountHidden: boolean,
 }) {
   const properties = equipmentInfo.properties;
-  const _id = equipmentInfo._id;
   if (!properties) return null;
+  const _id = properties._id;
   const { isWorking, category } = properties;
 
   const ariaLabels: { [key: string]: { [key: string]: string } } = {
