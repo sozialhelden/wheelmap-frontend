@@ -110,15 +110,6 @@ class GeoJSONTileLayer extends TileLayer {
     return this._filterFeatureCollection(featureCollection, this.options.filter || (i => true));
   }
 
-  _removeShownFeatures(featureCollection) {
-    console.log('Filtering from', Object.keys(this._idsToShownLayers).length, 'cached layers');
-    const result = this._filterFeatureCollection(
-      featureCollection,
-      feature => !this._idsToShownLayers[feature.properties._id || feature.properties.id]
-    );
-    return result;
-  }
-
   _reset() {
     // console.log("Resetting tile layer, emptying _idsToShownLayers");
     if (this._tiles) {
