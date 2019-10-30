@@ -134,7 +134,7 @@ function EquipmentItem(props: Props) {
               return (
                 <EquipmentIconWrapper
                   key={index}
-                  {...{ count, isCountHidden: infos.length <= 1, equipmentInfo }}
+                  {...{ count, isCountHidden: equipmentInfos.length === 1, equipmentInfo }}
                 />
               );
             }
