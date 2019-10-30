@@ -11,11 +11,11 @@ import colors from '../../../lib/colors';
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  className?: string,
   outerClassName: string,
-  isExpanded: boolean,
+  isExpanded?: boolean,
   placeInfoId: string,
-  children: React.Node,
+  className?: string,
+  children?: React.Node,
 };
 
 function EquipmentList(props: Props) {
@@ -39,7 +39,7 @@ const StyledEquipmentList = styled(EquipmentList)`
   margin: 0.25em -1em;
   padding: 0.5em 1em;
   transition: background-color 0.3s ease-out;
-  background-color: ${props =>
+  background-color: ${(props: Props) =>
     props.isExpanded ? 'transparent' : colors.negativeBackgroundColorTransparent};
   header {
     font-weight: bold;

@@ -14,7 +14,7 @@ type Props = {
   className?: string,
   onSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
-  isExpanded: boolean,
+  isExpanded?: boolean,
 };
 
 function EquipmentIconWrapper({
@@ -197,7 +197,7 @@ const StyledEquipmentItem = styled(EquipmentItem)`
     &:last-of-type {
       margin-right: 0.75em;
     }
-    border: 1px solid ${colors.borderColor};
+    border: 1px solid ${colors.borderColor || 'gray'};
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 0.2rem;
     padding: 0.25rem;

@@ -851,13 +851,19 @@ export default class Map extends React.Component<Props, State> {
   }
 
   updateHighlightedMarker(props: Props) {
-    let ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
+    // highlight multiple markers if there is equipment that belongs to the currently
+    // opened one, e.g. when two escalators from a train platform lead to the same
+    // other level or are next to each other
+    const similarEquipmentIds =
+      typeof props.equipmentInfoId === 'string'
+        ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
+        : [];
+
+    // OSM IDs are numeric, other IDs are assumed to be globally unique so we collect
+    // them in one array:
+    const ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
+      .concat(similarEquipmentIds)
       .map(String)
-      .concat(
-        typeof props.equipmentInfoId === 'string'
-          ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
-          : []
-      )
       .filter(Boolean);
 
     if (this.wheelmapTileLayer) {
@@ -872,6 +878,8 @@ export default class Map extends React.Component<Props, State> {
       this.equipmentTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
     }
 
+    // Mapping events are not using a GeoJSONTileLayer, so they need a specialized handling
+    // TODO: Generalize behavior from above to work with any kind of marker layers
     if (this.mappingEventsLayer) {
       const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
         .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
