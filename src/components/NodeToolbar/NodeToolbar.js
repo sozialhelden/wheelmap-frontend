@@ -317,7 +317,16 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderContentBelowHeader() {
-    const { featureId, equipmentInfoId, equipmentInfo } = this.props;
+    const {
+      accessibilityPresetStatus,
+      equipmentInfo,
+      equipmentInfoId,
+      feature,
+      featureId,
+      onOpenReportMode,
+      sources,
+    } = this.props;
+
     const isEquipment = !!equipmentInfoId;
 
     if (featureId && !isEquipment) {
@@ -333,16 +342,15 @@ class NodeToolbar extends React.Component<Props, State> {
       }
     }
 
-    const { feature, onOpenReportMode, sources, accessibilityPresetStatus } = this.props;
+    if (!featureId) return;
 
     const sourceLinkProps = {
-      featureId,
-      feature,
       equipmentInfoId,
+      feature,
+      featureId,
       onOpenReportMode,
       sources,
     };
-    if (!featureId) return;
 
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
@@ -352,7 +360,6 @@ class NodeToolbar extends React.Component<Props, State> {
 
     const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = this.renderPhotoSection();
-
     const equipmentOverview = this.renderEquipmentInfos();
 
     return (
