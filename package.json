@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@babel/runtime-corejs3": "^7.6.3",
     "@elastic/apm-rum": "^4.3.0",
     "@hypo808/elastic-apm-sourcemap-webpack-plugin": "^1.5.2",
     "@sozialhelden/twelve-factor-dotenv": "^15.0.0",
@@ -76,6 +77,7 @@
     "unfetch": "^3.1.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.6.3",
     "@svgr/cli": "^4.3.0",
     "@types/node": "^12.11.1",
@@ -90,6 +92,7 @@
     "babel-eslint": "^10.0.2",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "babel-plugin-styled-components": "^1.10.1",
+    "babel-plugin-transform-es2015-template-literals": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-ttag": "^1.7.17",
     "browserslist": "^4.6.3",
@@ -144,9 +147,9 @@
     "version": "echo TODO: Add version syncing to bundle configurations for native apps + git commit -am 'Version bump' to package.json",
     "flow": "flow",
     "server": "server",
-    "push-translations": "npm run clear-babel-cache && npm run build && tx push -s",
+    "push-translations": "npm run clear-babel-cache && (BABEL_ENV=ttag npm run build) && tx push -s",
     "pull-translations": "tx pull -af",
-    "retranslate": "npm run build && npm run pull-translations && NEW_SOURCE_PO='./src/static/i18n/en_US.txt' retranslate/run.sh",
+    "retranslate": "npm run build && npm run pull-translations && NEW_SOURCE_PO='./src/public/i18n/en_US.txt' retranslate/run.sh",
     "create-js-translations": "node scripts/parseGettextFiles.js",
     "update-local-translations": "npm run pull-translations && npm run create-js-translations",
     "compile-svg-directory": "echo \"Compiling SVGs in ${basedir}, this can take up to a few minutes…\"; (for file in ${basedir}/*.svg; do npx @svgr/cli --icon $file > ${file/.svg/.js}; echo \"export { default as `basename $file .svg` } from './`basename $file .svg`';\";  done;) > ${basedir}/index.js",

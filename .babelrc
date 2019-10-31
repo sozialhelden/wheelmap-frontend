@@ -4,22 +4,27 @@
     {
       "preset-env": {
         "useBuiltIns": "entry",
-        "corejs": 3
+        "corejs": 3,
+        "debug": true
       },
-      "transform-runtime": {},
+      "transform-runtime": {
+        "corejs": 3,
+        "useESModules": false
+      },
       "class-properties": {}
     }
   ]], // https://goo.gl/aqbWJY
   "plugins": [
     "transform-flow-strip-types",
-    [
-      "ttag",
-      {
+    "babel-plugin-styled-components"
+  ],
+  "env": {
+    "ttag": {
+      "plugins": [["ttag", {
         "extract": {
           "output": "public/i18n/translations.pot"
         }
-      }
-    ],
-    "babel-plugin-styled-components"
-  ]
+      }]]
+    }
+  }
 }
