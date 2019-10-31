@@ -52,7 +52,7 @@ export type DisruptionProperties = {
 };
 
 export type EquipmentInfoProperties = {
-  _id?: string,
+  _id: string,
   originalId?: string,
   originalPlaceInfoId?: string,
   disruptionSourceImportId?: string,
@@ -87,7 +87,6 @@ export type EquipmentInfoProperties = {
 export type EquipmentInfo = {
   type: 'Feature',
   geometry: Point,
-  _id: string,
   properties: EquipmentInfoProperties,
 };
 
