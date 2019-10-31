@@ -1,5 +1,15 @@
 {
-  "presets": ["next/babel"], // https://goo.gl/aqbWJY
+  "presets": [[
+    "next/babel",
+    {
+      "preset-env": {
+        "useBuiltIns": "entry",
+        "corejs": 3
+      },
+      "transform-runtime": {},
+      "class-properties": {}
+    }
+  ]], // https://goo.gl/aqbWJY
   "plugins": [
     "transform-flow-strip-types",
     [

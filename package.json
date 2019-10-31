@@ -17,7 +17,7 @@
     "caniuse-lite": "^1.0.30000976",
     "cheerio": "^0.22.0",
     "compression": "^1.7.3",
-    "core-js": "^3.1.4",
+    "core-js": "^3.3.5",
     "cors": "^2.8.1",
     "d3-color": "^1.0.3",
     "d3-interpolate": "^1.1.5",
@@ -185,7 +185,8 @@
     "Opera >= 53",
     "iOS >= 10",
     "last 1 version",
-    "> 1%"
+    "> 0.25%",
+    "not dead"
   ],
   "jest": {
     "collectCoverageFrom": [
