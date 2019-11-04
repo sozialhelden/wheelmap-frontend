@@ -1,15 +1,34 @@
 {
-  "presets": ["next/babel"], // https://goo.gl/aqbWJY
+  "presets": [[
+    "next/babel",
+    {
+      "preset-env": {
+        "useBuiltIns": "entry",
+        "corejs": 3,
+        "debug": true
+      },
+      "transform-runtime": {
+        "corejs": 3,
+        "useESModules": false
+      },
+      "class-properties": {}
+    }
+  ]], // https://goo.gl/aqbWJY
   "plugins": [
     "transform-flow-strip-types",
-    [
-      "ttag",
-      {
+    "babel-plugin-styled-components"
+  ],
+  "env": {
+    "ttag": {
+      // ttag plugin has its own environment to not conflict
+      // with `babel-env` transpilation:
+      // 
+      // https://github.com/ttag-org/babel-plugin-ttag/issues/138
+      "plugins": [["ttag", {
         "extract": {
           "output": "public/i18n/translations.pot"
         }
-      }
-    ],
-    "babel-plugin-styled-components"
-  ]
+      }]]
+    }
+  }
 }

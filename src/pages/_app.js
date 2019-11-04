@@ -313,72 +313,70 @@ export default class App extends BaseApp {
     };
 
     return (
-      <Container>
-        <React.Fragment>
-          <Head>
-            {/*
+      <React.Fragment>
+        <Head>
+          {/*
               Move viewport meta into Head from next/head to allow deduplication to work. Do not rely on deduplication by key,
               as React.mapChildren will prefix keys with ".$", but the default keys in next are not prefixed. Deduplication by
               name works fine.
              */}
-            <meta
-              name="viewport"
-              content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
-            />
-
-            {/* Alternates */}
-            {generateLocaleLinks(path || (window && window.location.pathname), availableLocales)}
-
-            {/* Relations */}
-            <link href={`${router.generatePath('search')}`} rel="search" title={t`Search`} />
-            <link href={`${router.generatePath('map')}`} rel="home" title={t`Homepage`} />
-
-            {/* Misc */}
-            <meta
-              content={translatedStringFromObject(description)}
-              name="description"
-              key="description"
-            />
-            <link rel="shortcut icon" href={`/favicon.ico`} />
-
-            {/* iOS app */}
-            {productName === 'Wheelmap' && (
-              <meta content="app-id=399239476" name="apple-itunes-app" />
-            )}
-          </Head>
-
-          <OpenGraph
-            productName={translatedProductName}
-            title={pageTitle}
-            description={translatedDescription}
-            url={ogUrl}
+          <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover"
           />
-          {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
-          {twitter && (
-            <TwitterMeta
-              shareHost={baseUrl}
-              productName={translatedProductName}
-              description={translatedDescription}
-              twitter={twitter}
-            />
-          )}
-          {facebook && <FacebookMeta facebook={facebookMetaData} />}
 
-          {routeName != null && (
-            <AsyncNextHead head={getHead(routeName, renderContext, appContext.baseUrl)} />
+          {/* Alternates */}
+          {generateLocaleLinks(path || (window && window.location.pathname), availableLocales)}
+
+          {/* Relations */}
+          <link href={`${router.generatePath('search')}`} rel="search" title={t`Search`} />
+          <link href={`${router.generatePath('map')}`} rel="home" title={t`Homepage`} />
+
+          {/* Misc */}
+          <meta
+            content={translatedStringFromObject(description)}
+            name="description"
+            key="description"
+          />
+          <link rel="shortcut icon" href={`/favicon.ico`} />
+
+          {/* iOS app */}
+          {productName === 'Wheelmap' && (
+            <meta content="app-id=399239476" name="apple-itunes-app" />
           )}
-          {!skipApplicationBody && (
-            <AppContextProvider value={appContext}>
-              <PageComponent
-                routerHistory={this.routerHistory}
-                {...getAdditionalPageComponentProps(routeName, renderContext, isServer)}
-                routeName={routeName}
-              />
-            </AppContextProvider>
-          )}
-          {embedModeDenied && <EmbedModeDeniedDialog language={preferredLanguage} />}
-        </React.Fragment>
-      </Container>
+        </Head>
+
+        <OpenGraph
+          productName={translatedProductName}
+          title={pageTitle}
+          description={translatedDescription}
+          url={ogUrl}
+        />
+        {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
+        {twitter && (
+          <TwitterMeta
+            shareHost={baseUrl}
+            productName={translatedProductName}
+            description={translatedDescription}
+            twitter={twitter}
+          />
+        )}
+        {facebook && <FacebookMeta facebook={facebookMetaData} />}
+
+        {routeName != null && (
+          <AsyncNextHead head={getHead(routeName, renderContext, appContext.baseUrl)} />
+        )}
+        {!skipApplicationBody && (
+          <AppContextProvider value={appContext}>
+            <PageComponent
+              routerHistory={this.routerHistory}
+              {...getAdditionalPageComponentProps(routeName, renderContext, isServer)}
+              routeName={routeName}
+            />
+          </AppContextProvider>
+        )}
+        {embedModeDenied && <EmbedModeDeniedDialog language={preferredLanguage} />}
+      </React.Fragment>
     );
   }
 }
