@@ -39,6 +39,7 @@ export interface MappingEvent {
   targets?: {
     mappedPlacesCount?: number,
   };
+  visibility?: 'visible' | 'hidden';
   status: MappingEventStatusEnum;
   statistics: MappingEventStatistics;
 }
@@ -49,4 +50,5 @@ export const hrefForMappingEvent = (mappingEvent: MappingEvent): string =>
   `/events/${mappingEvent._id}`;
 
 export const isMappingEventVisible = (mappingEvent: MappingEvent): boolean =>
-  mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned';
+  (mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
+  mappingEvent.visibility !== 'hidden';
