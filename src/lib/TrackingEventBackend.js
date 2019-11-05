@@ -36,12 +36,16 @@ export type MappingEventJoinedTrackingEvent = {
   joinedMappingEventId: string,
   joinedVia: 'url' | 'button',
   query: Query,
+  emailAddress?: ?string,
+  invitationToken?: ?string,
 };
 
 export type MappingEventLeftTrackingEvent = {
   type: 'MappingEventLeft',
   leftMappingEventId: string,
   query: Query,
+  emailAddress?: ?string,
+  invitationToken?: ?string,
 };
 
 export type TrackingEvent =

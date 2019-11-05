@@ -11,6 +11,8 @@ import config from './lib/config';
 import savedState, {
   saveState,
   isFirstStart,
+  getJoinedMappingEventData,
+  setJoinedMappingEventData,
   getJoinedMappingEventId as readStoredJoinedMappingEventId,
   setJoinedMappingEventId as storeJoinedMappingEventId,
 } from './lib/savedState';
@@ -327,19 +329,23 @@ class App extends React.Component<Props, State> {
 
   trackMappingEventMembershipChanged = (
     reason: 'url' | 'button',
-    joinedMappingEventId: ?string
+    joinedMappingEventId: ?string,
+    emailAddress?: string
   ) => {
     const previouslyJoinedMappingEventId = readStoredJoinedMappingEventId();
-    storeJoinedMappingEventId(joinedMappingEventId);
-
     if (previouslyJoinedMappingEventId === joinedMappingEventId) {
       return;
     }
 
+    storeJoinedMappingEventId(joinedMappingEventId);
     const search: string = window.location.search;
 
     if (previouslyJoinedMappingEventId) {
+      const { invitationToken, emailAddress } = getJoinedMappingEventData();
+
       trackingEventBackend.track(this.props.app, {
+        invitationToken,
+        emailAddress,
         type: 'MappingEventLeft',
         leftMappingEventId: previouslyJoinedMappingEventId,
         query: queryString.parse(search),
@@ -352,7 +358,12 @@ class App extends React.Component<Props, State> {
     }
 
     if (joinedMappingEventId) {
+      const invitationToken = this.props.router.query.token;
+      setJoinedMappingEventData(emailAddress, invitationToken);
+
       trackingEventBackend.track(this.props.app, {
+        invitationToken,
+        emailAddress,
         type: 'MappingEventJoined',
         joinedMappingEventId: joinedMappingEventId,
         joinedVia: reason,
@@ -367,13 +378,12 @@ class App extends React.Component<Props, State> {
   };
 
   onMappingEventLeave = () => {
-    console.log('onMappingEventLeave', this.state.joinedMappingEventId);
     this.trackMappingEventMembershipChanged('button');
     this.setState({ joinedMappingEventId: null });
   };
 
   onMappingEventJoin = (joinedMappingEventId: string, emailAddress?: string) => {
-    this.trackMappingEventMembershipChanged('button', joinedMappingEventId);
+    this.trackMappingEventMembershipChanged('button', joinedMappingEventId, emailAddress);
     this.setState({
       joinedMappingEventId,
     });
