@@ -23,7 +23,7 @@ type Props = {
 const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
 
 const EmailInputForm = (props: {
-  collectionMode: string,
+  collectionMode: 'disabled' | 'required' | 'optional',
   initialEmailAddress: ?string,
   onSubmit: (emailAddress?: string) => void,
 }) => {
