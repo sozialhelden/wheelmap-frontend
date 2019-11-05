@@ -81,9 +81,6 @@ type Props = {
   excludeSourceIds: Array<string>,
   disableWheelmapSource: ?boolean,
 
-  mappingEvents: MappingEvents,
-  mappingEvent: ?MappingEvent,
-
   isReportMode: ?boolean,
   isOnboardingVisible: boolean,
   isMappingEventWelcomeDialogVisible: boolean,
@@ -95,8 +92,6 @@ type Props = {
   isSearchToolbarExpanded: boolean,
   isSearchButtonVisible: boolean,
   isNodeToolbarDisplayed: boolean,
-  isMappingEventsToolbarVisible: boolean,
-  isMappingEventToolbarVisible: boolean,
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
@@ -127,8 +122,6 @@ type Props = {
   onSearchQueryChange: (searchQuery: string) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
-  onMappingEventsLinkClick: () => void,
-  onMappingEventWelcomeDialogClose: () => void,
 
   // simple 3-button status editor feature
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
@@ -159,10 +152,18 @@ type Props = {
   onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
 
   app: App,
-  mappingEventHandlers: {
-    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
-  },
+
+  // mapping event
+  mappingEvents: MappingEvents,
+  mappingEvent: ?MappingEvent,
   joinedMappingEventId: ?string,
+  isMappingEventsToolbarVisible: boolean,
+  isMappingEventToolbarVisible: boolean,
+  onMappingEventsLinkClick: () => void,
+  onMappingEventJoin: (mappingEventId: string, emailAddress?: string) => void,
+  onMappingEventLeave: () => void,
+  onMappingEventWelcomeDialogOpen: () => void,
+  onMappingEventWelcomeDialogClose: () => void,
 } & PlaceDetailsProps;
 
 type State = {
@@ -309,8 +310,9 @@ class MainView extends React.Component<Props, State> {
   renderMappingEventToolbar() {
     const {
       mappingEvent,
-      mappingEventHandlers,
       joinedMappingEventId,
+      onMappingEventLeave,
+      onMappingEventWelcomeDialogOpen,
       onCloseMappingEventsToolbar,
       app,
     } = this.props;
@@ -330,7 +332,8 @@ class MainView extends React.Component<Props, State> {
           <MappingEventToolbar
             mappingEvent={mappingEvent}
             joinedMappingEventId={joinedMappingEventId}
-            mappingEventHandlers={mappingEventHandlers}
+            onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}
+            onMappingEventLeave={onMappingEventLeave}
             onClose={onCloseMappingEventsToolbar}
             onHeaderClick={this.onMappingEventHeaderClick}
             productName={translatedProductName}
@@ -672,7 +675,7 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventWelcomeDialog() {
-    const { mappingEvent, onMappingEventWelcomeDialogClose } = this.props;
+    const { mappingEvent, onMappingEventJoin, onMappingEventWelcomeDialogClose } = this.props;
 
     if (!mappingEvent) {
       return null;
@@ -681,7 +684,8 @@ class MainView extends React.Component<Props, State> {
     return (
       <MappingEventWelcomeDialog
         mappingEvent={mappingEvent}
-        onMappingEventWelcomeDialogClose={onMappingEventWelcomeDialogClose}
+        onJoin={onMappingEventJoin}
+        onClose={onMappingEventWelcomeDialogClose}
       />
     );
   }

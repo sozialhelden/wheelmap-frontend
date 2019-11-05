@@ -40,6 +40,7 @@ export interface MappingEvent {
     mappedPlacesCount?: number,
   };
   visibility?: 'visible' | 'hidden';
+  emailCollectionMode?: 'required' | 'optional' | 'disabled';
   status: MappingEventStatusEnum;
   statistics: MappingEventStatistics;
 }

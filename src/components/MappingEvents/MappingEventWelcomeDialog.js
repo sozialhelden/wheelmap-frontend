@@ -1,23 +1,22 @@
 // @flow
 
 import React from 'react';
+import styled from 'styled-components';
 import { t } from 'ttag';
 
 import ModalDialog from '../ModalDialog';
 import { PrimaryButton } from '../Button';
 import { type MappingEvent } from '../../lib/MappingEvent';
+import CloseButton from '../CloseButton';
 
 type Props = {
   className?: string,
   mappingEvent: MappingEvent,
-  onMappingEventWelcomeDialogClose: () => void,
+  onClose: () => void,
+  onJoin: (mappingEventId: string, emailAddress?: string) => void,
 };
 
-const MappingEventWelcomeDialog = ({
-  className,
-  mappingEvent,
-  onMappingEventWelcomeDialogClose,
-}: Props) => {
+const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, onClose }: Props) => {
   const dialogAriaLabel = t`Welcome`;
 
   // translator: The default message for the mapping event welcome dialog
@@ -30,14 +29,23 @@ const MappingEventWelcomeDialog = ({
       className={className}
       isVisible={true}
       showCloseButton={false}
-      onClose={onMappingEventWelcomeDialogClose}
+      onClose={onClose}
       ariaLabel={dialogAriaLabel}
       ariaDescribedBy="mapping-event-welcome-message"
     >
+      <CloseButton onClick={onClose} />
       <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
-      <PrimaryButton onClick={onMappingEventWelcomeDialogClose}>{t`Let's go`}</PrimaryButton>
+      <PrimaryButton onClick={() => onJoin(mappingEvent._id, null)}>{t`Let's go`}</PrimaryButton>
     </ModalDialog>
   );
 };
+
+const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
+  ${CloseButton} {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+`;
 
 export default MappingEventWelcomeDialog;

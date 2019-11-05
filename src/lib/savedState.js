@@ -98,5 +98,9 @@ export function getJoinedMappingEventId(): ?string {
 }
 
 export function setJoinedMappingEventId(mappingEventId: ?string) {
-  storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
+  if (mappingEventId) {
+    storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
+  } else {
+    storage.removeItem('wheelmap.joinedMappingEventId');
+  }
 }

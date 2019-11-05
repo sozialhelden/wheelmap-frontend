@@ -25,9 +25,8 @@ type MappingEventToolbarProps = {
   className?: string,
   mappingEvent: MappingEvent,
   joinedMappingEventId: ?string,
-  mappingEventHandlers: {
-    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
-  },
+  onLeaveMappingEvent: () => void,
+  onMappingEventWelcomeDialogOpen: () => void,
   onClose: () => void,
   onHeaderClick: () => void,
   productName: ?string,
@@ -38,7 +37,8 @@ type MappingEventToolbarProps = {
 const MappingEventToolbar = ({
   className,
   mappingEvent,
-  mappingEventHandlers: { updateJoinedMappingEvent },
+  onMappingEventLeave,
+  onMappingEventWelcomeDialogOpen,
   joinedMappingEventId,
   onClose,
   onHeaderClick,
@@ -117,11 +117,9 @@ const MappingEventToolbar = ({
   const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
   const eventJoinOrLeaveButton = userJoinedMappingEvent ? (
-    <DangerButton onClick={() => updateJoinedMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
+    <DangerButton onClick={onMappingEventLeave}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton onClick={() => updateJoinedMappingEvent(mappingEvent._id)}>
-      {joinButtonCaption}
-    </PrimaryButton>
+    <PrimaryButton onClick={onMappingEventWelcomeDialogOpen}>{joinButtonCaption}</PrimaryButton>
   );
 
   return (

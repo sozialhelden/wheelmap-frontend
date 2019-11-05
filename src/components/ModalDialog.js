@@ -132,6 +132,7 @@ const StyledModalDialog = styled(ModalDialog)`
     background-color: transparent;
   }
   .modal-dialog-content {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: 2rem;
