@@ -9,6 +9,7 @@ import { PrimaryButton } from '../Button';
 import { type MappingEvent } from '../../lib/MappingEvent';
 import CloseButton from '../CloseButton';
 import colors from '../../lib/colors';
+import { getJoinedMappingEventData } from '../../lib/savedState';
 
 type Props = {
   className?: string,
@@ -21,9 +22,10 @@ const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
 
 const EmailInputForm = (props: {
   collectionMode: string,
+  initialEmailAddress: ?string,
   onSubmit: (emailAddress?: string) => void,
 }) => {
-  const { onSubmit, collectionMode } = props;
+  const { onSubmit, collectionMode, initialEmailAddress } = props;
 
   const inputField = React.useRef(null);
   const [error, setError] = React.useState<string | null>(null);
@@ -69,6 +71,7 @@ const EmailInputForm = (props: {
             required={collectionMode === 'required'}
             type="email"
             autoComplete="true"
+            defaultValue={initialEmailAddress}
             ref={inputField}
             onFocus={event => {
               window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
@@ -101,6 +104,8 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
   const mappingEventWelcomeMessage =
     mappingEvent.welcomeMessage || defaultMappingEventWelcomeMessage;
 
+  const { emailAddress } = getJoinedMappingEventData();
+
   return (
     <ModalDialog
       className={className}
@@ -115,6 +120,7 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
       <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
       <p>{emailCollectionModeMessage}</p>
       <EmailInputForm
+        initialEmailAddress={emailAddress}
         collectionMode={collectionMode}
         onSubmit={emailAddress => onJoin(mappingEvent._id, emailAddress)}
       ></EmailInputForm>
