@@ -9,7 +9,9 @@ import { PrimaryButton } from '../Button';
 import { type MappingEvent } from '../../lib/MappingEvent';
 import CloseButton from '../CloseButton';
 import colors from '../../lib/colors';
+
 import { getJoinedMappingEventData } from '../../lib/savedState';
+import queryString from 'query-string';
 
 type Props = {
   className?: string,
@@ -104,7 +106,12 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
   const mappingEventWelcomeMessage =
     mappingEvent.welcomeMessage || defaultMappingEventWelcomeMessage;
 
-  const { emailAddress } = getJoinedMappingEventData();
+  const { emailAddress: lastUsedEmailAddress } = getJoinedMappingEventData();
+  let queryEmailAddress: ?string;
+  if (typeof window !== 'undefined') {
+    const queryObject = queryString.parse(window.location.search);
+    queryEmailAddress = queryObject.emailAddress;
+  }
 
   return (
     <ModalDialog
@@ -120,7 +127,7 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
       <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
       <p>{emailCollectionModeMessage}</p>
       <EmailInputForm
-        initialEmailAddress={emailAddress}
+        initialEmailAddress={queryEmailAddress || lastUsedEmailAddress}
         collectionMode={collectionMode}
         onSubmit={emailAddress => onJoin(mappingEvent._id, emailAddress)}
       ></EmailInputForm>
