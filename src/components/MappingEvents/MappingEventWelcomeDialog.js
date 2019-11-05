@@ -68,7 +68,7 @@ const EmailInputForm = (props: {
             className={error ? 'is-invalid' : ''}
             required={collectionMode === 'required'}
             type="email"
-            autoComplete={true}
+            autoComplete="true"
             ref={inputField}
             onFocus={event => {
               window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
