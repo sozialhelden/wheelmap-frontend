@@ -38,6 +38,7 @@ const colors = {
   warningColorDarker: '#c16600',
   warningBackgroundColorTransparent: 'rgba(243, 158, 59, 0.1)',
   negativeColor: 'rgb(245, 75, 75)',
+  halfTransparentNegative: 'rgba(245, 75, 75, 0.5)',
   negativeColorDarker: '#c70000',
   negativeBackgroundColorTransparent: 'rgba(245, 75, 75, 0.1)',
   neutralColor: 'rgb(88, 87, 83)',
@@ -57,6 +58,9 @@ const colors = {
       unknown: '#69615b',
     },
   },
+  inputBorder: '#ddd',
+  textMuted: 'rgba(0,0,0,0.4)',
+  focusOutline: '#C3E8FD',
 };
 
 colors.coldBackgroundColor = hsl(colors.linkBackgroundColorTransparent);
