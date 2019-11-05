@@ -14,6 +14,11 @@ export const UnstyledButton = styled.button`
   display: block;
   text-align: left;
   width: 100%;
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: 0.75;
+  }
 `;
 
 export const PrimaryButton = styled(UnstyledButton)`
