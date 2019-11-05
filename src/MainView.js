@@ -157,6 +157,7 @@ type Props = {
   mappingEvents: MappingEvents,
   mappingEvent: ?MappingEvent,
   joinedMappingEventId: ?string,
+  joinedMappingEvent?: MappingEvent,
   isMappingEventsToolbarVisible: boolean,
   isMappingEventToolbarVisible: boolean,
   onMappingEventsLinkClick: () => void,
@@ -466,9 +467,7 @@ class MainView extends React.Component<Props, State> {
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
-        joinedMappingEvent={this.props.mappingEvents.find(
-          event => event._id === this.props.joinedMappingEventId
-        )}
+        joinedMappingEvent={this.props.joinedMappingEvent}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
         claim={textContent.product.claim}

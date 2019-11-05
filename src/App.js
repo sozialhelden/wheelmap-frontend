@@ -23,7 +23,13 @@ import { type SearchResultCollection } from './lib/searchPlaces';
 import type { Feature, WheelmapFeature } from './lib/Feature';
 import type { SearchResultFeature } from './lib/searchPlaces';
 import type { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
-import { type MappingEvents, type MappingEvent, isMappingEventVisible } from './lib/MappingEvent';
+import {
+  type MappingEvents,
+  type MappingEvent,
+  isMappingEventVisible,
+  isMappingEventOngoingById,
+  canMappingEventBeJoined,
+} from './lib/MappingEvent';
 import { type Cluster } from './components/Map/Cluster';
 import { type App as AppModel } from './lib/App';
 
@@ -56,7 +62,6 @@ import './App.css';
 import './Global.css';
 import 'focus-visible';
 import { trackModalView, trackEvent } from './lib/Analytics';
-import { mappingEventsCache } from './lib/cache/MappingEventsCache';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
 
 export type LinkData = {
@@ -280,48 +285,46 @@ class App extends React.Component<Props, State> {
     }
   }
 
-  async setupMappingEvents() {
+  setupMappingEvents() {
     const mappingEvents = filterMappingEvents(
       this.props.mappingEvents,
       this.props.app._id,
       this.props.mappingEvent && this.props.mappingEvent._id
     );
     this.setState({ mappingEvents });
-    this.initializeJoinedMappingEvent(mappingEvents);
+    this.initializeJoinedMappingEvent();
   }
 
-  isMappingEventOngoing(mappingEventId: ?string, mappingEvents: MappingEvents) {
-    if (mappingEventId) {
-      const joinedMappingEvent = mappingEvents.find(event => event._id === mappingEventId);
-      return joinedMappingEvent && isMappingEventVisible(joinedMappingEvent);
-    }
-
-    return false;
-  }
-
-  initializeJoinedMappingEvent(mappingEvents: MappingEvents) {
+  initializeJoinedMappingEvent() {
     const {
+      mappingEvents,
       routeName,
       router: { query },
     } = this.props;
 
     let joinedMappingEventId = readStoredJoinedMappingEventId();
+    const joinedMappingEvent = joinedMappingEventId
+      ? mappingEvents.find(event => event._id === joinedMappingEventId)
+      : null;
     const state = {
+      joinedMappingEvent,
       joinedMappingEventId,
       isMappingEventWelcomeDialogVisible: false,
     };
 
     if (routeName === 'mappingEventJoin') {
       const mappingEventIdToJoin = query.id;
-      if (this.isMappingEventOngoing(mappingEventIdToJoin, mappingEvents)) {
+      const mappingEventToJoin = mappingEvents.find(event => event._id === mappingEventIdToJoin);
+      if (mappingEventToJoin && canMappingEventBeJoined(mappingEventToJoin)) {
         state.isMappingEventWelcomeDialogVisible = true;
       }
     }
 
     // invalidate already locally stored mapping event if it already expired
-    if (!this.isMappingEventOngoing(joinedMappingEventId, mappingEvents)) {
+    if (!joinedMappingEvent || !canMappingEventBeJoined(joinedMappingEvent)) {
       joinedMappingEventId = null;
       storeJoinedMappingEventId(joinedMappingEventId);
+      setJoinedMappingEventData();
     }
 
     this.setState(state);
@@ -781,6 +784,7 @@ class App extends React.Component<Props, State> {
 
   onCloseMappingEventsToolbar = () => {
     const params = this.getCurrentParams();
+    delete params.id;
     this.props.routerHistory.push('map', params);
   };
 
@@ -1035,6 +1039,7 @@ class App extends React.Component<Props, State> {
           onMappingEventsLinkClick={this.onMappingEventsLinkClick}
           onMappingEventClick={this.showSelectedMappingEvent}
           joinedMappingEventId={this.state.joinedMappingEventId}
+          joinedMappingEvent={this.state.joinedMappingEvent}
           onCloseMappingEventsToolbar={this.onCloseMappingEventsToolbar}
           onMappingEventJoin={this.onMappingEventJoin}
           onMappingEventLeave={this.onMappingEventLeave}

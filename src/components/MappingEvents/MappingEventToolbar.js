@@ -14,7 +14,7 @@ import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
-import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
+import { type MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
 import { type RouteParams } from '../../lib/RouterHistory';
 import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
@@ -25,7 +25,7 @@ type MappingEventToolbarProps = {
   className?: string,
   mappingEvent: MappingEvent,
   joinedMappingEventId: ?string,
-  onLeaveMappingEvent: () => void,
+  onMappingEventLeave: () => void,
   onMappingEventWelcomeDialogOpen: () => void,
   onClose: () => void,
   onHeaderClick: () => void,
@@ -196,7 +196,7 @@ const MappingEventToolbar = ({
           endDate={endDate}
         />
         <div className="actions">
-          {isMappingEventVisible(mappingEvent) && eventJoinOrLeaveButton}
+          {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar

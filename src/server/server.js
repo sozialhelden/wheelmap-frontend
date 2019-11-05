@@ -5,7 +5,7 @@ const {
 } = require('@sozialhelden/twelve-factor-dotenv/dist/cjs/index.js');
 console.log('Node version:', process.version);
 
-const apm = require('../lib/apm/ServerSide');
+// const apm = require('../lib/apm/ServerSide');
 const nextjs = require('next');
 const path = require('path');
 const express = require('express');
