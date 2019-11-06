@@ -14,7 +14,7 @@ import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
-import { type MappingEvent, isMappingEventVisible } from '../../lib/MappingEvent';
+import { type MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
 import { type RouteParams } from '../../lib/RouterHistory';
 import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
@@ -25,9 +25,8 @@ type MappingEventToolbarProps = {
   className?: string,
   mappingEvent: MappingEvent,
   joinedMappingEventId: ?string,
-  mappingEventHandlers: {
-    updateJoinedMappingEvent: (joinedMappingEventId: ?string) => void,
-  },
+  onMappingEventLeave: () => void,
+  onMappingEventWelcomeDialogOpen: () => void,
   onClose: () => void,
   onHeaderClick: () => void,
   productName: ?string,
@@ -38,7 +37,8 @@ type MappingEventToolbarProps = {
 const MappingEventToolbar = ({
   className,
   mappingEvent,
-  mappingEventHandlers: { updateJoinedMappingEvent },
+  onMappingEventLeave,
+  onMappingEventWelcomeDialogOpen,
   joinedMappingEventId,
   onClose,
   onHeaderClick,
@@ -117,11 +117,9 @@ const MappingEventToolbar = ({
   const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
   const eventJoinOrLeaveButton = userJoinedMappingEvent ? (
-    <DangerButton onClick={() => updateJoinedMappingEvent(null)}>{leaveButtonCaption}</DangerButton>
+    <DangerButton onClick={onMappingEventLeave}>{leaveButtonCaption}</DangerButton>
   ) : (
-    <PrimaryButton onClick={() => updateJoinedMappingEvent(mappingEvent._id)}>
-      {joinButtonCaption}
-    </PrimaryButton>
+    <PrimaryButton onClick={onMappingEventWelcomeDialogOpen}>{joinButtonCaption}</PrimaryButton>
   );
 
   return (
@@ -198,7 +196,7 @@ const MappingEventToolbar = ({
           endDate={endDate}
         />
         <div className="actions">
-          {isMappingEventVisible(mappingEvent) && eventJoinOrLeaveButton}
+          {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
           <AppContextConsumer>
             {appContext => (
               <MappingEventShareBar

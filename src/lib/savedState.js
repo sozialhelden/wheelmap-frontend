@@ -94,9 +94,33 @@ export function resetUUID() {
 }
 
 export function getJoinedMappingEventId(): ?string {
-  return JSON.parse(storage.getItem('wheelmap.joinedMappingEventId'));
+  return storage.getItem('wheelmap.joinedMappingEventId');
 }
 
 export function setJoinedMappingEventId(mappingEventId: ?string) {
-  storage.setItem('wheelmap.joinedMappingEventId', JSON.stringify(mappingEventId));
+  if (mappingEventId) {
+    storage.setItem('wheelmap.joinedMappingEventId', mappingEventId);
+  } else {
+    storage.removeItem('wheelmap.joinedMappingEventId');
+  }
+}
+
+type EventJoinData = {
+  emailAddress: ?string,
+  invitationToken: ?string,
+};
+
+export function getJoinedMappingEventData(): EventJoinData {
+  try {
+    return JSON.parse(storage.getItem('wheelmap.joinedMappingEventData')) || {};
+  } catch {
+    return {};
+  }
+}
+
+export function setJoinedMappingEventData(emailAddress: ?string, invitationToken: ?string) {
+  const current = getJoinedMappingEventData();
+  current.invitationToken = invitationToken;
+  current.emailAddress = emailAddress || current.emailAddress;
+  storage.setItem('wheelmap.joinedMappingEventData', JSON.stringify(current));
 }

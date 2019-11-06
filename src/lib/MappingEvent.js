@@ -39,6 +39,8 @@ export interface MappingEvent {
   targets?: {
     mappedPlacesCount?: number,
   };
+  visibility?: 'visible' | 'hidden';
+  emailCollectionMode?: 'required' | 'optional' | 'disabled';
   status: MappingEventStatusEnum;
   statistics: MappingEventStatistics;
 }
@@ -48,5 +50,9 @@ export type MappingEvents = MappingEvent[];
 export const hrefForMappingEvent = (mappingEvent: MappingEvent): string =>
   `/events/${mappingEvent._id}`;
 
-export const isMappingEventVisible = (mappingEvent: MappingEvent): boolean =>
+export const canMappingEventBeJoined = (mappingEvent: MappingEvent): boolean =>
   mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned';
+
+export const isMappingEventVisible = (mappingEvent: MappingEvent): boolean =>
+  (mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
+  mappingEvent.visibility !== 'hidden';
