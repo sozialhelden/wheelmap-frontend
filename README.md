@@ -79,7 +79,7 @@ We have a retranslate tool that allows to use the `en_US` language on transifex 
 
 ## Testing
 
-<a href="https://browserstack.com"><img src="src/static/images/Browserstack-logo.svg" width="200px"></a>
+<a href="https://browserstack.com"><img src="src/public/images/Browserstack-logo.svg" width="200px"></a>
 
 For testing the apps, we use [BrowserStack](https://browserstack.com). More documentation about how to run the test suites are going to appear here soon.
 
