@@ -8,9 +8,15 @@ WORKDIR /usr/app
 
 # Add Tini to increase container stability / https://github.com/krallin/tini
 ENV TINI_VERSION v0.18.0
+ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
-RUN gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
+
+
+
+RUN (gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
+  gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" || \
+  gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$TINI_GPG_KEY") \
   && gpg --batch --verify /tini.asc /tini
 RUN chmod +x /tini
 # Set tini as entrypoint
