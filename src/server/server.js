@@ -72,7 +72,7 @@ app.prepare().then(() => {
   server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
   server.get('*', (req, res, next) => {
-    const match = router.match(req.path);
+    const match = router.default.match(req.path);
 
     if (!match) {
       return next();

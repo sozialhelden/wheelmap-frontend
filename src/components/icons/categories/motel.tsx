@@ -1,0 +1,13 @@
+import React from 'react';
+
+const Motel = (props: any) => (
+  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+    <path
+      d="M14 6H1a11.431 11.431 0 0 1 1-4h11a11.429 11.429 0 0 1 1 4zM3 7h9v6h-1V8H8v5H3V7zm1 3h3V8H4v2z"
+      fill="#000"
+      fillRule="evenodd"
+    />
+  </svg>
+);
+
+export default Motel;

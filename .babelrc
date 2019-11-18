@@ -21,7 +21,7 @@
     "ttag": {
       // ttag plugin has its own environment to not conflict
       // with `babel-env` transpilation:
-      // 
+      //
       // https://github.com/ttag-org/babel-plugin-ttag/issues/138
       "plugins": [["ttag", {
         "extract": {
