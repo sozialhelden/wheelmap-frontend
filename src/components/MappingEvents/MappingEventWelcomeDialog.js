@@ -35,12 +35,11 @@ const EmailInputForm = (props: {
   const showInput = collectionMode !== 'disabled';
 
   const submitHandler = e => {
-    if (!inputField.current) {
-      return;
-    }
+    e.stopPropagation();
+    e.preventDefault();
 
-    const inputValue = inputField.current.value.trim();
-    if (collectionMode === 'disabled') {
+    const inputValue = inputField.current && inputField.current.value.trim();
+    if (!collectionMode || collectionMode === 'disabled') {
       setBusy(true);
       onSubmit();
     } else if (collectionMode === 'optional' && !inputValue) {
@@ -59,8 +58,6 @@ const EmailInputForm = (props: {
         }
       }
     }
-    e.stopPropagation();
-    e.preventDefault();
   };
 
   return (
@@ -84,7 +81,7 @@ const EmailInputForm = (props: {
           {error && <p className="form-text text-danger">{error}</p>}
         </div>
       )}
-      <PrimaryButton disabled={isBusy} onClick={submitHandler}>{t`Let's go`}</PrimaryButton>
+      <PrimaryButton disabled={isBusy} onClick={submitHandler}>{t`Let’s go`}</PrimaryButton>
     </form>
   );
 };
