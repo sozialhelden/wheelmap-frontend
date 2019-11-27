@@ -14,6 +14,11 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /
 
 # Try multiple keyservers to stabilize build failure rate
 # Also disable IPv6: https://github.com/inversepath/usbarmory-debian-base_image/issues/9
+
+# TODO: Add PGP public keys in docker container directly as the keyserver connection is flaky.
+# This is a single point of failure for many container based build processes currently, GitHub is
+# full of issues about this.
+
 RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
   && (gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
   gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" || \
@@ -21,7 +26,8 @@ RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
   && gpg --batch --verify /tini.asc /tini
 
 RUN chmod +x /tini
-# Set tini as entrypoint
+# Set tini as entrypoint. Tini will watch over the child process defined via `CMD …` below and
+# restart it if it crashes.
 ENTRYPOINT ["/tini", "--"]
 
 # Cache necessary files for npm install
