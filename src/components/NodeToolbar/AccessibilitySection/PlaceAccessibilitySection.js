@@ -7,6 +7,7 @@ import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
+import marked from 'marked';
 
 import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
