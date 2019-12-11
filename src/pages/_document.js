@@ -86,10 +86,10 @@ export default class MyDocument extends Document {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-          <link rel="apple-touch-icon" href="/static/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="76x76" href="/static/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="120x120" href="/static/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="152x152" href="/static/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" href="/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="76x76" href="/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="120x120" href="/images/wheely_big.jpg" />
+          <link rel="apple-touch-icon" sizes="152x152" href="/images/wheely_big.jpg" />
 
           {this.props.styleTags}
 

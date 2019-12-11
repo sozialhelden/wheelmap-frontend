@@ -24,7 +24,7 @@ const StyledFrame = styled.div`
     left: ${props => props.noseOffsetX || 10}px;
     width: 12px;
     height: 8px;
-    background: url('/static/images/triangle.svg') no-repeat;
+    background: url('/images/triangle.svg') no-repeat;
     z-index: 0;
   }
 

@@ -49,7 +49,7 @@ const MappingEventToolbar = ({
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])
-      : '/static/images/eventPlaceholder.png';
+      : '/images/eventPlaceholder.png';
 
   const dateFormatOptions = {
     year: 'numeric',

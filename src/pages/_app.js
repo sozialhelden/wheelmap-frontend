@@ -289,7 +289,7 @@ export default class App extends BaseApp {
         const mappingEventImageUrl = mappingEventImage && buildFullImageUrl(mappingEventImage);
 
         facebookMetaData.imageURL =
-          mappingEventImageUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+          mappingEventImageUrl || `${baseUrl}/images/eventPlaceholder.png`;
 
         // 2048x1288 is the dimension of the placeholder image
         facebookMetaData.imageWidth = mappingEventImage ? mappingEventImage.dimensions.width : 2048;
@@ -297,8 +297,7 @@ export default class App extends BaseApp {
           ? mappingEventImage.dimensions.height
           : 1288;
 
-        twitterMetaData.imageUrl =
-          mappingEventImageUrl || `${baseUrl}/static/images/eventPlaceholder.png`;
+        twitterMetaData.imageUrl = mappingEventImageUrl || `${baseUrl}/images/eventPlaceholder.png`;
         ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
       }
     }
