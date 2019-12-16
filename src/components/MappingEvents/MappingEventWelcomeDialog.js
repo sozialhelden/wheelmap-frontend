@@ -134,7 +134,7 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
 
 const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
   .modal-dialog-content {
-    padding: 40px;
+    padding: 20px;
 
     ${CloseButton} {
       position: absolute;
