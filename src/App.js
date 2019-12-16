@@ -343,23 +343,6 @@ class App extends React.Component<Props, State> {
     storeJoinedMappingEventId(joinedMappingEventId);
     const search: string = window.location.search;
 
-    if (previouslyJoinedMappingEventId) {
-      const { invitationToken, emailAddress } = getJoinedMappingEventData();
-
-      trackingEventBackend.track(this.props.app, {
-        invitationToken,
-        emailAddress,
-        type: 'MappingEventLeft',
-        leftMappingEventId: previouslyJoinedMappingEventId,
-        query: queryString.parse(search),
-      });
-      trackEvent({
-        category: 'MappingEvent',
-        action: 'Left',
-        label: previouslyJoinedMappingEventId,
-      });
-    }
-
     if (joinedMappingEventId) {
       const invitationToken = this.props.router.query.token;
       setJoinedMappingEventData(emailAddress, invitationToken);
