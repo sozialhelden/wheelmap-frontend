@@ -335,11 +335,6 @@ class App extends React.Component<Props, State> {
     joinedMappingEventId: ?string,
     emailAddress?: string
   ) => {
-    const previouslyJoinedMappingEventId = readStoredJoinedMappingEventId();
-    if (previouslyJoinedMappingEventId === joinedMappingEventId) {
-      return;
-    }
-
     storeJoinedMappingEventId(joinedMappingEventId);
     const search: string = window.location.search;
 
@@ -943,6 +938,7 @@ class App extends React.Component<Props, State> {
       inEmbedMode: this.props.inEmbedMode,
       mappingEvents: this.state.mappingEvents,
       mappingEvent: this.props.mappingEvent,
+      invitationToken: this.props.router.query.token,
 
       disableWheelmapSource: this.props.disableWheelmapSource,
       includeSourceIds: this.props.includeSourceIds,

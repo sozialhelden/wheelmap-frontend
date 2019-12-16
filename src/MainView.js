@@ -674,7 +674,12 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderMappingEventWelcomeDialog() {
-    const { mappingEvent, onMappingEventJoin, onMappingEventWelcomeDialogClose } = this.props;
+    const {
+      mappingEvent,
+      onMappingEventJoin,
+      onMappingEventWelcomeDialogClose,
+      invitationToken,
+    } = this.props;
 
     if (!mappingEvent) {
       return null;
@@ -685,6 +690,7 @@ class MainView extends React.Component<Props, State> {
         mappingEvent={mappingEvent}
         onJoin={onMappingEventJoin}
         onClose={onMappingEventWelcomeDialogClose}
+        invitationToken={invitationToken}
       />
     );
   }

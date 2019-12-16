@@ -13,6 +13,7 @@ const ChevronRight = styled((props: Props) => (
   </svg>
 ))`
   display: inline-block;
+  vertical-align: middle;
   margin: 0 5px;
   opacity: 0.5;
   min-width: 7px;

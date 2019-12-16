@@ -150,7 +150,7 @@ const StyledModalDialog = styled(ModalDialog)`
     }
 
     ${PrimaryButton} {
-      margin-top: 20px;
+      margin-top: 16px;
       max-width: 250px;
       align-self: center;
     }

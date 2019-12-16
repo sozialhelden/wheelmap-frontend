@@ -25,21 +25,22 @@ const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
 const EmailInputForm = (props: {
   collectionMode: 'disabled' | 'required' | 'optional',
   initialEmailAddress: ?string,
+  invitationToken: ?string,
   onSubmit: (emailAddress?: string) => void,
 }) => {
-  const { onSubmit, collectionMode, initialEmailAddress } = props;
+  const { onSubmit, collectionMode, initialEmailAddress, invitationToken } = props;
 
   const inputField = React.useRef(null);
   const [error, setError] = React.useState<string | null>(null);
   const [isBusy, setBusy] = React.useState<boolean>(false);
-  const showInput = collectionMode !== 'disabled';
+  const showInput = collectionMode !== 'disabled' && !invitationToken;
 
   const submitHandler = e => {
     e.stopPropagation();
     e.preventDefault();
 
     const inputValue = inputField.current && inputField.current.value.trim();
-    if (!collectionMode || collectionMode === 'disabled') {
+    if (!collectionMode || invitationToken || collectionMode === 'disabled') {
       setBusy(true);
       onSubmit();
     } else if (collectionMode === 'optional' && !inputValue) {
@@ -64,7 +65,7 @@ const EmailInputForm = (props: {
     <form className={error ? 'has-error' : ''} onSubmit={submitHandler}>
       {showInput && (
         <div className={error ? 'form-control is-invalid' : 'form-control'}>
-          <label>{t`Email Address`}</label>
+          <label>{t`Email address`}</label>
           <input
             className={error ? 'is-invalid' : ''}
             required={collectionMode === 'required'}
@@ -81,7 +82,10 @@ const EmailInputForm = (props: {
           {error && <p className="form-text text-danger">{error}</p>}
         </div>
       )}
-      <PrimaryButton disabled={isBusy} onClick={submitHandler}>{t`Let’s go`}</PrimaryButton>
+      <PrimaryButton disabled={isBusy} onClick={submitHandler}>
+        {t`Let’s go`}
+      </PrimaryButton>
+      {invitationToken && <footer>{t`You are participating as ${initialEmailAddress}.`}</footer>}
     </form>
   );
 };
@@ -92,7 +96,13 @@ const EmailCollectionModeMessages = {
   disabled: () => null,
 };
 
-const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, onClose }: Props) => {
+const UnstyledMappingEventWelcomeDialog = ({
+  className,
+  mappingEvent,
+  onJoin,
+  onClose,
+  invitationToken,
+}: Props) => {
   const dialogAriaLabel = t`Welcome`;
 
   const collectionMode = mappingEvent.emailCollectionMode || 'disabled';
@@ -122,12 +132,13 @@ const UnstyledMappingEventWelcomeDialog = ({ className, mappingEvent, onJoin, on
       <CloseButton onClick={onClose} />
       <h2>{mappingEvent.name}</h2>
       <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
-      <p>{emailCollectionModeMessage}</p>
+      {!invitationToken && <p>{emailCollectionModeMessage}</p>}
       <EmailInputForm
         initialEmailAddress={queryEmailAddress || lastUsedEmailAddress}
         collectionMode={collectionMode}
+        invitationToken={invitationToken}
         onSubmit={emailAddress => onJoin(mappingEvent._id, emailAddress)}
-      ></EmailInputForm>
+      />
     </ModalDialog>
   );
 };
@@ -142,8 +153,14 @@ const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
       right: 5px;
     }
 
-    form > ${PrimaryButton} {
-      max-width: unset;
+    form {
+      > ${PrimaryButton} {
+        max-width: unset;
+      }
+      footer {
+        margin-top: 16px;
+        color: ${colors.textMuted};
+      }
     }
 
     /* styled form */
