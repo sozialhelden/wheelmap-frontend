@@ -6,7 +6,6 @@
 
 This project contains the Node.js/React.js-based frontend for the app.
 
-
 ## Development
 
 The app itself is a [React.js](https://facebook.github.io/react/) application, and [wrapped into native apps](https://github.com/sozialhelden/wheelmap-native-wrapper) for Android and iOS. [Next.js](https://nextjs.org) provides a server and webpack compilation process. For CSS styling, we use [styled-components](https://www.styled-components.com).
