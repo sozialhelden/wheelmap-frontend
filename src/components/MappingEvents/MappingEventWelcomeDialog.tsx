@@ -38,7 +38,7 @@ const EmailInputForm = (props: {
     e.stopPropagation();
     e.preventDefault();
 
-    const inputValue = inputField.current && inputField.current.value.trim();
+    const inputValue = inputField.current?.value.trim();
     if (!collectionMode || invitationToken || collectionMode === 'disabled') {
       setBusy(true);
       onSubmit();
@@ -76,8 +76,7 @@ const EmailInputForm = (props: {
               window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
             }}
             disabled={isBusy}
-            // @ts-ignore
-            field="email"
+            name="email"
           />
           {error && <p className="form-text text-danger">{error}</p>}
         </div>

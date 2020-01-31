@@ -8,6 +8,7 @@ export { default as PenIcon } from './PenIcon';
 export { default as Phone } from './Phone';
 export { default as Place } from './Place';
 export { default as ProblemIcon } from './ProblemIcon';
+export { default as Route } from './Route';
 export { default as Search } from './Search';
 export { default as ShareIOS } from './ShareIOS';
 export { default as World } from './World';

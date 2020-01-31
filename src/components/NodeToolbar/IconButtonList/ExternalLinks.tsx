@@ -18,8 +18,7 @@ const captions = {
   editPageUrl: sourceNameString => t`Add info on ${sourceNameString}`,
 };
 
-// typecast to any necessary, see: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/20356
-export default function ExternalInfoAndEditPageLinks(props: Props): any {
+export default function ExternalInfoAndEditPageLinks(props: Props): JSX.Element {
   const acFeature = accessibilityCloudFeatureFrom(props.feature);
   if (!acFeature) return null;
   const properties = acFeature.properties;
@@ -44,5 +43,5 @@ export default function ExternalInfoAndEditPageLinks(props: Props): any {
     links.shift();
   }
 
-  return links;
+  return <>{links}</>;
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const ProblemIcon = (props: any) => (
-  <svg viewBox="0 0 33 33" width="1em" height="1em" {...props}>
+const SvgProblemIcon = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 33 33" {...props}>
     <g transform="translate(5 5)" fill="none" fillRule="evenodd">
       <path
-        d="M12.367 1.508l9.771 16.994A1 1 0 0 1 21.271 20H1.73a1 1 0 0 1-.867-1.498l9.771-16.994a1 1 0 0 1 1.734 0z"
+        d="M12.367 1.508l9.771 16.994A1 1 0 0121.271 20H1.73a1 1 0 01-.867-1.498l9.771-16.994a1 1 0 011.734 0z"
         stroke="#000"
         strokeWidth={2}
       />
@@ -20,4 +20,5 @@ const ProblemIcon = (props: any) => (
   </svg>
 );
 
-export default ProblemIcon;
+export default SvgProblemIcon;
+

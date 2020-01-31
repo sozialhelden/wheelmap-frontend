@@ -1,7 +1,7 @@
 import React from 'react';
 
-const LocateOff = (props: any) => (
-  <svg viewBox="0 0 24 24" width="1em" height="1em" {...props}>
+const SvgLocateOff = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 24 24" {...props}>
     <path
       d="M5.784 14.437l3.484.002.002 3.484 6.381-9.867-9.867 6.38zM20.707 3L7.773 23l-.004-7.062-7.062-.004L20.707 3z"
       fillRule="nonzero"
@@ -10,4 +10,5 @@ const LocateOff = (props: any) => (
   </svg>
 );
 
-export default LocateOff;
+export default SvgLocateOff;
+

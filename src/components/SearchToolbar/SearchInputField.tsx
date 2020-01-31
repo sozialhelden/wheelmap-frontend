@@ -34,15 +34,11 @@ export class SearchInputField extends React.Component<Props, State> {
   }
 
   focus() {
-    if (this.input.current) {
-      this.input.current.focus();
-    }
+    this.input.current?.focus();
   }
 
   blur() {
-    if (this.input.current) {
-      this.input.current.blur();
-    }
+    this.input.current?.blur();
   }
 
   keyPressed = (event: React.KeyboardEvent<HTMLInputElement>) => {

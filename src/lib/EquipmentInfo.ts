@@ -120,9 +120,7 @@ export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
 export function isExistingInformationOutdated(lastUpdate: Date | undefined): boolean {
   if (!lastUpdate) return false;
   const twoHoursInMilliseconds = 1000 * 60 * 60 * 2;
-  // todo: test then refactor
-  // @ts-ignore
-  return new Date() - lastUpdate > twoHoursInMilliseconds;
+  return new Date().getTime() - lastUpdate.getTime() > twoHoursInMilliseconds;
 }
 
 export function isEquipmentAccessible(properties: EquipmentInfoProperties | undefined): YesNoLimitedUnknown | null {
@@ -166,9 +164,7 @@ export function lastUpdateString({
   const today = t`today`;
   const yesterday = t`yesterday`;
   const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
-  // todo: test then refactor
-  // @ts-ignore
-  const isShortAgo = now - lastUpdate < twoDaysInMilliseconds;
+  const isShortAgo = now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
   const fullDateOptions = {
     weekday: 'long',

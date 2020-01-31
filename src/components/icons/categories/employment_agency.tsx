@@ -1,7 +1,7 @@
 import React from 'react';
 
-const EmploymentAgency = (props: any) => (
-  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+const SvgEmploymentAgency = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 15 15" {...props}>
     <path
       d="M3 2v11h5v-3h3v3h1V2H3zm4 10H4v-2h3v2zm0-3H4V7h3v2zm0-3H4V4h3v2zm4 3H8V7h3v2zm0-3H8V4h3v2z"
       fill="#000"
@@ -10,4 +10,5 @@ const EmploymentAgency = (props: any) => (
   </svg>
 );
 
-export default EmploymentAgency;
+export default SvgEmploymentAgency;
+

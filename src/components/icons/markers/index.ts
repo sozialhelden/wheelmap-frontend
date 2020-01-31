@@ -1,3 +1,4 @@
+export { default as event } from './event';
 export { default as limitedWithArrow } from './limitedWithArrow';
 export { default as limitedWithoutArrow } from './limitedWithoutArrow';
 export { default as mappingEvent } from './mappingEvent';

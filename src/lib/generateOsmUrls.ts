@@ -12,11 +12,12 @@ function getLatLonFromFeature(feature: Feature) {
       lon: feature.geometry.coordinates[0],
     };
   }
-  // todo: check this function
+
   if (isWheelmapFeature(feature)) {
     return { lat: feature.properties.lat, lon: feature.properties.lon };
   }
-  return { lat: undefined, lon: undefined }
+
+  throw new Error('Could not extract LatLon from Feature')
 }
 
 // aligns edit links for ways vs. nodes in osm

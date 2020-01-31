@@ -137,7 +137,7 @@ class PhotoSection extends React.Component<Props, State> {
     });
   };
 
-  renderLightboxControls: any = (className: string) => {
+  renderLightboxControls = (className: string) => {
     const { photos } = this.props;
     const { currentImageIndex } = this.state;
 

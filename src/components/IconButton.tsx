@@ -12,8 +12,8 @@ export const Circle = styled.div`
 `;
 
 function UnstyledCaption(props: Partial<Props>) {
-  return <div className={this.props.className}>
-    {this.props.children}
+  return <div className={props.className}>
+    {props.children}
   </div>
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Memorial = (props: any) => (
-  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+const SvgMemorial = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 15 15" {...props}>
     <path
       d="M7.5 0L6 2.5v7h3v-7L7.5 0zM3 11.5V15h9v-3.5L10.5 10h-6L3 11.5z"
       fill="#000"
@@ -10,4 +10,5 @@ const Memorial = (props: any) => (
   </svg>
 );
 
-export default Memorial;
+export default SvgMemorial;
+

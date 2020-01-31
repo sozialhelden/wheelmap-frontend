@@ -145,9 +145,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   focus() {
-    if (this.nodeToolbar.current) {
-      this.nodeToolbar.current.focus();
-    }
+    this.nodeToolbar.current?.focus();
   }
 
   awaitRequiredData() {

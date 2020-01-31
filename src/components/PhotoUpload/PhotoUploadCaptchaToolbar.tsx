@@ -271,9 +271,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.hidden) {
       this.startTimer();
-      if (this.toolbar.current) {
-        this.toolbar.current.ensureFullVisibility();
-      }
+      this.toolbar.current?.ensureFullVisibility();
     } else if (nextProps.hidden) {
       this.clearTimer();
     }
@@ -308,7 +306,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   };
 
   focus() {
-    this.inputField.current && this.inputField.current.focus();
+    this.inputField.current?.focus();
   }
 
   renderInputField() {
@@ -324,8 +322,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
           disabled={isInputDisabled}
           onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
           value={this.state.enteredCaptchaValue || ''}
-          // @ts-ignore
-          field="captcha-solution"
+          name="captcha-solution"
         />
       </form>
     );

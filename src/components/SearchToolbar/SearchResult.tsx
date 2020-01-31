@@ -13,13 +13,14 @@ import { SearchResultFeature } from '../../lib/searchPlaces';
 import Icon from '../Icon';
 import Address from '../NodeToolbar/Address';
 import PlaceName from '../PlaceName';
+import { PotentialPromise } from '../../app/PlaceDetailsProps';
 
 type Props = {
   feature: SearchResultFeature,
   categories: CategoryLookupTables,
   onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
   hidden: boolean,
-  wheelmapFeature: WheelmapFeature | Promise<WheelmapFeature | null> | null,
+  wheelmapFeature: PotentialPromise<WheelmapFeature | null>,
 };
 
 type State = {
@@ -107,9 +108,7 @@ export default class SearchResult extends React.Component<Props, State> {
   };
 
   focus() {
-    if (this.root.current) {
-      this.root.current.focus();
-    }
+    this.root.current?.focus();
   }
 
   render() {

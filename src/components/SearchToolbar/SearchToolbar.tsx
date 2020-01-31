@@ -311,20 +311,14 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
       return;
     }
     if (isOnSmallViewport()) {
-      if (this.goButton.current) {
-        this.goButton.current.focus();
-      }
+      this.goButton.current?.focus();
     } else {
-      if (this.searchInputField.current) {
-        this.searchInputField.current.focus();
-      }
+      this.searchInputField.current?.focus();
     }
   }
 
   blur() {
-    if (this.searchInputField.current) {
-      this.searchInputField.current.blur();
-    }
+    this.searchInputField.current?.blur();
   }
 
   resetSearch() {

@@ -6,7 +6,6 @@ import { map } from 'lodash';
 import {
   accessibilityName,
   isWheelchairAccessible,
-  isWheelmapFeatureId,
   isWheelmapProperties,
 } from '../../../lib/Feature';
 import {

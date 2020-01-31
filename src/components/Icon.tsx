@@ -42,8 +42,8 @@ function fontSize(size: Size) {
 
 function Figure(props: Partial<Props>) {
   return (
-    <figure className={this.props.className}>
-      {this.props.children}
+    <figure className={props.className}>
+      {props.children}
     </figure>
   );
 }

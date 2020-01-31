@@ -103,6 +103,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     return (
       <button onClick={() => this.props.onFeatureSelected(feature)}>
         <NodeHeader
+          // TODO comment that this should allow typed features
           feature={feature as any}
           categories={this.props.categories}
           category={category}
@@ -124,6 +125,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
         feature
       );
 
+      // TODO comment that this should be typed
       return placeNameFor(feature.properties as any, category || parentCategory);
     });
 

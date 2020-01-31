@@ -16,7 +16,7 @@ type Props = {
 };
 
 type State = {
-  displayedCategoryNames: (string | void)[],
+  displayedCategoryNames: string[],
 };
 
 class BreadCrumbs extends React.Component<Props, State> {

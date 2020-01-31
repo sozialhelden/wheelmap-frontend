@@ -39,9 +39,7 @@ export default class CustomRadio extends React.Component<Props, State> {
   };
 
   focus() {
-    if (this.radioButton && this.radioButton.current) {
-      this.radioButton.current.focus();
-    }
+    this.radioButton.current?.focus();
   }
 
   render() {

@@ -221,11 +221,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     guidelinesAccepted: false,
   };
 
-  fileInput: HTMLInputElement | null;
-  checkBox: HTMLInputElement | null;
-  backLink: HTMLButtonElement | null;
-  goButton: React.Ref<'button'> | null;
-
   renderCloseLink() {
     return (
       <button
@@ -233,7 +228,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         // translator: Button caption in photo upload Instructions dialog
         aria-label={t`Close`}
         onClick={this.onClose}
-        ref={backLink => (this.backLink = backLink)}
       >
         ×{' '}
       </button>
@@ -335,9 +329,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               {t`Continue`}
               {waitingForPhotoUpload && <Dots />}
               <input
-                ref={input => {
-                  this.fileInput = input;
-                }}
                 type="file"
                 id="photo-file-upload"
                 multiple={false}

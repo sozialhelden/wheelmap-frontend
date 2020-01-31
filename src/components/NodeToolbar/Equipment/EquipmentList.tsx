@@ -5,6 +5,7 @@ import { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import EquipmentItem from './EquipmentItem';
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
+import classNames from 'classnames';
 
 type Props = {
   equipmentInfoArrays: EquipmentInfo[][],
@@ -18,7 +19,7 @@ type Props = {
 
 function EquipmentList(props: Props) {
   return (
-    <div className={`${props.outerClassName || ''} ${props.className || ''}`} role="region">
+    <div className={classNames(props.outerClassName, props.className)} role="region">
       {props.children}
       {Array.from(props.equipmentInfoArrays).map(equipmentInfos => (
         <EquipmentItem

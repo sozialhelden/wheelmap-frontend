@@ -203,7 +203,7 @@ export default class Categories {
 
     let categoryId = null;
 
-    if (properties['node_type'] && typeof properties['node_type'].identifier === 'string') {
+    if (typeof properties['node_type']?.identifier === 'string') {
       // wheelmap classic node
       categoryId = properties['node_type'].identifier;
     } else if (properties['category']) {

@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Other = (props: any) => (
-  <svg viewBox="0 0 15 15" width="1em" height="1em" {...props}>
+const SvgOther = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 15 15" {...props}>
     <circle cx={7.5} cy={7.5} r={4.5} fill="#000" fillRule="evenodd" />
   </svg>
 );
 
-export default Other;
+export default SvgOther;
+

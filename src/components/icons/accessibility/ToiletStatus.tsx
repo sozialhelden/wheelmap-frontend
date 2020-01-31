@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default function UnknownToiletStatusIcon(props: any) {
+export default function UnknownToiletStatusIcon(props: React.SVGAttributes<{}>) {
   return (
     <svg width="34px" height="24px" viewBox="0 0 34 24" version="1.1" {...props}>
       <g id="WC-Sign" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

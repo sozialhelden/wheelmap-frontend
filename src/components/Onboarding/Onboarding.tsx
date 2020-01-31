@@ -27,9 +27,7 @@ class Onboarding extends React.Component<Props, null> {
 
   componentDidMount() {
     setTimeout(() => {
-      if (this.callToActionButton.current instanceof HTMLButtonElement) {
-        this.callToActionButton.current.focus();
-      }
+      this.callToActionButton.current?.focus();
     }, 100);
   }
 

@@ -92,7 +92,7 @@ class SendReportToAc extends React.Component<Props, State> {
 
   startRequest() {
     const { featureId, reportReason, appToken } = this.props;
-    const reportMessage = this.textarea.current ? this.textarea.current.value : '';
+    const reportMessage = this.textarea.current?.value || '';
 
     this.setState(
       {

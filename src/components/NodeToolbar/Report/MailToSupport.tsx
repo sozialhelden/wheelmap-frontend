@@ -22,18 +22,14 @@ export default class MailToSupport extends React.Component<Props> {
   }
 
   componentDidMount() {
-    if (this.mailLink.current) {
-      this.mailLink.current.focus();
-    }
+    this.mailLink.current?.focus();
   }
 
   trapFocus({ nativeEvent }) {
     if (nativeEvent.target === this.mailLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
       nativeEvent.preventDefault();
 
-      if (this.backButton.current) {
-        this.backButton.current.focus();
-      }
+      this.backButton.current?.focus();
     }
     if (
       nativeEvent.target === this.backButton &&
@@ -42,9 +38,7 @@ export default class MailToSupport extends React.Component<Props> {
     ) {
       nativeEvent.preventDefault();
 
-      if (this.mailLink.current) {
-        this.mailLink.current.focus();
-      }
+      this.mailLink.current?.focus();
     }
   }
 

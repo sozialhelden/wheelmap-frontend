@@ -24,6 +24,7 @@ import {
   Feature,
   YesNoLimitedUnknown,
   YesNoUnknown,
+  isWheelmapFeature,
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { Category, CategoryLookupTables, getCategoryId } from '../../lib/Categories';
@@ -108,9 +109,7 @@ class NodeToolbar extends React.Component<Props, State> {
     if (this.props.photoFlowNotification) {
       // TODO: what is this timeout needed for, and why?
       setTimeout(() => {
-        if (this.toolbar.current) {
-          this.toolbar.current.ensureFullVisibility();
-        }
+        this.toolbar.current?.ensureFullVisibility();
       }, 200);
     }
   }
@@ -120,9 +119,7 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   focus() {
-    if (this.toolbar.current) {
-      this.toolbar.current.focus();
-    }
+    this.toolbar.current?.focus();
   }
 
   renderReportDialog() {
@@ -135,9 +132,7 @@ class NodeToolbar extends React.Component<Props, State> {
             feature={this.props.feature}
             featureId={this.props.featureId}
             onReportComponentChanged={() => {
-              if (this.toolbar.current) {
-                this.toolbar.current.ensureFullVisibility();
-              }
+              this.toolbar.current?.ensureFullVisibility();
             }}
             onClose={() => {
               if (this.props.onClose) this.props.onClose();
@@ -153,7 +148,7 @@ class NodeToolbar extends React.Component<Props, State> {
       <IconButtonList
         {...this.props}
         onToggle={() => {
-          if (this.toolbar.current) this.toolbar.current.ensureFullVisibility();
+          this.toolbar.current?.ensureFullVisibility();
         }}
       />
     );
@@ -229,34 +224,38 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderToiletAccessibilityEditor() {
-    return (
-      <ToiletStatusEditor
-        categories={this.props.categories}
-        featureId={this.props.featureId as any}
-        feature={this.props.feature as any}
-        onSave={(newValue: YesNoUnknown) => {
-          this.props.onClose();
-          this.props.onCloseToiletAccessibility();
-        }}
-        onClose={this.props.onClose}
-      />
-    );
+    if (isWheelmapFeature(this.props.feature)) {
+      return (
+        <ToiletStatusEditor
+          categories={this.props.categories}
+          featureId={this.props.featureId as any}
+          feature={this.props.feature}
+          onSave={(newValue: YesNoUnknown) => {
+            this.props.onClose();
+            this.props.onCloseToiletAccessibility();
+          }}
+          onClose={this.props.onClose}
+        />
+      );
+    }
   }
 
   renderWheelchairAccessibilityEditor() {
-    return (
-      <WheelchairStatusEditor
-        categories={this.props.categories}
-        featureId={this.props.featureId as any}
-        feature={this.props.feature as any}
-        onSave={(newValue: YesNoLimitedUnknown) => {
-          this.props.onClose();
-          this.props.onCloseWheelchairAccessibility();
-        }}
-        presetStatus={this.props.accessibilityPresetStatus}
-        onClose={this.props.onClose}
-      />
-    );
+    if (isWheelmapFeature(this.props.feature)) {
+      return (
+        <WheelchairStatusEditor
+          categories={this.props.categories}
+          featureId={this.props.featureId as any}
+          feature={this.props.feature}
+          onSave={(newValue: YesNoLimitedUnknown) => {
+            this.props.onClose();
+            this.props.onCloseWheelchairAccessibility();
+          }}
+          presetStatus={this.props.accessibilityPresetStatus}
+          onClose={this.props.onClose}
+        />
+      );
+    }
   }
 
   renderInlineWheelchairAccessibilityEditor() {

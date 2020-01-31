@@ -15,7 +15,8 @@
   ]], // https://goo.gl/aqbWJY
   "plugins": [
     "transform-flow-strip-types",
-    "babel-plugin-styled-components"
+    "babel-plugin-styled-components",
+    "@babel/plugin-proposal-optional-chaining"
   ],
   "env": {
     "ttag": {

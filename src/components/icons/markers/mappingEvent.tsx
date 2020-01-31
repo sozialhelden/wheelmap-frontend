@@ -1,7 +1,7 @@
 import React from 'react';
 
-const MappingEvent = (props: any) => (
-  <svg viewBox="0 0 54 72" width="1em" height="1em" {...props}>
+const SvgMappingEvent = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 54 72" {...props}>
     <g fill="none" fillRule="evenodd">
       <ellipse fill="#000" fillRule="nonzero" opacity={0.1} cx={27.5} cy={69.5} rx={3.5} ry={2} />
       <path
@@ -9,14 +9,15 @@ const MappingEvent = (props: any) => (
         fill="#2D6AE0"
         fillRule="nonzero"
       />
-      <path d="M8.75 36.5V30a5 5 0 0 1 10 0v6.5" stroke="#FFF" strokeWidth={3} />
+      <path d="M8.75 36.5V30a5 5 0 015-5h0a5 5 0 015 5v6.5" stroke="#FFF" strokeWidth={3} />
       <circle stroke="#FFF" strokeWidth={3} cx={14.5} cy={18.5} r={3.5} />
-      <path d="M36 36.5V30a5 5 0 0 1 10 0v6.5" stroke="#FFF" strokeWidth={3} />
+      <path d="M36 36.5V30a5 5 0 015-5h0a5 5 0 015 5v6.5" stroke="#FFF" strokeWidth={3} />
       <circle stroke="#FFF" strokeWidth={3} cx={41.75} cy={18.5} r={3.5} />
-      <path d="M22 30.5V24a5 5 0 0 1 10 0v6.5" stroke="#FFF" strokeWidth={3} />
+      <path d="M22 30.5V24a5 5 0 015-5h0a5 5 0 015 5v6.5" stroke="#FFF" strokeWidth={3} />
       <circle stroke="#FFF" strokeWidth={3} cx={27.75} cy={12.5} r={3.5} />
     </g>
   </svg>
 );
 
-export default MappingEvent;
+export default SvgMappingEvent;
+

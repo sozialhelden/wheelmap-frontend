@@ -1,15 +1,15 @@
 import React from 'react';
 
-const EscalatorBrokenBig = (props: any) => (
-  <svg viewBox="0 0 27 27" width="1em" height="1em" {...props}>
+const SvgEscalatorBrokenBig = (props: React.SVGAttributes<{}>) => (
+  <svg width="1em" height="1em" viewBox="0 0 27 27" {...props}>
     <g fill="none" fillRule="evenodd">
       <path
-        d="M10.833 13.791v-1.387a1.388 1.388 0 1 0-2.776 0v4.163l2.776-2.776zM7.57 19.426l.486-10.492a1.388 1.388 0 1 1 2.776 0 1.388 1.388 0 0 1-2.776 0L7.57 19.426z"
+        d="M10.833 13.791v-1.387a1.388 1.388 0 10-2.776 0v4.163l2.776-2.776zM7.57 19.426l.486-10.492a1.388 1.388 0 112.776 0 1.388 1.388 0 01-2.776 0L7.57 19.426z"
         fill="#000"
         fillRule="nonzero"
       />
       <path
-        d="M21.548 11.098c0 .766-.622 1.387-1.388 1.387h-2.193a1.388 1.388 0 0 0-.985.403L9.459 20.41a1.388 1.388 0 0 1-.971.403H4.893a1.388 1.388 0 1 1 0-2.776H7.1c.364-.002.713-.146.972-.403l7.522-7.522c.262-.26.616-.404.985-.402h3.58c.767 0 1.389.621 1.389 1.388z"
+        d="M21.548 11.098c0 .766-.622 1.387-1.388 1.387h-2.193a1.388 1.388 0 00-.985.403L9.459 20.41a1.388 1.388 0 01-.971.403H4.893a1.388 1.388 0 110-2.776H7.1c.364-.002.713-.146.972-.403l7.522-7.522c.262-.26.616-.404.985-.402h3.58c.767 0 1.389.621 1.389 1.388z"
         fill="#000"
         fillRule="nonzero"
       />
@@ -22,4 +22,5 @@ const EscalatorBrokenBig = (props: any) => (
   </svg>
 );
 
-export default EscalatorBrokenBig;
+export default SvgEscalatorBrokenBig;
+

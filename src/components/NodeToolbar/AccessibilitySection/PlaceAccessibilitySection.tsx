@@ -5,7 +5,6 @@ import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 import AccessibleDescription from './AccessibleDescription';
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
-import marked from 'marked';
 
 import { Feature, isWheelmapProperties } from '../../../lib/Feature';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';

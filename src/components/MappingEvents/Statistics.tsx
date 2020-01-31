@@ -26,8 +26,7 @@ const Statistics = ({ mappedPlacesCount, participantCount, endDate, className }:
   const currentDate = new Date();
   const remainingDaysLeft =
     endDate && endDate > currentDate
-      // @ts-ignore
-      ? Math.ceil((endDate - currentDate) / 1000 / 60 / 60 / 24)
+      ? Math.ceil((endDate.getTime() - currentDate.getTime()) / 1000 / 60 / 60 / 24)
       : null;
 
   return (

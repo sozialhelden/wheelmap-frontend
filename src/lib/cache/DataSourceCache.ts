@@ -1,5 +1,6 @@
 import URLDataCache from './URLDataCache';
 import env from '../env';
+import { LocalizedString } from '../i18n';
 
 export type DataSource = {
   _id: string,
@@ -8,7 +9,7 @@ export type DataSource = {
   shortName: string | undefined,
   name: string | undefined,
   originWebsiteURL: string | undefined,
-  additionalAccessibilityInformation: any
+  additionalAccessibilityInformation: LocalizedString
 };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {

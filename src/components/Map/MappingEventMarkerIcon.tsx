@@ -15,7 +15,7 @@ const MappingEventMarkerSVG = markers['mappingEvent'];
 
 const ICON_SIZES = { small: 25, medium: 40, big: 60 };
 
-const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG)`
+const StyledMappingEventMarkerSVG = styled(MappingEventMarkerSVG).attrs({ size: 'small' as string })`
   position: relative;
   left: calc(50% - ${props => ICON_SIZES[props.size] / 2}px);
   top: calc(50% - ${props => ICON_SIZES[props.size]}px);

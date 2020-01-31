@@ -28,8 +28,8 @@ export default class CustomRadio extends React.Component<CustomRadioProps, Custo
 
   componentDidMount() {
     const { currentFilterName, value } = this.props;
-    if (currentFilterName === value && this.radioButton.current) {
-      this.radioButton.current.focus();
+    if (currentFilterName === value) {
+      this.radioButton.current?.focus();
     }
   }
 
@@ -42,9 +42,7 @@ export default class CustomRadio extends React.Component<CustomRadioProps, Custo
   };
 
   focus() {
-    if (this.radioButton.current) {
-      this.radioButton.current.focus();
-    }
+    this.radioButton.current?.focus();
   }
 
   render() {
