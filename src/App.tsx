@@ -74,7 +74,7 @@ interface Props extends PlaceDetailsProps {
   routerHistory: RouterHistory,
   routeName: string,
   categories?: CategoryLookupTables,
-  userAgent?: UAResult,
+  userAgent: UAResult,
   searchQuery?: string | null,
   searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
   category?: string,

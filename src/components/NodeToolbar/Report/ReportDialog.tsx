@@ -21,7 +21,7 @@ import { AppContext } from '../../../AppContext';
 import strings from './strings';
 import FixOsmComment from './FixOsmComment';
 import MailToSupport from './MailToSupport';
-import SendReportToAc, { reportStrings } from './SendReportToAc';
+import SendReportToAc, { reportStrings, ReportReasons } from './SendReportToAc';
 import FixOsmPlacePosition from './FixOsmPlacePosition';
 import FixOnExternalPage from './FixOnExternalPage';
 import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
@@ -112,12 +112,12 @@ const generateAcIssues = (
           component: FixOnExternalPage,
         }
       : null,
-    ...map(sendReportToAcStrings, (value, key) => {
+    ...map(sendReportToAcStrings, (value, key: ReportReasons) => {
       return {
         className: key,
         issueLink: () => value,
         component: (props: { featureId: string, onClose: () => void }) => (
-          <SendReportToAc {...props} reportReason={key as any} appToken={appToken} />
+          <SendReportToAc {...props} reportReason={key} appToken={appToken} />
         ),
       };
     }),

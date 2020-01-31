@@ -21,11 +21,11 @@ class FacebookMeta extends PureComponent<Props> {
         {imageURL && <meta content={imageURL} property="og:image" key="og:image" />}
         {imageURL &&
           imageWidth && (
-            <meta content={imageWidth.toString()} property="og:image:width" key="og:image:width" />
+            <meta content={String(imageWidth)} property="og:image:width" key="og:image:width" />
           )}
         {imageURL &&
           imageHeight && (
-            <meta content={imageHeight.toString()} property="og:image:height" key="og:image:height" />
+            <meta content={String(imageHeight)} property="og:image:height" key="og:image:height" />
           )}
       </Head>
     );

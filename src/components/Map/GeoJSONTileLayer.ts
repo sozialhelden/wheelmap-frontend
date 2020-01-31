@@ -185,8 +185,7 @@ class GeoJSONTileLayer extends TileLayer {
       return existingMarker;
     }
 
-    // TODO: check if this works
-    const pointToLayerFn = this.options.pointToLayer || this.pointToLayer;
+    const pointToLayerFn = this.options.pointToLayer;
     const marker = pointToLayerFn(feature, latlng);
     if (!marker) return;
 

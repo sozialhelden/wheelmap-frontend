@@ -5,9 +5,8 @@ import { get } from 'lodash';
 import {
   Feature,
   isWheelmapFeatureId,
-  WheelmapFeature,
-  AccessibilityCloudFeature,
   sourceIdsForFeature,
+  isWheelmapFeature,
 } from '../lib/Feature';
 import { licenseCache } from '../lib/cache/LicenseCache';
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
@@ -210,7 +209,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   },
 
   storeInitialRouteProps(props: PlaceDetailsProps, appToken: string) {
-    const { feature, featureId, sources, photos, equipmentInfo } = props;
+    const { feature, sources, equipmentInfo } = props;
 
     // only store fully resolved data that comes from the server
     if (
@@ -223,11 +222,10 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     }
 
     // inject feature
-    const isWheelmap = isWheelmapFeatureId(featureId);
-    if (isWheelmap) {
-      wheelmapFeatureCache.injectFeature(feature as any);
+    if (isWheelmapFeature(feature)) {
+      wheelmapFeatureCache.injectFeature(feature);
     } else {
-      accessibilityCloudFeatureCache.injectFeature(feature as any);
+      accessibilityCloudFeatureCache.injectFeature(feature);
     }
 
     const sourceWithLicenseArray: SourceWithLicense[] = sources;
@@ -251,7 +249,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     if (!toiletsNearby) {
       // fetch toilets for client
       const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature);
-      toiletsNearby = fetchToiletsNearby(Promise.resolve(props) as any, featurePromise);
+      toiletsNearby = fetchToiletsNearby(props, featurePromise);
     }
 
     return { ...props, toiletsNearby };
@@ -292,7 +290,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
           extras.push(
             ...['longitude', 'latitude'].map((property, i) => (
               <meta
-                content={coordinates[i] as any}
+                content={String(coordinates[i])}
                 property={`place:location:${property}`}
                 key={`place:location:${property}`}
               />

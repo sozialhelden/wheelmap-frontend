@@ -7,7 +7,7 @@ import strings from './strings';
 import colors from '../../../lib/colors';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 
-type ReportReasons =
+export type ReportReasons =
   | 'invalid-place'
   | 'wrong-location'
   | 'wrong-accessibility-data'

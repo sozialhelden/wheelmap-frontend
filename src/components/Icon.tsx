@@ -40,14 +40,12 @@ function fontSize(size: Size) {
   }[size];
 }
 
-class Figure extends React.Component<Partial<Props>> {
-  render() {
-    return (
-      <figure className={this.props.className}>
-        {this.props.children}
-      </figure>
-    );
-  }
+function Figure(props: Partial<Props>) {
+  return (
+    <figure className={this.props.className}>
+      {this.props.children}
+    </figure>
+  );
 }
 
 export const StyledIconContainer = styled(Figure)`

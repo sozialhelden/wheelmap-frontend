@@ -27,6 +27,7 @@ import CreatePlaceData from './CreatePlaceData';
 import ContributionThanksData from './ContributionThanksData';
 import MappingEventDetailData from './MappingEventDetailData';
 import { ReactElement } from 'react';
+import { PotentialPromise } from './PlaceDetailsProps';
 
 export type RenderContext = {
   app: App,
@@ -61,11 +62,11 @@ export type DataTableEntry<Props> = {
     renderContextPromise: Promise<RenderContext>,
     isServer: boolean
   ) => Promise<Props>,
-  getAdditionalPageComponentProps?: (props: Props, isServer: boolean) => Props,
+  getAdditionalPageComponentProps?: (props: Props & RenderContext, isServer: boolean) => Props,
   getHead?: (
     props: Props & RenderContext,
     baseUrl?: string
-  ) => Promise<ReactElement<any>> | ReactElement<any>,
+  ) => PotentialPromise<ReactElement<any>>,
   getMappingEvent?: (eventId: string, renderContext: RenderContext) => MappingEvent | undefined,
   storeInitialRouteProps?: (props: Props, appToken: string) => void,
 };

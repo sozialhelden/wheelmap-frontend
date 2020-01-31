@@ -11,10 +11,10 @@ export const Circle = styled.div`
   box-sizing: border-box;
 `;
 
-class UnstyledCaption extends React.Component<Partial<Props>> {
-  render () {
-    return <div className={this.props.className}></div>
-  }
+function UnstyledCaption(props: Partial<Props>) {
+  return <div className={this.props.className}>
+    {this.props.children}
+  </div>
 }
 
 export const Caption = styled(UnstyledCaption)`

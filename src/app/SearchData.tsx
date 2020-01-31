@@ -87,7 +87,7 @@ const SearchData: DataTableEntry<SearchProps> = {
     };
   },
 
-  getAdditionalPageComponentProps(props: any, isServer) {
+  getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
       return props;
     }
