@@ -11,6 +11,9 @@ const MapButton = styled('button')`
   border: none;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   position: fixed;
+  top: 60px;
+  right: 0px;
+  left: 10px;
   z-index: 500;
   cursor: pointer;
   &:hover,
