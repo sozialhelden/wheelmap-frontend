@@ -2,10 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "lib": [
-      "DOM",
-      "ES5",
-      "ScriptHost"
+      "dom",
+      "es5",
+      "scripthost"
     ],
-    "target": "ES5"
+    "module": "commonjs"
   }
 }

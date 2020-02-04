@@ -152,7 +152,8 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "build": "rm -rf dist/ && rm -rf .next/ && next build && tsc --project tsconfig.server.json && npm run copy-files && mv .next dist/",
+    "build": "rm -rf dist/ && rm -rf .next/ && next build && tsc && npm run copy-files && mv .next dist/",
+    "build-client": "rm -rf dist/ && tsc --project tsconfig.client.json && npm run copy-files",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist",
     "analyze": "source-map-explorer build/static/js/main.*",

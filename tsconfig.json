@@ -6,12 +6,18 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "resolveJsonModule": true,
     "noEmit": false,
     "jsx": "preserve",
-    "module": "CommonJS",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "esnext"
   },
   "exclude": [
     "node_modules"
