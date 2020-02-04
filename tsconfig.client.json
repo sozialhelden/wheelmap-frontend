@@ -3,9 +3,9 @@
   "compilerOptions": {
     "lib": [
       "DOM",
-      "DOM.Iterable",
-      "ESNext"
+      "ES5",
+      "ScriptHost"
     ],
-    "target": "ES2017"
+    "target": "ES5"
   }
 }

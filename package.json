@@ -163,7 +163,6 @@
     "deploy-web": "npm version patch && npm run push-deploy-tag && npx now deploy",
     "push-to-registry": "npm version patch && npm run push-deploy-tag && make push",
     "version": "echo TODO: Add version syncing to bundle configurations for native apps + git commit -am 'Version bump' to package.json",
-    "flow": "flow",
     "server": "server",
     "push-translations": "npm run clear-babel-cache && (BABEL_ENV=ttag npm run build) && tx push -s",
     "pull-translations": "tx pull -af",

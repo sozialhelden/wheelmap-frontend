@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "outDir": "dist",
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "isolatedModules": false,
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "noEmit": false,
+    "jsx": "preserve",
+    "module": "CommonJS",
+    "moduleResolution": "node"
   },
   "exclude": [
     "node_modules"
