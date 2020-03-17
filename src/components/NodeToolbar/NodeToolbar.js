@@ -393,6 +393,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <StyledToolbar
           ref={toolbar => (this.toolbar = toolbar)}
           hidden={this.props.hidden}
+          isSwipeable={false}
           isModal={this.props.modalNodeState}
           role="dialog"
           ariaLabel={this.placeName()}
