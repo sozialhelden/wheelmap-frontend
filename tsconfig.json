@@ -11,13 +11,13 @@
     "noEmit": false,
     "jsx": "preserve",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "esnext",
+    "module": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "module": "esnext"
   },
   "exclude": [
     "node_modules"

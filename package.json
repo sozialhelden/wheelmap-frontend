@@ -151,7 +151,7 @@
     "url-loader": "^1.1.2"
   },
   "scripts": {
-    "dev": "nodemon",
+    "dev": "next",
     "build": "rm -rf dist/ && rm -rf .next/ && next build && tsc && npm run copy-files && mv .next dist/",
     "build-client": "rm -rf dist/ && tsc --project tsconfig.client.json && npm run copy-files",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",

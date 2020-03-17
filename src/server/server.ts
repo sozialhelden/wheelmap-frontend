@@ -1,21 +1,18 @@
-const pick = require('lodash/pick');
-const env = require('../lib/env');
-const {
-  createEnvironmentJSResponseHandler,
-} = require('@sozialhelden/twelve-factor-dotenv/dist/cjs/index.js');
+import * as env from '../lib/env';
+import { createEnvironmentJSResponseHandler } from '@sozialhelden/twelve-factor-dotenv';
+
+// import apm from '../lib/apm/ServerSide';
+import nextjs from 'next';
+import * as path from 'path';
+import express from 'express';
+import proxy from 'http-proxy-middleware';
+import cache from 'express-cache-headers';
+import compression from 'compression';
+import * as querystring from 'querystring';
+
+import router from '../app/router';
+import registerHealthChecks from './healthChecks';
 console.log('Node version:', process.version);
-
-// const apm = require('../lib/apm/ServerSide');
-const nextjs = require('next');
-const path = require('path');
-const express = require('express');
-const proxy = require('http-proxy-middleware');
-const cache = require('express-cache-headers');
-const compression = require('compression');
-const querystring = require('querystring');
-
-const router = require('../app/router');
-const registerHealthChecks = require('./healthChecks');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';

@@ -154,7 +154,7 @@ export default class MyDocument extends Document<any> {
                 })();`,
             }}
           ></script>
-          <script src="/clientEnv.js"></script>
+          <script src="/api/clientEnv.js"></script>
         </Head>
         <body>
           <Main />
