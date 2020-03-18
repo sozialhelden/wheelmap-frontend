@@ -13,7 +13,6 @@ import CloseLink from '../CloseLink';
 import ErrorBoundary from '../ErrorBoundary';
 import NodeHeader from './NodeHeader';
 import SourceList from './SourceList';
-import StyledToolbar from './StyledToolbar';
 import ReportDialog from './Report/ReportDialog';
 import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
@@ -30,7 +29,6 @@ import type {
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
-import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
@@ -147,9 +145,10 @@ class DetailPanel extends React.Component<Props, State> {
   }
 
   renderIconButtonList() {
+    const { className, ...restProps } = this.props;
     return (
       <IconButtonList
-        {...this.props}
+        {...restProps}
         onToggle={() => {
           if (this.toolbar) this.toolbar.ensureFullVisibility();
         }}
@@ -329,19 +328,6 @@ class DetailPanel extends React.Component<Props, State> {
 
     const isEquipment = !!equipmentInfoId;
 
-    // if (featureId && !isEquipment) {
-    //   switch (this.props.modalNodeState) {
-    //     case 'edit-wheelchair-accessibility':
-    //       return this.renderWheelchairAccessibilityEditor();
-    //     case 'edit-toilet-accessibility':
-    //       return this.renderToiletAccessibilityEditor();
-    //     case 'report':
-    //       return this.renderReportDialog();
-    //     default:
-    //       break;
-    //   }
-    // }
-
     if (!featureId) return;
 
     const sourceLinkProps = {
@@ -382,34 +368,27 @@ class DetailPanel extends React.Component<Props, State> {
   }
 
   render() {
-    const hasWindow = typeof window !== 'undefined';
-    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
-
     return (
-      <FocusTrap
-        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
-      >
-        <StyledToolbar
-          ref={toolbar => (this.toolbar = toolbar)}
-          hidden={this.props.hidden}
-          isSwipeable={false}
-          isModal={this.props.modalNodeState}
-          role="dialog"
-          ariaLabel={this.placeName()}
-          startTopOffset={offset}
-          onScrollable={isScrollable => this.setState({ isScrollable })}
-          inEmbedMode={this.props.inEmbedMode}
-          isBelowSearchField={true}
+      <div className={this.props.className}>
+        <FocusTrap
+          // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+          focusTrapOptions={{ clickOutsideDeactivates: true }}
         >
           <ErrorBoundary>
             {this.renderNodeHeader()}
             {this.renderContentBelowHeader()}
           </ErrorBoundary>
-        </StyledToolbar>
-      </FocusTrap>
+        </FocusTrap>
+      </div>
     );
   }
 }
 
-export default DetailPanel;
+export default styled(DetailPanel)`
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  z-index: 2000;
+  width: 100%;
+  height 100%;
+`;
