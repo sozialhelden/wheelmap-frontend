@@ -174,6 +174,7 @@ class PhotoSection extends React.Component<Props, State> {
           photos={thumbnailPhotos}
           onClick={this.thumbnailSelected}
           columns={Math.min(photos.length, 3)}
+          margin={0}
         />
         <Lightbox
           images={photos}
@@ -209,13 +210,12 @@ class PhotoSection extends React.Component<Props, State> {
 }
 
 const StyledPhotoSection = styled(PhotoSection)`
-  margin: 0.5rem -1rem;
   padding: 0;
 
   .react-photo-gallery--gallery {
     img {
-      object-fit: contain;
-      max-height: 150px;
+      object-fit: cover;
+      max-height: 300px;
       image-orientation: from-image;
     }
   }

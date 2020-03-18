@@ -374,10 +374,7 @@ class DetailPanel extends React.Component<Props, State> {
           // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
           focusTrapOptions={{ clickOutsideDeactivates: true }}
         >
-          <ErrorBoundary>
-            {this.renderNodeHeader()}
-            {this.renderContentBelowHeader()}
-          </ErrorBoundary>
+          <ErrorBoundary>{this.renderPhotoSection()}</ErrorBoundary>
         </FocusTrap>
       </div>
     );
