@@ -20,22 +20,25 @@ function determineOffset(props, smallScreen?: boolean) {
     return ToolbarTopOffsets.None;
   }
 
+  const isBelowSearch = !smallScreen && props.isBelowSearchField;
+  if (isBelowSearch) {
+    return ToolbarTopOffsets.TitleBarAndSearch;
+  }
+
   return ToolbarTopOffsets.TitleBar;
 }
 
 const StyledToolbar = styled(Toolbar)`
   hyphens: auto;
-  width: 100%;
-  margin: 0;
-  border-radius: 0;
-  position: absolute;
-  box-shadow: none;
-  max-height: 100%;
-  height: 100%;
 
   top: ${props => determineOffset(props)}px;
   top: calc(${props => determineOffset(props)}px + constant(safe-area-inset-top));
   top: calc(${props => determineOffset(props)}px + env(safe-area-inset-top));
+  max-height: calc(100% - ${props => (props.inEmbedMode ? 70 : 120)}px);
+  max-height: calc(
+    100% - ${props => (props.inEmbedMode ? 70 : 120)}px - constant(safe-area-inset-top)
+  );
+  max-height: calc(100% - ${props => (props.inEmbedMode ? 70 : 120)}px - env(safe-area-inset-top));
   padding-top: 0;
 
   ${props => (props.isModal ? '' : safeAreaBottomPadding)}
@@ -44,7 +47,16 @@ const StyledToolbar = styled(Toolbar)`
     top: ${props => determineOffset(props)}px;
     top: calc(${props => determineOffset(props)}px + constant(safe-area-inset-top));
     top: calc(${props => determineOffset(props)}px + env(safe-area-inset-top));
-    margin: 0;
+
+    @media (orientation: landscape) {
+      max-height: calc(100% - ${props => (props.inEmbedMode ? 0 : 80)}px);
+      max-height: calc(
+        100% - ${props => (props.inEmbedMode ? 0 : 80)}px - constant(safe-area-inset-top)
+      );
+      max-height: calc(
+        100% - ${props => (props.inEmbedMode ? 0 : 80)}px - env(safe-area-inset-top)
+      );
+    }
   }
 
   ${ChromelessButton}.expand-button {
