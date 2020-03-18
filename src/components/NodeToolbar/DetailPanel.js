@@ -92,7 +92,7 @@ type State = {
   isScrollable: boolean,
 };
 
-class NodeToolbar extends React.Component<Props, State> {
+class DetailPanel extends React.Component<Props, State> {
   toolbar: ?React.ElementRef<typeof Toolbar>;
   reportDialog: ?React.ElementRef<typeof ReportDialog>;
   shareButton: ?React.ElementRef<'button'>;
@@ -329,50 +329,50 @@ class NodeToolbar extends React.Component<Props, State> {
 
     const isEquipment = !!equipmentInfoId;
 
-    if (featureId && !isEquipment) {
-      switch (this.props.modalNodeState) {
-        case 'edit-wheelchair-accessibility':
-          return this.renderWheelchairAccessibilityEditor();
-        case 'edit-toilet-accessibility':
-          return this.renderToiletAccessibilityEditor();
-        case 'report':
-          return this.renderReportDialog();
-        default:
-          break;
-      }
-    }
+    // if (featureId && !isEquipment) {
+    //   switch (this.props.modalNodeState) {
+    //     case 'edit-wheelchair-accessibility':
+    //       return this.renderWheelchairAccessibilityEditor();
+    //     case 'edit-toilet-accessibility':
+    //       return this.renderToiletAccessibilityEditor();
+    //     case 'report':
+    //       return this.renderReportDialog();
+    //     default:
+    //       break;
+    //   }
+    // }
 
     if (!featureId) return;
 
-    // const sourceLinkProps = {
-    //   equipmentInfoId,
-    //   feature,
-    //   featureId,
-    //   onOpenReportMode,
-    //   sources,
-    // };
+    const sourceLinkProps = {
+      equipmentInfoId,
+      feature,
+      featureId,
+      onOpenReportMode,
+      sources,
+    };
 
-    // const accessibilitySection = isEquipment ? (
-    //   <EquipmentAccessibility equipmentInfo={equipmentInfo} />
-    // ) : (
-    //   <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
-    // );
+    const accessibilitySection = isEquipment ? (
+      <EquipmentAccessibility equipmentInfo={equipmentInfo} />
+    ) : (
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
+    );
 
-    // const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
-    // const photoSection = this.renderPhotoSection();
-    // const equipmentOverview = this.renderEquipmentInfos();
+    const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
+    const photoSection = this.renderPhotoSection();
+    const equipmentOverview = this.renderEquipmentInfos();
 
-    // return (
-    //   <div>
-    //     {isEquipment && featureId && this.renderPlaceNameForEquipment()}
-    //     {inlineWheelchairAccessibilityEditor}
-    //     {accessibilitySection}
-    //     {photoSection}
-    //     {equipmentOverview}
-    //     {this.renderIconButtonList()}
-    //     <SourceList {...sourceLinkProps} />
-    //   </div>
-    // );
+    return (
+      <div>
+        {isEquipment && featureId && this.renderPlaceNameForEquipment()}
+        {inlineWheelchairAccessibilityEditor}
+        {accessibilitySection}
+        {photoSection}
+        {equipmentOverview}
+        {this.renderIconButtonList()}
+        <SourceList {...sourceLinkProps} />
+      </div>
+    );
   }
 
   renderCloseLink() {
@@ -412,4 +412,4 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 }
 
-export default NodeToolbar;
+export default DetailPanel;

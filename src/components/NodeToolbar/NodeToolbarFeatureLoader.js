@@ -16,6 +16,7 @@ import {
   type PlaceDetailsProps,
   getPlaceDetailsIfAlreadyResolved,
 } from '../../app/PlaceDetailsProps';
+import DetailPanel from './DetailPanel';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -284,8 +285,27 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
+      if (this.props.modalNodeState) {
+        return (
+          <NodeToolbar
+            {...remainingProps}
+            featureId={remainingProps.featureId}
+            equipmentInfoId={remainingProps.equipmentInfoId}
+            category={category}
+            parentCategory={parentCategory}
+            feature={resolvedFeature}
+            equipmentInfo={resolvedEquipmentInfo}
+            sources={resolvedSources || []}
+            photos={resolvedPhotos || []}
+            toiletsNearby={resolvedToiletsNearby || []}
+            isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
+            ref={t => (this.nodeToolbar = t)}
+          />
+        );
+      }
+
       return (
-        <NodeToolbar
+        <DetailPanel
           {...remainingProps}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
@@ -301,8 +321,27 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         />
       );
     } else if (lightweightFeature) {
+      if (this.props.modalNodeState) {
+        return (
+          <NodeToolbar
+            {...remainingProps}
+            featureId={remainingProps.featureId}
+            equipmentInfoId={remainingProps.equipmentInfoId}
+            category={category}
+            parentCategory={parentCategory}
+            feature={lightweightFeature}
+            equipmentInfo={null}
+            toiletsNearby={null}
+            isLoadingToiletsNearby={true}
+            sources={[]}
+            photos={[]}
+            ref={t => (this.nodeToolbar = t)}
+          />
+        );
+      }
+
       return (
-        <NodeToolbar
+        <DetailPanel
           {...remainingProps}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
