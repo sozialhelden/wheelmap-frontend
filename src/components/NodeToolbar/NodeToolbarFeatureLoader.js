@@ -8,6 +8,7 @@ import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator
 import { type Cluster } from '../../components/Map/Cluster';
 import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
 import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import { isWheelmapFeatureId } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
 import type { PhotoModel } from '../../lib/PhotoModel';
@@ -17,6 +18,7 @@ import {
   getPlaceDetailsIfAlreadyResolved,
 } from '../../app/PlaceDetailsProps';
 import DetailPanel from './DetailPanel';
+import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -282,6 +284,18 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...remainingProps
     } = this.props;
 
+    const accessibilitySectionElement = (
+      <WheelchairAndToiletAccessibility
+        isEditingEnabled={isWheelmapFeatureId(this.props.featureId)}
+        feature={feature}
+        toiletsNearby={toiletsNearby}
+        isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
+        onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
+        onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+        onOpenToiletNearby={this.props.onOpenToiletNearby}
+      />
+    );
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -307,6 +321,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return (
         <DetailPanel
           {...remainingProps}
+          accessibilitySectionElement={accessibilitySectionElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -343,6 +358,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return (
         <DetailPanel
           {...remainingProps}
+          accessibilitySectionElement={accessibilitySectionElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}

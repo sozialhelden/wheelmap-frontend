@@ -18,6 +18,7 @@ import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
+import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
 import Button from '../Button';
 
 import type { PhotoModel } from '../../lib/PhotoModel';
@@ -376,7 +377,7 @@ class DetailPanel extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature, equipmentInfoId, categories } = this.props;
+    const { feature, equipmentInfoId, categories, accessibilitySectionElement } = this.props;
 
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
     const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
@@ -408,11 +409,8 @@ class DetailPanel extends React.Component<Props, State> {
         >
           <ErrorBoundary>
             {this.renderPhotoSection()}
-            <DetailPanelHeader
-              title={placeName}
-              subtitle={categoryName}
-              icon={iconElement}
-            ></DetailPanelHeader>
+            <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
+            {accessibilitySectionElement}
           </ErrorBoundary>
         </FocusTrap>
       </div>
