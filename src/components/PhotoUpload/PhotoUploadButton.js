@@ -5,6 +5,7 @@ import * as React from 'react';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 
+import { SecondaryButton, ChromelessButton } from '../Button';
 import CameraIcon from './CameraIcon';
 import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
@@ -21,15 +22,17 @@ class PhotoUploadButton extends React.Component<Props> {
     const hintCaption = t`Your good deed of the day!`;
 
     return (
-      <button
-        onClick={this.onClick}
-        className={`link-button ${className || ''}`}
-        aria-label={t`Add images`}
-      >
-        <CameraIcon />
-        <span className="button-label">{t`Add images`}</span>
+      <div className={className}>
         <IncentiveHint>{hintCaption}</IncentiveHint>
-      </button>
+        <ChromelessButton
+          onClick={this.onClick}
+          className={`link-button`}
+          aria-label={t`Add images`}
+        >
+          <CameraIcon />
+          <span>{t`Add images`}</span>
+        </ChromelessButton>
+      </div>
     );
   }
 
@@ -42,25 +45,23 @@ class PhotoUploadButton extends React.Component<Props> {
 }
 
 const StyledPhotoUploadButton = styled(PhotoUploadButton)`
-  display: inline-block;
-  font-weight: bold;
-  display: flex !important;
-  flex-direction: row;
+  display: flex;
   align-items: center;
+  position: absolute;
+  right: 0;
+  font-weight: bold;
 
-  width: 100%;
-  margin: 0 0rem 0.5rem !important;
-  padding: 10px 1rem !important;
+  ${ChromelessButton} {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: ${colors.linkColor};
+  }
 
   svg {
     width: 2em;
     height: 2em;
     margin-right: 0.5rem;
-  }
-
-  .button-label {
-    text-align: left;
-    color: ${colors.linkColor};
   }
 `;
 

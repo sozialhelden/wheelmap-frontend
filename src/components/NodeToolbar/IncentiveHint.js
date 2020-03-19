@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import colors from '../../lib/colors';
 
 const color = colors.editHintBackgroundColor;
-// const color = colors.linkColor;
 
 export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
   @keyframes slideIn {
@@ -16,13 +15,11 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
     }
   }
 
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 
   max-width: 7rem;
-  margin-left: 1rem;
   padding: 0.25em;
   border: none;
   border-radius: 0.25em;
@@ -38,13 +35,13 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
     content: '';
     display: block;
     position: absolute;
-    left: -16px;
+    right: -16px;
     top: 50%;
     margin-top: -8px;
     width: 16px;
     height: 16px;
     border: 8px solid transparent;
-    border-right-color: ${color};
+    border-left-color: ${color};
     box-sizing: border-box;
   }
 `;
