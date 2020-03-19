@@ -211,6 +211,7 @@ class PhotoSection extends React.Component<Props, State> {
 
 const StyledPhotoSection = styled(PhotoSection)`
   padding: 0;
+  min-height: 3.5rem;
 
   .react-photo-gallery--gallery {
     img {
