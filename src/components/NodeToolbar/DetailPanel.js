@@ -21,15 +21,21 @@ import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibility
 import Button from '../Button';
 
 import type { PhotoModel } from '../../lib/PhotoModel';
-import type {
+import {
   Feature,
   YesNoLimitedUnknown,
   YesNoUnknown,
   WheelmapFeature,
+  isWheelchairAccessible,
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
-import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
-import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+import Categories, {
+  type Category,
+  type CategoryLookupTables,
+  getCategoryId,
+  categoryNameFor,
+} from '../../lib/Categories';
+import { EquipmentInfo, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
@@ -39,6 +45,8 @@ import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import DetailPanelHeader from './DetailPanelHeader';
+import Icon from '../Icon';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -368,13 +376,44 @@ class DetailPanel extends React.Component<Props, State> {
   }
 
   render() {
+    const { feature, equipmentInfoId, categories } = this.props;
+
+    const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
+    const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
+    const categoryName = category && categoryNameFor(category);
+    const categoryId = category && getCategoryId(category);
+
+    const isEquipment = !!equipmentInfoId;
+
+    const accessibility = isEquipment
+      ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties']))
+      : isWheelchairAccessible(feature.properties);
+
+    const iconElement = (
+      <Icon
+        accessibility={accessibility}
+        category={categoryId || 'undefined'}
+        size="big"
+        ariaHidden={true}
+      />
+    );
+
+    let placeName = placeNameFor(feature.properties, category);
+
     return (
       <div className={this.props.className}>
         <FocusTrap
           // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
           focusTrapOptions={{ clickOutsideDeactivates: true }}
         >
-          <ErrorBoundary>{this.renderPhotoSection()}</ErrorBoundary>
+          <ErrorBoundary>
+            {this.renderPhotoSection()}
+            <DetailPanelHeader
+              title={placeName}
+              subtitle={categoryName}
+              icon={iconElement}
+            ></DetailPanelHeader>
+          </ErrorBoundary>
         </FocusTrap>
       </div>
     );
