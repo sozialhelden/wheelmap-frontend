@@ -1,13 +1,18 @@
 // @flow
 
 import * as React from 'react';
+import { t } from 'ttag';
 
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
 import { type Cluster } from '../../components/Map/Cluster';
-import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
-import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import Categories, {
+  type Category,
+  type CategoryLookupTables,
+  getCategoryId,
+} from '../../lib/Categories';
+import { Feature, YesNoLimitedUnknown, wheelmapFeatureFrom } from '../../lib/Feature';
 import { isWheelmapFeatureId } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
@@ -22,6 +27,7 @@ import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairA
 import Description from './AccessibilitySection/Description';
 import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
 import IconButtonList from './IconButtonList/IconButtonList';
+import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -319,6 +325,31 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       />
     );
 
+    const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
+
+    let inlineWheelchairAccessibilityEditorElement;
+
+    if (
+      !wheelmapFeature ||
+      !wheelmapFeature.properties ||
+      wheelmapFeature.properties.wheelchair !== 'unknown'
+    ) {
+      inlineWheelchairAccessibilityEditorElement = null;
+    } else {
+      // translator: Shown as header/title when you edit wheelchair accessibility of a place
+      const header = t`How wheelchair accessible is this place?`;
+      inlineWheelchairAccessibilityEditorElement = (
+        <section>
+          <h4 id="wheelchair-accessibility-header">{header}</h4>
+          <InlineWheelchairAccessibilityEditor
+            category={getCategoryId(this.props.category)}
+            onChange={this.props.onSelectWheelchairAccessibility}
+            presetStatus={this.props.accessibilityPresetStatus}
+          />
+        </section>
+      );
+    }
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -346,6 +377,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           {...remainingProps}
           accessibilitySectionElement={accessibilitySectionElement}
           iconButtonListElement={iconButtonListElement}
+          inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -384,6 +416,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           {...remainingProps}
           accessibilitySectionElement={accessibilitySectionElement}
           iconButtonListElement={iconButtonListElement}
+          inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}

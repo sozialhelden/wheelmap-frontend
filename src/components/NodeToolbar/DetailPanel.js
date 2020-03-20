@@ -384,6 +384,7 @@ class DetailPanel extends React.Component<Props, State> {
       categories,
       accessibilitySectionElement,
       iconButtonListElement,
+      inlineWheelchairAccessibilityEditorElement,
     } = this.props;
 
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
@@ -418,6 +419,7 @@ class DetailPanel extends React.Component<Props, State> {
             {this.renderPhotoSection()}
             <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
             <DetailPanelMain>
+              {inlineWheelchairAccessibilityEditorElement}
               {accessibilitySectionElement}
               {iconButtonListElement}
             </DetailPanelMain>
