@@ -21,6 +21,7 @@ import DetailPanel from './DetailPanel';
 import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
 import Description from './AccessibilitySection/Description';
 import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
+import IconButtonList from './IconButtonList/IconButtonList';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -309,6 +310,15 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       </section>
     );
 
+    const iconButtonListElement = (
+      <IconButtonList
+        {...this.props}
+        onToggle={() => {
+          if (this.toolbar) this.toolbar.ensureFullVisibility();
+        }}
+      />
+    );
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -335,6 +345,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         <DetailPanel
           {...remainingProps}
           accessibilitySectionElement={accessibilitySectionElement}
+          iconButtonListElement={iconButtonListElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -372,6 +383,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         <DetailPanel
           {...remainingProps}
           accessibilitySectionElement={accessibilitySectionElement}
+          iconButtonListElement={iconButtonListElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}

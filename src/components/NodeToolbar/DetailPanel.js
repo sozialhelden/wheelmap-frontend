@@ -377,7 +377,13 @@ class DetailPanel extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature, equipmentInfoId, categories, accessibilitySectionElement } = this.props;
+    const {
+      feature,
+      equipmentInfoId,
+      categories,
+      accessibilitySectionElement,
+      iconButtonListElement,
+    } = this.props;
 
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
     const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
@@ -411,6 +417,7 @@ class DetailPanel extends React.Component<Props, State> {
             {this.renderPhotoSection()}
             <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
             {accessibilitySectionElement}
+            {iconButtonListElement}
           </ErrorBoundary>
         </FocusTrap>
       </div>
