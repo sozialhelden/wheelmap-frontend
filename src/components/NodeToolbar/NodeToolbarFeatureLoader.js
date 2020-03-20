@@ -28,6 +28,7 @@ import Description from './AccessibilitySection/Description';
 import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
 import IconButtonList from './IconButtonList/IconButtonList';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
+import StyledPhotoSection from './Photos/PhotoSection';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -350,6 +351,17 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       );
     }
 
+    const photoSectionElement = (
+      <StyledPhotoSection
+        featureId={this.props.featureId}
+        photos={this.props.photos || []}
+        onReportPhoto={this.props.onReportPhoto}
+        onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
+        photoFlowNotification={this.props.photoFlowNotification}
+        photoFlowErrorMessage={this.props.photoFlowErrorMessage}
+      />
+    );
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -378,6 +390,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           accessibilitySectionElement={accessibilitySectionElement}
           iconButtonListElement={iconButtonListElement}
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
+          photoSectionElement={photoSectionElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -417,6 +430,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           accessibilitySectionElement={accessibilitySectionElement}
           iconButtonListElement={iconButtonListElement}
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
+          photoSectionElement={photoSectionElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}

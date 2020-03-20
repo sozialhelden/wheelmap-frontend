@@ -1,13 +1,14 @@
 // @flow
 
 import * as React from 'react';
+import type { ReactElement } from 'react';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 
 import ErrorBoundary from '../ErrorBoundary';
 import PhotoSection from './Photos/PhotoSection';
 
-import { Feature, isWheelchairAccessible } from '../../lib/Feature';
+import { type Feature, isWheelchairAccessible } from '../../lib/Feature';
 import { placeNameFor } from '../../lib/Feature';
 import Categories, {
   type CategoryLookupTables,
@@ -25,27 +26,16 @@ type Props = {
   accessibilitySectionElement: ReactElement,
   iconButtonListElement: ReactElement,
   inlineWheelchairAccessibilityEditorElement: ReactElement,
+  photoSectionElement: ReactElement,
 };
 
-class DetailPanel extends React.Component<Props, State> {
-  renderPhotoSection() {
-    return (
-      <PhotoSection
-        featureId={this.props.featureId}
-        photos={this.props.photos || []}
-        onReportPhoto={this.props.onReportPhoto}
-        onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-        photoFlowNotification={this.props.photoFlowNotification}
-        photoFlowErrorMessage={this.props.photoFlowErrorMessage}
-      />
-    );
-  }
-
+class DetailPanel extends React.Component<Props> {
   render() {
     const {
       className,
       feature,
       categories,
+      photoSectionElement,
       accessibilitySectionElement,
       iconButtonListElement,
       inlineWheelchairAccessibilityEditorElement,
@@ -73,7 +63,7 @@ class DetailPanel extends React.Component<Props, State> {
       <FocusTrap>
         <div className={className}>
           <ErrorBoundary>
-            {this.renderPhotoSection()}
+            {photoSectionElement}
             <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
             <DetailPanelMain>
               {inlineWheelchairAccessibilityEditorElement}
