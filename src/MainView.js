@@ -60,6 +60,7 @@ import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolba
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 import { AppContextConsumer } from './AppContext';
+import CreatePlaceFlow from './components/CreatePlaceFlow/CreatePlaceFlow';
 
 type Props = {
   className?: string,
@@ -778,6 +779,10 @@ class MainView extends React.Component<Props, State> {
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
           {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}
+          <CreatePlaceFlow
+            onSubmit={() => console.log('SUBMIT')}
+            onCancel={p => console.log('CANCEL', p)}
+          />
         </ErrorBoundary>
       </div>
     );
