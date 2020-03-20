@@ -19,6 +19,8 @@ import {
 } from '../../app/PlaceDetailsProps';
 import DetailPanel from './DetailPanel';
 import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
+import Description from './AccessibilitySection/Description';
+import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -284,16 +286,27 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...remainingProps
     } = this.props;
 
+    let description: ?string = null;
+    if (feature.properties && typeof feature.properties.wheelchair_description === 'string') {
+      description = feature.properties.wheelchair_description;
+    }
+
+    const descriptionElement = description ? <Description>{description}</Description> : null;
+
     const accessibilitySectionElement = (
-      <WheelchairAndToiletAccessibility
-        isEditingEnabled={isWheelmapFeatureId(this.props.featureId)}
-        feature={feature}
-        toiletsNearby={toiletsNearby}
-        isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-        onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
-        onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
-        onOpenToiletNearby={this.props.onOpenToiletNearby}
-      />
+      <section>
+        <WheelchairAndToiletAccessibility
+          isEditingEnabled={isWheelmapFeatureId(this.props.featureId)}
+          feature={feature}
+          toiletsNearby={toiletsNearby}
+          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
+          onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
+          onOpenToiletNearby={this.props.onOpenToiletNearby}
+        />
+        {description && descriptionElement}
+        <AccessibleDescription properties={feature.properties} />
+      </section>
     );
 
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
