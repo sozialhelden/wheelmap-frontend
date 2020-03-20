@@ -48,6 +48,7 @@ import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import DetailPanelHeader from './DetailPanelHeader';
 import Icon from '../Icon';
+import DetailPanelMain from './DetailPanelMain';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -416,8 +417,10 @@ class DetailPanel extends React.Component<Props, State> {
           <ErrorBoundary>
             {this.renderPhotoSection()}
             <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
-            {accessibilitySectionElement}
-            {iconButtonListElement}
+            <DetailPanelMain>
+              {accessibilitySectionElement}
+              {iconButtonListElement}
+            </DetailPanelMain>
           </ErrorBoundary>
         </FocusTrap>
       </div>
@@ -432,4 +435,9 @@ export default styled(DetailPanel)`
   z-index: 2000;
   width: 100%;
   height 100%;
+
+  > * {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
 `;
