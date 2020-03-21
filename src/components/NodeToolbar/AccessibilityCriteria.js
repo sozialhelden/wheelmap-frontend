@@ -46,7 +46,11 @@ const AccessibiltyCriteria = ({ className, criteria }: Props) => {
             <h2>{humanizeString(rootCriterion)}</h2>
             <ul>
               {Object.keys(fakeData[rootCriterion]).map(subCriterion => {
-                return <li>{humanizeString(subCriterion)}</li>;
+                if (fakeData[rootCriterion][subCriterion]) {
+                  return <li>{humanizeString(subCriterion)}</li>;
+                } else {
+                  return <li>NO {humanizeString(subCriterion)}</li>;
+                }
               })}
             </ul>
           </div>
