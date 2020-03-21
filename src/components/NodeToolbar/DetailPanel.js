@@ -19,6 +19,8 @@ import DetailPanelHeader from './DetailPanelHeader';
 import Icon from '../Icon';
 import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
+import IconButtonList from './IconButtonList/IconButtonList';
+import { ChromelessButton } from '../Button';
 
 type Props = {
   className?: string,
@@ -95,6 +97,21 @@ export default styled(DetailPanel)`
   background-color: #ffffff;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+
+  ${IconButtonList} {
+    .link-button,
+    .expand-button {
+      margin: 0;
+      width: 100%;
+      svg {
+        margin-left: 0;
+      }
+    }
+
+    .expand-button {
+      height: 74px;
+    }
+  }
 
   ${PhotoSection} {
     margin-left: -0.5rem;
