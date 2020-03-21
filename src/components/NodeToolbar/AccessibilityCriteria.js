@@ -5,6 +5,8 @@ import humanizeString from 'humanize-string';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
 
+import Icon from '../icons/categories/accommodation';
+
 const fakeData = {
   entrances: {
     automaticDoor: true,
@@ -47,9 +49,14 @@ const AccessibiltyCriteria = ({ className, criteria }: Props) => {
             <ul>
               {Object.keys(fakeData[rootCriterion]).map(subCriterion => {
                 if (fakeData[rootCriterion][subCriterion]) {
-                  return <li>{humanizeString(subCriterion)}</li>;
+                  return (
+                    <li>
+                      <Icon width="2rem" height="2rem" />
+                      {humanizeString(subCriterion)}
+                    </li>
+                  );
                 } else {
-                  return <li>NO {humanizeString(subCriterion)}</li>;
+                  return <li>NO{humanizeString(subCriterion)}</li>;
                 }
               })}
             </ul>
@@ -68,7 +75,28 @@ export default styled(AccessibiltyCriteria)`
   margin-left: auto;
 
   h2 {
+    margin-bottom: 2rem;
     font-size: 1.25rem;
     color: ${colors.textColorBrighter};
+  }
+
+  ul {
+    display: flex;
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+    display: flex;
+    width: 120px;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 2rem;
+    text-align: center;
+  }
+
+  li svg {
+    margin-bottom: 1rem;
   }
 `;
