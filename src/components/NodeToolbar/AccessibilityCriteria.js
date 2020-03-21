@@ -30,15 +30,6 @@ type Props = {
   criteria: {},
 };
 
-function formatName(name: string, properties: {}): string {
-  const string = properties[`${name}Localized`] || humanizeString(name);
-  return string.replace(/^Rating /, '');
-}
-
-function capitalizeFirstLetter(string): string {
-  return string.charAt(0).toLocaleUpperCase() + string.slice(1);
-}
-
 const AccessibiltyCriteria = ({ className, criteria }: Props) => {
   return (
     <div className={className}>
