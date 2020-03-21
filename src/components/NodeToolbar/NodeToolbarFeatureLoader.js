@@ -29,6 +29,9 @@ import AccessibleDescription from './AccessibilitySection/AccessibleDescription'
 import IconButtonList from './IconButtonList/IconButtonList';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import StyledPhotoSection from './Photos/PhotoSection';
+import filterAccessibility from '../../lib/filterAccessibility';
+import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
+import AccessibiltyCriteria from './AccessibilityCriteria';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -362,6 +365,18 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       />
     );
 
+    const accessibilityTree =
+      feature.properties && typeof feature.properties.accessibility === 'object'
+        ? feature.properties.accessibility
+        : null;
+    const filteredAccessibilityTree = accessibilityTree
+      ? filterAccessibility(accessibilityTree)
+      : null;
+
+    const accessibilityCriteriaElement = (
+      <AccessibiltyCriteria criteria={filteredAccessibilityTree} />
+    );
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -391,6 +406,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           iconButtonListElement={iconButtonListElement}
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           photoSectionElement={photoSectionElement}
+          accessibilityCriteriaElement={accessibilityCriteriaElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -431,6 +447,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           iconButtonListElement={iconButtonListElement}
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           photoSectionElement={photoSectionElement}
+          accessibilityCriteriaElement={accessibilityCriteriaElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}

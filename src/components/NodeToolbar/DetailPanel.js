@@ -27,6 +27,7 @@ type Props = {
   iconButtonListElement: ReactElement,
   inlineWheelchairAccessibilityEditorElement: ReactElement,
   photoSectionElement: ReactElement,
+  accessibilityCriteriaElement: ReactElement,
 };
 
 class DetailPanel extends React.Component<Props> {
@@ -39,6 +40,7 @@ class DetailPanel extends React.Component<Props> {
       accessibilitySectionElement,
       iconButtonListElement,
       inlineWheelchairAccessibilityEditorElement,
+      accessibilityCriteriaElement,
     } = this.props;
 
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
@@ -70,6 +72,7 @@ class DetailPanel extends React.Component<Props> {
               {accessibilitySectionElement}
               {iconButtonListElement}
             </DetailPanelMain>
+            {accessibilityCriteriaElement}
           </ErrorBoundary>
         </div>
       </FocusTrap>
