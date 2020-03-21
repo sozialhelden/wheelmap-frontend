@@ -85,8 +85,9 @@ export default styled(DetailPanel)`
   top: 50px;
   z-index: 1100;
   width: 100%;
-  height 100%;
-  background-color: #FFFFFF;
+  height: calc(100% - 50px);
+  overflow: auto;
+  background-color: #ffffff;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 
