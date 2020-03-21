@@ -18,6 +18,7 @@ import Categories, {
 import DetailPanelHeader from './DetailPanelHeader';
 import Icon from '../Icon';
 import DetailPanelMain from './DetailPanelMain';
+import SourcePraise from './SourcePraise';
 
 type Props = {
   className?: string,
@@ -28,6 +29,7 @@ type Props = {
   inlineWheelchairAccessibilityEditorElement: ReactElement,
   photoSectionElement: ReactElement,
   accessibilityCriteriaElement: ReactElement,
+  sourcePraiseElement: ReactElement,
 };
 
 class DetailPanel extends React.Component<Props> {
@@ -41,6 +43,7 @@ class DetailPanel extends React.Component<Props> {
       iconButtonListElement,
       inlineWheelchairAccessibilityEditorElement,
       accessibilityCriteriaElement,
+      sourcePraiseElement,
     } = this.props;
 
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
@@ -73,6 +76,7 @@ class DetailPanel extends React.Component<Props> {
               {iconButtonListElement}
             </DetailPanelMain>
             {accessibilityCriteriaElement}
+            <footer>{sourcePraiseElement}</footer>
           </ErrorBoundary>
         </div>
       </FocusTrap>
@@ -94,5 +98,10 @@ export default styled(DetailPanel)`
   ${PhotoSection} {
     margin-left: -0.5rem;
     margin-right: -0.5rem;
+  }
+
+  ${SourcePraise} {
+    margin-top: 6rem;
+    text-align: center;
   }
 `;

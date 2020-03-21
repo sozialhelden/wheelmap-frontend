@@ -32,6 +32,7 @@ import StyledPhotoSection from './Photos/PhotoSection';
 import filterAccessibility from '../../lib/filterAccessibility';
 import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
 import AccessibiltyCriteria from './AccessibilityCriteria';
+import SourcePraise from './SourcePraise';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -377,6 +378,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       <AccessibiltyCriteria criteria={filteredAccessibilityTree} />
     );
 
+    const sourcePraiseElement = <SourcePraise />;
+
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
@@ -407,6 +410,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           photoSectionElement={photoSectionElement}
           accessibilityCriteriaElement={accessibilityCriteriaElement}
+          sourcePraiseElement={sourcePraiseElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
@@ -448,6 +452,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
           inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
           photoSectionElement={photoSectionElement}
           accessibilityCriteriaElement={accessibilityCriteriaElement}
+          sourcePraiseElement={sourcePraiseElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
