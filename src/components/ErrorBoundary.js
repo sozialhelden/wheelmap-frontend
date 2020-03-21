@@ -70,7 +70,7 @@ class ErrorBoundary extends Component<Props, State> {
 
 const ErrorDetail = styled.p`
   font-family: monospace;
-  color: rgba(0, 0, 0, 0.6);
+  color: ${colors.textColorBrighter};
   font-size: 0.8em;
 `;
 

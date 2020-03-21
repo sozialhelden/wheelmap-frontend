@@ -88,7 +88,7 @@ const StyledSearchResults = styled(SearchResults)`
 
     address {
       font-size: 16px !important;
-      color: rgba(0, 0, 0, 0.6);
+      color: ${colors.textColorBrighter};
     }
   }
 

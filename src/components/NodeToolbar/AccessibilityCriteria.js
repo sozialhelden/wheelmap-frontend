@@ -73,11 +73,11 @@ export default styled(AccessibiltyCriteria)`
   margin-right: auto;
   margin-bottom: 0;
   margin-left: auto;
+  color: ${colors.textColorBrighter};
 
   h2 {
     margin-bottom: 2rem;
     font-size: 1.25rem;
-    color: ${colors.textColorBrighter};
   }
 
   ul {
@@ -94,9 +94,11 @@ export default styled(AccessibiltyCriteria)`
     align-items: center;
     margin-right: 2rem;
     text-align: center;
-  }
-
-  li svg {
-    margin-bottom: 1rem;
+    svg {
+      margin-bottom: 1rem;
+      path {
+        fill: ${colors.textColorBrighter};
+      }
+    }
   }
 `;

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import colors from '../../../lib/colors';
 
 const Description = styled.footer.attrs({ className: 'description' })`
   margin-top: 0.5rem;
@@ -6,7 +7,7 @@ const Description = styled.footer.attrs({ className: 'description' })`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  color: rgba(0, 0, 0, 0.6);
+  color: ${colors.textColorBrighter};
 
   &.has-quotes {
     padding-left: 8px;

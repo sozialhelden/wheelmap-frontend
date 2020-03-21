@@ -9,6 +9,7 @@ import Categories, { type CategoryLookupTables } from '../../lib/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
 import type { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
 import { getCategoryId } from '../../lib/Categories';
+import colors from '../../lib/colors';
 
 type Props = {
   className?: string,
@@ -68,7 +69,7 @@ class BreadCrumbs extends React.Component<Props, State> {
 }
 
 const StyledBreadCrumbs = styled(BreadCrumbs)`
-  color: rgba(0, 0, 0, 0.6);
+  color: ${colors.textColorBrighter};
 
   display: inline-block;
   &,
