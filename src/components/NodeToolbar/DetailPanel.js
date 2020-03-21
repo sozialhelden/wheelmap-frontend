@@ -90,6 +90,7 @@ export default styled(DetailPanel)`
   z-index: 1100;
   width: 100%;
   height: calc(100% - 50px);
+  width: calc(100% - 1rem);
   overflow: auto;
   background-color: #ffffff;
   padding-left: 0.5rem;
