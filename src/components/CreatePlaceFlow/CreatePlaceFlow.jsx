@@ -28,7 +28,12 @@ const CreatePlaceFlow = (props: Props) => {
   const { onCancel, onSubmit } = props;
 
   const [step, setStep] = React.useState<Step>('FindExistingPlace');
-  const [place, setPlace] = React.useState<PlaceData>({ properties: { name: '' } });
+  const [place, setPlace] = React.useState<PlaceData>({
+    properties: {
+      name: '',
+      address: {},
+    },
+  });
 
   const createNew = React.useCallback(
     (name: string) => {
