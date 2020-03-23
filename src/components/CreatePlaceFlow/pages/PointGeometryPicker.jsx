@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import VerticalPage from '../components/VerticalPage';
 
 type Props = {
   visible: boolean,
@@ -15,13 +16,13 @@ const PointGeometryPicker = (props: Props) => {
   }
 
   return (
-    <>
+    <VerticalPage>
       PointGeometryPicker
       <button onClick={() => onSelected({ type: 'Point', coordinates: [13, 53] })}>
         Select Geometry
       </button>
       <button onClick={onCancel}>Cancel</button>
-    </>
+    </VerticalPage>
   );
 };
 

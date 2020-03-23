@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import VerticalPage from '../components/VerticalPage';
 
 type Props = {
   visible: boolean,
@@ -15,13 +16,13 @@ const CategoryPicker = (props: Props) => {
   }
 
   return (
-    <>
+    <VerticalPage>
       CategoryPicker
       <button onClick={onCancel}>Cancel</button>
       <li>
         <button onClick={() => onSelected('test')}>First category</button>
       </li>
-    </>
+    </VerticalPage>
   );
 };
 

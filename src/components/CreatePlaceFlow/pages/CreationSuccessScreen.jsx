@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import VerticalPage from '../components/VerticalPage';
 
 type Props = {
   visible: boolean,
@@ -14,10 +15,10 @@ const CreationSuccessScreen = (props: Props) => {
   }
 
   return (
-    <>
+    <VerticalPage>
       CreationSuccessScreen
       <button onClick={onSubmit}>Done</button>
-    </>
+    </VerticalPage>
   );
 };
 

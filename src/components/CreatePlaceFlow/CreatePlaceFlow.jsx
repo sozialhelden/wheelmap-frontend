@@ -6,20 +6,15 @@ import ExistingPlacePicker from './pages/ExistingPlacePicker';
 import CategoryPicker from './pages/CategoryPicker';
 import PlaceDetailsEditor from './pages/PlaceDetailsEditor';
 import PointGeometryPicker from './pages/PointGeometryPicker';
-import type PointGeometry from './pages/PointGeometryPicker';
 import CreationSuccessScreen from './pages/CreationSuccessScreen';
+
+import type { PlaceData } from './pages/PlaceDetailsEditor';
+import type { PointGeometry } from './pages/PointGeometryPicker';
+import type { AddressData } from './components/AddressEditor';
 
 type Props = {
   onSubmit: () => void,
   onCancel: (place?: string | number) => void,
-};
-
-type CreatedPlaceData = {
-  properties: {
-    name: string,
-    category?: string,
-  },
-  geometry?: PointGeometry,
 };
 
 type Step =
@@ -33,11 +28,11 @@ const CreatePlaceFlow = (props: Props) => {
   const { onCancel, onSubmit } = props;
 
   const [step, setStep] = React.useState<Step>('FindExistingPlace');
-  const [place, setPlace] = React.useState<CreatedPlaceData>({ properties: { name: '' } });
+  const [place, setPlace] = React.useState<PlaceData>({ properties: { name: '' } });
 
   const createNew = React.useCallback(
     (name: string) => {
-      const newPlace = { properties: { name } };
+      const newPlace = { properties: { name, address: {} } };
       setPlace(newPlace);
       setStep('EditPlaceDetails');
     },
@@ -76,7 +71,7 @@ const CreatePlaceFlow = (props: Props) => {
   );
 
   const addressUpdated = React.useCallback(
-    (address: {}) => {
+    (address: AddressData) => {
       const clonedPlace = { ...place };
       clonedPlace.properties = { ...place.properties, address };
       setPlace(clonedPlace);
@@ -130,7 +125,10 @@ const CreatePlaceFlow = (props: Props) => {
           onCancel={returnToEditor}
         />
 
-        <CreationSuccessScreen visible={step === 'Success'} onSubmit={onSubmit} />
+        <CreationSuccessScreen
+          visible={step === 'Success'}
+          onSubmit={() => setStep('FindExistingPlace')}
+        />
       </PageStack>
     </>
   );

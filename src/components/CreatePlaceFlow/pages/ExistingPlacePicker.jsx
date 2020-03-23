@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react';
+import VerticalPage from '../components/VerticalPage';
 
 type Props = {
   visible: boolean,
@@ -30,7 +31,7 @@ const ExistingPlacePicker = (props: Props) => {
   }
 
   return (
-    <>
+    <VerticalPage>
       ExistingPlacePicker
       <button onClick={onCancelled}>Cancel</button>
       <input value={searchString} onChange={onSearchStringChanged} type="text" />
@@ -38,7 +39,7 @@ const ExistingPlacePicker = (props: Props) => {
       <li>
         <button onClick={() => onSelectExisting('xde42Pbf9XNe2eHKK')}>Existing 1</button>
       </li>
-    </>
+    </VerticalPage>
   );
 };
 

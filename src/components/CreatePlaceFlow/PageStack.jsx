@@ -19,5 +19,6 @@ export default styled(PageStack)`
   top: 0px;
   z-index: 10000;
   background-color: wheat;
-  padding: 30px;
+  display: flex;
+  padding: 5px;
 `;
