@@ -6,14 +6,14 @@ import { type App } from './lib/App';
 
 // Only extend this with values that are sensible global values that potentially might be needed
 // everywhere
-export type AppContext = {
+export type AppContextData = {
   app: App,
   baseUrl: string,
   categories: CategoryLookupTables,
   preferredLanguage: string,
 };
 
-const { Provider, Consumer } = createContext<AppContext>({
+const AppContext = createContext<AppContextData>({
   app: {
     _id: '',
     organizationId: '',
@@ -27,8 +27,13 @@ const { Provider, Consumer } = createContext<AppContext>({
     idsToWheelmapCategories: {},
     wheelmapCategoryNamesToCategories: {},
     wheelmapRootCategoryNamesToCategories: {},
+    categoryTree: [],
   },
   preferredLanguage: '',
 });
 
+const { Provider, Consumer } = AppContext;
+
 export { Provider as AppContextProvider, Consumer as AppContextConsumer };
+
+export default AppContext;
