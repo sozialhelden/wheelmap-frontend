@@ -2,9 +2,9 @@
 import * as React from 'react';
 
 export type AddressData = {
-  addressLine?: string,
+  text?: string,
   city?: string,
-  region?: string,
+  regions?: [string],
   postalCode?: string,
 };
 
@@ -18,7 +18,7 @@ const AddressEditor = (props: Props) => {
 
   const onAddressLineChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, addressLine: e.target.value });
+      onUpdateAddress({ ...address, text: e.target.value });
     },
     [address, onUpdateAddress]
   );
@@ -32,7 +32,7 @@ const AddressEditor = (props: Props) => {
 
   const onRegionChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, region: e.target.value });
+      onUpdateAddress({ ...address, regions: [e.target.value] });
     },
     [address, onUpdateAddress]
   );
@@ -47,11 +47,15 @@ const AddressEditor = (props: Props) => {
   return (
     <>
       Address
-      <input value={address.addressLine || ''} onChange={onAddressLineChanged} type="text" />
+      <input value={address.text || ''} onChange={onAddressLineChanged} type="text" />
       City
       <input value={address.city || ''} onChange={onCityChanged} type="text" />
       Region
-      <input value={address.region || ''} onChange={onRegionChanged} type="text" />
+      <input
+        value={(address.regions && address.regions[0]) || ''}
+        onChange={onRegionChanged}
+        type="text"
+      />
       Postal Code
       <input value={address.postalCode || ''} onChange={onPostalCodeChanged} type="text" />
     </>
