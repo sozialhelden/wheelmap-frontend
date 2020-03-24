@@ -11,6 +11,8 @@ import CreationSuccessScreen from './pages/CreationSuccessScreen';
 import type { PlaceData } from './pages/PlaceDetailsEditor';
 import type { PointGeometry } from './pages/PointGeometryPicker';
 import type { AddressData } from './components/AddressEditor';
+import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import AppContext from '../../AppContext';
 
 type Props = {
   onSubmit: () => void,
@@ -26,6 +28,9 @@ type Step =
 
 const CreatePlaceFlow = (props: Props) => {
   const { onCancel, onSubmit } = props;
+
+  const appContext = React.useContext(AppContext);
+  const appToken = 'ec196bd1cf8c265e09d62fbd4654b57e' || appContext.app.tokenString;
 
   const [step, setStep] = React.useState<Step>('FindExistingPlace');
   const [place, setPlace] = React.useState<PlaceData>({
@@ -94,8 +99,9 @@ const CreatePlaceFlow = (props: Props) => {
   );
 
   const createPlace = React.useCallback(() => {
+    accessibilityCloudFeatureCache.createPlace(place, appToken).catch(console.error);
     setStep('Success');
-  }, [setStep]);
+  }, [place, appToken]);
 
   return (
     <>
