@@ -16,7 +16,7 @@ import AppContext from '../../AppContext';
 
 type Props = {
   onSubmit: () => void,
-  onCancel: (place?: string | number) => void,
+  onCancel: () => void,
 };
 
 type Step =

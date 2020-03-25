@@ -8,4 +8,6 @@ export default styled.div`
   background: white;
   padding: 30px;
   flex: 1;
+
+  overflow-y: auto;
 `;
