@@ -28,46 +28,42 @@ type Props = {
   sourcePraiseElement: React.Node,
 };
 
-class DetailPanel extends React.Component<Props> {
-  render() {
-    const {
-      className,
-      feature,
-      categories,
-      iconElement,
-      photoSectionElement,
-      accessibilitySectionElement,
-      iconButtonListElement,
-      inlineWheelchairAccessibilityEditorElement,
-      accessibilityCriteriaElement,
-      sourcePraiseElement,
-    } = this.props;
+const DetailPanel = ({
+  className,
+  feature,
+  categories,
+  iconElement,
+  photoSectionElement,
+  accessibilitySectionElement,
+  iconButtonListElement,
+  inlineWheelchairAccessibilityEditorElement,
+  accessibilityCriteriaElement,
+  sourcePraiseElement,
+}: Props) => {
+  const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
+  const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
+  const categoryName = category && categoryNameFor(category);
 
-    const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
-    const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
-    const categoryName = category && categoryNameFor(category);
+  let placeName = placeNameFor(feature.properties, category);
 
-    let placeName = placeNameFor(feature.properties, category);
-
-    return (
-      <FocusTrap>
-        <div className={className}>
-          <ErrorBoundary>
-            {photoSectionElement}
-            <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
-            <DetailPanelMain>
-              {inlineWheelchairAccessibilityEditorElement}
-              {accessibilitySectionElement}
-              {iconButtonListElement}
-            </DetailPanelMain>
-            {accessibilityCriteriaElement}
-            <footer>{sourcePraiseElement}</footer>
-          </ErrorBoundary>
-        </div>
-      </FocusTrap>
-    );
-  }
-}
+  return (
+    <FocusTrap>
+      <div className={className}>
+        <ErrorBoundary>
+          {photoSectionElement}
+          <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
+          <DetailPanelMain>
+            {inlineWheelchairAccessibilityEditorElement}
+            {accessibilitySectionElement}
+            {iconButtonListElement}
+          </DetailPanelMain>
+          {accessibilityCriteriaElement}
+          <footer>{sourcePraiseElement}</footer>
+        </ErrorBoundary>
+      </div>
+    </FocusTrap>
+  );
+};
 
 export default styled(DetailPanel)`
   position: absolute;
