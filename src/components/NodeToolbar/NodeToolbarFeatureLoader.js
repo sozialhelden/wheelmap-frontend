@@ -322,8 +322,33 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const descriptionElement = description ? <Description>{description}</Description> : null;
 
+    let inlineWheelchairAccessibilityEditorElement;
+    const wheelmapFeature = wheelmapFeatureFrom(feature);
+
+    if (
+      !wheelmapFeature ||
+      !wheelmapFeature.properties ||
+      wheelmapFeature.properties.wheelchair !== 'unknown'
+    ) {
+      inlineWheelchairAccessibilityEditorElement = null;
+    } else {
+      // translator: Shown as header/title when you edit wheelchair accessibility of a place
+      const header = t`How wheelchair accessible is this place?`;
+      inlineWheelchairAccessibilityEditorElement = (
+        <section>
+          <h4 id="wheelchair-accessibility-header">{header}</h4>
+          <InlineWheelchairAccessibilityEditor
+            category={getCategoryId(category)}
+            onChange={onSelectWheelchairAccessibility}
+            presetStatus={accessibilityPresetStatus}
+          />
+        </section>
+      );
+    }
+
     const accessibilitySectionElement = (
       <section>
+        {inlineWheelchairAccessibilityEditorElement}
         <WheelchairAndToiletAccessibility
           isEditingEnabled={isWheelmapFeatureId(featureId)}
           feature={feature}
@@ -350,31 +375,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         }}
       />
     );
-
-    const wheelmapFeature = wheelmapFeatureFrom(feature);
-
-    let inlineWheelchairAccessibilityEditorElement;
-
-    if (
-      !wheelmapFeature ||
-      !wheelmapFeature.properties ||
-      wheelmapFeature.properties.wheelchair !== 'unknown'
-    ) {
-      inlineWheelchairAccessibilityEditorElement = null;
-    } else {
-      // translator: Shown as header/title when you edit wheelchair accessibility of a place
-      const header = t`How wheelchair accessible is this place?`;
-      inlineWheelchairAccessibilityEditorElement = (
-        <section>
-          <h4 id="wheelchair-accessibility-header">{header}</h4>
-          <InlineWheelchairAccessibilityEditor
-            category={getCategoryId(category)}
-            onChange={onSelectWheelchairAccessibility}
-            presetStatus={accessibilityPresetStatus}
-          />
-        </section>
-      );
-    }
 
     const photoSectionElement = (
       <StyledPhotoSection
@@ -418,7 +418,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         iconElement={iconElement}
         accessibilitySectionElement={accessibilitySectionElement}
         iconButtonListElement={iconButtonListElement}
-        inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
         photoSectionElement={photoSectionElement}
         accessibilityCriteriaElement={accessibilityCriteriaElement}
         sourcePraiseElement={sourcePraiseElement}

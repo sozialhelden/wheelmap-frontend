@@ -22,7 +22,6 @@ type Props = {
   iconElement: React.Node,
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
-  inlineWheelchairAccessibilityEditorElement: React.Node,
   photoSectionElement: React.Node,
   accessibilityCriteriaElement: React.Node,
   sourcePraiseElement: React.Node,
@@ -36,7 +35,6 @@ const DetailPanel = ({
   photoSectionElement,
   accessibilitySectionElement,
   iconButtonListElement,
-  inlineWheelchairAccessibilityEditorElement,
   accessibilityCriteriaElement,
   sourcePraiseElement,
 }: Props) => {
@@ -53,7 +51,6 @@ const DetailPanel = ({
           {photoSectionElement}
           <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
           <DetailPanelMain>
-            {inlineWheelchairAccessibilityEditorElement}
             {accessibilitySectionElement}
             {iconButtonListElement}
           </DetailPanelMain>
