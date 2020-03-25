@@ -12,7 +12,12 @@ import Categories, {
   type CategoryLookupTables,
   getCategoryId,
 } from '../../lib/Categories';
-import { Feature, YesNoLimitedUnknown, wheelmapFeatureFrom } from '../../lib/Feature';
+import {
+  Feature,
+  YesNoLimitedUnknown,
+  wheelmapFeatureFrom,
+  isWheelchairAccessible,
+} from '../../lib/Feature';
 import { isWheelmapFeatureId } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
@@ -33,6 +38,7 @@ import filterAccessibility from '../../lib/filterAccessibility';
 import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
 import AccessibiltyCriteria from './AccessibilityCriteria';
 import SourcePraise from './SourcePraise';
+import Icon from '../Icon';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -395,10 +401,21 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const sourcePraiseElement = <SourcePraise />;
 
+    const categoryId = getCategoryId(category);
+    const iconElement = (
+      <Icon
+        accessibility={isWheelchairAccessible(feature.properties)}
+        category={categoryId || 'undefined'}
+        size="big"
+        ariaHidden={true}
+      />
+    );
+
     return (
       <DetailPanel
         feature={feature}
         categories={this.props.categories}
+        iconElement={iconElement}
         accessibilitySectionElement={accessibilitySectionElement}
         iconButtonListElement={iconButtonListElement}
         inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}

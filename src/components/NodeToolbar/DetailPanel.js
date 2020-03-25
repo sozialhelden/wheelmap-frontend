@@ -7,15 +7,10 @@ import styled from 'styled-components';
 import ErrorBoundary from '../ErrorBoundary';
 import PhotoSection from './Photos/PhotoSection';
 
-import { type Feature, isWheelchairAccessible } from '../../lib/Feature';
+import { type Feature } from '../../lib/Feature';
 import { placeNameFor } from '../../lib/Feature';
-import Categories, {
-  type CategoryLookupTables,
-  getCategoryId,
-  categoryNameFor,
-} from '../../lib/Categories';
+import Categories, { type CategoryLookupTables, categoryNameFor } from '../../lib/Categories';
 import DetailPanelHeader from './DetailPanelHeader';
-import Icon from '../Icon';
 import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
@@ -24,6 +19,7 @@ type Props = {
   className?: string,
   feature: Feature,
   categories: CategoryLookupTables,
+  iconElement: React.Node,
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
   inlineWheelchairAccessibilityEditorElement: React.Node,
@@ -38,6 +34,7 @@ class DetailPanel extends React.Component<Props> {
       className,
       feature,
       categories,
+      iconElement,
       photoSectionElement,
       accessibilitySectionElement,
       iconButtonListElement,
@@ -49,18 +46,6 @@ class DetailPanel extends React.Component<Props> {
     const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
     const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
     const categoryName = category && categoryNameFor(category);
-    const categoryId = category && getCategoryId(category);
-
-    const accessibility = isWheelchairAccessible(feature.properties);
-
-    const iconElement = (
-      <Icon
-        accessibility={accessibility}
-        category={categoryId || 'undefined'}
-        size="big"
-        ariaHidden={true}
-      />
-    );
 
     let placeName = placeNameFor(feature.properties, category);
 
