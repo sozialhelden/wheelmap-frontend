@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import type { ReactElement } from 'react';
 import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 
@@ -20,18 +19,17 @@ import Icon from '../Icon';
 import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
-import { ChromelessButton } from '../Button';
 
 type Props = {
   className?: string,
   feature: Feature,
   categories: CategoryLookupTables,
-  accessibilitySectionElement: ReactElement,
-  iconButtonListElement: ReactElement,
-  inlineWheelchairAccessibilityEditorElement: ReactElement,
-  photoSectionElement: ReactElement,
-  accessibilityCriteriaElement: ReactElement,
-  sourcePraiseElement: ReactElement,
+  accessibilitySectionElement: React.Node,
+  iconButtonListElement: React.Node,
+  inlineWheelchairAccessibilityEditorElement: React.Node,
+  photoSectionElement: React.Node,
+  accessibilityCriteriaElement: React.Node,
+  sourcePraiseElement: React.Node,
 };
 
 class DetailPanel extends React.Component<Props> {

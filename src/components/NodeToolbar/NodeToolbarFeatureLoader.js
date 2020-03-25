@@ -278,6 +278,137 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     this.setState({ resolvedSources });
   }
 
+  renderDetailPanel() {
+    const {
+      category,
+      parentCategory,
+      resolvedRequiredData,
+      resolvedToiletsNearby,
+      isLoadingToiletsNearby,
+      resolvedPhotos,
+    } = this.state;
+
+    const {
+      featureId,
+      userAgent,
+      onOpenWheelchairAccessibility,
+      onOpenToiletAccessibility,
+      onOpenToiletNearby,
+      onSelectWheelchairAccessibility,
+      onReportPhoto,
+      onStartPhotoUploadFlow,
+      photoFlowNotification,
+      photoFlowErrorMessage,
+      accessibilityPresetStatus,
+    } = this.props;
+
+    if (!resolvedRequiredData || !resolvedRequiredData.resolvedFeature) {
+      return null;
+    }
+
+    const feature = resolvedRequiredData.resolvedFeature;
+    const toiletsNearby = resolvedToiletsNearby || [];
+
+    let description: ?string = null;
+    if (feature.properties && typeof feature.properties.wheelchair_description === 'string') {
+      description = feature.properties.wheelchair_description;
+    }
+
+    const descriptionElement = description ? <Description>{description}</Description> : null;
+
+    const accessibilitySectionElement = (
+      <section>
+        <WheelchairAndToiletAccessibility
+          isEditingEnabled={isWheelmapFeatureId(featureId)}
+          feature={feature}
+          toiletsNearby={toiletsNearby}
+          isLoadingToiletsNearby={isLoadingToiletsNearby}
+          onOpenWheelchairAccessibility={onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={onOpenToiletAccessibility}
+          onOpenToiletNearby={onOpenToiletNearby}
+        />
+        {description && descriptionElement}
+        <AccessibleDescription properties={feature.properties} />
+      </section>
+    );
+
+    const iconButtonListElement = (
+      <IconButtonList
+        feature={feature}
+        featureId={featureId}
+        category={category}
+        parentCategory={parentCategory}
+        userAgent={userAgent}
+        onToggle={() => {
+          if (this.toolbar) this.toolbar.ensureFullVisibility();
+        }}
+      />
+    );
+
+    const wheelmapFeature = wheelmapFeatureFrom(feature);
+
+    let inlineWheelchairAccessibilityEditorElement;
+
+    if (
+      !wheelmapFeature ||
+      !wheelmapFeature.properties ||
+      wheelmapFeature.properties.wheelchair !== 'unknown'
+    ) {
+      inlineWheelchairAccessibilityEditorElement = null;
+    } else {
+      // translator: Shown as header/title when you edit wheelchair accessibility of a place
+      const header = t`How wheelchair accessible is this place?`;
+      inlineWheelchairAccessibilityEditorElement = (
+        <section>
+          <h4 id="wheelchair-accessibility-header">{header}</h4>
+          <InlineWheelchairAccessibilityEditor
+            category={getCategoryId(category)}
+            onChange={onSelectWheelchairAccessibility}
+            presetStatus={accessibilityPresetStatus}
+          />
+        </section>
+      );
+    }
+
+    const photoSectionElement = (
+      <StyledPhotoSection
+        featureId={featureId}
+        photos={resolvedPhotos || []}
+        onReportPhoto={onReportPhoto}
+        onStartPhotoUploadFlow={onStartPhotoUploadFlow}
+        photoFlowNotification={photoFlowNotification}
+        photoFlowErrorMessage={photoFlowErrorMessage}
+      />
+    );
+
+    const accessibilityTree =
+      feature.properties && typeof feature.properties.accessibility === 'object'
+        ? feature.properties.accessibility
+        : null;
+    const filteredAccessibilityTree = accessibilityTree
+      ? filterAccessibility(accessibilityTree)
+      : null;
+
+    const accessibilityCriteriaElement = (
+      <AccessibiltyCriteria criteria={filteredAccessibilityTree} />
+    );
+
+    const sourcePraiseElement = <SourcePraise />;
+
+    return (
+      <DetailPanel
+        feature={feature}
+        categories={this.props.categories}
+        accessibilitySectionElement={accessibilitySectionElement}
+        iconButtonListElement={iconButtonListElement}
+        inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
+        photoSectionElement={photoSectionElement}
+        accessibilityCriteriaElement={accessibilityCriteriaElement}
+        sourcePraiseElement={sourcePraiseElement}
+      />
+    );
+  }
+
   render() {
     const {
       category,
@@ -298,92 +429,12 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...remainingProps
     } = this.props;
 
-    let description: ?string = null;
-    if (feature.properties && typeof feature.properties.wheelchair_description === 'string') {
-      description = feature.properties.wheelchair_description;
-    }
-
-    const descriptionElement = description ? <Description>{description}</Description> : null;
-
-    const accessibilitySectionElement = (
-      <section>
-        <WheelchairAndToiletAccessibility
-          isEditingEnabled={isWheelmapFeatureId(this.props.featureId)}
-          feature={feature}
-          toiletsNearby={toiletsNearby}
-          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-          onOpenWheelchairAccessibility={this.props.onOpenWheelchairAccessibility}
-          onOpenToiletAccessibility={this.props.onOpenToiletAccessibility}
-          onOpenToiletNearby={this.props.onOpenToiletNearby}
-        />
-        {description && descriptionElement}
-        <AccessibleDescription properties={feature.properties} />
-      </section>
-    );
-
-    const iconButtonListElement = (
-      <IconButtonList
-        {...this.props}
-        onToggle={() => {
-          if (this.toolbar) this.toolbar.ensureFullVisibility();
-        }}
-      />
-    );
-
-    const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
-
-    let inlineWheelchairAccessibilityEditorElement;
-
-    if (
-      !wheelmapFeature ||
-      !wheelmapFeature.properties ||
-      wheelmapFeature.properties.wheelchair !== 'unknown'
-    ) {
-      inlineWheelchairAccessibilityEditorElement = null;
-    } else {
-      // translator: Shown as header/title when you edit wheelchair accessibility of a place
-      const header = t`How wheelchair accessible is this place?`;
-      inlineWheelchairAccessibilityEditorElement = (
-        <section>
-          <h4 id="wheelchair-accessibility-header">{header}</h4>
-          <InlineWheelchairAccessibilityEditor
-            category={getCategoryId(this.props.category)}
-            onChange={this.props.onSelectWheelchairAccessibility}
-            presetStatus={this.props.accessibilityPresetStatus}
-          />
-        </section>
-      );
-    }
-
-    const photoSectionElement = (
-      <StyledPhotoSection
-        featureId={this.props.featureId}
-        photos={this.props.photos || []}
-        onReportPhoto={this.props.onReportPhoto}
-        onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
-        photoFlowNotification={this.props.photoFlowNotification}
-        photoFlowErrorMessage={this.props.photoFlowErrorMessage}
-      />
-    );
-
-    const accessibilityTree =
-      feature.properties && typeof feature.properties.accessibility === 'object'
-        ? feature.properties.accessibility
-        : null;
-    const filteredAccessibilityTree = accessibilityTree
-      ? filterAccessibility(accessibilityTree)
-      : null;
-
-    const accessibilityCriteriaElement = (
-      <AccessibiltyCriteria criteria={filteredAccessibilityTree} />
-    );
-
-    const sourcePraiseElement = <SourcePraise />;
-
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
-      if (this.props.modalNodeState) {
+      const useNodeToolbar = this.props.modalNodeState || resolvedEquipmentInfo;
+
+      if (useNodeToolbar) {
         return (
           <NodeToolbar
             {...remainingProps}
@@ -400,59 +451,13 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
             ref={t => (this.nodeToolbar = t)}
           />
         );
+      } else {
+        return this.renderDetailPanel();
       }
-
-      return (
-        <DetailPanel
-          {...remainingProps}
-          accessibilitySectionElement={accessibilitySectionElement}
-          iconButtonListElement={iconButtonListElement}
-          inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
-          photoSectionElement={photoSectionElement}
-          accessibilityCriteriaElement={accessibilityCriteriaElement}
-          sourcePraiseElement={sourcePraiseElement}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
-          category={category}
-          parentCategory={parentCategory}
-          feature={resolvedFeature}
-          equipmentInfo={resolvedEquipmentInfo}
-          sources={resolvedSources || []}
-          photos={resolvedPhotos || []}
-          toiletsNearby={resolvedToiletsNearby || []}
-          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-          ref={t => (this.nodeToolbar = t)}
-        />
-      );
     } else if (lightweightFeature) {
-      if (this.props.modalNodeState) {
-        return (
-          <NodeToolbar
-            {...remainingProps}
-            featureId={remainingProps.featureId}
-            equipmentInfoId={remainingProps.equipmentInfoId}
-            category={category}
-            parentCategory={parentCategory}
-            feature={lightweightFeature}
-            equipmentInfo={null}
-            toiletsNearby={null}
-            isLoadingToiletsNearby={true}
-            sources={[]}
-            photos={[]}
-            ref={t => (this.nodeToolbar = t)}
-          />
-        );
-      }
-
       return (
-        <DetailPanel
+        <NodeToolbar
           {...remainingProps}
-          accessibilitySectionElement={accessibilitySectionElement}
-          iconButtonListElement={iconButtonListElement}
-          inlineWheelchairAccessibilityEditorElement={inlineWheelchairAccessibilityEditorElement}
-          photoSectionElement={photoSectionElement}
-          accessibilityCriteriaElement={accessibilityCriteriaElement}
-          sourcePraiseElement={sourcePraiseElement}
           featureId={remainingProps.featureId}
           equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
