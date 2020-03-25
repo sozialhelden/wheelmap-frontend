@@ -1,12 +1,14 @@
 // @flow
 import * as React from 'react';
+import styled from 'styled-components';
 import ReactMapGL, { GeolocateControl } from 'react-map-gl';
 
 import env from '../../../lib/env';
 import savedState from '../../../lib/savedState';
 
 import VerticalPage from '../components/VerticalPage';
-import styled from 'styled-components';
+import Icon from '../../Icon';
+import colors from '../../../lib/colors';
 
 export type PointGeometry = {
   type: 'Point',
@@ -16,6 +18,9 @@ export type PointGeometry = {
 type Props = {
   className?: string,
   visible: boolean,
+  category?: string,
+  latitude?: number,
+  longitude?: number,
   onSelected: (geometry: PointGeometry) => void,
   onCancel: () => void,
 };
@@ -26,7 +31,7 @@ type Viewport = {
   zoom?: number,
 };
 
-function viewportFromSavedState() {
+export function viewportFromSavedState() {
   const stringValues = {
     zoom: savedState.map.lastZoom || undefined,
     latitude: (savedState.map.lastCenter && savedState.map.lastCenter[0]) || undefined,
@@ -63,6 +68,8 @@ const PointGeometryPicker = (props: Props) => {
       <button onClick={onCancel}>Cancel</button>
       <div className="mapContainer">
         <ReactMapGL
+          latitude={props.latitude}
+          longitude={props.longitude}
           {...viewport}
           mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           width="100%"
@@ -81,7 +88,15 @@ const PointGeometryPicker = (props: Props) => {
             showUserLocation={true}
           />
         </ReactMapGL>
-        <span className="mapCenterIndicator" />
+        <Icon
+          className="mapCenterIndicator"
+          withArrow={true}
+          category={props.category}
+          ariaHidden={true}
+          size="medium"
+          accessibility={'yes'}
+          backgroundColor={colors.darkLinkColor}
+        />
       </div>
       <button
         disabled={!canSubmit}
@@ -106,14 +121,9 @@ export default styled(PointGeometryPicker)`
 
     .mapCenterIndicator {
       position: absolute;
-      left: calc(50% - 10px);
-      top: calc(50% - 10px);
-      width: 20px;
-      height: 20px;
-      transform-origin: center center;
-      transform: rotate(45deg);
+      left: calc(50% - 20px);
+      bottom: 50%;
       z-index: 1000;
-      background: blue;
     }
   }
 `;

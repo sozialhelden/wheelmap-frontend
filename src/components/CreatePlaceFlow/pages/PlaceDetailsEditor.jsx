@@ -3,13 +3,16 @@ import * as React from 'react';
 import { t } from 'ttag';
 
 import VerticalPage from '../components/VerticalPage';
+import MapButton from '../components/MapButton';
 import AddressEditor from '../components/AddressEditor';
 import type { AddressData } from '../components/AddressEditor';
 import type { PointGeometry } from './PointGeometryPicker';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 import PageHeader from '../components/PageHeader.jsx';
 import styled from 'styled-components';
-import InputField from '../components/InputField';
+import InputField, { sharedInputStyle } from '../components/InputField';
+import { viewportFromSavedState } from '../pages/PointGeometryPicker';
+import colors from '../../../lib/colors';
 
 export type PlaceData = {
   properties: {
@@ -21,6 +24,7 @@ export type PlaceData = {
 };
 
 type Props = {
+  className?: string,
   visible: boolean,
   place: PlaceData,
   onCancel: () => void,
@@ -33,6 +37,7 @@ type Props = {
 
 const PlaceDetailsEditor = (props: Props) => {
   const {
+    className,
     visible,
     place,
     onCancel,
@@ -59,25 +64,34 @@ const PlaceDetailsEditor = (props: Props) => {
   const hasCategory = !!place.properties.category;
   const canSubmit = !hasGeometry || !hasCategory || !hasName;
 
+  const viewport = viewportFromSavedState();
+
   return (
-    <VerticalPage>
+    <VerticalPage className={className}>
       <PageHeader>
         <ChromelessButton onClick={onCancel}>{t`Cancel`}</ChromelessButton>
         <h2>{t`Create Place`}</h2>
       </PageHeader>
-      <pre>{JSON.stringify(place, null, 2)}</pre>
       <label>{t`Name`}</label>
       <InputField value={place.properties.name} onChange={onPlaceNameChanged} type="text" />
-      <button onClick={onPickPointGeometry}>Select Coordinates</button>
+
+      <MapButton
+        onClick={onPickPointGeometry}
+        category={place.properties.category}
+        latitude={place.geometry ? place.geometry.coordinates[1] : viewport.latitude || 0}
+        longitude={place.geometry ? place.geometry.coordinates[0] : viewport.longitude || 0}
+      />
+
       {hasGeometry && (
         <>
           <AddressEditor address={place.properties.address} onUpdateAddress={onUpdateAddress} />
           <label>{t`Category`}</label>
-          <button onClick={onPickCategory}>
+          <button className="category-pick-button" onClick={onPickCategory}>
             {place.properties.category || t`Select category`}
           </button>
         </>
       )}
+      <pre>{JSON.stringify(place, null, 2)}</pre>
       <PrimaryButton disabled={canSubmit} onClick={onSubmit}>
         {t`Continue`}
       </PrimaryButton>
@@ -85,4 +99,21 @@ const PlaceDetailsEditor = (props: Props) => {
   );
 };
 
-export default styled(PlaceDetailsEditor)``;
+export default styled(PlaceDetailsEditor)`
+  > ${InputField}, > ${MapButton}, > label {
+    margin-top: 12px;
+  }
+
+  > label {
+    font-weight: bold;
+    color: ${colors.textMuted};
+  }
+
+  .category-pick-button {
+    margin-top: 12px;
+    appearance: none;
+    background: transparent;
+    text-align: left;
+    ${sharedInputStyle}
+  }
+`;

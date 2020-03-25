@@ -1,0 +1,73 @@
+// @flow
+import * as React from 'react';
+import { StaticMap } from 'react-map-gl';
+import { PrimaryButton } from '../../Button';
+import Icon from '../../Icon';
+import { t } from 'ttag';
+
+import env from '../../../lib/env';
+import styled from 'styled-components';
+import colors from '../../../lib/colors';
+
+type Props = {
+  className?: string,
+  category?: string,
+  latitude: number,
+  longitude: number,
+  onClick: () => void,
+};
+
+const MapButton = (props: Props) => {
+  const { className, category, latitude, longitude, onClick } = props;
+
+  return (
+    <section className={className}>
+      <StaticMap
+        latitude={latitude}
+        longitude={longitude}
+        zoom={18}
+        mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        width="100%"
+        height="300px"
+      />
+      <Icon
+        withArrow={true}
+        category={category}
+        ariaHidden={true}
+        size="medium"
+        accessibility={'yes'}
+        backgroundColor={colors.darkLinkColor}
+      />
+      <PrimaryButton onClick={onClick}>{t`Define main entry`}</PrimaryButton>
+    </section>
+  );
+};
+
+export default styled(MapButton)`
+  position: relative;
+
+  .mapboxgl-map {
+    border-radius: 4px;
+  }
+
+  > figure {
+    position: absolute;
+    bottom: 50%;
+    left: calc(50% - 20px);
+  }
+
+  > ${PrimaryButton} {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    width: 100%;
+    display: block;
+    z-index: 100;
+
+    &:not(:hover) {
+      color: ${colors.linkColorDarker};
+      background: ${colors.neutralBackgroundColorTransparent};
+    }
+  }
+`;

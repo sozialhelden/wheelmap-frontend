@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import colors from '../../../lib/colors';
 
-const sharedStyle = css`
+export const sharedInputStyle = css`
   width: 100%;
 
   padding: 0 0.25rem;
@@ -38,7 +38,7 @@ const sharedStyle = css`
 `;
 
 const InputField = styled.input`
-  ${sharedStyle}
+  ${sharedInputStyle}
 `;
 
 export default InputField;
