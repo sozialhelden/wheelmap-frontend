@@ -1,5 +1,7 @@
 // @flow
 import * as React from 'react';
+import { t } from 'ttag';
+import InputField from './InputField';
 
 export type AddressData = {
   text?: string,
@@ -46,18 +48,18 @@ const AddressEditor = (props: Props) => {
 
   return (
     <>
-      Address
-      <input value={address.text || ''} onChange={onAddressLineChanged} type="text" />
-      City
-      <input value={address.city || ''} onChange={onCityChanged} type="text" />
-      Region
-      <input
+      <label>{t`Address`}</label>
+      <InputField value={address.text || ''} onChange={onAddressLineChanged} type="text" />
+      <label>{t`City`}</label>
+      <InputField value={address.city || ''} onChange={onCityChanged} type="text" />
+      <label>{t`Region`}</label>
+      <InputField
         value={(address.regions && address.regions[0]) || ''}
         onChange={onRegionChanged}
         type="text"
       />
-      Postal Code
-      <input value={address.postalCode || ''} onChange={onPostalCodeChanged} type="text" />
+      <label>{t`Postal Code`}</label>
+      <InputField value={address.postalCode || ''} onChange={onPostalCodeChanged} type="text" />
     </>
   );
 };

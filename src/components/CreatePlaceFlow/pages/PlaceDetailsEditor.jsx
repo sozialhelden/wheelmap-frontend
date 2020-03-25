@@ -1,9 +1,15 @@
 // @flow
 import * as React from 'react';
+import { t } from 'ttag';
+
 import VerticalPage from '../components/VerticalPage';
 import AddressEditor from '../components/AddressEditor';
 import type { AddressData } from '../components/AddressEditor';
 import type { PointGeometry } from './PointGeometryPicker';
+import { ChromelessButton, PrimaryButton } from '../../Button';
+import PageHeader from '../components/PageHeader.jsx';
+import styled from 'styled-components';
+import InputField from '../components/InputField';
 
 export type PlaceData = {
   properties: {
@@ -55,23 +61,28 @@ const PlaceDetailsEditor = (props: Props) => {
 
   return (
     <VerticalPage>
-      PlaceDetailsEditor
+      <PageHeader>
+        <ChromelessButton onClick={onCancel}>{t`Cancel`}</ChromelessButton>
+        <h2>{t`Create Place`}</h2>
+      </PageHeader>
       <pre>{JSON.stringify(place, null, 2)}</pre>
-      <button onClick={onCancel}>Cancel</button>
-      Name
-      <input value={place.properties.name} onChange={onPlaceNameChanged} type="text" />
+      <label>{t`Name`}</label>
+      <InputField value={place.properties.name} onChange={onPlaceNameChanged} type="text" />
       <button onClick={onPickPointGeometry}>Select Coordinates</button>
       {hasGeometry && (
         <>
           <AddressEditor address={place.properties.address} onUpdateAddress={onUpdateAddress} />
-          <button onClick={onPickCategory}>Select Category</button>
+          <label>{t`Category`}</label>
+          <button onClick={onPickCategory}>
+            {place.properties.category || t`Select category`}
+          </button>
         </>
       )}
-      <button disabled={canSubmit} onClick={onSubmit}>
-        Done
-      </button>
+      <PrimaryButton disabled={canSubmit} onClick={onSubmit}>
+        {t`Continue`}
+      </PrimaryButton>
     </VerticalPage>
   );
 };
 
-export default PlaceDetailsEditor;
+export default styled(PlaceDetailsEditor)``;

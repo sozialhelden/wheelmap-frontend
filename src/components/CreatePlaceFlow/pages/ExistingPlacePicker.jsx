@@ -14,6 +14,7 @@ import { ChromelessButton } from '../../Button';
 import colors from '../../../lib/colors';
 import InputField from '../components/InputField';
 import AppContext from '../../../AppContext.js';
+import PageHeader from '../components/PageHeader.jsx';
 
 type Props = {
   className?: string,
@@ -55,10 +56,10 @@ const ExistingPlacePicker = (props: Props) => {
 
   return (
     <VerticalPage className={className}>
-      <header>
+      <PageHeader>
         <ChromelessButton onClick={onCancelled}>{t`Cancel`}</ChromelessButton>
         <h2>{t`Create Place`}</h2>
-      </header>
+      </PageHeader>
 
       <InputField value={searchString} onChange={onSearchStringChanged} type="text" />
       {!canCreateNewPlace && (
@@ -110,20 +111,6 @@ const ExistingPlacePicker = (props: Props) => {
 };
 
 export default styled(ExistingPlacePicker)`
-  > header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-
-    h2 {
-      margin: 0;
-      flex: 1;
-      text-align: center;
-    }
-  }
-
   > .action-hint {
     color: ${colors.textMuted};
     text-align: center;
