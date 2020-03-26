@@ -17,6 +17,8 @@ import InputField, { sharedInputStyle } from '../components/InputField';
 
 import { viewportFromSavedState } from '../pages/PointGeometryPicker';
 import type { PointGeometry } from './PointGeometryPicker';
+import AppContext from '../../../AppContext';
+import { categoryNameFor } from '../../../lib/Categories';
 
 export type PlaceData = {
   properties: {
@@ -59,14 +61,26 @@ const PlaceDetailsEditor = (props: Props) => {
     [onUpdateName]
   );
 
+  const appContext = React.useContext(AppContext);
+  const categoryTree = appContext.categories.categoryTree;
+  const placeCategoryId = place.properties.category;
+
+  const category = React.useMemo(() => {
+    if (!placeCategoryId) {
+      return null;
+    } else {
+      return categoryTree.find(c => c._id === placeCategoryId);
+    }
+  }, [categoryTree, placeCategoryId]);
+
   if (!visible) {
     return null;
   }
 
   const hasName = !!place.properties.name;
   const hasGeometry = !!place.geometry;
-  const hasCategory = !!place.properties.category;
-  const canSubmit = !hasGeometry || !hasCategory || !hasName;
+  const hasValidCategory = !!place.properties.category;
+  const canSubmit = !hasGeometry || !hasValidCategory || !hasName;
 
   const viewport = viewportFromSavedState();
 
@@ -91,8 +105,8 @@ const PlaceDetailsEditor = (props: Props) => {
           <AddressEditor address={place.properties.address} onUpdateAddress={onUpdateAddress} />
           <label>{t`Category`}</label>
           <button className="category-pick-button" onClick={onPickCategory}>
-            {!place.properties.category && <span>{t`Select category`}</span>}
-            {place.properties.category && (
+            {!hasValidCategory && <span>{t`Select category`}</span>}
+            {hasValidCategory && (
               <>
                 <Icon
                   withArrow={false}
@@ -102,7 +116,7 @@ const PlaceDetailsEditor = (props: Props) => {
                   accessibility={'yes'}
                   backgroundColor={colors.darkLinkColor}
                 />
-                <span>{place.properties.category}</span>
+                <span>{categoryNameFor(category) || category._id}</span>
               </>
             )}
           </button>

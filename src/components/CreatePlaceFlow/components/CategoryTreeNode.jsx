@@ -2,7 +2,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import type { ACCategory } from '../../../lib/Categories';
+import { ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
 import Icon from '../../Icon';
@@ -39,7 +39,7 @@ const CategoryTreeNode = (props: Props) => {
             accessibility={'yes'}
             backgroundColor={colors.darkLinkColor}
           />
-          <span className="categoryName">{node._id}</span>
+          <span className="categoryName">{categoryNameFor(node) || node._id}</span>
           <span className="expandArrow">{expanded ? 'v' : '>'}</span>
         </button>
       </header>

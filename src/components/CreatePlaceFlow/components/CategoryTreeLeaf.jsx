@@ -2,7 +2,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import type { ACCategory } from '../../../lib/Categories';
+import { type ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
 import Icon from '../../Icon';
@@ -30,7 +30,7 @@ const CategoryTreeLeaf = (props: Props) => {
           accessibility={'yes'}
           backgroundColor={colors.darkLinkColor}
         />
-        <span>{id}</span>
+        <span>{categoryNameFor(category) || category._id}</span>
       </button>
     </li>
   );

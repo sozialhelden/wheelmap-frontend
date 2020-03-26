@@ -1,6 +1,7 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
+import colors from '../../lib/colors';
 
 type Props = {
   className?: string,
@@ -18,7 +19,9 @@ export default styled(PageStack)`
   bottom: 0px;
   top: 0px;
   z-index: 10000;
-  background-color: wheat;
+  background-color: ${colors.neutralBackgroundColorTransparent};
   display: flex;
-  padding: 5px;
+  padding: 25px;
+  align-items: center;
+  justify-content: center;
 `;
