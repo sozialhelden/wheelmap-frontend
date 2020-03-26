@@ -11,12 +11,13 @@ import CreationSuccessScreen from './pages/CreationSuccessScreen';
 import type { PlaceData } from './pages/PlaceDetailsEditor';
 import type { PointGeometry } from './pages/PointGeometryPicker';
 import type { AddressData } from './components/AddressEditor';
+import { type WheelmapResolvedSearchResultFeature } from './components/usePlaceSearchWithWheelmapResolution';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import AppContext from '../../AppContext';
 
 type Props = {
-  onSubmit: () => void,
-  onCancel: () => void,
+  onSubmit: (createdPlaceId: string) => void,
+  onCancel: (result?: WheelmapResolvedSearchResultFeature) => void,
 };
 
 type Step =
@@ -32,7 +33,11 @@ const CreatePlaceFlow = (props: Props) => {
   const appContext = React.useContext(AppContext);
   const appToken = 'ec196bd1cf8c265e09d62fbd4654b57e' || appContext.app.tokenString;
 
-  const [step, setStep] = React.useState<Step>('Success');
+  const [uploadState, setUploadState] = React.useState<'Submitting' | 'Success' | 'Error'>(
+    'Submitting'
+  );
+  const [createdPlaceId, setCreatedPlaceId] = React.useState<string | null>(null);
+  const [step, setStep] = React.useState<Step>('FindExistingPlace');
   const [place, setPlace] = React.useState<PlaceData>({
     properties: {
       name: '',
@@ -99,17 +104,30 @@ const CreatePlaceFlow = (props: Props) => {
   );
 
   const createPlace = React.useCallback(() => {
-    accessibilityCloudFeatureCache.createPlace(place, appToken).catch(console.error);
+    setUploadState('Submitting');
+    accessibilityCloudFeatureCache
+      .createPlace(place, appToken)
+      .then(id => {
+        setCreatedPlaceId(id);
+        setUploadState('Success');
+      })
+      .catch(() => setUploadState('Error'));
     setStep('Success');
-  }, [place, appToken]);
+  }, [place, appToken, setCreatedPlaceId, setUploadState]);
+
+  const submit = React.useCallback(() => {
+    if (createdPlaceId) {
+      onSubmit(createdPlaceId);
+    }
+  }, [onSubmit, createdPlaceId]);
 
   return (
     <>
       <PageStack>
         <ExistingPlacePicker
           visible={step === 'FindExistingPlace'}
-          onSelectExisting={props.onCancel}
-          onCancel={props.onCancel}
+          onSelectExisting={onCancel}
+          onCancel={onCancel}
           onCreateNew={createNew}
         />
 
@@ -120,7 +138,7 @@ const CreatePlaceFlow = (props: Props) => {
           onUpdateAddress={addressUpdated}
           onPickPointGeometry={pickPointGeometry}
           onPickCategory={pickCategory}
-          onCancel={() => setStep('FindExistingPlace')}
+          onCancel={onCancel}
           onSubmit={createPlace}
         />
 
@@ -141,7 +159,10 @@ const CreatePlaceFlow = (props: Props) => {
 
         <CreationSuccessScreen
           visible={step === 'Success'}
-          onSubmit={() => setStep('FindExistingPlace')}
+          state={uploadState}
+          placeName={place.properties.name}
+          onSubmit={submit}
+          onRetry={returnToEditor}
         />
       </PageStack>
     </>

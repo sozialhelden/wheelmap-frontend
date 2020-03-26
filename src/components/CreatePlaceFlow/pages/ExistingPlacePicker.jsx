@@ -99,7 +99,7 @@ const ExistingPlacePicker = (props: Props) => {
                   wheelmapFeature={result.wheelmapFeature}
                   categories={appContext.categories}
                   hidden={false}
-                  onClick={() => {}}
+                  onClick={() => onSelectExisting(result)}
                 />
               );
             })}

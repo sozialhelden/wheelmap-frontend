@@ -558,16 +558,26 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderCreateDialog() {
+  renderCreateFlow() {
+    if (this.props.modalNodeState !== 'create') {
+      return null;
+    }
+
     return (
-      <FocusTrap active={this.props.modalNodeState === 'create'}>
-        <CreatePlaceDialog
-          hidden={this.props.modalNodeState !== 'create'}
-          onClose={this.props.onCloseModalDialog}
-          lat={this.props.lat}
-          lon={this.props.lon}
-        />
-      </FocusTrap>
+      <CreatePlaceFlow
+        onSubmit={id => {
+          this.props.onCloseModalDialog();
+          if (id) {
+            this.props.onMarkerClick(id);
+          }
+        }}
+        onCancel={place => {
+          this.props.onCloseModalDialog();
+          if (place) {
+            this.props.onSearchResultClick(place.searchResult, place.wheelmapFeature);
+          }
+        }}
+      />
     );
   }
 
@@ -775,14 +785,10 @@ class MainView extends React.Component<Props, State> {
           {isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
-          {this.renderCreateDialog()}
+          {this.renderCreateFlow()}
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
           {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}
-          <CreatePlaceFlow
-            onSubmit={() => console.log('SUBMIT')}
-            onCancel={p => console.log('CANCEL', p)}
-          />
         </ErrorBoundary>
       </div>
     );

@@ -12,15 +12,15 @@ type Props = {
   visible: boolean,
   className?: string,
   placeName: string,
+  state: 'Submitting' | 'Error' | 'Success',
   onSubmit: () => void,
+  onRetry: () => void,
 };
 
 const CreationSuccessScreen = (props: Props) => {
-  const { className, visible, onSubmit } = props;
+  const { className, placeName, visible, state, onSubmit, onRetry } = props;
 
   const appContext = React.useContext(AppContext);
-
-  const placeName = props.placeName || 'Some place';
   const appName = appContext.app.name;
 
   if (!visible) {
@@ -29,14 +29,33 @@ const CreationSuccessScreen = (props: Props) => {
 
   return (
     <VerticalPage className={className}>
-      <>
-        <span role="img" aria-label={t`Clapping hands`}>
-          👏
-        </span>
-        <h2>{t`You rock!`}</h2>
-        <p>{t`${placeName} was added to ${appName}.`}</p>
-        <PrimaryButton onClick={onSubmit}>{t`Continue to place`}</PrimaryButton>
-      </>
+      {state === 'Submitting' && (
+        <>
+          <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+          <h2>{t`Thank you!`}</h2>
+          <p>{t`Uploading ${placeName} to ${appName}.`}</p>
+        </>
+      )}
+      {state === 'Error' && (
+        <>
+          <span role="img" aria-label={t`Unhappy face`}>
+            😫
+          </span>
+          <h2>{t`Sorry`}</h2>
+          <p>{t`Something went wrong while uploading ${placeName} to ${appName}.`}</p>
+          <PrimaryButton onClick={onRetry}>{t`Retry`}</PrimaryButton>
+        </>
+      )}
+      {state === 'Success' && (
+        <>
+          <span role="img" aria-label={t`Clapping hands`}>
+            👏🏽
+          </span>
+          <h2>{t`You rock!`}</h2>
+          <p>{t`${placeName} was added to ${appName}.`}</p>
+          <PrimaryButton onClick={onSubmit}>{t`Continue to place`}</PrimaryButton>
+        </>
+      )}
     </VerticalPage>
   );
 };
