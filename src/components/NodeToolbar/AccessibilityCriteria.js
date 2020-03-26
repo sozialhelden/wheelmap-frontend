@@ -1,59 +1,37 @@
 // @flow
 
 import React from 'react';
-import humanizeString from 'humanize-string';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
+import a11yIcons from './a11yIcons';
 
-import Icon from '../icons/categories/accommodation';
-
-const fakeData = {
-  entrances: {
-    automaticDoor: true,
-    rampWith4PercentSlope: true,
-  },
-  restrooms: {
-    wheelchairAccessibleToilet: true,
-  },
-  allergies: {
-    carpets: true,
-    cats: true,
-  },
-  communications: {
-    website: true,
-    internet: false,
-  },
-};
+// import checkmark from './checkmark.svg';
+// import cross from './cross.svg';
+// import accessibilityCategoryIcon from './accessibility-category-icon.svg';
 
 type Props = {
   className?: string,
-  criteria: {},
+  criteria: any,
 };
 
 const AccessibiltyCriteria = ({ className, criteria }: Props) => {
+  const a11yIconsStructure = a11yIcons(criteria);
+
   return (
     <div className={className}>
-      {Object.keys(fakeData).map(rootCriterion => {
-        return (
-          <div>
-            <h2>{humanizeString(rootCriterion)}</h2>
-            <ul>
-              {Object.keys(fakeData[rootCriterion]).map(subCriterion => {
-                if (fakeData[rootCriterion][subCriterion]) {
-                  return (
-                    <li>
-                      <Icon width="2rem" height="2rem" />
-                      {humanizeString(subCriterion)}
-                    </li>
-                  );
-                } else {
-                  return <li>NO{humanizeString(subCriterion)}</li>;
-                }
-              })}
-            </ul>
-          </div>
-        );
-      })}
+      {Object.keys(a11yIconsStructure).map(sectionName => (
+        <>
+          <h3>{sectionName}</h3>
+          <ul>
+            {a11yIconsStructure[sectionName].map(a11yIcon => (
+              <li>
+                <img src={a11yIcon.iconUrl} alt="" />
+                <p>{a11yIcon.caption}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      ))}
     </div>
   );
 };
