@@ -2,10 +2,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { ACCategory, categoryNameFor } from '../../../lib/Categories';
+import { type ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
 import Icon from '../../Icon';
+import ChevronRight from '../../icons/actions/ChevronRight';
 
 import CategoryTreeLeaf from './CategoryTreeLeaf';
 
@@ -40,7 +41,7 @@ const CategoryTreeNode = (props: Props) => {
             backgroundColor={colors.darkLinkColor}
           />
           <span className="categoryName">{categoryNameFor(node) || node._id}</span>
-          <span className="expandArrow">{expanded ? 'v' : '>'}</span>
+          <ChevronRight className={`expandArrow ${expanded ? 'expanded' : 'collapsed'}`} />
         </button>
       </header>
       {expanded && (
@@ -83,7 +84,8 @@ export default styled(CategoryTreeNode)`
         flex: 1;
       }
 
-      .expandArrow {
+      .expandArrow.expanded {
+        transform: rotate(90deg);
       }
 
       &:hover {

@@ -32,7 +32,7 @@ const CreatePlaceFlow = (props: Props) => {
   const appContext = React.useContext(AppContext);
   const appToken = 'ec196bd1cf8c265e09d62fbd4654b57e' || appContext.app.tokenString;
 
-  const [step, setStep] = React.useState<Step>('PickPointGeometry');
+  const [step, setStep] = React.useState<Step>('Success');
   const [place, setPlace] = React.useState<PlaceData>({
     properties: {
       name: '',
