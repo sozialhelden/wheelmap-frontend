@@ -50,7 +50,7 @@ class SearchResult extends React.Component<Props, State> {
     const { categories, feature, wheelmapFeature } = props;
 
     // Do not update anything when the wheelmap feature promise is already in use.
-    if (wheelmapFeature === state.wheelmapFeaturePromise) {
+    if (wheelmapFeature != null && wheelmapFeature === state.wheelmapFeaturePromise) {
       return null;
     }
 
@@ -63,11 +63,14 @@ class SearchResult extends React.Component<Props, State> {
       };
     }
 
-    const wheelmapCategoryData = Categories.getCategoriesForFeature(categories, feature);
+    const rawCategoryLists = Categories.getCategoriesForFeature(
+      categories,
+      wheelmapFeature || feature
+    );
     return {
       wheelmapFeature: wheelmapFeature,
       wheelmapFeaturePromise: null,
-      ...wheelmapCategoryData,
+      ...rawCategoryLists,
     };
   }
 
