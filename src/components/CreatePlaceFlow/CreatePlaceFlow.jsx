@@ -31,7 +31,7 @@ const CreatePlaceFlow = (props: Props) => {
   const { onCancel, onSubmit } = props;
 
   const appContext = React.useContext(AppContext);
-  const appToken = 'ec196bd1cf8c265e09d62fbd4654b57e' || appContext.app.tokenString;
+  const appToken = appContext.app.tokenString;
 
   const [uploadState, setUploadState] = React.useState<'Submitting' | 'Success' | 'Error'>(
     'Submitting'

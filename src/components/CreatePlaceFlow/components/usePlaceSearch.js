@@ -14,7 +14,7 @@ function usePlaceSearch(minimalRequiredLetterCount: number = 2) {
   React.useEffect(() => {
     if (searchString.length >= minimalRequiredLetterCount) {
       setSearchState('Loading');
-      // TODO pass current geo coords here - do we have a useUserCoords already?
+      // Maybe pass current geo coords here - do we have a useUserCoords already?
       const searchResultPromise = searchPlacesDebounced(searchString, {});
       searchResultPromise
         .then(results => {

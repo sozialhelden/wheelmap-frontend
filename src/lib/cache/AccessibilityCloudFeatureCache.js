@@ -64,8 +64,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     const uploadPromise = new Promise((resolve, reject) => {
       this.constructor
         .fetch(
-          //`${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}/place-infos/?appToken=${appToken}`,
-          `http://localhost:4000/place-infos?appToken=${appToken}`,
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}/place-infos/?appToken=${appToken}`,
           {
             method: 'POST',
             cache: 'no-cache',
