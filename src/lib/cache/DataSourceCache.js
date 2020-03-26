@@ -10,6 +10,7 @@ export type DataSource = {
   shortName: ?string,
   name: ?string,
   originWebsiteURL: ?string,
+  isA11yRatingAllowed?: boolean,
 };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {
