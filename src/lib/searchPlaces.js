@@ -58,6 +58,14 @@ export function getOsmIdFromSearchResultProperties(
   return osmId;
 }
 
+export function buildOriginalOsmId(searchResultProperties?: SearchResultProperties) {
+  if (!searchResultProperties) {
+    return 'osm://unknown/unknown';
+  }
+  return `osm://${searchResultProperties.osm_type || 'unknown'}/${searchResultProperties.osm_id ||
+    'unknown'}`;
+}
+
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
 

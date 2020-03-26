@@ -25,6 +25,8 @@ export type PlaceData = {
     name: string,
     category?: string,
     address: AddressData,
+    originalId?: string,
+    originalData?: string,
   },
   geometry?: PointGeometry,
 };

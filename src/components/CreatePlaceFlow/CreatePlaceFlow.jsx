@@ -1,6 +1,11 @@
 // @flow
 import * as React from 'react';
 
+import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import { buildOriginalOsmId } from '../../lib/searchPlaces.js';
+
+import AppContext from '../../AppContext';
+
 import PageStack from './PageStack';
 import ExistingPlacePicker from './pages/ExistingPlacePicker';
 import CategoryPicker from './pages/CategoryPicker';
@@ -12,8 +17,8 @@ import type { PlaceData } from './pages/PlaceDetailsEditor';
 import type { PointGeometry } from './pages/PointGeometryPicker';
 import type { AddressData } from './components/AddressEditor';
 import { type WheelmapResolvedSearchResultFeature } from './components/usePlaceSearchWithWheelmapResolution';
-import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import AppContext from '../../AppContext';
+import Categories from '../../lib/Categories';
+import get from 'lodash/get';
 
 type Props = {
   onSubmit: (createdPlaceId: string) => void,
@@ -32,6 +37,7 @@ const CreatePlaceFlow = (props: Props) => {
 
   const appContext = React.useContext(AppContext);
   const appToken = appContext.app.tokenString;
+  const categories = appContext.categories;
 
   const [uploadState, setUploadState] = React.useState<'Submitting' | 'Success' | 'Error'>(
     'Submitting'
@@ -44,6 +50,10 @@ const CreatePlaceFlow = (props: Props) => {
       address: {},
     },
   });
+
+  const cancel = React.useCallback(() => {
+    onCancel();
+  }, [onCancel]);
 
   const createNew = React.useCallback(
     (name: string) => {
@@ -103,6 +113,43 @@ const CreatePlaceFlow = (props: Props) => {
     [place, setPlace, setStep]
   );
 
+  const selectExistingPlace = React.useCallback(
+    (result: WheelmapResolvedSearchResultFeature) => {
+      if (result.wheelmapFeature) {
+        onCancel(result);
+      } else {
+        const searchResult = result.searchResult;
+        const name =
+          (searchResult.properties ? searchResult.properties.name : undefined) ||
+          place.properties.name;
+        const geometry = searchResult.geometry;
+        const categoriesData = Categories.getCategoriesForFeature(categories, searchResult);
+        const category =
+          categoriesData && categoriesData.category ? categoriesData.category._id : undefined;
+        const state = get(searchResult, 'properties.state');
+        const originalId = buildOriginalOsmId(searchResult.properties);
+
+        const clonedPlace = { ...place, geometry };
+        clonedPlace.properties = {
+          ...place.properties,
+          address: {
+            city: get(searchResult, 'properties.city'),
+            text: get(searchResult, 'properties.street'),
+            postalCode: get(searchResult, 'properties.postcode'),
+            regions: state ? [state] : undefined,
+          },
+          name,
+          category,
+          originalId,
+          originalData: JSON.stringify(searchResult),
+        };
+        setPlace(clonedPlace);
+        setStep('EditPlaceDetails');
+      }
+    },
+    [onCancel, place, setPlace, categories]
+  );
+
   const createPlace = React.useCallback(() => {
     setUploadState('Submitting');
     accessibilityCloudFeatureCache
@@ -126,8 +173,8 @@ const CreatePlaceFlow = (props: Props) => {
       <PageStack>
         <ExistingPlacePicker
           visible={step === 'FindExistingPlace'}
-          onSelectExisting={onCancel}
-          onCancel={onCancel}
+          onSelectExisting={selectExistingPlace}
+          onCancel={cancel}
           onCreateNew={createNew}
         />
 
@@ -138,7 +185,7 @@ const CreatePlaceFlow = (props: Props) => {
           onUpdateAddress={addressUpdated}
           onPickPointGeometry={pickPointGeometry}
           onPickCategory={pickCategory}
-          onCancel={onCancel}
+          onCancel={cancel}
           onSubmit={createPlace}
         />
 
