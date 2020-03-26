@@ -1,13 +1,14 @@
 // @flow
 import * as React from 'react';
 import { StaticMap } from 'react-map-gl';
-import { PrimaryButton } from '../../Button';
-import Icon from '../../Icon';
+import styled from 'styled-components';
 import { t } from 'ttag';
 
 import env from '../../../lib/env';
-import styled from 'styled-components';
 import colors from '../../../lib/colors';
+
+import { PrimaryButton } from '../../Button';
+import Icon from '../../Icon';
 
 type Props = {
   className?: string,
@@ -32,7 +33,7 @@ const MapButton = (props: Props) => {
       />
       <Icon
         withArrow={true}
-        category={category}
+        category={category || 'other'}
         ariaHidden={true}
         size="medium"
         accessibility={'yes'}

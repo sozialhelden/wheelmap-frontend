@@ -22,8 +22,8 @@ type Props = {
 type Step =
   | 'FindExistingPlace'
   | 'EditPlaceDetails'
-  | 'PickCategory'
   | 'PickPointGeometry'
+  | 'PickCategory'
   | 'Success';
 
 const CreatePlaceFlow = (props: Props) => {
@@ -32,7 +32,7 @@ const CreatePlaceFlow = (props: Props) => {
   const appContext = React.useContext(AppContext);
   const appToken = 'ec196bd1cf8c265e09d62fbd4654b57e' || appContext.app.tokenString;
 
-  const [step, setStep] = React.useState<Step>('EditPlaceDetails');
+  const [step, setStep] = React.useState<Step>('PickCategory');
   const [place, setPlace] = React.useState<PlaceData>({
     properties: {
       name: '',
@@ -134,6 +134,9 @@ const CreatePlaceFlow = (props: Props) => {
           visible={step === 'PickPointGeometry'}
           onSelected={pointGeometryPicked}
           onCancel={returnToEditor}
+          category={place.properties.category}
+          latitude={place.geometry ? place.geometry.coordinates[1] : undefined}
+          longitude={place.geometry ? place.geometry.coordinates[0] : undefined}
         />
 
         <CreationSuccessScreen

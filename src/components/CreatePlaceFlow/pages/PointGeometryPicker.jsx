@@ -1,14 +1,18 @@
 // @flow
 import * as React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
 import ReactMapGL, { GeolocateControl } from 'react-map-gl';
 
 import env from '../../../lib/env';
+import colors from '../../../lib/colors';
 import savedState from '../../../lib/savedState';
 
-import VerticalPage from '../components/VerticalPage';
 import Icon from '../../Icon';
-import colors from '../../../lib/colors';
+import { ChromelessButton, PrimaryButton } from '../../Button';
+
+import VerticalPage from '../components/VerticalPage';
+import PageHeader from '../components/PageHeader.jsx';
 
 export type PointGeometry = {
   type: 'Point',
@@ -64,8 +68,10 @@ const PointGeometryPicker = (props: Props) => {
 
   return (
     <VerticalPage className={props.className}>
-      Define main entry
-      <button onClick={onCancel}>Cancel</button>
+      <PageHeader>
+        <ChromelessButton onClick={onCancel}>{t`Back`}</ChromelessButton>
+        <h2>{t`Define main entry`}</h2>
+      </PageHeader>
       <div className="mapContainer">
         <ReactMapGL
           latitude={props.latitude}
@@ -82,6 +88,7 @@ const PointGeometryPicker = (props: Props) => {
           }}
         >
           <GeolocateControl
+            className="geolocateControl"
             ref={geoLocateRef}
             positionOptions={{ enableHighAccuracy: true }}
             trackUserLocation={false}
@@ -91,33 +98,49 @@ const PointGeometryPicker = (props: Props) => {
         <Icon
           className="mapCenterIndicator"
           withArrow={true}
-          category={props.category}
+          category={props.category || 'other'}
           ariaHidden={true}
           size="medium"
           accessibility={'yes'}
           backgroundColor={colors.darkLinkColor}
         />
       </div>
-      <button
-        disabled={!canSubmit}
-        onClick={() =>
-          onSelected({
-            type: 'Point',
-            coordinates: [viewport.longitude || 0, viewport.latitude || 0],
-          })
-        }
-      >
-        Confirm Position
-      </button>
+      <footer>
+        <div class="hint">{t`Move the map to place the entry as correct as possible.`}</div>
+        <PrimaryButton
+          disabled={!canSubmit}
+          onClick={() =>
+            onSelected({
+              type: 'Point',
+              coordinates: [viewport.longitude || 0, viewport.latitude || 0],
+            })
+          }
+        >
+          {t`Confirm Position`}
+        </PrimaryButton>
+      </footer>
     </VerticalPage>
   );
 };
 
 export default styled(PointGeometryPicker)`
+  padding: 0px;
+
+  > footer,
+  > header {
+    padding: 20px;
+  }
+
   .mapContainer {
     flex: 1;
     position: relative;
     overflow: hidden;
+
+    .geolocateControl {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+    }
 
     .mapCenterIndicator {
       position: absolute;
@@ -125,5 +148,17 @@ export default styled(PointGeometryPicker)`
       bottom: 50%;
       z-index: 1000;
     }
+  }
+
+  footer > div.hint {
+    text-align: center;
+    margin-bottom: 12px;
+    color: ${colors.textMuted};
+    font-weight: bold;
+  }
+
+  ${ChromelessButton} {
+    font-weight: bold;
+    color: ${colors.linkColor};
   }
 `;

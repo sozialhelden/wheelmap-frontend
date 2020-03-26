@@ -1,61 +1,15 @@
 // @flow
 import * as React from 'react';
+import styled from 'styled-components';
+import { t } from 'ttag';
+
+import { ChromelessButton } from '../../Button';
+
+import CategoryTreeNode, { type HierarchicalCategoryEntry } from '../components/CategoryTreeNode';
 import VerticalPage from '../components/VerticalPage';
+import PageHeader from '../components/PageHeader';
 import AppContext from '../../../AppContext';
-
-import type { ACCategory } from '../../../lib/Categories';
-
-type CategoryTreeLeafProps = {
-  className?: String,
-  category: ACCategory,
-  onSelected: (categoryId: string) => void,
-};
-
-const CategoryTreeLeaf = (props: CategoryTreeLeafProps) => {
-  const { category, onSelected } = props;
-  const id = category._id;
-
-  const selectEntry = React.useCallback(() => onSelected(id), [id, onSelected]);
-
-  return <button onClick={selectEntry}>{id}</button>;
-};
-
-type HierarchicalCategoryEntry = ACCategory & {
-  children: ACCategory[],
-};
-
-type CategoryTreeRootProps = {
-  className?: String,
-  node: HierarchicalCategoryEntry,
-  onSelected: (categoryId: string) => void,
-};
-
-const CategoryTreeRoot = (props: CategoryTreeRootProps) => {
-  const { node, onSelected } = props;
-
-  const [expanded, setExpanded] = React.useState<boolean>(false);
-  const toggleExpanded = React.useCallback(() => {
-    setExpanded(!expanded);
-  }, [expanded, setExpanded]);
-
-  return (
-    <li>
-      <header>
-        {node._id}
-        <button onClick={toggleExpanded}>{expanded ? 'v' : '>'}</button>
-      </header>
-      {expanded && (
-        <ol>
-          {node.children.map(category => {
-            return (
-              <CategoryTreeLeaf key={category._id} category={category} onSelected={onSelected} />
-            );
-          })}
-        </ol>
-      )}
-    </li>
-  );
-};
+import colors from '../../../lib/colors';
 
 type Props = {
   className?: String,
@@ -101,15 +55,34 @@ const CategoryPicker = (props: Props) => {
 
   return (
     <VerticalPage className={props.className}>
-      CategoryPicker
-      <button onClick={onCancel}>Cancel</button>
+      <PageHeader>
+        <ChromelessButton onClick={onCancel}>{t`Back`}</ChromelessButton>
+        <h2>{t`Select Category`}</h2>
+      </PageHeader>
       <ol>
         {hierarchicalCategoryTree.map(entry => {
-          return <CategoryTreeRoot key={entry._id} node={entry} onSelected={onSelected} />;
+          return <CategoryTreeNode key={entry._id} node={entry} onSelected={onSelected} />;
         })}
       </ol>
     </VerticalPage>
   );
 };
 
-export default CategoryPicker;
+export default styled(CategoryPicker)`
+  padding: 0px;
+
+  > ${PageHeader} {
+    padding: 24px;
+  }
+
+  > ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  ${ChromelessButton} {
+    font-weight: bold;
+    color: ${colors.linkColor};
+  }
+`;

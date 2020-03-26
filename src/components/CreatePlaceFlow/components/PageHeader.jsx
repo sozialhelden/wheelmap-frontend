@@ -5,7 +5,12 @@ export default styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  position: sticky;
+  top: 0px;
+  background: white;
+  z-index: 5000;
 
   h2 {
     margin: 0;

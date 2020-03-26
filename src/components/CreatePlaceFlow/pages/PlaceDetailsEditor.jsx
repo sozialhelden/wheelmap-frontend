@@ -1,18 +1,22 @@
 // @flow
 import * as React from 'react';
 import { t } from 'ttag';
+import styled from 'styled-components';
+
+import colors from '../../../lib/colors';
+
+import Icon from '../../Icon';
+import { ChromelessButton, PrimaryButton } from '../../Button';
 
 import VerticalPage from '../components/VerticalPage';
 import MapButton from '../components/MapButton';
 import AddressEditor from '../components/AddressEditor';
 import type { AddressData } from '../components/AddressEditor';
-import type { PointGeometry } from './PointGeometryPicker';
-import { ChromelessButton, PrimaryButton } from '../../Button';
 import PageHeader from '../components/PageHeader.jsx';
-import styled from 'styled-components';
 import InputField, { sharedInputStyle } from '../components/InputField';
+
 import { viewportFromSavedState } from '../pages/PointGeometryPicker';
-import colors from '../../../lib/colors';
+import type { PointGeometry } from './PointGeometryPicker';
 
 export type PlaceData = {
   properties: {
@@ -87,24 +91,51 @@ const PlaceDetailsEditor = (props: Props) => {
           <AddressEditor address={place.properties.address} onUpdateAddress={onUpdateAddress} />
           <label>{t`Category`}</label>
           <button className="category-pick-button" onClick={onPickCategory}>
-            {place.properties.category || t`Select category`}
+            {!place.properties.category && <span>{t`Select category`}</span>}
+            {place.properties.category && (
+              <>
+                <Icon
+                  withArrow={false}
+                  category={place.properties.category}
+                  ariaHidden={true}
+                  size="medium"
+                  accessibility={'yes'}
+                  backgroundColor={colors.darkLinkColor}
+                />
+                <span>{place.properties.category}</span>
+              </>
+            )}
           </button>
         </>
       )}
-      <pre>{JSON.stringify(place, null, 2)}</pre>
-      <PrimaryButton disabled={canSubmit} onClick={onSubmit}>
-        {t`Continue`}
-      </PrimaryButton>
+      <footer>
+        <PrimaryButton disabled={canSubmit} onClick={onSubmit}>
+          {t`Continue`}
+        </PrimaryButton>
+      </footer>
     </VerticalPage>
   );
 };
 
 export default styled(PlaceDetailsEditor)`
-  > ${InputField}, > ${MapButton}, > label {
+  & > label,
+  & > ${MapButton},
+  & > ${InputField} {
+    margin-top: 12px;
+  }
+  
     margin-top: 12px;
   }
 
-  > label {
+    margin-top: 12px;
+  }
+
+  & > footer { 
+    padding-bottom: 24px;
+    padding-top: 24px;
+  }
+
+  & > label {
     font-weight: bold;
     color: ${colors.textMuted};
   }
@@ -115,5 +146,27 @@ export default styled(PlaceDetailsEditor)`
     background: transparent;
     text-align: left;
     ${sharedInputStyle}
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    cursor: pointer;
+
+    > figure {
+      margin-right: 12px;
+    }
+
+    > span {
+      font-weight: bold;
+    }
+
+    &:hover {
+      background: ${colors.selectedColor};
+    }
+  }
+
+  ${ChromelessButton} {
+    font-weight: bold;
+    color: ${colors.linkColor};
   }
 `;
