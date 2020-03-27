@@ -23,7 +23,7 @@ type Props = {
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
   photoSectionElement: React.Node,
-  accessibilityCriteriaElement: React.Node,
+  a11yDetailsElement: React.Node,
   sourcePraiseElement: React.Node,
 };
 
@@ -35,7 +35,7 @@ const DetailPanel = ({
   photoSectionElement,
   accessibilitySectionElement,
   iconButtonListElement,
-  accessibilityCriteriaElement,
+  a11yDetailsElement,
   sourcePraiseElement,
 }: Props) => {
   const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
@@ -54,7 +54,7 @@ const DetailPanel = ({
             {accessibilitySectionElement}
             {iconButtonListElement}
           </DetailPanelMain>
-          {accessibilityCriteriaElement}
+          {a11yDetailsElement}
           <footer>{sourcePraiseElement}</footer>
         </ErrorBoundary>
       </div>

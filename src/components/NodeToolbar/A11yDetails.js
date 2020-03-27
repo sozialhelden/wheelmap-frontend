@@ -11,7 +11,7 @@ type Props = {
 };
 
 // This should also render the AccessibilityDetailsTree as linear styled component
-const AccessibilityDetails = ({ className, details }: Props) => {
+const A11yDetails = ({ className, details }: Props) => {
   const a11yIconsStructure = a11yIcons(details);
 
   return (
@@ -33,7 +33,7 @@ const AccessibilityDetails = ({ className, details }: Props) => {
   );
 };
 
-export default styled(AccessibilityDetails)`
+export default styled(A11yDetails)`
   max-width: 600px;
   margin-top: 3rem;
   margin-right: auto;
