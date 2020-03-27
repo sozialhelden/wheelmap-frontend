@@ -3,6 +3,7 @@ import mapValues from 'lodash/mapValues';
 import mapKeys from 'lodash/mapKeys';
 import pickBy from 'lodash/pickBy';
 import get from 'lodash/get';
+import omit from 'lodash/omit';
 import { t } from 'ttag';
 
 type A11yIcon = {
@@ -14,6 +15,17 @@ type A11yIcon = {
 type A11yIconGeneratorFn = (a11y: any) => ?A11yIcon;
 
 const iconUrlPrefix = '/images/a11yIcons/';
+
+const pathsForA11yDetailsWithIconSupport = [
+  'hasInductionLoop',
+  'accessibleWith.guideDog',
+  'entrances.0.isMainEntrance',
+  'entrances.0.hasFixedRamp',
+  'entrances.0.hasRemovableRamp',
+  'entrances.0.stairs.count',
+  'entrances.0.stairs.stepHeight',
+  'restrooms.0.turningSpaceInside',
+];
 
 const inductionLoopIcon: A11yIconGeneratorFn = a11y =>
   get(a11y, 'hasInductionLoop')
@@ -120,12 +132,20 @@ const a11yCategoryLocalizationMapping = {
   restrooms: 'restroomsLocalized',
 };
 
+export const filterOutDetailsWithIconSupport = (a11yDetails: any) => {
+  const pathsToOmit = pathsForA11yDetailsWithIconSupport.concat(
+    pathsForA11yDetailsWithIconSupport.map(path => `${path}Localized`)
+  );
+
+  return omit(a11yDetails, pathsToOmit);
+};
+
 // TODO better type than any here
-const a11yIcons = (a11y: any) => {
-  let result = mapValues(a11yIconMapping, fns => fns.map(fn => fn(a11y)));
+const a11yIcons = (a11yDetails: any) => {
+  let result = mapValues(a11yIconMapping, fns => fns.map(fn => fn(a11yDetails)));
   result = mapValues(result, a11yIconsForSection => a11yIconsForSection.filter(Boolean));
   result = pickBy(result, iconList => iconList.length > 0);
-  result = mapKeys(result, (_, key) => a11y[a11yCategoryLocalizationMapping[key]]);
+  result = mapKeys(result, (_, key) => a11yDetails[a11yCategoryLocalizationMapping[key]]);
   return result;
 };
 

@@ -2,8 +2,11 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import omit from 'lodash/omit';
+
 import colors from '../../lib/colors';
-import a11yIcons from './a11yIcons';
+import a11yIcons, { filterOutDetailsWithIconSupport } from './a11yIcons';
+import AccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
 
 type Props = {
   className?: string,
@@ -13,12 +16,13 @@ type Props = {
 // This should also render the AccessibilityDetailsTree as linear styled component
 const A11yDetails = ({ className, details }: Props) => {
   const a11yIconsStructure = a11yIcons(details);
+  const detailsWithoutIconSupport = filterOutDetailsWithIconSupport(details);
 
   return (
     <div className={className}>
       {Object.keys(a11yIconsStructure).map(sectionName => (
         <>
-          <h3>{sectionName}</h3>
+          <h2>{sectionName}</h2>
           <ul>
             {a11yIconsStructure[sectionName].map(a11yIcon => (
               <li>
@@ -29,6 +33,7 @@ const A11yDetails = ({ className, details }: Props) => {
           </ul>
         </>
       ))}
+      <AccessibilityDetailsTree details={detailsWithoutIconSupport} />
     </div>
   );
 };
@@ -43,7 +48,7 @@ export default styled(A11yDetails)`
 
   h2 {
     margin-bottom: 2rem;
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 
   ul {
@@ -63,12 +68,6 @@ export default styled(A11yDetails)`
       width: 50px;
       height: 50px;
     }
-    svg {
-      margin-bottom: 1rem;
-      path {
-        fill: ${colors.textColorBrighter};
-      }
-    }
 
     @media (min-width: 512px) {
       flex-basis: 33%;
@@ -76,6 +75,22 @@ export default styled(A11yDetails)`
 
     @media (min-width: 769px) {
       flex-basis: 25%;
+    }
+  }
+
+  ${AccessibilityDetailsTree} {
+    color: ${colors.textColorBrighter};
+
+    dt {
+      float: none;
+    }
+
+    li {
+      text-align: left;
+    }
+
+    .ac-list {
+      color: ${colors.textColorBrighter};
     }
   }
 `;
