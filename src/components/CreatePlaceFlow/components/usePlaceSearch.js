@@ -14,7 +14,8 @@ function usePlaceSearch(minimalRequiredLetterCount: number = 2) {
   React.useEffect(() => {
     if (searchString.length >= minimalRequiredLetterCount) {
       setSearchState('Loading');
-      // Maybe pass current geo coords here - do we have a useUserCoords already?
+      // intentinally use empty coords
+      // see discussion at https://github.com/sozialhelden/wheelmap-frontend/pull/245#discussion_r398698050
       const searchResultPromise = searchPlacesDebounced(searchString, {});
       searchResultPromise
         .then(results => {

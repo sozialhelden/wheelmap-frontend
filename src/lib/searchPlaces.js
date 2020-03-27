@@ -60,7 +60,7 @@ export function getOsmIdFromSearchResultProperties(
 
 export function buildOriginalOsmId(searchResultProperties?: SearchResultProperties) {
   if (!searchResultProperties) {
-    return 'osm://unknown/unknown';
+    return undefined;
   }
   return `osm://${searchResultProperties.osm_type || 'unknown'}/${searchResultProperties.osm_id ||
     'unknown'}`;

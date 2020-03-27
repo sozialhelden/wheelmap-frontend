@@ -46,8 +46,6 @@ export default class MyDocument extends Document {
                 http://cdn.matomo.cloud
                 https://api.mapbox.com
                 https://events.mapbox.com
-
-                http://localhost:4000
                 
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
