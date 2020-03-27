@@ -4,6 +4,7 @@ import type { FeatureCollection } from '../Feature';
 import { globalFetchManager } from '../FetchManager';
 import EventTarget, { CustomEvent } from '../EventTarget';
 import get from 'lodash/get';
+import set from 'lodash/set';
 import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
@@ -187,12 +188,10 @@ export default class FeatureCache<
     const feature = this.cache[id];
     if (!feature) throw new Error('Cannot update a feature that is not in cache.');
 
-    const existingProperties = feature.properties;
-    if (existingProperties) {
-      Object.assign(existingProperties, newProperties);
-    } else {
-      feature.properties = Object.assign({}, newProperties);
-    }
+    const existingProperties = feature.properties || {};
+    Object.keys(newProperties).forEach(key => {
+      set(existingProperties, key, newProperties[key]);
+    });
 
     // clone object
     this.cache[id] = Object.assign({}, feature);
