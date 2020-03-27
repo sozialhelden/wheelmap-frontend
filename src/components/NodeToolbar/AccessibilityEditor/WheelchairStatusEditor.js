@@ -3,7 +3,11 @@
 import { t } from 'ttag';
 import * as React from 'react';
 
-import { accessibilityDescription, shortAccessibilityName } from '../../../lib/Feature';
+import {
+  accessibilityDescription,
+  shortAccessibilityName,
+  isWheelchairAccessible,
+} from '../../../lib/Feature';
 import type { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
 import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
@@ -33,7 +37,7 @@ export default function WheelchairStatusEditor(props: Props) {
           {...props}
           hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
-          getValueFromFeature={feature => feature.properties.wheelchair}
+          getValueFromFeature={feature => isWheelchairAccessible(feature.properties)}
           saveValue={value => saveWheelchairStatus({ ...props, appContext, value })}
           renderChildrenForValue={({ value, categoryId }) => (
             <Icon
