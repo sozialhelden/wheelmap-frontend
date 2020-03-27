@@ -131,9 +131,11 @@ function fetchPhotos(
             return [];
           })
       : Promise.resolve([]),
-  ]).then((photoArrays: PhotoModel[][]) => {
-    return [].concat(photoArrays[0], photoArrays[1]);
-  });
+  ])
+    .then((photoArrays: PhotoModel[][]) => {
+      return [].concat(photoArrays[0], photoArrays[1]);
+    })
+    .catch(console.error);
 
   return photosPromise;
 }
