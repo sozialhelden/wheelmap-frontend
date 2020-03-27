@@ -69,59 +69,6 @@ function SearchResults(props: Props) {
 const StyledSearchResults = styled(SearchResults)`
   list-style-type: none;
   margin: 0;
-
-  li {
-    padding: 0;
-  }
-
-  li > button {
-    text-align: left;
-    overflow: hidden;
-    color: rgba(0, 0, 0, 0.8) !important;
-    display: block;
-    width: 100%;
-    box-sizing: content-box;
-
-    &:hover {
-      color: rgba(0, 0, 0, 0.8) !important;
-    }
-
-    address {
-      font-size: 16px !important;
-      color: rgba(0, 0, 0, 0.6);
-    }
-  }
-
-  li.no-result {
-    text-align: center;
-    font-size: 16px;
-    overflow: hidden;
-    padding: 20px;
-  }
-
-  li.error-result {
-    text-align: center;
-    font-size: 16px;
-    overflow: hidden;
-    padding: 20px;
-    font-weight: 400;
-    background-color: ${colors.negativeBackgroundColorTransparent};
-  }
-
-  .osm-category-place-borough,
-  .osm-category-place-suburb,
-  .osm-category-place-village,
-  .osm-category-place-hamlet,
-  .osm-category-place-town,
-  .osm-category-place-city,
-  .osm-category-place-county,
-  .osm-category-place-state,
-  .osm-category-place-country,
-  .osm-category-boundary-administrative {
-    h1 {
-      font-weight: 600;
-    }
-  }
 `;
 
 export default StyledSearchResults;

@@ -151,13 +151,7 @@ class MainMenu extends React.Component<Props, State> {
         const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
         if (isAddPlaceLink) {
           return (
-            <Link
-              key={url}
-              className={className}
-              to={url}
-              role="menuitem"
-              onClick={this.props.onAddPlaceLinkClick}
-            >
+            <Link key="add-place" className={className} to="/add-place" role="menuitem">
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
             </Link>
