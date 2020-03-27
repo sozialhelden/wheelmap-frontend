@@ -46,24 +46,24 @@ const guideDogIcon: A11yIconGeneratorFn = a11y =>
 const mainEntranceIcon: A11yIconGeneratorFn = a11y => {
   const entrance = get(a11y, 'entrances[0]');
 
-  if (entrance) {
-    if (entrance.isMainEntrance) {
-      // translator: Asks the user to use the main entrance
-      const caption = t`use the main entrance`;
-      return {
-        iconUrl: iconUrlPrefix + 'MainEntrance.svg',
-        caption,
-      };
-    } else {
-      // translator: Asks the user to look for a side entrance
-      const caption = t`look for a side entrance`;
-      return {
-        iconUrl: iconUrlPrefix + 'MainEntrance.svg',
-        caption,
-      };
-    }
-  } else {
+  if (!entrance) {
     return null;
+  }
+
+  if (entrance.isMainEntrance) {
+    // translator: Asks the user to use the main entrance
+    const caption = t`use the main entrance`;
+    return {
+      iconUrl: iconUrlPrefix + 'MainEntrance.svg',
+      caption,
+    };
+  } else {
+    // translator: Asks the user to look for a side entrance
+    const caption = t`look for a side entrance`;
+    return {
+      iconUrl: iconUrlPrefix + 'MainEntrance.svg',
+      caption,
+    };
   }
 };
 
@@ -85,39 +85,49 @@ const removableRampIcon: A11yIconGeneratorFn = a11y =>
 
 const stairsCountIcon: A11yIconGeneratorFn = a11y => {
   const stairsCount = get(a11y, 'entrances[0].stairs.count');
+  if (!stairsCount) {
+    return null;
+  }
+
   const stairsLocalized = get(a11y, 'entrances[0].stairsLocalized');
   const countLocalized = get(a11y, 'entrances[0].stairs.countLocalized');
-  return stairsCount
-    ? {
-        iconUrl: iconUrlPrefix + 'StairsCount.svg',
-        caption: `${stairsLocalized} ${countLocalized}: ${stairsCount}`,
-      }
-    : null;
+
+  return {
+    iconUrl: iconUrlPrefix + 'StairsCount.svg',
+    caption: `${stairsLocalized} ${countLocalized}: ${stairsCount}`,
+  };
 };
 
 const stepHeightIcon: A11yIconGeneratorFn = a11y => {
   const stepHeight = get(a11y, 'entrances[0].stairs.stepHeight');
+
+  if (!stepHeight) {
+    return null;
+  }
+
   const stepHeightLocalized = get(a11y, 'entrances[0].stairs.stepHeightLocalized');
   const value = stepHeight.value + stepHeight.unit;
 
-  return stepHeight
-    ? {
-        iconUrl: iconUrlPrefix + 'StairsStepHeight.svg',
-        caption: `${stepHeightLocalized}: ${value}`,
-      }
-    : null;
+  return {
+    iconUrl: iconUrlPrefix + 'StairsStepHeight.svg',
+    caption: `${stepHeightLocalized}: ${value}`,
+  };
 };
 
 const turningSpaceInsideIcon: A11yIconGeneratorFn = a11y => {
   const turningSpaceInside = get(a11y, 'restrooms[0].turningSpaceInside');
+
+  if (!turningSpaceInside) {
+    return null;
+  }
+
   const turningSpaceInsideLocalized = get(a11y, 'restrooms[0].turningSpaceInsideLocalized');
   const value = turningSpaceInside.value + turningSpaceInside.unit;
-  return turningSpaceInside
-    ? {
-        iconUrl: iconUrlPrefix + 'RestroomTurningSpaceInside.svg',
-        caption: `${turningSpaceInsideLocalized}: ${value}`,
-      }
-    : null;
+
+  return {
+    iconUrl: iconUrlPrefix + 'RestroomTurningSpaceInside.svg',
+    caption: `${turningSpaceInsideLocalized}: ${value}`,
+  };
 };
 
 const a11yIconMapping = {
