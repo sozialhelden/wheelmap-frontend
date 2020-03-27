@@ -145,7 +145,8 @@ function fetchToiletsNearby(
           feature,
           renderContext.disableWheelmapSource || false,
           renderContext.includeSourceIds,
-          renderContext.includeSourceIds
+          renderContext.includeSourceIds,
+          renderContext.app.tokenString
         );
       })
     : [];
@@ -197,6 +198,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         equipmentInfoId,
         equipmentInfo,
         toiletsNearby,
+        renderContext,
       };
     } catch (e) {
       const error: Error & { parent?: any, statusCode?: number } = new Error(
@@ -249,7 +251,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     if (!toiletsNearby) {
       // fetch toilets for client
       const featurePromise = feature instanceof Promise ? feature : Promise.resolve(feature);
-      toiletsNearby = fetchToiletsNearby(props, featurePromise);
+      toiletsNearby = fetchToiletsNearby(props.renderContext, featurePromise);
     }
 
     return { ...props, toiletsNearby };
