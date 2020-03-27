@@ -22,11 +22,12 @@ import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibility
 import Button from '../Button';
 
 import type { PhotoModel } from '../../lib/PhotoModel';
-import type {
+import {
   Feature,
   YesNoLimitedUnknown,
   YesNoUnknown,
   WheelmapFeature,
+  isWheelchairAccessible,
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
@@ -41,6 +42,7 @@ import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import isA11yEditable from './AccessibilityEditor/isA11yEditable';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -225,27 +227,43 @@ class NodeToolbar extends React.Component<Props> {
     );
   }
 
-  renderInlineWheelchairAccessibilityEditor() {
-    const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
-    if (!wheelmapFeature || !wheelmapFeature.properties) {
-      return null;
-    }
-    if (wheelmapFeature.properties.wheelchair !== 'unknown') {
+  renderInlineWheelchairAccessibilityEditor(
+    feature: Feature,
+    category: null | undefined | Category,
+    sources: null | undefined | SourceWithLicense[]
+  ) {
+    const { featureId } = this.props;
+    const wheelchairAccessibility = feature.properties
+      ? isWheelchairAccessible(feature.properties)
+      : 'unknown';
+
+    if (wheelchairAccessibility !== 'unknown') {
       return null;
     }
 
+    const primarySource = sources && sources.length > 0 ? sources[0].source : undefined;
     // translator: Shown as header/title when you edit wheelchair accessibility of a place
     const header = t`How wheelchair accessible is this place?`;
 
     return (
-      <section>
-        <h4 id="wheelchair-accessibility-header">{header}</h4>
-        <InlineWheelchairAccessibilityEditor
-          category={getCategoryId(this.props.category)}
-          onChange={this.props.onSelectWheelchairAccessibility}
-          presetStatus={this.props.accessibilityPresetStatus}
-        />
-      </section>
+      <AppContextConsumer>
+        {appContext => {
+          if (!isA11yEditable(featureId, appContext.app, primarySource)) {
+            return null;
+          }
+
+          return (
+            <section>
+              <h4 id="wheelchair-accessibility-header">{header}</h4>
+              <InlineWheelchairAccessibilityEditor
+                category={category}
+                onChange={this.props.onSelectWheelchairAccessibility}
+                presetStatus={this.props.accessibilityPresetStatus}
+              />
+            </section>
+          );
+        }}
+      </AppContextConsumer>
     );
   }
 
@@ -292,6 +310,7 @@ class NodeToolbar extends React.Component<Props> {
       feature,
       featureId,
       onOpenReportMode,
+      category,
       sources,
     } = this.props;
 
@@ -326,7 +345,9 @@ class NodeToolbar extends React.Component<Props> {
       <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
     );
 
-    const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
+    const inlineWheelchairAccessibilityEditor = feature
+      ? this.renderInlineWheelchairAccessibilityEditor(feature, category, sources)
+      : null;
     const photoSection = this.renderPhotoSection();
     const equipmentOverview = this.renderEquipmentInfos();
 

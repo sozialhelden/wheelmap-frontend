@@ -13,15 +13,17 @@ import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
-import { isWheelmapFeatureId, isWheelchairAccessible } from '../../../lib/Feature';
+
 import Description from './Description';
 import AppContext from '../../../AppContext';
+import isA11yEditable from '../AccessibilityEditor/isA11yEditable';
 
 type Props = {
   featureId: ?string | number,
   category: ?Category,
   sources: SourceWithLicense[],
   cluster: ?any,
+  isWheelmapFeature: boolean,
   onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
@@ -32,24 +34,25 @@ type Props = {
 };
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature, toiletsNearby, isLoadingToiletsNearby, cluster, sources } = props;
+  const {
+    featureId,
+    feature,
+    toiletsNearby,
+    isLoadingToiletsNearby,
+    cluster,
+    sources,
+    isWheelmapFeature,
+  } = props;
 
   const appContext = React.useContext(AppContext);
-
   const properties = feature && feature.properties;
   if (!properties) {
     return null;
   }
-  const isWheelmapFeature = isWheelmapFeatureId(featureId);
-  const primarySource = sources[0];
-  const isDefaultSourceForPlaceEditing = primarySource
-    ? appContext.app.defaultSourceIdForAddedPlaces === primarySource.source._id
-    : false;
-  const isA11yRatingAllowed = primarySource
-    ? primarySource.source.isA11yRatingAllowed === true
-    : false;
-  const isEditingEnabled =
-    isWheelmapFeature || isDefaultSourceForPlaceEditing || isA11yRatingAllowed;
+
+  const primarySource = sources.length > 0 ? sources[0].source : undefined;
+  const isEditingEnabled = isA11yEditable(featureId, appContext.app, primarySource);
+
   const accessibilityTree =
     properties && typeof properties.accessibility === 'object' ? properties.accessibility : null;
   const filteredAccessibilityTree = accessibilityTree

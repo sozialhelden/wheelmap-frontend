@@ -140,7 +140,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature, toiletsNearby } = this.props;
+    const { feature, toiletsNearby, isEditingEnabled } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -153,7 +153,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =
-      isWheelmapFeature(feature) && includes(['yes', 'limited'], wheelchairAccessibility);
+      isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);
     const isToiletButtonShown =
       (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
       (toiletAccessibility === 'yes' && categoryId !== 'toilets');
