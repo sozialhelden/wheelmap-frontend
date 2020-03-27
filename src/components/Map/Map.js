@@ -863,8 +863,8 @@ export default class Map extends React.Component<Props, State> {
     // them in one array:
     const ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
       .concat(similarEquipmentIds)
-      .map(String)
-      .filter(Boolean);
+      .filter(Boolean)
+      .map(String);
 
     if (this.wheelmapTileLayer) {
       this.wheelmapTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
