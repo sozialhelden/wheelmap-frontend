@@ -36,20 +36,17 @@ export default class A11yMarkerIcon extends MarkerIcon {
 
     super({ iconAnchorOffset, highlighted, accessibleName, ...restOptions });
 
-    const IconComponent = categoryIcons[iconName];
-
-    if (IconComponent) {
-      this.iconSvgElement = (
-        <Icon
-          accessibility={accessibility}
-          category={iconName}
-          size={highlighted ? 'big' : 'small'}
-          withArrow={highlighted}
-          shadowed={highlighted}
-          centered
-          ariaHidden={highlighted}
-        />
-      );
-    }
+    const hasIcon = !!categoryIcons[iconName];
+    this.iconSvgElement = (
+      <Icon
+        accessibility={accessibility}
+        category={hasIcon ? iconName : 'other'}
+        size={highlighted ? 'big' : 'small'}
+        withArrow={highlighted}
+        shadowed={highlighted}
+        centered
+        ariaHidden={highlighted}
+      />
+    );
   }
 }
