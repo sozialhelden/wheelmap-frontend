@@ -409,18 +409,16 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       />
     );
 
-    return (
-      <DetailPanel
-        feature={feature}
-        categories={this.props.categories}
-        iconElement={iconElement}
-        accessibilitySectionElement={accessibilitySectionElement}
-        iconButtonListElement={iconButtonListElement}
-        photoSectionElement={photoSectionElement}
-        a11yDetailsElement={a11yDetailsElement}
-        sourcePraiseElement={sourcePraiseElement}
-      />
-    );
+    const elements = {
+      iconElement,
+      accessibilitySectionElement,
+      iconButtonListElement,
+      photoSectionElement,
+      a11yDetailsElement,
+      sourcePraiseElement,
+    };
+
+    return <DetailPanel feature={feature} categories={this.props.categories} {...elements} />;
   }
 
   render() {
