@@ -20,11 +20,12 @@ import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibilit
 import Button from '../Button';
 
 import type { PhotoModel } from '../../lib/PhotoModel';
-import type {
+import {
   Feature,
   YesNoLimitedUnknown,
   YesNoUnknown,
   WheelmapFeature,
+  isWheelchairAccessible,
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor } from '../../lib/Feature';
 import { type Category, type CategoryLookupTables } from '../../lib/Categories';
@@ -38,6 +39,7 @@ import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
 import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import isA11yEditable from './AccessibilityEditor/isA11yEditable';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;

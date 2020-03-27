@@ -42,6 +42,7 @@ import Icon from '../Icon';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 import { AppContextConsumer } from '../../AppContext';
 import DetailPanelPhotoUploadButton from '../DetailPanel/DetailPanelPhotoUploadButton';
+import isA11yEditable from './AccessibilityEditor/isA11yEditable';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -287,6 +288,46 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     this.setState({ resolvedSources });
   }
 
+  renderInlineWheelchairAccessibilityEditor(
+    feature: Feature,
+    category: null | undefined | Category,
+    sources: null | undefined | SourceWithLicense[]
+  ) {
+    const { featureId } = this.props;
+    const wheelchairAccessibility = feature.properties
+      ? isWheelchairAccessible(feature.properties)
+      : 'unknown';
+
+    if (wheelchairAccessibility !== 'unknown') {
+      return null;
+    }
+
+    const primarySource = sources && sources.length > 0 ? sources[0].source : undefined;
+    // translator: Shown as header/title when you edit wheelchair accessibility of a place
+    const header = t`How wheelchair accessible is this place?`;
+
+    return (
+      <AppContextConsumer>
+        {appContext => {
+          if (!isA11yEditable(featureId, appContext.app, primarySource)) {
+            return null;
+          }
+
+          return (
+            <section>
+              <h4 id="wheelchair-accessibility-header">{header}</h4>
+              <InlineWheelchairAccessibilityEditor
+                category={getCategoryId(this.state.category)}
+                onChange={this.props.onSelectWheelchairAccessibility}
+                presetStatus={this.props.accessibilityPresetStatus}
+              />
+            </section>
+          );
+        }}
+      </AppContextConsumer>
+    );
+  }
+
   renderDetailPanel() {
     const {
       category,
@@ -328,29 +369,11 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const descriptionElement = description ? <Description>{description}</Description> : null;
 
-    let inlineWheelchairAccessibilityEditorElement;
-    const wheelmapFeature = wheelmapFeatureFrom(feature);
-
-    if (
-      !wheelmapFeature ||
-      !wheelmapFeature.properties ||
-      wheelmapFeature.properties.wheelchair !== 'unknown'
-    ) {
-      inlineWheelchairAccessibilityEditorElement = null;
-    } else {
-      // translator: Shown as header/title when you edit wheelchair accessibility of a place
-      const header = t`How wheelchair accessible is this place?`;
-      inlineWheelchairAccessibilityEditorElement = (
-        <section>
-          <h4 id="wheelchair-accessibility-header">{header}</h4>
-          <InlineWheelchairAccessibilityEditor
-            category={getCategoryId(category)}
-            onChange={onSelectWheelchairAccessibility}
-            presetStatus={accessibilityPresetStatus}
-          />
-        </section>
-      );
-    }
+    let inlineWheelchairAccessibilityEditorElement = this.renderInlineWheelchairAccessibilityEditor(
+      feature,
+      category,
+      resolvedSources
+    );
 
     const accessibilitySectionElement = (
       <section>
