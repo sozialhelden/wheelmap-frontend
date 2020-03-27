@@ -5,17 +5,14 @@ import styled from 'styled-components';
 import colors from '../../lib/colors';
 import a11yIcons from './a11yIcons';
 
-// import checkmark from './checkmark.svg';
-// import cross from './cross.svg';
-// import accessibilityCategoryIcon from './accessibility-category-icon.svg';
-
 type Props = {
   className?: string,
-  criteria: any,
+  details: any,
 };
 
-const AccessibiltyCriteria = ({ className, criteria }: Props) => {
-  const a11yIconsStructure = a11yIcons(criteria);
+// This should also render the AccessibilityDetailsTree as linear styled component
+const AccessibilityDetails = ({ className, details }: Props) => {
+  const a11yIconsStructure = a11yIcons(details);
 
   return (
     <div className={className}>
@@ -36,7 +33,7 @@ const AccessibiltyCriteria = ({ className, criteria }: Props) => {
   );
 };
 
-export default styled(AccessibiltyCriteria)`
+export default styled(AccessibilityDetails)`
   max-width: 600px;
   margin-top: 3rem;
   margin-right: auto;
@@ -51,23 +48,34 @@ export default styled(AccessibiltyCriteria)`
 
   ul {
     display: flex;
-    margin-bottom: 2rem;
+    flex-wrap: wrap;
     padding: 0;
   }
 
   li {
     list-style: none;
     display: flex;
-    width: 120px;
     flex-direction: column;
     align-items: center;
-    margin-right: 2rem;
+    flex-basis: 50%;
     text-align: center;
+    img {
+      width: 50px;
+      height: 50px;
+    }
     svg {
       margin-bottom: 1rem;
       path {
         fill: ${colors.textColorBrighter};
       }
+    }
+
+    @media (min-width: 512px) {
+      flex-basis: 33%;
+    }
+
+    @media (min-width: 769px) {
+      flex-basis: 25%;
     }
   }
 `;

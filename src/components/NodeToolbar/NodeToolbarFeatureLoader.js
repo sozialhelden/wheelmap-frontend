@@ -36,7 +36,7 @@ import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWhe
 import StyledPhotoSection from './Photos/PhotoSection';
 import filterAccessibility from '../../lib/filterAccessibility';
 import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
-import AccessibiltyCriteria from './AccessibilityCriteria';
+import AccessibilityDetails from './AccessibilityDetails';
 import SourcePraise from './SourcePraise';
 import Icon from '../Icon';
 
@@ -396,7 +396,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       : null;
 
     const accessibilityCriteriaElement = (
-      <AccessibiltyCriteria criteria={filteredAccessibilityTree} />
+      <AccessibilityDetails details={filteredAccessibilityTree} />
     );
 
     const sourcePraiseElement = <SourcePraise />;
