@@ -95,12 +95,20 @@ export function fetchToiletsNearby(
   lon: number,
   disableWheelmapSource: boolean,
   includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>
+  excludeSourceIds: Array<string>,
+  appToken: string
 ) {
   const wm = disableWheelmapSource
     ? Promise.resolve([])
     : fetchWheelmapToiletPlaces(lat, lon, nearbyRadiusMeters);
-  const ac = fetchAcToiletPlaces(lat, lon, nearbyRadiusMeters, includeSourceIds, excludeSourceIds);
+  const ac = fetchAcToiletPlaces(
+    lat,
+    lon,
+    nearbyRadiusMeters,
+    includeSourceIds,
+    excludeSourceIds,
+    appToken
+  );
 
   return Promise.all([wm, ac]).then(results => {
     const distanceMapping = getDistanceTo.bind(this, [lon, lat]);
@@ -112,7 +120,8 @@ export function fetchToiletsNearFeature(
   feature: Feature,
   disableWheelmapSource: boolean,
   includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>
+  excludeSourceIds: Array<string>,
+  appToken: string
 ) {
   if (!feature) {
     return [];
@@ -129,7 +138,14 @@ export function fetchToiletsNearFeature(
 
   const [lon, lat] = coords;
 
-  return fetchToiletsNearby(lat, lon, disableWheelmapSource, includeSourceIds, excludeSourceIds);
+  return fetchToiletsNearby(
+    lat,
+    lon,
+    disableWheelmapSource,
+    includeSourceIds,
+    excludeSourceIds,
+    appToken
+  );
 }
 
 if (typeof window !== 'undefined') {
