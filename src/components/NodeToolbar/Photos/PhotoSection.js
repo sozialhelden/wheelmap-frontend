@@ -196,7 +196,7 @@ class PhotoSection extends React.Component<Props, State> {
           theme={{ footer: { alignItems: 'center' } }}
         />
 
-        <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
+        <PhotoUploadButton onClick={onStartPhotoUploadFlow} textVisible={photos.length === 0} />
 
         {photoFlowNotification && (
           <PhotoNotification
@@ -211,7 +211,17 @@ class PhotoSection extends React.Component<Props, State> {
 
 const StyledPhotoSection = styled(PhotoSection)`
   padding: 0;
-  min-height: 3.5rem;
+  min-height: 200px;
+  background: linear-gradient(#eeeeee, #cccccc);
+
+  display: ${props => (props.photos.length === 0 ? 'flex' : 'block')};
+  justify-content: ${props => (props.photos.length === 0 ? 'center' : 'initial')};
+  align-items: ${props => (props.photos.length === 0 ? 'center' : 'initial')};
+
+  ${PhotoUploadButton} {
+    position: ${props => (props.photos.length > 0 ? 'absolute' : 'static')};
+    right: ${props => (props.photos.length > 0 ? '0' : 'initial')};
+  }
 
   .react-photo-gallery--gallery {
     img {
