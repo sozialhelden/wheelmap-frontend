@@ -39,6 +39,8 @@ import StyledAccessibilityDetailsTree from './AccessibilitySection/Accessibility
 import A11yDetails from './A11yDetails';
 import SourcePraise from './SourcePraise';
 import Icon from '../Icon';
+import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
+import { AppContextConsumer } from '../../AppContext';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -415,6 +417,17 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       />
     );
 
+    const sourceDisclaimerElement = (
+      <AppContextConsumer>
+        {appContext => (
+          <AccessibilitySourceDisclaimer
+            properties={feature.properties}
+            appToken={appContext.app.tokenString}
+          />
+        )}
+      </AppContextConsumer>
+    );
+
     const elements = {
       iconElement,
       accessibilitySectionElement,
@@ -422,6 +435,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       photoSectionElement,
       a11yDetailsElement,
       sourcePraiseElement,
+      sourceDisclaimerElement,
     };
 
     return (

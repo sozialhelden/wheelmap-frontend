@@ -14,6 +14,7 @@ import DetailPanelHeader from './DetailPanelHeader';
 import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
+import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 
 type Props = {
   className?: string,
@@ -26,6 +27,7 @@ type Props = {
   photoSectionElement: React.Node,
   a11yDetailsElement: React.Node,
   sourcePraiseElement: React.Node,
+  sourceDisclaimerElement: React.Node,
 };
 
 const DetailPanel = ({
@@ -39,6 +41,7 @@ const DetailPanel = ({
   iconButtonListElement,
   a11yDetailsElement,
   sourcePraiseElement,
+  sourceDisclaimerElement,
 }: Props) => {
   const categoryAndParentCategory = Categories.getCategoriesForFeature(categories, feature);
   const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
@@ -62,7 +65,10 @@ const DetailPanel = ({
             {iconButtonListElement}
           </DetailPanelMain>
           {a11yDetailsElement}
-          <footer>{sourcePraiseElement}</footer>
+          <footer>
+            {sourcePraiseElement}
+            {sourceDisclaimerElement}
+          </footer>
         </ErrorBoundary>
       </div>
     </FocusTrap>
@@ -103,6 +109,11 @@ export default styled(DetailPanel)`
 
   ${SourcePraise} {
     margin-top: 6rem;
+    text-align: center;
+  }
+
+  ${AccessibilitySourceDisclaimer} {
+    margin-top: 2rem;
     text-align: center;
   }
 `;
