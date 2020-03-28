@@ -16,6 +16,7 @@ import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 import { ChromelessButton } from '../Button';
+import IconButton from '../IconButton';
 
 type Props = {
   className?: string,
@@ -95,17 +96,18 @@ export default styled(DetailPanel)`
   padding-right: 0.5rem;
 
   ${IconButtonList} {
+    padding: 0;
+
     .link-button,
     .expand-button {
+      box-sizing: border-box;
       margin: 0;
+      padding: 10px;
+      height: 74px;
       width: 100%;
       svg {
         margin-left: 0;
       }
-    }
-
-    .expand-button {
-      height: 74px;
     }
   }
 
