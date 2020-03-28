@@ -105,9 +105,31 @@ export default styled(DetailPanel)`
       padding: 10px;
       height: 74px;
       width: 100%;
+    }
+
+    .link-button {
       svg {
         margin-left: 0;
       }
+    }
+
+    button.link-button {
+      svg {
+        margin-left: -0.3rem;
+        margin-right: 1rem;
+      }
+    }
+
+    .expand-button {
+      font-size: 1rem;
+      svg {
+        margin-left: -0.2rem;
+        margin-right: 0.9rem;
+      }
+    }
+
+    footer {
+      flex-wrap: nowrap;
     }
   }
 

@@ -9,23 +9,18 @@ export default styled.div`
   margin-left: auto;
   justify-content: space-between;
 
-  > section {
-    width: 42%;
-  }
-
+  flex-direction: column;
+  > section,
   > div {
-    width: 42%;
+    width: 100%;
   }
 
-  @media (max-width: 512px) {
-    flex-direction: column;
+  @media (min-width: 620px) {
+    flex-direction: row;
 
-    > section {
-      width: 100%;
-    }
-
+    > section,
     > div {
-      width: 100%;
+      width: 42%;
     }
   }
 `;
