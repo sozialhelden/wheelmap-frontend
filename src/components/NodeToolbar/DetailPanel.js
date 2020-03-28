@@ -16,6 +16,7 @@ import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
+import A11yDetails from './A11yDetails';
 import { ChromelessButton } from '../Button';
 import IconButton from '../IconButton';
 
@@ -156,6 +157,12 @@ export default styled(DetailPanel)`
   ${WheelchairAndToiletAccessibility} {
     > button {
       margin: 0;
+    }
+  }
+
+  ${A11yDetails} {
+    dl.ac-group {
+      margin: 0 !important; /* unfortunate, but another !important forces me to use !important here  */
     }
   }
 `;
