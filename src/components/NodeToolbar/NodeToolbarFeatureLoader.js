@@ -293,6 +293,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       resolvedToiletsNearby,
       isLoadingToiletsNearby,
       resolvedPhotos,
+      resolvedSources,
     } = this.state;
 
     const {
@@ -399,7 +400,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const a11yDetailsElement = <A11yDetails details={filteredAccessibilityTree} />;
 
-    const sourcePraiseElement = <SourcePraise />;
+    const sourcePraiseElement = <SourcePraise sources={resolvedSources} />;
 
     const categoryId = getCategoryId(category);
     const iconElement = (
