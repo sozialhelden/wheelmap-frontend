@@ -2,7 +2,6 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import omit from 'lodash/omit';
 
 import colors from '../../lib/colors';
 import a11yIcons, { filterOutDetailsWithIconSupport } from './a11yIcons';
