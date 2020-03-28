@@ -139,6 +139,10 @@ export default styled(DetailPanel)`
     margin-left: -0.5rem;
     margin-right: -0.5rem;
 
+    @media (min-width: 600px) {
+      margin: 0 auto;
+    }
+
     ${ChromelessButton}:hover {
       background-color: transparent;
     }

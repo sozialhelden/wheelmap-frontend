@@ -169,13 +169,11 @@ class PhotoSection extends React.Component<Props, State> {
 
     return (
       <section className={className}>
-        <Gallery
-          ref={g => (this.gallery = g)}
-          photos={thumbnailPhotos}
-          onClick={this.thumbnailSelected}
-          columns={Math.min(photos.length, 3)}
-          margin={0}
-        />
+        <div ref={g => (this.gallery = g)} onClick={this.thumbnailSelected}>
+          {thumbnailPhotos.map(photo => (
+            <img srcset={photo.srcSet} sizes={photo.sizes} src={photo.src} alt="" />
+          ))}
+        </div>
         <Lightbox
           images={photos}
           onClose={this.closeLightbox}
@@ -212,7 +210,10 @@ class PhotoSection extends React.Component<Props, State> {
 const StyledPhotoSection = styled(PhotoSection)`
   padding: 0;
   min-height: 200px;
-  background: linear-gradient(#eeeeee, #cccccc);
+  max-width: 600px;
+  margin: 0 auto;
+  background: ${props =>
+    props.photos.length === 0 ? 'linear-gradient(#eeeeee, #cccccc)' : 'transparent'};
 
   display: ${props => (props.photos.length === 0 ? 'flex' : 'block')};
   justify-content: ${props => (props.photos.length === 0 ? 'center' : 'initial')};
@@ -223,11 +224,18 @@ const StyledPhotoSection = styled(PhotoSection)`
     right: ${props => (props.photos.length > 0 ? '0' : 'initial')};
   }
 
-  .react-photo-gallery--gallery {
+  > div {
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    &.focus-visible {
+      border-radius: 0px;
+      box-shadow: inset 0px 0px 0px 4px #4469e1;
+    }
+
     img {
-      object-fit: cover;
-      max-height: 300px;
-      image-orientation: from-image;
+      display: inline;
+      height: 200px;
     }
   }
 

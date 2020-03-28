@@ -34,6 +34,8 @@ const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, classNam
 
 export default styled(DetailPanelHeader)`
   position: relative;
+  max-width: 600px;
+  margin: 0 auto;
 
   > div {
     display: flex;
