@@ -400,7 +400,10 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const a11yDetailsElement = <A11yDetails details={filteredAccessibilityTree} />;
 
-    const sourcePraiseElement = <SourcePraise sources={resolvedSources} />;
+    const sourcePraiseElement =
+      resolvedSources && resolvedSources.length > 0 ? (
+        <SourcePraise sources={resolvedSources} />
+      ) : null;
 
     const categoryId = getCategoryId(category);
     const iconElement = (
