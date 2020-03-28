@@ -208,6 +208,7 @@ class PhotoSection extends React.Component<Props, State> {
 }
 
 const StyledPhotoSection = styled(PhotoSection)`
+  position: relative;
   padding: 0;
   min-height: 200px;
   max-width: 600px;
