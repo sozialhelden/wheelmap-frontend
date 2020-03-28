@@ -15,6 +15,7 @@ import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
+import { ChromelessButton } from '../Button';
 
 type Props = {
   className?: string,
@@ -111,6 +112,10 @@ export default styled(DetailPanel)`
   ${PhotoSection} {
     margin-left: -0.5rem;
     margin-right: -0.5rem;
+
+    ${ChromelessButton}:hover {
+      background-color: transparent;
+    }
   }
 
   ${SourcePraise} {
