@@ -15,6 +15,7 @@ import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
 import IconButtonList from './IconButtonList/IconButtonList';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
+import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
 import { ChromelessButton } from '../Button';
 import IconButton from '../IconButton';
 
@@ -150,5 +151,11 @@ export default styled(DetailPanel)`
   ${AccessibilitySourceDisclaimer} {
     margin-top: 2rem;
     text-align: center;
+  }
+
+  ${WheelchairAndToiletAccessibility} {
+    > button {
+      margin: 0;
+    }
   }
 `;
