@@ -1,5 +1,5 @@
 // @flow
-import React, { type ReactElement } from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 
@@ -8,11 +8,11 @@ import ChevronLeft from '../ChevronLeft';
 import { ChromelessButton } from '../Button';
 
 type Props = {
-  title: string,
-  subtitle: string,
-  icon: ReactElement,
+  title: ?string,
+  subtitle: ?string,
+  icon: React.Node,
   onCloseButtonClick: () => void,
-  className?: String,
+  className?: string,
 };
 
 const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, className }: Props) => {
@@ -25,8 +25,8 @@ const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, classNam
       </ChromelessButton>
       <div>
         {icon}
-        <h1>{title}</h1>
-        <p>{subtitle}</p>
+        {title && <h1>{title}</h1>}
+        {subtitle && <p>{subtitle}</p>}
       </div>
     </header>
   );

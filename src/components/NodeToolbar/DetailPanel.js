@@ -47,7 +47,13 @@ const DetailPanel = ({
   const category = categoryAndParentCategory.category || categoryAndParentCategory.parentCategory;
   const categoryName = category && categoryNameFor(category);
 
-  let placeName = placeNameFor(feature.properties, category);
+  let title = null;
+  let subtitle = null;
+
+  if (feature.properties) {
+    subtitle = feature.properties.name ? categoryName : null;
+    title = placeNameFor(feature.properties, category);
+  }
 
   return (
     <FocusTrap>
@@ -55,8 +61,8 @@ const DetailPanel = ({
         <ErrorBoundary>
           {photoSectionElement}
           <DetailPanelHeader
-            title={placeName}
-            subtitle={categoryName}
+            title={title}
+            subtitle={subtitle}
             icon={iconElement}
             onCloseButtonClick={onClose}
           />
