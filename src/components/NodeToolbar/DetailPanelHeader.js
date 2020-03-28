@@ -16,7 +16,7 @@ type Props = {
 };
 
 const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, className }: Props) => {
-  const buttonText = t`back to map`;
+  const buttonText = t`back`;
   return (
     <header className={className}>
       <ChromelessButton onClick={onCloseButtonClick}>
@@ -52,6 +52,11 @@ export default styled(DetailPanelHeader)`
     font-weight: 400;
     margin-bottom: 0;
     text-align: center;
+    max-width: 150px;
+
+    @media (min-width: 513px) {
+      max-width: 300px;
+    }
   }
 
   p {
@@ -64,6 +69,7 @@ export default styled(DetailPanelHeader)`
     position: absolute;
     left: 0;
     top: 50px;
+    padding: 0;
 
     &:hover {
       background-color: transparent;
