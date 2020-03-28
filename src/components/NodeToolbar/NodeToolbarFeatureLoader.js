@@ -45,6 +45,7 @@ type Props = {
   cluster: ?Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
+  onDetailPanelClose: () => void,
   onOpenReportMode: ?() => void,
   onStartPhotoUploadFlow: () => void,
   onClose?: ?() => void,
@@ -297,6 +298,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     const {
       featureId,
       userAgent,
+      onDetailPanelClose,
       onOpenWheelchairAccessibility,
       onOpenToiletAccessibility,
       onOpenToiletNearby,
@@ -418,7 +420,14 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       sourcePraiseElement,
     };
 
-    return <DetailPanel feature={feature} categories={this.props.categories} {...elements} />;
+    return (
+      <DetailPanel
+        feature={feature}
+        categories={this.props.categories}
+        onClose={onDetailPanelClose}
+        {...elements}
+      />
+    );
   }
 
   render() {

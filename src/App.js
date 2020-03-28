@@ -743,6 +743,15 @@ class App extends React.Component<Props, State> {
     return params;
   }
 
+  onDetailPanelClose = () => {
+    const params = this.getCurrentParams();
+
+    delete params.id;
+    delete params.eid;
+
+    this.props.routerHistory.push('map', params);
+  };
+
   // this is called also when the report dialog is closed
   onCloseNodeToolbar = () => {
     const currentModalState = this.state.modalNodeState;
@@ -989,6 +998,7 @@ class App extends React.Component<Props, State> {
           onSearchResultClick={this.onSearchResultClick}
           onClickFullscreenBackdrop={this.onClickFullscreenBackdrop}
           onOpenReportMode={this.onOpenReportMode}
+          onDetailPanelClose={this.onDetailPanelClose}
           onCloseNodeToolbar={this.onCloseNodeToolbar}
           onCloseOnboarding={this.onCloseOnboarding}
           onSearchToolbarClick={this.onSearchToolbarClick}

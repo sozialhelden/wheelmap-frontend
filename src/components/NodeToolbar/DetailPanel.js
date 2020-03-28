@@ -19,6 +19,7 @@ type Props = {
   className?: string,
   feature: Feature,
   categories: CategoryLookupTables,
+  onClose: () => void,
   iconElement: React.Node,
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
@@ -31,6 +32,7 @@ const DetailPanel = ({
   className,
   feature,
   categories,
+  onClose,
   iconElement,
   photoSectionElement,
   accessibilitySectionElement,
@@ -49,7 +51,12 @@ const DetailPanel = ({
       <div className={className}>
         <ErrorBoundary>
           {photoSectionElement}
-          <DetailPanelHeader title={placeName} subtitle={categoryName} icon={iconElement} />
+          <DetailPanelHeader
+            title={placeName}
+            subtitle={categoryName}
+            icon={iconElement}
+            onCloseButtonClick={onClose}
+          />
           <DetailPanelMain>
             {accessibilitySectionElement}
             {iconButtonListElement}

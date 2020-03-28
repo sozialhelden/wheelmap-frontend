@@ -95,6 +95,7 @@ type Props = {
   shouldLocateOnStart: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
 
+  onDetailPanelClose: () => void,
   onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: ?WheelmapFeature) => void,
   onSearchToolbarClick: () => void,
   onSearchToolbarClose: () => void,
@@ -263,6 +264,7 @@ class MainView extends React.Component<Props, State> {
           equipmentInfoId={this.props.equipmentInfoId}
           cluster={this.props.activeCluster}
           modalNodeState={this.props.modalNodeState}
+          onDetailPanelClose={this.props.onDetailPanelClose}
           accessibilityPresetStatus={this.props.accessibilityPresetStatus}
           ref={nodeToolbar => (this.nodeToolbar = nodeToolbar)}
           lightweightFeature={this.props.lightweightFeature}

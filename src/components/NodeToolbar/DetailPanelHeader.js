@@ -11,14 +11,15 @@ type Props = {
   title: string,
   subtitle: string,
   icon: ReactElement,
+  onCloseButtonClick: () => void,
   className?: String,
 };
 
-const DetailPanelHeader = ({ title, subtitle, icon, className }: Props) => {
+const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, className }: Props) => {
   const buttonText = t`back to map`;
   return (
     <header className={className}>
-      <ChromelessButton>
+      <ChromelessButton onClick={onCloseButtonClick}>
         <ChevronLeft />
         {buttonText}
       </ChromelessButton>
@@ -63,6 +64,11 @@ export default styled(DetailPanelHeader)`
     position: absolute;
     left: 0;
     top: 50px;
+
+    &:hover {
+      background-color: transparent;
+      color: ${colors.linkColor};
+    }
 
     ${ChevronLeft} {
       margin: 0 0.5rem 0 0;
