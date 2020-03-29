@@ -11,6 +11,7 @@ import type { PhotoModel } from '../../../lib/PhotoModel';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
+import colors from '../../../lib/colors';
 
 type Props = {
   featureId: string,
@@ -221,12 +222,23 @@ const StyledPhotoSection = styled(PhotoSection)`
   min-height: 200px;
   max-width: 600px;
   margin: 0 auto;
-  background: ${props =>
-    props.photos.length === 0 ? 'linear-gradient(#eeeeee, #cccccc)' : 'transparent'};
 
-  display: ${props => (props.photos.length === 0 ? 'flex' : 'block')};
-  justify-content: ${props => (props.photos.length === 0 ? 'center' : 'initial')};
-  align-items: ${props => (props.photos.length === 0 ? 'center' : 'initial')};
+  ${({ photos }) =>
+    photos.length === 0
+      ? `
+        background: linear-gradient(#eeeeee, #cccccc);
+        box-shadow: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      `
+      : `
+        background: ${colors.neutralBackgroundColor};
+        box-shadow: inset 1px 1px 10px 0px #00000080;
+        display: block;
+        justify-content: initial;
+        align-items: initial;
+      `}
 
   ${PhotoUploadButton} {
     position: ${props => (props.photos.length > 0 ? 'absolute' : 'static')};
