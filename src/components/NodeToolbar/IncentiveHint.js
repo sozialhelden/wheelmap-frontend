@@ -35,13 +35,13 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
     content: '';
     display: block;
     position: absolute;
-    right: -16px;
-    top: 50%;
+    right: 16px;
+    bottom: -16px;
     margin-top: -8px;
     width: 16px;
     height: 16px;
     border: 8px solid transparent;
-    border-left-color: ${color};
+    border-top-color: ${color};
     box-sizing: border-box;
   }
 `;

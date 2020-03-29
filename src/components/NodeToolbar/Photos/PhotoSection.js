@@ -171,7 +171,7 @@ class PhotoSection extends React.Component<Props, State> {
 
     return (
       <section className={className}>
-        <div ref={g => (this.gallery = g)} onClick={this.thumbnailSelected}>
+        <div className="image-strip" ref={g => (this.gallery = g)} onClick={this.thumbnailSelected}>
           {thumbnailPhotos.map(photo => (
             <img srcset={photo.srcSet} sizes={photo.sizes} src={photo.src} alt="" />
           ))}
@@ -197,7 +197,11 @@ class PhotoSection extends React.Component<Props, State> {
         />
 
         {photoSectionEmpty && (
-          <PhotoUploadButton onClick={onStartPhotoUploadFlow} textVisible={photos.length === 0} />
+          <PhotoUploadButton
+            onClick={onStartPhotoUploadFlow}
+            textVisible={true}
+            incentiveHintVisible={false}
+          />
         )}
 
         {photoFlowNotification && (
@@ -229,7 +233,7 @@ const StyledPhotoSection = styled(PhotoSection)`
     right: ${props => (props.photos.length > 0 ? '0' : 'initial')};
   }
 
-  > div {
+  .image-strip {
     overflow-y: hidden;
     white-space: nowrap;
 

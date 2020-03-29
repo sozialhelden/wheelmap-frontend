@@ -5,27 +5,26 @@ import * as React from 'react';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 
-import { SecondaryButton, ChromelessButton } from '../Button';
-import CameraIcon from './CameraIcon';
+import { ChromelessButton } from '../Button';
 import AddPhotoIcon from './AddPhotoIcon';
 import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
 type Props = {
   className?: string,
-  textVisble?: boolean,
+  textVisible?: boolean,
+  incentiveHintVisible?: boolean,
   onClick?: (event: UIEvent) => void,
 };
 
 class PhotoUploadButton extends React.Component<Props> {
   render() {
-    const { className, textVisible } = this.props;
+    const { className, textVisible, incentiveHintVisible } = this.props;
 
     // translator: Text that incentivizes the user to edit a place's accessibility.
     const hintCaption = t`Your good deed of the day!`;
 
     return (
       <div className={className}>
-        {!textVisible && <IncentiveHint>{hintCaption}</IncentiveHint>}
         <ChromelessButton
           onClick={this.onClick}
           className={`link-button`}
@@ -34,6 +33,7 @@ class PhotoUploadButton extends React.Component<Props> {
           <AddPhotoIcon />
           {textVisible && <span>{t`Add images`}</span>}
         </ChromelessButton>
+        {incentiveHintVisible && <IncentiveHint>{hintCaption}</IncentiveHint>}
       </div>
     );
   }
@@ -53,10 +53,17 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   background-color: transparent;
 
   ${ChromelessButton} {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     color: ${colors.linkColor};
+  }
+
+  ${IncentiveHint} {
+    position: absolute;
+    bottom: 63px;
+    right: 0;
   }
 
   svg {
