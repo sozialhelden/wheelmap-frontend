@@ -62,7 +62,7 @@ const StyledPhotoUploadButton = styled(PhotoUploadButton)`
 
   ${IncentiveHint} {
     position: absolute;
-    bottom: 63px;
+    bottom: 60px;
     right: 0;
   }
 
