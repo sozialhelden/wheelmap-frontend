@@ -172,9 +172,16 @@ class PhotoSection extends React.Component<Props, State> {
 
     return (
       <section className={className}>
-        <div className="image-strip" ref={g => (this.gallery = g)} onClick={this.thumbnailSelected}>
-          {thumbnailPhotos.map(photo => (
-            <img srcset={photo.srcSet} sizes={photo.sizes} src={photo.src} alt="" />
+        <div className="image-strip" ref={g => (this.gallery = g)}>
+          {thumbnailPhotos.map((photo, index) => (
+            <img
+              key={photo.imageId}
+              srcset={photo.srcSet}
+              sizes={photo.sizes}
+              src={photo.src}
+              alt=""
+              onClick={event => this.thumbnailSelected(event, { index: index })}
+            />
           ))}
         </div>
         <Lightbox
@@ -267,6 +274,8 @@ const StyledPhotoSection = styled(PhotoSection)`
     padding: 5px 0;
     display: flex;
     justify-content: flex-start;
+    background: transparent;
+    min-height: initial;
 
     button {
       font-size: 0.9rem;
