@@ -20,7 +20,6 @@ const BackButton = ({ onClick, children, className }): Props => (
 
 export default styled(BackButton)`
   display: flex;
-  padding: 0;
 
   &:hover {
     background-color: transparent;

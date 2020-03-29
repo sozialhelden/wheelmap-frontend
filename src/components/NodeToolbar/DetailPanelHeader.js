@@ -81,7 +81,7 @@ export default styled(DetailPanelHeader)`
 
   ${BackButton} {
     position: absolute;
-    top: 1rem;
+    top: 0.5rem;
     left: 0;
   }
 
