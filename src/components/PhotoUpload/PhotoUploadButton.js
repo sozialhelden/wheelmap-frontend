@@ -5,36 +5,31 @@ import * as React from 'react';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
 
-import { ChromelessButton } from '../Button';
-import AddPhotoIcon from './AddPhotoIcon';
+import CameraIcon from './CameraIcon';
 import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
 
 type Props = {
   className?: string,
-  textVisible?: boolean,
-  incentiveHintVisible?: boolean,
   onClick?: (event: UIEvent) => void,
 };
 
 class PhotoUploadButton extends React.Component<Props> {
   render() {
-    const { className, textVisible, incentiveHintVisible } = this.props;
+    const { className } = this.props;
 
     // translator: Text that incentivizes the user to edit a place's accessibility.
     const hintCaption = t`Your good deed of the day!`;
 
     return (
-      <div className={className}>
-        <ChromelessButton
-          onClick={this.onClick}
-          className={`link-button`}
-          aria-label={t`Add images`}
-        >
-          <AddPhotoIcon />
-          {textVisible && <span>{t`Add images`}</span>}
-        </ChromelessButton>
-        {incentiveHintVisible && <IncentiveHint>{hintCaption}</IncentiveHint>}
-      </div>
+      <button
+        onClick={this.onClick}
+        className={`link-button ${className || ''}`}
+        aria-label={t`Add images`}
+      >
+        <CameraIcon />
+        <span className="button-label">{t`Add images`}</span>
+        <IncentiveHint>{hintCaption}</IncentiveHint>
+      </button>
     );
   }
 
@@ -47,28 +42,25 @@ class PhotoUploadButton extends React.Component<Props> {
 }
 
 const StyledPhotoUploadButton = styled(PhotoUploadButton)`
-  display: flex;
-  align-items: center;
+  display: inline-block;
   font-weight: bold;
-  background-color: transparent;
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
 
-  ${ChromelessButton} {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: ${colors.linkColor};
-  }
-
-  ${IncentiveHint} {
-    position: absolute;
-    bottom: 60px;
-    right: 0;
-  }
+  width: 100%;
+  margin: 0 0rem 0.5rem !important;
+  padding: 10px 1rem !important;
 
   svg {
-    width: 3em;
-    height: 3em;
+    width: 2em;
+    height: 2em;
+    margin-right: 0.5rem;
+  }
+
+  .button-label {
+    text-align: left;
+    color: ${colors.linkColor};
   }
 `;
 
