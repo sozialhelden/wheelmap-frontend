@@ -325,9 +325,23 @@ class NodeToolbar extends React.Component<Props, State> {
       featureId,
       onOpenReportMode,
       sources,
+      modalNodeState,
     } = this.props;
 
     const isEquipment = !!equipmentInfoId;
+
+    if (modalNodeState && featureId && !isEquipment) {
+      switch (modalNodeState) {
+        case 'edit-wheelchair-accessibility':
+          return this.renderWheelchairAccessibilityEditor();
+        case 'edit-toilet-accessibility':
+          return this.renderToiletAccessibilityEditor();
+        case 'report':
+          return this.renderReportDialog();
+        default:
+          break;
+      }
+    }
 
     if (!isEquipment) {
       return null;
