@@ -28,7 +28,7 @@ type Props = {
   iconElement: React.Node,
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
-  photoSectionElement: React.Node,
+  photoHeaderElement: React.Node,
   a11yDetailsElement: React.Node,
   sourcePraiseElement: React.Node,
   sourceDisclaimerElement: React.Node,
@@ -40,7 +40,7 @@ const DetailPanel = ({
   categories,
   onClose,
   iconElement,
-  photoSectionElement,
+  photoHeaderElement,
   photoUploadButtonElement,
   accessibilitySectionElement,
   iconButtonListElement,
@@ -64,7 +64,7 @@ const DetailPanel = ({
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: () => true }}>
       <div className={className}>
         <ErrorBoundary>
-          {photoSectionElement}
+          {photoHeaderElement}
           <DetailPanelHeader
             title={title}
             subtitle={subtitle}

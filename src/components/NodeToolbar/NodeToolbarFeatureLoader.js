@@ -33,7 +33,7 @@ import Description from './AccessibilitySection/Description';
 import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
 import IconButtonList from './IconButtonList/IconButtonList';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import StyledPhotoSection from './Photos/PhotoSection';
+import PhotoHeader from './Photos/PhotoHeader';
 import filterAccessibility from '../../lib/filterAccessibility';
 import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
 import A11yDetails from './A11yDetails';
@@ -383,8 +383,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       />
     );
 
-    const photoSectionElement = (
-      <StyledPhotoSection
+    const photoHeaderElement = (
+      <PhotoHeader
         featureId={featureId}
         photos={resolvedPhotos || []}
         onReportPhoto={onReportPhoto}
@@ -443,7 +443,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       iconElement,
       accessibilitySectionElement,
       iconButtonListElement,
-      photoSectionElement,
+      photoHeaderElement,
       photoUploadButtonElement,
       a11yDetailsElement,
       sourcePraiseElement,
