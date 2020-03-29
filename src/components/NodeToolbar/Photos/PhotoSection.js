@@ -220,21 +220,16 @@ const StyledPhotoSection = styled(PhotoSection)`
   position: relative;
   padding: 0;
   min-height: 200px;
-  max-width: 600px;
-  margin: 0 auto;
+  background: linear-gradient(#eeeeee, #cccccc);
 
   ${({ photos }) =>
     photos.length === 0
       ? `
-        background: linear-gradient(#eeeeee, #cccccc);
-        box-shadow: none;
         display: flex;
         justify-content: center;
         align-items: center;
       `
       : `
-        background: ${colors.neutralBackgroundColor};
-        box-shadow: inset 1px 1px 10px 0px #00000080;
         display: block;
         justify-content: initial;
         align-items: initial;
@@ -246,8 +241,9 @@ const StyledPhotoSection = styled(PhotoSection)`
   }
 
   .image-strip {
-    overflow-y: hidden;
-    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
 
     &.focus-visible {
       border-radius: 0px;
@@ -255,8 +251,8 @@ const StyledPhotoSection = styled(PhotoSection)`
     }
 
     img {
-      display: inline;
       height: 200px;
+      flex-shrink: 0;
     }
   }
 
