@@ -98,6 +98,7 @@ export default styled(DetailPanel)`
   background-color: #ffffff;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  hyphens: auto;
 
   ${IconButtonList} {
     padding: 0;

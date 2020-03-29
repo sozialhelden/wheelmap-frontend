@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default styled.div`
   display: flex;
   max-width: 600px;
-  margin-top: 3rem;
+  margin-top: 2rem;
   margin-right: auto;
   margin-bottom: 0;
   margin-left: auto;

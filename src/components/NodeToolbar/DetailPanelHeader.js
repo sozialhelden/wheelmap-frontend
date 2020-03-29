@@ -63,7 +63,7 @@ export default styled(DetailPanelHeader)`
     margin-top: 0;
     margin-bottom: 0;
     text-align: center;
-    max-width: 150px;
+    max-width: 220px;
 
     @media (min-width: 513px) {
       max-width: 300px;
