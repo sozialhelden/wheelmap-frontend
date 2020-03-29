@@ -4,30 +4,38 @@ import styled from 'styled-components';
 import { t } from 'ttag';
 
 import colors from '../../lib/colors';
-import ChevronLeft from '../ChevronLeft';
 import { ChromelessButton } from '../Button';
+import PhotoUploadButton from '../PhotoUpload/PhotoUploadButton';
+import { StyledIconContainer } from '../Icon';
+import BackButton from './BackButton';
 
 type Props = {
   title: ?string,
   subtitle: ?string,
   icon: React.Node,
+  photoUploadButtonElement: ?React.Node,
   onCloseButtonClick: () => void,
   className?: string,
 };
 
-const DetailPanelHeader = ({ title, subtitle, icon, onCloseButtonClick, className }: Props) => {
+const DetailPanelHeader = ({
+  title,
+  subtitle,
+  icon,
+  onCloseButtonClick,
+  photoUploadButtonElement,
+  className,
+}: Props) => {
   const buttonText = t`back`;
   return (
     <header className={className}>
-      <ChromelessButton onClick={onCloseButtonClick}>
-        <ChevronLeft />
-        {buttonText}
-      </ChromelessButton>
+      <BackButton onClick={onCloseButtonClick}>{buttonText}</BackButton>
       <div>
         {icon}
         {title && <h1>{title}</h1>}
         {subtitle && <p>{subtitle}</p>}
       </div>
+      {photoUploadButtonElement}
     </header>
   );
 };
@@ -42,16 +50,17 @@ export default styled(DetailPanelHeader)`
     flex-direction: column;
     align-items: center;
     max-width: 300px;
-    margin-top: -30px;
     margin-right: auto;
     margin-bottom: 0;
     margin-left: auto;
     color: ${colors.textColor};
     word-break: break-word;
   }
+
   h1 {
     font-size: 1.5rem;
     font-weight: 400;
+    margin-top: 0;
     margin-bottom: 0;
     text-align: center;
     max-width: 150px;
@@ -66,22 +75,23 @@ export default styled(DetailPanelHeader)`
     font-size: 1rem;
   }
 
-  ${ChromelessButton} {
-    display: flex;
+  ${StyledIconContainer} {
+    top: -30px;
+  }
+
+  ${BackButton} {
     position: absolute;
+    top: 1rem;
     left: 0;
-    top: 50px;
-    padding: 0;
+  }
 
-    &:hover {
+  ${PhotoUploadButton} {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    ${ChromelessButton}:hover {
       background-color: transparent;
-      color: ${colors.linkColor};
-    }
-
-    ${ChevronLeft} {
-      margin: 0 0.5rem 0 0;
-      width: 1rem;
-      height: 2rem;
     }
   }
 `;

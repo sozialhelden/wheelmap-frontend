@@ -167,6 +167,8 @@ class PhotoSection extends React.Component<Props, State> {
     const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = this.props;
     const { thumbnailPhotos, currentImageIndex } = this.state;
 
+    const photoSectionEmpty = photos.length === 0;
+
     return (
       <section className={className}>
         <div ref={g => (this.gallery = g)} onClick={this.thumbnailSelected}>
@@ -194,7 +196,9 @@ class PhotoSection extends React.Component<Props, State> {
           theme={{ footer: { alignItems: 'center' } }}
         />
 
-        <PhotoUploadButton onClick={onStartPhotoUploadFlow} textVisible={photos.length === 0} />
+        {photoSectionEmpty && (
+          <PhotoUploadButton onClick={onStartPhotoUploadFlow} textVisible={photos.length === 0} />
+        )}
 
         {photoFlowNotification && (
           <PhotoNotification

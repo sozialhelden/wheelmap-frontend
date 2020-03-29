@@ -41,6 +41,7 @@ const DetailPanel = ({
   onClose,
   iconElement,
   photoSectionElement,
+  photoUploadButtonElement,
   accessibilitySectionElement,
   iconButtonListElement,
   a11yDetailsElement,
@@ -68,6 +69,7 @@ const DetailPanel = ({
             title={title}
             subtitle={subtitle}
             icon={iconElement}
+            photoUploadButtonElement={photoUploadButtonElement}
             onCloseButtonClick={onClose}
           />
           <DetailPanelMain>
