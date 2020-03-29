@@ -11,7 +11,6 @@ import type { PhotoModel } from '../../../lib/PhotoModel';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
-import colors from '../../../lib/colors';
 
 type Props = {
   featureId: string,
@@ -168,22 +167,14 @@ class PhotoSection extends React.Component<Props, State> {
     const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = this.props;
     const { thumbnailPhotos, currentImageIndex } = this.state;
 
-    const photoSectionEmpty = photos.length === 0;
-
     return (
       <section className={className}>
-        <div className="image-strip" ref={g => (this.gallery = g)}>
-          {thumbnailPhotos.map((photo, index) => (
-            <img
-              key={photo.imageId}
-              srcSet={photo.srcSet}
-              sizes={photo.sizes}
-              src={photo.src}
-              alt=""
-              onClick={event => this.thumbnailSelected(event, { index: index })}
-            />
-          ))}
-        </div>
+        <Gallery
+          ref={g => (this.gallery = g)}
+          photos={thumbnailPhotos}
+          onClick={this.thumbnailSelected}
+          columns={Math.min(photos.length, 3)}
+        />
         <Lightbox
           images={photos}
           onClose={this.closeLightbox}
@@ -204,13 +195,7 @@ class PhotoSection extends React.Component<Props, State> {
           theme={{ footer: { alignItems: 'center' } }}
         />
 
-        {photoSectionEmpty && (
-          <PhotoUploadButton
-            onClick={onStartPhotoUploadFlow}
-            textVisible={true}
-            incentiveHintVisible={false}
-          />
-        )}
+        <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
 
         {photoFlowNotification && (
           <PhotoNotification
@@ -224,42 +209,14 @@ class PhotoSection extends React.Component<Props, State> {
 }
 
 const StyledPhotoSection = styled(PhotoSection)`
-  position: relative;
+  margin: 0.5rem -1rem;
   padding: 0;
-  min-height: 200px;
-  background: linear-gradient(#eeeeee, #cccccc);
 
-  ${({ photos }) =>
-    photos.length === 0
-      ? `
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      `
-      : `
-        display: block;
-        justify-content: initial;
-        align-items: initial;
-      `}
-
-  ${PhotoUploadButton} {
-    position: ${props => (props.photos.length > 0 ? 'absolute' : 'static')};
-    right: ${props => (props.photos.length > 0 ? '0' : 'initial')};
-  }
-
-  .image-strip {
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-
-    &.focus-visible {
-      border-radius: 0px;
-      box-shadow: 0px 0px 0px 4px #4469e1;
-    }
-
+  .react-photo-gallery--gallery {
     img {
-      height: 200px;
-      flex-shrink: 0;
+      object-fit: contain;
+      max-height: 150px;
+      image-orientation: from-image;
     }
   }
 
@@ -274,8 +231,6 @@ const StyledPhotoSection = styled(PhotoSection)`
     padding: 5px 0;
     display: flex;
     justify-content: flex-start;
-    background: transparent;
-    min-height: initial;
 
     button {
       font-size: 0.9rem;
