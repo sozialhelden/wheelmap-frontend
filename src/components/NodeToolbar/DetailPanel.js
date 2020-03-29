@@ -61,7 +61,7 @@ const DetailPanel = ({
   }
 
   return (
-    <FocusTrap>
+    <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: () => true }}>
       <div className={className}>
         <ErrorBoundary>
           {photoSectionElement}
