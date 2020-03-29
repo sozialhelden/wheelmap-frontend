@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 
 import ErrorBoundary from '../ErrorBoundary';
-import PhotoSection from './Photos/PhotoSection';
+import PhotoHeader from './Photos/PhotoHeader';
 
 import { type Feature } from '../../lib/Feature';
 import { placeNameFor } from '../../lib/Feature';
@@ -139,7 +139,7 @@ export default styled(DetailPanel)`
     }
   }
 
-  ${PhotoSection} {
+  ${PhotoHeader} {
     margin-left: -0.5rem;
     margin-right: -0.5rem;
 
