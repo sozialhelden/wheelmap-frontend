@@ -316,9 +316,9 @@ class NodeToolbar extends React.Component<Props, State> {
     );
   }
 
+  // This used to render both equipment and places. But now it's only rendering equipment
   renderContentBelowHeader() {
     const {
-      accessibilityPresetStatus,
       equipmentInfo,
       equipmentInfoId,
       feature,
@@ -329,50 +329,37 @@ class NodeToolbar extends React.Component<Props, State> {
 
     const isEquipment = !!equipmentInfoId;
 
-    if (featureId && !isEquipment) {
-      switch (this.props.modalNodeState) {
-        case 'edit-wheelchair-accessibility':
-          return this.renderWheelchairAccessibilityEditor();
-        case 'edit-toilet-accessibility':
-          return this.renderToiletAccessibilityEditor();
-        case 'report':
-          return this.renderReportDialog();
-        default:
-          break;
-      }
+    if (!isEquipment) {
+      return null;
     }
 
     if (!featureId) return;
 
-    // const sourceLinkProps = {
-    //   equipmentInfoId,
-    //   feature,
-    //   featureId,
-    //   onOpenReportMode,
-    //   sources,
-    // };
+    const sourceLinkProps = {
+      equipmentInfoId,
+      feature,
+      featureId,
+      onOpenReportMode,
+      sources,
+    };
 
-    // const accessibilitySection = isEquipment ? (
-    //   <EquipmentAccessibility equipmentInfo={equipmentInfo} />
-    // ) : (
-    //   <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
-    // );
+    const accessibilitySection = <EquipmentAccessibility equipmentInfo={equipmentInfo} />;
 
-    // const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
-    // const photoSection = this.renderPhotoSection();
-    // const equipmentOverview = this.renderEquipmentInfos();
+    const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
+    const photoSection = this.renderPhotoSection();
+    const equipmentOverview = this.renderEquipmentInfos();
 
-    // return (
-    //   <div>
-    //     {isEquipment && featureId && this.renderPlaceNameForEquipment()}
-    //     {inlineWheelchairAccessibilityEditor}
-    //     {accessibilitySection}
-    //     {photoSection}
-    //     {equipmentOverview}
-    //     {this.renderIconButtonList()}
-    //     <SourceList {...sourceLinkProps} />
-    //   </div>
-    // );
+    return (
+      <div>
+        {isEquipment && featureId && this.renderPlaceNameForEquipment()}
+        {inlineWheelchairAccessibilityEditor}
+        {accessibilitySection}
+        {photoSection}
+        {equipmentOverview}
+        {this.renderIconButtonList()}
+        <SourceList {...sourceLinkProps} />
+      </div>
+    );
   }
 
   renderCloseLink() {
