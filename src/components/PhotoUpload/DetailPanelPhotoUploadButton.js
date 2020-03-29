@@ -7,7 +7,7 @@ import { t } from 'ttag';
 
 import { ChromelessButton } from '../Button';
 import AddPhotoIcon from './AddPhotoIcon';
-import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
+import { DetailPanelIncentiveHint } from '../NodeToolbar/DetailPanelIncentiveHint';
 
 type Props = {
   className?: string,
@@ -33,7 +33,7 @@ class DetailPanelPhotoUploadButton extends React.Component<Props> {
           <AddPhotoIcon />
           {textVisible && <span>{t`Add images`}</span>}
         </ChromelessButton>
-        {incentiveHintVisible && <IncentiveHint>{hintCaption}</IncentiveHint>}
+        {incentiveHintVisible && <DetailPanelIncentiveHint>{hintCaption}</DetailPanelIncentiveHint>}
       </div>
     );
   }
@@ -60,7 +60,7 @@ const StyledDetailPanelPhotoUploadButton = styled(DetailPanelPhotoUploadButton)`
     color: ${colors.linkColor};
   }
 
-  ${IncentiveHint} {
+  ${DetailPanelIncentiveHint} {
     position: absolute;
     bottom: 60px;
     right: 0;
