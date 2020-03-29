@@ -60,7 +60,6 @@ type Props = {
   modalNodeState: ModalNodeState,
   inEmbedMode: boolean,
   onClose: () => void,
-  onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
@@ -312,6 +311,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       photoFlowNotification,
       photoFlowErrorMessage,
       accessibilityPresetStatus,
+      onOpenReportMode,
     } = this.props;
 
     if (!resolvedRequiredData || !resolvedRequiredData.resolvedFeature) {
@@ -379,6 +379,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         onToggle={() => {
           if (this.toolbar) this.toolbar.ensureFullVisibility();
         }}
+        onOpenReportMode={onOpenReportMode}
       />
     );
 
