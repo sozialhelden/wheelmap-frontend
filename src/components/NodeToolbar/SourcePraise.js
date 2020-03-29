@@ -18,17 +18,15 @@ const SourcePraise = ({ className, sources }: Props) => {
   return (
     <div className={className}>
       <p>{preText}</p>
-      <p>
-        <ul>
-          {sources.map(source => (
-            <li key={source.source._id}>{source.source.shortName}</li>
-          ))}
-        </ul>
-        <span role="img" aria-label="Raising Hands">
-          🙌
-        </span>
-        {thanksText}
-      </p>
+      <ul>
+        {sources.map(source => (
+          <li key={source.source._id}>{source.source.shortName}</li>
+        ))}
+      </ul>
+      <span role="img" aria-label="Raising Hands">
+        🙌
+      </span>
+      {thanksText}
     </div>
   );
 };

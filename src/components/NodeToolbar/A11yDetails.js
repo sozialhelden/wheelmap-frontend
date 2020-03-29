@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import capitalize from 'lodash/capitalize';
 
 import colors from '../../lib/colors';
 import a11yIcons, { filterOutDetailsWithIconSupport } from './a11yIcons';
@@ -19,18 +20,18 @@ const A11yDetails = ({ className, details }: Props) => {
 
   return (
     <div className={className}>
-      {Object.keys(a11yIconsStructure).map(sectionName => (
-        <>
-          <h2>{sectionName}</h2>
+      {Object.keys(a11yIconsStructure).map((sectionName, index) => (
+        <div key={index}>
+          <h2>{capitalize(sectionName)}</h2>
           <ul>
-            {a11yIconsStructure[sectionName].map(a11yIcon => (
-              <li>
+            {a11yIconsStructure[sectionName].map((a11yIcon, index) => (
+              <li key={index}>
                 <img src={a11yIcon.iconUrl} alt="" />
                 <p>{a11yIcon.caption}</p>
               </li>
             ))}
           </ul>
-        </>
+        </div>
       ))}
       <AccessibilityDetailsTree details={detailsWithoutIconSupport} />
     </div>
