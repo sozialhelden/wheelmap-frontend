@@ -176,7 +176,7 @@ class PhotoSection extends React.Component<Props, State> {
           {thumbnailPhotos.map((photo, index) => (
             <img
               key={photo.imageId}
-              srcset={photo.srcSet}
+              srcSet={photo.srcSet}
               sizes={photo.sizes}
               src={photo.src}
               alt=""
