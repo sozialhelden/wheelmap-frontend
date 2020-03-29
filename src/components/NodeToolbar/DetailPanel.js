@@ -29,6 +29,7 @@ type Props = {
   accessibilitySectionElement: React.Node,
   iconButtonListElement: React.Node,
   photoHeaderElement: React.Node,
+  photoUploadButtonElement: React.Node,
   a11yDetailsElement: React.Node,
   sourcePraiseElement: React.Node,
   sourceDisclaimerElement: React.Node,

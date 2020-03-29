@@ -41,7 +41,7 @@ import SourcePraise from './SourcePraise';
 import Icon from '../Icon';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 import { AppContextConsumer } from '../../AppContext';
-import PhotoUploadButton from '../PhotoUpload/PhotoUploadButton';
+import DetailPanelPhotoUploadButton from '../PhotoUpload/DetailPanelPhotoUploadButton';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -432,7 +432,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     const photoUploadButtonElement =
       resolvedPhotos && resolvedPhotos.length !== 0 ? (
-        <PhotoUploadButton
+        <DetailPanelPhotoUploadButton
           onClick={onStartPhotoUploadFlow}
           textVisible={false}
           incentiveHintVisible={resolvedPhotos.length < 4}

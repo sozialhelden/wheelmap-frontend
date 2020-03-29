@@ -5,7 +5,7 @@ import { t } from 'ttag';
 
 import colors from '../../lib/colors';
 import { ChromelessButton } from '../Button';
-import PhotoUploadButton from '../PhotoUpload/PhotoUploadButton';
+import DetailPanelPhotoUploadButton from '../PhotoUpload/DetailPanelPhotoUploadButton';
 import { StyledIconContainer } from '../Icon';
 import BackButton from './BackButton';
 
@@ -85,7 +85,7 @@ export default styled(DetailPanelHeader)`
     left: 0;
   }
 
-  ${PhotoUploadButton} {
+  ${DetailPanelPhotoUploadButton} {
     position: absolute;
     top: 0;
     right: 0;

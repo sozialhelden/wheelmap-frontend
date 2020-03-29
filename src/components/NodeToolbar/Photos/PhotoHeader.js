@@ -9,7 +9,7 @@ import Lightbox from 'react-images';
 
 import type { PhotoModel } from '../../../lib/PhotoModel';
 
-import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
+import DetailPanelPhotoUploadButton from '../../PhotoUpload/DetailPanelPhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 import colors from '../../../lib/colors';
 
@@ -205,7 +205,7 @@ class PhotoHeader extends React.Component<Props, State> {
         />
 
         {PhotoHeaderEmpty && (
-          <PhotoUploadButton
+          <DetailPanelPhotoUploadButton
             onClick={onStartPhotoUploadFlow}
             textVisible={true}
             incentiveHintVisible={false}
@@ -242,7 +242,7 @@ const StyledPhotoHeader = styled(PhotoHeader)`
         align-items: initial;
       `}
 
-  ${PhotoUploadButton} {
+  ${DetailPanelPhotoUploadButton} {
     position: ${props => (props.photos.length > 0 ? 'absolute' : 'static')};
     right: ${props => (props.photos.length > 0 ? '0' : 'initial')};
   }
