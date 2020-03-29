@@ -434,7 +434,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         <PhotoUploadButton
           onClick={onStartPhotoUploadFlow}
           textVisible={false}
-          incentiveHintVisible={true}
+          incentiveHintVisible={resolvedPhotos.length < 4}
         />
       ) : null;
 
