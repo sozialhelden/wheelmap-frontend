@@ -247,7 +247,7 @@ const StyledPhotoSection = styled(PhotoSection)`
 
     &.focus-visible {
       border-radius: 0px;
-      box-shadow: inset 0px 0px 0px 4px #4469e1;
+      box-shadow: 0px 0px 0px 4px #4469e1;
     }
 
     img {
