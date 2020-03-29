@@ -19,13 +19,13 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
   justify-content: center;
   align-items: center;
 
-  max-width: 7rem;
   padding: 0.25em;
   border: none;
   border-radius: 0.25em;
   text-align: center;
   font-size: 90%;
   font-weight: 500;
+  white-space: nowrap;
   color: white;
   opacity: 0;
   background: ${color};
