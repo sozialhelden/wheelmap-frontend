@@ -101,6 +101,10 @@ export default styled(DetailPanel)`
   padding-right: 0.5rem;
   hyphens: auto;
 
+  footer {
+    margin-bottom: 2rem;
+  }
+
   ${IconButtonList} {
     padding: 0;
 
