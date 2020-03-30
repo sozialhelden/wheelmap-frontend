@@ -27,21 +27,21 @@ import {
   type PlaceDetailsProps,
   getPlaceDetailsIfAlreadyResolved,
 } from '../../app/PlaceDetailsProps';
-import DetailPanel from './DetailPanel';
+import DetailPanel from '../DetailPanel/DetailPanel';
 import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
 import Description from './AccessibilitySection/Description';
 import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
 import IconButtonList from './IconButtonList/IconButtonList';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import PhotoHeader from './Photos/PhotoHeader';
+import PhotoHeader from '../DetailPanel/PhotoHeader';
 import filterAccessibility from '../../lib/filterAccessibility';
 import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
-import A11yDetails from './A11yDetails';
-import SourcePraise from './SourcePraise';
+import A11yDetails from '../DetailPanel/A11yDetails';
+import SourcePraise from '../DetailPanel/SourcePraise';
 import Icon from '../Icon';
 import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
 import { AppContextConsumer } from '../../AppContext';
-import DetailPanelPhotoUploadButton from '../PhotoUpload/DetailPanelPhotoUploadButton';
+import DetailPanelPhotoUploadButton from '../DetailPanel/DetailPanelPhotoUploadButton';
 
 type Props = {
   categories: CategoryLookupTables,
