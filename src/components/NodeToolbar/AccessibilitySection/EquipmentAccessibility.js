@@ -73,7 +73,7 @@ const StyledEquipmentAccessibility = styled(EquipmentAccessibility)`
   }
 
   footer {
-    color: rgba(0, 0, 0, 0.6);
+    color: ${colors.textColorBrighter};
   }
 
   > header > span {

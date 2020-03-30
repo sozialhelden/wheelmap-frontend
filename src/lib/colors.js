@@ -16,7 +16,7 @@ const colors = {
   linkColor: '#2e6ce0',
   textColor: '#111',
   textColorTonedDown: null, // calculated below
-  textColorBrighter: 'rgba(16, 16, 16, 0.8)',
+  textColorBrighter: 'rgba(0, 0, 0, 0.6)',
   linkColorDarker: '#2163de',
   linkBackgroundColor: 'rgb(218, 241, 255)',
   linkBackgroundColorTransparent: 'rgba(0, 161, 255, 0.1)',

@@ -110,7 +110,7 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
 type Props = {
   details: any,
   locale?: ?string,
-  isNested: boolean,
+  isNested?: boolean,
   className?: ?string,
 };
 

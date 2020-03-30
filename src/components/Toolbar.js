@@ -449,6 +449,15 @@ const StyledToolbar = styled(Toolbar)`
   padding: 12px 15px 5px 15px;
   outline: none;
 
+  ${props =>
+    props.isModal &&
+    `
+    width: calc(100% - env(safe-area-inset-left));
+    margin: 0px auto;
+    max-width: 500px;
+    right: 0px;
+  `}
+
   border-radius: 9px;
   font-size: 16px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);

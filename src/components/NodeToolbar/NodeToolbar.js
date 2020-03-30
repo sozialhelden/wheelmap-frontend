@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react';
-import { t } from 'ttag';
 import FocusTrap from 'focus-trap-react';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
@@ -18,7 +17,6 @@ import ReportDialog from './Report/ReportDialog';
 import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
-import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
 import Button from '../Button';
 
 import type { PhotoModel } from '../../lib/PhotoModel';
@@ -28,14 +26,13 @@ import type {
   YesNoUnknown,
   WheelmapFeature,
 } from '../../lib/Feature';
-import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
-import { type Category, type CategoryLookupTables, getCategoryId } from '../../lib/Categories';
+import { isWheelmapFeatureId, placeNameFor } from '../../lib/Feature';
+import { type Category, type CategoryLookupTables } from '../../lib/Categories';
 import { hasBigViewport } from '../../lib/ViewportSize';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
-import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import IconButtonList from './IconButtonList/IconButtonList';
 import { type SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { type Cluster } from '../Map/Cluster';
@@ -257,30 +254,6 @@ class NodeToolbar extends React.Component<Props, State> {
     );
   }
 
-  renderInlineWheelchairAccessibilityEditor() {
-    const wheelmapFeature = wheelmapFeatureFrom(this.props.feature);
-    if (!wheelmapFeature || !wheelmapFeature.properties) {
-      return null;
-    }
-    if (wheelmapFeature.properties.wheelchair !== 'unknown') {
-      return null;
-    }
-
-    // translator: Shown as header/title when you edit wheelchair accessibility of a place
-    const header = t`How wheelchair accessible is this place?`;
-
-    return (
-      <section>
-        <h4 id="wheelchair-accessibility-header">{header}</h4>
-        <InlineWheelchairAccessibilityEditor
-          category={getCategoryId(this.props.category)}
-          onChange={this.props.onSelectWheelchairAccessibility}
-          presetStatus={this.props.accessibilityPresetStatus}
-        />
-      </section>
-    );
-  }
-
   renderEquipmentInfos() {
     const { featureId, equipmentInfoId, onEquipmentSelected } = this.props;
     if (!featureId) {
@@ -316,21 +289,22 @@ class NodeToolbar extends React.Component<Props, State> {
     );
   }
 
+  // This used to render both equipment and places. But now it's only rendering equipment
   renderContentBelowHeader() {
     const {
-      accessibilityPresetStatus,
       equipmentInfo,
       equipmentInfoId,
       feature,
       featureId,
       onOpenReportMode,
       sources,
+      modalNodeState,
     } = this.props;
 
     const isEquipment = !!equipmentInfoId;
 
-    if (featureId && !isEquipment) {
-      switch (this.props.modalNodeState) {
+    if (modalNodeState && featureId && !isEquipment) {
+      switch (modalNodeState) {
         case 'edit-wheelchair-accessibility':
           return this.renderWheelchairAccessibilityEditor();
         case 'edit-toilet-accessibility':
@@ -340,6 +314,10 @@ class NodeToolbar extends React.Component<Props, State> {
         default:
           break;
       }
+    }
+
+    if (!isEquipment) {
+      return null;
     }
 
     if (!featureId) return;
@@ -352,20 +330,14 @@ class NodeToolbar extends React.Component<Props, State> {
       sources,
     };
 
-    const accessibilitySection = isEquipment ? (
-      <EquipmentAccessibility equipmentInfo={equipmentInfo} />
-    ) : (
-      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
-    );
+    const accessibilitySection = <EquipmentAccessibility equipmentInfo={equipmentInfo} />;
 
-    const inlineWheelchairAccessibilityEditor = this.renderInlineWheelchairAccessibilityEditor();
     const photoSection = this.renderPhotoSection();
     const equipmentOverview = this.renderEquipmentInfos();
 
     return (
       <div>
         {isEquipment && featureId && this.renderPlaceNameForEquipment()}
-        {inlineWheelchairAccessibilityEditor}
         {accessibilitySection}
         {photoSection}
         {equipmentOverview}
@@ -393,6 +365,7 @@ class NodeToolbar extends React.Component<Props, State> {
         <StyledToolbar
           ref={toolbar => (this.toolbar = toolbar)}
           hidden={this.props.hidden}
+          isSwipeable={false}
           isModal={this.props.modalNodeState}
           role="dialog"
           ariaLabel={this.placeName()}

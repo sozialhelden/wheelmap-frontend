@@ -1,13 +1,24 @@
 // @flow
 
 import * as React from 'react';
+import { t } from 'ttag';
 
 import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
 import { type Cluster } from '../../components/Map/Cluster';
-import Categories, { type Category, type CategoryLookupTables } from '../../lib/Categories';
-import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import Categories, {
+  type Category,
+  type CategoryLookupTables,
+  getCategoryId,
+} from '../../lib/Categories';
+import {
+  Feature,
+  YesNoLimitedUnknown,
+  wheelmapFeatureFrom,
+  isWheelchairAccessible,
+} from '../../lib/Feature';
+import { isWheelmapFeatureId } from '../../lib/Feature';
 import type { EquipmentInfo } from '../../lib/EquipmentInfo';
 import type { ModalNodeState } from '../../lib/ModalNodeState';
 import type { PhotoModel } from '../../lib/PhotoModel';
@@ -16,12 +27,28 @@ import {
   type PlaceDetailsProps,
   getPlaceDetailsIfAlreadyResolved,
 } from '../../app/PlaceDetailsProps';
+import DetailPanel from '../DetailPanel/DetailPanel';
+import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
+import Description from './AccessibilitySection/Description';
+import AccessibleDescription from './AccessibilitySection/AccessibleDescription';
+import IconButtonList from './IconButtonList/IconButtonList';
+import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
+import PhotoHeader from '../DetailPanel/PhotoHeader';
+import filterAccessibility from '../../lib/filterAccessibility';
+import StyledAccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
+import A11yDetails from '../DetailPanel/A11yDetails';
+import SourcePraise from '../DetailPanel/SourcePraise';
+import Icon from '../Icon';
+import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
+import { AppContextConsumer } from '../../AppContext';
+import DetailPanelPhotoUploadButton from '../DetailPanel/DetailPanelPhotoUploadButton';
 
 type Props = {
   categories: CategoryLookupTables,
   cluster: ?Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
+  onDetailPanelClose: () => void,
   onOpenReportMode: ?() => void,
   onStartPhotoUploadFlow: () => void,
   onClose?: ?() => void,
@@ -33,7 +60,6 @@ type Props = {
   modalNodeState: ModalNodeState,
   inEmbedMode: boolean,
   onClose: () => void,
-  onOpenReportMode: ?() => void,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
@@ -261,6 +287,179 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     this.setState({ resolvedSources });
   }
 
+  renderDetailPanel() {
+    const {
+      category,
+      parentCategory,
+      resolvedRequiredData,
+      resolvedToiletsNearby,
+      isLoadingToiletsNearby,
+      resolvedPhotos,
+      resolvedSources,
+    } = this.state;
+
+    const {
+      featureId,
+      userAgent,
+      onDetailPanelClose,
+      onOpenWheelchairAccessibility,
+      onOpenToiletAccessibility,
+      onOpenToiletNearby,
+      onSelectWheelchairAccessibility,
+      onReportPhoto,
+      onStartPhotoUploadFlow,
+      photoFlowNotification,
+      photoFlowErrorMessage,
+      accessibilityPresetStatus,
+      onOpenReportMode,
+    } = this.props;
+
+    if (!resolvedRequiredData || !resolvedRequiredData.resolvedFeature) {
+      return null;
+    }
+
+    const feature = resolvedRequiredData.resolvedFeature;
+    const toiletsNearby = resolvedToiletsNearby || [];
+
+    let description: ?string = null;
+    if (feature.properties && typeof feature.properties.wheelchair_description === 'string') {
+      description = feature.properties.wheelchair_description;
+    }
+
+    const descriptionElement = description ? <Description>{description}</Description> : null;
+
+    let inlineWheelchairAccessibilityEditorElement;
+    const wheelmapFeature = wheelmapFeatureFrom(feature);
+
+    if (
+      !wheelmapFeature ||
+      !wheelmapFeature.properties ||
+      wheelmapFeature.properties.wheelchair !== 'unknown'
+    ) {
+      inlineWheelchairAccessibilityEditorElement = null;
+    } else {
+      // translator: Shown as header/title when you edit wheelchair accessibility of a place
+      const header = t`How wheelchair accessible is this place?`;
+      inlineWheelchairAccessibilityEditorElement = (
+        <section>
+          <h4 id="wheelchair-accessibility-header">{header}</h4>
+          <InlineWheelchairAccessibilityEditor
+            category={getCategoryId(category)}
+            onChange={onSelectWheelchairAccessibility}
+            presetStatus={accessibilityPresetStatus}
+          />
+        </section>
+      );
+    }
+
+    const accessibilitySectionElement = (
+      <section>
+        {inlineWheelchairAccessibilityEditorElement}
+        <WheelchairAndToiletAccessibility
+          isEditingEnabled={isWheelmapFeatureId(featureId)}
+          feature={feature}
+          toiletsNearby={toiletsNearby}
+          isLoadingToiletsNearby={isLoadingToiletsNearby}
+          onOpenWheelchairAccessibility={onOpenWheelchairAccessibility}
+          onOpenToiletAccessibility={onOpenToiletAccessibility}
+          onOpenToiletNearby={onOpenToiletNearby}
+        />
+        {description && descriptionElement}
+        <AccessibleDescription properties={feature.properties} />
+      </section>
+    );
+
+    const iconButtonListElement = (
+      <IconButtonList
+        feature={feature}
+        featureId={featureId}
+        category={category}
+        parentCategory={parentCategory}
+        userAgent={userAgent}
+        onToggle={() => {
+          if (this.toolbar) this.toolbar.ensureFullVisibility();
+        }}
+        onOpenReportMode={onOpenReportMode}
+      />
+    );
+
+    const photoHeaderElement = (
+      <PhotoHeader
+        featureId={featureId}
+        photos={resolvedPhotos || []}
+        onReportPhoto={onReportPhoto}
+        onStartPhotoUploadFlow={onStartPhotoUploadFlow}
+        photoFlowNotification={photoFlowNotification}
+        photoFlowErrorMessage={photoFlowErrorMessage}
+      />
+    );
+
+    const accessibilityTree =
+      feature.properties && typeof feature.properties.accessibility === 'object'
+        ? feature.properties.accessibility
+        : null;
+    const filteredAccessibilityTree = accessibilityTree
+      ? filterAccessibility(accessibilityTree)
+      : null;
+
+    const a11yDetailsElement = <A11yDetails details={filteredAccessibilityTree} />;
+
+    const sourcePraiseElement =
+      resolvedSources && resolvedSources.length > 0 ? (
+        <SourcePraise sources={resolvedSources} />
+      ) : null;
+
+    const categoryId = getCategoryId(category);
+    const iconElement = (
+      <Icon
+        accessibility={isWheelchairAccessible(feature.properties)}
+        category={categoryId || 'undefined'}
+        size="big"
+        ariaHidden={true}
+      />
+    );
+
+    const sourceDisclaimerElement = (
+      <AppContextConsumer>
+        {appContext => (
+          <AccessibilitySourceDisclaimer
+            properties={feature.properties}
+            appToken={appContext.app.tokenString}
+          />
+        )}
+      </AppContextConsumer>
+    );
+
+    const photoUploadButtonElement =
+      resolvedPhotos && resolvedPhotos.length !== 0 ? (
+        <DetailPanelPhotoUploadButton
+          onClick={onStartPhotoUploadFlow}
+          textVisible={false}
+          incentiveHintVisible={resolvedPhotos.length < 4}
+        />
+      ) : null;
+
+    const elements = {
+      iconElement,
+      accessibilitySectionElement,
+      iconButtonListElement,
+      photoHeaderElement,
+      photoUploadButtonElement,
+      a11yDetailsElement,
+      sourcePraiseElement,
+      sourceDisclaimerElement,
+    };
+
+    return (
+      <DetailPanel
+        feature={feature}
+        categories={this.props.categories}
+        onClose={onDetailPanelClose}
+        {...elements}
+      />
+    );
+  }
+
   render() {
     const {
       category,
@@ -284,22 +483,28 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
       const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
 
-      return (
-        <NodeToolbar
-          {...remainingProps}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
-          category={category}
-          parentCategory={parentCategory}
-          feature={resolvedFeature}
-          equipmentInfo={resolvedEquipmentInfo}
-          sources={resolvedSources || []}
-          photos={resolvedPhotos || []}
-          toiletsNearby={resolvedToiletsNearby || []}
-          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-          ref={t => (this.nodeToolbar = t)}
-        />
-      );
+      const useNodeToolbar = this.props.modalNodeState || resolvedEquipmentInfo;
+
+      if (useNodeToolbar) {
+        return (
+          <NodeToolbar
+            {...remainingProps}
+            featureId={remainingProps.featureId}
+            equipmentInfoId={remainingProps.equipmentInfoId}
+            category={category}
+            parentCategory={parentCategory}
+            feature={resolvedFeature}
+            equipmentInfo={resolvedEquipmentInfo}
+            sources={resolvedSources || []}
+            photos={resolvedPhotos || []}
+            toiletsNearby={resolvedToiletsNearby || []}
+            isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
+            ref={t => (this.nodeToolbar = t)}
+          />
+        );
+      } else {
+        return this.renderDetailPanel();
+      }
     } else if (lightweightFeature) {
       return (
         <NodeToolbar

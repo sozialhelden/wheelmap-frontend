@@ -289,7 +289,7 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
 
   .accessibility-description {
     margin: 0.25rem 0;
-    color: rgba(0, 0, 0, 0.6);
+    color: ${colors.textColorBrighter};
   }
 
   .accessibility-toilet {
