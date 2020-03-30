@@ -35,6 +35,37 @@ export type SearchResultCollection = {
   wheelmapFeatures?: (?WheelmapFeature)[] | Promise<?WheelmapFeature>[],
 };
 
+export function getOsmIdFromSearchResultProperties(
+  searchResultProperties?: SearchResultProperties
+) {
+  let osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
+
+  if (!osmId) {
+    return null;
+  }
+
+  // Only nodes with type 'N' and 'W' can be on Wheelmap.
+  if (searchResultProperties.osm_type !== 'N' && searchResultProperties.osm_type !== 'W') {
+    return null;
+  }
+
+  // Wheelmap stores features with osm type 'W' with negativ ids.
+  // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
+  if (searchResultProperties.osm_type === 'W') {
+    osmId = -osmId;
+  }
+
+  return osmId;
+}
+
+export function buildOriginalOsmId(searchResultProperties?: SearchResultProperties) {
+  if (!searchResultProperties) {
+    return undefined;
+  }
+  return `osm://${searchResultProperties.osm_type || 'unknown'}/${searchResultProperties.osm_id ||
+    'unknown'}`;
+}
+
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
 // place by name (and optionally latitude / longitude).
 

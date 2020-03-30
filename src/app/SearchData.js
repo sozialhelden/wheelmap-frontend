@@ -7,6 +7,7 @@ import searchPlaces, {
   searchPlacesDebounced,
   type SearchResultCollection,
   type SearchResultProperties,
+  getOsmIdFromSearchResultProperties,
 } from '../lib/searchPlaces';
 import { type DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
@@ -30,21 +31,10 @@ async function fetchWheelmapNode(
     return null;
   }
 
-  let osmId: ?number = searchResultProperties ? searchResultProperties.osm_id : null;
+  const osmId = getOsmIdFromSearchResultProperties(searchResultProperties);
 
-  if (!osmId) {
+  if (osmId === null) {
     return null;
-  }
-
-  // Only nodes with type 'N' and 'W' can be on Wheelmap.
-  if (searchResultProperties.osm_type !== 'N' && searchResultProperties.osm_type !== 'W') {
-    return null;
-  }
-
-  // Wheelmap stores features with osm type 'W' with negativ ids.
-  // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
-  if (searchResultProperties.osm_type === 'W') {
-    osmId = -osmId;
   }
 
   try {

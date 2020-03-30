@@ -32,7 +32,8 @@ export default class MyDocument extends Document {
             content={`
               default-src
                 ws:
-                data:
+                data: 
+                blob:
                 'self'
                 'unsafe-eval'
                 'unsafe-inline'
@@ -43,7 +44,9 @@ export default class MyDocument extends Document {
                 https://sozialhelden.matomo.cloud
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud
-
+                https://api.mapbox.com
+                https://events.mapbox.com
+                
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
@@ -51,9 +54,10 @@ export default class MyDocument extends Document {
                 ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
 
-                style-src
+              style-src
                 'self'
-                'unsafe-inline';
+                https://api.tiles.mapbox.com
+                'unsafe-inline'; 
               frame-src
                 'self';
               media-src
@@ -61,6 +65,7 @@ export default class MyDocument extends Document {
               img-src
                 'self'
                 data:
+                blob:
                 https://accessibility-cloud-uploads.s3.amazonaws.com
                 https://sozialhelden.matomo.cloud
                 https://api.mapbox.com

@@ -72,6 +72,7 @@ export type CategoryLookupTables = {
   idsToWheelmapCategories: { [number]: WheelmapCategory },
   wheelmapCategoryNamesToCategories: { [string]: WheelmapCategory },
   wheelmapRootCategoryNamesToCategories: { [string]: WheelmapCategory },
+  categoryTree: ACCategory[],
 };
 
 export type RootCategoryEntry = {
@@ -304,6 +305,7 @@ export default class Categories {
       idsToWheelmapCategories: {},
       wheelmapCategoryNamesToCategories: {},
       wheelmapRootCategoryNamesToCategories: {},
+      categoryTree: prefetchedData.accessibilityCloud,
     };
 
     Categories.generateSynonymCache(lookupTable, prefetchedData.accessibilityCloud);

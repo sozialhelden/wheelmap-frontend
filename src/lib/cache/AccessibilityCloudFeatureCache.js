@@ -10,6 +10,18 @@ type CacheMap = {
   [key: string]: FeatureCache<*, *>,
 };
 
+export type CreatePlaceData = {
+  properties: {
+    name: string,
+    category: string,
+    address?: any,
+  },
+  geometry: {
+    type: 'Point',
+    coordinates: [number, number],
+  },
+};
+
 const caches: CacheMap = {
   equipmentInfos: equipmentInfoCache,
 };
@@ -48,6 +60,47 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     super.cacheFeature(feature, response);
   }
 
+  createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}/place-infos/?appToken=${appToken}`,
+          {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(place),
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            response
+              .json()
+              .then(json => {
+                resolve(json._id);
+              })
+              .catch(reject);
+          } else if (response.json) {
+            response
+              .json()
+              .then(json => {
+                reject(json.error || 'unknown');
+              })
+              .catch(reject);
+          } else {
+            reject(response);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return uploadPromise;
+  }
+
   reportPlace(
     placeId: string,
     reason: string,
@@ -61,6 +114,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
             ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
           {
             method: 'POST',
+            cache: 'no-cache',
             headers: {
               Accept: 'application/json',
             },
