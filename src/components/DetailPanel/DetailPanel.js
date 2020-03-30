@@ -112,7 +112,6 @@ export default styled(DetailPanel)`
       box-sizing: border-box;
       margin: 0;
       padding: 10px;
-      height: 74px;
       width: 100%;
     }
 
@@ -139,6 +138,7 @@ export default styled(DetailPanel)`
 
     footer {
       flex-wrap: nowrap;
+      margin-bottom: 0;
     }
   }
 
