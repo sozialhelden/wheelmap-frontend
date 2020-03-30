@@ -263,6 +263,8 @@ const StyledPhotoHeader = styled(PhotoHeader)`
       box-shadow: 0px 0px 0px 4px #4469e1;
     }
 
+    cursor: pointer;
+
     img {
       height: 300px;
 
