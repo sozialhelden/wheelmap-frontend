@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 import styled from 'styled-components';
 
 import ErrorBoundary from '../ErrorBoundary';
-import PhotoHeader from './Photos/PhotoHeader';
+import PhotoHeader from './PhotoHeader';
 
 import { type Feature } from '../../lib/Feature';
 import { placeNameFor } from '../../lib/Feature';
@@ -13,12 +13,11 @@ import Categories, { type CategoryLookupTables, categoryNameFor } from '../../li
 import DetailPanelHeader from './DetailPanelHeader';
 import DetailPanelMain from './DetailPanelMain';
 import SourcePraise from './SourcePraise';
-import IconButtonList from './IconButtonList/IconButtonList';
-import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilitySourceDisclaimer';
-import WheelchairAndToiletAccessibility from './AccessibilitySection/WheelchairAndToiletAccessibility';
+import IconButtonList from '../NodeToolbar/IconButtonList/IconButtonList';
+import AccessibilitySourceDisclaimer from '../NodeToolbar/AccessibilitySection/AccessibilitySourceDisclaimer';
+import WheelchairAndToiletAccessibility from '../NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility';
 import A11yDetails from './A11yDetails';
 import { ChromelessButton } from '../Button';
-import IconButton from '../IconButton';
 
 type Props = {
   className?: string,

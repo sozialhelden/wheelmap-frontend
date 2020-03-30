@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import capitalize from 'lodash/capitalize';
 
 import colors from '../../lib/colors';
-import a11yIcons, { filterOutDetailsWithIconSupport } from './a11yIcons';
-import AccessibilityDetailsTree from './AccessibilitySection/AccessibilityDetailsTree';
+import a11yIcons, { filterOutDetailsWithIconSupport } from '../../lib/a11yIcons';
+import AccessibilityDetailsTree from '../NodeToolbar/AccessibilitySection/AccessibilityDetailsTree';
 
 type Props = {
   className?: string,

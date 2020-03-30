@@ -7,11 +7,11 @@ import styled from 'styled-components';
 import Gallery from 'react-photo-gallery';
 import Lightbox from 'react-images';
 
-import type { PhotoModel } from '../../../lib/PhotoModel';
+import type { PhotoModel } from '../../lib/PhotoModel';
 
-import DetailPanelPhotoUploadButton from '../../PhotoUpload/DetailPanelPhotoUploadButton';
-import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
-import colors from '../../../lib/colors';
+import DetailPanelPhotoUploadButton from './DetailPanelPhotoUploadButton';
+import PhotoNotification from '../NodeToolbar/Photos/PhotoNotification';
+import colors from '../../lib/colors';
 
 type Props = {
   featureId: string,

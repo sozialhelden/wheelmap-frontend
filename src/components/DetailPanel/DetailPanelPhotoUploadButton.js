@@ -6,8 +6,8 @@ import colors from '../../lib/colors';
 import { t } from 'ttag';
 
 import { ChromelessButton } from '../Button';
-import AddPhotoIcon from './AddPhotoIcon';
-import { DetailPanelIncentiveHint } from '../NodeToolbar/DetailPanelIncentiveHint';
+import AddPhotoIcon from '../icons/ui-elements/AddPhotoIcon';
+import { DetailPanelIncentiveHint } from './DetailPanelIncentiveHint';
 
 type Props = {
   className?: string,

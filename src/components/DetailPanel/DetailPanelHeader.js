@@ -5,7 +5,7 @@ import { t } from 'ttag';
 
 import colors from '../../lib/colors';
 import { ChromelessButton } from '../Button';
-import DetailPanelPhotoUploadButton from '../PhotoUpload/DetailPanelPhotoUploadButton';
+import DetailPanelPhotoUploadButton from './DetailPanelPhotoUploadButton';
 import { StyledIconContainer } from '../Icon';
 import BackButton from './BackButton';
 
