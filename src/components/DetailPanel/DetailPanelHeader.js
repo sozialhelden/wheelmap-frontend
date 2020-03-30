@@ -26,10 +26,15 @@ const DetailPanelHeader = ({
   photoUploadButtonElement,
   className,
 }: Props) => {
-  const buttonText = t`back`;
+  // translator: Text for the button that brings the user back to the map
+  const buttonText = t`map`;
+  // translator: Text for screenreaders describing the button takes the user back to the map
+  const ariaLabel = t`Back to map`;
   return (
     <header className={className}>
-      <BackButton onClick={onCloseButtonClick}>{buttonText}</BackButton>
+      <BackButton onClick={onCloseButtonClick} ariaLabel={ariaLabel}>
+        {buttonText}
+      </BackButton>
       <div>
         {icon}
         {title && <h1>{title}</h1>}

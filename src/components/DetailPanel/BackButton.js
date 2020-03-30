@@ -11,8 +11,8 @@ type Props = {
   children: React.ReactChildren,
 };
 
-const BackButton = ({ onClick, children, className }): Props => (
-  <ChromelessButton className={className} onClick={onClick}>
+const BackButton = ({ onClick, children, className, ariaLabel }): Props => (
+  <ChromelessButton className={className} onClick={onClick} aria-label={ariaLabel}>
     <ChevronLeft />
     {children}
   </ChromelessButton>
