@@ -226,8 +226,11 @@ class PhotoHeader extends React.Component<Props, State> {
 const StyledPhotoHeader = styled(PhotoHeader)`
   position: relative;
   padding: 0;
-  min-height: 200px;
-  background: linear-gradient(#eeeeee, #cccccc);
+  min-height: 300px;
+
+  @media (min-width: 512px) {
+    min-height: 400px;
+  }
 
   ${({ photos }) =>
     photos.length === 0
@@ -235,11 +238,14 @@ const StyledPhotoHeader = styled(PhotoHeader)`
         display: flex;
         justify-content: center;
         align-items: center;
+        background: linear-gradient(#eeeeee, #cccccc);
       `
       : `
         display: block;
         justify-content: initial;
         align-items: initial;
+        background-image: url(${photos[0].src});
+        background-size: cover;
       `}
 
   ${DetailPanelPhotoUploadButton} {
@@ -251,14 +257,19 @@ const StyledPhotoHeader = styled(PhotoHeader)`
     display: flex;
     justify-content: center;
     overflow: hidden;
-
-    &.focus-visible {
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.7) &.focus-visible {
       border-radius: 0px;
       box-shadow: 0px 0px 0px 4px #4469e1;
     }
 
     img {
-      height: 200px;
+      height: 300px;
+
+      @media (min-width: 512px) {
+        height: 400px;
+      }
+
       flex-shrink: 0;
     }
   }
