@@ -67,6 +67,11 @@ export default class AppCache extends URLDataCache<AppApiData> {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL;
     // Allow test deployments on zeit
     const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
+    const cleanedHostName = hostName
+      // Allow test deployments on zeit
+      .replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh')
+      // Allow branch test deployments
+      .replace(/.*\.wheelmap\.tech$/, 'wheelmap.tech');
     return `${baseUrl}/apps/${cleanedHostName}.json?appToken=${appToken}`;
   }
 }
