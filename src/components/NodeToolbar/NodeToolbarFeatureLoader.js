@@ -43,6 +43,7 @@ import AccessibilitySourceDisclaimer from './AccessibilitySection/AccessibilityS
 import { AppContextConsumer } from '../../AppContext';
 import DetailPanelPhotoUploadButton from '../DetailPanel/DetailPanelPhotoUploadButton';
 import isA11yEditable from './AccessibilityEditor/isA11yEditable';
+import EditFormSubmissionButton from './AccessibilityEditor/EditFormSubmissionButton';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -395,6 +396,11 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
               />
               {description && descriptionElement}
               <AccessibleDescription properties={feature.properties} />
+              <EditFormSubmissionButton
+                featureId={featureId}
+                feature={feature}
+                sources={resolvedSources}
+              />
             </section>
           );
         }}
