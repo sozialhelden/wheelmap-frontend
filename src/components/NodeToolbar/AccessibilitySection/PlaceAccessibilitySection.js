@@ -5,6 +5,7 @@ import * as React from 'react';
 import StyledFrame from './StyledFrame';
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 import AccessibleDescription from './AccessibleDescription';
+import EditFormSubmissionButton from '../AccessibilityEditor/EditFormSubmissionButton';
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
 
@@ -46,6 +47,7 @@ export default function PlaceAccessibilitySection(props: Props) {
 
   const appContext = React.useContext(AppContext);
   const properties = feature && feature.properties;
+
   if (!properties) {
     return null;
   }
@@ -83,6 +85,7 @@ export default function PlaceAccessibilitySection(props: Props) {
       />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />
+      <EditFormSubmissionButton featureId={featureId} feature={feature} sources={sources} />
       {accessibilityDetailsTree}
       <AccessibilitySourceDisclaimer
         properties={properties}
