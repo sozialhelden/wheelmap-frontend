@@ -7,7 +7,6 @@ import { t } from 'ttag';
 import FocusTrap from 'focus-trap-react';
 
 import { translatedStringFromObject, type LocalizedString } from '../../lib/i18n';
-import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 import colors from '../../lib/colors';
 import type { MappingEvent } from '../../lib/MappingEvent';
 
@@ -25,11 +24,9 @@ type State = {
 type Props = {
   className: string,
   productName: string,
-  uniqueSurveyId: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
-  onAddPlaceLinkClick: () => void,
   joinedMappingEvent: ?MappingEvent,
   isOpen: boolean,
   lat: string,
@@ -138,11 +135,7 @@ class MainMenu extends React.Component<Props, State> {
     return this.props.links
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(link => {
-        const url = insertPlaceholdersToAddPlaceUrl(
-          baseUrl,
-          translatedStringFromObject(link.url),
-          this.props.uniqueSurveyId
-        );
+        const url = translatedStringFromObject(link.url);
         const label = translatedStringFromObject(link.label);
         const badgeLabel = translatedStringFromObject(link.badgeLabel);
         const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);

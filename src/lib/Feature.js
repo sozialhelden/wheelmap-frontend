@@ -157,6 +157,7 @@ export type AccessibilityCloudProperties = {
   infoPageUrl?: string,
   editPageUrl?: string,
   equipmentInfos: { [key: string]: EquipmentInfo },
+  ids?: { id: string, provider: string }[],
   isWorking?: boolean,
   phone: ?string,
   phoneNumber: ?string,
