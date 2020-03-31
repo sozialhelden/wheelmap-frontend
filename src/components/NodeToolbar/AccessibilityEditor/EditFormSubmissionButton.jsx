@@ -2,8 +2,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
+import uuidv4 from 'uuid/v4';
 
 import type { Feature } from '../../../lib/Feature';
+import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
 import type { SourceWithLicense } from '../../../app/PlaceDetailsProps';
 import { PrimaryButton } from '../../Button';
 import AppContext from '../../../AppContext';
@@ -12,8 +14,14 @@ import { accessibilityCloudFeatureCache } from '../../../lib/cache/Accessibility
 import colors from '../../../lib/colors';
 
 function hasKoboSubmission(feature: Feature) {
-  if (feature.properties && feature.properties.ids) {
-    for (const externalId of feature.properties.ids) {
+  const acFeature = accessibilityCloudFeatureFrom(feature);
+  if (!acFeature) {
+    return false;
+  }
+
+  const ids = acFeature.properties && acFeature.properties.ids;
+  if (ids) {
+    for (const externalId of ids) {
       if (externalId.provider === 'koboSubmission') {
         return true;
       }
@@ -33,6 +41,10 @@ type State = 'Idle' | 'CreatingLink' | 'Error';
 
 const validLinkDuration = 1000 * 60 * 3; // 3 minutes
 
+function openSurveyLink(url: string) {
+  window.open(url, '_blank');
+}
+
 const EditFormSubmissionButton = (props: Props) => {
   const primarySource = props.sources ? props.sources[0].source : undefined;
   const [state, setState] = React.useState<State>('Idle');
@@ -41,30 +53,36 @@ const EditFormSubmissionButton = (props: Props) => {
 
   const appContext = React.useContext(AppContext);
   const tokenString = appContext.app.tokenString;
+  const baseUrl = appContext.baseUrl;
   const placeId = props.featureId;
 
   const createOrOpenEditLink = React.useCallback(() => {
     if (resolvedEditUrl.current) {
-      window.open(resolvedEditUrl.current, '_blank');
+      openSurveyLink(resolvedEditUrl.current);
       return;
     }
 
     setState('CreatingLink');
+    const uniqueSurveyId = encodeURI(uuidv4());
     accessibilityCloudFeatureCache
-      .getEditPlaceSubmissionUrl(placeId, 'false', tokenString)
+      .getEditPlaceSubmissionUrl(
+        placeId,
+        `${baseUrl}/contribution-thanks/${placeId}?uniqueSurveyId=${uniqueSurveyId}`,
+        tokenString
+      )
       .then(uri => {
         console.log(uri);
         resolvedEditUrl.current = uri;
         setState('Idle');
         setTimeout(() => (resolvedEditUrl.current = null), validLinkDuration);
-        window.open(uri, '_blank');
+        openSurveyLink(uri);
       })
       .catch(error => {
         setState('Error');
         resolvedEditUrl.current = null;
         setError(typeof error === 'object' ? error.reason : String(error));
       });
-  }, [setState, setError, placeId, tokenString, resolvedEditUrl]);
+  }, [setState, setError, placeId, baseUrl, tokenString]);
 
   const hasDefaultForm = primarySource && primarySource.defaultKoboForm;
   const hasSubmission = hasKoboSubmission(props.feature);

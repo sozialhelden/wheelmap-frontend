@@ -2,7 +2,7 @@
 import pick from 'lodash/pick';
 import { globalFetchManager } from './FetchManager';
 import { getUserAgent } from './userAgent';
-import { hasAllowedAnalytics, getUUID, getJoinedMappingEventId } from './savedState';
+import { getUUID, getJoinedMappingEventId } from './savedState';
 import { userPositionTracker } from './UserPositionTracker';
 import { mappingEventsCache } from './cache/MappingEventsCache';
 import { type App } from './App';
