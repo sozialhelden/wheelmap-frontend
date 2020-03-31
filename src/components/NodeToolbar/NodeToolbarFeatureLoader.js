@@ -376,20 +376,29 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     );
 
     const accessibilitySectionElement = (
-      <section>
-        {inlineWheelchairAccessibilityEditorElement}
-        <WheelchairAndToiletAccessibility
-          isEditingEnabled={isWheelmapFeatureId(featureId)}
-          feature={feature}
-          toiletsNearby={toiletsNearby}
-          isLoadingToiletsNearby={isLoadingToiletsNearby}
-          onOpenWheelchairAccessibility={onOpenWheelchairAccessibility}
-          onOpenToiletAccessibility={onOpenToiletAccessibility}
-          onOpenToiletNearby={onOpenToiletNearby}
-        />
-        {description && descriptionElement}
-        <AccessibleDescription properties={feature.properties} />
-      </section>
+      <AppContextConsumer>
+        {appContext => {
+          const primarySource =
+            resolvedSources && resolvedSources.length > 0 ? resolvedSources[0].source : undefined;
+          const isEditingEnabled = isA11yEditable(featureId, appContext.app, primarySource);
+          return (
+            <section>
+              {inlineWheelchairAccessibilityEditorElement}
+              <WheelchairAndToiletAccessibility
+                isEditingEnabled={isEditingEnabled}
+                feature={feature}
+                toiletsNearby={toiletsNearby}
+                isLoadingToiletsNearby={isLoadingToiletsNearby}
+                onOpenWheelchairAccessibility={onOpenWheelchairAccessibility}
+                onOpenToiletAccessibility={onOpenToiletAccessibility}
+                onOpenToiletNearby={onOpenToiletNearby}
+              />
+              {description && descriptionElement}
+              <AccessibleDescription properties={feature.properties} />
+            </section>
+          );
+        }}
+      </AppContextConsumer>
     );
 
     const iconButtonListElement = (
