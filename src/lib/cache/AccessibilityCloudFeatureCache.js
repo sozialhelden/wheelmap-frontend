@@ -147,6 +147,52 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     return uploadPromise;
   }
 
+  getEditPlaceSubmissionUrl(placeId: string, returnUrl: string, appToken: string): Promise<string> {
+    const editUrlPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+            ''}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
+            returnUrl
+          )}&appToken=${appToken}`,
+          {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            response
+              .json()
+              .then(json => {
+                if (json.success) {
+                  resolve(json.url);
+                } else {
+                  reject(json.message || 'unknown');
+                }
+              })
+              .catch(reject);
+          } else if (response.json) {
+            response
+              .json()
+              .then(json => {
+                reject(json.error || 'unknown');
+              })
+              .catch(reject);
+          } else {
+            reject(response);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return editUrlPromise;
+  }
+
   reportPlace(
     placeId: string,
     reason: string,
