@@ -13,7 +13,7 @@ import { Dots } from 'react-activity';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import colors from '../../../lib/colors';
 
-function hasKoboSubmission(feature: Feature) {
+function hasKoboSubmission(feature: Feature | null) {
   const acFeature = accessibilityCloudFeatureFrom(feature);
   if (!acFeature) {
     return false;
@@ -32,8 +32,8 @@ function hasKoboSubmission(feature: Feature) {
 
 type Props = {
   className?: string,
-  featureId: string,
-  feature: Feature,
+  featureId: string | null,
+  feature: Feature | null,
   sources: SourceWithLicense[] | null,
 };
 
@@ -46,7 +46,8 @@ function openSurveyLink(url: string) {
 }
 
 const EditFormSubmissionButton = (props: Props) => {
-  const primarySource = props.sources ? props.sources[0].source : undefined;
+  const primarySource =
+    props.sources && props.sources.length > 0 ? props.sources[0].source : undefined;
   const [state, setState] = React.useState<State>('Idle');
   const [error, setError] = React.useState<string | null>(null);
   const resolvedEditUrl = React.useRef<string | null>(null);
@@ -57,6 +58,10 @@ const EditFormSubmissionButton = (props: Props) => {
   const placeId = props.featureId;
 
   const createOrOpenEditLink = React.useCallback(() => {
+    if (!placeId) {
+      return;
+    }
+
     if (resolvedEditUrl.current) {
       openSurveyLink(resolvedEditUrl.current);
       return;
@@ -109,6 +114,7 @@ const EditFormSubmissionButton = (props: Props) => {
 
 export default styled(EditFormSubmissionButton)`
   margin-top: 12px;
+  width: 100%;
 
   .loadingIndicator {
     margin-left: 12px;
