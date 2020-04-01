@@ -207,6 +207,7 @@ const CreatePlaceFlow = (props: Props) => {
         <CreationSuccessScreen
           visible={step === 'Success'}
           state={uploadState}
+          placeId={createdPlaceId}
           placeName={place.properties.name}
           onSubmit={submit}
           onRetry={returnToEditor}
