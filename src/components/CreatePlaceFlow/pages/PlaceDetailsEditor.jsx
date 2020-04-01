@@ -27,6 +27,7 @@ export type PlaceData = {
     address: AddressData,
     originalId?: string,
     originalData?: string,
+    accessibility: {},
   },
   geometry?: PointGeometry,
 };

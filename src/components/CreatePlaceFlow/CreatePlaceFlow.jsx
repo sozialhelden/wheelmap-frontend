@@ -13,6 +13,7 @@ import PlaceDetailsEditor from './pages/PlaceDetailsEditor';
 import PointGeometryPicker from './pages/PointGeometryPicker';
 import CreationSuccessScreen from './pages/CreationSuccessScreen';
 
+import type { CreatePlaceData } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import type { PlaceData } from './pages/PlaceDetailsEditor';
 import type { PointGeometry } from './pages/PointGeometryPicker';
 import type { AddressData } from './components/AddressEditor';
@@ -48,6 +49,7 @@ const CreatePlaceFlow = (props: Props) => {
     properties: {
       name: '',
       address: {},
+      accessibility: {},
     },
   });
 
@@ -57,7 +59,7 @@ const CreatePlaceFlow = (props: Props) => {
 
   const createNew = React.useCallback(
     (name: string) => {
-      const newPlace = { properties: { name, address: {} } };
+      const newPlace = { properties: { name, address: {}, accessibility: {} } };
       setPlace(newPlace);
       setStep('EditPlaceDetails');
     },
@@ -153,7 +155,7 @@ const CreatePlaceFlow = (props: Props) => {
   const createPlace = React.useCallback(() => {
     setUploadState('Submitting');
     accessibilityCloudFeatureCache
-      .createPlace(place, appToken)
+      .createPlace(((place: any): CreatePlaceData), appToken)
       .then(id => {
         setCreatedPlaceId(id);
         setUploadState('Success');
