@@ -23,7 +23,7 @@ const routes = [
   },
   {
     name: 'contributionThanks',
-    path: '/contribution-thanks',
+    path: '/contribution-thanks/:id',
   },
   {
     name: 'mappingEvents',

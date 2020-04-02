@@ -6,21 +6,20 @@ import styled from 'styled-components';
 
 import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
-import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
 import queryString from 'query-string';
-import { ChromelessButton, CallToActionLink } from '../Button';
+import { ChromelessButton, PrimaryButton } from '../Button';
 import { trackingEventBackend } from '../../lib/TrackingEventBackend';
-import { type AppContext } from '../../AppContext';
+import { type AppContextData } from '../../AppContext';
 import { trackEvent } from '../../lib/Analytics';
 
 export type Props = {
+  featureId: string,
   hidden: boolean,
   isExpanded?: boolean,
   onClose: () => void,
-  addPlaceUrl: ?string,
-  onAddPlaceLinkClick?: () => void,
-  appContext: AppContext,
+  onSelectFeature: (featureId: string) => void,
+  appContext: AppContextData,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -61,8 +60,8 @@ const StyledToolbar = styled(Toolbar)`
       margin-bottom: 60px;
     }
 
-    > button {
-      margin: 0 1em 0.5em;
+    > button, > a {
+      margin-bottom: 12px;
     }
   }
 `;
@@ -90,6 +89,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
   }
 
   render() {
+    const featureId = this.props.featureId;
     const className = ['contribution-thanks-dialog', this.props.isExpanded && 'is-expanded']
       .filter(Boolean)
       .join(' ');
@@ -97,7 +97,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     const header = t`Thank you!`;
     const text = t`Please give us a moment to verify your contribution.`;
 
-    const addNextPlaceButtonCaption = t`Add next place`;
+    const backToPlaceButtonCaption = t`Back to place`;
     const backToMapButtonCaption = t`Back to map`;
 
     return (
@@ -107,20 +107,15 @@ export default class ContributionThanksDialog extends React.Component<Props> {
           <CloseLink onClick={this.props.onClose} />
         </header>
         <section>
+          <span role="img" aria-label={t`Clapping hands`}>
+            👏🏽
+          </span>
           <p>{text}</p>
-
-          {this.props.addPlaceUrl && (
-            <CallToActionLink
-              data-focus-visible-added
-              href={this.props.addPlaceUrl}
-              target="_blank"
-              onClick={this.props.onAddPlaceLinkClick}
-            >
-              {addNextPlaceButtonCaption}
-              <ChevronRight />
-            </CallToActionLink>
+          {featureId && (
+            <PrimaryButton onClick={() => this.props.onSelectFeature(featureId)}>
+              {backToPlaceButtonCaption}
+            </PrimaryButton>
           )}
-
           <ChromelessButton onClick={this.props.onClose}>{backToMapButtonCaption}</ChromelessButton>
         </section>
       </StyledToolbar>

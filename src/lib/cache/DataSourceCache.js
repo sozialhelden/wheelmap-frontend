@@ -11,6 +11,7 @@ export type DataSource = {
   name: ?string,
   originWebsiteURL: ?string,
   isA11yRatingAllowed?: boolean,
+  defaultKoboForm?: string,
 };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {

@@ -57,7 +57,7 @@ class ErrorBoundary extends Component<Props, State> {
             {error && error.message && ` — ${error.message}`}
           </ErrorDetail>
 
-          <Link routeName="map" className="button-cta-close focus-visible">
+          <Link to="map" className="button-cta-close focus-visible">
             {returnHomeButtonCaption}
           </Link>
         </div>
