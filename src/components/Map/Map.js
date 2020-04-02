@@ -951,9 +951,15 @@ export default class Map extends React.Component<Props, State> {
 
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
-    if (!properties) {
+    if (!properties) return null;
+    if (
+      !isWheelmapFeature(feature) &&
+      !properties.accessibility &&
+      !includes(EquipmentCategoryStrings, properties.category)
+    ) {
       return null;
     }
+
     const featureId: string = properties.id || properties._id || feature._id;
 
     return new HighlightableMarker(latlng, A11yMarkerIcon, {
