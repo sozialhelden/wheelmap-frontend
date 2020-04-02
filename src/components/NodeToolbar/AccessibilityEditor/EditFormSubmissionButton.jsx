@@ -104,7 +104,7 @@ const EditFormSubmissionButton = (props: Props) => {
       </PrimaryButton>
       {state === 'Error' && (
         <div className="errorBlock">
-          <p>{t`Something went wrong. Please retry later or contact an administrator.`}</p>
+          <p>{t`Sorry, something went wrong! Please retry later, or write an email to bugs@wheelmap.org if the issue persists.`}</p>
           <p>{error}</p>
         </div>
       )}
