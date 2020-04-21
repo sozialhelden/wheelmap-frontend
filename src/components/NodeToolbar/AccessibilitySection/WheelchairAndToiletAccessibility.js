@@ -80,7 +80,7 @@ type Props = {
 };
 
 class WheelchairAndToiletAccessibility extends React.Component<Props> {
-  renderWheelchairButton(wheelchairAccessibility) {
+  renderWheelchairButton(wheelchairAccessibility, showDescription) {
     return (
       <button
         className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
@@ -92,9 +92,11 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
           {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
         </header>
 
-        <footer className="accessibility-description">
-          {accessibilityDescription(wheelchairAccessibility)}
-        </footer>
+        {showDescription && (
+          <footer className="accessibility-description">
+            {accessibilityDescription(wheelchairAccessibility)}
+          </footer>
+        )}
       </button>
     );
   }
@@ -179,10 +181,11 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     if (!hasContent) {
       return null;
     }
-
+    const showDescription = categoryId !== 'parking';
     return (
       <div className={this.props.className}>
-        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
+        {isKnownWheelchairAccessibility &&
+          this.renderWheelchairButton(wheelchairAccessibility, showDescription)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
       </div>
