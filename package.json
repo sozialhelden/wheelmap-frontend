@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@babel/runtime-corejs3": "^7.6.3",
-    "@elastic/apm-rum": "^4.3.0",
+    "@elastic/apm-rum": "^4.9.1",
     "@hypo808/elastic-apm-sourcemap-webpack-plugin": "^1.5.2",
     "@sozialhelden/twelve-factor-dotenv": "^15.0.0",
     "acorn-dynamic-import": "^4.0.0",
