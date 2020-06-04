@@ -452,3 +452,5 @@ patch:
         patched: '2020-06-04T15:55:27.875Z'
     - next > autodll-webpack-plugin > webpack-merge > lodash:
         patched: '2020-06-04T15:55:27.875Z'
+    - next > styled-jsx > @babel/types > lodash:
+        patched: '2020-06-04T16:00:19.070Z'
