@@ -53,8 +53,8 @@
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.14",
     "marked": "^0.7.0",
-    "mkdirp": "^0.5.1",
-    "next": "^9.1.2",
+    "mkdirp": "^0.5.2",
+    "next": "^9.3.2",
     "next-transpile-modules": "^2.3.1",
     "path-to-regexp": "^2.4.0",
     "plist": "^3.0.1",
@@ -75,7 +75,8 @@
     "ttag": "^1.7.17",
     "ua-parser-js": "^0.7.20",
     "underscore.string": "^3.3.5",
-    "unfetch": "^3.1.2"
+    "unfetch": "^3.1.2",
+    "snyk": "^1.336.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-template-literals": "^7.4.4",
@@ -163,7 +164,9 @@
     "compile-svgs": "npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write",
-    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
+    "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -231,5 +234,6 @@
   },
   "resolutions": {
     "https-proxy-agent": "^3.0.0"
-  }
+  },
+  "snyk": true
 }
