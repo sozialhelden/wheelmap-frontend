@@ -103,6 +103,7 @@ const StyledToolbar = styled(Toolbar)`
   padding: 0;
   border-top: none;
   border-radius: 3px;
+  bottom: auto !important;
 
   .search-results {
     padding: 0 10px 5px 10px;
