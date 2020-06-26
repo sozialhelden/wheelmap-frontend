@@ -108,7 +108,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       >
         <header>
           {ToiletDescription(toiletAccessibility)}
-          {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
+          {/* {this.props.isEditingEnabled && <PenIcon className="pen-icon" />} */}
         </header>
       </button>
     );
@@ -142,10 +142,10 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       const caption = t`Show next wheelchair accessible toilet`;
       return (
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
-          {caption}{' '}
-          <span className="subtle">
-            {distance}
-            {unit}
+          {caption}
+          <span className="subtle distance">
+            &nbsp;{distance}&nbsp;
+            {unit}&nbsp;→
           </span>
         </button>
       );
@@ -290,12 +290,6 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
   .accessibility-description {
     margin: 0.25rem 0;
     color: rgba(0, 0, 0, 0.6);
-  }
-
-  .accessibility-toilet {
-    svg {
-      margin-right: 0.5rem;
-    }
   }
 
   > header > span {

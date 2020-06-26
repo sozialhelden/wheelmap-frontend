@@ -44,7 +44,7 @@ const unitSets = {
 //    2123.12 becomes  2.1km
 //    12123.12 becomes  12km
 export function formatDistance(distanceInMeters: number, precision: number = 2) {
-  const unitSet = useImperialUnits() ? unitSets.imperialFeet : unitSets.metric;
+  const unitSet = useImperialUnits() ? unitSets.imperialYard : unitSets.metric;
 
   let distance = distanceInMeters;
   let unit = distanceInMeters;
