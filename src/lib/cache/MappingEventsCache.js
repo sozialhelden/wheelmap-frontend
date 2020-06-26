@@ -14,7 +14,9 @@ export default class MappingEventsCache extends URLDataCache<MappingEventsData> 
 
   async getMappingEvents(app: App): MappingEvent[] {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
-    const data: MappingEventsData = await this.getData(url, { useCache: false });
+    const data: MappingEventsData = await this.getData(url, {
+      useCache: typeof window !== undefined,
+    });
     const results: MappingEvents = data.results.map(mappingEvent => ({
       ...mappingEvent,
       images: Object.keys(data.related.images)
