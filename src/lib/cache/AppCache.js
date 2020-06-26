@@ -65,8 +65,6 @@ export default class AppCache extends URLDataCache<AppApiData> {
 
   getUrl(hostName: string, appToken: string): string {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL;
-    // Allow test deployments on zeit
-    const cleanedHostName = hostName.replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh');
     const cleanedHostName = hostName
       // Allow test deployments on zeit
       .replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh')
