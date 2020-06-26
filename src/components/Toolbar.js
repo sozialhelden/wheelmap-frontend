@@ -181,7 +181,7 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
-    if (!this.props.isSwipeable || this.props.isModal || this.isLandscapePhone()) {
+    if (!this.props.isSwipeable || this.props.isModal) {
       return;
     }
     this.setState({ isSwiping: false, scrollTop: 0 });
@@ -227,14 +227,15 @@ class Toolbar extends React.Component<Props, State> {
     );
   }
 
+  getToolbarHeight(): number {
+    return Math.round(this.state.dimensions ? this.state.dimensions.height : 0);
+  }
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
   getTopmostPosition(): number {
-    let toolbarHeight = this.state.dimensions ? this.state.dimensions.height : 0;
-    return Math.max(
-      this.getMinimalTopPosition(),
-      this.state.viewportSize.height - toolbarHeight - 100
-    );
+    const toolbarHeight = this.getToolbarHeight();
+    const viewportHeight = this.state.viewportSize.height;
+    return Math.max(this.getMinimalTopPosition(), Math.round(viewportHeight - toolbarHeight));
   }
 
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
@@ -282,12 +283,15 @@ class Toolbar extends React.Component<Props, State> {
   getStyle(): { transform: string, touchAction: string, transition: string, overflowY: string } {
     const lastTopOffset = this.state.lastTopOffset;
 
+    const isToolbarFittingOnScreenCompletely =
+      this.state.viewportSize.height - this.getToolbarHeight() - this.getStops()[0] > 0;
+    const isBigViewport =
+      this.state.viewportSize.width > 512 && this.state.viewportSize.height > 512;
     let topOffset = this.state.topOffset || lastTopOffset;
-    topOffset = Math.max(this.getTopmostPosition(), topOffset);
-    const isLandscape = this.state.viewportSize.width > this.state.viewportSize.height;
-    const isBigViewport = this.state.viewportSize.width > 512;
-    if (isLandscape || isBigViewport) {
-      topOffset = 0;
+    if (isBigViewport && isToolbarFittingOnScreenCompletely) {
+      topOffset = this.getTopmostPosition();
+    } else {
+      topOffset = Math.max(this.getTopmostPosition(), topOffset);
     }
 
     const defaultTransitions = 'opacity 0.3s ease-out';
@@ -369,6 +373,7 @@ class Toolbar extends React.Component<Props, State> {
               role={this.props.role}
               aria-label={this.props.ariaLabel}
               aria-describedby={this.props.ariaDescribedBy}
+              data-minimal-top-position={this.props.minimalTopPosition}
               data-last-top-offset={this.state.lastTopOffset}
               data-dimensions-viewport-height={
                 this.state.viewportSize && this.state.viewportSize.height
@@ -416,27 +421,28 @@ const StyledToolbar = styled(Toolbar)`
   left: 0;
   left: constant(safe-area-inset-left);
   left: env(safe-area-inset-left);
-  top: 50px;
-  top: calc(${p => p.minimalTopPosition || 0}px + constant(safe-area-inset-top));
-  top: calc(${p => p.minimalTopPosition || 0}px + env(safe-area-inset-top));
 
   /* Sizing (more sizing for different viewports below) */
   box-sizing: border-box;
   width: 320px;
   min-width: 320px;
-  max-height: calc(100% - 120px);
-  max-height: calc(100% - 120px - constant(safe-area-inset-top));
-  max-height: calc(100% - 120px - env(safe-area-inset-top));
+  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px);
+  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px - constant(safe-area-inset-top));
+  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px - env(safe-area-inset-top));
 
   &.toolbar-is-modal {
     z-index: 1000;
 
     @media (max-height: 512px), (max-width: 512px) {
-      top: 0px;
-      top: constant(safe-area-inset-top);
-      top: env(safe-area-inset-top);
-      margin-top: 0;
+      bottom: 0px;
+      bottom: constant(safe-area-inset-bottom);
+      bottom: env(safe-area-inset-bottom);
+      margin-bottom: 0;
     }
+  }
+
+  @media (max-height: 512px), (max-width: 512px) {
+    bottom: 0;
   }
 
   margin: 10px;
