@@ -831,10 +831,11 @@ const StyledMainView = styled(MainView)`
   &.is-modal,
   &.is-main-menu-open {
     > .behind-backdrop {
+      border-radius: 30px;
+      overflow: hidden;
       .toolbar {
         z-index: 999;
       }
-      filter: blur(5px);
       transform: scale3d(0.99, 0.99, 1);
       @media (max-width: 512px), (max-height: 512px) {
         transform: scale3d(0.9, 0.9, 1);

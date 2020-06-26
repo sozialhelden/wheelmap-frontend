@@ -282,7 +282,7 @@ openMenuHoverColor.opacity = 0.5;
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   padding: 0;
-  background-color: rgba(254, 254, 254, 0.95);
+  background-color: rgba(254, 254, 254, 0.8);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -421,8 +421,9 @@ const StyledMainMenu = styled(MainMenu)`
   @media (max-width: ${MENU_BUTTON_VISIBILITY_BREAKPOINT}px) {
     position: absolute;
     top: 0;
-    top: constant(safe-area-inset-top);
-    top: env(safe-area-inset-top);
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    backdrop-filter: blur(5px);
     left: 0;
     right: 0;
 
@@ -454,12 +455,6 @@ const StyledMainMenu = styled(MainMenu)`
 
     .flexible-separator {
       display: none;
-    }
-
-    .home-link {
-      /* margin-left: 1em; */
-      margin-left: constant(safe-area-inset-left);
-      margin-left: env(safe-area-inset-left);
     }
 
     .nav-link {

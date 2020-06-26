@@ -130,6 +130,7 @@ const StyledModalDialog = styled(ModalDialog)`
   }
   .modal-dialog-fullscreen-overlay {
     background-color: transparent;
+    -webkit-backdrop-filter: blur(5px);
   }
   .modal-dialog-content {
     position: relative;
