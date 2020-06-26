@@ -245,6 +245,10 @@ const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
     justify-content: space-between;
   }
 
+  footer {
+    margin-bottom: 8px;
+  }
+
   figure {
     margin-right: 8px;
     top: 0;
