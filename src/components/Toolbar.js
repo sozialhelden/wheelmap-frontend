@@ -22,6 +22,7 @@ type Props = {
   ariaLabel?: string,
   ariaDescribedBy?: string,
   minimalHeight?: number,
+  minimalTopPosition?: number,
   isSwipeable?: boolean,
   isModal?: boolean,
   enableTransitions?: boolean,
@@ -222,7 +223,7 @@ class Toolbar extends React.Component<Props, State> {
 
   getMinimalTopPosition(): number {
     return (
-      (typeof window !== 'undefined' ? safeAreaInsets.top : 0) + (this.props.isModal ? 10 : 60)
+      (typeof window !== 'undefined' ? safeAreaInsets.top : 0) + this.props.minimalTopPosition || 0
     );
   }
 
@@ -416,8 +417,8 @@ const StyledToolbar = styled(Toolbar)`
   left: constant(safe-area-inset-left);
   left: env(safe-area-inset-left);
   top: 50px;
-  top: calc(50px + constant(safe-area-inset-top));
-  top: calc(50px + env(safe-area-inset-top));
+  top: calc(${p => p.minimalTopPosition || 0}px + constant(safe-area-inset-top));
+  top: calc(${p => p.minimalTopPosition || 0}px + env(safe-area-inset-top));
 
   /* Sizing (more sizing for different viewports below) */
   box-sizing: border-box;
@@ -434,20 +435,15 @@ const StyledToolbar = styled(Toolbar)`
       top: 0px;
       top: constant(safe-area-inset-top);
       top: env(safe-area-inset-top);
-      max-height: calc(100% - ${props => (props.inEmbedMode ? 60 : 90)}px);
-      max-height: calc(
-        100% - ${props => (props.inEmbedMode ? 60 : 90)}px - constant(safe-area-inset-top)
-      );
-      max-height: calc(
-        100% - ${props => (props.inEmbedMode ? 60 : 90)}px - env(safe-area-inset-top)
-      );
       margin-top: 0;
     }
   }
 
   margin: 10px;
-  padding: 12px 15px 5px 15px;
+  padding: 0px 15px 5px 15px;
   outline: none;
+  border-top: ${colors.colorizedBackgroundColor} 8px solid;
+  padding-bottom: 8px;
 
   border-radius: 9px;
   font-size: 16px;
@@ -470,10 +466,7 @@ const StyledToolbar = styled(Toolbar)`
   @media (max-width: 512px) {
     width: 100%;
     min-width: 250px;
-    margin: 10px 0 0 0;
-
-    border-top: ${colors.colorizedBackgroundColor} 8px solid;
-
+    margin: 0;
     .grab-handle {
       display: block;
       position: sticky;
@@ -514,7 +507,7 @@ const StyledToolbar = styled(Toolbar)`
     padding: 10px;
     text-decoration: none;
     border-radius: 4px;
-    margin: 0 -10px;
+    margin: 0 -8px;
     cursor: pointer;
     background-color: transparent;
     border: none;

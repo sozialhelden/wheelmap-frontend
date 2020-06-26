@@ -44,6 +44,7 @@ export type Props = PlaceFilter & {
   isExpanded: boolean,
   hasGoButton: boolean,
   searchResults: ?SearchResultCollection | ?Promise<SearchResultCollection>,
+  minimalTopPosition: number,
 };
 
 type State = {
@@ -108,7 +109,7 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   > header {
-    // Add relative positioning for browsers not supporting position sticky.
+    /* Add relative positioning for browsers not supporting position sticky. */
     position: relative;
     position: sticky;
     display: flex;
@@ -497,6 +498,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         ref={toolbar => (this.toolbar = toolbar)}
         isSwipeable={false}
         enableTransitions={false}
+        minimalTopPosition={this.props.minimalTopPosition}
         role="search"
         isExpanded={isExpanded}
       >

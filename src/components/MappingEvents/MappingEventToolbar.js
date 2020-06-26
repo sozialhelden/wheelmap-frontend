@@ -32,6 +32,7 @@ type MappingEventToolbarProps = {
   productName: ?string,
   focusTrapActive: boolean,
   preferredLanguage: string,
+  minimalTopPosition: number,
 };
 
 const MappingEventToolbar = ({
@@ -45,6 +46,7 @@ const MappingEventToolbar = ({
   productName,
   focusTrapActive,
   preferredLanguage,
+  minimalTopPosition,
 }: MappingEventToolbarProps) => {
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
@@ -129,6 +131,7 @@ const MappingEventToolbar = ({
         ariaLabel={toolbarAriaLabel}
         role="dialog"
         minimalHeight={205}
+        minimalTopPosition={minimalTopPosition}
       >
         <CloseButton onClick={onClose} />
         <header>

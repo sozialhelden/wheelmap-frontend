@@ -53,6 +53,7 @@ type Props = {
   photoFlowNotification?: string,
   photoFlowErrorMessage: ?string,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  minimalTopPosition: number,
 } & PlaceDetailsProps;
 
 type RequiredData = {
