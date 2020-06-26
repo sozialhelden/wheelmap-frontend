@@ -135,7 +135,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
   render() {
     const { cluster } = this.props;
     const hasWindow = typeof window !== 'undefined';
-    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
     if (!cluster || cluster.features.length === 0) {
       return null;
@@ -154,7 +153,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
           hidden={this.props.hidden}
           isModal={this.props.modalNodeState}
           role="dialog"
-          startTopOffset={offset}
           onScrollable={isScrollable => this.setState({ isScrollable })}
           inEmbedMode={this.props.inEmbedMode}
           isBelowSearchField={true}

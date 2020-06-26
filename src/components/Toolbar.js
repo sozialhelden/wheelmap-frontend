@@ -26,7 +26,6 @@ type Props = {
   isSwipeable?: boolean,
   isModal?: boolean,
   enableTransitions?: boolean,
-  startTopOffset?: number,
   onScrollable?: (isScrollable: boolean) => void,
 };
 
@@ -70,7 +69,6 @@ class Toolbar extends React.Component<Props, State> {
   props: Props;
 
   ensureVisibilityTimeoutId: ?number;
-  startTopOffsetTimeoutId: ?number;
 
   scrollElement: ?HTMLElement;
 
@@ -97,25 +95,13 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.onResize(this.props.startTopOffset);
+    this.onResize();
     if (this.props.isModal) this.ensureFullVisibility();
-    this.startTopOffsetTimeoutId = window.setTimeout(() => {
-      this.startTopOffsetTimeoutId = undefined;
-      this.onResize(this.props.startTopOffset);
-    }, 120);
   }
 
   componentWillUnmount() {
     if (typeof window !== 'undefined') {
       window.removeEventListener('resize', this.onWindowResize);
-      if (this.ensureVisibilityTimeoutId) {
-        window.clearTimeout(this.ensureVisibilityTimeoutId);
-        this.ensureVisibilityTimeoutId = undefined;
-      }
-      if (this.startTopOffsetTimeoutId) {
-        window.clearTimeout(this.startTopOffsetTimeoutId);
-        this.startTopOffsetTimeoutId = undefined;
-      }
     }
   }
 
@@ -419,8 +405,6 @@ const StyledToolbar = styled(Toolbar)`
 
     @media (max-height: 512px), (max-width: 512px) {
       bottom: 0px;
-      bottom: constant(safe-area-inset-bottom);
-      bottom: env(safe-area-inset-bottom);
       margin-bottom: 0;
     }
   }

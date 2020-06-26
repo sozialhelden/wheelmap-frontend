@@ -382,9 +382,6 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   render() {
-    const hasWindow = typeof window !== 'undefined';
-    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
-
     return (
       <FocusTrap
         // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
@@ -396,7 +393,6 @@ class NodeToolbar extends React.Component<Props, State> {
           isModal={this.props.modalNodeState}
           role="dialog"
           ariaLabel={this.placeName()}
-          startTopOffset={offset}
           onScrollable={isScrollable => this.setState({ isScrollable })}
           minimalTopPosition={this.props.minimalTopPosition}
           isBelowSearchField={true}
