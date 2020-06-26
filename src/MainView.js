@@ -255,6 +255,14 @@ class MainView extends React.Component<Props, State> {
     this.setState(() => ({ uniqueSurveyId: uuidv4() }));
   };
 
+  getMinimalNodeToolbarTopPosition() {
+    return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 120;
+  }
+
+  getMinimalToolbarTopPosition() {
+    return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 70;
+  }
+
   renderNodeToolbar(isNodeRoute: boolean) {
     return (
       <div className="node-toolbar">
@@ -291,7 +299,7 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
-          minimalTopPosition={this.props.inEmbedMode ? 0 : 110}
+          minimalTopPosition={this.getMinimalNodeToolbarTopPosition()}
         />
       </div>
     );
@@ -305,7 +313,7 @@ class MainView extends React.Component<Props, State> {
         mappingEvents={mappingEvents}
         onClose={onCloseMappingEventsToolbar}
         onMappingEventClick={onMappingEventClick}
-        minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
+        minimalTopPosition={this.getMinimalToolbarTopPosition()}
       />
     );
   }
@@ -342,7 +350,7 @@ class MainView extends React.Component<Props, State> {
             productName={translatedProductName}
             focusTrapActive={focusTrapActive}
             preferredLanguage={preferredLanguage}
-            minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
+            minimalTopPosition={this.getMinimalToolbarTopPosition()}
           />
         )}
       </AppContextConsumer>
@@ -386,7 +394,7 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
         hasGoButton={this.state.isOnSmallViewport}
-        minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
+        minimalTopPosition={this.getMinimalToolbarTopPosition()}
       />
     );
   }
