@@ -17,6 +17,7 @@ type MappingEventsToolbarProps = {
   mappingEvents: MappingEvents,
   onClose: () => void,
   onMappingEventClick: (eventId: string) => void,
+  minimalTopPosition: number,
 };
 
 const MappingEventsToolbar = ({
@@ -25,6 +26,7 @@ const MappingEventsToolbar = ({
   mappingEvents,
   onClose,
   onMappingEventClick,
+  minimalTopPosition,
 }: MappingEventsToolbarProps) => {
   // translator: Screenreader description for the mapping events list
   const mappingEventsListAriaLabel = t`Mapping events list`;
@@ -44,6 +46,7 @@ const MappingEventsToolbar = ({
         ariaLabel={mappingEventsListAriaLabel}
         role="dialog"
         minimalHeight={180}
+        minimalTopPosition={minimalTopPosition}
       >
         <CloseButton onClick={onClose} />
         <header>

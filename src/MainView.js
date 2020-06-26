@@ -291,6 +291,7 @@ class MainView extends React.Component<Props, State> {
           onEquipmentSelected={this.props.onEquipmentSelected}
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
+          minimalTopPosition={this.props.inEmbedMode ? 0 : 110}
         />
       </div>
     );
@@ -304,6 +305,7 @@ class MainView extends React.Component<Props, State> {
         mappingEvents={mappingEvents}
         onClose={onCloseMappingEventsToolbar}
         onMappingEventClick={onMappingEventClick}
+        minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
       />
     );
   }
@@ -340,6 +342,7 @@ class MainView extends React.Component<Props, State> {
             productName={translatedProductName}
             focusTrapActive={focusTrapActive}
             preferredLanguage={preferredLanguage}
+            minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
           />
         )}
       </AppContextConsumer>
@@ -383,6 +386,7 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
         hasGoButton={this.state.isOnSmallViewport}
+        minimalTopPosition={this.props.inEmbedMode ? 0 : 50}
       />
     );
   }
