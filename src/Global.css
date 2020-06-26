@@ -4,6 +4,7 @@ html {
 
 body {
   position: fixed;
+  overscroll-behavior: none;
 }
 
 html,
@@ -21,29 +22,6 @@ body,
   height: 100vh;
   margin: 0;
   padding: 0;
-}
-
-/* iPhone-X notch support */
-
-body {
-  /* padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: constant(safe-area-inset-bottom);
-    padding-bottom: env(safe-area-inset-bottom); */
-}
-
-body:before {
-  content: " ";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.25);
-  height: 0;
-  height: constant(safe-area-inset-top);
-  height: env(safe-area-inset-top);
-  z-index: 401;
-  -webkit-backdrop-filter: blur(10px);
 }
 
 /*

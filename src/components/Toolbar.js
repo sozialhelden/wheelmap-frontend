@@ -140,6 +140,7 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   onSwiping(e: TouchEvent, deltaX: number, deltaY: number) {
+    console.log('deltaY', deltaY);
     if (!this.props.isSwipeable || this.props.isModal) {
       return;
     }
@@ -154,16 +155,19 @@ class Toolbar extends React.Component<Props, State> {
       console.log('Prevented scrolling');
     }
 
-    const topmostPosition = 0;
     const touchTopOffset = this.state.lastTopOffset - deltaY - this.state.scrollTop;
-    const topOffset = Math.max(topmostPosition, touchTopOffset);
+    const topOffset = Math.max(0, touchTopOffset);
 
-    if (this.scrollElement && touchTopOffset < topmostPosition) {
-      this.scrollElement.scrollTop = topmostPosition - touchTopOffset;
+    if (this.scrollElement && touchTopOffset < 0) {
+      this.scrollElement.scrollTop = -touchTopOffset;
+      console.log('scrollTop:', this.scrollElement.scrollTop);
     }
 
     this.setState({ isSwiping: true });
     this.setState({ topOffset });
+    if (topOffset === 0) {
+      this.setState({ lastTopOffset: 0 });
+    }
   }
 
   onSwiped(e: TouchEvent, deltaX: number, deltaY: number, isFlick: boolean) {
@@ -261,7 +265,7 @@ class Toolbar extends React.Component<Props, State> {
     if (isBigViewport && isToolbarFittingOnScreenCompletely) {
       topOffset = 0;
     } else {
-      topOffset = Math.max(0, topOffset);
+      // topOffset = Math.max(0, topOffset);
     }
 
     const defaultTransitions = 'opacity 0.3s ease-out';
@@ -383,6 +387,8 @@ class Toolbar extends React.Component<Props, State> {
 
 const StyledToolbar = styled(Toolbar)`
   position: fixed;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
 
   user-select: none;
   -webkit-user-drag: none;
@@ -396,21 +402,28 @@ const StyledToolbar = styled(Toolbar)`
   box-sizing: border-box;
   width: 320px;
   min-width: 320px;
-  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px);
-  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px - constant(safe-area-inset-top));
-  max-height: calc(100% - ${p => p.minimalTopPosition || 120}px - env(safe-area-inset-top));
+  max-height: calc(100% - ${p => p.minimalTopPosition || 0}px);
+  max-height: calc(100% - ${p => p.minimalTopPosition || 0}px - constant(safe-area-inset-top));
+  max-height: calc(100% - ${p => p.minimalTopPosition || 0}px - env(safe-area-inset-top));
+
+  @media (max-height: 512px), (max-width: 512px) {
+    bottom: 0;
+  }
 
   &.toolbar-is-modal {
     z-index: 1000;
 
     @media (max-height: 512px), (max-width: 512px) {
-      bottom: 0px;
       margin-bottom: 0;
+      padding-bottom: constant(safe-area-inset-bottom);
+      padding-bottom: env(safe-area-inset-bottom);
     }
-  }
 
-  @media (max-height: 512px), (max-width: 512px) {
-    bottom: 0;
+    @media (min-width: 513px) and (min-height: 513px) {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) !important;
+    }
   }
 
   margin: 10px;

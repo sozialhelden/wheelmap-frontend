@@ -356,16 +356,20 @@ body.is-touch-device .leaflet-control-zoom {
 .mapbox-attribution-container {
   bottom: 0;
   right: 0;
+  left: 0;
+  text-align: right;
   right: constant(safe-area-inset-right);
   right: env(safe-area-inset-right);
-  bottom: constant(safe-area-inset-bottom);
-  bottom: env(safe-area-inset-bottom);
   position: fixed;
   display: block;
   padding: 5px 10px 5px 2px;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.8);
-  -webkit-backgrop: filter(10px);
+  padding-bottom: 5px;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 999;
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .mapbox-attribution-container .sozialhelden-logo {
@@ -393,7 +397,6 @@ body.is-touch-device .leaflet-control-zoom {
 @media (max-width: 500px), (max-height: 500px) {
   .mapbox-attribution-container {
     font-size: 9px;
-    padding: 3px;
   }
   .mapbox-attribution-container .sozialhelden-logo-container {
     display: none;
@@ -405,7 +408,6 @@ body.is-touch-device .leaflet-control-zoom {
     left: env(safe-area-inset-left);
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
-    margin-left: 5px;
-    margin-bottom: 3px;
+    margin-left: 10px;
   }
 }
