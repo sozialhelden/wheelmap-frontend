@@ -288,8 +288,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return (
         <NodeToolbar
           {...remainingProps}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
           parentCategory={parentCategory}
           feature={resolvedFeature}
@@ -305,8 +303,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return (
         <NodeToolbar
           {...remainingProps}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
           category={category}
           parentCategory={parentCategory}
           feature={lightweightFeature}
