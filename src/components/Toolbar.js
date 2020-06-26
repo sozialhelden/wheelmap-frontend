@@ -60,7 +60,7 @@ type State = {
 class Toolbar extends React.Component<Props, State> {
   static defaultProps = {
     hidden: false,
-    minimalHeight: 145,
+    minimalHeight: 90,
     isSwipeable: true,
     isModal: false,
     role: '',
@@ -168,7 +168,7 @@ class Toolbar extends React.Component<Props, State> {
       console.log('Prevented scrolling');
     }
 
-    const topmostPosition = this.getTopmostPosition();
+    const topmostPosition = 0;
     const touchTopOffset = this.state.lastTopOffset - deltaY - this.state.scrollTop;
     const topOffset = Math.max(topmostPosition, touchTopOffset);
 
@@ -232,37 +232,21 @@ class Toolbar extends React.Component<Props, State> {
   }
   /** @returns the maximal top position for the toolbar to stay interactable. */
 
-  getTopmostPosition(): number {
-    const toolbarHeight = this.getToolbarHeight();
-    const viewportHeight = this.state.viewportSize.height;
-    return Math.max(this.getMinimalTopPosition(), Math.round(viewportHeight - toolbarHeight));
-  }
-
   /** @returns An array of top position offsets that the toolbar is allowed to stop on. */
 
   getStops(): number[] {
-    const topmostPosition = this.getTopmostPosition();
+    const toolbarHeight = this.getToolbarHeight();
 
     // On landscape phones, the toolbar is fixed on the left side.
     if (this.isLandscapePhone()) {
-      return [topmostPosition];
+      return [0];
     }
-
-    // iPhone X and other phones have an area that reacts to user gestures and that
-    // we can't use inside the app.
-    const safeBottomAreaInset = typeof window !== 'undefined' ? safeAreaInsets.bottom : 0;
-
     // The toolbar needs a minimal height be draggable from the bottom when minimized
-    const minimalHeight = Math.max(this.props.minimalHeight || 0, 90) + safeBottomAreaInset;
-
-    const middlePosition = Math.max(
-      topmostPosition,
-      Math.floor(this.state.viewportSize.height / 2)
-    );
-    const bottomPosition = this.state.viewportSize.height - minimalHeight;
+    const minimalHeight = Math.max(this.props.minimalHeight || 0, 90);
+    const bottomPosition = toolbarHeight - minimalHeight;
 
     // Define 3 default stop positions
-    const stops = uniq([topmostPosition, middlePosition, bottomPosition]);
+    const stops = uniq([0, bottomPosition]);
 
     return stops;
   }
@@ -273,7 +257,7 @@ class Toolbar extends React.Component<Props, State> {
   }
 
   isAtTopmostPosition() {
-    return (this.state.topOffset || this.state.lastTopOffset) <= this.getTopmostPosition();
+    return (this.state.topOffset || this.state.lastTopOffset) <= 0;
   }
 
   isLandscapePhone() {
@@ -289,9 +273,9 @@ class Toolbar extends React.Component<Props, State> {
       this.state.viewportSize.width > 512 && this.state.viewportSize.height > 512;
     let topOffset = this.state.topOffset || lastTopOffset;
     if (isBigViewport && isToolbarFittingOnScreenCompletely) {
-      topOffset = this.getTopmostPosition();
+      topOffset = 0;
     } else {
-      topOffset = Math.max(this.getTopmostPosition(), topOffset);
+      topOffset = Math.max(0, topOffset);
     }
 
     const defaultTransitions = 'opacity 0.3s ease-out';
@@ -337,7 +321,7 @@ class Toolbar extends React.Component<Props, State> {
       isIphoneX ? 'toolbar-iphone-x' : null,
       this.props.hidden ? 'toolbar-hidden' : null,
       this.props.isModal ? 'toolbar-is-modal' : null,
-      this.state.lastTopOffset === this.getTopmostPosition() ? 'toolbar-is-at-top' : null,
+      this.isAtTopmostPosition() ? 'toolbar-is-at-top' : null,
       this.props.className,
     ];
     const className = classNames.filter(Boolean).join(' ');
