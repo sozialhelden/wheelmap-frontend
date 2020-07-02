@@ -17,7 +17,7 @@ const WheelmapHomeLink = ({ className, logoURL, href, appName }) => (
 );
 
 const StyledWheelmapHomeLink = styled(WheelmapHomeLink)`
-  border-radius: 2px;
+  border-radius: 8px;
   background-color: rgba(254, 254, 254, 0.8);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
 `;

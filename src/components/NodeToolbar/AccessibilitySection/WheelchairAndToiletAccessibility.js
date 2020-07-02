@@ -247,13 +247,18 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
 
+  .accessibility-wheelchair {
+    header {
+      justify-content: space-between;
+    }
+  }
+
   .accessibility-wheelchair,
   .accessibility-toilet {
     header {
       font-weight: bold;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       align-items: center;
     }
   }

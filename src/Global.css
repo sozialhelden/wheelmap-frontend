@@ -40,14 +40,12 @@ body,
 
 .js-focus-visible .focus-visible {
   outline: none;
-  border-radius: 4px;
   box-shadow: inset 0px 0px 0px 2px #4469e1;
   transition: box-shadow 0.2s;
 }
 
 .radio-group:focus-within,
 [role="radiogroup"]:focus-within {
-  border-radius: 4px;
   box-shadow: 0px 0px 0px 2px #4469e1;
   transition: box-shadow 0.2s;
 }

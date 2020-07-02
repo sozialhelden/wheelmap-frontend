@@ -90,9 +90,8 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
   state: State = {};
 
   renderCloseLink() {
-    const { onClose, modalNodeState } = this.props;
-
-    return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
+    const { onClose } = this.props;
+    return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
   renderClusterEntry(feature: Feature | EquipmentInfo) {

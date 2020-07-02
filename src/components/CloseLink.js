@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import CloseIcon from './icons/actions/Close';
 import { t } from 'ttag';
+import colors from '../lib/colors';
 
 type Props = {
   className?: string,
@@ -57,7 +58,11 @@ const StyledCloseLink = styled(CloseLink)`
   transform: translateZ(0);
   border: 0;
   cursor: pointer;
-
+  @media (hover), (-moz-touch-enabled: 0) {
+    &:hover {
+      background-color: ${colors.negativeBackgroundColorTransparent};
+    }
+  }
   > svg {
     display: block;
   }

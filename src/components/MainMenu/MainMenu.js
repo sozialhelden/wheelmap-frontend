@@ -282,10 +282,9 @@ openMenuHoverColor.opacity = 0.5;
 const StyledMainMenu = styled(MainMenu)`
   box-sizing: border-box;
   padding: 0;
-  background-color: rgba(254, 254, 254, 0.8);
+  background-color: rgba(254, 254, 254, 0.9);
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   z-index: 1000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
@@ -418,21 +417,23 @@ const StyledMainMenu = styled(MainMenu)`
     }
   }
 
-  @media (max-width: ${MENU_BUTTON_VISIBILITY_BREAKPOINT}px) {
-    position: absolute;
-    top: 0;
-    padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
-    backdrop-filter: blur(5px);
-    left: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+  backdrop-filter: blur(5px);
+  left: 0;
+  right: 0;
 
+  @media (max-width: ${MENU_BUTTON_VISIBILITY_BREAKPOINT}px) {
     flex-wrap: wrap;
     flex-direction: column;
     align-items: flex-start;
+    background-color: rgba(254, 254, 254, 0.9);
+    backdrop-filter: blur(5px);
 
     #main-menu {
-      margin-right: 70px;
+      justify-content: space-between;
       min-height: 0;
     }
 
@@ -459,18 +460,23 @@ const StyledMainMenu = styled(MainMenu)`
 
     .nav-link {
       height: 44px;
-      padding-left: 1em;
-      width: 50%;
-      max-width: 240px;
+      padding: 8px;
+      width: calc(50% - 16px);
       display: none;
       align-items: center;
       box-sizing: border-box;
-      text-align: left;
+      text-align: center;
+      background-color: white;
     }
 
     &.is-open {
       .nav-link {
         display: flex;
+        margin: 8px;
+      }
+
+      #main-menu {
+        margin: 16px;
       }
 
       button.menu {
@@ -494,16 +500,6 @@ const StyledMainMenu = styled(MainMenu)`
           }
         }
       }
-    }
-  }
-
-  @media (max-width: 400px) {
-    #main-menu {
-      margin-right: 0;
-    }
-    .nav-link {
-      width: 100%;
-      max-width: 100%;
     }
   }
 

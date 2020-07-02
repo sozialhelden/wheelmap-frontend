@@ -1027,7 +1027,7 @@ export default class Map extends React.Component<Props, State> {
         onActivate={this.zoomIn}
         caption={caption}
         ariaHidden
-        topPosition={10}
+        topPosition={60}
         color={colors.notificationBackgroundColor}
       />
     );
@@ -1049,7 +1049,7 @@ export default class Map extends React.Component<Props, State> {
         }}
         caption={caption}
         ariaHidden
-        topPosition={120}
+        topPosition={170}
         color={colors.notificationBackgroundColor}
       />
     );

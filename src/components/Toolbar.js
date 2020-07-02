@@ -410,13 +410,25 @@ const StyledToolbar = styled(Toolbar)`
     bottom: 0;
   }
 
+  @media (min-width: 513px) and (min-height: 513px) {
+    max-height: calc(100% - ${p => p.minimalTopPosition || 0}px);
+    max-height: calc(
+      100% - ${p => p.minimalTopPosition || 0}px - constant(safe-area-inset-top) - 20px
+    );
+    max-height: calc(100% - ${p => p.minimalTopPosition || 0}px - env(safe-area-inset-top) - 20px);
+
+    &:not(.toolbar-is-modal) {
+      top: ${p => p.minimalTopPosition || 0}px;
+    }
+  }
+
   &.toolbar-is-modal {
     z-index: 1000;
+    padding-bottom: calc(constant(safe-area-inset-bottom) + 8px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 8px);
 
     @media (max-height: 512px), (max-width: 512px) {
-      margin-bottom: 0;
-      padding-bottom: constant(safe-area-inset-bottom);
-      padding-bottom: env(safe-area-inset-bottom);
+      margin-bottom: 0px;
     }
 
     @media (min-width: 513px) and (min-height: 513px) {
@@ -426,13 +438,12 @@ const StyledToolbar = styled(Toolbar)`
     }
   }
 
-  margin: 10px;
+  margin: 0 10px 10px 10px;
   padding: 0px 15px 5px 15px;
   outline: none;
   border-top: ${colors.colorizedBackgroundColor} 8px solid;
   padding-bottom: 8px;
 
-  border-radius: 9px;
   font-size: 16px;
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
   background-color: ${colors.colorizedBackgroundColor};
@@ -450,7 +461,14 @@ const StyledToolbar = styled(Toolbar)`
     outline: none;
   }
 
+  border-radius: 8px;
+
   @media (max-width: 512px) {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+
     width: 100%;
     min-width: 250px;
     margin: 0;
@@ -478,6 +496,12 @@ const StyledToolbar = styled(Toolbar)`
         height: 5px;
         border-radius: 2.5px;
         background-color: rgba(0, 0, 0, 0.2);
+        &.focus-visible {
+          box-shadow: 0px 0px 0px 2px #4469e1;
+        }
+      }
+      &.focus-visible {
+        box-shadow: none !important;
       }
     }
   }
@@ -494,7 +518,6 @@ const StyledToolbar = styled(Toolbar)`
     padding: 10px;
     text-decoration: none;
     border-radius: 4px;
-    margin: 0 -8px;
     cursor: pointer;
     background-color: transparent;
     border: none;
@@ -517,7 +540,6 @@ const StyledToolbar = styled(Toolbar)`
   }
 
   button.link-button.full-width-button {
-    width: calc(100% + 20px);
     text-align: left;
   }
 
