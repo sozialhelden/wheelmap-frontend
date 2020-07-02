@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 // @flow
 import { t } from 'ttag';
 import { hsl } from 'd3-color';
@@ -193,6 +194,15 @@ class Toolbar extends React.Component<Props, State> {
     });
   }
 
+  handleKeyDown = (event: SyntheticKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape') {
+      const closeLink = this.scrollElement.querySelector('.close-link');
+      if (closeLink && closeLink.click) {
+        closeLink.click();
+      }
+    }
+  };
+
   /** @returns the next preferred stop position */
 
   getNearestStopForTopOffset(topOffset: number): number {
@@ -333,6 +343,7 @@ class Toolbar extends React.Component<Props, State> {
             onSwiped={(e, deltaX, deltaY, isFlick) => this.onSwiped(e, deltaX, deltaY, isFlick)}
           >
             <section
+              onKeyDown={this.handleKeyDown}
               className={className}
               style={this.getStyle()}
               ref={nav => {
