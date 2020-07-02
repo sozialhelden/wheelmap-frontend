@@ -2,29 +2,27 @@ body.is-touch-device .leaflet-control-zoom {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  .leaflet-control-container .leaflet-top {
-    top: 0px;
-    top: constant(safe-area-inset-top);
-    top: env(safe-area-inset-top);
-    margin-top: 50px;
-  }
+.leaflet-control-container .leaflet-top {
+  top: 0px;
+  top: constant(safe-area-inset-top);
+  top: env(safe-area-inset-top);
+  margin-top: 50px;
+}
 
-  .in-embed-mode .leaflet-control-container .leaflet-top {
-    margin-top: 0;
-  }
+.in-embed-mode .leaflet-control-container .leaflet-top {
+  margin-top: 0;
+}
 
-  .leaflet-control-container .leaflet-right {
-    right: 0px;
-    right: constant(safe-area-inset-right);
-    right: env(safe-area-inset-right);
-  }
+.leaflet-control-container .leaflet-right {
+  right: 0px;
+  right: constant(safe-area-inset-right);
+  right: env(safe-area-inset-right);
 }
 
 .leaflet-container {
   flex: 1;
   width: 100vw;
-  height: calc(100vh - 50px);
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";

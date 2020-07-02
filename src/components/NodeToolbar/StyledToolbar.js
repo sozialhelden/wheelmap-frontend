@@ -11,7 +11,6 @@ const StyledToolbar = styled(Toolbar)`
   padding-bottom: env(safe-area-inset-bottom);
 
   ${ChromelessButton}.expand-button {
-    margin: 0 -10px;
     padding: 8px 10px;
     display: flex;
     justify-content: left;

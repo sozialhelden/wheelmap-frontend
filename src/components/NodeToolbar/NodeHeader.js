@@ -23,18 +23,31 @@ import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 
 export const StyledNodeHeader = styled.header`
+  padding: 8px 0;
+  margin-right: -10px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   position: sticky;
   top: 0px;
   z-index: 1;
-  margin: 0 -1rem;
-  padding: 0.5rem 0 0.4rem 1rem;
   color: rgba(0, 0, 0, 0.8);
   background-color: ${colors.colorizedBackgroundColor};
-  transition: box-shadow 0.3s ease-out;
-  box-shadow: ${props =>
-    props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
+
+  ::after {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 10px;
+    height: 20px;
+    display: block;
+    content: ' ';
+    pointer-events: none;
+    transition: background 0.3s ease-out;
+    background: linear-gradient(
+      rgba(44, 73, 130, ${props => (props.hasShadow ? '0.1' : '0')}),
+      rgba(44, 73, 130, 0)
+    );
+  }
 
   ${PlaceName} {
     flex-grow: 2;
@@ -44,6 +57,7 @@ export const StyledNodeHeader = styled.header`
 const StyledBreadCrumbs = styled(BreadCrumbs)`
   margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
   font-size: 16px;
+  margin-top: 8px;
 `;
 
 type Props = {

@@ -10,6 +10,7 @@ import Toolbar from '../Toolbar';
 import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
+import StyledCloseLink from '../CloseLink';
 
 export type Props = {
   hidden: boolean,
@@ -32,45 +33,22 @@ const StyledCheckmarkIcon = styled(CheckmarkIcon)`
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
-  padding: 1rem;
+  padding: 8px 16px;
   border-top: none;
-  border-radius: 3px;
+  /* border-radius: 3px; */
   z-index: 1000;
 
   header {
     position: sticky;
     display: flex;
     top: 0;
-    height: 50px;
-    min-height: 50px;
-    flex-direction: row-reverse;
+    align-items: center;
     justify-content: space-between;
     z-index: 1;
     background-color: ${colors.colorizedBackgroundColor};
 
     h3 {
-      margin: 0.75rem 0;
-    }
-
-    /* TODO: Replace with standard component */
-    .close-link {
-      display: inline-block;
-      position: sticky;
-      font-size: 2rem;
-      padding-bottom: 8px;
-      color: rgba(0, 0, 0, 0.2);
-      background-color: rgba(251, 250, 249, 0.8);
-      -webkit-backdrop-filter: blur(10px);
-      border: none;
-      border-radius: 31px;
-      text-decoration: none;
-      text-align: center;
-      z-index: 1;
-      transform: translateZ(0);
-
-      > svg {
-        display: block;
-      }
+      margin: 0;
     }
   }
 
@@ -81,6 +59,7 @@ const StyledToolbar = styled(Toolbar)`
 
     ul {
       padding-left: 0;
+      margin: 0;
       list-style: none;
 
       li {
@@ -186,6 +165,7 @@ const StyledToolbar = styled(Toolbar)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 8px -8px 0 -8px;
 
     label.link-button {
       text-align: center;
@@ -227,20 +207,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   checkBox: ?HTMLInputElement;
   backLink: ?HTMLButtonElement;
   goButton: ?React.ElementRef<'button'>;
-
-  renderCloseLink() {
-    return (
-      <button
-        className="close-link"
-        // translator: Button caption in photo upload Instructions dialog
-        aria-label={t`Close`}
-        onClick={this.onClose}
-        ref={backLink => (this.backLink = backLink)}
-      >
-        ×{' '}
-      </button>
-    );
-  }
 
   onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
@@ -286,8 +252,8 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           inEmbedMode={this.props.inEmbedMode}
         >
           <header>
-            {this.renderCloseLink()}
             <h3>{captions.header}</h3>
+            <StyledCloseLink onClick={this.props.onClose} />
           </header>
           <section>
             <ul>

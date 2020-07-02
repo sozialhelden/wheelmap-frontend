@@ -223,7 +223,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
           aria-labelledby="wheelchair-accessibility-header"
         >
           {this.props.children}
-          {this.renderCloseButton()}
           {this.renderRadioGroup()}
           {this.renderFooter()}
         </section>
@@ -246,7 +245,7 @@ const StyledWheelchairStatusEditor = styled(RadioStatusEditor)`
   }
 
   footer {
-    margin-bottom: 8px;
+    margin: 16px -8px 0px -8px;
   }
 
   figure {

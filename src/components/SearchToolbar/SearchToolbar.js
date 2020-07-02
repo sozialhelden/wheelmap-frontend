@@ -80,7 +80,7 @@ const GoButton = styled(Button)`
   width: auto;
 
   &.focus-visible {
-    border-radius: 0;
+    box-shadow: inset 0px 0px 0px 2px #0f2775 !important;
   }
 
   &:hover {
@@ -104,6 +104,7 @@ const StyledToolbar = styled(Toolbar)`
   border-top: none;
   border-radius: 3px;
   bottom: auto !important;
+  top: 50px;
 
   .search-results {
     padding: 0 10px 5px 10px;

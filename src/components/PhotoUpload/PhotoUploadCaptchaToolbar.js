@@ -74,7 +74,6 @@ const StyledToolbar = styled(Toolbar)`
   flex-direction: column;
   padding: 0;
   border-top: none;
-  border-radius: 3px;
   z-index: 1000;
 
   /* TODO: Restyle CloseLink component in ToolBar */

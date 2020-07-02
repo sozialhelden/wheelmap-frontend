@@ -23,9 +23,9 @@ export const IncentiveHint = styled.span.attrs({ className: 'incentive-hint' })`
 
   max-width: 7rem;
   margin-left: 1rem;
-  padding: 0.25em;
+  padding: 0.4rem 0.6rem;
   border: none;
-  border-radius: 0.25em;
+  border-radius: 0.5em;
   text-align: center;
   font-size: 90%;
   font-weight: 500;

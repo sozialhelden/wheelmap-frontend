@@ -37,6 +37,11 @@ function UnstyledIconButtonList(props: Props) {
 }
 
 const IconButtonList = styled(UnstyledIconButtonList)`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0 -8px;
+
   .link-button,
   .expand-button {
     svg {
