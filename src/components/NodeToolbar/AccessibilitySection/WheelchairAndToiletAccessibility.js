@@ -121,15 +121,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
     }
 
     if (isLoadingToiletsNearby) {
-      const caption = t`Searching accessible toilet`;
-      return (
-        <button className="toilet-nearby" disabled={true}>
-          {caption}
-          <span className="subtle">
-            <Dots size={14} color={'rgba(0, 0, 0, 0.4)'} />
-          </span>
-        </button>
-      );
+      return;
     }
 
     const featureCoords = normalizedCoordinatesForFeature(feature);
@@ -204,6 +196,10 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     font-size: 1rem;
     text-align: inherit;
     background-color: transparent;
+    /* Avoid jumping layout while loading */
+    &.toilet-nearby {
+      justify-content: space-between;
+    }
     :not(:disabled) {
       cursor: pointer;
       &.toilet-nearby {
