@@ -71,7 +71,7 @@ export const currentLocales: Locale[] = ['en-us', 'en'].map(localeFromString);
  * a region code.
  */
 
-export function normalizeChineseLanguageCode(languageTag: string): string {
+export function normalizeLanguageCode(languageTag: string): string {
   const [languageCode, countryCodeOrScript] = languageTag.split(/[-_]/);
   // Hardwire old-style chinese locale codes to new-style script subtags
   if (languageCode === 'zh') {
@@ -96,6 +96,11 @@ export function normalizeChineseLanguageCode(languageTag: string): string {
           return 'zh-Hant';
       }
     }
+  }
+
+  if (languageTag === 'en') {
+    // we have no British translation yet. Prefer `en-US`.
+    return `en-US`;
   }
   return languageTag;
 }
@@ -168,15 +173,13 @@ export function translatedStringFromObject(string: ?LocalizedString): ?string {
       locale => locale.transifexLanguageIdentifier
     );
 
-    const normalizedChineseLanguageTags = normalizedRequestedLanguageTags.map(
-      normalizeChineseLanguageCode
-    );
+    const normalizedLanguageTags = normalizedRequestedLanguageTags.map(normalizeLanguageCode);
     const languageTagsWithoutCountryCodes = normalizedRequestedLanguageTags.map(l => l.slice(0, 2));
 
     const localesToTry = compact(
       uniq([
         ...normalizedRequestedLanguageTags,
-        ...normalizedChineseLanguageTags,
+        ...normalizedLanguageTags,
         ...languageTagsWithoutCountryCodes,
         'en_US',
         'en',
@@ -209,7 +212,7 @@ export function getAvailableTranslationsByPreference(
   overriddenLocaleString: ?string
 ): Translations[] {
   const preferredLocales = expandedPreferredLocales(
-    preferredLocaleStrings.map(normalizeChineseLanguageCode).map(localeFromString),
+    preferredLocaleStrings.map(normalizeLanguageCode).map(localeFromString),
     overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
   );
 
