@@ -31,7 +31,7 @@ function parseGettextFiles(filenames = getGettextFileNames()) {
   for (const filename of filenames) {
     console.log('Parsing', filename, '...');
     const locale = path.basename(filename, '.txt');
-    const poFile = fs.readFileSync(path.join(i18nBasePath, filename), {encoding: 'utf8'});
+    const poFile = fs.readFileSync(path.join(i18nBasePath, filename), { encoding: 'utf8' });
     const localization = removeEmptyTranslations(gettextParser.po.parse(poFile));
     result[locale] = localization;
   }
@@ -41,7 +41,7 @@ function parseGettextFiles(filenames = getGettextFileNames()) {
 function writeJSON(data) {
   const filename = outputFilename;
   console.log('Writing', filename);
-  fs.writeFileSync(filename, JSON.stringify(data));
+  fs.writeFileSync(filename, JSON.stringify(data, null, 2));
 }
 
 writeJSON(parseGettextFiles());
