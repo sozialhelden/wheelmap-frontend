@@ -1,3 +1,4 @@
+# 
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Björn Uhlig <bjoern@sozialhelden.de>, 2019
@@ -163,7 +164,7 @@ msgstr ""
 
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
-msgstr "Posledná aktualizácia ${ dateString }."
+msgstr "Posledná aktualizácia: ${ dateString }."
 
 #: src/app/PlaceDetailsData.js:276
 msgid "This place is on ${ productName }: ${ placeTitle }"
