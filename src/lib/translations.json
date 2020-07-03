@@ -11328,7 +11328,7 @@
   "de": {
     "charset": "utf-8",
     "headers": {
-      "last-translator": "Sebastian Felix Zappe <hypo@me.com>, 2019",
+      "last-translator": "Developers, 2020",
       "language-team": "German (https://www.transifex.com/sozialhelden/teams/16671/de/)",
       "content-type": "text/plain; charset=UTF-8",
       "language": "de",
@@ -11339,10 +11339,10 @@
         "": {
           "msgid": "",
           "comments": {
-            "translator": "\nTranslators:\nDevelopers, 2019\nframefield_henrik, 2019\nSebastian Felix Zappe <hypo@me.com>, 2019\n"
+            "translator": "\nTranslators:\nframefield_henrik, 2019\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2020\n"
           },
           "msgstr": [
-            "Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2019\nLanguage-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: de\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+            "Last-Translator: Developers, 2020\nLanguage-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: de\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
           ]
         },
         "Search": {
@@ -13232,7 +13232,7 @@
             "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60"
           },
           "msgstr": [
-            "Bewerte die Rollstuhlgerechtigkeit des WCs"
+            "WC bewerten"
           ]
         },
         "Searching accessible toilet": {
@@ -13250,7 +13250,7 @@
             "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142"
           },
           "msgstr": [
-            "Nächste rollstuhlgerechte Toilette anzeigen"
+            "Nächste Toilette"
           ]
         },
         "Is there a problem with this place?": {
@@ -15844,7 +15844,7 @@
   "en_US": {
     "charset": "utf-8",
     "headers": {
-      "last-translator": "Developers, 2019",
+      "last-translator": "Developers, 2020",
       "language-team": "English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)",
       "content-type": "text/plain; charset=UTF-8",
       "language": "en_US",
@@ -15855,10 +15855,10 @@
         "": {
           "msgid": "",
           "comments": {
-            "translator": "\nTranslators:\nSilke Georgi <silkemariageorgi@gmail.com>, 2019\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2019\n"
+            "translator": "\nTranslators:\nSilke Georgi <silkemariageorgi@gmail.com>, 2019\nSebastian Felix Zappe <hypo@me.com>, 2019\nDevelopers, 2020\n"
           },
           "msgstr": [
-            "Last-Translator: Developers, 2019\nLanguage-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: en_US\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+            "Last-Translator: Developers, 2020\nLanguage-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\nContent-Type: text/plain; charset=UTF-8\nLanguage: en_US\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
           ]
         },
         "Search": {
@@ -17748,7 +17748,7 @@
             "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60"
           },
           "msgstr": [
-            "Rate wheelchair accessibility of WC"
+            "Rate WC"
           ]
         },
         "Searching accessible toilet": {
@@ -17766,7 +17766,7 @@
             "reference": "src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142"
           },
           "msgstr": [
-            "Show nearest wheelchair accessible toilet"
+            "Nearest toilet"
           ]
         },
         "Is there a problem with this place?": {
