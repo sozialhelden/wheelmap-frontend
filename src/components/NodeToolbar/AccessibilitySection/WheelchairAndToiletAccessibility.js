@@ -62,7 +62,7 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const icon = toiletIcons[accessibility] || null;
   return (
     <React.Fragment>
-      {icon}
+      {icon}&nbsp;
       <span>{description}</span>
     </React.Fragment>
   );
@@ -71,7 +71,6 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 type Props = {
   feature: Feature,
   toiletsNearby: ?(Feature[]),
-  isLoadingToiletsNearby: boolean,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
@@ -115,12 +114,8 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   renderNearbyToilets() {
-    const { feature, toiletsNearby, onOpenToiletNearby, isLoadingToiletsNearby } = this.props;
+    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
     if (!toiletsNearby) {
-      return;
-    }
-
-    if (isLoadingToiletsNearby) {
       return;
     }
 
@@ -145,7 +140,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature, toiletsNearby, isLoadingToiletsNearby } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -164,9 +159,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       (toiletAccessibility === 'yes' && categoryId !== 'toilets');
 
     const findToiletsNearby =
-      toiletAccessibility !== 'yes' &&
-      toiletsNearby &&
-      (isLoadingToiletsNearby || toiletsNearby.length > 0);
+      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
     const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
     if (!hasContent) {
       return null;
@@ -176,7 +169,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       <div className={this.props.className}>
         {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
-        {findToiletsNearby && this.renderNearbyToilets()}
+        {/* {findToiletsNearby && this.renderNearbyToilets()} */}
       </div>
     );
   }

@@ -29,11 +29,10 @@ type Props = {
   presetStatus: ?YesNoLimitedUnknown,
   feature: ?Feature,
   toiletsNearby: ?(Feature[]),
-  isLoadingToiletsNearby: boolean,
 };
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature, toiletsNearby, isLoadingToiletsNearby, cluster } = props;
+  const { featureId, feature, toiletsNearby, cluster } = props;
   const properties = feature && feature.properties;
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
 
@@ -57,7 +56,6 @@ export default function PlaceAccessibilitySection(props: Props) {
         isEditingEnabled={isWheelmapFeature}
         feature={feature}
         toiletsNearby={toiletsNearby}
-        isLoadingToiletsNearby={isLoadingToiletsNearby}
         onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
         onOpenToiletAccessibility={props.onOpenToiletAccessibility}
         onOpenToiletNearby={props.onOpenToiletNearby}

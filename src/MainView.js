@@ -260,7 +260,13 @@ class MainView extends React.Component<Props, State> {
   }
 
   getMinimalToolbarTopPosition() {
-    return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 50;
+    return this.props.inEmbedMode
+      ? this.state.isOnSmallViewport
+        ? 92
+        : 0
+      : this.state.isOnSmallViewport
+      ? 50
+      : 60;
   }
 
   renderNodeToolbar(isNodeRoute: boolean) {
