@@ -58,7 +58,6 @@ type Props = {
   sources: SourceWithLicense[],
   photos: PhotoModel[],
   toiletsNearby: ?(Feature[]),
-  isLoadingToiletsNearby: boolean,
   categories: CategoryLookupTables,
   category: ?Category,
   parentCategory: ?Category,
@@ -382,26 +381,26 @@ class NodeToolbar extends React.Component<Props, State> {
 
   render() {
     return (
-      <FocusTrap
-        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
+      // <FocusTrap
+      //   // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+      //   focusTrapOptions={{ clickOutsideDeactivates: true }}
+      // >
+      <StyledToolbar
+        ref={toolbar => (this.toolbar = toolbar)}
+        hidden={this.props.hidden}
+        isModal={this.props.modalNodeState}
+        role="dialog"
+        ariaLabel={this.placeName()}
+        onScrollable={isScrollable => this.setState({ isScrollable })}
+        minimalTopPosition={this.props.minimalTopPosition}
+        isBelowSearchField={true}
       >
-        <StyledToolbar
-          ref={toolbar => (this.toolbar = toolbar)}
-          hidden={this.props.hidden}
-          isModal={this.props.modalNodeState}
-          role="dialog"
-          ariaLabel={this.placeName()}
-          onScrollable={isScrollable => this.setState({ isScrollable })}
-          minimalTopPosition={this.props.minimalTopPosition}
-          isBelowSearchField={true}
-        >
-          <ErrorBoundary>
-            {this.renderNodeHeader()}
-            {this.renderContentBelowHeader()}
-          </ErrorBoundary>
-        </StyledToolbar>
-      </FocusTrap>
+        <ErrorBoundary>
+          {this.renderNodeHeader()}
+          {this.renderContentBelowHeader()}
+        </ErrorBoundary>
+      </StyledToolbar>
+      // </FocusTrap>
     );
   }
 }

@@ -69,7 +69,6 @@ type State = {
   resolvedSources: ?(SourceWithLicense[]),
   resolvedPhotos: ?(PhotoModel[]),
   resolvedToiletsNearby: ?(Feature[]),
-  isLoadingToiletsNearby: boolean,
   lastFeatureId: ?(string | number),
   lastEquipmentInfoId: ?string,
 };
@@ -83,7 +82,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     resolvedSources: null,
     resolvedPhotos: null,
     resolvedToiletsNearby: null,
-    isLoadingToiletsNearby: false,
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
@@ -199,9 +197,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     // toilets nearby promise
     if (toiletsNearby instanceof Promise) {
-      this.setState({ isLoadingToiletsNearby: true }, () => {
-        toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
-      });
+      toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
     }
 
     // sources promise
@@ -248,7 +244,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (toiletsNearbyPromise !== this.props.toiletsNearby) {
       return;
     }
-    this.setState({ resolvedToiletsNearby, isLoadingToiletsNearby: false });
+    this.setState({ resolvedToiletsNearby });
   }
 
   handleSourcesFetched(
@@ -282,41 +278,21 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...remainingProps
     } = this.props;
 
-    if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
-      const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
+    const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData || {};
 
-      return (
-        <NodeToolbar
-          {...remainingProps}
-          category={category}
-          parentCategory={parentCategory}
-          feature={resolvedFeature}
-          equipmentInfo={resolvedEquipmentInfo}
-          sources={resolvedSources || []}
-          photos={resolvedPhotos || []}
-          toiletsNearby={resolvedToiletsNearby || []}
-          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-          ref={t => (this.nodeToolbar = t)}
-        />
-      );
-    } else if (lightweightFeature) {
-      return (
-        <NodeToolbar
-          {...remainingProps}
-          category={category}
-          parentCategory={parentCategory}
-          feature={lightweightFeature}
-          equipmentInfo={null}
-          toiletsNearby={null}
-          isLoadingToiletsNearby={true}
-          sources={[]}
-          photos={[]}
-          ref={t => (this.nodeToolbar = t)}
-        />
-      );
-    }
-
-    return <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
+    return (
+      <NodeToolbar
+        {...remainingProps}
+        category={category}
+        parentCategory={parentCategory}
+        feature={lightweightFeature || resolvedFeature}
+        equipmentInfo={resolvedEquipmentInfo}
+        sources={resolvedSources || []}
+        photos={resolvedPhotos || []}
+        toiletsNearby={resolvedToiletsNearby || []}
+        ref={t => (this.nodeToolbar = t)}
+      />
+    );
   }
 }
 
