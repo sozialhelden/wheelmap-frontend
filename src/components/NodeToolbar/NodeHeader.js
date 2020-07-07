@@ -23,8 +23,8 @@ import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 
 export const StyledNodeHeader = styled.header`
-  padding: 8px 0;
-  margin-right: -10px;
+  margin: -8px -8px 0 -8px;
+  padding: 8px;
   display: flex;
   align-items: flex-start;
   position: sticky;
@@ -32,23 +32,9 @@ export const StyledNodeHeader = styled.header`
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
   background-color: ${colors.colorizedBackgroundColor};
-
-  ::after {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 10px;
-    height: 20px;
-    display: block;
-    content: ' ';
-    pointer-events: none;
-    transition: background 0.3s ease-out;
-    background: linear-gradient(
-      rgba(44, 73, 130, ${props => (props.hasShadow ? '0.1' : '0')}),
-      rgba(44, 73, 130, 0)
-    );
-  }
-
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 5px 10px rgba(0, 0, 0, 0.1);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
   ${PlaceName} {
     flex-grow: 2;
   }
@@ -72,7 +58,6 @@ type Props = {
   hasIcon: boolean,
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-  hasShadow: boolean,
 };
 
 export default class NodeHeader extends React.Component<Props> {
@@ -145,7 +130,7 @@ export default class NodeHeader extends React.Component<Props> {
     );
 
     return (
-      <StyledNodeHeader hasShadow={this.props.hasShadow}>
+      <StyledNodeHeader>
         {clusterElement}
         {placeNameElement}
         {children}

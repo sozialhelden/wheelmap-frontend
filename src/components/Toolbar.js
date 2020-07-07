@@ -27,7 +27,6 @@ type Props = {
   isSwipeable?: boolean,
   isModal?: boolean,
   enableTransitions?: boolean,
-  onScrollable?: (isScrollable: boolean) => void,
 };
 
 function getNearestStopForTopOffset(topOffset: number, stops: number[]): number {
@@ -67,7 +66,6 @@ function isElementDescendantOfElement(element: HTMLElement, ancestor: HTMLElemen
 
 function Toolbar(props: Props) {
   const scrollElementRef = React.useRef<HTMLElement | null>(null);
-  const [lastTopOffset, setLastTopOffset] = React.useState(0);
   const [topOffset, setTopOffset] = React.useState(0);
   const [scrollTop, setScrollTop] = React.useState(0);
   const [isSwiping, setIsSwiping] = React.useState(false);
@@ -106,22 +104,13 @@ function Toolbar(props: Props) {
     return defaultStopPositions;
   }, [isLandscapePhone, props.minimalHeight, toolbarHeight, viewportHeight, minimalTopPosition]);
 
-  const isFullyExpanded = React.useMemo(() => (topOffset || lastTopOffset) === stops[0], [
-    topOffset,
-    lastTopOffset,
-    stops,
-  ]);
-  const isAtTopmostPosition = React.useMemo(() => (topOffset || lastTopOffset) <= 0, [
-    topOffset,
-    lastTopOffset,
-  ]);
+  const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset]);
 
   // logStateValueChange('deltaY', deltaY);
   logStateValueChange('touchStartY', touchStartY);
   logStateValueChange('scrollTopStartY', scrollTopStartY);
   logStateValueChange('scrollTop', scrollTop);
   logStateValueChange('topOffset', topOffset);
-  logStateValueChange('isFullyExpanded', isFullyExpanded);
   logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
   logStateValueChange('toolbarScrollHeight', toolbarScrollHeight);
 
@@ -140,14 +129,14 @@ function Toolbar(props: Props) {
       : '';
   }, [props.enableTransitions, isSwiping]);
 
-  const transform = React.useMemo(() => {
+  const transformY = React.useMemo(() => {
     const isToolbarFittingOnScreenCompletely = viewportHeight - toolbarHeight - stops[0] > 0;
     const isBigViewport = viewportWidth > 512 && viewportHeight > 512;
     const transformY =
       isBigViewport && isToolbarFittingOnScreenCompletely
         ? 0
-        : Math.max(topOffset + (scrollTop === 0 ? -scrollTopStartY - deltaY : 0), 0);
-    return `translate3d(0, ${transformY}px, 0)`;
+        : Math.max(topOffset + (scrollTop <= 0 ? -scrollTopStartY - deltaY : 0), 0);
+    return transformY;
   }, [
     viewportHeight,
     toolbarHeight,
@@ -164,8 +153,7 @@ function Toolbar(props: Props) {
     setViewportHeight(typeof window === 'undefined' ? 768 : window.innerHeight);
     const newTopOffset = getNearestStopForTopOffset(topOffset, stops);
     setTopOffset(newTopOffset);
-    setLastTopOffset(newTopOffset);
-  }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset, setLastTopOffset]);
+  }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
 
   const onWindowTouchMove = React.useCallback(
     event => {
@@ -237,50 +225,6 @@ function Toolbar(props: Props) {
     }
   }, [props.isModal, ensureFullVisibility]);
 
-  // React.useLayoutEffect(() => {
-  //   if (!props.isSwipeable || props.isModal) {
-  //     return;
-  //   }
-  //   if (isSwiping) {
-  //     if (isAtTopmostPosition) {
-  //       if (scrollElementRef.current) {
-  //         const maxScrollTop = toolbarScrollHeight - toolbarHeight;
-  //         const newScrollTop = Math.min(
-  //           maxScrollTop,
-  //           Math.max(0, Math.floor(scrollTopStartY + deltaY))
-  //         );
-  //         scrollElementRef.current.scrollTop = newScrollTop;
-
-  //         setScrollTop(newScrollTop);
-  //         return;
-  //       }
-  //     }
-  //   }
-  //   // const touchTopOffset = lastTopOffset - deltaY - scrollTop;
-  //   // const newTopOffset = Math.max(0, touchTopOffset);
-
-  //   // if (scrollElementRef.current && touchTopOffset < 0) {
-  //   //   scrollElementRef.current.scrollTop = -touchTopOffset;
-  //   //   console.log('scrollTop:', scrollElementRef.current.scrollTop);
-  //   // }
-
-  //   // setTopOffset(newTopOffset);
-  //   // if (newTopOffset === 0) {
-  //   //   setLastTopOffset(0);
-  //   // }
-  // }, [
-  //   deltaY,
-  //   isAtTopmostPosition,
-  //   isSwiping,
-  //   lastTopOffset,
-  //   props.isModal,
-  //   props.isSwipeable,
-  //   scrollTop,
-  //   scrollTopStartY,
-  //   toolbarHeight,
-  //   toolbarScrollHeight,
-  // ]);
-
   const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
     if (event.key === 'Escape' && scrollElementRef.current) {
       const closeLink = scrollElementRef.current.querySelector('.close-link');
@@ -311,85 +255,39 @@ function Toolbar(props: Props) {
       setDeltaY(0);
       setScrollTopStartY(0);
       setIsSwiping(false);
-
-      const endOffset = topOffset + deltaY;
-
+      console.log('Touch ended at', transformY);
       const isFlick = false;
-      if (isFlick && !scrollTop) {
+      if (isFlick && scrollTop <= 0) {
         const isSwipingUp = deltaY > 0;
         const newIndex = isSwipingUp ? 0 : stops.length - 1;
-        setLastTopOffset(stops[newIndex]);
-        setTopOffset(0);
+        setTopOffset(stops[newIndex]);
         return;
       }
-      const newStop = getNearestStopForTopOffset(topOffset, stops);
-      setLastTopOffset(newStop);
-      setTopOffset(0);
+      const newStop = getNearestStopForTopOffset(transformY, stops);
+      setTopOffset(newStop);
     },
-    [deltaY, props.isModal, props.isSwipeable, scrollTop, stops, topOffset]
+    [deltaY, props.isModal, props.isSwipeable, scrollTop, stops, transformY]
   );
 
-  const { onScrollable } = props;
   const handleTouchMove = React.useCallback(
     (event: TouchEvent) => {
       event.stopPropagation();
       setDeltaY(touchStartY - event.touches[0].clientY);
       setIsSwiping(true);
       event.preventDefault();
-      // if (!isAtTopmostPosition) {
-      //   console.log('Preventing scrolling...');
-      //   // e.stopPropagation();
-      //   console.log('Prevented scrolling successfully');
-      // }
-
-      if (!scrollElementRef.current) {
-        return;
-      }
-      const scrollElementHasMoreContentThanShown =
-        scrollElementRef.current.scrollHeight > scrollElementRef.current.clientHeight;
-      const isScrollable = isAtTopmostPosition && scrollElementHasMoreContentThanShown;
-      if (onScrollable) {
-        onScrollable(isScrollable);
-      }
-      // if (isScrollable) {
-      //   // Do not prevent scrolling
-      //   return;
-      // }
-      // Prevent native scrolling because we do it ourselves
-
-      if (!props.isSwipeable || props.isModal) {
-        return;
-      }
-      // if (isSwiping) {
-      //   if (isAtTopmostPosition) {
-      //     if (scrollElementRef.current) {
-      //       // const maxScrollTop = toolbarScrollHeight - toolbarHeight;
-      //       // const newScrollTop = Math.min(
-      //       //   maxScrollTop,
-      //       //   Math.max(0, Math.floor(scrollTopStartY + deltaY))
-      //       // );
-      //       const newScrollTop = Math.max(0, Math.floor(scrollTopStartY + deltaY));
-      //       if (scrollElementRef.current.scrollTop !== newScrollTop) {
-      //         console.log(
-      //           'Setting scroll top to',
-      //           newScrollTop,
-      //           'toolbarScrollHeight=',
-      //           toolbarScrollHeight,
-      //           'toolbarHeight=',
-      //           toolbarHeight,
-      //           'scrollElementRef.current.scrollTop=',
-      //           scrollElementRef.current.scrollTop
-      //         );
-      //         scrollElementRef.current.scrollTop = newScrollTop;
-      //         setScrollTop(newScrollTop);
-      //       }
-      //       return;
-      //     }
-      //   }
-      // }
     },
-    [touchStartY, isAtTopmostPosition, onScrollable, props.isSwipeable, props.isModal]
+    [touchStartY]
   );
+
+  const toolbarIsScrollable = React.useMemo(() => {
+    if (!scrollElementRef.current) {
+      return;
+    }
+    const scrollElementHasMoreContentThanShown =
+      scrollElementRef.current.scrollHeight > scrollElementRef.current.clientHeight;
+    const isScrollable = isAtTopmostPosition && scrollElementHasMoreContentThanShown;
+    return isScrollable && scrollTop > 0;
+  }, [isAtTopmostPosition, scrollTop]);
 
   const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
   const isIphoneX =
@@ -402,6 +300,7 @@ function Toolbar(props: Props) {
     isIphoneX ? 'toolbar-iphone-x' : null,
     props.hidden ? 'toolbar-hidden' : null,
     props.isModal ? 'toolbar-is-modal' : null,
+    toolbarIsScrollable ? 'toolbar-is-scrollable' : null,
     props.className,
   ];
   const className = classNames.filter(Boolean).join(' ');
@@ -412,9 +311,9 @@ function Toolbar(props: Props) {
       className={className}
       style={{
         touchAction,
-        overflowY: 'auto',
         transition,
-        transform,
+        overflowY: 'auto',
+        transform: `translate3d(0, ${transformY}px, 0)`,
       }}
       ref={scrollElementRef}
       aria-hidden={props.inert || props.hidden}
@@ -422,7 +321,6 @@ function Toolbar(props: Props) {
       aria-label={props.ariaLabel}
       aria-describedby={props.ariaDescribedBy}
       data-minimal-top-position={props.minimalTopPosition}
-      data-last-top-offset={lastTopOffset}
       data-top-offset={topOffset}
       data-dimensions-viewport-height={viewportHeight}
       data-dimensions-height={toolbarHeight}
@@ -432,26 +330,28 @@ function Toolbar(props: Props) {
       onTouchEnd={handleTouchEnd}
       onScroll={onScroll}
     >
-      {props.isSwipeable && !props.isModal ? (
-        <button
-          className="grab-handle"
-          aria-label={isFullyExpanded ? t`Collapse details` : t`Expand details`}
-          onClick={() => {
-            if (isFullyExpanded) {
-              const offset = stops[stops.length - 1];
-              // reset scroll position
-              if (scrollElementRef.current) {
-                scrollElementRef.current.scrollTop = 0;
+      <div style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}>
+        {props.isSwipeable && !props.isModal ? (
+          <button
+            style={{ transform: `translate3d(-50%, 0px, 0)` }}
+            className="grab-handle"
+            aria-label={isAtTopmostPosition ? t`Collapse details` : t`Expand details`}
+            onClick={() => {
+              if (isAtTopmostPosition) {
+                const offset = stops[stops.length - 1];
+                // reset scroll position
+                if (scrollElementRef.current) {
+                  scrollElementRef.current.scrollTop = 0;
+                }
+                setTopOffset(offset);
+              } else {
+                ensureFullVisibility();
               }
-              setLastTopOffset(offset);
-              setTopOffset(offset);
-            } else {
-              ensureFullVisibility();
-            }
-          }}
-        />
-      ) : null}
-      {props.children}
+            }}
+          />
+        ) : null}
+        {props.children}
+      </div>
     </section>
   );
 }
@@ -562,7 +462,6 @@ const StyledToolbar = styled(Toolbar)`
       height: 10px;
       margin: -10px 0 -20px 0;
       padding: 15px;
-      transform: translateZ(0) translateX(-50%);
       touch-action: none;
       background-color: transparent;
       &:before {
