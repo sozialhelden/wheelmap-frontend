@@ -16,10 +16,12 @@ html,
 body,
 #__next,
 .main-view {
-  width: 100%;
+  /* width: 100%;
   width: 100vw;
   height: 100%;
-  height: 100vh;
+  height: 100vh; */
+  top: 0;
+  bottom: 0;
   margin: 0;
   padding: 0;
 }
