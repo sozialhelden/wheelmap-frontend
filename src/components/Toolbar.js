@@ -95,11 +95,11 @@ function Toolbar(props: Props) {
     }
     // The toolbar needs a minimal height be draggable from the bottom when minimized
     const minimalHeight = Math.max(props.minimalHeight || 0, 90);
-    const bottomPosition = toolbarHeight - minimalHeight;
-    const maximalToolbarHeight = viewportHeight - minimalTopPosition;
+    const bottomPosition = Math.max(0, toolbarHeight - minimalHeight);
+    const maximalPossibleToolbarHeight = viewportHeight - minimalTopPosition;
     const safeAreaInsetTop = typeof window !== 'undefined' ? safeAreaInsets.top : 0;
     const availableViewportHeight = viewportHeight - safeAreaInsetTop - 50;
-    const middlePosition = maximalToolbarHeight - 0.5 * availableViewportHeight;
+    const middlePosition = maximalPossibleToolbarHeight - 0.5 * availableViewportHeight;
     const defaultStopPositions = uniq([0, middlePosition, bottomPosition]);
     return defaultStopPositions;
   }, [isLandscapePhone, props.minimalHeight, toolbarHeight, viewportHeight, minimalTopPosition]);
@@ -155,10 +155,15 @@ function Toolbar(props: Props) {
 
   const onToolbarResize = React.useCallback(() => {
     if (scrollElementRef.current) {
+      const previousClientTop = scrollElementRef.current.getClientRects()[0].top;
+      const newTopOffset = previousClientTop + toolbarHeight - viewportHeight;
       setToolbarHeight(scrollElementRef.current.clientHeight);
       setToolbarScrollHeight(scrollElementRef.current.scrollHeight);
+      setTopOffset(newTopOffset);
     }
-  }, [scrollElementRef]);
+  }, [toolbarHeight, viewportHeight]);
+
+  React.useLayoutEffect(() => {}, [toolbarScrollHeight]);
 
   // Register toolbar resize observer
   React.useLayoutEffect(() => {
