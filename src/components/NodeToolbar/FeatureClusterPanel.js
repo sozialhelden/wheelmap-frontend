@@ -33,10 +33,6 @@ type Props = {
   className?: string,
 };
 
-type State = {
-  isScrollable?: boolean,
-};
-
 const PositionedCloseLink = styled(StyledCloseLink)`
   align-self: flex-start;
   margin-top: -8px;
@@ -86,9 +82,7 @@ export const StyledClusterIcon = styled(ClusterIcon)`
   }
 `;
 
-class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
-  state: State = {};
-
+class UnstyledFeatureClusterPanel extends React.Component<Props> {
   renderCloseLink() {
     const { onClose } = this.props;
     return <PositionedCloseLink {...{ onClick: onClose }} />;
@@ -108,7 +102,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
           category={category}
           parentCategory={parentCategory}
           hasIcon={true}
-          hasShadow={this.state.isScrollable}
         />
       </button>
     );
@@ -133,7 +126,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
 
   render() {
     const { cluster } = this.props;
-    const hasWindow = typeof window !== 'undefined';
 
     if (!cluster || cluster.features.length === 0) {
       return null;
@@ -152,7 +144,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
           hidden={this.props.hidden}
           isModal={this.props.modalNodeState}
           role="dialog"
-          onScrollable={isScrollable => this.setState({ isScrollable })}
           inEmbedMode={this.props.inEmbedMode}
           isBelowSearchField={true}
         >
