@@ -87,19 +87,11 @@ type Props = {
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
 
-type State = {
-  isScrollable: boolean,
-};
-
-class NodeToolbar extends React.Component<Props, State> {
+class NodeToolbar extends React.Component<Props> {
   toolbar: ?React.ElementRef<typeof Toolbar>;
   reportDialog: ?React.ElementRef<typeof ReportDialog>;
   shareButton: ?React.ElementRef<'button'>;
   reportModeButton: ?React.ElementRef<'button'>;
-
-  state = {
-    isScrollable: false,
-  };
 
   componentDidMount() {
     if (this.props.photoFlowNotification) {
@@ -185,7 +177,6 @@ class NodeToolbar extends React.Component<Props, State> {
         onClickCurrentCluster={onClickCurrentCluster}
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
-        hasShadow={this.state.isScrollable}
       >
         {this.renderCloseLink()}
       </NodeHeader>
@@ -391,7 +382,6 @@ class NodeToolbar extends React.Component<Props, State> {
         isModal={this.props.modalNodeState}
         role="dialog"
         ariaLabel={this.placeName()}
-        onScrollable={isScrollable => this.setState({ isScrollable })}
         minimalTopPosition={this.props.minimalTopPosition}
         isBelowSearchField={true}
       >
