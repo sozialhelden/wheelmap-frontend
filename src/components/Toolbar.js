@@ -96,13 +96,11 @@ function Toolbar(props: Props) {
     // The toolbar needs a minimal height be draggable from the bottom when minimized
     const minimalHeight = Math.max(props.minimalHeight || 0, 90);
     const bottomPosition = Math.max(0, toolbarHeight - minimalHeight);
-    const maximalPossibleToolbarHeight = viewportHeight - minimalTopPosition;
     const safeAreaInsetTop = typeof window !== 'undefined' ? safeAreaInsets.top : 0;
-    const availableViewportHeight = viewportHeight - safeAreaInsetTop - 50;
-    const middlePosition = maximalPossibleToolbarHeight - 0.5 * availableViewportHeight;
-    const defaultStopPositions = uniq([0, middlePosition, bottomPosition]);
-    return defaultStopPositions;
-  }, [isLandscapePhone, props.minimalHeight, toolbarHeight, viewportHeight, minimalTopPosition]);
+    const middleStop = toolbarHeight - 0.5 * viewportHeight;
+    const defaultStops = uniq([0, middleStop, bottomPosition]);
+    return defaultStops;
+  }, [isLandscapePhone, props.minimalHeight, toolbarHeight, viewportHeight]);
 
   const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset]);
 
