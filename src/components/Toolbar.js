@@ -117,9 +117,7 @@ function Toolbar(props: Props) {
   const touchAction = React.useMemo(() => (isAtTopmostPosition ? 'inherit' : 'none'), [
     isAtTopmostPosition,
   ]);
-  const overflowY = React.useMemo(() => (isAtTopmostPosition ? 'auto' : 'hidden'), [
-    isAtTopmostPosition,
-  ]);
+
   const transition = React.useMemo(() => {
     const defaultTransitions = 'opacity 0.3s ease-out';
     return props.enableTransitions
@@ -154,33 +152,6 @@ function Toolbar(props: Props) {
     const newTopOffset = getNearestStopForTopOffset(topOffset, stops);
     setTopOffset(newTopOffset);
   }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
-
-  const onWindowTouchMove = React.useCallback(
-    event => {
-      if (!scrollElementRef.current) {
-        return;
-      }
-      const shouldPreventDefault =
-        event.target === scrollElementRef.current ||
-        isElementDescendantOfElement(event.target, scrollElementRef.current);
-      // console.log(shouldPreventDefault, event.target);
-      if (shouldPreventDefault) {
-        // debugger;
-        // event.preventDefault();
-        // event.stopPropagation();
-      }
-    },
-    [scrollElementRef]
-  );
-
-  React.useEffect(() => {
-    if (props.hidden) {
-      return;
-    }
-    const handler = onWindowTouchMove;
-    window.addEventListener('touchmove', handler, { capture: true, passive: false });
-    return () => window.removeEventListener('touchmove', handler);
-  }, [props.hidden, onWindowTouchMove]);
 
   const onToolbarResize = React.useCallback(() => {
     if (scrollElementRef.current) {
