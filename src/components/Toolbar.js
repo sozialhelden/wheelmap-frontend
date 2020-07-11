@@ -40,18 +40,6 @@ function logStateValueChange(name: string, value: any) {
   }, [name, value]);
 }
 
-function isElementDescendantOfElement(element: HTMLElement, ancestor: HTMLElement) {
-  let e: HTMLElement | null = element;
-  while (e.parentElement !== ancestor) {
-    e = e.parentElement;
-    if (!e) {
-      // We're at the top
-      return false;
-    }
-  }
-  return true;
-}
-
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports,
  * and that has a fixed position on bigger viewports.
@@ -76,11 +64,6 @@ function Toolbar(props: Props) {
   const [deltaY, setDeltaY] = React.useState(0);
   const [touchStartY, setTouchStartY] = React.useState(0);
   const [scrollTopStartY, setScrollTopStartY] = React.useState(0);
-
-  const minimalTopPosition = React.useMemo(
-    () => (typeof window !== 'undefined' ? safeAreaInsets.top : 0) + props.minimalTopPosition || 0,
-    [props.minimalTopPosition]
-  );
 
   const isLandscapePhone = React.useMemo(
     () => isOnSmallViewport() && viewportWidth > viewportHeight,
@@ -162,8 +145,6 @@ function Toolbar(props: Props) {
       setTopOffset(newTopOffset);
     }
   }, [toolbarHeight, viewportHeight]);
-
-  React.useLayoutEffect(() => {}, [toolbarScrollHeight]);
 
   // Register toolbar resize observer
   React.useLayoutEffect(() => {
