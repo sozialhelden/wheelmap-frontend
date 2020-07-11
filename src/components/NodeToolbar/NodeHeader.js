@@ -23,8 +23,8 @@ import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 
 export const StyledNodeHeader = styled.header`
-  margin: -8px -8px 0 -8px;
-  padding: 8px;
+  margin: -8px -16px 0 -16px;
+  padding: 8px 16px;
   display: flex;
   align-items: flex-start;
   position: sticky;
@@ -32,7 +32,6 @@ export const StyledNodeHeader = styled.header`
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
   background-color: ${colors.colorizedBackgroundColor};
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 5px 10px rgba(0, 0, 0, 0.1);
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   ${PlaceName} {
