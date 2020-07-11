@@ -136,8 +136,21 @@ function Toolbar(props: Props) {
     setTopOffset(newTopOffset);
   }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
 
+  // Register window resize observer
+  React.useLayoutEffect(() => {
+    const resize = onWindowResize;
+    resize();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', resize);
+    }
+    return () => window.removeEventListener('resize', resize);
+  }, [onWindowResize]);
+
   const onToolbarResize = React.useCallback(() => {
     if (scrollElementRef.current) {
+      if (typeof window !== 'undefined') {
+        window.scrollElement = scrollElementRef.current;
+      }
       const previousClientTop = scrollElementRef.current.getClientRects()[0].top;
       const newTopOffset = previousClientTop + toolbarHeight - viewportHeight;
       setToolbarHeight(scrollElementRef.current.clientHeight);
@@ -168,28 +181,10 @@ function Toolbar(props: Props) {
   );
 
   React.useLayoutEffect(() => {
-    const resize = onWindowResize;
-    resize();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', resize);
-    }
-    return () => window.removeEventListener('resize', resize);
-  }, [onWindowResize]);
-
-  React.useLayoutEffect(() => {
     if (props.isModal) {
       ensureFullVisibility();
     }
   }, [props.isModal, ensureFullVisibility]);
-
-  const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Escape' && scrollElementRef.current) {
-      const closeLink = scrollElementRef.current.querySelector('.close-link');
-      if (closeLink && closeLink.click) {
-        closeLink.click();
-      }
-    }
-  }, []);
 
   const onScroll = React.useCallback(() => {
     setScrollTop(scrollElementRef.current.scrollTop);
@@ -241,6 +236,15 @@ function Toolbar(props: Props) {
     },
     [touchStartY, props.isModal]
   );
+
+  const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
+    if (event.key === 'Escape' && scrollElementRef.current) {
+      const closeLink = scrollElementRef.current.querySelector('.close-link');
+      if (closeLink && closeLink.click) {
+        closeLink.click();
+      }
+    }
+  }, []);
 
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {
