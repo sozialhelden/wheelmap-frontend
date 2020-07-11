@@ -4,10 +4,8 @@ import { t } from 'ttag';
 import { hsl } from 'd3-color';
 import uniq from 'lodash/uniq';
 import minBy from 'lodash/minBy';
-import isEqual from 'lodash/isEqual';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
 import * as React from 'react';
 import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
@@ -40,6 +38,30 @@ function logStateValueChange(name: string, value: any) {
   }, [name, value]);
 }
 
+type PositionSample = { pos: number, t: number };
+type FlickState = 'up' | 'down' | 'noFlick';
+
+function calculateFlickState(ySamples: PositionSample[]): FlickState {
+  console.log(ySamples);
+  const lastSample = ySamples[1];
+  const sampleBeforeLastSample = ySamples[0];
+  if (lastSample && sampleBeforeLastSample) {
+    if (
+      lastSample.t - sampleBeforeLastSample.t < 50 &&
+      Math.abs(lastSample.pos - sampleBeforeLastSample.pos) > 15
+    ) {
+      if (lastSample.pos > sampleBeforeLastSample.pos) {
+        console.log('up');
+        return 'up';
+      } else if (lastSample.pos < sampleBeforeLastSample.pos) {
+        console.log('down');
+        return 'down';
+      }
+    }
+  }
+  return 'noFlick';
+}
+
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports,
  * and that has a fixed position on bigger viewports.
@@ -64,6 +86,7 @@ function Toolbar(props: Props) {
   const [deltaY, setDeltaY] = React.useState(0);
   const [touchStartY, setTouchStartY] = React.useState(0);
   const [scrollTopStartY, setScrollTopStartY] = React.useState(0);
+  const [ySamples, setYSamples] = React.useState([]);
 
   const isLandscapePhone = React.useMemo(
     () => isOnSmallViewport() && viewportWidth > viewportHeight,
@@ -198,6 +221,7 @@ function Toolbar(props: Props) {
       event.preventDefault();
       setTouchStartY(event.touches[0].clientY);
       setScrollTopStartY(scrollElementRef.current.scrollTop);
+      setYSamples([]);
     },
     [props.isModal]
   );
@@ -211,17 +235,16 @@ function Toolbar(props: Props) {
       setScrollTopStartY(0);
       setIsSwiping(false);
       console.log('Touch ended at', transformY);
-      const isFlick = false;
-      if (isFlick && scrollTop <= 0) {
-        const isSwipingUp = deltaY > 0;
-        const newIndex = isSwipingUp ? 0 : stops.length - 1;
+      const flickState = calculateFlickState(ySamples);
+      if (flickState !== 'noFlick' && scrollTop <= 0) {
+        const newIndex = flickState === 'up' ? 0 : stops.length - 1;
         setTopOffset(stops[newIndex]);
-        return;
+      } else {
+        const newStop = getNearestStopForTopOffset(transformY, stops);
+        setTopOffset(newStop);
       }
-      const newStop = getNearestStopForTopOffset(transformY, stops);
-      setTopOffset(newStop);
     },
-    [deltaY, props.isModal, props.isSwipeable, scrollTop, stops, transformY]
+    [props.isModal, props.isSwipeable, scrollTop, stops, transformY, ySamples]
   );
 
   const handleTouchMove = React.useCallback(
@@ -231,10 +254,12 @@ function Toolbar(props: Props) {
       }
       event.stopPropagation();
       setDeltaY(touchStartY - event.touches[0].clientY);
+      ySamples.unshift({ pos: event.touches[0].clientY, t: Date.now() });
+      ySamples.splice(3);
       setIsSwiping(true);
       event.preventDefault();
     },
-    [touchStartY, props.isModal]
+    [touchStartY, props.isModal, ySamples]
   );
 
   const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
