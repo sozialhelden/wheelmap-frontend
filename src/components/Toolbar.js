@@ -197,11 +197,14 @@ function Toolbar(props: Props) {
 
   const handleTouchStart = React.useCallback(
     (event: TouchEvent) => {
+      if (props.isModal) {
+        return;
+      }
       event.preventDefault();
       setTouchStartY(event.touches[0].clientY);
       setScrollTopStartY(scrollElementRef.current.scrollTop);
     },
-    [setTouchStartY]
+    [props.isModal]
   );
 
   const handleTouchEnd = React.useCallback(
@@ -228,12 +231,15 @@ function Toolbar(props: Props) {
 
   const handleTouchMove = React.useCallback(
     (event: TouchEvent) => {
+      if (props.isModal) {
+        return;
+      }
       event.stopPropagation();
       setDeltaY(touchStartY - event.touches[0].clientY);
       setIsSwiping(true);
       event.preventDefault();
     },
-    [touchStartY]
+    [touchStartY, props.isModal]
   );
 
   const toolbarIsScrollable = React.useMemo(() => {
