@@ -13,7 +13,7 @@ import type { Feature } from '../../../lib/Feature';
 import type { YesNoLimitedUnknown } from '../../../lib/Feature';
 import type { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
-import { isWheelmapFeatureId } from '../../../lib/Feature';
+import { isWheelmapFeatureId, isWheelchairAccessible } from '../../../lib/Feature';
 import Description from './Description';
 import { AppContextConsumer } from '../../../AppContext';
 
@@ -49,6 +49,10 @@ export default function PlaceAccessibilitySection(props: Props) {
     description = properties.wheelchair_description;
   }
   const descriptionElement = description ? <Description>{description}</Description> : null;
+
+  if (isWheelmapFeature && !description && isWheelchairAccessible(properties) === 'unknown') {
+    return null;
+  }
 
   return (
     <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
