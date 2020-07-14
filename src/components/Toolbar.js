@@ -126,12 +126,14 @@ function Toolbar(props: Props) {
   ]);
 
   const transition = React.useMemo(() => {
+    if (!props.enableTransitions) {
+      return '';
+    }
     const defaultTransitions = 'opacity 0.3s ease-out';
-    return props.enableTransitions
-      ? isSwiping
-        ? defaultTransitions
-        : `${defaultTransitions}, transform 0.3s ease-out, height 0.3s ease-out`
-      : '';
+    if (!isSwiping) {
+      return `${defaultTransitions}, transform 0.3s ease-out`;
+    }
+    return defaultTransitions;
   }, [props.enableTransitions, isSwiping]);
 
   const transformY = React.useMemo(() => {
