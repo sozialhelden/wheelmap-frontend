@@ -307,7 +307,7 @@ body.is-touch-device .leaflet-control-zoom {
   width: 50px !important;
   height: 50px !important;
   line-height: 50px !important;
-  color: rgba(0, 0, 0, 0.7) !important;
+  color: rgb(69, 86, 104) !important;
 }
 
 .leaflet-bar a:hover {
