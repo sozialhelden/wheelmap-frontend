@@ -2,7 +2,7 @@
 
 import storage from 'local-storage-fallback';
 import debounce from 'lodash/debounce';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 const lastMoveDateString = storage.getItem('wheelmap.map.lastMoveDate');
 
