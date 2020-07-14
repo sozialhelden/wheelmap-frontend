@@ -110,28 +110,30 @@ const StyledToolbar = styled(Toolbar)`
     padding: 0 10px 5px 10px;
   }
 
-  > header {
-    /* Add relative positioning for browsers not supporting position sticky. */
-    position: relative;
-    position: sticky;
-    display: flex;
-    top: 0;
-    height: 50px;
-    min-height: 50px;
-    z-index: 1;
-    border-bottom: 1px ${colors.borderColor} solid;
-    background: white;
-
-    > form {
+  > div {
+    > header {
+      /* Add relative positioning for browsers not supporting position sticky. */
+      position: relative;
+      position: sticky;
       display: flex;
-      flex-direction: row;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      height: 50px;
+      min-height: 50px;
+      z-index: 1;
+      border-bottom: 1px ${colors.borderColor} solid;
+      background: white;
+  
+      > form {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+      }
     }
-  }
-
-  > section {
-    overflow: auto;
+  
+    > section {
+      overflow: auto;
+    }
   }
 
   .search-icon {
@@ -195,7 +197,7 @@ const StyledToolbar = styled(Toolbar)`
         margin: 0;
       `}
 
-    > header, .search-results, ${CategoryMenu} {
+    > div > header, .search-results, ${CategoryMenu} {
       padding: 0
     }
 
