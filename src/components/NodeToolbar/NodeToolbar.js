@@ -372,25 +372,27 @@ class NodeToolbar extends React.Component<Props> {
 
   render() {
     return (
-      // <FocusTrap
-      //   // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-      //   focusTrapOptions={{ clickOutsideDeactivates: true }}
-      // >
-      <StyledToolbar
-        ref={toolbar => (this.toolbar = toolbar)}
-        hidden={this.props.hidden}
-        isModal={this.props.modalNodeState}
-        role="dialog"
-        ariaLabel={this.placeName()}
-        minimalTopPosition={this.props.minimalTopPosition}
-        isBelowSearchField={true}
+      <FocusTrap
+        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
-        <ErrorBoundary>
-          {this.renderNodeHeader()}
-          {this.renderContentBelowHeader()}
-        </ErrorBoundary>
-      </StyledToolbar>
-      // </FocusTrap>
+        <div>
+          <StyledToolbar
+            ref={toolbar => (this.toolbar = toolbar)}
+            hidden={this.props.hidden}
+            isModal={this.props.modalNodeState}
+            role="dialog"
+            ariaLabel={this.placeName()}
+            minimalTopPosition={this.props.minimalTopPosition}
+            isBelowSearchField={true}
+          >
+            <ErrorBoundary>
+              {this.renderNodeHeader()}
+              {this.renderContentBelowHeader()}
+            </ErrorBoundary>
+          </StyledToolbar>
+        </div>
+      </FocusTrap>
     );
   }
 }
