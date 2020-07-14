@@ -112,13 +112,14 @@ function Toolbar(props: Props) {
 
   const isAtTopmostPosition = React.useMemo(() => topOffset <= 0, [topOffset]);
 
+  // Enable these for debugging.
   // logStateValueChange('deltaY', deltaY);
-  logStateValueChange('touchStartY', touchStartY);
-  logStateValueChange('scrollTopStartY', scrollTopStartY);
-  logStateValueChange('scrollTop', scrollTop);
-  logStateValueChange('topOffset', topOffset);
-  logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
-  logStateValueChange('toolbarScrollHeight', toolbarScrollHeight);
+  // logStateValueChange('touchStartY', touchStartY);
+  // logStateValueChange('scrollTopStartY', scrollTopStartY);
+  // logStateValueChange('scrollTop', scrollTop);
+  // logStateValueChange('topOffset', topOffset);
+  // logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
+  // logStateValueChange('toolbarScrollHeight', toolbarScrollHeight);
 
   const touchAction = React.useMemo(() => (isAtTopmostPosition ? 'inherit' : 'none'), [
     isAtTopmostPosition,
