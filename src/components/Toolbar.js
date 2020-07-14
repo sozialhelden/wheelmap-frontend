@@ -290,10 +290,10 @@ function Toolbar(props: Props) {
     includes(xModels, window.device.model);
   const classNames = [
     'toolbar',
-    isIphoneX ? 'toolbar-iphone-x' : null,
-    props.hidden ? 'toolbar-hidden' : null,
-    props.isModal ? 'toolbar-is-modal' : null,
-    toolbarIsScrollable ? 'toolbar-is-scrollable' : null,
+    isIphoneX && 'toolbar-iphone-x',
+    props.hidden && 'toolbar-hidden',
+    props.isModal && 'toolbar-is-modal',
+    toolbarIsScrollable && 'toolbar-is-scrollable',
     props.className,
   ];
   const className = classNames.filter(Boolean).join(' ');
