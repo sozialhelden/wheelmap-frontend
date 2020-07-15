@@ -31,6 +31,7 @@ type Props = {
   onSelectClusterIcon: () => void,
   onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
   className?: string,
+  minimalTopPosition: number,
 };
 
 const PositionedCloseLink = styled(StyledCloseLink)`

@@ -374,6 +374,7 @@ class MainView extends React.Component<Props, State> {
           onClose={this.props.onCloseClusterPanel}
           onSelectClusterIcon={this.onClickCurrentMarkerIcon}
           onFeatureSelected={this.props.onSelectFeatureFromCluster}
+          minimalTopPosition={this.getMinimalNodeToolbarTopPosition()}
         />
       </div>
     );
