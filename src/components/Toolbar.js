@@ -27,6 +27,18 @@ type Props = {
   enableTransitions?: boolean,
 };
 
+function mergeRefs(refs) {
+  return value => {
+    refs.forEach(ref => {
+      if (typeof ref === 'function') {
+        ref(value);
+      } else if (ref != null) {
+        ref.current = value;
+      }
+    });
+  };
+}
+
 function getNearestStopForTopOffset(topOffset: number, stops: number[]): number {
   return minBy(stops, stop => Math.abs(stop - topOffset));
 }
@@ -74,7 +86,7 @@ function calculateFlickState(ySamples: PositionSample[]): FlickState {
  * Can be modal and is not swipeable then.
  */
 
-function Toolbar(props: Props) {
+function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
   const scrollElementRef = React.useRef<HTMLElement | null>(null);
   const [topOffset, setTopOffset] = React.useState(0);
   const [scrollTop, setScrollTop] = React.useState(0);
@@ -179,11 +191,21 @@ function Toolbar(props: Props) {
       }
       const previousClientTop = scrollElementRef.current.getClientRects()[0].top;
       const newTopOffset = previousClientTop + toolbarHeight - viewportHeight;
+      console.log(
+        'Setting height',
+        scrollElementRef.current.clientHeight,
+        'prev top',
+        previousClientTop,
+        'offset',
+        topOffset,
+        'new offset',
+        newTopOffset
+      );
       setToolbarHeight(scrollElementRef.current.clientHeight);
       setToolbarScrollHeight(scrollElementRef.current.scrollHeight);
       setTopOffset(newTopOffset);
     }
-  }, [toolbarHeight, viewportHeight]);
+  }, [toolbarHeight, topOffset, viewportHeight]);
 
   // Register toolbar resize observer
   React.useLayoutEffect(() => {
@@ -310,7 +332,7 @@ function Toolbar(props: Props) {
         overflowY: 'auto',
         transform: `translate3d(0, ${transformY}px, 0)`,
       }}
-      ref={scrollElementRef}
+      ref={mergeRefs([scrollElementRef, props.ref])}
       aria-hidden={props.inert || props.hidden}
       role={props.role}
       aria-label={props.ariaLabel}
@@ -351,16 +373,9 @@ function Toolbar(props: Props) {
   );
 }
 
-Toolbar.defaultProps = {
-  hidden: false,
-  minimalHeight: 90,
-  isSwipeable: true,
-  isModal: false,
-  role: '',
-  enableTransitions: true,
-};
+const ToolbarWithMergedRefs = React.forwardRef(BaseToolbar);
 
-const StyledToolbar = styled(Toolbar)`
+const Toolbar = styled(ToolbarWithMergedRefs)`
   position: fixed;
   overscroll-behavior-y: contain;
   touch-action: pan-y;
@@ -568,4 +583,13 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-export default StyledToolbar;
+Toolbar.defaultProps = {
+  hidden: false,
+  minimalHeight: 90,
+  isSwipeable: true,
+  isModal: false,
+  role: '',
+  enableTransitions: true,
+};
+
+export default Toolbar;
