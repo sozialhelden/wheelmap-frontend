@@ -135,34 +135,29 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     const placesLabel = t`Places`;
 
     return (
-      <FocusTrap
-        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
+      <StyledToolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        isModal={this.props.modalNodeState}
+        role="dialog"
+        inEmbedMode={this.props.inEmbedMode}
+        isBelowSearchField={true}
       >
-        <StyledToolbar
-          className={this.props.className}
-          hidden={this.props.hidden}
-          isModal={this.props.modalNodeState}
-          role="dialog"
-          inEmbedMode={this.props.inEmbedMode}
-          isBelowSearchField={true}
-        >
-          <ErrorBoundary>
-            <section className="cluster-entries">
-              <StyledNodeHeader>
-                <PlaceName>
-                  <StyledClusterIcon {...this.props} />
-                  {placesLabel}
-                </PlaceName>
-                {this.renderCloseLink()}
-              </StyledNodeHeader>
-              <StyledFrame className="entry-list">
-                <ul>{this.renderClusterEntries(cluster.features)}</ul>
-              </StyledFrame>
-            </section>
-          </ErrorBoundary>
-        </StyledToolbar>
-      </FocusTrap>
+        <ErrorBoundary>
+          <section className="cluster-entries">
+            <StyledNodeHeader>
+              <PlaceName>
+                <StyledClusterIcon {...this.props} />
+                {placesLabel}
+              </PlaceName>
+              {this.renderCloseLink()}
+            </StyledNodeHeader>
+            <StyledFrame className="entry-list">
+              <ul>{this.renderClusterEntries(cluster.features)}</ul>
+            </StyledFrame>
+          </section>
+        </ErrorBoundary>
+      </StyledToolbar>
     );
   }
 }
