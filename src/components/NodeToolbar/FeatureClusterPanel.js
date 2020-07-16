@@ -103,6 +103,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
           category={category}
           parentCategory={parentCategory}
           hasIcon={true}
+          hasOpaqueBackground={false}
         />
       </button>
     );
@@ -143,10 +144,11 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
         role="dialog"
         inEmbedMode={this.props.inEmbedMode}
         isBelowSearchField={true}
+        minimalTopPosition={this.props.minimalTopPosition}
       >
         <ErrorBoundary>
           <section className="cluster-entries">
-            <StyledNodeHeader>
+            <StyledNodeHeader hasOpaqueBackground={true}>
               <PlaceName>
                 <StyledClusterIcon {...this.props} />
                 {placesLabel}
