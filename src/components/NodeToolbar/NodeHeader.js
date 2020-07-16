@@ -31,11 +31,13 @@ export const StyledNodeHeader = styled.header`
   top: 0px;
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
-  background-color: ${colors.colorizedBackgroundColor};
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
   ${PlaceName} {
     flex-grow: 2;
+  }
+  &.has-opaque-background {
+    background-color: ${colors.colorizedBackgroundColor};
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
   }
 `;
 
@@ -55,6 +57,7 @@ type Props = {
   categories: CategoryLookupTables,
   parentCategory: ?Category,
   hasIcon: boolean,
+  hasOpaqueBackground: boolean,
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
@@ -129,7 +132,7 @@ export default class NodeHeader extends React.Component<Props> {
     );
 
     return (
-      <StyledNodeHeader>
+      <StyledNodeHeader className={this.props.hasOpaqueBackground ? 'has-opaque-background' : ''}>
         {clusterElement}
         {placeNameElement}
         {children}

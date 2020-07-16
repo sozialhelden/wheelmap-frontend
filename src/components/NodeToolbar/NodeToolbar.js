@@ -177,6 +177,7 @@ class NodeToolbar extends React.Component<Props> {
         onClickCurrentCluster={onClickCurrentCluster}
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
+        hasOpaqueBackground={true}
       >
         {this.renderCloseLink()}
       </NodeHeader>
