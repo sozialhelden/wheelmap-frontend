@@ -94,7 +94,6 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
   const [viewportWidth, setViewportWidth] = React.useState(0);
   const [viewportHeight, setViewportHeight] = React.useState(0);
   const [toolbarHeight, setToolbarHeight] = React.useState(0);
-  const [toolbarScrollHeight, setToolbarScrollHeight] = React.useState(0);
   const [deltaY, setDeltaY] = React.useState(0);
   const [touchStartY, setTouchStartY] = React.useState(0);
   const [scrollTopStartY, setScrollTopStartY] = React.useState(0);
@@ -131,7 +130,6 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
   // logStateValueChange('scrollTop', scrollTop);
   // logStateValueChange('topOffset', topOffset);
   // logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
-  // logStateValueChange('toolbarScrollHeight', toolbarScrollHeight);
 
   const touchAction = React.useMemo(() => (isAtTopmostPosition ? 'inherit' : 'none'), [
     isAtTopmostPosition,
@@ -202,7 +200,6 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
         newTopOffset
       );
       setToolbarHeight(scrollElementRef.current.clientHeight);
-      setToolbarScrollHeight(scrollElementRef.current.scrollHeight);
       setTopOffset(newTopOffset);
     }
   }, [toolbarHeight, topOffset, viewportHeight]);
