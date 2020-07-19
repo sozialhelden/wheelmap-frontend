@@ -579,12 +579,14 @@ class MainView extends React.Component<Props, State> {
   renderCreateDialog() {
     return (
       <FocusTrap active={this.props.modalNodeState === 'create'}>
-        <CreatePlaceDialog
-          hidden={this.props.modalNodeState !== 'create'}
-          onClose={this.props.onCloseModalDialog}
-          lat={this.props.lat}
-          lon={this.props.lon}
-        />
+        <div>
+          <CreatePlaceDialog
+            hidden={this.props.modalNodeState !== 'create'}
+            onClose={this.props.onCloseModalDialog}
+            lat={this.props.lat}
+            lon={this.props.lon}
+          />
+        </div>
       </FocusTrap>
     );
   }
@@ -608,13 +610,15 @@ class MainView extends React.Component<Props, State> {
 
           return (
             <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
-              <ContributionThanksDialog
-                hidden={this.props.modalNodeState !== 'contribution-thanks'}
-                onClose={this.props.onCloseModalDialog}
-                addPlaceUrl={url}
-                onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-                appContext={appContext}
-              />
+              <div>
+                <ContributionThanksDialog
+                  hidden={this.props.modalNodeState !== 'contribution-thanks'}
+                  onClose={this.props.onCloseModalDialog}
+                  addPlaceUrl={url}
+                  onAddPlaceLinkClick={this.onAddPlaceLinkClick}
+                  appContext={appContext}
+                />
+              </div>
             </FocusTrap>
           );
         }}
