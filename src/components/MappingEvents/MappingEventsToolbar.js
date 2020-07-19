@@ -41,47 +41,49 @@ const MappingEventsToolbar = ({
 
   return (
     <FocusTrap focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <StyledToolbar
-        className={className}
-        ariaLabel={mappingEventsListAriaLabel}
-        role="dialog"
-        minimalHeight={180}
-        minimalTopPosition={minimalTopPosition}
-      >
-        <CloseButton onClick={onClose} />
-        <header>
-          <span className="number-badge" aria-hidden={true}>
-            {listedMappingEvents.length}
-          </span>
-          <div className="header-title">
-            <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
-            <p>{mappingEventsTagLine}</p>
-          </div>
-        </header>
-        <ul>
-          {listedMappingEvents.map(event => (
-            <li key={event._id}>
-              <RouteConsumer>
-                {context => {
-                  let params = { ...context.params, id: event._id };
+      <div>
+        <StyledToolbar
+          className={className}
+          ariaLabel={mappingEventsListAriaLabel}
+          role="dialog"
+          minimalHeight={180}
+          minimalTopPosition={minimalTopPosition}
+        >
+          <CloseButton onClick={onClose} />
+          <header>
+            <span className="number-badge" aria-hidden={true}>
+              {listedMappingEvents.length}
+            </span>
+            <div className="header-title">
+              <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
+              <p>{mappingEventsTagLine}</p>
+            </div>
+          </header>
+          <ul>
+            {listedMappingEvents.map(event => (
+              <li key={event._id}>
+                <RouteConsumer>
+                  {context => {
+                    let params = { ...context.params, id: event._id };
 
-                  return (
-                    <Link
-                      to={'mappingEventDetail'}
-                      params={params}
-                      className="link-button"
-                      onClick={() => onMappingEventClick(event._id)}
-                    >
-                      <h3>{event.name}</h3>
-                      {event.area && <p>{event.area.properties.name}</p>}
-                    </Link>
-                  );
-                }}
-              </RouteConsumer>
-            </li>
-          ))}
-        </ul>
-      </StyledToolbar>
+                    return (
+                      <Link
+                        to={'mappingEventDetail'}
+                        params={params}
+                        className="link-button"
+                        onClick={() => onMappingEventClick(event._id)}
+                      >
+                        <h3>{event.name}</h3>
+                        {event.area && <p>{event.area.properties.name}</p>}
+                      </Link>
+                    );
+                  }}
+                </RouteConsumer>
+              </li>
+            ))}
+          </ul>
+        </StyledToolbar>
+      </div>
     </FocusTrap>
   );
 };
