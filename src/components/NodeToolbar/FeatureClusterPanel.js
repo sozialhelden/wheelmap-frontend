@@ -145,6 +145,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
         inEmbedMode={this.props.inEmbedMode}
         isBelowSearchField={true}
         minimalTopPosition={this.props.minimalTopPosition}
+        minimalHeight={135}
       >
         <ErrorBoundary>
           <section className="cluster-entries">
