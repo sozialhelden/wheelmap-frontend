@@ -212,16 +212,13 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
     };
   }, [onToolbarResize, scrollElementRef]);
 
-  const ensureFullVisibility = React.useCallback(
-    (preferredHeight?: number) => {
-      if (isSwiping) {
-        return;
-      }
-      // Move the toolbar to show as much of its content as possible.
-      setTopOffset(Math.max(0, preferredHeight ? toolbarHeight - preferredHeight : 0));
-    },
-    [setTopOffset, toolbarHeight, isSwiping]
-  );
+  const ensureFullVisibility = React.useCallback(() => {
+    if (isSwiping) {
+      return;
+    }
+    // Move the toolbar to show as much of its content as possible.
+    setTopOffset(0);
+  }, [isSwiping]);
 
   React.useLayoutEffect(() => {
     if (props.isModal) {
