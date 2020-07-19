@@ -194,15 +194,13 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
         scrollElementRef.current.clientHeight,
         'prev top',
         previousClientTop,
-        'offset',
-        topOffset,
         'new offset',
         newTopOffset
       );
       setToolbarHeight(scrollElementRef.current.clientHeight);
       setTopOffset(newTopOffset);
     }
-  }, [toolbarHeight, topOffset, viewportHeight]);
+  }, [toolbarHeight, viewportHeight]);
 
   // Register toolbar resize observer
   React.useLayoutEffect(() => {
