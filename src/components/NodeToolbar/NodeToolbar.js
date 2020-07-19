@@ -385,6 +385,7 @@ class NodeToolbar extends React.Component<Props> {
             role="dialog"
             ariaLabel={this.placeName()}
             minimalTopPosition={this.props.minimalTopPosition}
+            minimalHeight={135}
             isBelowSearchField={true}
           >
             <ErrorBoundary>
