@@ -54,7 +54,7 @@ type PositionSample = { pos: number, t: number };
 type FlickState = 'up' | 'down' | 'noFlick';
 
 function calculateFlickState(ySamples: PositionSample[]): FlickState {
-  console.log(ySamples);
+  // console.log(ySamples);
   const lastSample = ySamples[1];
   const sampleBeforeLastSample = ySamples[0];
   if (lastSample && sampleBeforeLastSample) {
@@ -63,10 +63,10 @@ function calculateFlickState(ySamples: PositionSample[]): FlickState {
       Math.abs(lastSample.pos - sampleBeforeLastSample.pos) > 15
     ) {
       if (lastSample.pos > sampleBeforeLastSample.pos) {
-        console.log('up');
+        // console.log('up');
         return 'up';
       } else if (lastSample.pos < sampleBeforeLastSample.pos) {
-        console.log('down');
+        // console.log('down');
         return 'down';
       }
     }
@@ -254,7 +254,7 @@ function BaseToolbar(props: Props, ref: React.Ref<HTMLElement>) {
       setDeltaY(0);
       setScrollTopStartY(0);
       setIsSwiping(false);
-      console.log('Touch ended at', transformY);
+      // console.log('Touch ended at', transformY);
       const flickState = calculateFlickState(ySamples);
       if (flickState !== 'noFlick' && scrollTop <= 0) {
         const newIndex = flickState === 'up' ? 0 : stops.length - 1;
