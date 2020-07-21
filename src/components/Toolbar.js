@@ -450,14 +450,16 @@ const BaseToolbar = (
       if (props.isModal) {
         return;
       }
-      event.preventDefault();
+      if (topOffset > 0) {
+        event.preventDefault();
+      }
       setTouchStartY(event.touches[0].clientY);
       if (scrollElementRef.current) {
         setScrollTopStartY(scrollElementRef.current.scrollTop);
       }
       setYSamples([]);
     },
-    [props.isModal]
+    [props.isModal, topOffset]
   );
 
   const handleTouchEnd = React.useCallback(
@@ -491,9 +493,11 @@ const BaseToolbar = (
       ySamples.unshift({ pos: event.touches[0].clientY, t: Date.now() });
       ySamples.splice(3);
       setIsSwiping(true);
-      event.preventDefault();
+      if (topOffset > 0) {
+        event.preventDefault();
+      }
     },
-    [touchStartY, props.isModal, ySamples]
+    [props.isModal, touchStartY, ySamples, topOffset]
   );
 
   const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
@@ -538,7 +542,7 @@ const BaseToolbar = (
       style={{
         touchAction,
         transition,
-        overflowY: 'auto',
+        overflowY: topOffset > 0 ? 'none' : 'auto',
         transform: `translate3d(0, ${transformY}px, 0)`,
         top: props.isModal ? 'auto' : `${props.minimalTopPosition || 0}px`,
         maxHeight: getMaxHeight(
