@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
-import ResizeObserver from 'resize-observer-polyfill';
+import ResizeObserverPolyfill from 'resize-observer-polyfill';
 
 type Props = {
   className?: string,
@@ -417,7 +417,9 @@ const BaseToolbar = (
     if (!ref) {
       return;
     }
-    const resizeObserver = new ResizeObserver(onToolbarResize);
+    const resizeObserver = new (typeof ResizeObserver === 'undefined'
+      ? ResizeObserverPolyfill
+      : ResizeObserver)(onToolbarResize);
     onToolbarResize();
     resizeObserver.observe(ref);
     return () => {
