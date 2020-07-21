@@ -236,10 +236,10 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     searchResultsPromise: null,
   };
 
-  toolbar: ?React.Ref<typeof Toolbar> = React.createRef<typeof Toolbar>();
-  searchInputField: ?React.Ref<HTMLInputElement> = React.createRef<HTMLInputElement>();
-  goButton: ?React.Ref<HTMLButtonElement> = React.createRef<HTMLButtonElement>();
-  firstResult: ?React.Ref<typeof SearchResult> = React.createRef<typeof SearchResult>();
+  toolbar = React.createRef<typeof Toolbar>();
+  searchInputField = React.createRef<typeof SearchInputField>();
+  goButton = React.createRef<HTMLButtonElement>();
+  firstResult = React.createRef<typeof SearchResult>();
 
   static getDerivedStateFromProps(props: Props, state: State) {
     const { searchResults } = props;
@@ -327,8 +327,8 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   }
 
   blur() {
-    if (!this.searchInputField) return;
-    this.searchInputField.blur();
+    if (!this.searchInputField.current) return;
+    this.searchInputField.current.blur();
   }
 
   resetSearch() {
@@ -358,17 +358,13 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           window.scrollTo(0, 0);
         }}
         onBlur={() => {
-          this.ensureFullVisibility();
-          setTimeout(() => {
-            this.setState({ searchFieldIsFocused: false });
-            this.ensureFullVisibility();
-          }, 300);
+          this.setState({ searchFieldIsFocused: false });
         }}
         onChange={this.props.onChangeSearchQuery}
         onSubmit={(event: SyntheticEvent<HTMLInputElement>) => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();
-            if (this.firstResult.current) {
+            if (this.firstResult && this.firstResult.current) {
               this.firstResult.current.focus();
             }
           });
