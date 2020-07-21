@@ -6,6 +6,12 @@ import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 
+function humanizeCamelCase(string: string) {
+  return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
+    return `${substring[0]} ${substring[1].toLowerCase()}`;
+  });
+}
+
 function formatName(name: string, properties: {}): string {
   const string = properties[`${name}Localized`] || humanizeString(name);
   return string.replace(/^Rating /, '');
@@ -67,7 +73,7 @@ function DetailsObject(props: { className: ?string, object: {}, isNested?: boole
     // Screen readers work better when the first letter is capitalized.
     // If the attribute starts with a lowercase letter, there is no spoken pause
     // between the previous attribute value and the attribute name.
-    const capitalizedName = capitalizeFirstLetter(name);
+    const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
 
     if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
       return [
