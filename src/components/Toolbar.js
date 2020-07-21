@@ -9,8 +9,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import colors from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
-import * as safeAreaInsets from 'safe-area-insets';
-import Measure from 'react-measure';
+import ResizeObserver from 'resize-observer-polyfill';
 
 type Props = {
   className?: string,
