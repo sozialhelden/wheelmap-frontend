@@ -25,7 +25,7 @@ const StyledFrame = styled.div`
     width: 12px;
     height: 8px;
     background: url('/images/triangle.svg') no-repeat;
-    z-index: 0;
+    z-index: 1;
   }
 
   > * {
