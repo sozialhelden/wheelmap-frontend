@@ -243,7 +243,7 @@ const StyledIconButton = styled(IconButton)`
 const StyledShareBar = styled(ShareBar)`
   padding: 0 5px 0 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
 
   header {
     min-height: 38px;
