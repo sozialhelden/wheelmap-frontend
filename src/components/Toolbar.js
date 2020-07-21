@@ -400,14 +400,14 @@ const BaseToolbar = (
     }
     const previousClientTop = ref.getClientRects()[0].top;
     const newTopOffset = previousClientTop + toolbarHeight - viewportHeight;
-    console.log(
-      'Setting height',
-      ref.clientHeight,
-      'prev top',
-      previousClientTop,
-      'new offset',
-      newTopOffset
-    );
+    // console.log(
+    //   'Setting height',
+    //   ref.clientHeight,
+    //   'prev top',
+    //   previousClientTop,
+    //   'new offset',
+    //   newTopOffset
+    // );
     setToolbarHeight(ref.clientHeight);
     setTopOffset(newTopOffset);
   }, [toolbarHeight, viewportHeight]);
