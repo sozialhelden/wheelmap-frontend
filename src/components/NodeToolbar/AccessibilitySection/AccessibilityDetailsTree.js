@@ -29,7 +29,7 @@ function formatValue(value: mixed): string {
   ) {
     return `${value.value || '?'} ${value.unit}`;
   }
-  return String(value);
+  return humanizeCamelCase(String(value));
 }
 
 function FormatRating({ rating }: { rating: number }) {
