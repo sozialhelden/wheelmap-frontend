@@ -8,6 +8,9 @@ export default function getIconNameForProperties(
   lookup: CategoryLookupTables,
   properties: NodeProperties
 ) {
+  if (!properties) {
+    return null;
+  }
   const givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
 
   let givenCategoryId = null;
