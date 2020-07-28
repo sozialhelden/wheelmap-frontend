@@ -52,7 +52,7 @@
     "leaflet.markercluster": "^1.0.4",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.19",
-    "marked": "^0.7.0",
+    "marked": "^1.1.1",
     "mkdirp": "^0.5.1",
     "next": "^9.4.4",
     "next-transpile-modules": "^2.3.1",
