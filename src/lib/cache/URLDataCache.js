@@ -48,7 +48,7 @@ export default class URLDataCache<T> {
       return Promise.reject(null);
     }
 
-    let promise = this.cache.get(url);
+    let promise = this.options.reloadInBackground ? this.cache.get(url) : this.cache.touch(url);
 
     if (promise) {
       if ((!options || options.useCache) && this.options.reloadInBackground) {
