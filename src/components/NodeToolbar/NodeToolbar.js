@@ -93,17 +93,6 @@ class NodeToolbar extends React.Component<Props> {
   shareButton: ?React.ElementRef<'button'>;
   reportModeButton: ?React.ElementRef<'button'>;
 
-  componentDidMount() {
-    if (this.props.photoFlowNotification) {
-      // TODO: what is this timeout needed for, and why?
-      setTimeout(() => {
-        if (this.toolbar) {
-          this.toolbar.ensureFullVisibility();
-        }
-      }, 200);
-    }
-  }
-
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
   }
@@ -123,11 +112,6 @@ class NodeToolbar extends React.Component<Props> {
             categories={this.props.categories}
             feature={this.props.feature}
             featureId={this.props.featureId}
-            onReportComponentChanged={() => {
-              if (this.toolbar) {
-                this.toolbar.ensureFullVisibility();
-              }
-            }}
             onClose={() => {
               if (this.props.onClose) this.props.onClose();
             }}
@@ -138,14 +122,7 @@ class NodeToolbar extends React.Component<Props> {
   }
 
   renderIconButtonList() {
-    return (
-      <IconButtonList
-        {...this.props}
-        onToggle={() => {
-          if (this.toolbar) this.toolbar.ensureFullVisibility();
-        }}
-      />
-    );
+    return <IconButtonList {...this.props} />;
   }
 
   renderNodeHeader() {

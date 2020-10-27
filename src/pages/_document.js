@@ -39,7 +39,7 @@ export default class MyDocument extends Document {
                 https://www.google-analytics.com
                 https://www.googletagmanager.com
                 https://ssl.gstatic.com
-                https://photon.komoot.de
+                https://photon.komoot.io
                 https://sozialhelden.matomo.cloud
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud

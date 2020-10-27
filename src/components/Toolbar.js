@@ -546,7 +546,10 @@ const BaseToolbar = (
         transition,
         overflowY: topOffset > 0 ? 'none' : 'auto',
         transform: `translate3d(0, ${transformY}px, 0)`,
-        top: props.isModal ? undefined : `${props.minimalTopPosition || 0}px`,
+        top:
+          props.isModal || viewportHeight <= 512 || viewportWidth <= 512
+            ? undefined
+            : `calc(${props.minimalTopPosition || 0}px + env(safe-area-inset-top))`,
         maxHeight: getMaxHeight(
           props.minimalTopPosition,
           viewportWidth,

@@ -34,6 +34,9 @@ type Props = {
 export default function PlaceAccessibilitySection(props: Props) {
   const { featureId, feature, toiletsNearby, cluster } = props;
   const properties = feature && feature.properties;
+  if (!properties) {
+    return null;
+  }
   const isWheelmapFeature = isWheelmapFeatureId(featureId);
 
   const accessibilityTree =
@@ -42,7 +45,7 @@ export default function PlaceAccessibilitySection(props: Props) {
     ? filterAccessibility(accessibilityTree)
     : null;
   const accessibilityDetailsTree = filteredAccessibilityTree && (
-    <AccessibilityDetailsTree details={filteredAccessibilityTree} />
+    <AccessibilityDetailsTree details={filteredAccessibilityTree} isNested={true} />
   );
   let description: ?string = null;
   if (properties && typeof properties.wheelchair_description === 'string') {

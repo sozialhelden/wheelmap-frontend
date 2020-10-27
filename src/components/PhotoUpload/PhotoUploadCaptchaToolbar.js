@@ -274,9 +274,6 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.hidden) {
       this.startTimer();
-      if (this.toolbar) {
-        this.toolbar.ensureFullVisibility();
-      }
     } else if (nextProps.hidden) {
       this.clearTimer();
     }
