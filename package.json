@@ -7,7 +7,7 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "@babel/polyfill": "^7.4.4",
+    "@babel/polyfill": "^7.12.1",
     "@babel/runtime-corejs3": "^7.12.1",
     "@elastic/apm-rum": "^4.9.1",
     "@hypo808/elastic-apm-sourcemap-webpack-plugin": "^1.5.2",
