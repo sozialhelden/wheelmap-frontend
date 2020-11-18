@@ -79,6 +79,12 @@
     "webpack-log": "^3.0.1"
   },
   "devDependencies": {
+    "@wdio/cli": "^5.6.3",
+    "chai": "^4.2.0",
+    "webdriverio": "^5.6.3",
+    "@wdio/local-runner": "^5.6.3",
+    "@wdio/mocha-framework": "^5.6.3",
+    "@wdio/sync": "^5.6.3",
     "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.6.3",
     "@svgr/cli": "^4.3.0",
@@ -142,6 +148,7 @@
     "build": "rm -rf src/.next/* && next build src/",
     "analyze": "source-map-explorer build/static/js/main.*",
     "test": "node scripts/test.js --env=jsdom",
+    "browserstack-tests": "wdio tests/conf/single.conf.js",
     "deploy-classic-staging": "npm run build-staging && scp -r -P 22022 build/* rails@hulk:/var/apps/wheelmap/staging/shared/public/beta",
     "deploy-classic-production": "npm run build && scp -r -P 22022 build/* rails@spiderman:/var/apps/wheelmap/production/shared/public/beta",
     "push-deploy-tag": "export DEPLOY_TAG=\"deploy-`date \"+%Y-%m-%d_%H-%M-%S\"`\" && git tag $DEPLOY_TAG && git push origin $DEPLOY_TAG",
