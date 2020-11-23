@@ -21,7 +21,7 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string, appToken: string) {
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || '';
     return `${baseUrl}/sources/${id}.json?appToken=${appToken}`;
   }
 
