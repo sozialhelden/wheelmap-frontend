@@ -16,6 +16,7 @@ import Link, { RouteConsumer } from '../Link/Link';
 import { AppContextConsumer } from '../../AppContext';
 
 import CloseIcon from '../icons/actions/Close';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -27,6 +28,8 @@ type Props = {
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
+  onAddPlaceViaCustomLinkClick: () => void,
+  uniqueSurveyId: string,
   joinedMappingEvent: ?MappingEvent,
   isOpen: boolean,
   lat: string,
@@ -135,20 +138,33 @@ class MainMenu extends React.Component<Props, State> {
     return this.props.links
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(link => {
-        const url = translatedStringFromObject(link.url);
+        const url =
+          link.url &&
+          insertPlaceholdersToAddPlaceUrl(
+            baseUrl,
+            translatedStringFromObject(link.url),
+            this.props.uniqueSurveyId
+          );
         const label = translatedStringFromObject(link.label);
         const badgeLabel = translatedStringFromObject(link.badgeLabel);
         const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
         const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
+        let customClickHandler = null;
         const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-        if (isAddPlaceLink) {
+        const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
+
+        if (isAddPlaceLinkWithoutCustomUrl) {
           return (
             <Link key="add-place" className={className} to="/add-place" role="menuitem">
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
             </Link>
           );
+        }
+
+        if (isAddPlaceLink && !isAddPlaceLinkWithoutCustomUrl) {
+          customClickHandler = this.props.onAddPlaceViaCustomLinkClick;
         }
 
         const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
@@ -158,7 +174,13 @@ class MainMenu extends React.Component<Props, State> {
 
         if (typeof url === 'string') {
           return (
-            <Link key={url} className={className} to={url} role="menuitem">
+            <Link
+              key={url}
+              className={className}
+              to={url}
+              role="menuitem"
+              onClick={customClickHandler}
+            >
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
             </Link>

@@ -14,7 +14,7 @@ import { type AppContextData } from '../../AppContext';
 import { trackEvent } from '../../lib/Analytics';
 
 export type Props = {
-  featureId: string,
+  featureId?: string,
   hidden: boolean,
   isExpanded?: boolean,
   onClose: () => void,

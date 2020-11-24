@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
+import uuidv4 from 'uuid/v4';
 import queryString from 'query-string';
 import FocusTrap from 'focus-trap-react';
 
@@ -168,6 +169,7 @@ type Props = {
 type State = {
   isOnSmallViewport: boolean,
   analyticsAllowed: boolean,
+  uniqueSurveyId: string,
 };
 
 function updateTouchCapability() {
@@ -192,6 +194,7 @@ class MainView extends React.Component<Props, State> {
   state: State = {
     isOnSmallViewport: isOnSmallViewport(),
     analyticsAllowed: hasAllowedAnalytics(),
+    uniqueSurveyId: uuidv4(),
   };
 
   map: ?{ focus: () => void, snapToFeature: () => void };
@@ -247,6 +250,10 @@ class MainView extends React.Component<Props, State> {
     this.map && this.map.snapToFeature();
   };
 
+  onAddPlaceViaCustomLinkClick = () => {
+    this.setState(() => ({ uniqueSurveyId: uuidv4() }));
+  };
+
   getMinimalNodeToolbarTopPosition() {
     return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 120;
   }
@@ -260,6 +267,7 @@ class MainView extends React.Component<Props, State> {
       ? 50
       : 60;
   }
+
   renderNodeToolbar(isNodeRoute: boolean) {
     return (
       <div className="node-toolbar">
@@ -472,10 +480,12 @@ class MainView extends React.Component<Props, State> {
       <MainMenu
         productName={translatedStringFromObject(textContent.product.name)}
         className="main-menu"
+        uniqueSurveyId={this.state.uniqueSurveyId}
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
         joinedMappingEvent={this.props.joinedMappingEvent}
         isLocalizationLoaded={this.props.isLocalizationLoaded}
         logoURL={logoURL}
@@ -598,7 +608,7 @@ class MainView extends React.Component<Props, State> {
                 hidden={this.props.modalNodeState !== 'contribution-thanks'}
                 onClose={this.props.onCloseModalDialog}
                 appContext={appContext}
-                featureId={String(this.props.featureId)}
+                featureId={this.props.featureId}
                 onSelectFeature={id => {
                   this.props.onCloseModalDialog();
                   this.props.onMarkerClick(id);
