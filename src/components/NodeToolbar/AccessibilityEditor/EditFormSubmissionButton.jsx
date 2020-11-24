@@ -2,7 +2,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 import type { Feature } from '../../../lib/Feature';
 import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';

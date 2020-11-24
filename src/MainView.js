@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 import queryString from 'query-string';
 import FocusTrap from 'focus-trap-react';
 
