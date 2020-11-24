@@ -19,9 +19,11 @@ export default styled(PageStack)`
   bottom: 0px;
   top: 0px;
   z-index: 10000;
-  background-color: ${colors.neutralBackgroundColorTransparent};
   display: flex;
   padding: 25px;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+
+  margin-bottom: 120px;
 `;

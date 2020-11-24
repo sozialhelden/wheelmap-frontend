@@ -38,4 +38,8 @@ export default styled(VerticalPage)`
 
   overflow-y: auto;
   overflow-x: hidden;
+
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  -webkit-user-drag: none;
 `;
