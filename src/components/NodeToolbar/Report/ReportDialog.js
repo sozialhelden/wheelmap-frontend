@@ -28,6 +28,7 @@ import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 import { type DataSource, dataSourceCache } from '../../../lib/cache/DataSourceCache';
+import { Dots } from 'react-activity';
 
 type IssueEntry = {
   className?: string,
@@ -221,11 +222,22 @@ class ReportDialog extends React.Component<Props, State> {
 
   render() {
     const { featureId, feature, categories } = this.props;
-    const { properties } = feature;
-    if (!featureId || !feature || !properties) return null;
+    const { backButtonCaption, reportIssueHeader } = strings();
+    const { properties } = feature || {};
+
+    if (!featureId || !feature || !properties) {
+      return (
+        <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
+          <header id="report-dialog-header">{reportIssueHeader}</header>
+          <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+          <button className="link-button negative-button" onClick={this.onClose}>
+            {backButtonCaption}
+          </button>
+        </div>
+      );
+    }
 
     const ComponentClass = this.state.SelectedComponentClass;
-
     if (ComponentClass) {
       return (
         <ComponentClass
@@ -240,7 +252,6 @@ class ReportDialog extends React.Component<Props, State> {
       );
     }
 
-    const { backButtonCaption, reportIssueHeader } = strings();
     const issues = this.generateIssues(
       featureId,
       properties,
