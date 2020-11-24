@@ -213,6 +213,7 @@ const CreatePlaceFlow = (props: Props) => {
           placeName={place.properties.name}
           onSubmit={submit}
           onRetry={returnToEditor}
+          onDismiss={onCancel}
         />
       </PageStack>
     </>

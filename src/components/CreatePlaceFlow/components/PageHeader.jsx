@@ -5,11 +5,10 @@ export default styled.header`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  margin-top: 24px;
+  margin-bottom: 24px;
   position: sticky;
   top: 0px;
-  background: white;
   z-index: 5000;
 
   h2 {

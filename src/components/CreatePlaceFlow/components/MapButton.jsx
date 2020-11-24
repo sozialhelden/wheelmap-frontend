@@ -30,6 +30,13 @@ const MapButton = (props: Props) => {
         mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         width="100%"
         height="300px"
+        tabIndex={-1}
+        ref={r => {
+          if (r) {
+            // prevent keyboard focus of canvas
+            r.getMap().getCanvas().tabIndex = -1;
+          }
+        }}
       />
       <Icon
         withArrow={true}
@@ -49,6 +56,10 @@ export default styled(MapButton)`
 
   .mapboxgl-map {
     border-radius: 4px;
+  }
+
+  .mapboxgl-ctrl-attrib {
+    display: none;
   }
 
   > figure {

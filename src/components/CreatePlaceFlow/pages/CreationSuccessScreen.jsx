@@ -6,7 +6,7 @@ import styled from 'styled-components';
 
 import VerticalPage from '../components/VerticalPage';
 import AppContext from '../../../AppContext';
-import { PrimaryButton } from '../../Button';
+import { ChromelessButton, PrimaryButton } from '../../Button';
 import usePlaceDetails from '../components/usePlaceDetails';
 import EditFormSubmissionButton from '../../NodeToolbar/AccessibilityEditor/EditFormSubmissionButton';
 
@@ -18,10 +18,11 @@ type Props = {
   state: 'Submitting' | 'Error' | 'Success',
   onSubmit: () => void,
   onRetry: () => void,
+  onDismiss: () => void,
 };
 
 const CreationSuccessScreen = (props: Props) => {
-  const { className, placeId, placeName, visible, state, onSubmit, onRetry } = props;
+  const { className, placeId, placeName, visible, state, onSubmit, onRetry, onDismiss } = props;
 
   const appContext = React.useContext(AppContext);
   const [, place, setPlaceId] = usePlaceDetails(placeId);
@@ -41,6 +42,7 @@ const CreationSuccessScreen = (props: Props) => {
           <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
           <h2>{t`Thank you!`}</h2>
           <p>{t`Uploading ${placeName} to ${appName}.`}</p>
+          <ChromelessButton onClick={onDismiss}>{t`Dismiss`}</ChromelessButton>
         </>
       )}
       {state === 'Error' && (

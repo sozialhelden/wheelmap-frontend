@@ -1,8 +1,30 @@
 // @flow
+import FocusTrap, { FocusTarget } from 'focus-trap-react';
 import * as React from 'react';
 import styled from 'styled-components';
 
-export default styled.div`
+function VerticalPage(props: {
+  className: string,
+  children: React.ReactNode,
+  initialFocus: FocusTarget,
+}) {
+  var pageRoot = React.useRef<HTMLElement | null>();
+
+  return (
+    <FocusTrap
+      focusTrapOptions={{
+        initialFocus: props.initialFocus,
+        fallbackFocus: pageRoot.current || 'body',
+      }}
+    >
+      <div ref={pageRoot} className={props.className} tabIndex={-1}>
+        {props.children}
+      </div>
+    </FocusTrap>
+  );
+}
+
+export default styled(VerticalPage)`
   display: flex;
   flex-direction: column;
   background: white;

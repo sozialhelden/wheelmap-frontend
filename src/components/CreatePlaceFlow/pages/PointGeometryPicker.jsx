@@ -86,6 +86,12 @@ const PointGeometryPicker = (props: Props) => {
               geoLocateRef.current._mapboxGeolocateControl.trigger();
             }
           }}
+          ref={r => {
+            if (r) {
+              // prevent keyboard focus of canvas
+              r.getMap().getCanvas().tabIndex = -1;
+            }
+          }}
         >
           <GeolocateControl
             className="geolocateControl"
@@ -134,7 +140,6 @@ export default styled(PointGeometryPicker)`
   .mapContainer {
     flex: 1;
     position: relative;
-    overflow: hidden;
 
     .geolocateControl {
       position: absolute;
@@ -147,6 +152,23 @@ export default styled(PointGeometryPicker)`
       left: calc(50% - 20px);
       bottom: 50%;
       z-index: 1000;
+    }
+
+    > div::after {
+      content: '';
+      position: absolute;
+      box-shadow: inset 0px 0px 0px 4px transparent;
+      transition: box-shadow 0.2s;
+      user-select: none;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    > div.focus-visible::after {
+      box-shadow: inset 0px 0px 0px 4px ${colors.focusOutline};
+      transition: box-shadow 0.2s;
     }
   }
 
