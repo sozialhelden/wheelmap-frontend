@@ -5,11 +5,11 @@ import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator
 
 import { Cluster } from '../../components/Map/Cluster';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import type { Category } from '../../lib/Categories';
-import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
-import type { EquipmentInfo } from '../../lib/EquipmentInfo';
-import type { ModalNodeState } from '../../lib/ModalNodeState';
-import type { PhotoModel } from '../../lib/PhotoModel';
+import { Category } from '../../lib/Categories';
+import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { ModalNodeState } from '../../lib/ModalNodeState';
+import { PhotoModel } from '../../lib/PhotoModel';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
 import {
   PlaceDetailsProps,
