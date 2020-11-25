@@ -10,17 +10,13 @@ msgstr ""
 "Language: zh-Hans\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:327
+#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:331
 msgid "Search"
 msgstr "搜索"
 
-#: src/pages/_app.js:328
+#: src/pages/_app.js:332
 msgid "Homepage"
 msgstr "主页"
-
-#: src/components/EmbedModeDeniedDialog.js:12
-msgid "Embed mode can not be used"
-msgstr "无法使用嵌入模式"
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
@@ -45,112 +41,117 @@ msgstr "对不起，这属于意外！"
 msgid "Return home"
 msgstr "回家"
 
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:55
 #: src/components/NotFound/NotFound.js:71
 msgid "Retry"
 msgstr "再次尝试"
 
-#: src/lib/Categories.js:87
+#: src/components/EmbedModeDeniedDialog.js:12
+msgid "Embed mode can not be used"
+msgstr "无法使用嵌入模式"
+
+#: src/lib/Categories.js:93
 msgid "Shopping"
 msgstr "购物"
 
-#: src/lib/Categories.js:91
+#: src/lib/Categories.js:97
 msgid "Food & Drinks"
 msgstr "餐饮"
 
-#: src/lib/Categories.js:95
+#: src/lib/Categories.js:101
 msgid "Transport"
 msgstr "交通"
 
-#: src/lib/Categories.js:99
+#: src/lib/Categories.js:105
 msgid "Leisure"
 msgstr "休闲"
 
-#: src/lib/Categories.js:103
+#: src/lib/Categories.js:109
 msgid "Hotels"
 msgstr "酒店"
 
-#: src/lib/Categories.js:107
+#: src/lib/Categories.js:113
 msgid "Tourism"
 msgstr "旅游"
 
-#: src/lib/Categories.js:111
+#: src/lib/Categories.js:117
 msgid "Education"
 msgstr "教育"
 
-#: src/lib/Categories.js:115
+#: src/lib/Categories.js:121
 msgid "Authorities"
 msgstr "官方"
 
-#: src/lib/Categories.js:119
+#: src/lib/Categories.js:125
 msgid "Health"
 msgstr "健康"
 
-#: src/lib/Categories.js:123
+#: src/lib/Categories.js:129
 msgid "Money"
 msgstr "金钱"
 
-#: src/lib/Categories.js:127
+#: src/lib/Categories.js:133
 msgid "Sports"
 msgstr "体育"
 
-#: src/lib/Categories.js:131
+#: src/lib/Categories.js:137
 msgid "Toilets"
 msgstr "卫生间"
 
-#: src/lib/Categories.js:255
+#: src/lib/Categories.js:262
 msgid "Error while loading place categories."
 msgstr "加载地点类别时出错。"
 
-#: src/app/CreatePlaceData.js:12
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
-msgid "Add a new place"
-msgstr "添加一个新地点"
-
-#: src/app/ContributionThanksData.js:12
-msgid "Thank you for the contribution!"
-msgstr "感谢您的贡献！"
-
-#: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
+#: src/app/SearchData.js:123 src/components/SearchToolbar/SearchResults.js:46
 msgid "Search results"
 msgstr "搜索结果"
 
-#: src/lib/EquipmentInfo.js:100
+#: src/app/CreatePlaceData.js:12
+msgid "Add a new place"
+msgstr "添加一个新地点"
+
+#: src/app/ContributionThanksData.js:19
+msgid "Thank you for the contribution!"
+msgstr "感谢您的贡献！"
+
+#: src/lib/EquipmentInfo.js:99
 msgid "Unnamed facility"
 msgstr "未命名设施"
 
-#: src/lib/EquipmentInfo.js:114
+#: src/lib/EquipmentInfo.js:113
 msgid "In operation"
 msgstr "运行中"
 
-#: src/lib/EquipmentInfo.js:116
+#: src/lib/EquipmentInfo.js:115
 msgid "Out of order"
 msgstr "故障中"
 
-#: src/lib/EquipmentInfo.js:118
+#: src/lib/EquipmentInfo.js:117
 msgid "Unknown operational status"
 msgstr "运营状态未知"
 
-#: src/lib/EquipmentInfo.js:159
+#: src/lib/EquipmentInfo.js:158
 msgid "Escalator"
 msgstr "自动扶梯"
 
-#: src/lib/EquipmentInfo.js:160
+#: src/lib/EquipmentInfo.js:159
 msgid "Elevator"
 msgstr "直梯"
 
-#: src/lib/EquipmentInfo.js:162
+#: src/lib/EquipmentInfo.js:161
 msgid "Facility"
 msgstr "设施"
 
-#: src/lib/EquipmentInfo.js:166
+#: src/lib/EquipmentInfo.js:165
 msgid "today"
 msgstr "今天"
 
-#: src/lib/EquipmentInfo.js:167
+#: src/lib/EquipmentInfo.js:166
 msgid "yesterday"
 msgstr "昨天"
 
-#: src/lib/EquipmentInfo.js:186
+#: src/lib/EquipmentInfo.js:185
+#, javascript-format
 msgid ""
 "Last known operational status: ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
@@ -158,108 +159,109 @@ msgstr ""
 "已知的最近运营状态：${ translatedEquipmentCategory }在 ${ dateString }是 ${ lastStatus }"
 " 。"
 
-#: src/lib/EquipmentInfo.js:196
+#: src/lib/EquipmentInfo.js:195
 msgid "Last update: ${ dateString }"
 msgstr "上次更新：${ dateString }"
 
-#: src/app/PlaceDetailsData.js:276
+#: src/app/PlaceDetailsData.js:294
+#, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "这个地点在 ${ productName }：${ placeTitle }"
 
-#: src/lib/Feature.js:470
+#: src/lib/Feature.js:471
 msgid "Fully wheelchair accessible"
 msgstr "轮椅完全无障碍"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
-#: src/lib/Feature.js:473
+#: src/lib/Feature.js:474
 msgid "Partially wheelchair accessible"
 msgstr "部分轮椅无障碍"
 
-#: src/lib/Feature.js:476
+#: src/lib/Feature.js:477
 msgid "Not wheelchair accessible"
 msgstr "非轮椅无障碍"
 
-#: src/lib/Feature.js:479
+#: src/lib/Feature.js:480
 msgid "Unknown accessibility"
 msgstr "无障碍设施未知"
 
-#: src/lib/Feature.js:489
+#: src/lib/Feature.js:490
 msgid "Fully"
 msgstr "完全"
 
-#: src/lib/Feature.js:492
+#: src/lib/Feature.js:493
 msgid "Partially"
 msgstr "部分"
 
-#: src/lib/Feature.js:495
+#: src/lib/Feature.js:496
 msgid "Not at all"
 msgstr "毫无"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:93 src/lib/Feature.js:498
+#: src/components/NodeToolbar/Report/ReportDialog.js:95 src/lib/Feature.js:499
 msgid "Unknown"
 msgstr "未知"
 
-#: src/lib/Feature.js:508
+#: src/lib/Feature.js:509
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "入口无台阶，且出入所有房间都无台阶。"
 
-#: src/lib/Feature.js:512
+#: src/lib/Feature.js:513
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
 msgstr "入口有一个台阶，最高 3 英寸，大多数房间都没有台阶。"
 
-#: src/lib/Feature.js:514
+#: src/lib/Feature.js:515
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr "入口有一个台阶，最高 7cm，大多数房间都没有台阶。"
 
-#: src/lib/Feature.js:517
+#: src/lib/Feature.js:518
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "入口有一个高台阶或几个台阶，没有一个房间是无障碍的。"
 
-#: src/lib/Feature.js:528
+#: src/lib/Feature.js:529
 msgid "Wheelchair accessible toilet"
 msgstr "轮椅无障碍厕所"
 
-#: src/lib/Feature.js:531
+#: src/lib/Feature.js:532
 msgid "No wheelchair accessible toilet"
 msgstr "没有轮椅无障碍厕所"
 
-#: src/lib/Feature.js:539
+#: src/lib/Feature.js:540
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "门口内宽  ≥ 35英寸"
 
-#: src/lib/Feature.js:539
+#: src/lib/Feature.js:540
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "门口内宽  ≥ 90厘米"
 
-#: src/lib/Feature.js:540
+#: src/lib/Feature.js:541
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "空出的转弯空间宽度 ≥ 59英寸"
 
-#: src/lib/Feature.js:540
+#: src/lib/Feature.js:541
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "清除转弯空间 ≥ 150cm 宽"
 
-#: src/lib/Feature.js:541
+#: src/lib/Feature.js:542
 msgid "Wheelchair-height toilet seat"
 msgstr "轮椅高度的马桶座"
 
-#: src/lib/Feature.js:542
+#: src/lib/Feature.js:543
 msgid "Foldable grab rails"
 msgstr "可折叠握杆"
 
-#: src/lib/Feature.js:543
+#: src/lib/Feature.js:544
 msgid "Accessible sink"
 msgstr "无障碍洗手池"
 
-#: src/lib/Feature.js:550
+#: src/lib/Feature.js:551
 msgid "Unnamed place"
 msgstr "未命名地点"
 
-#: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:33
+#: src/lib/cache/FeatureCache.js:178 src/lib/cache/WheelmapFeatureCache.js:31
 msgid "Could not load this place."
 msgstr "无法加载该地点。"
 
@@ -267,185 +269,12 @@ msgstr "无法加载该地点。"
 msgid "Error while loading data."
 msgstr "加载数据时出错。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
-msgid "Welcome"
-msgstr "欢迎"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
-msgid ""
-"You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
-"step: Rate and add the accessibility of places."
-msgstr "现在您已加入地图活动 ${ mappingEvent.name } ❤ 您的下一步：评价并添加地点的无障碍性"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
-msgid "Let's go"
-msgstr "我们走吧"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:31
-msgid "Mapping events list"
-msgstr "绘图活动列表"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:33
-msgid "${ mappingEvents.length } active mapping events"
-msgstr "${ mappingEvents.length }个活跃的绘图活动"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:35
-msgid "Events"
-msgstr "活动"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:37
-msgid "Meet the community and map the accessibility of places around you!"
-msgstr "与社区见面并把周边的无障碍地点绘制到地图上！"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:75
-msgid "starting"
-msgstr "开始"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:80
-msgid "until"
-msgstr "直到"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:95
-msgid "Mapping event ${ mappingEvent.name }"
-msgstr "绘图活动 ${ mappingEvent.name }"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:97
-msgid "Center map on mapping event"
-msgstr "地图活动的中心地图"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:99
-msgid "Meeting point"
-msgstr "会面地点"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:101
-msgid "Area name"
-msgstr "区域名称"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:103
-msgid "Event date"
-msgstr "活动日期"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:105
-msgid "Event start date"
-msgstr "活动开始日期"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:107
-msgid "Event end date"
-msgstr "活动结束日期"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:109
-msgid "Back to the mapping events list"
-msgstr "返回绘图活动列表"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:111
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
-msgid "Share"
-msgstr "分享"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:113
-msgid "Join mapping event"
-msgstr "加入绘图活动"
-
-#: src/components/MappingEvents/MappingEventToolbar.js:115
-msgid "Leave mapping event"
-msgstr "离开绘图活动"
-
-#: src/components/Map/Map.js:1004
-msgid "Zoom in closer to see more places"
-msgstr "放大以查看更多地点"
-
-#: src/components/Map/Map.js:1020
-msgid "Turn on location services"
-msgstr "打开定位服务"
-
-#: src/components/Map/Map.js:1053
-msgid "Map"
-msgstr "地图"
-
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr "地图活动编号"
-
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr "已绘制的地点"
-
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr "参加者"
-
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr "剩余天数"
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
-msgstr ""
-"帮助我们并加入 ${ mappingEvent.name } 地图活动${ productNameString }。您可以在此了解更多信息： ${ "
-"url }"
-
-#: src/components/Map/MappingEventMarkerIcon.js:34
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr "${ eventName } 绘图活动的地图标记器"
-
-#: src/lib/goToLocationSettings.js:36
-msgid ""
-"To locate yourself on the map, open browser settings and allow Wheelmap.org "
-"to use location services."
-msgstr "要在地图上定位自己，请打开浏览器设置，并允许 Wheelmap.org 使用定位服务。"
-
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "显示我的位置"
-
-#: src/components/CloseButton.js:33 src/components/CloseLink.js:36
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
-msgid "Close"
-msgstr "关闭"
-
-#: src/components/ShareBar/ShareBar.js:86
-msgid "Expand share menu"
-msgstr "展开共享菜单"
-
-#: src/components/ShareBar/ShareBar.js:106
-msgid "Collapse share menu"
-msgstr "合上共享菜单"
-
-#: src/components/Toolbar.js:333
-msgid "Collapse details"
-msgstr "折叠详情"
-
-#: src/components/Toolbar.js:333
-msgid "Expand details"
-msgstr "展开详情"
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:145
-msgid "Places"
-msgstr "地点"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
-msgid "Thank you!"
-msgstr "感谢您"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
-msgid "Please give us a moment to verify your contribution."
-msgstr "请给我们一点时间来验证您的贡献。"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
-msgid "Add next place"
-msgstr "添加下一个地点"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
-msgid "Back to map"
-msgstr "回到地图"
-
 #: src/components/WheelmapHomeLink.js:10
+#, javascript-format
 msgid "Go to ${ appName }"
 msgstr "前往${ appName }"
 
-#: src/components/Onboarding/Onboarding.js:62
+#: src/components/Onboarding/Onboarding.js:60
 #: src/components/WheelmapHomeLink.js:15
 msgid "App Logo"
 msgstr "应用标志"
@@ -454,30 +283,18 @@ msgstr "应用标志"
 msgid "All places"
 msgstr "所有地点"
 
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "通过标记地点提供帮助！"
+#: src/components/NodeToolbar/FeatureClusterPanel.js:137
+msgid "Places"
+msgstr "地点"
 
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "好，我们开始吧！"
+#: src/components/SearchToolbar/SearchToolbar.js:459
+msgid "Clear search"
+msgstr "清除搜索"
 
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
-msgstr "继续，不使用 cookies"
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
-msgstr ""
-"我们使用cookies为你完善本应用。<a href=\"https://news.wheelmap.org/terms-of-use/\" "
-"target=\"_blank\">阅读我们的隐私政策</a>。"
-
-#: src/components/Onboarding/Onboarding.js:70
-msgid "Start screen"
-msgstr "开始页"
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:351
+#: src/components/SearchToolbar/SearchToolbar.js:470
+msgid "Go"
+msgstr "去"
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
 msgid "Image shows another place."
@@ -525,72 +342,121 @@ msgstr "去报告"
 msgid "Which problem would you like to report?"
 msgstr "你想要报告什么问题？"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:60
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:93
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:178
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:156
 msgid "Cancel"
 msgstr "取消"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:126
+#: src/components/NodeToolbar/Report/SendReportToAc.js:132
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:163
 msgid "Send"
 msgstr "发送"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
-msgid "“Vespucci” in PlayStore"
-msgstr "PlayStore 中的“Vespucci”"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:43
+msgid "Thank you!"
+msgstr "感谢您"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
-msgid "Use the OpenStreetMap web editor"
-msgstr "使用OpenStreetMap网页编辑器"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:104
+msgid "Please give us a moment to verify your contribution."
+msgstr "请给我们一点时间来验证您的贡献。"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
-msgid "“Go Map!!” in App Store"
-msgstr "苹果应用商店中的“Go Map!!”"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
-msgid "“MAPS.ME” in App Store"
-msgstr "苹果应用商店里的“MAPS.ME”"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
-msgid "“MAPS.ME” in PlayStore"
-msgstr "PlayStore 中的“MAPS.ME”"
-
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
-msgid ""
-"Most places shown here are from <a "
-"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
-"on OSM, they will appear here a bit later."
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:106
+msgid "Back to place"
 msgstr ""
-"此处显示的大多地点都来自 <a href='https://openstreetmap.org'>OpenStreetMap "
-"(OSM)</a>。如果您在 OSM 上添加了一些地点，它们稍后会出现在这里。"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
-#: src/components/NodeToolbar/Report/strings.js:26
-msgid "Leave a note on OpenStreetMap"
-msgstr "在 OpenStreetMap 留下评论"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:107
+msgid "Back to map"
+msgstr "回到地图"
 
-#: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
-msgid "Add a place on OpenStreetMap"
-msgstr "在 OpenStreetMap 上添加一个地点"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:116
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:60
+msgid "Clapping hands"
+msgstr ""
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
+#: src/components/MappingEvents/MappingEventsToolbar.js:32
+msgid "Mapping events list"
+msgstr "绘图活动列表"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:34
+#, javascript-format
+msgid "${ mappingEvents.length } active mapping events"
+msgstr "${ mappingEvents.length }个活跃的绘图活动"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:36
+msgid "Events"
+msgstr "活动"
+
+#: src/components/MappingEvents/MappingEventsToolbar.js:38
+msgid "Meet the community and map the accessibility of places around you!"
+msgstr "与社区见面并把周边的无障碍地点绘制到地图上！"
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:51
+msgid "Your email address is required!"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:58
+msgid "This email address is not valid."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:68
+msgid "Email address"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:86
+msgid "Let’s go"
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:88
+#, javascript-format
+msgid "You are participating as ${ initialEmailAddress }."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:94
+msgid ""
+"To stay in touch with you, you must provide us with your email address."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:95
+msgid "To stay in touch with you, please share your email address with us."
+msgstr ""
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:106
+msgid "Welcome"
+msgstr "欢迎"
+
+#: src/components/MappingEvents/MappingEventWelcomeDialog.js:112
+msgid "Great! Thanks for joining us."
+msgstr ""
+
+#: src/components/MainMenu/MainMenu.js:120
+msgid "Home"
+msgstr "家"
+
+#: src/components/MainMenu/MainMenu.js:243
+msgid "Menu"
+msgstr "菜单"
+
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:238
 msgid "The following images…"
 msgstr "以下图片……"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:239
 msgid "...give useful information on accessibility."
 msgstr "……提供关于无障碍性的有用信息。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:240
 msgid "...were taken by me."
 msgstr "……被我拿走了。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:241
 msgid "...do not show any identifiable persons."
 msgstr "……不要显示任何可辨别身份的人。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
 msgid ""
 "I hereby publish these images into the public domain and renounce copyright "
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
@@ -600,96 +466,177 @@ msgstr ""
 "href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 通用许可</a>)。"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
 msgid "Entrances"
 msgstr "入口"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "Site map"
 msgstr "站点地图"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
 msgid "toilets"
 msgstr "卫生间"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:130
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:175
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:305
 msgid "Continue"
 msgstr "继续"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.jsx:59
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:72
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:181
 #: src/components/NodeToolbar/Report/strings.js:28
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:341
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:338
 msgid "Back"
 msgstr "返回"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:354
-#: src/components/SearchToolbar/SearchToolbar.js:470
-msgid "Go"
-msgstr "去"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:365
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:362
 msgid "Show different characters"
 msgstr "显示不同的字符"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:411
 msgid "Image upload"
 msgstr "图像上传"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:411
 msgid "Hi Wheelmap Team, I have an image of the following place:"
 msgstr "你好Wheelmap团队，我有一张以下地点的图片："
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:415
 msgid "Loading..."
 msgstr "加载中……"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:420
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:417
 msgid "Please enter these characters."
 msgstr "请输入这些字符。"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:422
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:419
 msgid "Then we know that you are human."
 msgstr "这样，我们就确定你是人类。"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:424
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:421
 msgid ""
 "If you cannot read or enter this, please contribute your image via email!"
 msgstr "如果您不能阅读或输入此内容，请通过电子邮件提交您的图片！"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:426
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:423
 msgid "Thanks! Starting to upload..."
 msgstr "感谢！开始上传……"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:428
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:425
 msgid ""
 "Server cannot be reached. Please try again later and let us know if the "
 "problem persists!"
 msgstr "服务器无法连接。请稍后再试，如果问题持续，请告知我们！"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:430
+#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:427
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
 msgstr "对不起，未起作用！请检查字符是否全对，然后再试。"
 
-#: src/components/SearchToolbar/SearchToolbar.js:459
-msgid "Clear search"
-msgstr "清除搜索"
+#: src/components/MappingEvents/MappingEventToolbar.js:77
+msgid "starting"
+msgstr "开始"
 
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "家"
+#: src/components/MappingEvents/MappingEventToolbar.js:82
+msgid "until"
+msgstr "直到"
 
-#: src/components/MainMenu/MainMenu.js:234
-msgid "Menu"
-msgstr "菜单"
+#: src/components/MappingEvents/MappingEventToolbar.js:97
+#, javascript-format
+msgid "Mapping event ${ mappingEvent.name }"
+msgstr "绘图活动 ${ mappingEvent.name }"
 
-#: src/components/SearchToolbar/SearchResults.js:31
+#: src/components/MappingEvents/MappingEventToolbar.js:99
+msgid "Center map on mapping event"
+msgstr "地图活动的中心地图"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:101
+msgid "Meeting point"
+msgstr "会面地点"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:103
+msgid "Area name"
+msgstr "区域名称"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:105
+msgid "Event date"
+msgstr "活动日期"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:107
+msgid "Event start date"
+msgstr "活动开始日期"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:109
+msgid "Event end date"
+msgstr "活动结束日期"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:111
+msgid "Back to the mapping events list"
+msgstr "返回绘图活动列表"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:113
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+msgid "Share"
+msgstr "分享"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:115
+msgid "Join mapping event"
+msgstr "加入绘图活动"
+
+#: src/components/MappingEvents/MappingEventToolbar.js:117
+msgid "Leave mapping event"
+msgstr "离开绘图活动"
+
+#: src/components/Onboarding/Onboarding.js:42
+msgid "Help out by marking places!"
+msgstr "通过标记地点提供帮助！"
+
+#: src/components/Onboarding/Onboarding.js:44
+msgid "Okay, let’s go!"
+msgstr "好，我们开始吧！"
+
+#: src/components/Onboarding/Onboarding.js:46
+msgid "Continue without cookies"
+msgstr "继续，不使用 cookies"
+
+#: src/components/Onboarding/Onboarding.js:49
+msgid ""
+"We use cookies to improve this app for you. <a "
+"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
+"Privacy Policy</a>."
+msgstr ""
+"我们使用cookies为你完善本应用。<a href=\"https://news.wheelmap.org/terms-of-use/\" "
+"target=\"_blank\">阅读我们的隐私政策</a>。"
+
+#: src/components/Onboarding/Onboarding.js:68
+msgid "Start screen"
+msgstr "开始页"
+
+#: src/components/Map/Map.js:1017
+msgid "Zoom in closer to see more places"
+msgstr "放大以查看更多地点"
+
+#: src/components/Map/Map.js:1033
+msgid "Turn on location services"
+msgstr "打开定位服务"
+
+#: src/components/Map/Map.js:1066
+msgid "Map"
+msgstr "地图"
+
+#: src/components/CloseButton.js:34 src/components/CloseLink.js:37
+msgid "Close"
+msgstr "关闭"
+
+#: src/components/SearchToolbar/SearchResults.js:36
 msgid "No results found"
 msgstr "未找到结果"
 
-#: src/components/SearchToolbar/SearchResults.js:34
+#: src/components/SearchToolbar/SearchResults.js:39
 msgid "No results available. Please try again later!"
 msgstr "无可用结果。请稍后再试！"
 
@@ -717,26 +664,169 @@ msgstr "仅显示不可进入的地点"
 msgid "Wheelchair accessibility filter"
 msgstr "轮椅无障碍过滤器"
 
-#: src/components/SearchToolbar/SearchInputField.js:65
+#: src/components/SearchToolbar/SearchInputField.js:100
 msgid "Search for place or address"
 msgstr "搜索地点或地址"
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
-#: src/components/NodeToolbar/NodeToolbar.js:272
+#: src/components/MappingEvents/MappingEventShareBar.js:34
+#, javascript-format
+msgid ""
+"Help us out and join the ${ mappingEvent.name } mapping event${ "
+"productNameString }. You can find more info here: ${ url }"
+msgstr ""
+"帮助我们并加入 ${ mappingEvent.name } 地图活动${ productNameString }。您可以在此了解更多信息： ${ "
+"url }"
+
+#: src/components/MappingEvents/Statistics.js:20
+msgid "Mapping Event Numbers"
+msgstr "地图活动编号"
+
+#: src/components/MappingEvents/Statistics.js:22
+msgid "Mapped Places"
+msgstr "已绘制的地点"
+
+#: src/components/MappingEvents/Statistics.js:24
+msgid "Participants"
+msgstr "参加者"
+
+#: src/components/MappingEvents/Statistics.js:26
+msgid "Days Left"
+msgstr "剩余天数"
+
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:56
+#: src/components/NodeToolbar/NodeToolbar.js:246
 msgid "How wheelchair accessible is this place?"
 msgstr "这个地方的轮椅无障碍做得怎么样？"
 
-#: src/components/SearchToolbar/SearchResult.js:122
+#: src/components/Toolbar.js:581
+msgid "Collapse details"
+msgstr "折叠详情"
+
+#: src/components/Toolbar.js:581
+msgid "Expand details"
+msgstr "展开详情"
+
+#: src/components/Map/addLocateControlToMap.js:45
+msgid "Show me where I am"
+msgstr "显示我的位置"
+
+#: src/lib/goToLocationSettings.js:36
+msgid ""
+"To locate yourself on the map, open browser settings and allow Wheelmap.org "
+"to use location services."
+msgstr "要在地图上定位自己，请打开浏览器设置，并允许 Wheelmap.org 使用定位服务。"
+
+#: src/components/Map/MappingEventMarkerIcon.js:34
+#, javascript-format
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr "${ eventName } 绘图活动的地图标记器"
+
+#: src/components/CreatePlaceFlow/components/MapButton.jsx:49
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:73
+msgid "Define main entry"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:115
+msgid "Move the map to place the entry as correct as possible."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:125
+msgid "Confirm Position"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:61
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:94
+msgid "Create Place"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:66
+msgid "Check if the place already exists by searching for it"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:70
+msgid "No matching result?"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:72
+msgid "Create a new place with this name"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:79
+msgid "An error occurred while searching"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:82
+msgid "Type more to start searching"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:89
+msgid "Searching..."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.jsx:60
+msgid "Select Category"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:44
+#, javascript-format
+msgid "Uploading ${ placeName } to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:45
+msgid "Dismiss"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:50
+msgid "Unhappy face"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:53
+msgid "Sorry"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:54
+#, javascript-format
+msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:63
+msgid "You rock!"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:64
+#, javascript-format
+msgid "${ placeName } was added to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:66
+msgid "Continue to place"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:96
+msgid "Name"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:109
+msgid "Category"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:111
+msgid "Select category"
+msgstr ""
+
+#: src/components/SearchToolbar/SearchResult.js:128
 msgid "Unnamed"
 msgstr "未命名"
 
-#: src/components/SearchToolbar/CategoryButton.js:69
-msgid "Remove ${ props.name } Filter"
-msgstr "移除${ props.name }过滤器"
-
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
+#, javascript-format
 msgid "Remove ${ caption } Filter"
 msgstr "移除 ${ caption }过滤器"
+
+#: src/components/SearchToolbar/CategoryButton.js:69
+#, javascript-format
+msgid "Remove ${ props.name } Filter"
+msgstr "移除${ props.name }过滤器"
 
 #: src/components/NodeToolbar/SourceList.js:33
 msgid "Source:"
@@ -747,27 +837,27 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "这里的厕所是轮椅无障碍吗？"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:15
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:21
 msgid "Yes"
 msgstr "是的"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:48
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:22
 msgid "No"
 msgstr "不"
 
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:126
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:135
 msgid "Wheelchair accessibility"
 msgstr "轮椅无障碍性"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "Disruptions at this location"
-msgstr "本地点受阻碍"
+#: src/components/ShareBar/ShareBar.js:86
+msgid "Expand share menu"
+msgstr "展开共享菜单"
 
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
-msgid "All elevators and escalators"
-msgstr "所有直梯和自动扶梯"
+#: src/components/ShareBar/ShareBar.js:106
+msgid "Collapse share menu"
+msgstr "合上共享菜单"
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:160
 msgid "Report image"
@@ -789,113 +879,102 @@ msgstr "上一个(左箭头键)"
 msgid "Close (Esc)"
 msgstr "关闭(Esc)"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:47
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
+msgid "Disruptions at this location"
+msgstr "本地点受阻碍"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
+msgid "All elevators and escalators"
+msgstr "所有直梯和自动扶梯"
+
+#: src/components/NodeToolbar/Report/ReportDialog.js:48
+#, javascript-format
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr "该地点被标记为“${ accessibilityDescription }”， 但是这是错误的！"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:56
+#: src/components/NodeToolbar/Report/ReportDialog.js:57
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "该地厕所无障碍标注错误或缺失。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:63
-#: src/components/NodeToolbar/Report/SendReportToAc.js:37
+#: src/components/NodeToolbar/Report/ReportDialog.js:64
+#: src/components/NodeToolbar/Report/SendReportToAc.js:38
 msgid "I have more information about this place."
 msgstr "我有这个地点的更多信息。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:69
-#: src/components/NodeToolbar/Report/SendReportToAc.js:45
+#: src/components/NodeToolbar/Report/ReportDialog.js:70
+#: src/components/NodeToolbar/Report/SendReportToAc.js:46
 msgid "The place does not exist."
 msgstr "该地点不存在。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:75
-#: src/components/NodeToolbar/Report/SendReportToAc.js:41
+#: src/components/NodeToolbar/Report/ReportDialog.js:76
+#: src/components/NodeToolbar/Report/SendReportToAc.js:42
 msgid "The place is at the wrong location."
 msgstr "地点位置错误。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:81
-#: src/components/NodeToolbar/Report/ReportDialog.js:126
+#: src/components/NodeToolbar/Report/ReportDialog.js:82
+#: src/components/NodeToolbar/Report/ReportDialog.js:128
 msgid "The problem isn’t listed here…"
 msgstr "问题没有在这里列出……"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:103
+#: src/components/NodeToolbar/Report/ReportDialog.js:105
+#, javascript-format
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr "这个地点的信息是由另一个组织提供的，它是${ sourceName }的一部分。"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:110
+#: src/components/NodeToolbar/Report/ReportDialog.js:112
 msgid "Fix on external page."
 msgstr "修复外部页面。"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.jsx:102
+msgid "Add more details"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.jsx:107
+msgid ""
+"Sorry, something went wrong! Please retry later, or write an email to "
+"bugs@wheelmap.org if the issue persists."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:51
+msgid "Address"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:53
+msgid "City"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:55
+msgid "Region"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:61
+msgid "Postal Code"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
 msgid "Confirm"
 msgstr "确认"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:172
 msgid "Change"
 msgstr "更改"
 
 #: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:93
+#, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr "对不起，由于出错，该地点无法标记：${ e }"
 
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
-msgid "Call ${ phoneNumber }"
-msgstr "致电 ${ phoneNumber }"
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+msgid "Mark wheelchair accessibility of WC"
+msgstr "标记厕所的轮椅无障碍状况"
 
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
-#: src/lib/openButtonCaption.js:6
-msgid "Open on ${ sourceNameString }"
-msgstr "在${ sourceNameString }上打开"
-
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
-msgid "Add info on ${ sourceNameString }"
-msgstr "在${ sourceNameString }上添加信息"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
-msgid "Learn more about the accessibility of this place"
-msgstr "了解更多关于这个地点的无障碍性的信息"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
-msgid "I found a place on Wheelmap: ${ url }"
-msgstr "我在Wheelmap上发现了一个地方： ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
-msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
-msgid "I found a place on Wheelmap…"
-msgstr "我在 Wheelmap 上发现了一个地点……"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
-msgid "${ categoryName } on Wheelmap"
-msgstr "Wheelmap 上的${ categoryName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
-msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "我在Wheelmap上发现了这个地方： ${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
-msgid "${ placeName } on Wheelmap.org"
-msgstr "Wheelmap.org上的${ placeName }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
-msgid ""
-"${ sharedObjectTitle }\n"
-"\n"
-"Click on this link to open it: ${ url }"
-msgstr ""
-"${ sharedObjectTitle }\n"
-"\n"
-"单击此链接打开： ${ url }"
-
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
-msgid "Report a problem"
-msgstr "报告问题"
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:129
+msgid "Show next wheelchair accessible toilet"
+msgstr "显示下一个轮椅无障碍卫生间"
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:52
 msgid "Upload in progress..."
@@ -920,21 +999,71 @@ msgid "Your good deed of the day!"
 msgstr "一日行善！"
 
 #: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:30
+#: src/components/PhotoUpload/PhotoUploadButton.js:31
 msgid "Add images"
 msgstr "添加图片"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
-msgid "Mark wheelchair accessibility of WC"
-msgstr "标记厕所的轮椅无障碍状况"
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
+#, javascript-format
+msgid "Call ${ phoneNumber }"
+msgstr "致电 ${ phoneNumber }"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
-msgid "Searching accessible toilet"
-msgstr "搜索无障碍厕所"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+msgid "Learn more about the accessibility of this place"
+msgstr "了解更多关于这个地点的无障碍性的信息"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
-msgid "Show next wheelchair accessible toilet"
-msgstr "显示下一个轮椅无障碍卫生间"
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+#, javascript-format
+msgid "I found a place on Wheelmap: ${ url }"
+msgstr "我在Wheelmap上发现了一个地方： ${ url }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+msgid "Wheelmap.org"
+msgstr "Wheelmap.org"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+msgid "I found a place on Wheelmap…"
+msgstr "我在 Wheelmap 上发现了一个地点……"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+#, javascript-format
+msgid "${ categoryName } on Wheelmap"
+msgstr "Wheelmap 上的${ categoryName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+#, javascript-format
+msgid "I found this place on Wheelmap: ${ placeName }"
+msgstr "我在Wheelmap上发现了这个地方： ${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+msgid "${ placeName } on Wheelmap.org"
+msgstr "Wheelmap.org上的${ placeName }"
+
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+#, javascript-format
+msgid ""
+"${ sharedObjectTitle }\n"
+"\n"
+"Click on this link to open it: ${ url }"
+msgstr ""
+"${ sharedObjectTitle }\n"
+"\n"
+"单击此链接打开： ${ url }"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:18
+#: src/lib/openButtonCaption.js:6
+msgid "Open on ${ sourceNameString }"
+msgstr "在${ sourceNameString }上打开"
+
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:20
+#, javascript-format
+msgid "Add info on ${ sourceNameString }"
+msgstr "在${ sourceNameString }上添加信息"
+
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+msgid "Report a problem"
+msgstr "报告问题"
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
@@ -976,6 +1105,10 @@ msgstr "(请注意，您需要登录才能完成，并且该位置在 Wheelmap �
 msgid "Edit this place on OpenStreetMap"
 msgstr "在 OpenStreetMap 上编辑此地点"
 
+#: src/components/NodeToolbar/Report/strings.js:26
+msgid "Leave a note on OpenStreetMap"
+msgstr "在 OpenStreetMap 留下评论"
+
 #: src/components/NodeToolbar/Report/strings.js:30
 msgid "Click the link below for details about the place and for editing."
 msgstr "点击下方链接以获取地点详情和编辑。"
@@ -996,6 +1129,7 @@ msgid ""
 msgstr "抱歉。请给我们留言，这样我们就能帮您解决这个问题了。"
 
 #: src/components/NodeToolbar/Report/strings.js:39
+#, javascript-format
 msgid ""
 "(Please only write in English or German.)\n"
 "\n"
@@ -1026,6 +1160,7 @@ msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上带有${ placeName } 的问题"
 
 #: src/components/NodeToolbar/Report/strings.js:45
+#, javascript-format
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上带有${ categoryName } 的问题"
 
@@ -1033,41 +1168,39 @@ msgstr "[Wheelmap] Wheelmap上带有${ categoryName } 的问题"
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Wheelmap上有问题的地点"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:39
+#: src/components/NodeToolbar/Report/SendReportToAc.js:40
 msgid "The accessibility of the place is marked incorrectly."
 msgstr "该地无障碍设施标记不正确。"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:43
+#: src/components/NodeToolbar/Report/SendReportToAc.js:44
 msgid "The place is permanently closed."
 msgstr "该地点已永久关闭。"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:127
+#: src/components/NodeToolbar/Report/SendReportToAc.js:133
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr "感谢您！这个地点报告成功。我们将尽快查看您的报告。"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:128
+#: src/components/NodeToolbar/Report/SendReportToAc.js:134
 msgid "Something went wrong reporting the place. Please try again later."
 msgstr "汇报该地点出现错误。请稍后再试。"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:141
+#: src/components/NodeToolbar/Report/SendReportToAc.js:147
 msgid "Feel free to add some additional information…"
 msgstr "随意添加一些额外信息……"
 
-#: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
+#: src/components/NodeToolbar/Report/FixOnExternalPage.js:21
+#, javascript-format
 msgid "View this place on ${ name }"
 msgstr "在${ name }上查看该地点"
 
-#: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
+#: src/components/NodeToolbar/Report/FixOnExternalPage.js:23
 msgid "Edit this place on ${ name }"
 msgstr "在${ name }上编辑该地点"
 
-#: src/components/NodeToolbar/SourceLink.js:63
-msgid "Details"
-msgstr "详情"
-
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
+#, javascript-format
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "${ count } 台直梯可用"
@@ -1078,6 +1211,7 @@ msgid_plural "${ count } escalators in service"
 msgstr[0] "${ count } 在使用的扶梯"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
+#, javascript-format
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "${ count } 台直梯停止运行"
@@ -1088,6 +1222,7 @@ msgid_plural "${ count } escalators out of service"
 msgstr[0] "${ count } 台自动扶梯停止使用"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
+#, javascript-format
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } 部直梯处于未知运行状态"
@@ -1096,6 +1231,10 @@ msgstr[0] "${ count } 部直梯处于未知运行状态"
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "${ count }扶梯运营状态未知"
+
+#: src/components/NodeToolbar/SourceLink.js:66
+msgid "Details"
+msgstr "详情"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
