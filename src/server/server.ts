@@ -71,6 +71,8 @@ app.prepare().then(() => {
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
 
+    console.log(match, req.path, res.statusCode);
+
     if (!match) {
       return next();
     }
