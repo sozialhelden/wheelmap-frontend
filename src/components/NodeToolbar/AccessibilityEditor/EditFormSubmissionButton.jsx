@@ -91,7 +91,9 @@ const EditFormSubmissionButton = (props: Props) => {
 
   const hasDefaultForm = primarySource && primarySource.defaultKoboForm;
   const hasSubmission = hasKoboSubmission(props.feature);
-  const canEditSubmission = hasDefaultForm || hasSubmission;
+  // default form is only evaluated when creating the place in the backend
+  // there is no way of connecting kobo & ac for existing places so far
+  const canEditSubmission = /* hasDefaultForm || */ hasSubmission;
   if (!canEditSubmission) {
     return null;
   }
