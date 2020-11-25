@@ -1,11 +1,11 @@
-import ElasticAPMSourceMapPlugin from '@hypo808/elastic-apm-sourcemap-webpack-plugin';
-import TTagPlugin from 'babel-plugin-ttag';
-import withSass from '@zeit/next-sass';
-import withCss from '@zeit/next-css';
-import withTranspileModules from 'next-transpile-modules';
-import webpack from 'webpack';
-import env from './src/lib/env';
-import withSourceMaps from '@zeit/next-source-maps';
+//const ElasticAPMSourceMapPlugin = require('@hypo808/elastic-apm-sourcemap-webpack-plugin');
+//const TTagPlugin = require('babel-plugin-ttag');
+const withSass = require('@zeit/next-sass');
+const withCss = require('@zeit/next-css');
+const withTranspileModules = require('next-transpile-modules');
+//const webpack = require('webpack');
+//const env = require('./src/lib/env');
+const withSourceMaps = require('@zeit/next-source-maps');
 
 module.exports = withSourceMaps(
   withCss(
