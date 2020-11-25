@@ -3,7 +3,7 @@
 import 'core-js/stable';
 // import "regenerator-runtime/runtime";
 import * as React from 'react';
-import BaseApp, { Container } from 'next/app';
+import BaseApp  from 'next/app';
 import Head from 'next/head';
 import { t } from 'ttag';
 import get from 'lodash/get';
@@ -56,11 +56,15 @@ let nonSerializedProps: { renderContext: RenderContext, routeProps: any | void }
 let isFirstTimeClientRender = true;
 
 export default class App extends BaseApp<any> {
+
   static async getInitialProps({ ctx }: { ctx: any }) {
     let renderContext;
     let routeProps;
     let path;
     let localeStrings: string[] = [];
+
+    console.trace();
+    console.log("NANA", ctx.res.statusCode)
 
     isServer = !!(ctx && ctx.req);
 
@@ -240,12 +244,10 @@ export default class App extends BaseApp<any> {
     // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
     if (statusCode && statusCode >= 400) {
       return (
-        <Container>
           <NotFound
             statusCode={statusCode}
             onReturnHomeClick={this.handleNotFoundReturnHomeClick}
           />
-        </Container>
       );
     }
 

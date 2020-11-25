@@ -12,12 +12,12 @@
     "jsx": "preserve",
     "moduleResolution": "node",
     "target": "esnext",
-    "module": "esnext",
+    "module": "commonjs",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
-    ],
+    ]
   },
   "exclude": [
     "node_modules",

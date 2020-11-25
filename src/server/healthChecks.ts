@@ -1,5 +1,5 @@
-function registerHealthChecks(app) {
-  app.get('/healthz', (req, res) => {
+export default function registerHealthChecks(app) {
+  app.get('/healthy', (req, res) => {
     res.status(200).send('OK!');
   });
 
@@ -8,5 +8,3 @@ function registerHealthChecks(app) {
     res.status(200).send('OK!');
   });
 }
-
-module.exports = registerHealthChecks;

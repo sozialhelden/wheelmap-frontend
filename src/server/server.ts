@@ -69,7 +69,7 @@ app.prepare().then(() => {
   server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
   server.get('*', (req, res, next) => {
-    const match = router.default.match(req.path);
+    const match = router.match(req.path);
 
     if (!match) {
       return next();
@@ -95,9 +95,7 @@ app.prepare().then(() => {
   });
 
   // Start server.
-  server.listen(port, error => {
-    if (error) throw error;
-
+  server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
   });
 });

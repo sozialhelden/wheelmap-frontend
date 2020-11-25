@@ -6,6 +6,6 @@
       "es5",
       "scripthost"
     ],
-    "module": "commonjs"
+    "module": "esnext"
   }
 }
