@@ -64,7 +64,7 @@ export default class App extends BaseApp<any> {
     let localeStrings: string[] = [];
 
     console.trace();
-    console.log("App.getInitialProps", ctx.req.url, ctx.req.statusCode, ctx.res.statusCode)
+    console.log("App.getInitialProps", ctx.query, ctx.req.url, ctx.req.statusCode, ctx.res.statusCode)
 
     isServer = !!(ctx && ctx.req);
 
