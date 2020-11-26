@@ -91,5 +91,5 @@ For testing the apps, we use [BrowserStack](https://browserstack.com) - it can r
 
 ## Code of Conduct
 
-We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org). 
+We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
 
