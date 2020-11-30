@@ -155,7 +155,7 @@
     "url-loader": "^1.1.2"
   },
   "scripts": {
-    "dev": "ts-node-dev -P tsconfig.json --respawn --transpile-only --icu-data-dir=node_modules/full-icu src/server/server.ts",
+    "dev": "ts-node-dev -P src/server/tsconfig.json --respawn --transpile-only --icu-data-dir=node_modules/full-icu src/server/server.ts",
     "build": "rm -rf dist/ && rm -rf .next/ && next build && tsc && npm run copy-files && mv .next dist/",
     "build-client": "rm -rf dist/ && tsc --project tsconfig.client.json && npm run copy-files",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",

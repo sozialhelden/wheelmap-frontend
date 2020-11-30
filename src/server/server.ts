@@ -1,4 +1,4 @@
-import * as env from '../lib/env';
+import env from '../lib/env';
 import { createEnvironmentJSResponseHandler } from '@sozialhelden/twelve-factor-dotenv';
 
 // import apm from '../lib/apm/ServerSide';
@@ -70,8 +70,6 @@ app.prepare().then(() => {
 
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
-
-    console.log(match, req.path, res.statusCode);
 
     if (!match) {
       return next();

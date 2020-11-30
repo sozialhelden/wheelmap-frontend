@@ -63,9 +63,6 @@ export default class App extends BaseApp<any> {
     let path;
     let localeStrings: string[] = [];
 
-    console.trace();
-    console.log("App.getInitialProps", ctx.query, ctx.req.url, ctx.req.statusCode, ctx.res.statusCode)
-
     isServer = !!(ctx && ctx.req);
 
     // handle 404 before the app is rendered, as we otherwise render the whole app again
