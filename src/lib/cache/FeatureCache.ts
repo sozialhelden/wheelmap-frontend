@@ -70,8 +70,9 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
    *     - properties.id
    *     - _id
    *     - properties._id
+   * @param response
    */
-  cacheFeature(feature: FeatureType, response: any): void {
+  cacheFeature(feature: FeatureType, response?: any): void {
     // @ts-ignore
     const featureId = this.constructor.getIdForFeature(feature);
     if (!featureId) return;
