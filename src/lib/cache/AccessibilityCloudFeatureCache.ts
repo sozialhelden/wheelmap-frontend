@@ -23,7 +23,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<Response> {
     const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-    return self.fetch(
+    return AccessibilityCloudFeatureCache.fetch(
       `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`
     );
   }
@@ -33,7 +33,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     return String(feature._id || (feature.properties && feature.properties._id));
   }
 
-  cacheFeature(feature: AccessibilityCloudFeature, response: any): void {
+  cacheFeature(feature: AccessibilityCloudFeature, response?: any): void {
     // Cache and index related objects in their respective caches
     Object.keys(caches).forEach(collectionName => {
       const cache = caches[collectionName];
