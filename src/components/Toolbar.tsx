@@ -53,11 +53,19 @@ function getMaxHeight(
   }
 }
 
+// React currently throws a warning when using useLayoutEffect on the server.
+// To get around it, we can conditionally useEffect on the server (no-op) and
+// useLayoutEffect in the browser. We need useLayoutEffect because we want
+// `connect` to perform sync updates to a ref to save the latest props after
+// a render is actually committed to the DOM.
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect
+
 // Use this to debug state value changes in the console - very handy for complex state handling with
 // React Hooks.
 function logStateValueChange(name: string, value: any) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     console.log(name, '=', value);
   }, [name, value]);
 }
@@ -277,6 +285,8 @@ const StyledSection = styled.section`
   }
 `;
 
+
+
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports,
  * and that has a fixed position on bigger viewports.
@@ -378,7 +388,7 @@ const BaseToolbar = (
   }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
 
   // Register window resize observer
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const resize = onWindowResize;
     resize();
     if (typeof window !== 'undefined') {
@@ -410,7 +420,7 @@ const BaseToolbar = (
   }, [toolbarHeight, viewportHeight]);
 
   // Register toolbar resize observer
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const ref = scrollElementRef.current;
     if (!ref) {
       return;
@@ -433,7 +443,7 @@ const BaseToolbar = (
     setTopOffset(0);
   }, [isSwiping]);
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (props.isModal) {
       ensureFullVisibility();
     }
