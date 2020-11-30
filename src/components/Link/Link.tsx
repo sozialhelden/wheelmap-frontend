@@ -50,9 +50,8 @@ class Link extends React.Component<Props> {
       <RouteConsumer>
         {(context: RouteContext) => {
           const params = this.props.params || context.params;
-
-          const href = context.history.generatePath(routeName, params);
-
+          const finalRouteName = routeName || context.name;
+          const href = context.history.generatePath(finalRouteName, params);
           if (!href) {
             return null;
           }
@@ -60,9 +59,9 @@ class Link extends React.Component<Props> {
           return (
             <a
               {...props}
-              href={context.history.generatePath(routeName, params)}
+              href={context.history.generatePath(finalRouteName, params)}
               onClick={(event: React.MouseEvent<HTMLAnchorElement>) => {
-                this.handleClick(routeName, context.history, params, event);
+                this.handleClick(finalRouteName, context.history, params, event);
               }}
             >
               {children}

@@ -17,7 +17,7 @@ class NextRouterHistory extends AbstractRouterHistory {
     const path = this.generatePath(name, params);
 
     const query = { routeName: route.name, ...params };
-    NextRouter[method]({ pathname: '/main', query }, path);
+    NextRouter[method]({ pathname: '/index', query }, path);
 
     trackPageView(path);
   }
