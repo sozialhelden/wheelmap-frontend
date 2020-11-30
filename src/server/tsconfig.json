@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
@@ -25,7 +26,7 @@
   ],
   "include": [
     "src/server/*.ts",
-    "src/lib/env",
-    "src/app/router"
+    "src/lib/env.ts",
+    "src/app/router.ts"
   ]
 }

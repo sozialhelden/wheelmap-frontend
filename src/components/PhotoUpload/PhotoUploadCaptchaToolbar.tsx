@@ -3,7 +3,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Dots } from 'react-activity';
 
-import Toolbar, { Toolbar as ToolbarClass } from '../Toolbar';
+import Toolbar from '../Toolbar';
+import CloseLink from '../CloseLink';
 import ChevronRight from '../ChevronRight';
 import CameraIcon from './CameraIcon';
 
@@ -71,7 +72,6 @@ const StyledToolbar = styled(Toolbar)`
   flex-direction: column;
   padding: 0;
   border-top: none;
-  border-radius: 3px;
   z-index: 1000;
 
   /* TODO: Restyle CloseLink component in ToolBar */
@@ -243,10 +243,11 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     captcha: null,
   };
 
-  inputField = React.createRef<HTMLInputElement>();
-  backLink = React.createRef<HTMLButtonElement>();
-  checkCaptchaTimer: number | any | null;
-  toolbar = React.createRef<ToolbarClass>();
+  inputField: null | HTMLInputElement;
+  backLink: null | React.ElementRef<CloseLink>;
+  goButton: null | React.ElementRef<'button'>;
+  checkCaptchaTimer: number | null;
+  toolbar: null | React.ElementRef<Toolbar>;
 
   componentDidMount() {
     if (!this.props.hidden) {
@@ -271,7 +272,6 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   componentWillReceiveProps(nextProps: Props) {
     if (!nextProps.hidden) {
       this.startTimer();
-      this.toolbar.current?.ensureFullVisibility();
     } else if (nextProps.hidden) {
       this.clearTimer();
     }
@@ -306,7 +306,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   };
 
   focus() {
-    this.inputField.current?.focus();
+    this.inputField && this.inputField.focus();
   }
 
   renderInputField() {
@@ -315,14 +315,14 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
       <form onSubmit={this.onFinishPhotoUploadFlow}>
         <input
           type="text"
-          ref={this.inputField}
+          ref={inputField => (this.inputField = inputField)}
           onFocus={event => {
             window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
           }}
           disabled={isInputDisabled}
           onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
           value={this.state.enteredCaptchaValue || ''}
-          name="captcha-solution"
+          field="captcha-solution"
         />
       </form>
     );
@@ -337,7 +337,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         onClick={() => {
           if (this.props.onClose) this.props.onClose();
         }}
-        ref={this.backLink}
+        ref={backLink => (this.backLink = backLink)}
       >
         ←{' '}
       </button>
@@ -373,7 +373,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     this.startTimer();
   };
 
-  onFinishPhotoUploadFlow = (event: React.MouseEvent<HTMLButtonElement> | React.FormEvent<HTMLFormElement>) => {
+  onFinishPhotoUploadFlow = (event: UIEvent) => {
     if (this.props.onCompleted && this.props.photosMarkedForUpload) {
       if (!this.state.enteredCaptchaValue) {
         event.preventDefault();
@@ -431,7 +431,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
         hidden={this.props.hidden}
         isSwipeable={false}
         isModal
-        ref={this.toolbar}
+        ref={toolbar => (this.toolbar = toolbar)}
       >
         <header>
           {this.renderBackLink()}

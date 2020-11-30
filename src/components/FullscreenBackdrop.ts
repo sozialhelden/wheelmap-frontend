@@ -13,6 +13,7 @@ const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop', 
   pointer-events: ${props => (props.isActive ? 'inherit' : 'none')} !important;
   z-index: 1;
   transform: none !important;
+  backdrop-filter: blur(5px);
 `;
 
 export default FullscreenBackdrop;

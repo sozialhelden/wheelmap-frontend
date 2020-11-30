@@ -4,14 +4,14 @@ import * as ReactDOM from 'react-dom';
 import { Dots } from 'react-activity';
 import styled, { css } from 'styled-components';
 
-import Toolbar, { Toolbar as ToolbarClass } from '../Toolbar';
+import Toolbar from '../Toolbar';
 import Button from '../Button';
 import CloseLink from '../CloseLink';
 import SearchIcon from './SearchIcon';
 import ChevronRight from '../ChevronRight';
 import CategoryMenu from './CategoryMenu';
 import SearchResults from './SearchResults';
-import SearchResult from './SearchResult';
+import SearchResult from './SearchResults';
 import SearchInputField from './SearchInputField';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
 
@@ -21,7 +21,6 @@ import { SearchResultCollection } from '../../lib/searchPlaces';
 import { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
 import { SearchResultFeature } from '../../lib/searchPlaces';
-import { WheelmapFeature } from '../../lib/Feature';
 import { CategoryLookupTables } from '../../lib/Categories';
 import ErrorBoundary from '../ErrorBoundary';
 
@@ -29,10 +28,10 @@ export type Props = PlaceFilter & {
   categories: CategoryLookupTables,
   hidden: boolean,
   inert: boolean,
-  category: string | null,
+  category: null | string,
   showCategoryMenu?: boolean,
-  searchQuery: string | null,
-  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
+  searchQuery: null | string,
+  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: null | WheelmapFeature) => void,
   onChangeSearchQuery: (newSearchQuery: string) => void,
   onSubmit: (searchQuery: string) => void,
   onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
@@ -40,15 +39,16 @@ export type Props = PlaceFilter & {
   onClick: () => void,
   isExpanded: boolean,
   hasGoButton: boolean,
-  searchResults: SearchResultCollection | Promise<SearchResultCollection> | null,
+  searchResults: null | SearchResultCollection | Promise<SearchResultCollection>,
+  minimalTopPosition: number,
 };
 
 type State = {
   searchFieldIsFocused: boolean,
   isCategoryFocused: boolean,
   isLoading: boolean,
-  searchResults: SearchResultCollection | null,
-  searchResultsPromise: Promise<SearchResultCollection> | null,
+  searchResults: null | SearchResultCollection,
+  searchResultsPromise: null | Promise<SearchResultCollection>,
 };
 
 const StyledChevronRight = styled(ChevronRight)`
@@ -76,7 +76,7 @@ const GoButton = styled(Button)`
   width: auto;
 
   &.focus-visible {
-    border-radius: 0;
+    box-shadow: inset 0px 0px 0px 2px #0f2775 !important;
   }
 
   &:hover {
@@ -92,40 +92,44 @@ const GoButton = styled(Button)`
   }
 `;
 
-const StyledToolbar = styled(Toolbar).attrs({ isExpanded: false })`
+const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding: 0;
   border-top: none;
   border-radius: 3px;
+  bottom: auto !important;
+  top: 50px;
 
   .search-results {
     padding: 0 10px 5px 10px;
   }
 
-  > header {
-    // Add relative positioning for browsers not supporting position sticky.
-    position: relative;
-    position: sticky;
-    display: flex;
-    top: 0;
-    height: 50px;
-    min-height: 50px;
-    z-index: 1;
-    border-bottom: 1px ${colors.borderColor} solid;
-    background: white;
-
-    > form {
+  > div {
+    > header {
+      /* Add relative positioning for browsers not supporting position sticky. */
+      position: relative;
+      position: sticky;
       display: flex;
-      flex-direction: row;
-      width: 100%;
-      height: 100%;
+      top: 0;
+      height: 50px;
+      min-height: 50px;
+      z-index: 1;
+      border-bottom: 1px ${colors.borderColor} solid;
+      background: white;
+  
+      > form {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+      }
     }
-  }
-
-  > section {
-    overflow: auto;
+  
+    > section {
+      overflow: auto;
+    }
   }
 
   .search-icon {
@@ -189,7 +193,7 @@ const StyledToolbar = styled(Toolbar).attrs({ isExpanded: false })`
         margin: 0;
       `}
 
-    > header, .search-results, ${CategoryMenu} {
+    > div > header, .search-results, ${CategoryMenu} {
       padding: 0
     }
 
@@ -220,7 +224,7 @@ const StyledToolbar = styled(Toolbar).attrs({ isExpanded: false })`
 export default class SearchToolbar extends React.PureComponent<Props, State> {
   props: Props;
 
-  state = {
+  state: State = {
     searchFieldIsFocused: false,
     isCategoryFocused: false,
     isLoading: false,
@@ -228,11 +232,10 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     searchResultsPromise: null,
   };
 
-  toolbar = React.createRef<ToolbarClass>();
-  searchInputField = React.createRef<any>();
-  closeLink = React.createRef<any>();
-  goButton = React.createRef<any>();
-  firstResult: SearchResult | null = null;
+  toolbar = React.createRef<Toolbar>();
+  searchInputField = React.createRef<SearchInputField>();
+  goButton = React.createRef<HTMLButtonElement>();
+  firstResult = React.createRef<SearchResult>();
 
   static getDerivedStateFromProps(props: Props, state: State) {
     const { searchResults } = props;
@@ -277,8 +280,8 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
   }
 
   handleSearchResultsFetched = (
-    prevSearchResultsPromise: Promise<SearchResultCollection>,
-    searchResults: SearchResultCollection
+    prevSearchResultsPromise: Promise<SearchResults>,
+    searchResults: SearchResults
   ) => {
     if (this.state.searchResultsPromise !== prevSearchResultsPromise) {
       return;
@@ -305,20 +308,23 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
 
   focus() {
     if (
-      window.document.activeElement === this.goButton.current ||
-      window.document.activeElement === this.searchInputField.current
+      window.document.activeElement === ReactDOM.findDOMNode(this.goButton.current) ||
+      window.document.activeElement === ReactDOM.findDOMNode(this.searchInputField.current)
     ) {
       return;
     }
     if (isOnSmallViewport()) {
-      this.goButton.current?.focus();
+      if (!this.goButton.current) return;
+      this.goButton.current.focus();
     } else {
-      this.searchInputField.current?.focus();
+      if (!this.searchInputField.current) return;
+      this.searchInputField.current.focus();
     }
   }
 
   blur() {
-    this.searchInputField.current?.blur();
+    if (!this.searchInputField.current) return;
+    this.searchInputField.current.blur();
   }
 
   resetSearch() {
@@ -348,18 +354,14 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           window.scrollTo(0, 0);
         }}
         onBlur={() => {
-          this.ensureFullVisibility();
-          setTimeout(() => {
-            this.setState({ searchFieldIsFocused: false });
-            this.ensureFullVisibility();
-          }, 300);
+          this.setState({ searchFieldIsFocused: false });
         }}
         onChange={this.props.onChangeSearchQuery}
-        onSubmit={(event: React.FormEvent<HTMLInputElement>) => {
+        onSubmit={(event: SyntheticEvent<HTMLInputElement>) => {
           this.setState({ searchFieldIsFocused: false }, () => {
             this.blur();
-            if (this.firstResult) {
-              this.firstResult.focus();
+            if (this.firstResult && this.firstResult.current) {
+              this.firstResult.current.focus();
             }
           });
 
@@ -378,7 +380,10 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
           onSearchResultClick={this.props.onSearchResultClick}
           hidden={this.props.hidden}
           categories={this.props.categories}
-          refFirst={(ref: SearchResult) => this.firstResult = ref}
+          onSelect={() => this.clearSearch()}
+          refFirst={ref => {
+            this.firstResult = ref;
+          }}
         />
       </div>
     );
@@ -402,6 +407,9 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     return (
       <CategoryMenu
         onFocus={() => this.setState({ isCategoryFocused: true })}
+        onBlur={() => {
+          setTimeout(() => this.setState({ isCategoryFocused: false }));
+        }}
         category={this.props.category}
         accessibilityFilter={this.props.accessibilityFilter}
       />
@@ -485,6 +493,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         ref={this.toolbar}
         isSwipeable={false}
         enableTransitions={false}
+        minimalTopPosition={this.props.minimalTopPosition}
         role="search"
         isExpanded={isExpanded}
       >

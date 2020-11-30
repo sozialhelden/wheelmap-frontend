@@ -33,6 +33,7 @@ type MappingEventToolbarProps = {
   productName: string | null,
   focusTrapActive: boolean,
   preferredLanguage: string,
+  minimalTopPosition: number,
 };
 
 const MappingEventToolbar = ({
@@ -46,6 +47,7 @@ const MappingEventToolbar = ({
   productName,
   focusTrapActive,
   preferredLanguage,
+  minimalTopPosition,
 }: MappingEventToolbarProps) => {
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
@@ -125,91 +127,94 @@ const MappingEventToolbar = ({
 
   return (
     <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
-      <StyledToolbar
-        className={className}
-        ariaLabel={toolbarAriaLabel}
-        role="dialog"
-        minimalHeight={205}
-      >
-        <CloseButton onClick={onClose} />
-        <header>
-          {!joinedMappingEventId && (
-            <RouteConsumer>
-              {(context: RouteContext) => {
-                const params: RouteParams = { ...context.params };
-                delete params.id;
+      <div>
+        <StyledToolbar
+          className={className}
+          ariaLabel={toolbarAriaLabel}
+          role="dialog"
+          minimalHeight={205}
+          minimalTopPosition={minimalTopPosition}
+        >
+          <CloseButton onClick={onClose} />
+          <header>
+            {!joinedMappingEventId && (
+              <RouteConsumer>
+                {(context: RouteContext) => {
+                  const params: RouteParams = { ...context.params };
+                  delete params.id;
 
-                return (
-                  <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
-                    <ChevronLeft />
-                  </Link>
-                );
-              }}
-            </RouteConsumer>
-          )}
-          <div>
-            <h2>
-              <Button
-                onClick={onHeaderClick}
-                title={centerMapOnMappingEvent}
-                disabled={!hasMeetingPoint}
-              >
-                {mappingEvent.name}
-              </Button>
-            </h2>
+                  return (
+                    <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
+                      <ChevronLeft />
+                    </Link>
+                  );
+                }}
+              </RouteConsumer>
+            )}
+            <div>
+              <h2>
+                <Button
+                  onClick={onHeaderClick}
+                  title={centerMapOnMappingEvent}
+                  disabled={!hasMeetingPoint}
+                >
+                  {mappingEvent.name}
+                </Button>
+              </h2>
 
-            {(startDateString || endDateString) && (
-              <p className="event-date" title={eventDateLabel}>
-                <CalendarIcon className="date-icon" />
-                <span>
-                  {startDateString && (
-                    <Fragment>
-                      <span title={eventStartDateLabel}>{startDateString}</span>
-                      <br />
-                    </Fragment>
-                  )}
-                  {endDateString && <span title={eventEndDateLabel}>{endDateString}</span>}
-                </span>
-              </p>
-            )}
-            {meetingPointName && (
-              <p className="meeting-point" title={meetingPointLabel}>
-                <MapPinIcon className="meeting-point-icon" />
-                {meetingPointName}
-              </p>
-            )}
-            {areaName && (
-              <p className="area-name" title={areaNameLabel}>
-                <GlobeIcon className="area-name-icon" />
-                {areaName}
-              </p>
-            )}
+              {(startDateString || endDateString) && (
+                <p className="event-date" title={eventDateLabel}>
+                  <CalendarIcon className="date-icon" />
+                  <span>
+                    {startDateString && (
+                      <Fragment>
+                        <span title={eventStartDateLabel}>{startDateString}</span>
+                        <br />
+                      </Fragment>
+                    )}
+                    {endDateString && <span title={eventEndDateLabel}>{endDateString}</span>}
+                  </span>
+                </p>
+              )}
+              {meetingPointName && (
+                <p className="meeting-point" title={meetingPointLabel}>
+                  <MapPinIcon className="meeting-point-icon" />
+                  {meetingPointName}
+                </p>
+              )}
+              {areaName && (
+                <p className="area-name" title={areaNameLabel}>
+                  <GlobeIcon className="area-name-icon" />
+                  {areaName}
+                </p>
+              )}
+            </div>
+          </header>
+          <img className="mapping-event-image" src={imageSource} alt="" />
+          <div className="mapping-event-description">{mappingEvent.description}</div>
+          <Statistics
+            mappedPlacesCount={
+              (mappingEvent.statistics.attributeChangedCount || 0) +
+              (mappingEvent.statistics.surveyCompletedCount || 0)
+            }
+            participantCount={mappingEvent.statistics.joinedParticipantCount || 0}
+            endDate={endDate}
+          />
+          <div className="actions">
+            {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
+            <AppContextConsumer>
+              {appContext => (
+                <MappingEventShareBar
+                  mappingEvent={mappingEvent}
+                  buttonCaption={shareButtonCaption}
+                  baseUrl={appContext.baseUrl}
+                  productName={productName}
+                />
+              )}
+            </AppContextConsumer>
           </div>
-        </header>
-        <img className="mapping-event-image" src={imageSource} alt="" />
-        <div className="mapping-event-description">{mappingEvent.description}</div>
-        <Statistics
-          mappedPlacesCount={
-            (mappingEvent.statistics.attributeChangedCount || 0) +
-            (mappingEvent.statistics.surveyCompletedCount || 0)
-          }
-          participantCount={mappingEvent.statistics.joinedParticipantCount || 0}
-          endDate={endDate}
-        />
-        <div className="actions">
-          {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
-          <AppContextConsumer>
-            {appContext => (
-              <MappingEventShareBar
-                mappingEvent={mappingEvent}
-                buttonCaption={shareButtonCaption}
-                baseUrl={appContext.baseUrl}
-                productName={productName}
-              />
-            )}
-          </AppContextConsumer>
-        </div>
-      </StyledToolbar>
+        </StyledToolbar>
+      </div>
     </FocusTrap>
   );
 };

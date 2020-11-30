@@ -239,10 +239,9 @@ const StyledIconButton = styled(IconButton).attrs({ hoverColor: null, activeColo
 `;
 
 const StyledShareBar = styled(ShareBar)`
-  margin: 0 -10px;
   padding: 0 5px 0 0;
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
 
   header {
     min-height: 38px;

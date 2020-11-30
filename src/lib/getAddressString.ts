@@ -1,5 +1,3 @@
-// @flow
-
 type Parts = {
   street?: string | undefined,
   housenumber?: string | undefined,

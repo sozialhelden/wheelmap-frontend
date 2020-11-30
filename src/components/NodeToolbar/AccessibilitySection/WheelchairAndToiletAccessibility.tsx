@@ -20,7 +20,6 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
-import { Dots } from 'react-activity';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -60,7 +59,7 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const icon = toiletIcons[accessibility] || null;
   return (
     <React.Fragment>
-      {icon}
+      {icon}&nbsp;
       <span>{description}</span>
     </React.Fragment>
   );
@@ -69,7 +68,6 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 type Props = {
   feature: Feature,
   toiletsNearby: Feature[] | null,
-  isLoadingToiletsNearby: boolean,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
@@ -77,7 +75,7 @@ type Props = {
   isEditingEnabled: boolean,
 };
 
-class WheelchairAndToiletAccessibility extends React.Component<Props> {
+class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
   renderWheelchairButton(wheelchairAccessibility) {
     return (
       <button
@@ -106,28 +104,16 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       >
         <header>
           {ToiletDescription(toiletAccessibility)}
-          {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
+          {/* {this.props.isEditingEnabled && <PenIcon className="pen-icon" />} */}
         </header>
       </button>
     );
   }
 
   renderNearbyToilets() {
-    const { feature, toiletsNearby, onOpenToiletNearby, isLoadingToiletsNearby } = this.props;
+    const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
     if (!toiletsNearby) {
       return;
-    }
-
-    if (isLoadingToiletsNearby) {
-      const caption = t`Searching accessible toilet`;
-      return (
-        <button className="toilet-nearby" disabled={true}>
-          {caption}
-          <span className="subtle">
-            <Dots size={14} color={'rgba(0, 0, 0, 0.4)'} />
-          </span>
-        </button>
-      );
     }
 
     const featureCoords = normalizedCoordinatesForFeature(feature);
@@ -140,10 +126,10 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       const caption = t`Show next wheelchair accessible toilet`;
       return (
         <button key={i} onClick={() => onOpenToiletNearby(toiletFeature)} className="toilet-nearby">
-          {caption}{' '}
-          <span className="subtle">
-            {distance}
-            {unit}
+          {caption}
+          <span className="subtle distance">
+            &nbsp;{distance}&nbsp;
+            {unit}&nbsp;→
           </span>
         </button>
       );
@@ -151,7 +137,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
   }
 
   render() {
-    const { feature, toiletsNearby, isLoadingToiletsNearby } = this.props;
+    const { feature, toiletsNearby } = this.props;
     const { properties } = feature || {};
     if (!properties) {
       return null;
@@ -170,9 +156,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       (toiletAccessibility === 'yes' && categoryId !== 'toilets');
 
     const findToiletsNearby =
-      toiletAccessibility !== 'yes' &&
-      toiletsNearby &&
-      (isLoadingToiletsNearby || toiletsNearby.length > 0);
+      toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
     const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
     if (!hasContent) {
       return null;
@@ -182,7 +166,7 @@ class WheelchairAndToiletAccessibility extends React.Component<Props> {
       <div className={this.props.className}>
         {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
-        {findToiletsNearby && this.renderNearbyToilets()}
+        {/* {findToiletsNearby && this.renderNearbyToilets()} */}
       </div>
     );
   }
@@ -202,6 +186,10 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     font-size: 1rem;
     text-align: inherit;
     background-color: transparent;
+    /* Avoid jumping layout while loading */
+    &.toilet-nearby {
+      justify-content: space-between;
+    }
     :not(:disabled) {
       cursor: pointer;
       &.toilet-nearby {
@@ -245,13 +233,18 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
 
+  .accessibility-wheelchair {
+    header {
+      justify-content: space-between;
+    }
+  }
+
   .accessibility-wheelchair,
   .accessibility-toilet {
     header {
       font-weight: bold;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
       align-items: center;
     }
   }
@@ -288,12 +281,6 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
   .accessibility-description {
     margin: 0.25rem 0;
     color: rgba(0, 0, 0, 0.6);
-  }
-
-  .accessibility-toilet {
-    svg {
-      margin-right: 0.5rem;
-    }
   }
 
   > header > span {

@@ -20,28 +20,30 @@ import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 
-export const StyledNodeHeader = styled.header.attrs({ hasShadow: false })`
+
+export const StyledNodeHeader = styled.header`
+  margin: -8px -16px 0 -16px;
+  padding: 8px 16px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   position: sticky;
   top: 0px;
   z-index: 1;
-  margin: 0 -1rem;
-  padding: 0.5rem 0 0.4rem 1rem;
   color: rgba(0, 0, 0, 0.8);
-  background-color: ${colors.colorizedBackgroundColor};
-  transition: box-shadow 0.3s ease-out;
-  box-shadow: ${props =>
-    props.hasShadow ? '0 0 33px rgba(0, 0, 0, 0.1)' : '0 0 33px rgba(0, 0, 0, 0)'};
-
   ${PlaceName} {
     flex-grow: 2;
+  }
+  &.has-opaque-background {
+    background-color: ${colors.colorizedBackgroundColor};
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
   }
 `;
 
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
   margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
   font-size: 16px;
+  margin-top: 8px;
 `;
 
 type Props = {
@@ -54,9 +56,9 @@ type Props = {
   categories: CategoryLookupTables,
   parentCategory: Category | null,
   hasIcon: boolean,
-  onClickCurrentCluster?: () => void,
+  hasOpaqueBackground: boolean,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
-  hasShadow: boolean,
 };
 
 export default class NodeHeader extends React.Component<Props> {
@@ -129,7 +131,7 @@ export default class NodeHeader extends React.Component<Props> {
     );
 
     return (
-      <StyledNodeHeader hasShadow={this.props.hasShadow}>
+      <StyledNodeHeader className={this.props.hasOpaqueBackground ? 'has-opaque-background' : ''}>
         {clusterElement}
         {placeNameElement}
         {children}

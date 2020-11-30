@@ -4,63 +4,72 @@ import NodeToolbar from './NodeToolbar';
 import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
 import { Cluster } from '../../components/Map/Cluster';
-import Categories, { Category, CategoryLookupTables } from '../../lib/Categories';
-import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import { ModalNodeState } from '../../lib/ModalNodeState';
-import { PhotoModel } from '../../lib/PhotoModel';
+import Categories, { CategoryLookupTables } from '../../lib/Categories';
+import type { Category } from '../../lib/Categories';
+import type { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import type { EquipmentInfo } from '../../lib/EquipmentInfo';
+import type { ModalNodeState } from '../../lib/ModalNodeState';
+import type { PhotoModel } from '../../lib/PhotoModel';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
 import {
   PlaceDetailsProps,
   getPlaceDetailsIfAlreadyResolved,
 } from '../../app/PlaceDetailsProps';
-import { UAResult } from '../../lib/userAgent';
 
 type Props = {
   categories: CategoryLookupTables,
-  cluster: Cluster | null,
+  cluster: null | Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  userAgent: UAResult,
-  onOpenReportMode: () => void,
-  onClose?: () => void,
+  onOpenReportMode: () => void | null,
+  onStartPhotoUploadFlow: () => void,
+  onClose?: () => void | null,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
   onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   onShowPlaceDetails: (featureId: string | number) => void,
+  hidden: boolean,
+  modalNodeState: ModalNodeState,
   inEmbedMode: boolean,
+  onClose: () => void,
+  onOpenReportMode: () => void | null,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
   onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
-  onClickCurrentCluster?: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
+  onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
+  onShowPlaceDetails: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
-  accessibilityPresetStatus?: YesNoLimitedUnknown | null,
+  accessibilityPresetStatus?: null | YesNoLimitedUnknown,
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
 
   // photo feature
   onStartPhotoUploadFlow: () => void,
   onReportPhoto: (photo: PhotoModel) => void,
-  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
-  photoFlowErrorMessage: string | null,
+  photoFlowNotification?: string,
+  photoFlowErrorMessage: null | string,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  minimalTopPosition: number,
 } & PlaceDetailsProps;
 
 type RequiredData = {
-  resolvedFeature: Feature | null,
-  resolvedEquipmentInfo: EquipmentInfo | null,
+  resolvedFeature: null | Feature,
+  resolvedEquipmentInfo: null | EquipmentInfo,
 };
 
 type State = {
-  category: Category | null,
-  parentCategory: Category | null,
-  resolvedRequiredData: RequiredData | null,
-  requiredDataPromise: Promise<RequiredData> | null,
-  resolvedSources: SourceWithLicense[] | null,
-  resolvedPhotos: PhotoModel[] | null,
-  resolvedToiletsNearby: Feature[] | null,
-  isLoadingToiletsNearby: boolean,
-  lastFeatureId: string | number | null,
-  lastEquipmentInfoId: string | null,
+  category: null | Category,
+  parentCategory: null | Category,
+  resolvedRequiredData: null | RequiredData,
+  requiredDataPromise: null | Promise<RequiredData>,
+  resolvedSources: null | (SourceWithLicense[]),
+  resolvedPhotos: null | (PhotoModel[]),
+  resolvedToiletsNearby: null | (Feature[]),
+  lastFeatureId: null | (string | number),
+  lastEquipmentInfoId: null | string,
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
@@ -72,14 +81,13 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     resolvedSources: null,
     resolvedPhotos: null,
     resolvedToiletsNearby: null,
-    isLoadingToiletsNearby: false,
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
   };
-  nodeToolbar = React.createRef<NodeToolbar>();
+  nodeToolbar: React.ElementRef<NodeToolbar> | null;
 
-  static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
+  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
     // keep old data when unchanged
     if (
       state.lastFeatureId === props.featureId &&
@@ -109,7 +117,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     // resolve lightweight categories if it is set
-    let categories = { category: null, parentCategory: null };
+    let categories : { category: Category | null, parentCategory: Category | null } =
+      { category: null, parentCategory: null };
     if (props.lightweightFeature) {
       categories = Categories.getCategoriesForFeature(props.categories, props.lightweightFeature);
     }
@@ -145,7 +154,9 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   focus() {
-    this.nodeToolbar.current?.focus();
+    if (this.nodeToolbar) {
+      this.nodeToolbar.focus();
+    }
   }
 
   awaitRequiredData() {
@@ -186,9 +197,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
 
     // toilets nearby promise
     if (toiletsNearby instanceof Promise) {
-      this.setState({ isLoadingToiletsNearby: true }, () => {
-        toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
-      });
+      toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
     }
 
     // sources promise
@@ -235,7 +244,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     if (toiletsNearbyPromise !== this.props.toiletsNearby) {
       return;
     }
-    this.setState({ resolvedToiletsNearby, isLoadingToiletsNearby: false });
+    this.setState({ resolvedToiletsNearby });
   }
 
   handleSourcesFetched(
@@ -269,45 +278,21 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...remainingProps
     } = this.props;
 
-    if (resolvedRequiredData && resolvedRequiredData.resolvedFeature) {
-      const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData;
+    const { resolvedFeature, resolvedEquipmentInfo } = resolvedRequiredData || {};
 
-      return (
-        <NodeToolbar
-          {...remainingProps}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
-          category={category}
-          parentCategory={parentCategory}
-          feature={resolvedFeature}
-          equipmentInfo={resolvedEquipmentInfo}
-          sources={resolvedSources || []}
-          photos={resolvedPhotos || []}
-          toiletsNearby={resolvedToiletsNearby || []}
-          isLoadingToiletsNearby={this.state.isLoadingToiletsNearby}
-          ref={this.nodeToolbar}
-        />
-      );
-    } else if (lightweightFeature) {
-      return (
-        <NodeToolbar
-          {...remainingProps}
-          featureId={remainingProps.featureId}
-          equipmentInfoId={remainingProps.equipmentInfoId}
-          category={category}
-          parentCategory={parentCategory}
-          feature={lightweightFeature}
-          equipmentInfo={null}
-          toiletsNearby={null}
-          isLoadingToiletsNearby={true}
-          sources={[]}
-          photos={[]}
-          ref={this.nodeToolbar}
-        />
-      );
-    }
-
-    return <EmptyToolbarWithLoadingIndicator hidden={this.props.hidden} />;
+    return (
+      <NodeToolbar
+        {...remainingProps}
+        category={category}
+        parentCategory={parentCategory}
+        feature={lightweightFeature || resolvedFeature}
+        equipmentInfo={resolvedEquipmentInfo}
+        sources={resolvedSources || []}
+        photos={resolvedPhotos || []}
+        toiletsNearby={resolvedToiletsNearby || []}
+        ref={t => (this.nodeToolbar = t)}
+      />
+    );
   }
 }
 

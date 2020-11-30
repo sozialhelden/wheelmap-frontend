@@ -56,7 +56,7 @@ export default function searchPlaces(
 
   const encodedQuery = encodeURIComponent(query);
 
-  const url = `https://photon.komoot.de/api/?q=${encodedQuery}&limit=30${localeSuffix}`;
+  const url = `https://photon.komoot.io/api/?q=${encodedQuery}&limit=30${localeSuffix}`;
 
   // For now, no location bias anymore: It seems to sort irrelevant results to the top
   // so you are not able to find New York anymore when entering 'New York', for example

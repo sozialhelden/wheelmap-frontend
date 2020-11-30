@@ -57,15 +57,14 @@ type Props = {
   sources: SourceWithLicense[],
   photos: PhotoModel[],
   toiletsNearby: Feature[] | null,
-  isLoadingToiletsNearby: boolean,
   categories: CategoryLookupTables,
   category: Category | null,
   parentCategory: Category | null,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  inEmbedMode: boolean,
   userAgent: UAResult,
-  onClose?: () => void,
+  minimalTopPosition: number,
+  onClose: () => void,
   onOpenReportMode: () => void | null,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
@@ -87,32 +86,11 @@ type Props = {
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
 
-type State = {
-  isScrollable: boolean,
-};
-
-interface Focusable {
-  focus(): void;
-};
-
-class NodeToolbar extends React.Component<Props, State> {
-  toolbar = React.createRef<ToolbarClass & Focusable>();
-  reportDialog = React.createRef<typeof ReportDialog>();
-  shareButton = React.createRef<HTMLButtonElement>();
-  reportModeButton = React.createRef<HTMLButtonElement>();
-
-  state = {
-    isScrollable: false,
-  };
-
-  componentDidMount() {
-    if (this.props.photoFlowNotification) {
-      // TODO: what is this timeout needed for, and why?
-      setTimeout(() => {
-        this.toolbar.current?.ensureFullVisibility();
-      }, 200);
-    }
-  }
+class NodeToolbar extends React.PureComponent<Props> {
+  toolbar: React.ElementRef<Toolbar> | null;
+  reportDialog: React.ElementRef<ReportDialog> | null;
+  shareButton: React.ElementRef<'button'> | null;
+  reportModeButton: React.ElementRef<'button'> | null;
 
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
@@ -131,9 +109,6 @@ class NodeToolbar extends React.Component<Props, State> {
             categories={this.props.categories}
             feature={this.props.feature}
             featureId={this.props.featureId}
-            onReportComponentChanged={() => {
-              this.toolbar.current?.ensureFullVisibility();
-            }}
             onClose={() => {
               if (this.props.onClose) this.props.onClose();
             }}
@@ -144,14 +119,7 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderIconButtonList() {
-    return (
-      <IconButtonList
-        {...this.props}
-        onToggle={() => {
-          this.toolbar.current?.ensureFullVisibility();
-        }}
-      />
-    );
+    return <IconButtonList {...this.props} />;
   }
 
   renderNodeHeader() {
@@ -183,7 +151,7 @@ class NodeToolbar extends React.Component<Props, State> {
         onClickCurrentCluster={onClickCurrentCluster}
         onClickCurrentMarkerIcon={onClickCurrentMarkerIcon}
         hasIcon={hasIcon}
-        hasShadow={this.state.isScrollable}
+        hasOpaqueBackground={true}
       >
         {this.renderCloseLink()}
       </NodeHeader>
@@ -376,36 +344,33 @@ class NodeToolbar extends React.Component<Props, State> {
   }
 
   renderCloseLink() {
-    const { onClose, modalNodeState } = this.props;
-
-    return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
+    const { onClose } = this.props;
+    return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
   render() {
-    const hasWindow = typeof window !== 'undefined';
-    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
-
     return (
       <FocusTrap
         // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
         focusTrapOptions={{ clickOutsideDeactivates: true }}
       >
-        <StyledToolbar
-          ref={this.toolbar}
-          hidden={this.props.hidden}
-          isModal={this.props.modalNodeState !== null}
-          role="dialog"
-          ariaLabel={this.placeName()}
-          startTopOffset={offset}
-          onScrollable={isScrollable => this.setState({ isScrollable })}
-          inEmbedMode={this.props.inEmbedMode}
-          isBelowSearchField={true}
-        >
-          <ErrorBoundary>
-            {this.renderNodeHeader()}
-            {this.renderContentBelowHeader()}
-          </ErrorBoundary>
-        </StyledToolbar>
+        <div>
+          <StyledToolbar
+            ref={toolbar => (this.toolbar = toolbar)}
+            hidden={this.props.hidden}
+            isModal={this.props.modalNodeState}
+            role="dialog"
+            ariaLabel={this.placeName()}
+            minimalTopPosition={this.props.minimalTopPosition}
+            minimalHeight={135}
+            isBelowSearchField={true}
+          >
+            <ErrorBoundary>
+              {this.renderNodeHeader()}
+              {this.renderContentBelowHeader()}
+            </ErrorBoundary>
+          </StyledToolbar>
+        </div>
       </FocusTrap>
     );
   }

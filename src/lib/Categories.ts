@@ -32,7 +32,7 @@ import { LocalizedString } from './i18n';
   https://flow.org/en/docs/types/unions/#toc-disjoint-unions-with-exact-types
   https://flow.org/en/docs/lang/width-subtyping/
 */
-export interface ACCategory {
+export type ACCategory = {
   _tag: 'ACCategory',
   _id: string,
   translations: {
@@ -43,7 +43,7 @@ export interface ACCategory {
   parentIds: string[],
 };
 
-export interface WheelmapCategory {
+export type WheelmapCategory = {
   _tag: 'WheelmapCategory'
   id: number,
   identifier: string,

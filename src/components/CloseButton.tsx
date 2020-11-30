@@ -2,6 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import CloseIcon from './icons/actions/Close';
+import colors from '../lib/colors';
 
 type Props = {
   className?: string,
@@ -50,6 +51,12 @@ export default styled(CloseButton)`
   z-index: 1;
   transform: translateZ(0);
   cursor: pointer;
+
+  @media (hover), (-moz-touch-enabled: 0) {
+    &:hover {
+      background-color: ${colors.negativeBackgroundColorTransparent};
+    }
+  }
 
   > svg {
     display: block;

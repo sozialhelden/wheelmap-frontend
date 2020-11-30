@@ -6,10 +6,10 @@ export default function getIconNameForProperties(
   lookup: CategoryLookupTables,
   properties: NodeProperties
 ) {
-  let givenNodeTypeId = null
-  if (isWheelmapProperties(properties)) {
-    givenNodeTypeId = properties.node_type ? properties.node_type.identifier : null;
+  if (!properties) {
+    return null;
   }
+  const givenNodeTypeId = isWheelmapProperties(properties) && properties.node_type ? properties.node_type.identifier : null;
 
   let givenCategoryId = null;
   if (typeof properties.category === 'string') {

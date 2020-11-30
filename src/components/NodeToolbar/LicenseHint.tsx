@@ -19,11 +19,19 @@ class LicenseHint extends React.PureComponent<Props> {
     let licenseLinkOrName = license.shortName;
     if (typeof license.websiteURL === 'string') {
       licenseLinkOrName =
-        license.shortName === '?' ? null : <a href={license.websiteURL}>{license.shortName}</a>;
+        license.shortName === '?' ? null : (
+          <a href={license.websiteURL} target="_blank" rel="noopener noreferrer">
+            {license.shortName}
+          </a>
+        );
     }
     let sourceLinkOrName = source.name;
     if (typeof source.originWebsiteURL === 'string') {
-      sourceLinkOrName = <a href={source.originWebsiteURL}>{source.name}</a>;
+      sourceLinkOrName = (
+        <a href={source.originWebsiteURL} target="_blank" rel="noopener noreferrer">
+          {source.name}
+        </a>
+      );
     }
     return (
       <li className={this.props.className}>

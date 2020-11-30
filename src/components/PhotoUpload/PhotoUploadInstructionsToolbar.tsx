@@ -8,6 +8,7 @@ import Toolbar from '../Toolbar';
 import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
+import StyledCloseLink from '../CloseLink';
 
 export type Props = {
   hidden: boolean,
@@ -30,45 +31,22 @@ const StyledCheckmarkIcon = styled(CheckmarkIcon)`
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
   transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
-  padding: 1rem;
+  padding: 8px 16px;
   border-top: none;
-  border-radius: 3px;
+  /* border-radius: 3px; */
   z-index: 1000;
 
   header {
     position: sticky;
     display: flex;
     top: 0;
-    height: 50px;
-    min-height: 50px;
-    flex-direction: row-reverse;
+    align-items: center;
     justify-content: space-between;
     z-index: 1;
     background-color: ${colors.colorizedBackgroundColor};
 
     h3 {
-      margin: 0.75rem 0;
-    }
-
-    /* TODO: Replace with standard component */
-    .close-link {
-      display: inline-block;
-      position: sticky;
-      font-size: 2rem;
-      padding-bottom: 8px;
-      color: rgba(0, 0, 0, 0.2);
-      background-color: rgba(251, 250, 249, 0.8);
-      -webkit-backdrop-filter: blur(10px);
-      border: none;
-      border-radius: 31px;
-      text-decoration: none;
-      text-align: center;
-      z-index: 1;
-      transform: translateZ(0);
-
-      > svg {
-        display: block;
-      }
+      margin: 0;
     }
   }
 
@@ -79,6 +57,7 @@ const StyledToolbar = styled(Toolbar)`
 
     ul {
       padding-left: 0;
+      margin: 0;
       list-style: none;
 
       li {
@@ -184,6 +163,7 @@ const StyledToolbar = styled(Toolbar)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin: 8px -8px 0 -8px;
 
     label.link-button {
       text-align: center;
@@ -221,20 +201,12 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     guidelinesAccepted: false,
   };
 
-  renderCloseLink() {
-    return (
-      <button
-        className="close-link"
-        // translator: Button caption in photo upload Instructions dialog
-        aria-label={t`Close`}
-        onClick={this.onClose}
-      >
-        ×{' '}
-      </button>
-    );
-  }
+  fileInput: null | HTMLInputElement;
+  checkBox: null | HTMLInputElement;
+  backLink: null | HTMLButtonElement;
+  goButton: null | React.ElementRef<'button'>;
 
-  onFileInputChanged = (event: React.FormEvent<HTMLInputElement>) => {
+  onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
     var files = input.files;
 
@@ -249,7 +221,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   };
 
-  onClose = (event: React.MouseEvent<HTMLButtonElement>) => {
+  onClose = (event: UIEvent) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
@@ -270,77 +242,83 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
 
     return (
       <FocusTrap>
-        <StyledToolbar
-          className="photoupload-instructions-toolbar"
-          hidden={this.props.hidden}
-          isSwipeable={false}
-          isModal
-          inEmbedMode={this.props.inEmbedMode}
-        >
-          <header>
-            {this.renderCloseLink()}
-            <h3>{captions.header}</h3>
-          </header>
-          <section>
-            <ul>
-              <li className="with-checkmark">
-                <span>
-                  <StyledCheckmarkIcon color={colors.linkColor} />
-                  <p>{captions.content}</p>
-                </span>
-                <ul className="photo-examples">
-                  <li>
-                    <div className="placeholder-image entrance-image" />
-                    <small>{t`Entrances`}</small>
-                  </li>
-                  <li>
-                    <div className="placeholder-image sitemap-image" />
-                    <small>{t`Site map`}</small>
-                  </li>
-                  <li>
-                    <div className="placeholder-image toilet-image" />
-                    <small>{t`toilets`}</small>
-                  </li>
-                </ul>
-              </li>
-              <li className="with-checkmark">
-                <span>
-                  <StyledCheckmarkIcon color={colors.linkColor} />
-                  <p>{captions.copyright}</p>
-                </span>
-                <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
-              </li>
-              <li className="with-checkmark">
-                <span>
-                  <StyledCheckmarkIcon color={colors.linkColor} />
-                  <p>{captions.people}</p>
-                </span>
-              </li>
-            </ul>
-          </section>
-          <footer>
-            <button className="link-button negative-button" onClick={this.onClose}>
-              {t`Cancel`}
-            </button>
-            <label
-              className="link-button primary-button file-label"
-              htmlFor="photo-file-upload"
-            >
-              {t`Continue`}
-              {waitingForPhotoUpload && <Dots />}
-              <input
-                type="file"
-                id="photo-file-upload"
-                multiple={false}
-                accept="image/*"
-                onChange={this.onFileInputChanged}
+        <div>
+          <StyledToolbar
+            className="photoupload-instructions-toolbar"
+            hidden={this.props.hidden}
+            isSwipeable={false}
+            isModal
+            inEmbedMode={this.props.inEmbedMode}
+          >
+            <header>
+              <h3>{captions.header}</h3>
+              <StyledCloseLink onClick={this.props.onClose} />
+            </header>
+            <section>
+              <ul>
+                <li className="with-checkmark">
+                  <span>
+                    <StyledCheckmarkIcon color={colors.linkColor} />
+                    <p>{captions.content}</p>
+                  </span>
+                  <ul className="photo-examples">
+                    <li>
+                      <div className="placeholder-image entrance-image" />
+                      <small>{t`Entrances`}</small>
+                    </li>
+                    <li>
+                      <div className="placeholder-image sitemap-image" />
+                      <small>{t`Site map`}</small>
+                    </li>
+                    <li>
+                      <div className="placeholder-image toilet-image" />
+                      <small>{t`toilets`}</small>
+                    </li>
+                  </ul>
+                </li>
+                <li className="with-checkmark">
+                  <span>
+                    <StyledCheckmarkIcon color={colors.linkColor} />
+                    <p>{captions.copyright}</p>
+                  </span>
+                  <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
+                </li>
+                <li className="with-checkmark">
+                  <span>
+                    <StyledCheckmarkIcon color={colors.linkColor} />
+                    <p>{captions.people}</p>
+                  </span>
+                </li>
+              </ul>
+            </section>
+            <footer>
+              <button className="link-button negative-button" onClick={this.onClose}>
+                {t`Cancel`}
+              </button>
+              <label
+                className="link-button primary-button file-label"
                 disabled={!canSubmit}
-                name="continue-upload"
-                className="hidden-file-input"
-              />
-            </label>
-          </footer>
-        </StyledToolbar>
+                htmlFor="photo-file-upload"
+              >
+                {t`Continue`}
+                {waitingForPhotoUpload && <Dots />}
+                <input
+                  ref={input => {
+                    this.fileInput = input;
+                  }}
+                  type="file"
+                  id="photo-file-upload"
+                  multiple={false}
+                  accept="image/*"
+                  onChange={this.onFileInputChanged}
+                  disabled={!canSubmit}
+                  name="continue-upload"
+                  className="hidden-file-input"
+                />
+              </label>
+            </footer>
+          </StyledToolbar>
+        </div>
       </FocusTrap>
     );
   }

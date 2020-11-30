@@ -30,10 +30,7 @@ type Props = {
   onSelectClusterIcon: () => void,
   onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
   className?: string,
-};
-
-type State = {
-  isScrollable?: boolean,
+  minimalTopPosition: number,
 };
 
 const PositionedCloseLink = styled(StyledCloseLink)`
@@ -85,13 +82,10 @@ export const StyledClusterIcon = styled(ClusterIcon)`
   }
 `;
 
-class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
-  state: State = {};
-
+class UnstyledFeatureClusterPanel extends React.Component<Props> {
   renderCloseLink() {
-    const { onClose, modalNodeState } = this.props;
-
-    return modalNodeState ? null : <PositionedCloseLink {...{ onClick: onClose }} />;
+    const { onClose } = this.props;
+    return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
   renderClusterEntry(feature: Feature | EquipmentInfo) {
@@ -109,7 +103,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
           category={category}
           parentCategory={parentCategory}
           hasIcon={true}
-          hasShadow={this.state.isScrollable}
+          hasOpaqueBackground={false}
         />
       </button>
     );
@@ -136,8 +130,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
 
   render() {
     const { cluster } = this.props;
-    const hasWindow = typeof window !== 'undefined';
-    const offset = hasBigViewport() ? 0 : 0.4 * (hasWindow ? window.innerHeight : 0);
 
     if (!cluster || cluster.features.length === 0) {
       return null;
@@ -147,36 +139,31 @@ class UnstyledFeatureClusterPanel extends React.Component<Props, State> {
     const placesLabel = t`Places`;
 
     return (
-      <FocusTrap
-        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
+      <StyledToolbar
+        className={this.props.className}
+        hidden={this.props.hidden}
+        isModal={this.props.modalNodeState}
+        role="dialog"
+        inEmbedMode={this.props.inEmbedMode}
+        isBelowSearchField={true}
+        minimalTopPosition={this.props.minimalTopPosition}
+        minimalHeight={135}
       >
-        <StyledToolbar
-          className={this.props.className}
-          hidden={this.props.hidden}
-          isModal={this.props.modalNodeState}
-          role="dialog"
-          startTopOffset={offset}
-          onScrollable={isScrollable => this.setState({ isScrollable })}
-          inEmbedMode={this.props.inEmbedMode}
-          isBelowSearchField={true}
-        >
-          <ErrorBoundary>
-            <section className="cluster-entries">
-              <StyledNodeHeader>
-                <PlaceName>
-                  <StyledClusterIcon {...this.props} />
-                  {placesLabel}
-                </PlaceName>
-                {this.renderCloseLink()}
-              </StyledNodeHeader>
-              <StyledFrame className="entry-list">
-                <ul>{this.renderClusterEntries(cluster.features)}</ul>
-              </StyledFrame>
-            </section>
-          </ErrorBoundary>
-        </StyledToolbar>
-      </FocusTrap>
+        <ErrorBoundary>
+          <section className="cluster-entries">
+            <StyledNodeHeader hasOpaqueBackground={true}>
+              <PlaceName>
+                <StyledClusterIcon {...this.props} />
+                {placesLabel}
+              </PlaceName>
+              {this.renderCloseLink()}
+            </StyledNodeHeader>
+            <StyledFrame className="entry-list">
+              <ul>{this.renderClusterEntries(cluster.features)}</ul>
+            </StyledFrame>
+          </section>
+        </ErrorBoundary>
+      </StyledToolbar>
     );
   }
 }

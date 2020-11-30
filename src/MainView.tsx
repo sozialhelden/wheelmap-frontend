@@ -1,6 +1,6 @@
 import * as React from 'react';
 import dynamic from 'next/dynamic';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 import styled from 'styled-components';
 import includes from 'lodash/includes';
@@ -256,6 +256,20 @@ class MainView extends React.Component<Props, State> {
     this.setState(() => ({ uniqueSurveyId: uuidv4() }));
   };
 
+  getMinimalNodeToolbarTopPosition() {
+    return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 120;
+  }
+
+  getMinimalToolbarTopPosition() {
+    return this.props.inEmbedMode
+      ? this.state.isOnSmallViewport
+        ? 92
+        : 0
+      : this.state.isOnSmallViewport
+      ? 50
+      : 60;
+  }
+
   renderNodeToolbar(isNodeRoute: boolean) {
     return (
       <div className="node-toolbar">
@@ -292,6 +306,7 @@ class MainView extends React.Component<Props, State> {
           onShowPlaceDetails={this.props.onShowPlaceDetails}
           inEmbedMode={this.props.inEmbedMode}
           userAgent={this.props.userAgent}
+          minimalTopPosition={this.getMinimalNodeToolbarTopPosition()}
         />
       </div>
     );
@@ -305,6 +320,7 @@ class MainView extends React.Component<Props, State> {
         mappingEvents={mappingEvents}
         onClose={onCloseMappingEventsToolbar}
         onMappingEventClick={onMappingEventClick}
+        minimalTopPosition={this.getMinimalToolbarTopPosition()}
       />
     );
   }
@@ -342,7 +358,7 @@ class MainView extends React.Component<Props, State> {
             productName={translatedProductName}
             focusTrapActive={focusTrapActive}
             preferredLanguage={preferredLanguage}
-            mappingEventHandlers={mappingEventHandlers}
+            minimalTopPosition={this.getMinimalToolbarTopPosition()}
           />
         )}
       </AppContextConsumer>
@@ -360,6 +376,7 @@ class MainView extends React.Component<Props, State> {
           onClose={this.props.onCloseClusterPanel}
           onSelectClusterIcon={this.onClickCurrentMarkerIcon}
           onFeatureSelected={this.props.onSelectFeatureFromCluster}
+          minimalTopPosition={this.getMinimalNodeToolbarTopPosition()}
         />
       </div>
     );
@@ -386,6 +403,7 @@ class MainView extends React.Component<Props, State> {
         onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
         hasGoButton={this.state.isOnSmallViewport}
+        minimalTopPosition={this.getMinimalToolbarTopPosition()}
       />
     );
   }
@@ -558,12 +576,14 @@ class MainView extends React.Component<Props, State> {
   renderCreateDialog() {
     return (
       <FocusTrap active={this.props.modalNodeState === 'create'}>
-        <CreatePlaceDialog
-          hidden={this.props.modalNodeState !== 'create'}
-          onClose={this.props.onCloseModalDialog}
-          lat={this.props.lat}
-          lon={this.props.lon}
-        />
+        <div>
+          <CreatePlaceDialog
+            hidden={this.props.modalNodeState !== 'create'}
+            onClose={this.props.onCloseModalDialog}
+            lat={this.props.lat}
+            lon={this.props.lon}
+          />
+        </div>
       </FocusTrap>
     );
   }
@@ -587,13 +607,15 @@ class MainView extends React.Component<Props, State> {
 
           return (
             <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
-              <ContributionThanksDialog
-                hidden={this.props.modalNodeState !== 'contribution-thanks'}
-                onClose={this.props.onCloseModalDialog}
-                addPlaceUrl={url}
-                onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-                appContext={appContext}
-              />
+              <div>
+                <ContributionThanksDialog
+                  hidden={this.props.modalNodeState !== 'contribution-thanks'}
+                  onClose={this.props.onCloseModalDialog}
+                  addPlaceUrl={url}
+                  onAddPlaceLinkClick={this.onAddPlaceLinkClick}
+                  appContext={appContext}
+                />
+              </div>
             </FocusTrap>
           );
         }}
@@ -818,10 +840,11 @@ const StyledMainView = styled(MainView)`
   &.is-modal,
   &.is-main-menu-open {
     > .behind-backdrop {
+      border-radius: 30px;
+      overflow: hidden;
       .toolbar {
         z-index: 999;
       }
-      filter: blur(5px);
       transform: scale3d(0.99, 0.99, 1);
       @media (max-width: 512px), (max-height: 512px) {
         transform: scale3d(0.9, 0.9, 1);

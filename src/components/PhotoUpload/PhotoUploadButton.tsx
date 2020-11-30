@@ -24,9 +24,11 @@ class PhotoUploadButton extends React.Component<Props> {
         className={`link-button ${className || ''}`}
         aria-label={t`Add images`}
       >
-        <CameraIcon />
-        <span className="button-label">{t`Add images`}</span>
-        <IncentiveHint>{hintCaption}</IncentiveHint>
+        <div>
+          <CameraIcon />
+          <span className="button-label">{t`Add images`}</span>
+          <IncentiveHint>{hintCaption}</IncentiveHint>
+        </div>
       </button>
     );
   }
@@ -42,9 +44,11 @@ class PhotoUploadButton extends React.Component<Props> {
 const StyledPhotoUploadButton = styled(PhotoUploadButton)`
   display: inline-block;
   font-weight: bold;
-  display: flex !important;
-  flex-direction: row;
-  align-items: center;
+  > div {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+  }
 
   width: 100%;
   margin: 0 0rem 0.5rem !important;

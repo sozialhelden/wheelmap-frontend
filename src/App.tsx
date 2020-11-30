@@ -156,12 +156,7 @@ class App extends React.Component<Props, State> {
     lon: null,
     isSpecificLatLonProvided: false,
     zoom: null,
-    mappingEvents: filterMappingEvents(
-      this.props.mappingEvents,
-      this.props.app._id,
-      this.props.mappingEvent && this.props.mappingEvent._id
-    ),
-
+    mappingEvents: [],
     isSearchBarVisible: isStickySearchBarSupported(),
     isOnboardingVisible: false,
     joinedMappingEventId: null,

@@ -30,10 +30,12 @@ export default function AccessibleDescription(props: Props) {
 
   const string = translatedStringFromObject(descriptionText);
   const hasQuotes = string && !string.match('#') && !string.match('\n') && !string.match('<');
+  const markdownHTML = marked(string).trim();
+  const __html = markdownHTML.replace(/^<p>(.*)<\/p>$/, '$1');
   return (
     <Description
       className={(props.className || '') + (hasQuotes ? ' has-quotes' : '')}
-      dangerouslySetInnerHTML={{ __html: marked(string).replace(/^<p>(.*)<\/p>$/, '$1') }}
+      dangerouslySetInnerHTML={{ __html }}
     ></Description>
   );
 }

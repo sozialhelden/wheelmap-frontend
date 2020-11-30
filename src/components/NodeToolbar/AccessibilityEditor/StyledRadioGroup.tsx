@@ -50,9 +50,7 @@ const StyledRadioGroup = styled(RadioGroup)`
   }
 
   label {
-    margin: -0.5em;
     padding: 0.5em;
-    margin-bottom: 1em;
     border-radius: 0.25em;
     display: flex;
     flex-direction: column;

@@ -1,12 +1,13 @@
+# 
 # Translators:
 # Sebastian Felix Zappe <hypo@me.com>, 2019
-# ferit yazgan <ferityazgan@gmail.com>, 2019
 # Björn Uhlig <bjoern@sozialhelden.de>, 2019
 # Developers, 2019
+# ferit yazgan <ferityazgan@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2019\n"
+"Last-Translator: ferit yazgan <ferityazgan@gmail.com>, 2019\n"
 "Language-Team: Turkish (https://www.transifex.com/sozialhelden/teams/16671/tr/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: tr\n"
@@ -34,8 +35,8 @@ msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr ""
-"Bu URL artık çalışmıyor. Bu yerin var olduğunu düşünüyorsanız, bulmak için "
-"aramayı kullanabilirsiniz."
+"Bu URL artık çalışmıyor. Bu mekanın var olduğunu düşünüyorsanız, bulmak için"
+" aramayı kullanabilirsiniz."
 
 #: src/components/NotFound/NotFound.js:54
 msgid "Sorry, we are offline!"
@@ -47,7 +48,7 @@ msgstr "Üzgünüm, bu olmamalıydı!"
 
 #: src/components/ErrorBoundary.js:47 src/components/NotFound/NotFound.js:69
 msgid "Return home"
-msgstr "Anasayfaya Dön"
+msgstr "Anasayfaya dön"
 
 #: src/components/NotFound/NotFound.js:71
 msgid "Retry"
@@ -103,7 +104,7 @@ msgstr "Tuvaletler"
 
 #: src/lib/Categories.js:255
 msgid "Error while loading place categories."
-msgstr "Yer kategorileri yüklenirken hata oluştu."
+msgstr "Mekan kategorileri yüklenirken hata oluştu."
 
 #: src/app/CreatePlaceData.js:12
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
@@ -168,7 +169,7 @@ msgstr "Son güncelleme ${ dateString }"
 
 #: src/app/PlaceDetailsData.js:276
 msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr "Yerin konumu ${ productName }: ${ placeTitle } "
+msgstr "Bu mekanın konumu ${ productName }: ${ placeTitle } "
 
 #: src/lib/Feature.js:470
 msgid "Fully wheelchair accessible"
@@ -212,14 +213,14 @@ msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
 msgstr ""
-"Girişte maksimum 3 inç yükseklikte olmak üzere bir basamak vardır, çoğu oda "
+"Girişte maksimum 3 inç yüksekliğinde bir basamak vardır, çoğu oda "
 "basamaksızdır."
 
 #: src/lib/Feature.js:514
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
-"Girişte maksimum 7 cm yükseklikte olmak üzere bir basamak vardır, çoğu oda "
+"Girişte maksimum 7 cm yüksekliğinde bir basamak vardır, çoğu oda "
 "basamaksızdır."
 
 #: src/lib/Feature.js:517
@@ -269,7 +270,7 @@ msgstr "Adı belirsiz mekan"
 
 #: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:33
 msgid "Could not load this place."
-msgstr "Bu yer yüklenemedi."
+msgstr "Bu mekan yüklenemedi."
 
 #: src/lib/cache/URLDataCache.js:120
 msgid "Error while loading data."
@@ -284,12 +285,13 @@ msgid ""
 "You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
 "step: Rate and add the accessibility of places."
 msgstr ""
-"${ mappingEvent.name } Haritalama etkinliğinin artık bir parçasısınız ❤ "
-"Sonraki adımınız: Yerleri puablayıp erişilebilirliklerini eklemek. "
+"Şimdi ${ mappingEvent.name } haritalama etkinliğinin bir parçasısınız ❤ "
+"Sonraki adımınız, mekanları değerlendirmek ve erişilebilirliklerini eklemek."
+" "
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
 msgid "Let's go"
-msgstr "Başlayalım"
+msgstr "Haydi başlayalım!"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
 msgid "Mapping events list"
@@ -297,7 +299,7 @@ msgstr "Haritalama etkinlik listesi "
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:33
 msgid "${ mappingEvents.length } active mapping events"
-msgstr "Aktif haritalama etkin${ mapping Events.length } "
+msgstr "Aktif haritalama etkinlikleri ${ mapping Events.length } "
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:35
 msgid "Events"
@@ -305,15 +307,17 @@ msgstr "Etkinlikler"
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
-msgstr "Çevrenizdeki topluluklarla ve yerlerin erişilebilirliği ile tanışın! "
+msgstr ""
+"Çevrenizdeki topluluklarla tanışın ve mekanların erişilebilirliklerini "
+"haritalayın!"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
-msgstr "başlangıç"
+msgstr "başlama"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:80
 msgid "until"
-msgstr "son tarih"
+msgstr "bitiş"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:95
 msgid "Mapping event ${ mappingEvent.name }"
@@ -321,7 +325,7 @@ msgstr "Haritalama etkinliği ${ mappingEvent.name } "
 
 #: src/components/MappingEvents/MappingEventToolbar.js:97
 msgid "Center map on mapping event"
-msgstr "Haritalama etkinliğinde merkez harita"
+msgstr "Haritalama etkinliğinde haritayı ortalayın"
 
 #: src/components/MappingEvents/MappingEventToolbar.js:99
 msgid "Meeting point"
@@ -420,7 +424,7 @@ msgstr "Kapat"
 
 #: src/components/ShareBar/ShareBar.js:86
 msgid "Expand share menu"
-msgstr "Paylaşım Menüsünü Genişlet"
+msgstr "Paylaşım menüsünü genişlet"
 
 #: src/components/ShareBar/ShareBar.js:106
 msgid "Collapse share menu"
@@ -428,7 +432,7 @@ msgstr "Paylaşım menüsünü daralt"
 
 #: src/components/Toolbar.js:333
 msgid "Collapse details"
-msgstr "Daraltılan detaylar"
+msgstr "Detayları daralt"
 
 #: src/components/Toolbar.js:333
 msgid "Expand details"
@@ -436,7 +440,7 @@ msgstr "Detayları genişlet"
 
 #: src/components/NodeToolbar/FeatureClusterPanel.js:145
 msgid "Places"
-msgstr "Yerler"
+msgstr "Mekanlar"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
 msgid "Thank you!"
@@ -448,7 +452,7 @@ msgstr "Katkınızı doğrulamamız için bize biraz müsaade edin. "
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
 msgid "Add next place"
-msgstr "Sonraki yeri ekleyin"
+msgstr "Sonraki mekanı ekleyin"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
 msgid "Back to map"
@@ -465,7 +469,7 @@ msgstr "Uygulama Logosu"
 
 #: src/components/SearchToolbar/SearchButton.js:35
 msgid "All places"
-msgstr "Bütün yerler"
+msgstr "Bütün mekanlar"
 
 #: src/components/Onboarding/Onboarding.js:42
 msgid "Help out by marking places!"
@@ -477,7 +481,7 @@ msgstr "Pekala, hadi başlayalım!"
 
 #: src/components/Onboarding/Onboarding.js:46
 msgid "Continue without cookies"
-msgstr "Çerezsiz devam et"
+msgstr "Çerez olmadan devam et"
 
 #: src/components/Onboarding/Onboarding.js:49
 msgid ""
@@ -499,7 +503,7 @@ msgstr "Görüntü başka bir yeri gösteriyor."
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 msgid "Outdated"
-msgstr "Zaman aşımına uğradı"
+msgstr "Tarihi geçmiş"
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:32
 msgid "Offensive or inappropriate"
@@ -515,7 +519,7 @@ msgstr "Bu görüntü bu yeri tasvir etmiyor."
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:48
 msgid "This image does not show the current state of this place."
-msgstr "Bu görüntü, bu yerin mevcut durumunu göstermiyor."
+msgstr "Bu görüntü mekanın mevcut durumunu göstermiyor."
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:51
 msgid ""
@@ -578,9 +582,9 @@ msgid ""
 "href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
 "on OSM, they will appear here a bit later."
 msgstr ""
-"Burada gösterilen çoğu yer <a href='https://openstreetmap.org'>OpenStreetMap"
-" (OSM)</a> 'dendir. OSM'ye yer eklerseniz, kısa bir süre sonra burada "
-"görünürler."
+"Burada gösterilen çoğu mekan<a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a> 'dendir. OSM'ye "
+"mekan eklerseniz, kısa bir süre sonra burada görünürler."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
 #: src/components/NodeToolbar/Report/strings.js:26
@@ -589,7 +593,7 @@ msgstr "OpenStreetMap'ta bir not bırakın"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
 msgid "Add a place on OpenStreetMap"
-msgstr "OpenStreetMap'ta bir yer ekleyin"
+msgstr "OpenStreetMap'ta bir mekan ekleyin"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
 msgid "The following images…"
@@ -722,11 +726,11 @@ msgstr "Erişilebilir WC ile birlikte kısmen erişilebilir"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
-msgstr "Tekerlekli sandalye erişimine uygun"
+msgstr "Sadece tekerlekli sandalye erişimine tamamen uygun mekanlar"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
 msgid "Only fully accessible with accessible WC"
-msgstr "Sadece erişilebilir WC ile tam erişilebilir"
+msgstr "Sadece erişilebilir WC ile tamamen erişilebilir mekanlar"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:60
 msgid "Places that I can contribute information to"
@@ -734,7 +738,7 @@ msgstr "Katkıda bulunabileceğim mekanlar"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:66
 msgid "Only places that are not accessible"
-msgstr "Yalnızca erişilebilir olmayan yerler"
+msgstr "Sadece erişilebilir olmayan mekanlar"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair accessibility filter"
@@ -848,7 +852,7 @@ msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr ""
-"Bu yerin bilgisi başka bir kurum tarafından sağlandı ve ${ sourceName } "
+"Bu mekanın bilgisi başka bir kurum tarafından sağlandı ve ${ sourceName } "
 "kurumun bir parçasıdır. "
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:110
@@ -956,7 +960,7 @@ msgstr "Görüntü ekle"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
 msgid "Mark wheelchair accessibility of WC"
-msgstr "Tuvalet durumunu ekle"
+msgstr "Tuvaletin tekerlekli sandalye ile erişilebilirlik durumunu ekle"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
@@ -1015,7 +1019,7 @@ msgstr "Bu mekanı OpenStreetMap üzerinde düzenle"
 #: src/components/NodeToolbar/Report/strings.js:30
 msgid "Click the link below for details about the place and for editing."
 msgstr ""
-"Yer ve düzenleme hakkında ayrıntılı bilgi için aşağıdaki bağlantıyı "
+"Mekan ve düzenleme hakkında ayrıntılı bilgi için aşağıdaki bağlantıyı "
 "kullanın."
 
 #: src/components/NodeToolbar/Report/strings.js:32
@@ -1076,23 +1080,24 @@ msgstr "[Wheelmap] Wheelmap'te bir mekanla ilgili sorun"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:39
 msgid "The accessibility of the place is marked incorrectly."
-msgstr "Yerin erişilebilirliği yanlış işaretlenmiş."
+msgstr "Mekanın erişilebilirliği yanlış işaretlenmiş."
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:43
 msgid "The place is permanently closed."
-msgstr "Bu yer kalıcı olarak kapandı. "
+msgstr "Bu mekan kalıcı olarak kapandı. "
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:127
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr ""
-"Teşekkürler! Yer bildirimi başarılı. Bildiriminize en kısa sürede bakacağız."
-" "
+"Teşekkürler! Mekan bildirimi başarılı. Bildiriminize en kısa sürede "
+"bakacağız. "
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:128
 msgid "Something went wrong reporting the place. Please try again later."
-msgstr "Yer bildirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin. "
+msgstr ""
+"Mekan bildirilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin. "
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:141
 msgid "Feel free to add some additional information…"
@@ -1100,11 +1105,11 @@ msgstr "Ek bilgi ekleyebilirsiniz... "
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
 msgid "View this place on ${ name }"
-msgstr "Bu yeri şurada göster ${ name } "
+msgstr "Bu mekanı şurada göster ${ name } "
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
 msgid "Edit this place on ${ name }"
-msgstr "Bu yeri şurada düzenle ${ name } "
+msgstr "Bu mekanı şurada düzenle ${ name } "
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
@@ -1114,37 +1119,37 @@ msgstr "Detaylar"
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "Kullanımdaki asansör ${ count } "
-msgstr[1] "Kullanımdaki asansör ${ count } "
+msgstr[1] "${ count } asansör kullanımda"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
 msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
 msgstr[0] "Kullanımdaki yürüyen merdiven ${ count } "
-msgstr[1] "Kullanımdaki yürüyen merdiven ${ count } "
+msgstr[1] "${ count } yürüyen merdiven kullanımda"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "Hizmet dışı asansör ${ count } "
-msgstr[1] "Hizmet dışı asansör ${ count } "
+msgstr[1] "${ count } asansör hizmet dışı"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
 msgstr[0] "Hizmet dışı yürüyen merdiven ${ count } "
-msgstr[1] "Hizmet dışı yürüyen merdiven ${ count } "
+msgstr[1] "${ count } yürüyen merdiven hizmet dışı"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "Bilinmeyen kullanım durumu asansör ${ count } "
-msgstr[1] "Bilinmeyen kullanım durumu asansör ${ count } "
+msgstr[1] "${ count } asansörün kullanım durumu belirsiz"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "Bilinmeyen çalışma durumu yürüyen merdiven ${ count } "
-msgstr[1] "Bilinmeyen çalışma durumu yürüyen merdiven ${ count } "
+msgstr[1] "${ count } yürüyen merdivenin kullanım durumu belirsiz"
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "

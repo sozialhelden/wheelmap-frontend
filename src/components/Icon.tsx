@@ -67,7 +67,7 @@ export const StyledIconContainer = styled(Figure)`
     color: ${props =>
       props.accessibility
         ? colors.markers.foreground[props.accessibility]
-        : props.foregroundColor || '#888'};
+        : props.foregroundColor || '#496394'};
   }
 
   > small {
@@ -113,7 +113,7 @@ export const StyledIconContainer = styled(Figure)`
         fill: ${props =>
           props.accessibility
             ? colors.markers.foreground[props.accessibility]
-            : props.foregroundColor || '#888'};
+            : props.foregroundColor || '#496394'};
       }
     }
   }

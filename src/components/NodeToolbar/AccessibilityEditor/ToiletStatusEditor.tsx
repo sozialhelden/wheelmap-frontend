@@ -63,8 +63,8 @@ export default function ToiletStatusEditor(props: Props) {
           {...props}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => feature.properties.wheelchair_toilet}
-          saveValue={(value: YesNoUnknown) => saveToiletStatus({ ...props, appContext, value })}
-          renderChildrenForValue={({ value, categoryId }) => icons[value]}
+          saveValue={value => saveToiletStatus({ ...props, appContext, value })}
+          renderChildrenForValue={({ value, categoryId }) => <>{icons[value]}&nbsp;</>}
           shownStatusOptions={['yes', 'no']}
           captionForValue={value => captions[value]}
           descriptionForValue={value => descriptions[value]}

@@ -102,10 +102,6 @@ const StyledNotificationButton = styled(NotificationButton)`
     border-color: ${props => props.color};
   }
 
-  @media (max-width: 1024px) {
-    top: ${props => props.topPosition + 50}px;
-  }
-
   @media (max-width: 500px), (max-height: 500px) {
     /* On small viewports, move button down to make space for category view */
     position: fixed;

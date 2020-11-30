@@ -1,10 +1,10 @@
-import Document, { Head, Html, Main, NextScript } from 'next/document';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import * as React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
 
 export default class MyDocument extends Document<any> {
-  static getInitialProps({ renderPage, ...ctx }: any) {
+  static getInitialProps({ renderPage, ...ctx }: DocumentContext) {
     const sheet = new ServerStyleSheet();
 
     // Hacky way to get the locale used when rendering the page.
@@ -38,7 +38,7 @@ export default class MyDocument extends Document<any> {
                 https://www.google-analytics.com
                 https://www.googletagmanager.com
                 https://ssl.gstatic.com
-                https://photon.komoot.de
+                https://photon.komoot.io
                 https://sozialhelden.matomo.cloud
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud

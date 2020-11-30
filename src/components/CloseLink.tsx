@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { SyntheticEvent, MouseEvent, KeyboardEvent } from 'react';
 import styled from 'styled-components';
 import CloseIcon from './icons/actions/Close';
 import { t } from 'ttag';
-import { SyntheticEvent, MouseEvent, KeyboardEvent } from 'react';
+import colors from '../lib/colors';
 
 type Props = {
   className?: string,
@@ -13,7 +14,7 @@ type Props = {
   onKeyDown?: (event: KeyboardEvent) => void,
 };
 
-class CloseLink extends React.Component<Props> {
+class CloseLink extends React.PureComponent<Props> {
   button: HTMLButtonElement | null;
 
   focus() {
@@ -57,7 +58,11 @@ const StyledCloseLink = styled(CloseLink)`
   transform: translateZ(0);
   border: 0;
   cursor: pointer;
-
+  @media (hover), (-moz-touch-enabled: 0) {
+    &:hover {
+      background-color: ${colors.negativeBackgroundColorTransparent};
+    }
+  }
   > svg {
     display: block;
   }

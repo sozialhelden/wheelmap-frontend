@@ -38,6 +38,11 @@ function UnstyledIconButtonList(props: Props): JSX.Element {
 }
 
 const IconButtonList = styled(UnstyledIconButtonList)`
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0 -8px;
+
   .link-button,
   .expand-button {
     svg {

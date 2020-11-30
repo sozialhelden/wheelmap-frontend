@@ -185,7 +185,7 @@ export default styled(ReportPhotoToolbar)`
     }
 
     h3 {
-      margin: 0.75rem 0;
+      margin: 0;
     }
   }
 

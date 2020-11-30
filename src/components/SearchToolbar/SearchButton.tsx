@@ -39,25 +39,31 @@ function SearchButton(props: Props) {
       aria-controls="search"
       className={classNames.join(' ')}
     >
-      <SearchIcon />
+      <div>
+        <SearchIcon />
 
-      <BreadcrumbChevron />
+        <BreadcrumbChevron />
 
-      {isAnyFilterSet && (
-        <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory: true }} />
-      )}
+        {isAnyFilterSet && (
+          <CombinedIcon
+            {...{ toiletFilter, accessibilityFilter, category, isMainCategory: true }}
+          />
+        )}
 
-      <Caption>
-        {category ? Categories.translatedRootCategoryName(category) : allPlacesCaption}
-      </Caption>
+        <Caption>
+          {category ? Categories.translatedRootCategoryName(category) : allPlacesCaption}
+        </Caption>
+      </div>
     </MapButton>
   );
 }
 
 const StyledSearchButton = styled(SearchButton)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
   font-size: 1.2rem;
 
   width: auto;

@@ -1,485 +1,462 @@
 # 
-# Translators:
-# Holger Dieterich <holger@sozialhelden.de>, 2019
-# Developers, 2019
-# 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2019\n"
-"Language-Team: Hindi (https://www.transifex.com/sozialhelden/teams/16671/hi/)\n"
+"Language-Team: Galician (https://www.transifex.com/sozialhelden/teams/16671/gl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Language: hi\n"
+"Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:327
 msgid "Search"
-msgstr "खोजें"
+msgstr ""
 
 #: src/pages/_app.js:328
 msgid "Homepage"
-msgstr "होमपेज"
+msgstr ""
 
 #: src/components/EmbedModeDeniedDialog.js:12
 msgid "Embed mode can not be used"
-msgstr "एम्बेड मोड का उपयोग नहीं किया जा सकता"
+msgstr ""
 
 #: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
 #: src/components/NotFound/NotFound.js:98
 msgid "Error"
-msgstr "त्रुटि"
+msgstr ""
 
 #: src/components/NotFound/NotFound.js:51
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr ""
-"यह URL अब काम नहीं करता है। यदि आपके लगता है कि यह स्थान मौजूद है तो आप ख़ोज "
-"का उपयोग कर इसे ढूँढ सकते है।"
 
 #: src/components/NotFound/NotFound.js:54
 msgid "Sorry, we are offline!"
-msgstr "क्षमा करें, हम ऑफ़लाइन हैं!"
+msgstr ""
 
 #: src/components/ErrorBoundary.js:44 src/components/NotFound/NotFound.js:67
 msgid "Sorry, that should not have happened!"
-msgstr "क्षमा करें, ऐसा नहीं होना चाहिए था!"
+msgstr ""
 
 #: src/components/ErrorBoundary.js:47 src/components/NotFound/NotFound.js:69
 msgid "Return home"
-msgstr "होम पर लौटें"
+msgstr ""
 
 #: src/components/NotFound/NotFound.js:71
 msgid "Retry"
-msgstr "पुन: प्रयास करें"
+msgstr ""
 
 #: src/lib/Categories.js:87
 msgid "Shopping"
-msgstr "खरीदारी"
+msgstr ""
 
 #: src/lib/Categories.js:91
 msgid "Food & Drinks"
-msgstr "भोजन और पेय"
+msgstr ""
 
 #: src/lib/Categories.js:95
 msgid "Transport"
-msgstr "परिवहन"
+msgstr ""
 
 #: src/lib/Categories.js:99
 msgid "Leisure"
-msgstr "विश्राम "
+msgstr ""
 
 #: src/lib/Categories.js:103
 msgid "Hotels"
-msgstr "होटल्स"
+msgstr ""
 
 #: src/lib/Categories.js:107
 msgid "Tourism"
-msgstr "पर्यटन"
+msgstr ""
 
 #: src/lib/Categories.js:111
 msgid "Education"
-msgstr "शिक्षा"
+msgstr ""
 
 #: src/lib/Categories.js:115
 msgid "Authorities"
-msgstr "प्राधिकारी"
+msgstr ""
 
 #: src/lib/Categories.js:119
 msgid "Health"
-msgstr "स्वास्थ्य"
+msgstr ""
 
 #: src/lib/Categories.js:123
 msgid "Money"
-msgstr "पैसा"
+msgstr ""
 
 #: src/lib/Categories.js:127
 msgid "Sports"
-msgstr "खेल"
+msgstr ""
 
 #: src/lib/Categories.js:131
 msgid "Toilets"
-msgstr "टॉयलेट्स"
+msgstr ""
 
 #: src/lib/Categories.js:255
 msgid "Error while loading place categories."
-msgstr "स्थान की श्रेणियाँ लोड करने में समस्या उत्पन्न हुई है।"
+msgstr ""
 
 #: src/app/CreatePlaceData.js:12
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:163
 msgid "Add a new place"
-msgstr "एक नया स्थान जोड़ें"
+msgstr ""
 
 #: src/app/ContributionThanksData.js:12
 msgid "Thank you for the contribution!"
-msgstr "योगदान के लिए धन्यवाद!"
+msgstr ""
 
 #: src/app/SearchData.js:131 src/components/SearchToolbar/SearchResults.js:39
 msgid "Search results"
-msgstr "खोज परिणाम"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:100
 msgid "Unnamed facility"
-msgstr "बेनाम सुविधा"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:114
 msgid "In operation"
-msgstr "संचालन में"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:116
 msgid "Out of order"
-msgstr "खराब"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:118
 msgid "Unknown operational status"
-msgstr "अज्ञात परिचालन स्थिति"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:159
 msgid "Escalator"
-msgstr " स्वचालित सीढ़ी"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:160
 msgid "Elevator"
-msgstr "एलिवेटर"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:162
 msgid "Facility"
-msgstr "सुविधाएँ"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:166
 msgid "today"
-msgstr "आज"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:167
 msgid "yesterday"
-msgstr "बीता हुआ कल"
+msgstr ""
 
 #: src/lib/EquipmentInfo.js:186
 msgid ""
 "Last known operational status: ${ translatedEquipmentCategory } was ${ "
 "lastStatus } on ${ dateString }."
 msgstr ""
-"अंतिम ज्ञात परिचालन स्थिति: ${ dateString } को ${ "
-"translatedEquipmentCategory } ${ lastStatus } थी। "
 
 #: src/lib/EquipmentInfo.js:196
 msgid "Last update: ${ dateString }"
-msgstr "आखिरी अपडेट: ${ dateString }"
+msgstr ""
 
 #: src/app/PlaceDetailsData.js:276
 msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr "यह स्थान ${ productName } पर है: ${ placeTitle }"
+msgstr ""
 
 #: src/lib/Feature.js:470
 msgid "Fully wheelchair accessible"
-msgstr "पूर्ण व्हीलचेयर सुलभ"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
 #: src/lib/Feature.js:473
 msgid "Partially wheelchair accessible"
-msgstr "आंशिक रूप से व्हीलचेयर सुलभ"
+msgstr ""
 
 #: src/lib/Feature.js:476
 msgid "Not wheelchair accessible"
-msgstr "व्हीलचेयर के योग्य नहीं है"
+msgstr ""
 
 #: src/lib/Feature.js:479
 msgid "Unknown accessibility"
-msgstr "अज्ञात सुगम्यता"
+msgstr ""
 
 #: src/lib/Feature.js:489
 msgid "Fully"
-msgstr "पूर्ण रूप से"
+msgstr ""
 
 #: src/lib/Feature.js:492
 msgid "Partially"
-msgstr "आंशिक रूप से"
+msgstr ""
 
 #: src/lib/Feature.js:495
 msgid "Not at all"
-msgstr "बिलकुल नहीं"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:93 src/lib/Feature.js:498
 msgid "Unknown"
-msgstr "अपरिचित"
+msgstr ""
 
 #: src/lib/Feature.js:508
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr ""
-"प्रवेशद्वार पर कोई सीढ़ियाँ नहीं हैं, और सभी कमरे बिना सीढ़ियोँ के पहुंचने "
-"योग्य हैं"
 
 #: src/lib/Feature.js:512
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
 msgstr ""
-"प्रवेशद्वार पर अधिकतम 3 इंच ऊंचाई वाली एक सीढ़ी है, अधिकांश कमरे बिना सीढ़ियों"
-" के हैं।"
 
 #: src/lib/Feature.js:514
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
-"प्रवेशद्वार पर अधिकतम 7 सेमी ऊंचाई वाली एक सीढ़ी है। अधिकांश कमरे बिना "
-"सीढ़ियों के हैं।"
 
 #: src/lib/Feature.js:517
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
-"प्रवेशद्वार पर ऊँची सीढियाँ या अनेक सीढियाँ हैं, कोई भी रूम सुलभ नहीं है।"
 
 #: src/lib/Feature.js:528
 msgid "Wheelchair accessible toilet"
-msgstr "व्हीलचेयर योग्य टॉयलेट"
+msgstr ""
 
 #: src/lib/Feature.js:531
 msgid "No wheelchair accessible toilet"
-msgstr "कोई व्हीलचेयर सुलभ शौचालय नहीं है"
+msgstr ""
 
 #: src/lib/Feature.js:539
 msgid "Doorways' inner width ≥ 35 inches"
-msgstr "दरवाजे की आंतरिक चौड़ाई ≥ 35 इंच"
+msgstr ""
 
 #: src/lib/Feature.js:539
 msgid "Doorways' inner width ≥ 90 cm"
-msgstr "प्रवेश की आंतरिक चौड़ाई ≥ 90 सेमी"
+msgstr ""
 
 #: src/lib/Feature.js:540
 msgid "Clear turning space ≥ 59 inches wide"
-msgstr "निर्बाध मोड़ने की जगह ≥ 59 cm चौड़ा"
+msgstr ""
 
 #: src/lib/Feature.js:540
 msgid "Clear turning space ≥ 150 cm wide"
-msgstr "निर्बाध मोड़ने की जगह ≥ 150 cm चौड़ा"
+msgstr ""
 
 #: src/lib/Feature.js:541
 msgid "Wheelchair-height toilet seat"
-msgstr "व्हीलचेयर की ऊंचाई वाली टॉयलेट सीट"
+msgstr ""
 
 #: src/lib/Feature.js:542
 msgid "Foldable grab rails"
-msgstr "फ़ोल्ड होने वाले ग्रैब रेल"
+msgstr ""
 
 #: src/lib/Feature.js:543
 msgid "Accessible sink"
-msgstr "सुलभ सिंक"
+msgstr ""
 
 #: src/lib/Feature.js:550
 msgid "Unnamed place"
-msgstr "बेनामी स्थान"
+msgstr ""
 
 #: src/lib/cache/FeatureCache.js:188 src/lib/cache/WheelmapFeatureCache.js:33
 msgid "Could not load this place."
-msgstr "इस स्थान को लोड नहीं कर सके।"
+msgstr ""
 
 #: src/lib/cache/URLDataCache.js:120
 msgid "Error while loading data."
-msgstr "डेटा लोड करते समय गड़बड़ी हुई।"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:21
 msgid "Welcome"
-msgstr "स्वागत है"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:24
 msgid ""
 "You are now part of the mapping event ${ mappingEvent.name } ❤ Your next "
 "step: Rate and add the accessibility of places."
 msgstr ""
-"अब आप मैपिंग कार्यक्रम ${ mappingEvent.name } का हिस्सा हैं ❤ आपका अगला कदम:"
-" स्थानों की सुगम्यता को जोड़ें और रेट करें।"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.js:38
 msgid "Let's go"
-msgstr "आइये चलते हैं"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:31
 msgid "Mapping events list"
-msgstr "मैप करने के कार्यक्रमों की सूचि"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:33
 msgid "${ mappingEvents.length } active mapping events"
-msgstr "${ mappingEvents.length } मैप करने के सक्रिय कार्यक्रम"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:35
 msgid "Events"
-msgstr "कार्यक्रम"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventsToolbar.js:37
 msgid "Meet the community and map the accessibility of places around you!"
-msgstr "कम्युनिटी से मिलें और अपने आस पास के स्थानों की सुलभता को मैप करें!"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:75
 msgid "starting"
-msgstr "शुरू हो रहा है"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:80
 msgid "until"
-msgstr "जब तक"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:95
 msgid "Mapping event ${ mappingEvent.name }"
-msgstr "मैप करने के कार्यक्रम ${ mappingEvent.name }"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:97
 msgid "Center map on mapping event"
-msgstr "मैप करने के कार्यक्रम पर सेन्टर मैप"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:99
 msgid "Meeting point"
-msgstr "बैठक स्थल"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:101
 msgid "Area name"
-msgstr "क्षेत्र का नाम"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:103
 msgid "Event date"
-msgstr "कार्यक्रम की तिथि"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:105
 msgid "Event start date"
-msgstr "कार्यक्रम शुरू होने की तिथि"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:107
 msgid "Event end date"
-msgstr "कार्यक्रम समाप्ति की तिथि"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:109
 msgid "Back to the mapping events list"
-msgstr "मैपिंग कार्यक्रम सूची पर वापस जाएं"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:111
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
 msgid "Share"
-msgstr "शेयर"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:113
 msgid "Join mapping event"
-msgstr "मैपिंग कार्यक्रम में शामिल हों"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventToolbar.js:115
 msgid "Leave mapping event"
-msgstr "मैप करने के कार्यक्रमों को छोड़ें"
+msgstr ""
 
 #: src/components/Map/Map.js:1004
 msgid "Zoom in closer to see more places"
-msgstr "अधिक स्थानों को देखने के लिए ज़ूम इन करें"
+msgstr ""
 
 #: src/components/Map/Map.js:1020
 msgid "Turn on location services"
-msgstr "लोकेशन सेवाओं को चालू करें"
+msgstr ""
 
 #: src/components/Map/Map.js:1053
 msgid "Map"
-msgstr "मानचित्र"
+msgstr ""
 
 #: src/components/MappingEvents/Statistics.js:20
 msgid "Mapping Event Numbers"
-msgstr "मैप करने के कार्यक्रमों की संख्याएँ"
+msgstr ""
 
 #: src/components/MappingEvents/Statistics.js:22
 msgid "Mapped Places"
-msgstr "मैप किए गए स्थान"
+msgstr ""
 
 #: src/components/MappingEvents/Statistics.js:24
 msgid "Participants"
-msgstr "प्रतिभागियों"
+msgstr ""
 
 #: src/components/MappingEvents/Statistics.js:26
 msgid "Days Left"
-msgstr "दिन शेष"
+msgstr ""
 
 #: src/components/MappingEvents/MappingEventShareBar.js:34
 msgid ""
 "Help us out and join the ${ mappingEvent.name } mapping event${ "
 "productNameString }. You can find more info here: ${ url }"
 msgstr ""
-"हमारी सहायता करें और ${ mappingEvent.name } मैपिंग कार्यक्रम${ "
-"productNameString } में शामिल हों। आप ज़्यादा जानकारी यहाँ पा सकते हैं: ${ "
-"url }"
 
 #: src/components/Map/MappingEventMarkerIcon.js:34
 msgid "${ eventName } Mapping Event Map Marker"
-msgstr "$ {eventName} मैपिंग कार्यक्रम मानचित्र चिह्नक"
+msgstr ""
 
 #: src/lib/goToLocationSettings.js:36
 msgid ""
 "To locate yourself on the map, open browser settings and allow Wheelmap.org "
 "to use location services."
 msgstr ""
-"मानचित्र पर खुद को खोजने के लिए, ब्राउज़र सेटिंग को खोलें और Wheelmap.org को"
-" लोकेशन सेवाओं का उपयोग करने की अनुमति दें।"
 
 #: src/components/Map/addLocateControlToMap.js:45
 msgid "Show me where I am"
-msgstr "मुझे दिखायें कि मैं कहाँ हूँ"
+msgstr ""
 
 #: src/components/CloseButton.js:33 src/components/CloseLink.js:36
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:236
 msgid "Close"
-msgstr "बंद करे"
+msgstr ""
 
 #: src/components/ShareBar/ShareBar.js:86
 msgid "Expand share menu"
-msgstr "शेयर मेनू को फैलायें"
+msgstr ""
 
 #: src/components/ShareBar/ShareBar.js:106
 msgid "Collapse share menu"
-msgstr "शेयर मेनू को संकुचित करें"
+msgstr ""
 
 #: src/components/Toolbar.js:333
 msgid "Collapse details"
-msgstr "विवरण को संकुचित करें"
+msgstr ""
 
 #: src/components/Toolbar.js:333
 msgid "Expand details"
-msgstr "विवरण का विस्तार करें"
+msgstr ""
 
 #: src/components/NodeToolbar/FeatureClusterPanel.js:145
 msgid "Places"
-msgstr "स्थान"
+msgstr ""
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:91
 msgid "Thank you!"
-msgstr "धन्यवाद!"
+msgstr ""
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:92
 msgid "Please give us a moment to verify your contribution."
-msgstr "आपका योगदान सत्यापित करने के लिए कृपया हमें थोड़ा समय दें।"
+msgstr ""
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:94
 msgid "Add next place"
-msgstr "अगला स्थान जोड़ें"
+msgstr ""
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:95
 msgid "Back to map"
-msgstr "मैप पर वापस जाएँ"
+msgstr ""
 
 #: src/components/WheelmapHomeLink.js:10
 msgid "Go to ${ appName }"
-msgstr "${ appName } पर जाएँ"
+msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:62
 #: src/components/WheelmapHomeLink.js:15
 msgid "App Logo"
-msgstr "ऐप लोगो"
+msgstr ""
 
 #: src/components/SearchToolbar/SearchButton.js:35
 msgid "All places"
-msgstr "सभी स्थान"
+msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:42
 msgid "Help out by marking places!"
-msgstr "स्थानों को चिन्हित कर मदद करें!"
+msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:44
 msgid "Okay, let’s go!"
-msgstr "ठीक है, चलिए चलते हैं!"
+msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:46
 msgid "Continue without cookies"
-msgstr "कुकीज़ के बिना जारी रखें"
+msgstr ""
 
 #: src/components/Onboarding/Onboarding.js:49
 msgid ""
@@ -487,92 +464,87 @@ msgid ""
 "href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
 "Privacy Policy</a>."
 msgstr ""
-"हम इस ऐप को आपके लिए बेहतर बनाने हेतु कुकीज़ का उपयोग करते हैं। <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">हमारी "
-"गोपनीयता नीति पढ़ें</a>।"
 
 #: src/components/Onboarding/Onboarding.js:70
 msgid "Start screen"
-msgstr "शुरुआत स्क्रीन"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:26
 msgid "Image shows another place."
-msgstr "इमेज अन्य स्थान दर्शाता है।"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:29
 msgid "Outdated"
-msgstr "पुराना"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:32
 msgid "Offensive or inappropriate"
-msgstr "आपत्तिजनक या अनुचित"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:35
 msgid "Other problems"
-msgstr "अन्य समस्याएँ"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:45
 msgid "This image does not depict this place."
-msgstr "यह छवि इस स्थान को नहीं दर्शाती है।"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:48
 msgid "This image does not show the current state of this place."
-msgstr "यह छवि इस स्थान की वर्तमान स्थिति को प्रदर्शित नही करती है।"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:51
 msgid ""
 "This image shows sexually explicit content, depicts violence or is "
 "inappropriate in another way."
 msgstr ""
-"यह इमेज यौन सम्बंधित सामग्री दिखाता है, हिंसा को दर्शाता है या किसी अन्य "
-"कारणों से अनुचित है।"
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:54
 msgid "This image infringes on my copyright or has other problems."
-msgstr "यह इमेज मेरे कॉपीराइट का उल्लंघन करता है या इसमें अन्य समस्याएँ हैं।"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:114
 msgid "Reason for reporting image"
-msgstr "छवि को रिपोर्ट करने का कारण"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:127
 msgid "To report"
-msgstr "जानकारी देने के लिए"
+msgstr ""
 
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:129
 msgid "Which problem would you like to report?"
-msgstr "आप किस समस्या को रिपोर्ट करना चाहेंगे?"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:177
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:331
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:156
 msgid "Cancel"
-msgstr "रद्द करें"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:126
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:163
 msgid "Send"
-msgstr "भेजें"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:90
 msgid "“Vespucci” in PlayStore"
-msgstr "PlayStore में “Vespucci”"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:95
 msgid "Use the OpenStreetMap web editor"
-msgstr "OpenStreetMap वेब संपादक का उपयोग करें"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:100
 msgid "“Go Map!!” in App Store"
-msgstr "App Store में “Go Map!!”"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:105
 msgid "“MAPS.ME” in App Store"
-msgstr "ऐप स्टोर में “MAPS.ME”"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:110
 msgid "“MAPS.ME” in PlayStore"
-msgstr "PlayStore में “MAPS.ME”"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:164
 msgid ""
@@ -580,34 +552,31 @@ msgid ""
 "href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
 "on OSM, they will appear here a bit later."
 msgstr ""
-"यहां दिखाए गए अधिकांश स्थान <a href='https://openstreetmap.org'> "
-"OpenStreetMap (OSM)</a> से हैं। यदि आप OSM पर स्थानों को जोड़ते हैं, तो वे "
-"कुछ समय पश्चात यहां दिखाई देंगे।"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:165
 #: src/components/NodeToolbar/Report/strings.js:26
 msgid "Leave a note on OpenStreetMap"
-msgstr "OpenStreetMap पर एक टिप्पणी छोड़ें"
+msgstr ""
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.js:166
 msgid "Add a place on OpenStreetMap"
-msgstr "स्ट्रीटमैपशुरूकरें पर एक स्थान जोड़ें"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:272
 msgid "The following images…"
-msgstr "नीचे दिए गए इमेज..."
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
 msgid "...give useful information on accessibility."
-msgstr "...सुगम्यता पर उपयोगी जानकारी प्रदान करता है।"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:274
 msgid "...were taken by me."
-msgstr "...मेरे द्वारा लिए गए थे।"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:275
 msgid "...do not show any identifiable persons."
-msgstr "... किसी भी पहचान योग्य व्यक्ति को प्रदर्शित न करें।"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:276
 msgid ""
@@ -615,303 +584,289 @@ msgid ""
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 Universal license</a>)."
 msgstr ""
-"मैं इन इमेज को सार्वजनिक डोमेन में प्रकाशित करता हूँ और कॉपीराइट संरक्षण (<a"
-" href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
-"target=\"_blank\">CC0 1.0 Universal license</a>) का त्याग करता हूँ।"
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:302
 msgid "Entrances"
-msgstr "प्रवेशद्वार"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:306
 msgid "Site map"
-msgstr "साइट मानचित्र"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:310
 msgid "toilets"
-msgstr "शौचालय"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:174
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:338
 msgid "Continue"
-msgstr "जारी रखें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:180
 #: src/components/NodeToolbar/Report/strings.js:28
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:341
 msgid "Back"
-msgstr "वापस जाएं"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:354
 #: src/components/SearchToolbar/SearchToolbar.js:470
 msgid "Go"
-msgstr "जाएँ"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:365
 msgid "Show different characters"
-msgstr "विभिन्न चिह्नों को दिखाएँ"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Image upload"
-msgstr "इमेज अपलोड करें"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:414
 msgid "Hi Wheelmap Team, I have an image of the following place:"
-msgstr "नमस्कार Wheelmap टीम, मेरे पास निम्नलिखित स्थान की एक छवि है:"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:418
 msgid "Loading..."
-msgstr "लोड हो रहा है..."
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:420
 msgid "Please enter these characters."
-msgstr "कृपया इन अक्षरों को दर्ज करें।"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:422
 msgid "Then we know that you are human."
-msgstr "तब हम जानते हैं कि आप मानव हैं।"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:424
 msgid ""
 "If you cannot read or enter this, please contribute your image via email!"
 msgstr ""
-"यदि आप इसे पढ़ या दर्ज नहीं कर सकते हैं, तो कृपया अपनी छवि का योगदान ईमेल के"
-" माध्यम से करें!"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:426
 msgid "Thanks! Starting to upload..."
-msgstr "धन्यवाद! अपलोड करना प्रारंभ हो रहा है ..."
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:428
 msgid ""
 "Server cannot be reached. Please try again later and let us know if the "
 "problem persists!"
 msgstr ""
-"सर्वर से संपर्क करने में असमर्थ हैं। कुछ समय बाद पुनः प्रयास करें और यदि "
-"समस्या बनी रहती है तो हमें जानकारी दें!"
 
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:430
 msgid ""
 "Sorry, this did not work! Please check if all characters are correct, then "
 "retry."
 msgstr ""
-"क्षमा करें, इससे काम नहीं हुआ! कृपया जाँचें कि क्या सभी अक्षर सही हैं, फ़िर "
-"पुनः प्रयास करें।"
 
 #: src/components/SearchToolbar/SearchToolbar.js:459
 msgid "Clear search"
-msgstr "ख़ोज को साफ़ करें"
+msgstr ""
 
 #: src/components/MainMenu/MainMenu.js:120
 msgid "Home"
-msgstr "होम"
+msgstr ""
 
 #: src/components/MainMenu/MainMenu.js:234
 msgid "Menu"
-msgstr "मेनू"
+msgstr ""
 
 #: src/components/SearchToolbar/SearchResults.js:31
 msgid "No results found"
-msgstr "कोई परिणाम प्राप्त नहीं हुआ"
+msgstr ""
 
 #: src/components/SearchToolbar/SearchResults.js:34
 msgid "No results available. Please try again later!"
-msgstr "कोई परिणाम उपलब्ध नही है। कुछ समय बाद पुनः प्रयास करें!"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
 msgid "Partially accessible with accessible WC"
-msgstr "सुगम्य WC के साथ आंशिक रूप से सुलभ"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
 msgid "Only fully wheelchair accessible"
-msgstr "केवल पूर्ण रूप से व्हीलचेयर के लिए सुलभ"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
 msgid "Only fully accessible with accessible WC"
-msgstr "केवल सुलभ WC के साथ पूर्ण रूप से सुलभ है"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:60
 msgid "Places that I can contribute information to"
-msgstr "जिन स्थानों की जानकारी में मै योगदान दे सकता हूँ"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:66
 msgid "Only places that are not accessible"
-msgstr "केवल वे स्थान जो सुगम्य नहीं हैं"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
 msgid "Wheelchair accessibility filter"
-msgstr "व्हीलचेयर सुगम्यता फ़िल्टर"
+msgstr ""
 
 #: src/components/SearchToolbar/SearchInputField.js:65
 msgid "Search for place or address"
-msgstr "स्थान या पता खोजें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:50
 #: src/components/NodeToolbar/NodeToolbar.js:272
 msgid "How wheelchair accessible is this place?"
-msgstr "यह स्थान व्हीलचेयर के लिए कितना सुलभ है?"
+msgstr ""
 
 #: src/components/SearchToolbar/SearchResult.js:122
 msgid "Unnamed"
-msgstr "बेनामी"
+msgstr ""
 
 #: src/components/SearchToolbar/CategoryButton.js:69
 msgid "Remove ${ props.name } Filter"
-msgstr "$ {Props.name} फ़िल्टर को हटाएं"
+msgstr ""
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.js:54
 msgid "Remove ${ caption } Filter"
-msgstr "${ caption } फ़िल्टर को हटाएं"
+msgstr ""
 
 #: src/components/NodeToolbar/SourceList.js:33
 msgid "Source:"
-msgstr "स्रोत:"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
 msgid "Is the toilet here wheelchair accessible?"
-msgstr "क्या यहाँ शौचालय व्हीलचेयर सुलभ है?"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:46
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:15
 msgid "Yes"
-msgstr "हाँ"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:48
 #: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:16
 msgid "No"
-msgstr "नहीं"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:125
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:134
 msgid "Wheelchair accessibility"
-msgstr "व्हीलचेयर सुगम्यता"
+msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
 msgid "Disruptions at this location"
-msgstr "इस जगह पर बाधाएं हैं"
+msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
 msgid "All elevators and escalators"
-msgstr "सभी एलिवेटर्स और एस्केलेटर्स"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:160
 msgid "Report image"
-msgstr "इमेज की जानकारी दें"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:186
 msgid "of"
-msgstr "का"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:188
 msgid "Next (right arrow key)"
-msgstr "अगला (राइट ऐरो की)"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:190
 msgid "Previous (left arrow key)"
-msgstr "पूर्व (बायाँ तीर बटन)"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoSection.js:192
 msgid "Close (Esc)"
-msgstr "बंद करें (Esc)"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:47
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
-"इस स्थान को ‘${ accessibilityDescription }’ के रूप में चिन्हित किया गया है, "
-"लेकिन यह गलत है!"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:56
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
-msgstr "स्थान के शौचालय तक सुगम्यता गलत तरीके से चिह्नित है या गायब है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:63
 #: src/components/NodeToolbar/Report/SendReportToAc.js:37
 msgid "I have more information about this place."
-msgstr "मेरे पास इस स्थान के बारे में अधिक जानकारी है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:69
 #: src/components/NodeToolbar/Report/SendReportToAc.js:45
 msgid "The place does not exist."
-msgstr "स्थान मौजूद नहीं है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:75
 #: src/components/NodeToolbar/Report/SendReportToAc.js:41
 msgid "The place is at the wrong location."
-msgstr "स्थान गलत जगह पर है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:81
 #: src/components/NodeToolbar/Report/ReportDialog.js:126
 msgid "The problem isn’t listed here…"
-msgstr "समस्या यहाँ सूचीबद्ध नहीं है ..."
+msgstr ""
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:103
 msgid ""
 "Information about this place has kindly been provided by another "
 "organization, it is a part of ${ sourceName }."
 msgstr ""
-"इस स्थान के बारे में जानकारी एक अन्य संगठन द्वारा प्रदान की गई है, यह ${ "
-"sourceName } का एक हिस्सा है"
 
 #: src/components/NodeToolbar/Report/ReportDialog.js:110
 msgid "Fix on external page."
-msgstr "एक्सटर्नल पेज पर सुधार करें।"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:168
 msgid "Confirm"
-msgstr "पुष्टि करें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:171
 msgid "Change"
-msgstr "बदलें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:93
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
-"क्षमा करें, एक त्रुटि के कारण इस स्थान को चिन्हित नहीं किया जा सका: ${ e }"
 
 #: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
 msgid "Call ${ phoneNumber }"
-msgstr "कॉल करें ${ phoneNumber }"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:17
 #: src/lib/openButtonCaption.js:6
 msgid "Open on ${ sourceNameString }"
-msgstr "${ sourceNameString } पर शुरू करें"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:19
 msgid "Add info on ${ sourceNameString }"
-msgstr "${ sourceNameString } पर जानकारी जोड़ें"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
 msgid "Learn more about the accessibility of this place"
-msgstr "इस स्थान की सुलभता के बारे में अधिक जानकारी पाएँ"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
 msgid "I found a place on Wheelmap: ${ url }"
-msgstr "मुझे Wheelmap पर एक स्थान मिला: ${ url }"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
 msgid "Wheelmap.org"
-msgstr "Wheelmap.org"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
 msgid "I found a place on Wheelmap…"
-msgstr "मुझे व्हीलमैप पर एक स्थान मिला..."
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
 msgid "${ categoryName } on Wheelmap"
-msgstr "व्हीलमैप पर ${ categoryName }"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
 msgid "I found this place on Wheelmap: ${ placeName }"
-msgstr "यह स्थान मुझे व्हीलमैप पर मिला: ${ placeName }"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
 msgid "${ placeName } on Wheelmap.org"
-msgstr "Wheelmap.org पर ${ placeName }"
+msgstr ""
 
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
 msgid ""
@@ -919,121 +874,108 @@ msgid ""
 "\n"
 "Click on this link to open it: ${ url }"
 msgstr ""
-"${ sharedObjectTitle }\n"
-"\n"
-"इसे खोलने के लिए इस लिंक पर क्लिक करें: ${ url }"
 
 #: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
 msgid "Report a problem"
-msgstr "समस्या को रिपोर्ट "
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:52
 msgid "Upload in progress..."
-msgstr "अपलोड प्रगति पर है ..."
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:58
 msgid "Upload failed: server error or file-format not supported"
-msgstr "अपलोड विफल रहा: सर्वर त्रुटि या फ़ाइल का स्वरूप समर्थित नहीं है"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:67
 msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "इस छवि की रिपोर्ट करने के लिए धन्यवाद। हम इस पर ध्यान देंगे।"
+msgstr ""
 
 #: src/components/NodeToolbar/Photos/PhotoNotification.js:73
 msgid ""
 "Thank you for contributing. Your image will be visible after we have checked"
 " it."
 msgstr ""
-"योगदान के लिए धन्यवाद। आपकी छवि हमारे निरीक्षण करने के बाद प्रदर्शित होगी।"
 
 #: src/components/PhotoUpload/PhotoUploadButton.js:21
 msgid "Your good deed of the day!"
-msgstr "आपका दिन का अच्छा कार्य!"
+msgstr ""
 
 #: src/components/PhotoUpload/PhotoUploadButton.js:27
 #: src/components/PhotoUpload/PhotoUploadButton.js:30
 msgid "Add images"
-msgstr "छवियां जोड़ें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
 msgid "Mark wheelchair accessibility of WC"
-msgstr "WC की व्हीलचेयर सुगम्यता को चिह्नित करें"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
-msgstr "सुगम्य शौचालय की खोज कर रहा है"
+msgstr ""
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
 msgid "Show next wheelchair accessible toilet"
-msgstr "व्हीलचेयर योग्य अगला टॉयलेट दिखाएँ"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"
-msgstr "क्या इस स्थान के साथ कोई समस्या है?"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:10
 msgid "Many places on Wheelmap.org come from OpenStreetMap."
-msgstr "Wheelmap.org पर कई स्थान OpenStreetMap से आते हैं।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:12
 msgid "You can remove non-existing places on OpenStreetMap."
-msgstr "आप OpenStreetMap पर गैर मौजूद स्थानों को हटा सकते हैं।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:14
 msgid "You can change this place’s location on OpenStreetMap."
-msgstr "स्ट्रीटमैपशुरूकरें से आप इस स्थान का लोकेशन बदल सकते हैं।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:16
 msgid ""
 "If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
 msgstr ""
-"यदि स्थान स्थायी रूप से बंद हो गया हो, तो आप OpenStreetMap पर स्थान को "
-"'अप्रयुक्त' के रूप में टैग कर सकते हैं।"
 
 #: src/components/NodeToolbar/Report/strings.js:18
 msgid "Find out how"
-msgstr "जाने कि कैसे"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:20
 msgid "You can change this place’s information on OpenStreetMap directly."
-msgstr "आप इस जगह की जानकारी में सीधे OpenStreetMap पर बदलाव कर सकते हैं।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:22
 msgid ""
 "(Note that you need to log in to do this, and that it can take some time "
 "until the place is updated on Wheelmap.)"
 msgstr ""
-"(ध्यान दें कि आपको ऐसा करने के लिए लॉग इन करना ज़रूरी है और यह कि स्थान को "
-"व्हील मैप पर अपडेट होने में कुछ समय लग सकता है।)"
 
 #: src/components/NodeToolbar/Report/strings.js:24
 msgid "Edit this place on OpenStreetMap"
-msgstr "इस स्थान को OpenStreetMap पर संपादित करें"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:30
 msgid "Click the link below for details about the place and for editing."
 msgstr ""
-"स्थान के बारे में विवरण और संपादन के लिए नीचे दिए गए लिंक पर क्लिक करें।"
 
 #: src/components/NodeToolbar/Report/strings.js:32
 msgid ""
 "(Note that it can take some time after editing until the place is updated on"
 " Wheelmap.)"
 msgstr ""
-"(ध्यान रखें कि संपादन के बाद कुछ समय लग सकता है जब तक कि स्थान Wheelmap पर "
-"अपडेट न हो जाए।)"
 
 #: src/components/NodeToolbar/Report/strings.js:34
 msgid "Contact the Wheelmap support team"
-msgstr "व्हीलमैप सहायता टीम से संपर्क करें"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:36
 msgid ""
 "Sorry about that! Just drop us a line so we can help you to fix the problem."
 msgstr ""
-"उसके लिए खेद है! हमें केवल लिखित में विवरण दें ताकि हम समस्या ठीक करने में "
-"आपकी सहायता कर सकें।"
 
 #: src/components/NodeToolbar/Report/strings.js:39
 msgid ""
@@ -1049,116 +991,101 @@ msgid ""
 "\n"
 "${ navigator.userAgent }"
 msgstr ""
-"(कृपया केवल अंग्रेजी या जर्मन में लिखें।)\n"
-"\n"
-"Dear Sozialhelden,\n"
-"\n"
-"something about this place is wrong: ${ url }\n"
-"\n"
-"The problem is:\n"
-"\n"
-"My browser:\n"
-"\n"
-"${ navigator.userAgent }"
 
 #: src/components/NodeToolbar/Report/strings.js:43
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
-msgstr "Wheelmap पर $ {placeName} की [Wheelmap] समस्या"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:45
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
-msgstr "[व्हीलमैप] व्हीलमैप पर ${ categoryName } के साथ समस्या उत्पन्न हुई है"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/strings.js:47
 msgid "[Wheelmap] Problem with a place on Wheelmap"
-msgstr "[व्हीलमैप] व्हीलमैप पर एक स्थान में समस्या है"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:39
 msgid "The accessibility of the place is marked incorrectly."
-msgstr "स्थान की सुगम्यता को गलत तरीके से चिह्नित किया गया है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:43
 msgid "The place is permanently closed."
-msgstr "स्थान स्थायी रूप से बंद है।"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:127
 msgid ""
 "Thank you! The place was reported successfully. We will take a look at your "
 "report as soon as possible."
 msgstr ""
-"धन्यवाद! स्थान की जानकारी सफलतापूर्वक दे दी गई है। हम जल्द से जल्द आपकी "
-"रिपोर्ट देखेंगे।"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:128
 msgid "Something went wrong reporting the place. Please try again later."
 msgstr ""
-"स्थान की रिपोर्ट करने में कुछ गड़बड़ी हो गयी है। कृपया बाद में पुन: प्रयास "
-"करें।"
 
 #: src/components/NodeToolbar/Report/SendReportToAc.js:141
 msgid "Feel free to add some additional information…"
-msgstr "कुछ अतिरिक्त जानकारी जोड़ने के लिए स्वतंत्र महसूस करें ..."
+msgstr ""
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:20
 msgid "View this place on ${ name }"
-msgstr "इस स्थान को ${ name } पर देखें"
+msgstr ""
 
 #: src/components/NodeToolbar/Report/FixOnExternalPage.js:22
 msgid "Edit this place on ${ name }"
-msgstr "$ {name} पर इस स्थान को संपादित करें"
+msgstr ""
 
 #: src/components/NodeToolbar/SourceLink.js:63
 msgid "Details"
-msgstr "विवरण"
+msgstr ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
-msgstr[0] "${ count } लिफ्ट सेवा में "
-msgstr[1] "${ count } लिफ्ट सेवा में "
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
 msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
-msgstr[0] "${ count } स्वचालित सीढ़ी सेवा में "
-msgstr[1] "${ count } स्वचालित सीढ़ियाँ सेवा में "
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
-msgstr[0] "${ count } लिफ्ट सेवा से बाहर "
-msgstr[1] "${ count } लिफ्ट सेवा से बाहर "
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
-msgstr[0] "${ count } स्वचालित सीढ़ी सेवा से बाहर"
-msgstr[1] "${ count } स्वचालित सीढ़ियाँ सेवा से बाहर"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
-msgstr[0] "अज्ञात परिचालन स्थिति युक्त ${ count } एलिवेटर"
-msgstr[1] "अज्ञात परिचालन स्थिति युक्त ${ count } एलिवेटर्स"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
-msgstr[0] "अज्ञात परिचालन स्थिति वाली ${ count } स्वचालित सीढ़ी"
-msgstr[1] "अज्ञात परिचालन स्थिति वाली ${ count } स्वचालित सीढ़ियाँ"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/lib/getHumanEnumeration.js:18
 msgid ", or "
-msgstr ", या"
+msgstr ""
 
 #: src/lib/getHumanEnumeration.js:20
 msgid " or "
-msgstr "या"
+msgstr ""
 
 #: src/lib/getHumanEnumeration.js:24
 msgid ", and"
-msgstr ", और"
+msgstr ""
 
 #: src/lib/getHumanEnumeration.js:26
 msgid " and "
-msgstr "और"
+msgstr ""

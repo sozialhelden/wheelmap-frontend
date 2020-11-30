@@ -20,9 +20,12 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /
 # full of issues about this.
 
 RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
-  && (gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
-  gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" || \
-  gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$TINI_GPG_KEY") \
+  && \
+  ( \
+  gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$TINI_GPG_KEY" ||\
+  gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
+  gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" \
+  ) \
   && gpg --batch --verify /tini.asc /tini
 
 RUN chmod +x /tini

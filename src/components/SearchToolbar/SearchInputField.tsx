@@ -22,8 +22,43 @@ type State = {
   value: string,
 };
 
-export class SearchInputField extends React.Component<Props, State> {
-  input = React.createRef<HTMLInputElement>();
+const StyledSearchInputField = styled.input`
+  display: block;
+  flex: 1;
+  box-sizing: border-box;
+  font-size: 1em;
+  padding: 0px 0 0 2.5em;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  margin: 0;
+
+  ${props => (props.disabled ? 'cursor: pointer;' : '')}
+
+  transition: width 0.3s ease-out, height 0.3s ease-out;
+
+  &:focus, &.focus-visible {
+    outline: none;
+    box-shadow: none;
+    /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder,
+  &:-moz-placeholder,
+  &::-ms-input-placeholder,
+  &:-ms-input-placeholder {
+    color: #333;
+    opacity: 1;
+  }
+
+  &:disabled {
+    opacity: 1;
+  }
+`;
+
+export default class SearchInputField extends React.Component<Props, State> {
+  input: HTMLInputElement | null = null;
 
   constructor(props) {
     super(props);
@@ -61,8 +96,8 @@ export class SearchInputField extends React.Component<Props, State> {
     const defaultPlaceholder = t`Search for place or address`;
 
     return (
-      <input
-        ref={this.input}
+      <StyledSearchInputField
+        ref={input => (this.input = input)}
         value={value}
         name="search"
         onChange={this.onChange}
@@ -81,40 +116,3 @@ export class SearchInputField extends React.Component<Props, State> {
     );
   }
 }
-
-const StyledSearchInputField = styled(SearchInputField)`
-  display: block;
-  flex: 1;
-  box-sizing: border-box;
-  font-size: 1em;
-  padding: 0px 0 0 2.5em;
-  border: none;
-  border-radius: 0;
-  background-color: transparent;
-  margin: 0;
-
-  ${props => (props.disabled ? 'cursor: pointer;' : '')}
-
-  transition: width 0.3s ease-out, height 0.3s ease-out;
-
-  &:focus, &.focus-visible {
-    outline: none;
-    box-shadow: none;
-    /* background-color: ${interpolateLab('#eee', colors.linkColor)(0.1)}; */
-  }
-
-  &::-webkit-input-placeholder,
-  &::-moz-placeholder,
-  &:-moz-placeholder,
-  &::-ms-input-placeholder,
-  &:-ms-input-placeholder {
-    color: #333;
-    opacity: 1;
-  }
-
-  &:disabled {
-    opacity: 1;
-  }
-`;
-
-export default StyledSearchInputField;

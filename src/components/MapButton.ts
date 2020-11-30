@@ -6,10 +6,10 @@ const MapButton = styled('button')`
   min-height: 40px;
   padding: 0;
   background-color: white;
-  border-radius: 2px;
+  border-radius: 8px;
   outline: none;
   border: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 60px;
   right: 0px;

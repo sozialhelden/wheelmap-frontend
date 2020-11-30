@@ -1,11 +1,12 @@
+# 
 # Translators:
 # Silke Georgi <silkemariageorgi@gmail.com>, 2019
 # Sebastian Felix Zappe <hypo@me.com>, 2019
-# Developers, 2019
+# Developers, 2020
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2019\n"
+"Last-Translator: Developers, 2020\n"
 "Language-Team: English (United States) (https://www.transifex.com/sozialhelden/teams/16671/en_US/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: en_US\n"
@@ -952,7 +953,7 @@ msgstr "Add images"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
 msgid "Mark wheelchair accessibility of WC"
-msgstr "Rate wheelchair accessibility of WC"
+msgstr "Rate WC"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:124
 msgid "Searching accessible toilet"
@@ -960,7 +961,7 @@ msgstr "Searching for an accessible toilet"
 
 #: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:142
 msgid "Show next wheelchair accessible toilet"
-msgstr "Show nearest wheelchair accessible toilet"
+msgstr "Nearest WC"
 
 #: src/components/NodeToolbar/Report/strings.js:8
 msgid "Is there a problem with this place?"

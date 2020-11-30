@@ -1,6 +1,6 @@
 import unfetch from 'isomorphic-unfetch';
 
-export default function(url: string, options: any) {
+export default function customFetch(url: string, options: any) {
   options = options || {};
 
   console.log('Fetching', url, '…');

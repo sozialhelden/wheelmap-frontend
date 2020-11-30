@@ -2,29 +2,27 @@ body.is-touch-device .leaflet-control-zoom {
   display: none;
 }
 
-@media (max-width: 1024px) {
-  .leaflet-control-container .leaflet-top {
-    top: 0px;
-    top: constant(safe-area-inset-top);
-    top: env(safe-area-inset-top);
-    margin-top: 50px;
-  }
+.leaflet-control-container .leaflet-top {
+  top: 0px;
+  top: constant(safe-area-inset-top);
+  top: env(safe-area-inset-top);
+  margin-top: 50px;
+}
 
-  .in-embed-mode .leaflet-control-container .leaflet-top {
-    margin-top: 0;
-  }
+.in-embed-mode .leaflet-control-container .leaflet-top {
+  margin-top: 0;
+}
 
-  .leaflet-control-container .leaflet-right {
-    right: 0px;
-    right: constant(safe-area-inset-right);
-    right: env(safe-area-inset-right);
-  }
+.leaflet-control-container .leaflet-right {
+  right: 0px;
+  right: constant(safe-area-inset-right);
+  right: env(safe-area-inset-right);
 }
 
 .leaflet-container {
   flex: 1;
   width: 100vw;
-  height: calc(100vh - 50px);
+  height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -242,7 +240,7 @@ body.is-touch-device .leaflet-control-zoom {
 
 @keyframes popUpHighlightCluster {
   0% {
-    transform: scale3d(1.0, 1.0, 1.0) translate3d(0, 0px, 0);
+    transform: scale3d(1, 1, 1) translate3d(0, 0px, 0);
   }
   50% {
     transform: scale3d(0.75, 0.75, 0.75) translate3d(0, -20px, 0);
@@ -302,14 +300,14 @@ body.is-touch-device .leaflet-control-zoom {
 .leaflet-control-layers,
 .leaflet-bar {
   border: none !important;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1) !important;
 }
 
 .leaflet-bar a {
   width: 50px !important;
   height: 50px !important;
   line-height: 50px !important;
-  color: rgba(0, 0, 0, 0.7) !important;
+  color: rgb(69, 86, 104) !important;
 }
 
 .leaflet-bar a:hover {
@@ -356,16 +354,20 @@ body.is-touch-device .leaflet-control-zoom {
 .mapbox-attribution-container {
   bottom: 0;
   right: 0;
+  left: 0;
+  text-align: right;
   right: constant(safe-area-inset-right);
   right: env(safe-area-inset-right);
-  bottom: constant(safe-area-inset-bottom);
-  bottom: env(safe-area-inset-bottom);
   position: fixed;
   display: block;
   padding: 5px 10px 5px 2px;
-  z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.8);
-  -webkit-backgrop: filter(10px);
+  padding-bottom: 5px;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 999;
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .mapbox-attribution-container .sozialhelden-logo {
@@ -393,7 +395,6 @@ body.is-touch-device .leaflet-control-zoom {
 @media (max-width: 500px), (max-height: 500px) {
   .mapbox-attribution-container {
     font-size: 9px;
-    padding: 3px;
   }
   .mapbox-attribution-container .sozialhelden-logo-container {
     display: none;
@@ -405,7 +406,6 @@ body.is-touch-device .leaflet-control-zoom {
     left: env(safe-area-inset-left);
     bottom: constant(safe-area-inset-bottom);
     bottom: env(safe-area-inset-bottom);
-    margin-left: 5px;
-    margin-bottom: 3px;
+    margin-left: 10px;
   }
 }
