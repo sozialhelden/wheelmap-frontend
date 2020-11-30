@@ -87,6 +87,17 @@ export const StyledIconContainer = styled(Figure)`
       height: 100%;
       top: 0;
       left: 0;
+      
+      g,
+      polygon,
+      path,
+      circle,
+      rect {
+        fill: ${props =>
+        props.accessibility
+          ? colors.markers.background[props.accessibility]
+          : props.backgroundColor || '#FFF'};
+      }
     }
 
     &.icon {
