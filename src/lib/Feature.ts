@@ -259,7 +259,7 @@ export function isWheelmapFeatureId(id: string | number | null | void): boolean 
 }
 
 export function isWheelmapFeature(feature: Feature): feature is WheelmapFeature {
-  return isWheelmapFeatureId(feature['id'])
+  return feature && isWheelmapFeatureId(feature['id'])
 }
 
 export function wheelmapFeatureFrom(feature: Feature | null): WheelmapFeature | null {
@@ -277,7 +277,7 @@ export function accessibilityCloudFeatureFrom(feature: Feature | null): Accessib
 }
 
 export function isWheelmapProperties(properties: WheelmapProperties | AccessibilityCloudProperties): properties is WheelmapProperties {
-  return isWheelmapFeatureId(properties['id'])
+  return properties && isWheelmapFeatureId(properties['id'])
 }
 
 export function sourceIdsForFeature(feature: Feature | any): string[] {
