@@ -1,14 +1,12 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import FocusTrap from 'focus-trap-react';
 import sortBy from 'lodash/sortBy';
 
 import { Feature, placeNameFor, getFeatureId } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
-import { hasBigViewport } from '../../lib/ViewportSize';
 import StyledCloseLink from '../CloseLink';
 import StyledFrame from './AccessibilitySection/StyledFrame';
 import NodeHeader, { StyledNodeHeader } from './NodeHeader';

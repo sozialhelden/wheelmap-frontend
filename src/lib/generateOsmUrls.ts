@@ -1,4 +1,4 @@
-import { Feature, isWheelmapFeature, isWheelmapFeatureId } from './Feature';
+import { Feature, isWheelmapFeature} from './Feature';
 
 function getLatLonFromFeature(feature: Feature) {
   if (

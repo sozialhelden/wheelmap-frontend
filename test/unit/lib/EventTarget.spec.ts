@@ -1,6 +1,5 @@
 
 import EventTarget from '../../../src/lib/EventTarget';
-import { expect } from 'chai';
 import 'mocha';
 
 class TestEventTarget extends EventTarget<any> {

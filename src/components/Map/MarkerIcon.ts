@@ -1,5 +1,5 @@
 import L, { IconOptions } from 'leaflet';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 
 type Options = IconOptions & {
   href: string,

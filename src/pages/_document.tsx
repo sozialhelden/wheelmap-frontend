@@ -30,9 +30,9 @@ export default class MyDocument extends Document<any> {
             httpEquiv="Content-Security-Policy"
             content={`
               default-src
+                'self'
                 ws:
                 data:
-                'self'
                 'unsafe-eval'
                 'unsafe-inline'
                 https://www.google-analytics.com

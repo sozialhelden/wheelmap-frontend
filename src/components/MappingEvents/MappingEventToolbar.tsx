@@ -12,7 +12,7 @@ import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
 import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
-import { MappingEvent, isMappingEventVisible, canMappingEventBeJoined } from '../../lib/MappingEvent';
+import { MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
 import { RouteParams } from '../../lib/RouterHistory';
 import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';

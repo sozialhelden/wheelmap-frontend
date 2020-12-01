@@ -1,4 +1,5 @@
-import ReactGA from 'react-ga';
+import * as ReactGA from 'react-ga';
+
 import { setThirdPartyAnalyticsAllowed, hasAllowedAnalytics } from './savedState';
 
 export function restoreAnalytics(trackingId: string) {

@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Toolbar from '../Toolbar';
 import { ChromelessButton } from '../Button';
 import colors from '../../lib/colors';

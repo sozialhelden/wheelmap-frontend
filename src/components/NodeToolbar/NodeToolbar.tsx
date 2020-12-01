@@ -6,7 +6,6 @@ import includes from 'lodash/includes';
 import fromPairs from 'lodash/fromPairs';
 import styled from 'styled-components';
 
-import { Toolbar as ToolbarClass } from '../Toolbar';
 import CloseLink from '../CloseLink';
 import ErrorBoundary from '../ErrorBoundary';
 import NodeHeader from './NodeHeader';
@@ -28,7 +27,6 @@ import {
 } from '../../lib/Feature';
 import { isWheelmapFeatureId, placeNameFor, wheelmapFeatureFrom } from '../../lib/Feature';
 import { Category, CategoryLookupTables, getCategoryId } from '../../lib/Categories';
-import { hasBigViewport } from '../../lib/ViewportSize';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';

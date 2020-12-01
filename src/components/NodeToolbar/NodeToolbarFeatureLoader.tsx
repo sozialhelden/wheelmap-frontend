@@ -1,9 +1,8 @@
 import * as React from 'react';
 
 import NodeToolbar from './NodeToolbar';
-import EmptyToolbarWithLoadingIndicator from './EmptyToolbarWithLoadingIndicator';
 
-import { Cluster } from '../../components/Map/Cluster';
+import { Cluster } from '../Map/Cluster';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
 import { Category } from '../../lib/Categories';
 import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';

@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
-import queryString from 'query-string';
+import * as queryString from 'query-string';
 import FocusTrap from 'focus-trap-react';
 
 import MainMenu from './components/MainMenu/MainMenu';

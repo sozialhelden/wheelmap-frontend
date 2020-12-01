@@ -3,7 +3,7 @@ import { Point } from 'geojson';
 
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
-import { WheelmapFeature } from '../lib/Feature';
+import { WheelmapFeature } from './Feature';
 import debouncePromise from '../lib/debouncePromise';
 
 export type SearchResultProperties = {

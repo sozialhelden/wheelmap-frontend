@@ -6,7 +6,7 @@ import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
 import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
-import queryString from 'query-string';
+import * as queryString from 'query-string';
 import { ChromelessButton, CallToActionLink } from '../Button';
 import { trackingEventBackend } from '../../lib/TrackingEventBackend';
 import { AppContext } from '../../AppContext';

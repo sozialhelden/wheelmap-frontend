@@ -11,7 +11,7 @@ import SozialheldenLogo from './SozialheldenLogo';
 import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { isWheelmapFeature, hrefForFeature, isWheelmapProperties } from '../../lib/Feature';
+import { hrefForFeature, isWheelmapProperties } from '../../lib/Feature';
 import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {

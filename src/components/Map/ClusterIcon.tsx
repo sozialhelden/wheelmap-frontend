@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import { color as d3Color } from 'd3-color';
 import { interpolateWheelchairAccessibility } from '../../lib/colors';
 import isSamePlace from './isSamePlace';

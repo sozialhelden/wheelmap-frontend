@@ -3,7 +3,7 @@ import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
 import { Router } from 'next/router';
-import queryString from 'query-string';
+import * as queryString from 'query-string';
 
 import config from './lib/config';
 import savedState, {

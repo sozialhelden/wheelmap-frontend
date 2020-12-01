@@ -1,5 +1,5 @@
 import pathToRegexp from 'path-to-regexp';
-import queryString from 'query-string';
+import * as queryString from 'query-string';
 
 // todo: types
 class Router {

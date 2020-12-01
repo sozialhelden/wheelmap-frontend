@@ -1,6 +1,6 @@
 import { globalFetchManager } from '../FetchManager';
 import { t } from 'ttag';
-import EJSON from 'ejson';
+import * as EJSON from 'ejson';
 
 import ResponseError from '../ResponseError';
 import TTLCache, { TTLCacheOptions } from './TTLCache';

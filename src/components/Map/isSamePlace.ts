@@ -1,5 +1,5 @@
 import includes from 'lodash/includes';
-import levenshtein from 'fast-levenshtein';
+import * as levenshtein from 'fast-levenshtein';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { NodeProperties } from '../../lib/Feature';
 

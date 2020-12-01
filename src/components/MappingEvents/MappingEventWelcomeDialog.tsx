@@ -8,7 +8,7 @@ import CloseButton from '../CloseButton';
 import colors from '../../lib/colors';
 
 import { getJoinedMappingEventData } from '../../lib/savedState';
-import queryString from 'query-string';
+import * as queryString from 'query-string';
 import { MappingEvent } from '../../lib/MappingEvent';
 
 type Props = {

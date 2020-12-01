@@ -1,5 +1,5 @@
 import { t } from 'ttag';
-import { getUserAgent } from '../lib/userAgent';
+import { getUserAgent } from './userAgent';
 import { saveState } from './savedState';
 
 // Open location settings or show the user how to open them

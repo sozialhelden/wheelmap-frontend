@@ -3,7 +3,7 @@ import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
-import { ClientSideConfiguration, LinkDescription } from '../ClientSideConfiguration';
+import { ClientSideConfiguration} from '../ClientSideConfiguration';
 
 import { App } from '../App';
 import env from '../env';
