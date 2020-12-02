@@ -32,7 +32,7 @@ export const PrimaryButton = styled(UnstyledButton)`
   text-align: center;
 
   &.focus-visible {
-    box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight};
+    box-shadow: 0px 0px 0px 4px ${colors.selectedColorLight} !important;
     transition: box-shadow 0.2s;
   }
 `;

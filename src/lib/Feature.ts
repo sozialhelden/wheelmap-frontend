@@ -152,6 +152,7 @@ export interface AccessibilityCloudProperties {
   infoPageUrl?: string,
   editPageUrl?: string,
   equipmentInfos: { [key: string]: EquipmentInfo },
+  ids?: { id: string, provider: string }[],
   isWorking?: boolean,
   phone: string | null,
   phoneNumber: string | null,

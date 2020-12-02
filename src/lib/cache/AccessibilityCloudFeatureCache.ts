@@ -8,6 +8,18 @@ type CacheMap = {
   [key: string]: FeatureCache<any, any>,
 };
 
+export type CreatePlaceData = {
+  properties: {
+    name: string,
+    category: string,
+    address?: any,
+  },
+  geometry: {
+    type: 'Point',
+    coordinates: [number, number],
+  },
+};
+
 const caches: CacheMap = {
   equipmentInfos: equipmentInfoCache,
 };
@@ -48,38 +60,174 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     super.cacheFeature(feature, response);
   }
 
+  createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}/place-infos/?appToken=${appToken}`,
+          {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(place),
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            response
+              .json()
+              .then(json => {
+                resolve(json._id);
+              })
+              .catch(reject);
+          } else if (response.json) {
+            response
+              .json()
+              .then(json => {
+                reject(json.error || 'unknown');
+              })
+              .catch(reject);
+          } else {
+            reject(response);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return uploadPromise;
+  }
+
+  ratePlace(
+    placeId: string,
+    mode: 'toilet' | 'wheelchair',
+    rating: 'yes' | 'no' | 'unknown' | 'partial',
+    appToken: string
+  ): Promise<boolean> {
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+            ''}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
+          {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            response
+              .json()
+              .then(json => {
+                resolve(json.success);
+              })
+              .catch(reject);
+          } else if (response.json) {
+            response
+              .json()
+              .then(json => {
+                reject(json.error || 'unknown');
+              })
+              .catch(reject);
+          } else {
+            reject(response);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return uploadPromise;
+  }
+
+  getEditPlaceSubmissionUrl(placeId: string, returnUrl: string, appToken: string): Promise<string> {
+    const editUrlPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+            ''}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
+            returnUrl
+          )}&appToken=${appToken}`,
+          {
+            method: 'GET',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            response
+              .json()
+              .then(json => {
+                if (json.success) {
+                  resolve(json.url);
+                } else {
+                  reject(json.message || 'unknown');
+                }
+              })
+              .catch(reject);
+          } else if (response.json) {
+            response
+              .json()
+              .then(json => {
+                reject(json.error || 'unknown');
+              })
+              .catch(reject);
+          } else {
+            reject(response);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
+    });
+
+    return editUrlPromise;
+  }
+
   reportPlace(
     placeId: string,
     reason: string,
     message: string,
     appToken: string
   ): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      self.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
-          ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-          },
-        }
-      )
-      .then((response: Response) => {
-        if (response.ok) {
-          resolve(true);
-        } else {
-          response
-            .json()
-            .then(json => {
-              reject('unknown');
-            })
-            .catch(reject);
-        }
-      })
-      .catch(reject)
-      .catch(console.error);
+    const uploadPromise = new Promise((resolve, reject) => {
+      this.constructor
+        .fetch(
+          `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+            ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
+          {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+              Accept: 'application/json',
+            },
+          }
+        )
+        .then((response: Response) => {
+          if (response.ok) {
+            resolve(true);
+          } else {
+            response
+              .json()
+              .then(json => {
+                reject('unknown');
+              })
+              .catch(reject);
+          }
+        })
+        .catch(reject)
+        .catch(console.error);
     });
+    return uploadPromise;
   }
 }
 

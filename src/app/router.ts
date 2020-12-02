@@ -23,6 +23,10 @@ const routes = [
   },
   {
     name: 'contributionThanks',
+    path: '/contribution-thanks/:id',
+  },
+  {
+    name: 'contributionThanks',
     path: '/contribution-thanks',
   },
   {

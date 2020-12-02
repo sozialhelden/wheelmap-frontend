@@ -2,8 +2,8 @@ import * as React from 'react';
 import { t } from 'ttag';
 
 import useImperialUnits from '../../../lib/useImperialUnits';
-import { accessibleToiletDescription } from '../../../lib/Feature';
 import { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
+import { accessibleToiletDescription, hasAccessibleToilet } from '../../../lib/Feature';
 
 import { saveToiletStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
@@ -62,7 +62,7 @@ export default function ToiletStatusEditor(props: Props) {
         <RadioStatusEditor
           {...props}
           undefinedStringValue="unknown"
-          getValueFromFeature={feature => feature.properties.wheelchair_toilet}
+          getValueFromFeature={feature => hasAccessibleToilet(feature.properties)}
           saveValue={value => saveToiletStatus({ ...props, appContext, value })}
           renderChildrenForValue={({ value, categoryId }) => <>{icons[value]}&nbsp;</>}
           shownStatusOptions={['yes', 'no']}

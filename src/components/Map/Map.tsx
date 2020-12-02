@@ -22,10 +22,7 @@ import {
   getFeatureId,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
-import Categories, {
-  CategoryLookupTables,
-  RootCategoryEntry,
-} from '../../lib/Categories';
+import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
@@ -864,8 +861,8 @@ export default class Map extends React.Component<Props, State> {
     // them in one array:
     const ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
       .concat(similarEquipmentIds)
-      .map(String)
-      .filter(Boolean);
+      .filter(Boolean)
+      .map(String);
 
     if (this.wheelmapTileLayer) {
       this.wheelmapTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
@@ -952,17 +949,10 @@ export default class Map extends React.Component<Props, State> {
 
   createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
     const properties = feature && feature.properties;
-    if (!properties) return null;
-    if (
-      !isWheelmapProperties(properties) &&
-      !properties.accessibility &&
-      !includes(EquipmentCategoryStrings, properties.category)
-    ) {
+    if (!properties) {
       return null;
     }
-
-    const featureId: string = getFeatureId(feature);
-
+    const featureId: string = properties.id || properties._id || feature._id;
     return new HighlightableMarker(latlng, A11yMarkerIcon, {
       onClick: () => this.props.onMarkerClick(featureId, properties),
       href: hrefForFeature(feature, properties),

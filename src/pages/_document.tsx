@@ -32,7 +32,9 @@ export default class MyDocument extends Document<any> {
               default-src
                 'self'
                 ws:
-                data:
+                data: 
+                blob:
+                'self'
                 'unsafe-eval'
                 'unsafe-inline'
                 https://www.google-analytics.com
@@ -42,17 +44,18 @@ export default class MyDocument extends Document<any> {
                 https://sozialhelden.matomo.cloud
                 https://cdn.matomo.cloud
                 http://cdn.matomo.cloud
-
-                ${env['REACT_APP_LEGACY_API_BASE_URL'] || ''}
-                ${env['REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL'] || ''}
-                ${env['REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL'] || ''}
-                ${env['REACT_APP_ACCESSIBILITY_APPS_BASE_URL'] || ''}
-                ${env['REACT_APP_ELASTIC_APM_SERVER_URL'] || ''}
-                ${env['REACT_APP_ALLOW_ADDITIONAL_DATA_URLS'] || ''};
-
-                style-src
+                https://api.mapbox.com
+                https://events.mapbox.com
+                ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
+              style-src
                 'self'
-                'unsafe-inline';
+                https://api.tiles.mapbox.com
+                'unsafe-inline'; 
               frame-src
                 'self';
               media-src
@@ -60,6 +63,7 @@ export default class MyDocument extends Document<any> {
               img-src
                 'self'
                 data:
+                blob:
                 https://accessibility-cloud-uploads.s3.amazonaws.com
                 https://sozialhelden.matomo.cloud
                 https://api.mapbox.com
@@ -70,10 +74,10 @@ export default class MyDocument extends Document<any> {
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
-                ${env['REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL'] || ''}
-                ${env['REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL'] || ''}
-                ${env['REACT_APP_ACCESSIBILITY_APPS_BASE_URL'] || ''}
-                ${env['REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS'] || ''};
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
             `}
           />
 

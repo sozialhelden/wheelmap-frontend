@@ -65,6 +65,7 @@
     "react-dom": "^16.8.6",
     "react-ga": "^2.5.3",
     "react-images": "^0.5.17",
+    "react-map-gl": "^5.2.10",
     "react-measure": "^2.5.2",
     "react-photo-gallery": "^6.0.25",
     "react-radio-group": "^3.0.3",
@@ -76,7 +77,7 @@
     "ua-parser-js": "^0.7.22",
     "underscore.string": "^3.3.5",
     "unfetch": "^3.1.2",
-    "uuid": "^8.2.0",
+    "uuid": "^8.3.1",
     "webpack-log": "^3.0.1"
   },
   "devDependencies": {

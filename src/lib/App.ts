@@ -6,4 +6,5 @@ export type App = {
   name: string,
   clientSideConfiguration: ClientSideConfiguration,
   tokenString: string,
+  defaultSourceIdForAddedPlaces?: string,
 };

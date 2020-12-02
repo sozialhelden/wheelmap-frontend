@@ -4,21 +4,21 @@ import styled from 'styled-components';
 
 import colors from '../../lib/colors';
 import Toolbar from '../Toolbar';
-import ChevronRight from '../icons/actions/ChevronRight';
 import CloseLink from '../CloseButton';
 import * as queryString from 'query-string';
-import { ChromelessButton, CallToActionLink } from '../Button';
+import { AppContextData } from '../../AppContext';
+import { ChromelessButton, PrimaryButton } from '../Button';
 import { trackingEventBackend } from '../../lib/TrackingEventBackend';
-import { AppContext } from '../../AppContext';
 import { trackEvent } from '../../lib/Analytics';
 
 export type Props = {
+  className?: string,
+  featureId?: string,
   hidden: boolean,
   isExpanded?: boolean,
   onClose: () => void,
-  addPlaceUrl: string | null,
-  onAddPlaceLinkClick?: () => void,
-  appContext: AppContext,
+  onSelectFeature: (featureId: string) => void,
+  appContext: AppContextData,
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -37,30 +37,32 @@ const StyledToolbar = styled(Toolbar)`
     flex: 1;
   }
 
-  > header {
-    position: sticky;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    top: 0;
-    height: 50px;
-    min-height: 50px;
-    z-index: 1;
-    padding-left: 1rem;
-  }
-
-  > section {
-    overflow: auto;
-    padding: 0 1rem 10px 1rem;
-    display: flex;
-    flex-direction: column;
-
-    p {
-      margin-bottom: 60px;
+  > div {
+    > header {
+      position: sticky;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      top: 0;
+      height: 50px;
+      min-height: 50px;
+      z-index: 1;
+      padding-left: 1rem;
     }
 
-    > button {
-      margin: 0 1em 0.5em;
+    > section {
+      overflow: auto;
+      padding: 0 1rem 10px 1rem;
+      display: flex;
+      flex-direction: column;
+
+      p {
+        margin-bottom: 60px;
+      }
+
+      > button, > a {
+        margin-bottom: 12px;
+      }
     }
   }
 `;
@@ -88,14 +90,19 @@ export default class ContributionThanksDialog extends React.PureComponent<Props>
   }
 
   render() {
-    const className = ['contribution-thanks-dialog', this.props.isExpanded && 'is-expanded']
+    const featureId = this.props.featureId;
+    const className = [
+      this.props.className,
+      'contribution-thanks-dialog',
+      this.props.isExpanded && 'is-expanded',
+    ]
       .filter(Boolean)
       .join(' ');
 
     const header = t`Thank you!`;
     const text = t`Please give us a moment to verify your contribution.`;
 
-    const addNextPlaceButtonCaption = t`Add next place`;
+    const backToPlaceButtonCaption = t`Back to place`;
     const backToMapButtonCaption = t`Back to map`;
 
     return (
@@ -105,20 +112,15 @@ export default class ContributionThanksDialog extends React.PureComponent<Props>
           <CloseLink onClick={this.props.onClose} />
         </header>
         <section>
+          <span role="img" aria-label={t`Clapping hands`}>
+            👏🏽
+          </span>
           <p>{text}</p>
-
-          {this.props.addPlaceUrl && (
-            <CallToActionLink
-              data-focus-visible-added
-              href={this.props.addPlaceUrl}
-              target="_blank"
-              onClick={this.props.onAddPlaceLinkClick}
-            >
-              {addNextPlaceButtonCaption}
-              <ChevronRight />
-            </CallToActionLink>
+          {featureId && (
+            <PrimaryButton onClick={() => this.props.onSelectFeature(featureId)}>
+              {backToPlaceButtonCaption}
+            </PrimaryButton>
           )}
-
           <ChromelessButton onClick={this.props.onClose}>{backToMapButtonCaption}</ChromelessButton>
         </section>
       </StyledToolbar>

@@ -5,8 +5,8 @@ import { t } from 'ttag';
 
 import FocusTrap from 'focus-trap-react';
 
-import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
 import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
+import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
 import colors from '../../lib/colors';
 import { MappingEvent } from '../../lib/MappingEvent';
 
@@ -24,12 +24,12 @@ type State = {
 type Props = {
   className: string,
   productName: string,
-  uniqueSurveyId: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
-  onAddPlaceLinkClick: () => void,
-  joinedMappingEvent: MappingEvent | null,
+  onAddPlaceViaCustomLinkClick: () => void,
+  uniqueSurveyId: string,
+  joinedMappingEvent?: MappingEvent,
   isOpen: boolean,
   lat: number | null,
   lon: number | null,
@@ -137,30 +137,33 @@ class MainMenu extends React.Component<Props, State> {
     return this.props.links
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(link => {
-        const url = insertPlaceholdersToAddPlaceUrl(
-          baseUrl,
-          translatedStringFromObject(link.url) || '',
-          this.props.uniqueSurveyId
-        );
-        const label = translatedStringFromObject(link.label) || '';
+        const url =
+          link.url &&
+          insertPlaceholdersToAddPlaceUrl(
+            baseUrl,
+            translatedStringFromObject(link.url),
+            this.props.uniqueSurveyId
+          );
+        const label = translatedStringFromObject(link.label);
         const badgeLabel = translatedStringFromObject(link.badgeLabel);
         const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
         const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
+        let customClickHandler = null;
         const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-        if (isAddPlaceLink) {
+        const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
+
+        if (isAddPlaceLinkWithoutCustomUrl) {
           return (
-            <Link
-              key={url}
-              className={className}
-              to={url}
-              role="menuitem"
-              onClick={this.props.onAddPlaceLinkClick}
-            >
+            <Link key="add-place" className={className} to="/add-place" role="menuitem">
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
             </Link>
           );
+        }
+
+        if (isAddPlaceLink && !isAddPlaceLinkWithoutCustomUrl) {
+          customClickHandler = this.props.onAddPlaceViaCustomLinkClick;
         }
 
         const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
@@ -170,7 +173,13 @@ class MainMenu extends React.Component<Props, State> {
 
         if (typeof url === 'string') {
           return (
-            <Link key={url} className={className} to={url} role="menuitem">
+            <Link
+              key={url}
+              className={className}
+              to={url}
+              role="menuitem"
+              onClick={customClickHandler}
+            >
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
             </Link>
@@ -350,7 +359,9 @@ const StyledMainMenu = styled(MainMenu)`
     }
     &:active {
       color: ${colors.linkColor};
-      background-color: ${hsl(colors.linkColor).brighter(1.7).toString()};
+      background-color: ${hsl(colors.linkColor)
+        .brighter(1.7)
+        .toString()};
     }
   }
 
@@ -489,13 +500,17 @@ const StyledMainMenu = styled(MainMenu)`
         &:hover {
           background-color: ${openMenuHoverColor.toString()};
           svg g {
-            fill: ${hsl(colors.primaryColor).darker(1).toString()};
+            fill: ${hsl(colors.primaryColor)
+              .darker(1)
+              .toString()};
           }
         }
         &:active {
           background-color: ${openMenuHoverColor.toString()};
           svg g {
-            color: ${hsl(openMenuHoverColor).darker(2).toString()};
+            color: ${hsl(openMenuHoverColor)
+              .darker(2)
+              .toString()};
           }
         }
       }

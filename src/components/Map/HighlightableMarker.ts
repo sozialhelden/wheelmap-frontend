@@ -1,15 +1,17 @@
 import L from 'leaflet';
 
+import { Feature } from '../../lib/Feature';
+
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
-  markerIcon: any
-  markerIconType: any
-  markerIconOptions: any
-  featureId: any
+  markerIcon: any;
+  markerIconType: any;
+  markerIconOptions: any;
+  featureId: any;
 
   constructor(
     latlng: L.LatLng,
-    markerIconType: any,
+    markerIconType: (options: any) => any,
     markerIconOptions: any,
     featureId?: string,
     zIndexOffset: number = 0
@@ -25,7 +27,12 @@ export default class HighlightableMarker extends L.Marker {
     this.featureId = featureId;
   }
 
-  updateIcon() {
+  updateIcon(feature?: Feature) {
+    if (feature) {
+      this.markerIconOptions = { ...this.markerIconOptions, feature };
+      this.markerIcon = new this.markerIconType(this.markerIconOptions);
+    }
+
     this.setIcon(this.markerIcon);
   }
 

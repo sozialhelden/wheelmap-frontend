@@ -2,11 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 
 import getAddressString from '../../lib/getAddressString';
-import Categories, {
-  getCategoryId,
-  Category,
-  CategoryLookupTables,
-} from '../../lib/Categories';
+import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/Categories';
 import { isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 
@@ -14,8 +10,11 @@ import Icon from '../Icon';
 import Address from '../NodeToolbar/Address';
 import PlaceName from '../PlaceName';
 import { PotentialPromise } from '../../app/PlaceDetailsProps';
+import styled from 'styled-components';
+import colors from '../../lib/colors';
 
 type Props = {
+  className?: string,
   feature: SearchResultFeature,
   categories: CategoryLookupTables,
   onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
@@ -30,7 +29,7 @@ type State = {
   wheelmapFeaturePromise: Promise<WheelmapFeature | null> | null,
 };
 
-export default class SearchResult extends React.Component<Props, State> {
+class SearchResult extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
@@ -46,7 +45,7 @@ export default class SearchResult extends React.Component<Props, State> {
     const { categories, feature, wheelmapFeature } = props;
 
     // Do not update anything when the wheelmap feature promise is already in use.
-    if (wheelmapFeature === state.wheelmapFeaturePromise) {
+    if (wheelmapFeature != null && wheelmapFeature === state.wheelmapFeaturePromise) {
       return null;
     }
 
@@ -59,11 +58,14 @@ export default class SearchResult extends React.Component<Props, State> {
       };
     }
 
-    const wheelmapCategoryData = Categories.getCategoriesForFeature(categories, feature);
+    const rawCategoryLists = Categories.getCategoriesForFeature(
+      categories,
+      wheelmapFeature || feature
+    );
     return {
       wheelmapFeature: wheelmapFeature,
       wheelmapFeaturePromise: null,
-      ...wheelmapCategoryData,
+      ...rawCategoryLists,
     };
   }
 
@@ -112,7 +114,7 @@ export default class SearchResult extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature } = this.props;
+    const { feature, className } = this.props;
     const { wheelmapFeature, category, parentCategory } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
@@ -137,14 +139,13 @@ export default class SearchResult extends React.Component<Props, State> {
     return (
       <li
         ref={this.root}
-        className={`osm-category-${feature.properties.osm_key || 'unknown'}-${feature.properties
-          .osm_value || 'unknown'}`}
+        className={`${className || ''} osm-category-${feature.properties.osm_key ||
+          'unknown'}-${feature.properties.osm_value || 'unknown'}`}
       >
         <button
           onClick={() => {
             this.props.onClick(feature, wheelmapFeature);
           }}
-          className="link-button"
           tabIndex={this.props.hidden ? -1 : 0}
         >
           <PlaceName>
@@ -165,3 +166,79 @@ export default class SearchResult extends React.Component<Props, State> {
     );
   }
 }
+
+export default styled(SearchResult)`
+  padding: 0;
+
+  > button {
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: ${colors.linkColor};
+    text-align: left;
+    overflow: hidden;
+    color: rgba(0, 0, 0, 0.8) !important;
+    display: block;
+    width: 100%;
+
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:hover {
+        background-color: ${colors.linkBackgroundColorTransparent};
+      }
+    }
+
+    &:focus&:not(.primary-button) {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
+
+    &:disabled {
+      opacity: 0.15;
+    }
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.8) !important;
+    }
+
+    address {
+      font-size: 16px !important;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  &.no-result {
+    text-align: center;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 20px;
+  }
+
+  &.error-result {
+    text-align: center;
+    font-size: 16px;
+    overflow: hidden;
+    padding: 20px;
+    font-weight: 400;
+    background-color: ${colors.negativeBackgroundColorTransparent};
+  }
+
+  &.osm-category-place-borough,
+  &.osm-category-place-suburb,
+  &.osm-category-place-village,
+  &.osm-category-place-hamlet,
+  &.osm-category-place-town,
+  &.osm-category-place-city,
+  &.osm-category-place-county,
+  &.osm-category-place-state,
+  &.osm-category-place-country,
+  &.osm-category-boundary-administrative {
+    h1 {
+      font-weight: 600;
+    }
+  }
+`;

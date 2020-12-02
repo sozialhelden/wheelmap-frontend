@@ -1,14 +1,13 @@
 import * as React from 'react';
 import dynamic from 'next/dynamic';
-import { v4 as uuidv4 } from 'uuid';
 
 import styled from 'styled-components';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
 import find from 'lodash/find';
 import * as queryString from 'query-string';
+import { v4 as uuidv4 } from 'uuid';
 import FocusTrap from 'focus-trap-react';
-
 import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
@@ -51,13 +50,13 @@ import { hasAllowedAnalytics } from './lib/savedState';
 import { App } from './lib/App';
 import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
-import { insertPlaceholdersToAddPlaceUrl } from './lib/insertPlaceholdersToAddPlaceUrl';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 import { MappingEvent, MappingEvents } from './lib/MappingEvent';
 import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
 import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
 import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 import { AppContextConsumer } from './AppContext';
+import CreatePlaceFlow from './components/CreatePlaceFlow/CreatePlaceFlow';
 
 type Props = {
   className?: string,
@@ -93,7 +92,10 @@ type Props = {
   shouldLocateOnStart: boolean,
   searchResults: SearchResultCollection | Promise<SearchResultCollection> | null,
 
-  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
+  onSearchResultClick: (
+    feature: SearchResultFeature,
+    wheelmapFeature: WheelmapFeature | null
+  ) => void,
   onSearchToolbarClick: () => void,
   onSearchToolbarClose: () => void,
   onSearchToolbarSubmit: (searchQuery: string) => void,
@@ -165,7 +167,7 @@ type Props = {
   onMappingEventWelcomeDialogClose: () => void,
   mappingEventHandlers: {
     updateJoinedMappingEvent: (joinedMappingEventId: string | null) => void,
-  }
+  },
 } & PlaceDetailsProps;
 
 type State = {
@@ -252,7 +254,7 @@ class MainView extends React.Component<Props, State> {
     this.map && this.map.snapToFeature();
   };
 
-  onAddPlaceLinkClick = () => {
+  onAddPlaceViaCustomLinkClick = () => {
     this.setState(() => ({ uniqueSurveyId: uuidv4() }));
   };
 
@@ -488,6 +490,7 @@ class MainView extends React.Component<Props, State> {
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
         onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
         joinedMappingEvent={this.props.joinedMappingEvent}
         logoURL={logoURL}
         claim={textContent.product.claim}
@@ -495,7 +498,6 @@ class MainView extends React.Component<Props, State> {
         lat={this.props.lat}
         lon={this.props.lon}
         zoom={this.props.zoom}
-        onAddPlaceLinkClick={this.onAddPlaceLinkClick}
       />
     );
   }
@@ -522,7 +524,7 @@ class MainView extends React.Component<Props, State> {
       this.props.isOnboardingVisible ||
       this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
-      (this.props.modalNodeState !== null) ||
+      this.props.modalNodeState !== null ||
       this.props.isPhotoUploadCaptchaToolbarVisible ||
       this.props.isPhotoUploadInstructionsToolbarVisible ||
       Boolean(this.props.photoMarkedForReport);
@@ -575,49 +577,45 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderCreateDialog() {
+  renderCreateFlow() {
+    if (this.props.modalNodeState !== 'create') {
+      return null;
+    }
+
     return (
-      <FocusTrap active={this.props.modalNodeState === 'create'}>
-        <div>
-          <CreatePlaceDialog
-            hidden={this.props.modalNodeState !== 'create'}
-            onClose={this.props.onCloseModalDialog}
-            lat={this.props.lat}
-            lon={this.props.lon}
-          />
-        </div>
-      </FocusTrap>
+      <CreatePlaceFlow
+        onSubmit={id => {
+          this.props.onCloseModalDialog();
+          if (id) {
+            this.props.onMarkerClick(id);
+          }
+        }}
+        onCancel={place => {
+          this.props.onCloseModalDialog();
+          if (place) {
+            this.props.onSearchResultClick(place.searchResult, place.wheelmapFeature);
+          }
+        }}
+      />
     );
   }
 
   renderContributionThanksDialog() {
-    const { customMainMenuLinks } = this.props.app.clientSideConfiguration;
-
-    // find add place link
-    const link = find(customMainMenuLinks, link => includes(link.tags, 'add-place'));
-
     return (
       <AppContextConsumer>
         {appContext => {
-          const url = link
-            ? insertPlaceholdersToAddPlaceUrl(
-                appContext.baseUrl,
-                translatedStringFromObject(link.url) || '',
-                this.state.uniqueSurveyId
-              )
-            : null;
-
           return (
             <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
-              <div>
-                <ContributionThanksDialog
-                  hidden={this.props.modalNodeState !== 'contribution-thanks'}
-                  onClose={this.props.onCloseModalDialog}
-                  addPlaceUrl={url}
-                  onAddPlaceLinkClick={this.onAddPlaceLinkClick}
-                  appContext={appContext}
-                />
-              </div>
+              <ContributionThanksDialog
+                hidden={this.props.modalNodeState !== 'contribution-thanks'}
+                onClose={this.props.onCloseModalDialog}
+                appContext={appContext}
+                featureId={this.props.featureId}
+                onSelectFeature={id => {
+                  this.props.onCloseModalDialog();
+                  this.props.onMarkerClick(id);
+                }}
+              />
             </FocusTrap>
           );
         }}
@@ -797,7 +795,7 @@ class MainView extends React.Component<Props, State> {
           {isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
-          {this.renderCreateDialog()}
+          {this.renderCreateFlow()}
           {this.renderContributionThanksDialog()}
           {this.renderOnboarding()}
           {isMappingEventWelcomeDialogVisible && this.renderMappingEventWelcomeDialog()}

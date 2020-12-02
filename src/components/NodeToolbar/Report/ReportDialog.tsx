@@ -15,7 +15,7 @@ import {
   WheelmapProperties,
 } from '../../../lib/Feature';
 import { CategoryLookupTables } from '../../../lib/Categories';
-import { AppContext } from '../../../AppContext';
+import { AppContextData } from '../../../AppContext';
 
 import strings from './strings';
 import FixOsmComment from './FixOsmComment';
@@ -85,7 +85,7 @@ const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEnt
 
 const generateAcIssues = (
   properties: AccessibilityCloudProperties,
-  appContext: AppContext,
+  appContext: AppContextData,
   source: DataSource | null,
   appToken: string
 ): IssueEntry[] => {
@@ -131,7 +131,7 @@ const generateAcIssues = (
 };
 
 type Props = {
-  appContext: AppContext,
+  appContext: AppContextData,
   categories: CategoryLookupTables,
   feature: Feature,
   featureId: string | number | null,
