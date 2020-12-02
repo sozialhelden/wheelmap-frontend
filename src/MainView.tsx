@@ -2,9 +2,7 @@ import * as React from 'react';
 import dynamic from 'next/dynamic';
 
 import styled from 'styled-components';
-import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import find from 'lodash/find';
 import * as queryString from 'query-string';
 import { v4 as uuidv4 } from 'uuid';
 import FocusTrap from 'focus-trap-react';
@@ -12,7 +10,6 @@ import MainMenu from './components/MainMenu/MainMenu';
 import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
-import CreatePlaceDialog from './components/CreatePlaceDialog/CreatePlaceDialog';
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
 import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
@@ -105,7 +102,7 @@ type Props = {
   onClickFullscreenBackdrop: () => void,
   onMoveEnd: () => void,
   onMapClick: () => void,
-  onMarkerClick: (featureId: string, properties: NodeProperties | null) => void,
+  onMarkerClick: (featureId: string, properties?: NodeProperties | null) => void,
   onMappingEventClick: (eventId: string) => void,
   onError: () => void,
   onCloseNodeToolbar: () => void,
@@ -477,7 +474,6 @@ class MainView extends React.Component<Props, State> {
     const {
       customMainMenuLinks,
       logoURL,
-      addPlaceURL,
       textContent,
     } = this.props.app.clientSideConfiguration;
 
@@ -610,7 +606,7 @@ class MainView extends React.Component<Props, State> {
                 hidden={this.props.modalNodeState !== 'contribution-thanks'}
                 onClose={this.props.onCloseModalDialog}
                 appContext={appContext}
-                featureId={this.props.featureId}
+                featureId={this.props.featureId as string}
                 onSelectFeature={id => {
                   this.props.onCloseModalDialog();
                   this.props.onMarkerClick(id);

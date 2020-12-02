@@ -17,7 +17,7 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, UAResult } from './lib/userAgent';
 import { RouterHistory } from './lib/RouterHistory';
 import { SearchResultCollection } from './lib/searchPlaces';
-import { Feature, WheelmapFeature } from './lib/Feature';
+import { Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from "./lib/Feature";
 import { SearchResultFeature } from './lib/searchPlaces';
 import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import {
@@ -449,7 +449,7 @@ class App extends React.Component<Props, State> {
 
   showSelectedFeature = (
     featureId: string | number,
-    properties: NodeProperties | EquipmentInfoProperties | any
+    properties?: NodeProperties | EquipmentInfoProperties | null
   ) => {
     const featureIdString = featureId.toString();
     const { routerHistory } = this.props;
@@ -461,7 +461,7 @@ class App extends React.Component<Props, State> {
     params.id = featureIdString;
     delete params.eid;
 
-    if (properties && typeof properties.placeInfoId === 'string') {
+    if (isEquipmentPropertiesWithPlaceInfoId(properties)) {
       const placeInfoId = properties.placeInfoId;
       if (includes(['elevator', 'escalator'], properties.category)) {
         routeName = 'equipment';

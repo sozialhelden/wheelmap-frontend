@@ -233,7 +233,7 @@ export function getFeatureId(feature: Feature | EquipmentInfo | any): string | n
 
 export function hrefForFeature(
   feature: Feature,
-  properties: NodeProperties | EquipmentInfoProperties | undefined | any
+  properties: NodeProperties | EquipmentInfoProperties | undefined
 ) {
   const featureId = getFeatureId(feature);
 
@@ -241,7 +241,7 @@ export function hrefForFeature(
     throw new Error('Could not create href because featureId seems to be not defined');
   }
 
-  if (properties && typeof properties.placeInfoId === 'string') {
+  if (isEquipmentPropertiesWithPlaceInfoId(properties)) {
     const placeInfoId = properties.placeInfoId;
     if (includes(['elevator', 'escalator'], properties.category)) {
       return `/nodes/${placeInfoId}/equipment/${featureId}`;
@@ -261,6 +261,10 @@ export function isWheelmapFeatureId(id: string | number | null | void): boolean 
 
 export function isWheelmapFeature(feature: Feature): feature is WheelmapFeature {
   return feature && isWheelmapFeatureId(feature['id'])
+}
+
+export function isEquipmentPropertiesWithPlaceInfoId(properties: NodeProperties | EquipmentInfoProperties | undefined): properties is (EquipmentInfoProperties & { placeInfoId: string }) {
+  return properties && typeof properties['placeInfoId'] === 'string';
 }
 
 export function wheelmapFeatureFrom(feature: Feature | null): WheelmapFeature | null {
