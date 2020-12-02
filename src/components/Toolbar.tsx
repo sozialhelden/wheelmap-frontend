@@ -241,11 +241,15 @@ const StyledSection = styled.section`
 
     @media (hover), (-moz-touch-enabled: 0) {
       &:hover {
-        background-color: ${hsl(colors.linkColor).brighter(0.2)};
+        background-color: ${hsl(colors.linkColor)
+          .brighter(0.2)
+          .formatRgb()};
       }
     }
     &:active {
-      background-color: ${hsl(colors.linkColor).darker(0.2)};
+      background-color: ${hsl(colors.linkColor)
+        .darker(0.2)
+        .formatRgb()};
     }
 
     &.focus-visible {
@@ -260,7 +264,9 @@ const StyledSection = styled.section`
   }
 
   .negative-button {
-    color: ${hsl(colors.negativeColor).darker(1)};
+    color: ${hsl(colors.negativeColor)
+      .darker(1)
+      .formatRgb()};
     @media (hover), (-moz-touch-enabled: 0) {
       &:hover,
       &:focus {
@@ -269,7 +275,9 @@ const StyledSection = styled.section`
     }
 
     &:active {
-      background-color: ${hsl(colors.negativeBackgroundColorTransparent).darker(1)};
+      background-color: ${hsl(colors.negativeBackgroundColorTransparent)
+        .darker(1)
+        .formatRgb()};
     }
 
     &[disabled] {
@@ -401,6 +409,7 @@ const BaseToolbar = (
       return;
     }
     if (typeof window !== 'undefined') {
+      // @ts-ignore
       window.scrollElement = ref;
     }
     const previousClientTop = ref.getClientRects()[0].top;
@@ -423,9 +432,11 @@ const BaseToolbar = (
     if (!ref) {
       return;
     }
+    // @ts-ignore
     const resizeObserver = new (typeof ResizeObserver === 'undefined'
       ? ResizeObserverPolyfill
-      : ResizeObserver)(onToolbarResize);
+      : // @ts-ignore
+        ResizeObserver)(onToolbarResize);
     onToolbarResize();
     resizeObserver.observe(ref);
     return () => {
@@ -454,7 +465,7 @@ const BaseToolbar = (
   }, [setScrollTop]);
 
   const handleTouchStart = React.useCallback(
-    (event: TouchEvent) => {
+    (event: React.TouchEvent<HTMLElement>) => {
       if (props.isModal) {
         return;
       }
@@ -471,7 +482,7 @@ const BaseToolbar = (
   );
 
   const handleTouchEnd = React.useCallback(
-    (e: TouchEvent) => {
+    (e: React.TouchEvent<HTMLElement>) => {
       if (!props.isSwipeable || props.isModal) {
         return;
       }
@@ -492,7 +503,7 @@ const BaseToolbar = (
   );
 
   const handleTouchMove = React.useCallback(
-    (event: TouchEvent) => {
+    (event: React.TouchEvent<HTMLElement>) => {
       if (props.isModal) {
         return;
       }
@@ -508,11 +519,11 @@ const BaseToolbar = (
     [props.isModal, touchStartY, ySamples, topOffset]
   );
 
-  const handleKeyDown = React.useCallback((event: SyntheticKeyboardEvent<HTMLElement>) => {
+  const handleKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLElement>) => {
     if (event.key === 'Escape' && scrollElementRef.current) {
       const closeLink = scrollElementRef.current.querySelector('.close-link');
-      if (closeLink && closeLink.click) {
-        closeLink.click();
+      if (closeLink && closeLink['click']) {
+        closeLink['click']();
       }
     }
   }, []);
@@ -530,8 +541,11 @@ const BaseToolbar = (
   const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
   const isIphoneX =
     typeof window !== 'undefined' &&
+    // @ts-ignore
     window.device &&
+    // @ts-ignore
     window.device.model &&
+    // @ts-ignore
     includes(xModels, window.device.model);
   const classNames = [
     'toolbar',
@@ -550,7 +564,7 @@ const BaseToolbar = (
       style={{
         touchAction,
         transition,
-        overflowY: topOffset > 0 ? 'none' : 'auto',
+        overflowY: topOffset > 0 ? 'hidden' : 'auto',
         transform: `translate3d(0, ${transformY}px, 0)`,
         top:
           props.isModal || viewportHeight <= 512 || viewportWidth <= 512
@@ -577,7 +591,6 @@ const BaseToolbar = (
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onScroll={onScroll}
-      minimalTopPosition={props.minimalTopPosition}
     >
       <div style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}>
         {props.isSwipeable && !props.isModal ? (
@@ -618,7 +631,7 @@ BaseToolbar.defaultProps = {
  * A card-like panel component that has a fixed position on bigger viewports, and that turns into a
  * swipable element on small viewports.
  */
-const Toolbar = React.forwardRef<Props, HTMLElement>(
+const Toolbar = React.forwardRef<HTMLElement, Props>(
   (props: Props, ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any)) => {
     // https://reactjs.org/docs/forwarding-refs.html
     return <BaseToolbar {...props} innerRef={ref} />;
