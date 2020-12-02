@@ -163,7 +163,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --watch 'src/server/*.ts,src/lib/env.ts,src/app/router.ts' --ignore-watch 'src/.next/*' -P src/server/tsconfig.json --respawn --icu-data-dir=node_modules/full-icu src/server/server.ts",
-    "build": "rm -rf dist/ && rm -rf src/.next/ && next build src && tsc -p src/server/ --outDir dist/ && npm run copy-files && mv src/.next dist/",
+    "build": "rm -rf dist/ && rm -rf src/.next/ && next build src && tsc -p src/server/ --outDir dist/ --noEmit false && npm run copy-files && mv src/.next dist/",
     "build-client": "rm -rf dist/ && tsc --project tsconfig.client.json && npm run copy-files",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist",

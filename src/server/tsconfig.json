@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "noEmit": false,
+    "noEmit": true,
     "jsx": "preserve",
     "moduleResolution": "node",
     "target": "es5",
