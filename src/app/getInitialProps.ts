@@ -101,11 +101,11 @@ export function getInitialRouteProps(
   },
   renderContextPromise: Promise<RenderContext>,
   isServer: boolean
-) {
+){
   const dataItem = dataTable[routeName];
 
   if (!dataItem || !dataItem.getInitialRouteProps) {
-    return {};
+    return Promise.resolve({});
   }
 
   return dataItem.getInitialRouteProps(query, renderContextPromise, isServer);
