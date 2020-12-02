@@ -1,20 +1,18 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import 'core-js/stable';
-// import "regenerator-runtime/runtime";
 import * as React from 'react';
 import BaseApp  from 'next/app';
 import Head from 'next/head';
 import { t } from 'ttag';
 import get from 'lodash/get';
-// import apm from '../lib/apm';
 import AsyncNextHead from '../AsyncNextHead';
 import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
-import { AppContext, AppContextProvider } from '../AppContext';
+import { AppContextData, AppContextProvider } from '../AppContext';
 
 import {
   parseAcceptLanguageString,
@@ -43,8 +41,10 @@ import { restoreAnalytics, trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
+import startClientSideApm from "../lib/apm/startClientSideApm";
+
 if (typeof window !== 'undefined') {
-  require('../lib/apm/ClientSide');
+  startClientSideApm();
 }
 
 let isServer = false;
@@ -272,8 +272,8 @@ export default class App extends BaseApp<any> {
     let translatedDescription = translatedStringFromObject(description);
     let translatedProductName = translatedStringFromObject(productName);
     let pageTitle = translatedProductName;
-    let facebookMetaData = { ...facebook };
-    let twitterMetaData = { ...twitter };
+    let facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0, imageURL: "" };
+    let twitterMetaData = { ...twitter, imageUrl: "" };
     let ogUrl = baseUrl;
 
     if (routeName === 'mappingEventDetail') {
@@ -305,7 +305,7 @@ export default class App extends BaseApp<any> {
 
     const availableLocales: Locale[] = Object.keys(allTranslations).map(localeFromString);
 
-    const appContext: AppContext = {
+    const appContext: AppContextData = {
       app: this.props.app,
       baseUrl,
       categories: renderContext.categories,

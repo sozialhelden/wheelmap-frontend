@@ -1,7 +1,7 @@
 import env from '../lib/env';
 import { createEnvironmentJSResponseHandler } from '@sozialhelden/twelve-factor-dotenv';
 
-// import apm from '../lib/apm/ServerSide';
+import startServerSideApm from '../lib/apm/startServerSideApm';
 import nextjs from 'next';
 import * as path from 'path';
 import express from 'express';
@@ -20,6 +20,8 @@ const app = nextjs({ dir: path.join(__dirname, '..'), dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
+  startServerSideApm();
+
   const server = express();
   server.use(cache(3600));
   server.use(compression());
