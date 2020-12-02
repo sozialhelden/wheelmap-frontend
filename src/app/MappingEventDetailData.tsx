@@ -21,10 +21,9 @@ const MappingEventDetailData: DataTableEntry<MappingEventDetailDataProps> = {
 
   async getMappingEvent(eventId: string, renderContext: RenderContext) {
     const app = renderContext.app;
-    return (
-      renderContext.mappingEvents.find(event => event._id === eventId) ||
-      (await mappingEventsCache.getMappingEvent(app, eventId, false))
-    );
+    const found = renderContext.mappingEvents.find(event => event._id === eventId);
+    const result = found || await mappingEventsCache.getMappingEvent(app, eventId, false);
+    return result;
   },
 
   async getInitialRouteProps(query, renderContextPromise, isServer) {

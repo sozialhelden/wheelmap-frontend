@@ -65,7 +65,7 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-export default class ContributionThanksDialog extends React.Component<Props> {
+export default class ContributionThanksDialog extends React.PureComponent<Props> {
   props: Props;
 
   componentDidMount() {
@@ -99,7 +99,7 @@ export default class ContributionThanksDialog extends React.Component<Props> {
     const backToMapButtonCaption = t`Back to map`;
 
     return (
-      <StyledToolbar className={className} hidden={this.props.hidden} isModal>
+      <StyledToolbar className={className} hidden={this.props.hidden} isModal={true}>
         <header>
           <h2>{header}</h2>
           <CloseLink onClick={this.props.onClose} />

@@ -1,4 +1,4 @@
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 import { getAvailableTranslationsByPreference, Translations } from '../lib/i18n';
 
@@ -67,7 +67,7 @@ export type DataTableEntry<Props> = {
     props: Props & RenderContext,
     baseUrl?: string
   ) => PotentialPromise<ReactElement<any>>,
-  getMappingEvent?: (eventId: string, renderContext: RenderContext) => MappingEvent | undefined,
+  getMappingEvent?: (eventId: string, renderContext: RenderContext) => Promise<MappingEvent>,
   storeInitialRouteProps?: (props: Props, appToken: string) => void,
 };
 

@@ -85,7 +85,7 @@ type Props = {
 };
 
 class NodeToolbar extends React.PureComponent<Props> {
-  toolbar: React.ElementRef<Toolbar> | null;
+  toolbar: React.ElementRef<StyledToolbar> | null;
   reportDialog: React.ElementRef<ReportDialog> | null;
   shareButton: React.ElementRef<'button'> | null;
   reportModeButton: React.ElementRef<'button'> | null;
@@ -95,7 +95,7 @@ class NodeToolbar extends React.PureComponent<Props> {
   }
 
   focus() {
-    this.toolbar.current?.focus();
+    this.toolbar?.focus();
   }
 
   renderReportDialog() {

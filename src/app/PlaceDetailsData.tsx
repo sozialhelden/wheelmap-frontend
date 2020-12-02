@@ -198,7 +198,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         equipmentInfoId,
         equipmentInfo,
         toiletsNearby,
-        renderContext,
+        renderContext
       };
     } catch (e) {
       const error: Error & { parent?: any, statusCode?: number } = new Error(

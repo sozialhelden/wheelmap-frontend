@@ -7,7 +7,7 @@ const withTranspileModules = require('next-transpile-modules');
 //const env = require('./src/lib/env');
 const withSourceMaps = require('@zeit/next-source-maps');
 
-module.exports = withSourceMaps(
+let configuration = withSourceMaps(
   withCss(
     withSass(
       withTranspileModules({
@@ -44,9 +44,24 @@ module.exports = withSourceMaps(
 
           return config;
         },
-        // Disabling file-system routing to always use custom server.
-        useFileSystemPublicRoutes: false,
       })
     )
   )
 );
+
+// these options would be ignored above, so they needs to be extended manually
+configuration = {
+  ...configuration,
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+    ignoreDevErrors: true,
+  },
+  // Disabling file-system routing to always use custom server.
+  useFileSystemPublicRoutes: false,
+};
+
+module.exports = configuration;

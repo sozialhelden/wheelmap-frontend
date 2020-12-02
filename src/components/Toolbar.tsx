@@ -11,7 +11,7 @@ import ResizeObserverPolyfill from 'resize-observer-polyfill';
 
 type Props = {
   className?: string,
-  children: React.Node,
+  children?: React.ReactNode,
   hidden?: boolean,
   inert?: boolean,
   role?: string,
@@ -59,7 +59,7 @@ function getMaxHeight(
 // `connect` to perform sync updates to a ref to save the latest props after
 // a render is actually committed to the DOM.
 const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect
+  typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
 
 // Use this to debug state value changes in the console - very handy for complex state handling with
 // React Hooks.
@@ -284,8 +284,6 @@ const StyledSection = styled.section`
     pointer-events: none;
   }
 `;
-
-
 
 /**
  * A toolbar that shows as a card that you can swipe up and down on small viewports,

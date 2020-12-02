@@ -1,4 +1,4 @@
-import UAParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 
 export function isTouchDevice(userAgent: UAResult = getUserAgent()) {
   // If on client check for touch points.
@@ -11,14 +11,14 @@ export function isTouchDevice(userAgent: UAResult = getUserAgent()) {
 }
 
 export interface UAOs {
-  name: string | undefined,
-  version: string | undefined,
-};
+  name: string | undefined;
+  version: string | undefined;
+}
 
 export interface UAResult {
-  os: UAOs,
-  ua: string,
-};
+  os: UAOs;
+  ua: string;
+}
 
 const parser = new UAParser();
 let userAgent: UAResult = parser.getResult();

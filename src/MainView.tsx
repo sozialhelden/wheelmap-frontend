@@ -307,6 +307,7 @@ class MainView extends React.Component<Props, State> {
           inEmbedMode={this.props.inEmbedMode}
           userAgent={this.props.userAgent}
           minimalTopPosition={this.getMinimalNodeToolbarTopPosition()}
+          renderContext={this.props.renderContext}
         />
       </div>
     );
@@ -349,6 +350,7 @@ class MainView extends React.Component<Props, State> {
       <AppContextConsumer>
         {({ preferredLanguage }) => (
           <MappingEventToolbar
+            mappingEventHandlers={mappingEventHandlers}
             mappingEvent={mappingEvent}
             joinedMappingEventId={joinedMappingEventId}
             onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}

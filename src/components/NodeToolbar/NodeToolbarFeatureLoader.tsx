@@ -10,10 +10,8 @@ import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import { PhotoModel } from '../../lib/PhotoModel';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
-import {
-  PlaceDetailsProps,
-  getPlaceDetailsIfAlreadyResolved,
-} from '../../app/PlaceDetailsProps';
+import { PlaceDetailsProps, getPlaceDetailsIfAlreadyResolved } from '../../app/PlaceDetailsProps';
+import { UAResult } from '../../lib/userAgent';
 
 type Props = {
   categories: CategoryLookupTables,
@@ -52,6 +50,7 @@ type Props = {
   photoFlowErrorMessage: null | string,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
   minimalTopPosition: number,
+  userAgent: UAResult,
 } & PlaceDetailsProps;
 
 type RequiredData = {
@@ -64,9 +63,9 @@ type State = {
   parentCategory: null | Category,
   resolvedRequiredData: null | RequiredData,
   requiredDataPromise: null | Promise<RequiredData>,
-  resolvedSources: null | (SourceWithLicense[]),
-  resolvedPhotos: null | (PhotoModel[]),
-  resolvedToiletsNearby: null | (Feature[]),
+  resolvedSources: null | SourceWithLicense[],
+  resolvedPhotos: null | PhotoModel[],
+  resolvedToiletsNearby: null | Feature[],
   lastFeatureId: null | (string | number),
   lastEquipmentInfoId: null | string,
 };
@@ -86,7 +85,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   };
   nodeToolbar: React.ElementRef<NodeToolbar> | null;
 
-  static getDerivedStateFromProps(props: Props, state: State): $Shape<State> {
+  static getDerivedStateFromProps(props: Props, state: State) {
     // keep old data when unchanged
     if (
       state.lastFeatureId === props.featureId &&
@@ -116,8 +115,10 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     // resolve lightweight categories if it is set
-    let categories : { category: Category | null, parentCategory: Category | null } =
-      { category: null, parentCategory: null };
+    let categories: { category: Category | null, parentCategory: Category | null } = {
+      category: null,
+      parentCategory: null,
+    };
     if (props.lightweightFeature) {
       categories = Categories.getCategoriesForFeature(props.categories, props.lightweightFeature);
     }

@@ -6,7 +6,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +20,7 @@
   },
   "exclude": [
     "node_modules",
+    "src/lib/apm",
     "src/server"
   ],
   "include": [

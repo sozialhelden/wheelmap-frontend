@@ -51,7 +51,7 @@ export const SecondaryButton = styled(UnstyledButton)`
 
   &:hover,
   &.focus-visible {
-    background-color: neutralBackgroundColorTransparent;
+    background-color: ${colors.neutralBackgroundColorTransparent};
   }
 `;
 

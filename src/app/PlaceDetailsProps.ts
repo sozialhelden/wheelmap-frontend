@@ -4,6 +4,7 @@ import { DataSource } from '../lib/cache/DataSourceCache';
 import { License } from '../lib/cache/LicenseCache';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
 import { PhotoModel } from '../lib/PhotoModel';
+import { RenderContext } from './getInitialProps';
 
 export type SourceWithLicense = {
   source: DataSource,
@@ -45,6 +46,7 @@ export type PlaceDetailsProps = {
   equipmentInfo: PotentialPromise<EquipmentInfo> | undefined,
   // toilets around the selected feature
   toiletsNearby: PotentialPromise<Feature[]> | undefined,
+  renderContext: RenderContext,
 };
 
 export type ResolvedPlaceDetailsProps = {
