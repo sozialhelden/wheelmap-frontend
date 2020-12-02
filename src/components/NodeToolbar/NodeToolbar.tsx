@@ -194,38 +194,34 @@ class NodeToolbar extends React.PureComponent<Props> {
   }
 
   renderToiletAccessibilityEditor() {
-    if (isWheelmapFeature(this.props.feature)) {
-      return (
-        <ToiletStatusEditor
-          categories={this.props.categories}
-          featureId={this.props.featureId as any}
-          feature={this.props.feature}
-          onSave={(newValue: YesNoUnknown) => {
-            this.props.onClose();
-            this.props.onCloseToiletAccessibility();
-          }}
-          onClose={this.props.onClose}
-        />
-      );
-    }
+    return (
+      <ToiletStatusEditor
+        categories={this.props.categories}
+        featureId={this.props.featureId as any}
+        feature={this.props.feature}
+        onSave={(newValue: YesNoUnknown) => {
+          this.props.onClose();
+          this.props.onCloseToiletAccessibility();
+        }}
+        onClose={this.props.onClose}
+      />
+    );
   }
 
   renderWheelchairAccessibilityEditor() {
-    if (isWheelmapFeature(this.props.feature)) {
-      return (
-        <WheelchairStatusEditor
-          categories={this.props.categories}
-          featureId={this.props.featureId as any}
-          feature={this.props.feature}
-          onSave={(newValue: YesNoLimitedUnknown) => {
-            this.props.onClose();
-            this.props.onCloseWheelchairAccessibility();
-          }}
-          presetStatus={this.props.accessibilityPresetStatus}
-          onClose={this.props.onClose}
-        />
-      );
-    }
+    return (
+      <WheelchairStatusEditor
+        categories={this.props.categories}
+        featureId={this.props.featureId as any}
+        feature={this.props.feature}
+        onSave={(newValue: YesNoLimitedUnknown) => {
+          this.props.onClose();
+          this.props.onCloseWheelchairAccessibility();
+        }}
+        presetStatus={this.props.accessibilityPresetStatus}
+        onClose={this.props.onClose}
+      />
+    );
   }
 
   renderInlineWheelchairAccessibilityEditor(
