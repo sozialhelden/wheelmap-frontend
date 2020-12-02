@@ -14,7 +14,7 @@ import { ChromelessButton } from '../../Button';
 import colors from '../../../lib/colors';
 import InputField from '../components/InputField';
 import AppContext from '../../../AppContext.js';
-import PageHeader from '../components/PageHeader.jsx';
+import PageHeader from '../components/PageHeader.js';
 
 type Props = {
   className?: string,

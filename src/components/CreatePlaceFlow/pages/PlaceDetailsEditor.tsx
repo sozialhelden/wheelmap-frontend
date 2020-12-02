@@ -12,10 +12,10 @@ import VerticalPage from '../components/VerticalPage';
 import MapButton from '../components/MapButton';
 import AddressEditor from '../components/AddressEditor';
 import type { AddressData } from '../components/AddressEditor';
-import PageHeader from '../components/PageHeader.jsx';
+import PageHeader from '../components/PageHeader.js';
 import InputField, { sharedInputStyle } from '../components/InputField';
 
-import { viewportFromSavedState } from '../pages/PointGeometryPicker';
+import { viewportFromSavedState } from './PointGeometryPicker';
 import type { PointGeometry } from './PointGeometryPicker';
 import AppContext from '../../../AppContext';
 import { categoryNameFor } from '../../../lib/Categories';

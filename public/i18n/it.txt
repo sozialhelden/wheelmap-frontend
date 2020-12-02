@@ -45,7 +45,7 @@ msgstr "Spiacenti, non sarebbe dovuto succedere!"
 msgid "Return home"
 msgstr "Ritorna alla Home"
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:55
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:55
 #: src/components/NotFound/NotFound.js:71
 msgid "Retry"
 msgstr "Riprova"
@@ -352,8 +352,8 @@ msgstr "Per segnalare"
 msgid "Which problem would you like to report?"
 msgstr "Quale problema desideri segnalare?"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:60
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:93
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:60
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:178
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
 #: src/components/PhotoUpload/ReportPhotoToolbar.js:156
@@ -366,7 +366,7 @@ msgid "Send"
 msgstr "Invia"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:43
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
 msgid "Thank you!"
 msgstr "Grazie!"
 
@@ -383,7 +383,7 @@ msgid "Back to map"
 msgstr "Torna alla mappa"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.js:116
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:60
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:60
 msgid "Clapping hands"
 msgstr ""
 
@@ -489,14 +489,14 @@ msgstr "Mappa del sito"
 msgid "toilets"
 msgstr "toilette"
 
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:130
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:130
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:175
 #: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:305
 msgid "Continue"
 msgstr "Continua"
 
-#: src/components/CreatePlaceFlow/pages/CategoryPicker.jsx:59
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:72
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:181
 #: src/components/NodeToolbar/Report/strings.js:28
 #: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:338
@@ -741,96 +741,96 @@ msgstr ""
 msgid "${ eventName } Mapping Event Map Marker"
 msgstr "Marcatore della mappa dell'Evento di mappatura ${ eventName } "
 
-#: src/components/CreatePlaceFlow/components/MapButton.jsx:49
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:73
+#: src/components/CreatePlaceFlow/components/MapButton.tsx:49
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:73
 msgid "Define main entry"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:115
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:115
 msgid "Move the map to place the entry as correct as possible."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.jsx:125
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:125
 msgid "Confirm Position"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:61
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:94
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:61
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:94
 msgid "Create Place"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:66
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:66
 msgid "Check if the place already exists by searching for it"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:70
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:70
 msgid "No matching result?"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:72
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:72
 msgid "Create a new place with this name"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:79
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:79
 msgid "An error occurred while searching"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:82
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:82
 msgid "Type more to start searching"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.jsx:89
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:89
 msgid "Searching..."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CategoryPicker.jsx:60
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:60
 msgid "Select Category"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:44
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:44
 #, javascript-format
 msgid "Uploading ${ placeName } to ${ appName }."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:45
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:45
 msgid "Dismiss"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:50
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:50
 msgid "Unhappy face"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:53
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:53
 msgid "Sorry"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:54
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
 #, javascript-format
 msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:63
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:63
 msgid "You rock!"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:64
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:64
 #, javascript-format
 msgid "${ placeName } was added to ${ appName }."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.jsx:66
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:66
 msgid "Continue to place"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:96
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:96
 msgid "Name"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:109
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:109
 msgid "Category"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.jsx:111
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:111
 msgid "Select category"
 msgstr ""
 
@@ -953,29 +953,29 @@ msgstr ""
 msgid "Fix on external page."
 msgstr "Correzione sulla pagina esterna."
 
-#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.jsx:102
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:102
 msgid "Add more details"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.jsx:107
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:107
 msgid ""
 "Sorry, something went wrong! Please retry later, or write an email to "
 "bugs@wheelmap.org if the issue persists."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:51
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:51
 msgid "Address"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:53
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:53
 msgid "City"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:55
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:55
 msgid "Region"
 msgstr ""
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.jsx:61
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:61
 msgid "Postal Code"
 msgstr ""
 
