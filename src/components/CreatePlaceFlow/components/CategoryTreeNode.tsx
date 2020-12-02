@@ -1,8 +1,7 @@
-// @flow
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { type ACCategory, categoryNameFor } from '../../../lib/Categories';
+import { ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
 import Icon from '../../Icon';

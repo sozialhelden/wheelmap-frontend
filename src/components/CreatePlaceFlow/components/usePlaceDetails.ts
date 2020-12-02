@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
@@ -29,7 +28,7 @@ export default function usePlaceDetails(initialPlaceId: string | null = null) {
       appToken,
       false
     );
-    request.current = (placeDetailsPromise: Promise<AccessibilityCloudFeature>);
+    request.current = (placeDetailsPromise as Promise<AccessibilityCloudFeature>);
     setPlace(null);
     placeDetailsPromise
       .then(result => {

@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
@@ -12,7 +11,7 @@ import Icon from '../../Icon';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 
 import VerticalPage from '../components/VerticalPage';
-import PageHeader from '../components/PageHeader.js';
+import PageHeader from '../components/PageHeader';
 
 export type PointGeometry = {
   type: 'Point',

@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
@@ -12,7 +11,7 @@ import VerticalPage from '../components/VerticalPage';
 import MapButton from '../components/MapButton';
 import AddressEditor from '../components/AddressEditor';
 import type { AddressData } from '../components/AddressEditor';
-import PageHeader from '../components/PageHeader.js';
+import PageHeader from '../components/PageHeader';
 import InputField, { sharedInputStyle } from '../components/InputField';
 
 import { viewportFromSavedState } from './PointGeometryPicker';
@@ -136,18 +135,11 @@ const PlaceDetailsEditor = (props: Props) => {
 
 export default styled(PlaceDetailsEditor)`
   & > label,
-  & > ${MapButton},
-  & > ${InputField} {
-    margin-top: 12px;
-  }
-  
+  & > ${MapButton}, & > ${InputField} {
     margin-top: 12px;
   }
 
-    margin-top: 12px;
-  }
-
-  & > footer { 
+  & > footer {
     padding-bottom: 24px;
     padding-top: 24px;
   }

@@ -1,8 +1,7 @@
-// @flow
 import * as React from 'react';
 
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import { buildOriginalOsmId } from '../../lib/searchPlaces.js';
+import { buildOriginalOsmId } from '../../lib/searchPlaces';
 
 import AppContext from '../../AppContext';
 
@@ -17,7 +16,7 @@ import type { CreatePlaceData } from '../../lib/cache/AccessibilityCloudFeatureC
 import type { PlaceData } from './pages/PlaceDetailsEditor';
 import type { PointGeometry } from './pages/PointGeometryPicker';
 import type { AddressData } from './components/AddressEditor';
-import { type WheelmapResolvedSearchResultFeature } from './components/usePlaceSearchWithWheelmapResolution';
+import { WheelmapResolvedSearchResultFeature } from './components/usePlaceSearchWithWheelmapResolution';
 import Categories from '../../lib/Categories';
 import get from 'lodash/get';
 
@@ -155,7 +154,7 @@ const CreatePlaceFlow = (props: Props) => {
   const createPlace = React.useCallback(() => {
     setUploadState('Submitting');
     accessibilityCloudFeatureCache
-      .createPlace(((place: any): CreatePlaceData), appToken)
+      .createPlace(((place as any) as CreatePlaceData), appToken)
       .then(id => {
         setCreatedPlaceId(id);
         setUploadState('Success');

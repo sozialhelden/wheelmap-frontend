@@ -1,11 +1,9 @@
-// @flow
 import * as React from 'react';
 import styled from 'styled-components';
-import colors from '../../lib/colors';
 
 type Props = {
   className?: string,
-  children?: React.Node,
+  children?: React.ReactNode,
 };
 
 const PageStack = (props: Props) => {

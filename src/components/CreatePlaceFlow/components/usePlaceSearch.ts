@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { searchPlacesDebounced } from '../../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../../lib/searchPlaces';

@@ -1,5 +1,6 @@
 import { isWheelmapFeatureId } from '../../../lib/Feature';
-import { type DataSource } from '../../../lib/cache/DataSourceCache';
+import { DataSource } from '../../../lib/cache/DataSourceCache';
+import { App } from '../../../lib/App';
 
 export default function isA11yEditable(
   featureId: string | number,

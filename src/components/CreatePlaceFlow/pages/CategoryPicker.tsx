@@ -1,11 +1,10 @@
-// @flow
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 
 import { ChromelessButton } from '../../Button';
 
-import CategoryTreeNode, { type HierarchicalCategoryEntry } from '../components/CategoryTreeNode';
+import CategoryTreeNode, { HierarchicalCategoryEntry } from '../components/CategoryTreeNode';
 import VerticalPage from '../components/VerticalPage';
 import PageHeader from '../components/PageHeader';
 import AppContext from '../../../AppContext';
@@ -46,7 +45,7 @@ const CategoryPicker = (props: Props) => {
       }
     }
 
-    return ((Object.values(roots): any): HierarchicalCategoryEntry[]);
+    return ((Object.values(roots) as any) as HierarchicalCategoryEntry[]);
   }, [rawTreeData]);
 
   if (!visible) {

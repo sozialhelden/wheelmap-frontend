@@ -1,14 +1,10 @@
-// @flow
 import * as React from 'react';
 import env from '../../../lib/env';
 
 import usePlaceSearch from './usePlaceSearch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
-import { type WheelmapFeature } from '../../../lib/Feature';
-import {
-  type SearchResultFeature,
-  getOsmIdFromSearchResultProperties,
-} from '../../../lib/searchPlaces';
+import { WheelmapFeature } from '../../../lib/Feature';
+import { SearchResultFeature, getOsmIdFromSearchResultProperties } from '../../../lib/searchPlaces';
 
 export type SearchState = 'TypeMore' | 'Loading' | 'Error' | 'Results';
 

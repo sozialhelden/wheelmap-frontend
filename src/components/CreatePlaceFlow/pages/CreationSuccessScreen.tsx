@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { t } from 'ttag';
 import { Dots } from 'react-activity';

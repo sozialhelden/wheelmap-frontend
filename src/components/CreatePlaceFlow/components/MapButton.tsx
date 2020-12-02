@@ -1,4 +1,3 @@
-// @flow
 import * as React from 'react';
 import { StaticMap } from 'react-map-gl';
 import styled from 'styled-components';

@@ -1,5 +1,5 @@
-// @flow
-import FocusTrap, { FocusTarget } from 'focus-trap-react';
+import FocusTrap from 'focus-trap-react';
+import { FocusTarget } from 'focus-trap';
 import * as React from 'react';
 import styled from 'styled-components';
 

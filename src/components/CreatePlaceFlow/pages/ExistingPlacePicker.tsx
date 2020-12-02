@@ -1,20 +1,18 @@
-// @flow
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 import { Dots } from 'react-activity';
 
-import SearchResult from '../../SearchToolbar/SearchResult.js';
-
+import SearchResult from '../../SearchToolbar/SearchResult';
 import VerticalPage from '../components/VerticalPage';
 import usePlaceSearchWithWheelmapResolution, {
-  type WheelmapResolvedSearchResultFeature,
+  WheelmapResolvedSearchResultFeature,
 } from '../components/usePlaceSearchWithWheelmapResolution';
 import { ChromelessButton } from '../../Button';
 import colors from '../../../lib/colors';
 import InputField from '../components/InputField';
-import AppContext from '../../../AppContext.js';
-import PageHeader from '../components/PageHeader.js';
+import AppContext from '../../../AppContext';
+import PageHeader from '../components/PageHeader';
 
 type Props = {
   className?: string,
