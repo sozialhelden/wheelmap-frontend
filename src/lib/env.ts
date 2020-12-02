@@ -1,6 +1,7 @@
 import { loadGlobalEnvironment } from '@sozialhelden/twelve-factor-dotenv';
 
 type Environment = {
+  AWS_S3_BUCKET_NAME: string,
   npm_package_version: string,
   ELASTIC_APM_SECRET_TOKEN: string,
   ELASTIC_APM_SERVER_URL: string,

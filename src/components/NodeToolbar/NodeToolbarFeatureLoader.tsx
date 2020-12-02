@@ -18,15 +18,6 @@ type Props = {
   cluster: null | Cluster,
   hidden: boolean,
   modalNodeState: ModalNodeState,
-  onOpenReportMode: () => void | null,
-  onStartPhotoUploadFlow: () => void,
-  onClose?: () => void | null,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
-  onSelectWheelchairAccessibility?: (newValue: YesNoLimitedUnknown) => void,
-  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  onShowPlaceDetails: (featureId: string | number) => void,
-  hidden: boolean,
-  modalNodeState: ModalNodeState,
   inEmbedMode: boolean,
   onClose: () => void,
   onOpenReportMode: () => void | null,
@@ -45,10 +36,9 @@ type Props = {
 
   // photo feature
   onStartPhotoUploadFlow: () => void,
-  onReportPhoto: (photo: PhotoModel) => void,
-  photoFlowNotification?: string,
+  onReportPhoto: (photo: PhotoModel) => void
+  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
   photoFlowErrorMessage: null | string,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
   minimalTopPosition: number,
   userAgent: UAResult,
 } & PlaceDetailsProps;
@@ -83,7 +73,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     lastFeatureId: null,
     lastEquipmentInfoId: null,
   };
-  nodeToolbar: React.ElementRef<NodeToolbar> | null;
+  nodeToolbar = React.createRef<NodeToolbar>();
 
   static getDerivedStateFromProps(props: Props, state: State) {
     // keep old data when unchanged
@@ -154,8 +144,8 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
   }
 
   focus() {
-    if (this.nodeToolbar) {
-      this.nodeToolbar.focus();
+    if (this.nodeToolbar.current) {
+      this.nodeToolbar.current.focus();
     }
   }
 
@@ -290,7 +280,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         sources={resolvedSources || []}
         photos={resolvedPhotos || []}
         toiletsNearby={resolvedToiletsNearby || []}
-        ref={t => (this.nodeToolbar = t)}
+        ref={this.nodeToolbar}
       />
     );
   }

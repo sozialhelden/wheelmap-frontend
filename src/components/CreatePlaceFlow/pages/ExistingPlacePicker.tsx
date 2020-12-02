@@ -35,7 +35,7 @@ const ExistingPlacePicker = (props: Props) => {
   ] = usePlaceSearchWithWheelmapResolution();
   const onSearchStringChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      setSearchString(e.target.value);
+      setSearchString(e.target['value']);
     },
     [setSearchString]
   );

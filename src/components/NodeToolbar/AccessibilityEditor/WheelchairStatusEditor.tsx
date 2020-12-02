@@ -1,7 +1,11 @@
 import { t } from 'ttag';
 import * as React from 'react';
 
-import { WheelmapFeature, YesNoLimitedUnknown } from '../../../lib/Feature';
+import {
+  AccessibilityCloudFeature,
+  WheelmapFeature,
+  YesNoLimitedUnknown,
+} from '../../../lib/Feature';
 import {
   accessibilityDescription,
   shortAccessibilityName,
@@ -22,7 +26,7 @@ type SaveOptions = {
 
 type Props = SaveOptions & {
   categories: CategoryLookupTables,
-  feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  feature: WheelmapFeature | AccessibilityCloudFeature,
   className?: string,
   presetStatus?: YesNoLimitedUnknown | null,
 };
@@ -36,10 +40,10 @@ export default function WheelchairStatusEditor(props: Props) {
           hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => isWheelchairAccessible(feature.properties)}
-          saveValue={value => saveWheelchairStatus({ ...props, appContext, value })}
+          saveValue={value => saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })}
           renderChildrenForValue={({ value, categoryId }) => (
             <Icon
-              accessibility={value}
+              accessibility={value as YesNoLimitedUnknown}
               category={categoryId}
               size={isOnSmallViewport() ? 'small' : 'medium'}
               withArrow

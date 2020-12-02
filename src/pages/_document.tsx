@@ -1,4 +1,4 @@
-import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
+import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
 import * as React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
@@ -8,15 +8,16 @@ export default class MyDocument extends Document<any> {
     const sheet = new ServerStyleSheet();
 
     // Hacky way to get the locale used when rendering the page.
-    let locale;
+    let locale = 'en-us';
 
     const page = renderPage(App => props => {
-      locale = props.locale;
+      locale = props['locale'];
       return sheet.collectStyles(<App {...props} />);
     });
 
     const styleTags = sheet.getStyleElement();
-    return { ...page, styleTags, locale };
+    const extendedProps = { ...page, styleTags, locale } as any as DocumentInitialProps;
+    return Promise.resolve(extendedProps);
   }
 
   render() {

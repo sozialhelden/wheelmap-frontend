@@ -10,6 +10,7 @@ import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 type Props = {
   onFocus: () => void,
+  onBlur: () => void,
   category: string | null,
   accessibilityFilter?: YesNoLimitedUnknown[],
   toiletFilter?: YesNoUnknown[],
@@ -32,6 +33,7 @@ function CategoryMenu(props: Props) {
       {map(rootCategories, (category, categoryId) => (
         <CategoryButton
           onFocus={props.onFocus}
+          onBlur={props.onBlur}
           showCloseButton={showCloseButton}
           hasCircle={!showCloseButton && !isAccessibilityFiltered(props.accessibilityFilter)}
           accessibilityFilter={props.accessibilityFilter}

@@ -14,7 +14,7 @@ export default class EquipmentInfoCache extends FeatureCache<
   ): Promise<Response> {
     const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || '';
     const url = `${baseUrl}/equipment-infos/${id}.json?appToken=${appToken}`;
-    return self.fetch(url);
+    return FeatureCache.fetch(url);
   }
 
   static getIdForFeature(feature: EquipmentInfo): string {

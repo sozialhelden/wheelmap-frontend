@@ -142,14 +142,12 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
         hidden={this.props.hidden}
         isModal={this.props.modalNodeState}
         role="dialog"
-        inEmbedMode={this.props.inEmbedMode}
-        isBelowSearchField={true}
         minimalTopPosition={this.props.minimalTopPosition}
         minimalHeight={135}
       >
         <ErrorBoundary>
           <section className="cluster-entries">
-            <StyledNodeHeader hasOpaqueBackground={true}>
+            <StyledNodeHeader>
               <PlaceName>
                 <StyledClusterIcon {...this.props} />
                 {placesLabel}

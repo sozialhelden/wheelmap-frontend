@@ -31,7 +31,7 @@ function hasKoboSubmission(feature: Feature | null) {
 
 type Props = {
   className?: string,
-  featureId: string | null,
+  featureId: string | number | null,
   feature: Feature | null,
   sources: SourceWithLicense[] | null,
 };
@@ -57,7 +57,7 @@ const EditFormSubmissionButton = (props: Props) => {
   const placeId = props.featureId;
 
   const createOrOpenEditLink = React.useCallback(() => {
-    if (!placeId) {
+    if (!placeId || typeof placeId === 'number') {
       return;
     }
 

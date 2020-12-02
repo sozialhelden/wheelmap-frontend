@@ -58,7 +58,7 @@ const StyledSearchInputField = styled.input`
 `;
 
 export default class SearchInputField extends React.Component<Props, State> {
-  input: HTMLInputElement | null = null;
+  input = React.createRef<HTMLInputElement>();
 
   constructor(props) {
     super(props);
@@ -74,6 +74,13 @@ export default class SearchInputField extends React.Component<Props, State> {
 
   blur() {
     this.input.current?.blur();
+  }
+
+  clear() {
+    if (this.input.current) {
+      this.input.current.value = '';
+      this.input.current.blur();
+    }
   }
 
   keyPressed = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -97,7 +104,7 @@ export default class SearchInputField extends React.Component<Props, State> {
 
     return (
       <StyledSearchInputField
-        ref={input => (this.input = input)}
+        ref={this.input}
         value={value}
         name="search"
         onChange={this.onChange}

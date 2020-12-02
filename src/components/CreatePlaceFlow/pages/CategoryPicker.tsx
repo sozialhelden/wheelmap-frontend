@@ -11,7 +11,7 @@ import AppContext from '../../../AppContext';
 import colors from '../../../lib/colors';
 
 type Props = {
-  className?: String,
+  className?: string,
   visible: boolean,
   onCancel: () => void,
   onSelected: (categoryId: string) => void,

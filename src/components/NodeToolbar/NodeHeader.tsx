@@ -20,19 +20,20 @@ import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 
-
 export const StyledNodeHeader = styled.header`
   margin: -8px -16px 0 -16px;
   padding: 8px 16px;
   display: flex;
   align-items: flex-start;
   position: sticky;
-  top: 0px;
+  top: 0;
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
+
   ${PlaceName} {
     flex-grow: 2;
   }
+
   &.has-opaque-background {
     background-color: ${colors.colorizedBackgroundColor};
     border-top-right-radius: 20px;
@@ -123,9 +124,13 @@ export default class NodeHeader extends React.Component<Props> {
     );
 
     const { cluster, onClickCurrentCluster } = this.props;
+
     const clusterElement = cluster && (
       <React.Fragment>
-        <StyledClusterIcon cluster={cluster} onSelectClusterIcon={onClickCurrentCluster} />
+        <StyledClusterIcon
+          cluster={cluster}
+          onSelectClusterIcon={() => onClickCurrentCluster(cluster)}
+        />
         <ChevronRight style={{ marginRight: '4px' }} />
       </React.Fragment>
     );

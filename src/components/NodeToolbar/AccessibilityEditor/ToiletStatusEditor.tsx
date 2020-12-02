@@ -2,7 +2,7 @@ import * as React from 'react';
 import { t } from 'ttag';
 
 import useImperialUnits from '../../../lib/useImperialUnits';
-import { WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
+import { AccessibilityCloudFeature, WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import { accessibleToiletDescription, hasAccessibleToilet } from '../../../lib/Feature';
 
 import { saveToiletStatus } from './saveStatus';
@@ -20,7 +20,7 @@ type SaveOptions = {
 
 type Props = SaveOptions & {
   categories: CategoryLookupTables,
-  feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  feature: WheelmapFeature | AccessibilityCloudFeature,
   className?: string,
   presetStatus?: YesNoUnknown | null,
 };
@@ -63,7 +63,7 @@ export default function ToiletStatusEditor(props: Props) {
           {...props}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => hasAccessibleToilet(feature.properties)}
-          saveValue={value => saveToiletStatus({ ...props, appContext, value })}
+          saveValue={value => saveToiletStatus({ ...props, appContext, value: value as YesNoUnknown })}
           renderChildrenForValue={({ value, categoryId }) => <>{icons[value]}&nbsp;</>}
           shownStatusOptions={['yes', 'no']}
           captionForValue={value => captions[value]}

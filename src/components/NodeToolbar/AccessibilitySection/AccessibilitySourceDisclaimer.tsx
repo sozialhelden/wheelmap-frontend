@@ -5,7 +5,7 @@ import { AccessibilityCloudProperties } from '../../../lib/Feature';
 import { LocalizedString } from '../../../lib/i18n';
 
 type Props = {
-  properties: AccessibilityCloudProperties, // eslint-disable-line react/no-unused-prop-types
+  properties: AccessibilityCloudProperties,
   className?: string,
   appToken: string,
 };

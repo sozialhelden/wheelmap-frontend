@@ -13,7 +13,6 @@ import StyledCloseLink from '../CloseLink';
 export type Props = {
   hidden: boolean,
   waitingForPhotoUpload?: boolean,
-  inEmbedMode: boolean,
   onClose: () => void | null,
   onCompleted: (photos: FileList) => void | null,
 };
@@ -206,7 +205,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   backLink: null | HTMLButtonElement;
   goButton: null | React.ElementRef<'button'>;
 
-  onFileInputChanged = (event: SyntheticEvent<HTMLInputElement>) => {
+  onFileInputChanged = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
     var files = input.files;
 
@@ -221,7 +220,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
     }
   };
 
-  onClose = (event: UIEvent) => {
+  onClose = (event: React.SyntheticEvent) => {
     if (this.props.onClose) {
       this.props.onClose();
       event.preventDefault();
@@ -248,7 +247,6 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             hidden={this.props.hidden}
             isSwipeable={false}
             isModal
-            inEmbedMode={this.props.inEmbedMode}
           >
             <header>
               <h3>{captions.header}</h3>
@@ -295,11 +293,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               <button className="link-button negative-button" onClick={this.onClose}>
                 {t`Cancel`}
               </button>
-              <label
-                className="link-button primary-button file-label"
-                disabled={!canSubmit}
-                htmlFor="photo-file-upload"
-              >
+              <label className="link-button primary-button file-label" htmlFor="photo-file-upload">
                 {t`Continue`}
                 {waitingForPhotoUpload && <Dots />}
                 <input

@@ -4,11 +4,11 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 function VerticalPage(props: {
-  className: string,
-  children: React.ReactNode,
-  initialFocus: FocusTarget,
+  className?: string,
+  children?: React.ReactNode,
+  initialFocus?: FocusTarget,
 }) {
-  var pageRoot = React.useRef<HTMLElement | null>();
+  const pageRoot = React.useRef<HTMLDivElement | null>();
 
   return (
     <FocusTrap

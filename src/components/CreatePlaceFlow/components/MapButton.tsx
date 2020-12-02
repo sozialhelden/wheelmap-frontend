@@ -29,7 +29,6 @@ const MapButton = (props: Props) => {
         mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
         width="100%"
         height="300px"
-        tabIndex={-1}
         ref={r => {
           if (r) {
             // prevent keyboard focus of canvas

@@ -8,7 +8,12 @@ import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
 
 import { SourceWithLicense } from '../../../app/PlaceDetailsProps';
-import { Feature, isWheelmapProperties, isWheelchairAccessible } from '../../../lib/Feature';
+import {
+  Feature,
+  isWheelmapProperties,
+  isWheelchairAccessible,
+  AccessibilityCloudProperties
+} from "../../../lib/Feature";
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
 import { Category } from '../../../lib/Categories';
 import filterAccessibility from '../../../lib/filterAccessibility';
@@ -33,15 +38,7 @@ type Props = {
 };
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const {
-    featureId,
-    feature,
-    toiletsNearby,
-    isLoadingToiletsNearby,
-    cluster,
-    sources,
-    isWheelmapFeature,
-  } = props;
+  const { featureId, feature, toiletsNearby, cluster, sources, isWheelmapFeature } = props;
 
   const appContext = React.useContext(AppContext);
   const properties = feature && feature.properties;
@@ -91,10 +88,13 @@ export default function PlaceAccessibilitySection(props: Props) {
       <AccessibleDescription properties={properties} />
       <EditFormSubmissionButton featureId={featureId} feature={feature} sources={sources} />
       {accessibilityDetailsTree}
-      <AccessibilitySourceDisclaimer
-        properties={properties}
-        appToken={appContext.app.tokenString}
-      />
+
+      {isWheelmapFeature && (
+        <AccessibilitySourceDisclaimer
+          properties={properties as AccessibilityCloudProperties}
+          appToken={appContext.app.tokenString}
+        />
+      )}
     </StyledFrame>
   );
 }

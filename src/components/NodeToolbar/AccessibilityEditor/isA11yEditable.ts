@@ -13,6 +13,5 @@ export default function isA11yEditable(
   const isA11yRatingAllowed = primarySource ? primarySource.isA11yRatingAllowed === true : false;
   const isEditingEnabled =
     isWheelmapFeature || isDefaultSourceForPlaceEditing || isA11yRatingAllowed;
-
   return isEditingEnabled;
 }

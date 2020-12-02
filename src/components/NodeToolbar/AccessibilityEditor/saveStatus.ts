@@ -98,7 +98,7 @@ function finishRatingFlow<T>(options: TrackableSaveOptions<T>, promise: Promise<
     });
 }
 
-function saveToWheelmap<T>(options: WheelmapSaveOptions<T>): Promise<Response> {
+function saveToWheelmap<T>(options: WheelmapSaveOptions<T>): Promise<void> {
   const { url, value } = options;
 
   const formData = new FormData();
@@ -151,7 +151,7 @@ function saveToAc<T>(
   rating: 'yes' | 'no' | 'unknown' | 'partial',
   propertyUpdates: PropertyUpdates,
   options: ExternalSaveOptions<T>
-): Promise<Response> {
+): Promise<void> {
   const trackableOptions = {
     ...options,
     propertyUpdates,

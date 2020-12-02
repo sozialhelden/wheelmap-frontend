@@ -4,6 +4,7 @@ import { accessibilityCloudFeatureCache } from '../../../lib/cache/Accessibility
 import type { AccessibilityCloudFeature } from '../../../lib/Feature';
 
 import AppContext from '../../../AppContext';
+import { Dispatch, SetStateAction } from "react";
 
 export type SearchState = 'NoId' | 'Loading' | 'Error' | 'Result';
 
@@ -50,5 +51,6 @@ export default function usePlaceDetails(initialPlaceId: string | null = null) {
     };
   }, [placeId, appToken, setState, setPlace]);
 
-  return [state, place, setPlaceId];
+  return [state, place, setPlaceId] as
+    [SearchState, AccessibilityCloudFeature | null, Dispatch<SetStateAction<string>>];
 }

@@ -116,7 +116,7 @@ const UnstyledMappingEventWelcomeDialog = ({
   let queryEmailAddress: string | null;
   if (typeof window !== 'undefined') {
     const queryObject = queryString.parse(window.location.search);
-    queryEmailAddress = queryObject.emailAddress;
+    queryEmailAddress = queryObject.emailAddress as string;
   }
 
   return (

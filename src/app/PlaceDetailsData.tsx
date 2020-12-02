@@ -109,14 +109,14 @@ function fetchPhotos(
   const isWheelmap = isWheelmapFeatureId(featureId);
   const useWheelmap = isWheelmap && !disableWheelmapSource;
 
-  var photosPromise = Promise.all([
+  const photosPromise = Promise.all([
     accessibilityCloudImageCache
       .getPhotosForFeature(featureId, appToken, useCache)
       .then(acPhotos => {
         if (acPhotos) {
           return convertAcPhotosToLightboxPhotos(acPhotos);
         }
-        return [];
+        return [] as PhotoModel[];
       }),
     useWheelmap
       ? wheelmapFeaturePhotosCache
@@ -125,14 +125,17 @@ function fetchPhotos(
             if (wmPhotos) {
               return convertWheelmapPhotosToLightboxPhotos(wmPhotos);
             }
-            return [];
+            return [] as PhotoModel[];
           })
-      : Promise.resolve([]),
+      : Promise.resolve([] as PhotoModel[]),
   ])
     .then((photoArrays: PhotoModel[][]) => {
-      return [].concat(photoArrays[0], photoArrays[1]);
+      return [].concat(photoArrays[0], photoArrays[1]) as PhotoModel[];
     })
-    .catch(console.error);
+    .catch(err => {
+      console.error(err);
+      return [] as PhotoModel[];
+    });
 
   return photosPromise;
 }

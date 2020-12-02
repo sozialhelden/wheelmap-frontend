@@ -81,8 +81,8 @@ const PointGeometryPicker = (props: Props) => {
           height="100%"
           onViewportChange={applyViewport}
           onLoad={p => {
-            if (geoLocateRef.current && geoLocateRef.current._mapboxGeolocateControl) {
-              geoLocateRef.current._mapboxGeolocateControl.trigger();
+            if (geoLocateRef.current && geoLocateRef.current['_mapboxGeolocateControl']) {
+              geoLocateRef.current['_mapboxGeolocateControl'].trigger();
             }
           }}
           ref={r => {
@@ -111,7 +111,7 @@ const PointGeometryPicker = (props: Props) => {
         />
       </div>
       <footer>
-        <div class="hint">{t`Move the map to place the entry as correct as possible.`}</div>
+        <div className="hint">{t`Move the map to place the entry as correct as possible.`}</div>
         <PrimaryButton
           disabled={!canSubmit}
           onClick={() =>

@@ -22,14 +22,12 @@ import { PhotoModel } from '../../lib/PhotoModel';
 import {
   Feature,
   YesNoLimitedUnknown,
-  YesNoUnknown,
-  isWheelmapFeature,
   isWheelmapFeatureId,
   placeNameFor,
   isWheelchairAccessible,
 } from '../../lib/Feature';
 
-import { Category, CategoryLookupTables, getCategoryId } from '../../lib/Categories';
+import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
@@ -73,7 +71,7 @@ type Props = {
   onOpenToiletNearby: (feature: Feature) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
-  onClickCurrentCluster?: () => void,
+  onClickCurrentCluster?: (cluster: Cluster) => void,
   onShowPlaceDetails?: (featureId: string | number) => void,
   // Simple 3-button wheelchair status editor
   accessibilityPresetStatus?: YesNoLimitedUnknown | null,
@@ -89,17 +87,15 @@ type Props = {
 };
 
 class NodeToolbar extends React.PureComponent<Props> {
-  toolbar: React.ElementRef<StyledToolbar> | null;
-  reportDialog: React.ElementRef<ReportDialog> | null;
-  shareButton: React.ElementRef<'button'> | null;
-  reportModeButton: React.ElementRef<'button'> | null;
+  toolbar = React.createRef<HTMLElement>();
+  reportDialog: React.ElementRef<typeof ReportDialog> | null;
 
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
   }
 
   focus() {
-    this.toolbar?.focus();
+    this.toolbar.current?.focus();
   }
 
   renderReportDialog() {
@@ -199,7 +195,7 @@ class NodeToolbar extends React.PureComponent<Props> {
         categories={this.props.categories}
         featureId={this.props.featureId as any}
         feature={this.props.feature}
-        onSave={(newValue: YesNoUnknown) => {
+        onSave={() => {
           this.props.onClose();
           this.props.onCloseToiletAccessibility();
         }}
@@ -214,7 +210,7 @@ class NodeToolbar extends React.PureComponent<Props> {
         categories={this.props.categories}
         featureId={this.props.featureId as any}
         feature={this.props.feature}
-        onSave={(newValue: YesNoLimitedUnknown) => {
+        onSave={() => {
           this.props.onClose();
           this.props.onCloseWheelchairAccessibility();
         }}
@@ -242,6 +238,8 @@ class NodeToolbar extends React.PureComponent<Props> {
     // translator: Shown as header/title when you edit wheelchair accessibility of a place
     const header = t`How wheelchair accessible is this place?`;
 
+    const categoryName = categoryNameFor(category);
+
     return (
       <AppContextConsumer>
         {appContext => {
@@ -253,9 +251,8 @@ class NodeToolbar extends React.PureComponent<Props> {
             <section>
               <h4 id="wheelchair-accessibility-header">{header}</h4>
               <InlineWheelchairAccessibilityEditor
-                category={category}
+                category={categoryName}
                 onChange={this.props.onSelectWheelchairAccessibility}
-                presetStatus={this.props.accessibilityPresetStatus}
               />
             </section>
           );
@@ -339,7 +336,7 @@ class NodeToolbar extends React.PureComponent<Props> {
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
-      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} {...this.props} />
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props} />
     );
 
     const inlineWheelchairAccessibilityEditor = feature
@@ -374,14 +371,13 @@ class NodeToolbar extends React.PureComponent<Props> {
       >
         <div>
           <StyledToolbar
-            ref={toolbar => (this.toolbar = toolbar)}
+            ref={this.toolbar}
             hidden={this.props.hidden}
-            isModal={this.props.modalNodeState}
+            isModal={this.props.modalNodeState !== null}
             role="dialog"
             ariaLabel={this.placeName()}
             minimalTopPosition={this.props.minimalTopPosition}
             minimalHeight={135}
-            isBelowSearchField={true}
           >
             <ErrorBoundary>
               {this.renderNodeHeader()}

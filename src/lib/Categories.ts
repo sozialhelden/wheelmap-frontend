@@ -318,7 +318,7 @@ export default class Categories {
   }
 }
 
-export function categoryNameFor(category: Category): string | void {
+export function categoryNameFor(category: Category): string | null {
   if (!category) return;
   let idObject = null;
 

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { searchPlacesDebounced } from '../../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../../lib/searchPlaces';
+import { Dispatch, SetStateAction } from "react";
+import { WheelmapResolvedSearchResultFeature } from "./usePlaceSearchWithWheelmapResolution";
 
 export type SearchState = 'TypeMore' | 'Loading' | 'Error' | 'Results';
 
@@ -43,7 +45,8 @@ function usePlaceSearch(minimalRequiredLetterCount: number = 2) {
     };
   }, [searchString, setSearchState, setSearchResults, minimalRequiredLetterCount]);
 
-  return [searchState, searchResults, searchString, setSearchString];
+  return [searchState, searchResults, searchString, setSearchString] as
+    [SearchState, SearchResultCollection | null, string, Dispatch<SetStateAction<string>>];
 }
 
 export default usePlaceSearch;

@@ -126,7 +126,7 @@ const CreatePlaceFlow = (props: Props) => {
         const geometry = searchResult.geometry;
         const categoriesData = Categories.getCategoriesForFeature(categories, searchResult);
         const category =
-          categoriesData && categoriesData.category ? categoriesData.category._id : undefined;
+          categoriesData && categoriesData.category ? categoriesData.category['_id'] : undefined;
         const state = get(searchResult, 'properties.state');
         const originalId = buildOriginalOsmId(searchResult.properties);
 
@@ -144,7 +144,7 @@ const CreatePlaceFlow = (props: Props) => {
           originalId,
           originalData: JSON.stringify(searchResult),
         };
-        setPlace(clonedPlace);
+        setPlace(clonedPlace as PlaceData);
         setStep('EditPlaceDetails');
       }
     },

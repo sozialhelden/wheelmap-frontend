@@ -11,6 +11,7 @@ import CameraIcon from './CameraIcon';
 import colors from '../../lib/colors';
 
 import { accessibilityCloudImageCache } from '../../lib/cache/AccessibilityCloudImageCache';
+import { FormEvent } from 'react';
 
 export type Props = {
   appToken: string,
@@ -244,10 +245,9 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
   };
 
   inputField: null | HTMLInputElement;
-  backLink: null | React.ElementRef<CloseLink>;
-  goButton: null | React.ElementRef<'button'>;
+  backLink: null | React.ElementRef<typeof CloseLink>;
   checkCaptchaTimer: number | null;
-  toolbar: null | React.ElementRef<Toolbar>;
+  toolbar: null | React.ElementRef<typeof Toolbar>;
 
   componentDidMount() {
     if (!this.props.hidden) {
@@ -322,6 +322,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
           disabled={isInputDisabled}
           onChange={event => this.setState({ enteredCaptchaValue: event.target.value })}
           value={this.state.enteredCaptchaValue || ''}
+          // @ts-ignore
           field="captcha-solution"
         />
       </form>
@@ -373,7 +374,7 @@ export default class PhotoUploadCaptchaToolbar extends React.Component<Props, St
     this.startTimer();
   };
 
-  onFinishPhotoUploadFlow = (event: UIEvent) => {
+  onFinishPhotoUploadFlow = (event: FormEvent) => {
     if (this.props.onCompleted && this.props.photosMarkedForUpload) {
       if (!this.state.enteredCaptchaValue) {
         event.preventDefault();

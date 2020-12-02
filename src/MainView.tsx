@@ -557,7 +557,6 @@ class MainView extends React.Component<Props, State> {
         waitingForPhotoUpload={this.props.waitingForPhotoUpload}
         onClose={this.props.onAbortPhotoUploadFlow}
         onCompleted={this.props.onContinuePhotoUploadFlow}
-        inEmbedMode={this.props.inEmbedMode}
       />
     );
   }

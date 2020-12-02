@@ -72,7 +72,11 @@ export function isToiletFiltered(toiletFilter: YesNoUnknown[] | null): boolean {
   );
 }
 
-// TODO: Create flowtype definition for AC format and re-use it here
+export type AccessibilityDescription = {
+  description?: string | null;
+  longDescription?: string | null; // can be read out aloud by a voice assistant, does not contain abbreviations or special characters
+  shortDescription?: string | null; // can be shortened, makes more sense visually
+}
 
 export interface Restroom {
   isAccessibleWithWheelchair?: boolean,
@@ -98,7 +102,7 @@ export interface WheelmapCategoryOrNodeType {
   identifier: string | null,
 };
 
-export interface WheelmapProperties {
+export type WheelmapProperties = {
   id: number,
   category: WheelmapCategoryOrNodeType | null,
   node_type: WheelmapCategoryOrNodeType | null,
@@ -118,7 +122,7 @@ export interface WheelmapProperties {
   wheelchair: YesNoLimitedUnknown | null,
   wheelchair_description: string | null,
   wheelchair_toilet: YesNoUnknown | null,
-};
+} & AccessibilityDescription;
 
 export type WheelmapFeature = {
   type: 'Feature',
@@ -130,7 +134,7 @@ export type WheelmapFeature = {
 // todo: this makes no sense
 export type WheelmapLightweightFeature = WheelmapFeature;
 
-export interface AccessibilityCloudProperties {
+export type AccessibilityCloudProperties = {
   _id: string,
   sourceId: string,
   name?: LocalizedString | null,
@@ -156,8 +160,8 @@ export interface AccessibilityCloudProperties {
   isWorking?: boolean,
   phone: string | null,
   phoneNumber: string | null,
-  placeWebsiteUrl?: string | null
-};
+  placeWebsiteUrl?: string | null,
+} & AccessibilityDescription;
 
 export type AccessibilityCloudFeature = {
   type: 'Feature',

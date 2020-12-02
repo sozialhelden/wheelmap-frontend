@@ -4,15 +4,14 @@ import styled from 'styled-components';
 
 import { CategoryLookupTables } from '../../../lib/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
-import { WheelmapFeature } from '../../../lib/Feature';
+import { AccessibilityCloudFeature, WheelmapFeature } from '../../../lib/Feature';
 import FocusTrap from 'focus-trap-react';
 import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
-import CloseLink from '../../CloseLink';
 
 type Props = {
   featureId: string | number,
-  feature: WheelmapFeature, // eslint-disable-line react/no-unused-prop-types
+  feature: WheelmapFeature | AccessibilityCloudFeature,
   categories: CategoryLookupTables,
   hideUnselectedCaptions?: Boolean,
 
@@ -24,8 +23,8 @@ type Props = {
   presetStatus?: string | null,
   undefinedStringValue: string,
   renderChildrenForValue: (value: { value: string, categoryId: string }) => React.ReactNode,
-  getValueFromFeature: (feature: WheelmapFeature) => string,
-  saveValue: (selectedValue: string) => Promise<void>,
+  getValueFromFeature: (feature: WheelmapFeature | AccessibilityCloudFeature) => string,
+  saveValue: (selectedValue: string) => Promise<any>,
   descriptionForValue: (value: string) => string,
   captionForValue: (value: string) => string,
 
@@ -120,10 +119,6 @@ class RadioStatusEditor extends React.Component<Props, State> {
       event.stopPropagation();
     }
   };
-
-  renderCloseButton() {
-    return !this.props.inline && <CloseLink onClick={this.closeButtonClick} />;
-  }
 
   renderRadioGroup() {
     const { selectedValue, busy } = this.state;

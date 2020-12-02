@@ -3,10 +3,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { SearchResultCollection } from '../../lib/searchPlaces';
-import colors from '../../lib/colors';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 import { WheelmapFeature } from '../../lib/Feature';
-import SearchResult from './SearchResult';
+import SearchResult, { UnstyledSearchResult } from './SearchResult';
 import { CategoryLookupTables } from '../../lib/Categories';
 
 type Props = {
@@ -14,8 +13,11 @@ type Props = {
   categories: CategoryLookupTables,
   className?: string,
   hidden: boolean | null,
-  onSearchResultClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
-  refFirst: (result: SearchResult | null) => void | null,
+  onSearchResultClick: (
+    feature: SearchResultFeature,
+    wheelmapFeature: WheelmapFeature | null
+  ) => void,
+  refFirst: (result: UnstyledSearchResult | null) => void | null,
 };
 
 const StyledSearchResultList = styled.ul`

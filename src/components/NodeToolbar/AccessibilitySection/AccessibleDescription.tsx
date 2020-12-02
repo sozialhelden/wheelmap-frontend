@@ -2,15 +2,10 @@ import marked from 'marked';
 import * as React from 'react';
 import Description from './Description';
 import { translatedStringFromObject } from '../../../lib/i18n';
-
-interface AccessibleDescriptionInterface {
-  description?: string;
-  longDescription?: string; // can be read out aloud by a voice assistant, does not contain abbreviations or special characters
-  shortDescription?: string; // can be shortened, makes more sense visually
-}
+import { AccessibilityDescription } from '../../../lib/Feature';
 
 type Props = {
-  properties: AccessibleDescriptionInterface, // eslint-disable-line react/no-unused-prop-types
+  properties: AccessibilityDescription,
   className?: string,
 };
 
@@ -25,7 +20,6 @@ export default function AccessibleDescription(props: Props) {
   const { description, longDescription, shortDescription } = properties;
 
   const descriptionText = shortDescription || description || longDescription;
-
   if (!descriptionText) return null;
 
   const string = translatedStringFromObject(descriptionText);
@@ -36,6 +30,6 @@ export default function AccessibleDescription(props: Props) {
     <Description
       className={(props.className || '') + (hasQuotes ? ' has-quotes' : '')}
       dangerouslySetInnerHTML={{ __html }}
-    ></Description>
+    />
   );
 }

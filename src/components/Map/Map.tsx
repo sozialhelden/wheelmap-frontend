@@ -952,7 +952,7 @@ export default class Map extends React.Component<Props, State> {
     if (!properties) {
       return null;
     }
-    const featureId: string = properties.id || properties._id || feature._id;
+    const featureId: string = getFeatureId(feature);
     return new HighlightableMarker(latlng, A11yMarkerIcon, {
       onClick: () => this.props.onMarkerClick(featureId, properties),
       href: hrefForFeature(feature, properties),

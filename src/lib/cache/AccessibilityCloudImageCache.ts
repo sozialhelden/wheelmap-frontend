@@ -2,6 +2,7 @@ import readAndCompressImage from 'browser-image-resizer';
 import env from '../env';
 import URLDataCache from './URLDataCache';
 import { AccessibilityCloudImages } from '../Feature';
+import FeatureCache from './FeatureCache';
 
 export const InvalidCaptchaReason = 'invalid-captcha';
 export const UnknownReason = 'unknown';
@@ -47,7 +48,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     const image = images[0];
     const url = `${baseUrl}/image-upload?placeId=${featureId}&captcha=${captchaSolution}&appToken=${appToken}`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
-    const response = await self.fetch(url, {
+    const response = await FeatureCache.fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -73,15 +74,15 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
 
   reportPhoto(photoId: string, reason: string, appToken: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      self.fetch(
-          `${uncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${appToken}`,
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-            },
-          }
-        )
+      FeatureCache.fetch(
+        `${uncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${appToken}`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+          },
+        }
+      )
         .then((response: Response) => {
           if (response.ok) {
             resolve(true);

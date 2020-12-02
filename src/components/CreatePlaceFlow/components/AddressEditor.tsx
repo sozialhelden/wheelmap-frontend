@@ -19,28 +19,28 @@ const AddressEditor = (props: Props) => {
 
   const onAddressLineChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, text: e.target.value });
+      onUpdateAddress({ ...address, text: e.target['value'] });
     },
     [address, onUpdateAddress]
   );
 
   const onCityChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, city: e.target.value });
+      onUpdateAddress({ ...address, city: e.target['value'] });
     },
     [address, onUpdateAddress]
   );
 
   const onRegionChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, regions: [e.target.value] });
+      onUpdateAddress({ ...address, regions: [e.target['value']] });
     },
     [address, onUpdateAddress]
   );
 
   const onPostalCodeChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateAddress({ ...address, postalCode: e.target.value });
+      onUpdateAddress({ ...address, postalCode: e.target['value'] });
     },
     [address, onUpdateAddress]
   );

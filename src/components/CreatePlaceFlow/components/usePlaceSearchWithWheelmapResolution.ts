@@ -3,8 +3,9 @@ import env from '../../../lib/env';
 
 import usePlaceSearch from './usePlaceSearch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
-import { WheelmapFeature } from '../../../lib/Feature';
+import { AccessibilityCloudFeature, WheelmapFeature } from "../../../lib/Feature";
 import { SearchResultFeature, getOsmIdFromSearchResultProperties } from '../../../lib/searchPlaces';
+import { Dispatch, SetStateAction } from "react";
 
 export type SearchState = 'TypeMore' | 'Loading' | 'Error' | 'Results';
 
@@ -87,7 +88,8 @@ function usePlaceSearchWithWheelmapResolution(minimalRequiredLetterCount: number
     };
   }, [rawSearchResults, setSearchResults, setSearchState]);
 
-  return [searchState, searchResults, searchString, setSearchString];
+  return [searchState, searchResults, searchString, setSearchString] as
+    [SearchState, WheelmapResolvedSearchResultFeature[] | null, string, Dispatch<SetStateAction<string>>];
 }
 
 export default usePlaceSearchWithWheelmapResolution;

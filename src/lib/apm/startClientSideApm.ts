@@ -8,6 +8,7 @@ export default function startClientSideApm() {
     serviceName: 'wheelmap-react-frontend',
     serviceVersion: env.npm_package_version, // Used on the APM Server to find the right sourcemap
     serverUrl: env.REACT_APP_ELASTIC_APM_SERVER_URL,
+    // @ts-ignore
     secretToken: env.REACT_APP_ELASTIC_APM_SECRET_TOKEN,
     // Other APM monitored services
     distributedTracingOrigins: [

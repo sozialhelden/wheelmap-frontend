@@ -29,7 +29,7 @@ type State = {
   wheelmapFeaturePromise: Promise<WheelmapFeature | null> | null,
 };
 
-class SearchResult extends React.Component<Props, State> {
+export class UnstyledSearchResult extends React.Component<Props, State> {
   props: Props;
 
   state: State = {
@@ -167,7 +167,7 @@ class SearchResult extends React.Component<Props, State> {
   }
 }
 
-export default styled(SearchResult)`
+export default styled(UnstyledSearchResult)`
   padding: 0;
 
   > button {

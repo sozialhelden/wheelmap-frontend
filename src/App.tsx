@@ -96,7 +96,7 @@ interface Props extends PlaceDetailsProps {
   accessibilityFilter: YesNoLimitedUnknown[],
 
   toiletsNearby: PotentialPromise<Feature[]>,
-};
+}
 
 interface State {
   mappingEvents: MappingEvents,
@@ -131,7 +131,7 @@ interface State {
   isSpecificLatLonProvided: boolean,
   zoom?: number | null,
   extent?: [number, number, number, number] | null,
-};
+}
 
 function isStickySearchBarSupported() {
   return hasBigViewport() && !isTouchDevice();

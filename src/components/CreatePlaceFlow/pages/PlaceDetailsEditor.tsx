@@ -58,7 +58,7 @@ const PlaceDetailsEditor = (props: Props) => {
 
   const onPlaceNameChanged = React.useCallback(
     (e: React.ChangeEvent) => {
-      onUpdateName(e.target.value);
+      onUpdateName(e.target['value']);
     },
     [onUpdateName]
   );

@@ -19,6 +19,7 @@ type Props = {
   toiletFilter?: YesNoUnknown[],
   onClick?: (category: string) => void,
   onFocus?: () => void,
+  onBlur?: () => void,
   className?: string,
   isMainCategory: boolean,
 };
@@ -66,6 +67,7 @@ function CategoryButton(props: Props) {
             aria-label={showCloseButton ? t`Remove ${props.name} Filter` : props.name}
             className={className}
             onFocus={props.onFocus}
+            onBlur={props.onBlur}
           >
             <IconButton
               isHorizontal={showCloseButton}
