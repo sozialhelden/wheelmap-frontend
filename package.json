@@ -46,7 +46,7 @@
     "immutable": "^3.8.1",
     "is-url": "^1.2.4",
     "isomorphic-unfetch": "^2.1.1",
-    "leaflet": "^1.0.3",
+    "leaflet": "^1.7.1",
     "leaflet-gesture-handling": "github:sozialhelden/Leaflet.GestureHandling",
     "leaflet-tilelayer-geojson": "^1.0.4",
     "leaflet.markercluster": "^1.0.4",
