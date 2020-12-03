@@ -5,7 +5,7 @@ const testDeploymentBaseUrl = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
 
 console.log('Running test against this URL:', testDeploymentBaseUrl);
 
-describe('Wheelmap basic functions', () => {
+describe('Wheelmap main page', () => {
   it('has a title', () => {
     browser.url(testDeploymentBaseUrl);
     // $('[name="q"]').setValue('BrowserStack');
