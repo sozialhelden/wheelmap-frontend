@@ -152,6 +152,7 @@ export { default as tattoo } from './tattoo';
 export { default as tea_shop } from './tea_shop';
 export { default as textiles } from './textiles';
 export { default as theater } from './theater';
+export { default as culture } from './culture';
 export { default as themepark } from './themepark';
 export { default as tobacco } from './tobacco';
 export { default as toilets } from './toilets';
