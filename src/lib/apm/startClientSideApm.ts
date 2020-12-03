@@ -2,6 +2,11 @@ import { init } from '@elastic/apm-rum';
 import env from '../env';
 
 export default function startClientSideApm() {
+  if (!env.ELASTIC_APM_SECRET_TOKEN) {
+    console.log('No secret token given, skipping apm.');
+    return;
+  }
+
   console.log('Starting client side APM.');
 
   const apm = init({
