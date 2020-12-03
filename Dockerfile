@@ -71,6 +71,7 @@ COPY --from=buildenv /usr/app/.env.example .
 COPY --from=buildenv /usr/app/dist ./dist
 COPY --from=buildenv /usr/app/node_modules ./node_modules
 COPY --from=buildenv /usr/app/tests ./tests
+COPY --from=buildenv /usr/app/run_tests.sh ./run_tests.sh
 
 EXPOSE 3000
 
