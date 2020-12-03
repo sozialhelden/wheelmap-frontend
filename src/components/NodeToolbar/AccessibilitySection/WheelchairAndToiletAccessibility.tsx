@@ -157,7 +157,8 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 
     const findToiletsNearby =
       toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
-    const hasContent = isKnownWheelchairAccessibility || isToiletButtonShown || findToiletsNearby;
+    const hasContent =
+      isKnownWheelchairAccessibility || isToiletButtonShown; /*|| findToiletsNearby*/
     if (!hasContent) {
       return null;
     }
@@ -166,7 +167,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       <div className={this.props.className}>
         {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
-        {/* {findToiletsNearby && this.renderNearbyToilets()} */}
+        {/*{findToiletsNearby && this.renderNearbyToilets()}*/}
       </div>
     );
   }

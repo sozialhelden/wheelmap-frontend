@@ -61,49 +61,57 @@ function capitalizeFirstLetter(string): string {
 
 function DetailsObject(props: { className: string | null, object: {}, isNested?: boolean }) {
   const { className, object, isNested } = props;
-  const properties = Object.keys(object).map(key => {
-    if (key.match(/Localized/)) {
-      return null;
-    }
-    const value = object[key];
-    const name = formatName(key, object);
+  const properties = Object.keys(object)
+    .map(key => {
+      if (key.match(/Localized/)) {
+        return null;
+      }
 
-    // Screen readers work better when the first letter is capitalized.
-    // If the attribute starts with a lowercase letter, there is no spoken pause
-    // between the previous attribute value and the attribute name.
-    const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
+      const value = object[key];
+      const name = formatName(key, object);
 
-    if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
+      // Screen readers work better when the first letter is capitalized.
+      // If the attribute starts with a lowercase letter, there is no spoken pause
+      // between the previous attribute value and the attribute name.
+      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
+
+      if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
+        return [
+          <dt key={`${key}-name`} data-key={key}>
+            {capitalizedName}
+          </dt>,
+          <dd key={`${key}-tree`}>
+            <AccessibilityDetailsTree isNested={true} details={value} />
+          </dd>,
+        ];
+      }
+      if (key.startsWith('rating')) {
+        return [
+          <dt key={`${key}-name`} className="ac-rating">
+            {capitalizedName}:
+          </dt>,
+          <dd key={`${key}-rating`}>
+            <FormatRating rating={parseFloat(String(value))} />
+          </dd>,
+        ];
+      }
+      const generatedClassName = `ac-${typeof value}`;
+      const formattedValue = formatValue(value);
       return [
-        <dt key={`${key}-name`} data-key={key}>
-          {capitalizedName}
-        </dt>,
-        <dd key={`${key}-tree`}>
-          <AccessibilityDetailsTree isNested={true} details={value} />
-        </dd>,
-      ];
-    }
-    if (key.startsWith('rating')) {
-      return [
-        <dt key={`${key}-name`} className="ac-rating">
+        <dt key={`${key}-name`} className={generatedClassName}>
           {capitalizedName}:
         </dt>,
-        <dd key={`${key}-rating`}>
-          <FormatRating rating={parseFloat(String(value))} />
+        <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
+          <em>{formattedValue}</em>
         </dd>,
       ];
-    }
-    const generatedClassName = `ac-${typeof value}`;
-    const formattedValue = formatValue(value);
-    return [
-      <dt key={`${key}-name`} className={generatedClassName}>
-        {capitalizedName}:
-      </dt>,
-      <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
-        <em>{formattedValue}</em>
-      </dd>,
-    ];
-  });
+    })
+    .filter(Boolean);
+
+  if (properties.length === 0) {
+    return null;
+  }
+
   return (
     <dl className={`ac-group ${className || ''}`} role={isNested ? null : 'text'}>
       {properties}
