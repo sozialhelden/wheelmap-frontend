@@ -3,14 +3,14 @@ require('dotenv').config();
 // const testDeploymentBaseUrl = "https://wheelmap.org";
 const testDeploymentBaseUrl = process.env.CI_TEST_DEPLOYMENT_BASE_URL;
 
-console.log('runing test on: ', testDeploymentBaseUrl)
+console.log('Running test against this URL:', testDeploymentBaseUrl);
 
 describe('Wheelmap basic functions', () => {
-    it('has a title', () => {
-        browser.url(testDeploymentBaseUrl);
-        // $('[name="q"]').setValue('BrowserStack');
-        // browser.keys("\uE007"); // somehow cant click, not reachable
-        // $('[name="btnK"]').click();
-        browser.getTitle().should.match(/Wheelmap – Find wheelchair accessible places./i);
-    });
+  it('has a title', () => {
+    browser.url(testDeploymentBaseUrl);
+    // $('[name="q"]').setValue('BrowserStack');
+    // browser.keys("\uE007"); // somehow cant click, not reachable
+    // $('[name="btnK"]').click();
+    browser.getTitle().should.match(/Wheelmap – Find wheelchair accessible places./i);
   });
+});
