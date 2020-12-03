@@ -68,7 +68,7 @@ FROM base AS release
 COPY --from=buildenv /usr/app/package.json .
 COPY --from=buildenv /usr/app/.env .
 COPY --from=buildenv /usr/app/.env.example .
-COPY --from=buildenv /usr/app/src ./src
+COPY --from=buildenv /usr/app/dist ./dist
 COPY --from=buildenv /usr/app/node_modules ./node_modules
 
 EXPOSE 3000
