@@ -42,7 +42,7 @@ function fontSize(size: Size) {
 
 function Figure(props: Partial<Props>) {
   return (
-    <figure className={props.className}>
+    <figure className={props.className} onClick={props.onClick}>
       {props.children}
     </figure>
   );
@@ -94,9 +94,9 @@ export const StyledIconContainer = styled(Figure)`
       circle,
       rect {
         fill: ${props =>
-        props.accessibility
-          ? colors.markers.background[props.accessibility]
-          : props.backgroundColor || '#FFF'};
+          props.accessibility
+            ? colors.markers.background[props.accessibility]
+            : props.backgroundColor || '#FFF'};
       }
     }
 
