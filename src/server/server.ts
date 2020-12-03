@@ -20,7 +20,8 @@ const app = nextjs({ dir: path.join(__dirname, '..'), dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  startServerSideApm();
+  // TODO: Re-enable APM
+  // startServerSideApm();
 
   const server = express();
   server.use(cache(3600));

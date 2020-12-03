@@ -44,7 +44,8 @@ import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
 import startClientSideApm from "../lib/apm/startClientSideApm";
 
 if (typeof window !== 'undefined') {
-  startClientSideApm();
+  // TODO: Re-enable APM
+  // startClientSideApm();
 }
 
 let isServer = false;
