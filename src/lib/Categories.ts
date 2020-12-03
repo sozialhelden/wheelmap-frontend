@@ -179,6 +179,7 @@ export default class Categories {
     const result: SynonymCache = {};
     categories.forEach(category => {
       result[category._id] = category;
+      category._tag = "ACCategory";
       const synonyms = category.synonyms;
       if (!(synonyms instanceof Array)) return;
       synonyms.forEach(synonym => {

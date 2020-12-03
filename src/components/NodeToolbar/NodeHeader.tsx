@@ -82,7 +82,7 @@ export default class NodeHeader extends React.Component<Props> {
     let categoryName = shownCategory && categoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
-    let placeName = placeNameFor(properties, category || parentCategory);
+    let placeName = placeNameFor(properties, shownCategory);
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
     if (isEquipment) {
       placeName = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), false);
