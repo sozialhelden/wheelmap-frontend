@@ -37,6 +37,7 @@ import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
 import { Feature, getFeatureId } from '../../lib/Feature';
+import HighlightableMarker from './HighlightableMarker';
 
 const TileLayer = L.TileLayer;
 
@@ -180,7 +181,13 @@ class GeoJSONTileLayer extends TileLayer {
 
     if (existingMarker) {
       if (includes(this.highlightedMarkerIds, id)) {
-        highlightMarkers(this.highlightLayer, [existingMarker], false, false);
+        this.currentHighlightedMarkers = highlightMarkers(
+          this.highlightLayer,
+          [existingMarker],
+          this.currentHighlightedMarkers,
+          false,
+          false
+        );
       }
       return existingMarker;
     }
@@ -192,7 +199,13 @@ class GeoJSONTileLayer extends TileLayer {
     marker.feature = feature;
     this._idsToShownLayers[id] = marker;
     if (includes(this.highlightedMarkerIds, id)) {
-      highlightMarkers(this.highlightLayer, [marker], false, true);
+      this.currentHighlightedMarkers = highlightMarkers(
+        this.highlightLayer,
+        [marker],
+        this.currentHighlightedMarkers,
+        false,
+        true
+      );
     }
     return marker;
   }
@@ -293,13 +306,14 @@ class GeoJSONTileLayer extends TileLayer {
     const markers = ids.map(id => this._idsToShownLayers[id]).filter(Boolean);
     this.highlightedMarkerIds = ids;
     this.highlightLayer = highlightLayer;
-    if (!markers.length) return;
-    highlightMarkers(highlightLayer, markers);
+    this.currentHighlightedMarkers = highlightMarkers(
+      highlightLayer,
+      markers,
+      this.currentHighlightedMarkers
+    );
   }
 
-  resetHighlights() {
-    this.highlightedMarkerIds = [];
-  }
+  currentHighlightedMarkers: HighlightableMarker[];
 }
 
 export default GeoJSONTileLayer;
