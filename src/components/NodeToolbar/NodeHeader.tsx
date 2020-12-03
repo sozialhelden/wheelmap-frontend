@@ -96,7 +96,7 @@ export default class NodeHeader extends React.Component<Props> {
     const icon = (
       <Icon
         accessibility={accessibility}
-        category={categoryName ? shownCategoryId : 'undefined'}
+        category={shownCategoryId ? shownCategoryId : 'undefined'}
         size="medium"
         ariaHidden={true}
         centered
