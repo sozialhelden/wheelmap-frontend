@@ -7,7 +7,6 @@ import Head from 'next/head';
 import { t } from 'ttag';
 import get from 'lodash/get';
 import AsyncNextHead from '../AsyncNextHead';
-import GoogleAnalytics from '../components/GoogleAnalytics';
 import TwitterMeta from '../components/TwitterMeta';
 import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
@@ -37,7 +36,7 @@ import NextRouterHistory from '../lib/NextRouteHistory';
 import Categories from '../lib/Categories';
 
 import allTranslations from '../lib/translations.json';
-import { restoreAnalytics, trackPageView } from '../lib/Analytics';
+import { trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
@@ -226,14 +225,8 @@ export default class App extends BaseApp<any> {
 
     if (!receivedProps.isServer && isFirstTimeClientRender) {
       isFirstTimeClientRender = false;
-
-      // setup analytics for any client that has a google analytics tracking id
       if (receivedProps.app) {
-        const { googleAnalytics } = receivedProps.app.clientSideConfiguration.meta;
-        if (googleAnalytics && googleAnalytics.trackingId) {
-          restoreAnalytics(googleAnalytics.trackingId);
-          trackPageView(path);
-        }
+        trackPageView(path);
       }
     }
 
@@ -266,7 +259,7 @@ export default class App extends BaseApp<any> {
 
     const { textContent, meta } = this.props.app.clientSideConfiguration;
     const { name: productName, description } = textContent.product;
-    const { twitter, googleAnalytics, facebook } = meta;
+    const { twitter, facebook } = meta;
 
     const baseUrl = `https://${hostName}`;
 
@@ -353,7 +346,6 @@ export default class App extends BaseApp<any> {
           description={translatedDescription}
           url={ogUrl}
         />
-        {googleAnalytics && <GoogleAnalytics googleAnalytics={googleAnalytics} />}
         {twitter && (
           <TwitterMeta
             shareHost={baseUrl}
