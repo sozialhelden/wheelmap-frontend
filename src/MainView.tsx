@@ -43,9 +43,7 @@ import { PlaceDetailsProps } from './app/PlaceDetailsProps';
 
 import { PhotoModel } from './lib/PhotoModel';
 
-import { hasAllowedAnalytics } from './lib/savedState';
 import { App } from './lib/App';
-import { enableAnalytics, disableAnalytics } from './lib/Analytics';
 import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
 import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
 import { MappingEvent, MappingEvents } from './lib/MappingEvent';
@@ -169,7 +167,6 @@ type Props = {
 
 type State = {
   isOnSmallViewport: boolean,
-  analyticsAllowed: boolean,
   uniqueSurveyId: string,
 };
 
@@ -194,7 +191,6 @@ class MainView extends React.Component<Props, State> {
 
   state: State = {
     isOnSmallViewport: isOnSmallViewport(),
-    analyticsAllowed: hasAllowedAnalytics(),
     uniqueSurveyId: uuidv4(),
   };
 
@@ -425,20 +421,6 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  analyticsAllowedChangedHandler = (value: boolean) => {
-    const googleAnalytics = this.props.app.clientSideConfiguration.meta.googleAnalytics;
-
-    this.setState({ analyticsAllowed: value });
-
-    if (googleAnalytics && googleAnalytics.trackingId) {
-      if (value) {
-        enableAnalytics(googleAnalytics.trackingId);
-      } else {
-        disableAnalytics(googleAnalytics.trackingId);
-      }
-    }
-  };
-
   renderOnboarding() {
     const {
       isOnboardingVisible,
@@ -446,13 +428,9 @@ class MainView extends React.Component<Props, State> {
       app,
       isMappingEventWelcomeDialogVisible,
     } = this.props;
-    const { analyticsAllowed } = this.state;
     const { clientSideConfiguration } = app;
     const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
-    const { googleAnalytics } = clientSideConfiguration.meta;
     const { logoURL } = clientSideConfiguration;
-
-    const shouldShowAnalytics = !!(googleAnalytics && googleAnalytics.trackingId);
 
     // if mapping event welcome dialog is also visible, don't show onboarding dialog
     const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
@@ -463,9 +441,6 @@ class MainView extends React.Component<Props, State> {
         onClose={onCloseOnboarding}
         headerMarkdown={headerMarkdown}
         logoURL={logoURL}
-        analyticsShown={shouldShowAnalytics}
-        analyticsAllowed={analyticsAllowed}
-        analyticsAllowedChanged={this.analyticsAllowedChangedHandler}
       />
     );
   }

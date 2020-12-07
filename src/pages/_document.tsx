@@ -38,9 +38,6 @@ export default class MyDocument extends Document<any> {
                 'self'
                 'unsafe-eval'
                 'unsafe-inline'
-                https://www.google-analytics.com
-                https://www.googletagmanager.com
-                https://ssl.gstatic.com
                 https://photon.komoot.io
                 https://sozialhelden.matomo.cloud
                 https://cdn.matomo.cloud
@@ -70,8 +67,6 @@ export default class MyDocument extends Document<any> {
                 https://api.mapbox.com
                 https://asset0.wheelmap.org
                 https://asset1.wheelmap.org
-                https://www.googletagmanager.com
-                https://www.google-analytics.com
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org

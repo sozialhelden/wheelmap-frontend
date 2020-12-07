@@ -17,9 +17,6 @@ type Props = {
   onClose: () => void,
   headerMarkdown: LocalizedString | string,
   logoURL: string,
-  analyticsShown: boolean,
-  analyticsAllowed: boolean,
-  analyticsAllowedChanged: (value: boolean) => void,
 };
 
 class Onboarding extends React.Component<Props, null> {
@@ -33,14 +30,11 @@ class Onboarding extends React.Component<Props, null> {
 
   render() {
     const { props } = this;
-    const { logoURL, headerMarkdown, analyticsShown, analyticsAllowedChanged } = props;
+    const { logoURL, headerMarkdown } = props;
     // translator: Shown on the onboarding screen. To find it, click the logo at the top.
     const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
     // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
     const startButtonCaption = t`Okay, let’s go!`;
-    // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-    const skipAnalyticsButtonCaption = t`Continue without cookies`;
-
     // translator: Cookie notice with link to privacy policy
     const cookieNotice = t`We use cookies to improve this app for you. <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Read our Privacy Policy</a>.`;
 
@@ -139,10 +133,9 @@ class Onboarding extends React.Component<Props, null> {
 
         <footer className="button-footer">
           <CallToActionButton
-            className="button-continue-with-cookies"
+            className="button-continue"
             data-focus-visible-added
             onClick={() => {
-              analyticsAllowedChanged(true);
               onClose();
             }}
             ref={this.callToActionButton}
@@ -150,25 +143,7 @@ class Onboarding extends React.Component<Props, null> {
             {startButtonCaption}
             <ChevronRight />
           </CallToActionButton>
-          {analyticsShown && (
-            <ChromelessButton
-              className="button-continue-without-cookies"
-              onClick={() => {
-                analyticsAllowedChanged(false);
-                onClose();
-              }}
-            >
-              {skipAnalyticsButtonCaption}
-            </ChromelessButton>
-          )}
         </footer>
-
-        {analyticsShown && (
-          <footer className="cookies-footer">
-            <p dangerouslySetInnerHTML={{ __html: cookieNotice }} />
-          </footer>
-        )}
-
         <Version>{env.npm_package_version}</Version>
       </ModalDialog>
     );
