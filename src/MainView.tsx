@@ -11,7 +11,6 @@ import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatur
 import SearchToolbar from './components/SearchToolbar/SearchToolbar';
 import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
 import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
-import PhotoUploadCaptchaToolbar from './components/PhotoUpload/PhotoUploadCaptchaToolbar';
 import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
 import MapLoading from './components/Map/MapLoading';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -124,17 +123,15 @@ type Props = {
   accessibilityPresetStatus?: YesNoLimitedUnknown,
 
   // photo feature
-  isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   onStartPhotoUploadFlow: () => void,
   onAbortPhotoUploadFlow: () => void,
   onContinuePhotoUploadFlow: (photos: FileList) => void,
-  onFinishPhotoUploadFlow: (photos: FileList, captchaSolution: string) => void,
+  onFinishPhotoUploadFlow: (photos: FileList) => void,
   onStartReportPhotoFlow: (photo: PhotoModel) => void,
   onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void,
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
-  photoCaptchaFailed?: boolean,
   photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
   photoFlowErrorMessage: string | null,
   photoMarkedForReport: PhotoModel | null,
@@ -199,7 +196,6 @@ class MainView extends React.Component<Props, State> {
   lastFocusedElement: HTMLElement | null;
   nodeToolbar: NodeToolbarFeatureLoader | null;
   searchToolbar: SearchToolbar | null;
-  photoUploadCaptchaToolbar: PhotoUploadCaptchaToolbar | null;
   photoUploadInstructionsToolbar: PhotoUploadInstructionsToolbar | null;
 
   resizeListener = () => {
@@ -496,29 +492,11 @@ class MainView extends React.Component<Props, State> {
       this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
       this.props.modalNodeState !== null ||
-      this.props.isPhotoUploadCaptchaToolbarVisible ||
       this.props.isPhotoUploadInstructionsToolbarVisible ||
       Boolean(this.props.photoMarkedForReport);
 
     return (
       <FullscreenBackdrop onClick={this.props.onClickFullscreenBackdrop} isActive={isActive} />
-    );
-  }
-
-  renderPhotoUploadCaptchaToolbar() {
-    return (
-      <PhotoUploadCaptchaToolbar
-        ref={photoUploadCaptchaToolbar =>
-          (this.photoUploadCaptchaToolbar = photoUploadCaptchaToolbar)
-        }
-        hidden={!this.props.isPhotoUploadCaptchaToolbarVisible}
-        onClose={this.props.onAbortPhotoUploadFlow}
-        onCompleted={this.props.onFinishPhotoUploadFlow}
-        photosMarkedForUpload={this.props.photosMarkedForUpload}
-        waitingForPhotoUpload={this.props.waitingForPhotoUpload}
-        photoCaptchaFailed={this.props.photoCaptchaFailed}
-        appToken={this.props.app.tokenString}
-      />
     );
   }
 
@@ -692,7 +670,6 @@ class MainView extends React.Component<Props, State> {
       this.props.isMappingEventWelcomeDialogVisible ||
       this.props.isNotFoundVisible ||
       this.props.modalNodeState ||
-      this.props.isPhotoUploadCaptchaToolbarVisible ||
       this.props.isPhotoUploadInstructionsToolbarVisible ||
       Boolean(this.props.photoMarkedForReport)
     );
@@ -712,7 +689,6 @@ class MainView extends React.Component<Props, State> {
       isMappingEventsToolbarVisible,
       isMappingEventToolbarVisible,
       modalNodeState,
-      isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible,
       photoMarkedForReport,
       isReportMode,
@@ -737,7 +713,6 @@ class MainView extends React.Component<Props, State> {
 
     const searchToolbarIsHidden =
       (isNodeRoute && this.state.isOnSmallViewport) ||
-      isPhotoUploadCaptchaToolbarVisible ||
       isPhotoUploadInstructionsToolbarVisible ||
       isOnboardingVisible ||
       isNotFoundVisible ||
@@ -762,7 +737,6 @@ class MainView extends React.Component<Props, State> {
           </div>
           {this.renderFullscreenBackdrop()}
           {isNodeToolbarVisible && modalNodeState && this.renderNodeToolbar(isNodeRoute)}
-          {isPhotoUploadCaptchaToolbarVisible && this.renderPhotoUploadCaptchaToolbar()}
           {isPhotoUploadInstructionsToolbarVisible && this.renderPhotoUploadInstructionsToolbar()}
           {photoMarkedForReport && this.renderReportPhotoToolbar()}
           {this.renderCreateFlow()}
@@ -812,6 +786,7 @@ const StyledMainView = styled(MainView)`
     > .behind-backdrop {
       border-radius: 30px;
       overflow: hidden;
+      filter: blur(2px);
       .toolbar {
         z-index: 999;
       }

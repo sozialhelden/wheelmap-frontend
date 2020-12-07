@@ -42,7 +42,6 @@ import {
 
 import {
   accessibilityCloudImageCache,
-  InvalidCaptchaReason,
 } from './lib/cache/AccessibilityCloudImageCache';
 
 import { ModalNodeState } from './lib/ModalNodeState';
@@ -114,11 +113,9 @@ interface State {
   isMappingEventToolbarVisible: boolean,
 
   // photo feature
-  isPhotoUploadCaptchaToolbarVisible: boolean,
   isPhotoUploadInstructionsToolbarVisible: boolean,
   photosMarkedForUpload: FileList | null,
   waitingForPhotoUpload?: boolean,
-  photoCaptchaFailed?: boolean,
   photoFlowNotification?: string,
   photoFlowErrorMessage: string | null,
   photoMarkedForReport: PhotoModel | null,
@@ -171,7 +168,6 @@ class App extends React.Component<Props, State> {
     isMappingEventToolbarVisible: false,
 
     // photo feature
-    isPhotoUploadCaptchaToolbarVisible: false,
     isPhotoUploadInstructionsToolbarVisible: false,
     photosMarkedForUpload: null,
     photoMarkedForReport: null,
@@ -566,9 +562,6 @@ class App extends React.Component<Props, State> {
   };
 
   onStartPhotoUploadFlow = () => {
-    // start requesting captcha early
-    accessibilityCloudImageCache.getCaptcha(this.props.app.tokenString);
-
     this.setState({
       isSearchBarVisible: false,
       waitingForPhotoUpload: false,
@@ -584,9 +577,7 @@ class App extends React.Component<Props, State> {
       isSearchBarVisible: !isOnSmallViewport(),
       waitingForPhotoUpload: false,
       isPhotoUploadInstructionsToolbarVisible: false,
-      isPhotoUploadCaptchaToolbarVisible: false,
       photosMarkedForUpload: null,
-      photoCaptchaFailed: false,
       photoFlowNotification: notification,
     });
   };
@@ -596,22 +587,11 @@ class App extends React.Component<Props, State> {
       this.onExitPhotoUploadFlow();
       return;
     }
-    if (accessibilityCloudImageCache.hasSolvedCaptcha()) {
-      this.onFinishPhotoUploadFlow(photos, accessibilityCloudImageCache.captchaSolution || '');
-    } else {
-      this.setState({
-        isSearchBarVisible: false,
-        isPhotoUploadInstructionsToolbarVisible: false,
-        isPhotoUploadCaptchaToolbarVisible: true,
-        photosMarkedForUpload: photos,
-        photoCaptchaFailed: false,
-        photoFlowNotification: undefined,
-        photoFlowErrorMessage: null,
-      });
-    }
+
+    this.onFinishPhotoUploadFlow(photos);
   };
 
-  onFinishPhotoUploadFlow = (photos: FileList, captchaSolution: string) => {
+  onFinishPhotoUploadFlow = (photos: FileList) => {
     console.log('onFinishPhotoUploadFlow');
     const { featureId } = this.props;
 
@@ -624,18 +604,14 @@ class App extends React.Component<Props, State> {
     this.setState({ waitingForPhotoUpload: true, photoFlowNotification: 'uploadProgress' });
 
     accessibilityCloudImageCache
-      .uploadPhotoForFeature(String(featureId), photos, this.props.app.tokenString, captchaSolution)
+      .uploadPhotoForFeature(String(featureId), photos, this.props.app.tokenString)
       .then(() => {
         console.log('Succeeded upload');
         this.onExitPhotoUploadFlow('waitingForReview');
       })
       .catch(reason => {
         console.error('Failed upload', reason);
-        if (reason.message === InvalidCaptchaReason) {
-          this.setState({ waitingForPhotoUpload: false, photoCaptchaFailed: true });
-        } else {
-          this.onExitPhotoUploadFlow('uploadFailed', reason && reason.message);
-        }
+        this.onExitPhotoUploadFlow('uploadFailed', reason && reason.message);
       });
   };
 
@@ -871,7 +847,6 @@ class App extends React.Component<Props, State> {
       props.feature &&
       !props.mappingEvent &&
       !state.isSearchToolbarExpanded &&
-      !state.isPhotoUploadCaptchaToolbarVisible &&
       !state.isPhotoUploadInstructionsToolbarVisible &&
       !state.photoMarkedForReport
     );
@@ -941,13 +916,10 @@ class App extends React.Component<Props, State> {
       excludeSourceIds: this.props.excludeSourceIds,
 
       // photo feature
-      isPhotoUploadCaptchaToolbarVisible:
-        this.props.feature && this.state.isPhotoUploadCaptchaToolbarVisible,
       isPhotoUploadInstructionsToolbarVisible:
         this.props.feature && this.state.isPhotoUploadInstructionsToolbarVisible,
       photosMarkedForUpload: this.state.photosMarkedForUpload,
       waitingForPhotoUpload: this.state.waitingForPhotoUpload,
-      photoCaptchaFailed: this.state.photoCaptchaFailed,
       photoFlowNotification: this.state.photoFlowNotification,
       photoFlowErrorMessage: this.state.photoFlowErrorMessage,
       photoMarkedForReport: this.state.photoMarkedForReport,
