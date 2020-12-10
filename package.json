@@ -21,7 +21,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.1",
     "d3-color": "^1.4.1",
-    "d3-interpolate": "^1.1.5",
+    "d3-interpolate": "^1.4.0",
     "d3-scale": "^1.0.6",
     "dotenv": "^4.0.0",
     "ejson": "^2.1.2",
