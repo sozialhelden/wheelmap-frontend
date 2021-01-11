@@ -46,3 +46,4 @@ env/*
 
 *secret.yaml
 *secret.yml
+/screenshots

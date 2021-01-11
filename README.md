@@ -83,6 +83,21 @@ We have a retranslate tool that allows to use the `en_US` language on transifex 
 
 For testing the apps, we use [BrowserStack](https://browserstack.com) - it can run test suites on variout browsers and live devices. Currently, our testing happens mostly manually on [BrowserStack Live](https://www.browserstack.com/live), but pull requests will soon get automatic CI checks using [BrowserStack Automate](https://www.browserstack.com/automate) and [BrowserStack App Automate](https://www.browserstack.com/app-automate). We thank the BrowserStack team for their great products and their support! ❤️
 
+### Testing locally
+
+To test locally, get BrowserStack login data, put them into environment variables and run the tests like this on the shell:
+
+```bash
+export BROWSERSTACK_USERNAME=...
+export BROWSERSTACK_ACCESS_KEY=...
+export CI_TEST_DEPLOYMENT_BASE_URL=http://localhost
+npm run test
+```
+
+### Testing via CI
+
+New code is automatically tested on pushing it to the git repository. GitHub displays the test status next to commits.
+
 ## Contributing data and code
 
 - You have a related project? You want your accessibility data visible on Wheelmap.org and in other apps, or your project would profit from Wheelmap.org’s data? Register an account on [accessibility.cloud](https://www.accessibility.cloud) (Wheelmap.org’s backend) and [contact us](mailto:support@accessibility.cloud)!
