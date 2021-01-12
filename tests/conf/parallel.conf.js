@@ -2,6 +2,8 @@ require('dotenv').config();
 const fs = require('fs');
 const { setCurrentTest } = require('../lib/currentTest');
 
+const isLocalBuild = process.env.BROWSERSTACK_LOCAL === '1';
+
 // https://github.com/browserstack/webdriverio-browserstack
 exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
@@ -11,7 +13,7 @@ exports.config = {
     [
       'browserstack',
       {
-        browserstackLocal: process.env.BROWSERSTACK_LOCAL === '1',
+        browserstackLocal: isLocalBuild,
       },
     ],
   ],
@@ -22,9 +24,11 @@ exports.config = {
   maxInstances: 3,
 
   commonCapabilities: {
-    project: 'Wheelmap Webdriverio Browserstack Parallel Test',
-    build: 'webdriver-browserstack',
-    name: 'parallel_test',
+    project: 'Wheelmap Frontend',
+    build: isLocalBuild
+      ? 'Local build'
+      : [process.env.CI_TEST_GIT_REF, process.env.CI_TEST_GIT_SHA1].join(' - '),
+    // name: 'parallel_test',
     'browserstack.debug': true,
     'browserstack.local': 'false',
   },
