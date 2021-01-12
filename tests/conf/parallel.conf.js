@@ -20,6 +20,12 @@ exports.config = {
     'browserstack.local': 'false',
   },
 
+  // Use https://www.browserstack.com/automate/capabilities to create capability sets.
+  // Be sure to set the generator to "W3C protocol".
+  // Note we use Selenium v4: https://www.browserstack.com/automate/selenium-4
+  // Tests should use https://webdriver.io/docs/api/webdriver.html directly if possible.
+  // Some WDIO features are not yet ported to use the Webdriver protocol directly.
+
   capabilities: [
     {
       os: 'OS X',
