@@ -47,3 +47,4 @@ env/*
 *secret.yaml
 *secret.yml
 /screenshots
+/local.log

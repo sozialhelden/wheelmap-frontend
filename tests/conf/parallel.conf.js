@@ -7,6 +7,15 @@ exports.config = {
   user: process.env.BROWSERSTACK_USERNAME,
   key: process.env.BROWSERSTACK_ACCESS_KEY,
 
+  services: [
+    [
+      'browserstack',
+      {
+        browserstackLocal: process.env.BROWSERSTACK_LOCAL === '1',
+      },
+    ],
+  ],
+
   updateJob: false,
   specs: ['./tests/specs/**/*.js'],
   exclude: [],
@@ -102,6 +111,7 @@ exports.config = {
   waitforInterval: 1000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
+  specFileRetries: 2,
   host: 'hub.browserstack.com',
 
   beforeSuite: function() {
