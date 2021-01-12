@@ -5,7 +5,7 @@ import startServerSideApm from '../lib/apm/startServerSideApm';
 import nextjs from 'next';
 import * as path from 'path';
 import express from 'express';
-import proxy from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import cache from 'express-cache-headers';
 import compression from 'compression';
 import * as querystring from 'querystring';
@@ -30,7 +30,7 @@ app.prepare().then(() => {
   // TODO: Deploy new native apps that bring their own localizations and remove this redirect
   server.use(
     ['/beta/i18n/*'],
-    proxy({
+    createProxyMiddleware({
       target: 'http://classic.wheelmap.org',
       changeOrigin: true,
     })
@@ -84,7 +84,7 @@ app.prepare().then(() => {
   // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
   server.use(
     ['/api/*', '/nodes/*'],
-    proxy({
+    createProxyMiddleware({
       target: process.env.REACT_APP_LEGACY_API_BASE_URL,
       changeOrigin: true,
     })
