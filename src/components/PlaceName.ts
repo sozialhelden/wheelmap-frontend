@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const PlaceName = styled.h1.attrs({isSmall: false})`
+const placeNameCSS = css`
   margin: 0;
   line-height: 1;
   font-weight: 400;
@@ -20,4 +20,10 @@ const PlaceName = styled.h1.attrs({isSmall: false})`
   }
 `;
 
-export default PlaceName;
+export const PlaceNameH1 = styled.h1.attrs({ isSmall: false })`
+  ${placeNameCSS}
+`;
+
+export const PlaceNameHeader = styled.header.attrs({ isSmall: false })`
+  ${placeNameCSS}
+`;

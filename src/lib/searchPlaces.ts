@@ -19,6 +19,7 @@ export type SearchResultProperties = {
   housenumber?: any,
   street?: any,
   extent: [number, number, number, number] | undefined,
+  type: string,
 };
 
 export type SearchResultFeature = {

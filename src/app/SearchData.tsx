@@ -12,6 +12,7 @@ import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { WheelmapFeature } from '../lib/Feature';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import env from '../lib/env';
+import { compact } from 'lodash';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -93,8 +94,13 @@ const SearchData: DataTableEntry<SearchProps> = {
         };
       }
 
-      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = results.features.map(feature =>
-        fetchWheelmapNode(feature.properties, props.app.tokenString, useCache)
+      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = compact(
+        results.features.map(feature => {
+          const { type, osm_key } = feature.properties;
+          if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
+            return fetchWheelmapNode(feature.properties, props.app.tokenString, useCache);
+          }
+        })
       );
 
       // Fetch all wheelmap features when on server.

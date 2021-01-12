@@ -8,7 +8,7 @@ import { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
 import Address from '../NodeToolbar/Address';
-import PlaceName from '../PlaceName';
+import { PlaceNameHeader } from '../PlaceName';
 import { PotentialPromise } from '../../app/PlaceDetailsProps';
 import styled from 'styled-components';
 import colors from '../../lib/colors';
@@ -148,7 +148,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
           }}
           tabIndex={this.props.hidden ? -1 : 0}
         >
-          <PlaceName>
+          <PlaceNameHeader>
             {shownCategoryId ? (
               <Icon
                 accessibility={accessibility || null}
@@ -159,7 +159,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
               />
             ) : null}
             {placeName}
-          </PlaceName>
+          </PlaceNameHeader>
           {address ? <Address role="none">{address}</Address> : null}
         </button>
       </li>

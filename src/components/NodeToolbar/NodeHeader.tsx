@@ -12,7 +12,7 @@ import {
   Category,
 } from '../../lib/Categories';
 import Icon from '../Icon';
-import PlaceName from '../PlaceName';
+import { PlaceNameH1 } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
 import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
@@ -30,7 +30,7 @@ export const StyledNodeHeader = styled.header`
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
 
-  ${PlaceName} {
+  ${PlaceNameH1} {
     flex-grow: 2;
   }
 
@@ -114,13 +114,13 @@ export default class NodeHeader extends React.Component<Props> {
     ) : null;
 
     const placeNameElement = (
-      <PlaceName isSmall={hasLongName} aria-label={ariaLabel}>
+      <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
         {this.props.hasIcon && icon}
         <div className="place-content">
           {placeName}
           {categoryElement}
         </div>
-      </PlaceName>
+      </PlaceNameH1>
     );
 
     const { cluster, onClickCurrentCluster } = this.props;

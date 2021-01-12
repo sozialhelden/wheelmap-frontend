@@ -38,8 +38,7 @@ describe('Searching a place by name', function() {
     expect($results).toBeVisible();
     await saveScreenshot('Search results are loading');
 
-    // TODO: This should not be a <h1>, but a <header>.
-    const $result = await $results.$('h1=S Alexanderplatz');
+    const $result = await $results.$('header=S Alexanderplatz');
     await saveScreenshot('Search results are displayed');
 
     // Wait for wheelchair accessibility to be loaded
