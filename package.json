@@ -141,21 +141,16 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-webdriverio": "^1.0.1",
     "fs-extra": "3.0.1",
-    "husky": "^1.0.0-rc.13",
-    "jest": "^24.7.1",
-    "lint-staged": "^8.2.1",
     "next-babel-minify": "^1.0.0",
     "next-runtime-dotenv": "^1.1.1",
     "node-sass": "^4.14.1",
-    "nodemon": "^1.19.4",
-    "npm": "^6.14.6",
     "npm-force-resolutions": "0.0.3",
     "npmignore": "^0.2.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-focus-within": "^2.0.0",
     "prettier": "^1.18.2",
     "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1",
+    "prettier-eslint-cli": "^5.0.0",
     "promise": "8.0.1",
     "react-axe": "^2.1.7",
     "rimraf": "^2.6.3",
@@ -197,17 +192,6 @@
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write",
     "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "{src,test}/**/*.{js,jsx}": [
-      "prettier-eslint --write ",
-      "git add"
-    ]
   },
   "browserslist": [
     "Android > 4.4",
