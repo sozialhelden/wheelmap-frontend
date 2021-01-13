@@ -48,7 +48,7 @@ describe('Searching a place by name', function() {
 
     await saveScreenshot('Search results show their accessibility');
 
-    await $result.click();
+    await $results.$('header.is-on-wheelmap=S Alexanderplatz').click();
     const results = await browser.findElement('css selector', '.search-results');
     expect(results[IdPropertyName]).toBeUndefined();
 
