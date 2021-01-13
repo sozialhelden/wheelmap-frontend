@@ -1,5 +1,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
+import classNames from 'classnames';
 
 import getAddressString from '../../lib/getAddressString';
 import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/Categories';
@@ -114,7 +115,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature, className } = this.props;
+    const { feature } = this.props;
     const { wheelmapFeature, category, parentCategory } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
@@ -136,19 +137,22 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
     const accessibility =
       wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
 
+    const className = classNames(
+      this.props.className,
+      'search-result',
+      wheelmapFeatureProperties && 'is-on-wheelmap',
+      `osm-category-${feature.properties.osm_key || 'unknown'}-${feature.properties.osm_value ||
+        'unknown'}`
+    );
     return (
-      <li
-        ref={this.root}
-        className={`${className || ''} osm-category-${feature.properties.osm_key ||
-          'unknown'}-${feature.properties.osm_value || 'unknown'}`}
-      >
+      <li ref={this.root} className={className}>
         <button
           onClick={() => {
             this.props.onClick(feature, wheelmapFeature);
           }}
           tabIndex={this.props.hidden ? -1 : 0}
         >
-          <PlaceNameHeader>
+          <PlaceNameHeader className={wheelmapFeatureProperties ? 'is-on-wheelmap' : undefined}>
             {shownCategoryId ? (
               <Icon
                 accessibility={accessibility || null}

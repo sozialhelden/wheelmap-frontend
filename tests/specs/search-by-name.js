@@ -42,9 +42,8 @@ describe('Searching a place by name', function() {
     await saveScreenshot('Search results are displayed');
 
     // Wait for wheelchair accessibility to be loaded
-    // The icon should a circle in Wheelmap's brand color green
     await browser.waitUntil(
-      async () => await (await $result.$('circle[fill="#7ec512"]')).isDisplayed()
+      async () => await (await $results.$('header.is-on-wheelmap=S Alexanderplatz')).isDisplayed()
     );
 
     await saveScreenshot('Search results show their accessibility');
