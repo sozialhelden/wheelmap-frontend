@@ -52,9 +52,7 @@ describe('Searching a place by name', function() {
     const results = await browser.findElement('css selector', '.search-results');
     expect(results[IdPropertyName]).toBeUndefined();
 
-    await browser.waitUntil(
-      async () => (await getCurrentUrl()) === 'https://wheelmap.org/nodes/3908141014'
-    );
+    await browser.waitUntil(async () => (await getCurrentUrl()).endsWith('/nodes/3908141014$'));
     const $placeInfoPanel = await $('.toolbar[aria-label="S Alexanderplatz"');
     const $placeName = await $placeInfoPanel.$('h1=S Alexanderplatz');
     expect($placeName).toBeVisibleInViewport();
