@@ -48,13 +48,16 @@ describe('Searching a place by name', function() {
 
     await saveScreenshot('Search results show their accessibility');
 
-    await $results.$('header.is-on-wheelmap=S Alexanderplatz').click();
+    const $resultAfterSearch = await $results.$('header=S Alexanderplatz');
+    await $resultAfterSearch.waitForClickable();
+    await $resultAfterSearch.click();
+
     const results = await browser.findElement('css selector', '.search-results');
     expect(results[IdPropertyName]).toBeUndefined();
 
-    await browser.waitUntil(async () => (await getCurrentUrl()).endsWith('/nodes/3908141014$'));
-    const $placeInfoPanel = await $('.toolbar[aria-label="S Alexanderplatz"');
-    const $placeName = await $placeInfoPanel.$('h1=S Alexanderplatz');
+    await browser.waitUntil(async () => (await getCurrentUrl()).match(/\/nodes\//));
+    const $placeInfoPanel = await $('.toolbar[aria-label~="Alexanderplatz"');
+    const $placeName = await $placeInfoPanel.$('h1*=Alexanderplatz');
     expect($placeName).toBeVisibleInViewport();
     await saveScreenshot('After click on single search result');
   });

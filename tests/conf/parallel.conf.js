@@ -21,7 +21,7 @@ exports.config = {
   updateJob: false,
   specs: ['./tests/specs/**/*.js'],
   exclude: [],
-  maxInstances: 3,
+  maxInstances: 2,
 
   commonCapabilities: {
     project: 'Wheelmap Frontend',
