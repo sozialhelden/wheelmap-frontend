@@ -39,9 +39,7 @@ export default class MyDocument extends Document<any> {
                 'unsafe-eval'
                 'unsafe-inline'
                 https://photon.komoot.io
-                https://sozialhelden.matomo.cloud
-                https://cdn.matomo.cloud
-                http://cdn.matomo.cloud
+                https://service.sozialhelden.de
                 https://api.mapbox.com
                 https://events.mapbox.com
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
@@ -53,7 +51,7 @@ export default class MyDocument extends Document<any> {
               style-src
                 'self'
                 https://api.tiles.mapbox.com
-                'unsafe-inline'; 
+                'unsafe-inline';
               frame-src
                 'self';
               media-src
@@ -63,7 +61,7 @@ export default class MyDocument extends Document<any> {
                 data:
                 blob:
                 https://accessibility-cloud-uploads.s3.amazonaws.com
-                https://sozialhelden.matomo.cloud
+                https://service.sozialhelden.de
                 https://api.mapbox.com
                 https://asset0.wheelmap.org
                 https://asset1.wheelmap.org
@@ -91,7 +89,11 @@ export default class MyDocument extends Document<any> {
           <link rel="apple-touch-icon" sizes="152x152" href="/images/wheely_big.jpg" />
 
           {this.props.styleTags}
-
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `var pkBaseURL = "https://service.sozialhelden.de/"; document.write(unescape("%3Cscript src='" + pkBaseURL + "pwproxy.php' type='text/javascript'%3E%3C/script%3E"));`}}
+          />
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
@@ -145,13 +147,13 @@ export default class MyDocument extends Document<any> {
                 _paq.push(['enableLinkTracking']);
                 _paq.push(['enableHeartBeatTimer']);
 
-                (function() {
-                  var u="https://sozialhelden.matomo.cloud/";
-                  _paq.push(['setTrackerUrl', u+'matomo.php']);
-                  _paq.push(['setSiteId', '1']);
-                  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                  g.type='text/javascript'; g.async=true; g.defer=true; g.src='//cdn.matomo.cloud/sozialhelden.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
-                })();`,
+                try {
+                  var piwikTracker = Piwik.getTracker(pkBaseURL + "pwproxy.php", 8);
+                  piwikTracker.disableCookies();
+                } catch( err ) {
+                  console.log('Error loading Piwik:', err);
+                }
+              `
             }}
           ></script>
           <script src="/clientEnv.js"></script>
