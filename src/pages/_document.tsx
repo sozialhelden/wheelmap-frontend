@@ -99,7 +99,6 @@ export default class MyDocument extends Document<any> {
             dangerouslySetInnerHTML={{
               __html: `
                 var _paq = window._paq || [];
-                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
 
                 function trackNativeAppStats() {
                   try {
@@ -141,15 +140,15 @@ export default class MyDocument extends Document<any> {
                     console.log('Error: Could not track native app usage:', e);
                   }
                 }
-
-                trackNativeAppStats();
-                _paq.push(['trackPageView']);
-                _paq.push(['enableLinkTracking']);
-                _paq.push(['enableHeartBeatTimer']);
-
+                
                 try {
                   var piwikTracker = Piwik.getTracker(pkBaseURL + "pwproxy.php", 8);
                   piwikTracker.disableCookies();
+                  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                  trackNativeAppStats();
+                  _paq.push(['trackPageView']);
+                  _paq.push(['enableLinkTracking']);
+                  _paq.push(['enableHeartBeatTimer']);
                 } catch( err ) {
                   console.log('Error loading Piwik:', err);
                 }
