@@ -170,7 +170,13 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         error.statusCode = 404;
         throw error;
       }
-
+      if (!featureId.match(/\w+/)) {
+        const error: Error & { statusCode?: number } = new Error(
+          'Invalid feature ID.'
+        );
+        error.statusCode = 404;
+        throw error;
+      }
       // do not cache features on server
       const useCache = !isServer;
       const disableWheelmapSource = query.disableWheelmapSource === 'true';
