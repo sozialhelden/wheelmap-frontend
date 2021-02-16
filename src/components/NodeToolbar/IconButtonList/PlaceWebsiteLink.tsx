@@ -21,11 +21,16 @@ export default function PlaceWebsiteLink(props: Props) {
   const { properties } = feature || {};
   if (!properties) return null;
 
-  let placeWebsiteUrl = null
+  let placeWebsiteUrl = null;
   if (!isWheelmapProperties(properties)) {
     placeWebsiteUrl = properties.placeWebsiteUrl;
   } else {
     placeWebsiteUrl = properties.website;
+  }
+
+  if (!placeWebsiteUrl) return null;
+  if (!placeWebsiteUrl.match(/^https?:\/\//i)) {
+    return null;
   }
 
   return (

@@ -5,7 +5,7 @@ import { dataSourceCache } from '../../lib/cache/DataSourceCache';
 import { AccessibilityCloudProperties } from '../../lib/Feature';
 import WorldIcon from '../icons/actions/World';
 
-export type PropertyName = 'infoPageUrl' | 'editPageUrl'
+export type PropertyName = 'infoPageUrl' | 'editPageUrl';
 
 type Props = {
   properties: AccessibilityCloudProperties,
@@ -58,6 +58,9 @@ class SourceLink extends React.Component<Props, State> {
     const { properties, className } = this.props;
     const href = properties[this.props.propertyName];
     if (!href) return null;
+    if (!href.match(/^https?:\/\//i)) {
+      return null;
+    }
 
     const sourceName = this.state.sourceName;
     const sourceNameString = String(sourceName);
