@@ -15,7 +15,7 @@ const imageResizeConfig = {
 };
 
 const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
-const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || '';
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
   getPhotosForFeature(
