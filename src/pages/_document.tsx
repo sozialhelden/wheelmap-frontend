@@ -96,7 +96,7 @@ export default class MyDocument extends Document<any> {
               // window.pkBaseURL = "/t/";
               window.pkBaseURL = "https://service.sozialhelden.de/";
               window._paq = [
-                ['setTrackerUrl', pkBaseURL],
+                ['setTrackerUrl', pkBaseURL + "pwproxy.php"],
                 ['setSiteId', '8'],
                 ['disableCookies'],
               ];
