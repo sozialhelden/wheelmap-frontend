@@ -21,6 +21,7 @@ import filterAccessibility from '../../../lib/filterAccessibility';
 import Description from './Description';
 import AppContext from '../../../AppContext';
 import isA11yEditable from '../AccessibilityEditor/isA11yEditable';
+import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
 
 type Props = {
   featureId: string | number | null,
@@ -43,6 +44,11 @@ export default function PlaceAccessibilitySection(props: Props) {
   const appContext = React.useContext(AppContext);
   const properties = feature && feature.properties;
 
+  const { data: accessibilityAttributes, error } = useAccessibilityAttributes([appContext.preferredLanguage]);
+  if (error) {
+    throw error;
+  }
+
   if (!properties) {
     return null;
   }
@@ -51,14 +57,14 @@ export default function PlaceAccessibilitySection(props: Props) {
   const isEditingEnabled = isA11yEditable(featureId, appContext.app, primarySource);
 
   const accessibilityTree =
-    properties && !isWheelmapProperties(properties) && typeof properties.accessibility === 'object'
+    accessibilityAttributes && properties && !isWheelmapProperties(properties) && typeof properties.accessibility === 'object'
       ? properties.accessibility
       : null;
   const filteredAccessibilityTree = accessibilityTree
     ? filterAccessibility(accessibilityTree)
     : null;
   const accessibilityDetailsTree = filteredAccessibilityTree && (
-    <AccessibilityDetailsTree details={filteredAccessibilityTree} isNested={true} />
+    <AccessibilityDetailsTree details={filteredAccessibilityTree} isNested={true} accessibilityAttributes={accessibilityAttributes} />
   );
   let description: string = null;
   if (

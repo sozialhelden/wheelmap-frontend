@@ -3,6 +3,15 @@ import * as React from 'react';
 import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
+import {
+  getAccessibilityAttributes,
+  useAccessibilityAttributes,
+  AccessibilityAttributesMap,
+} from '../../../lib/data-fetching/useAccessibilityAttributes';
+import { getBrowserLocaleStrings, translatedStringFromObject } from '../../../lib/i18n';
+import AppContext from '../../../AppContext';
+import usePromise from '../../usePromise';
+import ErrorBoundary from '../../ErrorBoundary';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -10,8 +19,13 @@ function humanizeCamelCase(string: string) {
   });
 }
 
-function formatName(name: string, properties: {}): string {
-  const string = properties[`${name}Localized`] || humanizeString(name);
+function formatName(
+  name: string,
+  accessibilityAttributes: Map<string, Record<string, string>>
+): string {
+  const string =
+    (accessibilityAttributes && translatedStringFromObject(accessibilityAttributes.get(name))) ||
+    humanizeString(name);
   return string.replace(/^Rating /, '');
 }
 
@@ -45,11 +59,23 @@ function FormatRating({ rating }: { rating: number }) {
   );
 }
 
-function DetailsArray({ className, array }: { className: string | null, array: any[] }) {
+function DetailsArray({
+  className,
+  array,
+  accessibilityAttributes,
+}: {
+  className: string | null,
+  array: any[],
+  accessibilityAttributes: AccessibilityAttributesMap,
+}) {
   // eslint-disable-next-line react/no-array-index-key
   const items = array.map((e, i) => (
     <li key={i}>
-      <AccessibilityDetailsTree isNested={true} details={e} />
+      <AccessibilityDetailsTree
+        isNested={true}
+        details={e}
+        accessibilityAttributes={accessibilityAttributes}
+      />
     </li>
   ));
   return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
@@ -59,7 +85,12 @@ function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
-function DetailsObject(props: { className: string | null, object: {}, isNested?: boolean }) {
+function DetailsObject(props: {
+  className: string | null,
+  object: {},
+  isNested?: boolean,
+  accessibilityAttributes: AccessibilityAttributesMap,
+}) {
   const { className, object, isNested } = props;
   const properties = Object.keys(object)
     .map(key => {
@@ -68,7 +99,7 @@ function DetailsObject(props: { className: string | null, object: {}, isNested?:
       }
 
       const value = object[key];
-      const name = formatName(key, object);
+      const name = formatName(key, props.accessibilityAttributes);
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
@@ -81,7 +112,11 @@ function DetailsObject(props: { className: string | null, object: {}, isNested?:
             {capitalizedName}
           </dt>,
           <dd key={`${key}-tree`}>
-            <AccessibilityDetailsTree isNested={true} details={value} />
+            <AccessibilityDetailsTree
+              isNested={true}
+              details={value}
+              accessibilityAttributes={props.accessibilityAttributes}
+            />
           </dd>,
         ];
       }
@@ -124,15 +159,29 @@ type Props = {
   locale?: string | null,
   isNested?: boolean,
   className?: string | null,
+  accessibilityAttributes: AccessibilityAttributesMap,
 };
 
 function AccessibilityDetailsTree(props: Props) {
   const details = props.details;
   if (details instanceof Array) {
-    return <DetailsArray className={props.className} array={details} />;
+    return (
+      <DetailsArray
+        className={props.className}
+        array={details}
+        accessibilityAttributes={props.accessibilityAttributes}
+      />
+    );
   }
   if (isPlainObject(details)) {
-    return <DetailsObject className={props.className} object={details} isNested={props.isNested} />;
+    return (
+      <DetailsObject
+        className={props.className}
+        object={details}
+        isNested={props.isNested}
+        accessibilityAttributes={props.accessibilityAttributes}
+      />
+    );
   }
   return <div className={props.className}>{details}</div>;
 }

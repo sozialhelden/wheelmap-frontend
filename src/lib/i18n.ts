@@ -145,7 +145,13 @@ export function addTranslationsToTTag(translations: Translations[]) {
 export function getBrowserLocaleStrings(): string[] {
   // Filter empty or undefined locales. Android 4.4 seems to have an undefined
   // window.navigator.language in WebView.
-  return [window.navigator.language].concat(window.navigator.languages || []).filter(Boolean);
+  const languagesCustomizedInBrowser = window.navigator.languages.filter(Boolean);
+  const deviceLanguage = window.navigator.language;
+
+  if (languagesCustomizedInBrowser.length > 0) {
+    return languagesCustomizedInBrowser;
+  }
+  return [deviceLanguage];
 }
 
 export function expandedPreferredLocales(locales: Locale[], overriddenLocale?: Locale): Locale[] {

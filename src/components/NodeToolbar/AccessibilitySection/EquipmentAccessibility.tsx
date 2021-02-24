@@ -11,6 +11,8 @@ import {
 } from '../../../lib/EquipmentInfo';
 
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
+import AppContext from '../../../AppContext';
+import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
@@ -31,6 +33,17 @@ function EquipmentAccessibility(props: Props) {
   const category = properties.category;
   const isWorking = properties.isWorking;
   const accessibility = properties.accessibility;
+  const appContext = React.useContext(AppContext);
+
+  const { data: accessibilityAttributes, error } = useAccessibilityAttributes([
+    appContext.preferredLanguage,
+  ]);
+  if (error) {
+    throw error;
+  }
+  if (!accessibilityAttributes) {
+    return null;
+  }
 
   return (
     <div className={`equipment-accessibility ${props.className || ''}`}>
@@ -40,7 +53,12 @@ function EquipmentAccessibility(props: Props) {
         {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
       </header>
       <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
-      {accessibility ? <AccessibilityDetailsTree details={accessibility} /> : null}
+      {accessibility ? (
+        <AccessibilityDetailsTree
+          details={accessibility}
+          accessibilityAttributes={accessibilityAttributes}
+        />
+      ) : null}
     </div>
   );
 }

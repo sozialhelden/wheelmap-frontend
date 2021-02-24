@@ -28,9 +28,8 @@ export default function getAccessibilityCloudTileUrl(
   excludeSourceIds: Array<string>,
   appToken: string
 ): string {
-  const acLocaleString = locale.transifexLanguageIdentifier;
   const sourceIdParams =
     resourceType == 'place-infos' ? buildSourceIdParams(includeSourceIds, excludeSourceIds) : '';
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  return `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`;
+  return `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&includePlacesWithoutAccessibility=1`;
 }
