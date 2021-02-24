@@ -761,7 +761,7 @@ const StyledMainView = styled(MainView)`
   }
 
   > * {
-    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    transition: transform 0.3s ease-out, opacity 0.1s ease-out;
   }
 
   > .rai-activity-indicator {
@@ -786,7 +786,7 @@ const StyledMainView = styled(MainView)`
     > .behind-backdrop {
       border-radius: 30px;
       overflow: hidden;
-      filter: blur(2px);
+      filter: blur(15px);
       .toolbar {
         z-index: 999;
       }
