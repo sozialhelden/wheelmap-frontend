@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const LeafletStyle = createGlobalStyle`
 /* required styles */
 
 .leaflet-pane,
@@ -735,3 +738,4 @@
   margin-left: -12px;
   border-right-color: #fff;
 }
+`;

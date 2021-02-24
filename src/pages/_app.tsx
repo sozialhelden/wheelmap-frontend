@@ -42,6 +42,7 @@ import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
 import startClientSideApm from "../lib/apm/startClientSideApm";
 
+
 if (typeof window !== 'undefined') {
   // TODO: Re-enable APM
   // startClientSideApm();

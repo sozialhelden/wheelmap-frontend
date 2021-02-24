@@ -1,7 +1,6 @@
 import { t } from 'ttag';
 import L from 'leaflet';
 import LeafletLocateControl from './L.Control.Locate';
-import './L.Control.Locate.scss';
 import savedState, { saveState } from '../../lib/savedState';
 
 // @ts-ignore

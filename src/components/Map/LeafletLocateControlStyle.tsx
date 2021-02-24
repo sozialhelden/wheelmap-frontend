@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const LeafletLocateControlStyle = createGlobalStyle`
 /* Compatible with Leaflet 0.7 */
 .leaflet-control-locate {
   a {
@@ -14,4 +17,4 @@
     }
   }
 }
-
+`;

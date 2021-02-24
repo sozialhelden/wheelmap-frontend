@@ -53,11 +53,10 @@ import { LocalizedString } from './lib/i18n';
 import { RouteProvider } from './components/Link/RouteContext';
 
 import 'react-activity/dist/react-activity.css';
-import './App.css';
-import './Global.css';
 import 'focus-visible';
 import { trackModalView, trackEvent } from './lib/Analytics';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
+import { createGlobalStyle } from 'styled-components';
 
 export type LinkData = {
   label: LocalizedString,
@@ -144,6 +143,301 @@ function filterMappingEvents(
     .filter(event => isMappingEventVisible(event) || activeEventId === event._id)
     .filter(event => appId === event.appId);
 }
+
+const GlobalStyle = createGlobalStyle`
+  html {
+    background-color: #6c7374;
+  }
+
+  body {
+    position: fixed;
+    overscroll-behavior: none;
+  }
+
+  html,
+  body {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #__next,
+  .main-view {
+    /* width: 100%;
+    width: 100vw;
+    height: 100%;
+    height: 100vh; */
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /*
+      This will hide the focus indicator if the element receives focus via the mouse,
+      but it will still show up on keyboard focus.
+    */
+
+  .js-focus-visible :focus:not(.focus-visible) {
+    outline: none;
+  }
+
+  /*
+      We use a stronger and consistent focus indicator when an element receives focus via
+      keyboard.
+    */
+
+  .js-focus-visible .focus-visible {
+    outline: none;
+    box-shadow: inset 0px 0px 0px 2px #4469e1;
+    transition: box-shadow 0.2s;
+  }
+
+  .radio-group:focus-within,
+  [role="radiogroup"]:focus-within {
+    box-shadow: 0px 0px 0px 2px #4469e1;
+    transition: box-shadow 0.2s;
+  }
+
+  .sr-only {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  #lightboxBackdrop {
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .subtle {
+    font-weight: lighter;
+    opacity: 0.6;
+  }
+
+  body,
+  button,
+  input,
+  select,
+  textarea {
+    /* Mix of the two system font stacks used by GitHub and Medium. */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Helvetica, Arial,
+      sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  kbd {
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px solid #b4b4b4;
+    color: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    line-height: 1;
+    padding: 2px 4px;
+    margin-left: 3px;
+    margin-right: 3px;
+    white-space: nowrap;
+  }
+
+  .ac-result-list,
+  .ac-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    font-weight: 300;
+    color: #444;
+    line-height: 1.3;
+  }
+
+  .ac-result-list a:hover {
+    font-weight: 400;
+  }
+
+  .ac-result {
+    position: relative;
+    max-width: 450px;
+    margin: 0 0 1.5em 0;
+    padding: 0.2em;
+    padding-left: 3em;
+  }
+
+  .ac-result[aria-controls] {
+    cursor: pointer;
+  }
+
+  .ac-result img {
+    left: 0.5em;
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    opacity: 0.8;
+  }
+
+  .ac-result a {
+    text-decoration: none;
+  }
+
+  .ac-result:focus {
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .ac-result-name {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.98);
+    float: left;
+  }
+
+  .ac-result-category {
+    clear: both;
+  }
+
+  .ac-result-distance {
+    float: right;
+    white-space: nowrap;
+    word-spacing: -0.15em;
+  }
+
+  .ac-result-distance-icon {
+    height: 1em;
+    vertical-align: top;
+    opacity: 0.2;
+  }
+
+  .ac-result-distance-icon polygon {
+    fill: currentColor;
+  }
+
+  .ac-result-link {
+    float: right;
+  }
+
+  .ac-summary {
+    font-weight: bolder;
+  }
+
+  .ac-summary:hover .ac-info-icon {
+    opacity: 0.8;
+  }
+
+  .ac-result-extra-info {
+    font-size: 0.75em;
+    line-height: 1.25em;
+    opacity: 0.8;
+    margin: 0.5em 8em 0.5em 0;
+  }
+
+  .ac-info-icon {
+    opacity: 0.3;
+    height: 1em;
+    margin-left: 0.2em;
+    margin-bottom: -0.17em;
+    transition: opacity 0.3s ease-out;
+  }
+
+  .ac-details > dl.ac-group {
+    padding: 0;
+  }
+
+  .ac-details em {
+    font-style: normal;
+  }
+
+  .ac-result .ac-group > .subtle {
+    font-weight: 400;
+  }
+
+  .ac-result dl {
+    width: 100%;
+    /*display: block;*/
+    /*background-color: rgba(0, 0, 0, 0.1);*/
+    overflow: auto;
+    margin: 0;
+  }
+
+  .ac-result dt {
+    /*background-color: rgba(255, 0, 0, 0.1);*/
+    float: left;
+    clear: left;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ac-result dt[data-key] {
+    font-weight: bolder;
+  }
+
+  .ac-result dd {
+    /*background-color: rgba(0, 255, 0, 0.1);*/
+    margin-left: 1em;
+    display: table-cell;
+    padding: 0 0 0 0.3em;
+  }
+
+  dt[data-key="areas"] {
+    display: none;
+  }
+
+  dt[data-key="areas"] + dd {
+    padding: 0;
+  }
+
+  dt[data-key="entrances"] {
+    width: 100%;
+  }
+  dt[data-key="entrances"] + dd {
+    padding-left: 1em;
+  }
+
+  .ac-result .ac-group header {
+    margin: 0.5em 0 0 0;
+  }
+
+  .ac-result {
+    display: block;
+    outline: none;
+    border: none;
+    background: none;
+    list-style: none;
+    font: inherit;
+    text-align: inherit;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ac-result .ac-details {
+    display: none;
+  }
+
+  @keyframes ac-fadein {
+    0% {
+      opacity: 0;
+      max-height: 0;
+    }
+    100% {
+      opacity: 1;
+      max-height: 500px;
+    }
+  }
+
+  .ac-result[aria-expanded="true"] .ac-details {
+    display: block;
+    animation: ac-fadein 0.5s ease-out;
+  }
+
+  .ac-result[aria-expanded="true"] .ac-info-icon {
+    opacity: 0;
+  }
+
+  .ac-error {
+    color: red;
+  }
+
+
+`;
 
 class App extends React.Component<Props, State> {
   props: Props;
@@ -941,6 +1235,7 @@ class App extends React.Component<Props, State> {
           name: this.props.routeName,
         }}
       >
+        <GlobalStyle />
         <MainView
           {...extraProps}
           ref={mainView => {

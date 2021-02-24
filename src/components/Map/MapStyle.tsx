@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const MapStyle = createGlobalStyle`
 body.is-touch-device .leaflet-control-zoom {
   display: none;
 }
@@ -409,3 +412,4 @@ body.is-touch-device .leaflet-control-zoom {
     margin-left: 10px;
   }
 }
+`;

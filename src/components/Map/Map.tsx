@@ -49,9 +49,11 @@ import { MappingEvents } from '../../lib/MappingEvent';
 import A11yMarkerIcon from './A11yMarkerIcon';
 import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
-import './Leaflet.css';
-import './Map.css';
+import { LeafletStyle } from './LeafletStyle';
+import './MapStyle.tsx';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
+import { MapStyle } from './MapStyle';
+import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 
 L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -1062,6 +1064,9 @@ export default class Map extends React.Component<Props, State> {
         role="main"
         aria-label={t`Map`}
       >
+        <LeafletStyle />
+        <MapStyle />
+        <LeafletLocateControlStyle />
         {this.renderZoomInfo()}
         {this.renderGeolocationError()}
         <a
