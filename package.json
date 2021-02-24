@@ -76,6 +76,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "safe-area-insets": "^1.3.2",
     "styled-components": "^5.2.1",
+    "swr": "^0.4.2",
     "ttag": "^1.7.22",
     "ua-parser-js": "^0.7.22",
     "underscore.string": "^3.3.5",
