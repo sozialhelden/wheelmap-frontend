@@ -10,6 +10,10 @@ export default class MyDocument extends Document<any> {
     // Hacky way to get the locale used when rendering the page.
     let locale = 'en-us';
 
+    // TODO: Collect fetch jobs executed as a side effect from useSWRWithPrefetch here.
+    // All fetch requests are supposed to be collected like in styled-components SSR,
+    // so we can hand the preloaded data over to the client.
+
     const page = renderPage(App => props => {
       locale = props['locale'];
       return sheet.collectStyles(<App {...props} />);
@@ -45,7 +49,7 @@ export default class MyDocument extends Document<any> {
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
               style-src
@@ -70,7 +74,7 @@ export default class MyDocument extends Document<any> {
                 https://asset4.wheelmap.org
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
             `}
           />

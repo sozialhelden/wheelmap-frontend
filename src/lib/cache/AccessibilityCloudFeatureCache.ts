@@ -63,7 +63,8 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
     const uploadPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || ''}/place-infos/?appToken=${appToken}`,
+        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+          ''}/place-infos/?appToken=${appToken}`,
         {
           method: 'POST',
           cache: 'no-cache',
@@ -108,7 +109,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ''}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
         {
           method: 'POST',
@@ -148,7 +149,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   getEditPlaceSubmissionUrl(placeId: string, returnUrl: string, appToken: string): Promise<string> {
     const editUrlPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ''}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
           returnUrl
         )}&appToken=${appToken}`,
@@ -198,7 +199,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL ||
+        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
         {
           method: 'POST',

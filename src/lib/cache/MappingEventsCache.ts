@@ -20,7 +20,7 @@ export type MappingEventByIdResult = MappingEvent & {
 export default class MappingEventsCache extends URLDataCache<
   MappingEventsListResult | MappingEventByIdResult
 > {
-  baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL || '';
+  baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;

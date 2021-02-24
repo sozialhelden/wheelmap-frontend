@@ -33,14 +33,16 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     useCache: boolean = true
   ): Promise<AccessibilityCloudImages | undefined> {
     return this.getData(
-      `${baseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`,
+      `${
+        useCache ? baseUrl : uncachedBaseUrl
+      }/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`,
       { useCache }
     );
   }
 
   async uploadPhotoForFeature(featureId: string, images: FileList, appToken: string): Promise<any> {
     const image = images[0];
-    const url = `${baseUrl}/image-upload?placeId=${featureId}&appToken=${appToken}`;
+    const url = `${uncachedBaseUrl}/image-upload?placeId=${featureId}&appToken=${appToken}`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await FeatureCache.fetch(url, {
       method: 'POST',

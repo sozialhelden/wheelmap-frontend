@@ -3,7 +3,7 @@ import keyBy from 'lodash/keyBy';
 import get from 'lodash/get';
 
 import URLDataCache from './URLDataCache';
-import { ClientSideConfiguration} from '../ClientSideConfiguration';
+import { ClientSideConfiguration } from '../ClientSideConfiguration';
 
 import { App } from '../App';
 import env from '../env';
@@ -64,7 +64,7 @@ export default class AppCache extends URLDataCache<AppApiData> {
   }
 
   getUrl(hostName: string, appToken: string): string {
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
     const cleanedHostName = hostName
       // Allow test deployments on zeit
       .replace(/-[a-z0-9]+\.now\.sh$/, '.now.sh')

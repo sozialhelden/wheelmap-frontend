@@ -20,7 +20,7 @@ export type AttributeChangedTrackingEvent = {
   parentCategory?: string,
   placeInfoId?: string | number,
   organizationId?: string,
-  appId?: string
+  appId?: string,
 };
 
 export type SurveyCompletedTrackingEvent = {
@@ -93,7 +93,7 @@ export default class TrackingEventBackend {
       },
     };
 
-    const fetchUrl = `${env.REACT_APP_ACCESSIBILITY_APPS_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
+    const fetchUrl = `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
 
     const uploadPromise: Promise<boolean> = new Promise((resolve, reject) => {
       globalFetchManager
