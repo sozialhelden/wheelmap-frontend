@@ -37,6 +37,18 @@ app.prepare().then(() => {
     })
   );
 
+  server.use(
+    ['/t/*'],
+    createProxyMiddleware({
+      target: 'https://service.sozialhelden.de/',
+      pathRewrite: {
+        '^/t/': '/',
+      },
+      changeOrigin: true,
+      logLevel: 'debug',
+    })
+  );
+
   server.get(/\/beta/, (req, res) => {
     res.redirect(`${req.originalUrl.replace(/\/beta\/?/, '/')}`);
   });

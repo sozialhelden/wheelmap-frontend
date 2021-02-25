@@ -42,8 +42,9 @@ export default class MyDocument extends Document<any> {
                 'self'
                 'unsafe-eval'
                 'unsafe-inline'
-                https://photon.komoot.io
+                https://sozialhelden.de
                 https://service.sozialhelden.de
+                https://photon.komoot.io
                 https://api.mapbox.com
                 https://events.mapbox.com
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
@@ -95,16 +96,24 @@ export default class MyDocument extends Document<any> {
           {this.props.styleTags}
           <script
             type="text/javascript"
+            dangerouslySetInnerHTML={{ __html: `
+              // window.pkBaseURL = "/t/";
+              window.pkBaseURL = "https://service.sozialhelden.de/";
+              window._paq = [
+                ['setTrackerUrl', pkBaseURL + "pwproxy.php"],
+                ['setSiteId', '8'],
+                ['disableCookies'],
+              ];
+          `}} />
+          <script
+            type="text/javascript"
             dangerouslySetInnerHTML={{
-              __html: `var pkBaseURL = "https://service.sozialhelden.de/"; document.write(unescape("%3Cscript src='" + pkBaseURL + "pwproxy.php' type='text/javascript'%3E%3C/script%3E"));`}}
+              __html: `document.write(unescape("%3Cscript src='" + pkBaseURL + "pwproxy.php' async type='text/javascript'%3E%3C/script%3E"));`}}
           />
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
               __html: `
-                var _paq = window._paq || [];
-                /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-
                 function trackNativeAppStats() {
                   try {
                     var isNative = !!window.navigator.userAgent.match(/AllyApp/);
@@ -146,14 +155,17 @@ export default class MyDocument extends Document<any> {
                   }
                 }
 
-                trackNativeAppStats();
-                _paq.push(['trackPageView']);
-                _paq.push(['enableLinkTracking']);
-                _paq.push(['enableHeartBeatTimer']);
-
                 try {
-                  var piwikTracker = Piwik.getTracker(pkBaseURL + "pwproxy.php", 8);
-                  piwikTracker.disableCookies();
+
+                  
+                  
+                  // var piwikTracker = Piwik.getTracker(pkBaseURL + "pwproxy.php", 8);
+                  // piwikTracker.disableCookies();
+                  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+                  trackNativeAppStats();
+                  window._paq.push(['trackPageView']);
+                  window._paq.push(['enableLinkTracking']);
+                  window._paq.push(['enableHeartBeatTimer']);
                 } catch( err ) {
                   console.log('Error loading Piwik:', err);
                 }
