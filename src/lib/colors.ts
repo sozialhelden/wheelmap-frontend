@@ -1,8 +1,8 @@
 import reduce from 'lodash/reduce';
 import { scaleLinear } from 'd3-scale';
-import { interpolateLab } from 'd3-interpolate';
+import { interpolateLab, interpolateHsl } from 'd3-interpolate';
 import { NodeProperties, YesNoLimitedUnknown, isWheelchairAccessible } from './Feature';
-import { hsl } from 'd3-color';
+import { hsl, rgb } from 'd3-color';
 
 const colors = {
   primaryColor: '#79B63E',
@@ -71,6 +71,33 @@ colors.editHintBackgroundColor = hsl(colors.linkColor).darker(0.5);
 colors.editHintBackgroundColor.s -= 0.5;
 colors.textColorTonedDown = interpolateLab(colors.tonedDownSelectedColor, colors.textColor)(0.5);
 
+export function coloredWhite(color: string, value: number = 0.5) {
+  const labColor = hsl(color);
+  return interpolateHsl(labColor, 'white')(value).toString();
+}
+
+export function brighter(color: string, value: number = 0.3) {
+  return hsl(color)
+    .brighter(value)
+    .toString();
+}
+
+export function darker(color: string, value: number = 0.3) {
+  return hsl(color)
+    .darker(value)
+    .toString();
+}
+
+export function alpha(color: string, value: number = 0.4) {
+  const alphaColor = rgb(color);
+  alphaColor.opacity *= value;
+  return alphaColor.toString();
+}
+
+export function mixLab(color1: string, color2: string, ratio: number = 0.5) {
+  return interpolateLab(color1, color2)(ratio).toString();
+}
+
 export function getHTMLColorForWheelchairAccessibilityValue(
   isAccessible: YesNoLimitedUnknown
 ): string {
@@ -114,7 +141,11 @@ function calculateWheelchairAccessibility(propertiesArray: NodeProperties[]) {
   return { definedCount, averageRatingForDefined, clampedDefinedRatio };
 }
 
-const definedAccessibilityMapping: [YesNoLimitedUnknown, number][] = [['yes', 0.8], ['limited', 0.2], ['no', 0]];
+const definedAccessibilityMapping: [YesNoLimitedUnknown, number][] = [
+  ['yes', 0.8],
+  ['limited', 0.2],
+  ['no', 0],
+];
 
 function getWheelchairAccessibility(
   definedCount: number,
