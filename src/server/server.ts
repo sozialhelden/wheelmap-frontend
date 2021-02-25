@@ -26,6 +26,7 @@ app.prepare().then(() => {
   const server = express();
   server.use(cache(3600));
   server.use(compression());
+  server.use(express.static('public'));
 
   // TODO: Deploy new native apps that bring their own localizations and remove this redirect
   server.use(
