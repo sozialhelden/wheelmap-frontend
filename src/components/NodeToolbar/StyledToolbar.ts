@@ -36,6 +36,10 @@ const StyledToolbar = styled(Toolbar)`
     > div > header {
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 5px 10px rgba(0, 0, 0, 0.1);
     }
+
+    .styled-frame:before {
+      z-index: 0;
+    }
   }
 
   > div > header {

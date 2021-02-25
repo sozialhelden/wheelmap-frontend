@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import colors from '../../../lib/colors';
 
-const StyledFrame = styled.div.attrs({ noseOffsetX: 10 })`
+const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame' })`
   position: relative;
   display: flex;
   flex-direction: column;
