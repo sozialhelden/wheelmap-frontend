@@ -7,3 +7,9 @@ dist/
 src/.next/
 lib/
 res
+.github/
+.metadata/
+.screenshots/
+.vscode/
+doc/
+docs/
