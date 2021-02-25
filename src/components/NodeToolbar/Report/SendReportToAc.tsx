@@ -176,8 +176,7 @@ const StyledSendReportToAc = styled(SendReportToAc)`
   header,
   button.primary-button,
   textarea {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin: 0.5rem 0;
   }
 
   header {
@@ -197,20 +196,21 @@ const StyledSendReportToAc = styled(SendReportToAc)`
     font-size: 1em;
     border: none;
     border-radius: 0;
-    border-bottom: 1px solid ${colors.linkColor};
-    width: 100%;
-    height: 5em;
-    padding: 0;
+    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    height: 5rem;
+    margin: 1rem -1rem;
+    padding: 1rem;
     resize: none;
 
     &.focus-visible {
       outline: none;
-      box-shadow: none;
+      /* box-shadow: none; */
     }
 
     &[disabled] {
       opacity: 0.8;
-      border-bottom: 1px solid ${colors.neutralBackgroundColor};
     }
   }
 

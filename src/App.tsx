@@ -214,7 +214,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .subtle {
-    font-weight: lighter;
     opacity: 0.6;
   }
 

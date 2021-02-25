@@ -78,7 +78,9 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
     return <CloseLink onClick={this.onClose} />;
   }
 
-  onSubmit = (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {
+  onSubmit = (
+    event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
       this.props.onCompleted(this.props.photo, this.state.selectedValue);
       event.preventDefault();
@@ -121,11 +123,12 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
       >
         <header>
           <CloseButton onClick={this.onClose} />
-          <div className="image-container">
-            <img src={photo.src} alt={t`To report`} />
-          </div>
           <h3>{t`Which problem would you like to report?`}</h3>
         </header>
+
+        <div className="image-container">
+          <img src={photo.src} alt={t`To report`} />
+        </div>
 
         <StyledRadioGroup
           name="report-reason"
@@ -167,26 +170,31 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
 }
 
 export default styled(ReportPhotoToolbar)`
-  > header {
+  > div > header {
     display: flex;
+    position: sticky;
     flex-direction: column;
     top: 0;
+    margin: -16px;
+    min-height: 50px;
     z-index: 1;
-
-    .image-container {
-      height: 200px;
-    }
-
-    img {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
+    background-color: white;
     h3 {
-      margin: 0;
+      margin: 8px 16px;
+      padding-right: 40px;
     }
+  }
+
+  .image-container {
+    margin-top: 50px;
+    height: 200px;
+  }
+
+  img {
+    margin: 0;
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
   }
 
   > .radio-group {

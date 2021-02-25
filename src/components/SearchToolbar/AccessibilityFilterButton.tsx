@@ -71,6 +71,7 @@ export default styled(AccessibilityFilterButton)`
   justify-content: space-between;
   padding: 10px 1em 10px 1.3em;
   min-height: 3rem;
+  cursor: pointer;
 
   svg.icon {
     width: 21px;

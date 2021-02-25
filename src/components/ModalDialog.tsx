@@ -129,7 +129,7 @@ const StyledModalDialog = styled(ModalDialog)`
   }
   .modal-dialog-fullscreen-overlay {
     background-color: transparent;
-    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(15px);
   }
   .modal-dialog-content {
     position: relative;
@@ -138,7 +138,7 @@ const StyledModalDialog = styled(ModalDialog)`
     padding: 2rem;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.35), 0 2px 5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 40px rgba(0, 0, 0, 0.1), 0 2px 5px rgba(0, 0, 0, 0.05);
     animation: fadeIn 0.5s linear;
     max-width: 80%;
     text-align: center;

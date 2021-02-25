@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../lib/colors';
+import colors, { alpha } from '../lib/colors';
 
 const MapButton = styled('button')`
   width: 40px;
@@ -9,7 +9,8 @@ const MapButton = styled('button')`
   border-radius: 8px;
   outline: none;
   border: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px ${alpha(colors.darkLinkColor, 0.2)},
+    0 1px 2px ${alpha(colors.darkLinkColor, 0.1)};
   position: fixed;
   top: 60px;
   right: 0px;

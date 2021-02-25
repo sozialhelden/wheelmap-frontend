@@ -7,7 +7,7 @@ import FocusTrap from 'focus-trap-react';
 
 import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
-import colors from '../../lib/colors';
+import colors, { alpha } from '../../lib/colors';
 import { MappingEvent } from '../../lib/MappingEvent';
 
 import GlobalActivityIndicator from './GlobalActivityIndicator';
@@ -295,7 +295,8 @@ const StyledMainMenu = styled(MainMenu)`
   flex-direction: row;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25), 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px ${alpha(colors.darkLinkColor, 0.25)},
+    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
   overflow: hidden;
 
   .logo {
@@ -343,7 +344,6 @@ const StyledMainMenu = styled(MainMenu)`
   .nav-link {
     padding: 2px 10px;
     box-sizing: border-box;
-    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -356,6 +356,7 @@ const StyledMainMenu = styled(MainMenu)`
     &:focus {
       color: ${colors.linkColorDarker};
       background-color: ${colors.linkBackgroundColorTransparent};
+      box-shadow: 0 1px 20px ${colors.linkBackgroundColorTransparent};
     }
     &:active {
       color: ${colors.linkColor};
@@ -469,14 +470,21 @@ const StyledMainMenu = styled(MainMenu)`
     }
 
     .nav-link {
+      display: none;
+      box-sizing: border-box;
+      align-items: center;
       height: 44px;
       padding: 8px;
       width: calc(50% - 16px);
-      display: none;
-      align-items: center;
-      box-sizing: border-box;
+      border-radius: 4px;
       text-align: center;
       background-color: white;
+      box-shadow: 0 1px 2px ${alpha(colors.darkLinkColor, 0.1)},
+        0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
+      &:focus {
+        box-shadow: 0 0px 0px 2px ${alpha(colors.linkColor, 0.7)},
+          0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
+      }
     }
 
     &.is-open {
@@ -487,6 +495,7 @@ const StyledMainMenu = styled(MainMenu)`
 
       #main-menu {
         margin: 16px;
+        align-self: flex-end;
       }
 
       button.menu {

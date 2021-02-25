@@ -22,6 +22,7 @@ type State = {
 };
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
+  height: 1rem;
   path {
     fill: ${props => props.color};
   }
@@ -29,15 +30,16 @@ const StyledCheckmarkIcon = styled(CheckmarkIcon)`
 
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width: 0.15s ease-out, height: 0.15s ease-out;
-  padding: 8px 16px;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width 0.15s ease-out,
+    height 0.15s ease-out;
   border-top: none;
-  /* border-radius: 3px; */
   z-index: 1000;
 
-  header {
+  div > header {
     position: sticky;
     display: flex;
+    margin: -1rem;
+    padding: 1rem;
     top: 0;
     align-items: center;
     justify-content: space-between;
@@ -46,10 +48,13 @@ const StyledToolbar = styled(Toolbar)`
 
     h3 {
       margin: 0;
+      padding-right: 2rem;
     }
   }
 
-  section {
+  div > section {
+    padding-top: 2rem;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -60,13 +65,26 @@ const StyledToolbar = styled(Toolbar)`
       list-style: none;
 
       li {
-        position: relative;
         margin-bottom: 1rem;
+        > header {
+          display: flex;
+          flex-direction: row;
+          margin-bottom: 0.25rem;
+          > svg {
+            width: 1rem;
+            margin-top: 0.125rem;
+            margin-right: 0.5rem;
+          }
+          div.caption {
+            flex: 1;
+          }
+        }
 
         p,
-        small {
-          display: inline-block;
+        small,
+        figcaption {
           color: ${colors.primaryColorBrighter};
+          font-size: 1rem;
         }
 
         p {
@@ -75,84 +93,30 @@ const StyledToolbar = styled(Toolbar)`
           margin-top: 0.5rem;
         }
 
-        ul.photo-examples {
-          padding-left: 0;
+        .photo-examples {
+          padding: 0;
+          margin-top: 0.5rem;
           display: flex;
+          flex-direction: row;
           flex-wrap: wrap;
+          justify-content: space-evenly;
 
-          li {
-            font-weight: 400;
-            padding-right: 10px;
-            margin-bottom: 0;
+          figure {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0.25rem;
 
-            &:last-child {
-              padding-right: 0;
-            }
-
-            .placeholder-image {
-              content: ' ';
-              min-width: 72px;
-              max-width: 98px;
-              min-height: 72px;
-              max-height: 98px;
-              background-size: cover;
-              background-color: #EEE;
-            }
-
-            .entrance-image { background-image: url('/images/photo-upload/entrancePlaceholder.png'); }
-            .sitemap-image { background-image: url('/images/photo-upload/sitemapPlaceholder.png'); }
-            .toilet-image { background-image: url('/images/photo-upload/toiletPlaceholder.png'); }
-
-            small {
-              font-size: 0.8rem;
-              padding-left: 0;
+            figcaption {
+              margin: 0.5rem;
             }
           }
-        }
-      }
 
-      li.with-checkmark {
-        p,
-        small,
-        ul {
-          padding-left: 24px;
-        }
-
-        span {
-          display: flex;
-          position: relative;
-
-          > svg {
-            position: absolute;
-            top: 0.3rem;
-            left: -4px;
-            display: inline-block;
-            font-size: 1.7rem;
+          .placeholder-image {
+            width: 10rem;
+            max-width: 25vw;
+            background-color: #eee;
           }
-        }
-      }
-
-      li.with-checkbox {
-        &, * {
-          cursor: pointer;
-        }
-        margin: -10px;
-        padding: 10px;
-        border-radius: 4px;
-
-        &:hover {
-          background-color: ${colors.linkBackgroundColorTransparent};
-        }
-
-        label {
-          padding-left: 6px;
-          font-weight: 600;
-          color: ${colors.primaryColorBrighter};
-          user-select: none;
-        }
-
-        small {
-          padding-left: 26px;
         }
       }
     }
@@ -192,6 +156,18 @@ const StyledToolbar = styled(Toolbar)`
     background-color: ${colors.neutralBackgroundColor};
   }
 `;
+
+function CheckmarkItem({ caption, children }: { caption: string, children?: React.ReactNode }) {
+  return (
+    <li className="with-checkmark">
+      <header>
+        <StyledCheckmarkIcon color={colors.linkColor} />
+        <div className="caption">{caption}</div>
+      </header>
+      {children}
+    </li>
+  );
+}
 
 export default class PhotoUploadInstructionsToolbar extends React.Component<Props, State> {
   props: Props;
@@ -254,39 +230,39 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
             </header>
             <section>
               <ul>
-                <li className="with-checkmark">
-                  <span>
-                    <StyledCheckmarkIcon color={colors.linkColor} />
-                    <p>{captions.content}</p>
-                  </span>
-                  <ul className="photo-examples">
-                    <li>
-                      <div className="placeholder-image entrance-image" />
-                      <small>{t`Entrances`}</small>
-                    </li>
-                    <li>
-                      <div className="placeholder-image sitemap-image" />
-                      <small>{t`Site map`}</small>
-                    </li>
-                    <li>
-                      <div className="placeholder-image toilet-image" />
-                      <small>{t`toilets`}</small>
-                    </li>
-                  </ul>
-                </li>
-                <li className="with-checkmark">
-                  <span>
-                    <StyledCheckmarkIcon color={colors.linkColor} />
-                    <p>{captions.copyright}</p>
-                  </span>
+                <CheckmarkItem caption={captions.content}>
+                  <section className="photo-examples">
+                    <figure>
+                      <img
+                        src="/images/photo-upload/entrancePlaceholder.png"
+                        className="placeholder-image entrance-image"
+                        aria-label=""
+                      />
+                      <figcaption>{t`Entrances`}</figcaption>
+                    </figure>
+                    <figure>
+                      <img
+                        src="/images/photo-upload/sitemapPlaceholder.png"
+                        className="placeholder-image sitemap-image"
+                        aria-label=""
+                      />
+                      <figcaption>{t`Site map`}</figcaption>
+                    </figure>
+                    <figure>
+                      <img
+                        src="/images/photo-upload/toiletPlaceholder.png"
+                        className="placeholder-image toilet-image"
+                        aria-label=""
+                      />
+                      <figcaption>{t`toilets`}</figcaption>
+                    </figure>
+                  </section>
+                </CheckmarkItem>
+
+                <CheckmarkItem caption={captions.copyright}>
                   <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
-                </li>
-                <li className="with-checkmark">
-                  <span>
-                    <StyledCheckmarkIcon color={colors.linkColor} />
-                    <p>{captions.people}</p>
-                  </span>
-                </li>
+                </CheckmarkItem>
+                <CheckmarkItem caption={captions.people} />
               </ul>
             </section>
             <footer>

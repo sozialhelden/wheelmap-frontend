@@ -5,7 +5,7 @@ import minBy from 'lodash/minBy';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
 import * as React from 'react';
-import colors from '../lib/colors';
+import colors, { alpha } from '../lib/colors';
 import { isOnSmallViewport } from '../lib/ViewportSize';
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 
@@ -111,7 +111,8 @@ const StyledSection = styled.section`
   }
   /* Sizing (more sizing for different viewports below) */
   box-sizing: border-box;
-  width: 320px;
+  width: 400px;
+  max-width: 100%;
   min-width: 320px;
 
   &.toolbar-is-modal {
@@ -137,7 +138,8 @@ const StyledSection = styled.section`
   padding-bottom: 8px;
 
   font-size: 16px;
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2), 0 1px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 30px ${alpha(colors.darkLinkColor, 0.2)},
+    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
   background-color: ${colors.colorizedBackgroundColor};
 
   overflow: auto;
