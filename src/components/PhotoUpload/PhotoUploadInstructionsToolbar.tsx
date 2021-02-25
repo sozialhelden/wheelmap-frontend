@@ -250,7 +250,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
           >
             <header>
               <h3>{captions.header}</h3>
-              <StyledCloseLink onClick={this.props.onClose} />
+              <StyledCloseLink onClick={this.onClose} />
             </header>
             <section>
               <ul>
