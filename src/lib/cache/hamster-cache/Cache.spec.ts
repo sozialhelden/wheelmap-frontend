@@ -1,5 +1,6 @@
 // tslint:disable-next-line: import-name
-import Cache, { CacheStrategy } from './index';
+import Cache from './Cache';
+import { CacheStrategy } from './types';
 
 describe('Cache', () => {
   describe('constructor', () => {
@@ -28,13 +29,13 @@ describe('Cache', () => {
     let yIsDisposed = false;
     let zIsDisposed = false;
 
-    cache.set('old', 'X', { dispose: () => (xIsDisposed = true) });
-    cache.set('new', 'Y', { dispose: () => (yIsDisposed = true) });
+    cache.set('old', 'X', { dispose: () => { xIsDisposed = true; } });
+    cache.set('new', 'Y', { dispose: () => { yIsDisposed = true; } });
     expect(cache.size()).toBe(2);
 
     // Mark the item as used to keep it in the cache on reaching the maximal number of items
     cache.get('old');
-    cache.set('evenNewer', 'Z', { dispose: () => (zIsDisposed = true) });
+    cache.set('evenNewer', 'Z', { dispose: () => { zIsDisposed = true; } });
 
     expect(cache.size()).toBe(2);
     expect(cache.get('old')).toBeUndefined();
@@ -57,9 +58,9 @@ describe('Cache', () => {
     let xIsDisposed = false;
     let yIsDisposed = false;
     let zIsDisposed = false;
-    const x = { dispose: () => (xIsDisposed = true) };
-    const y = { dispose: () => (yIsDisposed = true) };
-    const z = { dispose: () => (zIsDisposed = true) };
+    const x = { dispose: () => { xIsDisposed = true; } };
+    const y = { dispose: () => { yIsDisposed = true; } };
+    const z = { dispose: () => { zIsDisposed = true; } };
 
     cache.set('old', 'X', x);
     cache.set('new', 'Y', y);
@@ -102,17 +103,16 @@ describe('Cache', () => {
       if (dateNowSpy) dateNowSpy.mockRestore();
     });
 
-    const createCache = (strategy: CacheStrategy) =>
-      new Cache<string, string>({
-        defaultTTL: 5000,
-        evictExceedingItemsBy: strategy,
-        maximalItemCount: 4,
-      });
+    const createCache = (strategy: CacheStrategy) => new Cache<string, string>({
+      defaultTTL: 5000,
+      evictExceedingItemsBy: strategy,
+      maximalItemCount: 4,
+    });
 
     (['lru', 'age'] as CacheStrategy[]).forEach((strategy) => {
       describe(`using ${strategy} as eviction policy`, () => {
         describe('peekWithMetaInfo', () => {
-          it(`returns an item's meta info without evicting it, even after TTL`, () => {
+          it('returns an item\'s meta info without evicting it, even after TTL', () => {
             const cache = createCache(strategy);
             dateNowSpy.mockReturnValueOnce(10000);
             const dispose = jest.fn();
@@ -133,7 +133,7 @@ describe('Cache', () => {
         });
 
         describe('peek', () => {
-          it(`returns a cached value without evicting the item, even after TTL`, () => {
+          it('returns a cached value without evicting the item, even after TTL', () => {
             const cache = createCache(strategy);
             dateNowSpy.mockReturnValueOnce(10000);
             cache.set('x', 'y');
@@ -145,7 +145,7 @@ describe('Cache', () => {
         });
 
         describe('getMetaInfo', () => {
-          it(`returns an item's meta info before TTL, but evicts the item after TTL (and returns undefined)`, () => {
+          it('returns an item\'s meta info before TTL, but evicts the item after TTL (and returns undefined)', () => {
             const cache = createCache(strategy);
             dateNowSpy.mockReturnValue(10000);
             // tslint:disable-next-line: no-empty
@@ -168,7 +168,7 @@ describe('Cache', () => {
         });
 
         describe('get', () => {
-          it(`returns a cached value before TTL, but evicts the item after TTL (and returns undefined)`, () => {
+          it('returns a cached value before TTL, but evicts the item after TTL (and returns undefined)', () => {
             const cache = createCache(strategy);
             dateNowSpy.mockReturnValue(10000);
             cache.set('x', 'y');
@@ -180,7 +180,7 @@ describe('Cache', () => {
         });
 
         describe('expireItems', () => {
-          it(`evicts expired items and leaves the rest untouched`, () => {
+          it('evicts expired items and leaves the rest untouched', () => {
             const cache = createCache(strategy);
             dateNowSpy.mockReturnValue(10000);
             cache.set('a', 'x');
@@ -211,12 +211,12 @@ describe('Cache', () => {
         });
 
         describe('has', () => {
-          it(`returns \`true\``, () => {
+          it('returns `true`', () => {
             const cache = createCache(strategy);
             cache.set('a', 'x');
             expect(cache.has('a')).toBe(true);
           });
-          it(`returns \`false\``, () => {
+          it('returns `false`', () => {
             const cache = createCache(strategy);
             cache.set('a', 'x');
             expect(cache.has('b')).toBe(false);
@@ -224,7 +224,7 @@ describe('Cache', () => {
         });
 
         describe('clear', () => {
-          it(`removes all items from the cache`, () => {
+          it('removes all items from the cache', () => {
             const cache = createCache(strategy);
             cache.set('a', 'x');
             cache.set('b', 'x');
@@ -266,7 +266,7 @@ describe('Cache', () => {
         });
 
         describe('setTTL', () => {
-          it(`changes the TTL of an existing item`, () => {
+          it('changes the TTL of an existing item', () => {
             const cache = createCache(strategy);
             cache.set('a', 'x');
             cache.setTTL('a', 100, 100);

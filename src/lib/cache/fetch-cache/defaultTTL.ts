@@ -1,7 +1,7 @@
 import { CachedValue, IMinimalResponse } from './types';
 
-export function defaultTTL<ResponseT extends IMinimalResponse>(
-  cachedValue: CachedValue<ResponseT>
+export default function defaultTTL<ResponseT extends IMinimalResponse, ResultT>(
+  cachedValue: CachedValue<ResponseT, ResultT>,
 ) {
   switch (cachedValue.state) {
     case 'running':
@@ -10,7 +10,7 @@ export function defaultTTL<ResponseT extends IMinimalResponse>(
       // aborted and the same URL is requested multiple times.
       return 30000;
 
-    case 'resolved':
+    case 'resolved': {
       const { response } = cachedValue;
       // Keep successful or 'resource missing' responses in the cache for 120 minutes
       if (response && (response.status === 200 || response.status === 404)) {
@@ -18,13 +18,17 @@ export function defaultTTL<ResponseT extends IMinimalResponse>(
       }
       // Allow retrying all other responses after 10 seconds
       return 10000;
+    }
 
-    case 'rejected':
+    case 'rejected': {
       const { error } = cachedValue;
       if (typeof error.name !== 'undefined' && error.name === 'AbortError') {
         return 0;
       }
       // Allow reattempting failed requests after 10 seconds
       return 10000;
+    }
+    default:
+      throw new Error('Unknown state.');
   }
 }

@@ -1,5 +1,6 @@
 export default class LRUQueue<K> {
   public lruRemovalQueue: K[] = [];
+
   public keysToLRUQueueIndexes = new Map<K, number>();
 
   public push(key: K) {

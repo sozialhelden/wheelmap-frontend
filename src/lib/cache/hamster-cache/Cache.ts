@@ -3,6 +3,7 @@ import { IItem, IOptions, ISetItemOptions } from './types';
 
 export default class Cache<K, V> {
   public options: Readonly<IOptions<K, V>>;
+
   public lruQueue = new LRUQueue<K>();
 
   /**
@@ -13,8 +14,8 @@ export default class Cache<K, V> {
    * - Supports individual time-to-live (TTL) for single items
    * - Gives you meta information about cached objects, for stats generation or debugging
    * - Allows you to bring your own internal cache (if it supports the ES6 `Map` interface)
-   * - Lets you define a custom function to clean up (e.g. to close file handles or open connections)
-   *   when it evicts an item
+   * - Lets you define a custom function to clean up (e.g. to close file handles or open
+   *   connections) when it evicts an item
    *
    * You can find more examples on [GitHub](https://github.com/sozialhelden/hamster-cache/blob/master/README.md).
    *
@@ -52,7 +53,7 @@ export default class Cache<K, V> {
 
     if (maximalItemCount <= 0) {
       throw new Error(
-        'Please supply a `maximalItemCount` parameter that is greater than zero. Supply no parameter or `Infinity` as value to allow an infinite number of items.'
+        'Please supply a `maximalItemCount` parameter that is greater than zero. Supply no parameter or `Infinity` as value to allow an infinite number of items.',
       );
     }
 
@@ -85,7 +86,7 @@ export default class Cache<K, V> {
   public set(
     key: K,
     value: V,
-    { dispose, storageTimestamp = Date.now(), ttl = this.options.defaultTTL }: ISetItemOptions = {}
+    { dispose, storageTimestamp = Date.now(), ttl = this.options.defaultTTL }: ISetItemOptions = {},
   ): boolean {
     // Check for infinity in which case the item persists forever.
     const expireAfterTimestamp = ttl < Infinity ? storageTimestamp + ttl : Infinity;
@@ -105,6 +106,8 @@ export default class Cache<K, V> {
         case 'lru':
           this.deleteLeastRecentlyUsedItem();
           break;
+        default:
+          throw new Error('Must define "age" or "lru" as "evictExceedingItemsBy" strategy.');
       }
     }
 
@@ -149,7 +152,7 @@ export default class Cache<K, V> {
     const item = this.options.cache.get(key);
     if (item !== undefined && item.expireAfterTimestamp <= ifNotExpiredOnTimestamp) {
       this.delete(key);
-      return;
+      return undefined;
     }
     if (this.options.evictExceedingItemsBy === 'lru') {
       // Move the key to the end of the LRU deletion queue
@@ -179,6 +182,7 @@ export default class Cache<K, V> {
    */
 
   public evictExpiredItems(ifOlderThanTimestamp: number = Date.now()) {
+    // eslint-disable-next-line no-restricted-syntax
     for (const [key, item] of this.options.cache) {
       if (item.expireAfterTimestamp <= ifOlderThanTimestamp) {
         this.delete(key);
@@ -254,13 +258,13 @@ export default class Cache<K, V> {
       item.expireAfterTimestamp = now + ttl;
       return item.expireAfterTimestamp;
     }
-    return;
+    return undefined;
   }
 
   public deleteLeastRecentlyUsedItem(): IItem<V> | undefined {
     if (this.options.evictExceedingItemsBy !== 'lru') {
       throw new Error(
-        'Can only use this function if the cache is initialized to watch LRU of items.'
+        'Can only use this function if the cache is initialized to watch LRU of items.',
       );
     }
     const key = this.lruQueue.shift();
