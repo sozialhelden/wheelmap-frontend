@@ -62,7 +62,7 @@ export default class App extends BaseApp<any> {
     let renderContext;
     let routeProps;
     let path;
-    let localeStrings: string[] = [];
+    let localeStrings: string[] = ['en'];
 
     isServer = !!(ctx && ctx.req);
 
