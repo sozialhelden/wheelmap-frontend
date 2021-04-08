@@ -1,3 +1,4 @@
+import './lib/NativeAppStrings';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
