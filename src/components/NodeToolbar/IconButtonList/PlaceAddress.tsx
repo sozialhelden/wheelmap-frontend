@@ -20,11 +20,8 @@ import { UAResult } from '../../../lib/userAgent';
 function getAddressForACProperties(properties: AccessibilityCloudProperties): string | null {
   if (typeof properties.address === 'string') return properties.address;
   if (typeof properties.address === 'object') {
-    return typeof properties.address.full === 'string'
-      ? properties.address.full
-      : typeof properties.address.text === 'string'
-      ? properties.address.text
-      : undefined;
+    if (typeof properties.address.full === 'string') return properties.address.full;
+    if (typeof properties.address.text === 'string') return properties.address.text;
   }
   return null;
 }
