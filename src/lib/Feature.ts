@@ -144,6 +144,7 @@ export type AccessibilityCloudProperties = {
   address?:
     | {
         full?: string,
+        text?: string,
         postcode?: string,
         city?: string,
         postal_code?: string,
