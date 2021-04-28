@@ -76,7 +76,7 @@ const PointGeometryPicker = (props: Props) => {
           latitude={props.latitude}
           longitude={props.longitude}
           {...viewport}
-          mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          mapboxApiAccessToken={env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN}
           width="100%"
           height="100%"
           onViewportChange={applyViewport}

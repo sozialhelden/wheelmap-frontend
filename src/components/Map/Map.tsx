@@ -1,4 +1,8 @@
 import L from 'leaflet';
+import 'mapbox-gl';
+import 'mapbox-gl/src/css/mapbox-gl.css';
+import 'mapbox-gl-leaflet';
+
 import { GestureHandling } from 'leaflet-gesture-handling';
 import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
@@ -54,6 +58,7 @@ import './MapStyle.tsx';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
 import { MapStyle } from './MapStyle';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
+import env from '../../lib/env';
 
 L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -337,9 +342,9 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer = L.tileLayer(this.props.mapboxTileUrl, {
-      maxZoom: this.props.maxZoom,
-      id: 'accessibility-cloud',
+    const basemapLayer = L.mapboxGL({
+      accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
+      style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
     });
 
     map.addLayer(basemapLayer);

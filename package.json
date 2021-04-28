@@ -60,6 +60,8 @@
     "leaflet.markercluster": "^1.0.4",
     "local-storage-fallback": "^4.1.1",
     "lodash": "^4.17.20",
+    "mapbox-gl": "^2.2.0",
+    "mapbox-gl-leaflet": "0.0.14",
     "marked": "^1.1.1",
     "mkdirp": "^0.5.5",
     "next": "^10.0.7",

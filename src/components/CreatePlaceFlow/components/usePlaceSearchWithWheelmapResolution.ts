@@ -48,7 +48,7 @@ function usePlaceSearchWithWheelmapResolution(minimalRequiredLetterCount: number
 
         if (osmId !== null) {
           const boundIndex = index;
-          const appToken = env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+          const appToken = env.REACT_APP_WHEELMAP_API_KEY;
           const promise = wheelmapFeatureCache.getFeature(String(osmId), appToken);
           promise
             .then(result => {

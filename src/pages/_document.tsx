@@ -46,6 +46,7 @@ export default class MyDocument extends Document<any> {
                 https://service.sozialhelden.de
                 https://photon.komoot.io
                 https://api.mapbox.com
+                https://api.tiles.mapbox.com
                 https://events.mapbox.com
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}

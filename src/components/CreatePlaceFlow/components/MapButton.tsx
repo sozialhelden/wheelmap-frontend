@@ -26,7 +26,7 @@ const MapButton = (props: Props) => {
         latitude={latitude}
         longitude={longitude}
         zoom={18}
-        mapboxApiAccessToken={env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        mapboxApiAccessToken={env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN}
         width="100%"
         height="300px"
         ref={r => {
