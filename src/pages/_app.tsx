@@ -267,8 +267,8 @@ export default class App extends BaseApp<any> {
     let translatedDescription = translatedStringFromObject(description);
     let translatedProductName = translatedStringFromObject(productName);
     let pageTitle = translatedProductName;
-    let facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0, imageURL: "" };
-    let twitterMetaData = { ...twitter, imageUrl: "" };
+    let facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
+    let twitterMetaData = { ...twitter };
     let ogUrl = baseUrl;
 
     if (routeName === 'mappingEventDetail') {
