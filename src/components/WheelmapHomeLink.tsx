@@ -6,8 +6,8 @@ type Props = {
   className?: string,
   logoURL: string,
   href: string,
-  appName: string
-}
+  appName: string,
+};
 
 const WheelmapHomeLink = (props: Props) => (
   <a
@@ -19,14 +19,15 @@ const WheelmapHomeLink = (props: Props) => (
     rel="noreferrer noopener"
   >
     {/* translator: The alternative desription of the app logo for screenreaders */}
-    <img className="logo" src={props.logoURL} width={156} height={30} alt={t`App Logo`} />
+    <img className="logo" src={props.logoURL} height={30} alt={t`App Logo`} />
   </a>
 );
 
 const StyledWheelmapHomeLink = styled(WheelmapHomeLink)`
-  border-radius: 8px;
+  border-radius: 4px;
   background-color: rgba(254, 254, 254, 0.8);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.1);
+  padding: 4px;
 `;
 
 export default StyledWheelmapHomeLink;

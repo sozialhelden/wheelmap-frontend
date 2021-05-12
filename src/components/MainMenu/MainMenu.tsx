@@ -121,13 +121,7 @@ class MainMenu extends React.Component<Props, State> {
           {...extraProps}
         >
           {/* translator: The alternative desription of the app logo for screenreaders */}
-          <img
-            className="logo"
-            src={this.props.logoURL}
-            width={156}
-            height={30}
-            alt={this.props.productName}
-          />
+          <img className="logo" src={this.props.logoURL} height={30} alt={this.props.productName} />
         </button>
       </div>
     );
@@ -301,6 +295,7 @@ const StyledMainMenu = styled(MainMenu)`
 
   .logo {
     margin-left: 10px;
+    margin-right: 10px;
     object-fit: contain;
     object-position: left;
   }
