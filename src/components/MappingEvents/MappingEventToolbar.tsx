@@ -198,6 +198,7 @@ const MappingEventToolbar = ({
               (mappingEvent.statistics.surveyCompletedCount || 0)
             }
             participantCount={mappingEvent.statistics.joinedParticipantCount || 0}
+            startDate={startDate}
             endDate={endDate}
           />
           <div className="actions">

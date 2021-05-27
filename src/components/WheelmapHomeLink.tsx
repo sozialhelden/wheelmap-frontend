@@ -1,27 +1,41 @@
 import React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
+import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+import { translatedStringFromObject } from '../lib/i18n';
+import VectorImage from './VectorImage';
 
 type Props = {
   className?: string,
-  logoURL: string,
   href: string,
-  appName: string,
+  clientSideConfiguration: ClientSideConfiguration,
 };
 
-const WheelmapHomeLink = (props: Props) => (
-  <a
-    className={props.className}
-    href={props.href}
-    // translator: The link name to go from the embedded to the complete app
-    aria-label={t`Go to ${props.appName}`}
-    target="_blank"
-    rel="noreferrer noopener"
-  >
-    {/* translator: The alternative desription of the app logo for screenreaders */}
-    <img className="logo" src={props.logoURL} height={30} alt={t`App Logo`} />
-  </a>
-);
+const WheelmapHomeLink = (props: Props) => {
+  const appName = translatedStringFromObject(
+    props.clientSideConfiguration?.textContent?.product?.name
+  );
+
+  return (
+    <a
+      className={props.className}
+      href={props.href}
+      // translator: The link name to go from the embedded to the complete app
+      aria-label={t`Go to ${appName}`}
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <VectorImage
+        svg={props.clientSideConfiguration?.branding?.vectorLogoSVG}
+        aria-label={t`App Logo`} /* translator: The alternative desription of the app logo for screenreaders */
+        className="logo"
+        maxHeight={'30px'}
+        maxWidth={'150px'}
+        hasShadow={false}
+      />
+    </a>
+  );
+};
 
 const StyledWheelmapHomeLink = styled(WheelmapHomeLink)`
   border-radius: 4px;

@@ -16,6 +16,8 @@ import Link, { RouteConsumer } from '../Link/Link';
 import { AppContextConsumer } from '../../AppContext';
 
 import CloseIcon from '../icons/actions/Close';
+import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
+import VectorImage from '../VectorImage';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -23,7 +25,6 @@ type State = {
 
 type Props = {
   className: string,
-  productName: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
   onMappingEventsLinkClick: () => void,
@@ -34,9 +35,7 @@ type Props = {
   lat: number | null,
   lon: number | null,
   zoom: number | null,
-  logoURL: string,
-  claim: LocalizedString,
-  links: Array<LinkData>,
+  clientSideConfiguration: ClientSideConfiguration,
 };
 
 function MenuIcon(props) {
@@ -111,6 +110,9 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   renderHomeLink(extraProps = {}) {
+    const productName = translatedStringFromObject(
+      this.props.clientSideConfiguration.textContent.product.name
+    );
     return (
       <div className="home-link">
         <button
@@ -120,15 +122,21 @@ class MainMenu extends React.Component<Props, State> {
           onKeyDown={this.handleKeyDown}
           {...extraProps}
         >
-          {/* translator: The alternative desription of the app logo for screenreaders */}
-          <img className="logo" src={this.props.logoURL} height={30} alt={this.props.productName} />
+          <VectorImage
+            className="logo"
+            svg={this.props.clientSideConfiguration.branding?.vectorLogoSVG}
+            aria-label={productName}
+            maxHeight={'30px'}
+            maxWidth={'150px'}
+            hasShadow={false}
+          />
         </button>
       </div>
     );
   }
 
   renderAppLinks(baseUrl: string) {
-    return this.props.links
+    return this.props.clientSideConfiguration.customMainMenuLinks
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(link => {
         const url =
@@ -245,7 +253,8 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   render() {
-    const { isOpen, className, claim } = this.props;
+    const { isOpen, className, clientSideConfiguration } = this.props;
+    const claim = translatedStringFromObject(clientSideConfiguration?.textContent?.product?.claim);
     const { isMenuButtonVisible } = this.state;
 
     const classList = [
@@ -261,7 +270,7 @@ class MainMenu extends React.Component<Props, State> {
         <nav className={classList.join(' ')}>
           {this.renderHomeLink()}
 
-          <div className="claim">{translatedStringFromObject(claim)}</div>
+          <div className="claim">{claim}</div>
 
           <GlobalActivityIndicator className="activity-indicator" />
 

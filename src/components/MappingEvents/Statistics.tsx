@@ -9,25 +9,24 @@ import { UserIcon } from '../icons/ui-elements/index';
 type Props = {
   mappedPlacesCount: number,
   participantCount: number,
+  startDate: Date | null,
   endDate: Date | null,
   className?: string,
 };
 
-const Statistics = ({ mappedPlacesCount, participantCount, endDate, className }: Props) => {
+const Statistics = ({
+  mappedPlacesCount,
+  participantCount,
+  startDate,
+  endDate,
+  className,
+}: Props) => {
   // translator: Screenreader description for the statistics/numbers part of a mapping event
   const statisticsRegionAriaLabel = t`Mapping Event Numbers`;
   // translator: Description for number of already mapped places in the mapping event
   const mappedPlacesLabel = t`Mapped Places`;
   // translator: Description for number of people invited to the current mapping event
   const inviteesCountAriaLabel = t`Participants`;
-  // translator: Description for number of days left in the mapping event
-  const daysLeftLabel = t`Days Left`;
-
-  const currentDate = new Date();
-  const remainingDaysLeft =
-    endDate && endDate > currentDate
-      ? Math.ceil((endDate.getTime() - currentDate.getTime()) / 1000 / 60 / 60 / 24)
-      : null;
 
   return (
     <section className={className} aria-label={statisticsRegionAriaLabel}>
@@ -45,15 +44,6 @@ const Statistics = ({ mappedPlacesCount, participantCount, endDate, className }:
         </div>
         <div className="statistic-description">{inviteesCountAriaLabel}</div>
       </div>
-      {remainingDaysLeft && (
-        <div className="statistic">
-          <div className="statistic-count">
-            <BellIcon />
-            <span>{remainingDaysLeft}</span>
-          </div>
-          <div className="statistic-description">{daysLeftLabel}</div>
-        </div>
-      )}
     </section>
   );
 };

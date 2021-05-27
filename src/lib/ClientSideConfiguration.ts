@@ -1,5 +1,6 @@
 import { LocalizedString, translatedStringFromObject } from './i18n';
 import { LinkData } from '../App';
+import { IBranding } from './IBranding';
 
 export interface TwitterConfiguration {
   siteHandle?: string;
@@ -27,20 +28,20 @@ export interface EmbedToken {
 }
 
 export interface ClientSideConfiguration {
-  logoURL: string;
-  allowedBaseUrls: Array<string>;
-  embedTokens: EmbedToken[];
-  includeSourceIds: Array<string>;
-  excludeSourceIds: Array<string>;
+  branding?: IBranding;
+  allowedBaseUrls?: Array<string>;
+  embedTokens?: EmbedToken[];
+  includeSourceIds?: Array<string>;
+  excludeSourceIds?: Array<string>;
   disableWheelmapSource: boolean;
-  textContent: {
-    onboarding: {
-      headerMarkdown: LocalizedString,
+  textContent?: {
+    onboarding?: {
+      headerMarkdown?: LocalizedString,
     },
-    product: {
-      name: LocalizedString,
-      claim: LocalizedString,
-      description: LocalizedString,
+    product?: {
+      name?: LocalizedString,
+      claim?: LocalizedString,
+      description?: LocalizedString,
     },
   };
   meta: {
@@ -48,7 +49,7 @@ export interface ClientSideConfiguration {
     facebook?: FacebookConfiguration,
   };
   customMainMenuLinks?: LinkData[];
-  addPlaceURL: string;
+  addPlaceURL?: string;
 }
 
 export function getProductTitle(

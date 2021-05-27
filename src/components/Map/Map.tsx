@@ -119,7 +119,6 @@ type Props = {
   accessibilityCloudBaseUrl?: string,
   wheelmapApiBaseUrl: string,
   wheelmapApiKey: string,
-  mapboxTileUrl: string,
   maxZoom: number,
   minZoomWithSetCategory: number,
   minZoomWithoutSetCategory: number,

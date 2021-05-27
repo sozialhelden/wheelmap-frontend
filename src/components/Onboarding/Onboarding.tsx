@@ -10,13 +10,14 @@ import Icon from '../Icon';
 import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
 import { ChromelessButton, CallToActionButton } from '../Button';
 import env from '../../lib/env';
+import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
+import VectorImage from '../VectorImage';
 
 type Props = {
   className?: string,
   isVisible: boolean,
   onClose: () => void,
-  headerMarkdown: LocalizedString | string,
-  logoURL: string,
+  clientSideConfiguration: ClientSideConfiguration,
 };
 
 class Onboarding extends React.Component<Props, null> {
@@ -30,7 +31,11 @@ class Onboarding extends React.Component<Props, null> {
 
   render() {
     const { props } = this;
-    const { logoURL, headerMarkdown } = props;
+
+    const { headerMarkdown } = props.clientSideConfiguration.textContent.onboarding;
+    const productName = translatedStringFromObject(
+      props.clientSideConfiguration.textContent.product.name
+    );
     // translator: Shown on the onboarding screen. To find it, click the logo at the top.
     const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
     // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
@@ -58,13 +63,13 @@ class Onboarding extends React.Component<Props, null> {
         ariaLabel={t`Start screen`}
       >
         <header>
-          <img
+          <VectorImage
             className="logo"
-            src={logoURL}
-            width={123}
-            height={30}
-            alt={appLogoAltText}
-            aria-hidden={true}
+            svg={this.props.clientSideConfiguration.branding?.vectorLogoSVG}
+            aria-label={productName}
+            maxHeight={'50px'}
+            maxWidth={'200px'}
+            hasShadow={false}
           />
 
           <p

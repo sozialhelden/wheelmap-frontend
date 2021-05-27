@@ -425,8 +425,6 @@ class MainView extends React.Component<Props, State> {
       isMappingEventWelcomeDialogVisible,
     } = this.props;
     const { clientSideConfiguration } = app;
-    const { headerMarkdown } = clientSideConfiguration.textContent.onboarding;
-    const { logoURL } = clientSideConfiguration;
 
     // if mapping event welcome dialog is also visible, don't show onboarding dialog
     const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
@@ -435,33 +433,24 @@ class MainView extends React.Component<Props, State> {
       <Onboarding
         isVisible={isVisible}
         onClose={onCloseOnboarding}
-        headerMarkdown={headerMarkdown}
-        logoURL={logoURL}
+        clientSideConfiguration={clientSideConfiguration}
       />
     );
   }
 
   renderMainMenu() {
-    const {
-      customMainMenuLinks,
-      logoURL,
-      textContent,
-    } = this.props.app.clientSideConfiguration;
-
     return (
       <MainMenu
-        productName={translatedStringFromObject(textContent.product.name)}
-        className="main-menu"
-        uniqueSurveyId={this.state.uniqueSurveyId}
-        isOpen={this.props.isMainMenuOpen}
-        onToggle={this.props.onToggleMainMenu}
-        onHomeClick={this.props.onMainMenuHomeClick}
-        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
-        onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
-        joinedMappingEvent={this.props.joinedMappingEvent}
-        logoURL={logoURL}
-        claim={textContent.product.claim}
-        links={customMainMenuLinks}
+      className="main-menu"
+      uniqueSurveyId={this.state.uniqueSurveyId}
+      isOpen={this.props.isMainMenuOpen}
+      onToggle={this.props.onToggleMainMenu}
+      onHomeClick={this.props.onMainMenuHomeClick}
+      onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+      onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
+      joinedMappingEvent={this.props.joinedMappingEvent}
+
+        clientSideConfiguration={this.props.app.clientSideConfiguration}
         lat={this.props.lat}
         lon={this.props.lon}
         zoom={this.props.zoom}
@@ -629,8 +618,6 @@ class MainView extends React.Component<Props, State> {
   renderWheelmapHomeLink() {
     if (typeof window !== 'undefined') {
       const { clientSideConfiguration } = this.props.app;
-      const appName = translatedStringFromObject(clientSideConfiguration.textContent.product.name);
-      const { logoURL } = clientSideConfiguration;
 
       const queryParams = queryString.parse(window.location.search);
       delete queryParams.embedded;
@@ -638,7 +625,7 @@ class MainView extends React.Component<Props, State> {
 
       const homeLinkHref = `${window.location.origin}${window.location.pathname}?${queryStringWithoutEmbeddedParam}`;
 
-      return <PositionedWheelmapHomeLink href={homeLinkHref} appName={appName} logoURL={logoURL} />;
+      return <PositionedWheelmapHomeLink href={homeLinkHref} clientSideConfiguration={clientSideConfiguration} />;
     }
   }
 
