@@ -13267,7 +13267,7 @@
             "flag": "javascript-format"
           },
           "msgstr": [
-            "(Bitte schreibe nur auf deutsch oder English)\n\nLieber Sozialhelden,\n\nirgendwas an diesem Ort stimmt nicht: ${ url }\n\nMein Problem ist:\n\nMein Browser:\n\n${ navigator.userAgent }"
+            "(Bitte schreibe nur auf deutsch oder English)\n\nLiebe Sozialheld*innen,\n\nirgendwas an diesem Ort stimmt nicht: ${ url }\n\nMein Problem ist:\n\nMein Browser:\n\n${ navigator.userAgent }"
           ]
         },
         "[Wheelmap] Problem with ${ placeName } on Wheelmap": {
