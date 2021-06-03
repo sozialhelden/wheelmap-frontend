@@ -271,7 +271,7 @@ export default class App extends BaseApp<any> {
     let facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
     let twitterMetaData = { ...twitter };
     let ogUrl = baseUrl;
-    const iconSvg = branding?.vectorLogoSVG?.data;
+    const iconSvg = branding?.vectorIconSVG?.data;
     const faviconDataUrl = iconSvg && `data:image/svg+xml;base64,${encode(iconSvg)}`;
 
     if (routeName === 'mappingEventDetail') {
