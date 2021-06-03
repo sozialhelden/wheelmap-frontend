@@ -12,6 +12,7 @@ import FacebookMeta from '../components/FacebookMeta';
 import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
 import { AppContextData, AppContextProvider } from '../AppContext';
+import { encode } from 'js-base64';
 
 import {
   parseAcceptLanguageString,
@@ -258,7 +259,7 @@ export default class App extends BaseApp<any> {
       storeInitialRouteProps(routeName, renderContext, renderContext.app.tokenString);
     }
 
-    const { textContent, meta } = this.props.app.clientSideConfiguration;
+    const { textContent, meta, branding } = this.props.app.clientSideConfiguration;
     const { name: productName, description } = textContent.product;
     const { twitter, facebook } = meta;
 
@@ -270,6 +271,8 @@ export default class App extends BaseApp<any> {
     let facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
     let twitterMetaData = { ...twitter };
     let ogUrl = baseUrl;
+    const iconSvg = branding?.vectorLogoSVG?.data;
+    const faviconDataUrl = iconSvg && `data:image/svg+xml;base64,${encode(iconSvg)}`;
 
     if (routeName === 'mappingEventDetail') {
       const mappingEvent = this.props.mappingEvents.find(
@@ -333,7 +336,8 @@ export default class App extends BaseApp<any> {
             name="description"
             key="description"
           />
-          <link rel="shortcut icon" href={`/favicon.ico`} />
+          <link rel="shortcut icon" href={faviconDataUrl || `/favicon.ico`} />
+          <link rel="icon" href={faviconDataUrl || `/favicon.ico`} />
 
           {/* iOS app */}
           {productName === 'Wheelmap' && (

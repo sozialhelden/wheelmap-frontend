@@ -103,6 +103,14 @@ app.prepare().then(() => {
     })
   );
 
+  server.use(
+    ['/images/*'],
+    createProxyMiddleware({
+      target: process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
+      changeOrigin: true,
+    })
+  );
+
   registerHealthChecks(server);
 
   // Fallback for routes not found.
