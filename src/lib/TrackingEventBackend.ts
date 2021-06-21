@@ -21,6 +21,8 @@ export type AttributeChangedTrackingEvent = {
   placeInfoId?: string | number,
   organizationId?: string,
   appId?: string,
+  longitude?: number,
+  latitude?: number,
 };
 
 export type SurveyCompletedTrackingEvent = {

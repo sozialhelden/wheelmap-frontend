@@ -58,6 +58,8 @@ function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {
       newValue: propertyUpdates[propertyName],
       organizationId: appContext.app.organizationId,
       appId: appContext.app._id,
+      longitude: feature.geometry.coordinates[0],
+      latitude: feature.geometry.coordinates[1],
     });
   });
 }
