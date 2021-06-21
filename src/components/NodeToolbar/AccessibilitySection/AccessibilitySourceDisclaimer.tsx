@@ -20,7 +20,7 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
   props: Props;
   state = defaultState;
 
-  componentWillReceiveProps(newProps: Props) {
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
     if (!newProps.properties || !newProps.properties.sourceId) {
       this.setState(defaultState);
       return;

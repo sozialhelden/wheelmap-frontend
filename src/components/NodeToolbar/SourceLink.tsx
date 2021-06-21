@@ -50,7 +50,7 @@ class SourceLink extends React.Component<Props, State> {
     this.fetchSource(this.props);
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  UNSAFE_componentWillReceiveProps(newProps: Props) {
     this.fetchSource(newProps);
   }
 

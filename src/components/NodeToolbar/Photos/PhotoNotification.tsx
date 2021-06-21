@@ -37,7 +37,7 @@ class PhotoNotification extends React.Component<Props, State> {
 
   componentDidMount() {}
 
-  componentWillReceiveProps(newProps: Props) {}
+  UNSAFE_componentWillReceiveProps(newProps: Props) {}
 
   render() {
     const { className, notificationType, uploadProgress } = this.props;
