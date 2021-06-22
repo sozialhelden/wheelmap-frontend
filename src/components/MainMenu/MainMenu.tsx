@@ -144,7 +144,8 @@ class MainMenu extends React.Component<Props, State> {
           insertPlaceholdersToAddPlaceUrl(
             baseUrl,
             translatedStringFromObject(link.url),
-            this.props.uniqueSurveyId
+            this.props.uniqueSurveyId,
+            this.props.joinedMappingEvent
           );
         const label = translatedStringFromObject(link.label);
         const badgeLabel = translatedStringFromObject(link.badgeLabel);
