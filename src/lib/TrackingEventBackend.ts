@@ -2,7 +2,6 @@ import pick from 'lodash/pick';
 import { globalFetchManager } from './FetchManager';
 import { getUserAgent } from './userAgent';
 import { getUUID, getJoinedMappingEventId } from './savedState';
-import { userPositionTracker } from './UserPositionTracker';
 import { mappingEventsCache } from './cache/MappingEventsCache';
 import { App } from './App';
 import env from './env';
@@ -11,7 +10,16 @@ export type Query = {
   [k: string]: string | Array<string> | null,
 };
 
-export type AttributeChangedTrackingEvent = {
+export type BaseTrackingEvent = {
+  geometry?: {
+    type: 'Point',
+    coordinates: number[],
+  },
+  longitude?: number,
+  latitude?: number,
+};
+
+export type AttributeChangedTrackingEvent = BaseTrackingEvent & {
   type: 'AttributeChanged',
   attributePath: string,
   previousValue?: any,
@@ -21,21 +29,19 @@ export type AttributeChangedTrackingEvent = {
   placeInfoId?: string | number,
   organizationId?: string,
   appId?: string,
-  longitude?: number,
-  latitude?: number,
 };
 
-export type SurveyCompletedTrackingEvent = {
+export type SurveyCompletedTrackingEvent = BaseTrackingEvent & {
   type: 'SurveyCompleted',
   uniqueSurveyId: string,
 };
 
-export type AppOpenedTrackingEvent = {
+export type AppOpenedTrackingEvent = BaseTrackingEvent & {
   type: 'AppOpened',
   query: Query,
 };
 
-export type MappingEventJoinedTrackingEvent = {
+export type MappingEventJoinedTrackingEvent = BaseTrackingEvent & {
   type: 'MappingEventJoined',
   joinedMappingEventId: string,
   joinedVia: 'url' | 'button',
@@ -44,7 +50,7 @@ export type MappingEventJoinedTrackingEvent = {
   invitationToken?: string | null,
 };
 
-export type MappingEventLeftTrackingEvent = {
+export type MappingEventLeftTrackingEvent = BaseTrackingEvent & {
   type: 'MappingEventLeft',
   leftMappingEventId: string,
   query: Query,
@@ -65,9 +71,6 @@ export default class TrackingEventBackend {
     const mappingEvent =
       joinedMappingEventId && (await mappingEventsCache.getMappingEvent(app, joinedMappingEventId));
 
-    // get userLocation
-    const userLocation = userPositionTracker.userLocation;
-
     // determine userUUID
     const userUUID = getUUID();
 
@@ -80,10 +83,6 @@ export default class TrackingEventBackend {
       userUUID,
       timestamp: Math.round(Date.now() / 1000),
       userAgent: getUserAgent(),
-      userLocation: userLocation && {
-        type: 'Point',
-        coordinates: [userLocation.coords.longitude, userLocation.coords.latitude],
-      },
     });
 
     const fetchRequest = {
