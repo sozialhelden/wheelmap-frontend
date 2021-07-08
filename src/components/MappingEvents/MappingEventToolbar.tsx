@@ -18,6 +18,8 @@ import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
 import GlobeIcon from '../icons/ui-elements/GlobeIcon';
 import CalendarIcon from '../icons/ui-elements/CalendarIcon';
+import Markdown from '../Markdown';
+import StyledMarkdown from '../StyledMarkdown';
 
 type MappingEventToolbarProps = {
   className?: string,
@@ -191,7 +193,9 @@ const MappingEventToolbar = ({
             </div>
           </header>
           <img className="mapping-event-image" src={imageSource} alt="" />
-          <div className="mapping-event-description">{mappingEvent.description}</div>
+          <div className="mapping-event-description">
+            <StyledMarkdown>{mappingEvent.description}</StyledMarkdown>
+          </div>
           <Statistics
             mappedPlacesCount={
               (mappingEvent.statistics.attributeChangedCount || 0) +
