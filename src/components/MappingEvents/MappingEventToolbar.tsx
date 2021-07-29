@@ -20,6 +20,8 @@ import GlobeIcon from '../icons/ui-elements/GlobeIcon';
 import CalendarIcon from '../icons/ui-elements/CalendarIcon';
 import Markdown from '../Markdown';
 import StyledMarkdown from '../StyledMarkdown';
+import colors from '../../lib/colors';
+import { omit } from 'lodash';
 
 type MappingEventToolbarProps = {
   className?: string,
@@ -73,8 +75,15 @@ const MappingEventToolbar = ({
     startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
 
     if (endDate) {
-      startDateString = `${startDateString} -`;
-      endDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(endDate);
+      const isSameDay =
+        startDate.getFullYear() === endDate.getFullYear() &&
+        startDate.getMonth() === endDate.getMonth() &&
+        startDate.getDate() === endDate.getDate();
+
+      endDateString = Intl.DateTimeFormat(
+        preferredLanguage,
+        isSameDay ? omit(dateFormatOptions, 'year', 'month', 'day') : dateFormatOptions
+      ).format(endDate);
     } else {
       // translator: Prefix for the mapping event start date ("starting 01.12.2019")
       const startingDatePrefix = t`starting`;
@@ -165,30 +174,28 @@ const MappingEventToolbar = ({
               </h2>
 
               {(startDateString || endDateString) && (
-                <p className="event-date" title={eventDateLabel}>
-                  <CalendarIcon className="date-icon" />
-                  <span>
-                    {startDateString && (
-                      <Fragment>
-                        <span title={eventStartDateLabel}>{startDateString}</span>
-                        <br />
-                      </Fragment>
-                    )}
-                    {endDateString && <span title={eventEndDateLabel}>{endDateString}</span>}
-                  </span>
-                </p>
+                <time className="event-date" title={eventDateLabel}>
+                  {startDateString && <span title={eventStartDateLabel}>{startDateString}</span>}
+                  {endDateString && (
+                    <>
+                      &nbsp;-&nbsp;<span title={eventEndDateLabel}>{endDateString}</span>
+                    </>
+                  )}
+                </time>
               )}
+
               {meetingPointName && (
-                <p className="meeting-point" title={meetingPointLabel}>
+                <div className="meeting-point" title={meetingPointLabel}>
                   <MapPinIcon className="meeting-point-icon" />
                   {meetingPointName}
-                </p>
+                </div>
               )}
+
               {areaName && (
-                <p className="area-name" title={areaNameLabel}>
+                <div className="area-name" title={areaNameLabel}>
                   <GlobeIcon className="area-name-icon" />
                   {areaName}
-                </p>
+                </div>
               )}
             </div>
           </header>
@@ -244,11 +251,9 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   }
 
   p {
-    color: #676b72;
+    color: ${colors.textColorTonedDown};
     font-size: 16px;
     font-weight: 400;
-    margin: 0;
-    line-height: 1.2;
   }
 
   .event-date,
@@ -256,6 +261,9 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   .area-name {
     display: flex;
     align-items: center;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.5;
   }
 
   .date-icon,
