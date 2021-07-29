@@ -66,6 +66,7 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /
 RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
   && \
   ( \
+  gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys "$TINI_GPG_KEY" ||\
   gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$TINI_GPG_KEY" ||\
   gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
   gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" \
