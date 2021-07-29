@@ -147,6 +147,7 @@ const MappingEventToolbar = ({
           minimalTopPosition={minimalTopPosition}
         >
           <CloseButton onClick={onClose} />
+
           <header>
             {!joinedMappingEventId && (
               <RouteConsumer>
@@ -162,6 +163,7 @@ const MappingEventToolbar = ({
                 }}
               </RouteConsumer>
             )}
+
             <div>
               <h2>
                 <Button
@@ -199,10 +201,13 @@ const MappingEventToolbar = ({
               )}
             </div>
           </header>
+
           <img className="mapping-event-image" src={imageSource} alt="" />
+
           <div className="mapping-event-description">
             <StyledMarkdown>{mappingEvent.description}</StyledMarkdown>
           </div>
+
           <Statistics
             mappedPlacesCount={
               (mappingEvent.statistics.attributeChangedCount || 0) +
@@ -212,6 +217,7 @@ const MappingEventToolbar = ({
             startDate={startDate}
             endDate={endDate}
           />
+
           <div className="actions">
             {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
             <AppContextConsumer>
