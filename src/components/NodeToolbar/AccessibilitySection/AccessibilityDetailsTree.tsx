@@ -30,14 +30,22 @@ function formatName(
 }
 
 function formatValue(value: any): string {
-  if (value === true) return t`Yes`;
-  if (value === false) return t`No`;
+  if (
+    value === true ||
+    (typeof value === 'string' && (value.match(/^true$/i) || value.match(/^yes$/i)))
+  )
+    return t`Yes`;
+  if (
+    value === false ||
+    (typeof value === 'string' && (value.match(/^false$/i) || value.match(/^no$/i)))
+  )
+    return t`No`;
   if (
     isPlainObject(value) &&
     value &&
     typeof value === 'object' &&
     typeof value.unit === 'string' &&
-    typeof value.value === 'number'
+    (typeof value.value === 'number' || typeof value.value === 'string')
   ) {
     return `${value.value || '?'} ${value.unit}`;
   }

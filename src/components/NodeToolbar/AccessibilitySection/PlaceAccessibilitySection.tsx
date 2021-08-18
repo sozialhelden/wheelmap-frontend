@@ -95,7 +95,7 @@ export default function PlaceAccessibilitySection(props: Props) {
       <EditFormSubmissionButton featureId={featureId} feature={feature} sources={sources} />
       {accessibilityDetailsTree}
 
-      {isWheelmapFeature && (
+      {!isWheelmapFeature && (
         <AccessibilitySourceDisclaimer
           properties={properties as AccessibilityCloudProperties}
           appToken={appContext.app.tokenString}

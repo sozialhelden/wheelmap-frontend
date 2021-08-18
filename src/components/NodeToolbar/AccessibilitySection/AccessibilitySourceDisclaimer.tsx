@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import * as React from 'react';
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
 import { AccessibilityCloudProperties } from '../../../lib/Feature';
-import { LocalizedString } from '../../../lib/i18n';
+import { LocalizedString, translatedStringFromObject } from '../../../lib/i18n';
 
 type Props = {
   properties: AccessibilityCloudProperties,
@@ -27,7 +27,12 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
     }
     dataSourceCache.getDataSourceWithId(newProps.properties.sourceId, newProps.appToken).then(
       source => {
-        this.setState({ extraInfo: source.additionalAccessibilityInformation });
+        this.setState({
+          extraInfo: translatedStringFromObject(
+            source.additionalAccessibilityInformation ||
+              source.translations?.additionalAccessibilityInformation
+          ),
+        });
       },
       () => {
         this.setState(defaultState);
@@ -43,8 +48,8 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
 }
 
 const StyledAccessibilitySourceDisclaimer = styled(AccessibilitySourceDisclaimer)`
-  font-size: 80%;
-  opacity: 0.5;
+  opacity: 0.7;
+  padding-bottom: 0.5rem;
 `;
 
 export default StyledAccessibilitySourceDisclaimer;

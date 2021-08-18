@@ -10,6 +10,9 @@ export type DataSource = {
   name: string | undefined,
   originWebsiteURL: string | undefined,
   additionalAccessibilityInformation: LocalizedString,
+  translations?: {
+    additionalAccessibilityInformation: LocalizedString,
+  },
   isA11yRatingAllowed?: boolean,
   defaultKoboForm?: string,
 };
