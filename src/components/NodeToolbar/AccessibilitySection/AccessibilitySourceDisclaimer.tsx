@@ -25,13 +25,14 @@ class AccessibilitySourceDisclaimer extends React.Component<Props, State> {
       this.setState(defaultState);
       return;
     }
+
     dataSourceCache.getDataSourceWithId(newProps.properties.sourceId, newProps.appToken).then(
       source => {
+        const string =
+          source.additionalAccessibilityInformation ||
+          source.translations?.additionalAccessibilityInformation;
         this.setState({
-          extraInfo: translatedStringFromObject(
-            source.additionalAccessibilityInformation ||
-              source.translations?.additionalAccessibilityInformation
-          ),
+          extraInfo: string ? translatedStringFromObject(string) : null,
         });
       },
       () => {
