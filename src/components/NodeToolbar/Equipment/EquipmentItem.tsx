@@ -6,6 +6,7 @@ import colors from '../../../lib/colors';
 import get from 'lodash/get';
 import { ngettext, msgid } from 'ttag';
 import getHumanEnumeration from '../../../lib/getHumanEnumeration';
+import getEquipmentInfoDescription from './getEquipmentInfoDescription';
 
 type Props = {
   equipmentInfos: EquipmentInfo[],
@@ -92,9 +93,12 @@ function EquipmentIconWrapper({
 
 function EquipmentItem(props: Props) {
   const equipmentInfos = props.equipmentInfos;
-  const longDescription = get(equipmentInfos[0], ['properties', 'longDescription']);
-  const description = get(equipmentInfos[0], ['properties', 'description']);
-  const shortDescription = get(equipmentInfos[0], ['properties', 'shortDescription']);
+  const firstEquipmentInfo = equipmentInfos[0];
+
+  const longDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'longDescription');
+  const description = getEquipmentInfoDescription(firstEquipmentInfo, 'description');
+  const shortDescription = getEquipmentInfoDescription(firstEquipmentInfo, 'shortDescription');
+
   const { isExpanded } = props;
   const working = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === true);
   const broken = equipmentInfos.filter(e => get(e, ['properties', 'isWorking']) === false);
@@ -103,7 +107,9 @@ function EquipmentItem(props: Props) {
   );
   const hasBrokenEquipment = broken.length > 0;
 
-  const itemSelectedHandler = (event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>) => {
+  const itemSelectedHandler = (
+    event: React.KeyboardEvent<HTMLButtonElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.stopPropagation();
     event.preventDefault();
     props.onSelected(props.placeInfoId, equipmentInfos[0]);
