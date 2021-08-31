@@ -20,7 +20,6 @@
     "acorn-dynamic-import": "^4.0.0",
     "async_hooks": "^1.0.0",
     "browser-image-resizer": "^1.2.0",
-    "caniuse-lite": "^1.0.30001151",
     "cheerio": "^0.22.0",
     "classnames": "^2.2.6",
     "compression": "^1.7.3",
