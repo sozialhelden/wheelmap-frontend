@@ -167,7 +167,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       <div className={this.props.className}>
         {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
-        {/*{findToiletsNearby && this.renderNearbyToilets()}*/}
+        {findToiletsNearby && this.renderNearbyToilets()}
       </div>
     );
   }
