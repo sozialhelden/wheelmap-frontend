@@ -4,12 +4,16 @@ import { removeNullAndUndefinedFields } from './Feature';
 
 /** @returns a better structure to represent in the UI than the basic tree structure would provide. */
 
-export default function filterAccessibility(properties: MinimalAccessibility): Partial<MinimalAccessibility> {
+export default function filterAccessibility(
+  properties: MinimalAccessibility
+): Partial<MinimalAccessibility> {
   const paths = [
     'partiallyAccessibleWith.wheelchair',
     'accessibleWith.wheelchair',
     'areas.0.restrooms.0.isAccessibleWithWheelchair',
+    'restrooms.0.isAccessibleWithWheelchair',
     'areas.0.entrances.0.isLevel',
+    'entrances.0.isLevel',
   ];
   // TODO: check why called twice
   let result = removeNullAndUndefinedFields(removeNullAndUndefinedFields(omit(properties, paths)));
