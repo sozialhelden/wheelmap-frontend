@@ -134,6 +134,7 @@ const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
     // translator: Root category
     name: t`Sports`,
   },
+  // This returns all places that either ARE a toilet, or HAVE an accessible toilet
   toilets: {
     // translator: Meta category for any toilet or any place with an accessible toilet
     name: t`Toilets`,
@@ -144,7 +145,8 @@ const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
         return true;
       }
 
-      return hasAccessibleToilet(properties, true) === 'yes';
+      const isPlaceWithToiletCategory = getCategoryIdFromProperties(properties) === 'toilets'
+      return isPlaceWithToiletCategory || hasAccessibleToilet(properties) === 'yes';
     },
   },
 });
