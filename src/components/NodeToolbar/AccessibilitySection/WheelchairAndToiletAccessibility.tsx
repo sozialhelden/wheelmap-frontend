@@ -59,7 +59,8 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const icon = toiletIcons[accessibility] || null;
   return (
     <React.Fragment>
-      {icon}&nbsp;
+      {icon}
+      {icon && <>&nbsp;</>}
       <span>{description}</span>
     </React.Fragment>
   );
