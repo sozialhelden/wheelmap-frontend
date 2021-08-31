@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Feature } from '../../lib/Feature';
+import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 
@@ -19,6 +19,8 @@ import colors from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
+import { translatedStringFromObject } from '../../lib/i18n';
+import { compact } from 'lodash';
 
 export const StyledNodeHeader = styled.header`
   margin: -8px -16px 0 -16px;
@@ -82,7 +84,14 @@ export default class NodeHeader extends React.Component<Props> {
     let categoryName = shownCategory && categoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
-    let placeName = placeNameFor(properties, shownCategory);
+    const acFeature = accessibilityCloudFeatureFrom(feature);
+    const parentPlaceName =
+      acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
+    const address = acFeature?.properties.address;
+    const addressObject = typeof address === 'object' ? address : undefined;
+    const levelName = addressObject && translatedStringFromObject(addressObject?.level);
+    const roomName = addressObject && translatedStringFromObject(addressObject?.room);
+    let placeName = placeNameFor(properties, shownCategory) || roomName;
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
     if (isEquipment) {
       placeName = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), false);
@@ -113,11 +122,14 @@ export default class NodeHeader extends React.Component<Props> {
       />
     ) : null;
 
+    const fullName = compact([levelName, roomName !== placeName && roomName, placeName]).join(
+      ' / '
+    );
     const placeNameElement = (
       <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
         {this.props.hasIcon && icon}
         <div className="place-content">
-          {placeName}
+          {fullName}
           {categoryElement}
         </div>
       </PlaceNameH1>
