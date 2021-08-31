@@ -288,6 +288,13 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   dt[data-key='areas'] + dd {
     margin-left: 0;
   }
+
+  > dt:not(:first-child) {
+    margin-top: 10px;
+    & + dd {
+      margin-top: 10px;
+    }
+  }
 `;
 
 export default StyledAccessibilityDetailsTree;
