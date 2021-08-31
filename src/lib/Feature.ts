@@ -141,6 +141,7 @@ export type AccessibilityCloudProperties = {
   accessibility?: MinimalAccessibility,
   category?: string,
   placeInfoId?: string,
+  parentPlaceInfoName?: string,
   address?:
     | {
         full?: string,
@@ -152,6 +153,8 @@ export type AccessibilityCloudProperties = {
         housenumber?: number | string,
         county?: string,
         country?: string,
+        room?: string,
+        level?: string,
       }
     | string,
   infoPageUrl?: string,
@@ -360,17 +363,16 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
 }
 
 export function hasAccessibleToilet(
-  properties: WheelmapProperties | AccessibilityCloudProperties | any,
-  allowToiletsOfAnyAccessibility: boolean = false
+  properties: WheelmapProperties | AccessibilityCloudProperties | any
 ): YesNoUnknown {
   if (!properties) {
     return 'unknown';
   }
 
-  const isAccessible = isWheelchairAccessible(properties);
+  const isPlaceWheelchairAccessible = isWheelchairAccessible(properties);
   const isToilet = getCategoryIdFromProperties(properties) === 'toilets';
-  if (isToilet) {
-    return allowToiletsOfAnyAccessibility || isAccessible === 'yes' ? 'yes' : 'no';
+  if (isToilet && isPlaceWheelchairAccessible === 'yes') {
+    return 'yes';
   }
 
   // wheelmap classic result
@@ -400,16 +402,14 @@ function hasAccessibleToiletLegacyAcFormat(
     return 'unknown';
   }
 
-  if (!(properties.accessibility.areas instanceof Array)) {
-    return 'unknown';
-  }
-
   const restroomInfos = flatten(
-    properties.accessibility.areas.map(area => {
+    properties.accessibility.areas?.map(area => {
       if (!(area.restrooms instanceof Array)) return null;
       return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
-    })
+    }).concat(properties.accessibility.restrooms?.map(restroom => restroom.isAccessibleWithWheelchair))
   );
+
+  debugger
 
   const accessibleCount = restroomInfos.filter(a => a === true).length;
   const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
