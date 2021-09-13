@@ -2,6 +2,7 @@ import React from 'react';
 import { t } from 'ttag';
 import ShareBar from '../ShareBar/ShareBar';
 import { MappingEvent } from '../../lib/MappingEvent';
+import { translatedStringFromObject } from '../../lib/i18n';
 
 type MappingEventShareBarProps = {
   className?: string,
@@ -20,18 +21,18 @@ const MappingEventShareBar = ({
 }: MappingEventShareBarProps) => {
   const url = mappingEvent ? `${baseUrl}/events/${mappingEvent._id}` : baseUrl;
 
-  const sharedObjectTitle = productName
-    ? `${mappingEvent.name} - ${productName}`
-    : mappingEvent.name;
+  const eventName = mappingEvent.name && translatedStringFromObject(mappingEvent.name);
+  const productNameLocalized = productName && translatedStringFromObject(productName);
+  const sharedObjectTitle = productNameLocalized
+    ? `${eventName} - ${productNameLocalized}`
+    : eventName;
 
-  const description = mappingEvent.description || mappingEvent.name;
+  const description = mappingEvent.description || productNameLocalized;
 
   const mailSubject = sharedObjectTitle;
   const productNameString = productName ? ` on ${productName}` : '';
   // translator: Email text used when sharing a mapping event via email.
-  let mailBody = t`Help us out and join the ${
-    mappingEvent.name
-  } mapping event${productNameString}. You can find more info here: ${url}`;
+  let mailBody = t`Help us out and join the ${productNameLocalized} mapping event${productNameString}. You can find more info here: ${url}`;
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody

@@ -4,6 +4,7 @@ import { t } from 'ttag';
 import { Feature, isWheelmapProperties } from '../../../lib/Feature';
 import { Category, getCategoryId } from '../../../lib/Categories';
 import ShareBar from '../../ShareBar/ShareBar';
+import { translatedStringFromObject } from '../../../lib/i18n';
 
 type Props = {
   feature: Feature,
@@ -44,7 +45,9 @@ const ShareButtons = ({
     const categoryOrParentCategory = category || parentCategory;
     const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
     // translator: Used to describe a place with unknown name, but known category (when sharing)
-    const placeName = properties.name || (categoryName && t`${categoryName} on Wheelmap`);
+    const placeName =
+      (properties.name && translatedStringFromObject(properties.name)) ||
+      (categoryName && t`${categoryName} on Wheelmap`);
     if (placeName) {
       // translator: First line in an email and shared object title used when sharing a place via email or a social network.
       sharedObjectTitle = t`I found this place on Wheelmap: ${placeName}`;
