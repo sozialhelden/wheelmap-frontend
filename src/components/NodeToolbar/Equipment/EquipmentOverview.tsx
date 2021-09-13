@@ -7,6 +7,7 @@ import { t } from 'ttag';
 
 import EquipmentList from './EquipmentList';
 import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import getEquipmentInfoDescription from './getEquipmentInfoDescription';
 
 type Props = {
   equipmentInfos: { [key: string]: EquipmentInfo },
@@ -21,7 +22,9 @@ type State = {
 };
 
 function groupEquipmentByName(equipmentInfos: EquipmentInfo[]) {
-  const groupedEquipmentInfos = groupBy(equipmentInfos, 'properties.description');
+  const groupedEquipmentInfos = groupBy(equipmentInfos, e =>
+    getEquipmentInfoDescription(e, 'shortDescription')
+  );
   return Object.keys(groupedEquipmentInfos).map(description => groupedEquipmentInfos[description]);
 }
 
@@ -35,7 +38,7 @@ class EquipmentOverview extends React.Component<Props, State> {
 
     const sortedEquipmentInfos = sortBy(Object.values(equipmentInfos), [
       'properties.category',
-      'properties.description',
+      e => getEquipmentInfoDescription(e, 'shortDescription'),
     ]);
 
     const equipmentInfoArrays = groupEquipmentByName(sortedEquipmentInfos);
@@ -53,8 +56,7 @@ class EquipmentOverview extends React.Component<Props, State> {
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
     const hasWorkingEquipment =
       workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
-    const shouldBeExpandable =
-      sortedEquipmentInfos.length > 2 && hasWorkingEquipment && !this.state.expanded;
+    const shouldBeExpandable = sortedEquipmentInfos.length > 1 && !this.state.expanded;
     const isExpanded = this.state.expanded || sortedEquipmentInfos.length <= 2;
 
     return (

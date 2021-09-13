@@ -14,13 +14,15 @@ import {
 import Icon from '../Icon';
 import { PlaceNameH1 } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
-import { equipmentInfoNameFor, isEquipmentAccessible } from '../../lib/EquipmentInfo';
+import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { compact } from 'lodash';
+import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
+import { t } from 'ttag';
 
 export const StyledNodeHeader = styled.header`
   margin: -8px -16px 0 -16px;
@@ -94,8 +96,10 @@ export default class NodeHeader extends React.Component<Props> {
     let placeName = placeNameFor(properties, shownCategory) || roomName;
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
     if (isEquipment) {
-      placeName = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), false);
-      ariaLabel = equipmentInfoNameFor(get(this.props, ['equipmentInfo', 'properties']), true);
+      placeName =
+        getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription') ||
+        t`Unnamed facility`;
+      ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
 
     const accessibility = isEquipment
@@ -122,9 +126,12 @@ export default class NodeHeader extends React.Component<Props> {
       />
     ) : null;
 
-    const fullName = compact([levelName, roomName !== placeName && roomName, placeName]).join(
-      ' / '
-    );
+    const fullName = compact([
+      parentPlaceName,
+      levelName,
+      roomName !== placeName && roomName,
+      placeName,
+    ]).join(' / ');
     const placeNameElement = (
       <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
         {this.props.hasIcon && icon}

@@ -3,8 +3,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import sortBy from 'lodash/sortBy';
 
-import { Feature, placeNameFor, getFeatureId } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { Feature, placeNameFor, getFeatureId, isWheelmapFeature } from '../../lib/Feature';
+import { EquipmentInfo, CategoryStrings, CategoryString } from '../../lib/EquipmentInfo';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
 import StyledCloseLink from '../CloseLink';
@@ -17,6 +17,8 @@ import colors from '../../lib/colors';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
 import { Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
+import { get } from 'lodash';
+import AccessibilityCloudFeatureCache, { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 
 type Props = {
   hidden?: boolean,
@@ -86,20 +88,26 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
-  renderClusterEntry(feature: Feature | EquipmentInfo) {
+  renderClusterEntry(feature: Feature | EquipmentInfo, allFeatures: (Feature | EquipmentInfo)[]) {
     const { category, parentCategory } = Categories.getCategoriesForFeature(
       this.props.categories,
       feature
     );
 
+    const isEquipment = category._tag === 'ACCategory' && CategoryStrings.includes(category._id as CategoryString);
+    const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
+    const equipmentInfoId = equipmentInfo?.properties._id;
+    const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
     return (
       <button onClick={() => this.props.onFeatureSelected(feature)}>
         <NodeHeader
           // TODO comment that this should allow typed features
-          feature={feature as any}
+          feature={parentPlaceInfo || feature as any}
           categories={this.props.categories}
           category={category}
           parentCategory={parentCategory}
+          equipmentInfo={equipmentInfo}
+          equipmentInfoId={equipmentInfoId}
           hasIcon={true}
           hasOpaqueBackground={false}
         />
@@ -122,7 +130,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     });
 
     return sortedFeatures.map(feature => (
-      <li key={getFeatureId(feature)}>{this.renderClusterEntry(feature)}</li>
+      <li key={getFeatureId(feature)}>{this.renderClusterEntry(feature, sortedFeatures)}</li>
     ));
   }
 
