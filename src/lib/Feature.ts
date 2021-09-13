@@ -141,7 +141,7 @@ export type AccessibilityCloudProperties = {
   accessibility?: MinimalAccessibility,
   category?: string,
   placeInfoId?: string,
-  parentPlaceInfoName?: string,
+  parentPlaceInfoName?: LocalizedString,
   address?:
     | {
         full?: string,
@@ -408,8 +408,6 @@ function hasAccessibleToiletLegacyAcFormat(
       return area.restrooms.map(restroom => restroom.isAccessibleWithWheelchair);
     }).concat(properties.accessibility.restrooms?.map(restroom => restroom.isAccessibleWithWheelchair))
   );
-
-  debugger
 
   const accessibleCount = restroomInfos.filter(a => a === true).length;
   const nonAccessibleCount = restroomInfos.filter(a => a === false).length;
