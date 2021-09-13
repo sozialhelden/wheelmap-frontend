@@ -91,21 +91,6 @@ export type EquipmentInfo = {
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<EquipmentInfo>;
 
-export function equipmentInfoNameFor(
-  properties: EquipmentInfoProperties,
-  isAriaLabel: boolean
-): string {
-  const unknownName = t`Unnamed facility`;
-  if (!properties) return unknownName;
-  let description = properties.description;
-  if (isAriaLabel) {
-    description = properties.longDescription || description;
-  } else {
-    description = properties.shortDescription || description;
-  }
-  return translatedStringFromObject(description) || unknownName;
-}
-
 export function equipmentStatusTitle(isWorking: boolean, isOutdated: boolean) {
   return {
     // translator: An equipment or facility status. The facility might be an elevator, escalator, switch, sitemap, …
@@ -123,7 +108,9 @@ export function isExistingInformationOutdated(lastUpdate: Date | undefined): boo
   return new Date().getTime() - lastUpdate.getTime() > twoHoursInMilliseconds;
 }
 
-export function isEquipmentAccessible(properties: EquipmentInfoProperties | undefined): YesNoLimitedUnknown | null {
+export function isEquipmentAccessible(
+  properties: EquipmentInfoProperties | undefined
+): YesNoLimitedUnknown | null {
   if (!properties) {
     return null;
   }
