@@ -33,10 +33,10 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     appToken: string,
     useCache: boolean = true
   ): Promise<Response> {
-    const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
+    // const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
     const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
     return AccessibilityCloudFeatureCache.fetch(
-      `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&locale=${acLocaleString}&includePlacesWithoutAccessibility=1`
+      `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&includePlacesWithoutAccessibility=1`
     );
   }
 
