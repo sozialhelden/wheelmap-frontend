@@ -32,16 +32,16 @@ class Onboarding extends React.Component<Props, null> {
   render() {
     const { props } = this;
 
-    const { headerMarkdown } = props.clientSideConfiguration.textContent.onboarding;
-    const productName = translatedStringFromObject(
-      props.clientSideConfiguration.textContent.product.name
-    );
+    const { headerMarkdown } = props.clientSideConfiguration.textContent?.onboarding || {
+      headerMarkdown: undefined,
+    };
+    const productName =
+      translatedStringFromObject(props.clientSideConfiguration.textContent?.product.name) ||
+      'Wheelmap';
     // translator: Shown on the onboarding screen. To find it, click the logo at the top.
     const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
     // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
     const startButtonCaption = t`Okay, let’s go!`;
-    // translator: Cookie notice with link to privacy policy
-    const cookieNotice = t`We use cookies to improve this app for you. <a href="https://news.wheelmap.org/terms-of-use/" target="_blank">Read our Privacy Policy</a>.`;
 
     const onClose = () => {
       // Prevent that touch up opens a link underneath the primary button after closing
@@ -49,7 +49,7 @@ class Onboarding extends React.Component<Props, null> {
       setTimeout(() => props.onClose(), 10);
     };
 
-    const headerMarkdownHTML = marked(translatedStringFromObject(headerMarkdown));
+    const headerMarkdownHTML = headerMarkdown && marked(translatedStringFromObject(headerMarkdown));
 
     /* translator: The alternative desription of the app logo for screenreaders */
     const appLogoAltText = t`App Logo`;
@@ -72,11 +72,13 @@ class Onboarding extends React.Component<Props, null> {
             hasShadow={false}
           />
 
-          <p
-            id="wheelmap-claim-onboarding"
-            className="claim"
-            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
-          />
+          {headerMarkdownHTML && (
+            <p
+              id="wheelmap-claim-onboarding"
+              className="claim"
+              dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
+            />
+          )}
         </header>
 
         <section>

@@ -110,9 +110,9 @@ class MainMenu extends React.Component<Props, State> {
   };
 
   renderHomeLink(extraProps = {}) {
-    const productName = translatedStringFromObject(
-      this.props.clientSideConfiguration.textContent.product.name
-    );
+    const productName =
+      translatedStringFromObject(this.props.clientSideConfiguration.textContent?.product.name) ||
+      'Wheelmap';
     return (
       <div className="home-link">
         <button

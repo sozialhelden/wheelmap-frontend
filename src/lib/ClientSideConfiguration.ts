@@ -56,7 +56,12 @@ export function getProductTitle(
   clientSideConfiguration: ClientSideConfiguration,
   title?: string
 ): string {
-  const { product } = clientSideConfiguration.textContent;
+  const { product } = clientSideConfiguration.textContent || {
+    product: {
+      name: 'Wheelmap',
+      claim: 'Find wheelchair accessible places',
+    },
+  };
   const { name, claim } = product;
 
   if (!title) {

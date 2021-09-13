@@ -260,8 +260,8 @@ export default class App extends BaseApp<any> {
     }
 
     const { textContent, meta, branding } = this.props.app.clientSideConfiguration;
-    const { name: productName, description } = textContent.product;
-    const { twitter, facebook } = meta;
+    const { name: productName, description } = textContent?.product || { name: 'Wheelmap', description: undefined };
+    const { twitter, facebook } = meta || {};
 
     const baseUrl = `https://${hostName}`;
 
