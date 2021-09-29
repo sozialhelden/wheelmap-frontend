@@ -13,7 +13,6 @@ const MapButton = styled('button')`
     0 1px 2px ${alpha(colors.darkLinkColor, 0.1)};
   position: fixed;
   top: 60px;
-  right: 0px;
   left: 10px;
   z-index: 500;
   cursor: pointer;
