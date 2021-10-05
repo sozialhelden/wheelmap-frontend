@@ -154,6 +154,7 @@ export type AccessibilityCloudProperties = {
         county?: string,
         country?: string,
         room?: string,
+        roomNumber?: string,
         level?: string,
       }
     | string,
