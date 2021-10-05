@@ -24,7 +24,6 @@ import { translatedStringFromObject } from '../../lib/i18n';
 import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
-import Badge from '../Badge';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;
@@ -64,7 +63,7 @@ const PlaceNameDetail = styled.div`
   font-size: 1rem;
 `;
 
-function roomNumberString(roomNumber: string) {
+function getRoomNumberString(roomNumber: string) {
   return t`Room ${roomNumber}`;
 }
 
@@ -119,7 +118,7 @@ export default class NodeHeader extends React.Component<Props> {
       t`Unnamed facility`;
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
-    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && roomNumberString(roomNumber);
+    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber);
     const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
 
     const accessibility = isEquipment
