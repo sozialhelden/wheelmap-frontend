@@ -5,11 +5,11 @@ import { MappingEvent } from '../../lib/MappingEvent';
 import { translatedStringFromObject } from '../../lib/i18n';
 
 type MappingEventShareBarProps = {
-  className?: string,
-  mappingEvent: MappingEvent,
-  buttonCaption: string,
-  baseUrl: string,
-  productName: string | null,
+  className?: string;
+  mappingEvent: MappingEvent;
+  buttonCaption: string;
+  baseUrl: string;
+  productName: string | null;
 };
 
 const MappingEventShareBar = ({
@@ -30,9 +30,9 @@ const MappingEventShareBar = ({
   const description = mappingEvent.description || productNameLocalized;
 
   const mailSubject = sharedObjectTitle;
-  const productNameString = productName ? ` on ${productName}` : '';
+
   // translator: Email text used when sharing a mapping event via email.
-  let mailBody = t`Help us out and join the ${productNameLocalized} mapping event${productNameString}. You can find more info here: ${url}`;
+  let mailBody = t`Help us out and join the ${productNameLocalized} mapping event ${eventName}. You can find more info here: ${url}`;
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody

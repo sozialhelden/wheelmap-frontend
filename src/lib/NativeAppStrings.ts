@@ -9,6 +9,4 @@ As it's not many, it's okay to simply copy them over manually from the respectiv
 */
 
 t`You are offline.`;
-t`To show where you are on the map, the app needs camera access.`;
-t`To show where you are on the map, the app needs camera access.`;
 t`To add photos to places, camera access is needed.`;

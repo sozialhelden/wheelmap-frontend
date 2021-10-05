@@ -3,30 +3,39 @@
 # Silke Georgi <silkemariageorgi@gmail.com>, 2019
 # Sebastian Felix Zappe <hypo@me.com>, 2019
 # Holger Dieterich <holger@sozialhelden.de>, 2019
-# Developers, 2019
+# Developers, 2021
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2019\n"
+"Last-Translator: Developers, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/sozialhelden/teams/16671/es/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.js:40 src/pages/_app.js:331
+#: src/components/SearchToolbar/SearchButton.tsx:38 src/pages/_app.tsx:330
 msgid "Search"
 msgstr "Buscar"
 
-#: src/pages/_app.js:332
+#: src/pages/_app.tsx:331
 msgid "Homepage"
 msgstr "Página de inicio"
 
-#: src/components/ErrorBoundary.js:41 src/components/NotFound/NotFound.js:48
-#: src/components/NotFound/NotFound.js:98
+#. translator: Aria label for dialog showing up when the embedded mode cannot
+#. be displayed because of no valid token
+#: src/components/EmbedModeDeniedDialog.tsx:12
+msgid "Embed mode can not be used"
+msgstr "No se puede utilizar el modo incrustado"
+
+#. translator: Shown as header text on the error page.
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:46
+#: src/components/NotFound/NotFound.tsx:96
 msgid "Error"
 msgstr "Error"
 
-#: src/components/NotFound/NotFound.js:51
+#. translator: Shown as header text on the error page when the URL is not
+#. found.
+#: src/components/NotFound/NotFound.tsx:49
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
@@ -34,128 +43,305 @@ msgstr ""
 "Esta URL ya no funciona. Si crees que el lugar existe, puedes utilizar la "
 "búsqueda para encontrarlo."
 
-#: src/components/NotFound/NotFound.js:54
+#. translator: Shown when device is offline.
+#: src/components/NotFound/NotFound.tsx:52
 msgid "Sorry, we are offline!"
 msgstr "¡Lo sentimos, estamos fuera de línea!"
 
-#: src/components/ErrorBoundary.js:44 src/components/NotFound/NotFound.js:67
+#. translator: Shown as apology text / description on the error page.
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:65
 msgid "Sorry, that should not have happened!"
 msgstr "Lo sentimos, ¡eso no debería haber sucedido!"
 
-#: src/components/ErrorBoundary.js:47 src/components/NotFound/NotFound.js:69
+#. translator: Shown on the error page.
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:67
 msgid "Return home"
 msgstr "Volver a la página de inicio"
 
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:55
-#: src/components/NotFound/NotFound.js:71
+#. translator: Shown as button caption when there is no internet connection.
+#. Tapping the button retries to load the data.
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
+#: src/components/NotFound/NotFound.tsx:69
 msgid "Retry"
 msgstr "Reintentar"
 
-#: src/components/EmbedModeDeniedDialog.js:12
-msgid "Embed mode can not be used"
-msgstr "No se puede utilizar el modo incrustado"
-
-#: src/lib/Categories.js:93
+#. translator: Root category
+#: src/lib/Categories.ts:95
 msgid "Shopping"
 msgstr "Compras"
 
-#: src/lib/Categories.js:97
+#. translator: Root category
+#: src/lib/Categories.ts:99
 msgid "Food & Drinks"
 msgstr "Comida y bebidas"
 
-#: src/lib/Categories.js:101
+#. translator: Root category
+#: src/lib/Categories.ts:103
 msgid "Transport"
 msgstr "Transporte"
 
-#: src/lib/Categories.js:105
+#. translator: Root category
+#: src/lib/Categories.ts:107
 msgid "Leisure"
 msgstr "Recreación"
 
-#: src/lib/Categories.js:109
+#. translator: Root category
+#: src/lib/Categories.ts:111
 msgid "Hotels"
 msgstr "Hoteles"
 
-#: src/lib/Categories.js:113
+#. translator: Root category
+#: src/lib/Categories.ts:115
 msgid "Tourism"
 msgstr "Turismo"
 
-#: src/lib/Categories.js:117
+#. translator: Root category
+#: src/lib/Categories.ts:119
 msgid "Education"
 msgstr "Educación"
 
-#: src/lib/Categories.js:121
+#. translator: Root category
+#: src/lib/Categories.ts:123
 msgid "Authorities"
 msgstr "Gobierno"
 
-#: src/lib/Categories.js:125
+#. translator: Root category
+#: src/lib/Categories.ts:127
 msgid "Health"
 msgstr "Salud"
 
-#: src/lib/Categories.js:129
+#. translator: Root category
+#: src/lib/Categories.ts:131
 msgid "Money"
 msgstr "Dinero"
 
-#: src/lib/Categories.js:133
+#. translator: Root category
+#: src/lib/Categories.ts:135
 msgid "Sports"
 msgstr "Deporte"
 
-#: src/lib/Categories.js:137
+#. This returns all places that either ARE a toilet, or HAVE an accessible
+#. toilet
+#. translator: Meta category for any toilet or any place with an accessible
+#. toilet
+#: src/lib/Categories.ts:140
 msgid "Toilets"
 msgstr "Baños"
 
-#: src/lib/Categories.js:262
+#. translator: Shown when there was an error while loading category data from
+#. the backend.
+#: src/lib/Categories.ts:267
 msgid "Error while loading place categories."
 msgstr "Error al cargar tipos de lugares"
 
-#: src/app/SearchData.js:123 src/components/SearchToolbar/SearchResults.js:46
+#: src/lib/Feature.ts:479
+msgid "Fully wheelchair accessible"
+msgstr "Totalmente accesible en silla de ruedas"
+
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
+#: src/lib/Feature.ts:482
+msgid "Partially wheelchair accessible"
+msgstr "Parcialmente accesible en silla de ruedas"
+
+#: src/lib/Feature.ts:485
+msgid "Not wheelchair accessible"
+msgstr "No accesible en silla de ruedas"
+
+#: src/lib/Feature.ts:488
+msgid "Unknown accessibility"
+msgstr "Estado desconocido"
+
+#: src/lib/Feature.ts:498
+msgid "Fully"
+msgstr "Completamente"
+
+#: src/lib/Feature.ts:501
+msgid "Partially"
+msgstr "Parcialmente"
+
+#: src/lib/Feature.ts:504
+msgid "Not at all"
+msgstr "De ninguna manera"
+
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:94
+#: src/lib/Feature.ts:507
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: src/lib/Feature.ts:517
+msgid "Entrance has no steps, and all rooms are accessible without steps."
+msgstr "Entrada sin escalones; todas los cuartos sin escalones."
+
+#. translator: Describes criteria for marking places as partially wheelchair
+#. accessible on Wheelmap, using imperial units
+#: src/lib/Feature.ts:521
+msgid ""
+"Entrance has one step with max. 3 inches height, most rooms are without "
+"steps."
+msgstr ""
+"La entrada tiene un escalón con un máximo de 3 pulgadas de alto, la mayoría "
+"de las habitaciones no tienen escalones."
+
+#. translator: Describes criteria for marking places as partially wheelchair
+#. accessible on Wheelmap, using metric units
+#: src/lib/Feature.ts:523
+msgid ""
+"Entrance has one step with max. 7 cm height, most rooms are without steps."
+msgstr ""
+"La entrada tiene un escalón con un máximo de 7 cm de alto. La mayoría de las"
+" habitaciones no tienen escalones."
+
+#: src/lib/Feature.ts:526
+msgid ""
+"Entrance has a high step or several steps, none of the rooms are accessible."
+msgstr ""
+"La entrada tiene uno o varios escalones; los cuartos no son accesibles."
+
+#: src/lib/Feature.ts:537
+msgid "Wheelchair accessible toilet"
+msgstr "Aseo accesible para silla de ruedas"
+
+#: src/lib/Feature.ts:540
+msgid "No wheelchair accessible toilet"
+msgstr "Sin baño accesible en silla de ruedas."
+
+#: src/lib/Feature.ts:548
+msgid "Doorways' inner width ≥ 35 inches"
+msgstr "Ancho interior de la puerta ≥ 35 pulgadas"
+
+#: src/lib/Feature.ts:548
+msgid "Doorways' inner width ≥ 90 cm"
+msgstr "Ancho interior de la puerta ≥ 90 cm"
+
+#: src/lib/Feature.ts:549
+msgid "Clear turning space ≥ 59 inches wide"
+msgstr "Superficie despejada ≥ 59 pulgadas de ancho"
+
+#: src/lib/Feature.ts:549
+msgid "Clear turning space ≥ 150 cm wide"
+msgstr "Superficie despejada ≥ 150 cm de ancho"
+
+#: src/lib/Feature.ts:550
+msgid "Wheelchair-height toilet seat"
+msgstr "Inodoro a la altura de las sillas de ruedas"
+
+#: src/lib/Feature.ts:551
+msgid "Foldable grab rails"
+msgstr "Barras de agarre plegables"
+
+#: src/lib/Feature.ts:552
+msgid "Accessible sink"
+msgstr "Lavabo accesible"
+
+#: src/lib/Feature.ts:559
+msgid "Unnamed place"
+msgstr "Lugar sin nombre"
+
+#. These strings are not used in the React code, but in the native app
+#. wrapper.
+#. Having them here means we can reuse the React i18n process to get these
+#. strings translated with
+#. the same process.
+#. As it's not many, it's okay to simply copy them over manually from the
+#. respective .txt files.
+#: src/lib/NativeAppStrings.ts:11
+msgid "You are offline."
+msgstr "No tienes conexión."
+
+#: src/lib/NativeAppStrings.ts:12
+msgid "To add photos to places, camera access is needed."
+msgstr ""
+
+#: src/app/PlaceDetailsData.tsx:300
+#, javascript-format
+msgid "This place is on ${ productName }: ${ placeTitle }"
+msgstr "Este lugar está en ${ productName }: ${ placeTitle }"
+
+#: src/app/SearchData.tsx:127
+#: src/components/SearchToolbar/SearchResults.tsx:46
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
-#: src/app/CreatePlaceData.js:12
-msgid "Add a new place"
-msgstr "Añadir un lugar nuevo"
-
-#: src/app/ContributionThanksData.js:19
+#: src/app/ContributionThanksData.tsx:17
 msgid "Thank you for the contribution!"
 msgstr "¡Gracias por tu contribución!"
 
-#: src/lib/EquipmentInfo.js:99
-msgid "Unnamed facility"
-msgstr "Instalación sin nombre"
+#: src/app/CreatePlaceData.tsx:10
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:161
+msgid "Add a new place"
+msgstr "Añadir un lugar nuevo"
 
-#: src/lib/EquipmentInfo.js:113
+#. translator: Shown when zoomed out to far
+#: src/components/Map/Map.tsx:1020
+msgid "Zoom in closer to see more places"
+msgstr "Acércate más para ver más lugares"
+
+#. translator: Shown next to the locate-me button when location services are
+#. not
+#. enabled
+#: src/components/Map/Map.tsx:1036
+msgid "Turn on location services"
+msgstr "Activar servicios de ubicación"
+
+#: src/components/Map/Map.tsx:1069
+msgid "Map"
+msgstr "Mapa"
+
+#. translator: The link name to go from the embedded to the complete app
+#: src/components/WheelmapHomeLink.tsx:24
+#, javascript-format
+msgid "Go to ${ appName }"
+msgstr "Ir a ${ appName }"
+
+#: src/components/Onboarding/Onboarding.tsx:55
+#: src/components/WheelmapHomeLink.tsx:30
+msgid "App Logo"
+msgstr "Logotipo de la aplicación"
+
+#. translator: An equipment or facility status. The facility might be an
+#. elevator, escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.ts:97
 msgid "In operation"
 msgstr "en funcionamiento"
 
-#: src/lib/EquipmentInfo.js:115
+#. translator: An equipment or facility status. This does not mean the
+#. facility is broken: It might just be in maintenance! The facility might be
+#. an elevator, escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.ts:99
 msgid "Out of order"
 msgstr "Fuera de servicio"
 
-#: src/lib/EquipmentInfo.js:117
+#. translator: An equipment or facility status. The facility might be an
+#. elevator, escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.ts:101
 msgid "Unknown operational status"
 msgstr "estado desconocido"
 
-#: src/lib/EquipmentInfo.js:158
+#: src/lib/EquipmentInfo.ts:144
 msgid "Escalator"
 msgstr "Escalera mecánica"
 
-#: src/lib/EquipmentInfo.js:159
+#: src/lib/EquipmentInfo.ts:145
 msgid "Elevator"
 msgstr "Ascensor"
 
-#: src/lib/EquipmentInfo.js:161
+#. translator: An equipment or facility whose category we don't know. It might
+#. be an elevator, escalator, switch, sitemap, …
+#: src/lib/EquipmentInfo.ts:147
 msgid "Facility"
 msgstr "instalación"
 
-#: src/lib/EquipmentInfo.js:165
+#: src/lib/EquipmentInfo.ts:151
 msgid "today"
 msgstr "hoy"
 
-#: src/lib/EquipmentInfo.js:166
+#: src/lib/EquipmentInfo.ts:152
 msgid "yesterday"
 msgstr "ayer"
 
-#: src/lib/EquipmentInfo.js:185
+#. translator: Shown for equipment when the last known status information is
+#. too old.
+#: src/lib/EquipmentInfo.ts:171
 #, javascript-format
 msgid ""
 "Last known operational status: ${ translatedEquipmentCategory } was ${ "
@@ -164,173 +350,76 @@ msgstr ""
 "Lo último que sabemos es que esta ${ translatedEquipmentCategory } estuvo ${"
 " lastStatus } el ${ dateString }."
 
-#: src/lib/EquipmentInfo.js:195
+#. translator: Shown next to equipment status.
+#: src/lib/EquipmentInfo.ts:181
 msgid "Last update: ${ dateString }"
 msgstr "Última actualización: ${ dateString }."
 
-#: src/app/PlaceDetailsData.js:294
-#, javascript-format
-msgid "This place is on ${ productName }: ${ placeTitle }"
-msgstr "Este lugar está en ${ productName }: ${ placeTitle }"
+#: src/components/MainMenu/MainMenu.tsx:121
+msgid "Home"
+msgstr "Página de inicio"
 
-#: src/lib/Feature.js:471
-msgid "Fully wheelchair accessible"
-msgstr "Totalmente accesible en silla de ruedas"
+#: src/components/MainMenu/MainMenu.tsx:245
+msgid "Menu"
+msgstr "Menú"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:34
-#: src/lib/Feature.js:474
-msgid "Partially wheelchair accessible"
-msgstr "Parcialmente accesible en silla de ruedas"
-
-#: src/lib/Feature.js:477
-msgid "Not wheelchair accessible"
-msgstr "No accesible en silla de ruedas"
-
-#: src/lib/Feature.js:480
-msgid "Unknown accessibility"
-msgstr "Estado desconocido"
-
-#: src/lib/Feature.js:490
-msgid "Fully"
-msgstr "Completamente"
-
-#: src/lib/Feature.js:493
-msgid "Partially"
-msgstr "Parcialmente"
-
-#: src/lib/Feature.js:496
-msgid "Not at all"
-msgstr "De ninguna manera"
-
-#: src/components/NodeToolbar/Report/ReportDialog.js:95 src/lib/Feature.js:499
-msgid "Unknown"
-msgstr "Desconocido"
-
-#: src/lib/Feature.js:509
-msgid "Entrance has no steps, and all rooms are accessible without steps."
-msgstr "Entrada sin escalones; todas los cuartos sin escalones."
-
-#: src/lib/Feature.js:513
-msgid ""
-"Entrance has one step with max. 3 inches height, most rooms are without "
-"steps."
-msgstr ""
-"La entrada tiene un escalón con un máximo de 3 pulgadas de alto, la mayoría "
-"de las habitaciones no tienen escalones."
-
-#: src/lib/Feature.js:515
-msgid ""
-"Entrance has one step with max. 7 cm height, most rooms are without steps."
-msgstr ""
-"La entrada tiene un escalón con un máximo de 7 cm de alto. La mayoría de las"
-" habitaciones no tienen escalones."
-
-#: src/lib/Feature.js:518
-msgid ""
-"Entrance has a high step or several steps, none of the rooms are accessible."
-msgstr ""
-"La entrada tiene uno o varios escalones; los cuartos no son accesibles."
-
-#: src/lib/Feature.js:529
-msgid "Wheelchair accessible toilet"
-msgstr "Aseo accesible para silla de ruedas"
-
-#: src/lib/Feature.js:532
-msgid "No wheelchair accessible toilet"
-msgstr "Sin baño accesible en silla de ruedas."
-
-#: src/lib/Feature.js:540
-msgid "Doorways' inner width ≥ 35 inches"
-msgstr "Ancho interior de la puerta ≥ 35 pulgadas"
-
-#: src/lib/Feature.js:540
-msgid "Doorways' inner width ≥ 90 cm"
-msgstr "Ancho interior de la puerta ≥ 90 cm"
-
-#: src/lib/Feature.js:541
-msgid "Clear turning space ≥ 59 inches wide"
-msgstr "Superficie despejada ≥ 59 pulgadas de ancho"
-
-#: src/lib/Feature.js:541
-msgid "Clear turning space ≥ 150 cm wide"
-msgstr "Superficie despejada ≥ 150 cm de ancho"
-
-#: src/lib/Feature.js:542
-msgid "Wheelchair-height toilet seat"
-msgstr "Inodoro a la altura de las sillas de ruedas"
-
-#: src/lib/Feature.js:543
-msgid "Foldable grab rails"
-msgstr "Barras de agarre plegables"
-
-#: src/lib/Feature.js:544
-msgid "Accessible sink"
-msgstr "Lavabo accesible"
-
-#: src/lib/Feature.js:551
-msgid "Unnamed place"
-msgstr "Lugar sin nombre"
-
-#: src/lib/cache/FeatureCache.js:178 src/lib/cache/WheelmapFeatureCache.js:31
-msgid "Could not load this place."
-msgstr "No se ha podido cargar este lugar."
-
-#: src/lib/cache/URLDataCache.js:120
-msgid "Error while loading data."
-msgstr "Error al cargar datos."
-
-#: src/components/WheelmapHomeLink.js:10
-#, javascript-format
-msgid "Go to ${ appName }"
-msgstr "Ir a ${ appName }"
-
-#: src/components/Onboarding/Onboarding.js:60
-#: src/components/WheelmapHomeLink.js:15
-msgid "App Logo"
-msgstr "Logotipo de la aplicación"
-
-#: src/components/SearchToolbar/SearchButton.js:35
-msgid "All places"
-msgstr "Todos los lugares"
-
-#: src/components/NodeToolbar/FeatureClusterPanel.js:137
-msgid "Places"
-msgstr "Lugares"
-
-#: src/components/SearchToolbar/SearchToolbar.js:459
+#: src/components/SearchToolbar/SearchToolbar.tsx:449
 msgid "Clear search"
 msgstr "Borrar la búsqueda"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:351
-#: src/components/SearchToolbar/SearchToolbar.js:470
+#. translator: button shown next to the search bar
+#: src/components/SearchToolbar/SearchToolbar.tsx:460
 msgid "Go"
 msgstr "Ir"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:26
+#. translator: Shown in collapsed search/filter combi button when there is no
+#. category filter set
+#: src/components/SearchToolbar/SearchButton.tsx:33
+msgid "All places"
+msgstr "Todos los lugares"
+
+#. translator: Label caption of a cluster that contains multiple nodes with
+#. its count, e.g. '(3) Places'
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:145
+msgid "Places"
+msgstr "Lugares"
+
+#. translator: title for a report option where the photo does not match the
+#. place
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:24
 msgid "Image shows another place."
 msgstr "La imagen muestra otro lugar"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:29
+#. translator: title for a report option where the photo does not match the
+#. current state of the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:27
 msgid "Outdated"
 msgstr "No actualizado"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:32
+#. translator: title for a report option where the photo is nsfw
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:30
 msgid "Offensive or inappropriate"
 msgstr "Ofensivo o inapropiado"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:35
+#. translator: title for a report option where the photo has another problem
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:33
 msgid "Other problems"
 msgstr "Otros problemas"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:45
+#. translator: title for a report option where the photo does not match the
+#. place
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:43
 msgid "This image does not depict this place."
 msgstr "Esta imagen no representa este lugar."
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:48
+#. translator: title for a report option where the photo does not match the
+#. current state of the place
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:46
 msgid "This image does not show the current state of this place."
 msgstr "Esta imagen no muestra el estado actual de este lugar."
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:51
+#. translator: title for a report option where the photo is nsfw
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:49
 msgid ""
 "This image shows sexually explicit content, depicts violence or is "
 "inappropriate in another way."
@@ -338,139 +427,55 @@ msgstr ""
 "Esta imagen muestra contenido sexual explícito, contiene violencia o es "
 "inapropiada de otra manera."
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:54
+#. translator: title for a report option where the photo has another problem
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:52
 msgid "This image infringes on my copyright or has other problems."
 msgstr "Esta imagen infringe mis derechos de autor o tiene otros problemas."
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:114
+#. translator: Screen reader description for the 'report photo' reason choice
+#. dialog
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:114
 msgid "Reason for reporting image"
 msgstr "Motivo de denuncia de la imagen"
 
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:127
-msgid "To report"
-msgstr "Para denunciar"
-
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:129
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:126
 msgid "Which problem would you like to report?"
 msgstr "¿Qué problema te gustaría denunciar?"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:60
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:178
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:298
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:156
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:130
+msgid "To report"
+msgstr "Para denunciar"
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:58
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:92
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:171
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:270
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:157
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:132
-#: src/components/PhotoUpload/ReportPhotoToolbar.js:163
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:130
+#: src/components/PhotoUpload/ReportPhotoToolbar.tsx:164
 msgid "Send"
 msgstr "Enviar"
 
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:103
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
-msgid "Thank you!"
-msgstr "¡Gracias!"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:104
-msgid "Please give us a moment to verify your contribution."
-msgstr "Danos un momento para verificar tu contribución."
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:106
-msgid "Back to place"
-msgstr ""
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:107
-msgid "Back to map"
-msgstr "Volver al mapa"
-
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.js:116
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:60
-msgid "Clapping hands"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:32
-msgid "Mapping events list"
-msgstr "Lista de eventos de mapeo"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:34
-#, javascript-format
-msgid "${ mappingEvents.length } active mapping events"
-msgstr "${ mappingEvents.length } eventos de mapeo activos"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:36
-msgid "Events"
-msgstr "Eventos"
-
-#: src/components/MappingEvents/MappingEventsToolbar.js:38
-msgid "Meet the community and map the accessibility of places around you!"
-msgstr ""
-"¡Conoce a la comunidad y mapea la accesibilidad de los lugares que te "
-"rodean!"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:51
-msgid "Your email address is required!"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:58
-msgid "This email address is not valid."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:68
-msgid "Email address"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:86
-msgid "Let’s go"
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:88
-#, javascript-format
-msgid "You are participating as ${ initialEmailAddress }."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:94
-msgid ""
-"To stay in touch with you, you must provide us with your email address."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:95
-msgid "To stay in touch with you, please share your email address with us."
-msgstr ""
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:106
-msgid "Welcome"
-msgstr "Bienvenido/a"
-
-#: src/components/MappingEvents/MappingEventWelcomeDialog.js:112
-msgid "Great! Thanks for joining us."
-msgstr ""
-
-#: src/components/MainMenu/MainMenu.js:120
-msgid "Home"
-msgstr "Página de inicio"
-
-#: src/components/MainMenu/MainMenu.js:243
-msgid "Menu"
-msgstr "Menú"
-
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:238
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:211
 msgid "The following images…"
 msgstr "Las siguientes imágenes..."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:239
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:212
 msgid "...give useful information on accessibility."
 msgstr "... brinda información útil sobre accesibilidad."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:240
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:213
 msgid "...were taken by me."
 msgstr "... las tomé yo."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:241
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:214
 msgid "...do not show any identifiable persons."
 msgstr "... no muestra ninguna persona identificable."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:242
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:215
 msgid ""
 "I hereby publish these images into the public domain and renounce copyright "
 "protection (<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
@@ -481,257 +486,351 @@ msgstr ""
 "href=\"https://creativecommons.org/publicdomain/zero/1.0/\" "
 "target=\"_blank\">CC0 1.0 licencia universal</a>)."
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:269
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:241
 msgid "Entrances"
 msgstr "Entradas"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:273
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:249
 msgid "Site map"
 msgstr "Mapa del sitio"
 
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:277
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:257
 msgid "toilets"
 msgstr "Aseos"
 
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:130
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:175
-#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.js:305
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:129
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:168
+#: src/components/PhotoUpload/PhotoUploadInstructionsToolbar.tsx:273
 msgid "Continue"
 msgstr "Continuar"
 
-#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:181
-#: src/components/NodeToolbar/Report/strings.js:28
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:338
-msgid "Back"
-msgstr "Volver"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:102
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:42
+msgid "Thank you!"
+msgstr "¡Gracias!"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:362
-msgid "Show different characters"
-msgstr "Mostrar caracteres diferentes"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
+msgid "Please give us a moment to verify your contribution."
+msgstr "Danos un momento para verificar tu contribución."
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:411
-msgid "Image upload"
-msgstr "Carga de imagen"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:411
-msgid "Hi Wheelmap Team, I have an image of the following place:"
-msgstr "Hola equipo de Wheelmap, tengo una imagen del siguiente lugar:"
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:415
-msgid "Loading..."
-msgstr "Cargando..."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:417
-msgid "Please enter these characters."
-msgstr "Introduce estos caracteres."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:419
-msgid "Then we know that you are human."
-msgstr "Entonces sabemos que eres humano."
-
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:421
-msgid ""
-"If you cannot read or enter this, please contribute your image via email!"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
+msgid "Back to place"
 msgstr ""
-"Si no puedes leer o insertar esto, envía tu imagen por correo electrónico."
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:423
-msgid "Thanks! Starting to upload..."
-msgstr "¡Gracias! Comenzando a cargar..."
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:106
+msgid "Back to map"
+msgstr "Volver al mapa"
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:425
-msgid ""
-"Server cannot be reached. Please try again later and let us know if the "
-"problem persists!"
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:115
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:59
+msgid "Clapping hands"
 msgstr ""
-"No se encuentra el servidor. Inténtalo de nuevo más tarde y avísanos si el "
-"problema persiste."
 
-#: src/components/PhotoUpload/PhotoUploadCaptchaToolbar.js:427
-msgid ""
-"Sorry, this did not work! Please check if all characters are correct, then "
-"retry."
+#. translator: Screenreader description for the mapping events list
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:30
+msgid "Mapping events list"
+msgstr "Lista de eventos de mapeo"
+
+#. translator: Screenreader description for the number of active mapping
+#. events in the shown list
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:32
+#, javascript-format
+msgid "${ mappingEvents.length } active mapping events"
+msgstr "${ mappingEvents.length } eventos de mapeo activos"
+
+#. translator: Generic name for mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:34
+msgid "Events"
+msgstr "Eventos"
+
+#. translator: Tagline describing the purpose of mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:36
+msgid "Meet the community and map the accessibility of places around you!"
 msgstr ""
-"Lo sentimos, no ha funcionado. Verifica si todos los caracteres son "
-"correctos y vuelve a intentarlo."
+"¡Conoce a la comunidad y mapea la accesibilidad de los lugares que te "
+"rodean!"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:77
+#. translator: Shown on the onboarding screen. To find it, click the logo at
+#. the top.
+#: src/components/Onboarding/Onboarding.tsx:42
+msgid "Help out by marking places!"
+msgstr "¡Ayuda marcando lugares!"
+
+#. translator: Button caption shown on the onboarding screen. To find it,
+#. click the logo at the top.
+#: src/components/Onboarding/Onboarding.tsx:44
+msgid "Okay, let’s go!"
+msgstr "¡Vale, comencemos!"
+
+#: src/components/Onboarding/Onboarding.tsx:63
+msgid "Start screen"
+msgstr "Pantalla de inicio de Wheelmap"
+
+#. translator: Prefix for the mapping event start date ("starting 01.12.2019")
+#: src/components/MappingEvents/MappingEventToolbar.tsx:89
 msgid "starting"
 msgstr "inicio"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:82
+#. translator: Prefix for the mapping event end date ("until 01.12.2019")
+#: src/components/MappingEvents/MappingEventToolbar.tsx:94
 msgid "until"
 msgstr "hasta"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:97
+#. translator: Screenreader description for a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:109
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "Evento de mapeo ${ mappingEvent.name }"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:99
+#. translator: Label for clickable mapping event name that makes the map jump
+#. to the event's position
+#: src/components/MappingEvents/MappingEventToolbar.tsx:111
 msgid "Center map on mapping event"
 msgstr "Centrar el mapa en el evento de mapeo"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:101
+#. translator: Label for the meeting point of a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 msgid "Meeting point"
 msgstr "Puntos de encuentro"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:103
+#. translator: Label for the area of a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Area name"
 msgstr "Nombre del área"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:105
+#. translator: Label for the date of a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Event date"
 msgstr "Fecha del evento"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:107
+#. translator: Label for the start date of a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Event start date"
 msgstr "Fecha de inicio del evento"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:109
+#. translator: Label for the end date of a mapping event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event end date"
 msgstr "Fecha de finalización del evento"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:111
+#. translator: Screenreader description for the back link that leads to the
+#. list of mapping events
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Back to the mapping events list"
 msgstr "Volver a la lista de eventos de mapeo"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:113
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:38
+#. translator: Shown as button caption in the place toolbar
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Compartir"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:115
+#. translator: Button caption for joining an event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 msgid "Join mapping event"
 msgstr "Unirse el evento de mapeo"
 
-#: src/components/MappingEvents/MappingEventToolbar.js:117
+#. translator: Button caption for leaving an event
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 msgid "Leave mapping event"
 msgstr "Salir del evento de mapeo"
 
-#: src/components/Onboarding/Onboarding.js:42
-msgid "Help out by marking places!"
-msgstr "¡Ayuda marcando lugares!"
-
-#: src/components/Onboarding/Onboarding.js:44
-msgid "Okay, let’s go!"
-msgstr "¡Vale, comencemos!"
-
-#: src/components/Onboarding/Onboarding.js:46
-msgid "Continue without cookies"
-msgstr "Seguir sin cookies"
-
-#: src/components/Onboarding/Onboarding.js:49
-msgid ""
-"We use cookies to improve this app for you. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Read our "
-"Privacy Policy</a>."
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:50
+msgid "Your email address is required!"
 msgstr ""
-"Utilizamos cookies para mejorar esta aplicación. <a "
-"href=\"https://news.wheelmap.org/terms-of-use/\" target=\"_blank\">Lee "
-"nuestra política de privacidad</a>."
 
-#: src/components/Onboarding/Onboarding.js:68
-msgid "Start screen"
-msgstr "Pantalla de inicio de Wheelmap"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:57
+msgid "This email address is not valid."
+msgstr ""
 
-#: src/components/Map/Map.js:1017
-msgid "Zoom in closer to see more places"
-msgstr "Acércate más para ver más lugares"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
+msgid "Email address"
+msgstr ""
 
-#: src/components/Map/Map.js:1033
-msgid "Turn on location services"
-msgstr "Activar servicios de ubicación"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85
+msgid "Let’s go"
+msgstr ""
 
-#: src/components/Map/Map.js:1066
-msgid "Map"
-msgstr "Mapa"
-
-#: src/components/CloseButton.js:34 src/components/CloseLink.js:37
-msgid "Close"
-msgstr "Cerrar"
-
-#: src/components/SearchToolbar/SearchResults.js:36
-msgid "No results found"
-msgstr "Sin resultados"
-
-#: src/components/SearchToolbar/SearchResults.js:39
-msgid "No results available. Please try again later!"
-msgstr "Sin resultados. Inténtalo de nuevo más tarde."
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:40
-msgid "Partially accessible with accessible WC"
-msgstr "Parcialmente accesible con WC accesible."
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:47
-msgid "Only fully wheelchair accessible"
-msgstr "Solo lugares completamente accesibles en silla de ruedas"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:53
-msgid "Only fully accessible with accessible WC"
-msgstr "Solo completamente accesible con WC accesible"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:60
-msgid "Places that I can contribute information to"
-msgstr "Lugares a los que puedo contribuir"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:66
-msgid "Only places that are not accessible"
-msgstr "Solo lugares que no son accesibles"
-
-#: src/components/SearchToolbar/AccessibilityFilterMenu.js:93
-msgid "Wheelchair accessibility filter"
-msgstr "Filtro de accesibilidad para sillas de ruedas"
-
-#: src/components/SearchToolbar/SearchInputField.js:100
-msgid "Search for place or address"
-msgstr "Buscar lugar o dirección"
-
-#: src/components/MappingEvents/MappingEventShareBar.js:34
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:87
 #, javascript-format
-msgid ""
-"Help us out and join the ${ mappingEvent.name } mapping event${ "
-"productNameString }. You can find more info here: ${ url }"
+msgid "You are participating as ${ initialEmailAddress }."
 msgstr ""
-"Ayúdanos y únete a los eventos de mapeo ${ mappingEvent.name } ${ "
-"productNameString }. Encontrarás más información aquí: ${ url }"
 
-#: src/components/MappingEvents/Statistics.js:20
-msgid "Mapping Event Numbers"
-msgstr "Cifras de los eventos de mapeo"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93
+msgid ""
+"To stay in touch with you, you must provide us with your email address."
+msgstr ""
 
-#: src/components/MappingEvents/Statistics.js:22
-msgid "Mapped Places"
-msgstr "Lugares mapeados"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
+msgid "To stay in touch with you, please share your email address with us."
+msgstr ""
 
-#: src/components/MappingEvents/Statistics.js:24
-msgid "Participants"
-msgstr "Participantes"
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105
+msgid "Welcome"
+msgstr "Bienvenido/a"
 
-#: src/components/MappingEvents/Statistics.js:26
-msgid "Days Left"
-msgstr "Días que quedan"
+#. translator: Shown on the join mapping event screen, when there is no
+#. message defined by the event organizer.
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111
+msgid "Great! Thanks for joining us."
+msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.js:56
-#: src/components/NodeToolbar/NodeToolbar.js:246
+#. translator: Shown when there was an error while loading a place.
+#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+msgid "Could not load this place."
+msgstr "No se ha podido cargar este lugar."
+
+#. translator: Shown when there was an error while loading a place.
+#: src/lib/cache/URLDataCache.ts:121
+msgid "Error while loading data."
+msgstr "Error al cargar datos."
+
+#. translator: Shown as header/title when you edit wheelchair accessibility of
+#. a place
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
+#: src/components/NodeToolbar/NodeToolbar.tsx:239
 msgid "How wheelchair accessible is this place?"
 msgstr "¿Qué tan accesible es este lugar en silla de ruedas?"
 
-#: src/components/Toolbar.js:581
+#: src/components/Toolbar.tsx:602
 msgid "Collapse details"
 msgstr "Colapsar los detalles"
 
-#: src/components/Toolbar.js:581
+#: src/components/Toolbar.tsx:602
 msgid "Expand details"
 msgstr "Expandir los detalles"
 
-#: src/components/Map/addLocateControlToMap.js:45
-msgid "Show me where I am"
-msgstr "Muéstrame dónde estoy"
+#: src/components/CloseButton.tsx:32 src/components/CloseLink.tsx:37
+msgid "Close"
+msgstr "Cerrar"
 
-#: src/lib/goToLocationSettings.js:36
+#. translator: Screenreader description for a map marker showing a mapping
+#. event meeting point
+#: src/components/Map/MappingEventMarkerIcon.tsx:32
+#, javascript-format
+msgid "${ eventName } Mapping Event Map Marker"
+msgstr "${ eventName } marcador de mapa de evento de mapeo"
+
+#. translator: Screenreader description for the statistics/numbers part of a
+#. mapping event
+#: src/components/MappingEvents/Statistics.tsx:25
+msgid "Mapping Event Numbers"
+msgstr "Cifras de los eventos de mapeo"
+
+#. translator: Description for number of already mapped places in the mapping
+#. event
+#: src/components/MappingEvents/Statistics.tsx:27
+msgid "Mapped Places"
+msgstr "Lugares mapeados"
+
+#. translator: Description for number of people invited to the current mapping
+#. event
+#: src/components/MappingEvents/Statistics.tsx:29
+msgid "Participants"
+msgstr "Participantes"
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:59
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
+msgid "Create Place"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:64
+msgid "Check if the place already exists by searching for it"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:68
+msgid "No matching result?"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:70
+msgid "Create a new place with this name"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:77
+msgid "An error occurred while searching"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:80
+msgid "Type more to start searching"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:87
+msgid "Searching..."
+msgstr ""
+
+#. translator: Button caption in report dialog
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:71
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:174
+#: src/components/NodeToolbar/Report/strings.ts:27
+msgid "Back"
+msgstr "Volver"
+
+#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
+msgid "Select Category"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
+#, javascript-format
+msgid "Uploading ${ placeName } to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:44
+msgid "Dismiss"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:49
+msgid "Unhappy face"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:52
+msgid "Sorry"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:53
+#, javascript-format
+msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:62
+msgid "You rock!"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:63
+#, javascript-format
+msgid "${ placeName } was added to ${ appName }."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:65
+msgid "Continue to place"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:95
+msgid "Name"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:108
+msgid "Category"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:110
+msgid "Select category"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/MapButton.tsx:47
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
+msgid "Define main entry"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:114
+msgid "Move the map to place the entry as correct as possible."
+msgstr ""
+
+#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:124
+msgid "Confirm Position"
+msgstr ""
+
+#: src/lib/goToLocationSettings.ts:37
 msgid ""
 "To locate yourself on the map, open browser settings and allow Wheelmap.org "
 "to use location services."
@@ -739,178 +838,116 @@ msgstr ""
 "Para ubicarte en el mapa, abre la configuración del navegador y permite que "
 "Wheelmap.org use los servicios de ubicación."
 
-#: src/components/Map/MappingEventMarkerIcon.js:34
-#, javascript-format
-msgid "${ eventName } Mapping Event Map Marker"
-msgstr "${ eventName } marcador de mapa de evento de mapeo"
+#. translator: Locate button aria-label on the map
+#: src/components/Map/addLocateControlToMap.ts:43
+msgid "Show me where I am"
+msgstr "Muéstrame dónde estoy"
 
-#: src/components/CreatePlaceFlow/components/MapButton.tsx:49
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:73
-msgid "Define main entry"
-msgstr ""
+#: src/components/NodeToolbar/NodeHeader.tsx:118
+msgid "Unnamed facility"
+msgstr "Instalación sin nombre"
 
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:115
-msgid "Move the map to place the entry as correct as possible."
-msgstr ""
+#. translator: Placeholder for search input field
+#: src/components/SearchToolbar/SearchInputField.tsx:103
+msgid "Search for place or address"
+msgstr "Buscar lugar o dirección"
 
-#: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:125
-msgid "Confirm Position"
-msgstr ""
+#. translator: Text in search results when nothing was found
+#: src/components/SearchToolbar/SearchResults.tsx:36
+msgid "No results found"
+msgstr "Sin resultados"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:61
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:94
-msgid "Create Place"
-msgstr ""
+#. translator: Text in search results when an error occurred
+#: src/components/SearchToolbar/SearchResults.tsx:39
+msgid "No results available. Please try again later!"
+msgstr "Sin resultados. Inténtalo de nuevo más tarde."
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:66
-msgid "Check if the place already exists by searching for it"
-msgstr ""
+#. translator: Button caption in the filter toolbar. Answer to the question
+#. 'which places you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:38
+msgid "Partially accessible with accessible WC"
+msgstr "Parcialmente accesible con WC accesible."
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:70
-msgid "No matching result?"
-msgstr ""
+#. translator: Button caption in the filter toolbar. Answer to the question
+#. 'which places you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:45
+msgid "Only fully wheelchair accessible"
+msgstr "Solo lugares completamente accesibles en silla de ruedas"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:72
-msgid "Create a new place with this name"
-msgstr ""
+#. translator: Button caption in the filter toolbar. Answer to the question
+#. 'which places you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:51
+msgid "Only fully accessible with accessible WC"
+msgstr "Solo completamente accesible con WC accesible"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:79
-msgid "An error occurred while searching"
-msgstr ""
+#. translator: Button caption in the filter toolbar. Answer to the question
+#. 'which places you want to see'
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:58
+msgid "Places that I can contribute information to"
+msgstr "Lugares a los que puedo contribuir"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:82
-msgid "Type more to start searching"
-msgstr ""
+#. translator: Checkbox caption on the filter toolbar. If the checkbox is
+#. clicked, only places that are not wheelchair accessible are shown.
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:64
+msgid "Only places that are not accessible"
+msgstr "Solo lugares que no son accesibles"
 
-#: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:89
-msgid "Searching..."
-msgstr ""
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:91
+msgid "Wheelchair accessibility filter"
+msgstr "Filtro de accesibilidad para sillas de ruedas"
 
-#: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:60
-msgid "Select Category"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:44
-#, javascript-format
-msgid "Uploading ${ placeName } to ${ appName }."
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:45
-msgid "Dismiss"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:50
-msgid "Unhappy face"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:53
-msgid "Sorry"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#, javascript-format
-msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:63
-msgid "You rock!"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:64
-#, javascript-format
-msgid "${ placeName } was added to ${ appName }."
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:66
-msgid "Continue to place"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:96
-msgid "Name"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:109
-msgid "Category"
-msgstr ""
-
-#: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:111
-msgid "Select category"
-msgstr ""
-
-#: src/components/SearchToolbar/SearchResult.js:128
+#. translator: Place name shown in search results for places with unknown name
+#. / category.
+#: src/components/SearchToolbar/SearchResult.tsx:122
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: src/components/SearchToolbar/AccessibilityFilterButton.js:54
-#, javascript-format
-msgid "Remove ${ caption } Filter"
-msgstr "Eliminar el filtro ${ caption }"
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:50
+msgid "Address"
+msgstr ""
 
-#: src/components/SearchToolbar/CategoryButton.js:69
-#, javascript-format
-msgid "Remove ${ props.name } Filter"
-msgstr "Eliminar el filtro ${ props.name }"
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:52
+msgid "City"
+msgstr ""
 
-#: src/components/NodeToolbar/SourceList.js:33
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:54
+msgid "Region"
+msgstr ""
+
+#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:60
+msgid "Postal Code"
+msgstr ""
+
+#. translator: Prefix for the sources on the PoI details panel
+#: src/components/NodeToolbar/SourceList.tsx:31
 msgid "Source:"
 msgstr "Fuente:"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:42
+#. translator: Header for the toilet status prompt. Asks the user if the
+#. edited place’s toilet is wheelchair accessible.
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:40
 msgid "Is the toilet here wheelchair accessible?"
 msgstr "¿El baño es accesible en silla de ruedas?"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:21
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
 msgid "Yes"
 msgstr "Sí"
 
-#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.js:48
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.js:22
+#: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
 msgid "No"
 msgstr "No"
 
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.js:126
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:135
+#. translator: Screen reader description for the accessibility choice buttons
+#. for gray places
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:124
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
 msgid "Wheelchair accessibility"
 msgstr "Accesibilidad para sillas de ruedas"
 
-#: src/components/ShareBar/ShareBar.js:86
-msgid "Expand share menu"
-msgstr "Mostrar el menú de compartir"
-
-#: src/components/ShareBar/ShareBar.js:106
-msgid "Collapse share menu"
-msgstr "Ocultar el menú de compartir"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:160
-msgid "Report image"
-msgstr "Denunciar imagen"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:186
-msgid "of"
-msgstr "de"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:188
-msgid "Next (right arrow key)"
-msgstr "Siguiente (tecla de flecha derecha)"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:190
-msgid "Previous (left arrow key)"
-msgstr "Anterior (tecla de flecha izquierda)"
-
-#: src/components/NodeToolbar/Photos/PhotoSection.js:192
-msgid "Close (Esc)"
-msgstr "Cerrar (Esc)"
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:70
-msgid "Disruptions at this location"
-msgstr "Interrupciones en este lugar"
-
-#: src/components/NodeToolbar/Equipment/EquipmentOverview.js:88
-msgid "All elevators and escalators"
-msgstr "Todos los ascensores y las escaleras mecánicas"
-
-#: src/components/NodeToolbar/Report/ReportDialog.js:48
+#. translator: Shown as issue description in the report dialog
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:47
 #, javascript-format
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
@@ -918,32 +955,32 @@ msgstr ""
 "El lugar está marcado como «${ accessibilityDescription }», ¡pero eso es un "
 "error!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:57
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:56
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "El estado del baño del lugar es incorrecto o falta."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:64
-#: src/components/NodeToolbar/Report/SendReportToAc.js:38
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:63
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:36
 msgid "I have more information about this place."
 msgstr "Tengo más información sobre este lugar."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:70
-#: src/components/NodeToolbar/Report/SendReportToAc.js:46
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:44
 msgid "The place does not exist."
 msgstr "El lugar no existe."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:76
-#: src/components/NodeToolbar/Report/SendReportToAc.js:42
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:40
 msgid "The place is at the wrong location."
 msgstr "El lugar no está en la posición correcta."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:82
-#: src/components/NodeToolbar/Report/ReportDialog.js:128
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:127
 msgid "The problem isn’t listed here…"
 msgstr "El problema no aparece aquí..."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:105
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:104
 #, javascript-format
 msgid ""
 "Information about this place has kindly been provided by another "
@@ -952,125 +989,143 @@ msgstr ""
 "Otra organización ha tenido la amabilidad de proporcionar la información "
 "sobre este lugar; es parte de ${ sourceName }."
 
-#: src/components/NodeToolbar/Report/ReportDialog.js:112
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
 msgid "Fix on external page."
 msgstr "Fijar en página externa."
 
-#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:102
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:70
+msgid "Disruptions at this location"
+msgstr "Interrupciones en este lugar"
+
+#: src/components/NodeToolbar/Equipment/EquipmentOverview.tsx:88
+msgid "All elevators and escalators"
+msgstr "Todos los ascensores y las escaleras mecánicas"
+
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+msgid "Report image"
+msgstr "Denunciar imagen"
+
+#. translator: divider between <currentImageIndex> and <imageCount> in
+#. lightbox, such as 1 of 10
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+msgid "of"
+msgstr "de"
+
+#. translator: alt info on next image button in lightbox
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+msgid "Next (right arrow key)"
+msgstr "Siguiente (tecla de flecha derecha)"
+
+#. translator: alt info on previous image button in lightbox
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+msgid "Previous (left arrow key)"
+msgstr "Anterior (tecla de flecha izquierda)"
+
+#. translator: alt info on close button in lightbox
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+msgid "Close (Esc)"
+msgstr "Cerrar (Esc)"
+
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:101
 msgid "Add more details"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:107
+#: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:106
 msgid ""
 "Sorry, something went wrong! Please retry later, or write an email to "
 "bugs@wheelmap.org if the issue persists."
 msgstr ""
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:51
-msgid "Address"
-msgstr ""
+#: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
+#, javascript-format
+msgid "Remove ${ caption } Filter"
+msgstr "Eliminar el filtro ${ caption }"
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:53
-msgid "City"
-msgstr ""
+#: src/components/SearchToolbar/CategoryButton.tsx:67
+#, javascript-format
+msgid "Remove ${ props.name } Filter"
+msgstr "Eliminar el filtro ${ props.name }"
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:55
-msgid "Region"
-msgstr ""
+#. translator: Screenreader description for the button that expands the share
+#. menu
+#: src/components/ShareBar/ShareBar.tsx:84
+msgid "Expand share menu"
+msgstr "Mostrar el menú de compartir"
 
-#: src/components/CreatePlaceFlow/components/AddressEditor.tsx:61
-msgid "Postal Code"
-msgstr ""
+#. translator: Screenreader description for the share menu collapse button
+#: src/components/ShareBar/ShareBar.tsx:104
+msgid "Collapse share menu"
+msgstr "Ocultar el menú de compartir"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:169
+#. translator: Button caption shown while editing a place’s wheelchair status
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:162
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.js:172
+#. translator: Button caption shown while editing a place’s wheelchair status
+#: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:165
 msgid "Change"
 msgstr "Cambiar"
 
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.js:93
-#, javascript-format
-msgid "Sorry, this place could not be marked because of an error: ${ e }"
-msgstr ""
-"Lo sentimos, este lugar no se ha podido cargar debido a un error: ${ e }"
-
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:60
+#. translator: Button caption, shown in the place toolbar
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:57
 msgid "Mark wheelchair accessibility of WC"
 msgstr "Añadir estado del baño"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.js:129
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:127
 msgid "Show next wheelchair accessible toilet"
 msgstr "Mostrar el siguiente baño adaptado para sillas de ruedas"
 
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:52
-msgid "Upload in progress..."
-msgstr "Carga en proceso..."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:58
-msgid "Upload failed: server error or file-format not supported"
-msgstr "Carga fallida: error del servidor o formato de archivo no admitido"
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:67
-msgid "Thank you for reporting this image. We will take a look at it."
-msgstr "Gracias por denunciar esta imagen. Le echaremos un vistazo."
-
-#: src/components/NodeToolbar/Photos/PhotoNotification.js:73
-msgid ""
-"Thank you for contributing. Your image will be visible after we have checked"
-" it."
-msgstr ""
-"Gracias por tu contribución. Tu imagen será visible después de que la "
-"hayamos revisado."
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:21
-msgid "Your good deed of the day!"
-msgstr "¡Mejora tu karma!"
-
-#: src/components/PhotoUpload/PhotoUploadButton.js:27
-#: src/components/PhotoUpload/PhotoUploadButton.js:31
-msgid "Add images"
-msgstr "Añadir imágenes"
-
-#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.js:23
-#, javascript-format
-msgid "Call ${ phoneNumber }"
-msgstr "Llamar a ${ phoneNumber }"
-
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:28
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:55
+#. translator: Additional description text for sharing a place in a social
+#. network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:27
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:59
 msgid "Learn more about the accessibility of this place"
 msgstr "Descubre la accesibilidad de este lugar."
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:32
+#. translator: Email body used when sharing a place without known
+#. name/category via email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:31
 #, javascript-format
 msgid "I found a place on Wheelmap: ${ url }"
 msgstr "Encontré un lugar en Wheelmap: ${ url }"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:34
+#. translator: Email body used when sharing a place without known
+#. name/category via email.// Email subject used for sharing a place via
+#. email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:33
 msgid "Wheelmap.org"
 msgstr "Wheelmap.org"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:36
+#. translator: First line in an email and shared object title used when
+#. sharing a place via email or a social network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:35
 msgid "I found a place on Wheelmap…"
 msgstr "Encontré un lugar en Wheelmap..."
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:46
+#. translator: Used to describe a place with unknown name, but known category
+#. (when sharing)
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:50
 #, javascript-format
 msgid "${ categoryName } on Wheelmap"
 msgstr "${ categoryName } en Wheelmap"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:49
+#. translator: First line in an email and shared object title used when
+#. sharing a place via email or a social network.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:53
 #, javascript-format
 msgid "I found this place on Wheelmap: ${ placeName }"
 msgstr "Encontré este lugar en Wheelmap: ${ placeName }"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:51
+#. translator: Email body used when sharing a place with known name via
+#. email.// Email subject used for sharing a place via email.
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:55
 msgid "${ placeName } on Wheelmap.org"
 msgstr "${ placeName } en Wheelmap.org"
 
-#: src/components/NodeToolbar/IconButtonList/ShareButtons.js:57
+#. translator: Text for mail body for shared place asking to click a link to
+#. open the shared place
+#: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:61
 #, javascript-format
 msgid ""
 "${ sharedObjectTitle }\n"
@@ -1081,37 +1136,126 @@ msgstr ""
 "\n"
 "Haz clic en este enlace para abrirlo: ${ url }"
 
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:18
-#: src/lib/openButtonCaption.js:6
+#. translator: Button caption shown in the place toolbar.
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.tsx:16
+#: src/lib/openButtonCaption.ts:6
+#, javascript-format
 msgid "Open on ${ sourceNameString }"
 msgstr "Abrir en ${ sourceNameString }"
 
-#: src/components/NodeToolbar/IconButtonList/ExternalLinks.js:20
-#, javascript-format
+#: src/components/NodeToolbar/IconButtonList/ExternalLinks.tsx:18
 msgid "Add info on ${ sourceNameString }"
 msgstr "Mejora en $ {sourceNameString}"
 
-#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.js:16
+#: src/components/NodeToolbar/IconButtonList/PhoneNumberLink.tsx:28
+#, javascript-format
+msgid "Call ${ phoneNumber }"
+msgstr "Llamar a ${ phoneNumber }"
+
+#. translator: Button caption shown in the PoI details panel
+#: src/components/NodeToolbar/IconButtonList/ReportIssueButton.tsx:14
 msgid "Report a problem"
 msgstr "Informar de un problema"
 
-#: src/components/NodeToolbar/Report/strings.js:8
+#. translator: Text that incentivizes the user to edit a place's
+#. accessibility.
+#: src/components/PhotoUpload/PhotoUploadButton.tsx:19
+msgid "Your good deed of the day!"
+msgstr "¡Mejora tu karma!"
+
+#: src/components/PhotoUpload/PhotoUploadButton.tsx:25
+#: src/components/PhotoUpload/PhotoUploadButton.tsx:29
+msgid "Add images"
+msgstr "Añadir imágenes"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.tsx:50
+msgid "Upload in progress..."
+msgstr "Carga en proceso..."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.tsx:56
+msgid "Upload failed: server error or file-format not supported"
+msgstr "Carga fallida: error del servidor o formato de archivo no admitido"
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.tsx:65
+msgid "Thank you for reporting this image. We will take a look at it."
+msgstr "Gracias por denunciar esta imagen. Le echaremos un vistazo."
+
+#: src/components/NodeToolbar/Photos/PhotoNotification.tsx:71
+msgid ""
+"Thank you for contributing. Your image will be visible after we have checked"
+" it."
+msgstr ""
+"Gracias por tu contribución. Tu imagen será visible después de que la "
+"hayamos revisado."
+
+#. translator: Shown after marking a place did not work, for example because
+#. the connection was interrupted
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:94
+#, javascript-format
+msgid "Sorry, this place could not be marked because of an error: ${ e }"
+msgstr ""
+"Lo sentimos, este lugar no se ha podido cargar debido a un error: ${ e }"
+
+#. translator: Shown as issue description in the report dialog for wrong
+#. location
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:38
+msgid "The accessibility of the place is marked incorrectly."
+msgstr "La accesibilidad del lugar está marcada incorrectamente."
+
+#. translator: Shown as issue description in the report dialog for permanently
+#. closed
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:42
+msgid "The place is permanently closed."
+msgstr "El lugar está cerrado permanentemente."
+
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:131
+msgid ""
+"Thank you! The place was reported successfully. We will take a look at your "
+"report as soon as possible."
+msgstr ""
+"¡Gracias! El lugar se ha denunciado correctamente. Echaremos un vistazo a tu"
+" informe lo antes posible."
+
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:132
+msgid "Something went wrong reporting the place. Please try again later."
+msgstr "Algo fue mal al denunciar el lugar. Inténtalo de nuevo más tarde."
+
+#: src/components/NodeToolbar/Report/SendReportToAc.tsx:145
+msgid "Feel free to add some additional information…"
+msgstr "No dudes en añadir alguna información adicional..."
+
+#: src/components/NodeToolbar/Report/FixOnExternalPage.tsx:19
+#, javascript-format
+msgid "View this place on ${ name }"
+msgstr "Ver este lugar en ${ name }"
+
+#: src/components/NodeToolbar/Report/FixOnExternalPage.tsx:21
+msgid "Edit this place on ${ name }"
+msgstr "Editar este lugar en ${ name }"
+
+#. translator: Header of the report dialog
+#: src/components/NodeToolbar/Report/strings.ts:7
 msgid "Is there a problem with this place?"
 msgstr "¿Hay algún problema con este lugar?"
 
-#: src/components/NodeToolbar/Report/strings.js:10
+#. translator: Explains that Wheelmap's data comes from OpenStreetMap.
+#: src/components/NodeToolbar/Report/strings.ts:9
 msgid "Many places on Wheelmap.org come from OpenStreetMap."
 msgstr "Wheelmap utiliza datos de OpenStreetMap para mostrar los lugares."
 
-#: src/components/NodeToolbar/Report/strings.js:12
+#. translator: Explains that you need to go to OSM to remove places.
+#: src/components/NodeToolbar/Report/strings.ts:11
 msgid "You can remove non-existing places on OpenStreetMap."
 msgstr "Puedes eliminar los lugares no existentes en OpenStreetMap."
 
-#: src/components/NodeToolbar/Report/strings.js:14
+#. translator: Explains that you need to go to OSM to change a place's
+#. position on the map.
+#: src/components/NodeToolbar/Report/strings.ts:13
 msgid "You can change this place’s location on OpenStreetMap."
 msgstr "Puedes cambiar la posición de este lugar en OpenStreetMap."
 
-#: src/components/NodeToolbar/Report/strings.js:16
+#. translator: Explains that you need to go to OSM to mark a place as closed.
+#: src/components/NodeToolbar/Report/strings.ts:15
 msgid ""
 "If the place has closed permanently, you can tag the place as ‘disused’ on "
 "OpenStreetMap."
@@ -1119,16 +1263,21 @@ msgstr ""
 "Si el lugar está cerrado permanentemente, puedes etiquetar el lugar como "
 "«abandonado» en OpenStreetMap."
 
-#: src/components/NodeToolbar/Report/strings.js:18
+#. translator: Link caption to the explanatory article that shows how to mark
+#. a place as closed.
+#: src/components/NodeToolbar/Report/strings.ts:17
 msgid "Find out how"
 msgstr "Descubre cómo"
 
-#: src/components/NodeToolbar/Report/strings.js:20
+#. translator: Points the user to OSM for changing place details
+#: src/components/NodeToolbar/Report/strings.ts:19
 msgid "You can change this place’s information on OpenStreetMap directly."
 msgstr ""
 "Puedes cambiar la información de este lugar en OpenStreetMap directamente."
 
-#: src/components/NodeToolbar/Report/strings.js:22
+#. translator: Explains that you have to log in before editing places on OSM
+#. and that edits don't get propagated back directly
+#: src/components/NodeToolbar/Report/strings.ts:21
 msgid ""
 "(Note that you need to log in to do this, and that it can take some time "
 "until the place is updated on Wheelmap.)"
@@ -1136,21 +1285,28 @@ msgstr ""
 "(Ten en cuenta que tienes que iniciar sesión primero para poder hacer esto, "
 "y que el lugar puede tardar un poco en actualizarse en Wheelmap.)"
 
-#: src/components/NodeToolbar/Report/strings.js:24
+#. translator: Button caption in report dialog
+#: src/components/NodeToolbar/Report/strings.ts:23
 msgid "Edit this place on OpenStreetMap"
 msgstr "Editar este lugar en OpenStreetMap"
 
-#: src/components/NodeToolbar/Report/strings.js:26
+#. translator: Button caption in report dialog
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:163
+#: src/components/NodeToolbar/Report/strings.ts:25
 msgid "Leave a note on OpenStreetMap"
 msgstr "Dejar una nota en OpenStreetMap"
 
-#: src/components/NodeToolbar/Report/strings.js:30
+#. translator: Explains how to reach the place details on the external page
+#. the place comes from (for example Jaccede).
+#: src/components/NodeToolbar/Report/strings.ts:29
 msgid "Click the link below for details about the place and for editing."
 msgstr ""
 "Utiliza el siquiente enlace para obtener detalles sobre el lugar y para "
 "editar."
 
-#: src/components/NodeToolbar/Report/strings.js:32
+#. translator: Explains that edits don't get propagated back to Wheelmap
+#. directly after editing
+#: src/components/NodeToolbar/Report/strings.ts:31
 msgid ""
 "(Note that it can take some time after editing until the place is updated on"
 " Wheelmap.)"
@@ -1158,18 +1314,22 @@ msgstr ""
 "(Ten en cuenta que puede tardar un poco hasta que el lugar se actualice en "
 "Wheelmap después de la edición.)"
 
-#: src/components/NodeToolbar/Report/strings.js:34
+#. translator: Button caption in report dialog
+#: src/components/NodeToolbar/Report/strings.ts:33
 msgid "Contact the Wheelmap support team"
 msgstr "Comunícate con el equipo de asistencia de Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:36
+#. translator: Apologizes for the issue and mentions that the support team can
+#. help you.
+#: src/components/NodeToolbar/Report/strings.ts:35
 msgid ""
 "Sorry about that! Just drop us a line so we can help you to fix the problem."
 msgstr ""
 "¡Lo sentimos! Envíanos un mensaje para que podamos ayudarte a solucionar el "
 "problema."
 
-#: src/components/NodeToolbar/Report/strings.js:39
+#. translator: Report email body with place URL
+#: src/components/NodeToolbar/Report/strings.ts:38
 #, javascript-format
 msgid ""
 "(Please only write in English or German.)\n"
@@ -1196,107 +1356,137 @@ msgstr ""
 "\n"
 "${ navigator.userAgent }"
 
-#: src/components/NodeToolbar/Report/strings.js:43
+#: src/components/NodeToolbar/Report/strings.ts:42
 msgid "[Wheelmap] Problem with ${ placeName } on Wheelmap"
 msgstr "[Wheelmap] Hay un problema con ${ placeName } en Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:45
+#: src/components/NodeToolbar/Report/strings.ts:44
 #, javascript-format
 msgid "[Wheelmap] Problem with a ${ categoryName } on Wheelmap"
 msgstr "[Wheelmap] Hay un problema con una ${ categoryName } en Wheelmap"
 
-#: src/components/NodeToolbar/Report/strings.js:47
+#. translator: Report email subject if neither place name nor category name is
+#. known
+#: src/components/NodeToolbar/Report/strings.ts:46
 msgid "[Wheelmap] Problem with a place on Wheelmap"
 msgstr "[Wheelmap] Hay un problema con un lugar en Wheelmap"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:40
-msgid "The accessibility of the place is marked incorrectly."
-msgstr "La accesibilidad del lugar está marcada incorrectamente."
+#. translator: Button caption in the place toolbar. Navigates to a place's
+#. details on an external page.
+#: src/components/NodeToolbar/SourceLink.tsx:69
+msgid "Details"
+msgstr "Detalles"
 
-#: src/components/NodeToolbar/Report/SendReportToAc.js:44
-msgid "The place is permanently closed."
-msgstr "El lugar está cerrado permanentemente."
-
-#: src/components/NodeToolbar/Report/SendReportToAc.js:133
-msgid ""
-"Thank you! The place was reported successfully. We will take a look at your "
-"report as soon as possible."
-msgstr ""
-"¡Gracias! El lugar se ha denunciado correctamente. Echaremos un vistazo a tu"
-" informe lo antes posible."
-
-#: src/components/NodeToolbar/Report/SendReportToAc.js:134
-msgid "Something went wrong reporting the place. Please try again later."
-msgstr "Algo fue mal al denunciar el lugar. Inténtalo de nuevo más tarde."
-
-#: src/components/NodeToolbar/Report/SendReportToAc.js:147
-msgid "Feel free to add some additional information…"
-msgstr "No dudes en añadir alguna información adicional..."
-
-#: src/components/NodeToolbar/Report/FixOnExternalPage.js:21
-#, javascript-format
-msgid "View this place on ${ name }"
-msgstr "Ver este lugar en ${ name }"
-
-#: src/components/NodeToolbar/Report/FixOnExternalPage.js:23
-msgid "Edit this place on ${ name }"
-msgstr "Editar este lugar en ${ name }"
-
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:36
-#, javascript-format
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:35
 msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "${ count } ascensor en funcionamiento"
 msgstr[1] "${ count } ascensores en funcionamiento"
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:41
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:40
+#, javascript-format
 msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
 msgstr[0] "${ count } escalera mecánica en funcionamiento"
 msgstr[1] "${ count } escaleras mecánicas en funcionamiento"
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:48
-#, javascript-format
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:47
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "${ count } ascensor fuera de servicio"
 msgstr[1] "${ count } ascensores fuera de servicio"
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:53
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:52
+#, javascript-format
 msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
 msgstr[0] "${ count } escalator out of service"
 msgstr[1] "${ count } escaleras mecánicas fuera de servicio"
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:60
-#, javascript-format
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:59
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } ascensor con estado operativo desconocido."
 msgstr[1] "${ count } ascensores con estado operativo desconocido."
 
-#: src/components/NodeToolbar/Equipment/EquipmentItem.js:65
+#: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:64
+#, javascript-format
 msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "${ count } escalera mecánica con estado operativo desconocido"
 msgstr[1] "${ count } escaleras mecánicas con estado operativo desconocido"
 
-#: src/components/NodeToolbar/SourceLink.js:66
-msgid "Details"
-msgstr "Detalles"
-
-#: src/lib/getHumanEnumeration.js:18
+#. translator: In a comma-separated serial enumeration, this string is the ',
+#. or' conjunction before the last word, with a serial comma at the beginning
+#. if the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
+#: src/lib/getHumanEnumeration.tsx:20
 msgid ", or "
 msgstr ", o"
 
-#: src/lib/getHumanEnumeration.js:20
+#. translator: Conjunction between two words (like the ‘or’ in ‘humans or
+#. animals’). Please don't forget to include necessary spaces.
+#: src/lib/getHumanEnumeration.tsx:22
 msgid " or "
 msgstr "o"
 
-#: src/lib/getHumanEnumeration.js:24
+#. translator: In a comma-separated serial enumeration, this string is the ',
+#. and' conjunction before the last word, with a serial comma at the beginning
+#. if the language has a serial comma
+#. (https://en.wikipedia.org/wiki/Serial_comma).
+#: src/lib/getHumanEnumeration.tsx:26
 msgid ", and"
 msgstr ", y"
 
-#: src/lib/getHumanEnumeration.js:26
+#. translator: Conjunction between two words (like the ‘and’ in ‘humans and
+#. animals’). Please don't forget to include necessary spaces.
+#: src/lib/getHumanEnumeration.tsx:28
 msgid " and "
 msgstr "y"
+
+#: src/components/NodeToolbar/NodeHeader.tsx:67
+#, javascript-format
+msgid "Room ${ roomNumber }"
+msgstr ""
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:88
+msgid "“Vespucci” in PlayStore"
+msgstr "“Vespucci” en Play Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:93
+msgid "Use the OpenStreetMap web editor"
+msgstr "Usar el editor web de OpenStreetMap"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:98
+msgid "“Go Map!!” in App Store"
+msgstr "“Go Map!!” en App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:103
+msgid "“MAPS.ME” in App Store"
+msgstr "“MAPS.ME” en App Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:108
+msgid "“MAPS.ME” in PlayStore"
+msgstr "“MAPS.ME” en Play Store"
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:162
+msgid ""
+"Most places shown here are from <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. If you add places "
+"on OSM, they will appear here a bit later."
+msgstr ""
+"La mayoría de los lugares que se muestran aquí son de <a "
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>. Si añades lugares "
+"en OSM, aparecerán aquí poco después."
+
+#: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:164
+msgid "Add a place on OpenStreetMap"
+msgstr "Añadir un lugar en OpenStreetMap"
+
+#. translator: Email text used when sharing a mapping event via email.
+#: src/components/MappingEvents/MappingEventShareBar.tsx:35
+#, javascript-format
+msgid ""
+"Help us out and join the ${ productNameLocalized } mapping event ${ "
+"eventName }. You can find more info here: ${ url }"
+msgstr ""
