@@ -53,6 +53,7 @@
     "https-proxy-agent": "^3.0.0",
     "humanize-string": "^2.1.0",
     "immutable": "^3.8.1",
+    "intersperse": "^1.0.0",
     "is-url": "^1.2.4",
     "isomorphic-unfetch": "^2.1.1",
     "js-base64": "^3.6.1",

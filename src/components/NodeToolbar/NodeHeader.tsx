@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import intersperse from 'intersperse';
 
 import {
   categoryNameFor,
@@ -15,14 +16,20 @@ import Icon from '../Icon';
 import { PlaceNameH1 } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
 import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
-import colors from '../../lib/colors';
+import colors, { alpha } from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { compact } from 'lodash';
+import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
+import Badge from '../Badge';
+
+const StyledChevronRight = styled(ChevronRight)`
+  vertical-align: -.1rem;
+  height: .9rem;
+`;
 
 export const StyledNodeHeader = styled.header`
   margin: -8px -16px 0 -16px;
@@ -50,6 +57,16 @@ const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
   font-size: 16px;
   margin-top: 8px;
 `;
+
+const PlaceNameDetail = styled.div`
+  margin-top: 0.5rem;
+  color: ${colors.textMuted};
+  font-size: 1rem;
+`;
+
+function roomNumberString(roomNumber: string) {
+  return t`Room ${roomNumber}`;
+}
 
 type Props = {
   children?: React.ReactNode,
@@ -92,15 +109,18 @@ export default class NodeHeader extends React.Component<Props> {
     const address = acFeature?.properties.address;
     const addressObject = typeof address === 'object' ? address : undefined;
     const levelName = addressObject && translatedStringFromObject(addressObject?.level);
+    const roomNumber = addressObject && translatedStringFromObject(addressObject?.roomNumber);
     const roomName = addressObject && translatedStringFromObject(addressObject?.room);
     let placeName = placeNameFor(properties, shownCategory) || roomName;
     let ariaLabel = [placeName, categoryName].filter(Boolean).join(', ');
     if (isEquipment) {
       placeName =
-        getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription') ||
-        t`Unnamed facility`;
+      getEquipmentInfoDescription(this.props.equipmentInfo, 'shortDescription') ||
+      t`Unnamed facility`;
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
+    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && roomNumberString(roomNumber);
+    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
 
     const accessibility = isEquipment
       ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties']))
@@ -126,18 +146,22 @@ export default class NodeHeader extends React.Component<Props> {
       />
     ) : null;
 
-    const fullName = compact([
-      parentPlaceName,
-      levelName,
-      roomName !== placeName && roomName,
-      placeName,
-    ]).join(' / ');
+
+    const nameElements = uniq(compact([parentPlaceName, levelName, roomNameAndNumber, placeName]));
+    const lastNameElement = nameElements[nameElements.length - 1];
+
+    const parentElements = intersperse(
+      nameElements.slice(0, nameElements.length - 1),
+      <StyledChevronRight />
+    );
+
     const placeNameElement = (
       <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
         {this.props.hasIcon && icon}
-        <div className="place-content">
-          {fullName}
-          {categoryElement}
+        <div>
+          <div>{lastNameElement}</div>
+          <div>{categoryElement}</div>
+          <PlaceNameDetail>{parentElements}</PlaceNameDetail>
         </div>
       </PlaceNameH1>
     );
