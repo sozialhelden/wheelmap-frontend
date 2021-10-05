@@ -56,7 +56,7 @@ const colors = {
     },
   },
   inputBorder: '#ddd',
-  textMuted: 'rgba(0,0,0,0.4)',
+  textMuted: 'rgba(0,0,0,0.6)',
   focusOutline: '#C3E8FD',
 };
 
@@ -74,6 +74,14 @@ colors.textColorTonedDown = interpolateLab(colors.tonedDownSelectedColor, colors
 export function coloredWhite(color: string, value: number = 0.5) {
   const labColor = hsl(color);
   return interpolateHsl(labColor, 'white')(value).toString();
+}
+
+export function textOnColoredBackground(color: string): string {
+  const hslColor = hsl(color);
+  if (color === undefined || hslColor.l > 0.8) {
+    return '#37404D';
+  }
+  return coloredWhite(color, 8);
 }
 
 export function brighter(color: string, value: number = 0.3) {
