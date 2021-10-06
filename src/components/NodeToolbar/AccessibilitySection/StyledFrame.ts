@@ -5,7 +5,7 @@ const StyledFrame = styled.div.attrs({ noseOffsetX: 10, className: 'styled-frame
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 8px 0 1rem 0;
+  margin: 1rem 0 1rem 0;
   padding: 0.75rem 0.75rem 2px 0.75rem;
   border: 1px solid ${colors.borderColor};
   border-radius: 4px;

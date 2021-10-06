@@ -31,23 +31,25 @@ const StyledChevronRight = styled(ChevronRight)`
 `;
 
 export const StyledNodeHeader = styled.header`
-  margin: -8px 0 0 0;
-  padding: 8px 0;
+  /**
+    This is necessary to make the sticky header get a shadow that extends from the whole panel's
+    margin.
+  */
+  margin: -8px -16px 8px -16px;
+  padding: 8px 16px;
   display: flex;
   align-items: flex-start;
   position: sticky;
   top: 0;
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
+  background-color: ${colors.colorizedBackgroundColor};
 
   ${PlaceNameH1} {
     flex-grow: 2;
   }
 `;
 
-export const StyledNodeHeaderWithOpaqueBackground = styled(StyledNodeHeader)`
-    background-color: ${colors.colorizedBackgroundColor};
-`;
 
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
   margin-left: ${props => (props.hasPadding ? '42' : '0')}px;
@@ -75,7 +77,6 @@ type Props = {
   categories: CategoryLookupTables,
   parentCategory: Category | null,
   hasIcon: boolean,
-  hasOpaqueBackground: boolean,
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
@@ -176,7 +177,7 @@ export default class NodeHeader extends React.Component<Props> {
     );
 
     return (
-      <StyledNodeHeader className={this.props.hasOpaqueBackground ? 'has-opaque-background' : ''}>
+      <StyledNodeHeader>
         {clusterElement}
         {placeNameElement}
         {children}

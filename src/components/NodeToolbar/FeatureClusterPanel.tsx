@@ -9,7 +9,7 @@ import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
 import StyledCloseLink from '../CloseLink';
 import StyledFrame from './AccessibilitySection/StyledFrame';
-import NodeHeader, { StyledNodeHeader, StyledNodeHeaderWithOpaqueBackground } from './NodeHeader';
+import NodeHeader, { StyledNodeHeader } from './NodeHeader';
 import { PlaceNameH1 } from '../PlaceName';
 import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
@@ -109,7 +109,6 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
           equipmentInfo={equipmentInfo}
           equipmentInfoId={equipmentInfoId}
           hasIcon={true}
-          hasOpaqueBackground={false}
         />
       </button>
     );
@@ -155,13 +154,13 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
       >
         <ErrorBoundary>
           <section className="cluster-entries">
-            <StyledNodeHeaderWithOpaqueBackground>
+            <StyledNodeHeader>
               <PlaceNameH1>
                 <StyledClusterIcon {...this.props} />
                 {placesLabel}
               </PlaceNameH1>
               {this.renderCloseLink()}
-            </StyledNodeHeaderWithOpaqueBackground>
+            </StyledNodeHeader>
             <StyledFrame>
               <ul>{this.renderClusterEntries(cluster.features)}</ul>
             </StyledFrame>
