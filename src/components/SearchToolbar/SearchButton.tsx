@@ -10,11 +10,10 @@ import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 
 type Props = {
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  className?: string,
-  category: string | null,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  category: string | null;
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
 };
 
 const Caption = styled.div.attrs({ className: 'caption' })`
@@ -24,41 +23,7 @@ const Caption = styled.div.attrs({ className: 'caption' })`
   margin: 0 0.75rem 0 0;
 `;
 
-function SearchButton(props: Props) {
-  const classNames = ['btn-unstyled', 'search-button', props.className];
-
-  const { toiletFilter, accessibilityFilter, category } = props;
-  const isAnyFilterSet = isAccessibilityFiltered(accessibilityFilter) || category;
-  // translator: Shown in collapsed search/filter combi button when there is no category filter set
-  const allPlacesCaption = t`All places`;
-
-  return (
-    <MapButton
-      {...props}
-      aria-label={t`Search`}
-      aria-controls="search"
-      className={classNames.join(' ')}
-    >
-      <div>
-        <SearchIcon />
-
-        <BreadcrumbChevron />
-
-        {isAnyFilterSet && (
-          <CombinedIcon
-            {...{ toiletFilter, accessibilityFilter, category, isMainCategory: true }}
-          />
-        )}
-
-        <Caption>
-          {category ? Categories.translatedRootCategoryName(category) : allPlacesCaption}
-        </Caption>
-      </div>
-    </MapButton>
-  );
-}
-
-const StyledSearchButton = styled(SearchButton)`
+const StyledMapButton = styled(MapButton)`
   > div {
     display: flex;
     flex-direction: row;
@@ -91,4 +56,34 @@ const StyledSearchButton = styled(SearchButton)`
   }
 `;
 
-export default StyledSearchButton;
+export default function SearchButton(props: Props) {
+  const { toiletFilter, accessibilityFilter, category } = props;
+  const isAnyFilterSet = isAccessibilityFiltered(accessibilityFilter) || category;
+  // translator: Shown in collapsed search/filter combi button when there is no category filter set
+  const allPlacesCaption = t`All places`;
+
+  return (
+    <StyledMapButton
+      {...props}
+      aria-label={t`Search`}
+      aria-controls="search"
+      className="search-button"
+    >
+      <div>
+        <SearchIcon />
+
+        <BreadcrumbChevron />
+
+        {isAnyFilterSet && (
+          <CombinedIcon
+            {...{ toiletFilter, accessibilityFilter, category, isMainCategory: true }}
+          />
+        )}
+
+        <Caption>
+          {category ? Categories.translatedRootCategoryName(category) : allPlacesCaption}
+        </Caption>
+      </div>
+    </StyledMapButton>
+  );
+}
