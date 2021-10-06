@@ -30,9 +30,14 @@ const MappingEventShareBar = ({
   const description = mappingEvent.description || productNameLocalized;
 
   const mailSubject = sharedObjectTitle;
+<<<<<<< HEAD
 
   // translator: Email text used when sharing a mapping event via email.
   let mailBody = t`Help us out and join the ${productNameLocalized} mapping event ${eventName}. You can find more info here: ${url}`;
+=======
+  // translator: Email text used when sharing a mapping event via email.
+  let mailBody = t`Hi,\n\nHelp us out and join the ‘${eventName}’ mapping event!\n\nFind more info here: ${url}`;
+>>>>>>> 21ade92a (Improve mapping event share text)
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody
