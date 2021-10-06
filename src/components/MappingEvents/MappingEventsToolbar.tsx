@@ -5,9 +5,12 @@ import FocusTrap from 'focus-trap-react';
 
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import Link, { RouteConsumer } from '../Link/Link';
-import CloseButton from './CloseButton';
 import { MappingEvents } from '../../lib/MappingEvent';
 import { App } from '../../lib/App';
+import StyledMarkdown from '../StyledMarkdown';
+import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
+import colors from '../../lib/colors';
+import CloseButton from '../CloseButton';
 
 type MappingEventsToolbarProps = {
   app: App,
@@ -17,6 +20,8 @@ type MappingEventsToolbarProps = {
   onMappingEventClick: (eventId: string) => void,
   minimalTopPosition: number,
 };
+
+export const StyledCloseButton = styled(CloseButton)``;
 
 const MappingEventsToolbar = ({
   app,
@@ -32,8 +37,12 @@ const MappingEventsToolbar = ({
   const activeMappingEventsCountAriaLabel = t`${mappingEvents.length} active mapping events`;
   // translator: Generic name for mapping events
   const eventsText = t`Events`;
-  // translator: Tagline describing the purpose of mapping events
-  const mappingEventsTagLine = t`Meet the community and map the accessibility of places around you!`;
+  // translator: Tagline describing the purpose of mapping events (supports Markdown)
+  const mapathonFeatureClaim = t`Meet the community and map the accessibility of places around you!`;
+  // translator: Link for further infos about how to organize mapping events
+  const mapathonExplanationLinkCaption = t`Learn how to organize a mapping event`;
+  // translator: Link for further infos about how to organize mapping events
+  const mapathonExplanationLinkURL = t`https://news.wheelmap.org/en/organize-a-mapping-event/`;
 
   const listedMappingEvents = mappingEvents;
 
@@ -47,23 +56,25 @@ const MappingEventsToolbar = ({
           minimalHeight={180}
           minimalTopPosition={minimalTopPosition}
         >
-          <CloseButton onClick={onClose} />
           <header>
             <span className="number-badge" aria-hidden={true}>
               {listedMappingEvents.length}
             </span>
             <div className="header-title">
               <h2 aria-label={activeMappingEventsCountAriaLabel}>{eventsText}</h2>
-              <p>{mappingEventsTagLine}</p>
+              <StyledMarkdown>{mapathonFeatureClaim}</StyledMarkdown>
             </div>
+            <CloseButton onClick={onClose} />
           </header>
+          <a className="link-button explanation-link" href={mapathonExplanationLinkURL}>
+            👉 {mapathonExplanationLinkCaption}
+          </a>
           <ul>
             {listedMappingEvents.map(event => (
               <li key={event._id}>
                 <RouteConsumer>
                   {context => {
                     let params = { ...context.params, id: event._id };
-
                     return (
                       <Link
                         to={'mappingEventDetail'}
@@ -71,8 +82,13 @@ const MappingEventsToolbar = ({
                         className="link-button"
                         onClick={() => onMappingEventClick(event._id)}
                       >
-                        <h3>{event.name}</h3>
-                        {event.area && <p>{event.area.properties.name}</p>}
+                        <div>
+                          <MappingEventMarkerIcon />
+                        </div>
+                        <div>
+                          <h3>{event.name}</h3>
+                          {event.area && <p>{event.area.properties.name}</p>}
+                        </div>
                       </Link>
                     );
                   }}
@@ -80,21 +96,31 @@ const MappingEventsToolbar = ({
               </li>
             ))}
           </ul>
+          <footer></footer>
         </StyledToolbar>
       </div>
     </FocusTrap>
   );
 };
-
 const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
   padding-top: 0;
+  padding-bottom: 1rem;
   color: #22262d;
   line-height: 1.2;
 
+  .explanation-link {
+    margin: 2.5rem 0 1rem;
+  }
+
   header {
+    position: sticky;
     display: flex;
-    align-items: center;
-    padding: 0.5rem 0;
+    align-items: start;
+    top: 0;
+    z-index: 1;
+    margin: -1rem;
+    padding: 0.75rem 1rem;
+    background: ${colors.colorizedBackgroundColor};
   }
 
   h2 {
@@ -106,7 +132,6 @@ const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
     margin: 0;
     font-size: 16px;
     font-weight: 700;
-    color: #22262d;
   }
 
   p {
@@ -125,10 +150,16 @@ const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
 
   li {
     padding: 0;
-  }
 
-  .link-button {
-    width: 100%;
+    .link-button {
+      display: flex;
+      align-items: center;
+      svg {
+        width: 2rem;
+        height: 2rem;
+        margin-right: 0.25rem;
+      }
+    }
   }
 
   .number-badge {
@@ -144,5 +175,4 @@ const StyledMappingEventsToolbar = styled(MappingEventsToolbar)`
     line-height: 22px;
   }
 `;
-
 export default StyledMappingEventsToolbar;

@@ -11,7 +11,7 @@ type Options = IconOptions & {
   highlighted?: boolean,
 };
 
-const MappingEventMarkerSVG = markers['mappingEvent'];
+export const MappingEventMarkerSVG = markers['mappingEvent'];
 
 const ICON_SIZES = { small: 25, medium: 40, big: 60 };
 

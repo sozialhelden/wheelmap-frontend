@@ -10,18 +10,18 @@ import Link from '../Link/Link';
 import { RouteConsumer, RouteContext } from '../Link/RouteContext';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
-import CloseButton from './CloseButton';
 import { buildFullImageUrl } from '../../lib/Image';
 import { MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
 import { RouteParams } from '../../lib/RouterHistory';
 import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
 import GlobeIcon from '../icons/ui-elements/GlobeIcon';
-import CalendarIcon from '../icons/ui-elements/CalendarIcon';
-import Markdown from '../Markdown';
 import StyledMarkdown from '../StyledMarkdown';
 import colors from '../../lib/colors';
 import { omit } from 'lodash';
+import CloseButton from '../CloseButton';
+
+export const StyledCloseButton = styled(CloseButton)``;
 
 type MappingEventToolbarProps = {
   className?: string,
