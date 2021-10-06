@@ -17201,6 +17201,24 @@
             "Mapping events bring people together digitally or in person to contribute information to the map. Join now!"
           ]
         },
+        "Learn how to organize a mapping event": {
+          "msgid": "Learn how to organize a mapping event",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventsToolbar.tsx:39"
+          },
+          "msgstr": [
+            "Learn how to organize a mapping event"
+          ]
+        },
+        "https://news.wheelmap.org/en/organize-a-mapping-event/": {
+          "msgid": "https://news.wheelmap.org/en/organize-a-mapping-event/",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventsToolbar.tsx:41"
+          },
+          "msgstr": [
+            "https://news.wheelmap.org/en/organize-a-mapping-event/"
+          ]
+        },
         "Help out by marking places!": {
           "msgid": "Help out by marking places!",
           "comments": {
@@ -17510,6 +17528,16 @@
           },
           "msgstr": [
             "${ eventName } Mapping Event Map Marker"
+          ]
+        },
+        "Hi,\n\nHelp us out and join the ‘${ eventName }’ mapping event!\n\nFind more info here: ${ url }": {
+          "msgid": "Hi,\n\nHelp us out and join the ‘${ eventName }’ mapping event!\n\nFind more info here: ${ url }",
+          "comments": {
+            "reference": "src/components/MappingEvents/MappingEventShareBar.tsx:34",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "Hi,\n\nHelp us out and join the ‘${ eventName }’ mapping event!\n\nFind more info here: ${ url }"
           ]
         },
         "Mapping Event Numbers": {
