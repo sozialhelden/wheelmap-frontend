@@ -366,11 +366,7 @@ msgstr "執行"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
-<<<<<<< HEAD
-#: src/components/SearchToolbar/SearchButton.tsx:33
-=======
 #: src/components/SearchToolbar/SearchButton.tsx:63
->>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "All places"
 msgstr "所有地方"
 
@@ -520,34 +516,18 @@ msgid "Clapping hands"
 msgstr "鼓掌"
 
 #. translator: Screenreader description for the mapping events list
-<<<<<<< HEAD
-#: src/components/MappingEvents/MappingEventsToolbar.tsx:30
-=======
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:35
->>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Mapping events list"
 msgstr "畫地圖活動清單"
 
 #. translator: Screenreader description for the number of active mapping
 #. events in the shown list
-<<<<<<< HEAD
-#: src/components/MappingEvents/MappingEventsToolbar.tsx:32
-=======
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:37
->>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "${ mappingEvents.length } active mapping events"
 msgstr "${ mappingEvents.length } 活躍中的畫地圖活動"
 
 #. translator: Generic name for mapping events
-<<<<<<< HEAD
-#: src/components/MappingEvents/MappingEventsToolbar.tsx:34
-msgid "Events"
-msgstr "活動"
-
-#. translator: Tagline describing the purpose of mapping events
-#: src/components/MappingEvents/MappingEventsToolbar.tsx:36
-=======
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:39
 msgid "Events"
 msgstr "活動"
@@ -555,7 +535,6 @@ msgstr "活動"
 #. translator: Tagline describing the purpose of mapping events (supports
 #. Markdown)
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:41
->>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr "與社群交流，並且繪製你週遭一帶的無障礙設施地圖！"
 
@@ -652,35 +631,35 @@ msgstr "需要您的 email 位址！"
 msgid "This email address is not valid."
 msgstr "這個 email 位址無效。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:73
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
 msgstr "Email 位址"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:92
 msgid "Let’s go"
 msgstr "開始吧"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
 #, javascript-format
 msgid "You are participating as ${ initialEmailAddress }."
 msgstr "你以 ${ initialEmailAddress } 身份參與。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
 msgid ""
 "To stay in touch with you, you must provide us with your email address."
 msgstr "要與你保持聯繫，你必須提供你的 email 位址。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
 msgid "To stay in touch with you, please share your email address with us."
 msgstr "要與你保持聯繫，請你分享你的 email 位址給我們。"
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
 msgid "Welcome"
 msgstr "歡迎"
 
 #. translator: Shown on the join mapping event screen, when there is no
 #. message defined by the event organizer.
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:117
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118
 msgid "Great! Thanks for joining us."
 msgstr "很好！謝謝你加入我們。"
 
@@ -850,11 +829,7 @@ msgstr "要在地圖上找到自己的位置，請打開瀏覽器設定並允許
 msgid "Show me where I am"
 msgstr "請顯示出我在哪"
 
-<<<<<<< HEAD
-#: src/components/NodeToolbar/NodeHeader.tsx:118
-=======
 #: src/components/NodeToolbar/NodeHeader.tsx:116
->>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Unnamed facility"
 msgstr "未命名設施"
 
@@ -1429,11 +1404,7 @@ msgstr "，以及"
 msgid " and "
 msgstr "和"
 
-<<<<<<< HEAD
-#: src/components/NodeToolbar/NodeHeader.tsx:67
-=======
 #: src/components/NodeToolbar/NodeHeader.tsx:65
->>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr ""
@@ -1471,8 +1442,6 @@ msgstr ""
 msgid "Add a place on OpenStreetMap"
 msgstr "在 OpenStreetMap 新增一個地點"
 
-<<<<<<< HEAD
-=======
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:43
 msgid "Learn how to organize a mapping event"
@@ -1483,15 +1452,10 @@ msgstr ""
 msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
 msgstr ""
 
->>>>>>> 5f7417bc (Sync translations with transifex)
 #. translator: Email text used when sharing a mapping event via email.
-#: src/components/MappingEvents/MappingEventShareBar.tsx:35
+#: src/components/MappingEvents/MappingEventShareBar.tsx:34
 #, javascript-format
 msgid ""
-<<<<<<< HEAD
-"Help us out and join the ${ productNameLocalized } mapping event ${ "
-"eventName }. You can find more info here: ${ url }"
-=======
 "Hi 👋\n"
 "\n"
 "Help us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n"
@@ -1499,7 +1463,6 @@ msgid ""
 "${ url }\n"
 "\n"
 "See you there!"
->>>>>>> 5f7417bc (Sync translations with transifex)
 msgstr ""
 
 #. translator: Shown next to a form input label for a field where the user
