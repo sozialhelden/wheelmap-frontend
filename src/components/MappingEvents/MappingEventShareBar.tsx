@@ -31,6 +31,7 @@ const MappingEventShareBar = ({
 
   const mailSubject = sharedObjectTitle;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   // translator: Email text used when sharing a mapping event via email.
   let mailBody = t`Help us out and join the ${productNameLocalized} mapping event ${eventName}. You can find more info here: ${url}`;
@@ -38,6 +39,11 @@ const MappingEventShareBar = ({
   // translator: Email text used when sharing a mapping event via email.
   let mailBody = t`Hi,\n\nHelp us out and join the ‘${eventName}’ mapping event!\n\nFind more info here: ${url}`;
 >>>>>>> 21ade92a (Improve mapping event share text)
+=======
+
+  // translator: Email text used when sharing a mapping event via email.
+  let mailBody = t`Hi 👋\n\nHelp us out and join the mapping event ‘${eventName}’ on ${productNameLocalized}. You can find more info here:\n\n${url}\n\nSee you there!`;
+>>>>>>> 4d628543 (Sync with transifex)
 
   const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
     mailBody
