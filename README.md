@@ -57,7 +57,7 @@ To deploy the web application:
 
 You can embed the Wheelmap web app in any other website’s HTML like this:
 
-```<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true&embedToken=12345&lat=52.5212&lon=13.4104" allow="geolocation"></iframe>```
+`<iframe style="width: 600px; height: 600px;" src="https://wheelmap.org?embedded=true&embedToken=12345&lat=52.5212&lon=13.4104" allow="geolocation"></iframe>`
 
 Having the `embedded=true` query parameter attached to the URL ensures that the app renders less UI (no search, no header etc.). Add `allow="geolocation"` to let the `<iframe>` access the browser’s location feature.
 Like the full app, the widget can initially position the map at a certain location defined by `lat` and `lon` URL parameters.
@@ -71,9 +71,9 @@ Use `npm run push-translations` to push a new translation resource to our transl
 
 We deploy every new feature in English and German first, and add support for all languages in the following sprint.
 
-When there are new strings on transifex, you can run `npm run pull-translations` to pull them into the local project.
+After pushing new strings, translators can begin translating them on [Transifex](https://www.transifex.com/sozialhelden/wheelmap-react-frontend/translate/#de/translationspot/335454735?q=translated%3Ano).
 
-Then run `npm run create-js-translations` to inject the translations into the application.
+When there are new strings on transifex, you can run `npm run pull-translations` to pull them into the local project and to inject the translations into the application.
 
 We have a retranslate tool that allows to use the `en_US` language on transifex to refine source strings directly in the source code. This parses the whole source code into an abstract syntax tree using Babel, then re-assembles it with new versions of the strings fetched from the `en_US` locale. Re-assembly can break formatting.
 
@@ -106,4 +106,4 @@ New code is automatically tested on pushing it to the git repository. GitHub dis
 
 ## Code of Conduct
 
-We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org). 
+We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
