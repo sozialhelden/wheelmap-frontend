@@ -9,7 +9,7 @@ import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
 import StyledCloseLink from '../CloseLink';
 import StyledFrame from './AccessibilitySection/StyledFrame';
-import NodeHeader, { StyledNodeHeader } from './NodeHeader';
+import NodeHeader, { StyledNodeHeader, StyledNodeHeaderWithOpaqueBackground } from './NodeHeader';
 import { PlaceNameH1 } from '../PlaceName';
 import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
@@ -155,14 +155,14 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
       >
         <ErrorBoundary>
           <section className="cluster-entries">
-            <StyledNodeHeader>
+            <StyledNodeHeaderWithOpaqueBackground>
               <PlaceNameH1>
                 <StyledClusterIcon {...this.props} />
                 {placesLabel}
               </PlaceNameH1>
               {this.renderCloseLink()}
-            </StyledNodeHeader>
-            <StyledFrame className="entry-list">
+            </StyledNodeHeaderWithOpaqueBackground>
+            <StyledFrame>
               <ul>{this.renderClusterEntries(cluster.features)}</ul>
             </StyledFrame>
           </section>
@@ -174,7 +174,8 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
 
 const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
   section.cluster-entries {
-    > .entry-list {
+    > .styled-frame {
+      z-index: 0;
       padding: 0;
       > ul {
         list-style: none;

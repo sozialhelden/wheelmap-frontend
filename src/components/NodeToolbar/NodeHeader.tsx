@@ -31,8 +31,8 @@ const StyledChevronRight = styled(ChevronRight)`
 `;
 
 export const StyledNodeHeader = styled.header`
-  margin: -8px -16px 0 -16px;
-  padding: 8px 16px;
+  margin: -8px 0 0 0;
+  padding: 8px 0;
   display: flex;
   align-items: flex-start;
   position: sticky;
@@ -43,12 +43,10 @@ export const StyledNodeHeader = styled.header`
   ${PlaceNameH1} {
     flex-grow: 2;
   }
+`;
 
-  &.has-opaque-background {
+export const StyledNodeHeaderWithOpaqueBackground = styled(StyledNodeHeader)`
     background-color: ${colors.colorizedBackgroundColor};
-    border-top-right-radius: 20px;
-    border-top-left-radius: 20px;
-  }
 `;
 
 const StyledBreadCrumbs = styled(BreadCrumbs).attrs({ hasPadding: false })`
@@ -118,7 +116,7 @@ export default class NodeHeader extends React.Component<Props> {
       t`Unnamed facility`;
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
-    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber);
+    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined;
     const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
 
     const accessibility = isEquipment
