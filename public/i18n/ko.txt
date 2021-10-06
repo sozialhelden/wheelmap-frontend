@@ -651,35 +651,35 @@ msgstr ""
 msgid "This email address is not valid."
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:73
 msgid "Email address"
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91
 msgid "Let’s go"
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:87
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93
 #, javascript-format
 msgid "You are participating as ${ initialEmailAddress }."
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106
 msgid ""
 "To stay in touch with you, you must provide us with your email address."
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
 msgid "To stay in touch with you, please share your email address with us."
 msgstr ""
 
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111
 msgid "Welcome"
 msgstr "환영합니다 "
 
 #. translator: Shown on the join mapping event screen, when there is no
 #. message defined by the event organizer.
-#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:117
 msgid "Great! Thanks for joining us."
 msgstr ""
 
@@ -1500,4 +1500,16 @@ msgid ""
 "\n"
 "See you there!"
 >>>>>>> 5f7417bc (Sync translations with transifex)
+msgstr ""
+
+#. translator: Shown next to a form input label for a field where the user
+#. must enter a value
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
+msgid "(required)"
+msgstr ""
+
+#. translator: Shown next to a form input label for a field where the user can
+#. optionally enter a value
+#: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
+msgid "(optional)"
 msgstr ""

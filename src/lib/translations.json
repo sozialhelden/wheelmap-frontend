@@ -1125,7 +1125,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "مرحبًا بك"
@@ -3406,7 +3406,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Добре дошли"
@@ -5663,7 +5663,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Benvingut/da"
@@ -7920,7 +7920,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Vítejte"
@@ -10189,7 +10189,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Velkommen"
@@ -12491,7 +12491,7 @@
         "Email address": {
           "msgid": "Email address",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:73"
           },
           "msgstr": [
             "E-Mail-Adresse"
@@ -12500,7 +12500,7 @@
         "Let’s go": {
           "msgid": "Let’s go",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91"
           },
           "msgstr": [
             "Los geht’s!"
@@ -12509,7 +12509,7 @@
         "You are participating as ${ initialEmailAddress }.": {
           "msgid": "You are participating as ${ initialEmailAddress }.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:87",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93",
             "flag": "javascript-format"
           },
           "msgstr": [
@@ -12519,7 +12519,7 @@
         "To stay in touch with you, you must provide us with your email address.": {
           "msgid": "To stay in touch with you, you must provide us with your email address.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
             "Damit wir in Kontakt bleiben können, musst du uns deine E-Mail-Adresse mitteilen."
@@ -12528,7 +12528,7 @@
         "To stay in touch with you, please share your email address with us.": {
           "msgid": "To stay in touch with you, please share your email address with us.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
           },
           "msgstr": [
             "Bitte teile deine E-Mail-Adresse mit uns, damit wir in Kontakt bleiben können."
@@ -12537,7 +12537,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Willkommen"
@@ -12547,7 +12547,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:117"
           },
           "msgstr": [
             "Klasse! Vielen Dank dass du mitmachst!"
@@ -13950,6 +13950,26 @@
           "msgstr": [
             "Mach mit und nimm am ${ productNameString }-Mapping Event ${ eventName } teil. Hier findest du mehr Information: ${ url }"
           ]
+        },
+        "(required)": {
+          "msgid": "(required)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user\nmust enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65"
+          },
+          "msgstr": [
+            "(notwendig)"
+          ]
+        },
+        "(optional)": {
+          "msgid": "(optional)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user can\noptionally enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+          },
+          "msgstr": [
+            "(optional)"
+          ]
         }
       }
     }
@@ -15080,7 +15100,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Καλώς ήλθατε"
@@ -17400,7 +17420,7 @@
         "Email address": {
           "msgid": "Email address",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:73"
           },
           "msgstr": [
             "Email address"
@@ -17409,7 +17429,7 @@
         "Let’s go": {
           "msgid": "Let’s go",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91"
           },
           "msgstr": [
             "Let’s go"
@@ -17418,7 +17438,7 @@
         "You are participating as ${ initialEmailAddress }.": {
           "msgid": "You are participating as ${ initialEmailAddress }.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:87",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93",
             "flag": "javascript-format"
           },
           "msgstr": [
@@ -17428,7 +17448,7 @@
         "To stay in touch with you, you must provide us with your email address.": {
           "msgid": "To stay in touch with you, you must provide us with your email address.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
             "To stay in touch with you, you must provide us with your email address."
@@ -17437,7 +17457,7 @@
         "To stay in touch with you, please share your email address with us.": {
           "msgid": "To stay in touch with you, please share your email address with us.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
           },
           "msgstr": [
             "To stay in touch with you, please share your email address with us."
@@ -17446,7 +17466,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Welcome"
@@ -17456,7 +17476,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:117"
           },
           "msgstr": [
             "Great! Thanks for joining us."
@@ -19978,7 +19998,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Bienvenido/a"
@@ -22326,7 +22346,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Tervetuloa"
@@ -24583,7 +24603,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Bienvenue"
@@ -27019,7 +27039,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "ברוכים הבאים"
@@ -29288,7 +29308,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "स्वागत है"
@@ -31545,7 +31565,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Üdvözlünk"
@@ -33893,7 +33913,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Benvenuto"
@@ -36150,7 +36170,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "ようこそ"
@@ -38401,7 +38421,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "환영합니다 "
@@ -42156,7 +42176,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Welkom"
@@ -44501,7 +44521,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Velkommen"
@@ -46780,7 +46800,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Witamy"
@@ -49049,7 +49069,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Bem-vindo"
@@ -51306,7 +51326,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Bem-vindo"
@@ -53654,7 +53674,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Bine ai venit"
@@ -56023,7 +56043,7 @@
         "Let’s go": {
           "msgid": "Let’s go",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91"
           },
           "msgstr": [
             "Вперед"
@@ -56032,7 +56052,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Добро пожаловать"
@@ -58400,7 +58420,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Vitajte"
@@ -60760,7 +60780,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Välkommen"
@@ -63108,7 +63128,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Hoşgeldiniz"
@@ -65365,7 +65385,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Ласкаво просимо"
@@ -67634,7 +67654,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "Chào mừng bạn!"
@@ -69907,7 +69927,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "欢迎"
@@ -72158,7 +72178,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "歡迎"
@@ -74467,7 +74487,7 @@
         "Email address": {
           "msgid": "Email address",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:73"
           },
           "msgstr": [
             "Email 位址"
@@ -74476,7 +74496,7 @@
         "Let’s go": {
           "msgid": "Let’s go",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:85"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:91"
           },
           "msgstr": [
             "開始吧"
@@ -74485,7 +74505,7 @@
         "You are participating as ${ initialEmailAddress }.": {
           "msgid": "You are participating as ${ initialEmailAddress }.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:87",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93",
             "flag": "javascript-format"
           },
           "msgstr": [
@@ -74495,7 +74515,7 @@
         "To stay in touch with you, you must provide us with your email address.": {
           "msgid": "To stay in touch with you, you must provide us with your email address.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:93"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:106"
           },
           "msgstr": [
             "要與你保持聯繫，你必須提供你的 email 位址。"
@@ -74504,7 +74524,7 @@
         "To stay in touch with you, please share your email address with us.": {
           "msgid": "To stay in touch with you, please share your email address with us.",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107"
           },
           "msgstr": [
             "要與你保持聯繫，請你分享你的 email 位址給我們。"
@@ -74513,7 +74533,7 @@
         "Welcome": {
           "msgid": "Welcome",
           "comments": {
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:105"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
           },
           "msgstr": [
             "歡迎"
@@ -74523,7 +74543,7 @@
           "msgid": "Great! Thanks for joining us.",
           "comments": {
             "extracted": "translator: Shown on the join mapping event screen, when there is no\nmessage defined by the event organizer.",
-            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:111"
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:117"
           },
           "msgstr": [
             "很好！謝謝你加入我們。"
