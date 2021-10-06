@@ -1,6 +1,8 @@
 # 
 # Translators:
 # framefield_henrik, 2020
+# Silke Georgi <silkemariageorgi@gmail.com>, 2021
+# Sebastian Felix Zappe <hypo@me.com>, 2021
 # Developers, 2021
 # Silke Georgi <silkemariageorgi@gmail.com>, 2021
 # Sebastian Felix Zappe <hypo@me.com>, 2021
@@ -13,7 +15,7 @@ msgstr ""
 "Language: en_US\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:38 src/pages/_app.tsx:330
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:330
 msgid "Search"
 msgstr "Search"
 
@@ -373,7 +375,11 @@ msgstr "Go"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
+<<<<<<< HEAD
 #: src/components/SearchToolbar/SearchButton.tsx:33
+=======
+#: src/components/SearchToolbar/SearchButton.tsx:63
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "All places"
 msgstr "All places"
 
@@ -525,24 +531,42 @@ msgid "Clapping hands"
 msgstr "Clapping hands"
 
 #. translator: Screenreader description for the mapping events list
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:30
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:35
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Mapping events list"
 msgstr "List of mapping events"
 
 #. translator: Screenreader description for the number of active mapping
 #. events in the shown list
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:32
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:37
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "${ mappingEvents.length } active mapping events"
 msgstr "${ mappingEvents.length } active mapping events"
 
 #. translator: Generic name for mapping events
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:34
 msgid "Events"
 msgstr "Events"
 
 #. translator: Tagline describing the purpose of mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:36
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:39
+msgid "Events"
+msgstr "Events"
+
+#. translator: Tagline describing the purpose of mapping events (supports
+#. Markdown)
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:41
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr ""
 "Mapping events bring people together digitally or in person to contribute "
@@ -842,7 +866,11 @@ msgstr ""
 msgid "Show me where I am"
 msgstr "Show me where I am"
 
+<<<<<<< HEAD
 #: src/components/NodeToolbar/NodeHeader.tsx:118
+=======
+#: src/components/NodeToolbar/NodeHeader.tsx:116
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Unnamed facility"
 msgstr "Unnamed facility"
 
@@ -1441,7 +1469,11 @@ msgstr ", and"
 msgid " and "
 msgstr " and "
 
+<<<<<<< HEAD
 #: src/components/NodeToolbar/NodeHeader.tsx:67
+=======
+#: src/components/NodeToolbar/NodeHeader.tsx:65
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr ""
@@ -1480,10 +1512,33 @@ msgstr ""
 msgid "Add a place on OpenStreetMap"
 msgstr "Add a place on OpenStreetMap"
 
+<<<<<<< HEAD
+=======
+#. translator: Link for further infos about how to organize mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:43
+msgid "Learn how to organize a mapping event"
+msgstr "Learn how to organize a mapping event"
+
+#. translator: Link for further infos about how to organize mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:45
+msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
+msgstr "https://news.wheelmap.org/en/organize-a-mapping-event/"
+
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:35
 #, javascript-format
 msgid ""
+<<<<<<< HEAD
 "Help us out and join the ${ productNameLocalized } mapping event ${ "
 "eventName }. You can find more info here: ${ url }"
+=======
+"Hi 👋\n"
+"\n"
+"Help us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n"
+"\n"
+"${ url }\n"
+"\n"
+"See you there!"
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgstr ""

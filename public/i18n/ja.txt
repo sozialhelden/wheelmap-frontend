@@ -11,7 +11,7 @@ msgstr ""
 "Language: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:38 src/pages/_app.tsx:330
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:330
 msgid "Search"
 msgstr "検索"
 
@@ -365,7 +365,11 @@ msgstr "Go"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
+<<<<<<< HEAD
 #: src/components/SearchToolbar/SearchButton.tsx:33
+=======
+#: src/components/SearchToolbar/SearchButton.tsx:63
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "All places"
 msgstr "すべての場所"
 
@@ -515,24 +519,42 @@ msgid "Clapping hands"
 msgstr ""
 
 #. translator: Screenreader description for the mapping events list
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:30
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:35
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Mapping events list"
 msgstr "マッピングイベントのリスト"
 
 #. translator: Screenreader description for the number of active mapping
 #. events in the shown list
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:32
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:37
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "${ mappingEvents.length } active mapping events"
 msgstr "${ mappingEvents.length } アクティブなマッピングイベント"
 
 #. translator: Generic name for mapping events
+<<<<<<< HEAD
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:34
 msgid "Events"
 msgstr "イベント"
 
 #. translator: Tagline describing the purpose of mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:36
+=======
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:39
+msgid "Events"
+msgstr "イベント"
+
+#. translator: Tagline describing the purpose of mapping events (supports
+#. Markdown)
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:41
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Meet the community and map the accessibility of places around you!"
 msgstr "コミュニティに出会い、あなたの周りの場所のアクセシビリティを地図に表示しましょう！"
 
@@ -827,7 +849,11 @@ msgstr "自分の場所を地図上に表示するには、ブラウザの設定
 msgid "Show me where I am"
 msgstr "自分の場所を表示"
 
+<<<<<<< HEAD
 #: src/components/NodeToolbar/NodeHeader.tsx:118
+=======
+#: src/components/NodeToolbar/NodeHeader.tsx:116
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgid "Unnamed facility"
 msgstr "名前なしの施設"
 
@@ -1403,7 +1429,11 @@ msgstr "、そして"
 msgid " and "
 msgstr "および"
 
+<<<<<<< HEAD
 #: src/components/NodeToolbar/NodeHeader.tsx:67
+=======
+#: src/components/NodeToolbar/NodeHeader.tsx:65
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr ""
@@ -1441,10 +1471,33 @@ msgstr ""
 msgid "Add a place on OpenStreetMap"
 msgstr "OpenStreetMapに場所を追加する"
 
+<<<<<<< HEAD
+=======
+#. translator: Link for further infos about how to organize mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:43
+msgid "Learn how to organize a mapping event"
+msgstr ""
+
+#. translator: Link for further infos about how to organize mapping events
+#: src/components/MappingEvents/MappingEventsToolbar.tsx:45
+msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
+msgstr ""
+
+>>>>>>> 5f7417bc (Sync translations with transifex)
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:35
 #, javascript-format
 msgid ""
+<<<<<<< HEAD
 "Help us out and join the ${ productNameLocalized } mapping event ${ "
 "eventName }. You can find more info here: ${ url }"
+=======
+"Hi 👋\n"
+"\n"
+"Help us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n"
+"\n"
+"${ url }\n"
+"\n"
+"See you there!"
+>>>>>>> 5f7417bc (Sync translations with transifex)
 msgstr ""
