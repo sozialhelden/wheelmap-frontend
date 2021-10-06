@@ -60,11 +60,18 @@ const EmailInputForm = (props: {
     }
   };
 
+  const labelSuffix = {
+    // translator: Shown next to a form input label for a field where the user must enter a value
+    required: t`(required)`,
+    // translator: Shown next to a form input label for a field where the user can optionally enter a value
+    optional: t`(optional)`,
+  }[collectionMode];
+
   return (
     <form className={error ? 'has-error' : ''} onSubmit={submitHandler}>
       {showInput && (
         <div className={error ? 'form-control is-invalid' : 'form-control'}>
-          <label>{t`Email address`}</label>
+          <label><strong>{t`Email address`}</strong>{labelSuffix && <>&nbsp;{labelSuffix}</>}</label>
           <input
             className={error ? 'is-invalid' : ''}
             required={collectionMode === 'required'}
@@ -89,12 +96,6 @@ const EmailInputForm = (props: {
   );
 };
 
-const EmailCollectionModeMessages = {
-  required: () => t`To stay in touch with you, you must provide us with your email address.`,
-  optional: () => t`To stay in touch with you, please share your email address with us.`,
-  disabled: () => null,
-};
-
 const UnstyledMappingEventWelcomeDialog = ({
   className,
   mappingEvent,
@@ -102,6 +103,12 @@ const UnstyledMappingEventWelcomeDialog = ({
   onClose,
   invitationToken,
 }: Props) => {
+  const EmailCollectionModeMessages = {
+    required: () => t`To stay in touch with you, you must provide us with your email address.`,
+    optional: () => t`To stay in touch with you, please share your email address with us.`,
+    disabled: () => null,
+  };
+
   const dialogAriaLabel = t`Welcome`;
 
   const collectionMode = mappingEvent.emailCollectionMode || 'disabled';
