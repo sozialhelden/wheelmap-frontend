@@ -42,6 +42,7 @@ import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
 import startClientSideApm from "../lib/apm/startClientSideApm";
+import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
 
 if (typeof window !== 'undefined') {
@@ -259,7 +260,7 @@ export default class App extends BaseApp<any> {
       storeInitialRouteProps(routeName, renderContext, renderContext.app.tokenString);
     }
 
-    const { textContent, meta, branding } = this.props.app.clientSideConfiguration;
+    const { textContent, meta, branding } = this.props.app.clientSideConfiguration as ClientSideConfiguration;
     const { name: productName, description } = textContent?.product || { name: 'Wheelmap', description: undefined };
     const { twitter, facebook } = meta || {};
 
@@ -296,7 +297,7 @@ export default class App extends BaseApp<any> {
           ? mappingEventImage.dimensions.height
           : 1288;
 
-        twitterMetaData.imageUrl = mappingEventImageUrl || `${baseUrl}/images/eventPlaceholder.png`;
+        twitterMetaData.imageURL = mappingEventImageUrl || `${baseUrl}/images/eventPlaceholder.png`;
         ogUrl = `${baseUrl}/events/${mappingEvent._id}`;
       }
     }
