@@ -19,7 +19,7 @@ function hasKoboSubmission(feature: Feature | null) {
   }
 
   const ids = acFeature.properties && acFeature.properties.ids;
-  if (ids) {
+  if (ids instanceof Array && ids.length > 0) {
     for (const externalId of ids) {
       if (externalId.provider === 'koboSubmission') {
         return true;
