@@ -1,6 +1,7 @@
 import { t } from 'ttag';
 import get from 'lodash/get';
 import * as React from 'react';
+import { useEffect } from 'react';
 import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 
@@ -11,106 +12,98 @@ import Logo from '../../lib/Logo';
 import { PrimaryButton } from '../Button';
 
 type Props = {
-  className?: string,
-  onReturnHomeClick: () => void,
-  statusCode: number,
+  className?: string;
+  onReturnHomeClick: () => void;
+  statusCode: number;
 };
 
-class NotFound extends React.Component<Props> {
-  closeButton: Element | Text | null;
+const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode }) => {
+  useEffect(() => focus(), []);
 
-  manageFocus = ({ nativeEvent }) => {
+  const manageFocus = ({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
     }
   };
 
-  componentDidMount() {
-    this.focus();
-  }
+  let closeButton: Element | Text | null;
 
-  focus() {
-    if (!this.closeButton || !(this.closeButton instanceof HTMLElement)) {
+  const focus = () => {
+    if (!closeButton || !(closeButton instanceof HTMLElement)) {
       return;
     }
 
-    this.closeButton.focus();
-  }
+    closeButton.focus();
+  };
 
-  render() {
-    const { className, statusCode } = this.props;
+  const classList = [className, 'not-found-page'].filter(Boolean);
 
-    const classList = [className, 'not-found-page'].filter(Boolean);
+  // translator: Shown as header text on the error page.
+  const errorText = t`Error`;
 
-    // translator: Shown as header text on the error page.
-    const errorText = t`Error`;
+  // translator: Shown as header text on the error page when the URL is not found.
+  const notFoundText = t`This URL does not work anymore. If you think the place does exist, you can use the search to find it.`;
 
-    // translator: Shown as header text on the error page when the URL is not found.
-    const notFoundText = t`This URL does not work anymore. If you think the place does exist, you can use the search to find it.`;
+  // translator: Shown when device is offline.
+  const offlineText = t`Sorry, we are offline!`;
 
-    // translator: Shown when device is offline.
-    const offlineText = t`Sorry, we are offline!`;
+  const isNotFound = statusCode === 404;
 
-    const isNotFound = statusCode === 404;
+  const isOffline =
+    get({ className, onReturnHomeClick, statusCode }, 'error.response.status') === 3;
 
-    const isOffline = get(this.props, 'error.response.status') === 3;
+  const shouldShowApology = !isNotFound && !isOffline;
 
-    const shouldShowApology = !isNotFound && !isOffline;
+  let headerText = errorText;
+  if (isNotFound) headerText = notFoundText;
+  if (isOffline) headerText = offlineText;
 
-    let headerText = errorText;
-    if (isNotFound) headerText = notFoundText;
-    if (isOffline) headerText = offlineText;
+  // translator: Shown as apology text / description on the error page.
+  const apologyText = t`Sorry, that should not have happened!`;
+  // translator: Shown on the error page.
+  const returnHomeButtonCaption = t`Return home`;
+  // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
+  const retryCaption = t`Retry`;
 
-    // translator: Shown as apology text / description on the error page.
-    const apologyText = t`Sorry, that should not have happened!`;
-    // translator: Shown on the error page.
-    const returnHomeButtonCaption = t`Return home`;
-    // translator: Shown as button caption when there is no internet connection. Tapping the button retries to load the data.
-    const retryCaption = t`Retry`;
+  const returnHomeLink = (
+    <PrimaryButton
+      className="button-cta-close focus-visible"
+      onClick={onReturnHomeClick}
+      onKeyDown={manageFocus}
+      ref={button => (closeButton = findDOMNode(button))}
+    >
+      {returnHomeButtonCaption} <ChevronRight />
+    </PrimaryButton>
+  );
 
-    const returnHomeLink = (
-      <PrimaryButton
-        className="button-cta-close focus-visible"
-        onClick={this.props.onReturnHomeClick}
-        onKeyDown={this.manageFocus}
-        ref={button => (this.closeButton = findDOMNode(button))}
-      >
-        {returnHomeButtonCaption} <ChevronRight />
-      </PrimaryButton>
-    );
+  const reloadButton = (
+    <button className="button-cta-close focus-visible" onClick={() => window.location.reload()}>
+      {retryCaption}
+    </button>
+  );
 
-    const reloadButton = (
-      <button
-        className="button-cta-close focus-visible"
-        onClick={() => window.location.reload(true)}
-      >
-        {retryCaption}
-      </button>
-    );
+  return (
+    <ModalDialog
+      className={classList.join(' ')}
+      isVisible={true}
+      ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
+      ariaLabel={t`Error`}
+    >
+      <header>
+        <Logo className="logo" aria-hidden={true} />
+        <h1 id="wheelmap-error-text">{headerText}</h1>
+      </header>
 
-    return (
-      <ModalDialog
-        className={classList.join(' ')}
-        isVisible={true}
-        ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
-        ariaLabel={t`Error`}
-      >
-        <header>
-          <Logo className="logo" aria-hidden={true} />
-          <h1 id="wheelmap-error-text">{headerText}</h1>
-        </header>
+      {shouldShowApology ? (
+        <section>
+          <p id="wheelmap-apology-text">{apologyText}</p>
+        </section>
+      ) : null}
 
-        {shouldShowApology ? (
-          <section>
-            <p id="wheelmap-apology-text">{apologyText}</p>
-          </section>
-        ) : null}
-
-        <footer>{isOffline ? reloadButton : returnHomeLink}</footer>
-      </ModalDialog>
-    );
-  }
-}
+      <footer>{isOffline ? reloadButton : returnHomeLink}</footer>
+    </ModalDialog>
+  );
+};
 
 const StyledNotFound = styled(NotFound)`
   @media (max-height: 320px), (max-width: 320px) {
