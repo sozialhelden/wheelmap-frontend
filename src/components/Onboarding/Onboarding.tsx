@@ -1,5 +1,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
+import {useEffect} from 'react';
 import styled from 'styled-components';
 import marked from 'marked';
 import ModalDialog from '../ModalDialog';
@@ -20,141 +21,139 @@ type Props = {
   clientSideConfiguration: ClientSideConfiguration,
 };
 
-class Onboarding extends React.Component<Props, null> {
-  callToActionButton = React.createRef<HTMLButtonElement>();
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.callToActionButton.current?.focus();
-    }, 100);
-  }
+const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideConfiguration}) => {
+  const callToActionButton = React.createRef<HTMLButtonElement>();
 
-  render() {
-    const { props } = this;
+  const { headerMarkdown } = clientSideConfiguration.textContent?.onboarding || {
+          headerMarkdown: undefined,
+        };
 
-    const { headerMarkdown } = props.clientSideConfiguration.textContent?.onboarding || {
-      headerMarkdown: undefined,
-    };
-    const productName =
-      translatedStringFromObject(props.clientSideConfiguration.textContent?.product.name) ||
-      'Wheelmap';
-    // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-    const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
-    // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-    const startButtonCaption = t`Okay, let’s go!`;
+  const productName =
+    translatedStringFromObject(clientSideConfiguration.textContent?.product.name) ||
+    'Wheelmap';
 
-    const onClose = () => {
-      // Prevent that touch up opens a link underneath the primary button after closing
-      // the onboarding dialog
-      setTimeout(() => props.onClose(), 10);
-    };
+  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
+  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
 
-    const headerMarkdownHTML = headerMarkdown && marked(translatedStringFromObject(headerMarkdown));
+  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
+  const startButtonCaption = t`Okay, let’s go!`;
 
-    /* translator: The alternative desription of the app logo for screenreaders */
-    const appLogoAltText = t`App Logo`;
+  const handleClose = () => {
+    // Prevent that touch up opens a link underneath the primary button after closing
+    // the onboarding dialog
+    setTimeout(() => onClose(), 10);
+  };
 
-    return (
-      <ModalDialog
-        className={props.className}
-        isVisible={props.isVisible}
-        onClose={props.onClose}
-        ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
-        ariaLabel={t`Start screen`}
-      >
-        <header>
-          <VectorImage
-            className="logo"
-            svg={this.props.clientSideConfiguration.branding?.vectorLogoSVG}
-            aria-label={productName}
-            maxHeight={'50px'}
-            maxWidth={'200px'}
-            hasShadow={false}
+  const headerMarkdownHTML = headerMarkdown && marked(translatedStringFromObject(headerMarkdown));
+
+  /* translator: The alternative desription of the app logo for screenreaders */
+  const appLogoAltText = t`App Logo`;
+
+  useEffect(() => {setTimeout(() => {
+    callToActionButton.current?.focus();
+  }, 100)}, []);
+
+  return (
+    <ModalDialog
+      className={className}
+      isVisible={isVisible}
+      onClose={handleClose}
+      ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
+      ariaLabel={t`Start screen`}
+    >
+      <header>
+        <VectorImage
+          className="logo"
+          svg={clientSideConfiguration.branding?.vectorLogoSVG}
+          aria-label={productName}
+          maxHeight={'50px'}
+          maxWidth={'200px'}
+          hasShadow={false}
+        />
+
+        {headerMarkdownHTML && (
+          <p
+            id="wheelmap-claim-onboarding"
+            className="claim"
+            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
           />
+        )}
+      </header>
 
-          {headerMarkdownHTML && (
-            <p
-              id="wheelmap-claim-onboarding"
-              className="claim"
-              dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
+      <section>
+        <ul id="wheelmap-icon-descriptions">
+          <li className="ac-marker-yes">
+            <Icon
+              accessibility="yes"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
             />
-          )}
-        </header>
+            <header>{accessibilityName('yes')}</header>
+            <footer>{accessibilityDescription('yes')}</footer>
+          </li>
+          <li className="ac-marker-limited">
+            <Icon
+              accessibility="limited"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('limited')}</header>
+            <footer>{accessibilityDescription('limited')}</footer>
+          </li>
+          <li className="ac-marker-no">
+            <Icon
+              accessibility="no"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('no')}</header>
+            <footer>{accessibilityDescription('no')}</footer>
+          </li>
+          <li className="ac-marker-unknown">
+            <Icon
+              accessibility="unknown"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('unknown')}</header>
+            <footer>{unknownAccessibilityIncentiveText}</footer>
+          </li>
+        </ul>
+      </section>
 
-        <section>
-          <ul id="wheelmap-icon-descriptions">
-            <li className="ac-marker-yes">
-              <Icon
-                accessibility="yes"
-                category={null}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-                centered
-              />
-              <header>{accessibilityName('yes')}</header>
-              <footer>{accessibilityDescription('yes')}</footer>
-            </li>
-            <li className="ac-marker-limited">
-              <Icon
-                accessibility="limited"
-                category={null}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-                centered
-              />
-              <header>{accessibilityName('limited')}</header>
-              <footer>{accessibilityDescription('limited')}</footer>
-            </li>
-            <li className="ac-marker-no">
-              <Icon
-                accessibility="no"
-                category={null}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-                centered
-              />
-              <header>{accessibilityName('no')}</header>
-              <footer>{accessibilityDescription('no')}</footer>
-            </li>
-            <li className="ac-marker-unknown">
-              <Icon
-                accessibility="unknown"
-                category={null}
-                isMainCategory
-                size="big"
-                withArrow
-                shadowed
-                centered
-              />
-              <header>{accessibilityName('unknown')}</header>
-              <footer>{unknownAccessibilityIncentiveText}</footer>
-            </li>
-          </ul>
-        </section>
-
-        <footer className="button-footer">
-          <CallToActionButton
-            className="button-continue"
-            data-focus-visible-added
-            onClick={() => {
-              onClose();
-            }}
-            ref={this.callToActionButton}
-          >
-            {startButtonCaption}
-            <ChevronRight />
-          </CallToActionButton>
-        </footer>
-        <Version>{env.npm_package_version}</Version>
-      </ModalDialog>
-    );
-  }
+      <footer className="button-footer">
+        <CallToActionButton
+          className="button-continue"
+          data-focus-visible-added
+          onClick={() => {
+            handleClose();
+          }}
+          ref={callToActionButton}
+        >
+          {startButtonCaption}
+          <ChevronRight />
+        </CallToActionButton>
+      </footer>
+      <Version>{env.npm_package_version}</Version>
+    </ModalDialog>
+  ); 
 }
 
 const Version = styled.div`
@@ -265,7 +264,10 @@ const StyledOnboarding = styled(Onboarding)`
     }
 
     .claim {
-      @media (min-width: 414px, min-height: 414px) {
+      @media (min-width: 414px) {
+        font-size: 1.25rem;
+      }
+      @media (min-height: 414px) {
         font-size: 1.25rem;
       }
     }
