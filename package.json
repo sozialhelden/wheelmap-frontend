@@ -170,7 +170,7 @@
     "url-loader": "^1.1.2"
   },
   "scripts": {
-    "dev": "NEXT_TELEMETRY_DISABLED=1 ts-node-dev --watch 'src/server/*.ts,src/lib/env.ts,src/app/router.ts' --ignore-watch 'src/.next/*' -P src/server/tsconfig.json --respawn --icu-data-dir=node_modules/full-icu src/server/server.ts",
+    "dev": "ts-node-dev --watch 'src/server/*.ts,src/lib/env.ts,src/app/router.ts' --ignore-watch 'src/.next/*' -P src/server/tsconfig.json --respawn --icu-data-dir=node_modules/full-icu src/server/server.ts",
     "build": "rm -rf dist/ && rm -rf src/.next/ && npm run copy-files && NEXT_TELEMETRY_DISABLED=1 next build src && tsc -p src/server/ --outDir dist/ --noEmit false && mv src/.next dist/",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist && copyfiles ./public ./dist",
