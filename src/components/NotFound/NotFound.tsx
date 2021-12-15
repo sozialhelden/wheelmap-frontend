@@ -18,23 +18,23 @@ type Props = {
 };
 
 const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode }) => {
-  useEffect(() => focus(), []);
-
-  const manageFocus = ({ nativeEvent }) => {
+  const manageFocus = React.useCallback(({ nativeEvent }) => {
     if (nativeEvent.key === 'Tab') {
       nativeEvent.preventDefault();
     }
-  };
+  }, []);
 
-  let closeButton: Element | Text | null;
+  const closeButton = React.useRef<HTMLButtonElement>(null);
 
-  const focus = () => {
+  const focus = React.useCallback(() => {
     if (!closeButton || !(closeButton instanceof HTMLElement)) {
       return;
     }
 
     closeButton.focus();
-  };
+  }, [closeButton]);
+
+  useEffect(() => focus(), []);
 
   const classList = [className, 'not-found-page'].filter(Boolean);
 
@@ -70,7 +70,7 @@ const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode })
       className="button-cta-close focus-visible"
       onClick={onReturnHomeClick}
       onKeyDown={manageFocus}
-      ref={button => (closeButton = findDOMNode(button))}
+      ref={closeButton}
     >
       {returnHomeButtonCaption} <ChevronRight />
     </PrimaryButton>
