@@ -22,18 +22,18 @@ import WhatsAppIcon from './icons/WhatsApp';
 import ShareIcon from '../icons/actions/ShareIOS';
 
 type Props = {
-  className?: string,
-  shareButtonCaption: string,
-  url: string,
-  pageDescription: string,
-  sharedObjectTitle: string,
-  mailToLink: string,
-  featureId: string,
-  onToggle?: () => void,
+  className?: string;
+  shareButtonCaption: string;
+  url: string;
+  pageDescription: string;
+  sharedObjectTitle: string;
+  mailToLink: string;
+  featureId: string;
+  onToggle?: () => void;
 };
 
 type State = {
-  isExpanded: boolean,
+  isExpanded: boolean;
 };
 
 class ShareBar extends React.Component<Props, State> {
