@@ -19,7 +19,6 @@ import EmailIcon from './icons/Email';
 import WhatsAppIcon from './icons/WhatsApp';
 
 type ShareBarContentProps = {
-  ref: RefObject<HTMLButtonElement>;
   url: string;
   sharedObjectTitle: string;
   mailToLink: string;
@@ -29,115 +28,123 @@ type ShareBarContentProps = {
   className?: string;
 };
 
-const ShareBarContent: FunctionComponent<ShareBarContentProps> = ({
-  ref,
-  onHide,
-  isExpanded,
-  className,
-  url,
-  sharedObjectTitle,
-  pageDescription,
-  mailToLink,
-}) => {
-  // translator: Screenreader description for the share menu collapse button
-  const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;
+const ShareBarContent = React.forwardRef(
+  (
+    {
+      onHide,
+      isExpanded,
+      className,
+      url,
+      sharedObjectTitle,
+      pageDescription,
+      mailToLink,
+    }: ShareBarContentProps,
+    ref: { current: null | HTMLButtonElement }
+  ) => {
+    // translator: Screenreader description for the share menu collapse button
+    const shareMenuCollapseButtonAriaLabel = t`Collapse share menu`;
 
-  const linkOpeningViaLocationHrefProps = {};
+    const linkOpeningViaLocationHrefProps = {};
 
-  return (
-    <div className={className}>
-      <ChromelessButton
-        ref={ref}
-        className="collapse-button"
-        onClick={onHide}
-        aria-expanded={isExpanded}
-        aria-label={shareMenuCollapseButtonAriaLabel}
-      >
-        <ChevronLeft />
-      </ChromelessButton>
-
-      <footer className={isExpanded ? 'is-visible' : ''}>
-        <FacebookShareButton url={url} quote={pageDescription} {...linkOpeningViaLocationHrefProps}>
-          <StyledIconButton
-            isHorizontal={false}
-            hasCircle
-            hoverColor={'#3C5A99'}
-            activeColor={'#3C5A99'}
-            caption="Facebook"
-            ariaLabel="Facebook"
-          >
-            <FacebookIcon />
-          </StyledIconButton>
-        </FacebookShareButton>
-
-        <TwitterShareButton
-          url={url}
-          title={sharedObjectTitle}
-          hashtags={['wheelmap', 'accessibility', 'a11y']}
-          {...linkOpeningViaLocationHrefProps}
+    return (
+      <div className={className}>
+        <ChromelessButton
+          ref={ref}
+          className="collapse-button"
+          onClick={() => onHide()}
+          aria-expanded={isExpanded}
+          aria-label={shareMenuCollapseButtonAriaLabel}
         >
-          <StyledIconButton
-            isHorizontal={false}
-            hasCircle
-            hoverColor={'#1DA1F2'}
-            activeColor={'#1DA1F2'}
-            caption="Twitter"
-            ariaLabel="Twitter"
-          >
-            <TwitterIcon />
-          </StyledIconButton>
-        </TwitterShareButton>
+          <ChevronLeft />
+        </ChromelessButton>
 
-        <TelegramShareButton
-          url={url}
-          title={sharedObjectTitle}
-          {...linkOpeningViaLocationHrefProps}
-        >
-          <StyledIconButton
-            isHorizontal={false}
-            hasCircle
-            hoverColor={'#7AA5DA'}
-            activeColor={'#7AA5DA'}
-            caption="Telegram"
-            ariaLabel="Telegram"
+        <footer className={isExpanded ? 'is-visible' : ''}>
+          <FacebookShareButton
+            url={url}
+            quote={pageDescription}
+            {...linkOpeningViaLocationHrefProps}
           >
-            <TelegramIcon />
-          </StyledIconButton>
-        </TelegramShareButton>
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#3C5A99'}
+              activeColor={'#3C5A99'}
+              caption="Facebook"
+              ariaLabel="Facebook"
+            >
+              <FacebookIcon />
+            </StyledIconButton>
+          </FacebookShareButton>
 
-        <a href={mailToLink}>
-          <StyledIconButton
-            isHorizontal={false}
-            hasCircle
-            hoverColor={'#57C4AA'}
-            activeColor={'#57C4AA'}
-            caption="Email"
-            ariaLabel="Email"
+          <TwitterShareButton
+            url={url}
+            title={sharedObjectTitle}
+            hashtags={['wheelmap', 'accessibility', 'a11y']}
+            {...linkOpeningViaLocationHrefProps}
           >
-            <EmailIcon />
-          </StyledIconButton>
-        </a>
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#1DA1F2'}
+              activeColor={'#1DA1F2'}
+              caption="Twitter"
+              ariaLabel="Twitter"
+            >
+              <TwitterIcon />
+            </StyledIconButton>
+          </TwitterShareButton>
 
-        <WhatsappShareButton
-          url={url}
-          title={sharedObjectTitle}
-          {...linkOpeningViaLocationHrefProps}
-        >
-          <StyledIconButton
-            isHorizontal={false}
-            hasCircle
-            hoverColor={'#25D366'}
-            activeColor={'#25D366'}
-            caption="Whatsapp"
-            ariaLabel="Whatsapp"
+          <TelegramShareButton
+            url={url}
+            title={sharedObjectTitle}
+            {...linkOpeningViaLocationHrefProps}
           >
-            <WhatsAppIcon />
-          </StyledIconButton>
-        </WhatsappShareButton>
-      </footer>
-    </div>
-  );
-};
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#7AA5DA'}
+              activeColor={'#7AA5DA'}
+              caption="Telegram"
+              ariaLabel="Telegram"
+            >
+              <TelegramIcon />
+            </StyledIconButton>
+          </TelegramShareButton>
+
+          <a href={mailToLink}>
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#57C4AA'}
+              activeColor={'#57C4AA'}
+              caption="Email"
+              ariaLabel="Email"
+            >
+              <EmailIcon />
+            </StyledIconButton>
+          </a>
+
+          <WhatsappShareButton
+            url={url}
+            title={sharedObjectTitle}
+            {...linkOpeningViaLocationHrefProps}
+          >
+            <StyledIconButton
+              isHorizontal={false}
+              hasCircle
+              hoverColor={'#25D366'}
+              activeColor={'#25D366'}
+              caption="Whatsapp"
+              ariaLabel="Whatsapp"
+            >
+              <WhatsAppIcon />
+            </StyledIconButton>
+          </WhatsappShareButton>
+        </footer>
+      </div>
+    );
+  }
+);
 
 const StyledIconButton = styled(IconButton).attrs({ hoverColor: null, activeColor: null })`
   ${Caption} {
