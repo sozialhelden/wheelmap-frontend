@@ -1,9 +1,13 @@
 import * as React from 'react';
-import { FunctionComponent, useEffect, useRef, useState, KeyboardEvent, forwardRef } from 'react';
+import { useCallback, useState, KeyboardEvent, forwardRef } from 'react';
 import styled from 'styled-components';
 import { interpolateLab } from 'd3-interpolate';
 import colors from '../../lib/colors';
 import { t } from 'ttag';
+import _ from 'lodash';
+
+// (ms)
+const DEBOUNCE_THRESHOLD = 500;
 
 type SearchInputFieldProps = {
   onSubmit: (event: React.FormEvent<HTMLInputElement>) => void | null;
@@ -36,7 +40,7 @@ const SearchInputField = forwardRef(
   ): JSX.Element => {
     // translator: Placeholder for search input field
     const defaultPlaceholder = t`Search for place or address`;
-    const [currentSearchInput, setCurrentSearchInput] = useState(searchQuery || '');
+    const [currentSearchQuery, setCurrentSearchQuery] = useState(searchQuery || '');
 
     const onKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
       /* Enter */
@@ -46,18 +50,25 @@ const SearchInputField = forwardRef(
       }
     };
 
-    const internalOnChange = (event: any) => {
-      const value = event.target.value;
-      setCurrentSearchInput(value);
-      onChange(value);
+    const debouncedInternalOnChange = useCallback(
+      _.debounce(searchTerm => {
+        onChange(searchTerm);
+      }, DEBOUNCE_THRESHOLD),
+      []
+    );
+
+    const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const searchTerm = event.target.value;
+      setCurrentSearchQuery(searchTerm);
+      debouncedInternalOnChange(searchTerm);
     };
 
     return (
       <StyledSearchInputField
         ref={ref}
-        value={currentSearchInput}
+        value={currentSearchQuery}
         name="search"
-        onChange={internalOnChange}
+        onChange={updateSearchQuery}
         disabled={disabled}
         tabIndex={hidden ? -1 : 0}
         onFocus={onFocus}
