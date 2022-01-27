@@ -1,4 +1,11 @@
-import Document, { DocumentContext, DocumentInitialProps, Head, Html, Main, NextScript } from "next/document";
+import Document, {
+  DocumentContext,
+  DocumentInitialProps,
+  Head,
+  Html,
+  Main,
+  NextScript,
+} from 'next/document';
 import * as React from 'react';
 import { ServerStyleSheet } from 'styled-components';
 import env from '../lib/env';
@@ -15,12 +22,12 @@ export default class MyDocument extends Document<any> {
     // so we can hand the preloaded data over to the client.
 
     const page = renderPage(App => props => {
-      locale = props['locale'];
+      locale = props['preferredLocaleString'];
       return sheet.collectStyles(<App {...props} />);
     });
 
     const styleTags = sheet.getStyleElement();
-    const extendedProps = { ...page, styleTags, locale } as any as DocumentInitialProps;
+    const extendedProps = ({ ...page, styleTags, locale } as any) as DocumentInitialProps;
     return Promise.resolve(extendedProps);
   }
 
@@ -97,7 +104,8 @@ export default class MyDocument extends Document<any> {
           {this.props.styleTags}
           <script
             type="text/javascript"
-            dangerouslySetInnerHTML={{ __html: `
+            dangerouslySetInnerHTML={{
+              __html: `
               // window.pkBaseURL = "/t/";
               window.pkBaseURL = "https://service.sozialhelden.de/";
               window._paq = [
@@ -105,11 +113,14 @@ export default class MyDocument extends Document<any> {
                 ['setSiteId', '8'],
                 ['disableCookies'],
               ];
-          `}} />
+          `,
+            }}
+          />
           <script
             type="text/javascript"
             dangerouslySetInnerHTML={{
-              __html: `document.write(unescape("%3Cscript src='" + pkBaseURL + "pwproxy.php' async type='text/javascript'%3E%3C/script%3E"));`}}
+              __html: `document.write(unescape("%3Cscript src='" + pkBaseURL + "pwproxy.php' async type='text/javascript'%3E%3C/script%3E"));`,
+            }}
           />
           <script
             type="text/javascript"
@@ -170,7 +181,7 @@ export default class MyDocument extends Document<any> {
                 } catch( err ) {
                   console.log('Error loading Piwik:', err);
                 }
-              `
+              `,
             }}
           ></script>
           <script src="/clientEnv.js"></script>
