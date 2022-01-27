@@ -2,7 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import {useEffect} from 'react';
 import styled from 'styled-components';
-import marked from 'marked';
+import {marked} from 'marked';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
