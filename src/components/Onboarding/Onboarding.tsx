@@ -2,7 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import {useEffect} from 'react';
 import styled from 'styled-components';
-import {marked} from 'marked';
+import {parse} from 'marked';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
@@ -45,7 +45,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
     setTimeout(() => onClose(), 10);
   };
 
-  const headerMarkdownHTML = headerMarkdown && marked(translatedStringFromObject(headerMarkdown));
+  const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
 
   /* translator: The alternative desription of the app logo for screenreaders */
   const appLogoAltText = t`App Logo`;
