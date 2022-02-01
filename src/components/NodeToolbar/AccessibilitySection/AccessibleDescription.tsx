@@ -1,12 +1,12 @@
-import marked from 'marked';
+import { parse } from 'marked';
 import * as React from 'react';
 import Description from './Description';
 import { translatedStringFromObject } from '../../../lib/i18n';
 import { AccessibilityDescription } from '../../../lib/Feature';
 
 type Props = {
-  properties: AccessibilityDescription,
-  className?: string,
+  properties: AccessibilityDescription;
+  className?: string;
 };
 
 /**
@@ -24,7 +24,7 @@ export default function AccessibleDescription(props: Props) {
 
   const string = translatedStringFromObject(descriptionText);
   const hasQuotes = string && !string.match('#') && !string.match('\n') && !string.match('<');
-  const markdownHTML = marked(string).trim();
+  const markdownHTML = parse(string).trim();
   const __html = markdownHTML.replace(/^<p>(.*)<\/p>$/, '$1');
   return (
     <Description
