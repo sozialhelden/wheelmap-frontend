@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   make \
   gnupg2 \
+  dumb-init \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -39,6 +40,8 @@ RUN touch .env && NODE_ENV=production npm run build && npm prune --production &&
 #    result is what we will push to the registry.
 
 FROM base AS release
+
+# copy production node_modules to /usr/app
 
 COPY --from=buildenv /usr/app/package.json .
 COPY --from=buildenv /usr/app/.env .
@@ -76,7 +79,6 @@ RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
 RUN chmod +x /tini
 
 EXPOSE 3000
-# Set tini as entrypoint. Tini will watch over the child process defined via `CMD …` below and
-# restart it if it crashes.
-ENTRYPOINT ["/tini", "--"]
-CMD npm run start
+
+# dumb-init will watch over the child process defined as parameter and restart it if it crashes.
+CMD dumb-init npm run start
