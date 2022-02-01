@@ -321,7 +321,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         if (placeTitle) {
           extras.push(<meta content={thisPlaceIsOn} property="og:title" key="og:title" />);
 
-          if (meta.twitter?.siteHandle || meta.twitter?.creatorHandle) {
+          if (meta?.twitter?.siteHandle || meta?.twitter?.creatorHandle) {
             extras.push(
               <meta content={thisPlaceIsOn} property="twitter:title" key="twitter:title" />
             );
@@ -334,7 +334,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
 
         extras.push(<meta content={image} property="og:image" key="og:image" />);
 
-        if (meta.twitter?.siteHandle || meta.twitter?.creatorHandle) {
+        if (meta?.twitter?.siteHandle || meta?.twitter?.creatorHandle) {
           extras.push(<meta content={image} property="twitter:image" key="twitter:image" />);
         }
       }
