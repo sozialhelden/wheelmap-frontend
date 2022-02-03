@@ -2,7 +2,7 @@ import { omit } from 'lodash';
 import * as React from 'react';
 import unindent from './unindent';
 import NotificationText from './NotificationText';
-const marked = require('marked');
+import { parse } from 'marked';
 
 interface IProps extends React.HTMLProps<HTMLDivElement> {
   children: string;
@@ -22,5 +22,5 @@ export function MarkdownDiv(props: IProps) {
 }
 
 export default function Markdown(props: React.HTMLProps<HTMLDivElement> & { children: string }) {
-  return marked ? <MarkdownDiv {...props} marked={marked} /> : <>{unindent(props.children)}</>;
+  return parse ? <MarkdownDiv {...props} marked={parse} /> : <>{unindent(props.children)}</>;
 }
