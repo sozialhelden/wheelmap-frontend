@@ -9,8 +9,8 @@ export interface IImage {
   context: ImageContext;
   type?: string;
   moderationRequired: boolean;
-  reports?: { hashedIp: string, reason: string, timestamp: Date }[];
-  dimensions: { width: number, height: number };
+  reports?: { hashedIp: string; reason: string; timestamp: Date }[];
+  dimensions: { width: number; height: number };
   appToken: string;
   timestamp: Date;
   updatedAt?: Date;
@@ -21,7 +21,7 @@ export interface IImage {
 }
 
 export function buildFullImageUrl(image: IImage) {
-  const bucketName = env.AWS_S3_BUCKET_NAME || '';
+  const bucketName = env.REACT_APP_AWS_S3_BUCKET_NAME || '';
 
   return `https://${bucketName}.s3.amazonaws.com/${image.remotePath}`;
 }
