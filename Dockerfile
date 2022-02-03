@@ -41,6 +41,11 @@ RUN touch .env && NODE_ENV=production npm run build && npm prune --production &&
 
 FROM base AS release
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  dumb-init \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
 # copy production node_modules to /usr/app
 
 COPY --from=buildenv /usr/app/package.json .
@@ -52,33 +57,12 @@ COPY --from=buildenv /usr/app/node_modules ./node_modules
 COPY --from=buildenv /usr/app/tests ./tests
 COPY --from=buildenv /usr/app/run_tests.sh ./run_tests.sh
 
-
-# Add Tini to increase container stability / https://github.com/krallin/tini
-ENV TINI_VERSION v0.18.0
-ENV TINI_GPG_KEY 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
-
-# Try multiple keyservers to stabilize build failure rate
-# Also disable IPv6: https://github.com/inversepath/usbarmory-debian-base_image/issues/9
-
-# TODO: Add PGP public keys in docker container directly as the keyserver connection is flaky.
-# This is a single point of failure for many container based build processes currently, GitHub is
-# full of issues about this.
-
-RUN mkdir -p ~/.gnupg && echo "disable-ipv6" >> ~/.gnupg/dirmngr.conf \
-  && \
-  ( \
-  gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys "$TINI_GPG_KEY" ||\
-  gpg --keyserver hkp://pgp.mit.edu:80 --recv-keys "$TINI_GPG_KEY" ||\
-  gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$TINI_GPG_KEY" || \
-  gpg --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$TINI_GPG_KEY" \
-  ) \
-  && gpg --batch --verify /tini.asc /tini
-
-RUN chmod +x /tini
-
 EXPOSE 3000
 
-# dumb-init will watch over the child process defined as parameter and restart it if it crashes.
-CMD dumb-init npm run start
+# Runs "/usr/bin/dumb-init -- /my/script --with --args"
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+
+# or if you use --rewrite or other cli flags
+# ENTRYPOINT ["dumb-init", "--rewrite", "2:3", "--"]
+
+CMD ["npm", "run", "start"]
