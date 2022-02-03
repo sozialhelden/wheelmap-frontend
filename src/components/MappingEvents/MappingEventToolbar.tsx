@@ -21,23 +21,26 @@ import colors from '../../lib/colors';
 import { omit } from 'lodash';
 import CloseButton from '../CloseButton';
 
-export const StyledCloseButton = styled(CloseButton)``;
+export const StyledCloseButton = styled(CloseButton)`
+  float: right;
+  align-self: flex-start;
+`;
 
 type MappingEventToolbarProps = {
-  className?: string,
-  mappingEvent: MappingEvent,
-  onMappingEventLeave: () => void,
-  onMappingEventWelcomeDialogOpen: () => void,
-  joinedMappingEventId: string | null,
+  className?: string;
+  mappingEvent: MappingEvent;
+  onMappingEventLeave: () => void;
+  onMappingEventWelcomeDialogOpen: () => void;
+  joinedMappingEventId: string | null;
   mappingEventHandlers: {
-    updateJoinedMappingEvent: (joinedMappingEventId: string | null) => void,
-  },
-  onClose: () => void,
-  onHeaderClick: () => void,
-  productName: string | null,
-  focusTrapActive: boolean,
-  preferredLanguage: string,
-  minimalTopPosition: number,
+    updateJoinedMappingEvent: (joinedMappingEventId: string | null) => void;
+  };
+  onClose: () => void;
+  onHeaderClick: () => void;
+  productName: string | null;
+  focusTrapActive: boolean;
+  preferredLanguage: string;
+  minimalTopPosition: number;
 };
 
 const MappingEventToolbar = ({
@@ -146,8 +149,6 @@ const MappingEventToolbar = ({
           minimalHeight={205}
           minimalTopPosition={minimalTopPosition}
         >
-          <CloseButton onClick={onClose} />
-
           <header>
             {!joinedMappingEventId && (
               <RouteConsumer>
@@ -164,16 +165,26 @@ const MappingEventToolbar = ({
               </RouteConsumer>
             )}
 
-            <div>
-              <h2>
-                <Button
-                  onClick={onHeaderClick}
-                  title={centerMapOnMappingEvent}
-                  disabled={!hasMeetingPoint}
-                >
-                  {mappingEvent.name}
-                </Button>
-              </h2>
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: '-16px',
+                }}
+              >
+                <h2 style={{ flex: '1' }}>
+                  {hasMeetingPoint ? (
+                    <Button onClick={onHeaderClick} title={centerMapOnMappingEvent}>
+                      {mappingEvent.name}
+                    </Button>
+                  ) : (
+                    mappingEvent.name
+                  )}
+                </h2>
+                <StyledCloseButton onClick={onClose} />
+              </div>
 
               {(startDateString || endDateString) && (
                 <time className="event-date" title={eventDateLabel}>
@@ -246,14 +257,14 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    margin-top: 16px;
   }
 
   h2 {
     font-size: 20px;
     font-weight: 700;
-    margin: 0 0 10px 0;
+    margin: 0 16px 0 0;
   }
 
   p {
@@ -267,9 +278,10 @@ const StyledMappingEventToolbar = styled(MappingEventToolbar)`
   .area-name {
     display: flex;
     align-items: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 400;
     line-height: 1.5;
+    margin-top: 8px;
   }
 
   .date-icon,
