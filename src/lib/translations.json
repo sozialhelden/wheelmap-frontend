@@ -73785,6 +73785,15 @@
             "你已經離線了。"
           ]
         },
+        "To add photos to places, camera access is needed.": {
+          "msgid": "To add photos to places, camera access is needed.",
+          "comments": {
+            "reference": "src/lib/NativeAppStrings.ts:12"
+          },
+          "msgstr": [
+            "要為地方加照片，必須允許相機的權限"
+          ]
+        },
         "This place is on ${ productName }: ${ placeTitle }": {
           "msgid": "This place is on ${ productName }: ${ placeTitle }",
           "comments": {
@@ -75869,6 +75878,16 @@
             "和"
           ]
         },
+        "Room ${ roomNumber }": {
+          "msgid": "Room ${ roomNumber }",
+          "comments": {
+            "reference": "src/components/NodeToolbar/NodeHeader.tsx:65",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "房間 ${ roomNumber }"
+          ]
+        },
         "“Vespucci” in PlayStore": {
           "msgid": "“Vespucci” in PlayStore",
           "comments": {
@@ -75930,6 +75949,57 @@
           },
           "msgstr": [
             "在 OpenStreetMap 新增一個地點"
+          ]
+        },
+        "Learn how to organize a mapping event": {
+          "msgid": "Learn how to organize a mapping event",
+          "comments": {
+            "extracted": "translator: Link for further infos about how to organize mapping events",
+            "reference": "src/components/MappingEvents/MappingEventsToolbar.tsx:43"
+          },
+          "msgstr": [
+            "學習如何籌劃畫地圖活動"
+          ]
+        },
+        "https://news.wheelmap.org/en/organize-a-mapping-event/": {
+          "msgid": "https://news.wheelmap.org/en/organize-a-mapping-event/",
+          "comments": {
+            "extracted": "translator: Link for further infos about how to organize mapping events",
+            "reference": "src/components/MappingEvents/MappingEventsToolbar.tsx:45"
+          },
+          "msgstr": [
+            "https://news.wheelmap.org/en/organize-a-mapping-event/"
+          ]
+        },
+        "Hi 👋\n\nHelp us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n\n${ url }\n\nSee you there!": {
+          "msgid": "Hi 👋\n\nHelp us out and join the mapping event ‘${ eventName }’ on ${ productNameLocalized }. You can find more info here:\n\n${ url }\n\nSee you there!",
+          "comments": {
+            "extracted": "translator: Email text used when sharing a mapping event via email.",
+            "reference": "src/components/MappingEvents/MappingEventShareBar.tsx:34",
+            "flag": "javascript-format"
+          },
+          "msgstr": [
+            "您好👋\n\n來幫我們並且加入畫地圖活動 ‘${ eventName }’ on ${ productNameLocalized }。你能在點連結瞭解更多資訊：\n\n${ url }\n\n期待見到你！"
+          ]
+        },
+        "(required)": {
+          "msgid": "(required)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user\nmust enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65"
+          },
+          "msgstr": [
+            "(required)"
+          ]
+        },
+        "(optional)": {
+          "msgid": "(optional)",
+          "comments": {
+            "extracted": "translator: Shown next to a form input label for a field where the user can\noptionally enter a value",
+            "reference": "src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67"
+          },
+          "msgstr": [
+            "(optional)"
           ]
         }
       }

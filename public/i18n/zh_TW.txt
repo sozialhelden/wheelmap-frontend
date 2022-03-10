@@ -242,7 +242,7 @@ msgstr "你已經離線了。"
 
 #: src/lib/NativeAppStrings.ts:12
 msgid "To add photos to places, camera access is needed."
-msgstr ""
+msgstr "要為地方加照片，必須允許相機的權限"
 
 #: src/app/PlaceDetailsData.tsx:300
 #, javascript-format
@@ -1407,7 +1407,7 @@ msgstr "和"
 #: src/components/NodeToolbar/NodeHeader.tsx:65
 #, javascript-format
 msgid "Room ${ roomNumber }"
-msgstr ""
+msgstr "房間 ${ roomNumber }"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:88
 msgid "“Vespucci” in PlayStore"
@@ -1445,12 +1445,12 @@ msgstr "在 OpenStreetMap 新增一個地點"
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:43
 msgid "Learn how to organize a mapping event"
-msgstr ""
+msgstr "學習如何籌劃畫地圖活動"
 
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:45
 msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
-msgstr ""
+msgstr "https://news.wheelmap.org/en/organize-a-mapping-event/"
 
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:34
@@ -1464,15 +1464,22 @@ msgid ""
 "\n"
 "See you there!"
 msgstr ""
+"您好👋\n"
+"\n"
+"來幫我們並且加入畫地圖活動 ‘${ eventName }’ on ${ productNameLocalized }。你能在點連結瞭解更多資訊：\n"
+"\n"
+"${ url }\n"
+"\n"
+"期待見到你！"
 
 #. translator: Shown next to a form input label for a field where the user
 #. must enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
 msgid "(required)"
-msgstr ""
+msgstr "(required)"
 
 #. translator: Shown next to a form input label for a field where the user can
 #. optionally enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
-msgstr ""
+msgstr "(optional)"
