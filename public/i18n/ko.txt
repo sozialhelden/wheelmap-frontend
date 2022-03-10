@@ -1,21 +1,21 @@
 # 
 # Translators:
-# Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2021
+# Sebastian Felix Zappe <hypo@me.com>, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2021\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
 "Language-Team: Korean (https://www.transifex.com/sozialhelden/teams/16671/ko/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:330
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
 msgid "Search"
 msgstr "검색 "
 
-#: src/pages/_app.tsx:331
+#: src/pages/_app.tsx:332
 msgid "Homepage"
 msgstr "홈페이지 "
 
@@ -26,38 +26,38 @@ msgid "Embed mode can not be used"
 msgstr "임베드(Embed) 모드를 사용할 수 없습니다"
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:46
-#: src/components/NotFound/NotFound.tsx:96
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
+#: src/components/NotFound/NotFound.tsx:90
 msgid "Error"
 msgstr "오류"
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:49
+#: src/components/NotFound/NotFound.tsx:45
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr "이 URL은 더이상 유효하지 않습니다. 그 장소가 존재한다고 생각하시는 경우 검색을 이용해서 찾을 수 있습니다."
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:52
+#: src/components/NotFound/NotFound.tsx:48
 msgid "Sorry, we are offline!"
 msgstr "죄송합니다, 인터넷이 연결되지 않았습니다!"
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:65
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
 msgid "Sorry, that should not have happened!"
 msgstr "죄송합니다. 저희 실수입니다!"
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:67
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
 msgid "Return home"
 msgstr "홈 화면으로"
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:69
+#: src/components/NotFound/NotFound.tsx:66
 msgid "Retry"
 msgstr "다시 시도 "
 
@@ -284,7 +284,7 @@ msgstr "지도"
 msgid "Go to ${ appName }"
 msgstr "${ appName }(으)로 가기 "
 
-#: src/components/Onboarding/Onboarding.tsx:55
+#: src/components/Onboarding/Onboarding.tsx:51
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "앱 로고"
@@ -371,7 +371,7 @@ msgstr "모든 장소 "
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:145
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
 msgid "Places"
 msgstr "장소 "
 
@@ -497,10 +497,6 @@ msgstr "계속"
 msgid "Thank you!"
 msgstr "감사합니다!"
 
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
-msgid "Please give us a moment to verify your contribution."
-msgstr "귀하의 기여를 확인할 시간이 필요합니다."
-
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
 msgid "Back to place"
 msgstr ""
@@ -539,13 +535,13 @@ msgstr "커뮤니티를 만나보고 귀하 주변의 이용 가능 장소를 �
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:42
+#: src/components/Onboarding/Onboarding.tsx:37
 msgid "Help out by marking places!"
 msgstr "장소 표시를 도와 주세요!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:44
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Okay, let’s go!"
 msgstr "자, 출발할까요!"
 
@@ -554,71 +550,71 @@ msgid "Start screen"
 msgstr "Wheelmap 시작 화면"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:89
+#: src/components/MappingEvents/MappingEventToolbar.tsx:93
 msgid "starting"
 msgstr "시작하는 중"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:94
+#: src/components/MappingEvents/MappingEventToolbar.tsx:98
 msgid "until"
 msgstr "까지"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:109
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "지도 제작 이벤트 ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:111
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Center map on mapping event"
 msgstr "지도 제작 이벤트의 중심 지도 "
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Meeting point"
 msgstr "만남의 장소(Meeting point)"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Area name"
 msgstr "지역 이름 "
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event date"
 msgstr "이벤트 날짜"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Event start date"
 msgstr "이벤트 시작일 "
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
 msgid "Event end date"
 msgstr "이벤트 종료일"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 msgid "Back to the mapping events list"
 msgstr "지도 제작 이벤트 목록으로 돌아가기 "
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "공유"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:131
 msgid "Join mapping event"
 msgstr "지도 제작 이벤트 참여하기 "
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:133
 msgid "Leave mapping event"
 msgstr "지도 제작 이벤트 끝내기 "
 
@@ -675,7 +671,7 @@ msgstr "데이터 로딩중에 오류가 발생했습니다."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:239
+#: src/components/NodeToolbar/NodeToolbar.tsx:238
 msgid "How wheelchair accessible is this place?"
 msgstr "이 장소를 휠체어로 어떻게 이용할 수 있습니까?"
 
@@ -829,12 +825,12 @@ msgstr ""
 msgid "Show me where I am"
 msgstr "제가 있는 곳을 보여 주세요 "
 
-#: src/components/NodeToolbar/NodeHeader.tsx:116
+#: src/components/NodeToolbar/NodeHeader.tsx:117
 msgid "Unnamed facility"
 msgstr "이름 없는 시설"
 
 #. translator: Placeholder for search input field
-#: src/components/SearchToolbar/SearchInputField.tsx:103
+#: src/components/SearchToolbar/SearchInputField.tsx:42
 msgid "Search for place or address"
 msgstr "장소 또는 주소 검색"
 
@@ -1030,12 +1026,12 @@ msgstr "${ props.name } 필터 제거"
 
 #. translator: Screenreader description for the button that expands the share
 #. menu
-#: src/components/ShareBar/ShareBar.tsx:84
+#: src/components/ShareBar/ShareBarToggle.tsx:18
 msgid "Expand share menu"
 msgstr "공유 메뉴 펼치기"
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBar.tsx:104
+#: src/components/ShareBar/ShareBarContent.tsx:45
 msgid "Collapse share menu"
 msgstr "공유 메뉴 접기"
 
@@ -1404,7 +1400,7 @@ msgstr " 및 "
 msgid " and "
 msgstr "및"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:65
+#: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr ""
@@ -1476,3 +1472,7 @@ msgstr ""
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
 msgstr ""
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
+msgid "Your change is saved. It can take a while until it appears on the map."
+msgstr "귀하의 기여를 확인할 시간이 필요합니다."

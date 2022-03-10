@@ -12,13 +12,13 @@ import { trackingEventBackend } from '../../lib/TrackingEventBackend';
 import { trackEvent } from '../../lib/Analytics';
 
 export type Props = {
-  className?: string,
-  featureId?: string,
-  hidden: boolean,
-  isExpanded?: boolean,
-  onClose: () => void,
-  onSelectFeature: (featureId: string) => void,
-  appContext: AppContextData,
+  className?: string;
+  featureId?: string;
+  hidden: boolean;
+  isExpanded?: boolean;
+  onClose: () => void;
+  onSelectFeature: (featureId: string) => void;
+  appContext: AppContextData;
 };
 
 const StyledToolbar = styled(Toolbar)`
@@ -100,7 +100,7 @@ export default class ContributionThanksDialog extends React.PureComponent<Props>
       .join(' ');
 
     const header = t`Thank you!`;
-    const text = t`Please give us a moment to verify your contribution.`;
+    const text = t`Your change is saved. It can take a while until it appears on the map.`;
 
     const backToPlaceButtonCaption = t`Back to place`;
     const backToMapButtonCaption = t`Back to map`;

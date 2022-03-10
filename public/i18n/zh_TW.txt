@@ -1,22 +1,22 @@
 # 
 # Translators:
-# Sebastian Felix Zappe <hypo@me.com>, 2019
 # Developers, 2021
 # Supaplex <bejokeup@gmail.com>, 2021
+# Sebastian Felix Zappe <hypo@me.com>, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Supaplex <bejokeup@gmail.com>, 2021\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
 "Language-Team: Chinese (Taiwan) (https://www.transifex.com/sozialhelden/teams/16671/zh_TW/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:330
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
 msgid "Search"
 msgstr "尋找"
 
-#: src/pages/_app.tsx:331
+#: src/pages/_app.tsx:332
 msgid "Homepage"
 msgstr "首頁"
 
@@ -27,38 +27,38 @@ msgid "Embed mode can not be used"
 msgstr "無法使用嵌入模式"
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:46
-#: src/components/NotFound/NotFound.tsx:96
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
+#: src/components/NotFound/NotFound.tsx:90
 msgid "Error"
 msgstr "錯誤"
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:49
+#: src/components/NotFound/NotFound.tsx:45
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
 msgstr "此網址不再有效。如果您認為該地點確實存在，您可以使用搜索來找到它。"
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:52
+#: src/components/NotFound/NotFound.tsx:48
 msgid "Sorry, we are offline!"
 msgstr "抱歉，服務離線中！"
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:65
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
 msgid "Sorry, that should not have happened!"
 msgstr "抱歉,這不應該發生的!"
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:67
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
 msgid "Return home"
 msgstr "回到首頁"
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:69
+#: src/components/NotFound/NotFound.tsx:66
 msgid "Retry"
 msgstr "重試"
 
@@ -285,7 +285,7 @@ msgstr "地圖"
 msgid "Go to ${ appName }"
 msgstr "到 ${ appName }"
 
-#: src/components/Onboarding/Onboarding.tsx:55
+#: src/components/Onboarding/Onboarding.tsx:51
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "App Logo"
@@ -372,7 +372,7 @@ msgstr "所有地方"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:145
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
 msgid "Places"
 msgstr "地方"
 
@@ -498,10 +498,6 @@ msgstr "繼續"
 msgid "Thank you!"
 msgstr "謝謝你！"
 
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
-msgid "Please give us a moment to verify your contribution."
-msgstr "請留給我們時間來驗證你的貢獻。"
-
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
 msgid "Back to place"
 msgstr "回到地點"
@@ -540,13 +536,13 @@ msgstr "與社群交流，並且繪製你週遭一帶的無障礙設施地圖！
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:42
+#: src/components/Onboarding/Onboarding.tsx:37
 msgid "Help out by marking places!"
 msgstr "通過標記地方得到幫助！"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:44
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Okay, let’s go!"
 msgstr "好的，出發"
 
@@ -555,71 +551,71 @@ msgid "Start screen"
 msgstr "輪椅地圖"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:89
+#: src/components/MappingEvents/MappingEventToolbar.tsx:93
 msgid "starting"
 msgstr "開始"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:94
+#: src/components/MappingEvents/MappingEventToolbar.tsx:98
 msgid "until"
 msgstr "直到"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:109
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "畫地圖活動 ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:111
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Center map on mapping event"
 msgstr "將地圖放於繪製活動中央"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Meeting point"
 msgstr "集合"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Area name"
 msgstr "地域名稱"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event date"
 msgstr "活動日期"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Event start date"
 msgstr "活動起始日期"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
 msgid "Event end date"
 msgstr "活動結束日期"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 msgid "Back to the mapping events list"
 msgstr "回到畫地圖活動清單"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "分享"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:131
 msgid "Join mapping event"
 msgstr "參加畫地圖活動"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:133
 msgid "Leave mapping event"
 msgstr "離開畫地圖活動"
 
@@ -676,7 +672,7 @@ msgstr "載入資料時發生錯誤"
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:239
+#: src/components/NodeToolbar/NodeToolbar.tsx:238
 msgid "How wheelchair accessible is this place?"
 msgstr "這個地方的無障礙狀況如何？"
 
@@ -829,12 +825,12 @@ msgstr "要在地圖上找到自己的位置，請打開瀏覽器設定並允許
 msgid "Show me where I am"
 msgstr "請顯示出我在哪"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:116
+#: src/components/NodeToolbar/NodeHeader.tsx:117
 msgid "Unnamed facility"
 msgstr "未命名設施"
 
 #. translator: Placeholder for search input field
-#: src/components/SearchToolbar/SearchInputField.tsx:103
+#: src/components/SearchToolbar/SearchInputField.tsx:42
 msgid "Search for place or address"
 msgstr "搜尋地名或地址"
 
@@ -1030,12 +1026,12 @@ msgstr "移除${ props.name }篩選"
 
 #. translator: Screenreader description for the button that expands the share
 #. menu
-#: src/components/ShareBar/ShareBar.tsx:84
+#: src/components/ShareBar/ShareBarToggle.tsx:18
 msgid "Expand share menu"
 msgstr "展開分享選單"
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBar.tsx:104
+#: src/components/ShareBar/ShareBarContent.tsx:45
 msgid "Collapse share menu"
 msgstr "收合共享選單"
 
@@ -1404,7 +1400,7 @@ msgstr "，以及"
 msgid " and "
 msgstr "和"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:65
+#: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr "房間 ${ roomNumber }"
@@ -1483,3 +1479,7 @@ msgstr "(required)"
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
 msgstr "(optional)"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
+msgid "Your change is saved. It can take a while until it appears on the map."
+msgstr "請留給我們時間來驗證你的貢獻。"

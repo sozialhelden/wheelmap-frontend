@@ -1,22 +1,22 @@
 # 
 # Translators:
 # framefield_henrik, 2020
-# Sebastian Felix Zappe <hypo@me.com>, 2021
 # Developers, 2021
+# Sebastian Felix Zappe <hypo@me.com>, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Developers, 2021\n"
+"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
 "Language-Team: German (https://www.transifex.com/sozialhelden/teams/16671/de/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:330
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
 msgid "Search"
 msgstr "Suchen"
 
-#: src/pages/_app.tsx:331
+#: src/pages/_app.tsx:332
 msgid "Homepage"
 msgstr "Startseite"
 
@@ -27,14 +27,14 @@ msgid "Embed mode can not be used"
 msgstr "Einbettungsmodus nicht verfügbar."
 
 #. translator: Shown as header text on the error page.
-#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:46
-#: src/components/NotFound/NotFound.tsx:96
+#: src/components/ErrorBoundary.tsx:40 src/components/NotFound/NotFound.tsx:42
+#: src/components/NotFound/NotFound.tsx:90
 msgid "Error"
 msgstr "Fehler"
 
 #. translator: Shown as header text on the error page when the URL is not
 #. found.
-#: src/components/NotFound/NotFound.tsx:49
+#: src/components/NotFound/NotFound.tsx:45
 msgid ""
 "This URL does not work anymore. If you think the place does exist, you can "
 "use the search to find it."
@@ -43,24 +43,24 @@ msgstr ""
 "überprüfen, ob noch ein anderer Eintrag existiert."
 
 #. translator: Shown when device is offline.
-#: src/components/NotFound/NotFound.tsx:52
+#: src/components/NotFound/NotFound.tsx:48
 msgid "Sorry, we are offline!"
 msgstr "Sorry, wir sind offline!"
 
 #. translator: Shown as apology text / description on the error page.
-#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:65
+#: src/components/ErrorBoundary.tsx:43 src/components/NotFound/NotFound.tsx:62
 msgid "Sorry, that should not have happened!"
 msgstr "Sorry, das sollte nicht passieren!"
 
 #. translator: Shown on the error page.
-#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:67
+#: src/components/ErrorBoundary.tsx:46 src/components/NotFound/NotFound.tsx:64
 msgid "Return home"
 msgstr "Zurück zur Startseite"
 
 #. translator: Shown as button caption when there is no internet connection.
 #. Tapping the button retries to load the data.
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:54
-#: src/components/NotFound/NotFound.tsx:69
+#: src/components/NotFound/NotFound.tsx:66
 msgid "Retry"
 msgstr "Nochmal versuchen"
 
@@ -292,7 +292,7 @@ msgstr "Karte"
 msgid "Go to ${ appName }"
 msgstr "Zu ${ appName } gehen"
 
-#: src/components/Onboarding/Onboarding.tsx:55
+#: src/components/Onboarding/Onboarding.tsx:51
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "Logo der App"
@@ -379,7 +379,7 @@ msgstr "Alle Orte"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:145
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
 msgid "Places"
 msgstr "Orte"
 
@@ -505,10 +505,6 @@ msgstr "Weiter"
 msgid "Thank you!"
 msgstr "Vielen Dank!"
 
-#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
-msgid "Please give us a moment to verify your contribution."
-msgstr "Bitte hab einen Moment Geduld. Wir bestätigen deinen Beitrag..."
-
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
 msgid "Back to place"
 msgstr "Zurück zum Ort"
@@ -549,13 +545,13 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:42
+#: src/components/Onboarding/Onboarding.tsx:37
 msgid "Help out by marking places!"
 msgstr "Mach mit und bewerte Orte!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:44
+#: src/components/Onboarding/Onboarding.tsx:40
 msgid "Okay, let’s go!"
 msgstr "Okay, los geht’s!"
 
@@ -564,71 +560,71 @@ msgid "Start screen"
 msgstr "Startbildschirm"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:89
+#: src/components/MappingEvents/MappingEventToolbar.tsx:93
 msgid "starting"
 msgstr "beginnt"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:94
+#: src/components/MappingEvents/MappingEventToolbar.tsx:98
 msgid "until"
 msgstr "bis"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:109
+#: src/components/MappingEvents/MappingEventToolbar.tsx:113
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "Mapping Event ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:111
+#: src/components/MappingEvents/MappingEventToolbar.tsx:115
 msgid "Center map on mapping event"
 msgstr "Karte auf Event zentrieren"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:117
 msgid "Meeting point"
 msgstr "Treffpunkt"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:119
 msgid "Area name"
 msgstr "Region"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:121
 msgid "Event date"
 msgstr "Datum"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:123
 msgid "Event start date"
 msgstr "Startdatum"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:125
 msgid "Event end date"
 msgstr "Enddatum"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:127
 msgid "Back to the mapping events list"
 msgstr "Zurück zur Liste der Mapping-Events"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:129
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Teilen"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:131
 msgid "Join mapping event"
 msgstr "Teilnehmen"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:133
 msgid "Leave mapping event"
 msgstr "Event verlassen"
 
@@ -689,7 +685,7 @@ msgstr "Fehler beim Laden der Daten vom Server."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:239
+#: src/components/NodeToolbar/NodeToolbar.tsx:238
 msgid "How wheelchair accessible is this place?"
 msgstr "Wie rollstuhlgerecht ist dieser Ort?"
 
@@ -847,12 +843,12 @@ msgstr ""
 msgid "Show me where I am"
 msgstr "Meinen Standort anzeigen"
 
-#: src/components/NodeToolbar/NodeHeader.tsx:116
+#: src/components/NodeToolbar/NodeHeader.tsx:117
 msgid "Unnamed facility"
 msgstr "Unbenannte Einrichtung"
 
 #. translator: Placeholder for search input field
-#: src/components/SearchToolbar/SearchInputField.tsx:103
+#: src/components/SearchToolbar/SearchInputField.tsx:42
 msgid "Search for place or address"
 msgstr "Suche nach Ort oder Adresse"
 
@@ -1056,12 +1052,12 @@ msgstr "${ props.name }-Filter entfernen"
 
 #. translator: Screenreader description for the button that expands the share
 #. menu
-#: src/components/ShareBar/ShareBar.tsx:84
+#: src/components/ShareBar/ShareBarToggle.tsx:18
 msgid "Expand share menu"
 msgstr "Teilen-Menü anzeigen"
 
 #. translator: Screenreader description for the share menu collapse button
-#: src/components/ShareBar/ShareBar.tsx:104
+#: src/components/ShareBar/ShareBarContent.tsx:45
 msgid "Collapse share menu"
 msgstr "Teilen-Menü schließen"
 
@@ -1450,7 +1446,7 @@ msgstr " und "
 msgid " and "
 msgstr " und "
 
-#: src/components/NodeToolbar/NodeHeader.tsx:65
+#: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
 msgstr "Raum ${ roomNumber }"
@@ -1530,3 +1526,9 @@ msgstr "(notwendig)"
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
 msgstr "(optional)"
+
+#: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
+msgid "Your change is saved. It can take a while until it appears on the map."
+msgstr ""
+"Deine Änderung ist gespeichert. Es kann eine Weile dauern, bis sie auf der "
+"Karte erscheint."
