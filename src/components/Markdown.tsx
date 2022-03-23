@@ -5,11 +5,14 @@ import NotificationText from './NotificationText';
 import { parse } from 'marked';
 
 interface IProps extends React.HTMLProps<HTMLDivElement> {
-  children: string;
+  children?: string | null | false;
   marked: (markdown: string) => string;
 }
 
 export function MarkdownDiv(props: IProps) {
+  if (props.children === undefined || props.children === null || props.children === false) {
+    return null;
+  }
   if (typeof props.children !== 'string') {
     return <NotificationText type="negative">Markdown content must be a string.</NotificationText>;
   }
