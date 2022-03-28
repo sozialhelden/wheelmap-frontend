@@ -81,7 +81,7 @@ We have a retranslate tool that allows to use the `en_US` language on transifex 
 
 <a href="https://browserstack.com"><img src="public/images/Browserstack-logo.svg" width="200px"></a>
 
-For testing the apps, we use [BrowserStack](https://browserstack.com) - it can run test suites on variout browsers and live devices. Currently, our testing happens mostly manually on [BrowserStack Live](https://www.browserstack.com/live), but pull requests will soon get automatic CI checks using [BrowserStack Automate](https://www.browserstack.com/automate) and [BrowserStack App Automate](https://www.browserstack.com/app-automate). We thank the BrowserStack team for their great products and their support! ❤️
+For testing the apps, we use [BrowserStack](https://browserstack.com) - it can run test suites on various browsers and live devices. Currently, our testing happens mostly manually on [BrowserStack Live](https://www.browserstack.com/live), but pull requests will soon get automatic CI checks using [BrowserStack Automate](https://www.browserstack.com/automate) and [BrowserStack App Automate](https://www.browserstack.com/app-automate). We thank the BrowserStack team for their great products and their support! ❤️
 
 ### Testing locally
 
