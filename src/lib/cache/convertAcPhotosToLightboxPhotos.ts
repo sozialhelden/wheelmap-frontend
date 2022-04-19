@@ -19,11 +19,11 @@ const thumbnailMediaSelector = [
   `100px`,
 ];
 
-const fullScreenSizes = [480, 960, 1920];
+const fullScreenSizes = [480, 960, 1500];
 const fullScreenMediaSelector = [
   `(min-width: 480px) 480px`,
   `(min-width: 960px) 960px`,
-  `(min-width: 1920px) 1920px`,
+  `(min-width: 1500px) 1500px`,
   `960px`,
 ];
 
