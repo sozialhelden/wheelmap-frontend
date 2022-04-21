@@ -3,7 +3,7 @@
 # 1) First, we build the base image to have it cached on rebuilds.
 # See https://nodejs.org/en/about/releases/ for a release support roadmap.
 # Prefer even version numbers, they have active long-term support.
-FROM node:14 AS base
+FROM node:17.9-slim AS base
 
 # Create app directory
 WORKDIR /usr/app
