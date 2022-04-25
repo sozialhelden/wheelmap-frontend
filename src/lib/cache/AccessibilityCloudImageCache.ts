@@ -1,4 +1,5 @@
-import readAndCompressImage from 'browser-image-resizer';
+// import readAndCompressImage from 'browser-image-resizer';
+import { readAndCompressImage } from '../../lib/ImageResizer';
 import env from '../env';
 import URLDataCache from './URLDataCache';
 import { AccessibilityCloudImages } from '../Feature';
