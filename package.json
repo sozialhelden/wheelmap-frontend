@@ -207,7 +207,7 @@
     "not dead"
   ],
   "engines": {
-    "node": "14.x"
+    "node": "18"
   },
   "resolutions": {
     "https-proxy-agent": "^3.0.0"
