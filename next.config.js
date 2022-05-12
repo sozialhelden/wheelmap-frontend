@@ -1,4 +1,3 @@
-//const ElasticAPMSourceMapPlugin = require('@hypo808/elastic-apm-sourcemap-webpack-plugin');
 //const TTagPlugin = require('babel-plugin-ttag');
 const withTranspileModules = require('next-transpile-modules');
 //const webpack = require('webpack');
@@ -24,7 +23,6 @@ let configuration = withSourceMaps(
         tls: 'empty',
         child_process: 'empty',
         async_hooks: 'mock',
-        'elastic-apm-node': 'empty',
       };
 
       // if (process.env.NODE_ENV === 'production') {
