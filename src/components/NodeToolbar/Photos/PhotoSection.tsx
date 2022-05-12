@@ -26,52 +26,8 @@ function PhotoSection(props: Props) {
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
 
-  // componentDidMount() {
-  //   // This manual event handling is necessary, because the lib react-gallery
-  //   // does not offer a keyDown API and only works with clicks.
-  //   // In order to make it keyboard-focusable and operable with the 'Enter' key,
-  //   // we add this functionality directly on the DOM node.
-  //   const photoSectionDOMNode = findDOMNode(gallery);
-
-  //   if (photoSectionDOMNode instanceof Element) {
-  //     photoSectionDOMNode.setAttribute('tabindex', '0');
-  //     photoSectionDOMNode.addEventListener('keydown', photoSectionSelectedWithKeyboard);
-  //   }
-  // }
-
-  // componentWillUnmount() {
-  //   const photoSectionDOMNode = findDOMNode(gallery);
-
-  //   if (photoSectionDOMNode instanceof Element) {
-  //     photoSectionDOMNode.removeEventListener('keydown', photoSectionSelectedWithKeyboard);
-  //   }
-
-  //   window.removeEventListener('keydown', preventTabbing);
-  // }
-
-  // componentDidUpdate(_, prevState) {
-  //   if (!previsLightboxOpen && isLightboxOpen) {
-  //     window.addEventListener('keydown', preventTabbing);
-  //   } else if (previsLightboxOpen && !isLightboxOpen) {
-  //     window.removeEventListener('keydown', preventTabbing);
-  //   }
-  // }
-
-  // preventTabbing(event: KeyboardEvent) {
-  //   if (event.key === 'Tab' || event.keyCode === 9) {
-  //     event.preventDefault();
-  //   }
-  // }
-
-  const photoSectionSelectedWithKeyboard = React.useCallback((event: KeyboardEvent) => {
-    if (event.key === 'Enter' || event.keyCode === 13) {
-      setCurrentImageIndex(0);
-      setIsLightboxOpen(true);
-    }
-  }, []);
-
-  const thumbnailSelected = React.useCallback((obj) => {
-    setCurrentImageIndex(obj.index);
+  const showImage = React.useCallback((_event, _photo, index) => {
+    setCurrentImageIndex(index);
     setIsLightboxOpen(true);
   }, []);
 
@@ -97,14 +53,12 @@ function PhotoSection(props: Props) {
     setCurrentImageIndex(currentImageIndex + 1);
   }, [currentImageIndex]);
 
-  const canReportPhoto = React.useMemo(() => {
-    if (currentImageIndex >= 0 && currentImageIndex < photos.length) {
-      return photos?.[currentImageIndex].source === 'accessibility-cloud';
-    }
-    return false;
-  }, [currentImageIndex, photos]);
+  const canReportPhoto = currentImageIndex >= 0 &&
+    currentImageIndex < photos.length &&
+    photos?.[currentImageIndex].appSource === 'accessibility-cloud';
 
-  const lightboxControls =
+  const FooterCaption = React.useMemo(() => {
+    return () =>
       <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
         <div>
           <kbd>esc</kbd>
@@ -116,7 +70,16 @@ function PhotoSection(props: Props) {
           <button onClick={reportImage} className="report-image">{t`Report image`}</button>
         )}
       </section>;
+  }, [canReportPhoto, currentImageIndex, photos, reportImage]);
 
+  const FooterCount = React.useMemo(() => {
+    // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
+    const separator = t`of`;
+    return () => <span><span>{currentImageIndex + 1}</span>&nbsp;<span>{separator}</span>&nbsp;<span>{photos.length}</span></span>
+
+  }, [currentImageIndex, photos]);
+
+  const HeaderFullscreen = React.useMemo(() => () => <></>, []);
 
   if (!photos.length) {
     return null;
@@ -126,27 +89,25 @@ function PhotoSection(props: Props) {
     <section className={className}>
       <PhotoAlbum
         photos={photos}
-        onClick={thumbnailSelected}
+        onClick={showImage}
         columns={Math.min(photos.length, 3)}
         layout="masonry"
       />
       <ModalGateway>
         {isLightboxOpen && <Modal onClose={closeLightbox}>
           <Lightbox
-            views={photos.map(p => ({ ...p, src: maxBy(photos, mp => Math.max(mp.width, mp.height))?.src }))}
+            components={{ FooterCaption, FooterCount, HeaderFullscreen }}
+            views={photos.map(p => ({ ...p, src: maxBy(p.images, mp => Math.max(mp.width, mp.height))?.src }))}
             onClose={closeLightbox}
             onClickPrev={gotoPrevious}
             onClickNext={gotoNext}
-            currentImage={currentImageIndex}
-            // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
-            imageCountSeparator={' ' + t`of` + ' '}
+            currentIndex={currentImageIndex}
             // translator: alt info on next image button in lightbox
             rightArrowTitle={t`Next (right arrow key)`}
             // translator: alt info on previous image button in lightbox
             leftArrowTitle={t`Previous (left arrow key)`}
             // translator: alt info on close button in lightbox
             closeButtonTitle={t`Close (Esc)`}
-            customControls={lightboxControls}
             // Use same alignment as report button
             theme={{ footer: { alignItems: 'center' } }}
           />
@@ -177,26 +138,30 @@ const StyledPhotoSection = styled(PhotoSection)`
     }
   }
 
+  .react-images__footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
   /* lazy workaround for Lightbox putting its nodes higher up in the dom */
   &.lightbox-actions {
-    position: absolute;
-    width: 100%;
     /* Use same height and positioning as lightbox pagination */
     height: 30px;
-    bottom: 0;
     margin: 0;
     padding: 5px 0;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
+    align-items: center;
 
     button {
-      font-size: 0.9rem;
       font-weight: bold;
       color: white;
       background: none;
       border: none;
       cursor: pointer;
       text-shadow: 0 1px 1px black;
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
     }
 
     kbd {
