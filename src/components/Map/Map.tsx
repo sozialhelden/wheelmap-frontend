@@ -3,8 +3,8 @@ import 'mapbox-gl';
 import 'mapbox-gl/src/css/mapbox-gl.css';
 import 'mapbox-gl-leaflet';
 
-import { GestureHandling } from 'leaflet-gesture-handling';
-import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
+import { GestureHandling } from './leaflet-gesture-handling/leaflet-gesture-handling';
+import './leaflet-gesture-handling/leaflet-gesture-handling.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
 import { t } from 'ttag';
 import includes from 'lodash/includes';
@@ -66,81 +66,81 @@ L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 window.L = L;
 
 type Padding = {
-  top: number,
-  left: number,
-  right: number,
-  bottom: number,
+  top: number;
+  left: number;
+  right: number;
+  bottom: number;
 };
 type MoveArgs = {
-  zoom: number,
-  lat: number,
-  lon: number,
-  bbox: L.LatLngBounds,
+  zoom: number;
+  lat: number;
+  lon: number;
+  bbox: L.LatLngBounds;
 };
 
 type TargetMapState = {
-  center: [number, number],
-  zoom: number,
-  bounds: L.LatLngBounds | null,
-  zoomedToFeatureId: string | null,
+  center: [number, number];
+  zoom: number;
+  bounds: L.LatLngBounds | null;
+  zoomedToFeatureId: string | null;
 };
 
 type IntervalID = any;
 
 type Props = {
-  featureId?: string | number | null,
-  feature?: PotentialPromise<Feature | null>,
-  mappingEvents?: MappingEvents,
-  equipmentInfoId?: string | null,
-  equipmentInfo?: PotentialPromise<EquipmentInfo | null> | null,
+  featureId?: string | number | null;
+  feature?: PotentialPromise<Feature | null>;
+  mappingEvents?: MappingEvents;
+  equipmentInfoId?: string | null;
+  equipmentInfo?: PotentialPromise<EquipmentInfo | null> | null;
 
-  categories: CategoryLookupTables,
-  lat?: number | null,
-  lon?: number | null,
-  zoom?: number | null,
-  extent: [number, number, number, number] | null,
+  categories: CategoryLookupTables;
+  lat?: number | null;
+  lon?: number | null;
+  zoom?: number | null;
+  extent: [number, number, number, number] | null;
 
-  includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>,
-  disableWheelmapSource: boolean | null,
+  includeSourceIds: Array<string>;
+  excludeSourceIds: Array<string>;
+  disableWheelmapSource: boolean | null;
 
-  activeCluster?: Cluster,
+  activeCluster?: Cluster;
 
-  onMarkerClick: (featureId: string, properties: NodeProperties | null) => void,
-  onClusterClick: (cluster: Cluster) => void,
-  onMappingEventClick: (eventId: string) => void,
-  onMoveEnd?: (args: MoveArgs) => void,
-  onClick?: () => void,
-  onError?: (error: Error | string | null) => void,
-  categoryId: string | null,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-  accessibilityCloudAppToken: string,
-  accessibilityCloudBaseUrl?: string,
-  wheelmapApiBaseUrl: string,
-  wheelmapApiKey: string,
-  maxZoom: number,
-  minZoomWithSetCategory: number,
-  minZoomWithoutSetCategory: number,
-  defaultStartCenter: [number, number],
-  locateOnStart?: boolean,
-  padding: Padding | null,
-  className?: string | null,
-  onMapMounted?: (map: L.Map) => void,
-  unitSystem?: 'metric' | 'imperial',
-  hideHints?: boolean,
-  onLocationError?: (error: any) => void,
-  forwardedRef: (map: Map | null) => void | null,
-  inEmbedMode: boolean,
+  onMarkerClick: (featureId: string, properties: NodeProperties | null) => void;
+  onClusterClick: (cluster: Cluster) => void;
+  onMappingEventClick: (eventId: string) => void;
+  onMoveEnd?: (args: MoveArgs) => void;
+  onClick?: () => void;
+  onError?: (error: Error | string | null) => void;
+  categoryId: string | null;
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
+  accessibilityCloudAppToken: string;
+  accessibilityCloudBaseUrl?: string;
+  wheelmapApiBaseUrl: string;
+  wheelmapApiKey: string;
+  maxZoom: number;
+  minZoomWithSetCategory: number;
+  minZoomWithoutSetCategory: number;
+  defaultStartCenter: [number, number];
+  locateOnStart?: boolean;
+  padding: Padding | null;
+  className?: string | null;
+  onMapMounted?: (map: L.Map) => void;
+  unitSystem?: 'metric' | 'imperial';
+  hideHints?: boolean;
+  onLocationError?: (error: any) => void;
+  forwardedRef: (map: Map | null) => void | null;
+  inEmbedMode: boolean;
 };
 
 type State = {
-  showZoomInfo?: boolean,
-  showLocationNotAllowedHint: boolean,
-  placeOrEquipment?: Feature | EquipmentInfo | null,
-  placeOrEquipmentPromise?: Promise<Feature | EquipmentInfo | null> | null,
-  zoomedToFeatureId: string | null,
-  category: RootCategoryEntry | null,
+  showZoomInfo?: boolean;
+  showLocationNotAllowedHint: boolean;
+  placeOrEquipment?: Feature | EquipmentInfo | null;
+  placeOrEquipmentPromise?: Promise<Feature | EquipmentInfo | null> | null;
+  zoomedToFeatureId: string | null;
+  category: RootCategoryEntry | null;
 };
 
 overrideLeafletZoomBehavior();
