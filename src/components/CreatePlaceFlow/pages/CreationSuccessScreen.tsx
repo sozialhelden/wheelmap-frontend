@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { t } from 'ttag';
-import { Dots } from 'react-activity';
 import styled from 'styled-components';
 
 import VerticalPage from '../components/VerticalPage';
@@ -8,16 +7,17 @@ import AppContext from '../../../AppContext';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 import usePlaceDetails from '../components/usePlaceDetails';
 import EditFormSubmissionButton from '../../NodeToolbar/AccessibilityEditor/EditFormSubmissionButton';
+import Spinner from '../../ActivityIndicator/Spinner';
 
 type Props = {
-  visible: boolean,
-  className?: string,
-  placeId: string | null,
-  placeName: string,
-  state: 'Submitting' | 'Error' | 'Success',
-  onSubmit: () => void,
-  onRetry: () => void,
-  onDismiss: () => void,
+  visible: boolean;
+  className?: string;
+  placeId: string | null;
+  placeName: string;
+  state: 'Submitting' | 'Error' | 'Success';
+  onSubmit: () => void;
+  onRetry: () => void;
+  onDismiss: () => void;
 };
 
 const CreationSuccessScreen = (props: Props) => {
@@ -38,7 +38,7 @@ const CreationSuccessScreen = (props: Props) => {
     <VerticalPage className={className}>
       {state === 'Submitting' && (
         <>
-          <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+          <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
           <h2>{t`Thank you!`}</h2>
           <p>{t`Uploading ${placeName} to ${appName}.`}</p>
           <ChromelessButton onClick={onDismiss}>{t`Dismiss`}</ChromelessButton>

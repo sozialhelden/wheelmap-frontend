@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
-import { Dots } from 'react-activity';
 
 import strings from './strings';
 import colors from '../../../lib/colors';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
+import Spinner from '../../ActivityIndicator/Spinner';
 
 export type ReportReasons =
   | 'invalid-place'
@@ -156,7 +156,7 @@ class SendReportToAc extends React.Component<Props, State> {
         )}
         {isLoading && (
           <p>
-            <Dots size={20} />
+            <Spinner size={20} />
           </p>
         )}
         {!isLoading && isSuccess && <p className="subtle">{thankYouCaption}</p>}

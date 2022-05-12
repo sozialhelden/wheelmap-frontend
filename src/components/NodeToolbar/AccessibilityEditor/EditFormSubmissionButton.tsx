@@ -8,9 +8,9 @@ import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
 import type { SourceWithLicense } from '../../../app/PlaceDetailsProps';
 import { PrimaryButton } from '../../Button';
 import AppContext from '../../../AppContext';
-import { Dots } from 'react-activity';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import colors from '../../../lib/colors';
+import Spinner from '../../ActivityIndicator/Spinner';
 
 function hasKoboSubmission(feature: Feature | null) {
   const acFeature = accessibilityCloudFeatureFrom(feature);
@@ -99,7 +99,7 @@ const EditFormSubmissionButton = (props: Props) => {
     <section className={props.className}>
       <PrimaryButton disabled={state !== 'Idle'} onClick={createOrOpenEditLink}>
         {t`Add more details`}
-        {state === 'CreatingLink' && <Dots className="loadingIndicator" color={'white'} />}
+        {state === 'CreatingLink' && <Spinner className="loadingIndicator" color={'white'} />}
       </PrimaryButton>
       {state === 'Error' && (
         <div className="errorBlock">

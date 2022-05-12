@@ -27,13 +27,13 @@ import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
 import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 import { DataSource, dataSourceCache } from '../../../lib/cache/DataSourceCache';
-import { Dots } from 'react-activity';
+import Spinner from '../../ActivityIndicator/Spinner';
 
 type IssueEntry = {
-  className?: string,
-  issueHeader?: () => React.ReactNode,
-  issueLink?: () => React.ReactNode,
-  component?: React.ComponentType<any>,
+  className?: string;
+  issueHeader?: () => React.ReactNode;
+  issueLink?: () => React.ReactNode;
+  component?: React.ComponentType<any>;
 };
 
 const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] =>
@@ -116,7 +116,7 @@ const generateAcIssues = (
       return {
         className: key,
         issueLink: () => value,
-        component: (props: { featureId: string, onClose: () => void }) => (
+        component: (props: { featureId: string; onClose: () => void }) => (
           <SendReportToAc {...props} reportReason={key} appToken={appToken} />
         ),
       };
@@ -131,19 +131,19 @@ const generateAcIssues = (
 };
 
 type Props = {
-  appContext: AppContextData,
-  categories: CategoryLookupTables,
-  feature: Feature,
-  featureId: string | number | null,
-  className?: string,
-  onClose: () => void,
-  onCloseButtonChanged?: () => void,
+  appContext: AppContextData;
+  categories: CategoryLookupTables;
+  feature: Feature;
+  featureId: string | number | null;
+  className?: string;
+  onClose: () => void;
+  onCloseButtonChanged?: () => void;
 };
 
 type State = {
-  lastFeatureId: string | number | null,
-  SelectedComponentClass: React.ComponentType<any> | null,
-  source: DataSource | null,
+  lastFeatureId: string | number | null;
+  SelectedComponentClass: React.ComponentType<any> | null;
+  source: DataSource | null;
 };
 
 class ReportDialog extends React.Component<Props, State> {
@@ -225,7 +225,7 @@ class ReportDialog extends React.Component<Props, State> {
       return (
         <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
           <header id="report-dialog-header">{reportIssueHeader}</header>
-          <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+          <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
           <button className="link-button negative-button" onClick={this.onClose}>
             {backButtonCaption}
           </button>

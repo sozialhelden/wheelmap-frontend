@@ -1,13 +1,13 @@
 import React from 'react';
-import { Dots } from 'react-activity';
 import styled from 'styled-components';
 
 import colors from '../../lib/colors';
+import Spinner from '../ActivityIndicator/Spinner';
 
 function MapLoading({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+      <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
     </div>
   );
 }

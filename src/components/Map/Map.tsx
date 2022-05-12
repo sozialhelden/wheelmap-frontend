@@ -4,7 +4,6 @@ import 'mapbox-gl/src/css/mapbox-gl.css';
 import 'mapbox-gl-leaflet';
 
 import { GestureHandling } from './leaflet-gesture-handling/leaflet-gesture-handling';
-import './leaflet-gesture-handling/leaflet-gesture-handling.css';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
 import { t } from 'ttag';
 import includes from 'lodash/includes';

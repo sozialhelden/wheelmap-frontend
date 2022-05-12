@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
-import { Dots } from 'react-activity';
 
 import SearchResult from '../../SearchToolbar/SearchResult';
 import VerticalPage from '../components/VerticalPage';
@@ -13,13 +12,14 @@ import colors from '../../../lib/colors';
 import InputField from '../components/InputField';
 import AppContext from '../../../AppContext';
 import PageHeader from '../components/PageHeader';
+import Spinner from '../../ActivityIndicator/Spinner';
 
 type Props = {
-  className?: string,
-  visible: boolean,
-  onSelectExisting: (result: WheelmapResolvedSearchResultFeature) => void,
-  onCancel: () => void,
-  onCreateNew: (searchString: string) => void,
+  className?: string;
+  visible: boolean;
+  onSelectExisting: (result: WheelmapResolvedSearchResultFeature) => void;
+  onCancel: () => void;
+  onCreateNew: (searchString: string) => void;
 };
 
 const ExistingPlacePicker = (props: Props) => {
@@ -82,7 +82,7 @@ const ExistingPlacePicker = (props: Props) => {
         {searchState === 'Loading' && (
           <div className="search-state loading">
             <div>
-              <Dots size={30} color={'rgba(0, 0, 0, 0.4)'} />
+              <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
             </div>
             {t`Searching...`}
           </div>

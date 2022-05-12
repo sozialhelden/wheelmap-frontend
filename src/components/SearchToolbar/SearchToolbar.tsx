@@ -1,7 +1,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Dots } from 'react-activity';
 import styled, { css } from 'styled-components';
 
 import Toolbar from '../Toolbar';
@@ -24,35 +23,36 @@ import { SearchResultFeature } from '../../lib/searchPlaces';
 import { CategoryLookupTables } from '../../lib/Categories';
 import ErrorBoundary from '../ErrorBoundary';
 import { UnstyledSearchResult } from './SearchResult';
+import Spinner from '../ActivityIndicator/Spinner';
 
 export type Props = PlaceFilter & {
-  categories: CategoryLookupTables,
-  hidden: boolean,
-  inert: boolean,
-  category: null | string,
-  showCategoryMenu?: boolean,
-  searchQuery: null | string,
+  categories: CategoryLookupTables;
+  hidden: boolean;
+  inert: boolean;
+  category: null | string;
+  showCategoryMenu?: boolean;
+  searchQuery: null | string;
   onSearchResultClick: (
     feature: SearchResultFeature,
     wheelmapFeature: null | WheelmapFeature
-  ) => void,
-  onChangeSearchQuery: (newSearchQuery: string) => void,
-  onSubmit: (searchQuery: string) => void,
-  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
-  onClose: () => void | null,
-  onClick: () => void,
-  isExpanded: boolean,
-  hasGoButton: boolean,
-  searchResults: null | SearchResultCollection | Promise<SearchResultCollection>,
-  minimalTopPosition: number,
+  ) => void;
+  onChangeSearchQuery: (newSearchQuery: string) => void;
+  onSubmit: (searchQuery: string) => void;
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void;
+  onClose: () => void | null;
+  onClick: () => void;
+  isExpanded: boolean;
+  hasGoButton: boolean;
+  searchResults: null | SearchResultCollection | Promise<SearchResultCollection>;
+  minimalTopPosition: number;
 };
 
 type State = {
-  searchFieldIsFocused: boolean,
-  isCategoryFocused: boolean,
-  isLoading: boolean,
-  searchResults: null | SearchResultCollection,
-  searchResultsPromise: null | Promise<SearchResultCollection>,
+  searchFieldIsFocused: boolean;
+  isCategoryFocused: boolean;
+  isLoading: boolean;
+  searchResults: null | SearchResultCollection;
+  searchResultsPromise: null | Promise<SearchResultCollection>;
 };
 
 const StyledChevronRight = styled(ChevronRight)`
@@ -97,7 +97,8 @@ const GoButton = styled(Button)`
 `;
 
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width 0.15s ease-out, height 0.15s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width 0.15s ease-out,
+    height 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -122,7 +123,7 @@ const StyledToolbar = styled(Toolbar)`
       z-index: 1;
       border-bottom: 1px ${colors.borderColor} solid;
       background: white;
-  
+
       > form {
         display: flex;
         flex-direction: row;
@@ -130,7 +131,7 @@ const StyledToolbar = styled(Toolbar)`
         height: 100%;
       }
     }
-  
+
     > section {
       overflow: auto;
     }
@@ -163,7 +164,8 @@ const StyledToolbar = styled(Toolbar)`
 
   @media (max-width: 512px), (max-height: 512px) {
     &.toolbar-iphone-x {
-      input, input:focus {
+      input,
+      input:focus {
         background-color: white;
       }
     }
@@ -193,10 +195,12 @@ const StyledToolbar = styled(Toolbar)`
       max-height: 100%;
       max-width: 320px;
       margin: 0;
-   }
+    }
 
-    > div > header, .search-results, ${CategoryMenu} {
-      padding: 0
+    > div > header,
+    .search-results,
+    ${CategoryMenu} {
+      padding: 0;
     }
 
     .search-results .link-button {
@@ -389,7 +393,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
         <span className="sr-only" aria-live="assertive">
           Searching
         </span>
-        <Dots size={20} />
+        <Spinner size={20} />
       </div>
     );
   }

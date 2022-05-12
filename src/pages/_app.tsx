@@ -1,6 +1,7 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import * as React from 'react';
 import BaseApp  from 'next/app';
 import Head from 'next/head';

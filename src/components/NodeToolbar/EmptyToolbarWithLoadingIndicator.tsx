@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Dots } from 'react-activity';
+import Spinner from '../ActivityIndicator/Spinner';
 import StyledToolbar from './StyledToolbar';
 
 type Props = {
-  hidden: boolean,
+  hidden: boolean;
 };
 
 export default function EmptyToolbarWithLoadingIndicator(props: Props) {
   return (
     <StyledToolbar hidden={props.hidden} isSwipeable={false}>
-      <Dots size={20} />
+      <Spinner size={20} />
     </StyledToolbar>
   );
 }

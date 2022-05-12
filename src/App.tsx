@@ -18,7 +18,7 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, UAResult } from './lib/userAgent';
 import { RouterHistory } from './lib/RouterHistory';
 import { SearchResultCollection } from './lib/searchPlaces';
-import { Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from "./lib/Feature";
+import { Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from './lib/Feature';
 import { SearchResultFeature } from './lib/searchPlaces';
 import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import {
@@ -41,9 +41,7 @@ import {
   getFeatureId,
 } from './lib/Feature';
 
-import {
-  accessibilityCloudImageCache,
-} from './lib/cache/AccessibilityCloudImageCache';
+import { accessibilityCloudImageCache } from './lib/cache/AccessibilityCloudImageCache';
 
 import { ModalNodeState } from './lib/ModalNodeState';
 import { CategoryLookupTables } from './lib/Categories';
@@ -53,81 +51,80 @@ import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel
 import { LocalizedString } from './lib/i18n';
 import { RouteProvider } from './components/Link/RouteContext';
 
-import 'react-activity/dist/react-activity.css';
 import 'focus-visible';
 import { trackModalView, trackEvent } from './lib/Analytics';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
 import { createGlobalStyle } from 'styled-components';
 
 export type LinkData = {
-  label: LocalizedString,
-  badgeLabel?: LocalizedString,
-  url: LocalizedString,
-  order?: number,
-  tags?: string[],
+  label: LocalizedString;
+  badgeLabel?: LocalizedString;
+  url: LocalizedString;
+  order?: number;
+  tags?: string[];
 };
 
 interface Props extends PlaceDetailsProps {
-  className?: string,
-  router: Router,
-  routerHistory: RouterHistory,
-  routeName: string,
-  categories?: CategoryLookupTables,
-  userAgent: UAResult,
-  searchQuery?: string | null,
-  searchResults?: SearchResultCollection | Promise<SearchResultCollection>,
-  category?: string,
-  app: AppModel,
-  lat: string | null,
-  lon: string | null,
-  zoom: string | null,
-  extent: [number, number, number, number] | null,
-  inEmbedMode: boolean,
-  mappingEvents: MappingEvents,
-  mappingEvent?: MappingEvent,
+  className?: string;
+  router: Router;
+  routerHistory: RouterHistory;
+  routeName: string;
+  categories?: CategoryLookupTables;
+  userAgent: UAResult;
+  searchQuery?: string | null;
+  searchResults?: SearchResultCollection | Promise<SearchResultCollection>;
+  category?: string;
+  app: AppModel;
+  lat: string | null;
+  lon: string | null;
+  zoom: string | null;
+  extent: [number, number, number, number] | null;
+  inEmbedMode: boolean;
+  mappingEvents: MappingEvents;
+  mappingEvent?: MappingEvent;
 
-  includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>,
-  disableWheelmapSource?: boolean,
-  overriddenAppId?: boolean,
+  includeSourceIds: Array<string>;
+  excludeSourceIds: Array<string>;
+  disableWheelmapSource?: boolean;
+  overriddenAppId?: boolean;
 
-  toiletFilter: YesNoUnknown[],
-  accessibilityFilter: YesNoLimitedUnknown[],
+  toiletFilter: YesNoUnknown[];
+  accessibilityFilter: YesNoLimitedUnknown[];
 
-  toiletsNearby: PotentialPromise<Feature[]>,
+  toiletsNearby: PotentialPromise<Feature[]>;
 }
 
 interface State {
-  mappingEvents: MappingEvents,
-  isOnboardingVisible: boolean,
-  joinedMappingEventId: string | null,
-  joinedMappingEvent: MappingEvent | null,
-  isMappingEventWelcomeDialogVisible: boolean,
-  isMainMenuOpen: boolean,
-  modalNodeState: ModalNodeState,
-  accessibilityPresetStatus?: YesNoLimitedUnknown | null,
-  isSearchBarVisible: boolean,
-  isOnSmallViewport: boolean,
-  isSearchToolbarExpanded: boolean,
-  isMappingEventsToolbarVisible: boolean,
-  isMappingEventToolbarVisible: boolean,
+  mappingEvents: MappingEvents;
+  isOnboardingVisible: boolean;
+  joinedMappingEventId: string | null;
+  joinedMappingEvent: MappingEvent | null;
+  isMappingEventWelcomeDialogVisible: boolean;
+  isMainMenuOpen: boolean;
+  modalNodeState: ModalNodeState;
+  accessibilityPresetStatus?: YesNoLimitedUnknown | null;
+  isSearchBarVisible: boolean;
+  isOnSmallViewport: boolean;
+  isSearchToolbarExpanded: boolean;
+  isMappingEventsToolbarVisible: boolean;
+  isMappingEventToolbarVisible: boolean;
 
   // photo feature
-  isPhotoUploadInstructionsToolbarVisible: boolean,
-  photosMarkedForUpload: FileList | null,
-  waitingForPhotoUpload?: boolean,
-  photoFlowNotification?: string,
-  photoFlowErrorMessage: string | null,
-  photoMarkedForReport: PhotoModel | null,
+  isPhotoUploadInstructionsToolbarVisible: boolean;
+  photosMarkedForUpload: FileList | null;
+  waitingForPhotoUpload?: boolean;
+  photoFlowNotification?: string;
+  photoFlowErrorMessage: string | null;
+  photoMarkedForReport: PhotoModel | null;
 
-  activeCluster?: Cluster | null,
+  activeCluster?: Cluster | null;
 
   // map controls
-  lat?: number | null,
-  lon?: number | null,
-  isSpecificLatLonProvided: boolean,
-  zoom?: number | null,
-  extent?: [number, number, number, number] | null,
+  lat?: number | null;
+  lon?: number | null;
+  isSpecificLatLonProvided: boolean;
+  zoom?: number | null;
+  extent?: [number, number, number, number] | null;
 }
 
 function isStickySearchBarSupported() {
@@ -531,11 +528,18 @@ class App extends React.Component<Props, State> {
     const parsedLon = typeof props.lon === 'string' ? parseFloat(props.lon) : null;
 
     newState.extent = state.extent || props.extent || null;
-    newState.zoom = state.zoom || parsedZoom || Number.parseInt(savedState.map.lastZoom, 10) || null;
+    newState.zoom =
+      state.zoom || parsedZoom || Number.parseInt(savedState.map.lastZoom, 10) || null;
     newState.lat =
-      state.lat || parsedLat || (savedState.map.lastCenter && Number.parseFloat(savedState.map.lastCenter[0])) || null;
+      state.lat ||
+      parsedLat ||
+      (savedState.map.lastCenter && Number.parseFloat(savedState.map.lastCenter[0])) ||
+      null;
     newState.lon =
-      state.lon || parsedLon || (savedState.map.lastCenter && Number.parseFloat(savedState.map.lastCenter[1])) || null;
+      state.lon ||
+      parsedLon ||
+      (savedState.map.lastCenter && Number.parseFloat(savedState.map.lastCenter[1])) ||
+      null;
 
     newState.isSpecificLatLonProvided = Boolean(parsedLat) && Boolean(parsedLon);
 
@@ -622,7 +626,7 @@ class App extends React.Component<Props, State> {
     const search: string = window.location.search;
 
     if (joinedMappingEventId) {
-      const token = this.props.router.query.token
+      const token = this.props.router.query.token;
       const invitationToken = Array.isArray(token) ? token[0] : token;
       setJoinedMappingEventData(emailAddress, invitationToken);
 
@@ -865,7 +869,10 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  onExitPhotoUploadFlow = (notification: string = null, photoFlowErrorMessage: string | null = null) => {
+  onExitPhotoUploadFlow = (
+    notification: string = null,
+    photoFlowErrorMessage: string | null = null
+  ) => {
     this.setState({
       photoFlowErrorMessage,
       isSearchBarVisible: !isOnSmallViewport(),

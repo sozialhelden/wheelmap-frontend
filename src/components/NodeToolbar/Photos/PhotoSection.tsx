@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { findDOMNode } from 'react-dom';
 import { t } from 'ttag';
 import styled from 'styled-components';
-import Gallery, { PhotoClickHandler, GalleryProps } from 'react-photo-gallery';
-import Lightbox from 'react-images';
+import Lightbox, { Modal, ModalGateway } from 'react-images';
+import PhotoAlbum from "react-photo-album";
 
 import { PhotoModel } from '../../../lib/PhotoModel';
 
 import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
+import { maxBy } from 'lodash';
 
 type Props = {
   featureId: string,
@@ -20,133 +20,91 @@ type Props = {
   onReportPhoto: (photo: PhotoModel) => void,
 };
 
-type State = {
-  isLightboxOpen: boolean,
-  thumbnailPhotos: PhotoModel[],
-  currentImageIndex: number,
-};
+function PhotoSection(props: Props) {
+  const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = props;
 
-class PhotoSection extends React.Component<Props, State> {
-  state = {
-    isLightboxOpen: false,
-    thumbnailPhotos: [],
-    currentImageIndex: 0,
-  };
+  const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
 
-  gallery: React.Component<GalleryProps> | null = null;
+  // componentDidMount() {
+  //   // This manual event handling is necessary, because the lib react-gallery
+  //   // does not offer a keyDown API and only works with clicks.
+  //   // In order to make it keyboard-focusable and operable with the 'Enter' key,
+  //   // we add this functionality directly on the DOM node.
+  //   const photoSectionDOMNode = findDOMNode(gallery);
 
-  static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
-    const { photos } = props;
+  //   if (photoSectionDOMNode instanceof Element) {
+  //     photoSectionDOMNode.setAttribute('tabindex', '0');
+  //     photoSectionDOMNode.addEventListener('keydown', photoSectionSelectedWithKeyboard);
+  //   }
+  // }
 
-    const thumbnailPhotos = photos.map(p => {
-      var clone = Object.assign({}, p, {
-        srcSet: p.thumbnailSrcSet || p.srcSet,
-        sizes: p.thumbnailSizes || p.sizes,
-      });
-      delete clone.imageId;
-      delete clone.thumbnailSrcSet;
-      delete clone.thumbnailSizes;
-      return clone;
-    });
+  // componentWillUnmount() {
+  //   const photoSectionDOMNode = findDOMNode(gallery);
 
-    return { thumbnailPhotos };
-  }
+  //   if (photoSectionDOMNode instanceof Element) {
+  //     photoSectionDOMNode.removeEventListener('keydown', photoSectionSelectedWithKeyboard);
+  //   }
 
-  componentDidMount() {
-    // This manual event handling is necessary, because the lib react-gallery
-    // does not offer a keyDown API and only works with clicks.
-    // In order to make it keyboard-focusable and operable with the 'Enter' key,
-    // we add this functionality directly on the DOM node.
-    const photoSectionDOMNode = findDOMNode(this.gallery);
+  //   window.removeEventListener('keydown', preventTabbing);
+  // }
 
-    if (photoSectionDOMNode instanceof Element) {
-      photoSectionDOMNode.setAttribute('tabindex', '0');
-      photoSectionDOMNode.addEventListener('keydown', this.photoSectionSelectedWithKeyboard);
-    }
-  }
+  // componentDidUpdate(_, prevState) {
+  //   if (!previsLightboxOpen && isLightboxOpen) {
+  //     window.addEventListener('keydown', preventTabbing);
+  //   } else if (previsLightboxOpen && !isLightboxOpen) {
+  //     window.removeEventListener('keydown', preventTabbing);
+  //   }
+  // }
 
-  componentWillUnmount() {
-    const photoSectionDOMNode = findDOMNode(this.gallery);
+  // preventTabbing(event: KeyboardEvent) {
+  //   if (event.key === 'Tab' || event.keyCode === 9) {
+  //     event.preventDefault();
+  //   }
+  // }
 
-    if (photoSectionDOMNode instanceof Element) {
-      photoSectionDOMNode.removeEventListener('keydown', this.photoSectionSelectedWithKeyboard);
-    }
-
-    window.removeEventListener('keydown', this.preventTabbing);
-  }
-
-  componentDidUpdate(_, prevState) {
-    if (!prevState.isLightboxOpen && this.state.isLightboxOpen) {
-      window.addEventListener('keydown', this.preventTabbing);
-    } else if (prevState.isLightboxOpen && !this.state.isLightboxOpen) {
-      window.removeEventListener('keydown', this.preventTabbing);
-    }
-  }
-
-  preventTabbing(event: KeyboardEvent) {
-    if (event.key === 'Tab' || event.keyCode === 9) {
-      event.preventDefault();
-    }
-  }
-
-  photoSectionSelectedWithKeyboard = (event: KeyboardEvent) => {
+  const photoSectionSelectedWithKeyboard = React.useCallback((event: KeyboardEvent) => {
     if (event.key === 'Enter' || event.keyCode === 13) {
-      this.openLightbox(0);
+      setCurrentImageIndex(0);
+      setIsLightboxOpen(true);
     }
-  };
+  }, []);
 
-  thumbnailSelected: PhotoClickHandler<{}> = (event, obj: { index: number }) => {
-    this.openLightbox(obj.index);
-  };
+  const thumbnailSelected = React.useCallback((obj) => {
+    setCurrentImageIndex(obj.index);
+    setIsLightboxOpen(true);
+  }, []);
 
-  openLightbox = (index: number) => {
-    this.setState({
-      currentImageIndex: index,
-      isLightboxOpen: true,
-    });
-  };
+  const closeLightbox = React.useCallback(() => {
+    setCurrentImageIndex(0);
+    setIsLightboxOpen(false);
+  }, []);
 
-  closeLightbox = () => {
-    this.setState({
-      currentImageIndex: 0,
-      isLightboxOpen: false,
-    });
-  };
-
-  reportImage = () => {
-    const { photos } = this.props;
-    const { currentImageIndex } = this.state;
-
+  const reportImage = React.useCallback(() => {
     if (currentImageIndex < 0 || currentImageIndex >= photos.length) {
       console.error('Could not report photo with index', currentImageIndex);
       return;
     }
     const toBeReported = photos[currentImageIndex];
-    this.props.onReportPhoto(toBeReported);
-  };
+    props.onReportPhoto(toBeReported);
+  }, [photos, currentImageIndex]);
 
-  gotoPrevious = () => {
-    this.setState({
-      currentImageIndex: this.state.currentImageIndex - 1,
-    });
-  };
+  const gotoPrevious = React.useCallback(() => {
+    setCurrentImageIndex(currentImageIndex - 1);
+  }, [currentImageIndex]);
 
-  gotoNext = () => {
-    this.setState({
-      currentImageIndex: this.state.currentImageIndex + 1,
-    });
-  };
+  const gotoNext = React.useCallback(() => {
+    setCurrentImageIndex(currentImageIndex + 1);
+  }, [currentImageIndex]);
 
-  renderLightboxControls = (className: string) => {
-    const { photos } = this.props;
-    const { currentImageIndex } = this.state;
-
-    let canReportPhoto = false;
+  const canReportPhoto = React.useMemo(() => {
     if (currentImageIndex >= 0 && currentImageIndex < photos.length) {
-      canReportPhoto = photos[currentImageIndex].source === 'accessibility-cloud';
+      return photos?.[currentImageIndex].source === 'accessibility-cloud';
     }
+    return false;
+  }, [currentImageIndex, photos]);
 
-    return [
+  const lightboxControls =
       <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
         <div>
           <kbd>esc</kbd>
@@ -155,55 +113,56 @@ class PhotoSection extends React.Component<Props, State> {
         </div>
 
         {canReportPhoto && (
-          <button onClick={this.reportImage} className="report-image">{t`Report image`}</button>
+          <button onClick={reportImage} className="report-image">{t`Report image`}</button>
         )}
-      </section>,
-    ];
-  };
+      </section>;
 
-  render() {
-    const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = this.props;
-    const { thumbnailPhotos, currentImageIndex } = this.state;
 
-    return (
-      <section className={className}>
-        <Gallery
-          ref={g => (this.gallery = g)}
-          photos={thumbnailPhotos}
-          onClick={this.thumbnailSelected}
-          columns={Math.min(photos.length, 3)}
-        />
-        <Lightbox
-          images={photos}
-          onClose={this.closeLightbox}
-          onClickPrev={this.gotoPrevious}
-          onClickNext={this.gotoNext}
-          currentImage={currentImageIndex}
-          isOpen={this.state.isLightboxOpen}
-          // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
-          imageCountSeparator={' ' + t`of` + ' '}
-          // translator: alt info on next image button in lightbox
-          rightArrowTitle={t`Next (right arrow key)`}
-          // translator: alt info on previous image button in lightbox
-          leftArrowTitle={t`Previous (left arrow key)`}
-          // translator: alt info on close button in lightbox
-          closeButtonTitle={t`Close (Esc)`}
-          customControls={this.renderLightboxControls(className)}
-          // Use same alignment as report button
-          theme={{ footer: { alignItems: 'center' } }}
-        />
-
-        <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
-
-        {photoFlowNotification && (
-          <PhotoNotification
-            notificationType={photoFlowNotification}
-            photoFlowErrorMessage={this.props.photoFlowErrorMessage}
-          />
-        )}
-      </section>
-    );
+  if (!photos.length) {
+    return null;
   }
+
+  return (
+    <section className={className}>
+      <PhotoAlbum
+        photos={photos}
+        onClick={thumbnailSelected}
+        columns={Math.min(photos.length, 3)}
+        layout="masonry"
+      />
+      <ModalGateway>
+        {isLightboxOpen && <Modal onClose={closeLightbox}>
+          <Lightbox
+            views={photos.map(p => ({ ...p, src: maxBy(photos, mp => Math.max(mp.width, mp.height))?.src }))}
+            onClose={closeLightbox}
+            onClickPrev={gotoPrevious}
+            onClickNext={gotoNext}
+            currentImage={currentImageIndex}
+            // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
+            imageCountSeparator={' ' + t`of` + ' '}
+            // translator: alt info on next image button in lightbox
+            rightArrowTitle={t`Next (right arrow key)`}
+            // translator: alt info on previous image button in lightbox
+            leftArrowTitle={t`Previous (left arrow key)`}
+            // translator: alt info on close button in lightbox
+            closeButtonTitle={t`Close (Esc)`}
+            customControls={lightboxControls}
+            // Use same alignment as report button
+            theme={{ footer: { alignItems: 'center' } }}
+          />
+        </Modal>}
+      </ModalGateway>
+
+      <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
+
+      {photoFlowNotification && (
+        <PhotoNotification
+          notificationType={photoFlowNotification}
+          photoFlowErrorMessage={props.photoFlowErrorMessage}
+        />
+      )}
+    </section>
+  );
 }
 
 const StyledPhotoSection = styled(PhotoSection)`

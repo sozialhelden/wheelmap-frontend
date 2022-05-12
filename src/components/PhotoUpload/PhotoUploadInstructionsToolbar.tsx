@@ -1,7 +1,6 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Dots } from 'react-activity';
 import FocusTrap from 'focus-trap-react';
 
 import Toolbar from '../Toolbar';
@@ -9,16 +8,17 @@ import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
 
 import colors from '../../lib/colors';
 import StyledCloseLink from '../CloseLink';
+import Spinner from '../ActivityIndicator/Spinner';
 
 export type Props = {
-  hidden: boolean,
-  waitingForPhotoUpload?: boolean,
-  onClose: () => void | null,
-  onCompleted: (photos: FileList) => void | null,
+  hidden: boolean;
+  waitingForPhotoUpload?: boolean;
+  onClose: () => void | null;
+  onCompleted: (photos: FileList) => void | null;
 };
 
 type State = {
-  guidelinesAccepted: boolean,
+  guidelinesAccepted: boolean;
 };
 
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
@@ -157,7 +157,7 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-function CheckmarkItem({ caption, children }: { caption: string, children?: React.ReactNode }) {
+function CheckmarkItem({ caption, children }: { caption: string; children?: React.ReactNode }) {
   return (
     <li className="with-checkmark">
       <header>
@@ -271,7 +271,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
               </button>
               <label className="link-button primary-button file-label" htmlFor="photo-file-upload">
                 {t`Continue`}
-                {waitingForPhotoUpload && <Dots />}
+                {waitingForPhotoUpload && <Spinner />}
                 <input
                   ref={input => {
                     this.fileInput = input;
