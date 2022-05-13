@@ -122,6 +122,8 @@ function PhotoSection(props: Props) {
   //   }
   // }
 
+  const HeaderFullscreen = React.useMemo(() => <span></span>, []);
+
   return (
     <section className={className}>
       <PhotoAlbum
@@ -134,7 +136,7 @@ function PhotoSection(props: Props) {
       <ModalGateway>
         {isLightboxOpen && <Modal onClose={closeLightbox}>
           <Lightbox
-            components={{ FooterCaption, FooterCount }}
+            components={{ FooterCaption, FooterCount, HeaderFullscreen }}
             views={photos.map(p => ({ ...p, src: maxBy(p.images, mp => Math.max(mp.width, mp.height))?.src }))}
             onClose={closeLightbox}
             onClickPrev={gotoPrevious}
@@ -149,6 +151,7 @@ function PhotoSection(props: Props) {
             // Use same alignment as report button
             theme={{ footer: { alignItems: 'center' } }}
             allowFullscreen={false}
+            showNavigationOnTouchDevice={true}
           />
         </Modal>}
       </ModalGateway>
