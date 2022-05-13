@@ -101,7 +101,7 @@ const StyledToolbar = styled(Toolbar)`
     height 0.15s ease-out;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 0 !important;
   border-top: none;
   border-radius: 3px;
   bottom: auto !important;
@@ -120,7 +120,7 @@ const StyledToolbar = styled(Toolbar)`
       top: 0;
       height: 50px;
       min-height: 50px;
-      z-index: 1;
+      z-index: 5;
       border-bottom: 1px ${colors.borderColor} solid;
       background: white;
 
