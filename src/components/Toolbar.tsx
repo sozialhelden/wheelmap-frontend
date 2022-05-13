@@ -10,18 +10,19 @@ import { isOnSmallViewport } from '../lib/ViewportSize';
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
 
 type Props = {
-  className?: string,
-  children?: React.ReactNode,
-  hidden?: boolean,
-  inert?: boolean,
-  role?: string,
-  ariaLabel?: string,
-  ariaDescribedBy?: string,
-  minimalHeight?: number,
-  minimalTopPosition?: number,
-  isSwipeable?: boolean,
-  isModal?: boolean,
-  enableTransitions?: boolean,
+  className?: string;
+  children?: React.ReactNode;
+  hidden?: boolean;
+  inert?: boolean;
+  role?: string;
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+  minimalHeight?: number;
+  minimalTopPosition?: number;
+  isSwipeable?: boolean;
+  isModal?: boolean;
+  enableTransitions?: boolean;
+  closeOnEscape?: boolean;
 };
 
 function mergeRefs(refs) {
@@ -70,7 +71,7 @@ function logStateValueChange(name: string, value: any) {
   }, [name, value]);
 }
 
-type PositionSample = { pos: number, t: number };
+type PositionSample = { pos: number; t: number };
 type FlickState = 'up' | 'down' | 'noFlick';
 
 function calculateFlickState(ySamples: PositionSample[]): FlickState {
@@ -522,7 +523,7 @@ const BaseToolbar = (
   );
 
   const handleKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Escape' && scrollElementRef.current) {
+    if (props.closeOnEscape !== false && event.key === 'Escape' && scrollElementRef.current) {
       const closeLink = scrollElementRef.current.querySelector('.close-link');
       if (closeLink && closeLink['click']) {
         closeLink['click']();

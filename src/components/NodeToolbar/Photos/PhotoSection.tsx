@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { t } from 'ttag';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Lightbox, { Modal, ModalGateway } from 'react-images';
 import PhotoAlbum from "react-photo-album";
 
@@ -18,13 +18,32 @@ type Props = {
   photos: PhotoModel[],
   onStartPhotoUploadFlow: () => void,
   onReportPhoto: (photo: PhotoModel) => void,
+  onLightbox: (isOpen: boolean) => void,
 };
+
+
+const GlobalLightboxStyles = createGlobalStyle`
+  .react-images__header {
+    margin-top: 0;
+    margin-top: env(safe-area-inset-top);
+  }
+
+  .react-images__footer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+`;
 
 function PhotoSection(props: Props) {
   const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = props;
 
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  React.useEffect(() => {
+    props.onLightbox(isLightboxOpen);
+  }, [isLightboxOpen]);
 
   const showImage = React.useCallback((_event, _photo, index) => {
     setCurrentImageIndex(index);
@@ -79,11 +98,29 @@ function PhotoSection(props: Props) {
 
   }, [currentImageIndex, photos]);
 
-  const HeaderFullscreen = React.useMemo(() => () => <></>, []);
-
   if (!photos.length) {
     return null;
   }
+
+  // const customStyles = {
+  //   header: (base, state) => ({
+  //     ...base,
+  //     borderBottom: '1px dotted pink',
+  //     color: state.isFullscreen ? 'red' : 'blue',
+  //     padding: 20,
+  //   }),
+  //   view: () => ({
+  //     // none of react-images styles are passed to <View />
+  //     height: 400,
+  //     width: 600,
+  //   }),
+  //   footer: (base, state) => {
+  //     const opacity = state.interactionIsIdle ? 0 : 1;
+  //     const transition = 'opacity 300ms';
+
+  //     return { ...base, opacity, transition };
+  //   }
+  // }
 
   return (
     <section className={className}>
@@ -93,10 +130,11 @@ function PhotoSection(props: Props) {
         columns={Math.min(photos.length, 3)}
         layout="masonry"
       />
+      {isLightboxOpen && <GlobalLightboxStyles />}
       <ModalGateway>
         {isLightboxOpen && <Modal onClose={closeLightbox}>
           <Lightbox
-            components={{ FooterCaption, FooterCount, HeaderFullscreen }}
+            components={{ FooterCaption, FooterCount }}
             views={photos.map(p => ({ ...p, src: maxBy(p.images, mp => Math.max(mp.width, mp.height))?.src }))}
             onClose={closeLightbox}
             onClickPrev={gotoPrevious}
@@ -110,6 +148,7 @@ function PhotoSection(props: Props) {
             closeButtonTitle={t`Close (Esc)`}
             // Use same alignment as report button
             theme={{ footer: { alignItems: 'center' } }}
+            allowFullscreen={false}
           />
         </Modal>}
       </ModalGateway>
@@ -129,19 +168,6 @@ function PhotoSection(props: Props) {
 const StyledPhotoSection = styled(PhotoSection)`
   margin: 0.5rem -1rem;
   padding: 0;
-
-  .react-photo-gallery--gallery {
-    img {
-      object-fit: contain;
-      max-height: 150px;
-      image-orientation: from-image;
-    }
-  }
-
-  .react-images__footer {
-    display: flex;
-    justify-content: space-between;
-  }
 
   /* lazy workaround for Lightbox putting its nodes higher up in the dom */
   &.lightbox-actions {

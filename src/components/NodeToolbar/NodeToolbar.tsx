@@ -86,9 +86,16 @@ type Props = {
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
 
-class NodeToolbar extends React.PureComponent<Props> {
+type State = {
+  shouldCloseOnEscape: boolean;
+}
+
+class NodeToolbar extends React.PureComponent<Props, State> {
   toolbar = React.createRef<HTMLElement>();
   reportDialog: React.ElementRef<typeof ReportDialog> | null;
+  state = {
+    shouldCloseOnEscape: false,
+  };
 
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
@@ -96,6 +103,10 @@ class NodeToolbar extends React.PureComponent<Props> {
 
   focus() {
     this.toolbar.current?.focus();
+  }
+
+  onLightboxStateChange = (isLightboxOpen: boolean) => {
+    this.setState({ shouldCloseOnEscape: !isLightboxOpen });
   }
 
   renderReportDialog() {
@@ -164,6 +175,7 @@ class NodeToolbar extends React.PureComponent<Props> {
         onStartPhotoUploadFlow={this.props.onStartPhotoUploadFlow}
         photoFlowNotification={this.props.photoFlowNotification}
         photoFlowErrorMessage={this.props.photoFlowErrorMessage}
+        onLightbox={this.onLightboxStateChange}
       />
     );
   }
@@ -377,6 +389,7 @@ class NodeToolbar extends React.PureComponent<Props> {
             ariaLabel={this.placeName()}
             minimalTopPosition={this.props.minimalTopPosition}
             minimalHeight={135}
+            closeOnEscape={this.state.shouldCloseOnEscape}
           >
             <ErrorBoundary>
               {this.renderNodeHeader()}
