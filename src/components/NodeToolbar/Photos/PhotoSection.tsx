@@ -122,7 +122,7 @@ function PhotoSection(props: Props) {
   //   }
   // }
 
-  const HeaderFullscreen = React.useMemo(() => <span></span>, []);
+  const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
 
   return (
     <section className={className}>
