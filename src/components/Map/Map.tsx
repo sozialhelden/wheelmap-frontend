@@ -59,7 +59,7 @@ import { MapStyle } from './MapStyle';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 import env from '../../lib/env';
 
-L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
+// L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
 // @ts-ignore
 window.L = L;
@@ -303,7 +303,7 @@ export default class Map extends React.Component<Props, State> {
       zoom: initialMapState.zoom,
       minZoom: 2,
       zoomControl: false,
-      gestureHandling: this.props.inEmbedMode,
+      // gestureHandling: this.props.inEmbedMode,
     });
 
     if (!map) {
