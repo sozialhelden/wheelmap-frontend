@@ -98,6 +98,8 @@ function PhotoSection(props: Props) {
 
   }, [currentImageIndex, photos]);
 
+  const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
+
   if (!photos.length) {
     return null;
   }
@@ -121,8 +123,6 @@ function PhotoSection(props: Props) {
   //     return { ...base, opacity, transition };
   //   }
   // }
-
-  const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
 
   return (
     <section className={className}>
