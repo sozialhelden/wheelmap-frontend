@@ -18,6 +18,7 @@ export interface IImage {
   remotePath: string;
   s3Error?: any;
   isUploadedToS3: boolean;
+  angle?: number;
 }
 
 export function buildFullImageUrl(image: IImage) {

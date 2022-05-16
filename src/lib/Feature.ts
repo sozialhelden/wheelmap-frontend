@@ -203,20 +203,21 @@ export type WheelmapFeaturePhotos = {
 };
 
 export type AccessibilityCloudImage = {
-  _id: string,
-  isoDate: string,
-  url: string,
-  imagePath: string,
-  mimeType: string,
+  _id: string;
+  isoDate: string;
+  url: string;
+  imagePath: string;
+  mimeType: string;
   dimensions: {
-    width: number,
-    height: number,
-  },
+    width: number;
+    height: number;
+  };
+  angle?: number;
 };
 
 export type AccessibilityCloudImages = {
-  totalCount: number,
-  images: AccessibilityCloudImage[],
+  totalCount: number;
+  images: AccessibilityCloudImage[];
 };
 
 // TODO We might want to rename this type to NodeFeature to better describe that
