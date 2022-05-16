@@ -2,7 +2,7 @@ import * as React from 'react';
 import { t } from 'ttag';
 import styled, { createGlobalStyle } from 'styled-components';
 import Lightbox, { Modal, ModalGateway } from 'react-images';
-import PhotoAlbum from "react-photo-album";
+import PhotoAlbum from 'react-photo-album';
 
 import { PhotoModel } from '../../../lib/PhotoModel';
 
@@ -11,16 +11,15 @@ import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 import { maxBy } from 'lodash';
 
 type Props = {
-  featureId: string,
-  className?: string,
-  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
-  photoFlowErrorMessage: string | null,
-  photos: PhotoModel[],
-  onStartPhotoUploadFlow: () => void,
-  onReportPhoto: (photo: PhotoModel) => void,
-  onLightbox: (isOpen: boolean) => void,
+  featureId: string;
+  className?: string;
+  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
+  photoFlowErrorMessage: string | null;
+  photos: PhotoModel[];
+  onStartPhotoUploadFlow: () => void;
+  onReportPhoto: (photo: PhotoModel) => void;
+  onLightbox: (isOpen: boolean) => void;
 };
-
 
 const GlobalLightboxStyles = createGlobalStyle`
   .react-images__header {
@@ -72,12 +71,13 @@ function PhotoSection(props: Props) {
     setCurrentImageIndex(currentImageIndex + 1);
   }, [currentImageIndex]);
 
-  const canReportPhoto = currentImageIndex >= 0 &&
+  const canReportPhoto =
+    currentImageIndex >= 0 &&
     currentImageIndex < photos.length &&
     photos?.[currentImageIndex].appSource === 'accessibility-cloud';
 
   const FooterCaption = React.useMemo(() => {
-    return () =>
+    return () => (
       <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
         <div>
           <kbd>esc</kbd>
@@ -88,14 +88,19 @@ function PhotoSection(props: Props) {
         {canReportPhoto && (
           <button onClick={reportImage} className="report-image">{t`Report image`}</button>
         )}
-      </section>;
+      </section>
+    );
   }, [canReportPhoto, currentImageIndex, photos, reportImage]);
 
   const FooterCount = React.useMemo(() => {
     // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
     const separator = t`of`;
-    return () => <span><span>{currentImageIndex + 1}</span>&nbsp;<span>{separator}</span>&nbsp;<span>{photos.length}</span></span>
-
+    return () => (
+      <span>
+        <span>{currentImageIndex + 1}</span>&nbsp;<span>{separator}</span>&nbsp;
+        <span>{photos.length}</span>
+      </span>
+    );
   }, [currentImageIndex, photos]);
 
   const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
@@ -134,26 +139,31 @@ function PhotoSection(props: Props) {
       />
       {isLightboxOpen && <GlobalLightboxStyles />}
       <ModalGateway>
-        {isLightboxOpen && <Modal onClose={closeLightbox}>
-          <Lightbox
-            components={{ FooterCaption, FooterCount, HeaderFullscreen }}
-            views={photos.map(p => ({ ...p, src: maxBy(p.images, mp => Math.max(mp.width, mp.height))?.src }))}
-            onClose={closeLightbox}
-            onClickPrev={gotoPrevious}
-            onClickNext={gotoNext}
-            currentIndex={currentImageIndex}
-            // translator: alt info on next image button in lightbox
-            rightArrowTitle={t`Next (right arrow key)`}
-            // translator: alt info on previous image button in lightbox
-            leftArrowTitle={t`Previous (left arrow key)`}
-            // translator: alt info on close button in lightbox
-            closeButtonTitle={t`Close (Esc)`}
-            // Use same alignment as report button
-            theme={{ footer: { alignItems: 'center' } }}
-            allowFullscreen={false}
-            showNavigationOnTouchDevice={true}
-          />
-        </Modal>}
+        {isLightboxOpen && (
+          <Modal onClose={closeLightbox}>
+            <Lightbox
+              components={{ FooterCaption, FooterCount, HeaderFullscreen }}
+              views={photos.map(p => ({
+                ...p,
+                src: maxBy(p.images, mp => Math.max(mp.width, mp.height))?.src,
+              }))}
+              onClose={closeLightbox}
+              onClickPrev={gotoPrevious}
+              onClickNext={gotoNext}
+              currentIndex={currentImageIndex}
+              // translator: alt info on next image button in lightbox
+              rightArrowTitle={t`Next (right arrow key)`}
+              // translator: alt info on previous image button in lightbox
+              leftArrowTitle={t`Previous (left arrow key)`}
+              // translator: alt info on close button in lightbox
+              closeButtonTitle={t`Close (Esc)`}
+              // Use same alignment as report button
+              theme={{ footer: { alignItems: 'center' } }}
+              allowFullscreen={false}
+              showNavigationOnTouchDevice={true}
+            />
+          </Modal>
+        )}
       </ModalGateway>
 
       <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
