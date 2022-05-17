@@ -10,18 +10,18 @@ import CloseIcon from '../icons/actions/Close';
 import { PlaceFilter } from './AccessibilityFilterModel';
 
 type Props = {
-  className?: string,
-  showCloseButton: boolean,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-  caption: string,
-  category: string,
-  isMainCategory?: boolean,
-  onClick: (data: PlaceFilter) => void,
-  onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void,
-  onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void,
-  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void,
-  isActive: boolean,
+  className?: string;
+  showCloseButton: boolean;
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
+  caption: string;
+  category: string;
+  isMainCategory?: boolean;
+  onClick: (data: PlaceFilter) => void;
+  onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
+  isActive: boolean;
 };
 
 export const Caption = styled.span`
@@ -65,31 +65,33 @@ function AccessibilityFilterButton(props: Props) {
 }
 
 export default styled(AccessibilityFilterButton)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 1em 10px 1.3em;
-  min-height: 3rem;
-  cursor: pointer;
+  & {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 1em 10px 1.3em;
+    min-height: 3rem;
+    cursor: pointer;
 
-  svg.icon {
-    width: 21px;
-    height: 21px;
-  }
+    svg.icon {
+      width: 21px;
+      height: 21px;
+    }
 
-  ${CombinedIcon} {
-    width: 70px;
-  }
+    ${CombinedIcon} {
+      width: 70px;
+    }
 
-  ${props =>
-    props.isActive &&
-    css`
-      background-color: ${colors.coldBackgroundColor};
-    `};
+    ${props =>
+      props.isActive &&
+      css`
+        background-color: ${colors.coldBackgroundColor};
+      `};
 
-  &:hover,
-  &:focus {
-    background-color: ${colors.linkBackgroundColorTransparent};
+    &:hover,
+    &:focus {
+      background-color: ${colors.linkBackgroundColorTransparent};
+    }
   }
 `;
