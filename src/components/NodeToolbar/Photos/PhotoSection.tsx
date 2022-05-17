@@ -50,6 +50,7 @@ function PhotoSection(props: Props) {
   const photos = rawPhotos.map(photo =>
     photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
   );
+  const hasPhotos = photos.length > 0;
 
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
@@ -118,10 +119,6 @@ function PhotoSection(props: Props) {
 
   const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
 
-  if (!photos.length) {
-    return null;
-  }
-
   // const customStyles = {
   //   header: (base, state) => ({
   //     ...base,
@@ -142,8 +139,8 @@ function PhotoSection(props: Props) {
   //   }
   // }
 
-  return (
-    <section className={className}>
+  const photoViewingComponents = hasPhotos && (
+    <>
       <PhotoAlbum
         photos={photos}
         onClick={showImage}
@@ -178,7 +175,11 @@ function PhotoSection(props: Props) {
           </Modal>
         )}
       </ModalGateway>
+    </>
+  );
 
+  const photoUploadComponents = (
+    <>
       <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
 
       {photoFlowNotification && (
@@ -187,6 +188,13 @@ function PhotoSection(props: Props) {
           photoFlowErrorMessage={props.photoFlowErrorMessage}
         />
       )}
+    </>
+  );
+
+  return (
+    <section className={className}>
+      {photoViewingComponents}
+      {photoUploadComponents}
     </section>
   );
 }
