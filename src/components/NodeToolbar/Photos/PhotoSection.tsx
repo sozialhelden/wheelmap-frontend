@@ -35,8 +35,21 @@ const GlobalLightboxStyles = createGlobalStyle`
   }
 `;
 
+function flipPhotoDimensions(photo: PhotoModel) {
+  const needsFlip = photo.angle % 180 !== 0;
+  return {
+    ...photo,
+    height: needsFlip ? photo.width : photo.height,
+    width: needsFlip ? photo.height : photo.width,
+  };
+}
+
 function PhotoSection(props: Props) {
-  const { photoFlowNotification, onStartPhotoUploadFlow, photos, className } = props;
+  const { photoFlowNotification, onStartPhotoUploadFlow, photos: rawPhotos, className } = props;
+
+  const photos = rawPhotos.map(photo =>
+    photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
+  );
 
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
