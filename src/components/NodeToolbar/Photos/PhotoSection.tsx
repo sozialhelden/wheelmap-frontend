@@ -142,10 +142,10 @@ function PhotoSection(props: Props) {
   const photoViewingComponents = hasPhotos && (
     <>
       <PhotoAlbum
-        photos={photos}
+        photos={photos.map(p => ({ ...p, width: 100, height: 100 }))}
         onClick={showImage}
         columns={Math.min(photos.length, 3)}
-        layout="masonry"
+        layout="columns"
       />
       {isLightboxOpen && <GlobalLightboxStyles />}
       <ModalGateway>
@@ -202,6 +202,10 @@ function PhotoSection(props: Props) {
 const StyledPhotoSection = styled(PhotoSection)`
   margin: 0.5rem -1rem;
   padding: 0;
+
+  .react-photo-album--photo {
+    object-fit: cover;
+  }
 
   /* lazy workaround for Lightbox putting its nodes higher up in the dom */
   &.lightbox-actions {

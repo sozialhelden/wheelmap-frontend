@@ -3,7 +3,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import * as React from 'react';
-import BaseApp  from 'next/app';
+import BaseApp from 'next/app';
 import Head from 'next/head';
 import { t } from 'ttag';
 import get from 'lodash/get';
@@ -14,6 +14,7 @@ import OpenGraph from '../components/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
 import { AppContextData, AppContextProvider } from '../AppContext';
 import { encode } from 'js-base64';
+import '../components/Map/leaflet-gesture-handling/leaflet-gesture-handling.css';
 
 import {
   parseAcceptLanguageString,
@@ -42,9 +43,8 @@ import { trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
-import startClientSideApm from "../lib/apm/startClientSideApm";
+import startClientSideApm from '../lib/apm/startClientSideApm';
 import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
-
 
 if (typeof window !== 'undefined') {
   // TODO: Re-enable APM
@@ -55,12 +55,11 @@ let isServer = false;
 // only used in serverSideRendering when getting the initial props
 // used for storing the initial props instead of serializing them for the client
 // to prevent sending too large html chunks, that break e.g. twitter cards
-let nonSerializedProps: { renderContext: RenderContext, routeProps: any | void } | null = null;
+let nonSerializedProps: { renderContext: RenderContext; routeProps: any | void } | null = null;
 
 let isFirstTimeClientRender = true;
 
 export default class App extends BaseApp<any> {
-
   static async getInitialProps({ ctx }: { ctx: any }) {
     let renderContext;
     let routeProps;
@@ -239,10 +238,7 @@ export default class App extends BaseApp<any> {
     // TODO Move into app. This means that all the loaded props from getInitialProps can be null.
     if (statusCode && statusCode >= 400) {
       return (
-          <NotFound
-            statusCode={statusCode}
-            onReturnHomeClick={this.handleNotFoundReturnHomeClick}
-          />
+        <NotFound statusCode={statusCode} onReturnHomeClick={this.handleNotFoundReturnHomeClick} />
       );
     }
 
@@ -261,8 +257,12 @@ export default class App extends BaseApp<any> {
       storeInitialRouteProps(routeName, renderContext, renderContext.app.tokenString);
     }
 
-    const { textContent, meta, branding } = this.props.app.clientSideConfiguration as ClientSideConfiguration;
-    const { name: productName, description } = textContent?.product || { name: 'Wheelmap', description: undefined };
+    const { textContent, meta, branding } = this.props.app
+      .clientSideConfiguration as ClientSideConfiguration;
+    const { name: productName, description } = textContent?.product || {
+      name: 'Wheelmap',
+      description: undefined,
+    };
     const { twitter, facebook } = meta || {};
 
     const baseUrl = `https://${hostName}`;

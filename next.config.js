@@ -1,4 +1,6 @@
 const withTranspileModules = require('next-transpile-modules');
+//const webpack = require('webpack');
+const env = require('./src/lib/env');
 
 let configuration = withTranspileModules({
   // Next.js doesn't transpile node_modules content by default.
