@@ -1,6 +1,7 @@
 const withTranspileModules = require('next-transpile-modules');
 //const webpack = require('webpack');
-const env = require('./src/lib/env');
+const { loadGlobalEnvironment } = require('@sozialhelden/twelve-factor-dotenv');
+const env = loadGlobalEnvironment();
 
 let configuration = withTranspileModules({
   // Next.js doesn't transpile node_modules content by default.
