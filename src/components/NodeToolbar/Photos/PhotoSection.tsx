@@ -37,7 +37,6 @@ const GlobalLightboxStyles = createGlobalStyle`
 
 function flipPhotoDimensions(photo: PhotoModel) {
   const needsFlip = photo.angle && photo.angle % 180 !== 0;
-  debugger;
   return {
     ...photo,
     height: needsFlip ? photo.width : photo.height,
