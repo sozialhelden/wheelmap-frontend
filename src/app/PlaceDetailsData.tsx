@@ -162,63 +162,56 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const featureId = query.id;
     const equipmentInfoId = query.eid;
 
-    try {
-      if (!featureId) {
-        const error: Error & { statusCode?: number } = new Error(
-          'No feature id passed into placeDetailsData'
-        );
-        error.statusCode = 404;
-        throw error;
-      }
-      if (!featureId.match(/\w+/)) {
-        const error: Error & { statusCode?: number } = new Error(
-          'Invalid feature ID.'
-        );
-        error.statusCode = 404;
-        throw error;
-      }
-      // do not cache features on server
-      const useCache = !isServer;
-      const disableWheelmapSource = query.disableWheelmapSource === 'true';
-      const renderContext = await renderContextPromise;
-      const appToken = renderContext.app.tokenString;
-      const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
-      const photosPromise = fetchPhotos(featureId, appToken, useCache, disableWheelmapSource);
-      const equipmentPromise = equipmentInfoId
-        ? fetchEquipment(equipmentInfoId, appToken, useCache)
-        : null;
-      const lightweightFeature = !disableWheelmapSource
-        ? wheelmapLightweightFeatureCache.getCachedFeature(featureId)
-        : null;
-      const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, appToken, true);
-      const toiletsNearby = isServer
-        ? undefined
-        : fetchToiletsNearby(renderContext, featurePromise);
-
-      const feature = isServer ? await featurePromise : featurePromise;
-      const equipmentInfo = (isServer ? await equipmentPromise : equipmentPromise) || null;
-      const sources = isServer ? await sourcesPromise : sourcesPromise;
-      const photos = isServer ? await photosPromise : photosPromise;
-
-      return {
-        feature,
-        featureId,
-        sources,
-        photos,
-        lightweightFeature,
-        equipmentInfoId,
-        equipmentInfo,
-        toiletsNearby,
-        renderContext,
-      };
-    } catch (e) {
-      const error: Error & { parent?: any, statusCode?: number } = new Error(
-        'Failed loading feature'
+    if (!featureId) {
+      const error: Error & { statusCode?: number } = new Error(
+        'No feature id passed into placeDetailsData'
       );
-      error.parent = e;
       error.statusCode = 404;
       throw error;
     }
+    if (!featureId.match(/\w+/)) {
+      const error: Error & { statusCode?: number } = new Error(
+        'Invalid feature ID.'
+      );
+      error.statusCode = 404;
+      throw error;
+    }
+    // do not cache features on server
+    const useCache = !isServer;
+    const disableWheelmapSource = query.disableWheelmapSource === 'true';
+    const renderContext = await renderContextPromise;
+    const appToken = renderContext.app.tokenString;
+    const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
+    const photosPromise = fetchPhotos(featureId, appToken, useCache, disableWheelmapSource);
+    const equipmentPromise = equipmentInfoId
+      ? fetchEquipment(equipmentInfoId, appToken, useCache)
+      : null;
+    const lightweightFeature = !disableWheelmapSource
+      ? wheelmapLightweightFeatureCache.getCachedFeature(featureId)
+      : null;
+    const sourcesPromise = fetchSourceWithLicense(featureId, featurePromise, appToken, true);
+    const toiletsNearby = isServer
+      ? undefined
+      : fetchToiletsNearby(renderContext, featurePromise);
+
+    const [feature, equipmentInfo, sources, photos] = await Promise.all([
+      featurePromise,
+      equipmentPromise,
+      sourcesPromise,
+      photosPromise,
+    ]);
+
+    return {
+      feature,
+      featureId,
+      sources,
+      photos,
+      lightweightFeature,
+      equipmentInfoId,
+      equipmentInfo,
+      toiletsNearby,
+      renderContext,
+    };
   },
 
   storeInitialRouteProps(props: PlaceDetailsProps, appToken: string) {

@@ -30,30 +30,30 @@ import { ReactElement } from 'react';
 import { PotentialPromise } from './PlaceDetailsProps';
 
 export type RenderContext = {
-  app: App,
+  app: App;
 
-  userAgent: UAResult,
-  rawCategoryLists: RawCategoryLists,
-  translations: Translations[],
-  mappingEvents: MappingEvents,
-  hostName: string,
-  accessibilityFilter: YesNoLimitedUnknown[],
-  toiletFilter: YesNoUnknown[],
-  routeName?: string,
-  path?: string,
-  statusCode?: number,
-  preferredLocaleString: string,
-  skipApplicationBody?: boolean,
+  userAgent: UAResult;
+  rawCategoryLists: RawCategoryLists;
+  translations: Translations[];
+  mappingEvents: MappingEvents;
+  hostName: string;
+  accessibilityFilter: YesNoLimitedUnknown[];
+  toiletFilter: YesNoUnknown[];
+  routeName?: string;
+  path?: string;
+  statusCode?: number;
+  preferredLocaleString: string;
+  skipApplicationBody?: boolean;
 
-  includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>,
-  disableWheelmapSource?: boolean,
-  inEmbedMode: boolean,
-  embedToken?: string,
+  includeSourceIds: Array<string>;
+  excludeSourceIds: Array<string>;
+  disableWheelmapSource?: boolean;
+  inEmbedMode: boolean;
+  embedToken?: string;
 };
 
 type DataTableQuery = {
-  [key: string]: string,
+  [key: string]: string;
 };
 
 export type DataTableEntry<Props> = {
@@ -61,18 +61,15 @@ export type DataTableEntry<Props> = {
     query: DataTableQuery,
     renderContextPromise: Promise<RenderContext>,
     isServer: boolean
-  ) => Promise<Props>,
-  getAdditionalPageComponentProps?: (props: Props & RenderContext, isServer: boolean) => Props,
-  getHead?: (
-    props: Props & RenderContext,
-    baseUrl?: string
-  ) => PotentialPromise<ReactElement<any>>,
-  getMappingEvent?: (eventId: string, renderContext: RenderContext) => Promise<MappingEvent>,
-  storeInitialRouteProps?: (props: Props, appToken: string) => void,
+  ) => Promise<Props>;
+  getAdditionalPageComponentProps?: (props: Props & RenderContext, isServer: boolean) => Props;
+  getHead?: (props: Props & RenderContext, baseUrl?: string) => PotentialPromise<ReactElement<any>>;
+  getMappingEvent?: (eventId: string, renderContext: RenderContext) => Promise<MappingEvent>;
+  storeInitialRouteProps?: (props: Props, appToken: string) => void;
 };
 
 type DataTable = {
-  [key: string]: DataTableEntry<any>,
+  [key: string]: DataTableEntry<any>;
 };
 
 const dataTable: DataTable = Object.freeze({
@@ -91,21 +88,21 @@ export const categoriesCache = new CategoryLookupTablesCache({
   maxAllowedCacheAgeBeforeReload: 1000 * 60 * 60, // 1 hour
 });
 
-export function getInitialRouteProps(
+export async function getInitialRouteProps(
   {
     routeName,
     ...query
   }: {
-    routeName: string,
-    [key: string]: string,
+    routeName: string;
+    [key: string]: string;
   },
   renderContextPromise: Promise<RenderContext>,
   isServer: boolean
-){
+) {
   const dataItem = dataTable[routeName];
 
   if (!dataItem || !dataItem.getInitialRouteProps) {
-    return Promise.resolve({});
+    return {};
   }
 
   return dataItem.getInitialRouteProps(query, renderContextPromise, isServer);
@@ -145,23 +142,23 @@ export async function getInitialRenderContext({
   embedToken,
   ...query
 }: {
-  userAgentString: string,
-  localeStrings: string[],
-  hostName: string,
-  category?: string,
-  extent?: [number, number, number, number],
-  lat?: number,
-  lon?: number,
-  locale?: string,
-  accessibility?: string,
-  toilet?: string,
-  includeSourceIds?: string,
-  excludeSourceIds?: string,
-  disableWheelmapSource?: string,
-  appId?: string,
-  embedded?: string,
-  embedToken?: string,
-  [key: string]: any,
+  userAgentString: string;
+  localeStrings: string[];
+  hostName: string;
+  category?: string;
+  extent?: [number, number, number, number];
+  lat?: number;
+  lon?: number;
+  locale?: string;
+  accessibility?: string;
+  toilet?: string;
+  includeSourceIds?: string;
+  excludeSourceIds?: string;
+  disableWheelmapSource?: string;
+  appId?: string;
+  embedded?: string;
+  embedToken?: string;
+  [key: string]: any;
 }): Promise<RenderContext> {
   // flow type is not synced with actual APIs
   // $FlowFixMe invalid type definition without userAgentString argument

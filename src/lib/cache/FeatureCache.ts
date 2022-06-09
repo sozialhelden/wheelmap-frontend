@@ -6,8 +6,8 @@ import { t } from 'ttag';
 import ResponseError from '../ResponseError';
 
 type FeatureCacheEvent<T> = CustomEvent & {
-  target: FeatureCache<any, any>, // eslint-disable-line no-use-before-define
-  feature: T,
+  target: FeatureCache<any, any>; // eslint-disable-line no-use-before-define
+  feature: T;
 };
 
 type PropertyPath = string;
@@ -18,7 +18,9 @@ type PropertyValue = any;
  * `fetchFeature` method.
  */
 
-export default class FeatureCache<FeatureType, FeatureCollectionType> extends EventTarget<FeatureCacheEvent<FeatureType>> {
+export default class FeatureCache<FeatureType, FeatureCollectionType> extends EventTarget<
+  FeatureCacheEvent<FeatureType>
+> {
   cache: { [key: string]: FeatureType | undefined } = {};
 
   // For each indexed property path, this object saves an index map.
@@ -161,7 +163,11 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
    * Gets a feature from cache or fetches it from the web.
    * @param {string} id
    */
-  async getFeature(id: string, appToken: string, useCache: boolean = true): Promise<FeatureType | null> {
+  async getFeature(
+    id: string,
+    appToken: string,
+    useCache: boolean = true
+  ): Promise<FeatureType | null> {
     const feature = this.getCachedFeature(id);
 
     if (feature || feature === null) {
@@ -184,10 +190,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
     return response.json();
   }
 
-  updateFeatureAttribute(
-    id: string,
-    newProperties: any
-  ) {
+  updateFeatureAttribute(id: string, newProperties: any) {
     const feature = this.cache[id] as any;
     if (!feature) throw new Error('Cannot update a feature that is not in cache.');
 

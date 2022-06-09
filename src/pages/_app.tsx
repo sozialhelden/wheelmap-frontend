@@ -105,8 +105,7 @@ export default class App extends BaseApp<any> {
 
       if (ctx.query.routeName) {
         // const getInitialRoutePropsSpan = apm.startSpan('Getting route props');
-        const routePropsPromise = getInitialRouteProps(ctx.query, renderContextPromise, isServer);
-        routeProps = await routePropsPromise;
+        routeProps = await getInitialRouteProps(ctx.query, renderContextPromise, isServer);
         // getInitialRoutePropsSpan.end();
         routeProps = { ...routeProps };
       }
@@ -131,9 +130,9 @@ export default class App extends BaseApp<any> {
         path = ctx.req.path;
       }
     } catch (error) {
-      console.log(error);
+      console.log('Caught an error while getting initial props:', error);
 
-      const statusCode = error.statusCode || 500;
+      const statusCode = error.status || error.statusCode || 500;
 
       if (ctx.res) {
         ctx.res.statusCode = statusCode;
