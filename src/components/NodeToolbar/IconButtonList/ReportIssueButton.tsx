@@ -1,12 +1,12 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import FlagIcon from '../../icons/actions/Flag';
-import { Feature } from '../../../lib/Feature';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  equipmentInfoId: string | null,
-  feature: Feature | null,
-  onOpenReportMode?: () => void,
+  equipmentInfoId: string | null;
+  feature: PlaceInfo | null;
+  onOpenReportMode?: () => void;
 };
 
 export default function ReportIssueButton(props: Props) {

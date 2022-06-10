@@ -1,6 +1,5 @@
-import L, { IconOptions } from 'leaflet';
-
-import { Feature } from '../../lib/Feature';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import L from 'leaflet';
 
 export default class HighlightableMarker extends L.Marker {
   highlightedMarker: L.Marker | null = null;
@@ -27,7 +26,7 @@ export default class HighlightableMarker extends L.Marker {
     this.featureId = featureId;
   }
 
-  updateIcon(feature?: Feature) {
+  updateIcon(feature?: PlaceInfo | EquipmentInfo) {
     if (feature) {
       this.markerIconOptions = { ...this.markerIconOptions, feature };
       this.markerIcon = new this.markerIconType(this.markerIconOptions);

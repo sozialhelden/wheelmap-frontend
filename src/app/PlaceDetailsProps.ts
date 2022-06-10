@@ -1,14 +1,12 @@
-import { Feature, WheelmapLightweightFeature } from '../lib/Feature';
-
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 import { DataSource } from '../lib/cache/DataSourceCache';
 import { License } from '../lib/cache/LicenseCache';
-import { EquipmentInfo } from '../lib/EquipmentInfo';
 import { PhotoModel } from '../lib/PhotoModel';
 import { RenderContext } from './getInitialProps';
 
 export type SourceWithLicense = {
-  source: DataSource,
-  license: License | undefined,
+  source: DataSource;
+  license: License | undefined;
 };
 
 export type PotentialPromise<T> = T | Promise<T>;
@@ -30,42 +28,38 @@ function getDataPromise<T>(potentialPromise: PotentialPromise<T>): Promise<T> {
 
 // this is in its own file, to prevent circular dependencies
 export type PlaceDetailsProps = {
-  // preloaded feature, if it exists
-  lightweightFeature: WheelmapLightweightFeature | undefined,
   // full feature, sync on server, async on client
-  feature: PotentialPromise<Feature | undefined>,
+  feature: PotentialPromise<PlaceInfo | EquipmentInfo | undefined>;
   // the feature id
-  featureId: string | number,
+  featureId: string | number;
   // all sources for this feature with a license attached
-  sources: PotentialPromise<SourceWithLicense[]>,
+  sources: PotentialPromise<SourceWithLicense[]>;
   // all photos for this feature
-  photos: PotentialPromise<PhotoModel[]>,
+  photos: PotentialPromise<PhotoModel[]>;
   // the equimentInfo id
-  equipmentInfoId: string | undefined,
+  equipmentInfoId: string | undefined;
   // the equimentInfo
-  equipmentInfo: PotentialPromise<EquipmentInfo> | undefined,
+  equipmentInfo: PotentialPromise<EquipmentInfo> | undefined;
   // toilets around the selected feature
-  toiletsNearby: PotentialPromise<Feature[]> | undefined,
-  renderContext: RenderContext,
+  toiletsNearby: PotentialPromise<PlaceInfo[]> | undefined;
+  renderContext: RenderContext;
 };
 
 export type ResolvedPlaceDetailsProps = {
-  // preloaded feature, if it exists
-  lightweightFeature: WheelmapLightweightFeature | undefined,
   // full feature, sync on server, async on client
-  feature: Feature | undefined,
+  feature: PlaceInfo | EquipmentInfo | undefined;
   // the feature id
-  featureId: string | number,
+  featureId: string | number;
   // all sources for this feature with a license attached
-  sources: SourceWithLicense[],
+  sources: SourceWithLicense[];
   // all photos for this feature
-  photos: PhotoModel[],
+  photos: PhotoModel[];
   // the equimentInfo id
-  equipmentInfoId: string | undefined,
+  equipmentInfoId: string | undefined;
   // the equimentInfo
-  equipmentInfo: EquipmentInfo | undefined,
+  equipmentInfo: EquipmentInfo | undefined;
   // toilets around the selected feature
-  toiletsNearby: Feature[] | undefined,
+  toiletsNearby: PlaceInfo[] | undefined;
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
@@ -86,7 +80,6 @@ export function getPlaceDetailsIfAlreadyResolved(
   }
 
   return {
-    lightweightFeature: props.lightweightFeature,
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources || [],
@@ -111,7 +104,6 @@ export async function awaitPlaceDetails(
     : null;
 
   return {
-    lightweightFeature: props.lightweightFeature,
     feature: resolvedFeature,
     featureId: props.featureId,
     sources: resolvedSources,

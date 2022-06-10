@@ -1,15 +1,15 @@
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import { YesNoLimitedUnknown } from '../../lib/Feature';
 
 export type Cluster = {
-  features: Array<Feature | EquipmentInfo>,
-  backgroundColor?: string,
-  foregroundColor?: string,
-  accessibility?: YesNoLimitedUnknown,
+  features: Array<PlaceInfo | EquipmentInfo>;
+  backgroundColor?: string;
+  foregroundColor?: string;
+  accessibility?: YesNoLimitedUnknown;
   // do not expose leaflet types
-  leafletMarker: any,
+  leafletMarker: any;
   center: {
-    lat: number,
-    lng: number,
-  },
+    lat: number;
+    lng: number;
+  };
 };

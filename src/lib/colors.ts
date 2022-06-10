@@ -1,8 +1,9 @@
 import reduce from 'lodash/reduce';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab, interpolateHsl } from 'd3-interpolate';
-import { NodeProperties, YesNoLimitedUnknown, isWheelchairAccessible } from './Feature';
+import { YesNoLimitedUnknown, isWheelchairAccessible } from './Feature';
 import { hsl, rgb } from 'd3-color';
+import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
 
 const colors = {
   primaryColor: '#79B63E',
@@ -112,7 +113,9 @@ export function getHTMLColorForWheelchairAccessibilityValue(
   return colors.markers.background[isAccessible];
 }
 
-export function getColorForWheelchairAccessibility(properties: NodeProperties): string {
+export function getColorForWheelchairAccessibility(
+  properties: PlaceProperties | EquipmentProperties
+): string {
   return isWheelchairAccessible(properties);
 }
 
@@ -121,7 +124,9 @@ const interpolateYesLimited = interpolateLab(
   colors.markers.background.yes
 );
 
-function calculateWheelchairAccessibility(propertiesArray: NodeProperties[]) {
+function calculateWheelchairAccessibility(
+  propertiesArray: (PlaceProperties | EquipmentProperties)[]
+) {
   if (!propertiesArray || propertiesArray.length === 0) {
     return { definedCount: 0 };
   }
@@ -207,7 +212,9 @@ function getWheelchairAccessibilityColors(
   return { backgroundColor, foregroundColor };
 }
 
-export function interpolateWheelchairAccessibilityColors(propertiesArray: NodeProperties[]) {
+export function interpolateWheelchairAccessibilityColors(
+  propertiesArray: (PlaceProperties | EquipmentProperties)[]
+) {
   const {
     definedCount,
     averageRatingForDefined,
@@ -221,7 +228,9 @@ export function interpolateWheelchairAccessibilityColors(propertiesArray: NodePr
   );
 }
 
-export function interpolateWheelchairAccessibility(propertiesArray: NodeProperties[]) {
+export function interpolateWheelchairAccessibility(
+  propertiesArray: (PlaceProperties | EquipmentProperties)[]
+) {
   const {
     definedCount,
     averageRatingForDefined,

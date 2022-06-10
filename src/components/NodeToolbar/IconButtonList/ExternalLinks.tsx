@@ -1,14 +1,13 @@
 import { t } from 'ttag';
 import * as React from 'react';
 import SourceLink, { PropertyName } from '../SourceLink';
-import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
-import { Feature } from '../../../lib/Feature';
 import { AppContextConsumer } from '../../../AppContext';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature | null,
-  featureId: string | number | null,
-  equipmentInfoId: string | null,
+  feature: PlaceInfo | null;
+  featureId: string | number | null;
+  equipmentInfoId: string | null;
 };
 
 const captions = {
@@ -19,9 +18,9 @@ const captions = {
 };
 
 export default function ExternalInfoAndEditPageLinks(props: Props): JSX.Element {
-  const acFeature = accessibilityCloudFeatureFrom(props.feature);
-  if (!acFeature) return null;
-  const properties = acFeature.properties;
+  const { feature } = props;
+  if (!feature) return null;
+  const properties = feature.properties;
   if (!properties) return null;
   const links = ['infoPageUrl', 'editPageUrl'].map((propertyName: PropertyName) => {
     return (

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import strings from './strings';
 import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/generateOsmUrls';
-import { Feature } from '../../../lib/Feature';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature,
-  featureId: number,
-  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  feature: PlaceInfo;
+  featureId: number;
+  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export default class FixOsmNonExistingPlace extends React.Component<Props> {

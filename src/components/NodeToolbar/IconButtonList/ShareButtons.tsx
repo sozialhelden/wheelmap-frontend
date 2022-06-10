@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { t } from 'ttag';
 
-import { Feature, isWheelmapProperties } from '../../../lib/Feature';
 import { Category, getCategoryId } from '../../../lib/Categories';
 import ShareBar from '../../ShareBar/ShareBar';
 import { translatedStringFromObject } from '../../../lib/i18n';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature,
-  featureId: string | number | null,
-  category: Category | null,
-  parentCategory: Category | null,
-  onToggle?: () => void,
-  className?: string,
+  feature: PlaceInfo;
+  featureId: string | number | null;
+  category: Category | null;
+  parentCategory: Category | null;
+  onToggle?: () => void;
+  className?: string;
 };
 
 const ShareButtons = ({
@@ -37,11 +37,8 @@ const ShareButtons = ({
   const shareButtonCaption = t`Share`;
 
   if (feature && feature.properties) {
-    const properties = feature.properties;
-    let description = '';
-    if (isWheelmapProperties(properties)) {
-      description = properties.wheelchair_description;
-    }
+    const { properties } = feature;
+    let { description } = properties;
     const categoryOrParentCategory = category || parentCategory;
     const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
     // translator: Used to describe a place with unknown name, but known category (when sharing)
@@ -56,7 +53,9 @@ const ShareButtons = ({
     }
 
     // translator: Additional description text for sharing a place in a social network.
-    pageDescription = description || t`Learn more about the accessibility of this place`;
+    pageDescription =
+      translatedStringFromObject(description) ||
+      t`Learn more about the accessibility of this place`;
     // translator: Text for mail body for shared place asking to click a link to open the shared place
     mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
   }

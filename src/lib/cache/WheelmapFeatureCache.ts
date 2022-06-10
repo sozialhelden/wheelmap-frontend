@@ -1,37 +1,31 @@
 import FeatureCache from './FeatureCache';
-import { convertResponseToWheelmapFeature } from '../Feature';
-import { WheelmapFeature, WheelmapFeatureCollection } from '../Feature';
 import config from '../config';
 import { t } from 'ttag';
 import ResponseError from '../ResponseError';
+import { PlaceInfo, PlaceProperties, PointGeometry } from '@sozialhelden/a11yjson';
+import { FeatureCollection } from 'geojson';
 
 export default class WheelmapFeatureCache extends FeatureCache<
-  WheelmapFeature,
-  WheelmapFeatureCollection
+  PlaceInfo,
+  FeatureCollection<PointGeometry, PlaceProperties>
 > {
-  static fetchFeature(
-    id: number | string,
-    appToken: string,
-    useCache: boolean = true
-  ): Promise<Response> {
+  static fetchFeature(id: number | string): Promise<Response> {
     return this.fetch(
-      `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`
+      `${config.wheelmapApiBaseUrl}/api/v1/amenities/${id}.geojson?geometryTypes=centroid`
     );
   }
 
-  static getIdForFeature(feature: WheelmapFeature): string {
-    return String(feature.id || (feature.properties && feature.properties.id));
+  static getIdForFeature(feature: PlaceInfo): string {
+    return String(feature._id || (feature.properties && feature.properties._id));
   }
 
-  static getFeatureFromResponse(response): Promise<WheelmapFeature> {
+  static getFeatureFromResponse(response): Promise<PlaceInfo> {
     if (!response.ok) {
       // translator: Shown when there was an error while loading a place.
       const errorText = t`Could not load this place.`;
       throw new ResponseError(errorText, response);
     }
-    return response
-      .json()
-      .then(responseJson => convertResponseToWheelmapFeature(responseJson.node));
+    return response.json();
   }
 }
 

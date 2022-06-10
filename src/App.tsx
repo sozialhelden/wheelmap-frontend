@@ -18,9 +18,7 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, UAResult } from './lib/userAgent';
 import { RouterHistory } from './lib/RouterHistory';
 import { SearchResultCollection } from './lib/searchPlaces';
-import { Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from './lib/Feature';
 import { SearchResultFeature } from './lib/searchPlaces';
-import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import {
   MappingEvents,
   MappingEvent,
@@ -33,7 +31,6 @@ import { App as AppModel } from './lib/App';
 import MainView, { UnstyledMainView } from './MainView';
 
 import {
-  NodeProperties,
   YesNoLimitedUnknown,
   YesNoUnknown,
   isAccessibilityFiltered,
@@ -55,6 +52,12 @@ import 'focus-visible';
 import { trackModalView, trackEvent } from './lib/Analytics';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
 import { createGlobalStyle } from 'styled-components';
+import {
+  EquipmentInfo,
+  EquipmentProperties,
+  PlaceInfo,
+  PlaceProperties,
+} from '@sozialhelden/a11yjson';
 
 export type LinkData = {
   label: LocalizedString;
@@ -91,7 +94,7 @@ interface Props extends PlaceDetailsProps {
   toiletFilter: YesNoUnknown[];
   accessibilityFilter: YesNoLimitedUnknown[];
 
-  toiletsNearby: PotentialPromise<Feature[]>;
+  toiletsNearby: PotentialPromise<PlaceInfo[]>;
 }
 
 interface State {
@@ -743,8 +746,11 @@ class App extends React.Component<Props, State> {
 
   showSelectedFeature = (
     featureId: string | number,
-    properties?: NodeProperties | EquipmentInfoProperties | null
+    properties?: PlaceProperties | EquipmentProperties | null
   ) => {
+    if (!featureId) {
+      debugger;
+    }
     const featureIdString = featureId.toString();
     const { routerHistory } = this.props;
 
@@ -755,7 +761,7 @@ class App extends React.Component<Props, State> {
     params.id = featureIdString;
     delete params.eid;
 
-    if (isEquipmentPropertiesWithPlaceInfoId(properties)) {
+    if (['elevator', 'escalator'].includes(properties.category) && properties.placeInfoId) {
       const placeInfoId = properties.placeInfoId;
       if (includes(['elevator', 'escalator'], properties.category)) {
         routeName = 'equipment';
@@ -824,7 +830,7 @@ class App extends React.Component<Props, State> {
     this.props.routerHistory.push(routeName, params);
   };
 
-  onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => {
+  onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: PlaceInfo | null) => {
     const params = this.getCurrentParams() as any;
     let routeName = 'map';
 
@@ -921,9 +927,9 @@ class App extends React.Component<Props, State> {
   };
 
   onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
-    if (photo.source === 'accessibility-cloud') {
+    if (photo.appSource === 'accessibility-cloud') {
       accessibilityCloudImageCache.reportPhoto(
-        String(photo.imageId),
+        String(photo._id),
         reason,
         this.props.app.tokenString
       );
@@ -1087,7 +1093,7 @@ class App extends React.Component<Props, State> {
     }
   };
 
-  onShowSelectedFeature = (feature: Feature | EquipmentInfo) => {
+  onShowSelectedFeature = (feature: PlaceInfo | EquipmentInfo) => {
     const featureId = getFeatureId(feature);
 
     if (!featureId) {
@@ -1185,7 +1191,6 @@ class App extends React.Component<Props, State> {
 
       featureId: this.props.featureId,
       feature: this.props.feature,
-      lightweightFeature: this.props.lightweightFeature,
       equipmentInfoId: this.props.equipmentInfoId,
       equipmentInfo: this.props.equipmentInfo,
       photos: this.props.photos,

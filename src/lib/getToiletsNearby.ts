@@ -2,17 +2,17 @@ import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
 import env from './env';
 import config from './config';
-import { Feature } from './Feature';
 
 import { globalFetchManager } from './FetchManager';
 import {
-  convertResponseToWheelmapFeature,
   accessibilityCloudFeatureCollectionFromResponse,
   hasAccessibleToilet,
   normalizedCoordinatesForFeature,
 } from './Feature';
 import { buildSourceIdParams } from '../components/Map/getAccessibilityCloudTileUrl';
 import { geoDistance } from './geoDistance';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
+import { Feature } from 'geojson';
 
 function calculateBoundingBox(lat: number, lon: number, radius: number) {
   const latRadian = (lat * Math.PI) / 180;
@@ -36,12 +36,9 @@ function calculateBoundingBox(lat: number, lon: number, radius: number) {
 
 function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Promise<Feature[]> {
   const bbox = calculateBoundingBox(lat, lon, radius);
-  const url = `${config.wheelmapApiBaseUrl}/api/nodes?bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&per_page=20&wheelchair=yes&wheelchair_toilet=yes&api_key=${config.wheelmapApiKey}`;
+  const url = `${config.wheelmapApiBaseUrl}/api/v1/amenities.geojson?geometryTypes=centroid&bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&wheelchair_toilet=yes&limit=50`;
 
-  return globalFetchManager
-    .fetch(url)
-    .then(response => response.json())
-    .then(responseJson => responseJson.nodes.map(convertResponseToWheelmapFeature));
+  return globalFetchManager.fetch(url).then(response => response.json());
 }
 
 function fetchAcToiletPlaces(
@@ -69,7 +66,7 @@ function fetchAcToiletPlaces(
     });
 }
 
-function filterAccessibleToilets(feature: Feature): boolean {
+function filterAccessibleToilets(feature: PlaceInfo): boolean {
   if (!feature || !feature.properties) {
     return false;
   }

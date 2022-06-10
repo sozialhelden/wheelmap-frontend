@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Feature } from '../../../lib/Feature';
 import { Category } from '../../../lib/Categories';
 
 import ShareButtons from './ShareButtons';
@@ -12,16 +11,17 @@ import colors from '../../../lib/colors';
 import PlaceWebsiteLink from './PlaceWebsiteLink';
 import ReportIssueButton from './ReportIssueButton';
 import { UAResult } from '../../../lib/userAgent';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature | null,
-  featureId: string | number | null,
-  category: Category | null,
-  parentCategory: Category | null,
-  className?: string,
-  equipmentInfoId: string | null,
-  userAgent: UAResult,
-  onToggle?: () => void
+  feature: PlaceInfo | null;
+  featureId: string | number | null;
+  category: Category | null;
+  parentCategory: Category | null;
+  className?: string;
+  equipmentInfoId: string | null;
+  userAgent: UAResult;
+  onToggle?: () => void;
 };
 
 function UnstyledIconButtonList(props: Props): JSX.Element {

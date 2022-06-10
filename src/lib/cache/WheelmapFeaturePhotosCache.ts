@@ -2,7 +2,9 @@ import URLDataCache from './URLDataCache';
 import { WheelmapFeaturePhotos } from '../Feature';
 import config from '../config';
 
-export default class WheelmapFeaturePhotosCache extends URLDataCache<WheelmapFeaturePhotos | undefined> {
+export default class WheelmapFeaturePhotosCache extends URLDataCache<
+  WheelmapFeaturePhotos | undefined
+> {
   getPhotosForFeature(
     featureId: string | number,
     appToken: string,

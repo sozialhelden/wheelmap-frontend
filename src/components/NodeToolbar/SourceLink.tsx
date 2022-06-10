@@ -2,21 +2,21 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import { dataSourceCache } from '../../lib/cache/DataSourceCache';
-import { AccessibilityCloudProperties } from '../../lib/Feature';
 import WorldIcon from '../icons/actions/World';
+import { PlaceProperties } from '@sozialhelden/a11yjson';
 
 export type PropertyName = 'infoPageUrl' | 'editPageUrl';
 
 type Props = {
-  properties: AccessibilityCloudProperties,
-  className?: string,
-  knownSourceNameCaption: (value: string) => string,
-  propertyName: PropertyName,
-  appToken: string,
+  properties: PlaceProperties;
+  className?: string;
+  knownSourceNameCaption: (value: string) => string;
+  propertyName: PropertyName;
+  appToken: string;
 };
 
 type State = {
-  sourceName: string | null,
+  sourceName: string | null;
 };
 
 const defaultState: State = { sourceName: null };

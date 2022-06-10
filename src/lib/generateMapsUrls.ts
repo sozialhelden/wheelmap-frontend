@@ -1,9 +1,9 @@
-import { Feature } from './Feature';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 import openButtonCaption from './openButtonCaption';
 import { UAResult } from './userAgent';
 
 // see https://developer.android.com/guide/components/intents-common#Maps
-export function generateGeoUrl(feature: Feature, placeName: string) {
+export function generateGeoUrl(feature: PlaceInfo, placeName: string) {
   if (!feature.geometry || !(feature.geometry.coordinates instanceof Array)) return null;
   const coords = feature.geometry.coordinates;
   return `geo:${coords[1]},${coords[0]}?q=${coords[1]},${coords[0]}(${encodeURIComponent(
@@ -12,20 +12,20 @@ export function generateGeoUrl(feature: Feature, placeName: string) {
 }
 
 // see https://developer.apple.com/library/content/featuredarticles/iPhoneURLScheme_Reference/MapLinks/MapLinks.html
-export function generateAppleMapsUrl(feature: Feature, placeName: string) {
+export function generateAppleMapsUrl(feature: PlaceInfo, placeName: string) {
   if (!feature.geometry || !(feature.geometry.coordinates instanceof Array)) return null;
   const coords = feature.geometry.coordinates;
   return `http://maps.apple.com/?ll=${coords[1]},${coords[0]}&q=${encodeURIComponent(placeName)}`;
 }
 
 // see https://docs.microsoft.com/en-us/previous-versions/windows/apps/jj635237(v=win.10)
-export function generateBingMapsUrl(feature: Feature, placeName: string) {
+export function generateBingMapsUrl(feature: PlaceInfo, placeName: string) {
   if (!feature.geometry || !(feature.geometry.coordinates instanceof Array)) return null;
   const coords = feature.geometry.coordinates;
   return `bingmaps:?collection=point.${coords[1]}_${coords[0]}_${encodeURIComponent(placeName)}`;
 }
 
-export function generateMapsUrl(userAgent: UAResult, feature: Feature, placeName: string) {
+export function generateMapsUrl(userAgent: UAResult, feature: PlaceInfo, placeName: string) {
   const osName = userAgent.os.name;
 
   if (osName) {

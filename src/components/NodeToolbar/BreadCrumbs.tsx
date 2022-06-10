@@ -4,19 +4,19 @@ import ChevronRight from '../ChevronRight';
 import { Category } from '../../lib/Categories';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { AccessibilityCloudProperties, WheelmapProperties } from '../../lib/Feature';
 import { getCategoryId } from '../../lib/Categories';
+import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {
-  className?: string,
-  category: Category | null,
-  categories: CategoryLookupTables,
-  parentCategory: Category | null,
-  properties: WheelmapProperties | AccessibilityCloudProperties,
+  className?: string;
+  category: Category | null;
+  categories: CategoryLookupTables;
+  parentCategory: Category | null;
+  properties: PlaceProperties | EquipmentProperties;
 };
 
 type State = {
-  displayedCategoryNames: string[],
+  displayedCategoryNames: string[];
 };
 
 class BreadCrumbs extends React.Component<Props, State> {

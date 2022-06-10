@@ -26,6 +26,7 @@ export default function convertWheelmapPhotosToLightboxPhotos(
       height: retinaPhoto.height,
       key: String(wheelmapPhoto.id),
       appSource: 'wheelmap',
+      angle: 0,
     };
   });
 }

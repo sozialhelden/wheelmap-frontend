@@ -1,11 +1,8 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import intersperse from 'intersperse';
-
 import {
   categoryNameFor,
   getCategoryId,
@@ -24,6 +21,7 @@ import { translatedStringFromObject } from '../../lib/i18n';
 import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;
@@ -69,7 +67,7 @@ function getRoomNumberString(roomNumber: string) {
 
 type Props = {
   children?: React.ReactNode,
-  feature: Feature | null,
+  feature: PlaceInfo | EquipmentInfo | null,
   equipmentInfoId?: string | null,
   equipmentInfo?: EquipmentInfo | null,
   cluster?: Cluster | null,
@@ -78,7 +76,7 @@ type Props = {
   parentCategory: Category | null,
   hasIcon: boolean,
   onClickCurrentCluster?: (cluster: Cluster) => void,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  onClickCurrentMarkerIcon?: (feature: PlaceInfo | EquipmentInfo) => void,
 };
 
 export default class NodeHeader extends React.Component<Props> {
@@ -101,7 +99,7 @@ export default class NodeHeader extends React.Component<Props> {
     let categoryName = shownCategory && categoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
-    const acFeature = accessibilityCloudFeatureFrom(feature);
+    const acFeature = feature;
     const parentPlaceName =
       acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
     const address = acFeature?.properties.address;
@@ -135,7 +133,7 @@ export default class NodeHeader extends React.Component<Props> {
       />
     );
 
-    const categoryElement = properties.name ? (
+    const categoryElement = properties['name'] ? (
       <StyledBreadCrumbs
         properties={properties}
         category={this.props.category}

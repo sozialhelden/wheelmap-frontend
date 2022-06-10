@@ -3,17 +3,7 @@ import styled from 'styled-components';
 import { t } from 'ttag';
 import { map } from 'lodash';
 
-import {
-  accessibilityName,
-  isWheelchairAccessible,
-  isWheelmapProperties,
-} from '../../../lib/Feature';
-import {
-  Feature,
-  NodeProperties,
-  AccessibilityCloudProperties,
-  WheelmapProperties,
-} from '../../../lib/Feature';
+import { accessibilityName, isWheelchairAccessible } from '../../../lib/Feature';
 import { CategoryLookupTables } from '../../../lib/Categories';
 import { AppContextData } from '../../../AppContext';
 
@@ -28,6 +18,7 @@ import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEdito
 import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
 import { DataSource, dataSourceCache } from '../../../lib/cache/DataSourceCache';
 import Spinner from '../../ActivityIndicator/Spinner';
+import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type IssueEntry = {
   className?: string;
@@ -36,7 +27,7 @@ type IssueEntry = {
   component?: React.ComponentType<any>;
 };
 
-const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] =>
+const generateWheelmapClassicIssues = (properties: PlaceProperties): IssueEntry[] =>
   [
     {
       className: 'wrong-wheelchair-accessibility',
@@ -84,7 +75,7 @@ const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEnt
   ].filter(Boolean);
 
 const generateAcIssues = (
-  properties: AccessibilityCloudProperties,
+  properties: PlaceProperties,
   appContext: AppContextData,
   source: DataSource | null,
   appToken: string
@@ -133,7 +124,7 @@ const generateAcIssues = (
 type Props = {
   appContext: AppContextData;
   categories: CategoryLookupTables;
-  feature: Feature;
+  feature: PlaceInfo;
   featureId: string | number | null;
   className?: string;
   onClose: () => void;
@@ -175,11 +166,7 @@ class ReportDialog extends React.Component<Props, State> {
     document.removeEventListener('keydown', this.escapeHandler);
   }
 
-  generateIssues(_featureId: string | number, props: NodeProperties, appToken: string) {
-    if (isWheelmapProperties(props)) {
-      return generateWheelmapClassicIssues(props);
-    }
-
+  generateIssues(_featureId: string | number, props: PlaceProperties, appToken: string) {
     if (!this.state.source) {
       dataSourceCache.getDataSourceWithId(props.sourceId, appToken).then(source => {
         this.setState({ source });

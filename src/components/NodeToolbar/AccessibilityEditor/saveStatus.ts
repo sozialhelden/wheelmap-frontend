@@ -5,38 +5,34 @@ import config from '../../../lib/config';
 import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
-import {
-  Feature,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-  isWheelmapFeatureId,
-} from '../../../lib/Feature';
+import { YesNoLimitedUnknown, YesNoUnknown, isWheelmapFeatureId } from '../../../lib/Feature';
 import { trackEvent } from '../../../lib/Analytics';
 import Categories, { getCategoryId } from '../../../lib/Categories';
 import { CategoryLookupTables } from '../../../lib/Categories';
 import { AppContextData } from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type ExternalSaveOptions<T> = {
-  featureId: string,
-  categories: CategoryLookupTables,
-  feature: Feature,
-  value: T,
-  onSave: (value: T) => void | null,
-  onClose: () => void,
-  appContext: AppContextData,
+  featureId: string;
+  categories: CategoryLookupTables;
+  feature: PlaceInfo;
+  value: T;
+  onSave: (value: T) => void | null;
+  onClose: () => void;
+  appContext: AppContextData;
 };
 
 type PropertyUpdates = { [key: string]: string | boolean | number | void };
 
 type TrackableSaveOptions<T> = ExternalSaveOptions<T> & {
-  propertyUpdates: PropertyUpdates,
-  action: string,
+  propertyUpdates: PropertyUpdates;
+  action: string;
 };
 
 type WheelmapSaveOptions<T> = TrackableSaveOptions<T> & {
-  url: string,
-  jsonPropertyName: string,
+  url: string;
+  jsonPropertyName: string;
 };
 
 function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {

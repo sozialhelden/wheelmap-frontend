@@ -1,9 +1,9 @@
 import includes from 'lodash/includes';
 import * as levenshtein from 'fast-levenshtein';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { NodeProperties } from '../../lib/Feature';
+import { PlaceProperties } from '@sozialhelden/a11yjson';
 
-export default function isSamePlace(propertiesArray: NodeProperties[]) {
+export default function isSamePlace(propertiesArray: PlaceProperties[]) {
   const hasTwoPlaces = propertiesArray.length === 2;
   if (!hasTwoPlaces) return false;
 

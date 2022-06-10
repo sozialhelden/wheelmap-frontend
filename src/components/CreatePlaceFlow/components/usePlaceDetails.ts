@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
-import type { AccessibilityCloudFeature } from '../../../lib/Feature';
 
 import AppContext from '../../../AppContext';
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 export type SearchState = 'NoId' | 'Loading' | 'Error' | 'Result';
 
@@ -29,7 +29,7 @@ export default function usePlaceDetails(initialPlaceId: string | null = null) {
       appToken,
       false
     );
-    request.current = (placeDetailsPromise as Promise<AccessibilityCloudFeature>);
+    request.current = placeDetailsPromise as Promise<PlaceInfo>;
     setPlace(null);
     placeDetailsPromise
       .then(result => {
@@ -51,6 +51,9 @@ export default function usePlaceDetails(initialPlaceId: string | null = null) {
     };
   }, [placeId, appToken, setState, setPlace]);
 
-  return [state, place, setPlaceId] as
-    [SearchState, AccessibilityCloudFeature | null, Dispatch<SetStateAction<string>>];
+  return [state, place, setPlaceId] as [
+    SearchState,
+    PlaceInfo | null,
+    Dispatch<SetStateAction<string>>
+  ];
 }

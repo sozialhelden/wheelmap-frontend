@@ -8,18 +8,16 @@ import {
   accessibilityName,
   accessibilityDescription,
   toiletDescription,
-  isWheelmapFeature,
   normalizedCoordinatesForFeature,
 } from '../../../lib/Feature';
 import colors from '../../../lib/colors';
 import PenIcon from '../../icons/actions/PenIcon';
-import { Feature } from '../../../lib/Feature';
-import { getCategoryIdFromProperties } from '../../../lib/Categories';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -67,13 +65,13 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 }
 
 type Props = {
-  feature: Feature,
-  toiletsNearby: Feature[] | null,
-  onOpenWheelchairAccessibility: () => void,
-  onOpenToiletAccessibility: () => void,
-  onOpenToiletNearby: (feature: Feature) => void,
-  className?: string,
-  isEditingEnabled: boolean,
+  feature: PlaceInfo | EquipmentInfo;
+  toiletsNearby: PlaceInfo[] | null;
+  onOpenWheelchairAccessibility: () => void;
+  onOpenToiletAccessibility: () => void;
+  onOpenToiletNearby: (feature: PlaceInfo) => void;
+  className?: string;
+  isEditingEnabled: boolean;
 };
 
 class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
@@ -148,7 +146,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
     const toiletAccessibility = hasAccessibleToilet(properties);
 
     const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
-    const categoryId = getCategoryIdFromProperties(properties);
+    const categoryId = properties.category;
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =
       isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);

@@ -1,18 +1,14 @@
-type Parts = {
-  street?: string | undefined,
-  housenumber?: string | undefined,
-  postcode?: string | undefined,
-  city?: string | undefined,
-  state?: string | undefined,
-  country?: string | undefined,
-};
+import { StructuredAddress } from '@sozialhelden/a11yjson';
 
-export default function getAddressString(parts: Parts): string | undefined {
+export default function getAddressString(parts: StructuredAddress): string | undefined {
+  if (!parts) {
+    return undefined;
+  }
   return [
-    [parts.street, parts.housenumber].filter(Boolean).join(' '),
-    [parts.postcode, parts.city].filter(Boolean).join(' '),
+    [parts.street, parts.house].filter(Boolean).join(' '),
+    [parts.postalCode, parts.city].filter(Boolean).join(' '),
     parts.state,
-    parts.country,
+    parts.countryCode,
   ]
     .filter(Boolean)
     .join(', ');

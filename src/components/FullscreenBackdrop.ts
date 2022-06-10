@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop' })`
+const FullscreenBackdrop = styled.div.attrs({ className: 'fullscreen-backdrop', isActive: false })`
   position: fixed;
   top: 0;
   left: 0;

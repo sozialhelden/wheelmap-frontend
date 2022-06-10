@@ -14,15 +14,16 @@ import SozialheldenLogo from './SozialheldenLogo';
 import { currentLocales } from '../../lib/i18n';
 import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { hrefForFeature, isWheelmapProperties } from '../../lib/Feature';
-import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
 
 import {
   isWheelchairAccessible,
   hasAccessibleToilet,
-  wheelmapFeatureCollectionFromResponse,
   accessibilityCloudFeatureCollectionFromResponse,
   getFeatureId,
+  hrefForPlaceInfo,
+  hrefForEquipmentInfo,
+  YesNoLimitedUnknown,
+  YesNoUnknown,
 } from '../../lib/Feature';
 import ClusterIcon from './ClusterIcon';
 import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
@@ -33,8 +34,6 @@ import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { PotentialPromise } from '../../app/PlaceDetailsProps';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
@@ -58,6 +57,12 @@ import { hrefForMappingEvent } from '../../lib/MappingEvent';
 import { MapStyle } from './MapStyle';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 import env from '../../lib/env';
+import {
+  EquipmentInfo,
+  EquipmentProperties,
+  PlaceInfo,
+  PlaceProperties,
+} from '@sozialhelden/a11yjson';
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -88,7 +93,7 @@ type IntervalID = any;
 
 type Props = {
   featureId?: string | number | null;
-  feature?: PotentialPromise<Feature | null>;
+  feature?: PotentialPromise<PlaceInfo | EquipmentInfo | null>;
   mappingEvents?: MappingEvents;
   equipmentInfoId?: string | null;
   equipmentInfo?: PotentialPromise<EquipmentInfo | null> | null;
@@ -105,7 +110,10 @@ type Props = {
 
   activeCluster?: Cluster;
 
-  onMarkerClick: (featureId: string, properties: NodeProperties | null) => void;
+  onMarkerClick: (
+    featureId: string,
+    properties: PlaceProperties | EquipmentProperties | null
+  ) => void;
   onClusterClick: (cluster: Cluster) => void;
   onMappingEventClick: (eventId: string) => void;
   onMoveEnd?: (args: MoveArgs) => void;
@@ -136,8 +144,8 @@ type Props = {
 type State = {
   showZoomInfo?: boolean;
   showLocationNotAllowedHint: boolean;
-  placeOrEquipment?: Feature | EquipmentInfo | null;
-  placeOrEquipmentPromise?: Promise<Feature | EquipmentInfo | null> | null;
+  placeOrEquipment?: PlaceInfo | EquipmentInfo | null;
+  placeOrEquipmentPromise?: Promise<PlaceInfo | EquipmentInfo | null> | null;
   zoomedToFeatureId: string | null;
   category: RootCategoryEntry | null;
 };
@@ -340,7 +348,7 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer = L.mapboxGL({
+    const basemapLayer = (L as any).mapboxGL({
       accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
       style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
     });
@@ -493,8 +501,8 @@ export default class Map extends React.Component<Props, State> {
   }
 
   handlePromiseResolved(
-    placeOrEquipmentPromise: Promise<Feature | EquipmentInfo | null>,
-    placeOrEquipment: Feature | EquipmentInfo | null
+    placeOrEquipmentPromise: Promise<PlaceInfo | EquipmentInfo | null>,
+    placeOrEquipment: PlaceInfo | EquipmentInfo | null
   ) {
     if (this.state.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
       return;
@@ -550,8 +558,8 @@ export default class Map extends React.Component<Props, State> {
         this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
           featureCache: wheelmapLightweightFeatureCache,
           layerGroup: markerClusterGroup,
-          featureCollectionFromResponse: wheelmapFeatureCollectionFromResponse,
-          pointToLayer: this.createMarkerFromFeature,
+          featureCollectionFromResponse: r => r,
+          pointToLayer: this.createMarkerFromPlaceInfo,
           filter: this.isFeatureVisible.bind(this),
           maxZoom: this.props.maxZoom,
         });
@@ -577,7 +585,7 @@ export default class Map extends React.Component<Props, State> {
       maxNativeZoom: 14,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-      pointToLayer: this.createMarkerFromFeature,
+      pointToLayer: this.createMarkerFromEquipmentInfo,
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,
     });
@@ -600,7 +608,7 @@ export default class Map extends React.Component<Props, State> {
       featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
-      pointToLayer: this.createMarkerFromFeature,
+      pointToLayer: this.createMarkerFromPlaceInfo,
       filter: this.isFeatureVisible.bind(this),
       maxZoom: this.props.maxZoom,
     });
@@ -889,7 +897,7 @@ export default class Map extends React.Component<Props, State> {
         .find(marker => marker && marker.featureId === props.featureId);
 
       if (selectedMappingEventMarker) {
-        highlightMarkers(this.highLightLayer, [selectedMappingEventMarker]);
+        highlightMarkers(this.highLightLayer, [selectedMappingEventMarker], [], true);
       }
     }
 
@@ -952,7 +960,7 @@ export default class Map extends React.Component<Props, State> {
     });
   }
 
-  createMarkerFromFeature = (feature: Feature, latlng: [number, number]) => {
+  createMarkerFromPlaceInfo = (feature: PlaceInfo, latlng: [number, number]) => {
     const properties = feature && feature.properties;
     if (!properties) {
       return null;
@@ -960,13 +968,27 @@ export default class Map extends React.Component<Props, State> {
     const featureId: string = getFeatureId(feature);
     return new HighlightableMarker(latlng, A11yMarkerIcon, {
       onClick: () => this.props.onMarkerClick(featureId, properties),
-      href: hrefForFeature(feature, properties),
+      href: hrefForPlaceInfo(feature),
       feature,
       categories: this.props.categories,
     });
   };
 
-  isFeatureVisible(feature: Feature) {
+  createMarkerFromEquipmentInfo = (feature: EquipmentInfo, latlng: [number, number]) => {
+    const properties = feature && feature.properties;
+    if (!properties) {
+      return null;
+    }
+    const featureId: string = getFeatureId(feature);
+    return new HighlightableMarker(latlng, A11yMarkerIcon, {
+      onClick: () => this.props.onMarkerClick(featureId, properties),
+      href: hrefForEquipmentInfo(feature),
+      feature,
+      categories: this.props.categories,
+    });
+  };
+
+  isFeatureVisible(feature: PlaceInfo | EquipmentInfo) {
     const { accessibilityFilter, toiletFilter } = this.props;
     if (!feature) return false;
     if (!feature.properties) return false;
@@ -1113,22 +1135,10 @@ export default class Map extends React.Component<Props, State> {
     const baseUrl = props.wheelmapApiBaseUrl;
     if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = props.wheelmapApiKey;
-    const categoryName = props.categoryId;
+    // const categoryName = props.categoryId;
     if (!wheelmapApiKey) {
       return null;
     }
-    const isMetaCategory = state.category && state.category.isMetaCategory;
-    if (categoryName && !isMetaCategory) {
-      const rootCategory = Categories.wheelmapRootCategoryWithName(props.categories, categoryName);
-      if (!rootCategory) {
-        const subCategory = Categories.wheelmapCategoryWithName(props.categories, categoryName);
-        if (!subCategory) {
-          return null;
-        }
-        return `${baseUrl}/api/node_types/${subCategory.id}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
-      }
-      return `${baseUrl}/api/categories/${rootCategory.id}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
-    }
-    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
+    return `${baseUrl}/api/v1/amenities.json?bbox={bbox}&geometryTypes=centroid&limit=1000`;
   }
 }

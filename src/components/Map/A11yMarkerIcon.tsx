@@ -7,14 +7,13 @@ import MarkerIcon from './MarkerIcon';
 import Icon from '../Icon';
 import { CategoryLookupTables } from '../../lib/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { Feature } from '../../lib/Feature';
 
 type Options = IconOptions & {
-  href: string,
-  onClick: () => void,
-  highlighted?: boolean,
-  feature: Feature,
-  categories: CategoryLookupTables,
+  href: string;
+  onClick: () => void;
+  highlighted?: boolean;
+  feature: Feature;
+  categories: CategoryLookupTables;
 };
 
 export default class A11yMarkerIcon extends MarkerIcon {

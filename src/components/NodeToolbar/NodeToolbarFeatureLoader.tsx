@@ -5,59 +5,59 @@ import NodeToolbar from './NodeToolbar';
 import { Cluster } from '../Map/Cluster';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
 import { Category } from '../../lib/Categories';
-import { Feature, YesNoLimitedUnknown } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { YesNoLimitedUnknown } from '../../lib/Feature';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import { PhotoModel } from '../../lib/PhotoModel';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { PlaceDetailsProps, getPlaceDetailsIfAlreadyResolved } from '../../app/PlaceDetailsProps';
 import { UAResult } from '../../lib/userAgent';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  categories: CategoryLookupTables,
-  cluster: null | Cluster,
-  hidden: boolean,
-  modalNodeState: ModalNodeState,
-  inEmbedMode: boolean,
-  onClose: () => void,
-  onOpenReportMode: () => void | null,
-  onOpenToiletAccessibility: () => void,
-  onOpenWheelchairAccessibility: () => void,
-  onOpenToiletNearby: (feature: Feature) => void,
-  onCloseWheelchairAccessibility: () => void,
-  onCloseToiletAccessibility: () => void,
-  onClickCurrentCluster?: (cluster: Cluster) => void,
-  onClickCurrentMarkerIcon?: (feature: Feature) => void,
-  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  onShowPlaceDetails: (featureId: string | number) => void,
+  categories: CategoryLookupTables;
+  cluster: null | Cluster;
+  hidden: boolean;
+  modalNodeState: ModalNodeState;
+  inEmbedMode: boolean;
+  onClose: () => void;
+  onOpenReportMode: () => void | null;
+  onOpenToiletAccessibility: () => void;
+  onOpenWheelchairAccessibility: () => void;
+  onOpenToiletNearby: (feature: PlaceInfo) => void;
+  onCloseWheelchairAccessibility: () => void;
+  onCloseToiletAccessibility: () => void;
+  onClickCurrentCluster?: (cluster: Cluster) => void;
+  onClickCurrentMarkerIcon?: (feature: PlaceInfo) => void;
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void;
+  onShowPlaceDetails: (featureId: string | number) => void;
   // Simple 3-button wheelchair status editor
-  accessibilityPresetStatus?: null | YesNoLimitedUnknown,
-  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
+  accessibilityPresetStatus?: null | YesNoLimitedUnknown;
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void;
 
   // photo feature
-  onStartPhotoUploadFlow: () => void,
-  onReportPhoto: (photo: PhotoModel) => void
-  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
-  photoFlowErrorMessage: null | string,
-  minimalTopPosition: number,
-  userAgent: UAResult,
+  onStartPhotoUploadFlow: () => void;
+  onReportPhoto: (photo: PhotoModel) => void;
+  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
+  photoFlowErrorMessage: null | string;
+  minimalTopPosition: number;
+  userAgent: UAResult;
 } & PlaceDetailsProps;
 
 type RequiredData = {
-  resolvedFeature: null | Feature,
-  resolvedEquipmentInfo: null | EquipmentInfo,
+  resolvedFeature: null | PlaceInfo | EquipmentInfo;
+  resolvedEquipmentInfo: null | EquipmentInfo;
 };
 
 type State = {
-  category: null | Category,
-  parentCategory: null | Category,
-  resolvedRequiredData: null | RequiredData,
-  requiredDataPromise: null | Promise<RequiredData>,
-  resolvedSources: null | SourceWithLicense[],
-  resolvedPhotos: null | PhotoModel[],
-  resolvedToiletsNearby: null | Feature[],
-  lastFeatureId: null | (string | number),
-  lastEquipmentInfoId: null | string,
+  category: null | Category;
+  parentCategory: null | Category;
+  resolvedRequiredData: null | RequiredData;
+  requiredDataPromise: null | Promise<RequiredData>;
+  resolvedSources: null | SourceWithLicense[];
+  resolvedPhotos: null | PhotoModel[];
+  resolvedToiletsNearby: null | PlaceInfo[];
+  lastFeatureId: null | (string | number);
+  lastEquipmentInfoId: null | string;
 };
 
 class NodeToolbarFeatureLoader extends React.Component<Props, State> {
@@ -105,13 +105,10 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     }
 
     // resolve lightweight categories if it is set
-    let categories: { category: Category | null, parentCategory: Category | null } = {
+    let categories: { category: Category | null; parentCategory: Category | null } = {
       category: null,
       parentCategory: null,
     };
-    if (props.lightweightFeature) {
-      categories = Categories.getCategoriesForFeature(props.categories, props.lightweightFeature);
-    }
 
     // wait for new data
     return {
@@ -262,7 +259,6 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       feature,
       sources,
       equipmentInfo,
-      lightweightFeature,
       photos,
       toiletsNearby,
       ...remainingProps
@@ -275,7 +271,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         {...remainingProps}
         category={category}
         parentCategory={parentCategory}
-        feature={lightweightFeature || resolvedFeature}
+        feature={resolvedFeature}
         equipmentInfo={resolvedEquipmentInfo}
         sources={resolvedSources || []}
         photos={resolvedPhotos || []}

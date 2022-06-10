@@ -9,19 +9,19 @@ import * as markers from './icons/markers';
 type Size = 'big' | 'medium' | 'small';
 
 type Props = {
-  accessibility?: YesNoLimitedUnknown | null,
-  category: string | null,
-  isMainCategory?: boolean,
-  className?: string | null,
-  size: Size,
-  withArrow?: boolean | null,
-  centered?: boolean | null,
-  shadowed?: boolean | null,
-  ariaHidden?: boolean | null,
-  foregroundColor?: string | null,
-  backgroundColor?: string | null,
-  children?: React.ReactNode | null,
-  onClick?: () => void,
+  accessibility?: YesNoLimitedUnknown | null;
+  category: string | null;
+  isMainCategory?: boolean;
+  className?: string | null;
+  size: Size;
+  withArrow?: boolean | null;
+  centered?: boolean | null;
+  shadowed?: boolean | null;
+  ariaHidden?: boolean | null;
+  foregroundColor?: string | null;
+  backgroundColor?: string | null;
+  children?: React.ReactNode | null;
+  onClick?: () => void;
 };
 
 function width(size: Size) {
@@ -73,7 +73,7 @@ export const StyledIconContainer = styled(Figure)`
   > small {
     position: absolute;
     bottom: 1px;
-    right 1px;
+    right: 1px;
     font-size: 8px;
   }
 
@@ -87,7 +87,7 @@ export const StyledIconContainer = styled(Figure)`
       height: 100%;
       top: 0;
       left: 0;
-      
+
       g,
       polygon,
       path,

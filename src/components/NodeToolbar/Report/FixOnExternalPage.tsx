@@ -2,19 +2,19 @@ import * as React from 'react';
 import { t } from 'ttag';
 
 import SourceLink, { PropertyName } from '../SourceLink';
-import { Feature, AccessibilityCloudProperties } from '../../../lib/Feature';
 import { DataSource } from '../../../lib/cache/DataSourceCache';
 import strings from './strings';
 import { AppContextConsumer } from '../../../AppContext';
+import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature,
-  source: DataSource | null,
-  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  properties: AccessibilityCloudProperties,
+  feature: PlaceInfo;
+  source: DataSource | null;
+  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  properties: PlaceProperties;
 };
 
-const callToActions: {[key in PropertyName]: (v: string) => string} = {
+const callToActions: { [key in PropertyName]: (v: string) => string } = {
   // translator: View on external webpage link in report dialog.
   infoPageUrl: (name: string) => t`View this place on ${name}`,
   // translator: Edit on external webpage link in report dialog.

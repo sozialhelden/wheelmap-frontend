@@ -1,27 +1,21 @@
+import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import { NodeProperties, isWheelmapProperties } from '../../lib/Feature';
-import includes from 'lodash/includes';
 
 export default function getIconNameForProperties(
   lookup: CategoryLookupTables,
-  properties: NodeProperties
+  properties: PlaceProperties | EquipmentProperties
 ) {
   if (!properties) {
     return null;
   }
-  const givenNodeTypeId = isWheelmapProperties(properties) && properties.node_type ? properties.node_type.identifier : null;
-
-  let givenCategoryId = null;
+  let categoryIdOrSynonym = null;
   if (typeof properties.category === 'string') {
-    if (includes(['escalator', 'elevator'], properties.category)) {
+    if (['escalator', 'elevator'].includes(properties.category)) {
       return properties.category;
     }
-    givenCategoryId = properties.category;
+    categoryIdOrSynonym = properties.category;
   }
-  if (properties.category && typeof properties.category === 'object') {
-    givenCategoryId = properties.category.identifier;
-  }
-  let categoryIdOrSynonym = givenNodeTypeId || givenCategoryId;
+
   if (categoryIdOrSynonym === '2nd_hand') {
     categoryIdOrSynonym = 'second_hand';
   }

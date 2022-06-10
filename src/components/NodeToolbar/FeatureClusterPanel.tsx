@@ -2,9 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 import sortBy from 'lodash/sortBy';
-
-import { Feature, placeNameFor, getFeatureId, isWheelmapFeature } from '../../lib/Feature';
-import { EquipmentInfo, CategoryStrings, CategoryString } from '../../lib/EquipmentInfo';
+import { placeNameFor, getFeatureId } from '../../lib/Feature';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
 import StyledCloseLink from '../CloseLink';
@@ -17,8 +15,8 @@ import colors from '../../lib/colors';
 import Categories, { CategoryLookupTables } from '../../lib/Categories';
 import { Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
-import { get } from 'lodash';
-import AccessibilityCloudFeatureCache, { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
   hidden?: boolean,
@@ -28,7 +26,7 @@ type Props = {
   categories: CategoryLookupTables,
   onClose: () => void,
   onSelectClusterIcon: () => void,
-  onFeatureSelected: (feature: Feature | EquipmentInfo) => void,
+  onFeatureSelected: (feature: PlaceInfo | EquipmentInfo) => void,
   className?: string,
   minimalTopPosition: number,
 };
@@ -88,15 +86,15 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
-  renderClusterEntry(feature: Feature | EquipmentInfo, allFeatures: (Feature | EquipmentInfo)[]) {
+  renderClusterEntry(feature: PlaceInfo | EquipmentInfo, allFeatures: (PlaceInfo | EquipmentInfo)[]) {
     const { category, parentCategory } = Categories.getCategoriesForFeature(
       this.props.categories,
       feature
     );
 
-    const isEquipment = category._tag === 'ACCategory' && CategoryStrings.includes(category._id as CategoryString);
+    const isEquipment = ['elevator', 'escalator'].includes(category._id);
     const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
-    const equipmentInfoId = equipmentInfo?.properties._id;
+    const equipmentInfoId = equipmentInfo?._id || equipmentInfo?.properties._id;
     const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
     return (
       <button onClick={() => this.props.onFeatureSelected(feature)}>
@@ -114,7 +112,7 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     );
   }
 
-  renderClusterEntries(features: ArrayLike<Feature | EquipmentInfo>) {
+  renderClusterEntries(features: ArrayLike<PlaceInfo | EquipmentInfo>) {
     const sortedFeatures = sortBy(features, feature => {
       if (!feature.properties) {
         return getFeatureId(feature)

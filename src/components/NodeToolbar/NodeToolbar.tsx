@@ -20,7 +20,6 @@ import Button from '../Button';
 
 import { PhotoModel } from '../../lib/PhotoModel';
 import {
-  Feature,
   YesNoLimitedUnknown,
   isWheelmapFeatureId,
   placeNameFor,
@@ -28,7 +27,6 @@ import {
 } from '../../lib/Feature';
 
 import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
@@ -40,6 +38,7 @@ import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { UAResult } from '../../lib/userAgent';
 import isA11yEditable from './AccessibilityEditor/isA11yEditable';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -51,12 +50,12 @@ PositionedCloseLink.displayName = 'PositionedCloseLink';
 type Props = {
   equipmentInfoId: string | null,
   equipmentInfo: EquipmentInfo | null,
-  feature: Feature,
+  feature: PlaceInfo | EquipmentInfo | null,
   featureId: string | number,
   cluster: Cluster | null,
   sources: SourceWithLicense[],
   photos: PhotoModel[],
-  toiletsNearby: Feature[] | null,
+  toiletsNearby: PlaceInfo[] | null,
   categories: CategoryLookupTables,
   category: Category | null,
   parentCategory: Category | null,
@@ -68,7 +67,7 @@ type Props = {
   onOpenReportMode: () => void | null,
   onOpenToiletAccessibility: () => void,
   onOpenWheelchairAccessibility: () => void,
-  onOpenToiletNearby: (feature: Feature) => void,
+  onOpenToiletNearby: (feature: PlaceInfo) => void,
   onCloseWheelchairAccessibility: () => void,
   onCloseToiletAccessibility: () => void,
   onClickCurrentCluster?: (cluster: Cluster) => void,
@@ -232,7 +231,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
   }
 
   renderInlineWheelchairAccessibilityEditor(
-    feature: Feature,
+    feature: PlaceInfo | EquipmentInfo,
     category: null | undefined | Category,
     sources: null | undefined | SourceWithLicense[]
   ) {

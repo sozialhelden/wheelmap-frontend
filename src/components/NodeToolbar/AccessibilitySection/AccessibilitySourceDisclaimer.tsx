@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
-import { AccessibilityCloudProperties } from '../../../lib/Feature';
 import { LocalizedString, translatedStringFromObject } from '../../../lib/i18n';
+import { PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {
-  properties: AccessibilityCloudProperties,
+  properties: PlaceProperties,
   className?: string,
   appToken: string,
 };

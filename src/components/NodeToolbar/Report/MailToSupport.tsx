@@ -1,10 +1,10 @@
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 import * as React from 'react';
-import { Feature } from '../../../lib/Feature';
 import { getCategoryId, Category } from '../../../lib/Categories';
 import strings from './strings';
 
 type Props = {
-  feature: Feature,
+  feature: PlaceInfo,
   featureId: string | number | null,
   category: Category | null,
   parentCategory: Category | null,

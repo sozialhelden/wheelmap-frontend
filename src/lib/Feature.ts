@@ -7,17 +7,16 @@ import isEqual from 'lodash/isEqual';
 import isArray from 'lodash/isArray';
 import uniq from 'lodash/uniq';
 import isPlainObject from 'lodash/isPlainObject';
-import { Point } from 'geojson';
 import { translatedStringFromObject } from './i18n';
 
 import useImperialUnits from './useImperialUnits';
-import { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import { Category } from './Categories';
-import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
-import { LocalizedString } from './i18n';
+import { categoryNameFor } from './Categories';
 import { normalizeCoordinates } from './normalizeCoordinates';
 import { SearchResultFeature } from './searchPlaces';
+import { EquipmentInfo, EquipmentProperties, PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import { Feature } from 'geojson';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -72,118 +71,13 @@ export function isToiletFiltered(toiletFilter: YesNoUnknown[] | null): boolean {
   );
 }
 
-export type AccessibilityDescription = {
-  description?: string | null;
-  longDescription?: string | null; // can be read out aloud by a voice assistant, does not contain abbreviations or special characters
-  shortDescription?: string | null; // can be shortened, makes more sense visually
-}
-
-export interface Restroom {
-  isAccessibleWithWheelchair?: boolean,
-  ratingForWheelchair: number,
-};
-
-export interface Area {
-  restrooms: Restroom[],
-};
-
-export interface MinimalAccessibility {
-  accessibleWith: {
-    wheelchair: boolean,
-  },
-  partiallyAccessibleWith: {
-    wheelchair: boolean,
-  },
-  areas?: Area[],
-};
-
-export interface WheelmapCategoryOrNodeType {
-  id: number | null,
-  identifier: string | null,
-};
-
-export type WheelmapProperties = {
-  id: number,
-  category: WheelmapCategoryOrNodeType | null,
-  node_type: WheelmapCategoryOrNodeType | null,
-  city: string | null,
-  housenumber: string | null,
-  lat: number,
-  lon: number,
-  name?: LocalizedString | null,
-  phone: string | null,
-  photo_ids: number | string[] | null,
-  postcode: string | null,
-  sponsor: string | null,
-  icon: string | null,
-  region: string | null,
-  street: string | null,
-  website: string | null,
-  wheelchair: YesNoLimitedUnknown | null,
-  wheelchair_description: string | null,
-  wheelchair_toilet: YesNoUnknown | null,
-} & AccessibilityDescription;
-
-export type WheelmapFeature = {
-  type: 'Feature',
-  geometry: Point | null,
-  properties: WheelmapProperties | null,
-  id: number,
-};
-
-// todo: this makes no sense
-export type WheelmapLightweightFeature = WheelmapFeature;
-
-export type AccessibilityCloudProperties = {
-  _id: string,
-  sourceId: string,
-  name?: LocalizedString | null,
-  accessibility?: MinimalAccessibility,
-  category?: string,
-  placeInfoId?: string,
-  parentPlaceInfoName?: LocalizedString,
-  address?:
-    | {
-        full?: string,
-        text?: string,
-        postcode?: string,
-        city?: string,
-        postal_code?: string,
-        street?: string,
-        housenumber?: number | string,
-        county?: string,
-        country?: string,
-        room?: string,
-        roomNumber?: string,
-        level?: string,
-      }
-    | string,
-  infoPageUrl?: string,
-  editPageUrl?: string,
-  equipmentInfos: { [key: string]: EquipmentInfo },
-  ids?: { id: string, provider: string }[],
-  isWorking?: boolean,
-  phone: string | null,
-  phoneNumber: string | null,
-  placeWebsiteUrl?: string | null,
-} & AccessibilityDescription;
-
-export type AccessibilityCloudFeature = {
-  type: 'Feature',
-  name: string | null,
-  geometry: Point | null,
-  properties: AccessibilityCloudProperties,
-};
-
 export type MappingEventFeature = SearchResultFeature;
 
 export type FeatureCollection<T> = {
   type: 'FeatureCollection',
   features: T[],
 };
-export type AccessibilityCloudFeatureCollection = FeatureCollection<AccessibilityCloudFeature>;
-export type WheelmapFeatureCollection = FeatureCollection<WheelmapFeature>;
-export type WheelmapLightweightFeatureCollection = FeatureCollection<WheelmapLightweightFeature>;
+export type AccessibilityCloudFeatureCollection = FeatureCollection<PlaceInfo>;
 
 export type WheelmapImage = {
   type: string,
@@ -220,44 +114,36 @@ export type AccessibilityCloudImages = {
   images: AccessibilityCloudImage[];
 };
 
-// TODO We might want to rename this type to NodeFeature to better describe that
-// it's a specific geojson Feature
-export type Feature = AccessibilityCloudFeature | WheelmapFeature;
-export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
-
 // todo: case analysis for id extraction
-export function getFeatureId(feature: Feature | EquipmentInfo | any): string | null {
+export function getFeatureId(feature: PlaceInfo | EquipmentInfo | any): string | null {
   if (!feature) return null;
   const idProperties = [
-    typeof feature.id === 'number' && feature.id,
-    typeof feature._id === 'string' && feature._id,
-    feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
-    feature.properties && typeof feature.properties._id === 'string' && feature.properties._id,
-    feature.properties &&
-      typeof feature.properties.osm_id === 'number' &&
-      feature.properties.osm_id,
+    feature.id,
+    feature._id,
+    feature.properties.id,
+    feature.properties._id,
+    feature.properties.osm_id,
   ];
-  const result = idProperties.filter(Boolean)[0];
+  const result = idProperties.filter(id => typeof id === 'string' || typeof id === 'number')[0];
   return result ? String(result) : null;
 }
 
-export function hrefForFeature(
-  feature: Feature,
-  properties: NodeProperties | EquipmentInfoProperties | undefined
+export function hrefForPlaceInfo(
+  feature: PlaceInfo,
 ) {
   const featureId = getFeatureId(feature);
+  return `/nodes/${featureId}`;
+}
 
-  if (!featureId) {
-    throw new Error('Could not create href because featureId seems to be not defined');
+export function hrefForEquipmentInfo(
+  feature: EquipmentInfo,
+) {
+  const properties = feature.properties;
+  const featureId = getFeatureId(feature);
+  const placeInfoId = properties?.placeInfoId;
+  if (includes(['elevator', 'escalator'], properties.category)) {
+    return `/nodes/${placeInfoId}/equipment/${featureId}`;
   }
-
-  if (isEquipmentPropertiesWithPlaceInfoId(properties)) {
-    const placeInfoId = properties.placeInfoId;
-    if (includes(['elevator', 'escalator'], properties.category)) {
-      return `/nodes/${placeInfoId}/equipment/${featureId}`;
-    }
-  }
-
   return `/nodes/${featureId}`;
 }
 
@@ -269,76 +155,16 @@ export function isWheelmapFeatureId(id: string | number | null | void): boolean 
   return typeof id !== 'undefined' && isNumeric(id);
 }
 
-export function isWheelmapFeature(feature: Feature): feature is WheelmapFeature {
-  return feature && isWheelmapFeatureId(feature['id'])
-}
-
-export function isEquipmentPropertiesWithPlaceInfoId(properties: NodeProperties | EquipmentInfoProperties | undefined): properties is (EquipmentInfoProperties & { placeInfoId: string }) {
-  return properties && typeof properties['placeInfoId'] === 'string';
-}
-
-export function wheelmapFeatureFrom(feature: Feature | null): WheelmapFeature | null {
-  if (isWheelmapFeature(feature)) {
-    return feature;
-  }
-  return null;
-}
-
-export function accessibilityCloudFeatureFrom(feature: Feature | null): AccessibilityCloudFeature | null {
-  if (!isWheelmapFeature(feature)) {
-    return feature;
-  }
-  return null;
-}
-
-export function isWheelmapProperties(properties: WheelmapProperties | AccessibilityCloudProperties): properties is WheelmapProperties {
-  return properties && isWheelmapFeatureId(properties['id'])
-}
-
-export function sourceIdsForFeature(feature: Feature | any): string[] {
+export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): string[] {
   if (!feature) return [];
 
   const properties = feature.properties;
   if (!properties) return [];
 
-  const idsToEquipmentInfos =
-    typeof properties.equipmentInfos === 'object' ? properties.equipmentInfos : null;
-  const equipmentInfos = idsToEquipmentInfos
-    ? Object.keys(idsToEquipmentInfos).map(_id => idsToEquipmentInfos[_id])
-    : [];
-  const equipmentInfoSourceIds = equipmentInfos.map(equipmentInfo =>
-    get(equipmentInfo, 'properties.sourceId')
-  );
-  const disruptionSourceIds = equipmentInfos.map(equipmentInfo =>
-    get(equipmentInfo, 'properties.lastDisruptionProperties.sourceId')
-  );
   const placeSourceId =
     properties && typeof properties.sourceId === 'string' ? properties.sourceId : null;
 
-  return uniq([placeSourceId, ...equipmentInfoSourceIds, ...disruptionSourceIds].filter(Boolean));
-}
-
-export function convertResponseToWheelmapFeature(node: WheelmapProperties): WheelmapFeature {
-  return {
-    type: 'Feature',
-    properties: node,
-    id: node.id,
-    geometry: {
-      type: 'Point',
-      coordinates: [node.lon, node.lat],
-    },
-  };
-}
-
-type WheelmapPropertiesResponse = { nodes: WheelmapProperties[] };
-
-export function wheelmapFeatureCollectionFromResponse(
-  response: WheelmapPropertiesResponse
-): WheelmapFeatureCollection {
-  return {
-    type: 'FeatureCollection',
-    features: response.nodes.map(convertResponseToWheelmapFeature),
-  };
+  return uniq([placeSourceId].filter(Boolean));
 }
 
 export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
@@ -365,14 +191,14 @@ export function accessibilityCloudFeatureCollectionFromResponse(response: any) {
 }
 
 export function hasAccessibleToilet(
-  properties: WheelmapProperties | AccessibilityCloudProperties | any
+  properties: PlaceProperties | any
 ): YesNoUnknown {
   if (!properties) {
     return 'unknown';
   }
 
   const isPlaceWheelchairAccessible = isWheelchairAccessible(properties);
-  const isToilet = getCategoryIdFromProperties(properties) === 'toilets';
+  const isToilet = properties.category === 'toilets';
   if (isToilet && isPlaceWheelchairAccessible === 'yes') {
     return 'yes';
   }
@@ -396,7 +222,7 @@ export function hasAccessibleToilet(
 
 // legacy format has areas & so on
 function hasAccessibleToiletLegacyAcFormat(
-  properties: WheelmapProperties | AccessibilityCloudProperties | any
+  properties: PlaceProperties | any
 ): YesNoUnknown {
   if (!(get(properties, 'accessibility.areas') instanceof Array)) return 'unknown';
 
@@ -422,7 +248,7 @@ function hasAccessibleToiletLegacyAcFormat(
 
 // new format has restrooms at root of a11y
 function hasAccessibleToiletAcFormat(
-  properties: WheelmapProperties | AccessibilityCloudProperties
+  properties: PlaceProperties
 ): YesNoUnknown {
   const restrooms = get(properties, 'accessibility.restrooms');
 
@@ -446,7 +272,7 @@ function hasAccessibleToiletAcFormat(
   return 'unknown';
 }
 
-export function isWheelchairAccessible(properties: NodeProperties): YesNoLimitedUnknown {
+export function isWheelchairAccessible(properties: PlaceProperties | EquipmentProperties): YesNoLimitedUnknown {
   if (properties.category === 'elevator' || properties.category === 'escalator') {
     const result =
       // @ts-ignore
@@ -553,7 +379,7 @@ export const accessibleToiletDescription = (useImperialUnits: boolean) => [
   t`Accessible sink`,
 ];
 
-export function placeNameFor(properties: NodeProperties, category: Category | null): string {
+export function placeNameFor(properties: PlaceProperties, category: Category | null): string {
   return (
     (properties && translatedStringFromObject(properties.name)) ||
     (category && categoryNameFor(category)) ||
@@ -595,7 +421,8 @@ export function removeNullAndUndefinedFields(something: any): any {
 export function normalizedCoordinatesForFeature(feature: Feature): [number, number] | null {
   const geometry = feature ? feature.geometry : null;
   if (!(geometry instanceof Object)) return null;
-  const coordinates = geometry ? geometry.coordinates : null;
+  if (geometry.type === 'GeometryCollection') return null;
+  const { coordinates } = geometry;
   if (!(coordinates instanceof Array) || coordinates.length !== 2) return null;
   // @ts-ignore
   return normalizeCoordinates(coordinates);

@@ -36,8 +36,9 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
-import { Feature, getFeatureId } from '../../lib/Feature';
+import { getFeatureId } from '../../lib/Feature';
 import HighlightableMarker from './HighlightableMarker';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 const TileLayer = L.TileLayer;
 
@@ -54,17 +55,20 @@ class GeoJSONTileLayer extends TileLayer {
     options.featureCache.addEventListener('add', this._onCachedFeatureAdded);
   }
 
-  _onCachedFeatureChanged = (event: CustomEvent & { feature: Feature }) => {
+  _onCachedFeatureChanged = (event: CustomEvent & { feature: PlaceInfo | EquipmentInfo }) => {
     const feature = event.feature;
     this._updateFeature(feature);
   };
 
-  _onCachedFeatureAdded = (event: CustomEvent & { feature: Feature }) => {
+  _onCachedFeatureAdded = (event: CustomEvent & { feature: PlaceInfo | EquipmentInfo }) => {
     const feature = event.feature;
     this._updateFeature(feature, { allowAdding: true });
   };
 
-  _updateFeature(feature: Feature, { allowAdding }: { allowAdding?: boolean } = {}) {
+  _updateFeature(
+    feature: PlaceInfo | EquipmentInfo,
+    { allowAdding }: { allowAdding?: boolean } = {}
+  ) {
     const featureId = getFeatureId(feature);
 
     const existingMarker = this._idsToShownLayers[featureId];
@@ -90,7 +94,7 @@ class GeoJSONTileLayer extends TileLayer {
     }
   }
 
-  _markerFromFeature(layerGroup: L.LayerGroup, feature: Feature) {
+  _markerFromFeature(layerGroup: L.LayerGroup, feature: PlaceInfo | EquipmentInfo) {
     const marker = this.pointToLayer(feature);
     if (!marker) return;
     layerGroup.addLayer(marker);
@@ -100,8 +104,8 @@ class GeoJSONTileLayer extends TileLayer {
 
   _filterFeatureCollection(featureCollection, filterFn) {
     const result = {
-      type: 'FeatureCollection',
-      features: featureCollection.features.filter(filterFn),
+      ...featureCollection,
+      features: featureCollection.features?.filter(filterFn),
     };
     return result;
   }
@@ -261,6 +265,9 @@ class GeoJSONTileLayer extends TileLayer {
 
       tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON, response);
       const layerGroup = L.layerGroup(tileLayer.options);
+      if (!filteredGeoJSON.features) {
+        debugger
+      }
       filteredGeoJSON.features.forEach(tileLayer._markerFromFeature.bind(tileLayer, layerGroup));
       // eslint-disable-next-line no-param-reassign
       tile.layer = layerGroup;

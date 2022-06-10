@@ -3,22 +3,20 @@ import styled from 'styled-components';
 import { t } from 'ttag';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { Feature } from '../../../lib/Feature';
-import { accessibilityCloudFeatureFrom } from '../../../lib/Feature';
 import type { SourceWithLicense } from '../../../app/PlaceDetailsProps';
 import { PrimaryButton } from '../../Button';
 import AppContext from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import colors from '../../../lib/colors';
 import Spinner from '../../ActivityIndicator/Spinner';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
-function hasKoboSubmission(feature: Feature | null) {
-  const acFeature = accessibilityCloudFeatureFrom(feature);
-  if (!acFeature) {
+function hasKoboSubmission(feature: PlaceInfo | null) {
+  if (!feature) {
     return false;
   }
 
-  const ids = acFeature.properties && acFeature.properties.ids;
+  const ids = feature.properties && feature.properties.ids;
   if (ids instanceof Array && ids.length > 0) {
     for (const externalId of ids) {
       if (externalId.provider === 'koboSubmission') {
@@ -32,7 +30,7 @@ function hasKoboSubmission(feature: Feature | null) {
 type Props = {
   className?: string,
   featureId: string | number | null,
-  feature: Feature | null,
+  feature: PlaceInfo | null,
   sources: SourceWithLicense[] | null,
 };
 

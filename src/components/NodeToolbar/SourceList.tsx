@@ -2,16 +2,16 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Feature } from '../../lib/Feature';
 import LicenseHint from './LicenseHint';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
+import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
-  feature: Feature | null,
-  featureId: string | number | null,
-  sources: SourceWithLicense[],
-  equipmentInfoId: string | null,
-  className?: string,
+  feature: PlaceInfo | EquipmentInfo | null;
+  featureId: string | number | null;
+  sources: SourceWithLicense[];
+  equipmentInfoId: string | null;
+  className?: string;
 };
 
 function renderLicenseHint(sourceWithLicense: SourceWithLicense) {

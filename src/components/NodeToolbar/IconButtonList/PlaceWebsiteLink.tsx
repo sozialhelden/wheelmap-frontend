@@ -1,7 +1,7 @@
 import * as React from 'react';
 import WorldIcon from '../../icons/actions/World';
 import styled from 'styled-components';
-import { Feature, isWheelmapProperties } from '../../../lib/Feature';
+import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 const NonBreakingLink = styled.a`
   span {
@@ -13,7 +13,7 @@ const NonBreakingLink = styled.a`
 `;
 
 type Props = {
-  feature: Feature | null,
+  feature: PlaceInfo | null;
 };
 
 export default function PlaceWebsiteLink(props: Props) {
@@ -22,11 +22,7 @@ export default function PlaceWebsiteLink(props: Props) {
   if (!properties) return null;
 
   let placeWebsiteUrl = null;
-  if (!isWheelmapProperties(properties)) {
-    placeWebsiteUrl = properties.placeWebsiteUrl;
-  } else {
-    placeWebsiteUrl = properties.website;
-  }
+  placeWebsiteUrl = properties.placeWebsiteUrl;
 
   if (!placeWebsiteUrl) return null;
   if (!placeWebsiteUrl.match(/^https?:\/\//i)) {
