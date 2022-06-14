@@ -515,7 +515,7 @@ class App extends React.Component<Props, State> {
       newState.isMappingEventToolbarVisible = false;
     }
 
-    const placeDetailsRoute = props.routeName === 'placeDetail' || props.routeName === 'equipment';
+    const placeDetailsRoute = ['placeDetail', 'equipment'].includes(props.routeName);
     if (placeDetailsRoute) {
       const { accessibilityFilter, toiletFilter, category } = props;
 

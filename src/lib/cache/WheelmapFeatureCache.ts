@@ -16,7 +16,7 @@ export default class WheelmapFeatureCache extends FeatureCache<
   }
 
   static getIdForFeature(feature: PlaceInfo): string {
-    return String(feature._id || (feature.properties && feature.properties._id));
+    return String(feature._id);
   }
 
   static getFeatureFromResponse(response): Promise<PlaceInfo> {

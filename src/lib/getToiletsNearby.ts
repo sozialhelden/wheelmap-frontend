@@ -36,7 +36,7 @@ function calculateBoundingBox(lat: number, lon: number, radius: number) {
 
 function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Promise<Feature[]> {
   const bbox = calculateBoundingBox(lat, lon, radius);
-  const url = `${config.wheelmapApiBaseUrl}/api/v1/amenities.geojson?geometryTypes=centroid&bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&wheelchair_toilet=yes&limit=50`;
+  const url = `${config.wheelmapApiBaseUrl}/api/v1/amenities.geojson?geometryTypes=centroid&bbox=${bbox.west},${bbox.south},${bbox.east},${bbox.north}&tag['wheelchair:toilet']=yes&limit=50`;
 
   return globalFetchManager.fetch(url).then(response => response.json());
 }

@@ -132,6 +132,10 @@ export function hrefForPlaceInfo(
   feature: PlaceInfo,
 ) {
   const featureId = getFeatureId(feature);
+  const [, osmFeatureType, osmId] = featureId.match(/^(node|way|relation)\/(\d+)$/) || [];
+  if (osmFeatureType && osmId) {
+    return `/${osmFeatureType}/${osmId}`;
+  }
   return `/nodes/${featureId}`;
 }
 
@@ -152,7 +156,7 @@ function isNumeric(id: string | number | null): boolean {
 }
 
 export function isWheelmapFeatureId(id: string | number | null | void): boolean {
-  return typeof id !== 'undefined' && isNumeric(id);
+  return typeof id !== 'undefined' && (isNumeric(id) || !!String(id).match(/(?:node|way|relation)\/-?]d+/));
 }
 
 export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): string[] {
@@ -203,11 +207,10 @@ export function hasAccessibleToilet(
     return 'yes';
   }
 
-  // wheelmap classic result
-  if (properties && properties.wheelchair_toilet) {
-    if (includes(yesNoUnknownArray, properties.wheelchair_toilet)) {
-      // TODO: wat?
-      return properties.wheelchair_toilet;
+  // OSM result
+  if (properties && properties['wheelchair:toilet']) {
+    if (includes(yesNoUnknownArray, properties['wheelchair:toilet'])) {
+      return properties['wheelchair:toilet'];
     }
     return 'unknown';
   }
