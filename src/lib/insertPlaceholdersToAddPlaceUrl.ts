@@ -1,11 +1,12 @@
+import { useUniqueSurveyId } from '../components/MainMenu/useUniqueSurveyId';
 import { MappingEvent } from './MappingEvent';
 
 export function insertPlaceholdersToAddPlaceUrl(
   baseUrl: string,
   url: string | undefined,
-  uniqueSurveyId: string,
   joinedMappingEvent?: MappingEvent
 ) {
+  const uniqueSurveyId = useUniqueSurveyId();
   const replacements = {
     returnUrl: encodeURIComponent(
       `${baseUrl}/contribution-thanks?uniqueSurveyId=${uniqueSurveyId}`

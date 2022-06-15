@@ -1,4 +1,4 @@
-import './lib/NativeAppStrings';
+import '../lib/NativeAppStrings';
 import * as React from 'react';
 import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
@@ -6,27 +6,27 @@ import get from 'lodash/get';
 import { Router } from 'next/router';
 import * as queryString from 'query-string';
 
-import config from './lib/config';
+import config from '../lib/config';
 import savedState, {
   saveState,
   isFirstStart,
   setJoinedMappingEventData,
   getJoinedMappingEventId as readStoredJoinedMappingEventId,
   setJoinedMappingEventId as storeJoinedMappingEventId,
-} from './lib/savedState';
-import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice, UAResult } from './lib/userAgent';
-import { RouterHistory } from './lib/RouterHistory';
-import { SearchResultCollection } from './lib/searchPlaces';
-import { SearchResultFeature } from './lib/searchPlaces';
+} from '../lib/savedState';
+import { hasBigViewport, isOnSmallViewport } from '../lib/ViewportSize';
+import { isTouchDevice, UAResult } from '../lib/userAgent';
+import { RouterHistory } from '../lib/RouterHistory';
+import { SearchResultCollection } from '../lib/searchPlaces';
+import { SearchResultFeature } from '../lib/searchPlaces';
 import {
   MappingEvents,
   MappingEvent,
   isMappingEventVisible,
   canMappingEventBeJoined,
-} from './lib/MappingEvent';
-import { Cluster } from './components/Map/Cluster';
-import { App as AppModel } from './lib/App';
+} from '../lib/MappingEvent';
+import { Cluster } from './Map/Cluster';
+import { App as AppModel } from '../lib/App';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -36,21 +36,21 @@ import {
   isAccessibilityFiltered,
   isToiletFiltered,
   getFeatureId,
-} from './lib/Feature';
+} from '../lib/Feature';
 
-import { accessibilityCloudImageCache } from './lib/cache/AccessibilityCloudImageCache';
+import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 
-import { ModalNodeState } from './lib/ModalNodeState';
-import { CategoryLookupTables } from './lib/Categories';
-import { PhotoModel } from './lib/PhotoModel';
-import { PlaceDetailsProps, PotentialPromise } from './app/PlaceDetailsProps';
-import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
-import { LocalizedString } from './lib/i18n';
-import { RouteProvider } from './components/Link/RouteContext';
+import { ModalNodeState } from '../lib/ModalNodeState';
+import { CategoryLookupTables } from '../lib/Categories';
+import { PhotoModel } from '../lib/PhotoModel';
+import { PlaceDetailsProps, PotentialPromise } from '../app/PlaceDetailsProps';
+import { PlaceFilter } from './SearchToolbar/AccessibilityFilterModel';
+import { LocalizedString } from '../lib/i18n';
+import { RouteProvider } from './Link/RouteContext';
 
 import 'focus-visible';
-import { trackModalView, trackEvent } from './lib/Analytics';
-import { trackingEventBackend } from './lib/TrackingEventBackend';
+import { trackModalView, trackEvent } from '../lib/Analytics';
+import { trackingEventBackend } from '../lib/TrackingEventBackend';
 import { createGlobalStyle } from 'styled-components';
 import {
   EquipmentInfo,
@@ -58,14 +58,6 @@ import {
   PlaceInfo,
   PlaceProperties,
 } from '@sozialhelden/a11yjson';
-
-export type LinkData = {
-  label: LocalizedString;
-  badgeLabel?: LocalizedString;
-  url: LocalizedString;
-  order?: number;
-  tags?: string[];
-};
 
 interface Props extends PlaceDetailsProps {
   className?: string;
@@ -1047,12 +1039,6 @@ class App extends React.Component<Props, State> {
   onCloseModalDialog = () => {
     const params = this.getCurrentParams();
     this.props.routerHistory.push('map', params);
-  };
-
-  onCloseOnboarding = () => {
-    saveState({ onboardingCompleted: 'true' });
-    this.setState({ isOnboardingVisible: false });
-    if (this.mainView) this.mainView.focusSearchToolbar();
   };
 
   onSearchToolbarClick = () => {

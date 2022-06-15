@@ -4,12 +4,16 @@ import { globalFetchManager } from './FetchManager';
 import { translatedStringFromObject } from './i18n';
 import ResponseError from './ResponseError';
 import config from './config';
-import env from './env';
 
 import { SearchResultFeature } from './searchPlaces';
 import { hasAccessibleToilet } from './Feature';
 import { LocalizedString } from './i18n';
-import { EquipmentInfo, PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import {
+  EquipmentInfo,
+  EquipmentProperties,
+  PlaceInfo,
+  PlaceProperties,
+} from '@sozialhelden/a11yjson';
 
 export type ACCategory = {
   _tag: 'ACCategory';
@@ -206,7 +210,7 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+      const baseUrl = '';
       const url = `${baseUrl}/categories.json?appToken=${options.appToken}`;
       return globalFetchManager
         .fetch(url)

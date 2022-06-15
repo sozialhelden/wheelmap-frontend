@@ -1,5 +1,5 @@
 import { LocalizedString, translatedStringFromObject } from './i18n';
-import { LinkData } from '../App';
+import { LinkData } from '../components/App';
 import { IBranding } from './IBranding';
 
 export interface TwitterConfiguration {
@@ -33,20 +33,20 @@ export interface ClientSideConfiguration {
   embedTokens?: EmbedToken[];
   includeSourceIds?: Array<string>;
   excludeSourceIds?: Array<string>;
-  disableWheelmapSource: boolean;
+  disableWheelmapSource?: boolean;
   textContent?: {
     onboarding?: {
-      headerMarkdown?: LocalizedString,
-    },
+      headerMarkdown?: LocalizedString;
+    };
     product?: {
-      name?: LocalizedString,
-      claim?: LocalizedString,
-      description?: LocalizedString,
-    },
+      name?: LocalizedString;
+      claim?: LocalizedString;
+      description?: LocalizedString;
+    };
   };
   meta: {
-    twitter?: TwitterConfiguration,
-    facebook?: FacebookConfiguration,
+    twitter?: TwitterConfiguration;
+    facebook?: FacebookConfiguration;
   };
   customMainMenuLinks?: LinkData[];
   addPlaceURL?: string;

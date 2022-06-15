@@ -21,26 +21,26 @@ interface MappingEventStatistics {
 }
 
 export type MappingEvent = {
-  _id: string,
-  organizationId: string,
-  appId?: string,
-  sourceId?: string,
-  name: string,
-  description?: string,
-  welcomeMessage?: string,
-  area?: MappingEventFeature,
-  meetingPoint?: MappingEventFeature,
-  startTime?: Date,
-  endTime?: Date,
-  webSiteUrl?: string,
-  images?: IImage[],
+  _id: string;
+  organizationId: string;
+  appId?: string;
+  sourceId?: string;
+  name: string;
+  description?: string;
+  welcomeMessage?: string;
+  area?: MappingEventFeature;
+  meetingPoint?: MappingEventFeature;
+  startTime?: string;
+  endTime?: string;
+  webSiteUrl?: string;
+  images?: IImage[];
   targets?: {
-    mappedPlacesCount?: number,
-  },
-  visibility?: 'listed' | 'unlisted',
-  emailCollectionMode?: 'required' | 'optional' | 'disabled',
-  status: MappingEventStatusEnum,
-  statistics: MappingEventStatistics,
+    mappedPlacesCount?: number;
+  };
+  visibility?: 'listed' | 'unlisted';
+  emailCollectionMode?: 'required' | 'optional' | 'disabled';
+  status: MappingEventStatusEnum;
+  statistics: MappingEventStatistics;
 };
 
 export type MappingEvents = MappingEvent[];

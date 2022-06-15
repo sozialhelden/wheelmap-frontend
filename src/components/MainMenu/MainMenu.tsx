@@ -5,19 +5,16 @@ import { t } from 'ttag';
 
 import FocusTrap from 'focus-trap-react';
 
-import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
-import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
+import { translatedStringFromObject } from '../../lib/i18n';
 import colors, { alpha } from '../../lib/colors';
 import { MappingEvent } from '../../lib/MappingEvent';
 
 import GlobalActivityIndicator from './GlobalActivityIndicator';
-import { LinkData } from '../../App';
-import Link, { RouteConsumer } from '../Link/Link';
-import { AppContextConsumer } from '../../AppContext';
 
 import CloseIcon from '../icons/actions/Close';
 import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
 import VectorImage from '../VectorImage';
+import AppLinks from './AppLinks';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -27,14 +24,7 @@ type Props = {
   className: string,
   onToggle: (isMainMenuOpen: boolean) => void,
   onHomeClick: () => void,
-  onMappingEventsLinkClick: () => void,
-  onAddPlaceViaCustomLinkClick: () => void,
-  uniqueSurveyId: string,
-  joinedMappingEvent?: MappingEvent,
   isOpen: boolean,
-  lat: number | null,
-  lon: number | null,
-  zoom: number | null,
   clientSideConfiguration: ClientSideConfiguration,
 };
 
@@ -57,16 +47,6 @@ function MenuIcon(props) {
     </svg>
   );
 }
-
-const Badge = styled.span`
-  background-color: ${colors.warningColor};
-  border-radius: 0.5rlh;
-  padding: 0.2rem 0.3rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: white;
-  margin: 0.1rem;
-`;
 
 const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
 
@@ -136,102 +116,9 @@ class MainMenu extends React.Component<Props, State> {
   }
 
   renderAppLinks(baseUrl: string) {
-    return this.props.clientSideConfiguration.customMainMenuLinks
-      .sort((a, b) => (a.order || 0) - (b.order || 0))
-      .map(link => {
-        const url =
-          link.url &&
-          insertPlaceholdersToAddPlaceUrl(
-            baseUrl,
-            translatedStringFromObject(link.url),
-            this.props.uniqueSurveyId,
-            this.props.joinedMappingEvent
-          );
-        const label = translatedStringFromObject(link.label);
-        const badgeLabel = translatedStringFromObject(link.badgeLabel);
-        const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
-        const className = ['nav-link'].concat(classNamesFromTags).join(' ');
 
-        let customClickHandler = null;
-        const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-        const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
-
-        if (isAddPlaceLinkWithoutCustomUrl) {
-          return (
-            <Link key="add-place" className={className} to="/add-place" role="menuitem">
-              {label}
-              {badgeLabel && <Badge>{badgeLabel}</Badge>}
-            </Link>
-          );
-        }
-
-        if (isAddPlaceLink && !isAddPlaceLinkWithoutCustomUrl) {
-          customClickHandler = this.props.onAddPlaceViaCustomLinkClick;
-        }
-
-        const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
-        if (isEventsLink) {
-          return this.renderEventsOrJoinedEventLink(label, url, className);
-        }
-
-        if (typeof url === 'string') {
-          return (
-            <Link
-              key={url}
-              className={className}
-              to={url}
-              role="menuitem"
-              onClick={customClickHandler}
-            >
-              {label}
-              {badgeLabel && <Badge>{badgeLabel}</Badge>}
-            </Link>
-          );
-        }
-
-        return null;
-      });
   }
 
-  renderEventsOrJoinedEventLink(label: string | null, url: string | null, className: string) {
-    const joinedMappingEvent = this.props.joinedMappingEvent;
-    if (joinedMappingEvent) {
-      return (
-        <Link
-          key={url}
-          className={className}
-          to="mappingEventDetail"
-          params={{ id: joinedMappingEvent._id }}
-          role="menuitem"
-          onClick={this.props.onMappingEventsLinkClick}
-        >
-          {joinedMappingEvent.name}
-        </Link>
-      );
-    } else {
-      return (
-        <RouteConsumer key={url}>
-          {context => {
-            let params = { ...context.params };
-
-            delete params.id;
-
-            return (
-              <Link
-                className={className}
-                to="mappingEvents"
-                params={params}
-                role="menuitem"
-                onClick={this.props.onMappingEventsLinkClick}
-              >
-                {label}
-              </Link>
-            );
-          }}
-        </RouteConsumer>
-      );
-    }
-  }
 
   renderCloseButton() {
     const { isOpen } = this.props;
@@ -276,9 +163,7 @@ class MainMenu extends React.Component<Props, State> {
           <GlobalActivityIndicator className="activity-indicator" />
 
           <div id="main-menu" role="menu">
-            <AppContextConsumer>
-              {appContext => this.renderAppLinks(appContext.baseUrl)}
-            </AppContextConsumer>
+            <AppLinks />
           </div>
 
           {this.renderCloseButton()}

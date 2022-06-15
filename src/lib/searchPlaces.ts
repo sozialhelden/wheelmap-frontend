@@ -7,31 +7,31 @@ import { WheelmapFeature } from './Feature';
 import debouncePromise from '../lib/debouncePromise';
 
 export type SearchResultProperties = {
-  city?: any,
-  country?: any,
-  name?: any,
-  osm_id?: any,
-  osm_key?: any,
-  osm_type?: any,
-  osm_value?: any,
-  postcode?: any,
-  state?: any,
-  housenumber?: any,
-  street?: any,
-  extent: [number, number, number, number] | undefined,
-  type: string,
+  city?: any;
+  country?: any;
+  name?: any;
+  osm_id?: any;
+  osm_key?: any;
+  osm_type?: any;
+  osm_value?: any;
+  postcode?: any;
+  state?: any;
+  housenumber?: any;
+  street?: any;
+  extent?: [number, number, number, number] | undefined;
+  type?: string;
 };
 
 export type SearchResultFeature = {
-  type: 'Feature',
-  geometry: Point,
-  properties: SearchResultProperties,
+  type?: 'Feature';
+  geometry: Point;
+  properties: SearchResultProperties;
 };
 
 export type SearchResultCollection = {
-  features: SearchResultFeature[],
-  error?: Error,
-  wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[],
+  features: SearchResultFeature[];
+  error?: Error;
+  wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[];
 };
 
 export function getOsmIdFromSearchResultProperties(
@@ -71,12 +71,12 @@ export function buildOriginalOsmId(searchResultProperties?: SearchResultProperti
 // todo: unused: coords
 export const searchPlacesDebounced: (
   query: string,
-  coords: { lat?: number | undefined, lon?: number | undefined }
+  coords: { lat?: number | undefined; lon?: number | undefined }
 ) => Promise<SearchResultCollection> = debouncePromise(searchPlaces, 500);
 
 export default function searchPlaces(
   query: string,
-  { lat, lon }: { lat?: number | undefined, lon?: number | undefined }
+  { lat, lon }: { lat?: number | undefined; lon?: number | undefined }
 ): Promise<SearchResultCollection> {
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;

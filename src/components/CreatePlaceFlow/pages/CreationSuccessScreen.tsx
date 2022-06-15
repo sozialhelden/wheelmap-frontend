@@ -6,7 +6,6 @@ import VerticalPage from '../components/VerticalPage';
 import AppContext from '../../../AppContext';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 import usePlaceDetails from '../components/usePlaceDetails';
-import EditFormSubmissionButton from '../../NodeToolbar/AccessibilityEditor/EditFormSubmissionButton';
 import Spinner from '../../ActivityIndicator/Spinner';
 
 type Props = {
@@ -61,7 +60,7 @@ const CreationSuccessScreen = (props: Props) => {
           </span>
           <h2>{t`You rock!`}</h2>
           <p>{t`${placeName} was added to ${appName}.`}</p>
-          <EditFormSubmissionButton featureId={placeId} feature={place} sources={null} />
+
           <PrimaryButton onClick={onSubmit}>{t`Continue to place`}</PrimaryButton>
         </>
       )}

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Head from 'next/head';
 import type { AppProps } from 'next/app'
+import env from '../lib/env';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta
           name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0, viewport-fit=cover" />
+
       </Head>
 
       <Component />

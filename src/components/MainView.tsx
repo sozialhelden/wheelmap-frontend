@@ -1,60 +1,47 @@
-import * as React from 'react';
-import dynamic from 'next/dynamic';
-
-import styled from 'styled-components';
-import uniq from 'lodash/uniq';
-import * as queryString from 'query-string';
-import { v4 as uuidv4 } from 'uuid';
-import FocusTrap from 'focus-trap-react';
-import MainMenu from './components/MainMenu/MainMenu';
-import NodeToolbarFeatureLoader from './components/NodeToolbar/NodeToolbarFeatureLoader';
-import SearchToolbar from './components/SearchToolbar/SearchToolbar';
-import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
-import ReportPhotoToolbar from './components/PhotoUpload/ReportPhotoToolbar';
-import PhotoUploadInstructionsToolbar from './components/PhotoUpload/PhotoUploadInstructionsToolbar';
-import MapLoading from './components/Map/MapLoading';
-import ErrorBoundary from './components/ErrorBoundary';
-import WheelmapHomeLink from './components/WheelmapHomeLink';
-import { SearchResultFeature } from './lib/searchPlaces';
-import { translatedStringFromObject } from './lib/i18n';
-import { Cluster } from './components/Map/Cluster';
-
-import SearchButton from './components/SearchToolbar/SearchButton';
-import Onboarding from './components/Onboarding/Onboarding';
-import FullscreenBackdrop from './components/FullscreenBackdrop';
-
-import config from './lib/config';
-import colors from './lib/colors';
-
-import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-
-import { YesNoLimitedUnknown, YesNoUnknown } from './lib/Feature';
-
-import { ModalNodeState } from './lib/ModalNodeState';
-
-import { isTouchDevice, UAResult } from './lib/userAgent';
-
-import { CategoryLookupTables } from './lib/Categories';
-import { SearchResultCollection } from './lib/searchPlaces';
-import { PlaceDetailsProps } from './app/PlaceDetailsProps';
-
-import { PhotoModel } from './lib/PhotoModel';
-
-import { App } from './lib/App';
-import ContributionThanksDialog from './components/ContributionThanksDialog/ContributionThanksDialog';
-import FeatureClusterPanel from './components/NodeToolbar/FeatureClusterPanel';
-import { MappingEvent, MappingEvents } from './lib/MappingEvent';
-import MappingEventsToolbar from './components/MappingEvents/MappingEventsToolbar';
-import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar';
-import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
-import { AppContextConsumer } from './AppContext';
-import CreatePlaceFlow from './components/CreatePlaceFlow/CreatePlaceFlow';
 import {
   EquipmentInfo,
   EquipmentProperties,
   PlaceInfo,
   PlaceProperties,
 } from '@sozialhelden/a11yjson';
+import FocusTrap from 'focus-trap-react';
+import uniq from 'lodash/uniq';
+import dynamic from 'next/dynamic';
+import * as queryString from 'query-string';
+import * as React from 'react';
+import styled from 'styled-components';
+import { PlaceDetailsProps } from '../app/PlaceDetailsProps';
+import { App } from '../lib/App';
+import { CategoryLookupTables } from '../lib/Categories';
+import colors from '../lib/colors';
+import config from '../lib/config';
+import { YesNoLimitedUnknown, YesNoUnknown } from '../lib/Feature';
+import { translatedStringFromObject } from '../lib/i18n';
+import { MappingEvent, MappingEvents } from '../lib/MappingEvent';
+import { ModalNodeState } from '../lib/ModalNodeState';
+import { PhotoModel } from '../lib/PhotoModel';
+import { SearchResultCollection, SearchResultFeature } from '../lib/searchPlaces';
+import { isTouchDevice, UAResult } from '../lib/userAgent';
+import { hasBigViewport, isOnSmallViewport } from '../lib/ViewportSize';
+import ContributionThanksDialog from './ContributionThanksDialog/ContributionThanksDialog';
+import CreatePlaceFlow from './CreatePlaceFlow/CreatePlaceFlow';
+import ErrorBoundary from './ErrorBoundary';
+import FullscreenBackdrop from './FullscreenBackdrop';
+import MainMenu from './MainMenu/MainMenu';
+import { Cluster } from './Map/Cluster';
+import MapLoading from './Map/MapLoading';
+import MappingEventsToolbar from './MappingEvents/MappingEventsToolbar';
+import MappingEventToolbar from './MappingEvents/MappingEventToolbar';
+import MappingEventWelcomeDialog from './MappingEvents/MappingEventWelcomeDialog';
+import FeatureClusterPanel from './NodeToolbar/FeatureClusterPanel';
+import NodeToolbarFeatureLoader from './NodeToolbar/NodeToolbarFeatureLoader';
+import Onboarding from './Onboarding/OnboardingDialog';
+import PhotoUploadInstructionsToolbar from './PhotoUpload/PhotoUploadInstructionsToolbar';
+import ReportPhotoToolbar from './PhotoUpload/ReportPhotoToolbar';
+import { PlaceFilter } from './SearchToolbar/AccessibilityFilterModel';
+import SearchButton from './SearchToolbar/SearchButton';
+import SearchToolbar from './SearchToolbar/SearchToolbar';
+import WheelmapHomeLink from './WheelmapHomeLink';
 
 type Props = {
   className?: string;
@@ -168,7 +155,6 @@ type Props = {
 
 type State = {
   isOnSmallViewport: boolean;
-  uniqueSurveyId: string;
 };
 
 function updateTouchCapability() {
@@ -182,7 +168,7 @@ function updateTouchCapability() {
   }
 }
 
-const DynamicMap = dynamic(import('./components/Map/Map'), {
+const DynamicMap = dynamic(import('./Map/Map'), {
   ssr: false,
   loading: () => <MapLoading />,
 });
@@ -192,7 +178,6 @@ class MainView extends React.Component<Props, State> {
 
   state: State = {
     isOnSmallViewport: isOnSmallViewport(),
-    uniqueSurveyId: uuidv4(),
   };
 
   map: { focus: () => void; snapToFeature: () => void } | null;
@@ -245,10 +230,6 @@ class MainView extends React.Component<Props, State> {
 
   onMappingEventHeaderClick = () => {
     this.map && this.map.snapToFeature();
-  };
-
-  onAddPlaceViaCustomLinkClick = () => {
-    this.setState(() => ({ uniqueSurveyId: uuidv4() }));
   };
 
   getMinimalNodeToolbarTopPosition() {
@@ -341,23 +322,18 @@ class MainView extends React.Component<Props, State> {
     const focusTrapActive = !this.isAnyDialogVisible();
 
     return (
-      <AppContextConsumer>
-        {({ preferredLanguage }) => (
-          <MappingEventToolbar
-            mappingEventHandlers={mappingEventHandlers}
-            mappingEvent={mappingEvent}
-            joinedMappingEventId={joinedMappingEventId}
-            onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}
-            onMappingEventLeave={onMappingEventLeave}
-            onClose={onCloseMappingEventsToolbar}
-            onHeaderClick={this.onMappingEventHeaderClick}
-            productName={translatedProductName}
-            focusTrapActive={focusTrapActive}
-            preferredLanguage={preferredLanguage}
-            minimalTopPosition={this.getMinimalToolbarTopPosition()}
-          />
-        )}
-      </AppContextConsumer>
+      <MappingEventToolbar
+        mappingEventHandlers={mappingEventHandlers}
+        mappingEvent={mappingEvent}
+        joinedMappingEventId={joinedMappingEventId}
+        onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}
+        onMappingEventLeave={onMappingEventLeave}
+        onClose={onCloseMappingEventsToolbar}
+        onHeaderClick={this.onMappingEventHeaderClick}
+        productName={translatedProductName}
+        focusTrapActive={focusTrapActive}
+        minimalTopPosition={this.getMinimalToolbarTopPosition()}
+      />
     );
   }
 
@@ -420,42 +396,16 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  renderOnboarding() {
-    const {
-      isOnboardingVisible,
-      onCloseOnboarding,
-      app,
-      isMappingEventWelcomeDialogVisible,
-    } = this.props;
-    const { clientSideConfiguration } = app;
-
-    // if mapping event welcome dialog is also visible, don't show onboarding dialog
-    const isVisible = !isMappingEventWelcomeDialogVisible && isOnboardingVisible;
-
-    return (
-      <Onboarding
-        isVisible={isVisible}
-        onClose={onCloseOnboarding}
-        clientSideConfiguration={clientSideConfiguration}
-      />
-    );
-  }
+  renderOnboarding() {}
 
   renderMainMenu() {
     return (
       <MainMenu
         className="main-menu"
-        uniqueSurveyId={this.state.uniqueSurveyId}
         isOpen={this.props.isMainMenuOpen}
         onToggle={this.props.onToggleMainMenu}
         onHomeClick={this.props.onMainMenuHomeClick}
-        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
-        onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
-        joinedMappingEvent={this.props.joinedMappingEvent}
         clientSideConfiguration={this.props.app.clientSideConfiguration}
-        lat={this.props.lat}
-        lon={this.props.lon}
-        zoom={this.props.zoom}
       />
     );
   }
@@ -541,24 +491,17 @@ class MainView extends React.Component<Props, State> {
 
   renderContributionThanksDialog() {
     return (
-      <AppContextConsumer>
-        {appContext => {
-          return (
-            <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
-              <ContributionThanksDialog
-                hidden={this.props.modalNodeState !== 'contribution-thanks'}
-                onClose={this.props.onCloseModalDialog}
-                appContext={appContext}
-                featureId={this.props.featureId as string}
-                onSelectFeature={id => {
-                  this.props.onCloseModalDialog();
-                  this.props.onMarkerClick(id);
-                }}
-              />
-            </FocusTrap>
-          );
-        }}
-      </AppContextConsumer>
+      <FocusTrap active={this.props.modalNodeState === 'contribution-thanks'}>
+        <ContributionThanksDialog
+          hidden={this.props.modalNodeState !== 'contribution-thanks'}
+          onClose={this.props.onCloseModalDialog}
+          featureId={this.props.featureId as string}
+          onSelectFeature={id => {
+            this.props.onCloseModalDialog();
+            this.props.onMarkerClick(id);
+          }}
+        />
+      </FocusTrap>
     );
   }
 

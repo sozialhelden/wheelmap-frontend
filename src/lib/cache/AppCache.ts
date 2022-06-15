@@ -7,20 +7,15 @@ import { ClientSideConfiguration } from '../ClientSideConfiguration';
 
 import { App } from '../App';
 import env from '../env';
-import { LinkData } from '../../App';
+import { LinkData } from '../../components/App';
 
 type AppApiData = {
-  _id: string,
-  organizationId: string,
-  name: string,
-  description?: String,
-  clientSideConfiguration?: ClientSideConfiguration,
-  tokenString: string,
-  related?: {
-    appLinks?: {
-      [key: string]: LinkData,
-    },
-  },
+  _id: string;
+  organizationId: string;
+  name: string;
+  description?: String;
+  clientSideConfiguration?: ClientSideConfiguration;
+  tokenString: string;
 };
 
 export default class AppCache extends URLDataCache<AppApiData> {

@@ -10,166 +10,16 @@ import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
 import Icon from '../Icon';
 import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
 import { ChromelessButton, CallToActionButton } from '../Button';
-import env from '../../lib/env';
 import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
 import VectorImage from '../VectorImage';
+import { useCurrentApp } from '../useCurrentApp';
 
 type Props = {
-  className?: string,
-  isVisible: boolean,
   onClose: () => void,
-  clientSideConfiguration: ClientSideConfiguration,
 };
 
 
-const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideConfiguration}) => {
-  const callToActionButton = React.createRef<HTMLButtonElement>();
-
-  const { headerMarkdown } = clientSideConfiguration.textContent?.onboarding || {
-          headerMarkdown: undefined,
-        };
-
-  const productName =
-    translatedStringFromObject(clientSideConfiguration.textContent?.product.name) ||
-    'Wheelmap';
-
-  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
-  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
-
-  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
-  const startButtonCaption = t`Okay, let’s go!`;
-
-  const handleClose = () => {
-    // Prevent that touch up opens a link underneath the primary button after closing
-    // the onboarding dialog
-    setTimeout(() => onClose(), 10);
-  };
-
-  const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
-
-  /* translator: The alternative desription of the app logo for screenreaders */
-  const appLogoAltText = t`App Logo`;
-
-  useEffect(() => {setTimeout(() => {
-    callToActionButton.current?.focus();
-  }, 100)}, []);
-
-  return (
-    <ModalDialog
-      className={className}
-      isVisible={isVisible}
-      onClose={handleClose}
-      ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
-      ariaLabel={t`Start screen`}
-    >
-      <header>
-        <VectorImage
-          className="logo"
-          svg={clientSideConfiguration.branding?.vectorLogoSVG}
-          aria-label={productName}
-          maxHeight={'50px'}
-          maxWidth={'200px'}
-          hasShadow={false}
-        />
-
-        {headerMarkdownHTML && (
-          <p
-            id="wheelmap-claim-onboarding"
-            className="claim"
-            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
-          />
-        )}
-      </header>
-
-      <section>
-        <ul id="wheelmap-icon-descriptions">
-          <li className="ac-marker-yes">
-            <Icon
-              accessibility="yes"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('yes')}</header>
-            <footer>{accessibilityDescription('yes')}</footer>
-          </li>
-          <li className="ac-marker-limited">
-            <Icon
-              accessibility="limited"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('limited')}</header>
-            <footer>{accessibilityDescription('limited')}</footer>
-          </li>
-          <li className="ac-marker-no">
-            <Icon
-              accessibility="no"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('no')}</header>
-            <footer>{accessibilityDescription('no')}</footer>
-          </li>
-          <li className="ac-marker-unknown">
-            <Icon
-              accessibility="unknown"
-              category={null}
-              isMainCategory
-              size="big"
-              withArrow
-              shadowed
-              centered
-            />
-            <header>{accessibilityName('unknown')}</header>
-            <footer>{unknownAccessibilityIncentiveText}</footer>
-          </li>
-        </ul>
-      </section>
-
-      <footer className="button-footer">
-        <CallToActionButton
-          className="button-continue"
-          data-focus-visible-added
-          onClick={() => {
-            handleClose();
-          }}
-          ref={callToActionButton}
-        >
-          {startButtonCaption}
-          <ChevronRight />
-        </CallToActionButton>
-      </footer>
-      <Version>{env.npm_package_version}</Version>
-    </ModalDialog>
-  ); 
-}
-
-const Version = styled.div`
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  margin-right: constant(safe-area-inset-right);
-  margin-right: env(safe-area-inset-right);
-  margin-bottom: constant(safe-area-inset-bottom);
-  margin-bottom: env(safe-area-inset-bottom);
-  font-size: 12px;
-  color: white;
-  opacity: 0.5;
-`;
-
-const StyledOnboarding = styled(Onboarding)`
+const StyledModalDialog = styled(ModalDialog)`
   @keyframes fadeIn {
     0% {
       opacity: 0;
@@ -417,4 +267,154 @@ const StyledOnboarding = styled(Onboarding)`
   }
 `;
 
-export default StyledOnboarding;
+
+const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
+  const app = useCurrentApp();
+  const { clientSideConfiguration } = app;
+
+  const callToActionButton = React.createRef<HTMLButtonElement>();
+
+  const { headerMarkdown } = clientSideConfiguration.textContent?.onboarding || {
+          headerMarkdown: undefined,
+        };
+
+  const productName =
+    translatedStringFromObject(clientSideConfiguration.textContent?.product.name) ||
+    'Wheelmap';
+
+  // translator: Shown on the onboarding screen. To find it, click the logo at the top.
+  const unknownAccessibilityIncentiveText = t`Help out by marking places!`;
+
+  // translator: Button caption shown on the onboarding screen. To find it, click the logo at the top.
+  const startButtonCaption = t`Okay, let’s go!`;
+
+  const handleClose = () => {
+    // Prevent that touch up opens a link underneath the primary button after closing
+    // the onboarding dialog
+    setTimeout(() => onClose(), 10);
+  };
+
+  const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
+
+  /* translator: The alternative desription of the app logo for screenreaders */
+  const appLogoAltText = t`App Logo`;
+
+  useEffect(() => {setTimeout(() => {
+    callToActionButton.current?.focus();
+  }, 100)}, []);
+
+  return (
+    <StyledModalDialog
+      isVisible={true}
+      onClose={handleClose}
+      ariaDescribedBy="wheelmap-claim-onboarding wheelmap-icon-descriptions"
+      ariaLabel={t`Start screen`}
+    >
+      <header>
+        <VectorImage
+          className="logo"
+          svg={clientSideConfiguration.branding?.vectorLogoSVG}
+          aria-label={productName}
+          maxHeight={'50px'}
+          maxWidth={'200px'}
+          hasShadow={false}
+        />
+
+        {headerMarkdownHTML && (
+          <p
+            id="wheelmap-claim-onboarding"
+            className="claim"
+            dangerouslySetInnerHTML={{ __html: headerMarkdownHTML }}
+          />
+        )}
+      </header>
+
+      <section>
+        <ul id="wheelmap-icon-descriptions">
+          <li className="ac-marker-yes">
+            <Icon
+              accessibility="yes"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('yes')}</header>
+            <footer>{accessibilityDescription('yes')}</footer>
+          </li>
+          <li className="ac-marker-limited">
+            <Icon
+              accessibility="limited"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('limited')}</header>
+            <footer>{accessibilityDescription('limited')}</footer>
+          </li>
+          <li className="ac-marker-no">
+            <Icon
+              accessibility="no"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('no')}</header>
+            <footer>{accessibilityDescription('no')}</footer>
+          </li>
+          <li className="ac-marker-unknown">
+            <Icon
+              accessibility="unknown"
+              category={null}
+              isMainCategory
+              size="big"
+              withArrow
+              shadowed
+              centered
+            />
+            <header>{accessibilityName('unknown')}</header>
+            <footer>{unknownAccessibilityIncentiveText}</footer>
+          </li>
+        </ul>
+      </section>
+
+      <footer className="button-footer">
+        <CallToActionButton
+          className="button-continue"
+          data-focus-visible-added
+          onClick={() => {
+            handleClose();
+          }}
+          ref={callToActionButton}
+        >
+          {startButtonCaption}
+          <ChevronRight />
+        </CallToActionButton>
+      </footer>
+    </StyledModalDialog>
+  ); 
+}
+
+const Version = styled.div`
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  margin-right: constant(safe-area-inset-right);
+  margin-right: env(safe-area-inset-right);
+  margin-bottom: constant(safe-area-inset-bottom);
+  margin-bottom: env(safe-area-inset-bottom);
+  font-size: 12px;
+  color: white;
+  opacity: 0.5;
+`;
+
+
+export default OnboardingDialog;

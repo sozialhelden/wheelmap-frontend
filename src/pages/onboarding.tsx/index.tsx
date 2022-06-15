@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router';
+import React from 'react';
+import OnboardingDialog from '../../components/Onboarding/OnboardingDialog';
+import { saveState } from '../../lib/savedState';
 
-const Onboarding = () => {
-  return (
-    <>
-      <header />
-      <h1>Enter Onboarding Dialog here</h1>
-    </>
-  );
+const OnboardingPage = () => {
+  const handleClose = React.useCallback(() => {
+    saveState({ onboardingCompleted: 'true' });
+  }, []);
+
+  return <OnboardingDialog onClose={handleClose} />;
 };
 
-export default Onboarding;
+export default OnboardingPage;

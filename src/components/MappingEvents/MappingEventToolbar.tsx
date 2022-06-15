@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import FocusTrap from 'focus-trap-react';
@@ -20,6 +20,7 @@ import StyledMarkdown from '../StyledMarkdown';
 import colors from '../../lib/colors';
 import { omit } from 'lodash';
 import CloseButton from '../CloseButton';
+import { useCurrentLanguage } from './useCurrentLanguage';
 
 export const StyledCloseButton = styled(CloseButton)`
   float: right;
@@ -39,7 +40,6 @@ type MappingEventToolbarProps = {
   onHeaderClick: () => void;
   productName: string | null;
   focusTrapActive: boolean;
-  preferredLanguage: string;
   minimalTopPosition: number;
 };
 
@@ -53,7 +53,6 @@ const MappingEventToolbar = ({
   onHeaderClick,
   productName,
   focusTrapActive,
-  preferredLanguage,
   minimalTopPosition,
 }: MappingEventToolbarProps) => {
   debugger;
@@ -74,6 +73,8 @@ const MappingEventToolbar = ({
   const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
   let startDateString = null;
   let endDateString = null;
+
+  const { preferredLanguage } = useCurrentLanguage();
 
   if (startDate) {
     startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);

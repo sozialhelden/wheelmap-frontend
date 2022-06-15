@@ -3,7 +3,6 @@ import * as React from 'react';
 import StyledFrame from './StyledFrame';
 import AccessibilityDetailsTree from './AccessibilityDetailsTree';
 import AccessibleDescription from './AccessibleDescription';
-import EditFormSubmissionButton from '../AccessibilityEditor/EditFormSubmissionButton';
 import AccessibilitySourceDisclaimer from './AccessibilitySourceDisclaimer';
 import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility';
 
@@ -88,7 +87,6 @@ export default function PlaceAccessibilitySection(props: Props) {
       />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />
-      <EditFormSubmissionButton featureId={featureId} feature={feature} sources={sources} />
       {accessibilityDetailsTree}
 
       {!isWheelmapFeature && (
