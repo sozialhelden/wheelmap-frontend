@@ -1,15 +1,15 @@
 import { useRouter } from 'next/router';
 
-const Nodes = () => {
+const EventWelcome = () => {
   const router = useRouter();
   const { id } = router.query;
 
   return (
     <>
       <header />
-      <h1>Old or classic AC Nodes, ID: {id}</h1>
+      <h1>Welcome at Event #: {id}</h1>
     </>
   );
 };
 
-export default Nodes;
+export default EventWelcome;
