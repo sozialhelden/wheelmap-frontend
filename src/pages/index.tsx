@@ -1,3 +1,7 @@
-export default function TestPage() {
-  return <div>HELLO</div>;
+export default function MainIndexPage() {
+  return (
+    <div>
+      <h1>Main Index Page</h1>
+    </div>
+  );
 }
