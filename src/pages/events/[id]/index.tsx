@@ -4,6 +4,16 @@ const Event = () => {
   const router = useRouter();
   const { id } = router.query;
 
+  // <MappingEventToolbar
+  //       mappingEventHandlers={mappingEventHandlers}
+  //       mappingEvent={mappingEvent}
+  //       joinedMappingEventId={joinedMappingEventId}
+  //       onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}
+  //       onMappingEventLeave={onMappingEventLeave}
+  //       onClose={onCloseMappingEventsToolbar}
+  //       onHeaderClick={this.onMappingEventHeaderClick}
+  //       minimalTopPosition={this.getMinimalToolbarTopPosition()}
+  //     />
   return (
     <>
       <header />

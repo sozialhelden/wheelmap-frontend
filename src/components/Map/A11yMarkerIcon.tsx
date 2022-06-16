@@ -5,7 +5,7 @@ import getIconNameForProperties from './getIconNameForProperties';
 import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 import MarkerIcon from './MarkerIcon';
 import Icon from '../Icon';
-import { CategoryLookupTables } from '../../lib/Categories';
+import { CategoryLookupTables } from '../../lib/model/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
 
 type Options = IconOptions & {

@@ -14,21 +14,21 @@ import {
 import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import Icon from '../../Icon';
-import { CategoryLookupTables } from '../../../lib/Categories';
+import { CategoryLookupTables } from '../../../lib/model/Categories';
 import { isOnSmallViewport } from '../../../lib/ViewportSize';
 import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
-  featureId: string,
-  onSave: (value: YesNoLimitedUnknown) => void | null,
-  onClose: () => void,
+  featureId: string;
+  onSave: (value: YesNoLimitedUnknown) => void | null;
+  onClose: () => void;
 };
 
 type Props = SaveOptions & {
-  categories: CategoryLookupTables,
-  feature: WheelmapFeature | AccessibilityCloudFeature,
-  className?: string,
-  presetStatus?: YesNoLimitedUnknown | null,
+  categories: CategoryLookupTables;
+  feature: WheelmapFeature | AccessibilityCloudFeature;
+  className?: string;
+  presetStatus?: YesNoLimitedUnknown | null;
 };
 
 export default function WheelchairStatusEditor(props: Props) {
@@ -40,7 +40,9 @@ export default function WheelchairStatusEditor(props: Props) {
           hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => isWheelchairAccessible(feature.properties)}
-          saveValue={value => saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })}
+          saveValue={value =>
+            saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })
+          }
           renderChildrenForValue={({ value, categoryId }) => (
             <Icon
               accessibility={value as YesNoLimitedUnknown}

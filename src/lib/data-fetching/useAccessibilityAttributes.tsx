@@ -1,4 +1,4 @@
-import customFetch from '../fetch';
+import customFetch from './fetch';
 import env from '../env';
 import { expandedPreferredLocales, normalizeLanguageCode, localeFromString } from '../i18n';
 import useSWRWithPrefetch from './useSWRWithPrefetch';

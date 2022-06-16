@@ -1,18 +1,17 @@
-import { t } from 'ttag';
+import { parse } from 'marked';
 import * as React from 'react';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import {parse} from 'marked';
-import ModalDialog from '../ModalDialog';
-import ChevronRight from '../icons/actions/ChevronRight';
+import { t } from 'ttag';
 import colors from '../../lib/colors';
-import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import Icon from '../Icon';
-import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
-import { ChromelessButton, CallToActionButton } from '../Button';
-import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
-import VectorImage from '../VectorImage';
-import { useCurrentApp } from '../useCurrentApp';
+import { useCurrentApp } from '../../lib/data-fetching/useCurrentApp';
+import { translatedStringFromObject } from '../../lib/i18n';
+import { accessibilityDescription, accessibilityName } from '../../lib/model/Feature';
+import ChevronRight from '../icons/actions/ChevronRight';
+import { CallToActionButton } from '../shared/Button';
+import Icon from '../shared/Icon';
+import ModalDialog from '../shared/ModalDialog';
+import VectorImage from '../shared/VectorImage';
 
 type Props = {
   onClose: () => void,
@@ -266,7 +265,6 @@ const StyledModalDialog = styled(ModalDialog)`
     margin: 1em;
   }
 `;
-
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
   const app = useCurrentApp();

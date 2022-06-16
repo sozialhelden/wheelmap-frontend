@@ -2,8 +2,8 @@ import { t } from 'ttag';
 import * as React from 'react';
 import classNames from 'classnames';
 
-import getAddressString from '../../lib/getAddressString';
-import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/Categories';
+import getAddressString from '../../lib/model/getAddressString';
+import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/model/Categories';
 import { isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 

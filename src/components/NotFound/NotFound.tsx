@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
-import Logo from '../../lib/Logo';
+import Logo from '../Logo';
 import { PrimaryButton } from '../Button';
 
 type Props = {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { t } from 'ttag';
 
-import { Category, getCategoryId } from '../../../lib/Categories';
+import { Category, getCategoryId } from '../../../lib/model/Categories';
 import ShareBar from '../../ShareBar/ShareBar';
 import { translatedStringFromObject } from '../../../lib/i18n';
 import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';

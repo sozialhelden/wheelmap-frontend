@@ -4,7 +4,7 @@ import { t } from 'ttag';
 import { map } from 'lodash';
 
 import { accessibilityName, isWheelchairAccessible } from '../../../lib/Feature';
-import { CategoryLookupTables } from '../../../lib/Categories';
+import { CategoryLookupTables } from '../../../lib/model/Categories';
 import { AppContextData } from '../../../AppContext';
 
 import strings from './strings';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { t } from 'ttag';
 import ShareBar from '../ShareBar/ShareBar';
-import { MappingEvent } from '../../lib/MappingEvent';
+import { MappingEvent } from '../../lib/model/MappingEvent';
 import { translatedStringFromObject } from '../../lib/i18n';
 
 type MappingEventShareBarProps = {

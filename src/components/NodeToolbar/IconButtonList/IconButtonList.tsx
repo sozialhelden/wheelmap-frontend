@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Category } from '../../../lib/Categories';
+import { Category } from '../../../lib/model/Categories';
 
 import ShareButtons from './ShareButtons';
 import PhoneNumberLink from './PhoneNumberLink';

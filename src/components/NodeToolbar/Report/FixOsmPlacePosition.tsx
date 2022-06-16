@@ -1,6 +1,6 @@
 import * as React from 'react';
 import strings from './strings';
-import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/generateOsmUrls';
+import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/model/generateOsmUrls';
 import { PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {

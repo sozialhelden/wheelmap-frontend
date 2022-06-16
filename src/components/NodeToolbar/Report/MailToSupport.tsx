@@ -1,6 +1,6 @@
 import { PlaceInfo } from '@sozialhelden/a11yjson';
 import * as React from 'react';
-import { getCategoryId, Category } from '../../../lib/Categories';
+import { getCategoryId, Category } from '../../../lib/model/Categories';
 import strings from './strings';
 
 type Props = {

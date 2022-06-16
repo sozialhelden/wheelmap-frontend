@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import ChevronRight from '../ChevronRight';
-import { Category } from '../../lib/Categories';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
+import { Category } from '../../lib/model/Categories';
+import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { getCategoryId } from '../../lib/Categories';
+import { getCategoryId } from '../../lib/model/Categories';
 import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {

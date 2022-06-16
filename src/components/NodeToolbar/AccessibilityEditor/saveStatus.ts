@@ -1,14 +1,14 @@
 import { t } from 'ttag';
-import fetch from '../../../lib/fetch';
+import fetch from '../../../lib/data-fetching/fetch';
 import get from 'lodash/get';
 import config from '../../../lib/config';
-import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
+import { trackingEventBackend } from '../../../lib/data-fetching/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';
 import { YesNoLimitedUnknown, YesNoUnknown, isWheelmapFeatureId } from '../../../lib/Feature';
 import { trackEvent } from '../../../lib/Analytics';
-import Categories, { getCategoryId } from '../../../lib/Categories';
-import { CategoryLookupTables } from '../../../lib/Categories';
+import Categories, { getCategoryId } from '../../../lib/model/Categories';
+import { CategoryLookupTables } from '../../../lib/model/Categories';
 import { AppContextData } from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import { PlaceInfo } from '@sozialhelden/a11yjson';

@@ -4,7 +4,7 @@ import { Point } from 'geojson';
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
 import { WheelmapFeature } from './Feature';
-import debouncePromise from '../lib/debouncePromise';
+import debouncePromise from './data-fetching/debouncePromise';
 
 export type SearchResultProperties = {
   city?: any;

@@ -1,0 +1,3 @@
+function useEmbedModeFlag() {
+  return false;
+}

@@ -3,8 +3,8 @@ import * as React from 'react';
 import NodeToolbar from './NodeToolbar';
 
 import { Cluster } from '../Map/Cluster';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import { Category } from '../../lib/Categories';
+import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
+import { Category } from '../../lib/model/Categories';
 import { YesNoLimitedUnknown } from '../../lib/Feature';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import { PhotoModel } from '../../lib/PhotoModel';

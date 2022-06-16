@@ -8,7 +8,7 @@ import {
   getCategoryId,
   CategoryLookupTables,
   Category,
-} from '../../lib/Categories';
+} from '../../lib/model/Categories';
 import Icon from '../Icon';
 import { PlaceNameH1 } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';

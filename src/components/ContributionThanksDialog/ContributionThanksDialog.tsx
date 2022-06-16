@@ -7,7 +7,7 @@ import Toolbar from '../Toolbar';
 import CloseLink from '../CloseButton';
 import * as queryString from 'query-string';
 import { ChromelessButton, PrimaryButton } from '../Button';
-import { trackingEventBackend } from '../../lib/TrackingEventBackend';
+import { trackingEventBackend } from '../../lib/data-fetching/TrackingEventBackend';
 import { trackEvent } from '../../lib/Analytics';
 import { useCurrentApp } from '../useCurrentApp';
 

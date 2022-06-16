@@ -9,8 +9,8 @@ import { t } from 'ttag';
 import get from 'lodash/get';
 import AsyncNextHead from '../AsyncNextHead';
 import TwitterMeta from '../components/TwitterMeta';
-import FacebookMeta from '../components/FacebookMeta';
-import OpenGraph from '../components/OpenGraph';
+import FacebookMeta from '../components/App/FacebookMeta';
+import OpenGraph from '../components/App/OpenGraph';
 import NotFound from '../components/NotFound/NotFound';
 import { AppContextData, AppContextProvider } from '../AppContext';
 import { encode } from 'js-base64';
@@ -36,13 +36,13 @@ import {
   RenderContext,
 } from '../app/getInitialProps';
 import NextRouterHistory from '../lib/NextRouteHistory';
-import Categories from '../lib/Categories';
+import Categories from '../lib/model/Categories';
 
 import allTranslations from '../lib/translations.json';
 import { trackPageView } from '../lib/Analytics';
-import { buildFullImageUrl } from '../lib/Image';
-import isEmbedTokenValid from '../lib/isEmbedTokenValid';
-import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
+import { buildFullImageUrl } from '../lib/model/Image';
+import isEmbedTokenValid from '../lib/model/isEmbedTokenValid';
+import EmbedModeDeniedDialog from '../components/App/EmbedModeDeniedDialog';
 import startClientSideApm from '../lib/apm/startClientSideApm';
 import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 
@@ -165,25 +165,6 @@ export default class App extends BaseApp<any> {
     };
   }
 
-  static handleEmbedModeAccess(isServer: boolean, renderContext: RenderContext, res: Response) {
-    let embedModeDenied = false;
-    if (isServer) {
-      const { embedToken, app } = renderContext;
-      if (embedToken) {
-        const { embedTokens, allowedBaseUrls = [] } = app.clientSideConfiguration;
-        const validEmbedTokenProvided = isEmbedTokenValid(embedToken, embedTokens);
-        embedModeDenied = !validEmbedTokenProvided;
-
-        // @ts-ignore
-        res.set('Content-Security-Policy', `frame-ancestors file://* ${allowedBaseUrls.join(' ')}`);
-      } else {
-        // @ts-ignore
-        res.set('X-Frame-Options', 'deny');
-      }
-    }
-
-    return embedModeDenied;
-  }
 
   routerHistory: NextRouterHistory;
 

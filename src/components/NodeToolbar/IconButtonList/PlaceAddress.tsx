@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import { generateMapsUrl } from '../../../lib/generateMapsUrls';
-import { generateShowOnOsmUrl } from '../../../lib/generateOsmUrls';
+import { generateMapsUrl } from '../../../lib/model/generateMapsUrls';
+import { generateShowOnOsmUrl } from '../../../lib/model/generateOsmUrls';
 import { placeNameFor } from '../../../lib/Feature';
 import openButtonCaption from '../../../lib/openButtonCaption';
-import { Category } from '../../../lib/Categories';
+import { Category } from '../../../lib/model/Categories';
 import PlaceIcon from '../../icons/actions/Place';
 import RouteIcon from '../../icons/actions/Route';
 
 import { UAResult } from '../../../lib/userAgent';
 import { PlaceInfo } from '@sozialhelden/a11yjson';
-import getAddressString from '../../../lib/getAddressString';
+import getAddressString from '../../../lib/model/getAddressString';
 
 type Props = {
   feature: PlaceInfo | null;

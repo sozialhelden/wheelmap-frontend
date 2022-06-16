@@ -1,11 +1,11 @@
 import * as React from 'react';
 import SearchIcon from './SearchIcon';
-import MapButton from '../MapButton';
+import MapButton from '../Map/MapButton';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import { isAccessibilityFiltered } from '../../lib/Feature';
-import Categories from '../../lib/Categories';
+import Categories from '../../lib/model/Categories';
 import CombinedIcon from './CombinedIcon';
 import BreadcrumbChevron from '../icons/ui-elements/BreadcrumbChevron';
 

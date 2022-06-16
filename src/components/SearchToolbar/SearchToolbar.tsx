@@ -20,7 +20,7 @@ import { SearchResultCollection } from '../../lib/searchPlaces';
 import { PlaceFilter } from './AccessibilityFilterModel';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
 import { SearchResultFeature } from '../../lib/searchPlaces';
-import { CategoryLookupTables } from '../../lib/Categories';
+import { CategoryLookupTables } from '../../lib/model/Categories';
 import ErrorBoundary from '../ErrorBoundary';
 import { UnstyledSearchResult } from './SearchResult';
 import Spinner from '../ActivityIndicator/Spinner';

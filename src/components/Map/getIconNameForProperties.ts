@@ -1,5 +1,5 @@
 import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
+import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
 
 export default function getIconNameForProperties(
   lookup: CategoryLookupTables,

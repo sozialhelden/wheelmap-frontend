@@ -9,20 +9,20 @@ import { saveToiletStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import { CategoryLookupTables } from '../../../lib/Categories';
+import { CategoryLookupTables } from '../../../lib/model/Categories';
 import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
-  featureId: string,
-  onSave: (value: YesNoUnknown) => void | null,
-  onClose: () => void,
+  featureId: string;
+  onSave: (value: YesNoUnknown) => void | null;
+  onClose: () => void;
 };
 
 type Props = SaveOptions & {
-  categories: CategoryLookupTables,
-  feature: WheelmapFeature | AccessibilityCloudFeature,
-  className?: string,
-  presetStatus?: YesNoUnknown | null,
+  categories: CategoryLookupTables;
+  feature: WheelmapFeature | AccessibilityCloudFeature;
+  className?: string;
+  presetStatus?: YesNoUnknown | null;
 };
 
 function AccessibleToiletDescription() {
@@ -63,7 +63,9 @@ export default function ToiletStatusEditor(props: Props) {
           {...props}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => hasAccessibleToilet(feature.properties)}
-          saveValue={value => saveToiletStatus({ ...props, appContext, value: value as YesNoUnknown })}
+          saveValue={value =>
+            saveToiletStatus({ ...props, appContext, value: value as YesNoUnknown })
+          }
           renderChildrenForValue={({ value, categoryId }) => <>{icons[value]}&nbsp;</>}
           shownStatusOptions={['yes', 'no']}
           captionForValue={value => captions[value]}

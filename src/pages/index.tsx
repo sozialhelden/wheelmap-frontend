@@ -1,7 +1,16 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Layout from "../components/App/Layout";
+import { isFirstStart } from "../lib/savedState";
+
 export default function MainIndexPage() {
-  return (
-    <div>
-      <h1>Main Index Page</h1>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isFirstStart()) {
+      router.replace("/onboarding");
+    }
+  }, []);
+
+  return <Layout></Layout>;
 }

@@ -10,8 +10,8 @@ import Link from '../Link/Link';
 import { RouteConsumer, RouteContext } from '../Link/RouteContext';
 import { AppContextConsumer } from '../../AppContext';
 import ChevronLeft from './ChevronLeft';
-import { buildFullImageUrl } from '../../lib/Image';
-import { MappingEvent, canMappingEventBeJoined } from '../../lib/MappingEvent';
+import { buildFullImageUrl } from '../../lib/model/Image';
+import { MappingEvent, canMappingEventBeJoined } from '../../lib/model/MappingEvent';
 import { RouteParams } from '../../lib/RouterHistory';
 import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
 import MapPinIcon from '../icons/ui-elements/MapPinIcon';
@@ -55,7 +55,10 @@ const MappingEventToolbar = ({
   focusTrapActive,
   minimalTopPosition,
 }: MappingEventToolbarProps) => {
-  debugger;
+  const app = useCurrentApp();
+  const productName = app.clientSideConfiguration.textContent.product.name;
+  const translatedProductName = translatedStringFromObject(productName);
+
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])

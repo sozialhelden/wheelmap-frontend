@@ -145,9 +145,6 @@
     "npmignore": "^0.2.0",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-focus-within": "^2.0.0",
-    "prettier": "^1.18.2",
-    "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^5.0.0",
     "promise": "8.0.1",
     "rimraf": "^2.6.3",
     "sass": "^1.51.0",
@@ -179,7 +176,7 @@
     "compile-main-categories": "basedir=src/components/icons/mainCategories npm run compile-svg-directory",
     "compile-svgs": "npm run compile-main-categories && npm run compile-action-icons && npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
-    "format": "prettier-eslint --config .prettierrc \"src/**/*.js\" --write",
+    "format": "eslint \"src/**/*.js\" --write",
     "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
   },
   "browserslist": [

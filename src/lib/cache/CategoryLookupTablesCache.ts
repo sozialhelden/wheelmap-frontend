@@ -1,11 +1,11 @@
 import TTLCache, { TTLCacheOptions } from './TTLCache';
-import Categories, { RawCategoryLists } from '../Categories';
+import Categories, { RawCategoryLists } from '../model/Categories';
 
 export type CategoryLookupTablesCacheOptions = {
-  reloadInBackground: boolean,
+  reloadInBackground: boolean;
   // time in milliseconds
-  maxAllowedCacheAgeBeforeReload: number,
-  appToken: string,
+  maxAllowedCacheAgeBeforeReload: number;
+  appToken: string;
 };
 
 export default class CategoryLookupTablesCache {
@@ -23,9 +23,9 @@ export default class CategoryLookupTablesCache {
   }
 
   getRawCategoryLists(options: {
-    locale: string,
-    disableWheelmapSource?: boolean,
-    appToken: string,
+    locale: string;
+    disableWheelmapSource?: boolean;
+    appToken: string;
   }): Promise<RawCategoryLists> {
     const languageCode = options.locale.substr(0, 2);
 

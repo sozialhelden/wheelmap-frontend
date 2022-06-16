@@ -26,7 +26,7 @@ import {
   isWheelchairAccessible,
 } from '../../lib/Feature';
 
-import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
+import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/model/Categories";
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';

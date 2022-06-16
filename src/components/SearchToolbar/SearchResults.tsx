@@ -6,18 +6,18 @@ import { SearchResultCollection } from '../../lib/searchPlaces';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 import { WheelmapFeature } from '../../lib/Feature';
 import SearchResult, { UnstyledSearchResult } from './SearchResult';
-import { CategoryLookupTables } from '../../lib/Categories';
+import { CategoryLookupTables } from '../../lib/model/Categories';
 
 type Props = {
-  searchResults: SearchResultCollection,
-  categories: CategoryLookupTables,
-  className?: string,
-  hidden: boolean | null,
+  searchResults: SearchResultCollection;
+  categories: CategoryLookupTables;
+  className?: string;
+  hidden: boolean | null;
   onSearchResultClick: (
     feature: SearchResultFeature,
     wheelmapFeature: WheelmapFeature | null
-  ) => void,
-  refFirst: (result: UnstyledSearchResult | null) => void | null,
+  ) => void;
+  refFirst: (result: UnstyledSearchResult | null) => void | null;
 };
 
 const StyledSearchResultList = styled.ul`

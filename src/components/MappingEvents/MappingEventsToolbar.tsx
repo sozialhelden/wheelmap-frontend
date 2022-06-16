@@ -5,7 +5,7 @@ import FocusTrap from 'focus-trap-react';
 
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import Link, { RouteConsumer } from '../Link/Link';
-import { MappingEvents } from '../../lib/MappingEvent';
+import { MappingEvents } from '../../lib/model/MappingEvent';
 import { App } from '../../lib/App';
 import StyledMarkdown from '../StyledMarkdown';
 import { mappingEvent as MappingEventMarkerIcon } from '../icons/markers';
@@ -13,12 +13,12 @@ import colors from '../../lib/colors';
 import CloseButton from '../CloseButton';
 
 type MappingEventsToolbarProps = {
-  app: App,
-  className?: string,
-  mappingEvents: MappingEvents,
-  onClose: () => void,
-  onMappingEventClick: (eventId: string) => void,
-  minimalTopPosition: number,
+  app: App;
+  className?: string;
+  mappingEvents: MappingEvents;
+  onClose: () => void;
+  onMappingEventClick: (eventId: string) => void;
+  minimalTopPosition: number;
 };
 
 export const StyledCloseButton = styled(CloseButton)``;

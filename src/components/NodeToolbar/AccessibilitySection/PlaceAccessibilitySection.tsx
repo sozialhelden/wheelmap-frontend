@@ -9,8 +9,8 @@ import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility
 import { SourceWithLicense } from '../../../app/PlaceDetailsProps';
 import { isWheelchairAccessible } from '../../../lib/Feature';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
-import { Category } from '../../../lib/Categories';
-import filterAccessibility from '../../../lib/filterAccessibility';
+import { Category } from '../../../lib/model/Categories';
+import filterAccessibility from '../../../lib/model/filterAccessibility';
 
 import Description from './Description';
 import AppContext from '../../../AppContext';

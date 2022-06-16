@@ -1,7 +1,7 @@
 import reduce from 'lodash/reduce';
 import { scaleLinear } from 'd3-scale';
 import { interpolateLab, interpolateHsl } from 'd3-interpolate';
-import { YesNoLimitedUnknown, isWheelchairAccessible } from './Feature';
+import { YesNoLimitedUnknown, isWheelchairAccessible } from './model/Feature';
 import { hsl, rgb } from 'd3-color';
 import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
 

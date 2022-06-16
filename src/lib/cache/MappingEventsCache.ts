@@ -1,20 +1,20 @@
 import URLDataCache from './URLDataCache';
-import { MappingEvents, MappingEvent } from '../MappingEvent';
+import { MappingEvents, MappingEvent } from '../model/MappingEvent';
 import { App } from '../App';
 import env from '../env';
-import { IImage } from '../Image';
+import { IImage } from '../model/Image';
 
 type MappingEventsListResult = {
-  results: MappingEvents,
+  results: MappingEvents;
   related: {
-    images: IImage[],
-  },
+    images: IImage[];
+  };
 };
 
 export type MappingEventByIdResult = MappingEvent & {
   related: {
-    images: IImage[],
-  },
+    images: IImage[];
+  };
 };
 
 export default class MappingEventsCache extends URLDataCache<
@@ -24,9 +24,9 @@ export default class MappingEventsCache extends URLDataCache<
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
-    const data = await this.getData(url, {
+    const data = (await this.getData(url, {
       useCache,
-    }) as MappingEventsListResult;
+    })) as MappingEventsListResult;
     const results: MappingEvents = data.results.map(mappingEvent => ({
       ...mappingEvent,
       images: Object.keys(data.related.images)
@@ -36,15 +36,11 @@ export default class MappingEventsCache extends URLDataCache<
     return results;
   }
 
-  async getMappingEvent(
-    app: App,
-    _id: string,
-    useCache = true
-  ): Promise<MappingEvent> {
+  async getMappingEvent(app: App, _id: string, useCache = true): Promise<MappingEvent> {
     const url = `${this.baseUrl}/mapping-events/${_id}.json?appToken=${app.tokenString}&includeRelated=images`;
-    const mappingEvent = await this.getData(url, {
+    const mappingEvent = (await this.getData(url, {
       useCache,
-    }) as MappingEventByIdResult;
+    })) as MappingEventByIdResult;
     const result: MappingEvent = {
       ...mappingEvent,
       images: Object.keys(mappingEvent.related.images)

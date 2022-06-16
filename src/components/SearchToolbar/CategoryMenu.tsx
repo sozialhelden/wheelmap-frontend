@@ -5,16 +5,16 @@ import map from 'lodash/map';
 import { Circle } from '../IconButton';
 import CategoryButton from './CategoryButton';
 import { isAccessibilityFiltered } from '../../lib/Feature';
-import Categories from '../../lib/Categories';
+import Categories from '../../lib/model/Categories';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 
 type Props = {
-  onFocus: () => void,
-  onBlur: () => void,
-  category: string | null,
-  accessibilityFilter?: YesNoLimitedUnknown[],
-  toiletFilter?: YesNoUnknown[],
-  className?: string,
+  onFocus: () => void;
+  onBlur: () => void;
+  category: string | null;
+  accessibilityFilter?: YesNoLimitedUnknown[];
+  toiletFilter?: YesNoUnknown[];
+  className?: string;
 };
 
 function CategoryMenu(props: Props) {

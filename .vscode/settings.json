@@ -1,6 +1,5 @@
 {
   "editor.tabSize": 2,
-  "flow.useNPMPackagedFlow": true,
   "search.exclude": {
     "build/**/*": true,
     "lib/**/*": true,
@@ -10,11 +9,7 @@
   "editor.wordWrapColumn": 100,
   "javascript.validate.enable": false,
   "editor.formatOnSave": true,
-  "eslint.autoFixOnSave": false,
-  "prettier.requireConfig": true,
   "eslint.enable": true,
-  "tslint.jsEnable": false,
-  "tslint.autoFixOnSave": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false
 }

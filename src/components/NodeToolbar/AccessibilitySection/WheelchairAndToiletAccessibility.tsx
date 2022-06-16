@@ -15,8 +15,8 @@ import PenIcon from '../../icons/actions/PenIcon';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../../lib/Feature';
 import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import { geoDistance } from '../../../lib/geoDistance';
-import { formatDistance } from '../../../lib/formatDistance';
+import { geoDistance } from '../../../lib/model/geoDistance';
+import { formatDistance } from '../../../lib/model/formatDistance';
 import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 // Don't incentivize people to add toilet status to places of these categories

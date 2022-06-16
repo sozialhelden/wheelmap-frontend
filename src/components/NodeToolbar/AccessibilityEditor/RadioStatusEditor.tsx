@@ -2,7 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { CategoryLookupTables } from '../../../lib/Categories';
+import { CategoryLookupTables } from '../../../lib/model/Categories';
 import getIconNameForProperties from '../../Map/getIconNameForProperties';
 import { AccessibilityCloudFeature, WheelmapFeature } from '../../../lib/Feature';
 import FocusTrap from 'focus-trap-react';
@@ -10,32 +10,32 @@ import CustomRadio from './CustomRadio';
 import StyledRadioGroup from './StyledRadioGroup';
 
 type Props = {
-  featureId: string | number,
-  feature: WheelmapFeature | AccessibilityCloudFeature,
-  categories: CategoryLookupTables,
-  hideUnselectedCaptions?: Boolean,
+  featureId: string | number;
+  feature: WheelmapFeature | AccessibilityCloudFeature;
+  categories: CategoryLookupTables;
+  hideUnselectedCaptions?: Boolean;
 
-  onSave: (value: string) => void | null,
-  onClose: () => void,
+  onSave: (value: string) => void | null;
+  onClose: () => void;
 
-  inline?: boolean | null,
-  shownStatusOptions: string[],
-  presetStatus?: string | null,
-  undefinedStringValue: string,
-  renderChildrenForValue: (value: { value: string, categoryId: string }) => React.ReactNode,
-  getValueFromFeature: (feature: WheelmapFeature | AccessibilityCloudFeature) => string,
-  saveValue: (selectedValue: string) => Promise<any>,
-  descriptionForValue: (value: string) => string,
-  captionForValue: (value: string) => string,
+  inline?: boolean | null;
+  shownStatusOptions: string[];
+  presetStatus?: string | null;
+  undefinedStringValue: string;
+  renderChildrenForValue: (value: { value: string; categoryId: string }) => React.ReactNode;
+  getValueFromFeature: (feature: WheelmapFeature | AccessibilityCloudFeature) => string;
+  saveValue: (selectedValue: string) => Promise<any>;
+  descriptionForValue: (value: string) => string;
+  captionForValue: (value: string) => string;
 
-  children: React.ReactNode,
-  className?: string,
+  children: React.ReactNode;
+  className?: string;
 };
 
 type State = {
-  selectedValue: string | null,
-  categoryId: string | null,
-  busy: boolean,
+  selectedValue: string | null;
+  categoryId: string | null;
+  busy: boolean;
 };
 
 function getSelectedValueFromProps(props: Props): string | null {

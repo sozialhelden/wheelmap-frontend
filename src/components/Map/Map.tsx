@@ -24,9 +24,9 @@ import {
   hrefForEquipmentInfo,
   YesNoLimitedUnknown,
   YesNoUnknown,
-} from '../../lib/Feature';
+} from '../../lib/model/Feature';
 import ClusterIcon from './ClusterIcon';
-import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
+import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/model/Categories';
 import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
 import addLocateControlToMap from './addLocateControlToMap';
@@ -34,12 +34,11 @@ import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
 import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import { PotentialPromise } from '../../app/PlaceDetailsProps';
 import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import { globalFetchManager } from '../../lib/FetchManager';
+// import { globalFetchManager } from '../../lib/FetchManager';
 import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
@@ -47,13 +46,13 @@ import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
 import useImperialUnits from '../../lib/useImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { Cluster } from './Cluster';
-import { MappingEvents } from '../../lib/MappingEvent';
+import { MappingEvents } from '../../lib/model/MappingEvent';
 import A11yMarkerIcon from './A11yMarkerIcon';
 import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
 import { LeafletStyle } from './LeafletStyle';
 import './MapStyle.tsx';
-import { hrefForMappingEvent } from '../../lib/MappingEvent';
+import { hrefForMappingEvent } from '../../lib/model/MappingEvent';
 import { MapStyle } from './MapStyle';
 import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 import env from '../../lib/env';
@@ -63,6 +62,7 @@ import {
   PlaceInfo,
   PlaceProperties,
 } from '@sozialhelden/a11yjson';
+import { hasBigViewport } from '../../lib/ViewportSize';
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -93,12 +93,13 @@ type IntervalID = any;
 
 type Props = {
   featureId?: string | number | null;
-  feature?: PotentialPromise<PlaceInfo | EquipmentInfo | null>;
+  feature?: PlaceInfo | EquipmentInfo;
   mappingEvents?: MappingEvents;
   equipmentInfoId?: string | null;
-  equipmentInfo?: PotentialPromise<EquipmentInfo | null> | null;
-
+  equipmentInfo?: EquipmentInfo;
   categories: CategoryLookupTables;
+  activeCluster?: Cluster;
+
   lat?: number | null;
   lon?: number | null;
   zoom?: number | null;
@@ -107,8 +108,6 @@ type Props = {
   includeSourceIds: Array<string>;
   excludeSourceIds: Array<string>;
   disableWheelmapSource: boolean | null;
-
-  activeCluster?: Cluster;
 
   onMarkerClick: (
     featureId: string,
@@ -399,7 +398,7 @@ export default class Map extends React.Component<Props, State> {
       this.removeLayersNotVisibleInZoomLevel();
     });
 
-    globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
+    // globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
 
     this.addAttribution();
 

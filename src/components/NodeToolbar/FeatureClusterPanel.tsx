@@ -12,7 +12,7 @@ import { PlaceNameH1 } from '../PlaceName';
 import { Circle } from '../IconButton';
 import { StyledIconContainer } from '../Icon';
 import colors from '../../lib/colors';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
+import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
 import { Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
 import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
