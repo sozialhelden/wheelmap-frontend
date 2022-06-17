@@ -58,35 +58,6 @@ async function fetchWheelmapNode(
 }
 
 const SearchData: DataTableEntry<SearchProps> = {
-  async getInitialRouteProps(query, renderContext, isServer) {
-    const searchQuery = query.q;
-
-    let trimmedSearchQuery;
-    let searchResults:
-      | Promise<SearchResultCollection>
-      | SearchResultCollection = {
-      features: [],
-    };
-
-    if (searchQuery && (trimmedSearchQuery = searchQuery.trim())) {
-      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(
-        trimmedSearchQuery,
-        {
-          lat: parseFloat(query.lat),
-          lon: parseFloat(query.lon),
-        }
-      );
-
-      // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
-      searchResults = isServer ? await searchResults : searchResults;
-    }
-
-    return {
-      searchResults,
-      searchQuery,
-    };
-  },
-
   getAdditionalPageComponentProps(props, isServer) {
     if (isServer) {
       return props;
@@ -134,22 +105,6 @@ const SearchData: DataTableEntry<SearchProps> = {
     });
 
     return { ...props, searchResults };
-  },
-
-  getHead(props) {
-    const { app, searchQuery } = props;
-    let searchTitle;
-
-    if (searchQuery) {
-      // translator: Search results window title
-      searchTitle = t`Search results`;
-    }
-
-    return (
-      <title key="title">
-        {getProductTitle(app.clientSideConfiguration, searchTitle)}
-      </title>
-    );
   },
 };
 

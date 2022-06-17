@@ -2,7 +2,7 @@ import { t } from "ttag";
 import * as React from "react";
 import styled from "styled-components";
 
-import { SearchResultCollection } from "../../lib/searchPlaces";
+import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
 import SearchResult from "./SearchResult";
 import { CategoryLookupTables } from "../../lib/model/Categories";
 

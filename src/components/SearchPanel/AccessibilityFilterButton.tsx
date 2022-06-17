@@ -7,7 +7,9 @@ import Button from "../shared/Button";
 import colors from "../../lib/colors";
 import CombinedIcon from "./CombinedIcon";
 import CloseIcon from "../icons/actions/Close";
-import { PlaceFilter } from "./AccessibilityFilterModel";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { omit } from "lodash";
 
 type Props = {
   className?: string;
@@ -17,7 +19,6 @@ type Props = {
   caption: string;
   category: string;
   isMainCategory?: boolean;
-  onClick: (data: PlaceFilter) => void;
   onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
@@ -38,31 +39,45 @@ function AccessibilityFilterButton(props: Props) {
     showCloseButton,
     caption,
     isActive,
-    onClick,
     className,
   } = props;
 
+  const router = useRouter();
+
+  const query = {
+    ...omit(router.query, "q", "wheelchair", "toilet"),
+  };
+  if (!isActive) {
+    if (accessibilityFilter.length > 0) {
+      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(",");
+    }
+    if (toiletFilter.length > 0) {
+      query.toilet = toiletFilter.map((t) => t.toString()).join(",");
+    }
+  }
+
   return (
-    <Button
-      className={className}
-      onFocus={props.onFocus}
-      onBlur={props.onBlur}
-      onKeyDown={props.onKeyDown}
-      tabIndex={0}
-      aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
-      onClick={() =>
-        onClick({
-          toiletFilter: showCloseButton ? [] : toiletFilter,
-          accessibilityFilter: showCloseButton ? [] : accessibilityFilter,
-        })
-      }
+    <Link
+      href={{
+        pathname: router.pathname,
+        query,
+      }}
     >
-      <CombinedIcon
-        {...{ toiletFilter, accessibilityFilter, category, isMainCategory }}
-      />
-      <Caption>{caption}</Caption>
-      {showCloseButton && <CloseIcon className="close-icon" />}
-    </Button>
+      <Button
+        className={className}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        onKeyDown={props.onKeyDown}
+        tabIndex={0}
+        aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
+      >
+        <CombinedIcon
+          {...{ toiletFilter, accessibilityFilter, category, isMainCategory }}
+        />
+        <Caption>{caption}</Caption>
+        {showCloseButton && <CloseIcon className="close-icon" />}
+      </Button>
+    </Link>
   );
 }
 

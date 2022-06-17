@@ -29,12 +29,18 @@
 //   this.props.routerHistory.push(routeName, params);
 // };
 
+import { omit } from "lodash";
+import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
+import useSWR from "swr";
+import { t } from "ttag";
 import Layout from "../../components/App/Layout";
 import SearchPanel from "../../components/SearchPanel/SearchPanel";
+import { AppContext } from "../../lib/context/AppContext";
+import fetchPlaceSearchResults from "../../lib/fetchers/fetchPlaceSearchResults";
+import { getProductTitle } from "../../lib/model/ClientSideConfiguration";
 import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
-import { SearchResultCollection } from "../../lib/searchPlaces";
 
 const SearchPage = () => {
   const router = useRouter();
@@ -42,7 +48,9 @@ const SearchPage = () => {
     router.query.wheelchair
   );
   const toiletFilter = getAccessibilityFilterFrom(router.query.toilet);
-  const category = router.query.category;
+  const category = router.query.category
+    ? String(router.query.category)
+    : undefined;
   const searchQuery = router.query.q && String(router.query.q);
   // TODO: Load this correctly via SWR
   const categories = {
@@ -52,9 +60,13 @@ const SearchPage = () => {
 
   const handleSearchQueryChange = useCallback(
     (newSearchQuery) => {
+      const query = omit(router.query, "q", "category", "toilet", "wheelchair");
+      if (newSearchQuery && newSearchQuery.length > 0) {
+        query.q = newSearchQuery;
+      }
       router.replace({
         pathname: router.pathname,
-        query: { ...router.query, q: newSearchQuery },
+        query,
       });
     },
     [router]
@@ -83,27 +95,51 @@ const SearchPage = () => {
     });
   }, [router]);
 
+  const { clientSideConfiguration } = useContext(AppContext);
+
+  let searchTitle;
+  if (searchQuery) {
+    // translator: Search results window title
+    searchTitle = t`Search results`;
+  }
+
+  const {
+    data: searchResults,
+    isValidating: isSearching,
+    error: searchError,
+  } = useSWR([searchQuery, undefined, undefined], fetchPlaceSearchResults);
+
   return (
-    <Layout>
-      <SearchPanel
-        onClose={closeSearchPanel}
-        onClick={handleSearchPanelClick}
-        isExpanded={true}
-        hasGoButton={false}
-        accessibilityFilter={accessibilityFilter}
-        toiletFilter={toiletFilter}
-        categories={categories}
-        hidden={false}
-        inert={false}
-        category={undefined}
-        searchQuery={searchQuery}
-        onChangeSearchQuery={handleSearchQueryChange}
-        onSubmit={handleSearchQueryChange}
-        onAccessibilityFilterButtonClick={handlePlaceFilterChange}
-        searchResults={undefined}
-        minimalTopPosition={60}
-      />
-    </Layout>
+    <>
+      <Head>
+        <title key="title">
+          {getProductTitle(clientSideConfiguration, searchTitle)}
+        </title>
+      </Head>
+
+      <Layout>
+        <SearchPanel
+          onClose={closeSearchPanel}
+          onClick={handleSearchPanelClick}
+          isExpanded={true}
+          hasGoButton={false}
+          accessibilityFilter={accessibilityFilter}
+          toiletFilter={toiletFilter}
+          categories={categories}
+          hidden={false}
+          inert={false}
+          category={category}
+          onChangeSearchQuery={handleSearchQueryChange}
+          onSubmit={handleSearchQueryChange}
+          onAccessibilityFilterButtonClick={handlePlaceFilterChange}
+          minimalTopPosition={60}
+          searchQuery={searchQuery}
+          searchError={searchError}
+          searchResults={searchResults}
+          isSearching={isSearching}
+        />
+      </Layout>
+    </>
   );
 };
 

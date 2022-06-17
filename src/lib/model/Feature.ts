@@ -13,7 +13,7 @@ import { isEquipmentAccessible } from './EquipmentInfo';
 import { Category } from './Categories';
 import { categoryNameFor } from './Categories';
 import { normalizeCoordinates } from '../normalizeCoordinates';
-import { SearchResultFeature } from '../searchPlaces';
+import { SearchResultFeature } from '../fetchers/fetchPlaceSearchResults';
 import { EquipmentInfo, EquipmentProperties, PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 import { Feature } from 'geojson';
 import useImperialUnits from '../useImperialUnits';

@@ -8,7 +8,7 @@ import SearchResults from "./SearchResults";
 import SearchInputField from "./SearchInputField";
 import AccessibilityFilterMenu from "./AccessibilityFilterMenu";
 
-import { SearchResultCollection } from "../../lib/searchPlaces";
+import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
 import { PlaceFilter } from "./AccessibilityFilterModel";
 import { isOnSmallViewport } from "../../lib/ViewportSize";
 import { CategoryLookupTables } from "../../lib/model/Categories";
@@ -20,6 +20,7 @@ import { StyledChevronRight } from "./StyledChevronRight";
 import { GoButton } from "./GoButton";
 import { StyledToolbar } from "./StyledToolbar";
 import { useRouter } from "next/router";
+import useSWR from "swr";
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -38,13 +39,12 @@ export type Props = PlaceFilter & {
   searchResults:
     | null
     | SearchResultCollection;
+  isSearching: boolean;
+  searchError: string;
   minimalTopPosition: number;
 };
 
 export default function SearchPanel(props: Props) {
-  const searchInputFieldRef = React.createRef<HTMLInputElement>();
-  const goButtonRef = React.createRef<HTMLButtonElement>();
-
   const {
     categories,
     hidden,
@@ -54,14 +54,23 @@ export default function SearchPanel(props: Props) {
     searchQuery,
     onChangeSearchQuery,
     onSubmit,
-    onAccessibilityFilterButtonClick,
     onClose,
     onClick,
     isExpanded,
     hasGoButton,
     searchResults,
     minimalTopPosition,
+    isSearching,
+    searchError,
   } = props;
+
+  const router = useRouter();
+  const accessibilityFilter = getAccessibilityFilterFrom(
+    router.query.wheelchair
+  );
+  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet);
+  const searchInputFieldRef = React.createRef<HTMLInputElement>();
+  const goButtonRef = React.createRef<HTMLButtonElement>();
 
   React.useEffect(() => {
     if (!hidden) {
@@ -103,7 +112,7 @@ export default function SearchPanel(props: Props) {
 
   const searchInputField = <SearchInputField
     ref={searchInputFieldRef}
-    searchQuery={searchQuery}
+    searchQuery={searchQuery || ""}
     hidden={hidden}
     onClick={() => {
       if (category) {
@@ -131,12 +140,6 @@ export default function SearchPanel(props: Props) {
     </GoButton>
   );
 
-  const router = useRouter();
-  const accessibilityFilter = getAccessibilityFilterFrom(
-    router.query.wheelchair
-  );
-  const toiletFilter = getAccessibilityFilterFrom(router.query.toilet);
-
   const categoryMenuOrNothing = (category || isExpanded || showCategoryMenu) && <CategoryMenu
     category={category}
     accessibilityFilter={accessibilityFilter}
@@ -146,21 +149,18 @@ export default function SearchPanel(props: Props) {
     accessibilityFilter={accessibilityFilter}
     toiletFilter={toiletFilter}
     category={category}
-    onButtonClick={onAccessibilityFilterButtonClick}
   />
 
   const closeLink = <CloseLink
-  ariaLabel={t`Clear search`}
-  onClick={() => {
-    clearSearchAndFocusSearchField();
-    if (onClose) onClose();
-  }}
-/>;
+    ariaLabel={t`Clear search`}
+    onClick={() => {
+      clearSearchAndFocusSearchField();
+      if (onClose) onClose();
+    }}
+  />;
 
   let contentBelowSearchField = null;
-  const isLoading = false;
-
-  if (!searchResults && isLoading) {
+  if (!searchResults && isSearching) {
     contentBelowSearchField = <div>
     <span className="sr-only" aria-live="assertive">
       {t`Searching`}
@@ -173,6 +173,7 @@ export default function SearchPanel(props: Props) {
         searchResults={searchResults}
         hidden={hidden}
         categories={categories}
+        error={searchError}
       />
     </div>;
   } else {
@@ -196,8 +197,6 @@ export default function SearchPanel(props: Props) {
       <ErrorBoundary>
         <header>
           <form
-            action="#"
-            method="post"
             onSubmit={(ev) => {
               ev.preventDefault();
             }}
@@ -216,4 +215,4 @@ export default function SearchPanel(props: Props) {
       </ErrorBoundary>
     </StyledToolbar>
   );
-            }
+}

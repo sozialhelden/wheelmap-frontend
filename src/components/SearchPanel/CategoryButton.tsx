@@ -10,6 +10,7 @@ import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
 import Link from "next/link";
 import { Router, useRouter } from "next/router";
+import { omit } from "lodash";
 
 type Props = {
   name: string;
@@ -92,6 +93,9 @@ export const StyledCategoryIconButton = styled(IconButton)`
           }
 
           ${Caption} {
+            flex: 1;
+            justify-content: flex-start;
+            display: flex;
             color: ${colors.darkSelectedColor};
           }
         `
@@ -136,31 +140,35 @@ export default function CategoryButton(props: Props) {
   );
 
   const router = useRouter();
+  const query = omit(router.query, "q", "category");
+  if (!showCloseButton) {
+    query.category = category;
+  }
 
   return (
     <Link
       href={{
-        pathname: "/about",
-        query: {
-          ...router.query,
-          category: showCloseButton ? undefined : category,
-        },
+        pathname: router.pathname,
+        query,
       }}
     >
-      <StyledCategoryIconButton
-        aria-label={
-          showCloseButton ? t`Remove ${props.name} Filter` : props.name
-        }
-        className={className}
-        onFocus={props.onFocus}
-        onBlur={props.onBlur}
-        isHorizontal={showCloseButton}
-        caption={props.name}
-        hasCircle={props.hasCircle}
-      >
-        {icon}
-        {showCloseButton && <CloseIcon />}
-      </StyledCategoryIconButton>
+      <a>
+        <StyledCategoryIconButton
+          aria-label={
+            showCloseButton ? t`Remove ${props.name} Filter` : props.name
+          }
+          className={className}
+          onFocus={props.onFocus}
+          onBlur={props.onBlur}
+          isHorizontal={showCloseButton}
+          caption={props.name}
+          hasCircle={props.hasCircle}
+          showCloseButton={showCloseButton}
+        >
+          {icon}
+          {showCloseButton && <CloseIcon style={{ order: 1 }} />}
+        </StyledCategoryIconButton>
+      </a>
     </Link>
   );
 }

@@ -59,7 +59,9 @@ export default styled(CategoryMenu)`
   width: 100%;
   padding: 0;
 
-  ${StyledCategoryIconButton} {
+  a {
+    text-decoration: none !important;
+
     flex: 80px;
 
     @media (max-width: 512px) {

@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 import getAddressString from "../../lib/model/getAddressString";
 import { CategoryLookupTables } from "../../lib/model/Categories";
-import { SearchResultFeature } from "../../lib/searchPlaces";
+import { SearchResultFeature } from "../../lib/fetchers/fetchPlaceSearchResults";
 
 import Address from "../NodeToolbar/Address";
 import styled from "styled-components";

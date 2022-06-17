@@ -1,8 +1,8 @@
 import includes from "lodash/includes";
 import { Point } from "geojson";
 
-import { currentLocales } from "./i18n";
-import debouncePromise from "./fetchers/legacy/debouncePromise";
+import { currentLocales } from "../i18n";
+import debouncePromise from "./legacy/debouncePromise";
 
 export type SearchResultProperties = {
   city?: any;
@@ -75,12 +75,20 @@ export function buildOriginalOsmId(
 export const searchPlacesDebounced: (
   query: string,
   coords: { lat?: number | undefined; lon?: number | undefined }
-) => Promise<SearchResultCollection> = debouncePromise(searchPlaces, 500);
+) => Promise<SearchResultCollection> = debouncePromise(
+  fetchPlaceSearchResults,
+  500
+);
 
-export default function searchPlaces(
+export default function fetchPlaceSearchResults(
   query: string,
-  { lat, lon }: { lat?: number | undefined; lon?: number | undefined }
-): Promise<SearchResultCollection> {
+  lat: number | undefined,
+  lon: number | undefined
+): Promise<SearchResultCollection | null> {
+  if (!query) {
+    return Promise.resolve(null);
+  }
+  debugger;
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;
   const supportedLanguageCodes = ["en", "de", "fr", "it"]; // See Photon documentation

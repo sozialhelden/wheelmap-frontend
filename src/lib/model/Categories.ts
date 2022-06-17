@@ -1,21 +1,21 @@
-import { t } from 'ttag';
+import { t } from "ttag";
 
-import { translatedStringFromObject } from '../i18n';
-import ResponseError from '../ResponseError';
-import config from '../config';
+import { translatedStringFromObject } from "../i18n";
+import ResponseError from "../ResponseError";
+import config from "../config";
 
-import { SearchResultFeature } from '../searchPlaces';
-import { hasAccessibleToilet } from './Feature';
-import { LocalizedString } from '../i18n';
+import { SearchResultFeature } from "../fetchers/fetchPlaceSearchResults";
+import { hasAccessibleToilet } from "./Feature";
+import { LocalizedString } from "../i18n";
 import {
   EquipmentInfo,
   EquipmentProperties,
   PlaceInfo,
   PlaceProperties,
-} from '@sozialhelden/a11yjson';
+} from "@sozialhelden/a11yjson";
 
 export type ACCategory = {
-  _tag: 'ACCategory';
+  _tag: "ACCategory";
   _id: string;
   translations: {
     _id: LocalizedString;
@@ -45,7 +45,9 @@ export type RootCategoryEntry = {
   name: string;
   isSubCategory?: boolean;
   isMetaCategory?: boolean;
-  filter?: (properties: PlaceProperties | EquipmentProperties | undefined) => boolean;
+  filter?: (
+    properties: PlaceProperties | EquipmentProperties | undefined
+  ) => boolean;
 };
 
 // This must be a function - Results from t`` are dependent on the current context.
@@ -108,7 +110,10 @@ const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
       if (!properties) {
         return true;
       }
-      return properties.category === 'toilets' || hasAccessibleToilet(properties) === 'yes';
+      return (
+        properties.category === "toilets" ||
+        hasAccessibleToilet(properties) === "yes"
+      );
     },
   },
 });
@@ -126,11 +131,14 @@ export default class Categories {
     return getRootCategoryTable()[key].name;
   }
 
-  static getCategory(lookupTable: CategoryLookupTables, idOrSynonym: string | number): ACCategory {
+  static getCategory(
+    lookupTable: CategoryLookupTables,
+    idOrSynonym: string | number
+  ): ACCategory {
     const synonymCache = lookupTable.synonymCache;
 
     if (!synonymCache) {
-      throw new Error('Empty synonym cache.');
+      throw new Error("Empty synonym cache.");
     }
 
     return synonymCache[String(idOrSynonym)];
@@ -141,12 +149,12 @@ export default class Categories {
     categories: ACCategory[]
   ): SynonymCache {
     const result: SynonymCache = {};
-    categories.forEach(category => {
+    categories.forEach((category) => {
       result[category._id] = category;
-      category._tag = 'ACCategory';
+      category._tag = "ACCategory";
       const synonyms = category.synonyms;
       if (!(synonyms instanceof Array)) return;
-      synonyms.forEach(synonym => {
+      synonyms.forEach((synonym) => {
         result[synonym] = category;
       });
     });
@@ -169,21 +177,25 @@ export default class Categories {
 
     let categoryId = null;
 
-    if (properties['category']) {
+    if (properties["category"]) {
       // ac node
-      categoryId = properties['category'];
-    } else if (properties['osm_key']) {
+      categoryId = properties["category"];
+    } else if (properties["osm_key"]) {
       // search result node from komoot
-      categoryId = properties['osm_value'] || properties['osm_key'];
+      categoryId = properties["osm_value"] || properties["osm_key"];
     }
 
     if (!categoryId) {
       return { category: null, parentCategory: null };
     }
 
-    const category = Categories.getCategory(categoryLookupTables, String(categoryId));
+    const category = Categories.getCategory(
+      categoryLookupTables,
+      String(categoryId)
+    );
     const parentCategory =
-      category && Categories.getCategory(categoryLookupTables, category.parentIds[0]);
+      category &&
+      Categories.getCategory(categoryLookupTables, category.parentIds[0]);
 
     return { category, parentCategory };
   }
@@ -195,11 +207,12 @@ export default class Categories {
   }): Promise<RawCategoryLists> {
     const hasAccessibilityCloudCredentials = Boolean(options.appToken);
     const hasWheelmapCredentials =
-      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === 'string';
-    const useWheelmapSource = hasWheelmapCredentials && !options.disableWheelmapSource;
+      config.wheelmapApiKey && typeof config.wheelmapApiBaseUrl === "string";
+    const useWheelmapSource =
+      hasWheelmapCredentials && !options.disableWheelmapSource;
 
     const languageCode = options.locale.substr(0, 2);
-    const responseHandler = response => {
+    const responseHandler = (response) => {
       if (!response.ok) {
         // translator: Shown when there was an error while loading category data from the backend.
         const errorText = t`Error while loading place categories.`;
@@ -209,15 +222,21 @@ export default class Categories {
     };
 
     function acCategoriesFetch() {
-      const baseUrl = '';
+      const baseUrl = "";
       const url = `${baseUrl}/categories.json?appToken=${options.appToken}`;
       return fetch(url)
         .then(responseHandler)
         .then((json): ACCategory[] => json.results || []);
     }
 
-    const [accessibilityCloud, wheelmapCategories, wheelmapNodeTypes] = await Promise.all([
-      hasAccessibilityCloudCredentials ? acCategoriesFetch() : Promise.resolve([]),
+    const [
+      accessibilityCloud,
+      wheelmapCategories,
+      wheelmapNodeTypes,
+    ] = await Promise.all([
+      hasAccessibilityCloudCredentials
+        ? acCategoriesFetch()
+        : Promise.resolve([]),
     ]);
 
     return { accessibilityCloud };
@@ -229,7 +248,10 @@ export default class Categories {
       categoryTree: prefetchedData.accessibilityCloud,
     };
 
-    Categories.generateSynonymCache(lookupTable, prefetchedData.accessibilityCloud);
+    Categories.generateSynonymCache(
+      lookupTable,
+      prefetchedData.accessibilityCloud
+    );
 
     return lookupTable;
   }
@@ -239,27 +261,29 @@ export function categoryNameFor(category: Category): string | null {
   if (!category) return;
   let idObject = null;
 
-  if (category._tag === 'ACCategory') {
+  if (category._tag === "ACCategory") {
     idObject = category.translations._id;
   }
 
   return translatedStringFromObject(idObject);
 }
 
-export function getCategoryId(category?: Category | string | undefined): string | undefined {
+export function getCategoryId(
+  category?: Category | string | undefined
+): string | undefined {
   if (!category) {
     return;
   }
 
   // We got a accessibility.cloud category ID
-  if (typeof category === 'string') {
+  if (typeof category === "string") {
     return category;
   }
 
-  if (typeof category === 'object' && category) {
+  if (typeof category === "object" && category) {
     // ac server category object
-    if (typeof category['_id'] === 'string') {
-      return category['_id'];
+    if (typeof category["_id"] === "string") {
+      return category["_id"];
     }
   }
 }

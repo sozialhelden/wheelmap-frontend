@@ -16,7 +16,6 @@ type Props = PlaceFilter & {
   hidden?: boolean;
   onCloseClicked?: () => void;
   onBlur: () => void;
-  onButtonClick: (data: PlaceFilter) => void;
   category: string;
   accessibilities?: YesNoLimitedUnknown[];
 };
@@ -86,7 +85,7 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 
 function AccessibilityFilterMenu(props: Props) {
   const availableFilters = getAvailableFilters();
-  const { accessibilityFilter, toiletFilter, onButtonClick } = props;
+  const { accessibilityFilter, toiletFilter } = props;
   const category = props.category || "undefined";
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
   const shownFilterKeys = currentFilterKey
@@ -114,7 +113,6 @@ function AccessibilityFilterMenu(props: Props) {
             isMainCategory
             isActive={Boolean(currentFilterKey)}
             showCloseButton={shownFilterKeys.length === 1}
-            onClick={onButtonClick}
             key={key}
           />
         );
