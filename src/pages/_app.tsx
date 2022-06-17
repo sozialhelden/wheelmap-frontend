@@ -4,21 +4,25 @@ import * as React from 'react';
 import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import composeContexts, { ContextAndValue } from '../lib/composeContexts';
-import addEmbedModeResponseHeaders from '../lib/data-fetching/addEmbedModeResponseHeaders';
-import App from 'next/app';
-import { useCurrentApp } from '../lib/data-fetching/useCurrentApp';
 import * as queryString from 'query-string';
 import { parseUserAgentString, UserAgentContext } from '../lib/data-fetching/useUserAgent';
-import { getProductTitle } from '../lib/model/ClientSideConfiguration';
+import fetchApp from '../lib/data-fetching/fetchApp';
+import { App } from '../lib/model/App';
+import { default as NextApp } from 'next/app';
+import { AppContext } from '../lib/data-fetching/useCurrentApp';
 
 interface ExtraProps {
   userAgentString?: string;
+  app: App;
 }
 
-export default function MyApp({ Component, pageProps }: AppProps<ExtraProps>) {
-  const { userAgentString } = pageProps;
+export default function MyApp(props: AppProps<ExtraProps>) {
+  console.log('App props:', props);
+  const { Component, pageProps } = props;
+  const { userAgentString, app } = pageProps;
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
+    [AppContext, app],
   ];
 
   return (
@@ -32,31 +36,26 @@ export default function MyApp({ Component, pageProps }: AppProps<ExtraProps>) {
   );
 }
 
-//
-// MyApp.getInitialProps = async (appContext) => {
-//   // calls page's `getInitialProps` and fills `appProps.pageProps`
-//   const appProps = await App.getInitialProps(appContext);
-//
-//   return { ...appProps }
-// }
-
-const getInitialProps: typeof App.getInitialProps = async (appContext) => {
-  const appProps = await App.getInitialProps(appContext);
-  console.log('App context', appContext);
+const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
+  const appProps = await NextApp.getInitialProps(appContext);
   const { ctx } = appContext;
   const { req, res } = ctx;
   const isServer = !!req;
   const url = req ? req.url : location.href;
   const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
   const query = queryString.parse(url);
-  const { embedToken } = query;
-  const app = useCurrentApp();
-  console.log('Query:', query);
-  if (isServer) {
-    addEmbedModeResponseHeaders(app, res, typeof embedToken === 'string' ? embedToken : undefined);
+  const hostnameAndPort = query.hostname || query.appId || req ? req.headers.host : location.hostname;
+  const hostname = hostnameAndPort.split(':')[0];
+  if (typeof hostname !== 'string') {
+    throw new Error(`Hostname ${hostname} must be a string.`);
   }
-
-  return { ...appProps, userAgentString }
+  const appToken = process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const app = await fetchApp([hostname, appToken]);
+  if (!app) {
+    throw new Error(`No app found for hostname ${hostname}`);
+  }
+  const pageProps = { userAgentString, app };
+  return { ...appProps, pageProps }
 }
 
 

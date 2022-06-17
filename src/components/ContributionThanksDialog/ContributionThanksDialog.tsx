@@ -1,15 +1,13 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
+import { t } from "ttag";
+import * as React from "react";
+import styled from "styled-components";
 
-import colors from '../../lib/colors';
-import Toolbar from '../Toolbar';
-import CloseLink from '../CloseButton';
-import * as queryString from 'query-string';
-import { ChromelessButton, PrimaryButton } from '../Button';
-import { trackingEventBackend } from '../../lib/data-fetching/TrackingEventBackend';
-import { trackEvent } from '../../lib/Analytics';
-import { useCurrentApp } from '../useCurrentApp';
+import colors from "../../lib/colors";
+import Toolbar from "../shared/Toolbar";
+import CloseLink from "../shared/CloseButton";
+import * as queryString from "query-string";
+import { ChromelessButton, PrimaryButton } from "../shared/Button";
+import { trackEvent } from "../../lib/Analytics";
 
 export type Props = {
   className?: string;
@@ -21,8 +19,8 @@ export type Props = {
 };
 
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width 0.15s ease-out,
-    height 0.15s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out,
+    width 0.15s ease-out, height 0.15s ease-out;
   display: flex;
   flex-direction: column;
   padding: 20px 5px 20px 5px;
@@ -74,17 +72,17 @@ export default function ContributionThanksDialog(props: Props) {
 
   React.useEffect(() => {
     // log event on client
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const queryParams = queryString.parse(window.location.search);
       const uniqueSurveyId = queryParams.uniqueSurveyId;
-      if (uniqueSurveyId && typeof uniqueSurveyId === 'string') {
+      if (uniqueSurveyId && typeof uniqueSurveyId === "string") {
         trackingEventBackend.track(app, {
-          type: 'SurveyCompleted',
+          type: "SurveyCompleted",
           uniqueSurveyId: uniqueSurveyId,
         });
         trackEvent({
-          category: 'Survey',
-          action: 'Completed',
+          category: "Survey",
+          action: "Completed",
           label: uniqueSurveyId,
         });
       }
@@ -94,11 +92,11 @@ export default function ContributionThanksDialog(props: Props) {
   const featureId = props.featureId;
   const className = [
     props.className,
-    'contribution-thanks-dialog',
-    props.isExpanded && 'is-expanded',
+    "contribution-thanks-dialog",
+    props.isExpanded && "is-expanded",
   ]
     .filter(Boolean)
-    .join(' ');
+    .join(" ");
 
   const header = t`Thank you!`;
   const text = t`Your change is saved. It can take a while until it appears on the map.`;
@@ -122,7 +120,9 @@ export default function ContributionThanksDialog(props: Props) {
             {backToPlaceButtonCaption}
           </PrimaryButton>
         )}
-        <ChromelessButton onClick={props.onClose}>{backToMapButtonCaption}</ChromelessButton>
+        <ChromelessButton onClick={props.onClose}>
+          {backToMapButtonCaption}
+        </ChromelessButton>
       </section>
     </StyledToolbar>
   );

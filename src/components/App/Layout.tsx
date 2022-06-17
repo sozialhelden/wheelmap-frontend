@@ -1,5 +1,6 @@
 import React from "react";
-import { useCurrentApp } from "../../lib/data-fetching/useCurrentApp";
+import { AppContext } from "../../lib/data-fetching/useCurrentApp";
+import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
 
@@ -9,7 +10,8 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
   // if (error) return <div>Failed to load</div>
   // if (!data) return <div>Loading...</div>
 
-  const { clientSideConfiguration } = useCurrentApp();
+  const app = React.useContext(AppContext);
+  const { clientSideConfiguration } = app || {};
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const toggleMainMenu = React.useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
@@ -18,6 +20,8 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
   return (
     <>
       <HeadMetaTags />
+
+      <GlobalStyle />
 
       <MainMenu
         onToggle={toggleMainMenu}

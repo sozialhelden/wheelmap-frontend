@@ -2,7 +2,7 @@ import { encode } from "js-base64";
 import Head from "next/head";
 import React from "react";
 import { t } from "ttag";
-import { useCurrentApp } from "../../lib/data-fetching/useCurrentApp";
+import { AppContext } from "../../lib/data-fetching/useCurrentApp";
 import useHostname from "../../lib/data-fetching/useHostname";
 import { translatedStringFromObject } from "../../lib/i18n";
 import { getProductTitle } from "../../lib/model/ClientSideConfiguration";
@@ -11,23 +11,19 @@ import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
 
 export default function HeadMetaTags() {
-  const { clientSideConfiguration } = useCurrentApp();
-
+  const { clientSideConfiguration } = React.useContext(AppContext);
   const { textContent, meta, branding } = clientSideConfiguration;
-
   const { name: productName, description } = textContent?.product || {
     name: 'Wheelmap',
     description: undefined,
   };
   const { twitter, facebook } = meta || {};
-
-  const hostName = useHostname();
-  const baseUrl = `https://${hostName}`;
-
   const translatedDescription = translatedStringFromObject(description);
   const translatedProductName = translatedStringFromObject(productName);
   const pageTitle = translatedProductName;
   const facebookMetaData = { ...facebook, imageWidth: 0, imageHeight: 0 };
+  const hostName = useHostname();
+  const baseUrl = `https://${hostName}`;
   const ogUrl = baseUrl;
   const iconSvg = branding?.vectorIconSVG?.data;
   const faviconDataUrl = iconSvg && `data:image/svg+xml;base64,${encode(iconSvg)}`;

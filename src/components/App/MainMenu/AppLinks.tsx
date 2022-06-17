@@ -1,12 +1,12 @@
-import Link from 'next/link';
-import React from 'react';
-import { useCurrentMappingEvent } from './useCurrentMappingEvent';
-import styled from 'styled-components';
-import { useUniqueSurveyId } from './useUniqueSurveyId';
-import colors from '../../../lib/colors';
-import { useCurrentApp } from '../../../lib/data-fetching/useCurrentApp';
-import { translatedStringFromObject } from '../../../lib/i18n';
-import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/model/insertPlaceholdersToAddPlaceUrl';
+import Link from "next/link";
+import React, { useContext } from "react";
+import { useCurrentMappingEvent } from "./useCurrentMappingEvent";
+import styled from "styled-components";
+import { useUniqueSurveyId } from "./useUniqueSurveyId";
+import colors from "../../../lib/colors";
+import { translatedStringFromObject } from "../../../lib/i18n";
+import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/insertPlaceholdersToAddPlaceUrl";
+import { AppContext } from "../../../lib/data-fetching/useCurrentApp";
 
 const Badge = styled.span`
   background-color: ${colors.warningColor};
@@ -23,7 +23,7 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
 
   if (joinedMappingEvent) {
     return (
-      <Link href={`events/${joinedMappingEvent._id}`}>
+      <Link href={`/events/${joinedMappingEvent._id}`}>
         <a role="menuitem">{joinedMappingEvent.name}</a>
       </Link>
     );
@@ -38,7 +38,7 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
 
 export default function AppLinks(props: {}) {
   const joinedMappingEvent = useCurrentMappingEvent();
-  const app = useCurrentApp();
+  const app = useContext(AppContext);
   const baseUrl = `https://${app._id}/`;
   const uniqueSurveyId = useUniqueSurveyId();
 
@@ -48,7 +48,7 @@ export default function AppLinks(props: {}) {
 
   const links = Object.values(appLinks)
     .sort((a, b) => (a.order || 0) - (b.order || 0))
-    .map(link => {
+    .map((link) => {
       const url =
         link.url &&
         insertPlaceholdersToAddPlaceUrl(
@@ -59,15 +59,17 @@ export default function AppLinks(props: {}) {
         );
       const label = translatedStringFromObject(link.label);
       const badgeLabel = translatedStringFromObject(link.badgeLabel);
-      const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
-      const className = ['nav-link'].concat(classNamesFromTags).join(' ');
+      const classNamesFromTags =
+        link.tags && link.tags.map((tag) => `${tag}-link`);
+      const className = ["nav-link"].concat(classNamesFromTags).join(" ");
 
-      const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-      const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
+      const isAddPlaceLink = link.tags && link.tags.indexOf("add-place") !== -1;
+      const isAddPlaceLinkWithoutCustomUrl =
+        isAddPlaceLink && (!url || url == "/add-place");
 
       if (isAddPlaceLinkWithoutCustomUrl) {
         return (
-          <Link key="add-place" href="/add-place">
+          <Link key="add-place" href="/node/create">
             <a className={className} role="menuitem">
               {label}
               {badgeLabel && <Badge>{badgeLabel}</Badge>}
@@ -76,12 +78,12 @@ export default function AppLinks(props: {}) {
         );
       }
 
-      const isEventsLink = link.tags && link.tags.indexOf('events') !== -1;
+      const isEventsLink = link.tags && link.tags.indexOf("events") !== -1;
       if (isEventsLink) {
-        return <JoinedEventLink {...{ label, url }} />;
+        return <JoinedEventLink {...{ label, url }} key="joined-event" />;
       }
 
-      if (typeof url === 'string') {
+      if (typeof url === "string") {
         return (
           <Link key={url} href={url}>
             <a className={className} role="menuitem">

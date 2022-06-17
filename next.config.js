@@ -1,26 +1,29 @@
-const withTranspileModules = require('next-transpile-modules');
+const withTranspileModules = require("next-transpile-modules");
 //const webpack = require('webpack');
-const { loadGlobalEnvironment } = require('@sozialhelden/twelve-factor-dotenv');
-const env = loadGlobalEnvironment();
+const {
+  loadGlobalEnvironment,
+  getFilteredClientEnvironment,
+} = require("@sozialhelden/twelve-factor-dotenv");
+const env = getFilteredClientEnvironment(loadGlobalEnvironment());
 
 let configuration = withTranspileModules({
   // Next.js doesn't transpile node_modules content by default.
   // We have to do this manually to make IE 11 users happy.
   transpileModules: [
-    '@sozialhelden/twelve-factor-dotenv',
-    '@elastic/apm-rum-core',
-    '@elastic/apm-rum',
-    'dotenv',
+    "@sozialhelden/twelve-factor-dotenv",
+    "@elastic/apm-rum-core",
+    "@elastic/apm-rum",
+    "dotenv",
   ],
-  webpack: config => {
+  webpack: (config) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
-      fs: 'empty',
-      dgram: 'empty',
-      net: 'empty',
-      tls: 'empty',
-      child_process: 'empty',
-      async_hooks: 'mock',
+      fs: "empty",
+      dgram: "empty",
+      net: "empty",
+      tls: "empty",
+      child_process: "empty",
+      async_hooks: "mock",
     };
 
     return config;
@@ -41,6 +44,7 @@ configuration = {
   },
   // Disabling file-system routing to always use custom server.
   // useFileSystemPublicRoutes: false,
+  env,
 };
 
 module.exports = configuration;
