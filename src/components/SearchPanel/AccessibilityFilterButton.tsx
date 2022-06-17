@@ -1,13 +1,13 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled, { css } from 'styled-components';
+import { t } from "ttag";
+import * as React from "react";
+import styled, { css } from "styled-components";
 
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import Button from '../Button';
-import colors from '../../lib/colors';
-import CombinedIcon from './CombinedIcon';
-import CloseIcon from '../icons/actions/Close';
-import { PlaceFilter } from './AccessibilityFilterModel';
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
+import Button from "../shared/Button";
+import colors from "../../lib/colors";
+import CombinedIcon from "./CombinedIcon";
+import CloseIcon from "../icons/actions/Close";
+import { PlaceFilter } from "./AccessibilityFilterModel";
 
 type Props = {
   className?: string;
@@ -57,7 +57,9 @@ function AccessibilityFilterButton(props: Props) {
         })
       }
     >
-      <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
+      <CombinedIcon
+        {...{ toiletFilter, accessibilityFilter, category, isMainCategory }}
+      />
       <Caption>{caption}</Caption>
       {showCloseButton && <CloseIcon className="close-icon" />}
     </Button>
@@ -83,7 +85,7 @@ export default styled(AccessibilityFilterButton)`
       width: 70px;
     }
 
-    ${props =>
+    ${(props) =>
       props.isActive &&
       css`
         background-color: ${colors.coldBackgroundColor};

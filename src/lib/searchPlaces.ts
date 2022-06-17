@@ -1,10 +1,8 @@
-import includes from 'lodash/includes';
-import { Point } from 'geojson';
+import includes from "lodash/includes";
+import { Point } from "geojson";
 
-import { currentLocales } from './i18n';
-import { globalFetchManager } from './FetchManager';
-import { WheelmapFeature } from './Feature';
-import debouncePromise from './data-fetching/debouncePromise';
+import { currentLocales } from "./i18n";
+import debouncePromise from "./fetchers/legacy/debouncePromise";
 
 export type SearchResultProperties = {
   city?: any;
@@ -23,46 +21,51 @@ export type SearchResultProperties = {
 };
 
 export type SearchResultFeature = {
-  type?: 'Feature';
+  type?: "Feature";
   geometry: Point;
   properties: SearchResultProperties;
 };
 
 export type SearchResultCollection = {
   features: SearchResultFeature[];
-  error?: Error;
-  wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[];
 };
 
 export function getOsmIdFromSearchResultProperties(
   searchResultProperties?: SearchResultProperties
 ) {
-  let osmId: number | null = searchResultProperties ? searchResultProperties.osm_id : null;
+  let osmId: number | null = searchResultProperties
+    ? searchResultProperties.osm_id
+    : null;
 
   if (!osmId) {
     return null;
   }
 
   // Only nodes with type 'N' and 'W' can be on Wheelmap.
-  if (searchResultProperties.osm_type !== 'N' && searchResultProperties.osm_type !== 'W') {
+  if (
+    searchResultProperties.osm_type !== "N" &&
+    searchResultProperties.osm_type !== "W"
+  ) {
     return null;
   }
 
   // Wheelmap stores features with osm type 'W' with negativ ids.
   // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
-  if (searchResultProperties.osm_type === 'W') {
+  if (searchResultProperties.osm_type === "W") {
     osmId = -osmId;
   }
 
   return osmId;
 }
 
-export function buildOriginalOsmId(searchResultProperties?: SearchResultProperties) {
+export function buildOriginalOsmId(
+  searchResultProperties?: SearchResultProperties
+) {
   if (!searchResultProperties) {
     return undefined;
   }
-  return `osm://${searchResultProperties.osm_type || 'unknown'}/${searchResultProperties.osm_id ||
-    'unknown'}`;
+  return `osm://${searchResultProperties.osm_type ||
+    "unknown"}/${searchResultProperties.osm_id || "unknown"}`;
 }
 
 // Search komoot photon (an OSM search provider, https://github.com/komoot/photon) for a given
@@ -80,8 +83,8 @@ export default function searchPlaces(
 ): Promise<SearchResultCollection> {
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;
-  const supportedLanguageCodes = ['en', 'de', 'fr', 'it']; // See Photon documentation
-  let localeSuffix = '';
+  const supportedLanguageCodes = ["en", "de", "fr", "it"]; // See Photon documentation
+  let localeSuffix = "";
   if (includes(supportedLanguageCodes, languageCode)) {
     localeSuffix = `&lang=${languageCode}`;
   }
@@ -97,12 +100,11 @@ export default function searchPlaces(
   //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
   // }
 
-  return globalFetchManager
-    .fetch(url)
-    .then(response => {
+  return fetch(url)
+    .then((response) => {
       return response.json();
     })
-    .catch(error => {
+    .catch((error) => {
       // handle error & forward to results
       return { features: [], error };
     });

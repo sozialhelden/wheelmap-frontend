@@ -1,23 +1,17 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
+import { t } from "ttag";
+import * as React from "react";
+import styled from "styled-components";
 
-import { SearchResultCollection } from '../../lib/searchPlaces';
-import { SearchResultFeature } from '../../lib/searchPlaces';
-import { WheelmapFeature } from '../../lib/Feature';
-import SearchResult, { UnstyledSearchResult } from './SearchResult';
-import { CategoryLookupTables } from '../../lib/model/Categories';
+import { SearchResultCollection } from "../../lib/searchPlaces";
+import SearchResult from "./SearchResult";
+import { CategoryLookupTables } from "../../lib/model/Categories";
 
 type Props = {
-  searchResults: SearchResultCollection;
+  searchResults?: SearchResultCollection;
   categories: CategoryLookupTables;
   className?: string;
   hidden: boolean | null;
-  onSearchResultClick: (
-    feature: SearchResultFeature,
-    wheelmapFeature: WheelmapFeature | null
-  ) => void;
-  refFirst: (result: UnstyledSearchResult | null) => void | null;
+  error: string | undefined;
 };
 
 const StyledSearchResultList = styled.ul`
@@ -26,10 +20,11 @@ const StyledSearchResultList = styled.ul`
 `;
 
 export default function SearchResults(props: Props) {
-  const id = result => result && result.properties && result.properties.osm_id;
-  const { wheelmapFeatures, features } = props.searchResults;
+  const id = (result) =>
+    result && result.properties && result.properties.osm_id;
+  const { features } = props.searchResults;
 
-  const failedLoading = !!props.searchResults.error;
+  const failedLoading = !!props.error;
   const hasNoResults = !failedLoading && features.length === 0;
 
   // translator: Text in search results when nothing was found
@@ -42,7 +37,7 @@ export default function SearchResults(props: Props) {
 
   return (
     <StyledSearchResultList
-      className={`search-results ${props.className || ''}`}
+      className={`search-results ${props.className || ""}`}
       aria-label={t`Search results`}
     >
       {failedLoading && <li className="error-result">{searchErrorCaption}</li>}
@@ -59,14 +54,9 @@ export default function SearchResults(props: Props) {
         return (
           <SearchResult
             feature={feature}
-            wheelmapFeature={wheelmapFeatures && wheelmapFeatures[index]}
             key={featureId}
-            onClick={props.onSearchResultClick}
             hidden={!!props.hidden}
             categories={props.categories}
-            ref={ref => {
-              if (props.refFirst && index === 0) props.refFirst(ref);
-            }}
           />
         );
       })}

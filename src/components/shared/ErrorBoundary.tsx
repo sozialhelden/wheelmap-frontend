@@ -1,10 +1,9 @@
-import React, { Component, ReactNode } from 'react';
-import { t } from 'ttag';
-import styled from 'styled-components';
-import env from '../../lib/env';
+import React, { Component, ReactNode } from "react";
+import { t } from "ttag";
+import styled from "styled-components";
 
-import Link from '../Link/Link';
-import colors from '../../lib/colors';
+import colors from "../../lib/colors";
+import Link from "next/link";
 
 type Props = {
   className?: string;
@@ -27,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: any) {
     this.setState({ catched: true, error, errorInfo });
 
-    console[console.error ? 'error' : 'log'](error, errorInfo);
+    console[console.error ? "error" : "log"](error, errorInfo);
   }
 
   render() {
@@ -46,18 +45,22 @@ class ErrorBoundary extends Component<Props, State> {
       const returnHomeButtonCaption = t`Return home`;
 
       return (
-        <div className={className} aria-describedby="wheelmap-error-text wheelmap-apology-text">
+        <div
+          className={className}
+          aria-describedby="wheelmap-error-text wheelmap-apology-text"
+        >
           <h1 id="wheelmap-error-text">{errorText}</h1>
 
           <p>{apologyText}</p>
 
           <ErrorDetail>
-            {env.npm_package_version}
             {error && error.message && ` — ${error.message}`}
           </ErrorDetail>
 
-          <Link to="map" className="button-cta-close focus-visible">
-            {returnHomeButtonCaption}
+          <Link href="/">
+            <a className="button-cta-close focus-visible">
+              {returnHomeButtonCaption}
+            </a>
           </Link>
         </div>
       );

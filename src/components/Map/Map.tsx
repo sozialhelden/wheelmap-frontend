@@ -1,19 +1,19 @@
-import L from 'leaflet';
-import 'mapbox-gl';
-import 'mapbox-gl/src/css/mapbox-gl.css';
-import 'mapbox-gl-leaflet';
+import L from "leaflet";
+import "mapbox-gl";
+import "mapbox-gl/src/css/mapbox-gl.css";
+import "mapbox-gl-leaflet";
 
-import { GestureHandling } from './leaflet-gesture-handling/leaflet-gesture-handling';
-import 'leaflet.markercluster/dist/leaflet.markercluster-src';
-import { t } from 'ttag';
-import includes from 'lodash/includes';
-import isEqual from 'lodash/isEqual';
-import debounce from 'lodash/debounce';
-import * as React from 'react';
-import SozialheldenLogo from './SozialheldenLogo';
-import { currentLocales } from '../../lib/i18n';
-import LeafletLocateControl from './L.Control.Locate';
-import HighlightableMarker from './HighlightableMarker';
+import { GestureHandling } from "./leaflet-gesture-handling/leaflet-gesture-handling";
+import "leaflet.markercluster/dist/leaflet.markercluster-src";
+import { t } from "ttag";
+import includes from "lodash/includes";
+import isEqual from "lodash/isEqual";
+import debounce from "lodash/debounce";
+import * as React from "react";
+import SozialheldenLogo from "./SozialheldenLogo";
+import { currentLocales } from "../../lib/i18n";
+import LeafletLocateControl from "./L.Control.Locate";
+import HighlightableMarker from "./HighlightableMarker";
 
 import {
   isWheelchairAccessible,
@@ -24,45 +24,50 @@ import {
   hrefForEquipmentInfo,
   YesNoLimitedUnknown,
   YesNoUnknown,
-} from '../../lib/model/Feature';
-import ClusterIcon from './ClusterIcon';
-import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/model/Categories';
-import isSamePosition from './isSamePosition';
-import GeoJSONTileLayer from './GeoJSONTileLayer';
-import addLocateControlToMap from './addLocateControlToMap';
-import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
-import goToLocationSettings from '../../lib/goToLocationSettings';
-import highlightMarkers from './highlightMarkers';
-import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
-import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+} from "../../lib/model/Feature";
+import ClusterIcon from "./ClusterIcon";
+import Categories, {
+  CategoryLookupTables,
+  RootCategoryEntry,
+} from "../../lib/model/Categories";
+import isSamePosition from "./isSamePosition";
+import GeoJSONTileLayer from "./GeoJSONTileLayer";
+import addLocateControlToMap from "./addLocateControlToMap";
+import getAccessibilityCloudTileUrl from "./getAccessibilityCloudTileUrl";
+import goToLocationSettings from "../../lib/goToLocationSettings";
+import highlightMarkers from "./highlightMarkers";
+import overrideLeafletZoomBehavior from "./overrideLeafletZoomBehavior";
+import {
+  normalizeCoordinate,
+  normalizeCoordinates,
+} from "../../lib/normalizeCoordinates";
+import { accessibilityCloudFeatureCache } from "../../lib/cache/AccessibilityCloudFeatureCache";
+import { wheelmapLightweightFeatureCache } from "../../lib/cache/WheelmapLightweightFeatureCache";
+import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
 // import { globalFetchManager } from '../../lib/FetchManager';
-import { getUserAgent } from '../../lib/userAgent';
-import NotificationButton from './NotificationButton';
-import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
-import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
-import useImperialUnits from '../../lib/useImperialUnits';
-import { tileLoadingStatus } from './trackTileLoadingState';
-import { Cluster } from './Cluster';
-import { MappingEvents } from '../../lib/model/MappingEvent';
-import A11yMarkerIcon from './A11yMarkerIcon';
-import MappingEventMarkerIcon from './MappingEventMarkerIcon';
+import { getUserAgent } from "../../lib/userAgent";
+import NotificationButton from "./NotificationButton";
+import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
+import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
+import useImperialUnits from "../../lib/useImperialUnits";
+import { tileLoadingStatus } from "./trackTileLoadingState";
+import { Cluster } from "./Cluster";
+import { MappingEvents } from "../../lib/model/MappingEvent";
+import A11yMarkerIcon from "./A11yMarkerIcon";
+import MappingEventMarkerIcon from "./MappingEventMarkerIcon";
 
-import { LeafletStyle } from './LeafletStyle';
-import './MapStyle.tsx';
-import { hrefForMappingEvent } from '../../lib/model/MappingEvent';
-import { MapStyle } from './MapStyle';
-import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
-import env from '../../lib/env';
+import { LeafletStyle } from "./LeafletStyle";
+import "./MapStyle.tsx";
+import { hrefForMappingEvent } from "../../lib/model/MappingEvent";
+import { MapStyle } from "./MapStyle";
+import { LeafletLocateControlStyle } from "./LeafletLocateControlStyle";
 import {
   EquipmentInfo,
   EquipmentProperties,
   PlaceInfo,
   PlaceProperties,
-} from '@sozialhelden/a11yjson';
-import { hasBigViewport } from '../../lib/ViewportSize';
+} from "@sozialhelden/a11yjson";
+import { hasBigViewport } from "../../lib/ViewportSize";
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -133,7 +138,7 @@ type Props = {
   padding: Padding | null;
   className?: string | null;
   onMapMounted?: (map: L.Map) => void;
-  unitSystem?: 'metric' | 'imperial';
+  unitSystem?: "metric" | "imperial";
   hideHints?: boolean;
   onLocationError?: (error: any) => void;
   forwardedRef: (map: Map | null) => void | null;
@@ -193,7 +198,10 @@ export default class Map extends React.Component<Props, State> {
     let overrideZoom = props.zoom;
 
     // Prevent the map from being empty when navigating to a new category
-    if (props.categoryId && (!lastProps || lastProps.categoryId !== props.categoryId)) {
+    if (
+      props.categoryId &&
+      (!lastProps || lastProps.categoryId !== props.categoryId)
+    ) {
       overrideZoom = Math.min(
         props.minZoomWithSetCategory || 20,
         props.zoom || props.minZoomWithSetCategory
@@ -215,7 +223,8 @@ export default class Map extends React.Component<Props, State> {
       props.activeCluster.leafletMarker._leaflet_id !== state.zoomedToFeatureId
     ) {
       const coords = props.activeCluster.center;
-      const clusterCoords = coords && normalizeCoordinates([coords.lat, coords.lng]);
+      const clusterCoords =
+        coords && normalizeCoordinates([coords.lat, coords.lng]);
       center = clusterCoords || fallbackCenter;
       zoomedToFeatureId = props.activeCluster.leafletMarker._leaflet_id;
       centerDefined = true;
@@ -228,11 +237,12 @@ export default class Map extends React.Component<Props, State> {
       placeOrEquipment &&
       getFeatureId(placeOrEquipment) !== state.zoomedToFeatureId &&
       placeOrEquipment.geometry &&
-      placeOrEquipment.geometry.type === 'Point' &&
+      placeOrEquipment.geometry.type === "Point" &&
       placeOrEquipment.geometry.coordinates instanceof Array
     ) {
       const coords = placeOrEquipment.geometry.coordinates;
-      const featureCoordinates = coords && normalizeCoordinates([coords[1], coords[0]]);
+      const featureCoordinates =
+        coords && normalizeCoordinates([coords[1], coords[0]]);
       center = featureCoordinates || fallbackCenter;
 
       // Store feature id to make sure we only zoom to the place once.
@@ -254,7 +264,8 @@ export default class Map extends React.Component<Props, State> {
                 [lastProps.extent[3], lastProps.extent[2]],
               ])
             : null;
-        const hasChangedExtents = !prevBounds || !newBounds.equals(prevBounds, 0.01);
+        const hasChangedExtents =
+          !prevBounds || !newBounds.equals(prevBounds, 0.01);
 
         if (hasChangedExtents) {
           bounds = newBounds;
@@ -276,7 +287,9 @@ export default class Map extends React.Component<Props, State> {
 
     const placeOrEquipment = equipmentInfo || feature;
 
-    const category = props.categoryId ? Categories.getRootCategory(props.categoryId) : null;
+    const category = props.categoryId
+      ? Categories.getRootCategory(props.categoryId)
+      : null;
 
     // works also without a feature
     if (placeOrEquipment) {
@@ -289,7 +302,11 @@ export default class Map extends React.Component<Props, State> {
       }
 
       if (placeOrEquipment instanceof Promise) {
-        return { category, placeOrEquipment: null, placeOrEquipmentPromise: placeOrEquipment };
+        return {
+          category,
+          placeOrEquipment: null,
+          placeOrEquipmentPromise: placeOrEquipment,
+        };
       }
 
       return { category, placeOrEquipment, placeOrEquipmentPromise: null };
@@ -303,7 +320,11 @@ export default class Map extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    const initialMapState = Map.getMapStateFromProps(null, this.state, this.props);
+    const initialMapState = Map.getMapStateFromProps(
+      null,
+      this.state,
+      this.props
+    );
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
       center: initialMapState.center,
@@ -314,7 +335,7 @@ export default class Map extends React.Component<Props, State> {
     });
 
     if (!map) {
-      throw new Error('Could not initialize map component.');
+      throw new Error("Could not initialize map component.");
     }
 
     if (initialMapState.bounds) {
@@ -324,7 +345,7 @@ export default class Map extends React.Component<Props, State> {
       });
     }
 
-    map.on('click', () => {
+    map.on("click", () => {
       if (this.props.onClick) this.props.onClick();
     });
     this.map = map;
@@ -334,22 +355,22 @@ export default class Map extends React.Component<Props, State> {
 
     tileLoadingStatus.registerMap(map);
 
-    new L.Control.Zoom({ position: 'topright' }).addTo(this.map);
+    new L.Control.Zoom({ position: "topright" }).addTo(this.map);
 
-    map.on('moveend', () => this.onMoveEnd());
-    map.on('zoomend', () => this.onMoveEnd());
+    map.on("moveend", () => this.onMoveEnd());
+    map.on("zoomend", () => this.onMoveEnd());
 
     let unitSystem = this.props.unitSystem;
     if (!unitSystem) {
       // derive unitSystem from locale
-      unitSystem = useImperialUnits() ? 'imperial' : 'metric';
+      unitSystem = useImperialUnits() ? "imperial" : "metric";
     }
 
     this.setupLocateMeButton(map);
 
     const basemapLayer = (L as any).mapboxGL({
-      accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
-      style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
+      accessToken: process.env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
+      style: "mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q",
     });
 
     map.addLayer(basemapLayer);
@@ -358,17 +379,17 @@ export default class Map extends React.Component<Props, State> {
     map.addLayer(this.highLightLayer);
 
     this.markerClusterGroup = this.createMarkerClusterGroup();
-    this.markerClusterGroup.on('clusterclick', event => {
+    this.markerClusterGroup.on("clusterclick", (event) => {
       if (this.props.zoom === this.props.maxZoom) {
         const markers = event.layer.getAllChildMarkers();
-        const props = markers.map(m => m.feature.properties).filter(Boolean);
+        const props = markers.map((m) => m.feature.properties).filter(Boolean);
         const interpolatedA11y = interpolateWheelchairAccessibility(props);
 
         this.props.onClusterClick({
           ...interpolatedA11y,
           center: event.latlng,
           leafletMarker: event.layer,
-          features: markers.map(m => m.feature),
+          features: markers.map((m) => m.feature),
         });
 
         event.originalEvent.preventDefault();
@@ -388,13 +409,13 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupMappingEvents();
 
-    map.on('moveend', () => {
+    map.on("moveend", () => {
       this.updateFeatureLayerVisibility();
     });
-    map.on('zoomend', () => {
+    map.on("zoomend", () => {
       this.updateFeatureLayerVisibility();
     });
-    map.on('zoomstart', () => {
+    map.on("zoomstart", () => {
       this.removeLayersNotVisibleInZoomLevel();
     });
 
@@ -404,7 +425,7 @@ export default class Map extends React.Component<Props, State> {
 
     const { placeOrEquipmentPromise } = this.state;
     if (placeOrEquipmentPromise) {
-      placeOrEquipmentPromise.then(placeOrEquipment =>
+      placeOrEquipmentPromise.then((placeOrEquipment) =>
         this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
       );
     }
@@ -449,7 +470,8 @@ export default class Map extends React.Component<Props, State> {
     if (filterNeedsRefreshing) {
       setTimeout(() => {
         // console.log("Resetting layers", accessibilityFilterChanged, toiletFilterChanged, customFilterChanged);
-        if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
+        if (this.accessibilityCloudTileLayer)
+          this.accessibilityCloudTileLayer._reset();
         if (this.equipmentTileLayer) this.equipmentTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
         if (this.accessibilityCloudTileLayer) {
@@ -458,17 +480,24 @@ export default class Map extends React.Component<Props, State> {
         if (this.equipmentTileLayer) {
           this.equipmentTileLayer._update(map.getCenter());
         }
-        if (this.wheelmapTileLayer) this.wheelmapTileLayer._update(map.getCenter());
+        if (this.wheelmapTileLayer)
+          this.wheelmapTileLayer._update(map.getCenter());
       }, 100);
     }
 
-    if (prevProps.activeCluster && prevProps.activeCluster !== this.props.activeCluster) {
+    if (
+      prevProps.activeCluster &&
+      prevProps.activeCluster !== this.props.activeCluster
+    ) {
       this.setClusterHighlight(prevProps.activeCluster, false);
     }
 
     const { placeOrEquipmentPromise } = this.state;
-    if (placeOrEquipmentPromise && prevState.placeOrEquipmentPromise !== placeOrEquipmentPromise) {
-      placeOrEquipmentPromise.then(placeOrEquipment =>
+    if (
+      placeOrEquipmentPromise &&
+      prevState.placeOrEquipmentPromise !== placeOrEquipmentPromise
+    ) {
+      placeOrEquipmentPromise.then((placeOrEquipment) =>
         this.handlePromiseResolved(placeOrEquipmentPromise, placeOrEquipment)
       );
     }
@@ -519,7 +548,7 @@ export default class Map extends React.Component<Props, State> {
         if (
           error &&
           error.type &&
-          error.type === 'locationerror' &&
+          error.type === "locationerror" &&
           error.code &&
           error.code === 1
         ) {
@@ -532,7 +561,7 @@ export default class Map extends React.Component<Props, State> {
         }
       },
       onClick: () => {
-        saveState({ hasOpenedLocationHelp: 'false' });
+        saveState({ hasOpenedLocationHelp: "false" });
         if (this.state.showLocationNotAllowedHint) {
           goToLocationSettings();
           this.setState({ showLocationNotAllowedHint: false });
@@ -540,8 +569,12 @@ export default class Map extends React.Component<Props, State> {
       },
     });
 
-    map.once('locationfound', () => {
-      if (this.locateControl && this.props.locateOnStart && !this.mapHasBeenMoved) {
+    map.once("locationfound", () => {
+      if (
+        this.locateControl &&
+        this.props.locateOnStart &&
+        !this.mapHasBeenMoved
+      ) {
         this.locateControl.setView();
       }
     });
@@ -557,7 +590,7 @@ export default class Map extends React.Component<Props, State> {
         this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
           featureCache: wheelmapLightweightFeatureCache,
           layerGroup: markerClusterGroup,
-          featureCollectionFromResponse: r => r,
+          featureCollectionFromResponse: (r) => r,
           pointToLayer: this.createMarkerFromPlaceInfo,
           filter: this.isFeatureVisible.bind(this),
           maxZoom: this.props.maxZoom,
@@ -569,11 +602,13 @@ export default class Map extends React.Component<Props, State> {
   setupEquipmentTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
     const locale = currentLocales[0];
     if (!locale) {
-      console.error('Could not load AC equipment tile layer because no current locale is set.');
+      console.error(
+        "Could not load AC equipment tile layer because no current locale is set."
+      );
     }
     const tileUrl = getAccessibilityCloudTileUrl(
       locale,
-      'equipment-infos',
+      "equipment-infos",
       [],
       [],
       this.props.accessibilityCloudAppToken
@@ -593,11 +628,13 @@ export default class Map extends React.Component<Props, State> {
   setupAccessibilityCloudTileLayer(markerClusterGroup: L.MarkerClusterGroup) {
     const locale = currentLocales[0];
     if (!locale) {
-      console.error('Could not load AC tile layer because no current locale is set.');
+      console.error(
+        "Could not load AC tile layer because no current locale is set."
+      );
     }
     const tileUrl = getAccessibilityCloudTileUrl(
       locale,
-      'place-infos',
+      "place-infos",
       this.props.includeSourceIds,
       this.props.excludeSourceIds,
       this.props.accessibilityCloudAppToken
@@ -630,7 +667,7 @@ export default class Map extends React.Component<Props, State> {
     this.mappingEventsLayer = mappingEventsLayer;
     map.addLayer(mappingEventsLayer);
 
-    mappingEvents.forEach(event => {
+    mappingEvents.forEach((event) => {
       const eventFeature = event.meetingPoint;
 
       if (!eventFeature) {
@@ -674,7 +711,10 @@ export default class Map extends React.Component<Props, State> {
         featureLayer.removeLayer(this.equipmentTileLayer);
       }
     }
-    if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
+    if (
+      map.getZoom() < minimalZoomLevelForFeatures &&
+      map.hasLayer(featureLayer)
+    ) {
       // console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
     }
@@ -700,7 +740,12 @@ export default class Map extends React.Component<Props, State> {
       return;
     }
 
-    const targetMapState = Map.getMapStateFromProps(this.map, state, props, lastProps);
+    const targetMapState = Map.getMapStateFromProps(
+      this.map,
+      state,
+      props,
+      lastProps
+    );
     this.updateMapCenter(targetMapState, props.padding, this.state);
     this.updateFeatureLayerVisibility(props, state);
   }
@@ -713,16 +758,23 @@ export default class Map extends React.Component<Props, State> {
     const zoom = map.getZoom();
 
     const onMoveEnd = this.props.onMoveEnd;
-    if (typeof onMoveEnd === 'function') {
+    if (typeof onMoveEnd === "function") {
       const bbox = map.getBounds();
 
-      onMoveEnd({ lat: normalizeCoordinate(lat), lon: normalizeCoordinate(lng), zoom, bbox });
+      onMoveEnd({
+        lat: normalizeCoordinate(lat),
+        lon: normalizeCoordinate(lng),
+        zoom,
+        bbox,
+      });
     }
 
     const minimalZoomLevelForFeatures = this.props.categoryId
       ? this.props.minZoomWithSetCategory
       : this.props.minZoomWithoutSetCategory;
-    const showZoomInfo = this.map ? this.map.getZoom() < minimalZoomLevelForFeatures : false;
+    const showZoomInfo = this.map
+      ? this.map.getZoom() < minimalZoomLevelForFeatures
+      : false;
     this.setState({ showZoomInfo });
 
     this.updateTabIndexes();
@@ -754,7 +806,10 @@ export default class Map extends React.Component<Props, State> {
 
       if (this.shouldShowAccessibilityCloudLayer(props, state)) {
         minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
-        if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
+        if (
+          !featureLayer.hasLayer(accessibilityCloudTileLayer) &&
+          accessibilityCloudTileLayer
+        ) {
           // console.log('Show AC layer...');
           featureLayer.addLayer(accessibilityCloudTileLayer);
           accessibilityCloudTileLayer._update(map.getCenter());
@@ -780,7 +835,10 @@ export default class Map extends React.Component<Props, State> {
     100
   );
 
-  shouldShowAccessibilityCloudLayer(props: Props = this.props, state: State = this.state): boolean {
+  shouldShowAccessibilityCloudLayer(
+    props: Props = this.props,
+    state: State = this.state
+  ): boolean {
     // always show if no category was selected
     if (!state.category) {
       return true;
@@ -794,7 +852,10 @@ export default class Map extends React.Component<Props, State> {
     const map: L.Map = this.map;
     const mapSize = map.getSize();
     const zoom = map.getZoom();
-    const corner1 = map.containerPointToLatLng(new L.Point(padding.left, padding.top), zoom);
+    const corner1 = map.containerPointToLatLng(
+      new L.Point(padding.left, padding.top),
+      zoom
+    );
     const corner2 = map.containerPointToLatLng(
       new L.Point(mapSize.x - padding.right, mapSize.y - padding.bottom),
       zoom
@@ -803,7 +864,11 @@ export default class Map extends React.Component<Props, State> {
     return bounds;
   }
 
-  updateMapCenter(targetMapState: TargetMapState, padding: Padding | null, state: State) {
+  updateMapCenter(
+    targetMapState: TargetMapState,
+    padding: Padding | null,
+    state: State
+  ) {
     const map: L.Map = this.map;
     const center = map.getCenter();
 
@@ -812,7 +877,8 @@ export default class Map extends React.Component<Props, State> {
 
     // make max distance zoom dependant
     const mapBounds = map.getBounds();
-    const maximalMoveDistance = Math.abs(mapBounds.getWest() - mapBounds.getEast()) * 0.1;
+    const maximalMoveDistance =
+      Math.abs(mapBounds.getWest() - mapBounds.getEast()) * 0.1;
 
     const effectivePadding = padding || {
       top: 10,
@@ -831,7 +897,11 @@ export default class Map extends React.Component<Props, State> {
       moved = true;
     } else if (
       targetCoords &&
-      !isSamePosition(targetCoords, [center.lat, center.lng], maximalMoveDistance)
+      !isSamePosition(
+        targetCoords,
+        [center.lat, center.lng],
+        maximalMoveDistance
+      )
     ) {
       const bounds = this.calculateBoundsWithPadding(effectivePadding);
       const isWithinBounds = bounds.contains(targetCoords);
@@ -865,13 +935,16 @@ export default class Map extends React.Component<Props, State> {
     // opened one, e.g. when two escalators from a train platform lead to the same
     // other level or are next to each other
     const similarEquipmentIds =
-      typeof props.equipmentInfoId === 'string'
+      typeof props.equipmentInfoId === "string"
         ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
         : [];
 
     // OSM IDs are numeric, other IDs are assumed to be globally unique so we collect
     // them in one array:
-    const ids = [!props.equipmentInfoId && props.featureId, props.equipmentInfoId]
+    const ids = [
+      !props.equipmentInfoId && props.featureId,
+      props.equipmentInfoId,
+    ]
       .concat(similarEquipmentIds)
       .filter(Boolean)
       .map(String);
@@ -881,7 +954,10 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (this.accessibilityCloudTileLayer) {
-      this.accessibilityCloudTileLayer.highlightMarkersWithIds(this.highLightLayer, ids);
+      this.accessibilityCloudTileLayer.highlightMarkersWithIds(
+        this.highLightLayer,
+        ids
+      );
     }
 
     if (this.equipmentTileLayer) {
@@ -891,12 +967,23 @@ export default class Map extends React.Component<Props, State> {
     // Mapping events are not using a GeoJSONTileLayer, so they need a specialized handling
     // TODO: Generalize behavior from above to work with any kind of marker layers
     if (this.mappingEventsLayer) {
-      const selectedMappingEventMarker = Object.keys(this.mappingEventsLayer._layers)
-        .map(key => (this.mappingEventsLayer ? this.mappingEventsLayer._layers[key] : undefined))
-        .find(marker => marker && marker.featureId === props.featureId);
+      const selectedMappingEventMarker = Object.keys(
+        this.mappingEventsLayer._layers
+      )
+        .map((key) =>
+          this.mappingEventsLayer
+            ? this.mappingEventsLayer._layers[key]
+            : undefined
+        )
+        .find((marker) => marker && marker.featureId === props.featureId);
 
       if (selectedMappingEventMarker) {
-        highlightMarkers(this.highLightLayer, [selectedMappingEventMarker], [], true);
+        highlightMarkers(
+          this.highLightLayer,
+          [selectedMappingEventMarker],
+          [],
+          true
+        );
       }
     }
 
@@ -910,9 +997,9 @@ export default class Map extends React.Component<Props, State> {
 
     if (elem) {
       if (highlight) {
-        elem.classList.add('highlighted');
+        elem.classList.add("highlighted");
       } else {
-        elem.classList.remove('highlighted');
+        elem.classList.remove("highlighted");
       }
     }
   }
@@ -920,13 +1007,13 @@ export default class Map extends React.Component<Props, State> {
   updateTabIndexes() {
     const map = this.map;
     if (!map) return;
-    map.eachLayer(layer => {
+    map.eachLayer((layer) => {
       const layerIsTabbable = layer.options.keyboard;
       if (layer.getElement && layer.getLatLng && layerIsTabbable) {
         const isInViewport = map.getBounds().contains(layer.getLatLng());
         const layerElement = layer.getElement();
         if (layerElement) {
-          layerElement.setAttribute('tabindex', isInViewport ? 0 : -1);
+          layerElement.setAttribute("tabindex", isInViewport ? 0 : -1);
         }
       }
     });
@@ -943,13 +1030,13 @@ export default class Map extends React.Component<Props, State> {
       iconCreateFunction(cluster) {
         const propertiesArray = cluster
           .getAllChildMarkers()
-          .map(marker => marker.feature.properties);
+          .map((marker) => marker.feature.properties);
         const options: L.IconOptions = {
           propertiesArray,
           categories: map.props.categories,
         };
-        if (isEqual(map.props.accessibilityFilter, ['unknown'])) {
-          options.backgroundColor = 'rgb(171, 167, 160)';
+        if (isEqual(map.props.accessibilityFilter, ["unknown"])) {
+          options.backgroundColor = "rgb(171, 167, 160)";
         }
         return new ClusterIcon(options);
       },
@@ -959,7 +1046,10 @@ export default class Map extends React.Component<Props, State> {
     });
   }
 
-  createMarkerFromPlaceInfo = (feature: PlaceInfo, latlng: [number, number]) => {
+  createMarkerFromPlaceInfo = (
+    feature: PlaceInfo,
+    latlng: [number, number]
+  ) => {
     const properties = feature && feature.properties;
     if (!properties) {
       return null;
@@ -973,7 +1063,10 @@ export default class Map extends React.Component<Props, State> {
     });
   };
 
-  createMarkerFromEquipmentInfo = (feature: EquipmentInfo, latlng: [number, number]) => {
+  createMarkerFromEquipmentInfo = (
+    feature: EquipmentInfo,
+    latlng: [number, number]
+  ) => {
     const properties = feature && feature.properties;
     if (!properties) {
       return null;
@@ -992,12 +1085,20 @@ export default class Map extends React.Component<Props, State> {
     if (!feature) return false;
     if (!feature.properties) return false;
     const properties = feature.properties;
-    const hasMatchingA11y = includes(accessibilityFilter, isWheelchairAccessible(properties));
-    const hasMatchingToilet = includes(toiletFilter, hasAccessibleToilet(properties));
+    const hasMatchingA11y = includes(
+      accessibilityFilter,
+      isWheelchairAccessible(properties)
+    );
+    const hasMatchingToilet = includes(
+      toiletFilter,
+      hasAccessibleToilet(properties)
+    );
 
     let matchesCustomCategoryFilter = true;
     if (this.state.category && this.state.category.filter) {
-      matchesCustomCategoryFilter = this.state.category.filter(feature.properties);
+      matchesCustomCategoryFilter = this.state.category.filter(
+        feature.properties
+      );
     }
     return hasMatchingA11y && hasMatchingToilet && matchesCustomCategoryFilter;
   }
@@ -1055,7 +1156,9 @@ export default class Map extends React.Component<Props, State> {
     // enabled
     const caption = t`Turn on location services`;
     const isHidden =
-      this.props.hideHints || !this.state.showLocationNotAllowedHint || hasOpenedLocationHelp();
+      this.props.hideHints ||
+      !this.state.showLocationNotAllowedHint ||
+      hasOpenedLocationHelp();
 
     return (
       <NotificationButton
@@ -1075,16 +1178,16 @@ export default class Map extends React.Component<Props, State> {
   render() {
     const userAgent = getUserAgent();
     const className = [
-      userAgent.os.name === 'Android' ? 'is-android-platform' : null,
+      userAgent.os.name === "Android" ? "is-android-platform" : null,
       this.props.className,
     ]
       .filter(Boolean)
-      .join(' ');
+      .join(" ");
 
     return (
       <section
         className={className}
-        ref={el => (this.mapElement = el)}
+        ref={(el) => (this.mapElement = el)}
         role="main"
         aria-label={t`Map`}
       >
@@ -1103,12 +1206,20 @@ export default class Map extends React.Component<Props, State> {
         </a>
         <span className="mapbox-attribution-container">
           <span className="sozialhelden-logo-container">
-            <a href="https://www.sozialhelden.de" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://www.sozialhelden.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <SozialheldenLogo />
               &nbsp;|&nbsp;
             </a>
           </span>
-          <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.mapbox.com/about/maps/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             © Mapbox |
           </a>
           &nbsp;
@@ -1120,7 +1231,11 @@ export default class Map extends React.Component<Props, State> {
             © OpenStreetMap |
           </a>
           &nbsp;
-          <a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.mapbox.com/map-feedback/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <strong>Improve this map</strong>
           </a>
         </span>
@@ -1128,11 +1243,14 @@ export default class Map extends React.Component<Props, State> {
     );
   }
 
-  wheelmapTileUrl(props: Props = this.props, state: State = this.state): string | null {
+  wheelmapTileUrl(
+    props: Props = this.props,
+    state: State = this.state
+  ): string | null {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
     const baseUrl = props.wheelmapApiBaseUrl;
-    if (typeof baseUrl !== 'string') return null;
+    if (typeof baseUrl !== "string") return null;
     const wheelmapApiKey = props.wheelmapApiKey;
     // const categoryName = props.categoryId;
     if (!wheelmapApiKey) {

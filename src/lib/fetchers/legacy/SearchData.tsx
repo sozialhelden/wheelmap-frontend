@@ -1,23 +1,22 @@
-import React from 'react';
-import { t } from 'ttag';
+import React from "react";
+import { t } from "ttag";
 
 import searchPlaces, {
   searchPlacesDebounced,
   SearchResultCollection,
   SearchResultProperties,
   getOsmIdFromSearchResultProperties,
-} from '../lib/searchPlaces';
-import { DataTableEntry } from './getInitialProps';
-import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import { WheelmapFeature } from '../lib/Feature';
-import { getProductTitle } from '../lib/ClientSideConfiguration';
-import env from '../lib/env';
-import { compact } from 'lodash';
+} from "../lib/searchPlaces";
+import { DataTableEntry } from "./getInitialProps";
+import { wheelmapFeatureCache } from "../lib/cache/WheelmapFeatureCache";
+import { WheelmapFeature } from "../lib/Feature";
+import { getProductTitle } from "../lib/ClientSideConfiguration";
+import { compact } from "lodash";
 
 type SearchProps = {
-  searchResults: SearchResultCollection | Promise<SearchResultCollection>,
-  searchQuery: string | undefined,
-  disableWheelmapSource?: boolean,
+  searchResults: SearchResultCollection | Promise<SearchResultCollection>;
+  searchQuery: string | undefined;
+  disableWheelmapSource?: boolean;
 };
 
 async function fetchWheelmapNode(
@@ -25,8 +24,10 @@ async function fetchWheelmapNode(
   appToken: string,
   useCache: boolean
 ): Promise<WheelmapFeature | undefined> {
-  if (!env.REACT_APP_WHEELMAP_API_KEY) {
-    console.log('Warning: REACT_APP_WHEELMAP_API_KEY not set, cannot fetch place.');
+  if (!process.env.REACT_APP_WHEELMAP_API_KEY) {
+    console.log(
+      "Warning: REACT_APP_WHEELMAP_API_KEY not set, cannot fetch place."
+    );
     return null;
   }
 
@@ -36,7 +37,11 @@ async function fetchWheelmapNode(
   }
 
   try {
-    const feature = await wheelmapFeatureCache.getFeature(String(osmId), appToken, useCache);
+    const feature = await wheelmapFeatureCache.getFeature(
+      String(osmId),
+      appToken,
+      useCache
+    );
 
     if (feature == null || feature.properties == null) {
       return null;
@@ -57,15 +62,20 @@ const SearchData: DataTableEntry<SearchProps> = {
     const searchQuery = query.q;
 
     let trimmedSearchQuery;
-    let searchResults: Promise<SearchResultCollection> | SearchResultCollection = {
+    let searchResults:
+      | Promise<SearchResultCollection>
+      | SearchResultCollection = {
       features: [],
     };
 
     if (searchQuery && (trimmedSearchQuery = searchQuery.trim())) {
-      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(trimmedSearchQuery, {
-        lat: parseFloat(query.lat),
-        lon: parseFloat(query.lon),
-      });
+      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(
+        trimmedSearchQuery,
+        {
+          lat: parseFloat(query.lat),
+          lon: parseFloat(query.lon),
+        }
+      );
 
       // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
       searchResults = isServer ? await searchResults : searchResults;
@@ -84,7 +94,7 @@ const SearchData: DataTableEntry<SearchProps> = {
 
     let { searchResults, disableWheelmapSource } = props;
 
-    searchResults = Promise.resolve(searchResults).then(async results => {
+    searchResults = Promise.resolve(searchResults).then(async (results) => {
       const useCache = !isServer;
 
       if (disableWheelmapSource) {
@@ -95,10 +105,18 @@ const SearchData: DataTableEntry<SearchProps> = {
       }
 
       let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = compact(
-        results.features.map(feature => {
+        results.features.map((feature) => {
           const { type, osm_key } = feature.properties;
-          if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
-            return fetchWheelmapNode(feature.properties, props.app.tokenString, useCache);
+          if (
+            type !== "street" &&
+            osm_key !== "landuse" &&
+            osm_key !== "place"
+          ) {
+            return fetchWheelmapNode(
+              feature.properties,
+              props.app.tokenString,
+              useCache
+            );
           }
         })
       );
@@ -127,7 +145,11 @@ const SearchData: DataTableEntry<SearchProps> = {
       searchTitle = t`Search results`;
     }
 
-    return <title key="title">{getProductTitle(app.clientSideConfiguration, searchTitle)}</title>;
+    return (
+      <title key="title">
+        {getProductTitle(app.clientSideConfiguration, searchTitle)}
+      </title>
+    );
   },
 };
 

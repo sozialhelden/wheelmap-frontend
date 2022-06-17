@@ -1,18 +1,18 @@
-import * as React from 'react';
-import isEqual from 'lodash/isEqual';
-import styled from 'styled-components';
+import * as React from "react";
+import isEqual from "lodash/isEqual";
+import styled from "styled-components";
 
-import Icon from '../Icon';
-import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
-import { isAccessibilityFiltered } from '../../lib/Feature';
+import Icon from "../shared/Icon";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
+import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
+import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
 
 type Props = {
-  accessibilityFilter?: YesNoLimitedUnknown[],
-  toiletFilter?: YesNoUnknown[],
-  category?: string | null,
-  isMainCategory?: boolean,
-  className?: string,
+  accessibilityFilter?: YesNoLimitedUnknown[];
+  toiletFilter?: YesNoUnknown[];
+  category?: string | null;
+  isMainCategory?: boolean;
+  className?: string;
 };
 
 function CombinedIcon(props: Props) {
@@ -24,7 +24,7 @@ function CombinedIcon(props: Props) {
 
   return (
     <div aria-hidden className={props.className}>
-      {accessibilities.map(accessibility => (
+      {accessibilities.map((accessibility) => (
         <Icon
           key={accessibility}
           accessibility={accessibility}
@@ -33,7 +33,7 @@ function CombinedIcon(props: Props) {
           size="medium"
         />
       ))}
-      {isEqual(props.toiletFilter, ['yes']) ? (
+      {isEqual(props.toiletFilter, ["yes"]) ? (
         <ToiletIcon>
           <ToiletStatusAccessible />
         </ToiletIcon>

@@ -30,47 +30,6 @@ Object.freeze(yesNoLimitedUnknownArray);
 export const yesNoUnknownArray: YesNoUnknown[] = ['yes', 'no', 'unknown'];
 Object.freeze(yesNoUnknownArray);
 
-function sortedIsEqual(array1: any[], array2: any[]): boolean {
-  return isEqual([].concat(array1).sort(), [].concat(array2).sort());
-}
-
-function parseStatusString(statusString, allowedStatuses) {
-  // Safe mutable sort as filter always returns a new array.
-  return statusString
-    ? statusString
-        .split(',')
-        .filter(s => includes(allowedStatuses, s))
-        .sort()
-    : [...allowedStatuses];
-}
-
-export function getAccessibilityFilterFrom(statusString: string | null): YesNoLimitedUnknown[] {
-  return parseStatusString(statusString, yesNoLimitedUnknownArray);
-}
-
-export function getToiletFilterFrom(toiletString: string | null): YesNoUnknown[] {
-  return parseStatusString(toiletString, yesNoUnknownArray);
-}
-
-/**
- * @returns `true` if the given array of accessibility values is actually filtering PoIs
- * (which is not the case if it just contains all existing accessibility values), `false` otherwise.
- */
-
-export function isAccessibilityFiltered(accessibilityFilter: YesNoLimitedUnknown[] | null): boolean {
-  return (
-    !!accessibilityFilter &&
-    !isEqual(accessibilityFilter, []) &&
-    !sortedIsEqual(accessibilityFilter, yesNoLimitedUnknownArray)
-  );
-}
-
-export function isToiletFiltered(toiletFilter: YesNoUnknown[] | null): boolean {
-  return (
-    !!toiletFilter && !isEqual(toiletFilter, []) && !sortedIsEqual(toiletFilter, yesNoUnknownArray)
-  );
-}
-
 export type MappingEventFeature = SearchResultFeature;
 
 export type FeatureCollection<T> = {

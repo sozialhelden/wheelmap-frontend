@@ -5,29 +5,32 @@ import Document, {
   Html,
   Main,
   NextScript,
-} from 'next/document';
-import * as React from 'react';
-import { ServerStyleSheet } from 'styled-components';
-import env from '../lib/env';
+} from "next/document";
+import * as React from "react";
+import { ServerStyleSheet } from "styled-components";
 
 export default class MyDocument extends Document<any> {
   static getInitialProps({ renderPage, ...ctx }: DocumentContext) {
     const sheet = new ServerStyleSheet();
 
     // Hacky way to get the locale used when rendering the page.
-    let locale = 'en-us';
+    let locale = "en-us";
 
     // TODO: Collect fetch jobs executed as a side effect from useSWRWithPrefetch here.
     // All fetch requests are supposed to be collected like in styled-components SSR,
     // so we can hand the preloaded data over to the client.
 
-    const page = renderPage(App => props => {
-      locale = props['preferredLocaleString'];
+    const page = renderPage((App) => (props) => {
+      locale = props["preferredLocaleString"];
       return sheet.collectStyles(<App {...props} />);
     });
 
     const styleTags = sheet.getStyleElement();
-    const extendedProps = ({ ...page, styleTags, locale } as any) as DocumentInitialProps;
+    const extendedProps = ({
+      ...page,
+      styleTags,
+      locale,
+    } as any) as DocumentInitialProps;
     return Promise.resolve(extendedProps);
   }
 
@@ -55,12 +58,14 @@ export default class MyDocument extends Document<any> {
                 https://api.mapbox.com
                 https://api.tiles.mapbox.com
                 https://events.mapbox.com
-                ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
-                ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
+                ${process.env.REACT_APP_LEGACY_API_BASE_URL || ""}
+                ${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ""}
+                ${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+                  ""}
+                ${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+                  ""}
+                ${process.env.REACT_APP_ELASTIC_APM_SERVER_URL || ""}
+                ${process.env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ""};
               style-src
                 'self'
                 https://api.tiles.mapbox.com
@@ -81,10 +86,10 @@ export default class MyDocument extends Document<any> {
                 https://asset2.wheelmap.org
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ""}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ""}
+                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ""}
+                ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ""};
             `}
           />
 
@@ -94,12 +99,27 @@ export default class MyDocument extends Document<any> {
           {/* iOS link to "native" app and configuration for web app */}
           <meta name="apple-mobile-web-app-title" content="Wheelmap" />
           <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+          />
 
           <link rel="apple-touch-icon" href="/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="76x76" href="/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="120x120" href="/images/wheely_big.jpg" />
-          <link rel="apple-touch-icon" sizes="152x152" href="/images/wheely_big.jpg" />
+          <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="/images/wheely_big.jpg"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="120x120"
+            href="/images/wheely_big.jpg"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="152x152"
+            href="/images/wheely_big.jpg"
+          />
 
           {this.props.styleTags}
           <script
