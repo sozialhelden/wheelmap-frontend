@@ -6,7 +6,7 @@ import { useUniqueSurveyId } from "./useUniqueSurveyId";
 import colors from "../../../lib/colors";
 import { translatedStringFromObject } from "../../../lib/i18n";
 import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/insertPlaceholdersToAddPlaceUrl";
-import { AppContext } from "../../../lib/data-fetching/useCurrentApp";
+import { AppContext } from "../../../lib/context/AppContext";
 
 const Badge = styled.span`
   background-color: ${colors.warningColor};

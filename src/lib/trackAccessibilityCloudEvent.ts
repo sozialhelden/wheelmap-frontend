@@ -1,10 +1,10 @@
 import pick from "lodash/pick";
 import { globalFetchManager } from "./FetchManager";
-import { getUUID, getJoinedMappingEventId } from "../savedState";
-import { mappingEventsCache } from "../cache/MappingEventsCache";
-import env from "../env";
-import { App } from "../model/App";
-import { TrackingEvent } from "../model/TrackingModel";
+import { getUUID, getJoinedMappingEventId } from "./savedState";
+import { mappingEventsCache } from "./cache/MappingEventsCache";
+import env from "./env";
+import { App } from "./model/App";
+import { TrackingEvent } from "./model/TrackingModel";
 
 export type Query = {
   [k: string]: string | Array<string> | null;

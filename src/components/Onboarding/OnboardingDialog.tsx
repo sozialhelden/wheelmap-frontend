@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 import colors from '../../lib/colors';
-import { useCurrentApp } from '../../lib/data-fetching/useCurrentApp';
+import { AppContext } from '../../lib/context/AppContext';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { accessibilityDescription, accessibilityName } from '../../lib/model/Feature';
 import ChevronRight from '../icons/actions/ChevronRight';
@@ -267,7 +267,7 @@ const StyledModalDialog = styled(ModalDialog)`
 `;
 
 const OnboardingDialog: React.FC<Props> = ({ onClose }) => {
-  const app = useCurrentApp();
+  const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app;
 
   const callToActionButton = React.createRef<HTMLButtonElement>();

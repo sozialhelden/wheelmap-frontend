@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
 import { translatedStringFromObject } from '../../lib/i18n';
 import VectorImage from '../shared/VectorImage';
-import { useCurrentApp } from '../../lib/data-fetching/useCurrentApp';
 import { useRouter } from 'next/router';
 import * as queryString from 'query-string';
 import { omit } from 'lodash';
+import { AppContext } from '../../lib/context/AppContext';
 
 type Props = {
   className?: string,
@@ -20,7 +20,7 @@ const StyledLink = styled.a`
 `;
 
 export default function WheelmapHomeLink(props: Props) {
-  const { clientSideConfiguration } = useCurrentApp();
+  const { clientSideConfiguration } = useContext(AppContext);
   const router = useRouter();
   const queryStringWithoutEmbeddedParam = queryString.stringify(omit(router.query, 'embedded'));
   const homeLinkHref = `${window.location.pathname}?${queryStringWithoutEmbeddedParam}`;

@@ -5,11 +5,11 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import composeContexts, { ContextAndValue } from '../lib/composeContexts';
 import * as queryString from 'query-string';
-import { parseUserAgentString, UserAgentContext } from '../lib/data-fetching/useUserAgent';
-import fetchApp from '../lib/data-fetching/fetchApp';
 import { App } from '../lib/model/App';
 import { default as NextApp } from 'next/app';
-import { AppContext } from '../lib/data-fetching/useCurrentApp';
+import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
+import { AppContext } from '../lib/context/AppContext';
+import fetchApp from '../lib/fetchers/fetchApp';
 
 interface ExtraProps {
   userAgentString?: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import { AppContext } from "../../lib/data-fetching/useCurrentApp";
+import { AppContext } from "../../lib/context/AppContext";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
