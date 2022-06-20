@@ -88,7 +88,6 @@ export default function fetchPlaceSearchResults(
   if (!query) {
     return Promise.resolve(null);
   }
-  debugger;
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;
   const supportedLanguageCodes = ["en", "de", "fr", "it"]; // See Photon documentation
@@ -108,12 +107,7 @@ export default function fetchPlaceSearchResults(
   //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
   // }
 
-  return fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .catch((error) => {
-      // handle error & forward to results
-      return { features: [], error };
-    });
+  return fetch(url).then((response) => {
+    return response.json();
+  });
 }

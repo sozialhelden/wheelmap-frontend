@@ -1,35 +1,46 @@
-import React, { Fragment, useContext } from 'react';
-import { t } from 'ttag';
-import styled from 'styled-components';
-import FocusTrap from 'focus-trap-react';
+import React, { Fragment, useContext } from "react";
+import { t } from "ttag";
+import styled from "styled-components";
+import FocusTrap from "focus-trap-react";
 
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import MappingEventShareBar from './MappingEventShareBar';
-import Statistics from './Statistics';
-import Link from '../Link/Link';
-import { RouteConsumer, RouteContext } from '../Link/RouteContext';
-import { AppContextConsumer } from '../../AppContext';
-import ChevronLeft from './ChevronLeft';
-import { buildFullImageUrl } from '../../lib/model/Image';
-import { MappingEvent, canMappingEventBeJoined } from '../../lib/model/MappingEvent';
-import { RouteParams } from '../../lib/RouterHistory';
-import Button, { PrimaryButton, ChromelessButton, DangerButton } from '../Button';
-import MapPinIcon from '../icons/ui-elements/MapPinIcon';
-import GlobeIcon from '../icons/ui-elements/GlobeIcon';
-import StyledMarkdown from '../StyledMarkdown';
-import colors from '../../lib/colors';
-import { omit } from 'lodash';
-import CloseButton from '../CloseButton';
-import { useCurrentLanguage } from './useCurrentLanguage';
+import StyledToolbar from "../NodeToolbar/StyledToolbar";
+import MappingEventShareBar from "./MappingEventShareBar";
+import Statistics from "./Statistics";
+import Link from "../Link/Link";
+import { RouteConsumer, RouteContext } from "../Link/RouteContext";
+import { AppContextConsumer } from "../../AppContext";
+import ChevronLeft from "./ChevronLeft";
+import { buildFullImageUrl } from "../../lib/model/Image";
+import {
+  MappingEvent,
+  canMappingEventBeJoined,
+} from "../../lib/model/MappingEvent";
+import { RouteParams } from "../../lib/RouterHistory";
+import Button, {
+  PrimaryButton,
+  ChromelessButton,
+  DangerButton,
+} from "../Button";
+import MapPinIcon from "../icons/ui-elements/MapPinIcon";
+import GlobeIcon from "../icons/ui-elements/GlobeIcon";
+import StyledMarkdown from "../StyledMarkdown";
+import colors from "../../lib/colors";
+import { omit } from "lodash";
+import CloseButton from "../CloseButton";
+import { useCurrentLanguage } from "./useCurrentLanguage";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import { translatedStringFromObject } from "../../lib/i18n";
+import useSWR from "swr";
+import fetchMappingEvent from "../../lib/fetchers/fetchMappingEvent";
 
 export const StyledCloseButton = styled(CloseButton)`
   float: right;
   align-self: flex-start;
 `;
 
-type MappingEventToolbarProps = {
+type Props = {
   className?: string;
-  mappingEvent: MappingEvent;
+  mappingEventId: string;
   onMappingEventLeave: () => void;
   onMappingEventWelcomeDialogOpen: () => void;
   joinedMappingEventId: string | null;
@@ -45,34 +56,34 @@ type MappingEventToolbarProps = {
 
 const MappingEventToolbar = ({
   className,
-  mappingEvent,
-  onMappingEventLeave,
-  onMappingEventWelcomeDialogOpen,
   joinedMappingEventId,
-  onClose,
-  onHeaderClick,
-  productName,
-  focusTrapActive,
   minimalTopPosition,
-}: MappingEventToolbarProps) => {
+  mappingEventId,
+}: Props) => {
   const app = useCurrentApp();
   const productName = app.clientSideConfiguration.textContent.product.name;
   const translatedProductName = translatedStringFromObject(productName);
+  const { data: mappingEvent, isValidating, error } = useSWR(
+    [app.tokenString, mappingEventId],
+    fetchMappingEvent
+  );
 
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])
-      : '/images/eventPlaceholder.png';
+      : "/images/eventPlaceholder.png";
 
   const dateFormatOptions = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
   };
 
-  const startDate = mappingEvent.startTime ? new Date(mappingEvent.startTime) : null;
+  const startDate = mappingEvent.startTime
+    ? new Date(mappingEvent.startTime)
+    : null;
   const endDate = mappingEvent.endTime ? new Date(mappingEvent.endTime) : null;
   let startDateString = null;
   let endDateString = null;
@@ -80,7 +91,10 @@ const MappingEventToolbar = ({
   const { preferredLanguage } = useCurrentLanguage();
 
   if (startDate) {
-    startDateString = Intl.DateTimeFormat(preferredLanguage, dateFormatOptions).format(startDate);
+    startDateString = Intl.DateTimeFormat(
+      preferredLanguage,
+      dateFormatOptions
+    ).format(startDate);
 
     if (endDate) {
       const isSameDay =
@@ -90,7 +104,9 @@ const MappingEventToolbar = ({
 
       endDateString = Intl.DateTimeFormat(
         preferredLanguage,
-        isSameDay ? omit(dateFormatOptions, 'year', 'month', 'day') : dateFormatOptions
+        isSameDay
+          ? omit(dateFormatOptions, "year", "month", "day")
+          : dateFormatOptions
       ).format(endDate);
     } else {
       // translator: Prefix for the mapping event start date ("starting 01.12.2019")
@@ -111,7 +127,8 @@ const MappingEventToolbar = ({
   const hasMeetingPoint = Boolean(mappingEvent.meetingPoint);
 
   const areaName = mappingEvent.area ? mappingEvent.area.properties.name : null;
-  const meetingPointName = mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
+  const meetingPointName =
+    mappingEvent.meetingPoint && mappingEvent.meetingPoint.properties.name;
 
   // translator: Screenreader description for a mapping event
   const toolbarAriaLabel = t`Mapping event ${mappingEvent.name}`;
@@ -139,13 +156,20 @@ const MappingEventToolbar = ({
   const userJoinedMappingEvent = mappingEvent._id === joinedMappingEventId;
 
   const eventJoinOrLeaveButton = userJoinedMappingEvent ? (
-    <DangerButton onClick={onMappingEventLeave}>{leaveButtonCaption}</DangerButton>
+    <DangerButton onClick={onMappingEventLeave}>
+      {leaveButtonCaption}
+    </DangerButton>
   ) : (
-    <PrimaryButton onClick={onMappingEventWelcomeDialogOpen}>{joinButtonCaption}</PrimaryButton>
+    <PrimaryButton onClick={onMappingEventWelcomeDialogOpen}>
+      {joinButtonCaption}
+    </PrimaryButton>
   );
 
   return (
-    <FocusTrap active={focusTrapActive} focusTrapOptions={{ clickOutsideDeactivates: true }}>
+    <FocusTrap
+      active={focusTrapActive}
+      focusTrapOptions={{ clickOutsideDeactivates: true }}
+    >
       <div>
         <StyledToolbar
           className={className}
@@ -162,7 +186,11 @@ const MappingEventToolbar = ({
                   delete params.id;
 
                   return (
-                    <Link to="mappingEvents" params={params} aria-label={backLinkAriaLabel}>
+                    <Link
+                      to="mappingEvents"
+                      params={params}
+                      aria-label={backLinkAriaLabel}
+                    >
                       <ChevronLeft />
                     </Link>
                   );
@@ -173,15 +201,18 @@ const MappingEventToolbar = ({
             <div style={{ flex: 1 }}>
               <div
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: '-16px',
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: "-16px",
                 }}
               >
-                <h2 style={{ flex: '1' }}>
+                <h2 style={{ flex: "1" }}>
                   {hasMeetingPoint ? (
-                    <Button onClick={onHeaderClick} title={centerMapOnMappingEvent}>
+                    <Button
+                      onClick={onHeaderClick}
+                      title={centerMapOnMappingEvent}
+                    >
                       {mappingEvent.name}
                     </Button>
                   ) : (
@@ -193,10 +224,13 @@ const MappingEventToolbar = ({
 
               {(startDateString || endDateString) && (
                 <time className="event-date" title={eventDateLabel}>
-                  {startDateString && <span title={eventStartDateLabel}>{startDateString}</span>}
+                  {startDateString && (
+                    <span title={eventStartDateLabel}>{startDateString}</span>
+                  )}
                   {endDateString && (
                     <>
-                      &nbsp;-&nbsp;<span title={eventEndDateLabel}>{endDateString}</span>
+                      &nbsp;-&nbsp;
+                      <span title={eventEndDateLabel}>{endDateString}</span>
                     </>
                   )}
                 </time>
@@ -229,7 +263,9 @@ const MappingEventToolbar = ({
               (mappingEvent.statistics.attributeChangedCount || 0) +
               (mappingEvent.statistics.surveyCompletedCount || 0)
             }
-            participantCount={mappingEvent.statistics.joinedParticipantCount || 0}
+            participantCount={
+              mappingEvent.statistics.joinedParticipantCount || 0
+            }
             startDate={startDate}
             endDate={endDate}
           />
@@ -237,7 +273,7 @@ const MappingEventToolbar = ({
           <div className="actions">
             {canMappingEventBeJoined(mappingEvent) && eventJoinOrLeaveButton}
             <AppContextConsumer>
-              {appContext => (
+              {(appContext) => (
                 <MappingEventShareBar
                   mappingEvent={mappingEvent}
                   buttonCaption={shareButtonCaption}

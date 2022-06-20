@@ -23,7 +23,7 @@ type Props = {
 const StyledListItem = styled.li`
   padding: 0;
 
-  > button {
+  > a {
     display: block;
     font-size: 16px;
     padding: 10px;
@@ -123,19 +123,28 @@ export default function SearchResult(props: Props) {
   let shownCategoryId;
   let accessibility;
 
+  const osmType = {
+    N: "node",
+    W: "way",
+    R: "relation",
+  }[feature.properties.osm_type];
+
+  const href =
+    feature.properties.osm_key === "place"
+      ? `/?extent=${feature.properties.extent}`
+      : `/${osmType}/${feature.properties.osm_id}`;
+
   const className = classNames(
     props.className,
-    "search-result"
+    "search-result",
     // wheelmapFeatureProperties && 'is-on-wheelmap',
-    // `osm-category-${feature.properties.osm_key || 'unknown'}-${feature.properties.osm_value ||
-    //   'unknown'}`
+    `osm-category-${feature.properties.osm_key || "unknown"}-${feature
+      .properties.osm_value || "unknown"}`
   );
   return (
     <StyledListItem className={className}>
-      <Link
-        href={`/${feature.properties.osm_type}/${feature.properties.osm_id}`}
-      >
-        <button tabIndex={props.hidden ? -1 : 0}>
+      <Link href={href}>
+        <a tabIndex={props.hidden ? -1 : 0}>
           <PlaceNameHeader
             className={wheelmapFeatureProperties ? "is-on-wheelmap" : undefined}
           >
@@ -151,7 +160,7 @@ export default function SearchResult(props: Props) {
             {placeName}
           </PlaceNameHeader>
           {address ? <Address role="none">{address}</Address> : null}
-        </button>
+        </a>
       </Link>
     </StyledListItem>
   );

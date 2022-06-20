@@ -42,7 +42,7 @@ import fetchPlaceSearchResults from "../../lib/fetchers/fetchPlaceSearchResults"
 import { getProductTitle } from "../../lib/model/ClientSideConfiguration";
 import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
 
-const SearchPage = () => {
+export default () => {
   const router = useRouter();
   const accessibilityFilter = getAccessibilityFilterFrom(
     router.query.wheelchair
@@ -142,5 +142,3 @@ const SearchPage = () => {
     </>
   );
 };
-
-export default SearchPage;

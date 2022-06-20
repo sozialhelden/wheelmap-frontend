@@ -1,20 +1,20 @@
-import uniq from 'lodash/uniq';
-import dynamic from 'next/dynamic';
-import * as React from 'react';
-import styled from 'styled-components';
-import colors from '../../lib/colors';
-import config from '../../lib/config';
-import { isTouchDevice } from '../../lib/userAgent';
-import { hasBigViewport, isOnSmallViewport } from '../../lib/ViewportSize';
-import ErrorBoundary from '../ErrorBoundary';
-import FullscreenBackdrop from './Layout/FullscreenBackdrop';
-import MainMenu from './MainMenu/MainMenu';
-import MapLoading from '../Map/MapLoadingIndicator';
-import NodeToolbarFeatureLoader from '../NodeToolbar/NodeToolbarFeatureLoader';
-import PhotoUploadInstructionsToolbar from '../PhotoUpload/PhotoUploadInstructionsToolbar';
-import SearchButton from '../SearchToolbar/SearchButton';
-import SearchToolbar from '../SearchToolbar/SearchToolbar';
-import WheelmapHomeLink from './WheelmapHomeLink';
+import uniq from "lodash/uniq";
+import dynamic from "next/dynamic";
+import * as React from "react";
+import styled from "styled-components";
+import colors from "../../lib/colors";
+import config from "../../lib/config";
+import { isTouchDevice } from "../../lib/userAgent";
+import { hasBigViewport, isOnSmallViewport } from "../../lib/ViewportSize";
+import ErrorBoundary from "../ErrorBoundary";
+import FullscreenBackdrop from "./Layout/FullscreenBackdrop";
+import MainMenu from "./MainMenu/MainMenu";
+import MapLoading from "../Map/MapLoadingIndicator";
+import NodeToolbarFeatureLoader from "../NodeToolbar/NodeToolbarFeatureLoader";
+import PhotoUploadInstructionsToolbar from "../PhotoUpload/PhotoUploadInstructionsToolbar";
+import SearchButton from "../SearchToolbar/SearchButton";
+import SearchToolbar from "../SearchToolbar/SearchToolbar";
+import WheelmapHomeLink from "./WheelmapHomeLink";
 
 type Props = {
   className?: string;
@@ -36,13 +36,13 @@ function updateTouchCapability() {
   if (!body) return;
 
   if (isTouchDevice()) {
-    body.classList.add('is-touch-device');
+    body.classList.add("is-touch-device");
   } else {
-    body.classList.remove('is-touch-device');
+    body.classList.remove("is-touch-device");
   }
 }
 
-const DynamicMap = dynamic(import('../Map/Map'), {
+const DynamicMap = dynamic(import("../Map/Map"), {
   ssr: false,
   loading: () => <MapLoading />,
 });
@@ -78,16 +78,16 @@ class MainView extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', this.resizeListener);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", this.resizeListener);
     }
     this.resizeListener();
   }
 
   componentWillUnmount() {
     delete this.resizeListener;
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.resizeListener);
+    if (typeof window !== "undefined") {
+      window.removeEventListener("resize", this.resizeListener);
     }
   }
 
@@ -118,7 +118,11 @@ class MainView extends React.Component<Props, State> {
   };
 
   getMinimalNodeToolbarTopPosition() {
-    return this.props.inEmbedMode ? (this.state.isOnSmallViewport ? 92 : 0) : 120;
+    return this.props.inEmbedMode
+      ? this.state.isOnSmallViewport
+        ? 92
+        : 0
+      : 120;
   }
 
   getMinimalToolbarTopPosition() {
@@ -131,34 +135,10 @@ class MainView extends React.Component<Props, State> {
       : 60;
   }
 
-  renderSearchToolbar(isInert: boolean) {
-    return (
-      <SearchToolbar
-        ref={searchToolbar => (this.searchToolbar = searchToolbar)}
-        categories={this.props.categories}
-        hidden={!this.props.isSearchBarVisible}
-        inert={isInert}
-        category={this.props.category}
-        showCategoryMenu={!this.props.disableWheelmapSource}
-        searchQuery={this.props.searchQuery}
-        searchResults={this.props.searchResults}
-        accessibilityFilter={this.props.accessibilityFilter}
-        toiletFilter={this.props.toiletFilter}
-        onChangeSearchQuery={this.props.onSearchQueryChange}
-        onClick={this.props.onSearchToolbarClick}
-        onSubmit={this.props.onSearchToolbarSubmit}
-        onClose={this.props.onSearchToolbarClose}
-        isExpanded={this.props.isSearchToolbarExpanded}
-        hasGoButton={false}
-        minimalTopPosition={this.getMinimalToolbarTopPosition()}
-      />
-    );
-  }
-
   renderSearchButton() {
     return (
       <SearchButton
-        onClick={event => {
+        onClick={(event) => {
           event.stopPropagation();
           // Using setTimeout to prevent touch-up events from hovering components
           // in the search toolbar
@@ -184,7 +164,7 @@ class MainView extends React.Component<Props, State> {
   getMapPadding() {
     const hasPanel = !!this.props.feature;
     let isPortrait = false;
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       isPortrait = window.innerWidth < window.innerHeight;
     }
     if (hasBigViewport()) {
@@ -200,15 +180,20 @@ class MainView extends React.Component<Props, State> {
   renderFullscreenBackdrop() {
     const isActive = props.isMainMenuOpen || props.hasBlurredBackdrop;
 
-    return <FullscreenBackdrop onClick={props.onClickFullscreenBackdrop} isActive={isActive} />;
+    return (
+      <FullscreenBackdrop
+        onClick={props.onClickFullscreenBackdrop}
+        isActive={isActive}
+      />
+    );
   }
 
   renderMap() {
     return (
       <DynamicMap
-        forwardedRef={map => {
+        forwardedRef={(map) => {
           this.map = map;
-          if (typeof window !== 'undefined') {
+          if (typeof window !== "undefined") {
             // @ts-ignore
             window.map = map;
           }
@@ -223,7 +208,8 @@ class MainView extends React.Component<Props, State> {
         locateOnStart={this.props.shouldLocateOnStart}
         padding={this.getMapPadding()}
         hideHints={
-          this.state.isOnSmallViewport && (isNodeToolbarVisible || this.props.isMainMenuOpen)
+          this.state.isOnSmallViewport &&
+          (isNodeToolbarVisible || this.props.isMainMenuOpen)
         }
         inEmbedMode={inEmbedMode}
         {...config}
@@ -232,26 +218,31 @@ class MainView extends React.Component<Props, State> {
   }
 
   renderWheelmapHomeLink() {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       return;
     }
   }
 
   render() {
-    const { className, isMainMenuOpen, isSearchBarVisible, isSearchButtonVisible } = this.props;
+    const {
+      className,
+      isMainMenuOpen,
+      isSearchBarVisible,
+      isSearchButtonVisible,
+    } = this.props;
     const isMainMenuInBackground = isDialogVisible;
     const classList = uniq([
-      'main-view',
+      "main-view",
       className,
-      isDialogVisible ? 'is-dialog-visible' : null,
-      isMainMenuOpen ? 'is-main-menu-open' : null,
-      isSearchBarVisible ? 'is-search-bar-visible' : null,
-      modalNodeState ? 'is-modal' : null,
-      useEmbedModeFlag() ? 'in-embed-mode' : null,
+      isDialogVisible ? "is-dialog-visible" : null,
+      isMainMenuOpen ? "is-main-menu-open" : null,
+      isSearchBarVisible ? "is-search-bar-visible" : null,
+      modalNodeState ? "is-modal" : null,
+      useEmbedModeFlag() ? "in-embed-mode" : null,
     ]).filter(Boolean);
 
     return (
-      <StyledDiv className={classList.join(' ')}>
+      <StyledDiv className={classList.join(" ")}>
         {!inEmbedMode && !isMainMenuInBackground && this.renderMainMenu()}
         <ErrorBoundary>
           <div className="behind-backdrop">

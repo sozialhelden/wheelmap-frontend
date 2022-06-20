@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import Layout from "../components/App/Layout";
 import { isFirstStart } from "../lib/savedState";
 
-export default function MainIndexPage() {
+export default function() {
   const router = useRouter();
 
   useEffect(() => {

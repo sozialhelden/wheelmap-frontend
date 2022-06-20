@@ -1,18 +1,4 @@
-import Link from 'next/link';
-
-// showSelectedMappingEvent = (eventId: string) => {
-//   const event =
-//     this.state.mappingEvents && this.state.mappingEvents.find(event => event._id === eventId);
-//   const extent = event && event.area && event.area.properties.extent;
-
-//   if (extent) {
-//     this.setState({ extent });
-//   }
-
-//   const params = this.getCurrentParams() as any;
-//   params.id = eventId;
-//   this.props.routerHistory.push('mappingEventDetail', params);
-// };
+import Link from "next/link";
 
 // setupMappingEvents() {
 //   const mappingEvents = filterMappingEvents(
@@ -102,50 +88,14 @@ import Link from 'next/link';
 //   this.props.routerHistory.replace('mappingEventDetail', params);
 // };
 
-// onMappingEventWelcomeDialogOpen = () => {
-//   const params = this.getCurrentParams();
-//   this.props.routerHistory.replace('mappingEventJoin', params);
-// };
+import React from "react";
+import Layout from "../../components/App/Layout";
+import MappingEventsToolbar from "../../components/MappingEvents/MappingEventsToolbar";
 
-// onMappingEventWelcomeDialogClose = () => {
-//   const params = this.getCurrentParams();
-//   this.props.routerHistory.replace('mappingEventDetail', params);
-// };
-
-const Events = () => {
-  // const { mappingEvents, onCloseMappingEventsToolbar, onMappingEventClick, app } = this.props;
-  //   return (
-  //     <MappingEventsToolbar
-  //       app={app}
-  //       mappingEvents={mappingEvents}
-  //       onClose={onCloseMappingEventsToolbar}
-  //       onMappingEventClick={onMappingEventClick}
-  //       minimalTopPosition={this.getMinimalToolbarTopPosition()}
-  //     />
-  //   );
+export default () => {
   return (
-    <>
-      <header />
-      <h1>All Events</h1>
-      <ul>
-        <li>
-          <Link href="/events/1" as={`/events/1/`}>
-            <a>#1</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/events/2" as={`/events/2/`}>
-            <a>#2</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/events/3" as={`/events/3/`}>
-            <a>#3</a>
-          </Link>
-        </li>
-      </ul>
-    </>
+    <Layout>
+      <MappingEventsToolbar />
+    </Layout>
   );
 };
-
-export default Events;

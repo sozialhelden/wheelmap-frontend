@@ -350,7 +350,7 @@ export default class MainMenu extends React.Component<Props, State> {
       'Wheelmap';
     return (
       <div className="home-link">
-        <Link href='/'>
+        <Link href='/onboarding'>
           <button
             className="btn-unstyled home-button"
             aria-label={t`Home`}
