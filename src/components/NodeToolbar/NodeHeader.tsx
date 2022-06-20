@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
+import { isWheelchairAccessible, placeNameFor } from '../../lib/model/Feature';
 import intersperse from 'intersperse';
 import {
   categoryNameFor,
@@ -9,13 +9,13 @@ import {
   CategoryLookupTables,
   Category,
 } from '../../lib/model/Categories';
-import Icon from '../Icon';
-import { PlaceNameH1 } from '../PlaceName';
+import Icon from '../shared/Icon';
+import { PlaceNameH1 } from '../shared/PlaceName';
 import BreadCrumbs from './BreadCrumbs';
-import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
+import { isEquipmentAccessible } from '../../lib/model/EquipmentInfo';
 import colors, { alpha } from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
-import ChevronRight from '../ChevronRight';
+import ChevronRight from '../shared/ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { compact, uniq } from 'lodash';

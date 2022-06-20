@@ -1,8 +1,8 @@
-import URLDataCache from './URLDataCache';
-import { MappingEvents, MappingEvent } from '../model/MappingEvent';
-import { App } from '../App';
-import env from '../env';
-import { IImage } from '../model/Image';
+import URLDataCache from "./URLDataCache";
+import { MappingEvents, MappingEvent } from "../model/MappingEvent";
+import { App } from "../App";
+
+import { IImage } from "../model/Image";
 
 type MappingEventsListResult = {
   results: MappingEvents;
@@ -20,23 +20,27 @@ export type MappingEventByIdResult = MappingEvent & {
 export default class MappingEventsCache extends URLDataCache<
   MappingEventsListResult | MappingEventByIdResult
 > {
-  baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
+  baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;
     const data = (await this.getData(url, {
       useCache,
     })) as MappingEventsListResult;
-    const results: MappingEvents = data.results.map(mappingEvent => ({
+    const results: MappingEvents = data.results.map((mappingEvent) => ({
       ...mappingEvent,
       images: Object.keys(data.related.images)
-        .map(_id => data.related.images[_id])
-        .filter(image => image.objectId === mappingEvent._id),
+        .map((_id) => data.related.images[_id])
+        .filter((image) => image.objectId === mappingEvent._id),
     }));
     return results;
   }
 
-  async getMappingEvent(app: App, _id: string, useCache = true): Promise<MappingEvent> {
+  async getMappingEvent(
+    app: App,
+    _id: string,
+    useCache = true
+  ): Promise<MappingEvent> {
     const url = `${this.baseUrl}/mapping-events/${_id}.json?appToken=${app.tokenString}&includeRelated=images`;
     const mappingEvent = (await this.getData(url, {
       useCache,
@@ -44,8 +48,8 @@ export default class MappingEventsCache extends URLDataCache<
     const result: MappingEvent = {
       ...mappingEvent,
       images: Object.keys(mappingEvent.related.images)
-        .map(_id => mappingEvent.related.images[_id])
-        .filter(image => image.objectId === mappingEvent._id),
+        .map((_id) => mappingEvent.related.images[_id])
+        .filter((image) => image.objectId === mappingEvent._id),
     };
     return result;
   }

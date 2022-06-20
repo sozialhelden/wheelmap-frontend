@@ -1,5 +1,5 @@
-import URLDataCache from './URLDataCache';
-import env from '../env';
+import URLDataCache from "./URLDataCache";
+
 export type License = { _id: string };
 
 export default class LicenseCache extends URLDataCache<License> {
@@ -10,7 +10,7 @@ export default class LicenseCache extends URLDataCache<License> {
   }
 
   urlFromId(id: string, appToken: string) {
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
     return `${baseUrl}/licenses/${id}.json?appToken=${appToken}`;
   }
 

@@ -1,6 +1,6 @@
 import flatten from 'lodash/flatten';
 import sortBy from 'lodash/sortBy';
-import env from '../env';
+
 import config from '../config';
 
 import { globalFetchManager } from './FetchManager';
@@ -50,7 +50,7 @@ function fetchAcToiletPlaces(
   appToken?: string
 ): Promise<Feature[]> {
   const sourceIdParams = buildSourceIdParams(includeSourceIds, excludeSourceIds);
-  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
   const url = `${baseUrl}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${appToken}`;
   return globalFetchManager
     .fetch(url)

@@ -1,9 +1,9 @@
-import { globalFetchManager } from '../FetchManager';
-import EventTarget, { CustomEvent } from '../EventTarget';
-import get from 'lodash/get';
-import set from 'lodash/set';
-import { t } from 'ttag';
-import ResponseError from '../ResponseError';
+import { globalFetchManager } from "../fetchers/legacy/FetchManager";
+import EventTarget, { CustomEvent } from "../EventTarget";
+import get from "lodash/get";
+import set from "lodash/set";
+import { t } from "ttag";
+import ResponseError from "../ResponseError";
 
 type FeatureCacheEvent<T> = CustomEvent & {
   target: FeatureCache<any, any>; // eslint-disable-line no-use-before-define
@@ -18,9 +18,10 @@ type PropertyValue = any;
  * `fetchFeature` method.
  */
 
-export default class FeatureCache<FeatureType, FeatureCollectionType> extends EventTarget<
-  FeatureCacheEvent<FeatureType>
-> {
+export default class FeatureCache<
+  FeatureType,
+  FeatureCollectionType
+> extends EventTarget<FeatureCacheEvent<FeatureType>> {
   cache: { [key: string]: FeatureType | undefined } = {};
 
   // For each indexed property path, this object saves an index map.
@@ -31,7 +32,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
   constructor(indexedPropertyPaths: string[] = []) {
     super();
 
-    indexedPropertyPaths.forEach(indexedPath => {
+    indexedPropertyPaths.forEach((indexedPath) => {
       this.indexMaps[indexedPath] = {};
     });
   }
@@ -52,7 +53,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
     if (!featureId) return;
     let event: CustomEvent;
     const oldFeature = this.cache[featureId];
-    const eventName = oldFeature ? 'change' : 'add';
+    const eventName = oldFeature ? "change" : "add";
     event = new CustomEvent(eventName, {
       target: this,
       feature,
@@ -85,7 +86,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
   }
 
   updateIndexMap(feature: FeatureType, oldFeature: FeatureType | undefined) {
-    Object.keys(this.indexMaps).forEach(path => {
+    Object.keys(this.indexMaps).forEach((path) => {
       const value = get(feature, path);
       if (this.indexMaps[path][value] instanceof Set) {
         if (oldFeature) {
@@ -102,7 +103,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
   // todo: why is this static?
   static getIdForFeature(feature: any): string {
     // eslint-disable-line no-unused-vars
-    throw new Error('Please implement this in your subclass.');
+    throw new Error("Please implement this in your subclass.");
   }
 
   /**
@@ -115,17 +116,25 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
     if (!geoJSON || !geoJSON.features) {
       return;
     }
-    geoJSON.features.forEach(feature => this.cacheFeature(feature, response));
+    geoJSON.features.forEach((feature) => this.cacheFeature(feature, response));
   }
 
-  async fetchFeature(id: string, appToken: string, useCache: boolean = true): Promise<FeatureType> {
+  async fetchFeature(
+    id: string,
+    appToken: string,
+    useCache: boolean = true
+  ): Promise<FeatureType> {
     // check if have already downloaded a feature with this id
     if (useCache && this.cache[id]) {
       return this.cache[id];
     }
 
     // @ts-ignore
-    const response = await this.constructor.fetchFeature(id, appToken, useCache);
+    const response = await this.constructor.fetchFeature(
+      id,
+      appToken,
+      useCache
+    );
 
     if (response.status === 200) {
       // @ts-ignore
@@ -135,7 +144,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
         this.cacheFeature(feature, response);
       }
 
-      const changeEvent = new CustomEvent('change', {
+      const changeEvent = new CustomEvent("change", {
         target: this,
         feature,
       });
@@ -153,7 +162,10 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
     throw response;
   }
 
-  getIndexedFeatures(propertyPath: PropertyPath, value: PropertyValue): Set<FeatureType> {
+  getIndexedFeatures(
+    propertyPath: PropertyPath,
+    value: PropertyValue
+  ): Set<FeatureType> {
     const indexMap = this.indexMaps[propertyPath];
     if (!indexMap) return new Set();
     return indexMap[value];
@@ -192,17 +204,21 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
 
   updateFeatureAttribute(id: string, newProperties: any) {
     const feature = this.cache[id] as any;
-    if (!feature) throw new Error('Cannot update a feature that is not in cache.');
+    if (!feature)
+      throw new Error("Cannot update a feature that is not in cache.");
 
     const existingProperties = feature.properties || {};
-    Object.keys(newProperties).forEach(key => {
+    Object.keys(newProperties).forEach((key) => {
       set(existingProperties, key, newProperties[key]);
     });
 
     // clone object
     this.cache[id] = Object.assign({}, feature);
 
-    const changeEvent = new CustomEvent('change', { target: this, feature: this.cache[id] });
+    const changeEvent = new CustomEvent("change", {
+      target: this,
+      feature: this.cache[id],
+    });
     // @ts-ignore
     this.dispatchEvent(changeEvent);
   }
@@ -217,14 +233,19 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
     appToken: string,
     useCache: boolean = true
   ): Promise<Response> {
-    throw new Error('Not implemented. Please override this method in your subclass.');
+    throw new Error(
+      "Not implemented. Please override this method in your subclass."
+    );
   }
 
   /**
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected @abstract */ static fetch(url: string, options?: {}): Promise<Response> {
+  /** @protected @abstract */ static fetch(
+    url: string,
+    options?: {}
+  ): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }
 }

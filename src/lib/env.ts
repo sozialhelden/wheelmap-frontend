@@ -1,4 +1,4 @@
-import { loadGlobalEnvironment } from '@sozialhelden/twelve-factor-dotenv';
+import { loadGlobalEnvironment } from "@sozialhelden/twelve-factor-dotenv";
 
 type Environment = {
   npm_package_version: string;

@@ -1,20 +1,19 @@
-import URLDataCache from './URLDataCache';
-import env from '../env';
-import { LocalizedString } from '../i18n';
+import URLDataCache from "./URLDataCache";
+import { LocalizedString } from "../i18n";
 
 export type DataSource = {
-  _id: string,
-  organizationId: string,
-  licenseId: string | undefined,
-  shortName: string | undefined,
-  name: string | undefined,
-  originWebsiteURL: string | undefined,
-  additionalAccessibilityInformation: LocalizedString,
+  _id: string;
+  organizationId: string;
+  licenseId: string | undefined;
+  shortName: string | undefined;
+  name: string | undefined;
+  originWebsiteURL: string | undefined;
+  additionalAccessibilityInformation: LocalizedString;
   translations?: {
-    additionalAccessibilityInformation: LocalizedString,
-  },
-  isA11yRatingAllowed?: boolean,
-  defaultKoboForm?: string,
+    additionalAccessibilityInformation: LocalizedString;
+  };
+  isA11yRatingAllowed?: boolean;
+  defaultKoboForm?: string;
 };
 
 export default class DataSourceCache extends URLDataCache<DataSource> {
@@ -25,7 +24,8 @@ export default class DataSourceCache extends URLDataCache<DataSource> {
   }
 
   urlFromId(id: string, appToken: string) {
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
+    const baseUrl =
+      process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
     return `${baseUrl}/sources/${id}.json?appToken=${appToken}`;
   }
 

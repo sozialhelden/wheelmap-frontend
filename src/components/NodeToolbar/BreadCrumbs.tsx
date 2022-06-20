@@ -1,11 +1,11 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import ChevronRight from '../ChevronRight';
-import { Category } from '../../lib/model/Categories';
-import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
-import { translatedStringFromObject } from '../../lib/i18n';
-import { getCategoryId } from '../../lib/model/Categories';
-import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
+import * as React from "react";
+import styled from "styled-components";
+import ChevronRight from "../shared/ChevronRight";
+import { Category } from "../../lib/model/Categories";
+import Categories, { CategoryLookupTables } from "../../lib/model/Categories";
+import { translatedStringFromObject } from "../../lib/i18n";
+import { getCategoryId } from "../../lib/model/Categories";
+import { EquipmentProperties, PlaceProperties } from "@sozialhelden/a11yjson";
 
 type Props = {
   className?: string;
@@ -30,7 +30,9 @@ class BreadCrumbs extends React.Component<Props, State> {
   }
 
   UNSAFE_componentWillMount() {
-    this.setState({ displayedCategoryNames: this.getCategoryNames(this.props) });
+    this.setState({
+      displayedCategoryNames: this.getCategoryNames(this.props),
+    });
   }
 
   UNSAFE_componentWillReceiveProps(props: Props) {
@@ -45,7 +47,7 @@ class BreadCrumbs extends React.Component<Props, State> {
   getCategoryNames(props: Props) {
     return this.categoryIds(props)
       .filter(Boolean)
-      .map(id => {
+      .map((id) => {
         const category = Categories.getCategory(props.categories, id);
         return translatedStringFromObject(category.translations._id);
       });

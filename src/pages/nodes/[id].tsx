@@ -4,6 +4,15 @@ import Link from "next/link";
 import styled from "styled-components";
 
 import CloseLink from "../../components/shared/CloseLink";
+import PlaceInfoPanel from "../../components/NodeToolbar/New_Components/PlaceInfoPanel";
+import {
+  getAccessibilityCLoudFeatureAPIURL,
+  getACFeattureFetcher,
+} from "../../lib/fetchers/AccessibilityCloudFeatureFetcher";
+import useSWR from "swr";
+import {
+  fetchAccessibilityCloudCategories
+} from "../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -12,44 +21,39 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-const NodesPage = () => {
+function getData(url, fetcher) {
+  const { data, error } = useSWR(url, fetcher);
+  if (error) {
+    throw new Error(error);
+  } else {
+    return data;
+  }
+}
+
+const PlaceInfoPanelPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const renderCloseLink = () => {
-    const onClose = () => {
-      <Link href="/">
-        <a></a>
-      </Link>;
-    };
+  const featureAPI = getAccessibilityCLoudFeatureAPIURL(id);
+  const featureFetcher = getACFeattureFetcher();
 
-    return <PositionedCloseLink {...{ onClick: onClose }} />;
-  };
+  const catsAPI = getAccessibilityCLoudCategoriesAPIURL();
+  const catsFetcher = getAccessibilityCloudCategoriesFetcher();
 
-  // const renderNodeHeader = () => {
-  //   const { feature, category, categories, parentCategory } = props;
+  const feature = getData(featureAPI, featureFetcher);
+  const categories = getData(catsAPI, catsFetcher);
 
-  //   const statesWithIcon = ["edit-toilet-accessibility", "report"];
-  //   const isModalStateWithPlaceIcon = includes(
-  //     statesWithIcon,
-  //     props.modalNodeState
-  //   );
-  //   const hasIcon = !props.modalNodeState || isModalStateWithPlaceIcon;
-
-  //   return (
-  //     <NodeHeader
-  //       feature={feature}
-  //       categories={categories}
-  //       category={category}
-  //       parentCategory={parentCategory}
-  //       hasIcon={hasIcon}
-  //     >
-  //       {renderCloseLink()}
-  //     </NodeHeader>
-  //   );
-  // };
-
-  return <div>nodes page</div>;
+  // placeInfoId, feature, categories, category
+  return (
+    <PlaceInfoPanel
+      placeInfoId={id}
+      feature={feature}
+      categories={categories}
+      category={feature?.properties?.category}
+      parentCategory={null}
+    ></PlaceInfoPanel>
+  );
+  // <div>PlaceInfoPanel page</div>;
 };
 
-export default NodesPage;
+export default PlaceInfoPanelPage;

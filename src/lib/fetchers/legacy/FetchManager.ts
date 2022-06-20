@@ -1,10 +1,10 @@
-import EventTarget, { CustomEvent } from './EventTarget';
-import customFetch from '../lib/fetch';
+import EventTarget, { CustomEvent } from "../../EventTarget";
+import customFetch from "./fetch";
 
 export class FetchManager extends EventTarget<CustomEvent> {
   lastError: Error | null = null;
   runningPromises: Map<Promise<Response>, boolean> = new Map();
-  externalStatus: {[key: string]: boolean} = {};
+  externalStatus: { [key: string]: boolean } = {};
 
   isLoading(): boolean {
     let count = this.runningPromises.size ? this.runningPromises.size : 0;
@@ -28,13 +28,13 @@ export class FetchManager extends EventTarget<CustomEvent> {
       if (promise) {
         this.runningPromises.delete(promise);
       }
-      this.dispatchEvent(new CustomEvent('stop', { target: this }));
+      this.dispatchEvent(new CustomEvent("stop", { target: this }));
       return response;
     };
 
     const handleError = (reason: any) => {
-      console.log('Unhandled error while fetching:', reason);
-      this.dispatchEvent(new CustomEvent('error', { target: this }));
+      console.log("Unhandled error while fetching:", reason);
+      this.dispatchEvent(new CustomEvent("error", { target: this }));
       if (reason instanceof Error) {
         this.lastError = reason;
       }
@@ -44,7 +44,7 @@ export class FetchManager extends EventTarget<CustomEvent> {
       .then(removeFromRunningPromises, removeFromRunningPromises)
       .catch(handleError);
     this.runningPromises.set(promise, true);
-    this.dispatchEvent(new CustomEvent('start', { target: this }));
+    this.dispatchEvent(new CustomEvent("start", { target: this }));
     return promise;
   }
 }

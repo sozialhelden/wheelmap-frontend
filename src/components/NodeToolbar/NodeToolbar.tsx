@@ -6,8 +6,8 @@ import includes from 'lodash/includes';
 import fromPairs from 'lodash/fromPairs';
 import styled from 'styled-components';
 
-import CloseLink from '../CloseLink';
-import ErrorBoundary from '../ErrorBoundary';
+import CloseLink from '../shared/CloseLink';
+import ErrorBoundary from '../shared/ErrorBoundary';
 import NodeHeader from './NodeHeader';
 import SourceList from './SourceList';
 import StyledToolbar from './StyledToolbar';
@@ -16,7 +16,7 @@ import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
-import Button from '../Button';
+import Button from '../shared/Button';
 
 import { PhotoModel } from '../../lib/PhotoModel';
 import {
@@ -24,7 +24,7 @@ import {
   isWheelmapFeatureId,
   placeNameFor,
   isWheelchairAccessible,
-} from '../../lib/Feature';
+} from '../../lib/model/Feature';
 
 import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/model/Categories";
 import { ModalNodeState } from '../../lib/ModalNodeState';

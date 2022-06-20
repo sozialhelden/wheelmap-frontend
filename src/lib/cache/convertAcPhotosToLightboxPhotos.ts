@@ -1,17 +1,18 @@
-import { PhotoModel } from '../PhotoModel';
-import { Image } from 'react-photo-album';
-import { AccessibilityCloudImage, AccessibilityCloudImages } from '../Feature';
-import env from '../env';
+import { PhotoModel } from "../PhotoModel";
+import { Image } from "react-photo-album";
+import { AccessibilityCloudImage, AccessibilityCloudImages } from "../Feature";
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
-  return `${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}/images/scale/${
-    acPhoto.imagePath
-  }?fitw=${size}&fith=${size}${
-    acPhoto.angle ? `&angle=${((acPhoto.angle % 360) + 360) % 360}` : ''
+  return `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||
+    ""}/images/scale/${acPhoto.imagePath}?fitw=${size}&fith=${size}${
+    acPhoto.angle ? `&angle=${((acPhoto.angle % 360) + 360) % 360}` : ""
   }`;
 };
 
-const makeCachedImageSrcSetEntry = (acPhoto: AccessibilityCloudImage, size: number): Image => {
+const makeCachedImageSrcSetEntry = (
+  acPhoto: AccessibilityCloudImage,
+  size: number
+): Image => {
   return {
     src: makeSrcUrl(acPhoto, size),
     width: size,
@@ -35,20 +36,22 @@ const fullScreenMediaSelector = [
 ];
 
 const makeSrcSet = (sizes: number[], acPhoto: AccessibilityCloudImage) => {
-  return sizes.map(s => makeCachedImageSrcSetEntry(acPhoto, s));
+  return sizes.map((s) => makeCachedImageSrcSetEntry(acPhoto, s));
 };
 
 export default function convertAcPhotosToLightboxPhotos(
   acPhotos: AccessibilityCloudImages
 ): PhotoModel[] {
-  return acPhotos.images.map(acPhoto => ({
+  return acPhotos.images.map((acPhoto) => ({
     original: makeSrcUrl(acPhoto, 1200),
     src: makeSrcUrl(acPhoto, 1366),
-    images: makeSrcSet(fullScreenSizes, acPhoto).concat(makeSrcSet(thumbnailSizes, acPhoto)),
+    images: makeSrcSet(fullScreenSizes, acPhoto).concat(
+      makeSrcSet(thumbnailSizes, acPhoto)
+    ),
     sizes: fullScreenMediaSelector,
     width: acPhoto.dimensions ? acPhoto.dimensions.width : 1,
     height: acPhoto.dimensions ? acPhoto.dimensions.height : 1,
     key: acPhoto._id,
-    appSource: 'accessibility-cloud',
+    appSource: "accessibility-cloud",
   }));
 }

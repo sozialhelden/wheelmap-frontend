@@ -1,11 +1,11 @@
 // import readAndCompressImage from 'browser-image-resizer';
-import { readAndCompressImage } from '../../lib/ImageResizer';
-import env from '../env';
-import URLDataCache from './URLDataCache';
-import { AccessibilityCloudImages } from '../Feature';
-import FeatureCache from './FeatureCache';
+import { readAndCompressImage } from "../../lib/ImageResizer";
 
-export const UnknownReason = 'unknown';
+import URLDataCache from "./URLDataCache";
+import { AccessibilityCloudImages } from "../Feature";
+import FeatureCache from "./FeatureCache";
+
+export const UnknownReason = "unknown";
 
 const imageResizeConfig = {
   quality: 0.7,
@@ -15,16 +15,19 @@ const imageResizeConfig = {
   debug: true,
 };
 
-const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
-const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+const uncachedBaseUrl =
+  process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
+const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
 
-export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
+export default class AccessibilityCloudImageCache extends URLDataCache<
+  AccessibilityCloudImages
+> {
   getPhotosForFeature(
     featureId: string | number,
     appToken: string,
     useCache: boolean = true
   ): Promise<AccessibilityCloudImages | undefined> {
-    return this.getImage('place', String(featureId), appToken, useCache);
+    return this.getImage("place", String(featureId), appToken, useCache);
   }
 
   getImage(
@@ -41,15 +44,19 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     );
   }
 
-  async uploadPhotoForFeature(featureId: string, images: FileList, appToken: string): Promise<any> {
+  async uploadPhotoForFeature(
+    featureId: string,
+    images: FileList,
+    appToken: string
+  ): Promise<any> {
     const image = images[0];
     const url = `${uncachedBaseUrl}/image-upload?placeId=${featureId}&appToken=${appToken}`;
     const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await FeatureCache.fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'image/jpeg',
+        Accept: "application/json",
+        "Content-Type": "image/jpeg",
       },
       body: resizedImage,
     });
@@ -61,14 +68,18 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     }
   }
 
-  reportPhoto(photoId: string, reason: string, appToken: string): Promise<boolean> {
+  reportPhoto(
+    photoId: string,
+    reason: string,
+    appToken: string
+  ): Promise<boolean> {
     return new Promise((resolve, reject) => {
       FeatureCache.fetch(
         `${uncachedBaseUrl}/images/report?imageId=${photoId}&reason=${reason}&appToken=${appToken}`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         }
       )
@@ -78,7 +89,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
           } else {
             response
               .json()
-              .then(json => {
+              .then((json) => {
                 reject(UnknownReason);
               })
               .catch(reject);

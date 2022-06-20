@@ -1,13 +1,13 @@
-import { t } from 'ttag';
-import { hsl } from 'd3-color';
-import uniq from 'lodash/uniq';
-import minBy from 'lodash/minBy';
-import includes from 'lodash/includes';
-import styled from 'styled-components';
-import * as React from 'react';
-import colors, { alpha } from '../../lib/colors';
-import { isOnSmallViewport } from '../../lib/ViewportSize';
-import ResizeObserverPolyfill from 'resize-observer-polyfill';
+import { t } from "ttag";
+import { hsl } from "d3-color";
+import uniq from "lodash/uniq";
+import minBy from "lodash/minBy";
+import includes from "lodash/includes";
+import styled from "styled-components";
+import * as React from "react";
+import colors, { alpha } from "../../lib/colors";
+import { isOnSmallViewport } from "../../lib/ViewportSize";
+import ResizeObserverPolyfill from "resize-observer-polyfill";
 
 type Props = {
   className?: string;
@@ -26,9 +26,9 @@ type Props = {
 };
 
 function mergeRefs(refs) {
-  return value => {
-    refs.forEach(ref => {
-      if (typeof ref === 'function') {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === "function") {
         ref(value);
       } else if (ref != null) {
         ref.current = value;
@@ -37,8 +37,11 @@ function mergeRefs(refs) {
   };
 }
 
-function getNearestStopForTopOffset(topOffset: number, stops: number[]): number {
-  return minBy(stops, stop => Math.abs(stop - topOffset));
+function getNearestStopForTopOffset(
+  topOffset: number,
+  stops: number[]
+): number {
+  return minBy(stops, (stop) => Math.abs(stop - topOffset));
 }
 
 function getMaxHeight(
@@ -60,19 +63,19 @@ function getMaxHeight(
 // `connect` to perform sync updates to a ref to save the latest props after
 // a render is actually committed to the DOM.
 const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
 // Use this to debug state value changes in the console - very handy for complex state handling with
 // React Hooks.
 function logStateValueChange(name: string, value: any) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useIsomorphicLayoutEffect(() => {
-    console.log(name, '=', value);
+    console.log(name, "=", value);
   }, [name, value]);
 }
 
 type PositionSample = { pos: number; t: number };
-type FlickState = 'up' | 'down' | 'noFlick';
+type FlickState = "up" | "down" | "noFlick";
 
 function calculateFlickState(ySamples: PositionSample[]): FlickState {
   // console.log(ySamples);
@@ -85,14 +88,14 @@ function calculateFlickState(ySamples: PositionSample[]): FlickState {
     ) {
       if (lastSample.pos > sampleBeforeLastSample.pos) {
         // console.log('up');
-        return 'up';
+        return "up";
       } else if (lastSample.pos < sampleBeforeLastSample.pos) {
         // console.log('down');
-        return 'down';
+        return "down";
       }
     }
   }
-  return 'noFlick';
+  return "noFlick";
 }
 
 const StyledSection = styled.section`
@@ -185,7 +188,7 @@ const StyledSection = styled.section`
         margin: 0 auto;
         top: 0px;
         left: calc(50% - 20px);
-        content: '';
+        content: "";
         width: 44px;
         height: 5px;
         border-radius: 2.5px;
@@ -309,7 +312,11 @@ const StyledSection = styled.section`
  */
 
 const BaseToolbar = (
-  props: Props & { innerRef: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any) }
+  props: Props & {
+    innerRef:
+      | { current: null | HTMLElement }
+      | ((elem: null | HTMLElement) => any);
+  }
 ) => {
   const scrollElementRef = React.useRef<HTMLElement | null>(null);
   const [topOffset, setTopOffset] = React.useState(0);
@@ -355,15 +362,16 @@ const BaseToolbar = (
   // logStateValueChange('topOffset', topOffset);
   // logStateValueChange('isAtTopmostPosition', isAtTopmostPosition);
 
-  const touchAction = React.useMemo(() => (isAtTopmostPosition ? 'inherit' : 'none'), [
-    isAtTopmostPosition,
-  ]);
+  const touchAction = React.useMemo(
+    () => (isAtTopmostPosition ? "inherit" : "none"),
+    [isAtTopmostPosition]
+  );
 
   const transition = React.useMemo(() => {
     if (!props.enableTransitions) {
-      return '';
+      return "";
     }
-    const defaultTransitions = 'opacity 0.3s ease-out';
+    const defaultTransitions = "opacity 0.3s ease-out";
     if (!isSwiping) {
       return `${defaultTransitions}, transform 0.3s ease-out`;
     }
@@ -371,12 +379,16 @@ const BaseToolbar = (
   }, [props.enableTransitions, isSwiping]);
 
   const transformY = React.useMemo(() => {
-    const isToolbarFittingOnScreenCompletely = viewportHeight - toolbarHeight - stops[0] > 0;
+    const isToolbarFittingOnScreenCompletely =
+      viewportHeight - toolbarHeight - stops[0] > 0;
     const isBigViewport = viewportWidth > 512 && viewportHeight > 512;
     const transformY =
       isBigViewport && isToolbarFittingOnScreenCompletely
         ? 0
-        : Math.max(topOffset + (scrollTop <= 0 ? -scrollTopStartY - deltaY : 0), 0);
+        : Math.max(
+            topOffset + (scrollTop <= 0 ? -scrollTopStartY - deltaY : 0),
+            0
+          );
     return transformY;
   }, [
     viewportHeight,
@@ -390,8 +402,8 @@ const BaseToolbar = (
   ]);
 
   const onWindowResize = React.useCallback(() => {
-    setViewportWidth(typeof window === 'undefined' ? 1024 : window.innerWidth);
-    setViewportHeight(typeof window === 'undefined' ? 768 : window.innerHeight);
+    setViewportWidth(typeof window === "undefined" ? 1024 : window.innerWidth);
+    setViewportHeight(typeof window === "undefined" ? 768 : window.innerHeight);
     const newTopOffset = getNearestStopForTopOffset(topOffset, stops);
     setTopOffset(newTopOffset);
   }, [setViewportWidth, setViewportHeight, topOffset, stops, setTopOffset]);
@@ -400,10 +412,10 @@ const BaseToolbar = (
   useIsomorphicLayoutEffect(() => {
     const resize = onWindowResize;
     resize();
-    if (typeof window !== 'undefined') {
-      window.addEventListener('resize', resize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", resize);
     }
-    return () => window.removeEventListener('resize', resize);
+    return () => window.removeEventListener("resize", resize);
   }, [onWindowResize]);
 
   const onToolbarResize = React.useCallback(() => {
@@ -411,7 +423,7 @@ const BaseToolbar = (
     if (!ref) {
       return;
     }
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       // @ts-ignore
       window.scrollElement = ref;
     }
@@ -436,7 +448,7 @@ const BaseToolbar = (
       return;
     }
     // @ts-ignore
-    const resizeObserver = new (typeof ResizeObserver === 'undefined'
+    const resizeObserver = new (typeof ResizeObserver === "undefined"
       ? ResizeObserverPolyfill
       : // @ts-ignore
         ResizeObserver)(onToolbarResize);
@@ -494,8 +506,8 @@ const BaseToolbar = (
       setIsSwiping(false);
       // console.log('Touch ended at', transformY);
       const flickState = calculateFlickState(ySamples);
-      if (flickState !== 'noFlick' && scrollTop <= 0) {
-        const newIndex = flickState === 'up' ? 0 : stops.length - 1;
+      if (flickState !== "noFlick" && scrollTop <= 0) {
+        const newIndex = flickState === "up" ? 0 : stops.length - 1;
         setTopOffset(stops[newIndex]);
       } else {
         const newStop = getNearestStopForTopOffset(transformY, stops);
@@ -522,28 +534,37 @@ const BaseToolbar = (
     [props.isModal, touchStartY, ySamples, topOffset]
   );
 
-  const handleKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLElement>) => {
-    if (props.closeOnEscape !== false && event.key === 'Escape' && scrollElementRef.current) {
-      const closeLink = scrollElementRef.current.querySelector('.close-link');
-      if (closeLink && closeLink['click']) {
-        closeLink['click']();
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (
+        props.closeOnEscape !== false &&
+        event.key === "Escape" &&
+        scrollElementRef.current
+      ) {
+        const closeLink = scrollElementRef.current.querySelector(".close-link");
+        if (closeLink && closeLink["click"]) {
+          closeLink["click"]();
+        }
       }
-    }
-  }, []);
+    },
+    []
+  );
 
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {
       return;
     }
     const scrollElementHasMoreContentThanShown =
-      scrollElementRef.current.scrollHeight > scrollElementRef.current.clientHeight;
-    const isScrollable = isAtTopmostPosition && scrollElementHasMoreContentThanShown;
+      scrollElementRef.current.scrollHeight >
+      scrollElementRef.current.clientHeight;
+    const isScrollable =
+      isAtTopmostPosition && scrollElementHasMoreContentThanShown;
     return isScrollable && scrollTop > 0;
   }, [isAtTopmostPosition, scrollTop]);
 
-  const xModels = ['iPhone10,3', 'iPhone10,6', 'x86_64'];
+  const xModels = ["iPhone10,3", "iPhone10,6", "x86_64"];
   const isIphoneX =
-    typeof window !== 'undefined' &&
+    typeof window !== "undefined" &&
     // @ts-ignore
     window.device &&
     // @ts-ignore
@@ -551,14 +572,14 @@ const BaseToolbar = (
     // @ts-ignore
     includes(xModels, window.device.model);
   const classNames = [
-    'toolbar',
-    isIphoneX && 'toolbar-iphone-x',
-    props.hidden && 'toolbar-hidden',
-    props.isModal && 'toolbar-is-modal',
-    toolbarIsScrollable && 'toolbar-is-scrollable',
+    "toolbar",
+    isIphoneX && "toolbar-iphone-x",
+    props.hidden && "toolbar-hidden",
+    props.isModal && "toolbar-is-modal",
+    toolbarIsScrollable && "toolbar-is-scrollable",
     props.className,
   ];
-  const className = classNames.filter(Boolean).join(' ');
+  const className = classNames.filter(Boolean).join(" ");
 
   return (
     <StyledSection
@@ -567,12 +588,13 @@ const BaseToolbar = (
       style={{
         touchAction,
         transition,
-        overflowY: topOffset > 0 ? 'hidden' : 'auto',
+        overflowY: topOffset > 0 ? "hidden" : "auto",
         transform: `translate3d(0, ${transformY}px, 0)`,
         top:
           props.isModal || viewportHeight <= 512 || viewportWidth <= 512
             ? undefined
-            : `calc(${props.minimalTopPosition || 0}px + env(safe-area-inset-top))`,
+            : `calc(${props.minimalTopPosition ||
+                0}px + env(safe-area-inset-top))`,
         maxHeight: getMaxHeight(
           props.minimalTopPosition,
           viewportWidth,
@@ -595,12 +617,16 @@ const BaseToolbar = (
       onTouchEnd={handleTouchEnd}
       onScroll={onScroll}
     >
-      <div style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}>
+      <div
+        style={{ transform: `translateY(${scrollTop < 0 ? scrollTop : 0}px)` }}
+      >
         {props.isSwipeable && !props.isModal ? (
           <button
             style={{ transform: `translate3d(-50%, 0px, 0)` }}
             className="grab-handle"
-            aria-label={isAtTopmostPosition ? t`Collapse details` : t`Expand details`}
+            aria-label={
+              isAtTopmostPosition ? t`Collapse details` : t`Expand details`
+            }
             onClick={() => {
               if (isAtTopmostPosition) {
                 const offset = stops[stops.length - 1];
@@ -626,7 +652,7 @@ BaseToolbar.defaultProps = {
   minimalHeight: 90,
   isSwipeable: true,
   isModal: false,
-  role: '',
+  role: "",
   enableTransitions: true,
 };
 
@@ -635,7 +661,10 @@ BaseToolbar.defaultProps = {
  * swipable element on small viewports.
  */
 const Toolbar = React.forwardRef<HTMLElement, Props>(
-  (props: Props, ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any)) => {
+  (
+    props: Props,
+    ref: { current: null | HTMLElement } | ((elem: null | HTMLElement) => any)
+  ) => {
     // https://reactjs.org/docs/forwarding-refs.html
     return <BaseToolbar {...props} innerRef={ref} />;
   }
