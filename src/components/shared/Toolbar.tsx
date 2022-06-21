@@ -581,6 +581,7 @@ const BaseToolbar = (
   ];
   const className = classNames.filter(Boolean).join(" ");
 
+  const { minimalTopPosition = 60 } = props;
   return (
     <StyledSection
       onKeyDown={handleKeyDown}
@@ -593,10 +594,9 @@ const BaseToolbar = (
         top:
           props.isModal || viewportHeight <= 512 || viewportWidth <= 512
             ? undefined
-            : `calc(${props.minimalTopPosition ||
-                0}px + env(safe-area-inset-top))`,
+            : `calc(${minimalTopPosition || 0}px + env(safe-area-inset-top))`,
         maxHeight: getMaxHeight(
-          props.minimalTopPosition,
+          minimalTopPosition,
           viewportWidth,
           viewportHeight,
           props.isModal || false
@@ -607,7 +607,7 @@ const BaseToolbar = (
       role={props.role}
       aria-label={props.ariaLabel}
       aria-describedby={props.ariaDescribedBy}
-      data-minimal-top-position={props.minimalTopPosition}
+      data-minimal-top-position={minimalTopPosition}
       data-top-offset={topOffset}
       data-dimensions-viewport-height={viewportHeight}
       data-dimensions-height={toolbarHeight}

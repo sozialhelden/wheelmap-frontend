@@ -1,28 +1,31 @@
-import React from 'react';
-import { t } from 'ttag';
-import ShareBar from '../ShareBar/ShareBar';
-import { MappingEvent } from '../../lib/model/MappingEvent';
-import { translatedStringFromObject } from '../../lib/i18n';
+import React from "react";
+import { t } from "ttag";
+import ShareBar from "../ShareBar/ShareBar";
+import { MappingEvent } from "../../lib/model/MappingEvent";
+import { translatedStringFromObject } from "../../lib/i18n";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import useHostname from "../../lib/context/HostnameContext";
 
 type MappingEventShareBarProps = {
   className?: string;
   mappingEvent: MappingEvent;
   buttonCaption: string;
-  baseUrl: string;
-  productName: string | null;
 };
 
 const MappingEventShareBar = ({
   className,
   mappingEvent,
   buttonCaption,
-  baseUrl,
-  productName,
 }: MappingEventShareBarProps) => {
+  const app = useCurrentApp();
+  const productName = app.clientSideConfiguration.textContent.product.name;
+  const productNameLocalized = translatedStringFromObject(productName);
+  const hostName = useHostname();
+  const baseUrl = `https://${hostName}`;
   const url = mappingEvent ? `${baseUrl}/events/${mappingEvent._id}` : baseUrl;
 
-  const eventName = mappingEvent.name && translatedStringFromObject(mappingEvent.name);
-  const productNameLocalized = productName && translatedStringFromObject(productName);
+  const eventName =
+    mappingEvent.name && translatedStringFromObject(mappingEvent.name);
   const sharedObjectTitle = productNameLocalized
     ? `${eventName} - ${productNameLocalized}`
     : eventName;
@@ -33,9 +36,9 @@ const MappingEventShareBar = ({
   // translator: Email text used when sharing a mapping event via email.
   let mailBody = t`Hi 👋\n\nHelp us out and join the mapping event ‘${eventName}’ on ${productNameLocalized}. You can find more info here:\n\n${url}\n\nSee you there!`;
 
-  const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
-    mailBody
-  )}`;
+  const mailToLink = `mailto:?subject=${encodeURIComponent(
+    mailSubject
+  )}&body=${encodeURIComponent(mailBody)}`;
 
   return (
     <ShareBar

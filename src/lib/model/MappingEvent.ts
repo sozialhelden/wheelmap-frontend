@@ -1,7 +1,12 @@
-import { MappingEventFeature } from './Feature';
-import { IImage } from './Image';
+import { MappingEventFeature } from "./Feature";
+import { IImage } from "./Image";
 
-type MappingEventStatusEnum = 'draft' | 'planned' | 'ongoing' | 'completed' | 'canceled';
+type MappingEventStatusEnum =
+  | "draft"
+  | "planned"
+  | "ongoing"
+  | "completed"
+  | "canceled";
 
 interface MappingEventStatistics {
   // deprecated, do not use
@@ -37,8 +42,8 @@ export type MappingEvent = {
   targets?: {
     mappedPlacesCount?: number;
   };
-  visibility?: 'listed' | 'unlisted';
-  emailCollectionMode?: 'required' | 'optional' | 'disabled';
+  visibility?: "listed" | "unlisted";
+  emailCollectionMode?: "required" | "optional" | "disabled";
   status: MappingEventStatusEnum;
   statistics: MappingEventStatistics;
 };
@@ -48,12 +53,14 @@ export type MappingEvents = MappingEvent[];
 export const hrefForMappingEvent = (mappingEvent: MappingEvent): string =>
   `/events/${mappingEvent._id}`;
 
-export const canMappingEventBeJoined = (mappingEvent: MappingEvent): boolean =>
-  mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned';
+export const canMappingEventBeJoined = (mappingEvent?: MappingEvent): boolean =>
+  !!mappingEvent &&
+  (mappingEvent.status === "ongoing" || mappingEvent.status === "planned");
 
-export const isMappingEventVisible = (mappingEvent: MappingEvent): boolean =>
-  (mappingEvent.status === 'ongoing' || mappingEvent.status === 'planned') &&
-  mappingEvent.visibility !== 'unlisted';
+export const isMappingEventVisible = (mappingEvent?: MappingEvent): boolean =>
+  !!mappingEvent &&
+  ((mappingEvent.status === "ongoing" || mappingEvent.status === "planned") &&
+    mappingEvent.visibility !== "unlisted");
 
 // filters mapping events for the active app & shown mapping event
 export function filterMappingEvents(
@@ -62,6 +69,8 @@ export function filterMappingEvents(
   activeEventId?: string
 ): MappingEvents {
   return mappingEvents
-    .filter(event => isMappingEventVisible(event) || activeEventId === event._id)
-    .filter(event => appId === event.appId);
+    .filter(
+      (event) => isMappingEventVisible(event) || activeEventId === event._id
+    )
+    .filter((event) => appId === event.appId);
 }

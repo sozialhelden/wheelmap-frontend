@@ -1,12 +1,13 @@
 import Link from "next/link";
-import React, { useContext } from "react";
-import { useCurrentMappingEvent } from "./useCurrentMappingEvent";
+import React from "react";
 import styled from "styled-components";
-import { useUniqueSurveyId } from "./useUniqueSurveyId";
 import colors from "../../../lib/colors";
+import { useCurrentApp } from "../../../lib/context/AppContext";
+import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
+import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { translatedStringFromObject } from "../../../lib/i18n";
 import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/insertPlaceholdersToAddPlaceUrl";
-import { AppContext } from "../../../lib/context/AppContext";
+import Spinner from "../../ActivityIndicator/Spinner";
 
 const Badge = styled.span`
   background-color: ${colors.warningColor};
@@ -19,26 +20,30 @@ const Badge = styled.span`
 `;
 
 function JoinedEventLink(props: { label: string | null; url: string | null }) {
-  const joinedMappingEvent = useCurrentMappingEvent();
+  const { data: joinedMappingEvent, isValidating } = useCurrentMappingEvent();
 
-  if (joinedMappingEvent) {
-    return (
-      <Link href={`/events/${joinedMappingEvent._id}`}>
-        <a role="menuitem">{joinedMappingEvent.name}</a>
-      </Link>
-    );
-  } else {
-    return (
-      <Link href="/events">
-        <a role="menuitem">{props.label}</a>
-      </Link>
-    );
+  if (isValidating) {
+    return <Spinner />;
   }
+
+  const href = joinedMappingEvent
+    ? `/events/${joinedMappingEvent._id}`
+    : "/events";
+
+  const label = joinedMappingEvent ? joinedMappingEvent.name : props.label;
+
+  return (
+    <Link href={href}>
+      <a role="menuitem" className="nav-link">
+        {label}
+      </a>
+    </Link>
+  );
 }
 
 export default function AppLinks(props: {}) {
-  const joinedMappingEvent = useCurrentMappingEvent();
-  const app = useContext(AppContext);
+  const { data: joinedMappingEvent } = useCurrentMappingEvent();
+  const app = useCurrentApp();
   const baseUrl = `https://${app._id}/`;
   const uniqueSurveyId = useUniqueSurveyId();
 

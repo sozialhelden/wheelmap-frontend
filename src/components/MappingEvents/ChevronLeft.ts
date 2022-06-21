@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-
-import ChevronLeft from '../ChevronLeft';
+import styled from "styled-components";
+import ChevronLeft from "../shared/ChevronLeft";
 
 export const StyledChevronLeft = styled(ChevronLeft)`
   margin-left: 0;

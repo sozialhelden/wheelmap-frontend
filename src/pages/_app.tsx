@@ -17,7 +17,6 @@ interface ExtraProps {
 }
 
 export default function MyApp(props: AppProps<ExtraProps>) {
-  console.log('App props:', props);
   const { Component, pageProps } = props;
   const { userAgentString, app } = pageProps;
   const contexts: ContextAndValue<any>[] = [

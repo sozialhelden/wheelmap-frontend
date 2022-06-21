@@ -1,7 +1,7 @@
-import React, { FunctionComponent, RefObject } from 'react';
-import { ChromelessButton } from '../Button';
-import ShareIcon from '../icons/actions/ShareIOS';
-import { t } from 'ttag';
+import React from "react";
+import ShareIcon from "../icons/actions/ShareIOS";
+import { t } from "ttag";
+import { ChromelessButton } from "../shared/Button";
 
 type ShareBarToggleProps = {
   isExpanded: boolean;

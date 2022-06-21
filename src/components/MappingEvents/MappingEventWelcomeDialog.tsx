@@ -1,159 +1,28 @@
-import React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-
-import ModalDialog from '../ModalDialog';
-import { PrimaryButton } from '../Button';
-import CloseButton from '../CloseButton';
-import colors from '../../lib/colors';
-
-import { getJoinedMappingEventData } from '../../lib/savedState';
-import * as queryString from 'query-string';
-import { MappingEvent } from '../../lib/model/MappingEvent';
+import Link from "next/link";
+import * as queryString from "query-string";
+import React, { useCallback } from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import colors from "../../lib/colors";
+import { PrimaryButton } from "../shared/Button";
+import CloseButton from "../shared/CloseButton";
+import ModalDialog from "../shared/ModalDialog";
+import { EmailInputForm } from "./EmailInputForm";
+import { useMappingEvent } from "../../lib/fetchers/fetchMappingEvent";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import { getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId } from "../../lib/context/MappingEventContext";
+import { useRouter } from "next/router";
 
 type Props = {
-  className?: string,
-  mappingEvent: MappingEvent,
-  invitationToken: string | null,
-  onClose: () => void,
-  onJoin: (mappingEventId: string, emailAddress?: string) => void,
+  mappingEventId: string;
+  invitationToken: string | null;
 };
 
-const EmailRegEx = /(.+)@(.+){2,}\.(.+){2,}/;
-
-const EmailInputForm = (props: {
-  collectionMode: 'disabled' | 'required' | 'optional',
-  initialEmailAddress: string | null,
-  invitationToken: string | null,
-  onSubmit: (emailAddress?: string) => void,
-}) => {
-  const { onSubmit, collectionMode, initialEmailAddress, invitationToken } = props;
-
-  const inputField = React.useRef(null);
-  const [error, setError] = React.useState<string | null>(null);
-  const [isBusy, setBusy] = React.useState<boolean>(false);
-  const showInput = collectionMode !== 'disabled' && !invitationToken;
-
-  const submitHandler = e => {
-    e.stopPropagation();
-    e.preventDefault();
-
-    const inputValue = inputField.current?.value.trim();
-    if (!collectionMode || invitationToken || collectionMode === 'disabled') {
-      setBusy(true);
-      onSubmit();
-    } else if (collectionMode === 'optional' && !inputValue) {
-      setBusy(true);
-      onSubmit();
-    } else {
-      if (!inputValue) {
-        setError(t`Your email address is required!`);
-      } else {
-        const isValid = EmailRegEx.test(inputValue);
-        if (isValid) {
-          setBusy(true);
-          onSubmit(inputValue);
-        } else {
-          setError(t`This email address is not valid.`);
-        }
-      }
-    }
-  };
-
-  const labelSuffix = {
-    // translator: Shown next to a form input label for a field where the user must enter a value
-    required: t`(required)`,
-    // translator: Shown next to a form input label for a field where the user can optionally enter a value
-    optional: t`(optional)`,
-  }[collectionMode];
-
-  return (
-    <form className={error ? 'has-error' : ''} onSubmit={submitHandler}>
-      {showInput && (
-        <div className={error ? 'form-control is-invalid' : 'form-control'}>
-          <label><strong>{t`Email address`}</strong>{labelSuffix && <>&nbsp;{labelSuffix}</>}</label>
-          <input
-            className={error ? 'is-invalid' : ''}
-            required={collectionMode === 'required'}
-            type="email"
-            autoComplete="true"
-            defaultValue={initialEmailAddress}
-            ref={inputField}
-            onFocus={event => {
-              window.scrollTo(0, 0); // Fix iOS mobile safari viewport out of screen bug
-            }}
-            disabled={isBusy}
-            name="email"
-          />
-          {error && <p className="form-text text-danger">{error}</p>}
-        </div>
-      )}
-      <PrimaryButton disabled={isBusy} onClick={submitHandler}>
-        {t`Let’s go`}
-      </PrimaryButton>
-      {invitationToken && <footer>{t`You are participating as ${initialEmailAddress}.`}</footer>}
-    </form>
-  );
-};
-
-const UnstyledMappingEventWelcomeDialog = ({
-  className,
-  mappingEvent,
-  onJoin,
-  onClose,
-  invitationToken,
-}: Props) => {
-  const EmailCollectionModeMessages = {
-    required: () => t`To stay in touch with you, you must provide us with your email address.`,
-    optional: () => t`To stay in touch with you, please share your email address with us.`,
-    disabled: () => null,
-  };
-
-  const dialogAriaLabel = t`Welcome`;
-
-  const collectionMode = mappingEvent.emailCollectionMode || 'disabled';
-  const emailCollectionModeMessage = EmailCollectionModeMessages[collectionMode]();
-
-  // translator: Shown on the join mapping event screen, when there is no message defined by the event organizer.
-  const defaultMappingEventWelcomeMessage = t`Great! Thanks for joining us.`;
-  const mappingEventWelcomeMessage =
-    mappingEvent.welcomeMessage || defaultMappingEventWelcomeMessage;
-
-  const { emailAddress: lastUsedEmailAddress } = getJoinedMappingEventData();
-  let queryEmailAddress: string | null;
-  if (typeof window !== 'undefined') {
-    const queryObject = queryString.parse(window.location.search);
-    queryEmailAddress = queryObject.emailAddress as string;
-  }
-
-  return (
-    <ModalDialog
-      className={className}
-      isVisible={true}
-      showCloseButton={false}
-      onClose={onClose}
-      ariaLabel={dialogAriaLabel}
-      ariaDescribedBy="mapping-event-welcome-message"
-    >
-      <CloseButton onClick={onClose} />
-      <h2>{mappingEvent.name}</h2>
-      <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
-      {!invitationToken && <p>{emailCollectionModeMessage}</p>}
-      <EmailInputForm
-        initialEmailAddress={queryEmailAddress || lastUsedEmailAddress}
-        collectionMode={collectionMode}
-        invitationToken={invitationToken}
-        onSubmit={emailAddress => onJoin(mappingEvent._id, emailAddress)}
-      />
-    </ModalDialog>
-  );
-};
-
-const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
+const StyledModalDialog = styled(ModalDialog)`
   .modal-dialog-content {
     padding: 20px;
 
-    ${CloseButton} {
+    .close-link {
       position: absolute;
       top: 5px;
       right: 5px;
@@ -171,9 +40,9 @@ const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
 
     /* styled form */
 
-    input[type='text'],
-    input[type='email'],
-    input[type='number'],
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
     textarea,
     select {
       width: 100%;
@@ -258,9 +127,9 @@ const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
     }
 
     .is-invalid {
-      input[type='text'],
-      input[type='email'],
-      input[type='number'],
+      input[type="text"],
+      input[type="email"],
+      input[type="number"],
       textarea,
       select {
         border-bottom-left-radius: 0;
@@ -293,4 +162,69 @@ const MappingEventWelcomeDialog = styled(UnstyledMappingEventWelcomeDialog)`
   }
 `;
 
-export default MappingEventWelcomeDialog;
+export default function MappingEventWelcomeDialog({
+  invitationToken,
+  mappingEventId,
+}: Props) {
+  const EmailCollectionModeMessages = {
+    required: () =>
+      t`To stay in touch with you, you must provide us with your email address.`,
+    optional: () =>
+      t`To stay in touch with you, please share your email address with us.`,
+    disabled: () => null,
+  };
+
+  const dialogAriaLabel = t`Welcome`;
+  const app = useCurrentApp();
+  const { tokenString: appToken } = app;
+  const { data: mappingEvent, isValidating, error } = useMappingEvent(
+    { appToken, _id: mappingEventId }  );
+  const collectionMode = mappingEvent?.emailCollectionMode || "disabled";
+  const emailCollectionModeMessage = EmailCollectionModeMessages[
+    collectionMode
+  ]();
+
+  // translator: Shown on the join mapping event screen, when there is no message defined by the event organizer.
+  const defaultMappingEventWelcomeMessage = t`Great! Thanks for joining us.`;
+  const mappingEventWelcomeMessage =
+    mappingEvent?.welcomeMessage || defaultMappingEventWelcomeMessage;
+
+  const { emailAddress: lastUsedEmailAddress } = getJoinedMappingEventData();
+  let queryEmailAddress: string | null;
+  if (typeof window !== "undefined") {
+    const queryObject = queryString.parse(window.location.search);
+    queryEmailAddress = queryObject.emailAddress as string;
+  }
+
+  const router = useRouter();
+  const { mutate: mutateMappingEventId } = useCurrentMappingEventId();
+  const userUUID = getUUID();
+  const joinMappingEvent = useCallback((emailAddress?: string) => {
+    setJoinedMappingEventId(mappingEventId);
+    trackMappingEventMembershipChanged({ userUUID, app, reason: "button", joinedMappingEvent: mappingEvent, emailAddress });
+    mutateMappingEventId(null);
+    router.push('/');
+  }, [mappingEvent, userUUID, mutateMappingEventId, router, app]);
+
+  return (
+    <StyledModalDialog
+      isVisible={true}
+      showCloseButton={false}
+      ariaLabel={dialogAriaLabel}
+      ariaDescribedBy="mapping-event-welcome-message"
+    >
+      <Link href="/">
+        <CloseButton />
+      </Link>
+      <h2>{mappingEvent?.name}</h2>
+      <p id="mapping-event-welcome-message">{mappingEventWelcomeMessage}</p>
+      {!invitationToken && <p>{emailCollectionModeMessage}</p>}
+      <EmailInputForm
+        initialEmailAddress={queryEmailAddress || lastUsedEmailAddress}
+        collectionMode={collectionMode}
+        invitationToken={invitationToken}
+        onSubmit={joinMappingEvent}
+      />
+    </StyledModalDialog>
+  );
+}

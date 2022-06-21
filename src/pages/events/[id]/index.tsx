@@ -1,24 +1,15 @@
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import Layout from "../../../components/App/Layout";
+import MappingEventToolbar from "../../../components/MappingEvents/MappingEventToolbar";
 
 const Event = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  // <MappingEventToolbar
-  //       mappingEventHandlers={mappingEventHandlers}
-  //       mappingEvent={mappingEvent}
-  //       joinedMappingEventId={joinedMappingEventId}
-  //       onMappingEventWelcomeDialogOpen={onMappingEventWelcomeDialogOpen}
-  //       onMappingEventLeave={onMappingEventLeave}
-  //       onClose={onCloseMappingEventsToolbar}
-  //       onHeaderClick={this.onMappingEventHeaderClick}
-  //       minimalTopPosition={this.getMinimalToolbarTopPosition()}
-  //     />
   return (
-    <>
-      <header />
-      <h1>Event with ID: {id}</h1>
-    </>
+    <Layout>
+      <MappingEventToolbar mappingEventId={id && String(id)} />
+    </Layout>
   );
 };
 

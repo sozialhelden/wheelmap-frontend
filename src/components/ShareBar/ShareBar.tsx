@@ -1,9 +1,9 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
-import ShareBarToggle from './ShareBarToggle';
-import ShareBarContent from './ShareBarContent';
-import { Caption } from '../IconButton';
-import colors from '../../lib/colors';
-import styled from 'styled-components';
+import { FunctionComponent, useEffect, useRef, useState } from "react";
+import ShareBarToggle from "./ShareBarToggle";
+import ShareBarContent from "./ShareBarContent";
+import colors from "../../lib/colors";
+import styled from "styled-components";
+import { Caption } from "../shared/IconButton";
 
 type ShareBarProps = {
   shareButtonCaption: string;

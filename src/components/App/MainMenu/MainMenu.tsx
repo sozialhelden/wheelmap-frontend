@@ -416,8 +416,6 @@ export default class MainMenu extends React.Component<Props, State> {
 
           <div className="claim">{claim}</div>
 
-          {/* <GlobalActivityIndicator className="activity-indicator" /> */}
-
           <div id="main-menu" role="menu">
             <AppLinks />
           </div>

@@ -4,8 +4,6 @@ import styled from "styled-components";
 import CloseIcon from "../icons/actions/Close";
 import colors from "../../lib/colors";
 
-type Props = React.HTMLProps<HTMLButtonElement> & {};
-
 const StyledButton = styled.button`
   display: inline-block;
   padding: 16px;
@@ -32,14 +30,22 @@ const StyledButton = styled.button`
   }
 `;
 
-export default function CloseButton(props: Props) {
-  return (
-    <StyledButton
-      {...props}
-      className={`close-link ${props.className || ""}`}
-      aria-label={props["aria-label"] || t`Close`}
-    >
-      <CloseIcon />
-    </StyledButton>
-  );
-}
+type Props = React.HTMLAttributes<HTMLButtonElement>;
+
+const CloseButton = React.forwardRef<HTMLElement, Props>(
+  (props: Props, ref: { current: null | HTMLButtonElement }) => {
+    // https://reactjs.org/docs/forwarding-refs.html
+    return (
+      <StyledButton
+        {...props}
+        className={`close-link ${props.className || ""}`}
+        aria-label={props["aria-label"] || t`Close`}
+        ref={ref}
+      >
+        <CloseIcon />
+      </StyledButton>
+    );
+  }
+);
+
+export default CloseButton;
