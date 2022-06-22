@@ -84,22 +84,6 @@ class App extends React.Component<Props, State> {
     return newState;
   }
 
-  componentDidMount() {
-    const { routeName, inEmbedMode } = this.props;
-
-    const shouldStartInSearch = routeName === "map" && !inEmbedMode;
-
-    if (isFirstStart()) {
-      this.setState({ isOnboardingVisible: true });
-    } else if (shouldStartInSearch) {
-      this.openSearch(true);
-    }
-  }
-
-  onToggleMainMenu = (isMainMenuOpen: boolean) => {
-    this.setState({ isMainMenuOpen });
-  };
-
   onMoveEnd = (state: Partial<State>) => {
     let { zoom, lat, lon } = state;
 
@@ -174,20 +158,9 @@ class App extends React.Component<Props, State> {
     });
   };
 
-  onClickFullscreenBackdrop = () => {
-    this.setState({
-      isMainMenuOpen: false,
-      isOnboardingVisible: false,
-      modalNodeState: null,
-    });
-    trackModalView(null);
-    this.onCloseNodeToolbar();
-  };
-
   render() {
     const { isSpecificLatLonProvided } = this.state;
     const isNodeRoute = Boolean(this.props.featureId);
-
     const mapMoveDate = savedState.map.lastMoveDate;
     const wasMapMovedRecently =
       mapMoveDate && +new Date() - +mapMoveDate < config.locateTimeout;

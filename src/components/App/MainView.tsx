@@ -1,5 +1,4 @@
 import uniq from "lodash/uniq";
-import dynamic from "next/dynamic";
 import * as React from "react";
 import styled from "styled-components";
 import colors from "../../lib/colors";
@@ -9,12 +8,12 @@ import { hasBigViewport, isOnSmallViewport } from "../../lib/ViewportSize";
 import ErrorBoundary from "../ErrorBoundary";
 import FullscreenBackdrop from "./Layout/FullscreenBackdrop";
 import MainMenu from "./MainMenu/MainMenu";
-import MapLoading from "../Map/MapLoadingIndicator";
 import NodeToolbarFeatureLoader from "../NodeToolbar/NodeToolbarFeatureLoader";
 import PhotoUploadInstructionsToolbar from "../PhotoUpload/PhotoUploadInstructionsToolbar";
 import SearchButton from "../SearchToolbar/SearchButton";
 import SearchToolbar from "../SearchToolbar/SearchToolbar";
-import WheelmapHomeLink from "./WheelmapHomeLink";
+import { DynamicMap } from "./DynamicMap";
+import { EmbedModeOpenAppInNewTabLink } from "./EmbedModeOpenAppInNewTabLink";
 
 type Props = {
   className?: string;
@@ -41,23 +40,6 @@ function updateTouchCapability() {
     body.classList.remove("is-touch-device");
   }
 }
-
-const DynamicMap = dynamic(import("../Map/Map"), {
-  ssr: false,
-  loading: () => <MapLoading />,
-});
-
-const EmbedModeOpenAppInNewTabLink = styled(WheelmapHomeLink)`
-  position: absolute;
-  top: 10px;
-  right: 70px;
-  z-index: 1001;
-
-  @media (max-width: 512px) {
-    right: initial;
-    left: 10px;
-  }
-`;
 
 class MainView extends React.Component<Props, State> {
   props: Props;
@@ -161,21 +143,7 @@ class MainView extends React.Component<Props, State> {
     );
   }
 
-  getMapPadding() {
-    const hasPanel = !!this.props.feature;
-    let isPortrait = false;
-    if (typeof window !== "undefined") {
-      isPortrait = window.innerWidth < window.innerHeight;
-    }
-    if (hasBigViewport()) {
-      return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
-    }
-
-    if (isPortrait) {
-      return { left: 32, right: 32, top: 82, bottom: hasPanel ? 256 : 64 };
-    }
-    return { left: hasPanel ? 400 : 32, right: 32, top: 82, bottom: 64 };
-  }
+  getMapPadding() {}
 
   renderFullscreenBackdrop() {
     const isActive = props.isMainMenuOpen || props.hasBlurredBackdrop;

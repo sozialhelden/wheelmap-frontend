@@ -1,30 +1,37 @@
-import * as React from 'react';
-import includes from 'lodash/includes';
-import styled from 'styled-components';
-import { isTouchDevice } from '../../lib/userAgent';
+import * as React from "react";
+import includes from "lodash/includes";
+import styled from "styled-components";
+import useUserAgent, {
+  isTouchDevice,
+} from "../../lib/context/UserAgentContext";
 
 type Props = {
-  caption: string,
-  onActivate: (event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => void,
-  isHidden?: boolean,
-  ariaHidden?: boolean,
-  topPosition: number,
-  color: string,
-  className?: string,
+  caption: string;
+  onActivate: (
+    event:
+      | React.MouseEvent<HTMLButtonElement>
+      | React.KeyboardEvent<HTMLButtonElement>
+  ) => void;
+  isHidden?: boolean;
+  ariaHidden?: boolean;
+  topPosition: number;
+  color: string;
+  className?: string;
 };
 
 function NotificationButton(props: Props) {
+  const userAgent = useUserAgent();
   const classNames = [
-    props.isHidden && 'is-hidden',
-    isTouchDevice() && 'is-touch-device',
+    props.isHidden && "is-hidden",
+    isTouchDevice(userAgent) && "is-touch-device",
     props.className,
   ].filter(Boolean);
 
   return (
     <button
-      className={classNames.join(' ')}
-      onKeyDown={event => {
-        if (includes(['Enter', ' '], event.key)) {
+      className={classNames.join(" ")}
+      onKeyDown={(event) => {
+        if (includes(["Enter", " "], event.key)) {
           props.onActivate(event);
         }
       }}
@@ -41,14 +48,14 @@ const StyledNotificationButton = styled(NotificationButton)`
   display: inline-flex;
   position: absolute;
   right: 70px;
-  top: ${props => props.topPosition}px;
+  top: ${(props) => props.topPosition}px;
   max-width: 130px; /* Ensure the block does not overlap the search bar */
   z-index: 1000;
   border: none;
   border-radius: 4px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
   color: rgba(0, 0, 0, 0.7);
-  background-color: ${props => props.color};
+  background-color: ${(props) => props.color};
   cursor: pointer;
   text-align: center;
   opacity: 1;
@@ -64,7 +71,7 @@ const StyledNotificationButton = styled(NotificationButton)`
 
   span {
     padding: 4px 8px;
-    background: ${props => props.color};
+    background: ${(props) => props.color};
     color: white;
     z-index: 1;
     border-radius: 4px;
@@ -79,7 +86,7 @@ const StyledNotificationButton = styled(NotificationButton)`
     }
     ::before,
     ::after {
-      content: '';
+      content: "";
       position: absolute;
       border-style: solid;
       display: block;
@@ -99,7 +106,7 @@ const StyledNotificationButton = styled(NotificationButton)`
   ::after {
     top: 14px;
     border-width: 5px 0 5px 5px;
-    border-color: ${props => props.color};
+    border-color: ${(props) => props.color};
   }
 
   @media (max-width: 500px), (max-height: 500px) {

@@ -1,11 +1,11 @@
 import React from "react";
 import Layout from "../../components/App/Layout";
-import MappingEventsToolbar from "../../components/MappingEvents/MappingEventsToolbar";
+import MappingEventListPanel from "../../components/MappingEvents/MappingEventListPanel";
 
 export default () => {
   return (
     <Layout>
-      <MappingEventsToolbar />
+      <MappingEventListPanel />
     </Layout>
   );
 };

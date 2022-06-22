@@ -106,7 +106,7 @@ const StyledMappingEventToolbar = styled(StyledToolbar)`
   }
 `;
 
-export default function MappingEventToolbar({ mappingEvent }: Props) {
+export default function MappingEventPanel({ mappingEvent }: Props) {
   const mappingEventId = mappingEvent._id;
 
   const imageSource = mappingEvent?.images?.[0]

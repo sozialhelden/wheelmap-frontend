@@ -41,16 +41,10 @@ import {
   normalizeCoordinate,
   normalizeCoordinates,
 } from "../../lib/normalizeCoordinates";
-import { accessibilityCloudFeatureCache } from "../../lib/cache/AccessibilityCloudFeatureCache";
-import { wheelmapLightweightFeatureCache } from "../../lib/cache/WheelmapLightweightFeatureCache";
-import { equipmentInfoCache } from "../../lib/cache/EquipmentInfoCache";
-// import { globalFetchManager } from '../../lib/FetchManager';
-import { getUserAgent } from "../../lib/userAgent";
 import NotificationButton from "./NotificationButton";
 import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
 import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
 import useImperialUnits from "../../lib/useImperialUnits";
-import { tileLoadingStatus } from "./trackTileLoadingState";
 import { Cluster } from "./Cluster";
 import { MappingEvents } from "../../lib/model/MappingEvent";
 import A11yMarkerIcon from "./A11yMarkerIcon";
@@ -68,6 +62,10 @@ import {
   PlaceProperties,
 } from "@sozialhelden/a11yjson";
 import { hasBigViewport } from "../../lib/ViewportSize";
+import {
+  getUserAgentString,
+  parseUserAgentString,
+} from "../../lib/context/UserAgentContext";
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -353,8 +351,6 @@ export default class Map extends React.Component<Props, State> {
       this.props.onMapMounted(map);
     }
 
-    tileLoadingStatus.registerMap(map);
-
     new L.Control.Zoom({ position: "topright" }).addTo(this.map);
 
     map.on("moveend", () => this.onMoveEnd());
@@ -512,7 +508,6 @@ export default class Map extends React.Component<Props, State> {
 
     if (!this.map) return;
     this.map.off();
-    tileLoadingStatus.unregisterMap(this.map);
 
     delete this.map;
     delete this.highLightLayer;
@@ -588,7 +583,6 @@ export default class Map extends React.Component<Props, State> {
       const wheelmapTileUrl = this.wheelmapTileUrl();
       if (wheelmapTileUrl) {
         this.wheelmapTileLayer = new GeoJSONTileLayer(wheelmapTileUrl, {
-          featureCache: wheelmapLightweightFeatureCache,
           layerGroup: markerClusterGroup,
           featureCollectionFromResponse: (r) => r,
           pointToLayer: this.createMarkerFromPlaceInfo,
@@ -615,7 +609,6 @@ export default class Map extends React.Component<Props, State> {
     );
 
     this.equipmentTileLayer = new GeoJSONTileLayer(tileUrl, {
-      featureCache: equipmentInfoCache,
       maxNativeZoom: 14,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
@@ -641,7 +634,6 @@ export default class Map extends React.Component<Props, State> {
     );
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
-      featureCache: accessibilityCloudFeatureCache,
       layerGroup: markerClusterGroup,
       featureCollectionFromResponse: accessibilityCloudFeatureCollectionFromResponse,
       pointToLayer: this.createMarkerFromPlaceInfo,
@@ -934,10 +926,10 @@ export default class Map extends React.Component<Props, State> {
     // highlight multiple markers if there is equipment that belongs to the currently
     // opened one, e.g. when two escalators from a train platform lead to the same
     // other level or are next to each other
-    const similarEquipmentIds =
-      typeof props.equipmentInfoId === "string"
-        ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
-        : [];
+    // const similarEquipmentIds =
+    //   typeof props.equipmentInfoId === "string"
+    //     ? equipmentInfoCache.findSimilarEquipmentIds(props.equipmentInfoId)
+    //     : [];
 
     // OSM IDs are numeric, other IDs are assumed to be globally unique so we collect
     // them in one array:
@@ -945,7 +937,7 @@ export default class Map extends React.Component<Props, State> {
       !props.equipmentInfoId && props.featureId,
       props.equipmentInfoId,
     ]
-      .concat(similarEquipmentIds)
+      // .concat(similarEquipmentIds)
       .filter(Boolean)
       .map(String);
 
@@ -1176,7 +1168,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   render() {
-    const userAgent = getUserAgent();
+    const userAgent = parseUserAgentString(getUserAgentString());
     const className = [
       userAgent.os.name === "Android" ? "is-android-platform" : null,
       this.props.className,

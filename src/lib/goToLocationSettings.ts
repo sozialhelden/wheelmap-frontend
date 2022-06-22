@@ -1,35 +1,40 @@
-import { t } from 'ttag';
-import { getUserAgent } from './userAgent';
-import { saveState } from './savedState';
+import { t } from "ttag";
+import {
+  getUserAgentString,
+  parseUserAgentString,
+} from "./context/UserAgentContext";
+import { saveState } from "./savedState";
 
 // Open location settings or show the user how to open them
 
 export default function goToLocationSettings() {
-  saveState({ hasOpenedLocationHelp: 'true' });
+  saveState({ hasOpenedLocationHelp: "true" });
 
-  const userAgent = getUserAgent();
+  const userAgent = parseUserAgentString(getUserAgentString());
 
   // @ts-ignore
   let identity = userAgent.browser.name;
-  if (userAgent.os.name === 'iOS') {
-    identity = 'iOS';
-  } else if (userAgent.os.name === 'Android') {
-    identity = 'Android';
+  if (userAgent.os.name === "iOS") {
+    identity = "iOS";
+  } else if (userAgent.os.name === "Android") {
+    identity = "Android";
   }
 
   const supportURLs = {
-    Safari: 'https://support.apple.com/en-us/ht204690',
-    'Mobile Safari': 'https://support.apple.com/en-us/ht203033',
-    iOS: 'https://support.apple.com/en-us/ht203033',
-    Android: 'https://support.google.com/android/answer/6179507',
-    Chrome: 'https://support.google.com/chrome/answer/142065',
-    Firefox: 'https://support.mozilla.org/en-US/kb/does-firefox-share-my-location-websites',
-    Edge: 'http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/',
+    Safari: "https://support.apple.com/en-us/ht204690",
+    "Mobile Safari": "https://support.apple.com/en-us/ht203033",
+    iOS: "https://support.apple.com/en-us/ht203033",
+    Android: "https://support.google.com/android/answer/6179507",
+    Chrome: "https://support.google.com/chrome/answer/142065",
+    Firefox:
+      "https://support.mozilla.org/en-US/kb/does-firefox-share-my-location-websites",
+    Edge:
+      "http://www.monitorconnect.com/allow-location-tracking-on-microsoft-edge-web-solution-b/",
   };
 
   const supportURL = supportURLs[identity];
   if (supportURL) {
-    window.open(supportURL, '_blank');
+    window.open(supportURL, "_blank");
     return;
   }
 

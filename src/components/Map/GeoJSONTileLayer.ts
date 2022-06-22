@@ -36,7 +36,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
-import { getFeatureId } from '../../lib/Feature';
+import { getFeatureId } from '../../lib/model/Feature';
 import HighlightableMarker from './HighlightableMarker';
 import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
@@ -51,19 +51,7 @@ class GeoJSONTileLayer extends TileLayer {
   constructor(tileUrl: string, options: TileLayerOptions) {
     super(tileUrl, options);
     this._layerGroup = options.layerGroup || L.layerGroup();
-    options.featureCache.addEventListener('change', this._onCachedFeatureChanged);
-    options.featureCache.addEventListener('add', this._onCachedFeatureAdded);
   }
-
-  _onCachedFeatureChanged = (event: CustomEvent & { feature: PlaceInfo | EquipmentInfo }) => {
-    const feature = event.feature;
-    this._updateFeature(feature);
-  };
-
-  _onCachedFeatureAdded = (event: CustomEvent & { feature: PlaceInfo | EquipmentInfo }) => {
-    const feature = event.feature;
-    this._updateFeature(feature, { allowAdding: true });
-  };
 
   _updateFeature(
     feature: PlaceInfo | EquipmentInfo,

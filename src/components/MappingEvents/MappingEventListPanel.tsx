@@ -99,7 +99,7 @@ function getMappingEventLink(event: MappingEvent): string {
 
 type Props = {};
 
-export default function MappingEventsToolbar({}: Props) {
+export default function MappingEventListPanel({}: Props) {
   const app = useCurrentApp();
   const { tokenString: appToken } = app;
   const { data: mappingEvents, isValidating, error } = useSWR(
