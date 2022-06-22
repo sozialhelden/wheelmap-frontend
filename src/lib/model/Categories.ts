@@ -253,6 +253,7 @@ export default class Categories {
       prefetchedData.accessibilityCloud
     );
 
+    console.log("PrefetchedList", prefetchedData);
     return lookupTable;
   }
 }

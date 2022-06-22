@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
 import Layout from "../../App/Layout";
 import CloseLink from "../../shared/CloseLink";
-
+import { ModalNodeState } from '../../../lib/ModalNodeState' ;
 import { PlaceInfo } from "@sozialhelden/a11yjson";
 import FocusTrap from "focus-trap-react";
 import StyledToolbar from "../StyledToolbar";
@@ -15,10 +15,11 @@ import { placeNameFor } from "../../../lib/model/Feature";
 import get from "lodash/get";
 import { includes } from "lodash";
 import NodeHeader from "../NodeHeader";
-import {
+import Categories, {
   Category,
   CategoryLookupTables,
   getCategoryId,
+  RawCategoryLists,
 } from "../../../lib/model/Categories";
 import { useCurrentApp } from "../../../lib/context/AppContext";
 import { fetchOneAccessibilityCloudFeature } from "../../../lib/fetchers/AccessibilityCloudFeatureFetcher";
@@ -52,8 +53,9 @@ const PlaceInfoPanel = (props: Props) => {
   const router = useRouter();
   const app = useCurrentApp();
   const [feature, setFeature] = React.useState(undefined);
-  const [categories, setCategories] = React.useState(undefined);
+  const [rawCategories, setRawCategories] = React.useState<RawCategoryLists>(undefined);
   const [category, setCategory] = React.useState(undefined);
+  const [categoryLookupTables, setLookupTables] = React.useState<CategoryLookupTables>(undefined);
 
   // data fetching & handling
   const cats = getData([app.tokenString], fetchAccessibilityCloudCategories);
@@ -63,10 +65,15 @@ const PlaceInfoPanel = (props: Props) => {
   );
 
   React.useEffect(() => {
-    cats && setCategories(cats.results); 
+    cats && setRawCategories( { "accessibilityCloud" : cats.results} ); 
   }, [cats]);
+  console.log("Categories",JSON.stringify(rawCategories, null, 2))
 
-  console.log("Categories",JSON.stringify(categories, null, 2))
+
+  React.useEffect(() => {
+    const lookupTables = rawCategories && Categories.generateLookupTables(rawCategories);
+    setLookupTables(lookupTables);
+  }, [rawCategories]);
 
   React.useEffect(() => {
     feat && setFeature(feat);
@@ -87,17 +94,26 @@ const PlaceInfoPanel = (props: Props) => {
     return <PositionedCloseLink {...{ onClick: onClose }} />;
   };
 
+  
   const renderNodeHeader = () => {
+    
+    const modalNodeState: ModalNodeState = 'edit-wheelchair-accessibility'; // TODO remove mock
+
+    const statesWithIcon = ['edit-toilet-accessibility', 'report'];
+    const isModalStateWithPlaceIcon = includes(statesWithIcon, modalNodeState);
+    const hasIcon = !!modalNodeState || isModalStateWithPlaceIcon;
+
     return (
+      
       <NodeHeader
         feature={feature}
-        categories={categories}
+        categories={categoryLookupTables}
         category={category}
         parentCategory={null}
-        hasIcon={true}
-      >
-        {renderCloseLink()}
+        hasIcon={hasIcon}
+        >
       </NodeHeader>
+        
     );
   };
 
@@ -108,30 +124,30 @@ const PlaceInfoPanel = (props: Props) => {
   const toolbar = React.createRef<HTMLElement>();
 
   return (
-    <FocusTrap
-      // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-      focusTrapOptions={{ clickOutsideDeactivates: true }}
-    >
-      <div>
-        <StyledToolbar
-          ref={toolbar}
-          role="dialog"
-          ariaLabel={placeName()}
-          minimalHeight={135}
-          closeOnEscape={true}
-        >
-          <ErrorBoundary>
-            {/* {renderNodeHeader()} */}
-            {/* {renderContentBelowHeader()} */}
-            {renderCloseLink()}
-          </ErrorBoundary>
-        </StyledToolbar>
-      </div>
-    </FocusTrap>
+    <Layout>
 
-    // <div>
-    //   <NodeHeader />
-    // </div>
+      {/* <FocusTrap
+        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
+        focusTrapOptions={{ clickOutsideDeactivates: true }}
+        > */}
+        <div>
+          <StyledToolbar
+            ref={toolbar}
+            role="dialog"
+            ariaLabel={placeName()}
+            minimalHeight={135}
+            minimalTopPosition={60} // TODO replace magic number
+            closeOnEscape={true}
+            >
+            <ErrorBoundary>
+              {renderNodeHeader()}
+              {/* {renderContentBelowHeader()} */}
+            </ErrorBoundary>
+          </StyledToolbar>
+        </div>
+      {/* </FocusTrap> */}
+    </Layout>
+    
   );
 };
 
