@@ -114,7 +114,7 @@ function isNumeric(id: string | number | null): boolean {
   return !!String(id).match(/^-?\d+$/);
 }
 
-export function isWheelmapFeatureId(id: string | number | null | void): boolean {
+export function isWheelmapFeatureId(id: string | string[] | number | null | void): boolean {
   return typeof id !== 'undefined' && (isNumeric(id) || !!String(id).match(/(?:node|way|relation)\/-?]d+/));
 }
 

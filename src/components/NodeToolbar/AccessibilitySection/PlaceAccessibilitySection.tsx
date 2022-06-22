@@ -20,7 +20,7 @@ import { translatedStringFromObject } from '../../../lib/i18n';
 import { EquipmentInfo, PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {
-  featureId: string | number | null;
+  featureId: string | string[] | number | null;
   category?: Category | null;
   cluster: any;
   sources: SourceWithLicense[];

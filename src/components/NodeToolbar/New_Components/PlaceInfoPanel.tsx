@@ -3,10 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import useSWR from "swr";
-import {
-  getAccessibilityCLoudCategoriesAPIURL,
-  getAccessibilityCloudCategoriesFetcher,
-} from "../../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
+import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
 import Layout from "../../App/Layout";
 import CloseLink from "../../shared/CloseLink";
 
@@ -18,7 +15,14 @@ import { placeNameFor } from "../../../lib/model/Feature";
 import get from "lodash/get";
 import { includes } from "lodash";
 import NodeHeader from "../NodeHeader";
-import { Category, CategoryLookupTables } from "../../../lib/model/Categories";
+import {
+  Category,
+  CategoryLookupTables,
+  getCategoryId,
+} from "../../../lib/model/Categories";
+import { useCurrentApp } from "../../../lib/context/AppContext";
+import { fetchOneAccessibilityCloudFeature } from "../../../lib/fetchers/AccessibilityCloudFeatureFetcher";
+import { getData } from "../../../lib/fetchers/fetchWithSWR";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -29,18 +33,53 @@ PositionedCloseLink.displayName = "PositionedCloseLink";
 
 type Props = {
   placeInfoId?: string | string[];
-  feature?: PlaceInfo;
-  categories?: CategoryLookupTables;
-  category?: Category | null;
-  parentCategory: Category | null;
+  // feature?: PlaceInfo;
+  // categories?: CategoryLookupTables;
+  // category?: Category | null;
+  // parentCategory: Category | null;
 };
 
+// TODO why is it rendered 3-5+ times?
 const PlaceInfoPanel = (props: Props) => {
-  const { placeInfoId, feature, categories, category } = props;
+  const {
+    placeInfoId,
+    // feature,
+    // categories,
+    // category
+  } = props;
   console.log(placeInfoId);
 
   const router = useRouter();
+  const app = useCurrentApp();
+  const [feature, setFeature] = React.useState(undefined);
+  const [categories, setCategories] = React.useState(undefined);
+  const [category, setCategory] = React.useState(undefined);
 
+  // data fetching & handling
+  const cats = getData([app.tokenString], fetchAccessibilityCloudCategories);
+  const feat = getData(
+    [app.tokenString, placeInfoId],
+    fetchOneAccessibilityCloudFeature
+  );
+
+  React.useEffect(() => {
+    cats && setCategories(cats.results); 
+  }, [cats]);
+
+  console.log("Categories",JSON.stringify(categories, null, 2))
+
+  React.useEffect(() => {
+    feat && setFeature(feat);
+  }, [feat]);
+
+  React.useEffect(() => {
+    feature && setCategory(getCategoryId(feature.properties.category));
+  }, [feature]);
+
+  // placeInfoId, feature, categories, category
+
+
+  // rendered comps
   const renderCloseLink = () => {
     const onClose = React.useCallback(() => {
       router.push("/");
@@ -63,7 +102,7 @@ const PlaceInfoPanel = (props: Props) => {
   };
 
   function placeName() {
-    return placeNameFor(get(feature, "feature.properties"), category);
+    return placeNameFor(feature?.properties, category);
   }
 
   const toolbar = React.createRef<HTMLElement>();

@@ -1,23 +1,25 @@
-import { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } from '../Feature';
-import FeatureCache from './FeatureCache';
-import { equipmentInfoCache } from './EquipmentInfoCache';
-import { currentLocales } from '../i18n';
-import env from '../env';
+import {
+  AccessibilityCloudFeature,
+  AccessibilityCloudFeatureCollection,
+} from "../Feature";
+import FeatureCache from "./FeatureCache";
+import { equipmentInfoCache } from "./EquipmentInfoCache";
+import { currentLocales } from "../i18n";
 
 type CacheMap = {
-  [key: string]: FeatureCache<any, any>,
+  [key: string]: FeatureCache<any, any>;
 };
 
 export type CreatePlaceData = {
   properties: {
-    name: string,
-    category: string,
-    address?: any,
-  },
+    name: string;
+    category: string;
+    address?: any;
+  };
   geometry: {
-    type: 'Point',
-    coordinates: [number, number],
-  },
+    type: "Point";
+    coordinates: [number, number];
+  };
 };
 
 const caches: CacheMap = {
@@ -34,7 +36,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     useCache: boolean = true
   ): Promise<Response> {
     // const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+    const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
     return AccessibilityCloudFeatureCache.fetch(
       `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&includePlacesWithoutAccessibility=1`
     );
@@ -42,18 +44,21 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
 
   static getIdForFeature(feature: AccessibilityCloudFeature): string {
     // @ts-ignore
-    return String(feature._id || (feature.properties && feature.properties._id));
+    return String(
+      feature._id || (feature.properties && feature.properties._id)
+    );
   }
 
   cacheFeature(feature: AccessibilityCloudFeature, response?: any): void {
     // Cache and index related objects in their respective caches
-    Object.keys(caches).forEach(collectionName => {
+    Object.keys(caches).forEach((collectionName) => {
       const cache = caches[collectionName];
-      const idsToDocuments = feature.properties && feature.properties[collectionName];
+      const idsToDocuments =
+        feature.properties && feature.properties[collectionName];
       if (idsToDocuments) {
         const ids = Object.keys(idsToDocuments || {});
         // @ts-ignore
-        ids.forEach(_id => cache.cacheFeature(idsToDocuments[_id]));
+        ids.forEach((_id) => cache.cacheFeature(idsToDocuments[_id]));
       }
     });
 
@@ -63,14 +68,14 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
     const uploadPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ''}/place-infos/?appToken=${appToken}`,
+        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+          ""}/place-infos/?appToken=${appToken}`,
         {
-          method: 'POST',
-          cache: 'no-cache',
+          method: "POST",
+          cache: "no-cache",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(place),
         }
@@ -79,15 +84,15 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           if (response.ok) {
             response
               .json()
-              .then(json => {
+              .then((json) => {
                 resolve(json._id);
               })
               .catch(reject);
           } else if (response.json) {
             response
               .json()
-              .then(json => {
-                reject(json.error || 'unknown');
+              .then((json) => {
+                reject(json.error || "unknown");
               })
               .catch(reject);
           } else {
@@ -103,20 +108,20 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
 
   ratePlace(
     placeId: string,
-    mode: 'toilet' | 'wheelchair',
-    rating: 'yes' | 'no' | 'unknown' | 'partial',
+    mode: "toilet" | "wheelchair",
+    rating: "yes" | "no" | "unknown" | "partial",
     appToken: string
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ''}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
+        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+          ""}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
         {
-          method: 'POST',
-          cache: 'no-cache',
+          method: "POST",
+          cache: "no-cache",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
           },
         }
       )
@@ -124,15 +129,15 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           if (response.ok) {
             response
               .json()
-              .then(json => {
+              .then((json) => {
                 resolve(json.success);
               })
               .catch(reject);
           } else if (response.json) {
             response
               .json()
-              .then(json => {
-                reject(json.error || 'unknown');
+              .then((json) => {
+                reject(json.error || "unknown");
               })
               .catch(reject);
           } else {
@@ -146,18 +151,22 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     return uploadPromise;
   }
 
-  getEditPlaceSubmissionUrl(placeId: string, returnUrl: string, appToken: string): Promise<string> {
+  getEditPlaceSubmissionUrl(
+    placeId: string,
+    returnUrl: string,
+    appToken: string
+  ): Promise<string> {
     const editUrlPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ''}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
+        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+          ""}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
           returnUrl
         )}&appToken=${appToken}`,
         {
-          method: 'GET',
-          cache: 'no-cache',
+          method: "GET",
+          cache: "no-cache",
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         }
       )
@@ -165,19 +174,19 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           if (response.ok) {
             response
               .json()
-              .then(json => {
+              .then((json) => {
                 if (json.success) {
                   resolve(json.url);
                 } else {
-                  reject(json.message || 'unknown');
+                  reject(json.message || "unknown");
                 }
               })
               .catch(reject);
           } else if (response.json) {
             response
               .json()
-              .then(json => {
-                reject(json.error || 'unknown');
+              .then((json) => {
+                reject(json.error || "unknown");
               })
               .catch(reject);
           } else {
@@ -199,13 +208,13 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
-          ''}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
+        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+          ""}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
         {
-          method: 'POST',
-          cache: 'no-cache',
+          method: "POST",
+          cache: "no-cache",
           headers: {
-            Accept: 'application/json',
+            Accept: "application/json",
           },
         }
       )
@@ -215,8 +224,8 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
           } else {
             response
               .json()
-              .then(json => {
-                reject('unknown');
+              .then((json) => {
+                reject("unknown");
               })
               .catch(reject);
           }

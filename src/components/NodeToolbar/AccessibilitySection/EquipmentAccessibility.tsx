@@ -1,26 +1,26 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
-import colors from '../../../lib/colors';
-import { EquipmentInfo } from '../../../lib/EquipmentInfo';
+import colors from "../../../lib/colors";
+import { EquipmentInfo } from "../../../lib/EquipmentInfo";
 import {
   isExistingInformationOutdated,
   equipmentStatusTitle,
   isEquipmentAccessible,
   lastUpdateString,
-} from '../../../lib/EquipmentInfo';
+} from "../../../lib/model/EquipmentInfo";
 
-import AccessibilityDetailsTree from './AccessibilityDetailsTree';
-import AppContext from '../../../AppContext';
-import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
+import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
+import AppContext from "../../../AppContext";
+import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
 type Props = {
-  equipmentInfo: EquipmentInfo | null,
-  className?: string,
+  equipmentInfo: EquipmentInfo | null;
+  className?: string;
 };
 
 function EquipmentAccessibility(props: Props) {
@@ -28,7 +28,9 @@ function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo.properties) return null;
 
   const properties = props.equipmentInfo.properties;
-  const lastUpdate = properties.lastUpdate ? new Date(properties.lastUpdate) : null;
+  const lastUpdate = properties.lastUpdate
+    ? new Date(properties.lastUpdate)
+    : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
   const isWorking = properties.isWorking;
@@ -46,13 +48,19 @@ function EquipmentAccessibility(props: Props) {
   }
 
   return (
-    <div className={`equipment-accessibility ${props.className || ''}`}>
+    <div className={`equipment-accessibility ${props.className || ""}`}>
       <header
-        className={`working-status working-status-${String(isEquipmentAccessible(properties))}`}
+        className={`working-status working-status-${String(
+          isEquipmentAccessible(properties)
+        )}`}
       >
-        {capitalizeFirstLetter(equipmentStatusTitle(properties.isWorking, isOutdated))}
+        {capitalizeFirstLetter(
+          equipmentStatusTitle(properties.isWorking, isOutdated)
+        )}
       </header>
-      <footer>{lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}</footer>
+      <footer>
+        {lastUpdateString({ lastUpdate, isWorking, category, isOutdated })}
+      </footer>
       {accessibility ? (
         <AccessibilityDetailsTree
           details={accessibility}

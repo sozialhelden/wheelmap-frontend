@@ -1,5 +1,5 @@
-import TTLCache, { TTLCacheOptions } from './TTLCache';
-import Categories, { RawCategoryLists } from '../model/Categories';
+import TTLCache, { TTLCacheOptions } from "./TTLCache";
+import Categories, { RawCategoryLists } from "../model/Categories";
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean;
@@ -12,7 +12,9 @@ export default class CategoryLookupTablesCache {
   lookupTablesCache: TTLCache<string, Promise<RawCategoryLists>>;
   options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>;
 
-  constructor(options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>) {
+  constructor(
+    options: Partial<TTLCacheOptions & CategoryLookupTablesCacheOptions>
+  ) {
     this.options = {
       maxAllowedCacheAgeBeforeReload: 15000,
       reloadInBackground: true,
@@ -80,14 +82,17 @@ export default class CategoryLookupTablesCache {
     if (elapsed > this.options.maxAllowedCacheAgeBeforeReload) {
       cacheEntry.isReloading = true;
       // download data
-      const promise = this.getRawCategoryLists({ locale: languageCode, appToken });
+      const promise = this.getRawCategoryLists({
+        locale: languageCode,
+        appToken,
+      });
       // only update the cache when the promise resolves
       promise
         .then(() => {
           cacheEntry.isReloading = false;
           this.lookupTablesCache.set(languageCode, promise);
         })
-        .catch(e => {
+        .catch((e) => {
           cacheEntry.isReloading = false;
         });
     }

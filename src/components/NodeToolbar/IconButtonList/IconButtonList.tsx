@@ -1,21 +1,22 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
-import { Category } from '../../../lib/model/Categories';
+import { Category } from "../../../lib/model/Categories";
 
-import ShareButtons from './ShareButtons';
-import PhoneNumberLink from './PhoneNumberLink';
-import ExternalLinks from './ExternalLinks';
-import PlaceAddress from './PlaceAddress';
-import colors from '../../../lib/colors';
-import PlaceWebsiteLink from './PlaceWebsiteLink';
-import ReportIssueButton from './ReportIssueButton';
-import { UAResult } from '../../../lib/userAgent';
-import { PlaceInfo } from '@sozialhelden/a11yjson';
+import ShareButtons from "./ShareButtons";
+import PhoneNumberLink from "./PhoneNumberLink";
+import ExternalLinks from "./ExternalLinks";
+import PlaceAddress from "./PlaceAddress";
+import colors from "../../../lib/colors";
+import PlaceWebsiteLink from "./PlaceWebsiteLink";
+import ReportIssueButton from "./ReportIssueButton";
+import { UAResult } from "../../../lib/userAgent";
+
+import { PlaceInfo } from "@sozialhelden/a11yjson";
 
 type Props = {
   feature: PlaceInfo | null;
-  featureId: string | number | null;
+  featureId: string | number | string[] | null;
   category: Category | null;
   parentCategory: Category | null;
   className?: string;

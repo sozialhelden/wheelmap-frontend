@@ -1,18 +1,11 @@
 import { useRouter } from "next/router";
-
-import Link from "next/link";
 import styled from "styled-components";
-
 import CloseLink from "../../components/shared/CloseLink";
 import PlaceInfoPanel from "../../components/NodeToolbar/New_Components/PlaceInfoPanel";
-import {
-  getAccessibilityCLoudFeatureAPIURL,
-  getACFeattureFetcher,
-} from "../../lib/fetchers/AccessibilityCloudFeatureFetcher";
-import useSWR from "swr";
-import {
-  fetchAccessibilityCloudCategories
-} from "../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
+import { fetchOneAccessibilityCloudFeature } from "../../lib/fetchers/AccessibilityCloudFeatureFetcher";
+import { fetchAccessibilityCloudCategories } from "../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import { getData } from "../../lib/fetchers/fetchWithSWR";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -21,39 +14,36 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-function getData(url, fetcher) {
-  const { data, error } = useSWR(url, fetcher);
-  if (error) {
-    throw new Error(error);
-  } else {
-    return data;
-  }
-}
-
 const PlaceInfoPanelPage = () => {
   const router = useRouter();
   const { id } = router.query;
+  const app = useCurrentApp();
 
-  const featureAPI = getAccessibilityCLoudFeatureAPIURL(id);
-  const featureFetcher = getACFeattureFetcher();
+  const categories = getData(
+    [app.tokenString],
+    fetchAccessibilityCloudCategories
+  );
+  console.log(categories);
 
-  const catsAPI = getAccessibilityCLoudCategoriesAPIURL();
-  const catsFetcher = getAccessibilityCloudCategoriesFetcher();
+  const feature = getData(
+    [app.tokenString, id],
+    fetchOneAccessibilityCloudFeature
+  );
 
-  const feature = getData(featureAPI, featureFetcher);
-  const categories = getData(catsAPI, catsFetcher);
-
+  console.log(feature);
   // placeInfoId, feature, categories, category
+
   return (
     <PlaceInfoPanel
       placeInfoId={id}
-      feature={feature}
-      categories={categories}
-      category={feature?.properties?.category}
-      parentCategory={null}
-    ></PlaceInfoPanel>
+      // feature={feature}
+      // categories={categories}
+      // category={feature?.properties?.category}
+      // parentCategory={null}
+    >
+      <div>PlaceInfoPanel page</div>
+    </PlaceInfoPanel>
   );
-  // <div>PlaceInfoPanel page</div>;
 };
 
 export default PlaceInfoPanelPage;
