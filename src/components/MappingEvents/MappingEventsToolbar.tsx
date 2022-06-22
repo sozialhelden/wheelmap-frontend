@@ -97,9 +97,9 @@ function getMappingEventLink(event: MappingEvent): string {
   return `/events/${event._id}?extent=${extent}`;
 }
 
-export default function MappingEventsToolbar({
-  minimalTopPosition,
-}: MappingEventsToolbarProps) {
+type Props = {};
+
+export default function MappingEventsToolbar({}: Props) {
   const app = useCurrentApp();
   const { tokenString: appToken } = app;
   const { data: mappingEvents, isValidating, error } = useSWR(
@@ -128,7 +128,6 @@ export default function MappingEventsToolbar({
       ariaLabel={mappingEventsListAriaLabel}
       role="dialog"
       minimalHeight={180}
-      minimalTopPosition={minimalTopPosition}
     >
       <header>
         <span className="number-badge" aria-hidden={true}>

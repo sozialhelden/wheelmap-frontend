@@ -1,8 +1,7 @@
 import { encode } from "js-base64";
 import Head from "next/head";
-import React from "react";
 import { t } from "ttag";
-import { AppContext } from "../../lib/context/AppContext";
+import { useCurrentApp } from "../../lib/context/AppContext";
 import useHostname from "../../lib/context/HostnameContext";
 import { translatedStringFromObject } from "../../lib/i18n";
 import { getProductTitle } from "../../lib/model/ClientSideConfiguration";
@@ -11,7 +10,7 @@ import OpenGraph from "./OpenGraph";
 import TwitterMeta from "./TwitterMeta";
 
 export default function HeadMetaTags() {
-  const { clientSideConfiguration } = React.useContext(AppContext);
+  const { clientSideConfiguration } = useCurrentApp();
   const { textContent, meta, branding } = clientSideConfiguration;
   const { name: productName, description } = textContent?.product || {
     name: 'Wheelmap',

@@ -72,7 +72,7 @@ const ShareBarContent = React.forwardRef(
               caption="Facebook"
               ariaLabel="Facebook"
             >
-              <FacebookIcon />
+              <FacebookIcon width={24} height={24} />
             </StyledIconButton>
           </FacebookShareButton>
 
@@ -90,7 +90,7 @@ const ShareBarContent = React.forwardRef(
               caption="Twitter"
               ariaLabel="Twitter"
             >
-              <TwitterIcon />
+              <TwitterIcon width={24} height={24} />
             </StyledIconButton>
           </TwitterShareButton>
 
@@ -107,11 +107,11 @@ const ShareBarContent = React.forwardRef(
               caption="Telegram"
               ariaLabel="Telegram"
             >
-              <TelegramIcon />
+              <TelegramIcon width={24} height={24} />
             </StyledIconButton>
           </TelegramShareButton>
 
-          <a href={mailToLink}>
+          <a href={mailToLink} style={{ textDecoration: "none" }}>
             <StyledIconButton
               isHorizontal={false}
               hasCircle
@@ -137,7 +137,7 @@ const ShareBarContent = React.forwardRef(
               caption="Whatsapp"
               ariaLabel="Whatsapp"
             >
-              <WhatsAppIcon />
+              <WhatsAppIcon width={24} height={24} />
             </StyledIconButton>
           </WhatsappShareButton>
         </footer>
@@ -146,10 +146,10 @@ const ShareBarContent = React.forwardRef(
   }
 );
 
-const StyledIconButton = styled(IconButton).attrs({
-  hoverColor: null,
-  activeColor: null,
-})`
+const StyledIconButton = styled(IconButton)<{
+  hoverColor?: string;
+  activeColor?: string;
+}>`
   ${Caption} {
     font-size: 80%;
     margin-top: 0.3em;
@@ -159,28 +159,31 @@ const StyledIconButton = styled(IconButton).attrs({
     background-color: ${colors.tonedDownSelectedColor};
   }
 
-  &.active {
-    font-weight: bold;
+  & {
+    &.active {
+      font-weight: bold;
 
-    ${Circle} {
-      background-color: ${(props) => props.activeColor || colors.selectedColor};
+      ${Circle} {
+        background-color: ${(props) =>
+          props.activeColor || colors.selectedColor};
+      }
     }
-  }
 
-  @media (hover), (-moz-touch-enabled: 0) {
-    &:not(.active):hover ${Circle} {
-      background-color: ${(props) =>
-        props.hoverColor ||
-        interpolateLab(
-          props.activeColor || colors.selectedColor,
-          colors.tonedDownSelectedColor
-        )(0.5)};
+    @media (hover), (-moz-touch-enabled: 0) {
+      &:not(.active):hover ${Circle} {
+        background-color: ${(props) =>
+          props.hoverColor ||
+          interpolateLab(
+            props.activeColor || colors.selectedColor,
+            colors.tonedDownSelectedColor
+          )(0.5)};
+      }
     }
-  }
-  &:focus {
-    outline: none;
-    ${Circle} {
-      background-color: ${colors.selectedColor};
+    &:focus {
+      outline: none;
+      ${Circle} {
+        background-color: ${colors.selectedColor};
+      }
     }
   }
 `;

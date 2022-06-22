@@ -6,7 +6,7 @@ import styled from "styled-components";
 import useSWR from "swr";
 import { t } from "ttag";
 import colors from "../../lib/colors";
-import { useCurrentApp } from "../../lib/context/AppContext";
+import { useCurrentApp, useCurrentAppToken } from "../../lib/context/AppContext";
 import {
   getUUID,
   setJoinedMappingEventId,
@@ -36,7 +36,7 @@ export const StyledCloseButton = styled(CloseButton)`
 `;
 
 type Props = {
-  mappingEventId: string;
+  mappingEvent?: MappingEvent;
 };
 
 
@@ -106,12 +106,8 @@ const StyledMappingEventToolbar = styled(StyledToolbar)`
   }
 `;
 
-export default function MappingEventToolbar({ mappingEventId }: Props) {
-  const app = useCurrentApp();
-  const { data: mappingEvent, isValidating, error } = useSWR(
-    [app.tokenString, mappingEventId],
-    fetchMappingEvent
-  );
+export default function MappingEventToolbar({ mappingEvent }: Props) {
+  const mappingEventId = mappingEvent._id;
 
   const imageSource = mappingEvent?.images?.[0]
     ? buildFullImageUrl(mappingEvent.images[0])
@@ -199,7 +195,7 @@ export default function MappingEventToolbar({ mappingEventId }: Props) {
   const { data: joinedMappingEventId, mutate: mutateMappingEventId } = useCurrentMappingEventId();
   const userJoinedMappingEvent = mappingEvent?._id === joinedMappingEventId;
   const userUUID = getUUID();
-
+  const app = useCurrentApp();
   const leaveMappingEvent = useCallback(() => {
     setJoinedMappingEventId(null);
     trackMappingEventMembershipChanged({ userUUID, app, reason: "button" });
@@ -222,7 +218,7 @@ export default function MappingEventToolbar({ mappingEventId }: Props) {
       role="dialog"
       minimalHeight={205}
     >
-      <header>
+      <header style={{marginTop: '24px'}}>
         {!joinedMappingEventId && (
           <Link href="/events">
             <a aria-label={backLinkAriaLabel}>
@@ -302,7 +298,7 @@ export default function MappingEventToolbar({ mappingEventId }: Props) {
         startDate={startDate}
         endDate={endDate} />
 
-      <div className="actions">
+      <div className="actions" style={{ marginBottom: '1rem'}}>
         {!joinedMappingEventId &&
           canMappingEventBeJoined(mappingEvent) &&
           <PrimaryButton onClick={joinMappingEventAndShowWelcomeDialog}>
