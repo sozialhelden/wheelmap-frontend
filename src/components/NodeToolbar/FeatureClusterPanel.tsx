@@ -15,7 +15,7 @@ import colors from '../../lib/colors';
 import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
 import { Cluster } from '../Map/Cluster';
 import * as markers from '../icons/markers';
-import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+// import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 
 type Props = {
@@ -95,12 +95,12 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     const isEquipment = ['elevator', 'escalator'].includes(category._id);
     const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
     const equipmentInfoId = equipmentInfo?._id || equipmentInfo?.properties._id;
-    const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
+    // const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
     return (
       <button onClick={() => this.props.onFeatureSelected(feature)}>
         <NodeHeader
           // TODO comment that this should allow typed features
-          feature={parentPlaceInfo || feature as any}
+          feature={feature as any}
           categories={this.props.categories}
           category={category}
           parentCategory={parentCategory}
