@@ -39,17 +39,20 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const appProps = await NextApp.getInitialProps(appContext);
   const { ctx } = appContext;
   const { req, res } = ctx;
-  const isServer = !!req;
   const url = req ? req.url : location.href;
   const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
-  const query = queryString.parse(url);
-  const hostnameAndPort = query.hostname || query.appId || req ? req.headers.host : location.hostname;
+  const query = queryString.parseUrl(url).query;
+  const hostnameAndPort = query.appId || (req ? req.headers.host : location.hostname);
+  if (typeof hostnameAndPort !== 'string') {
+    throw new Error('Please supply only one appId query parameter.');
+  }
   const hostname = hostnameAndPort.split(':')[0];
+  console.log('Hostname:', query, query.appId, hostname);
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }
-  const appToken = process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
-  const app = await fetchApp([hostname, appToken]);
+  const centralAppToken = process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const app = await fetchApp([hostname, centralAppToken]);
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`);
   }
