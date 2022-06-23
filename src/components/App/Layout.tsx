@@ -1,5 +1,9 @@
+import { pick } from "lodash";
+import { useRouter } from "next/router";
 import React, { useCallback } from "react";
-import { AppContext } from "../../lib/context/AppContext";
+import config from "../../lib/config";
+import { AppContext, useCurrentApp } from "../../lib/context/AppContext";
+import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
 import { isOnSmallViewport } from "../../lib/ViewportSize";
 import Map from "../Map/Map";
 import DynamicMap from "./DynamicMap";
@@ -36,6 +40,25 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
 
   const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app || {};
+
+  const {
+    includeSourceIds,
+    excludeSourceIds,
+    disableWheelmapSource,
+  } = clientSideConfiguration;
+
+  const router = useRouter();
+  const { query } = router;
+  const { lat: latString, lon: lonString, extent: extentString } = query;
+  const lat = typeof latString === "string" ? parseFloat(latString) : undefined;
+  const lon = typeof lonString === "string" ? parseFloat(lonString) : undefined;
+  const extent =
+    typeof extentString === "string" &&
+    (extentString
+      .split(",")
+      .map(Number.parseFloat)
+      .slice(0, 4) as [number, number, number, number]);
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const toggleMainMenu = React.useCallback(() => {
     setIsMenuOpen(!isMenuOpen);
@@ -48,6 +71,9 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
   const handleMapClick = useCallback(() => {
     console.log("Handle map click:", arguments);
   }, []);
+
+  const accessibilityFilter = getAccessibilityFilterFrom(query.wheelchair);
+  const toiletFilter = getAccessibilityFilterFrom(query.toilet);
 
   return (
     <>
@@ -71,6 +97,23 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
           // onError={this.props.onError}
           // activeCluster={this.props.activeCluster}
           // locateOnStart={this.props.shouldLocateOnStart}
+          {...{
+            ...pick(
+              config,
+              "maxZoom",
+              "defaultStartCenter",
+              "minZoomWithSetCategory",
+              "minZoomWithoutSetCategory"
+            ),
+            includeSourceIds,
+            excludeSourceIds,
+            disableWheelmapSource,
+            lat,
+            lon,
+            extent,
+            accessibilityFilter,
+            toiletFilter,
+          }}
           locateOnStart={false}
           padding={getMapPadding({
             hasPanel: !!children,

@@ -809,14 +809,14 @@ export default class Map extends React.Component<Props, State> {
           equipmentTileLayer._update(map.getCenter());
         }
       } else {
-        if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
+        if (featureLayer.hasLayer(accessibilityCloudTileLayer)) {
           // console.log('Hide AC layer...');
-          featureLayer.removeLayer(this.accessibilityCloudTileLayer);
-          featureLayer.removeLayer(this.equipmentTileLayer);
+          featureLayer.removeLayer(accessibilityCloudTileLayer);
+          featureLayer.removeLayer(equipmentTileLayer);
         }
       }
 
-      if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
+      if (wheelmapTileLayer && !featureLayer.hasLayer(wheelmapTileLayer)) {
         // console.log('Show wheelmap layer...');
         featureLayer.addLayer(wheelmapTileLayer);
         wheelmapTileLayer._update(map.getCenter());
