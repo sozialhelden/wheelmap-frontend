@@ -251,7 +251,7 @@ class GeoJSONTileLayer extends TileLayer {
       }
       const filteredGeoJSON = tileLayer._removeFilteredFeatures(geoJSON);
 
-      tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON, response);
+      // tileLayer.options.featureCache.cacheGeoJSON(filteredGeoJSON, response);
       const layerGroup = L.layerGroup(tileLayer.options);
       if (!filteredGeoJSON.features) {
         debugger

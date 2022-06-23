@@ -3,7 +3,7 @@ import "mapbox-gl";
 import "mapbox-gl/src/css/mapbox-gl.css";
 import "mapbox-gl-leaflet";
 
-import { GestureHandling } from "./leaflet-gesture-handling/leaflet-gesture-handling";
+// import { GestureHandling } from "./leaflet-gesture-handling/leaflet-gesture-handling";
 import "leaflet.markercluster/dist/leaflet.markercluster-src";
 import { t } from "ttag";
 import includes from "lodash/includes";
@@ -66,19 +66,20 @@ import {
   getUserAgentString,
   parseUserAgentString,
 } from "../../lib/context/UserAgentContext";
+import config from "../../lib/config";
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
 // @ts-ignore
 window.L = L;
 
-type Padding = {
+export type Padding = {
   top: number;
   left: number;
   right: number;
   bottom: number;
 };
-type MoveArgs = {
+export type MoveArgs = {
   zoom: number;
   lat: number;
   lon: number;
@@ -94,7 +95,7 @@ type TargetMapState = {
 
 type IntervalID = any;
 
-type Props = {
+export type Props = {
   featureId?: string | number | null;
   feature?: PlaceInfo | EquipmentInfo;
   mappingEvents?: MappingEvents;
@@ -182,6 +183,7 @@ export default class Map extends React.Component<Props, State> {
     props: Props,
     lastProps?: Props
   ): TargetMapState {
+    console.log("getMapStateFromProps");
     // use old settings for anything but the initial
     let fallbackZoom = props.maxZoom - 1;
     let fallbackCenter = props.defaultStartCenter;
@@ -271,7 +273,7 @@ export default class Map extends React.Component<Props, State> {
       }
 
       if (props.lat && props.lon) {
-        center = normalizeCoordinates([props.lat, props.lon]);
+        center = [props.lat, props.lon];
       } else {
         center = fallbackCenter;
       }
@@ -281,6 +283,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
+    console.log("getDerivedStateFromProps");
     const { feature, equipmentInfo } = props;
 
     const placeOrEquipment = equipmentInfo || feature;
@@ -323,6 +326,14 @@ export default class Map extends React.Component<Props, State> {
       this.state,
       this.props
     );
+    var osm = L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }
+    );
+
     const map: L.Map = L.map(this.mapElement, {
       maxZoom: this.props.maxZoom,
       center: initialMapState.center,
@@ -330,6 +341,7 @@ export default class Map extends React.Component<Props, State> {
       minZoom: 2,
       zoomControl: false,
       // gestureHandling: this.props.inEmbedMode,
+      layer: [osm],
     });
 
     if (!map) {
@@ -337,15 +349,15 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (initialMapState.bounds) {
-      map.fitBounds(initialMapState.bounds, {
-        animate: false,
-        noMoveStart: true,
-      });
+      // map.fitBounds(initialMapState.bounds, {
+      //   animate: false,
+      //   noMoveStart: true,
+      // });
     }
 
-    map.on("click", () => {
-      if (this.props.onClick) this.props.onClick();
-    });
+    // map.on("click", () => {
+    //   if (this.props.onClick) this.props.onClick();
+    // });
     this.map = map;
     if (this.props.onMapMounted) {
       this.props.onMapMounted(map);
@@ -353,8 +365,8 @@ export default class Map extends React.Component<Props, State> {
 
     new L.Control.Zoom({ position: "topright" }).addTo(this.map);
 
-    map.on("moveend", () => this.onMoveEnd());
-    map.on("zoomend", () => this.onMoveEnd());
+    // map.on("moveend", () => this.onMoveEnd());
+    // map.on("zoomend", () => this.onMoveEnd());
 
     let unitSystem = this.props.unitSystem;
     if (!unitSystem) {
@@ -369,7 +381,7 @@ export default class Map extends React.Component<Props, State> {
       style: "mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q",
     });
 
-    map.addLayer(basemapLayer);
+    // map.addLayer(basemapLayer);
 
     this.highLightLayer = new L.LayerGroup();
     map.addLayer(this.highLightLayer);
@@ -405,15 +417,15 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupMappingEvents();
 
-    map.on("moveend", () => {
-      this.updateFeatureLayerVisibility();
-    });
-    map.on("zoomend", () => {
-      this.updateFeatureLayerVisibility();
-    });
-    map.on("zoomstart", () => {
-      this.removeLayersNotVisibleInZoomLevel();
-    });
+    // map.on("moveend", () => {
+    //   this.updateFeatureLayerVisibility();
+    // });
+    // map.on("zoomend", () => {
+    //   this.updateFeatureLayerVisibility();
+    // });
+    // map.on("zoomstart", () => {
+    //   this.removeLayersNotVisibleInZoomLevel();
+    // });
 
     // globalFetchManager.addEventListener('stop', () => this.updateTabIndexes());
 
@@ -427,14 +439,15 @@ export default class Map extends React.Component<Props, State> {
     }
 
     if (this.props.forwardedRef) this.props.forwardedRef(this);
-    this.sizeInvalidationInterval = setInterval(() => {
-      if (this.map) {
-        this.map.invalidateSize();
-      }
-    }, 1000);
+    // this.sizeInvalidationInterval = setInterval(() => {
+    //   if (this.map) {
+    //     this.map.invalidateSize();
+    //   }
+    // }, 1000);
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
+    console.log("componentDidUpdate");
     const map = this.map;
     if (!map) return;
 
@@ -728,6 +741,7 @@ export default class Map extends React.Component<Props, State> {
   };
 
   navigate(state: State, props: Props, lastProps: Props) {
+    console.log("navigate");
     if (!this.map) {
       return;
     }
@@ -743,6 +757,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   onMoveEnd() {
+    console.log("onMoveEnd");
     this.mapHasBeenMoved = true;
     const map = this.map;
     if (!map) return;
@@ -752,13 +767,14 @@ export default class Map extends React.Component<Props, State> {
     const onMoveEnd = this.props.onMoveEnd;
     if (typeof onMoveEnd === "function") {
       const bbox = map.getBounds();
-
-      onMoveEnd({
-        lat: normalizeCoordinate(lat),
-        lon: normalizeCoordinate(lng),
-        zoom,
-        bbox,
-      });
+      if (lat != this.props.lat || lng !== this.props.lon) {
+        onMoveEnd({
+          lat,
+          lon: lng,
+          zoom,
+          bbox,
+        });
+      }
     }
 
     const minimalZoomLevelForFeatures = this.props.categoryId
@@ -774,7 +790,7 @@ export default class Map extends React.Component<Props, State> {
 
   updateFeatureLayerVisibility = debounce(
     (props: Props = this.props, state: State = this.state) => {
-      // console.log('Update feature layer visibility...');
+      console.log("Update feature layer visibility...");
       const map: L.Map = this.map;
       const featureLayer = this.featureLayer;
       const wheelmapTileLayer = this.wheelmapTileLayer;
@@ -861,6 +877,7 @@ export default class Map extends React.Component<Props, State> {
     padding: Padding | null,
     state: State
   ) {
+    console.log("updateMapCenter");
     const map: L.Map = this.map;
     const center = map.getCenter();
 
@@ -902,10 +919,10 @@ export default class Map extends React.Component<Props, State> {
         // animate if old map center is within sight
         const shouldAnimate = map.getBounds().contains(targetCoords);
         moved = true;
-        map.flyTo(targetCoords, zoom, {
-          animate: shouldAnimate,
-          noMoveStart: true,
-        });
+        // map.flyTo(targetCoords, zoom, {
+        //   animate: false,
+        //   noMoveStart: true,
+        // });
       }
     }
 
@@ -1121,10 +1138,11 @@ export default class Map extends React.Component<Props, State> {
         { ...this.state, zoomedToFeatureId: null },
         this.props
       );
-      map.flyTo(targetState.center, targetState.zoom, {
-        animate: true,
-        noMoveStart: true,
-      });
+      debugger;
+      // map.flyTo(targetState.center, targetState.zoom, {
+      //   animate: true,
+      //   noMoveStart: true,
+      // });
     }
   }
 
@@ -1168,6 +1186,7 @@ export default class Map extends React.Component<Props, State> {
   }
 
   render() {
+    console.log("render");
     const userAgent = parseUserAgentString(getUserAgentString());
     const className = [
       userAgent.os.name === "Android" ? "is-android-platform" : null,
@@ -1241,13 +1260,8 @@ export default class Map extends React.Component<Props, State> {
   ): string | null {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = props.wheelmapApiBaseUrl;
+    const baseUrl = process.env.REACT_APP_LEGACY_API_BASE_URL;
     if (typeof baseUrl !== "string") return null;
-    const wheelmapApiKey = props.wheelmapApiKey;
-    // const categoryName = props.categoryId;
-    if (!wheelmapApiKey) {
-      return null;
-    }
     return `${baseUrl}/api/v1/amenities.json?bbox={bbox}&geometryTypes=centroid&limit=1000`;
   }
 }
