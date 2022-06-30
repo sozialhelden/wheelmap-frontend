@@ -1,20 +1,20 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { ReactElement } from "react";
 import Layout from "../../../components/App/Layout";
 import MappingEventWelcomeDialog from "../../../components/MappingEvents/MappingEventWelcomeDialog";
 
-const EventWelcome = () => {
+export default function Page() {
   const router = useRouter();
   const { id, invitationToken } = router.query;
 
   return (
-    <Layout>
-      <MappingEventWelcomeDialog
-        invitationToken={invitationToken && String(invitationToken)}
-        mappingEventId={id && String(id)}
-      />
-    </Layout>
+    <MappingEventWelcomeDialog
+      invitationToken={invitationToken && String(invitationToken)}
+      mappingEventId={id && String(id)}
+    />
   );
-};
+}
 
-export default EventWelcome;
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};

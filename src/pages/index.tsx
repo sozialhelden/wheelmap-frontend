@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import Layout from "../components/App/Layout";
 import { isFirstStart } from "../lib/savedState";
 
-export default function() {
+export default function Page() {
   const router = useRouter();
 
   useEffect(() => {
@@ -12,5 +12,9 @@ export default function() {
     }
   }, []);
 
-  return <Layout></Layout>;
+  return <></>;
 }
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};

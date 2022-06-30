@@ -5,8 +5,9 @@ import MappingEventPanel from "../../../components/MappingEvents/MappingEventPan
 import { useCurrentAppToken } from "../../../lib/context/AppContext";
 import fetchMappingEvent from "../../../lib/fetchers/fetchMappingEvent";
 import { MappingEventMetadata } from "../../../components/MappingEvents/MappingEventMetadata";
+import { ReactElement } from "react";
 
-export default function() {
+export default function Page() {
   const router = useRouter();
   const { id } = router.query;
   const appToken = useCurrentAppToken();
@@ -16,16 +17,18 @@ export default function() {
     fetchMappingEvent
   );
 
+  if (!mappingEvent) {
+    return null;
+  }
+
   return (
     <>
-      <Layout>
-        {mappingEvent && (
-          <>
-            <MappingEventMetadata mappingEvent={mappingEvent} />
-            <MappingEventPanel mappingEvent={mappingEvent} />
-          </>
-        )}
-      </Layout>
+      <MappingEventMetadata mappingEvent={mappingEvent} />
+      <MappingEventPanel mappingEvent={mappingEvent} />
     </>
   );
 }
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};

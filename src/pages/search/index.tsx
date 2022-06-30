@@ -32,7 +32,7 @@
 import { omit } from "lodash";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { useCallback, useContext } from "react";
+import React, { ReactElement, useCallback, useContext } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import Layout from "../../components/App/Layout";
@@ -42,7 +42,7 @@ import fetchPlaceSearchResults from "../../lib/fetchers/fetchPlaceSearchResults"
 import { getProductTitle } from "../../lib/model/ClientSideConfiguration";
 import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
 
-export default () => {
+export default function Page() {
   const router = useRouter();
   const accessibilityFilter = getAccessibilityFilterFrom(
     router.query.wheelchair
@@ -117,28 +117,30 @@ export default () => {
         </title>
       </Head>
 
-      <Layout>
-        <SearchPanel
-          onClose={closeSearchPanel}
-          onClick={handleSearchPanelClick}
-          isExpanded={true}
-          hasGoButton={false}
-          accessibilityFilter={accessibilityFilter}
-          toiletFilter={toiletFilter}
-          categories={categories}
-          hidden={false}
-          inert={false}
-          category={category}
-          onChangeSearchQuery={handleSearchQueryChange}
-          onSubmit={handleSearchQueryChange}
-          onAccessibilityFilterButtonClick={handlePlaceFilterChange}
-          minimalTopPosition={60}
-          searchQuery={searchQuery}
-          searchError={searchError}
-          searchResults={searchResults}
-          isSearching={isSearching}
-        />
-      </Layout>
+      <SearchPanel
+        onClose={closeSearchPanel}
+        onClick={handleSearchPanelClick}
+        isExpanded={true}
+        hasGoButton={false}
+        accessibilityFilter={accessibilityFilter}
+        toiletFilter={toiletFilter}
+        categories={categories}
+        hidden={false}
+        inert={false}
+        category={category}
+        onChangeSearchQuery={handleSearchQueryChange}
+        onSubmit={handleSearchQueryChange}
+        onAccessibilityFilterButtonClick={handlePlaceFilterChange}
+        minimalTopPosition={60}
+        searchQuery={searchQuery}
+        searchError={searchError}
+        searchResults={searchResults}
+        isSearching={isSearching}
+      />
     </>
   );
+}
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
 };
