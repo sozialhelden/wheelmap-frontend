@@ -85,7 +85,7 @@ const PlaceInfoPanel = (props: Props) => {
       hasIcon={hasIcon}
     >
       <Link href="/">
-        <PositionedCloseLink />;
+        <PositionedCloseLink />
       </Link>
     </NodeHeader>;
 
