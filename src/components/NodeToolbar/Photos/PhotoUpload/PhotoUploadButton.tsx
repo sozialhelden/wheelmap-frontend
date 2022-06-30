@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import * as React from 'react';
-import colors from '../../lib/colors';
-import { t } from 'ttag';
+import styled from "styled-components";
+import * as React from "react";
+import { t } from "ttag";
 
-import CameraIcon from './CameraIcon';
-import { IncentiveHint } from '../NodeToolbar/IncentiveHint';
+import CameraIcon from "./CameraIcon";
+import { IncentiveHint } from "../../IncentiveHint";
+import colors from "../../../../lib/colors";
 
 type Props = {
-  className?: string,
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  className?: string;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 class PhotoUploadButton extends React.Component<Props> {
@@ -21,7 +21,7 @@ class PhotoUploadButton extends React.Component<Props> {
     return (
       <button
         onClick={this.onClick}
-        className={`link-button ${className || ''}`}
+        className={`link-button ${className || ""}`}
         aria-label={t`Add images`}
       >
         <div>

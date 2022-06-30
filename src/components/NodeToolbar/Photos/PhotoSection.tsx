@@ -6,19 +6,16 @@ import PhotoAlbum from 'react-photo-album';
 
 import { PhotoModel } from '../../../lib/PhotoModel';
 
-import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
-import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
+import PhotoUploadButton from './PhotoUpload/PhotoUploadButton';
 import { maxBy } from 'lodash';
+import useSWR from 'swr';
+import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages';
+import { useCurrentAppToken } from '../../../lib/context/AppContext';
+import Link from 'next/link';
 
 type Props = {
-  featureId: string;
-  className?: string;
-  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
-  photoFlowErrorMessage: string | null;
-  photos: PhotoModel[];
-  onStartPhotoUploadFlow: () => void;
-  onReportPhoto: (photo: PhotoModel) => void;
-  onLightbox: (isOpen: boolean) => void;
+  entityType: string,
+  entityId: string,
 };
 
 const GlobalLightboxStyles = createGlobalStyle`
@@ -44,19 +41,69 @@ function flipPhotoDimensions(photo: PhotoModel) {
   };
 }
 
-function PhotoSection(props: Props) {
-  const { photoFlowNotification, onStartPhotoUploadFlow, photos: rawPhotos, className } = props;
+const StyledSection = styled.section`
+  margin: 0.5rem -1rem;
+  padding: 0;
 
-  const photos = rawPhotos.map(photo =>
+  .react-photo-album--photo {
+    object-fit: cover;
+  }
+
+  /* lazy workaround for Lightbox putting its nodes higher up in the dom */
+  &.lightbox-actions {
+    /* Use same height and positioning as lightbox pagination */
+    height: 30px;
+    margin: 0;
+    padding: 5px 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+      font-weight: bold;
+      color: white;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-shadow: 0 1px 1px black;
+      padding: 0.2rem 0.5rem;
+      font-size: 1rem;
+    }
+
+    kbd {
+      font-size: 18px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+        Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol';
+      &.disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+`;
+
+export default function PhotoSection(props: Props) {
+  const { entityId, entityType } = props;
+  const appToken = useCurrentAppToken();
+
+  // Only support 'place' context for now
+  const context = {
+    node: 'place',
+    way: 'place',
+    relation: 'place',
+    nodes: 'place',
+  }[entityType] || 'place';
+
+  const { data: rawPhotos, isValidating, error } = useSWR([appToken, context, entityId], fetchImagesCached);
+
+  const photos = rawPhotos?.map(photo =>
     photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
   );
-  const hasPhotos = photos.length > 0;
+  const hasPhotos = photos?.length > 0;
 
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
-  React.useEffect(() => {
-    props.onLightbox(isLightboxOpen);
-  }, [isLightboxOpen]);
+  const currentImage = React.useMemo(() => photos?.[currentImageIndex], [currentImageIndex, photos]);
 
   const showImage = React.useCallback((_event, _photo, index) => {
     setCurrentImageIndex(index);
@@ -68,15 +115,6 @@ function PhotoSection(props: Props) {
     setIsLightboxOpen(false);
   }, []);
 
-  const reportImage = React.useCallback(() => {
-    if (currentImageIndex < 0 || currentImageIndex >= photos.length) {
-      console.error('Could not report photo with index', currentImageIndex);
-      return;
-    }
-    const toBeReported = photos[currentImageIndex];
-    props.onReportPhoto(toBeReported);
-  }, [photos, currentImageIndex]);
-
   const gotoPrevious = React.useCallback(() => {
     setCurrentImageIndex(currentImageIndex - 1);
   }, [currentImageIndex]);
@@ -85,26 +123,24 @@ function PhotoSection(props: Props) {
     setCurrentImageIndex(currentImageIndex + 1);
   }, [currentImageIndex]);
 
-  const canReportPhoto =
-    currentImageIndex >= 0 &&
-    currentImageIndex < photos.length &&
-    photos?.[currentImageIndex].appSource === 'accessibility-cloud';
+  const canReportPhoto = currentImage?.appSource === 'accessibility-cloud';
 
   const FooterCaption = React.useMemo(() => {
     return () => (
-      <section key="lightbox-actions" className={`lightbox-actions ${className}`}>
+      <section key="lightbox-actions" className={'lightbox-actions'}>
         <div>
           <kbd>esc</kbd>
           <kbd className={currentImageIndex === 0 ? 'disabled' : ''}>←</kbd>
           <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
         </div>
-
         {canReportPhoto && (
-          <button onClick={reportImage} className="report-image">{t`Report image`}</button>
+          <Link href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}>
+            <button className="report-image">{t`Report image`}</button>
+          </Link>
         )}
       </section>
     );
-  }, [canReportPhoto, currentImageIndex, photos, reportImage]);
+  }, [entityType, entityId, currentImage, canReportPhoto, currentImageIndex, photos]);
 
   const FooterCount = React.useMemo(() => {
     // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
@@ -178,66 +214,12 @@ function PhotoSection(props: Props) {
     </>
   );
 
-  const photoUploadComponents = (
-    <>
-      <PhotoUploadButton onClick={onStartPhotoUploadFlow} />
-
-      {photoFlowNotification && (
-        <PhotoNotification
-          notificationType={photoFlowNotification}
-          photoFlowErrorMessage={props.photoFlowErrorMessage}
-        />
-      )}
-    </>
-  );
-
   return (
-    <section className={className}>
+    <StyledSection>
       {photoViewingComponents}
-      {photoUploadComponents}
-    </section>
+      <Link href={`/${entityType}/${entityId}/images/upload`}>
+        <PhotoUploadButton />
+      </Link>
+    </StyledSection>
   );
 }
-
-const StyledPhotoSection = styled(PhotoSection)`
-  margin: 0.5rem -1rem;
-  padding: 0;
-
-  .react-photo-album--photo {
-    object-fit: cover;
-  }
-
-  /* lazy workaround for Lightbox putting its nodes higher up in the dom */
-  &.lightbox-actions {
-    /* Use same height and positioning as lightbox pagination */
-    height: 30px;
-    margin: 0;
-    padding: 5px 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    button {
-      font-weight: bold;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
-      text-shadow: 0 1px 1px black;
-      padding: 0.2rem 0.5rem;
-      font-size: 1rem;
-    }
-
-    kbd {
-      font-size: 18px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
-        Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji',
-        'Segoe UI Emoji', 'Segoe UI Symbol';
-      &.disabled {
-        opacity: 0.5;
-      }
-    }
-  }
-`;
-
-export default StyledPhotoSection;

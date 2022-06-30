@@ -24,6 +24,7 @@ import Categories, {
 import { useCurrentApp } from "../../../lib/context/AppContext";
 import { fetchOneAccessibilityCloudFeature } from "../../../lib/fetchers/AccessibilityCloudFeatureFetcher";
 import { getData } from "../../../lib/fetchers/fetchWithSWR";
+import PhotoSection from "../Photos/PhotoSection";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -33,7 +34,7 @@ const PositionedCloseLink = styled(CloseLink)`
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
 type Props = {
-  placeInfoId?: string | string[];
+  placeInfoId?: string;
   // feature?: PlaceInfo;
   // categories?: CategoryLookupTables;
   // category?: Category | null;
@@ -52,74 +53,43 @@ const PlaceInfoPanel = (props: Props) => {
 
   const router = useRouter();
   const app = useCurrentApp();
-  const [feature, setFeature] = React.useState(undefined);
-  const [rawCategories, setRawCategories] = React.useState<RawCategoryLists>(undefined);
-  const [category, setCategory] = React.useState(undefined);
-  const [categoryLookupTables, setLookupTables] = React.useState<CategoryLookupTables>(undefined);
 
   // data fetching & handling
-  const cats = getData([app.tokenString], fetchAccessibilityCloudCategories);
-  const feat = getData(
-    [app.tokenString, placeInfoId],
-    fetchOneAccessibilityCloudFeature
+  const { data: accessibilityCloudCategories } = useSWR([app.tokenString], fetchAccessibilityCloudCategories);
+  const { data: feature } = useSWR([app.tokenString, placeInfoId], fetchOneAccessibilityCloudFeature);
+
+  const rawCategories = React.useMemo(() => (accessibilityCloudCategories && { "accessibilityCloud" : accessibilityCloudCategories.results }), [accessibilityCloudCategories]);
+
+  const lookupTables = React.useMemo(() =>
+    rawCategories && Categories.generateLookupTables(rawCategories),
+    [rawCategories]
   );
 
-  React.useEffect(() => {
-    cats && setRawCategories( { "accessibilityCloud" : cats.results} ); 
-  }, [cats]);
-  console.log("Categories",JSON.stringify(rawCategories, null, 2))
-
-
-  React.useEffect(() => {
-    const lookupTables = rawCategories && Categories.generateLookupTables(rawCategories);
-    setLookupTables(lookupTables);
-  }, [rawCategories]);
-
-  React.useEffect(() => {
-    feat && setFeature(feat);
-  }, [feat]);
-
-  React.useEffect(() => {
-    feature && setCategory(getCategoryId(feature.properties.category));
-  }, [feature]);
+  const categories = React.useMemo(() =>
+    lookupTables && feature && Categories.getCategoriesForFeature(lookupTables, feature)
+  , [feature, lookupTables]);
 
   // placeInfoId, feature, categories, category
 
+  const modalNodeState: ModalNodeState = 'edit-wheelchair-accessibility'; // TODO remove mock
+  const statesWithIcon = ['edit-toilet-accessibility', 'report'];
+  const isModalStateWithPlaceIcon = includes(statesWithIcon, modalNodeState);
+  const hasIcon = !!modalNodeState || isModalStateWithPlaceIcon;
 
-  // rendered comps
-  const renderCloseLink = () => {
-    const onClose = React.useCallback(() => {
-      router.push("/");
-    }, []);
-    return <PositionedCloseLink {...{ onClick: onClose }} />;
-  };
+  const nodeHeader =
+    <NodeHeader
+      feature={feature}
+      categories={lookupTables}
+      category={categories?.category}
+      parentCategory={categories?.parentCategory}
+      hasIcon={hasIcon}
+    >
+      <Link href="/">
+        <PositionedCloseLink />;
+      </Link>
+    </NodeHeader>;
 
-  
-  const renderNodeHeader = () => {
-    
-    const modalNodeState: ModalNodeState = 'edit-wheelchair-accessibility'; // TODO remove mock
-
-    const statesWithIcon = ['edit-toilet-accessibility', 'report'];
-    const isModalStateWithPlaceIcon = includes(statesWithIcon, modalNodeState);
-    const hasIcon = !!modalNodeState || isModalStateWithPlaceIcon;
-
-    return (
-      
-      <NodeHeader
-        feature={feature}
-        categories={categoryLookupTables}
-        category={category}
-        parentCategory={null}
-        hasIcon={hasIcon}
-        >
-      </NodeHeader>
-        
-    );
-  };
-
-  function placeName() {
-    return placeNameFor(feature?.properties, category);
-  }
+  const placeName = placeNameFor(feature?.properties, categories?.category);
 
   const toolbar = React.createRef<HTMLElement>();
 
@@ -128,13 +98,14 @@ const PlaceInfoPanel = (props: Props) => {
           <StyledToolbar
             ref={toolbar}
             role="dialog"
-            ariaLabel={placeName()}
+            ariaLabel={placeName}
             minimalHeight={135}
             minimalTopPosition={60} // TODO replace magic number
             closeOnEscape={true}
             >
             <ErrorBoundary>
-              {renderNodeHeader()}
+              {nodeHeader}
+              <PhotoSection entityType={"place"} entityId={placeInfoId} />
               {/* {renderContentBelowHeader()} */}
             </ErrorBoundary>
           </StyledToolbar>

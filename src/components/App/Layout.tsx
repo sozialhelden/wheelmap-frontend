@@ -1,6 +1,5 @@
 import React from "react";
 import { AppContext } from "../../lib/context/AppContext";
-import RoutedMap from "../Map/RoutedMap";
 import MapView from "../NewMap/MapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
@@ -34,7 +33,7 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
       />
 
       <main style={{ height: "100%" }} ref={containerRef}>
-        <MapView />
+        <MapView {...{ containerRef }} />
         {children}
       </main>
     </>

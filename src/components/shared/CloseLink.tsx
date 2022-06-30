@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { SyntheticEvent, MouseEvent, KeyboardEvent } from 'react';
-import styled from 'styled-components';
-import CloseIcon from '../icons/actions/Close';
-import { t } from 'ttag';
-import colors from '../../lib/colors';
+import * as React from "react";
+import { SyntheticEvent, MouseEvent, KeyboardEvent } from "react";
+import styled from "styled-components";
+import CloseIcon from "../icons/actions/Close";
+import { t } from "ttag";
+import colors from "../../lib/colors";
 
 type Props = {
   className?: string;
   ariaLabel?: string;
-  onClick: (event: MouseEvent<HTMLElement>) => void;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
   onFocus?: (event: SyntheticEvent) => void;
   onBlur?: (event: SyntheticEvent) => void;
   onKeyDown?: (event: KeyboardEvent) => void;
@@ -28,8 +28,8 @@ class CloseLink extends React.PureComponent<Props> {
   render() {
     return (
       <button
-        ref={button => (this.button = button)}
-        className={`close-link ${this.props.className || ''}`}
+        ref={(button) => (this.button = button)}
+        className={`close-link ${this.props.className || ""}`}
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         onClick={this.props.onClick}
