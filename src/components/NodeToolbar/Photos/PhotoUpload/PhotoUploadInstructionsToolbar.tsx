@@ -1,18 +1,15 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
-import FocusTrap from 'focus-trap-react';
-
-import Toolbar from '../Toolbar';
-import CheckmarkIcon from '../icons/actions/CheckmarkIcon';
-
-import colors from '../../lib/colors';
-import StyledCloseLink from '../CloseLink';
-import Spinner from '../ActivityIndicator/Spinner';
+import { t } from "ttag";
+import * as React from "react";
+import styled from "styled-components";
+import FocusTrap from "focus-trap-react";
+import colors from "../../../../lib/colors";
+import Spinner from "../../../ActivityIndicator/Spinner";
+import { CheckmarkIcon } from "../../../icons/actions";
+import StyledCloseLink from "../../../shared/CloseLink";
+import Toolbar from "../../../shared/Toolbar";
 
 export type Props = {
-  hidden: boolean;
-  waitingForPhotoUpload?: boolean;
+  waitingForPhotoUpload: boolean;
   onClose: () => void | null;
   onCompleted: (photos: FileList) => void | null;
 };
@@ -24,14 +21,14 @@ type State = {
 const StyledCheckmarkIcon = styled(CheckmarkIcon)`
   height: 1rem;
   path {
-    fill: ${props => props.color};
+    fill: ${(props) => props.color};
   }
 `;
 
 /* Overwrite Style of wrapper Toolbar component  */
 const StyledToolbar = styled(Toolbar)`
-  transition: opacity 0.3s ease-out, transform 0.15s ease-out, width 0.15s ease-out,
-    height 0.15s ease-out;
+  transition: opacity 0.3s ease-out, transform 0.15s ease-out,
+    width 0.15s ease-out, height 0.15s ease-out;
   border-top: none;
   z-index: 1000;
 
@@ -157,7 +154,13 @@ const StyledToolbar = styled(Toolbar)`
   }
 `;
 
-function CheckmarkItem({ caption, children }: { caption: string; children?: React.ReactNode }) {
+function CheckmarkItem({
+  caption,
+  children,
+}: {
+  caption: string;
+  children?: React.ReactNode;
+}) {
   return (
     <li className="with-checkmark">
       <header>
@@ -169,7 +172,10 @@ function CheckmarkItem({ caption, children }: { caption: string; children?: Reac
   );
 }
 
-export default class PhotoUploadInstructionsToolbar extends React.Component<Props, State> {
+export default class PhotoUploadInstructionsToolbar extends React.Component<
+  Props,
+  State
+> {
   props: Props;
 
   state: State = {
@@ -179,7 +185,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
   fileInput: null | HTMLInputElement;
   checkBox: null | HTMLInputElement;
   backLink: null | HTMLButtonElement;
-  goButton: null | React.ElementRef<'button'>;
+  goButton: null | React.ElementRef<"button">;
 
   onFileInputChanged = (event: React.SyntheticEvent<HTMLInputElement>) => {
     const input = event.currentTarget;
@@ -220,7 +226,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
         <div>
           <StyledToolbar
             className="photoupload-instructions-toolbar"
-            hidden={this.props.hidden}
+            hidden={false}
             isSwipeable={false}
             isModal
           >
@@ -260,20 +266,30 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                 </CheckmarkItem>
 
                 <CheckmarkItem caption={captions.copyright}>
-                  <small dangerouslySetInnerHTML={{ __html: captions.copyrightDetail }} />
+                  <small
+                    dangerouslySetInnerHTML={{
+                      __html: captions.copyrightDetail,
+                    }}
+                  />
                 </CheckmarkItem>
                 <CheckmarkItem caption={captions.people} />
               </ul>
             </section>
             <footer>
-              <button className="link-button negative-button" onClick={this.onClose}>
+              <button
+                className="link-button negative-button"
+                onClick={this.onClose}
+              >
                 {t`Cancel`}
               </button>
-              <label className="link-button primary-button file-label" htmlFor="photo-file-upload">
+              <label
+                className="link-button primary-button file-label"
+                htmlFor="photo-file-upload"
+              >
                 {t`Continue`}
                 {waitingForPhotoUpload && <Spinner />}
                 <input
-                  ref={input => {
+                  ref={(input) => {
                     this.fileInput = input;
                   }}
                   type="file"

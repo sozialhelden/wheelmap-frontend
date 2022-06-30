@@ -19,6 +19,8 @@ import getFeatureIdsFromLocation from "./feature/getFeatureIdsFromLocation";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
 import "mapbox-gl/dist/mapbox-gl.css";
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import { createGlobalStyle } from "styled-components";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -34,6 +36,24 @@ interface IProps {
   height: number;
   containerRef: (element: HTMLOrSVGElement | null) => void;
 }
+
+const MapboxExtraStyles = createGlobalStyle`
+  .mapboxgl-ctrl-top-left, .mapboxgl-ctrl-top-right {
+    top: 56px;
+  }
+
+  .mapboxgl-ctrl-top-left {
+    left: 4px;
+  }
+  .mapboxgl-ctrl-top-right {
+    right: 4px;
+  }
+
+  button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+`;
 
 export default function MapView(props: IProps) {
   const mapRef = useRef<MapRef>(null);
@@ -61,6 +81,21 @@ export default function MapView(props: IProps) {
     setViewport(newViewport);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height]);
+
+  React.useEffect(() => {
+
+    type PluginStatus = 'unavailable' | 'loading' | 'loaded' | 'error';
+
+    if (['unavailable', 'error'].includes(mapboxgl.getRTLTextPluginStatus())) {
+      mapboxgl.setRTLTextPlugin(
+        'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
+        null,
+        true // Lazy load the plugin
+        );
+    }
+    const language = new MapboxLanguage();
+    mapRef.current?.getMap().addControl(language);
+  }, [mapRef]);
 
   // const featureLayer = useMemo(() => {
   //   return generateSelectedFeatureLayer(props.featureId);
@@ -147,7 +182,8 @@ export default function MapView(props: IProps) {
     [mapStyle]
   );
 
-  return (
+  return (<>
+    <MapboxExtraStyles />
     <MapProvider>
       <Map
         {...viewport}
@@ -194,5 +230,5 @@ export default function MapView(props: IProps) {
         <NavigationControl style={{ right: "1rem", top: "1rem" }} />
       </Map>
     </MapProvider>
-  );
+  </>);
 }

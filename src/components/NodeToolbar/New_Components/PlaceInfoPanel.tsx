@@ -105,7 +105,7 @@ const PlaceInfoPanel = (props: Props) => {
             >
             <ErrorBoundary>
               {nodeHeader}
-              <PhotoSection entityType={"place"} entityId={placeInfoId} />
+              <PhotoSection entityType={"nodes"} entityId={placeInfoId} />
               {/* {renderContentBelowHeader()} */}
             </ErrorBoundary>
           </StyledToolbar>

@@ -9,7 +9,9 @@ export function fetchImagesCached(
 ) {
   return fetch(
     `${apiBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
-  ).then((r) => r.json().results);
+  )
+    .then((r) => r.json())
+    .then((json) => json.images);
 }
 
 export function fetchImagesUncached(
@@ -21,5 +23,5 @@ export function fetchImagesUncached(
     `${apiBaseUrlUncached}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
   )
     .then((r) => r.json())
-    .then((json) => json.results);
+    .then((json) => json.images);
 }

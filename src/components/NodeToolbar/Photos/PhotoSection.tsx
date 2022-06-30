@@ -12,6 +12,7 @@ import useSWR from 'swr';
 import { fetchImagesCached } from '../../../lib/fetchers/fetchACImages';
 import { useCurrentAppToken } from '../../../lib/context/AppContext';
 import Link from 'next/link';
+import convertAcPhotosToLightboxPhotos from '../../../lib/cache/convertAcPhotosToLightboxPhotos';
 
 type Props = {
   entityType: string,
@@ -96,9 +97,10 @@ export default function PhotoSection(props: Props) {
 
   const { data: rawPhotos, isValidating, error } = useSWR([appToken, context, entityId], fetchImagesCached);
 
-  const photos = rawPhotos?.map(photo =>
-    photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
-  );
+  const photos = rawPhotos?.map(convertAcPhotosToLightboxPhotos)
+    .map(photo =>
+      photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
+    );
   const hasPhotos = photos?.length > 0;
 
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
@@ -183,7 +185,9 @@ export default function PhotoSection(props: Props) {
         columns={Math.min(photos.length, 3)}
         layout="columns"
       />
+
       {isLightboxOpen && <GlobalLightboxStyles />}
+
       <ModalGateway>
         {isLightboxOpen && (
           <Modal onClose={closeLightbox}>

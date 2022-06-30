@@ -1,11 +1,30 @@
 import React from "react";
+import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
 import MapView from "../NewMap/MapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
-export default function Layout({ children }: { children?: React.ReactNode }) {
+const BlurLayer = styled.div<{ active: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(${(p) => (p.active ? "10" : "0")}px);
+  pointer-events: ${(p) => (p.active ? "initial" : "none")};
+`;
+
+export default function Layout({
+  children,
+  blur,
+}: {
+  children?: React.ReactNode;
+  blur?: boolean;
+}) {
   // const { data, error } = useSWR('/api/navigation', fetcher)
 
   // if (error) return <div>Failed to load</div>
@@ -26,15 +45,19 @@ export default function Layout({ children }: { children?: React.ReactNode }) {
 
       <GlobalStyle />
 
-      <MainMenu
-        onToggle={toggleMainMenu}
-        isOpen={isMenuOpen}
-        clientSideConfiguration={clientSideConfiguration}
-      />
+      {!blur && (
+        <MainMenu
+          onToggle={toggleMainMenu}
+          isOpen={isMenuOpen}
+          clientSideConfiguration={clientSideConfiguration}
+        />
+      )}
 
       <main style={{ height: "100%" }} ref={containerRef}>
         <MapView {...{ containerRef }} />
-        {children}
+        <BlurLayer active={blur} style={{ zIndex: 1000 }} />
+        <div style={{ zIndex: 2000 }}>{children}</div>
+        <ToastContainer position="bottom-center" />
       </main>
     </>
   );

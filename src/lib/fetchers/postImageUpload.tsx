@@ -9,13 +9,14 @@ const imageResizeConfig = {
   debug: true,
 };
 
-export default async function fetchImageUpload(
+export default async function postImageUpload(
   featureId: string,
+  context: "place" | "equipment",
   images: FileList,
   appToken: string
 ): Promise<any> {
   const image = images[0];
-  const url = `${apiBaseUrlUncached}/image-upload?placeId=${featureId}&appToken=${appToken}`;
+  const url = `${apiBaseUrlUncached}/image-upload?${context}Id=${featureId}&appToken=${appToken}`;
   const resizedImage = await readAndCompressImage(image, imageResizeConfig);
   const response = await fetch(url, {
     method: "POST",

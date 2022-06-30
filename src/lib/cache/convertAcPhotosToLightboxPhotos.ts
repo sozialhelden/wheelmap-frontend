@@ -1,6 +1,6 @@
 import { PhotoModel } from "../PhotoModel";
 import { Image } from "react-photo-album";
-import { AccessibilityCloudImage, AccessibilityCloudImages } from "../Feature";
+import { AccessibilityCloudImage } from "../model/Feature";
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
   return `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||
@@ -40,9 +40,9 @@ const makeSrcSet = (sizes: number[], acPhoto: AccessibilityCloudImage) => {
 };
 
 export default function convertAcPhotosToLightboxPhotos(
-  acPhotos: AccessibilityCloudImages
+  acPhoto: AccessibilityCloudImage
 ): PhotoModel[] {
-  return acPhotos.images.map((acPhoto) => ({
+  return {
     original: makeSrcUrl(acPhoto, 1200),
     src: makeSrcUrl(acPhoto, 1366),
     images: makeSrcSet(fullScreenSizes, acPhoto).concat(
@@ -53,5 +53,5 @@ export default function convertAcPhotosToLightboxPhotos(
     height: acPhoto.dimensions ? acPhoto.dimensions.height : 1,
     key: acPhoto._id,
     appSource: "accessibility-cloud",
-  }));
+  };
 }
