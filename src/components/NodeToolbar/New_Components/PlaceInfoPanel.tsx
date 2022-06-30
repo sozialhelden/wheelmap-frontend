@@ -124,12 +124,6 @@ const PlaceInfoPanel = (props: Props) => {
   const toolbar = React.createRef<HTMLElement>();
 
   return (
-    <Layout>
-
-      {/* <FocusTrap
-        // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
-        > */}
         <div>
           <StyledToolbar
             ref={toolbar}
@@ -145,9 +139,6 @@ const PlaceInfoPanel = (props: Props) => {
             </ErrorBoundary>
           </StyledToolbar>
         </div>
-      {/* </FocusTrap> */}
-    </Layout>
-    
   );
 };
 

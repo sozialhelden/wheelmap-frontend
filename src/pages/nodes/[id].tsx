@@ -6,6 +6,8 @@ import { fetchOneAccessibilityCloudFeature } from "../../lib/fetchers/Accessibil
 import { fetchAccessibilityCloudCategories } from "../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import { getData } from "../../lib/fetchers/fetchWithSWR";
+import Layout from "../../components/App/Layout";
+import { ReactElement } from "react";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -14,7 +16,7 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-const PlaceInfoPanelPage = () => {
+export default function Page() {
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
@@ -44,6 +46,8 @@ const PlaceInfoPanelPage = () => {
       <div>PlaceInfoPanel page</div>
     </PlaceInfoPanel>
   );
-};
+}
 
-export default PlaceInfoPanelPage;
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout>{page}</Layout>;
+};
