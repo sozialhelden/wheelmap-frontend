@@ -154,8 +154,8 @@ const StyledToolbar = styled(Toolbar)`
       padding-left: max(constant(safe-area-inset-left), 0px);
       padding-right: max(env(safe-area-inset-right), 0px);
       padding-left: max(env(safe-area-inset-left), 0px);
-      margin-top: constant(safe-area-inset-top);
-      margin-top: env(safe-area-inset-top);
+      margin-top: constant(safe-area-inset-top) !important;
+      margin-top: env(safe-area-inset-top) !important;
       transform: translate3d(0, 0, 0) !important;
       z-index: 1000000000;
       border-radius: 0;
