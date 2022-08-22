@@ -21,7 +21,7 @@ export default class HighlightableMarker extends L.Marker {
       zIndexOffset: zIndexOffset,
     });
 
-    this.markerIcon = this.getIcon();
+    this.markerIcon = this.options.icon;
     this.markerIconType = MarkerIconType;
     this.markerIconOptions = markerIconOptions;
     this.featureId = featureId;
