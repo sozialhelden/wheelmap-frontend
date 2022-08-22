@@ -53,118 +53,118 @@ import { AppContextConsumer } from './AppContext';
 import CreatePlaceFlow from './components/CreatePlaceFlow/CreatePlaceFlow';
 
 type Props = {
-  className?: string,
+  className?: string;
 
-  category: string | null,
-  categories: CategoryLookupTables,
-  userAgent: UAResult,
+  category: string | null;
+  categories: CategoryLookupTables;
+  userAgent: UAResult;
 
-  toiletFilter: YesNoUnknown[],
-  accessibilityFilter: YesNoLimitedUnknown[],
-  searchQuery: string | null,
-  lat: number | null,
-  lon: number | null,
-  zoom: number | null,
-  extent: [number, number, number, number] | null,
-  inEmbedMode: boolean,
+  toiletFilter: YesNoUnknown[];
+  accessibilityFilter: YesNoLimitedUnknown[];
+  searchQuery: string | null;
+  lat: number | null;
+  lon: number | null;
+  zoom: number | null;
+  extent: [number, number, number, number] | null;
+  inEmbedMode: boolean;
 
-  includeSourceIds: Array<string>,
-  excludeSourceIds: Array<string>,
-  disableWheelmapSource: boolean | null,
+  includeSourceIds: Array<string>;
+  excludeSourceIds: Array<string>;
+  disableWheelmapSource: boolean | null;
 
-  isReportMode: boolean | null,
+  isReportMode: boolean | null;
 
-  isOnboardingVisible: boolean,
-  isMappingEventWelcomeDialogVisible: boolean,
-  isMainMenuOpen: boolean,
-  isNotFoundVisible: boolean,
-  modalNodeState: ModalNodeState,
-  isSearchBarVisible: boolean,
-  isSearchToolbarExpanded: boolean,
-  isSearchButtonVisible: boolean,
-  isNodeToolbarDisplayed: boolean,
-  shouldLocateOnStart: boolean,
-  searchResults: SearchResultCollection | Promise<SearchResultCollection> | null,
+  isOnboardingVisible: boolean;
+  isMappingEventWelcomeDialogVisible: boolean;
+  isMainMenuOpen: boolean;
+  isNotFoundVisible: boolean;
+  modalNodeState: ModalNodeState;
+  isSearchBarVisible: boolean;
+  isSearchToolbarExpanded: boolean;
+  isSearchButtonVisible: boolean;
+  isNodeToolbarDisplayed: boolean;
+  shouldLocateOnStart: boolean;
+  searchResults: SearchResultCollection | Promise<SearchResultCollection> | null;
 
   onSearchResultClick: (
     feature: SearchResultFeature,
     wheelmapFeature: WheelmapFeature | null
-  ) => void,
-  onSearchToolbarClick: () => void,
-  onSearchToolbarClose: () => void,
-  onSearchToolbarSubmit: (searchQuery: string) => void,
-  onClickSearchButton: () => void,
-  onToggleMainMenu: () => void,
-  onMainMenuHomeClick: () => void,
-  onClickFullscreenBackdrop: () => void,
-  onMoveEnd: () => void,
-  onMapClick: () => void,
-  onMarkerClick: (featureId: string, properties?: NodeProperties | null) => void,
-  onMappingEventClick: (eventId: string) => void,
-  onError: () => void,
-  onCloseNodeToolbar: () => void,
-  onCloseMappingEventsToolbar: () => void,
-  onOpenReportMode: () => void,
-  onAbortReportPhotoFlow: () => void,
-  onCloseOnboarding: () => void,
-  onCloseModalDialog: () => void,
-  onOpenWheelchairAccessibility: () => void,
-  onOpenToiletAccessibility: () => void,
-  onCloseWheelchairAccessibility: () => void,
-  onCloseToiletAccessibility: () => void,
-  onOpenToiletNearby: () => void,
-  onSearchQueryChange: (searchQuery: string) => void,
-  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
-  onShowPlaceDetails: (featureId: string | number) => void,
+  ) => void;
+  onSearchToolbarClick: () => void;
+  onSearchToolbarClose: () => void;
+  onSearchToolbarSubmit: (searchQuery: string) => void;
+  onClickSearchButton: () => void;
+  onToggleMainMenu: () => void;
+  onMainMenuHomeClick: () => void;
+  onClickFullscreenBackdrop: () => void;
+  onMoveEnd: () => void;
+  onMapClick: () => void;
+  onMarkerClick: (featureId: string, properties?: NodeProperties | null) => void;
+  onMappingEventClick: (eventId: string) => void;
+  onError: () => void;
+  onCloseNodeToolbar: () => void;
+  onCloseMappingEventsToolbar: () => void;
+  onOpenReportMode: () => void;
+  onAbortReportPhotoFlow: () => void;
+  onCloseOnboarding: () => void;
+  onCloseModalDialog: () => void;
+  onOpenWheelchairAccessibility: () => void;
+  onOpenToiletAccessibility: () => void;
+  onCloseWheelchairAccessibility: () => void;
+  onCloseToiletAccessibility: () => void;
+  onOpenToiletNearby: () => void;
+  onSearchQueryChange: (searchQuery: string) => void;
+  onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void;
+  onShowPlaceDetails: (featureId: string | number) => void;
 
   // simple 3-button status editor feature
-  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void,
-  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void,
-  accessibilityPresetStatus?: YesNoLimitedUnknown,
+  onSelectWheelchairAccessibility: (value: YesNoLimitedUnknown) => void;
+  onAccessibilityFilterButtonClick: (filter: PlaceFilter) => void;
+  accessibilityPresetStatus?: YesNoLimitedUnknown;
 
   // photo feature
-  isPhotoUploadInstructionsToolbarVisible: boolean,
-  onStartPhotoUploadFlow: () => void,
-  onAbortPhotoUploadFlow: () => void,
-  onContinuePhotoUploadFlow: (photos: FileList) => void,
-  onFinishPhotoUploadFlow: (photos: FileList) => void,
-  onStartReportPhotoFlow: (photo: PhotoModel) => void,
-  onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void,
-  photosMarkedForUpload: FileList | null,
-  waitingForPhotoUpload?: boolean,
-  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
-  photoFlowErrorMessage: string | null,
-  photoMarkedForReport: PhotoModel | null,
+  isPhotoUploadInstructionsToolbarVisible: boolean;
+  onStartPhotoUploadFlow: () => void;
+  onAbortPhotoUploadFlow: () => void;
+  onContinuePhotoUploadFlow: (photos: FileList) => void;
+  onFinishPhotoUploadFlow: (photos: FileList) => void;
+  onStartReportPhotoFlow: (photo: PhotoModel) => void;
+  onFinishReportPhotoFlow: (photo: PhotoModel, reason: string) => void;
+  photosMarkedForUpload: FileList | null;
+  waitingForPhotoUpload?: boolean;
+  photoFlowNotification?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
+  photoFlowErrorMessage: string | null;
+  photoMarkedForReport: PhotoModel | null;
 
   // cluster feature
-  activeCluster?: Cluster,
-  onClusterClick: (cluster: Cluster) => void,
-  onCloseClusterPanel: () => void,
-  onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void,
+  activeCluster?: Cluster;
+  onClusterClick: (cluster: Cluster) => void;
+  onCloseClusterPanel: () => void;
+  onSelectFeatureFromCluster: (feature: Feature | EquipmentInfo) => void;
 
-  app: App,
+  app: App;
 
   // mapping event
-  invitationToken: string,
-  mappingEvents: MappingEvents,
-  mappingEvent: MappingEvent | null,
-  joinedMappingEventId: string | null,
-  joinedMappingEvent?: MappingEvent,
-  isMappingEventsToolbarVisible: boolean,
-  isMappingEventToolbarVisible: boolean,
-  onMappingEventsLinkClick: () => void,
-  onMappingEventJoin: (mappingEventId: string, emailAddress?: string) => void,
-  onMappingEventLeave: () => void,
-  onMappingEventWelcomeDialogOpen: () => void,
-  onMappingEventWelcomeDialogClose: () => void,
+  invitationToken: string;
+  mappingEvents: MappingEvents;
+  mappingEvent: MappingEvent | null;
+  joinedMappingEventId: string | null;
+  joinedMappingEvent?: MappingEvent;
+  isMappingEventsToolbarVisible: boolean;
+  isMappingEventToolbarVisible: boolean;
+  onMappingEventsLinkClick: () => void;
+  onMappingEventJoin: (mappingEventId: string, emailAddress?: string) => void;
+  onMappingEventLeave: () => void;
+  onMappingEventWelcomeDialogOpen: () => void;
+  onMappingEventWelcomeDialogClose: () => void;
   mappingEventHandlers: {
-    updateJoinedMappingEvent: (joinedMappingEventId: string | null) => void,
-  },
+    updateJoinedMappingEvent: (joinedMappingEventId: string | null) => void;
+  };
 } & PlaceDetailsProps;
 
 type State = {
-  isOnSmallViewport: boolean,
-  uniqueSurveyId: string,
+  isOnSmallViewport: boolean;
+  uniqueSurveyId: string;
 };
 
 function updateTouchCapability() {
@@ -191,7 +191,7 @@ class MainView extends React.Component<Props, State> {
     uniqueSurveyId: uuidv4(),
   };
 
-  map: { focus: () => void, snapToFeature: () => void } | null;
+  map: { focus: () => void; snapToFeature: () => void } | null;
 
   lastFocusedElement: HTMLElement | null;
   nodeToolbar: NodeToolbarFeatureLoader | null;
@@ -395,7 +395,6 @@ class MainView extends React.Component<Props, State> {
         onSubmit={this.props.onSearchToolbarSubmit}
         onClose={this.props.onSearchToolbarClose}
         isExpanded={this.props.isSearchToolbarExpanded}
-        hasGoButton={this.state.isOnSmallViewport}
         minimalTopPosition={this.getMinimalToolbarTopPosition()}
       />
     );
@@ -441,15 +440,14 @@ class MainView extends React.Component<Props, State> {
   renderMainMenu() {
     return (
       <MainMenu
-      className="main-menu"
-      uniqueSurveyId={this.state.uniqueSurveyId}
-      isOpen={this.props.isMainMenuOpen}
-      onToggle={this.props.onToggleMainMenu}
-      onHomeClick={this.props.onMainMenuHomeClick}
-      onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
-      onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
-      joinedMappingEvent={this.props.joinedMappingEvent}
-
+        className="main-menu"
+        uniqueSurveyId={this.state.uniqueSurveyId}
+        isOpen={this.props.isMainMenuOpen}
+        onToggle={this.props.onToggleMainMenu}
+        onHomeClick={this.props.onMainMenuHomeClick}
+        onMappingEventsLinkClick={this.props.onMappingEventsLinkClick}
+        onAddPlaceViaCustomLinkClick={this.onAddPlaceViaCustomLinkClick}
+        joinedMappingEvent={this.props.joinedMappingEvent}
         clientSideConfiguration={this.props.app.clientSideConfiguration}
         lat={this.props.lat}
         lon={this.props.lon}
@@ -625,7 +623,12 @@ class MainView extends React.Component<Props, State> {
 
       const homeLinkHref = `${window.location.origin}${window.location.pathname}?${queryStringWithoutEmbeddedParam}`;
 
-      return <PositionedWheelmapHomeLink href={homeLinkHref} clientSideConfiguration={clientSideConfiguration} />;
+      return (
+        <PositionedWheelmapHomeLink
+          href={homeLinkHref}
+          clientSideConfiguration={clientSideConfiguration}
+        />
+      );
     }
   }
 

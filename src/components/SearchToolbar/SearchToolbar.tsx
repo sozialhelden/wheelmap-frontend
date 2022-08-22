@@ -42,7 +42,6 @@ export type Props = PlaceFilter & {
   onClose: () => void | null;
   onClick: () => void;
   isExpanded: boolean;
-  hasGoButton: boolean;
   searchResults: null | SearchResultCollection | Promise<SearchResultCollection>;
   minimalTopPosition: number;
 };
@@ -65,34 +64,6 @@ const StyledChevronRight = styled(ChevronRight)`
   circle,
   path {
     fill: white;
-  }
-`;
-
-const GoButton = styled(Button)`
-  min-width: 4rem;
-  outline: none;
-  border: none;
-  font-size: 1rem;
-  line-height: 1rem;
-  padding: 0 7px;
-  color: white;
-  background-color: ${colors.linkColor};
-  width: auto;
-
-  &.focus-visible {
-    box-shadow: inset 0px 0px 0px 2px #0f2775 !important;
-  }
-
-  &:hover {
-    background-color: ${colors.linkColorDarker};
-  }
-
-  &:active {
-    background-color: ${colors.darkLinkColor};
-  }
-
-  @media (max-width: 320px) {
-    padding: 0 0.5rem;
   }
 `;
 
@@ -461,16 +432,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     );
   }
 
-  renderGoButton() {
-    // translator: button shown next to the search bar
-    const caption = t`Go`;
-    return (
-      <GoButton ref={this.goButton} onClick={this.props.onClose}>
-        {caption} <StyledChevronRight />
-      </GoButton>
-    );
-  }
-
   render() {
     const { isLoading, searchResults } = this.state;
     const { searchQuery, hidden, inert, isExpanded } = this.props;
@@ -508,7 +469,6 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
               <SearchIcon />
               {this.renderSearchInputField()}
               {this.props.searchQuery && this.renderCloseLink()}
-              {!this.props.searchQuery && this.props.hasGoButton && this.renderGoButton()}
             </form>
           </header>
           <section onTouchStart={() => this.blur()}>{contentBelowSearchField}</section>
