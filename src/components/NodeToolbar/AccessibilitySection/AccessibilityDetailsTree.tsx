@@ -12,11 +12,36 @@ import { getBrowserLocaleStrings, translatedStringFromObject } from '../../../li
 import AppContext from '../../../AppContext';
 import usePromise from '../../usePromise';
 import ErrorBoundary from '../../ErrorBoundary';
+import { compact } from 'lodash';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
     return `${substring[0]} ${substring[1].toLowerCase()}`;
   });
+}
+
+function getDescribedQuantity(value: { unit?: string; operator?: string; value?: number }) {
+  if (!value) {
+    return '';
+  }
+
+  const valueAndUnit = `${value.value || '?'} ${value.unit}`;
+
+  switch (value.operator) {
+    case '<=':
+      return <span aria-label={t`${valueAndUnit} or less`}>≤ {valueAndUnit}</span>;
+    case '>=':
+      return <span aria-label={t`${valueAndUnit} or more`}>≥ {valueAndUnit}</span>;
+    case '<':
+      return <span aria-label={t`less than ${valueAndUnit}`}>&lt; {valueAndUnit}</span>;
+    case '>':
+      return <span aria-label={t`greater than ${valueAndUnit}`}>&gt; {valueAndUnit}</span>;
+    case '=':
+    case '==':
+      return valueAndUnit;
+    default:
+      return `${value.operator ? `${value.operator} ` : ''}${value.value || '?'} ${value.unit}`;
+  }
 }
 
 function formatName(
@@ -47,7 +72,7 @@ function formatValue(value: any): string {
     typeof value.unit === 'string' &&
     (typeof value.value === 'number' || typeof value.value === 'string')
   ) {
-    return `${value.value || '?'} ${value.unit}`;
+    return getDescribedQuantity(value);
   }
   return humanizeCamelCase(String(value));
 }
@@ -72,9 +97,9 @@ function DetailsArray({
   array,
   accessibilityAttributes,
 }: {
-  className: string | null,
-  array: any[],
-  accessibilityAttributes: AccessibilityAttributesMap,
+  className: string | null;
+  array: any[];
+  accessibilityAttributes: AccessibilityAttributesMap;
 }) {
   // eslint-disable-next-line react/no-array-index-key
   const items = array.map((e, i) => (
@@ -86,18 +111,26 @@ function DetailsArray({
       />
     </li>
   ));
-  return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
+  return (
+    <ul className={`ac-list ${array.length === 1 ? 'has-only-one-item' : ''} ${className || ''}`}>
+      {items}
+    </ul>
+  );
 }
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
+function isLocalizedString(value: any): boolean {
+  return isPlainObject(value) && Object.keys(value).every(key => key.match(/^\w\w[-_]?(?:\w\w)?$/));
+}
+
 function DetailsObject(props: {
-  className: string | null,
-  object: {},
-  isNested?: boolean,
-  accessibilityAttributes: AccessibilityAttributesMap,
+  className: string | null;
+  object: {};
+  isNested?: boolean;
+  accessibilityAttributes: AccessibilityAttributesMap;
 }) {
   const { className, object, isNested } = props;
   const properties = Object.keys(object)
@@ -115,39 +148,51 @@ function DetailsObject(props: {
       const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
 
       if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
-        return [
-          <dt key={`${key}-name`} data-key={key}>
-            {capitalizedName}
-          </dt>,
-          <dd key={`${key}-tree`}>
-            <AccessibilityDetailsTree
-              isNested={true}
-              details={value}
-              accessibilityAttributes={props.accessibilityAttributes}
-            />
-          </dd>,
-        ];
+        if (key === 'name' || key === 'title') {
+          return <header>{translatedStringFromObject(value)}</header>;
+        }
+        if (key === 'description') {
+          return <section>{translatedStringFromObject(value)}</section>;
+        }
+        return (
+          <>
+            <dt key={`${key}-name`} data-key={key}>
+              {capitalizedName}
+            </dt>
+            <dd key={`${key}-tree`}>
+              <AccessibilityDetailsTree
+                isNested={true}
+                details={value}
+                accessibilityAttributes={props.accessibilityAttributes}
+              />
+            </dd>
+          </>
+        );
       }
       if (key.startsWith('rating')) {
-        return [
-          <dt key={`${key}-name`} className="ac-rating">
-            {capitalizedName}:
-          </dt>,
-          <dd key={`${key}-rating`}>
-            <FormatRating rating={parseFloat(String(value))} />
-          </dd>,
-        ];
+        return (
+          <>
+            <dt key={`${key}-name`} className="ac-rating">
+              {capitalizedName}:
+            </dt>
+            <dd key={`${key}-rating`}>
+              <FormatRating rating={parseFloat(String(value))} />
+            </dd>
+          </>
+        );
       }
       const generatedClassName = `ac-${typeof value}`;
       const formattedValue = formatValue(value);
-      return [
-        <dt key={`${key}-name`} className={generatedClassName}>
-          {capitalizedName}:
-        </dt>,
-        <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
-          <em>{formattedValue}</em>
-        </dd>,
-      ];
+      return (
+        <>
+          <dt key={`${key}-name`} className={generatedClassName}>
+            {capitalizedName}:
+          </dt>
+          <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
+            <em>{formattedValue}</em>
+          </dd>
+        </>
+      );
     })
     .filter(Boolean);
 
@@ -163,11 +208,11 @@ function DetailsObject(props: {
 }
 
 type Props = {
-  details: any,
-  locale?: string | null,
-  isNested?: boolean,
-  className?: string | null,
-  accessibilityAttributes: AccessibilityAttributesMap,
+  details: any;
+  locale?: string | null;
+  isNested?: boolean;
+  className?: string | null;
+  accessibilityAttributes: AccessibilityAttributesMap;
 };
 
 function AccessibilityDetailsTree(props: Props) {
@@ -204,8 +249,17 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   margin: 0 -10px !important;
   padding: 10px !important;
 
+  header {
+    font-weight: 500;
+  }
+
   ul {
-    list-style: none;
+    list-style-type: disc;
+    margin-left: 1rem;
+    &.has-only-one-item {
+      list-style: none;
+      margin-left: 0;
+    }
   }
 
   .ac-result-list,
