@@ -26,6 +26,9 @@ export default function AccessibleDescription(props: Props) {
   const hasQuotes = string && !string.match('#') && !string.match('\n') && !string.match('<');
   const markdownHTML = parse(string).trim();
   const __html = markdownHTML.replace(/^<p>(.*)<\/p>$/, '$1');
+  if (__html.trim() === '') {
+    return null;
+  }
   return (
     <Description
       className={(props.className || '') + (hasQuotes ? ' has-quotes' : '')}

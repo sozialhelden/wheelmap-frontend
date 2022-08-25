@@ -67,13 +67,14 @@ function ToiletDescription(accessibility: YesNoUnknown) {
 }
 
 type Props = {
-  feature: Feature,
-  toiletsNearby: Feature[] | null,
-  onOpenWheelchairAccessibility: () => void,
-  onOpenToiletAccessibility: () => void,
-  onOpenToiletNearby: (feature: Feature) => void,
-  className?: string,
-  isEditingEnabled: boolean,
+  feature: Feature;
+  toiletsNearby: Feature[] | null;
+  onOpenWheelchairAccessibility: () => void;
+  onOpenToiletAccessibility: () => void;
+  onOpenToiletNearby: (feature: Feature) => void;
+  className?: string;
+  isEditingEnabled: boolean;
+  showDescription: boolean;
 };
 
 class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
@@ -89,9 +90,11 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
           {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
         </header>
 
-        <footer className="accessibility-description">
-          {accessibilityDescription(wheelchairAccessibility)}
-        </footer>
+        {this.props.showDescription === false ? null : (
+          <footer className="accessibility-description">
+            {accessibilityDescription(wheelchairAccessibility)}
+          </footer>
+        )}
       </button>
     );
   }
