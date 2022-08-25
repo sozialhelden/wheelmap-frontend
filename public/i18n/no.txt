@@ -133,47 +133,47 @@ msgstr "Toaletter"
 msgid "Error while loading place categories."
 msgstr "Feil oppsto under lasting av kategorier."
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "Fullstendig rullestolvennlig"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "Delvis rullestolvennlig"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "Ikke rullestolvennlig"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "Ukjent status"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "Fullt"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "Delvis"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "Ikke i det hele tatt"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "Ukjent"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Inngang uten trapp, alle rom uten trapp."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -183,55 +183,55 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Inngangen har ett trinn med maks 7 cm høyde, de fleste rommene er uten "
 "trinn."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "Inngang har et steg eller flere seg, rom er ikke tilgjengelige. "
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "Toalett som er tilgjengelig for rullestolbrukere"
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "Ingen rullestolvennlige toaletter"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Indre bredde på dør ≥ 35 tommer"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Indre bredde på dør ≥ 90 cm"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Åpen gulvplass ≥ 59 tommer bredt"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Åpen gulvplass ≥ 150 cm bredt"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "Toalettsete med rullestolhøyde"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "Sammenleggbare støttehåndtak"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "Tilpasset vask"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "Ikke navngitt sted"
 
@@ -250,7 +250,7 @@ msgstr "Du er offline."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Dette stedet er på ${ productName }: ${ placeTitle }"
@@ -270,18 +270,18 @@ msgid "Add a new place"
 msgstr "Legg til manglende sted"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "Zoom inn nærmere for å se flere steder"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "Skru på stedstjeneste."
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "Kart"
 
@@ -361,14 +361,9 @@ msgstr "Hjem"
 msgid "Menu"
 msgstr "Meny"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Slett søk"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "Kjør"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -670,7 +665,7 @@ msgid "Great! Thanks for joining us."
 msgstr ""
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "Kunne ikke laste dette stedet."
 
@@ -682,15 +677,15 @@ msgstr "Feil oppsto ved lasting av data."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "Hvor rullestolvennlig er dette stedet?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Vis færre detaljer"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Vis flere detaljer"
 
@@ -926,12 +921,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Er toalettet her rullestolvennlig?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "Ja"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "Nei"
 
@@ -997,28 +992,82 @@ msgstr "Forstyrrelser ved denne plasseringen"
 msgid "All elevators and escalators"
 msgstr "Alle heiser og rulletrapper"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "Meld fra om bilde"
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "av"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "Neste (høyre piltast)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "Tidligere (venstre piltast)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "Avslutt (Esc)"
 
@@ -1516,3 +1565,21 @@ msgstr ""
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Vennligst vent mens vi verifiserer ditt bidrag."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""

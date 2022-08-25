@@ -133,41 +133,41 @@ msgstr "Nhà vệ sinh"
 msgid "Error while loading place categories."
 msgstr "Lỗi khi tải các hạng mục địa điểm."
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "Hoàn toàn thuận tiện cho xe lăn di chuyển"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "Tương đối thuận tiện cho xe lăn di chuyển"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "Không hỗ trợ xe lăn"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "Không rõ mức độ phù hợp"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "Phù hợp"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "Một phần"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "Hoàn toàn không"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "Không rõ"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr ""
 "Lối vào không có bậc thang, và tất cả phòng có thể di chuyển không có bậc "
@@ -175,7 +175,7 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -185,57 +185,57 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Lối vào có một bậc thềm với độ cao không quá 7 cm, phần lớn các phòng không "
 "phải qua bậc thang."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "Lối vào có bậc thềm cao hoặc có vài bậc thềm, không thể tiếp cận bất kỳ "
 "phòng nào."
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "Nhà vệ sinh sử dụng được xe lăn"
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "Không có nhà vệ sinh hỗ trợ xe lăn"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Độ rộng bên trong khung cửa ≥ 35 inches"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Độ rộng bên trong khung cửa ≥ 90 cm"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Khoảng trống để quay vòng rộng ≥ 59 inch"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Khoảng trống quay xe rộng ≥ 150 cm "
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "Bàn ngồi vệ sinh có độ cao phù hợp cho xe lăn"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "Tay vịn có thể gập lại được"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "Bồn rửa thuận tiện cho di chuyển"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "Địa điểm chưa có tên"
 
@@ -254,7 +254,7 @@ msgstr "Bạn đang ngoại tuyến."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Địa điểm này có trên ${ productName }: ${ placeTitle }"
@@ -274,18 +274,18 @@ msgid "Add a new place"
 msgstr "Thêm một địa điểm mới"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "Phóng to hơn nữa để xem thêm nhiều địa điểm"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "Bật dịch vụ địa điểm"
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "Bản đồ"
 
@@ -365,14 +365,9 @@ msgstr "Trang chủ"
 msgid "Menu"
 msgstr "Bảng chọn"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Xóa tìm kiếm"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "Tiến hành"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -673,7 +668,7 @@ msgid "Great! Thanks for joining us."
 msgstr ""
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "Không thể tải địa điểm này."
 
@@ -685,15 +680,15 @@ msgstr "Lỗi khi tải dữ liệu."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "Nơi này thuận tiện cho xe lăn di chuyển như thế nào?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Thu gọn thông tin chi tiết"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Mở rộng thông tin chi tiết"
 
@@ -927,12 +922,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Nhà vệ sinh ở đây có thuận tiện để xe lăn di chuyển không?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "Đúng vậy"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "Không"
 
@@ -999,28 +994,82 @@ msgstr "Có trở ngại tại địa điểm này"
 msgid "All elevators and escalators"
 msgstr "Tất cả thang máy và thang cuốn"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "Báo cáo hình ảnh"
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "của"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "Tiếp theo (phím mũi tên phải)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "Trước (mũi tên trái)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "Đóng (Esc)"
 
@@ -1512,3 +1561,21 @@ msgstr ""
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Vui lòng đợi một lát để chúng tôi xác nhận đóng góp của bạn."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""

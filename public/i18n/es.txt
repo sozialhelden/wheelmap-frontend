@@ -4,14 +4,15 @@
 # Holger Dieterich <holger@sozialhelden.de>, 2019
 # Developers, 2021
 # Sebastian Felix Zappe <hypo@me.com>, 2022
+# Lina Seufert, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
+"Last-Translator: Lina Seufert, 2022\n"
 "Language-Team: Spanish (https://www.transifex.com/sozialhelden/teams/16671/es/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: es\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
 
 #: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
 msgid "Search"
@@ -134,47 +135,47 @@ msgstr "Baños"
 msgid "Error while loading place categories."
 msgstr "Error al cargar tipos de lugares"
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "Totalmente accesible en silla de ruedas"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "Parcialmente accesible en silla de ruedas"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "No accesible en silla de ruedas"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "Estado desconocido"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "Completamente"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "Parcialmente"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "De ninguna manera"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Entrada sin escalones; todas los cuartos sin escalones."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -184,56 +185,56 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "La entrada tiene un escalón con un máximo de 7 cm de alto. La mayoría de las"
 " habitaciones no tienen escalones."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "La entrada tiene uno o varios escalones; los cuartos no son accesibles."
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "Aseo accesible para silla de ruedas"
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "Sin baño accesible en silla de ruedas."
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Ancho interior de la puerta ≥ 35 pulgadas"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Ancho interior de la puerta ≥ 90 cm"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Superficie despejada ≥ 59 pulgadas de ancho"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Superficie despejada ≥ 150 cm de ancho"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "Inodoro a la altura de las sillas de ruedas"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "Barras de agarre plegables"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "Lavabo accesible"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "Lugar sin nombre"
 
@@ -252,7 +253,7 @@ msgstr "No tienes conexión."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Este lugar está en ${ productName }: ${ placeTitle }"
@@ -272,18 +273,18 @@ msgid "Add a new place"
 msgstr "Añadir un lugar nuevo"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "Acércate más para ver más lugares"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "Activar servicios de ubicación"
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "Mapa"
 
@@ -363,14 +364,9 @@ msgstr "Página de inicio"
 msgid "Menu"
 msgstr "Menú"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Borrar la búsqueda"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "Ir"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -634,7 +630,7 @@ msgstr "Salir del evento de mapeo"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:50
 msgid "Your email address is required!"
-msgstr ""
+msgstr "Necesitamos tu dirección de correo electrónico!"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:57
 msgid "This email address is not valid."
@@ -642,7 +638,7 @@ msgstr ""
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
-msgstr ""
+msgstr "dirección de correo electrónico"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:92
 msgid "Let’s go"
@@ -657,10 +653,14 @@ msgstr ""
 msgid ""
 "To stay in touch with you, you must provide us with your email address."
 msgstr ""
+"Para poder seguir en contacto, debes proveernos tu dirección de correo "
+"electrónico."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
 msgid "To stay in touch with you, please share your email address with us."
 msgstr ""
+"Para poder seguir en contacto, por favor indica tu dirección de correo "
+"electrónico."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
 msgid "Welcome"
@@ -673,7 +673,7 @@ msgid "Great! Thanks for joining us."
 msgstr ""
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "No se ha podido cargar este lugar."
 
@@ -685,15 +685,15 @@ msgstr "Error al cargar datos."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "¿Qué tan accesible es este lugar en silla de ruedas?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Colapsar los detalles"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Expandir los detalles"
 
@@ -729,11 +729,11 @@ msgstr "Participantes"
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:59
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
 msgid "Create Place"
-msgstr ""
+msgstr "Crear un lugar"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:64
 msgid "Check if the place already exists by searching for it"
-msgstr ""
+msgstr "Revisa si el lugar ya existe utilizando la función de búsqueda."
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:68
 msgid "No matching result?"
@@ -753,7 +753,7 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:87
 msgid "Searching..."
-msgstr ""
+msgstr "Buscando..."
 
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
@@ -765,7 +765,7 @@ msgstr "Volver"
 
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
 msgid "Select Category"
-msgstr ""
+msgstr "Seleccionar una categoría"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
 #, javascript-format
@@ -778,7 +778,7 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:49
 msgid "Unhappy face"
-msgstr ""
+msgstr "Cara triste"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:52
 msgid "Sorry"
@@ -804,20 +804,20 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:95
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:108
 msgid "Category"
-msgstr ""
+msgstr "Categoría"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:110
 msgid "Select category"
-msgstr ""
+msgstr "Seleccionar una categoría"
 
 #: src/components/CreatePlaceFlow/components/MapButton.tsx:47
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
 msgid "Define main entry"
-msgstr ""
+msgstr "Definir la entrada principal"
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:114
 msgid "Move the map to place the entry as correct as possible."
@@ -825,7 +825,7 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:124
 msgid "Confirm Position"
-msgstr ""
+msgstr "Confirmar la ubicación"
 
 #: src/lib/goToLocationSettings.ts:37
 msgid ""
@@ -927,12 +927,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "¿El baño es accesible en silla de ruedas?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "Sí"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "No"
 
@@ -998,28 +998,82 @@ msgstr "Interrupciones en este lugar"
 msgid "All elevators and escalators"
 msgstr "Todos los ascensores y las escaleras mecánicas"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "Denunciar imagen"
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "de"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "Siguiente (tecla de flecha derecha)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "Anterior (tecla de flecha izquierda)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "Cerrar (Esc)"
 
@@ -1379,6 +1433,7 @@ msgid "${ count } elevator in service"
 msgid_plural "${ count } elevators in service"
 msgstr[0] "${ count } ascensor en funcionamiento"
 msgstr[1] "${ count } ascensores en funcionamiento"
+msgstr[2] "${ count } ascensores en funcionamiento"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:40
 #, javascript-format
@@ -1386,12 +1441,14 @@ msgid "${ count } escalator in service"
 msgid_plural "${ count } escalators in service"
 msgstr[0] "${ count } escalera mecánica en funcionamiento"
 msgstr[1] "${ count } escaleras mecánicas en funcionamiento"
+msgstr[2] "${ count } escaleras mecánicas en funcionamiento"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:47
 msgid "${ count } elevator out of service"
 msgid_plural "${ count } elevators out of service"
 msgstr[0] "${ count } ascensor fuera de servicio"
 msgstr[1] "${ count } ascensores fuera de servicio"
+msgstr[2] "${ count } ascensores fuera de servicio"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:52
 #, javascript-format
@@ -1399,12 +1456,14 @@ msgid "${ count } escalator out of service"
 msgid_plural "${ count } escalators out of service"
 msgstr[0] "${ count } escalator out of service"
 msgstr[1] "${ count } escaleras mecánicas fuera de servicio"
+msgstr[2] "${ count } escaleras mecánicas fuera de servicio"
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:59
 msgid "${ count } elevator with unknown operational status"
 msgid_plural "${ count } elevators with unknown operational status"
 msgstr[0] "${ count } ascensor con estado operativo desconocido."
 msgstr[1] "${ count } ascensores con estado operativo desconocido."
+msgstr[2] "${ count } ascensores con estado operativo desconocido."
 
 #: src/components/NodeToolbar/Equipment/EquipmentItem.tsx:64
 #, javascript-format
@@ -1412,6 +1471,7 @@ msgid "${ count } escalator with unknown operational status"
 msgid_plural "${ count } escalators with unknown operational status"
 msgstr[0] "${ count } escalera mecánica con estado operativo desconocido"
 msgstr[1] "${ count } escaleras mecánicas con estado operativo desconocido"
+msgstr[2] "${ count } escaleras mecánicas con estado operativo desconocido"
 
 #. translator: In a comma-separated serial enumeration, this string is the ',
 #. or' conjunction before the last word, with a serial comma at the beginning
@@ -1518,3 +1578,21 @@ msgstr ""
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Danos un momento para verificar tu contribución."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""

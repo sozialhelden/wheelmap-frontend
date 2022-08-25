@@ -133,47 +133,47 @@ msgstr "Туалети"
 msgid "Error while loading place categories."
 msgstr "Під час завантаження категорій місць сталася помилка."
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "Повністю обладнано для інвалідів"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "Частково обладнано для інвалідів"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "Не доступні для візків"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "Невідомо, чи обладнано"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "Повністю"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "Частково"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "Зовсім ні"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "Невідомий"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Вхід не має сходинок і до всіх кімнат є доступ без сходинок."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -183,56 +183,56 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Вхід має одну сходинку, висотою не більше 7 см, більшість кімнат не мають "
 "сходинок."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "Вхід має високу сходинку чи декілька сходів, жодна з кімнат не є доступною."
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "Туалет, обладнаний для інвалідів"
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "Немає вбиральні, доступної для візка"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Внутрішня ширина дверей ≥ 35 дюймам"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Внутрішня ширина дверного прорізу ≥ 90 см."
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Вільне місце для повороту ≥ 59 дюймам в ширину"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Місце для розвороту ≥ 150 см. завширшки"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "Сидіння туалету на висоті візка"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "Стіновий поручень, що складається"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "Доступна раковина"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "Безіменне місце"
 
@@ -251,7 +251,7 @@ msgstr "Ви не в мережі."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Це місце є на ${ productName }: ${ placeTitle }"
@@ -271,18 +271,18 @@ msgid "Add a new place"
 msgstr "Додати нове місце"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "Наблизьте, щоб побачити більше місць"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "Вимкнути визначення місцезнаходження"
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "Карта"
 
@@ -362,14 +362,9 @@ msgstr "Домашня"
 msgid "Menu"
 msgstr "Меню"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Стерти пошук"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "Вперед"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -670,7 +665,7 @@ msgid "Great! Thanks for joining us."
 msgstr ""
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "Не вдалось завантажити це місце."
 
@@ -682,15 +677,15 @@ msgstr "Під час завантаження даних сталася пом�
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "Наскільки це місце є доступним для візків?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Деталі колапсу"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Подивитись деталі"
 
@@ -924,12 +919,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Чи є вбиральня тут доступна для візка?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "Так"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "Ні"
 
@@ -994,28 +989,82 @@ msgstr "Порушення на цьому місці"
 msgid "All elevators and escalators"
 msgstr "Усі ліфти та ескалатори"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "Поскаржитись на зображення"
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "з"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "Далі (клавіша правої стрілки)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "Попередній (кнопка зі стрілкою ліворуч)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "Закрити (Esc)"
 
@@ -1525,3 +1574,21 @@ msgstr ""
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Будь ласка, дайте нам хвилинку, щоб верифікувати ваш внесок."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""

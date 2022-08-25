@@ -130,47 +130,47 @@ msgstr "화장실"
 msgid "Error while loading place categories."
 msgstr "장소 카테고리를 로딩하는 중에 오류가 발생했습니다."
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "휠체어 완전 이용 가능"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "휠체어 부분적 이용 가능"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "휠체어 이용 불가능"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "알 수 없는 상태"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "완전"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "부분적"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "전혀 아님"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "입구에 계단 없음, 모든 공간에 계단 없음."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -178,53 +178,53 @@ msgstr "입구에는 높이가 최대 7.5 cm인 문턱이 있고 대부분의 �
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr "입구에는 최대 7 cm 높이의 문턱이 있고, 대부분의 방은 문턱이 없습니다."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "입구에 1단 이상의 계단 있음, 공간 이용 불가능."
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "휠체어 이용 가능한 화장실 "
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "휠체어 이용 가능 화장실 없음"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "출구 안쪽 너비 35인치 이상"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "입구 안쪽 너비 90cm 이상"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "장애물 없는 너비 59인치 이상의 평면"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "장애물 없는 너비 150cm 이상의 평면"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "휠체어 높이 변기 시트"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "접이식 지지대"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "장애인 전용 세면대"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "이름 없는 장소"
 
@@ -243,7 +243,7 @@ msgstr "오프라인 상태입니다."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "이 장소는 ${ productName }에 있습니다: ${ placeTitle }"
@@ -263,18 +263,18 @@ msgid "Add a new place"
 msgstr "누락된 장소 추가"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "더 가깝게 확대하여 더 많은 장소 보기 "
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "위치 서비스 켜기 "
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "지도"
 
@@ -354,14 +354,9 @@ msgstr "홈"
 msgid "Menu"
 msgstr "메뉴"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "검색 지우기"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "이동"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -659,7 +654,7 @@ msgid "Great! Thanks for joining us."
 msgstr ""
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "이 장소를 불러올 수 없었습니다."
 
@@ -671,15 +666,15 @@ msgstr "데이터 로딩중에 오류가 발생했습니다."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "이 장소를 휠체어로 어떻게 이용할 수 있습니까?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "상세 정보 접기 "
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "세부 정보 확대하기"
 
@@ -912,12 +907,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "휠체어로 이용할 수 있는 화장실인가요?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "예"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "아니요"
 
@@ -979,28 +974,82 @@ msgstr "이 위치 봉쇄"
 msgid "All elevators and escalators"
 msgstr "모든 엘리베이터 및 에스컬레이터"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "이미지 신고하기 "
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "의"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "다음 (오른쪽 화살표 기호)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "이전 (왼쪽 화살표 부호)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "닫기 (Esc)"
 
@@ -1476,3 +1525,21 @@ msgstr ""
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "귀하의 기여를 확인할 시간이 필요합니다."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""

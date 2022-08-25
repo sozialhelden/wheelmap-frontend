@@ -4,10 +4,11 @@
 # Developers, 2021
 # Silke Georgi <silkemariageorgi@gmail.com>, 2021
 # Sebastian Felix Zappe <hypo@me.com>, 2022
+# danieldegroot2 <danieldegroot18@gmail.com>, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
+"Last-Translator: danieldegroot2 <danieldegroot18@gmail.com>, 2022\n"
 "Language-Team: Dutch (https://www.transifex.com/sozialhelden/teams/16671/nl/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: nl\n"
@@ -134,47 +135,47 @@ msgstr "Toiletten"
 msgid "Error while loading place categories."
 msgstr "Fout tijdens het laden van locatie categorieën."
 
-#: src/lib/Feature.ts:479
+#: src/lib/Feature.ts:480
 msgid "Fully wheelchair accessible"
 msgstr "Volledig rolstoeltoegankelijk"
 
 #: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:482
+#: src/lib/Feature.ts:483
 msgid "Partially wheelchair accessible"
 msgstr "Gedeeltelijk rolstoeltoegankelijk"
 
-#: src/lib/Feature.ts:485
+#: src/lib/Feature.ts:486
 msgid "Not wheelchair accessible"
 msgstr "Niet rolstoeltoegankelijk"
 
-#: src/lib/Feature.ts:488
+#: src/lib/Feature.ts:489
 msgid "Unknown accessibility"
 msgstr "Onbekende toegankelijkheid"
 
-#: src/lib/Feature.ts:498
+#: src/lib/Feature.ts:499
 msgid "Fully"
 msgstr "Volledig"
 
-#: src/lib/Feature.ts:501
+#: src/lib/Feature.ts:502
 msgid "Partially"
 msgstr "Gedeeltelijk"
 
-#: src/lib/Feature.ts:504
+#: src/lib/Feature.ts:505
 msgid "Not at all"
 msgstr "Helemaal niet"
 
 #: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:507
+#: src/lib/Feature.ts:508
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/lib/Feature.ts:517
+#: src/lib/Feature.ts:518
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Ingang zonder treden, alle kamers zonder treden."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:521
+#: src/lib/Feature.ts:522
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -184,56 +185,56 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:523
+#: src/lib/Feature.ts:524
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Ingang heeft een trede met een maximale hoogte van 7 centimeter, de meeste "
 "kamers hebben geen treden."
 
-#: src/lib/Feature.ts:526
+#: src/lib/Feature.ts:527
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "Ingang heeft een trede of meerdere treden, kamers zijn niet toegankelijk."
 
-#: src/lib/Feature.ts:537
+#: src/lib/Feature.ts:538
 msgid "Wheelchair accessible toilet"
 msgstr "Rolstoeltoegankelijk toilet"
 
-#: src/lib/Feature.ts:540
+#: src/lib/Feature.ts:541
 msgid "No wheelchair accessible toilet"
 msgstr "WC niet rolstoeltoegankelijk"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Breedte van de deuropening ≥ 35 inches"
 
-#: src/lib/Feature.ts:548
+#: src/lib/Feature.ts:549
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Breedte van de deuropening ≥ 90 cm"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Vrije bewegingsruimte ≥ 59 inches breed"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:550
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Vrije bewegingsruimte  ≥ 150 cm breed"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:551
 msgid "Wheelchair-height toilet seat"
 msgstr "Toilet op rolstoelhoogte"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:552
 msgid "Foldable grab rails"
 msgstr "Opklapbare beugels"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:553
 msgid "Accessible sink"
 msgstr "Toegankelijke wastafel"
 
-#: src/lib/Feature.ts:559
+#: src/lib/Feature.ts:560
 msgid "Unnamed place"
 msgstr "Locatie zonder naam"
 
@@ -250,9 +251,9 @@ msgstr "Je bent offline."
 
 #: src/lib/NativeAppStrings.ts:12
 msgid "To add photos to places, camera access is needed."
-msgstr ""
+msgstr "Om foto's aan plaatsen toe te voegen is camera-toegang nodig."
 
-#: src/app/PlaceDetailsData.tsx:300
+#: src/app/PlaceDetailsData.tsx:293
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "This place is on ${ productName }: ${ placeTitle }"
@@ -272,18 +273,18 @@ msgid "Add a new place"
 msgstr "Nieuwe locatie toevoegen"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1020
+#: src/components/Map/Map.tsx:1019
 msgid "Zoom in closer to see more places"
 msgstr "Zoom verder in om meer locaties te zien"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1036
+#: src/components/Map/Map.tsx:1035
 msgid "Turn on location services"
 msgstr "Zet locatiediensten aan"
 
-#: src/components/Map/Map.tsx:1069
+#: src/components/Map/Map.tsx:1068
 msgid "Map"
 msgstr "Kaart"
 
@@ -363,14 +364,9 @@ msgstr "Home"
 msgid "Menu"
 msgstr "Menu"
 
-#: src/components/SearchToolbar/SearchToolbar.tsx:449
+#: src/components/SearchToolbar/SearchToolbar.tsx:426
 msgid "Clear search"
 msgstr "Zoekterm wissen"
-
-#. translator: button shown next to the search bar
-#: src/components/SearchToolbar/SearchToolbar.tsx:460
-msgid "Go"
-msgstr "Ga"
 
 #. translator: Shown in collapsed search/filter combi button when there is no
 #. category filter set
@@ -513,7 +509,7 @@ msgstr "Dank je!"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
 msgid "Back to place"
-msgstr ""
+msgstr "Terug naar plaats"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:106
 msgid "Back to map"
@@ -522,7 +518,7 @@ msgstr "Terug naar de kaart"
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:115
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:59
 msgid "Clapping hands"
-msgstr ""
+msgstr "Klappende handen"
 
 #. translator: Screenreader description for the mapping events list
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:35
@@ -636,33 +632,35 @@ msgstr "Kaartevenement verlaten"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:50
 msgid "Your email address is required!"
-msgstr ""
+msgstr "Je e-mailadres is vereist!"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:57
 msgid "This email address is not valid."
-msgstr ""
+msgstr "Dit e-mailadres is niet geldig."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
-msgstr ""
+msgstr "E-mailadres"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:92
 msgid "Let’s go"
-msgstr ""
+msgstr "Laten we beginnen!"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
 #, javascript-format
 msgid "You are participating as ${ initialEmailAddress }."
-msgstr ""
+msgstr "Je doet mee als ${ initialEmailAddress }."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
 msgid ""
 "To stay in touch with you, you must provide us with your email address."
 msgstr ""
+"Om met je in verbinding te blijven, moet je je e-mailadres aan ons opgeven."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
 msgid "To stay in touch with you, please share your email address with us."
 msgstr ""
+"Deel je e-mailadres met ons, zodat we met je in verbinding kunnen blijven."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
 msgid "Welcome"
@@ -672,10 +670,10 @@ msgstr "Welkom"
 #. message defined by the event organizer.
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118
 msgid "Great! Thanks for joining us."
-msgstr ""
+msgstr "Fantastisch! Bedankt voor het deelnemen."
 
 #. translator: Shown when there was an error while loading a place.
-#: src/lib/cache/FeatureCache.ts:181 src/lib/cache/WheelmapFeatureCache.ts:29
+#: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
 msgid "Could not load this place."
 msgstr "Kon deze locatie niet laden."
 
@@ -687,15 +685,15 @@ msgstr "Fout tijdens het laden van de gegevens."
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
 #: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:238
+#: src/components/NodeToolbar/NodeToolbar.tsx:250
 msgid "How wheelchair accessible is this place?"
 msgstr "Hoe rolstoeltoegankelijk is deze locatie?"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Collapse details"
 msgstr "Details verbergen"
 
-#: src/components/Toolbar.tsx:602
+#: src/components/Toolbar.tsx:603
 msgid "Expand details"
 msgstr "Details tonen"
 
@@ -731,31 +729,31 @@ msgstr "Deelnemers"
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:59
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
 msgid "Create Place"
-msgstr ""
+msgstr "Plaats aanmaken"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:64
 msgid "Check if the place already exists by searching for it"
-msgstr ""
+msgstr "Controleer of de plaats al bestaat door ernaar te zoeken"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:68
 msgid "No matching result?"
-msgstr ""
+msgstr "Geen overeenkomend resultaat?"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:70
 msgid "Create a new place with this name"
-msgstr ""
+msgstr "Een nieuwe plaats met deze naam aanmaken"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:77
 msgid "An error occurred while searching"
-msgstr ""
+msgstr "Er is een fout opgetreden tijdens het zoeken"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:80
 msgid "Type more to start searching"
-msgstr ""
+msgstr "Typ verder om te beginnen met zoeken"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:87
 msgid "Searching..."
-msgstr ""
+msgstr "Zoeken..."
 
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
@@ -767,67 +765,69 @@ msgstr "terug"
 
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
 msgid "Select Category"
-msgstr ""
+msgstr "Categorie selecteren"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
 #, javascript-format
 msgid "Uploading ${ placeName } to ${ appName }."
-msgstr ""
+msgstr "${ placeName } naar ${ appName } aan het uploaden."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:44
 msgid "Dismiss"
-msgstr ""
+msgstr "Negeren"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:49
 msgid "Unhappy face"
-msgstr ""
+msgstr "Ongelukkig gezicht"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:52
 msgid "Sorry"
-msgstr ""
+msgstr "Sorry"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:53
 #, javascript-format
 msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
 msgstr ""
+"Er is iets fout gegaan tijdens het uploaden van ${ placeName } naar ${ "
+"appName }."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:62
 msgid "You rock!"
-msgstr ""
+msgstr "Je bent geweldig!"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:63
 #, javascript-format
 msgid "${ placeName } was added to ${ appName }."
-msgstr ""
+msgstr "${ placeName } is toegevoegd aan ${ appName }."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:65
 msgid "Continue to place"
-msgstr ""
+msgstr "Doorgaan naar plaats"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:95
 msgid "Name"
-msgstr ""
+msgstr "Naam"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:108
 msgid "Category"
-msgstr ""
+msgstr "Categorie"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:110
 msgid "Select category"
-msgstr ""
+msgstr "Categorie selecteren"
 
 #: src/components/CreatePlaceFlow/components/MapButton.tsx:47
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
 msgid "Define main entry"
-msgstr ""
+msgstr "Hoofditem definiëren"
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:114
 msgid "Move the map to place the entry as correct as possible."
-msgstr ""
+msgstr "Verschuif de kaart om het item zo nauwkeurig mogelijk erop te zetten."
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:124
 msgid "Confirm Position"
-msgstr ""
+msgstr "Positie bevestigen"
 
 #: src/lib/goToLocationSettings.ts:37
 msgid ""
@@ -904,19 +904,19 @@ msgstr "Zonder naam"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:50
 msgid "Address"
-msgstr ""
+msgstr "Adres"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:52
 msgid "City"
-msgstr ""
+msgstr "Stad"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:54
 msgid "Region"
-msgstr ""
+msgstr "Regio"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:60
 msgid "Postal Code"
-msgstr ""
+msgstr "Postcode"
 
 #. translator: Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.tsx:31
@@ -930,12 +930,12 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Is de WC rolstoeltoegankelijk?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:37
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
 msgid "Yes"
 msgstr "Ja"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:42
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
 msgid "No"
 msgstr "Geen"
 
@@ -1001,40 +1001,96 @@ msgstr "Verstoringen op deze locatie"
 msgid "All elevators and escalators"
 msgstr "Alle liften en roltrappen"
 
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:158
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:103
 msgid "Report image"
 msgstr "Rapporteer foto"
 
 #. translator: divider between <currentImageIndex> and <imageCount> in
 #. lightbox, such as 1 of 10
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:184
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:111
 msgid "of"
 msgstr "van"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:186
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
 msgid "Next (right arrow key)"
 msgstr "Volgende (rechter pijltjestoets)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:188
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
 msgid "Previous (left arrow key)"
 msgstr "Vorige (linker pijltjestoets)"
 
+#. const customStyles = {
+#. header: (base, state) => ({
+#. ...base,
+#. borderBottom: '1px dotted pink',
+#. color: state.isFullscreen ? 'red' : 'blue',
+#. padding: 20,
+#. }),
+#. view: () => ({
+#. // none of react-images styles are passed to <View />
+#. height: 400,
+#. width: 600,
+#. }),
+#. footer: (base, state) => {
+#. const opacity = state.interactionIsIdle ? 0 : 1;
+#. const transition = 'opacity 300ms';
+#. return { ...base, opacity, transition };
+#. }
+#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:190
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
 msgid "Close (Esc)"
 msgstr "Sluiten (Esc)"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:101
 msgid "Add more details"
-msgstr ""
+msgstr "Meer details toevoegen"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:106
 msgid ""
 "Sorry, something went wrong! Please retry later, or write an email to "
 "bugs@wheelmap.org if the issue persists."
 msgstr ""
+"Sorry, er is iets fout gegaan! Probeer het later opnieuw of schrijf een "
+"e-mail naar bugs@wheelmap.org als het probleem blijft bestaan."
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
 #, javascript-format
@@ -1449,7 +1505,7 @@ msgstr "en"
 #: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
-msgstr ""
+msgstr "Kamer ${ roomNumber }"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:88
 msgid "“Vespucci” in PlayStore"
@@ -1488,12 +1544,12 @@ msgstr "Voeg een locatie toe aan OpenStreetMap"
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:43
 msgid "Learn how to organize a mapping event"
-msgstr ""
+msgstr "Leer hoe een mapping-evenement te organiseren"
 
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:45
 msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
-msgstr ""
+msgstr "https://news.wheelmap.org/en/organize-a-mapping-event/"
 
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:34
@@ -1507,19 +1563,44 @@ msgid ""
 "\n"
 "See you there!"
 msgstr ""
+"Hi 👋\n"
+"\n"
+"Help ons en kom bij het mapping-evenement ‘${ eventName }’ op ${ productNameLocalized }. Meer informatie kun je hier vinden:\n"
+"\n"
+"${ url }\n"
+"\n"
+"Tot dan!"
 
 #. translator: Shown next to a form input label for a field where the user
 #. must enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
 msgid "(required)"
-msgstr ""
+msgstr "(verplicht)"
 
 #. translator: Shown next to a form input label for a field where the user can
 #. optionally enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
-msgstr ""
+msgstr "(optioneel)"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Even geduld a.j.b. We verifiëren je bijdrage."
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#, javascript-format
+msgid "${ valueAndUnit } or less"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+msgid "${ valueAndUnit } or more"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#, javascript-format
+msgid "less than ${ valueAndUnit }"
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+msgid "greater than ${ valueAndUnit }"
+msgstr ""
