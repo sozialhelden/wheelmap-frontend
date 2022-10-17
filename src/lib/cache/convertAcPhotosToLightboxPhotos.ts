@@ -3,10 +3,31 @@ import { Image } from 'react-photo-album';
 import { AccessibilityCloudImage, AccessibilityCloudImages } from '../Feature';
 import env from '../env';
 
+const calculateDimensionsToFit = (acPhoto: AccessibilityCloudImage, maxSize: number) => {
+  if (!acPhoto.dimensions) {
+    return { width: maxSize, height: maxSize };
+  }
+
+  const { width, height } = acPhoto.dimensions;
+  const ratio = width / height;
+  if (width > height) {
+    return {
+      width: maxSize,
+      height: Math.round(maxSize / ratio),
+    };
+  } else {
+    return {
+      width: Math.round(maxSize * ratio),
+      height: maxSize,
+    };
+  }
+};
+
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
+  const { width, height } = calculateDimensionsToFit(acPhoto, size);
   return `${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}/images/scale/${
     acPhoto.imagePath
-  }?fitw=${size}&fith=${size}${
+  }?fitw=${width}&fith=${height}${
     acPhoto.angle ? `&angle=${((acPhoto.angle % 360) + 360) % 360}` : ''
   }`;
 };

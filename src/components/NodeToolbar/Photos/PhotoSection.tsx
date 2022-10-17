@@ -119,30 +119,10 @@ function PhotoSection(props: Props) {
 
   const HeaderFullscreen = React.useMemo(() => () => <span></span>, []);
 
-  // const customStyles = {
-  //   header: (base, state) => ({
-  //     ...base,
-  //     borderBottom: '1px dotted pink',
-  //     color: state.isFullscreen ? 'red' : 'blue',
-  //     padding: 20,
-  //   }),
-  //   view: () => ({
-  //     // none of react-images styles are passed to <View />
-  //     height: 400,
-  //     width: 600,
-  //   }),
-  //   footer: (base, state) => {
-  //     const opacity = state.interactionIsIdle ? 0 : 1;
-  //     const transition = 'opacity 300ms';
-
-  //     return { ...base, opacity, transition };
-  //   }
-  // }
-
   const photoViewingComponents = hasPhotos && (
     <>
       <PhotoAlbum
-        photos={photos.map(p => ({ ...p, width: 100, height: 100 }))}
+        photos={photos.map(p => ({ ...p }))}
         onClick={showImage}
         columns={Math.min(photos.length, 3)}
         layout="columns"
