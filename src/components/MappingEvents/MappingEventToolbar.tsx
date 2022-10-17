@@ -56,7 +56,6 @@ const MappingEventToolbar = ({
   preferredLanguage,
   minimalTopPosition,
 }: MappingEventToolbarProps) => {
-  debugger;
   const imageSource =
     mappingEvent.images && mappingEvent.images[0]
       ? buildFullImageUrl(mappingEvent.images[0])

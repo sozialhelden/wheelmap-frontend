@@ -93,7 +93,6 @@ export default function PlaceAccessibilitySection(props: Props) {
   const translatedDescription = translatedStringFromObject(properties.description);
   const showDefaultDescription =
     !description && (!translatedDescription || translatedDescription === '');
-  debugger;
 
   return (
     <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
