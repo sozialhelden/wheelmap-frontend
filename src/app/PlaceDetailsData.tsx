@@ -34,8 +34,6 @@ import router from './router';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
 
-import { PhotoModel } from '../lib/PhotoModel';
-
 import { wheelmapFeaturePhotosCache } from '../lib/cache/WheelmapFeaturePhotosCache';
 import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapPhotosToLightboxPhotos';
 
@@ -101,40 +99,35 @@ async function fetchSourceWithLicense(
 }
 
 function fetchPhotos(
-  featureId: string | number,
+  feature: Feature,
   appToken: string,
   useCache: boolean,
   disableWheelmapSource?: boolean
 ) {
-  const isWheelmap = isWheelmapFeatureId(featureId);
+  const isWheelmap = isWheelmapFeature(feature);
   const useWheelmap = isWheelmap && !disableWheelmapSource;
+  const featureId = getFeatureId(feature);
+  const surveyResultId = get(feature, 'properties.surveyResultId');
 
   const photosPromise = Promise.all([
     accessibilityCloudImageCache
-      .getPhotosForFeature(featureId, appToken, useCache)
-      .then(acPhotos => {
-        if (acPhotos) {
-          return convertAcPhotosToLightboxPhotos(acPhotos);
-        }
-        return [] as PhotoModel[];
-      }),
+      .getImage('place', featureId, appToken, useCache)
+      .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : []),
+    surveyResultId ?
+      accessibilityCloudImageCache
+        .getImage('surveyResult', surveyResultId, appToken, useCache)
+        .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : [])
+      : [],
     useWheelmap
       ? wheelmapFeaturePhotosCache
           .getPhotosForFeature(featureId, appToken, useCache)
-          .then(wmPhotos => {
-            if (wmPhotos) {
-              return convertWheelmapPhotosToLightboxPhotos(wmPhotos);
-            }
-            return [] as PhotoModel[];
-          })
-      : Promise.resolve([] as PhotoModel[]),
+          .then(wmPhotos => wmPhotos ? convertWheelmapPhotosToLightboxPhotos(wmPhotos) : [])
+      : [],
   ])
-    .then((photoArrays: PhotoModel[][]) => {
-      return [].concat(photoArrays[0], photoArrays[1]) as PhotoModel[];
-    })
+    .then(photoArrays => photoArrays.flat())
     .catch(err => {
       console.error(err);
-      return [] as PhotoModel[];
+      return [];
     });
 
   return photosPromise;
@@ -182,7 +175,6 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const renderContext = await renderContextPromise;
     const appToken = renderContext.app.tokenString;
     const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
-    const photosPromise = fetchPhotos(featureId, appToken, useCache, disableWheelmapSource);
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
       : null;
@@ -193,6 +185,8 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const toiletsNearby = isServer
       ? undefined
       : fetchToiletsNearby(renderContext, featurePromise);
+    const photosPromise = featurePromise.then(feature =>
+      fetchPhotos(feature, appToken, useCache, disableWheelmapSource));
 
     const [feature, equipmentInfo, sources, photos] = await Promise.all([
       featurePromise,

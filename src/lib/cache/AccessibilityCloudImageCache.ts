@@ -19,14 +19,6 @@ const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '
 const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
 
 export default class AccessibilityCloudImageCache extends URLDataCache<AccessibilityCloudImages> {
-  getPhotosForFeature(
-    featureId: string | number,
-    appToken: string,
-    useCache: boolean = true
-  ): Promise<AccessibilityCloudImages | undefined> {
-    return this.getImage('place', String(featureId), appToken, useCache);
-  }
-
   getImage(
     context: string,
     objectId: string,
