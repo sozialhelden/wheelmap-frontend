@@ -71,5 +71,7 @@ export default function convertAcPhotosToLightboxPhotos(
     height: acPhoto.dimensions ? acPhoto.dimensions.height : 1,
     key: acPhoto._id,
     appSource: 'accessibility-cloud',
+    _id: acPhoto._id,
+    angle: acPhoto.angle,
   }));
 }

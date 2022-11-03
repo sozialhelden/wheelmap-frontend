@@ -6,10 +6,10 @@ import CheckmarkIcon from '../../icons/actions/CheckmarkIcon';
 import ProblemIcon from '../../icons/actions/ProblemIcon';
 
 type Props = {
-  className?: string,
-  notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview',
-  uploadProgress?: number, // between 0 and 100
-  photoFlowErrorMessage?: string,
+  className?: string;
+  notificationType?: 'uploadProgress' | 'uploadFailed' | 'reported' | 'waitingForReview';
+  uploadProgress?: number; // between 0 and 100
+  photoFlowErrorMessage?: string;
 };
 
 type State = {};
@@ -98,10 +98,8 @@ const StyledPhotoNotification = styled(PhotoNotification)`
       align-items: center;
 
       > svg {
-        font-size: 3rem;
+        font-size: 1rem;
         min-width: 34px;
-        margin: -1rem 0;
-        margin-right: 8px;
       }
     }
   }
@@ -120,14 +118,14 @@ const StyledPhotoNotification = styled(PhotoNotification)`
 
   &.notification-mode-uploadFailed {
     small > svg {
-      font-size: 2rem;
+      font-size: 1rem;
     }
   }
 
   &.notification-mode-waitingForReview,
   &.notification-mode-reported {
     small > svg {
-      font-size: 3rem;
+      font-size: 1rem;
     }
   }
 `;

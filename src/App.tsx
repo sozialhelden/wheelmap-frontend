@@ -921,9 +921,10 @@ class App extends React.Component<Props, State> {
   };
 
   onFinishReportPhotoFlow = (photo: PhotoModel, reason: string) => {
-    if (photo.source === 'accessibility-cloud') {
+    debugger;
+    if (photo.appSource === 'accessibility-cloud') {
       accessibilityCloudImageCache.reportPhoto(
-        String(photo.imageId),
+        String(photo._id),
         reason,
         this.props.app.tokenString
       );

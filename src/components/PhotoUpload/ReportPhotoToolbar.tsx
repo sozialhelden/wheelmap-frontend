@@ -56,15 +56,15 @@ function reportDescription(reportValue: ReportOptions): string | null {
 }
 
 export type Props = {
-  className?: string,
-  hidden: boolean,
-  photo: PhotoModel | null,
-  onClose: () => void,
-  onCompleted: (photo: PhotoModel, reason: ReportOptions) => void,
+  className?: string;
+  hidden: boolean;
+  photo: PhotoModel | null;
+  onClose: () => void;
+  onCompleted: (photo: PhotoModel, reason: ReportOptions) => void;
 };
 
 type State = {
-  selectedValue: ReportOptions | null,
+  selectedValue: ReportOptions | null;
 };
 
 class ReportPhotoToolbar extends React.Component<Props, State> {
@@ -81,6 +81,7 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
   onSubmit = (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
   ) => {
+    debugger;
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
       this.props.onCompleted(this.props.photo, this.state.selectedValue);
       event.preventDefault();
