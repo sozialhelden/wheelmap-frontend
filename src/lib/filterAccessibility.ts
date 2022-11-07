@@ -15,6 +15,7 @@ export default function filterAccessibility(
     'restrooms.0.isAccessibleWithWheelchair',
     'areas.0.entrances.0.isLevel',
     'entrances.0.isLevel',
+    'entrances.0.geometry',
   ];
   const props = cloneDeep(properties);
   // TODO: check why called twice
