@@ -115,7 +115,7 @@ exports.config = {
   waitforInterval: 1000,
   connectionRetryTimeout: 90000,
   connectionRetryCount: 3,
-  specFileRetries: 2,
+  specFileRetries: 0,
   host: 'hub.browserstack.com',
 
   beforeSuite: function() {

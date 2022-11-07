@@ -1,0 +1,10 @@
+{
+  "globals": {
+    "browser": true
+  },
+  "plugins": ["wdio"],
+  "extends": [
+      "eslint:recommended",
+      "plugin:wdio/recommended"
+  ]
+}
