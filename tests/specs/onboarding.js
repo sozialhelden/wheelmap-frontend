@@ -1,3 +1,4 @@
+const acceptLocationAlertOnMobilesIfPresent = require('../lib/acceptLocationAlertOnMobilesIfPresent');
 const saveScreenshot = require('../lib/saveScreenshot');
 
 // See the WebDriver API documentation for a list of possible actions.
@@ -9,32 +10,36 @@ const saveScreenshot = require('../lib/saveScreenshot');
 describe('Onboarding dialog', function() {
   it('has a claim', async function() {
     await browser.url('/');
+    await acceptLocationAlertOnMobilesIfPresent();
     const $dialog = await browser.$('section.modal-dialog');
     const $claim = await $dialog.$('.claim');
-    expect($claim).toBeVisible();
+    await expect($claim).toBeDisplayedInViewport();
     const claim = await $claim.getText();
-    expect(claim).toMatch(/wheelchair accessible/i);
-    expect(claim).toMatch(/free/i);
-    expect(claim).toMatch(/traffic light system/i);
+    await expect(claim).toMatch(/wheelchair accessible/i);
+    await expect(claim).toMatch(/free/i);
+    await expect(claim).toMatch(/traffic light system/i);
   });
 
-  it('has a logo', async function() {
-    await browser.url('/');
-    const $dialog = await browser.$('section.modal-dialog');
-    const $logo = await $dialog.$('img.logo');
-    expect($logo).toBeVisible();
-    // Check that the image actually has a src URL
-    // expect((await $logo.getAttribute('src')).length).toBeGreaterThan(0);
-  });
+  // it('has a logo', async function() {
+  //   await browser.url('/');
+  //   await acceptLocationAlertOnMobilesIfPresent();
+  //   const $dialog = await browser.$('section.modal-dialog');
+  //   const $logo = await $dialog.$('.logo');
+  //   await expect($logo).toBeDisplayedInViewport();
+  //   await expect($logo).toHaveAttr('aria-label', 'Wheelmap');
+  //   const $logoSVG = await $logo.$('svg');
+  //   await expect($logoSVG).toBeDisplayedInViewport();
+  // });
 
-  it('closes by clicking start button', async function() {
-    await browser.url('/');
-    const $dialog = await browser.$('section.modal-dialog');
-    expect($dialog).toBeVisible();
-    await saveScreenshot('Onboarding dialog');
-    const $button = await browser.$('button=Okay, let’s go!');
-    await $button.click();
-    expect($dialog).not.toBeVisible();
-    await saveScreenshot('After closing the onboarding');
-  });
+  // it('closes by clicking start button', async function() {
+  //   await browser.url('/');
+  //   await acceptLocationAlertOnMobilesIfPresent();
+  //   const $dialog = await browser.$('section.modal-dialog');
+  //   await expect($dialog).toBeDisplayedInViewport();
+  //   await saveScreenshot('Onboarding dialog');
+  //   const $button = await browser.$('button=Okay, let’s go!');
+  //   await $button.click();
+  //   await expect($dialog).not.toBeDisplayedInViewport();
+  //   await saveScreenshot('After closing the onboarding');
+  // });
 });

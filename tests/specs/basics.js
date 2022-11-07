@@ -1,3 +1,5 @@
+const acceptLocationAlertOnMobilesIfPresent = require('../lib/acceptLocationAlertOnMobilesIfPresent');
+
 const saveScreenshot = require('../lib/saveScreenshot');
 
 // See the WebDriver API documentation for a list of possible actions.
@@ -10,6 +12,6 @@ describe('Wheelmap main page', function() {
   it('has a title', async function() {
     await browser.url('/');
     const title = await browser.getTitle();
-    expect(title).toMatch(/Wheelmap – Find wheelchair accessible places./i);
+    await expect(title).toMatch(/Wheelmap – Find wheelchair accessible places./i);
   });
 });

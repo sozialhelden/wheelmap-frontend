@@ -54,57 +54,57 @@ exports.config = {
         },
       },
     },
-    {
-      os: 'Windows',
-      os_version: '7',
-      browserName: 'Firefox',
-      browser_version: 'latest',
-      autoAcceptAlerts: 'true',
-      'browserstack.selenium_version': '3.10.0',
-    },
-    {
-      'bstack:options': {
-        os: 'OS X',
-        osVersion: 'Big Sur',
-        local: 'false',
-        seleniumVersion: '4.0.0-alpha-6',
-        userName: 'holgerdieterich1',
-        accessKey: 'S2Lp7oshaL7SB38mn2TC',
-        seleniumLogs: true,
-      },
-      browserName: 'Safari',
-      browserVersion: '14.0',
-    },
-    {
-      'bstack:options': {
-        os: 'Windows',
-        osVersion: '10',
-        local: 'false',
-        seleniumVersion: '4.0.0-alpha-6',
-        userName: 'holgerdieterich1',
-        accessKey: 'S2Lp7oshaL7SB38mn2TC',
-      },
-      browserName: 'Edge',
-      browserVersion: 'latest',
-      autoAcceptAlerts: 'true',
-    },
-    {
-      os_version: '14',
-      device: 'iPhone 12',
-      real_mobile: 'true',
-      browserName: 'iPhone',
-      autoAcceptAlerts: 'true',
-      'browserstack.appium_version': '1.19.1',
-    },
-    {
-      os_version: '10.0',
-      device: 'Samsung Galaxy S20',
-      real_mobile: 'true',
-      'browserstack.appium_version': '1.19.1',
-      browserName: 'Android',
-      // This doesn't work - we have to manually accept the alert dialog
-      autoAcceptAlerts: 'true',
-    },
+    // {
+    //   os: 'Windows',
+    //   os_version: '7',
+    //   browserName: 'Firefox',
+    //   browser_version: 'latest',
+    //   autoAcceptAlerts: 'true',
+    //   'browserstack.selenium_version': '3.10.0',
+    // },
+    // {
+    //   'bstack:options': {
+    //     os: 'OS X',
+    //     osVersion: 'Big Sur',
+    //     local: 'false',
+    //     seleniumVersion: '4.0.0-alpha-6',
+    //     userName: 'holgerdieterich1',
+    //     accessKey: 'S2Lp7oshaL7SB38mn2TC',
+    //     seleniumLogs: true,
+    //   },
+    //   browserName: 'Safari',
+    //   browserVersion: '14.0',
+    // },
+    // {
+    //   'bstack:options': {
+    //     os: 'Windows',
+    //     osVersion: '10',
+    //     local: 'false',
+    //     seleniumVersion: '4.0.0-alpha-6',
+    //     userName: 'holgerdieterich1',
+    //     accessKey: 'S2Lp7oshaL7SB38mn2TC',
+    //   },
+    //   browserName: 'Edge',
+    //   browserVersion: 'latest',
+    //   autoAcceptAlerts: 'true',
+    // },
+    // {
+    //   os_version: '14',
+    //   device: 'iPhone 12',
+    //   real_mobile: 'true',
+    //   browserName: 'iPhone',
+    //   autoAcceptAlerts: 'true',
+    //   'browserstack.appium_version': '1.19.1',
+    // },
+    // {
+    //   os_version: '10.0',
+    //   device: 'Samsung Galaxy S20',
+    //   real_mobile: 'true',
+    //   'browserstack.appium_version': '1.19.1',
+    //   browserName: 'Android',
+    //   // This doesn't work - we have to manually accept the alert dialog
+    //   autoAcceptAlerts: 'true',
+    // },
   ],
 
   logLevel: 'warn',
@@ -123,6 +123,7 @@ exports.config = {
     // global.expect = chai.expect;
     // chai.Should();
     console.log('Capabilities:', browser.capabilities);
+    require('@testing-library/jest-dom/extend-expect');
   },
 
   afterSuite: function() {
