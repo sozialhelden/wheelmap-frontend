@@ -123,7 +123,6 @@ exports.config = {
     // global.expect = chai.expect;
     // chai.Should();
     console.log('Capabilities:', browser.capabilities);
-    require('@testing-library/jest-dom/extend-expect');
   },
 
   afterSuite: function() {
