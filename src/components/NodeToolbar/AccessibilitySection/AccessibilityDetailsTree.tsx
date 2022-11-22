@@ -3,16 +3,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
-import {
-  getAccessibilityAttributes,
-  useAccessibilityAttributes,
-  AccessibilityAttributesMap,
-} from '../../../lib/data-fetching/useAccessibilityAttributes';
-import { getBrowserLocaleStrings, translatedStringFromObject } from '../../../lib/i18n';
-import AppContext from '../../../AppContext';
-import usePromise from '../../usePromise';
-import ErrorBoundary from '../../ErrorBoundary';
-import { compact } from 'lodash';
+import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
+import { translatedStringFromObject } from '../../../lib/i18n';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -54,7 +46,7 @@ function formatName(
   return string.replace(/^Rating /, '');
 }
 
-function formatValue(value: any): string {
+function formatValue(value: any): string | JSX.Element {
   if (
     value === true ||
     (typeof value === 'string' && (value.match(/^true$/i) || value.match(/^yes$/i)))
@@ -96,10 +88,12 @@ function DetailsArray({
   className,
   array,
   accessibilityAttributes,
+  keyPrefix,
 }: {
   className: string | null;
   array: any[];
   accessibilityAttributes: AccessibilityAttributesMap;
+  keyPrefix?: string;
 }) {
   // eslint-disable-next-line react/no-array-index-key
   const items = array.map((e, i) => (
@@ -108,13 +102,15 @@ function DetailsArray({
         isNested={true}
         details={e}
         accessibilityAttributes={accessibilityAttributes}
+        keyPrefix={`${keyPrefix}.${i}`}
       />
     </li>
   ));
+
   return (
-    <ul className={`ac-list ${array.length === 1 ? 'has-only-one-item' : ''} ${className || ''}`}>
+    <ol className={`ac-list ${array.length === 1 ? 'has-only-one-item' : ''} ${className || ''}`}>
       {items}
-    </ul>
+    </ol>
   );
 }
 
@@ -131,6 +127,7 @@ function DetailsObject(props: {
   object: {};
   isNested?: boolean;
   accessibilityAttributes: AccessibilityAttributesMap;
+  keyPrefix?: string;
 }) {
   const { className, object, isNested } = props;
   const properties = Object.keys(object)
@@ -154,21 +151,27 @@ function DetailsObject(props: {
         if (key === 'description') {
           return <section>{translatedStringFromObject(value)}</section>;
         }
+        const subtree = (
+          <AccessibilityDetailsTree
+            isNested={true}
+            details={value}
+            accessibilityAttributes={props.accessibilityAttributes}
+            keyPrefix={key}
+          />
+        );
+        if (key.endsWith('properties')) {
+          return <div key={`${key}-tree`}>{subtree}</div>;
+        }
         return (
           <>
             <dt key={`${key}-name`} data-key={key}>
               {capitalizedName}
             </dt>
-            <dd key={`${key}-tree`}>
-              <AccessibilityDetailsTree
-                isNested={true}
-                details={value}
-                accessibilityAttributes={props.accessibilityAttributes}
-              />
-            </dd>
+            <dd key={`${key}-tree`}>{subtree}</dd>
           </>
         );
       }
+
       if (key.startsWith('rating')) {
         return (
           <>
@@ -213,6 +216,7 @@ type Props = {
   isNested?: boolean;
   className?: string | null;
   accessibilityAttributes: AccessibilityAttributesMap;
+  keyPrefix?: string;
 };
 
 function AccessibilityDetailsTree(props: Props) {
@@ -223,6 +227,7 @@ function AccessibilityDetailsTree(props: Props) {
         className={props.className}
         array={details}
         accessibilityAttributes={props.accessibilityAttributes}
+        keyPrefix={props.keyPrefix}
       />
     );
   }
@@ -233,6 +238,7 @@ function AccessibilityDetailsTree(props: Props) {
         object={details}
         isNested={props.isNested}
         accessibilityAttributes={props.accessibilityAttributes}
+        keyPrefix={props.keyPrefix}
       />
     );
   }
@@ -255,6 +261,15 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
 
   ul {
     list-style-type: disc;
+    margin-left: 1rem;
+    &.has-only-one-item {
+      list-style: none;
+      margin-left: 0;
+    }
+  }
+
+  ol {
+    list-style-type: numeric;
     margin-left: 1rem;
     &.has-only-one-item {
       list-style: none;
