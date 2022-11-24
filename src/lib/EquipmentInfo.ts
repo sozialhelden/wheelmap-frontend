@@ -24,15 +24,15 @@ export const CategoryStrings: CategoryString[] = [
 ];
 
 export type DisruptionProperties = {
-  originalId?: string,
-  originalEquipmentInfoId?: string,
-  originalEquipmentInfoIdField?: string,
-  equipmentInfoId?: string,
-  originalPlaceInfoId?: string,
-  originalPlaceInfoIdField?: string,
-  placeInfoId?: string,
-  sourceId?: string,
-  sourceImportId?: string,
+  originalId?: string;
+  originalEquipmentInfoId?: string;
+  originalEquipmentInfoIdField?: string;
+  equipmentInfoId?: string;
+  originalPlaceInfoId?: string;
+  originalPlaceInfoIdField?: string;
+  placeInfoId?: string;
+  sourceId?: string;
+  sourceImportId?: string;
   category?:
     | 'elevator'
     | 'escalator'
@@ -40,53 +40,53 @@ export type DisruptionProperties = {
     | 'sitemap'
     | 'vending-machine'
     | 'intercom'
-    | 'power-outlet',
-  isEquipmentWorking?: boolean,
-  stateExplanation?: string,
-  outOfOrderReason?: string,
-  alternativeRouteInstructions?: string,
-  startDate?: string,
-  plannedCompletionDate?: string,
-  lastUpdate?: string,
+    | 'power-outlet';
+  isEquipmentWorking?: boolean;
+  stateExplanation?: string;
+  outOfOrderReason?: string;
+  alternativeRouteInstructions?: string;
+  startDate?: string;
+  plannedCompletionDate?: string;
+  lastUpdate?: string;
 };
 
 export type EquipmentInfoProperties = {
-  _id: string,
-  originalId?: string,
-  originalPlaceInfoId?: string,
-  disruptionSourceImportId?: string,
-  originalData?: string,
-  placeInfoId?: string,
-  sourceId?: string,
-  sourceImportId?: string,
-  category?: CategoryString,
-  description?: string,
-  shortDescription?: string,
-  longDescription?: string,
+  _id: string;
+  originalId?: string;
+  originalPlaceInfoId?: string;
+  disruptionSourceImportId?: string;
+  originalData?: string;
+  placeInfoId?: string;
+  sourceId?: string;
+  sourceImportId?: string;
+  category?: CategoryString;
+  description?: string;
+  shortDescription?: string;
+  longDescription?: string;
   accessibility: {
-    hasRaisedText?: boolean,
-    isBraille?: boolean,
-    hasSpeech?: boolean,
-    isHighContrast?: boolean,
-    hasLargePrint?: boolean,
-    isVoiceActivated?: boolean,
-    hasHeadPhoneJack?: boolean,
-    isEasyToUnderstand?: boolean,
-    hasDoorsInBothDirections?: boolean,
-    heightOfControls?: number,
-    doorWidth?: number,
-    cabinWidth?: number,
-    cabinLength?: number,
-  },
-  isWorking?: boolean,
-  lastUpdate?: string,
-  lastDisruptionProperties?: DisruptionProperties,
+    hasRaisedText?: boolean;
+    isBraille?: boolean;
+    hasSpeech?: boolean;
+    isHighContrast?: boolean;
+    hasLargePrint?: boolean;
+    isVoiceActivated?: boolean;
+    hasHeadPhoneJack?: boolean;
+    isEasyToUnderstand?: boolean;
+    hasDoorsInBothDirections?: boolean;
+    heightOfControls?: number;
+    doorWidth?: number;
+    cabinWidth?: number;
+    cabinLength?: number;
+  };
+  isWorking?: boolean;
+  stateLastUpdate?: string;
+  lastDisruptionProperties?: DisruptionProperties;
 };
 
 export type EquipmentInfo = {
-  type: 'Feature',
-  geometry: Point,
-  properties: EquipmentInfoProperties,
+  type: 'Feature';
+  geometry: Point;
+  properties: EquipmentInfoProperties;
 };
 
 export type EquipmentInfoFeatureCollection = FeatureCollection<EquipmentInfo>;
@@ -130,10 +130,10 @@ export function lastUpdateString({
   category,
   isOutdated,
 }: {
-  lastUpdate: Date | null,
-  isWorking: boolean | undefined,
-  category: string | null,
-  isOutdated: boolean,
+  lastUpdate: Date | null;
+  isWorking: boolean | undefined;
+  category: string | null;
+  isOutdated: boolean;
 }) {
   if (!lastUpdate) {
     // translator: Shown next to equipment status when the system does not know a last update.

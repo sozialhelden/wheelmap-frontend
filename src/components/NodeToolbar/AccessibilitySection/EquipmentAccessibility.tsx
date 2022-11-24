@@ -19,8 +19,8 @@ function capitalizeFirstLetter(string): string {
 }
 
 type Props = {
-  equipmentInfo: EquipmentInfo | null,
-  className?: string,
+  equipmentInfo: EquipmentInfo | null;
+  className?: string;
 };
 
 function EquipmentAccessibility(props: Props) {
@@ -28,7 +28,7 @@ function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo.properties) return null;
 
   const properties = props.equipmentInfo.properties;
-  const lastUpdate = properties.lastUpdate ? new Date(properties.lastUpdate) : null;
+  const lastUpdate = properties.stateLastUpdate ? new Date(properties.stateLastUpdate) : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
   const isWorking = properties.isWorking;
