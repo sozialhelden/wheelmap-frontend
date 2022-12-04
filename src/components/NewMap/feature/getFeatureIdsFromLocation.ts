@@ -1,9 +1,9 @@
 import { uniq } from "lodash";
-import { FeatureId } from "../model/Feature";
+import { OSMFeatureId } from "../../../lib/model/osm/OSMFeature";
 
 export default function useFeatureIdsFromLocation(pathname: string) {
   const match = pathname.match(/^\/(\w+)\/([\w,:-]+)/);
-  let featureIds: FeatureId[] = [];
+  let featureIds: OSMFeatureId[] = [];
   if (match && typeof match[1] === "string" && typeof match[2] === "string") {
     const featureIdString = match[2];
     if (match[1] === "composite") {

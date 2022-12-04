@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import * as React from 'react';
-import { YesNoLimitedUnknown } from '../../lib/model/Feature';
-import colors from '../../lib/colors';
-import * as categoryIcons from '../icons/categories';
-import * as mainCategoryIcons from '../icons/mainCategories';
-import * as markers from '../icons/markers';
+import styled from "styled-components";
+import * as React from "react";
+import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import colors from "../../lib/colors";
+import * as categoryIcons from "../icons/categories";
+import * as mainCategoryIcons from "../icons/mainCategories";
+import * as markers from "../icons/markers";
 
-type Size = 'big' | 'medium' | 'small';
+type Size = "big" | "medium" | "small";
 
 type Props = {
   accessibility?: YesNoLimitedUnknown | null;
@@ -52,10 +52,10 @@ export const StyledIconContainer = styled(Figure)`
   position: relative;
   margin: 0;
 
-  width: ${props => width(props.size)}px;
-  min-width: ${props => width(props.size)}px;
-  height: ${props => width(props.size)}px;
-  font-size: ${props => width(props.size)}px;
+  width: ${(props) => width(props.size)}px;
+  min-width: ${(props) => width(props.size)}px;
+  height: ${(props) => width(props.size)}px;
+  font-size: ${(props) => width(props.size)}px;
   line-height: 1;
   display: flex;
   align-items: center;
@@ -63,11 +63,11 @@ export const StyledIconContainer = styled(Figure)`
 
   > .foreground {
     z-index: 300;
-    font-size: ${props => fontSize(props.size)}px;
-    color: ${props =>
+    font-size: ${(props) => fontSize(props.size)}px;
+    color: ${(props) =>
       props.accessibility
         ? colors.markers.foreground[props.accessibility]
-        : props.foregroundColor || '#496394'};
+        : props.foregroundColor || "#496394"};
   }
 
   > small {
@@ -77,8 +77,10 @@ export const StyledIconContainer = styled(Figure)`
     font-size: 8px;
   }
 
-  ${props => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : '')}
-  ${props => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : '')}
+  ${(props) =>
+    props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : ""}
+  ${(props) =>
+    props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ""}
 
   svg {
     &.background {
@@ -93,10 +95,10 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${props =>
+        fill: ${(props) =>
           props.accessibility
             ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || '#FFF'};
+            : props.backgroundColor || "#FFF"};
       }
     }
 
@@ -110,10 +112,10 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${props =>
+        fill: ${(props) =>
           props.accessibility
             ? colors.markers.foreground[props.accessibility]
-            : props.foregroundColor || '#496394'};
+            : props.foregroundColor || "#496394"};
       }
     }
   }
@@ -137,17 +139,21 @@ export default function Icon({
 }: Props) {
   let iconName = category;
 
-  if (iconName === '2nd_hand') {
-    iconName = 'second_hand';
+  if (iconName === "2nd_hand") {
+    iconName = "second_hand";
   }
 
   const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
-  const CategoryIconComponent = icons[iconName || 'undefined'] || icons['undefined'];
-  const MarkerComponent = markers[`${String(accessibility)}${withArrow ? 'With' : 'Without'}Arrow`];
+  const CategoryIconComponent =
+    icons[iconName || "undefined"] || icons["undefined"];
+  const MarkerComponent =
+    markers[`${String(accessibility)}${withArrow ? "With" : "Without"}Arrow`];
 
-  if (typeof CategoryIconComponent === 'object') {
+  if (typeof CategoryIconComponent === "object") {
     // eslint-disable-next-line no-console
-    console.log('Found a CategoryIconComponent that was an object, but should not be.');
+    console.log(
+      "Found a CategoryIconComponent that was an object, but should not be."
+    );
   }
 
   return (
@@ -165,9 +171,11 @@ export default function Icon({
         <MarkerComponent className="background" fill={backgroundColor} />
       ) : null}
       {children}
-      {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
+      {CategoryIconComponent ? (
+        <CategoryIconComponent className="icon" />
+      ) : null}
     </StyledIconContainer>
   );
 }
 
-StyledIconContainer.displayName = 'StyledIconContainer';
+StyledIconContainer.displayName = "StyledIconContainer";

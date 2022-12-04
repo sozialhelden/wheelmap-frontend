@@ -6,7 +6,7 @@ import CombinedIcon from "./CombinedIcon";
 import colors from "../../lib/colors";
 import IconButton, { Circle, Caption } from "../shared/IconButton";
 import CloseIcon from "../icons/actions/Close";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
 import Link from "next/link";
 import { Router, useRouter } from "next/router";

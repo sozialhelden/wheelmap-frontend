@@ -1,4 +1,6 @@
-import { expandedPreferredLocales, normalizeLanguageCode, localeFromString } from '../i18n';
+import { localeFromString } from "../i18n/localeFromString";
+import { expandedPreferredLocales } from "../i18n/expandedPreferredLocales";
+import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
 
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 

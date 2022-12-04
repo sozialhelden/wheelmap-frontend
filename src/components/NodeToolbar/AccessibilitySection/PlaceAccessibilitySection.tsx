@@ -9,14 +9,14 @@ import WheelchairAndToiletAccessibility from './WheelchairAndToiletAccessibility
 import { SourceWithLicense } from '../../../app/PlaceDetailsProps';
 import { isWheelchairAccessible } from '../../../lib/Feature';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
-import { Category } from '../../../lib/model/Categories';
+import { Category } from '../../../lib/model/ac/categories/Categories';
 import filterAccessibility from '../../../lib/model/filterAccessibility';
 
 import Description from './Description';
 import AppContext from '../../../AppContext';
 import isA11yEditable from '../AccessibilityEditor/isA11yEditable';
 import { useAccessibilityAttributes } from '../../../lib/data-fetching/useAccessibilityAttributes';
-import { translatedStringFromObject } from '../../../lib/i18n';
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import { EquipmentInfo, PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {

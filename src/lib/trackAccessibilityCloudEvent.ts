@@ -1,7 +1,7 @@
 import pick from "lodash/pick";
-import { App } from "./model/App";
-import { TrackingEvent } from "./model/TrackingModel";
-import { MappingEvent } from "./model/MappingEvent";
+import { App } from "./model/ac/App";
+import { TrackingEvent } from "./model/ac/TrackingModel";
+import { MappingEvent } from "./model/ac/MappingEvent";
 
 export type Query = {
   [k: string]: string | Array<string> | null;

@@ -11,7 +11,7 @@ import AccessibilityFilterMenu from "./AccessibilityFilterMenu";
 import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
 import { PlaceFilter } from "./AccessibilityFilterModel";
 import { isOnSmallViewport } from "../../lib/ViewportSize";
-import { CategoryLookupTables } from "../../lib/model/Categories";
+import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 import Spinner from "../ActivityIndicator/Spinner";
 import CloseLink from "../shared/CloseLink";
 import ErrorBoundary from "../shared/ErrorBoundary";

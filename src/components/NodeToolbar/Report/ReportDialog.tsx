@@ -1,24 +1,30 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { map } from 'lodash';
+import * as React from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import { map } from "lodash";
 
-import { accessibilityName, isWheelchairAccessible } from '../../../lib/Feature';
-import { CategoryLookupTables } from '../../../lib/model/Categories';
-import { AppContextData } from '../../../AppContext';
+import {
+  accessibilityName,
+  isWheelchairAccessible,
+} from "../../../lib/Feature";
+import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
+import { AppContextData } from "../../../AppContext";
 
-import strings from './strings';
-import FixOsmComment from './FixOsmComment';
-import MailToSupport from './MailToSupport';
-import SendReportToAc, { reportStrings, ReportReasons } from './SendReportToAc';
-import FixOsmPlacePosition from './FixOsmPlacePosition';
-import FixOnExternalPage from './FixOnExternalPage';
-import FixOsmNonExistingPlace from './FixOsmNonExistingPlace';
-import WheelchairStatusEditor from '../AccessibilityEditor/WheelchairStatusEditor';
-import ToiletStatusEditor from '../AccessibilityEditor/ToiletStatusEditor';
-import { DataSource, dataSourceCache } from '../../../lib/cache/DataSourceCache';
-import Spinner from '../../ActivityIndicator/Spinner';
-import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import strings from "./strings";
+import FixOsmComment from "./FixOsmComment";
+import MailToSupport from "./MailToSupport";
+import SendReportToAc, { reportStrings, ReportReasons } from "./SendReportToAc";
+import FixOsmPlacePosition from "./FixOsmPlacePosition";
+import FixOnExternalPage from "./FixOnExternalPage";
+import FixOsmNonExistingPlace from "./FixOsmNonExistingPlace";
+import WheelchairStatusEditor from "../AccessibilityEditor/WheelchairStatusEditor";
+import ToiletStatusEditor from "../AccessibilityEditor/ToiletStatusEditor";
+import {
+  DataSource,
+  dataSourceCache,
+} from "../../../lib/cache/DataSourceCache";
+import Spinner from "../../ActivityIndicator/Spinner";
+import { PlaceInfo, PlaceProperties } from "@sozialhelden/a11yjson";
 
 type IssueEntry = {
   className?: string;
@@ -27,21 +33,23 @@ type IssueEntry = {
   component?: React.ComponentType<any>;
 };
 
-const generateWheelmapClassicIssues = (properties: PlaceProperties): IssueEntry[] =>
+const generateWheelmapClassicIssues = (
+  properties: PlaceProperties
+): IssueEntry[] =>
   [
     {
-      className: 'wrong-wheelchair-accessibility',
+      className: "wrong-wheelchair-accessibility",
       issueLink: () => {
         const accessibilityDescription =
-          accessibilityName(isWheelchairAccessible(properties)) || '';
+          accessibilityName(isWheelchairAccessible(properties)) || "";
         // translator: Shown as issue description in the report dialog
         return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
       },
       component: WheelchairStatusEditor,
     },
-    isWheelchairAccessible(properties) !== 'unknown'
+    isWheelchairAccessible(properties) !== "unknown"
       ? {
-          className: 'wrong-toilet-accessibility',
+          className: "wrong-toilet-accessibility",
           // translator: Shown as issue description in the report dialog
           issueLink: () =>
             t`The toilet accessibility of the place is marked incorrectly or is missing.`,
@@ -49,25 +57,25 @@ const generateWheelmapClassicIssues = (properties: PlaceProperties): IssueEntry[
         }
       : null,
     {
-      className: 'information-missing',
+      className: "information-missing",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`I have more information about this place.`,
       component: FixOsmComment,
     },
     {
-      className: 'non-existing-place',
+      className: "non-existing-place",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The place does not exist.`,
       component: FixOsmNonExistingPlace,
     },
     {
-      className: 'wrong-position',
+      className: "wrong-position",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The place is at the wrong location.`,
       component: FixOsmPlacePosition,
     },
     {
-      className: 'other-issue',
+      className: "other-issue",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The problem isn’t listed here…`,
       component: MailToSupport,
@@ -80,16 +88,20 @@ const generateAcIssues = (
   source: DataSource | null,
   appToken: string
 ): IssueEntry[] => {
-  const isExternal = source && source.organizationId !== appContext.app.organizationId;
-  const hasExternalPage = Boolean(properties['infoPageUrl'] || properties['editPageUrl']);
-  const sourceName = (source && (source.shortName || source.name)) || t`Unknown`;
+  const isExternal =
+    source && source.organizationId !== appContext.app.organizationId;
+  const hasExternalPage = Boolean(
+    properties["infoPageUrl"] || properties["editPageUrl"]
+  );
+  const sourceName =
+    (source && (source.shortName || source.name)) || t`Unknown`;
 
   const sendReportToAcStrings = reportStrings();
 
   return [
     isExternal
       ? {
-          className: 'subtle',
+          className: "subtle",
           // translator: Gives credits to the external data source this place comes from.
           issueHeader: () =>
             t`Information about this place has kindly been provided by another organization, it is a part of ${sourceName}.`,
@@ -97,7 +109,7 @@ const generateAcIssues = (
       : null,
     hasExternalPage
       ? {
-          className: 'fix-on-external-page',
+          className: "fix-on-external-page",
           // translator: Shown as issue description in the report dialog
           issueLink: () => t`Fix on external page.`,
           component: FixOnExternalPage,
@@ -113,7 +125,7 @@ const generateAcIssues = (
       };
     }),
     {
-      className: 'other-issue',
+      className: "other-issue",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The problem isn’t listed here…`,
       component: MailToSupport,
@@ -159,25 +171,36 @@ class ReportDialog extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    document.addEventListener('keydown', this.escapeHandler);
+    document.addEventListener("keydown", this.escapeHandler);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.escapeHandler);
+    document.removeEventListener("keydown", this.escapeHandler);
   }
 
-  generateIssues(_featureId: string | number, props: PlaceProperties, appToken: string) {
+  generateIssues(
+    _featureId: string | number,
+    props: PlaceProperties,
+    appToken: string
+  ) {
     if (!this.state.source) {
-      dataSourceCache.getDataSourceWithId(props.sourceId, appToken).then(source => {
-        this.setState({ source });
-      });
+      dataSourceCache
+        .getDataSourceWithId(props.sourceId, appToken)
+        .then((source) => {
+          this.setState({ source });
+        });
     }
 
-    return generateAcIssues(props, this.props.appContext, this.state.source, appToken);
+    return generateAcIssues(
+      props,
+      this.props.appContext,
+      this.state.source,
+      appToken
+    );
   }
 
   escapeHandler = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
+    if (event.key === "Escape") {
       this.props.onClose();
       event.preventDefault();
       event.stopPropagation();
@@ -197,7 +220,10 @@ class ReportDialog extends React.Component<Props, State> {
     }
   };
 
-  onSelectComponentClass = (component: React.ComponentType<any>, event: UIEvent) => {
+  onSelectComponentClass = (
+    component: React.ComponentType<any>,
+    event: UIEvent
+  ) => {
     this.setState({ SelectedComponentClass: component });
     event.stopPropagation();
     event.preventDefault();
@@ -210,10 +236,17 @@ class ReportDialog extends React.Component<Props, State> {
 
     if (!featureId || !feature || !properties) {
       return (
-        <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
+        <div
+          className={this.props.className}
+          role="dialog"
+          aria-labelledby="report-dialog-header"
+        >
           <header id="report-dialog-header">{reportIssueHeader}</header>
-          <Spinner size={30} color={'rgba(0, 0, 0, 0.4)'} />
-          <button className="link-button negative-button" onClick={this.onClose}>
+          <Spinner size={30} color={"rgba(0, 0, 0, 0.4)"} />
+          <button
+            className="link-button negative-button"
+            onClick={this.onClose}
+          >
             {backButtonCaption}
           </button>
         </div>
@@ -242,7 +275,11 @@ class ReportDialog extends React.Component<Props, State> {
     );
 
     return (
-      <div className={this.props.className} role="dialog" aria-labelledby="report-dialog-header">
+      <div
+        className={this.props.className}
+        role="dialog"
+        aria-labelledby="report-dialog-header"
+      >
         <header id="report-dialog-header">{reportIssueHeader}</header>
         <ul className="issue-types">
           {issues.map((issue, index) => {
@@ -250,7 +287,10 @@ class ReportDialog extends React.Component<Props, State> {
             const header = issue.issueHeader ? issue.issueHeader() : null;
             const { component } = issue;
             return (
-              <li key={issue.className || index} className={issue.className || ''}>
+              <li
+                key={issue.className || index}
+                className={issue.className || ""}
+              >
                 {header && <p>{header}</p>}
                 {link && component && (
                   <button

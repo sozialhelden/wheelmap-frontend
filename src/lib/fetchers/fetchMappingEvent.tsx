@@ -1,6 +1,6 @@
 import useSWR from "swr";
-import { MappingEvent } from "../model/MappingEvent";
-import { apiBaseUrl } from "./config";
+import { MappingEvent } from "../model/ac/MappingEvent";
+import { accessibilityCloudCachedBaseUrl } from "./config";
 
 export default function fetchMappingEvent(
   appToken: string,
@@ -9,7 +9,7 @@ export default function fetchMappingEvent(
   if (!_id) {
     return Promise.resolve(null);
   }
-  const url = `${apiBaseUrl}/mapping-events/${_id}.json?appToken=${appToken}&includeRelated=images`;
+  const url = `${accessibilityCloudCachedBaseUrl}/mapping-events/${_id}.json?appToken=${appToken}&includeRelated=images`;
   return fetch(url)
     .then((response) => response.json())
     .then((mappingEvent) => ({

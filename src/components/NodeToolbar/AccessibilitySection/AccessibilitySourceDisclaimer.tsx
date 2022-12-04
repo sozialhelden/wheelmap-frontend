@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import * as React from 'react';
 import { dataSourceCache } from '../../../lib/cache/DataSourceCache';
-import { LocalizedString, translatedStringFromObject } from '../../../lib/i18n';
+import { LocalizedString } from "../../../lib/i18n/LocalizedString";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import { PlaceProperties } from '@sozialhelden/a11yjson';
 
 type Props = {

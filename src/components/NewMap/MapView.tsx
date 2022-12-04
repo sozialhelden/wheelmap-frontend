@@ -83,9 +83,6 @@ export default function MapView(props: IProps) {
   }, [width, height]);
 
   React.useEffect(() => {
-
-    type PluginStatus = 'unavailable' | 'loading' | 'loaded' | 'error';
-
     if (['unavailable', 'error'].includes(mapboxgl.getRTLTextPluginStatus())) {
       mapboxgl.setRTLTextPlugin(
         'https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js',
@@ -97,7 +94,7 @@ export default function MapView(props: IProps) {
     mapRef.current?.getMap().addControl(language);
   }, [mapRef]);
 
-  // const featureLayer = useMemo(() => {
+  // const featureLayer = React.useMemo(() => {
   //   return generateSelectedFeatureLayer(props.featureId);
   // }, [props.featureId]);
 
@@ -113,6 +110,8 @@ export default function MapView(props: IProps) {
     (event) => {
       console.log(event);
 
+      debugger
+
       const selectedFeatureCount = event?.features?.length;
       if (!selectedFeatureCount) {
         // Clicked outside of a clickable map feature
@@ -124,7 +123,7 @@ export default function MapView(props: IProps) {
         // Show source overview again if user just clicks/taps on the map
         feature &&
           router.push(
-            `/${feature.source}/${feature.properties.id}?lon=${event.lngLat[0]}&lat=${event.lngLat[1]}&zoom=${zoom}`
+            `/${feature.source}/${feature.properties.id}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`
           );
         return;
       }
@@ -132,8 +131,8 @@ export default function MapView(props: IProps) {
       router.push(
         `/composite/${event.features
           ?.map((f) => [f.source, f.properties.id].join(":"))
-          .join(",")}?lon=${event.lngLat[0]}&lat=${
-          event.lngLat[1]
+          .join(",")}?lon=${event.lngLat.lng}&lat=${
+          event.lngLat.lat
         }&zoom=${zoom}`
       );
       return;

@@ -36,7 +36,7 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import geoTileToBbox from './geoTileToBbox';
 import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
-import { getFeatureId } from '../../lib/model/Feature';
+import { getFeatureId } from '../../lib/model/ac/Feature';
 import HighlightableMarker from './HighlightableMarker';
 import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
 

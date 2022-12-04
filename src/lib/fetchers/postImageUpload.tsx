@@ -1,5 +1,5 @@
 import { readAndCompressImage } from "../ImageResizer";
-import { apiBaseUrlUncached } from "./config";
+import { accessibilityCloudUncachedBaseUrl } from "./config";
 
 const imageResizeConfig = {
   quality: 0.7,
@@ -16,7 +16,7 @@ export default async function postImageUpload(
   appToken: string
 ): Promise<any> {
   const image = images[0];
-  const url = `${apiBaseUrlUncached}/image-upload?${context}Id=${featureId}&appToken=${appToken}`;
+  const url = `${accessibilityCloudUncachedBaseUrl}/image-upload?${context}Id=${featureId}&appToken=${appToken}`;
   const resizedImage = await readAndCompressImage(image, imageResizeConfig);
   const response = await fetch(url, {
     method: "POST",

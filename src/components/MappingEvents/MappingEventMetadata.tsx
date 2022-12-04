@@ -4,9 +4,9 @@ import OpenGraph from "../App/OpenGraph";
 import TwitterMeta from "../App/TwitterMeta";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import useHostname from "../../lib/context/HostnameContext";
-import { translatedStringFromObject } from "../../lib/i18n";
-import { buildFullImageUrl } from "../../lib/model/Image";
-import { MappingEvent } from "../../lib/model/MappingEvent";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
+import { buildFullImageUrl } from "../../lib/model/ac/Image";
+import { MappingEvent } from "../../lib/model/ac/MappingEvent";
 
 export function MappingEventMetadata({ mappingEvent }: { mappingEvent: MappingEvent; }) {
   const { clientSideConfiguration } = useCurrentApp();

@@ -1,11 +1,11 @@
 import omit from "lodash/omit";
 import {
-  removeNullAndUndefinedFields,
   YesNoLimitedUnknown,
   yesNoLimitedUnknownArray,
   YesNoUnknown,
   yesNoUnknownArray,
-} from "./Feature";
+} from "./ac/Feature";
+import { removeNullAndUndefinedFields } from "./ac/removeNullAndUndefinedFields";
 import { cloneDeep, isEqual } from "lodash";
 import { Accessibility } from "@sozialhelden/a11yjson";
 

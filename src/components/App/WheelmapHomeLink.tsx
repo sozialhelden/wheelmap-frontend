@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { t } from 'ttag';
 import styled from 'styled-components';
-import { translatedStringFromObject } from '../../lib/i18n';
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import VectorImage from '../shared/VectorImage';
 import { useRouter } from 'next/router';
 import * as queryString from 'query-string';

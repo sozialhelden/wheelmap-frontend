@@ -22,11 +22,11 @@ import { PhotoModel } from '../../lib/PhotoModel';
 import {
   YesNoLimitedUnknown,
   isWheelmapFeatureId,
-  placeNameFor,
-  isWheelchairAccessible,
-} from '../../lib/model/Feature';
+} from '../../lib/model/ac/Feature';
+import { placeNameFor } from "../../lib/model/shared/placeNameFor";
+import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
 
-import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/model/Categories";
+import { Category, CategoryLookupTables, getTranslatedCategoryNameFor } from "../../lib/model/ac/categories/Categories";
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
@@ -248,7 +248,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     // translator: Shown as header/title when you edit wheelchair accessibility of a place
     const header = t`How wheelchair accessible is this place?`;
 
-    const categoryName = categoryNameFor(category);
+    const categoryName = getTranslatedCategoryNameFor(category);
 
     return (
       <AppContextConsumer>

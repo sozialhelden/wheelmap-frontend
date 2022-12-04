@@ -1,22 +1,22 @@
-import { t } from 'ttag';
-import * as React from 'react';
+import { t } from "ttag";
+import * as React from "react";
 
 import {
   AccessibilityCloudFeature,
   WheelmapFeature,
   YesNoLimitedUnknown,
-} from '../../../lib/Feature';
+} from "../../../lib/Feature";
 import {
   accessibilityDescription,
   shortAccessibilityName,
   isWheelchairAccessible,
-} from '../../../lib/Feature';
-import { saveWheelchairStatus } from './saveStatus';
-import RadioStatusEditor from './RadioStatusEditor';
-import Icon from '../../Icon';
-import { CategoryLookupTables } from '../../../lib/model/Categories';
-import { isOnSmallViewport } from '../../../lib/ViewportSize';
-import { AppContextConsumer } from '../../../AppContext';
+} from "../../../lib/Feature";
+import { saveWheelchairStatus } from "./saveStatus";
+import RadioStatusEditor from "./RadioStatusEditor";
+import Icon from "../../Icon";
+import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
+import { isOnSmallViewport } from "../../../lib/ViewportSize";
+import { AppContextConsumer } from "../../../AppContext";
 
 type SaveOptions = {
   featureId: string;
@@ -34,28 +34,38 @@ type Props = SaveOptions & {
 export default function WheelchairStatusEditor(props: Props) {
   return (
     <AppContextConsumer>
-      {appContext => (
+      {(appContext) => (
         <RadioStatusEditor
           {...props}
           hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
-          getValueFromFeature={feature => isWheelchairAccessible(feature.properties)}
-          saveValue={value =>
-            saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })
+          getValueFromFeature={(feature) =>
+            isWheelchairAccessible(feature.properties)
+          }
+          saveValue={(value) =>
+            saveWheelchairStatus({
+              ...props,
+              appContext,
+              value: value as YesNoLimitedUnknown,
+            })
           }
           renderChildrenForValue={({ value, categoryId }) => (
             <Icon
               accessibility={value as YesNoLimitedUnknown}
               category={categoryId}
-              size={isOnSmallViewport() ? 'small' : 'medium'}
+              size={isOnSmallViewport() ? "small" : "medium"}
               withArrow
               shadowed
               centered
             />
           )}
-          shownStatusOptions={['yes', 'limited', 'no']}
-          captionForValue={(value: YesNoLimitedUnknown) => shortAccessibilityName(value)}
-          descriptionForValue={(value: YesNoLimitedUnknown) => accessibilityDescription(value)}
+          shownStatusOptions={["yes", "limited", "no"]}
+          captionForValue={(value: YesNoLimitedUnknown) =>
+            shortAccessibilityName(value)
+          }
+          descriptionForValue={(value: YesNoLimitedUnknown) =>
+            accessibilityDescription(value)
+          }
         >
           <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
         </RadioStatusEditor>

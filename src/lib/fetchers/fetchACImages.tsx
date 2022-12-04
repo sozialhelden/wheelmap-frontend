@@ -1,4 +1,7 @@
-import { apiBaseUrl, apiBaseUrlUncached } from "./config";
+import {
+  accessibilityCloudCachedBaseUrl,
+  accessibilityCloudUncachedBaseUrl,
+} from "./config";
 
 type ContextName = "place" | "equipmentInfo";
 
@@ -8,7 +11,7 @@ export function fetchImagesCached(
   objectId: string
 ) {
   return fetch(
-    `${apiBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
+    `${accessibilityCloudCachedBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
   )
     .then((r) => r.json())
     .then((json) => json.images);
@@ -20,7 +23,7 @@ export function fetchImagesUncached(
   objectId: string
 ) {
   return fetch(
-    `${apiBaseUrlUncached}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
+    `${accessibilityCloudUncachedBaseUrl}/images.json?context=${context}&objectId=${objectId}&appToken=${appToken}`
   )
     .then((r) => r.json())
     .then((json) => json.images);

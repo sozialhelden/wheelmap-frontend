@@ -13,8 +13,8 @@ import {
   trackMappingEventMembershipChanged, useCurrentMappingEventId,
 } from "../../lib/context/MappingEventContext";
 import fetchMappingEvent from "../../lib/fetchers/fetchMappingEvent";
-import { buildFullImageUrl } from "../../lib/model/Image";
-import { canMappingEventBeJoined } from "../../lib/model/MappingEvent";
+import { buildFullImageUrl } from "../../lib/model/ac/Image";
+import { canMappingEventBeJoined } from "../../lib/model/ac/MappingEvent";
 import GlobeIcon from "../icons/ui-elements/GlobeIcon";
 import MapPinIcon from "../icons/ui-elements/MapPinIcon";
 import StyledToolbar from "../NodeToolbar/StyledToolbar";

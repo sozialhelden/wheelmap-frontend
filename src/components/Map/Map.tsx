@@ -11,25 +11,24 @@ import isEqual from "lodash/isEqual";
 import debounce from "lodash/debounce";
 import * as React from "react";
 import SozialheldenLogo from "./SozialheldenLogo";
-import { currentLocales } from "../../lib/i18n";
+import { currentLocales } from "../../lib/i18n/i18n";
 import LeafletLocateControl from "./L.Control.Locate";
 import HighlightableMarker from "./HighlightableMarker";
 
 import {
-  isWheelchairAccessible,
-  hasAccessibleToilet,
-  accessibilityCloudFeatureCollectionFromResponse,
   getFeatureId,
   hrefForPlaceInfo,
   hrefForEquipmentInfo,
   YesNoLimitedUnknown,
   YesNoUnknown,
-} from "../../lib/model/Feature";
+} from "../../lib/model/ac/Feature";
+import { isOrHasAccessibleToilet } from "../../lib/model/shared/isOrHasAccessibleToilet";
+import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
 import ClusterIcon from "./ClusterIcon";
 import Categories, {
   CategoryLookupTables,
-  RootCategoryEntry,
-} from "../../lib/model/Categories";
+} from "../../lib/model/ac/categories/Categories";
+import { RootCategoryEntry } from "../../lib/model/ac/categories/RootCategoryEntry";
 import isSamePosition from "./isSamePosition";
 import GeoJSONTileLayer from "./GeoJSONTileLayer";
 import addLocateControlToMap from "./addLocateControlToMap";
@@ -46,13 +45,13 @@ import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
 import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
 import useImperialUnits from "../../lib/useImperialUnits";
 import { Cluster } from "./Cluster";
-import { MappingEvents } from "../../lib/model/MappingEvent";
+import { MappingEvents } from "../../lib/model/ac/MappingEvent";
 import A11yMarkerIcon from "./A11yMarkerIcon";
 import MappingEventMarkerIcon from "./MappingEventMarkerIcon";
 
 import { LeafletStyle } from "./LeafletStyle";
 import "./MapStyle.tsx";
-import { hrefForMappingEvent } from "../../lib/model/MappingEvent";
+import { hrefForMappingEvent } from "../../lib/model/ac/MappingEvent";
 import { MapStyle } from "./MapStyle";
 import { LeafletLocateControlStyle } from "./LeafletLocateControlStyle";
 import {
@@ -1100,7 +1099,7 @@ export default class Map extends React.Component<Props, State> {
     );
     const hasMatchingToilet = includes(
       toiletFilter,
-      hasAccessibleToilet(properties)
+      isOrHasAccessibleToilet(properties)
     );
 
     let matchesCustomCategoryFilter = true;

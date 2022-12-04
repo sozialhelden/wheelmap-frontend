@@ -5,7 +5,7 @@ import React, { useCallback } from "react";
 import useSWR from "swr";
 import config from "../../lib/config";
 import { AppContext } from "../../lib/context/AppContext";
-import { fetchAccessibilityCloudCategories } from "../../lib/fetchers/AccessibilityCloudCategoriesFetcher";
+import { fetchAccessibilityCloudCategories } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
 import DynamicMap from "../App/DynamicMap";
 import { Cluster } from "./Cluster";

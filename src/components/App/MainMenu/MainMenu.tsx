@@ -1,25 +1,21 @@
-import { hsl } from 'd3-color';
-import FocusTrap from 'focus-trap-react';
-import Link from 'next/link';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import colors, { alpha } from '../../../lib/colors';
-import { translatedStringFromObject } from '../../../lib/i18n';
-import { ClientSideConfiguration } from '../../../lib/model/ClientSideConfiguration';
-import CloseIcon from '../../icons/actions/Close';
-import VectorImage from '../../shared/VectorImage';
-import AppLinks from './AppLinks';
-
-type State = {
-  isMenuButtonVisible: boolean,
-};
+import { hsl } from "d3-color";
+import { useFocusTrap } from "@primer/react/lib-esm/hooks/useFocusTrap";
+import Link from "next/link";
+import * as React from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import colors, { alpha } from "../../../lib/colors";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
+import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfiguration";
+import CloseIcon from "../../icons/actions/Close";
+import VectorImage from "../../shared/VectorImage";
+import AppLinks from "./AppLinks";
 
 type Props = {
-  onToggle: (isMainMenuOpen: boolean) => void,
-  isOpen: boolean,
-  clientSideConfiguration: ClientSideConfiguration,
-  className?: string,
+  onToggle: (isMainMenuOpen: boolean) => void;
+  isOpen: boolean;
+  clientSideConfiguration: ClientSideConfiguration;
+  className?: string;
 };
 
 function MenuIcon(props) {
@@ -43,7 +39,6 @@ function MenuIcon(props) {
 }
 
 const MENU_BUTTON_VISIBILITY_BREAKPOINT = 1024;
-
 
 const openMenuHoverColor = hsl(colors.primaryColor).brighter(1.4);
 openMenuHoverColor.opacity = 0.5;
@@ -304,127 +299,114 @@ const StyledNav = styled.nav`
   }
 `;
 
+export default function MainMenu(props: Props) {
+  const [isMenuButtonVisible, setIsMenuButtonVisible] = React.useState(false);
 
-export default class MainMenu extends React.Component<Props, State> {
-  props: Props;
-  state: State = {
-    isMenuButtonVisible: false,
-  };
-
-  boundOnResize: () => void;
-
-  onResize = () => {
+  const onResize = React.useCallback(() => {
     if (window.innerWidth > MENU_BUTTON_VISIBILITY_BREAKPOINT) {
-      this.setState({ isMenuButtonVisible: false });
+      setIsMenuButtonVisible(false);
     } else {
-      this.setState({ isMenuButtonVisible: true });
-      this.props.onToggle(false);
+      setIsMenuButtonVisible(true);
+      props.onToggle(false);
     }
-  };
+  }, [props.onToggle, setIsMenuButtonVisible]);
 
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
-  }
+  React.useEffect(() => {
+    window.addEventListener("resize", onResize);
+    onResize();
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    if (typeof window !== 'undefined') {
-      window.removeEventListener('resize', this.onResize);
-    }
-  }
+  const toggleMenu = React.useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      props.onToggle(!props.isOpen);
+      event.preventDefault();
+    },
+    [props.onToggle, props.isOpen]
+  );
 
-  toggleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
-    this.props.onToggle(!this.props.isOpen);
-    event.preventDefault();
-  };
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      if (event.key === "Escape") {
+        props.onToggle(false);
+      }
+    },
+    [props.onToggle]
+  );
 
-  handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Escape') {
-      this.props.onToggle(false);
-    }
-  };
+  const productName =
+    translatedStringFromObject(
+      props.clientSideConfiguration.textContent?.product.name
+    ) || "Wheelmap";
 
-  renderHomeLink(extraProps = {}) {
-    const productName =
-      translatedStringFromObject(this.props.clientSideConfiguration.textContent?.product.name) ||
-      'Wheelmap';
-    return (
-      <div className="home-link">
-        <Link href='/onboarding'>
-          <button
-            className="btn-unstyled home-button"
-            aria-label={t`Home`}
-            onKeyDown={this.handleKeyDown}
-            {...extraProps}
-          >
-            <VectorImage
-              className="logo"
-              svg={this.props.clientSideConfiguration.branding?.vectorLogoSVG}
-              aria-label={productName}
-              maxHeight={'30px'}
-              maxWidth={'150px'}
-              hasShadow={false}
-            />
-          </button>
-        </Link>
+  const homeLink = (
+    <div className="home-link">
+      <Link href="/onboarding">
+        <button
+          className="btn-unstyled home-button"
+          aria-label={t`Home`}
+          onKeyDown={handleKeyDown}
+        >
+          <VectorImage
+            className="logo"
+            svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
+            aria-label={productName}
+            maxHeight={"30px"}
+            maxWidth={"150px"}
+            hasShadow={false}
+          />
+        </button>
+      </Link>
+    </div>
+  );
+
+  const closeButton = (
+    <button
+      className="btn-unstyled menu"
+      onClick={toggleMenu}
+      aria-hidden={!isMenuButtonVisible}
+      tabIndex={isMenuButtonVisible ? 0 : -1}
+      aria-label={t`Menu`}
+      aria-haspopup="true"
+      aria-expanded={props.isOpen}
+      aria-controls="main-menu"
+      onKeyDown={handleKeyDown}
+    >
+      {props.isOpen ? <CloseIcon /> : <MenuIcon />}
+    </button>
+  );
+
+  const { isOpen, className, clientSideConfiguration } = props;
+  const claim = translatedStringFromObject(
+    clientSideConfiguration?.textContent?.product?.claim
+  );
+
+  const classList = [
+    className,
+    isOpen || !isMenuButtonVisible ? "is-open" : null,
+    "main-menu",
+  ].filter(Boolean);
+
+  const { containerRef } = useFocusTrap({
+    disabled: !isMenuButtonVisible || !isOpen,
+  });
+
+  return (
+    <StyledNav
+      className={classList.join(" ")}
+      ref={containerRef as React.RefObject<HTMLElement>}
+    >
+      {homeLink}
+
+      <div className="claim">{claim}</div>
+
+      <div id="main-menu" role="menu">
+        <AppLinks />
       </div>
-    );
-  }
 
-  renderAppLinks(baseUrl: string) {
-
-  }
-
-
-  renderCloseButton() {
-    const { isOpen } = this.props;
-    const { isMenuButtonVisible } = this.state;
-    return (
-      <button
-        className="btn-unstyled menu"
-        onClick={this.toggleMenu}
-        aria-hidden={!isMenuButtonVisible}
-        tabIndex={isMenuButtonVisible ? 0 : -1}
-        aria-label={t`Menu`}
-        aria-haspopup="true"
-        aria-expanded={isOpen}
-        aria-controls="main-menu"
-        onKeyDown={this.handleKeyDown}
-      >
-        {isOpen ? <CloseIcon /> : <MenuIcon />}
-      </button>
-    );
-  }
-
-  render() {
-    const { isOpen, className, clientSideConfiguration } = this.props;
-    const claim = translatedStringFromObject(clientSideConfiguration?.textContent?.product?.claim);
-    const { isMenuButtonVisible } = this.state;
-
-    const classList = [
-      className,
-      isOpen || !isMenuButtonVisible ? 'is-open' : null,
-      'main-menu',
-    ].filter(Boolean);
-
-    const focusTrapIsActive = isMenuButtonVisible && isOpen;
-
-    return (
-      <FocusTrap active={focusTrapIsActive}>
-        <StyledNav className={classList.join(' ')}>
-          {this.renderHomeLink()}
-
-          <div className="claim">{claim}</div>
-
-          <div id="main-menu" role="menu">
-            <AppLinks />
-          </div>
-
-          {this.renderCloseButton()}
-        </StyledNav>
-      </FocusTrap>
-    );
-  }
+      {closeButton}
+    </StyledNav>
+  );
 }
-
-

@@ -5,7 +5,7 @@ import Head from 'next/head';
 import type { AppProps } from 'next/app'
 import composeContexts, { ContextAndValue } from '../lib/composeContexts';
 import * as queryString from 'query-string';
-import { App } from '../lib/model/App';
+import { App } from '../lib/model/ac/App';
 import { default as NextApp } from 'next/app';
 import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
 import { AppContext } from '../lib/context/AppContext';

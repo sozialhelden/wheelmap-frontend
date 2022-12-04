@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import Head from "next/head";
-import { TwitterConfiguration } from "../../lib/model/ClientSideConfiguration";
+import { TwitterConfiguration } from "../../lib/model/ac/ClientSideConfiguration";
 
 type Props = {
   shareHost: string;

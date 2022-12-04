@@ -11,7 +11,7 @@ import fetchMappingEvents from "../../lib/fetchers/fetchMappingEvents";
 import useSWR from "swr";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import StyledMarkdown from "../shared/StyledMarkdown";
-import { MappingEvent } from "../../lib/model/MappingEvent";
+import { MappingEvent } from "../../lib/model/ac/MappingEvent";
 
 export const StyledCloseButton = styled(CloseButton)``;
 

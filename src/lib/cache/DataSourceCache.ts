@@ -1,5 +1,5 @@
 import URLDataCache from "./URLDataCache";
-import { LocalizedString } from "../i18n";
+import { LocalizedString } from "../i18n/LocalizedString";
 
 export type DataSource = {
   _id: string;

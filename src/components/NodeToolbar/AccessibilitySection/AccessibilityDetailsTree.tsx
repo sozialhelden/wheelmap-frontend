@@ -1,10 +1,10 @@
-import humanizeString from 'humanize-string';
-import isPlainObject from 'lodash/isPlainObject';
-import * as React from 'react';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
-import { translatedStringFromObject } from '../../../lib/i18n';
+import humanizeString from "humanize-string";
+import isPlainObject from "lodash/isPlainObject";
+import * as React from "react";
+import styled from "styled-components";
+import { t } from "ttag";
+import { AccessibilityAttributesMap } from "../../../lib/data-fetching/useAccessibilityAttributes";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -17,37 +17,40 @@ function formatName(
   accessibilityAttributes: Map<string, Record<string, string>>
 ): string {
   const string =
-    (accessibilityAttributes && translatedStringFromObject(accessibilityAttributes.get(name))) ||
+    (accessibilityAttributes &&
+      translatedStringFromObject(accessibilityAttributes.get(name))) ||
     humanizeString(name);
-  return string.replace(/^Rating /, '');
+  return string.replace(/^Rating /, "");
 }
 
 function formatValue(value: any): string {
   if (
     value === true ||
-    (typeof value === 'string' && (value.match(/^true$/i) || value.match(/^yes$/i)))
+    (typeof value === "string" &&
+      (value.match(/^true$/i) || value.match(/^yes$/i)))
   )
     return t`Yes`;
   if (
     value === false ||
-    (typeof value === 'string' && (value.match(/^false$/i) || value.match(/^no$/i)))
+    (typeof value === "string" &&
+      (value.match(/^false$/i) || value.match(/^no$/i)))
   )
     return t`No`;
   if (
     isPlainObject(value) &&
     value &&
-    typeof value === 'object' &&
-    typeof value.unit === 'string' &&
-    (typeof value.value === 'number' || typeof value.value === 'string')
+    typeof value === "object" &&
+    typeof value.unit === "string" &&
+    (typeof value.value === "number" || typeof value.value === "string")
   ) {
-    return `${value.value || '?'} ${value.unit}`;
+    return `${value.value || "?"} ${value.unit}`;
   }
   return humanizeCamelCase(String(value));
 }
 
 function FormatRating({ rating }: { rating: number }) {
   const between1and5 = Math.floor(Math.min(1, Math.max(0, rating)) * 5);
-  const stars = '★★★★★'.slice(5 - between1and5);
+  const stars = "★★★★★".slice(5 - between1and5);
   return (
     <span aria-label={`${between1and5} stars`}>
       <span className="stars" aria-hidden="true">
@@ -79,7 +82,7 @@ function DetailsArray({
       />
     </li>
   ));
-  return <ul className={`ac-list ${className || ''}`}>{items}</ul>;
+  return <ul className={`ac-list ${className || ""}`}>{items}</ul>;
 }
 
 function capitalizeFirstLetter(string): string {
@@ -94,7 +97,7 @@ function DetailsObject(props: {
 }) {
   const { className, object, isNested } = props;
   const properties = Object.keys(object)
-    .map(key => {
+    .map((key) => {
       if (key.match(/Localized/)) {
         return null;
       }
@@ -107,7 +110,10 @@ function DetailsObject(props: {
       // between the previous attribute value and the attribute name.
       const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
 
-      if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
+      if (
+        value &&
+        (value instanceof Array || (isPlainObject(value) && !value.unit))
+      ) {
         return [
           <dt key={`${key}-name`} data-key={key}>
             {capitalizedName}
@@ -121,7 +127,7 @@ function DetailsObject(props: {
           </dd>,
         ];
       }
-      if (key.startsWith('rating')) {
+      if (key.startsWith("rating")) {
         return [
           <dt key={`${key}-name`} className="ac-rating">
             {capitalizedName}:
@@ -137,7 +143,11 @@ function DetailsObject(props: {
         <dt key={`${key}-name`} className={generatedClassName}>
           {capitalizedName}:
         </dt>,
-        <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
+        <dd
+          key={`${key}-value`}
+          className={generatedClassName}
+          aria-label={`${formattedValue}!`}
+        >
           <em>{formattedValue}</em>
         </dd>,
       ];
@@ -149,7 +159,10 @@ function DetailsObject(props: {
   }
 
   return (
-    <dl className={`ac-group ${className || ''}`} role={isNested ? null : 'text'}>
+    <dl
+      className={`ac-group ${className || ""}`}
+      role={isNested ? null : "text"}
+    >
       {properties}
     </dl>
   );
@@ -336,18 +349,18 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     padding: 0 0 0 0.3em;
   }
 
-  dt[data-key='areas'] {
+  dt[data-key="areas"] {
     display: none;
   }
 
-  dt[data-key='areas'] + dd {
+  dt[data-key="areas"] + dd {
     padding: 0;
   }
 
-  dt[data-key='entrances'] {
+  dt[data-key="entrances"] {
     width: 100%;
   }
-  dt[data-key='entrances'] + dd {
+  dt[data-key="entrances"] + dd {
     padding-left: 1em;
   }
 
@@ -382,12 +395,12 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     }
   }
 
-  .ac-result[aria-expanded='true'] .ac-details {
+  .ac-result[aria-expanded="true"] .ac-details {
     display: block;
     animation: ac-fadein 0.5s ease-out;
   }
 
-  .ac-result[aria-expanded='true'] .ac-info-icon {
+  .ac-result[aria-expanded="true"] .ac-info-icon {
     opacity: 0;
   }
 
@@ -439,19 +452,19 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     padding: 0 0 0 0.3em;
   }
 
-  dt[data-key='areas'] {
+  dt[data-key="areas"] {
     display: none;
   }
 
-  dt[data-key='areas'] + dd {
+  dt[data-key="areas"] + dd {
     padding: 0;
   }
 
-  dt[data-key='entrances'] {
+  dt[data-key="entrances"] {
     width: 100%;
   }
 
-  dt[data-key='entrances'] + dd {
+  dt[data-key="entrances"] + dd {
     padding-left: 0;
   }
 
@@ -472,7 +485,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     padding: 0;
   }
 
-  dt[data-key='areas'] + dd {
+  dt[data-key="areas"] + dd {
     margin-left: 0;
   }
 

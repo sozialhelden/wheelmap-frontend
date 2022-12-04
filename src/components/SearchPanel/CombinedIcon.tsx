@@ -3,7 +3,7 @@ import isEqual from "lodash/isEqual";
 import styled from "styled-components";
 
 import Icon from "../shared/Icon";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
 import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
 

@@ -8,7 +8,7 @@ import {
   equipmentStatusTitle,
   isEquipmentAccessible,
   lastUpdateString,
-} from "../../../lib/model/EquipmentInfo";
+} from "../../../lib/model/ac/EquipmentInfo";
 
 import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
 import AppContext from "../../../AppContext";

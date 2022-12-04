@@ -1,5 +1,5 @@
-import { t } from 'ttag';
-import { LocalizedString } from '../../../lib/i18n';
+import { t } from "ttag";
+import { LocalizedString } from "../../../lib/i18n/LocalizedString";
 
 export default function strings() {
   return {
@@ -37,11 +37,15 @@ export default function strings() {
       // translator: Report email body with place URL
       return t`(Please only write in English or German.)\n\nDear Sozialhelden,\n\nsomething about this place is wrong: ${url}\n\nThe problem is:\n\nMy browser:\n\n${navigator.userAgent}`;
     },
-    reportSubject(placeName: LocalizedString | string | null, categoryName: string | null) {
+    reportSubject(
+      placeName: LocalizedString | string | null,
+      categoryName: string | null
+    ) {
       // translator: Report email subject if place name is known
       if (placeName) return t`[Wheelmap] Problem with ${placeName} on Wheelmap`;
       // translator: Report email subject if place name is unknown, but place category name (for example ‘toilet’) is known (don't use an indefinite article if it would need to be inflected in the target language)
-      if (categoryName) return t`[Wheelmap] Problem with a ${categoryName} on Wheelmap`;
+      if (categoryName)
+        return t`[Wheelmap] Problem with a ${categoryName} on Wheelmap`;
       // translator: Report email subject if neither place name nor category name is known
       return t`[Wheelmap] Problem with a place on Wheelmap`;
     },

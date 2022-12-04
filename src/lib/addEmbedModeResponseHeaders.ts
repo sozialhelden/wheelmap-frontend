@@ -1,6 +1,6 @@
 import { ServerResponse } from "http";
-import { App } from "./model/App";
-import { EmbedToken } from "./model/ClientSideConfiguration";
+import { App } from "./model/ac/App";
+import { EmbedToken } from "./model/ac/ClientSideConfiguration";
 
 function isEmbedTokenValid(
   embedToken: string | undefined,

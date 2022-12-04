@@ -1,7 +1,7 @@
 import includes from "lodash/includes";
 import { Point } from "geojson";
 
-import { currentLocales } from "../i18n";
+import { currentLocales } from "../i18n/i18n";
 import debouncePromise from "./legacy/debouncePromise";
 
 export type SearchResultProperties = {

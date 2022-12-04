@@ -1,4 +1,4 @@
-import { MappingEvent } from './MappingEvent';
+import { MappingEvent } from './ac/MappingEvent';
 
 export function insertPlaceholdersToAddPlaceUrl(
   baseUrl: string,

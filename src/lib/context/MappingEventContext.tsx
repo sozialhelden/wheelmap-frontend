@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { trackAccessibilityCloudEvent } from "../trackAccessibilityCloudEvent";
 import * as queryString from "query-string";
 import { trackEvent } from "../Analytics";
-import { MappingEvent } from "../model/MappingEvent";
-import { App } from "../model/App";
+import { MappingEvent } from "../model/ac/MappingEvent";
+import { App } from "../model/ac/App";
 import { storage } from '../savedState';
 import useSWR from 'swr';
 

@@ -3,14 +3,12 @@ import * as React from "react";
 import * as categoryIcons from "../icons/categories";
 import getIconNameForProperties from "./getIconNameForProperties";
 import MarkerIcon from "./MarkerIcon";
-import { CategoryLookupTables } from "../../lib/model/Categories";
-import { translatedStringFromObject } from "../../lib/i18n";
+import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import Icon from "../shared/Icon";
 import { Feature } from "geojson";
-import {
-  isWheelchairAccessible,
-  accessibilityName,
-} from "../../lib/model/Feature";
+import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
+import { accessibilityName } from "../../lib/model/descriptiveStrings";
 
 type Options = IconOptions & {
   href: string;

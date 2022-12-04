@@ -1,8 +1,8 @@
 import URLDataCache from "./URLDataCache";
-import { MappingEvents, MappingEvent } from "../model/MappingEvent";
+import { MappingEvents, MappingEvent } from "../model/ac/MappingEvent";
 import { App } from "../App";
 
-import { IImage } from "../model/Image";
+import { IImage } from "../model/ac/Image";
 
 type MappingEventsListResult = {
   results: MappingEvents;

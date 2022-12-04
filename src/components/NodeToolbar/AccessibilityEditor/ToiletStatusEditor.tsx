@@ -1,16 +1,23 @@
-import * as React from 'react';
-import { t } from 'ttag';
+import * as React from "react";
+import { t } from "ttag";
 
-import useImperialUnits from '../../../lib/useImperialUnits';
-import { AccessibilityCloudFeature, WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
-import { accessibleToiletDescription, hasAccessibleToilet } from '../../../lib/Feature';
+import useImperialUnits from "../../../lib/useImperialUnits";
+import {
+  AccessibilityCloudFeature,
+  WheelmapFeature,
+  YesNoUnknown,
+} from "../../../lib/Feature";
+import {
+  accessibleToiletDescription,
+  hasAccessibleToilet,
+} from "../../../lib/Feature";
 
-import { saveToiletStatus } from './saveStatus';
-import RadioStatusEditor from './RadioStatusEditor';
-import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAccessible';
-import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
-import { CategoryLookupTables } from '../../../lib/model/Categories';
-import { AppContextConsumer } from '../../../AppContext';
+import { saveToiletStatus } from "./saveStatus";
+import RadioStatusEditor from "./RadioStatusEditor";
+import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
+import ToiletStatusNotAccessibleIcon from "../../icons/accessibility/ToiletStatusNotAccessible";
+import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
+import { AppContextConsumer } from "../../../AppContext";
 
 type SaveOptions = {
   featureId: string;
@@ -28,7 +35,7 @@ type Props = SaveOptions & {
 function AccessibleToiletDescription() {
   return (
     <ul>
-      {accessibleToiletDescription(useImperialUnits()).map(text => (
+      {accessibleToiletDescription(useImperialUnits()).map((text) => (
         <li key={text}>{text}</li>
       ))}
     </ul>
@@ -58,18 +65,26 @@ export default function ToiletStatusEditor(props: Props) {
 
   return (
     <AppContextConsumer>
-      {appContext => (
+      {(appContext) => (
         <RadioStatusEditor
           {...props}
           undefinedStringValue="unknown"
-          getValueFromFeature={feature => hasAccessibleToilet(feature.properties)}
-          saveValue={value =>
-            saveToiletStatus({ ...props, appContext, value: value as YesNoUnknown })
+          getValueFromFeature={(feature) =>
+            hasAccessibleToilet(feature.properties)
           }
-          renderChildrenForValue={({ value, categoryId }) => <>{icons[value]}&nbsp;</>}
-          shownStatusOptions={['yes', 'no']}
-          captionForValue={value => captions[value]}
-          descriptionForValue={value => descriptions[value]}
+          saveValue={(value) =>
+            saveToiletStatus({
+              ...props,
+              appContext,
+              value: value as YesNoUnknown,
+            })
+          }
+          renderChildrenForValue={({ value, categoryId }) => (
+            <>{icons[value]}&nbsp;</>
+          )}
+          shownStatusOptions={["yes", "no"]}
+          captionForValue={(value) => captions[value]}
+          descriptionForValue={(value) => descriptions[value]}
         >
           <header id="wheelchair-accessibility-header">{headerText}</header>
         </RadioStatusEditor>

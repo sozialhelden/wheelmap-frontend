@@ -1,6 +1,6 @@
 import { PhotoModel } from "../PhotoModel";
 import { Image } from "react-photo-album";
-import { AccessibilityCloudImage } from "../model/Feature";
+import { AccessibilityCloudImage } from "../model/ac/Feature";
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
   return `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||

@@ -1,23 +1,24 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { isWheelchairAccessible, placeNameFor } from '../../lib/model/Feature';
+import { placeNameFor } from "../../lib/model/shared/placeNameFor";
+import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
 import intersperse from 'intersperse';
 import {
-  categoryNameFor,
+  getTranslatedCategoryNameFor,
   getCategoryId,
   CategoryLookupTables,
   Category,
-} from '../../lib/model/Categories';
+} from '../../lib/model/ac/categories/Categories';
 import Icon from '../shared/Icon';
 import { PlaceNameH1 } from '../shared/PlaceName';
 import BreadCrumbs from './BreadCrumbs';
-import { isEquipmentAccessible } from '../../lib/model/EquipmentInfo';
+import { isEquipmentAccessible } from '../../lib/model/ac/EquipmentInfo';
 import colors, { alpha } from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../shared/ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
-import { translatedStringFromObject } from '../../lib/i18n';
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
@@ -96,7 +97,7 @@ export default class NodeHeader extends React.Component<Props> {
 
     const { category, parentCategory, children } = this.props;
     const shownCategory = category || parentCategory;
-    let categoryName = shownCategory && categoryNameFor(shownCategory);
+    let categoryName = shownCategory && getTranslatedCategoryNameFor(shownCategory);
     const shownCategoryId = shownCategory && getCategoryId(shownCategory);
 
     const acFeature = feature;
@@ -162,21 +163,8 @@ export default class NodeHeader extends React.Component<Props> {
       </PlaceNameH1>
     );
 
-    const { cluster, onClickCurrentCluster } = this.props;
-
-    const clusterElement = cluster && (
-      <React.Fragment>
-        <StyledClusterIcon
-          cluster={cluster}
-          onSelectClusterIcon={() => onClickCurrentCluster(cluster)}
-        />
-        <ChevronRight style={{ marginRight: '4px' }} />
-      </React.Fragment>
-    );
-
     return (
       <StyledNodeHeader>
-        {clusterElement}
         {placeNameElement}
         {children}
       </StyledNodeHeader>

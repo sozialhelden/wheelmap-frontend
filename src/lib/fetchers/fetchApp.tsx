@@ -1,4 +1,4 @@
-import { App } from "../model/App";
+import { App } from "../model/ac/App";
 
 export function interpretJSONResponseAsApp(json: unknown): App {
   return json as App;

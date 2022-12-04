@@ -3,7 +3,7 @@ import * as React from "react";
 import classNames from "classnames";
 
 import getAddressString from "../../lib/model/getAddressString";
-import { CategoryLookupTables } from "../../lib/model/Categories";
+import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 import { SearchResultFeature } from "../../lib/fetchers/fetchPlaceSearchResults";
 
 import Address from "../NodeToolbar/Address";

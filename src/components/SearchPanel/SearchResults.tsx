@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { SearchResultCollection } from "../../lib/fetchers/fetchPlaceSearchResults";
 import SearchResult from "./SearchResult";
-import { CategoryLookupTables } from "../../lib/model/Categories";
+import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 
 type Props = {
   searchResults?: SearchResultCollection;

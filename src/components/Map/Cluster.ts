@@ -1,5 +1,5 @@
 import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
-import { YesNoLimitedUnknown } from "../../lib/model/Feature";
+import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 
 export type Cluster = {
   features: Array<PlaceInfo | EquipmentInfo>;

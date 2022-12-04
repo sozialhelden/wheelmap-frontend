@@ -1,4 +1,4 @@
-import { Locale } from "../../lib/i18n";
+import { Locale } from "../../lib/i18n/Locale";
 
 export function buildSourceIdParams(
   includeSourceIds: Array<string>,

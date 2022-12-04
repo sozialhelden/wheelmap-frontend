@@ -1,5 +1,7 @@
 import TTLCache, { TTLCacheOptions } from "./TTLCache";
-import Categories, { RawCategoryLists } from "../model/Categories";
+import Categories, {
+  RawCategoryLists,
+} from "../model/ac/categories/Categories";
 
 export type CategoryLookupTablesCacheOptions = {
   reloadInBackground: boolean;

@@ -4,13 +4,13 @@ import { difference } from "lodash";
 import React from "react";
 import useSWR from "swr";
 import {
-  ErrorResponse,
-  FeatureId,
-  FeatureOrError,
+  OSMFeatureId,
+  OSMFeatureOrError,
+  OSMAPIErrorResponse,
   isErrorResponse,
-} from "../../../model/Feature";
-import getFeatureCategoryDisplayName from "../../../model/getFeatureCategoryDisplayName";
-import getFeatureDisplayName from "../../../model/getFeatureDisplayName";
+} from "../../../../lib/model/osm/OSMFeature";
+import getFeatureCategoryDisplayName from "../../../../lib/model/osm/getFeatureCategoryDisplayName";
+import getFeatureDisplayName from "../../model/getFeatureDisplayName";
 import ExternalFeatureLink from "./ExternalFeatureLink";
 import FeatureAddress from "./FeatureAddress";
 import FeatureImage from "./FeatureImage";
@@ -19,7 +19,7 @@ import isAddressRelevantOSMKey from "./isAddressRelevantOSMKey";
 import OSMTagTable from "./OSMTagTable";
 
 type Props = {
-  featureId: FeatureId;
+  featureId: OSMFeatureId;
 };
 
 const fetcher = (input: RequestInfo, init?: RequestInit | undefined) =>
@@ -35,7 +35,10 @@ export default function FeatureDetails(props: Props) {
   const { featureId } = props;
   const url = `${process.env.REACT_APP_OSM_API_BACKEND_URL}/${featureId.source}/${featureId.id}.json`;
 
-  const { data, error } = useSWR<FeatureOrError, ErrorResponse>(url, fetcher);
+  const { data, error } = useSWR<OSMFeatureOrError, OSMAPIErrorResponse>(
+    url,
+    fetcher
+  );
 
   if (error) return <Callout intent="danger">{JSON.stringify(error)}</Callout>;
 
@@ -79,6 +82,7 @@ export default function FeatureDetails(props: Props) {
   const osmId = data._id.replace(/^-/, "");
   const displayName = getFeatureDisplayName(data);
   const categoryName = getFeatureCategoryDisplayName(data);
+
   return (
     <Card style={{ gap: "10px", maxWidth: "40rem" }}>
       <header

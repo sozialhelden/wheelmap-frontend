@@ -1,7 +1,10 @@
-import * as React from 'react';
-import strings from './strings';
-import { generateOsmEditUrl, generateOsmNoteUrl } from '../../../lib/model/generateOsmUrls';
-import { PlaceInfo } from '@sozialhelden/a11yjson';
+import * as React from "react";
+import strings from "./strings";
+import {
+  generateOsmEditUrl,
+  generateOsmNoteUrl,
+} from "../../../lib/model/shared/generateOsmUrls";
+import { PlaceInfo } from "@sozialhelden/a11yjson";
 
 type Props = {
   feature: PlaceInfo;
@@ -19,15 +22,28 @@ export default class ReportProblemButton extends React.Component<Props> {
   }
 
   trapFocus = (event: React.KeyboardEvent<{}>) => {
-    if (event.target === this.editLink && event.key === 'Tab' && event.shiftKey && this.noteLink) {
+    if (
+      event.target === this.editLink &&
+      event.key === "Tab" &&
+      event.shiftKey &&
+      this.noteLink
+    ) {
       event.preventDefault();
       this.noteLink && this.noteLink.focus();
     }
-    if (event.target === this.noteLink && event.key === 'Tab' && !event.shiftKey) {
+    if (
+      event.target === this.noteLink &&
+      event.key === "Tab" &&
+      !event.shiftKey
+    ) {
       event.preventDefault();
       this.backButton && this.backButton.focus();
     }
-    if (event.target === this.backButton && event.key === 'Tab' && !event.shiftKey) {
+    if (
+      event.target === this.backButton &&
+      event.key === "Tab" &&
+      !event.shiftKey
+    ) {
       event.preventDefault();
       this.editLink && this.editLink.focus();
     }
@@ -49,7 +65,10 @@ export default class ReportProblemButton extends React.Component<Props> {
     } = strings();
 
     return (
-      <section role="dialog" aria-labelledby="osm-hint osm-edit-hint osm-login-hint">
+      <section
+        role="dialog"
+        aria-labelledby="osm-hint osm-edit-hint osm-login-hint"
+      >
         <p id="osm-hint">{osmHint}</p>
         <p id="osm-edit-hint">{osmEditHint}</p>
         <p className="subtle" id="osm-login-hint">
@@ -58,7 +77,7 @@ export default class ReportProblemButton extends React.Component<Props> {
         <a
           href={editUrl}
           className="link-button"
-          ref={editLink => (this.editLink = editLink)}
+          ref={(editLink) => (this.editLink = editLink)}
           onKeyDown={this.trapFocus}
           target="_blank"
           rel="noopener noreferrer"
@@ -68,7 +87,7 @@ export default class ReportProblemButton extends React.Component<Props> {
         <a
           href={noteUrl}
           className="link-button"
-          ref={noteLink => (this.noteLink = noteLink)}
+          ref={(noteLink) => (this.noteLink = noteLink)}
           onKeyDown={this.trapFocus}
           target="_blank"
           rel="noopener noreferrer"
@@ -78,7 +97,7 @@ export default class ReportProblemButton extends React.Component<Props> {
         <button
           className="link-button negative-button"
           onClick={this.props.onClose}
-          ref={backButton => (this.backButton = backButton)}
+          ref={(backButton) => (this.backButton = backButton)}
           onKeyDown={this.trapFocus}
         >
           {backButtonCaption}

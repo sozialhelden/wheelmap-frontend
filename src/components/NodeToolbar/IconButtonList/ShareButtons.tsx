@@ -1,10 +1,13 @@
-import * as React from 'react';
-import { t } from 'ttag';
+import * as React from "react";
+import { t } from "ttag";
 
-import { Category, getCategoryId } from '../../../lib/model/Categories';
-import ShareBar from '../../ShareBar/ShareBar';
-import { translatedStringFromObject } from '../../../lib/i18n';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import {
+  Category,
+  getCategoryId,
+} from "../../../lib/model/ac/categories/Categories";
+import ShareBar from "../../ShareBar/ShareBar";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
+import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
 
 type Props = {
   feature: PlaceInfo;
@@ -25,7 +28,9 @@ const ShareButtons = ({
 }: Props) => {
   // translator: Additional description text for sharing a place in a social network.
   let pageDescription = t`Learn more about the accessibility of this place`;
-  const url = featureId ? `https://wheelmap.org/nodes/${featureId}` : 'https://wheelmap.org';
+  const url = featureId
+    ? `https://wheelmap.org/nodes/${featureId}`
+    : "https://wheelmap.org";
 
   // translator: Email body used when sharing a place without known name/category via email.
   let mailBody = t`I found a place on Wheelmap: ${url}`;
@@ -40,7 +45,9 @@ const ShareButtons = ({
     const { properties } = feature;
     let { description } = properties;
     const categoryOrParentCategory = category || parentCategory;
-    const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
+    const categoryName = categoryOrParentCategory
+      ? getCategoryId(categoryOrParentCategory)
+      : null;
     // translator: Used to describe a place with unknown name, but known category (when sharing)
     const placeName =
       (properties.name && translatedStringFromObject(properties.name)) ||
@@ -59,9 +66,9 @@ const ShareButtons = ({
     // translator: Text for mail body for shared place asking to click a link to open the shared place
     mailBody = t`${sharedObjectTitle}\n\nClick on this link to open it: ${url}`;
   }
-  const mailToLink = `mailto:?subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(
-    mailBody
-  )}`;
+  const mailToLink = `mailto:?subject=${encodeURIComponent(
+    mailSubject
+  )}&body=${encodeURIComponent(mailBody)}`;
 
   return (
     <ShareBar

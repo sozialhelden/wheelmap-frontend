@@ -9,13 +9,13 @@ import NotFound from "../components/NotFound/NotFound";
 import "../components/Map/leaflet-gesture-handling/leaflet-gesture-handling.css";
 
 import {
-  parseAcceptLanguageString,
-  localeFromString,
-  getBrowserLocaleStrings,
-  addTranslationsToTTag,
-  Locale,
   currentLocales,
-} from "../lib/i18n";
+} from "../lib/i18n/i18n";
+import { Locale } from "../lib/i18n/Locale";
+import { localeFromString } from "../lib/i18n/localeFromString";
+import { parseAcceptLanguageString } from "../lib/i18n/parseAcceptLanguageString";
+import { getBrowserLocaleStrings } from "../lib/i18n/getBrowserLocaleStrings";
+import { addTranslationsToTTag } from "../lib/i18n/addTranslationsToTTag";
 
 import allTranslations from "../lib/translations.json";
 import { trackPageView } from "../lib/Analytics";

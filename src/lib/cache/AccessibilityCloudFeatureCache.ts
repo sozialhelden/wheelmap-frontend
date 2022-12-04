@@ -4,7 +4,7 @@ import {
 } from "../Feature";
 import FeatureCache from "./FeatureCache";
 import { equipmentInfoCache } from "./EquipmentInfoCache";
-import { currentLocales } from "../i18n";
+import { currentLocales } from "../i18n/i18n";
 
 type CacheMap = {
   [key: string]: FeatureCache<any, any>;

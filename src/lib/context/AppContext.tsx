@@ -1,5 +1,5 @@
 import React from "react";
-import { App } from "../model/App";
+import { App } from "../model/ac/App";
 
 export const AppContext = React.createContext<App | undefined>(null);
 

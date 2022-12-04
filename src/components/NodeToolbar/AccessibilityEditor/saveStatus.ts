@@ -11,8 +11,10 @@ import {
   isWheelmapFeatureId,
 } from "../../../lib/Feature";
 import { trackEvent } from "../../../lib/Analytics";
-import Categories, { getCategoryId } from "../../../lib/model/Categories";
-import { CategoryLookupTables } from "../../../lib/model/Categories";
+import Categories, {
+  getCategoryId,
+} from "../../../lib/model/ac/categories/Categories";
+import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
 import { AppContextData } from "../../../AppContext";
 import { accessibilityCloudFeatureCache } from "../../../lib/cache/AccessibilityCloudFeatureCache";
 import { PlaceInfo } from "@sozialhelden/a11yjson";

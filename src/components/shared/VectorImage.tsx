@@ -1,4 +1,4 @@
-import ISVGOResult from '../../lib/model/ISVGOResult';
+import ISVGOResult from '../../lib/model/ac/ISVGOResult';
 import styled, { css } from 'styled-components';
 import { omit } from 'lodash';
 

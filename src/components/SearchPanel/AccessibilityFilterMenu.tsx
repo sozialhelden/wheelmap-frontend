@@ -9,7 +9,7 @@ import { PlaceFilter } from "./AccessibilityFilterModel";
 import {
   yesNoUnknownArray,
   YesNoLimitedUnknown,
-} from "../../lib/model/Feature";
+} from "../../lib/model/ac/Feature";
 
 type Props = PlaceFilter & {
   className?: string;

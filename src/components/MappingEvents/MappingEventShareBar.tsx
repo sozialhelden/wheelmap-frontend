@@ -1,8 +1,8 @@
 import React from "react";
 import { t } from "ttag";
 import ShareBar from "../ShareBar/ShareBar";
-import { MappingEvent } from "../../lib/model/MappingEvent";
-import { translatedStringFromObject } from "../../lib/i18n";
+import { MappingEvent } from "../../lib/model/ac/MappingEvent";
+import { translatedStringFromObject } from "../../lib/i18n/translatedStringFromObject";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import useHostname from "../../lib/context/HostnameContext";
 

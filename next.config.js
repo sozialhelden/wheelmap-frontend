@@ -1,5 +1,5 @@
 const withTranspileModules = require("next-transpile-modules");
-//const webpack = require('webpack');
+
 const {
   loadGlobalEnvironment,
   getFilteredClientEnvironment,
@@ -9,12 +9,7 @@ const env = getFilteredClientEnvironment(loadGlobalEnvironment());
 let configuration = withTranspileModules({
   // Next.js doesn't transpile node_modules content by default.
   // We have to do this manually to make IE 11 users happy.
-  transpileModules: [
-    "@sozialhelden/twelve-factor-dotenv",
-    "@elastic/apm-rum-core",
-    "@elastic/apm-rum",
-    "dotenv",
-  ],
+  transpileModules: ["@sozialhelden/twelve-factor-dotenv", "dotenv"],
   webpack: (config) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
@@ -40,7 +35,6 @@ configuration = {
     // your project has type errors.
     // !! WARN !!
     ignoreBuildErrors: true,
-    ignoreDevErrors: true,
   },
   // Disabling file-system routing to always use custom server.
   // useFileSystemPublicRoutes: false,

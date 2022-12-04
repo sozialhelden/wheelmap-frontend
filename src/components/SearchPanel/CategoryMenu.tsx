@@ -4,8 +4,8 @@ import map from "lodash/map";
 
 import { Circle } from "../shared/IconButton";
 import CategoryButton, { StyledCategoryIconButton } from "./CategoryButton";
-import Categories from "../../lib/model/Categories";
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/Feature";
+import Categories from "../../lib/model/ac/categories/Categories";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
 
 type Props = {

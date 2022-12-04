@@ -1,4 +1,4 @@
-import { isWheelmapFeatureId } from "../../../lib/model/Feature";
+import { isWheelmapFeatureId } from "../../../lib/model/ac/Feature";
 import { DataSource } from "../../../lib/cache/DataSourceCache";
 import { App } from "../../../lib/App";
 

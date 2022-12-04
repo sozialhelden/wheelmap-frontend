@@ -5,7 +5,7 @@ import colors from "../../../lib/colors";
 import { useCurrentApp } from "../../../lib/context/AppContext";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
 import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
-import { translatedStringFromObject } from "../../../lib/i18n";
+import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/insertPlaceholdersToAddPlaceUrl";
 import Spinner from "../../ActivityIndicator/Spinner";
 

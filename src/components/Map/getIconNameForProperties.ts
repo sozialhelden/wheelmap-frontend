@@ -1,5 +1,7 @@
-import { EquipmentProperties, PlaceProperties } from '@sozialhelden/a11yjson';
-import Categories, { CategoryLookupTables } from '../../lib/model/Categories';
+import { EquipmentProperties, PlaceProperties } from "@sozialhelden/a11yjson";
+import Categories, {
+  CategoryLookupTables,
+} from "../../lib/model/ac/categories/Categories";
 
 export default function getIconNameForProperties(
   lookup: CategoryLookupTables,
@@ -9,17 +11,19 @@ export default function getIconNameForProperties(
     return null;
   }
   let categoryIdOrSynonym = null;
-  if (typeof properties.category === 'string') {
-    if (['escalator', 'elevator'].includes(properties.category)) {
+  if (typeof properties.category === "string") {
+    if (["escalator", "elevator"].includes(properties.category)) {
       return properties.category;
     }
     categoryIdOrSynonym = properties.category;
   }
 
-  if (categoryIdOrSynonym === '2nd_hand') {
-    categoryIdOrSynonym = 'second_hand';
+  if (categoryIdOrSynonym === "2nd_hand") {
+    categoryIdOrSynonym = "second_hand";
   }
 
-  const category = categoryIdOrSynonym ? Categories.getCategory(lookup, categoryIdOrSynonym) : null;
+  const category = categoryIdOrSynonym
+    ? Categories.getCategory(lookup, categoryIdOrSynonym)
+    : null;
   return category ? category._id : null;
 }
