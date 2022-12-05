@@ -15,7 +15,10 @@ import { CategoryLookupTables } from "../../lib/model/ac/categories/Categories";
 import Spinner from "../ActivityIndicator/Spinner";
 import CloseLink from "../shared/CloseLink";
 import ErrorBoundary from "../shared/ErrorBoundary";
-import { getAccessibilityFilterFrom, isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
+import {
+  getAccessibilityFilterFrom,
+  isAccessibilityFiltered,
+} from "../../lib/model/ac/filterAccessibility";
 import { StyledChevronRight } from "./StyledChevronRight";
 import { GoButton } from "./GoButton";
 import { StyledToolbar } from "./StyledToolbar";
@@ -36,9 +39,7 @@ export type Props = PlaceFilter & {
   onClick: () => void;
   isExpanded: boolean;
   hasGoButton: boolean;
-  searchResults:
-    | null
-    | SearchResultCollection;
+  searchResults: null | SearchResultCollection;
   isSearching: boolean;
   searchError: string;
   minimalTopPosition: number;
@@ -105,32 +106,34 @@ export default function SearchPanel(props: Props) {
     onChangeSearchQuery("");
   }, [onChangeSearchQuery]);
 
-  const clearSearchAndFocusSearchField =  React.useCallback(() => {
+  const clearSearchAndFocusSearchField = React.useCallback(() => {
     clearSearch();
     searchInputFieldRef.current?.focus();
   }, [searchInputFieldRef, clearSearch]);
 
-  const searchInputField = <SearchInputField
-    ref={searchInputFieldRef}
-    searchQuery={searchQuery || ""}
-    hidden={hidden}
-    onClick={() => {
-      if (category) {
-        clearSearchAndFocusSearchField();
-      }
-      window.scrollTo(0, 0);
-      onClick();
-    }}
-    onFocus={(event) => {
-      window.scrollTo(0, 0);
-    }}
-    onChange={onChangeSearchQuery}
-    onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
-      blur();
-      onSubmit(event.currentTarget.value);
-    }}
-    ariaRole="searchbox"
-  />;
+  const searchInputField = (
+    <SearchInputField
+      ref={searchInputFieldRef}
+      searchQuery={searchQuery || ""}
+      hidden={hidden}
+      onClick={() => {
+        if (category) {
+          clearSearchAndFocusSearchField();
+        }
+        window.scrollTo(0, 0);
+        onClick();
+      }}
+      onFocus={(event) => {
+        window.scrollTo(0, 0);
+      }}
+      onChange={onChangeSearchQuery}
+      onSubmit={(event: React.SyntheticEvent<HTMLInputElement>) => {
+        blur();
+        onSubmit(event.currentTarget.value);
+      }}
+      ariaRole="searchbox"
+    />
+  );
 
   // translator: button shown next to the search bar
   const goButtonCaption = t`Go`;
@@ -140,47 +143,64 @@ export default function SearchPanel(props: Props) {
     </GoButton>
   );
 
-  const categoryMenuOrNothing = (category || isExpanded || showCategoryMenu) && <CategoryMenu
-    category={category}
-    accessibilityFilter={accessibilityFilter}
-  />;
+  const categoryMenuOrNothing = (category ||
+    isExpanded ||
+    showCategoryMenu) && (
+    <CategoryMenu
+      category={category}
+      accessibilityFilter={accessibilityFilter}
+    />
+  );
 
-  const accessibilityFilterMenu = (isAccessibilityFiltered(accessibilityFilter) || isExpanded) && <AccessibilityFilterMenu
-    accessibilityFilter={accessibilityFilter}
-    toiletFilter={toiletFilter}
-    category={category}
-  />
+  const accessibilityFilterMenu = (isAccessibilityFiltered(
+    accessibilityFilter
+  ) ||
+    isExpanded) && (
+    <AccessibilityFilterMenu
+      accessibilityFilter={accessibilityFilter}
+      toiletFilter={toiletFilter}
+      category={category}
+    />
+  );
 
-  const closeLink = <CloseLink
-    ariaLabel={t`Clear search`}
-    onClick={() => {
-      clearSearchAndFocusSearchField();
-      if (onClose) onClose();
-    }}
-  />;
+  const closeLink = (
+    <CloseLink
+      ariaLabel={t`Clear search`}
+      onClick={() => {
+        clearSearchAndFocusSearchField();
+        if (onClose) onClose();
+      }}
+    />
+  );
 
   let contentBelowSearchField = null;
   if (!searchResults && isSearching) {
-    contentBelowSearchField = <div>
-    <span className="sr-only" aria-live="assertive">
-      {t`Searching`}
-    </span>
-    <Spinner size={20} />
-  </div>;
+    contentBelowSearchField = (
+      <div>
+        <span className="sr-only" aria-live="assertive">
+          {t`Searching`}
+        </span>
+        <Spinner size={20} />
+      </div>
+    );
   } else if (searchResults && searchQuery) {
-    contentBelowSearchField = <div aria-live="assertive">
-      <SearchResults
-        searchResults={searchResults}
-        hidden={hidden}
-        categories={categories}
-        error={searchError}
-      />
-    </div>;
+    contentBelowSearchField = (
+      <div aria-live="assertive">
+        <SearchResults
+          searchResults={searchResults}
+          hidden={hidden}
+          categories={categories}
+          error={searchError}
+        />
+      </div>
+    );
   } else {
-    contentBelowSearchField = <>
-      {categoryMenuOrNothing}
-      {accessibilityFilterMenu}
-    </>;
+    contentBelowSearchField = (
+      <>
+        {categoryMenuOrNothing}
+        {accessibilityFilterMenu}
+      </>
+    );
   }
 
   return (
@@ -204,14 +224,10 @@ export default function SearchPanel(props: Props) {
             <SearchIcon />
             {searchInputField}
             {searchQuery && closeLink}
-            {!searchQuery &&
-              hasGoButton &&
-              goButton}
+            {!searchQuery && hasGoButton && goButton}
           </form>
         </header>
-        <section onTouchStart={() => blur()}>
-          {contentBelowSearchField}
-        </section>
+        <section onTouchStart={() => blur()}>{contentBelowSearchField}</section>
       </ErrorBoundary>
     </StyledToolbar>
   );

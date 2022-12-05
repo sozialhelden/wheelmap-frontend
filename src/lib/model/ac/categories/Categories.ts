@@ -33,7 +33,7 @@ export function getCategory(
   synonymCache: SynonymCache,
   idOrSynonym: string | number
 ): ACCategory {
-  return synonymCache[String(idOrSynonym)];
+  return synonymCache.get(String(idOrSynonym));
 }
 
 export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
@@ -52,7 +52,7 @@ export function generateSynonymCache(categories: ACCategory[]): SynonymCache {
 export function getCategoryForFeature(
   synonymCache: SynonymCache,
   feature: AnyFeature
-): ACCategory {
+): ACCategory | undefined {
   const properties = feature.properties;
   if (!properties) {
     return unknownCategory;
@@ -98,5 +98,5 @@ export async function fetchCategoryData(
 export function getLocalizableCategoryName(
   category: ACCategory
 ): LocalizedString | undefined {
-  return category.translations._id;
+  return category.translations?._id;
 }

@@ -19,7 +19,6 @@ export function getCurrentLanguageTagsIsometric(): string[] {
 }
 
 export function initializeLanguagesForLocaleContext(languageTags?: string[]) {
-  debugger;
   return compact(
     (
       languageTags?.map(normalizeLanguageCode) ||

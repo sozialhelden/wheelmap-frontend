@@ -220,11 +220,11 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
     >
       <header style={{marginTop: '24px'}}>
         {!joinedMappingEventId && (
-          <Link href="/events">
-            <a aria-label={backLinkAriaLabel}>
-              <ChevronLeft />
-            </a>
-          </Link>
+          (<Link href="/events" aria-label={backLinkAriaLabel}>
+
+            <ChevronLeft />
+
+          </Link>)
         )}
 
         <div style={{ flex: 1 }}>
@@ -238,7 +238,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
           >
             <h2 style={{ flex: "1" }}>
               {hasMeetingPoint ? (
-                <Link href={mappingEventCenterUrl}>
+                <Link href={mappingEventCenterUrl} legacyBehavior>
                   <Button title={centerMapOnMappingEvent}>
                     {mappingEventName}
                   </Button>
@@ -279,7 +279,7 @@ export default function MappingEventPanel({ mappingEvent }: Props) {
         </div>
 
         {joinedMappingEventId && (
-          <Link href="/">
+          <Link href="/" legacyBehavior>
             <StyledCloseButton />
           </Link>
         )}

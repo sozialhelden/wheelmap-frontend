@@ -143,24 +143,24 @@ export default function SearchResult(props: Props) {
   );
   return (
     <StyledListItem className={className}>
-      <Link href={href}>
-        <a tabIndex={props.hidden ? -1 : 0}>
-          <PlaceNameHeader
-            className={wheelmapFeatureProperties ? "is-on-wheelmap" : undefined}
-          >
-            {shownCategoryId ? (
-              <Icon
-                accessibility={accessibility || null}
-                category={shownCategoryId}
-                size="medium"
-                centered
-                ariaHidden={true}
-              />
-            ) : null}
-            {placeName}
-          </PlaceNameHeader>
-          {address ? <Address role="none">{address}</Address> : null}
-        </a>
+      <Link href={href} tabIndex={props.hidden ? -1 : 0}>
+
+        <PlaceNameHeader
+          className={wheelmapFeatureProperties ? "is-on-wheelmap" : undefined}
+        >
+          {shownCategoryId ? (
+            <Icon
+              accessibility={accessibility || null}
+              category={shownCategoryId}
+              size="medium"
+              centered
+              ariaHidden={true}
+            />
+          ) : null}
+          {placeName}
+        </PlaceNameHeader>
+        {address ? <Address role="none">{address}</Address> : null}
+
       </Link>
     </StyledListItem>
   );

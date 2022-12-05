@@ -139,7 +139,7 @@ export default function MappingEventListPanel({}: Props) {
           </h2>
           <StyledMarkdown>{mapathonFeatureClaim}</StyledMarkdown>
         </div>
-        <Link href="/">
+        <Link href="/" legacyBehavior>
           <CloseButton />
         </Link>
       </header>
@@ -152,16 +152,16 @@ export default function MappingEventListPanel({}: Props) {
       <ul>
         {mappingEvents && mappingEvents.map((event) => (
           <li key={event._id}>
-            <Link href={getMappingEventLink(event)}>
-              <a className="link-button">
-                <div>
-                  <MappingEventMarkerIcon />
-                </div>
-                <div>
-                  <h3>{event.name}</h3>
-                  {event.area && <p>{event.area.properties.name}</p>}
-                </div>
-              </a>
+            <Link href={getMappingEventLink(event)} className="link-button">
+
+              <div>
+                <MappingEventMarkerIcon />
+              </div>
+              <div>
+                <h3>{event.name}</h3>
+                {event.area && <p>{event.area.properties.name}</p>}
+              </div>
+
             </Link>
           </li>
         ))}

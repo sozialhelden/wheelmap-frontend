@@ -6,7 +6,7 @@ import { useCurrentApp } from "../../../lib/context/AppContext";
 import { useCurrentMappingEvent } from "../../../lib/context/useCurrentMappingEvent";
 import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
-import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/model/insertPlaceholdersToAddPlaceUrl";
+import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/insertPlaceholdersToAddPlaceUrl";
 import Spinner from "../../ActivityIndicator/Spinner";
 
 const Badge = styled.span`
@@ -33,10 +33,8 @@ function JoinedEventLink(props: { label: string | null; url: string | null }) {
   const label = joinedMappingEvent ? joinedMappingEvent.name : props.label;
 
   return (
-    <Link href={href}>
-      <a role="menuitem" className="nav-link">
-        {label}
-      </a>
+    <Link href={href} role="menuitem" className="nav-link">
+      {label}
     </Link>
   );
 }
@@ -74,11 +72,14 @@ export default function AppLinks(props: {}) {
 
       if (isAddPlaceLinkWithoutCustomUrl) {
         return (
-          <Link key="add-place" href="/node/create">
-            <a className={className} role="menuitem">
-              {label}
-              {badgeLabel && <Badge>{badgeLabel}</Badge>}
-            </a>
+          <Link
+            key="add-place"
+            href="/node/create"
+            className={className}
+            role="menuitem"
+          >
+            {label}
+            {badgeLabel && <Badge>{badgeLabel}</Badge>}
           </Link>
         );
       }
@@ -90,11 +91,9 @@ export default function AppLinks(props: {}) {
 
       if (typeof url === "string") {
         return (
-          <Link key={url} href={url}>
-            <a className={className} role="menuitem">
-              {label}
-              {badgeLabel && <Badge>{badgeLabel}</Badge>}
-            </a>
+          <Link key={url} href={url} className={className} role="menuitem">
+            {label}
+            {badgeLabel && <Badge>{badgeLabel}</Badge>}
           </Link>
         );
       }

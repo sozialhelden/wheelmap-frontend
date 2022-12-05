@@ -103,7 +103,7 @@ const StyledSection = styled.section`
   overscroll-behavior-y: contain;
   touch-action: pan-y;
 
-  user-select: none;
+  /* user-select: none; */
   -webkit-user-drag: none;
 
   /* Positioning */

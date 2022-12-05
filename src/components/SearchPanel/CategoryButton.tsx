@@ -7,7 +7,7 @@ import colors from "../../lib/colors";
 import IconButton, { Circle, Caption } from "../shared/IconButton";
 import CloseIcon from "../icons/actions/Close";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
+import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 import Link from "next/link";
 import { Router, useRouter } from "next/router";
 import { omit } from "lodash";
@@ -152,23 +152,21 @@ export default function CategoryButton(props: Props) {
         query,
       }}
     >
-      <a>
-        <StyledCategoryIconButton
-          aria-label={
-            showCloseButton ? t`Remove ${props.name} Filter` : props.name
-          }
-          className={className}
-          onFocus={props.onFocus}
-          onBlur={props.onBlur}
-          isHorizontal={showCloseButton}
-          caption={props.name}
-          hasCircle={props.hasCircle}
-          showCloseButton={showCloseButton}
-        >
-          {icon}
-          {showCloseButton && <CloseIcon style={{ order: 1 }} />}
-        </StyledCategoryIconButton>
-      </a>
+      <StyledCategoryIconButton
+        aria-label={
+          showCloseButton ? t`Remove ${props.name} Filter` : props.name
+        }
+        className={className}
+        onFocus={props.onFocus}
+        onBlur={props.onBlur}
+        isHorizontal={showCloseButton}
+        caption={props.name}
+        hasCircle={props.hasCircle}
+        showCloseButton={showCloseButton}
+      >
+        {icon}
+        {showCloseButton && <CloseIcon style={{ order: 1 }} />}
+      </StyledCategoryIconButton>
     </Link>
   );
 }

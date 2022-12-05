@@ -57,10 +57,10 @@ class ErrorBoundary extends Component<Props, State> {
             {error && error.message && ` — ${error.message}`}
           </ErrorDetail>
 
-          <Link href="/">
-            <a className="button-cta-close focus-visible">
-              {returnHomeButtonCaption}
-            </a>
+          <Link href="/" className="button-cta-close focus-visible">
+
+            {returnHomeButtonCaption}
+
           </Link>
         </div>
       );

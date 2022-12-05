@@ -5,7 +5,7 @@ import { AnyFeature } from "../model/shared/AnyFeature";
 export async function fetchMultipleFeatures(
   appToken: string,
   idsAsString?: string
-): Promise<AnyFeature[]> {
+): Promise<AnyFeature[] | undefined> {
   const ids = idsAsString.split(",");
 
   const promises = ids.map((id) => {

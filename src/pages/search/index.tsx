@@ -40,7 +40,7 @@ import SearchPanel from "../../components/SearchPanel/SearchPanel";
 import { AppContext } from "../../lib/context/AppContext";
 import fetchPlaceSearchResults from "../../lib/fetchers/fetchPlaceSearchResults";
 import { getProductTitle } from "../../lib/model/ac/ClientSideConfiguration";
-import { getAccessibilityFilterFrom } from "../../lib/model/filterAccessibility";
+import { getAccessibilityFilterFrom } from "../../lib/model/ac/filterAccessibility";
 
 export default function Page() {
   const router = useRouter();

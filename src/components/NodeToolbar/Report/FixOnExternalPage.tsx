@@ -1,11 +1,13 @@
-import * as React from 'react';
-import { t } from 'ttag';
+import * as React from "react";
+import { t } from "ttag";
 
-import SourceLink, { PropertyName } from '../SourceLink';
-import { DataSource } from '../../../lib/cache/DataSourceCache';
-import strings from './strings';
-import { AppContextConsumer } from '../../../AppContext';
-import { PlaceInfo, PlaceProperties } from '@sozialhelden/a11yjson';
+import SourceLink, {
+  PropertyName,
+} from "../../CombinedFeaturePanel/components/IconButtonList/SourceLink";
+import { DataSource } from "../../../lib/cache/DataSourceCache";
+import strings from "./strings";
+import { AppContextConsumer } from "../../../AppContext";
+import { PlaceInfo, PlaceProperties } from "@sozialhelden/a11yjson";
 
 type Props = {
   feature: PlaceInfo;
@@ -24,7 +26,11 @@ const callToActions: { [key in PropertyName]: (v: string) => string } = {
 const FixOnExternalPage = (props: Props) => {
   const { feature, source, properties, onClose } = props;
   if (!feature || !properties || !source) return null;
-  const { useLinkExplanation, editingDelayExplanation, backButtonCaption } = strings();
+  const {
+    useLinkExplanation,
+    editingDelayExplanation,
+    backButtonCaption,
+  } = strings();
 
   return (
     <section>
@@ -33,8 +39,11 @@ const FixOnExternalPage = (props: Props) => {
           <p>{useLinkExplanation}</p>
           <p className="subtle">{editingDelayExplanation}</p>
           <AppContextConsumer>
-            {appContext =>
-              ['infoPageUrl', 'editPageUrl'].map((propertyName: PropertyName) => (
+            {(appContext) =>
+              [
+                "infoPageUrl",
+                "editPageUrl",
+              ].map((propertyName: PropertyName) => (
                 <SourceLink
                   key={propertyName}
                   properties={properties}

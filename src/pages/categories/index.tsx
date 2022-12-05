@@ -5,20 +5,18 @@ const Category = () => {
   const router = useRouter();
   const { categories, category } = router.query;
 
-  return (
-    <>
-      <header />
-      <h1>Cats: Mainpage</h1>
-      <h2>Category: {category}</h2>
-      <ul>
-        <li>
-          <Link href="/categories/category" as={`/categories/${category}/`}>
-            <a>The Cat</a>
-          </Link>
-        </li>
-      </ul>
-    </>
-  );
+  return <>
+    <header />
+    <h1>Cats: Mainpage</h1>
+    <h2>Category: {category}</h2>
+    <ul>
+      <li>
+        <Link href="/categories/category" as={`/categories/${category}/`}>
+          The Cat
+        </Link>
+      </li>
+    </ul>
+  </>;
 };
 
 export default Category;

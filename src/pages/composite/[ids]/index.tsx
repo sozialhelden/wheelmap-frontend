@@ -1,15 +1,13 @@
 import { useRouter } from "next/router";
-import styled from "styled-components";
-import CloseLink from "../../../components/shared/CloseLink";
-import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
-import { useCurrentApp } from "../../../lib/context/AppContext";
-import { getData } from "../../../lib/fetchers/fetchWithSWR";
-import Layout from "../../../components/App/Layout";
 import { ReactElement } from "react";
+import styled from "styled-components";
 import useSWR from "swr";
-import { fetchMultipleFeatures } from "../../../lib/fetchers/fetchMultipleFeatures";
+import Layout from "../../../components/App/Layout";
+import { CombinedFeaturePanel } from "../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
+import CloseLink from "../../../components/shared/CloseLink";
 import Toolbar from "../../../components/shared/Toolbar";
-import { CombinedFeaturePanel } from "../../../components/DetailsPanel/CombinedFeaturePanel";
+import { useCurrentApp } from "../../../lib/context/AppContext";
+import { fetchMultipleFeatures } from "../../../lib/fetchers/fetchMultipleFeatures";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -22,17 +20,11 @@ export default function CompositeFeaturesPage() {
   const router = useRouter();
   const { ids } = router.query;
   const app = useCurrentApp();
-
-  const categories = getData(
-    [app.tokenString],
-    fetchAccessibilityCloudCategories
-  );
-
   const features = useSWR([app.tokenString, ids], fetchMultipleFeatures);
 
   return (
     <Toolbar>
-      <CombinedFeaturePanel features={features.data} />
+      <CombinedFeaturePanel features={features.data || []} />
     </Toolbar>
   );
 }

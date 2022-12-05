@@ -213,7 +213,7 @@ export default function MappingEventWelcomeDialog({
       ariaLabel={dialogAriaLabel}
       ariaDescribedBy="mapping-event-welcome-message"
     >
-      <Link href="/">
+      <Link href="/" legacyBehavior>
         <CloseButton />
       </Link>
       <h2>{mappingEvent?.name}</h2>

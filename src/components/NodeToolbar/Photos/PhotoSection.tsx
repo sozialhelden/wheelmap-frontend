@@ -136,7 +136,9 @@ export default function PhotoSection(props: Props) {
           <kbd className={currentImageIndex === photos.length - 1 ? 'disabled' : ''}>→</kbd>
         </div>
         {canReportPhoto && (
-          <Link href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}>
+          <Link
+            href={`/${entityType}/${entityId}/images/${currentImage?._id}/report`}
+            legacyBehavior>
             <button className="report-image">{t`Report image`}</button>
           </Link>
         )}
@@ -221,7 +223,7 @@ export default function PhotoSection(props: Props) {
   return (
     <StyledSection>
       {photoViewingComponents}
-      <Link href={`/${entityType}/${entityId}/images/upload`}>
+      <Link href={`/${entityType}/${entityId}/images/upload`} legacyBehavior>
         <PhotoUploadButton />
       </Link>
     </StyledSection>

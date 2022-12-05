@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
-import MapView from "../NewMap/MapView";
+import MapView from "../MapNew/MapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";

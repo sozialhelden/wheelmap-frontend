@@ -2,7 +2,7 @@ import { LocalizedString } from "../../../i18n/LocalizedString";
 
 export type ACCategory = {
   _id: string;
-  translations: {
+  translations?: {
     _id: LocalizedString;
   };
   synonyms: string[];

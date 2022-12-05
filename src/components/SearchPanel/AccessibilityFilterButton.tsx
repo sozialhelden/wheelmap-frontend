@@ -62,7 +62,7 @@ function AccessibilityFilterButton(props: Props) {
         pathname: router.pathname,
         query,
       }}
-    >
+      legacyBehavior>
       <Button
         className={className}
         onFocus={props.onFocus}

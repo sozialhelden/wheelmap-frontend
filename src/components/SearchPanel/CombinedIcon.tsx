@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Icon from "../shared/Icon";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import ToiletStatusAccessible from "../icons/accessibility/ToiletStatusAccessible";
-import { isAccessibilityFiltered } from "../../lib/model/filterAccessibility";
+import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
 
 type Props = {
   accessibilityFilter?: YesNoLimitedUnknown[];
