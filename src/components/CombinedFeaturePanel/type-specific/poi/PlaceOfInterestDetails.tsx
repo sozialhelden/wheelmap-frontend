@@ -1,4 +1,5 @@
 import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
+import FeatureAccessibility from "../../components/FeatureAccessibility";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
 import FeaturesDebugJSON from "../../components/FeaturesDebugJSON";
 import AddressMapsLinkItems from "../../components/IconButtonList/AddressMapsLinkItems";
@@ -22,7 +23,7 @@ export default function PlaceOfInterestDetails(props: Props) {
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-
+      <FeatureAccessibility></FeatureAccessibility>
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
