@@ -81,7 +81,6 @@ class ReportPhotoToolbar extends React.Component<Props, State> {
   onSubmit = (
     event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>
   ) => {
-    debugger;
     if (this.props.onCompleted && this.props.photo && this.state.selectedValue) {
       this.props.onCompleted(this.props.photo, this.state.selectedValue);
       event.preventDefault();

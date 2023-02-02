@@ -572,8 +572,7 @@ class MainView extends React.Component<Props, State> {
     } = this.props;
 
     function getDefaultStartCenterForApp(app: App): number[] {
-      const associatedCenter = app?.clientSideConfiguration?.associatedGeometries?.centerPoint?.coordinates;
-      debugger  
+      const associatedCenter = app?.clientSideConfiguration?.associatedGeometries?.centerPoint?.coordinates;  
       return (associatedCenter && [...associatedCenter].reverse() || config.defaultStartCenter);
     }
 
