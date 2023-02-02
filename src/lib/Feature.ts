@@ -452,7 +452,6 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     const result =
       // @ts-ignore
       isEquipmentAccessible(pick(properties, ['lastUpdate', 'isWorking'])) || 'unknown';
-    // debugger
     return result;
   }
 
