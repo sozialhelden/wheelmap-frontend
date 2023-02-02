@@ -121,7 +121,7 @@ type Props = {
   maxZoom: number;
   minZoomWithSetCategory: number;
   minZoomWithoutSetCategory: number;
-  defaultStartCenter: [number, number];
+  defaultStartCenter: number[];
   locateOnStart?: boolean;
   padding: Padding | null;
   className?: string | null;
@@ -194,7 +194,7 @@ export default class Map extends React.Component<Props, State> {
     }
 
     let zoom = overrideZoom || fallbackZoom;
-    let center: [number, number] = [0, 0];
+    let center: number[] = [0, 0];
     let bounds = null;
     let zoomedToFeatureId = state.zoomedToFeatureId;
     let centerDefined = false;
@@ -261,7 +261,7 @@ export default class Map extends React.Component<Props, State> {
       }
     }
 
-    return { center, zoom, bounds, zoomedToFeatureId };
+    return { center: [center[0], center[1]], zoom, bounds, zoomedToFeatureId };
   }
 
   static getDerivedStateFromProps(props: Props, state: State): Partial<State> {

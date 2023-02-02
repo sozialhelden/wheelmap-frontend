@@ -51,6 +51,7 @@ import MappingEventToolbar from './components/MappingEvents/MappingEventToolbar'
 import MappingEventWelcomeDialog from './components/MappingEvents/MappingEventWelcomeDialog';
 import { AppContextConsumer } from './AppContext';
 import CreatePlaceFlow from './components/CreatePlaceFlow/CreatePlaceFlow';
+import { Position } from 'geojson';
 
 type Props = {
   className?: string;
@@ -569,6 +570,13 @@ class MainView extends React.Component<Props, State> {
       isNodeToolbarDisplayed: isNodeToolbarVisible,
       inEmbedMode,
     } = this.props;
+
+    function getDefaultStartCenterForApp(app: App): number[] {
+      const associatedCenter = app?.clientSideConfiguration?.associatedGeometries?.centerPoint?.coordinates;
+      debugger  
+      return (associatedCenter && [...associatedCenter].reverse() || config.defaultStartCenter);
+    }
+
     return (
       <DynamicMap
         forwardedRef={map => {
@@ -609,6 +617,7 @@ class MainView extends React.Component<Props, State> {
         }
         inEmbedMode={inEmbedMode}
         {...config}
+        defaultStartCenter={getDefaultStartCenterForApp(this.props.app)}
       />
     );
   }

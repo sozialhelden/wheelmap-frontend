@@ -13,6 +13,7 @@ import { ChromelessButton, CallToActionButton } from '../Button';
 import env from '../../lib/env';
 import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
 import VectorImage from '../VectorImage';
+import AppContext from '../../AppContext';
 
 type Props = {
   className?: string,
@@ -93,7 +94,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
               shadowed
               centered
             />
-            <header>{accessibilityName('yes')}</header>
+            <header>{accessibilityName('yes', clientSideConfiguration)}</header>
             <footer>{accessibilityDescription('yes')}</footer>
           </li>
           <li className="ac-marker-limited">
@@ -106,7 +107,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
               shadowed
               centered
             />
-            <header>{accessibilityName('limited')}</header>
+            <header>{accessibilityName('limited', clientSideConfiguration)}</header>
             <footer>{accessibilityDescription('limited')}</footer>
           </li>
           <li className="ac-marker-no">
@@ -119,7 +120,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
               shadowed
               centered
             />
-            <header>{accessibilityName('no')}</header>
+            <header>{accessibilityName('no', clientSideConfiguration)}</header>
             <footer>{accessibilityDescription('no')}</footer>
           </li>
           <li className="ac-marker-unknown">
@@ -132,7 +133,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
               shadowed
               centered
             />
-            <header>{accessibilityName('unknown')}</header>
+            <header>{accessibilityName('unknown', clientSideConfiguration)}</header>
             <footer>{unknownAccessibilityIncentiveText}</footer>
           </li>
         </ul>

@@ -1,6 +1,7 @@
 import { LocalizedString, translatedStringFromObject } from './i18n';
 import { LinkData } from '../App';
 import { IBranding } from './IBranding';
+import { Point, Polygon } from 'geojson';
 
 export interface TwitterConfiguration {
   siteHandle?: string;
@@ -34,19 +35,37 @@ export interface ClientSideConfiguration {
   includeSourceIds?: Array<string>;
   excludeSourceIds?: Array<string>;
   disableWheelmapSource: boolean;
+  associatedGeometries?: {
+    centerPoint?: Point;
+    regionPolygon?: Polygon;
+  };
   textContent?: {
     onboarding?: {
-      headerMarkdown?: LocalizedString,
-    },
+      headerMarkdown?: LocalizedString;
+    };
     product?: {
-      name?: LocalizedString,
-      claim?: LocalizedString,
-      description?: LocalizedString,
-    },
+      name?: LocalizedString;
+      claim?: LocalizedString;
+      description?: LocalizedString;
+    };
+    accessibilityNames?: {
+      long?: {
+        unknown?: LocalizedString;
+        yes?: LocalizedString;
+        limited?: LocalizedString;
+        no?: LocalizedString;
+      };
+      short?: {
+        unknown?: LocalizedString;
+        yes?: LocalizedString;
+        limited?: LocalizedString;
+        no?: LocalizedString;
+      };
+    };
   };
   meta: {
-    twitter?: TwitterConfiguration,
-    facebook?: FacebookConfiguration,
+    twitter?: TwitterConfiguration;
+    facebook?: FacebookConfiguration;
   };
   customMainMenuLinks?: LinkData[];
   addPlaceURL?: string;

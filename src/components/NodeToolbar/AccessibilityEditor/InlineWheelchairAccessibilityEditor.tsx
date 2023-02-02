@@ -7,10 +7,11 @@ import { shortAccessibilityName } from '../../../lib/Feature';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
 import IconButton, { Caption } from '../../IconButton';
 import colors from '../../../lib/colors';
+import AppContext from '../../../AppContext';
 
 type Props = {
-  onChange: (newValue: YesNoLimitedUnknown) => void,
-  category: string | null
+  onChange: (newValue: YesNoLimitedUnknown) => void;
+  category: string | null;
 };
 
 const Row = styled.section`
@@ -119,17 +120,24 @@ const Row = styled.section`
 `;
 
 export default function InlineWheelchairAccessibilityEditor(props: Props) {
+  const appContext = React.useContext(AppContext);
+  const clientSideConfiguration = appContext.app.clientSideConfiguration;
+
   // translator: Screen reader description for the accessibility choice buttons for gray places
   return (
     <Row aria-label={t`Wheelchair accessibility`}>
       {['yes', 'limited', 'no'].map((value: YesNoLimitedUnknown) => (
         <button
-          aria-label={shortAccessibilityName(value)}
+          aria-label={shortAccessibilityName(value, clientSideConfiguration)}
           onClick={() => props.onChange(value)}
           className={value}
           key={value}
         >
-          <IconButton key={value} caption={shortAccessibilityName(value)} isHorizontal={false}>
+          <IconButton
+            key={value}
+            caption={shortAccessibilityName(value, clientSideConfiguration)}
+            isHorizontal={false}
+          >
             <Icon
               accessibility={value}
               category={props.category}

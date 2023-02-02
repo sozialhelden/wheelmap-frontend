@@ -20,6 +20,7 @@ import ToiletStatusAccessibleIcon from '../../icons/accessibility/ToiletStatusAc
 import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatusNotAccessible';
 import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
+import AppContext from '../../../AppContext';
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -33,7 +34,9 @@ const placeCategoriesWithoutExtraToiletEntry = [
 ];
 
 function AccessibilityName(accessibility: YesNoLimitedUnknown) {
-  const description = accessibilityName(accessibility);
+  const appContext = React.useContext(AppContext);
+  const clientSideConfiguration = appContext.app.clientSideConfiguration;
+  const description = accessibilityName(accessibility, clientSideConfiguration);
   switch (accessibility) {
     case 'yes':
     case 'limited':

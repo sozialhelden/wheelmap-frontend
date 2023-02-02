@@ -18,6 +18,7 @@ import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
 import { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
 import { SearchResultFeature } from './searchPlaces';
+import { ClientSideConfiguration } from './ClientSideConfiguration';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -473,43 +474,51 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
   }
 }
 
-export function accessibilityName(accessibility: YesNoLimitedUnknown): string | null {
-  switch (accessibility) {
-    // translator: Long accessibility description for full wheelchair accessibility
-    case 'yes':
-      return t`Fully wheelchair accessible`;
-    // translator: Long accessibility description for partial wheelchair accessibility
-    case 'limited':
-      return t`Partially wheelchair accessible`;
-    // translator: Long accessibility description for no wheelchair accessibility
-    case 'no':
-      return t`Not wheelchair accessible`;
-    // translator: Long accessibility description for unknown wheelchair accessibility
-    case 'unknown':
-      return t`Unknown accessibility`;
-    default:
-      return null;
-  }
+export function accessibilityName(accessibility: YesNoLimitedUnknown, app?: ClientSideConfiguration): string | null {
+  const a11yNames = app?.textContent?.accessibilityNames?.long;
+  
+    switch (accessibility) {
+      case 'yes':
+        // translator: Long accessibility description for full wheelchair accessibility
+        return translatedStringFromObject(a11yNames?.yes) || t`Fully wheelchair accessible`;
+        case 'limited':
+        // translator: Long accessibility description for partial wheelchair accessibility
+        return translatedStringFromObject(a11yNames?.limited) || t`Partially wheelchair accessible`;
+        case 'no':
+        // translator: Long accessibility description for no wheelchair accessibility
+        return translatedStringFromObject(a11yNames?.no) || t`Not wheelchair accessible`;
+        case 'unknown':
+        // translator: Long accessibility description for unknown wheelchair accessibility
+        return translatedStringFromObject(a11yNames?.unknown) || t`Unknown accessibility`;
+      default:
+        return null;
+    }
+  
 }
 
-export function shortAccessibilityName(accessibility: YesNoLimitedUnknown): string | null {
+export function shortAccessibilityName(accessibility: YesNoLimitedUnknown, app?: ClientSideConfiguration): string | null {
+  
+  const a11yNames = app.textContent.accessibilityNames.short;
+  
   switch (accessibility) {
-    // translator: Shortened accessibility description for full wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
     case 'yes':
-      return t`Fully`;
-    // translator: Shortened accessibility description for partial wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
-    case 'limited':
-      return t`Partially`;
-    // translator: Shortened accessibility description for no wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
-    case 'no':
-      return t`Not at all`;
-    // translator: Shortened accessibility description for unknown wheelchair accessibility (imagine as short answer to the question ‘how accessible is this place?’)
-    case 'unknown':
-      return t`Unknown`;
+      // translator: Short accessibility description for full wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.yes) || t`Fully`;
+      case 'limited':
+      // translator: Short accessibility description for partial wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.limited) || t`Partially`;
+      case 'no':
+      // translator: Short accessibility description for no wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.no) || t`Not at all`;
+      case 'unknown':
+      // translator: Short accessibility description for unknown wheelchair accessibility
+      return translatedStringFromObject(a11yNames?.unknown) || t`Unknown`;
     default:
       return null;
   }
 }
+  
+
 
 export function accessibilityDescription(accessibility: YesNoLimitedUnknown): string | null {
   switch (accessibility) {

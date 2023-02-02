@@ -15,7 +15,7 @@ import {
   WheelmapProperties,
 } from '../../../lib/Feature';
 import { CategoryLookupTables } from '../../../lib/Categories';
-import { AppContextData } from '../../../AppContext';
+import AppContext, { AppContextData } from '../../../AppContext';
 
 import strings from './strings';
 import FixOsmComment from './FixOsmComment';
@@ -36,13 +36,16 @@ type IssueEntry = {
   component?: React.ComponentType<any>;
 };
 
-const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] =>
-  [
+const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] => {
+  const appContext = React.useContext(AppContext);
+  const { clientSideConfiguration } = appContext.app;
+
+  return [
     {
       className: 'wrong-wheelchair-accessibility',
       issueLink: () => {
         const accessibilityDescription =
-          accessibilityName(isWheelchairAccessible(properties)) || '';
+          accessibilityName(isWheelchairAccessible(properties), clientSideConfiguration) || '';
         // translator: Shown as issue description in the report dialog
         return t`The place is marked as ‘${accessibilityDescription}’, but this is wrong!`;
       },
@@ -82,6 +85,7 @@ const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEnt
       component: MailToSupport,
     },
   ].filter(Boolean);
+};
 
 const generateAcIssues = (
   properties: AccessibilityCloudProperties,

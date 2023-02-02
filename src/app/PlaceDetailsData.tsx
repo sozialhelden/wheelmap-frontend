@@ -275,7 +275,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
         fullTitle = placeTitle =
           feature.properties && placeNameFor(feature.properties, category || parentCategory);
         const accessibilityTitle =
-          feature.properties && accessibilityName(isWheelchairAccessible(feature.properties));
+          feature.properties && accessibilityName(isWheelchairAccessible(feature.properties), app.clientSideConfiguration);
 
         if (placeTitle && accessibilityTitle) {
           fullTitle = `${placeTitle}, ${accessibilityTitle}`;

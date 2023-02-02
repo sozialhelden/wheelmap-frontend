@@ -19,16 +19,16 @@ import { isOnSmallViewport } from '../../../lib/ViewportSize';
 import { AppContextConsumer } from '../../../AppContext';
 
 type SaveOptions = {
-  featureId: string,
-  onSave: (value: YesNoLimitedUnknown) => void | null,
-  onClose: () => void,
+  featureId: string;
+  onSave: (value: YesNoLimitedUnknown) => void | null;
+  onClose: () => void;
 };
 
 type Props = SaveOptions & {
-  categories: CategoryLookupTables,
-  feature: WheelmapFeature | AccessibilityCloudFeature,
-  className?: string,
-  presetStatus?: YesNoLimitedUnknown | null,
+  categories: CategoryLookupTables;
+  feature: WheelmapFeature | AccessibilityCloudFeature;
+  className?: string;
+  presetStatus?: YesNoLimitedUnknown | null;
 };
 
 export default function WheelchairStatusEditor(props: Props) {
@@ -40,7 +40,9 @@ export default function WheelchairStatusEditor(props: Props) {
           hideUnselectedCaptions={true}
           undefinedStringValue="unknown"
           getValueFromFeature={feature => isWheelchairAccessible(feature.properties)}
-          saveValue={value => saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })}
+          saveValue={value =>
+            saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })
+          }
           renderChildrenForValue={({ value, categoryId }) => (
             <Icon
               accessibility={value as YesNoLimitedUnknown}
@@ -52,7 +54,9 @@ export default function WheelchairStatusEditor(props: Props) {
             />
           )}
           shownStatusOptions={['yes', 'limited', 'no']}
-          captionForValue={(value: YesNoLimitedUnknown) => shortAccessibilityName(value)}
+          captionForValue={(value: YesNoLimitedUnknown) =>
+            shortAccessibilityName(value, appContext.app.clientSideConfiguration)
+          }
           descriptionForValue={(value: YesNoLimitedUnknown) => accessibilityDescription(value)}
         >
           <header id="wheelchair-accessibility-header">{t`How wheelchair accessible is this place?`}</header>
