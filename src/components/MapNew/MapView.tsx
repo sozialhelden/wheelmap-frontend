@@ -125,15 +125,15 @@ export default function MapView(props: IProps) {
           );
         return;
       }
-
-      router.push(
-        `/composite/${event.features
-          ?.map((f) => [f.source, f.properties.id].join(":"))
-          .join(",")}?lon=${event.lngLat.lng}&lat=${
-          event.lngLat.lat
-        }&zoom=${zoom}`
-      );
-      return;
+      if (event.features?.length) {
+        router.push(
+          `/composite/${event.features
+            ?.map((f) => [f.source, f.properties.id].join(":"))
+            .join(",")}?lon=${event.lngLat.lng}&lat=${
+            event.lngLat.lat
+          }&zoom=${zoom}`
+        );
+      }
     },
     [router, zoom]
   );
