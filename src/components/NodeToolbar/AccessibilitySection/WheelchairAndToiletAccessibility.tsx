@@ -33,10 +33,11 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'escalator',
 ];
 
-function AccessibilityName(accessibility: YesNoLimitedUnknown) {
+export function AccessibilityName({ accessibility }: { accessibility: YesNoLimitedUnknown }) {
   const appContext = React.useContext(AppContext);
   const clientSideConfiguration = appContext.app.clientSideConfiguration;
   const description = accessibilityName(accessibility, clientSideConfiguration);
+
   switch (accessibility) {
     case 'yes':
     case 'limited':
@@ -78,6 +79,7 @@ type Props = {
   className?: string;
   isEditingEnabled: boolean;
   showDescription: boolean;
+  accessibility: YesNoLimitedUnknown;
 };
 
 class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
@@ -89,7 +91,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
         disabled={!this.props.isEditingEnabled}
       >
         <header>
-          <span>{AccessibilityName(wheelchairAccessibility)}</span>
+          <span>{<AccessibilityName accessibility={wheelchairAccessibility} />}</span>
           {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
         </header>
 
