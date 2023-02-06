@@ -497,7 +497,7 @@ export function accessibilityName(accessibility: YesNoLimitedUnknown, app?: Clie
 
 export function shortAccessibilityName(accessibility: YesNoLimitedUnknown, app?: ClientSideConfiguration): string | null {
   
-  const a11yNames = app.textContent.accessibilityNames.short;
+  const a11yNames = app.textContent.accessibilityNames?.short;
   
   switch (accessibility) {
     case 'yes':
