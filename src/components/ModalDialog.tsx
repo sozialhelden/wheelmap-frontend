@@ -145,7 +145,7 @@ const StyledModalDialog = styled(ModalDialog)`
 
     p {
       margin-top: 0;
-      max-width: 400px;
+      max-width: 40rem;
       align-self: center;
     }
 

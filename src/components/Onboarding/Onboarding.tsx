@@ -267,9 +267,11 @@ const StyledOnboarding = styled(Onboarding)`
     .claim {
       @media (min-width: 414px) {
         font-size: 1.25rem;
+        margin-top: 1rem;
       }
       @media (min-height: 414px) {
         font-size: 1.25rem;
+        margin-top: 1rem;
       }
     }
 
