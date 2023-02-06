@@ -8,6 +8,8 @@ import AccessibilityFilterButton from './AccessibilityFilterButton';
 import { PlaceFilter } from './AccessibilityFilterModel';
 import { YesNoLimitedUnknown } from '../../lib/Feature';
 import { yesNoUnknownArray } from '../../lib/Feature';
+import AppContext from '../../AppContext';
+import { translatedStringFromObject } from '../../lib/i18n';
 
 type Props = PlaceFilter & {
   className?: string,
@@ -27,39 +29,39 @@ function getAvailableFilters() {
     //   accessibilityFilter: ['yes', 'limited', 'no', 'unknown'],
     //   toiletFilter: [],
     // },
-    atLeastPartial: {
+    partiallyAccessiblePlaces: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially wheelchair accessible`,
       accessibilityFilter: ['yes', 'limited'],
       toiletFilter: [],
     },
-    atLeastPartialWithWC: {
+    partiallyAccessiblePlacesWithAccessibleWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Partially accessible with accessible WC`,
       accessibilityFilter: ['yes', 'limited'],
       isVisible: (category: string) => category !== 'toilets',
       toiletFilter: ['yes'],
     },
-    fully: {
+    onlyFullyAccessiblePlaces: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Only fully wheelchair accessible`,
       accessibilityFilter: ['yes'],
       toiletFilter: [],
     },
-    fullyWithWC: {
+    onlyFullyAccessiblePlacesWithAccessibleWC: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Only fully accessible with accessible WC`,
       accessibilityFilter: ['yes'],
       isVisible: (category: string) => category !== 'toilets',
       toiletFilter: ['yes'],
     },
-    unknown: {
+    placesWithMissingAccessibilityInfo: {
       // translator: Button caption in the filter toolbar. Answer to the question 'which places you want to see'
       caption: t`Places that I can contribute information to`,
       accessibilityFilter: ['unknown'],
       toiletFilter: [],
     },
-    notAccessible: {
+    inaccessiblePlaces: {
       // translator: Checkbox caption on the filter toolbar. If the checkbox is clicked, only places that are not wheelchair accessible are shown.
       caption: t`Only places that are not accessible`,
       accessibilityFilter: ['no'],
@@ -81,7 +83,12 @@ function findFilterKey({ toiletFilter, accessibilityFilter }) {
 }
 
 function AccessibilityFilterMenu(props: Props) {
+  const appContext = React.useContext(AppContext);
+  const disableGrayPlacesFilter = appContext.app?.clientSideConfiguration?.disableGrayPlacesFilter;
   const availableFilters = getAvailableFilters();
+  if (disableGrayPlacesFilter) {
+    delete availableFilters.placesWithMissingAccessibilityInfo;
+  }
   const { accessibilityFilter, toiletFilter, onButtonClick } = props;
   const category = props.category || 'undefined';
   const currentFilterKey = findFilterKey({ accessibilityFilter, toiletFilter });
@@ -90,17 +97,20 @@ function AccessibilityFilterMenu(props: Props) {
   return (
     <section className={props.className} aria-label={t`Wheelchair accessibility filter`}>
       {shownFilterKeys.map(key => {
-        const item = availableFilters[key];
+        const filterDefinition = availableFilters[key];
 
-        if (typeof item.isVisible === 'function' && !item.isVisible(category)) {
+        if (typeof filterDefinition.isVisible === 'function' && !filterDefinition.isVisible(category)) {
           return null;
         }
 
+        const customizedLocalizedCaption = appContext.app.clientSideConfiguration?.textContent?.filterNames?.[key];
+        const caption = translatedStringFromObject(customizedLocalizedCaption) || filterDefinition.caption;
+
         return (
           <AccessibilityFilterButton
-            accessibilityFilter={[...item.accessibilityFilter].sort()}
-            toiletFilter={item.toiletFilter}
-            caption={item.caption}
+            accessibilityFilter={[...filterDefinition.accessibilityFilter].sort()}
+            toiletFilter={filterDefinition.toiletFilter}
+            caption={caption}
             category={category}
             isMainCategory
             isActive={Boolean(currentFilterKey)}

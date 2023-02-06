@@ -34,7 +34,8 @@ export interface ClientSideConfiguration {
   embedTokens?: EmbedToken[];
   includeSourceIds?: Array<string>;
   excludeSourceIds?: Array<string>;
-  disableWheelmapSource: boolean;
+  disableWheelmapSource?: boolean;
+  disableGrayPlacesFilter?: boolean;
   associatedGeometries?: {
     centerPoint?: Point;
     regionPolygon?: Polygon;
@@ -61,6 +62,14 @@ export interface ClientSideConfiguration {
         limited?: LocalizedString;
         no?: LocalizedString;
       };
+    };
+    filterNames?: {
+      partiallyAccessiblePlaces?: LocalizedString;
+      partiallyAccessiblePlacesWithAccessibleWC?: LocalizedString;
+      onlyFullyAccessiblePlaces?: LocalizedString;
+      onlyFullyAccessiblePlacesWithAccessibleWC?: LocalizedString;
+      placesWithMissingAccessibilityInfo?: LocalizedString;
+      inaccessiblePlaces?: LocalizedString;
     };
   };
   meta: {
