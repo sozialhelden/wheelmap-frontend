@@ -13,7 +13,7 @@ function MapLoading({ className }: { className?: string }) {
 }
 
 export default styled(MapLoading)`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

@@ -461,8 +461,8 @@ const StyledMainMenu = styled(MainMenu)`
       right: 0;
       right: constant(safe-area-inset-right);
       right: env(safe-area-inset-right);
-      margin-right: 80px;
-      margin-top: 20px;
+      margin-right: 65px;
+      margin-top: 11px;
     }
 
     button.menu {
