@@ -9,7 +9,7 @@ import * as queryString from 'query-string';
 import { AppContextData } from '../../AppContext';
 import { ChromelessButton, PrimaryButton } from '../Button';
 import { trackingEventBackend } from '../../lib/TrackingEventBackend';
-import { trackEvent } from '../../lib/Analytics';
+import { trackEventExternally } from '../../lib/Analytics';
 
 export type Props = {
   className?: string;
@@ -77,12 +77,12 @@ export default class ContributionThanksDialog extends React.PureComponent<Props>
       const uniqueSurveyId = queryParams.uniqueSurveyId;
       if (uniqueSurveyId && typeof uniqueSurveyId === 'string') {
         trackingEventBackend.track(this.props.appContext.app, {
-          type: 'SurveyCompleted',
+          type: 'ThanksDialogShown',
           uniqueSurveyId: uniqueSurveyId,
         });
-        trackEvent({
+        trackEventExternally({
           category: 'Survey',
-          action: 'Completed',
+          action: 'ThanksDialogShown',
           label: uniqueSurveyId,
         });
       }

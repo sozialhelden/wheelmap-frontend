@@ -52,7 +52,7 @@ import { LocalizedString } from './lib/i18n';
 import { RouteProvider } from './components/Link/RouteContext';
 
 import 'focus-visible';
-import { trackModalView, trackEvent } from './lib/Analytics';
+import { trackModalView, trackEventExternally } from './lib/Analytics';
 import { trackingEventBackend } from './lib/TrackingEventBackend';
 import { createGlobalStyle } from 'styled-components';
 
@@ -638,7 +638,7 @@ class App extends React.Component<Props, State> {
         joinedVia: reason,
         query: queryString.parse(search),
       });
-      trackEvent({
+      trackEventExternally({
         category: 'MappingEvent',
         action: 'Joined',
         label: joinedMappingEventId,

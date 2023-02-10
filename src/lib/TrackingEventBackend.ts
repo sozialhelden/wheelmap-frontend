@@ -36,6 +36,11 @@ export type SurveyCompletedTrackingEvent = BaseTrackingEvent & {
   uniqueSurveyId: string,
 };
 
+export type ThanksDialogShownTrackingEvent = BaseTrackingEvent & {
+  type: 'ThanksDialogShown',
+  uniqueSurveyId: string,
+};
+
 export type AppOpenedTrackingEvent = BaseTrackingEvent & {
   type: 'AppOpened',
   query: Query,
@@ -61,6 +66,7 @@ export type MappingEventLeftTrackingEvent = BaseTrackingEvent & {
 export type TrackingEvent =
   | AttributeChangedTrackingEvent
   | SurveyCompletedTrackingEvent
+  | ThanksDialogShownTrackingEvent
   | AppOpenedTrackingEvent
   | MappingEventJoinedTrackingEvent
   | MappingEventLeftTrackingEvent;

@@ -11,7 +11,7 @@ import {
   YesNoUnknown,
   isWheelmapFeatureId,
 } from '../../../lib/Feature';
-import { trackEvent } from '../../../lib/Analytics';
+import { trackEventExternally } from '../../../lib/Analytics';
 import Categories, { getCategoryId } from '../../../lib/Categories';
 import { CategoryLookupTables } from '../../../lib/Categories';
 import { AppContextData } from '../../../AppContext';
@@ -70,7 +70,7 @@ function finishRatingFlow<T>(options: TrackableSaveOptions<T>, promise: Promise<
 
   return promise
     .then(json => {
-      trackEvent({
+      trackEventExternally({
         category: 'UpdateAccessibilityData',
         action,
         label: String(value),
@@ -93,7 +93,7 @@ function finishRatingFlow<T>(options: TrackableSaveOptions<T>, promise: Promise<
       // translator: Shown after marking a place did not work, for example because the connection was interrupted
       window.alert(t`Sorry, this place could not be marked because of an error: ${e}`);
 
-      trackEvent({
+      trackEventExternally({
         category: 'UpdateAccessibilityData',
         action,
         label: 'failed',

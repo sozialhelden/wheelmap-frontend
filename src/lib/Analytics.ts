@@ -30,7 +30,7 @@ export function trackModalView(name: string | null) {
   lastModalName = name || '';
 }
 
-export function trackEvent(options: {
+export function trackEventExternally(options: {
   category: string,
   action: string,
   label?: string,
