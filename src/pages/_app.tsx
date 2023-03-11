@@ -45,6 +45,7 @@ import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
 import startClientSideApm from '../lib/apm/startClientSideApm';
 import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
+import env from '../lib/env';
 
 if (typeof window !== 'undefined') {
   // TODO: Re-enable APM
@@ -311,6 +312,9 @@ export default class App extends BaseApp<any> {
       preferredLanguage,
     };
 
+    const appId = appContext.app._id;
+    const touchIconURL = (maxSize: number) => `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/apps/${appId}/images/clientSideConfiguration.branding.vectorIconSVG-${maxSize}.png`;
+
     return (
       <React.Fragment>
         <Head>
@@ -340,8 +344,19 @@ export default class App extends BaseApp<any> {
           <link rel="shortcut icon" href={faviconDataUrl || `/favicon.ico`} />
           <link rel="icon" href={faviconDataUrl || `/favicon.ico`} />
 
+          {/* iOS link to "native" app and configuration for web app */}
+          <meta name="apple-mobile-web-app-title" content={translatedProductName} />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+          <link rel="apple-touch-icon" href={touchIconURL(180)} />
+          <link rel="apple-touch-icon" sizes="72x72" href={touchIconURL(72)} />
+          <link rel="apple-touch-icon" sizes="76x76" href={touchIconURL(76)} />
+          <link rel="apple-touch-icon" sizes="120x120" href={touchIconURL(120)} />
+          <link rel="apple-touch-icon" sizes="152x152" href={touchIconURL(152)} />
+
           {/* iOS app */}
-          {productName === 'Wheelmap' && (
+          {appId === 'wheelmap.org' && (
             <meta content="app-id=399239476" name="apple-itunes-app" />
           )}
         </Head>
