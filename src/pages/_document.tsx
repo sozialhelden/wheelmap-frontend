@@ -58,7 +58,6 @@ export default class MyDocument extends Document<any> {
                 ${env.REACT_APP_LEGACY_API_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_DATA_URLS || ''};
               style-src
@@ -82,7 +81,6 @@ export default class MyDocument extends Document<any> {
                 https://asset3.wheelmap.org
                 https://asset4.wheelmap.org
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
-                ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ALLOW_ADDITIONAL_IMAGE_URLS || ''};
             `}
