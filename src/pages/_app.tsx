@@ -313,7 +313,7 @@ export default class App extends BaseApp<any> {
     };
 
     const appId = appContext.app._id;
-    const touchIconURL = (maxSize: number) => `${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/apps/${appId}/images/clientSideConfiguration.branding.vectorIconSVG-${maxSize}.png`;
+    const touchIconURL = (maxSize: number) => `${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL}/apps/${appId}/images/clientSideConfiguration.branding.vectorIconSVG-${maxSize}.png`;
 
     return (
       <React.Fragment>
