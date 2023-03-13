@@ -6,6 +6,7 @@ const StyledIconButtonList = styled.ul`
   flex-direction: column;
   align-items: stretch;
   margin: 0 -8px;
+  padding: 0;
 
   li {
     svg {
@@ -18,6 +19,18 @@ const StyledIconButtonList = styled.ul`
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    a {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      line-height: 2.5rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: ${colors.linkColorDarker};
+      font-weight: 500;
+      text-decoration: none;
+    }
 
     svg {
       width: 1.5rem;

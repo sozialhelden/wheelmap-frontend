@@ -3,12 +3,12 @@ import WorldIcon from "../../../icons/actions/World";
 import styled from "styled-components";
 import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
 import Link from "next/link";
+import { t } from "ttag";
 
 const NonBreakingSpan = styled.span`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  max-width: calc(100% - 3rem);
 `;
 
 type Props = {
@@ -35,7 +35,7 @@ export default function PlaceWebsiteLink(props: Props) {
       <li>
         <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
           <WorldIcon />
-          <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
+          <NonBreakingSpan>{t`Open website`}</NonBreakingSpan>
         </Link>
       </li>
     )

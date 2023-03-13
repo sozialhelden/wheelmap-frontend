@@ -21,6 +21,7 @@ import useMapStyle from "./useMapStyle";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
 import { createGlobalStyle } from "styled-components";
+import { uniq } from "lodash";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -127,8 +128,7 @@ export default function MapView(props: IProps) {
       }
       if (event.features?.length) {
         router.push(
-          `/composite/${event.features
-            ?.map((f) => [f.source, f.properties.id].join(":"))
+          `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id].join(":")))
             .join(",")}?lon=${event.lngLat.lng}&lat=${
             event.lngLat.lat
           }&zoom=${zoom}`

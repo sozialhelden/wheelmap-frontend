@@ -175,7 +175,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: 0.5rem 0;
 
   > button {
     margin: -10px;

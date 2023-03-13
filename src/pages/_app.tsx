@@ -11,6 +11,7 @@ import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgent
 import { AppContext } from '../lib/context/AppContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { NextPage } from 'next';
+import { SessionContext, SessionProvider } from 'next-auth/react';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -27,7 +28,7 @@ interface ExtraProps {
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const { userAgentString, app } = pageProps;
+  const { userAgentString, app, session } = pageProps;
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
@@ -41,8 +42,9 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
       <Head>
 
       </Head>
-
-      {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
+      <SessionProvider session={session}>
+        {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
+      </SessionProvider>
     </>
   );
 }

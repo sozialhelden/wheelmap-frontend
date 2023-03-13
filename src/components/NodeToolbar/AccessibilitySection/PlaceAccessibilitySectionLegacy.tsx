@@ -102,14 +102,7 @@ export default function PlaceAccessibilitySection(props: Props) {
 
   return (
     <StyledFrame noseOffsetX={cluster ? 67 : undefined}>
-      <WheelchairAndToiletAccessibility
-        isEditingEnabled={isEditingEnabled}
-        feature={feature}
-        toiletsNearby={toiletsNearby}
-        onOpenWheelchairAccessibility={props.onOpenWheelchairAccessibility}
-        onOpenToiletAccessibility={props.onOpenToiletAccessibility}
-        onOpenToiletNearby={props.onOpenToiletNearby}
-      />
+      <WheelchairAndToiletAccessibility />
       {description && descriptionElement}
       <AccessibleDescription properties={properties} />
       {accessibilityDetailsTree}

@@ -15,7 +15,7 @@ import ReportDialog from './Report/ReportDialog';
 import PhotoSection from './Photos/PhotoSection';
 import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
-import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
+import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySectionLegacy';
 import Button from '../shared/Button';
 
 import { PhotoModel } from '../../lib/PhotoModel';

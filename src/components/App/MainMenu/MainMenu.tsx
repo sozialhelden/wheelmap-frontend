@@ -10,6 +10,7 @@ import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfigu
 import CloseIcon from "../../icons/actions/Close";
 import VectorImage from "../../shared/VectorImage";
 import AppLinks from "./AppLinks";
+import Session from "../../Session/Session";
 
 type Props = {
   onToggle: (isMainMenuOpen: boolean) => void;
@@ -404,6 +405,7 @@ export default function MainMenu(props: Props) {
 
       <div id="main-menu" role="menu">
         <AppLinks />
+        <Session />
       </div>
 
       {closeButton}

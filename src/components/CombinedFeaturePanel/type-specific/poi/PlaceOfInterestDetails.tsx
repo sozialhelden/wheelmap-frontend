@@ -1,5 +1,6 @@
 import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
 import FeatureAccessibility from "../../components/FeatureAccessibility";
+import FeatureContext from "../../components/FeatureContext";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
 import FeaturesDebugJSON from "../../components/FeaturesDebugJSON";
 import AddressMapsLinkItems from "../../components/IconButtonList/AddressMapsLinkItems";
@@ -18,12 +19,13 @@ export default function PlaceOfInterestDetails(props: Props) {
 
   return (
     <>
+    <FeatureContext.Provider value={feature}>
       <FeatureNameHeader feature={feature}>
         {feature["@type"] === "osm:Feature" && (
           <FeatureImage feature={feature} />
         )}
       </FeatureNameHeader>
-      <FeatureAccessibility></FeatureAccessibility>
+      <FeatureAccessibility />
       <StyledIconButtonList>
         <AddressMapsLinkItems feature={feature} />
         <PlaceWebsiteLink feature={feature} />
@@ -35,7 +37,7 @@ export default function PlaceOfInterestDetails(props: Props) {
         <ShareButtons {...props} />
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
       </StyledIconButtonList>
-      <FeaturesDebugJSON features={[feature]} />
+    </FeatureContext.Provider>
     </>
   );
 }

@@ -7,6 +7,10 @@ import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import "normalize.css";
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -38,6 +42,7 @@ export default function Layout({
   }, [isMenuOpen]);
 
   const containerRef = React.useRef<HTMLElement>(null);
+
 
   return (
     <>

@@ -4,6 +4,8 @@ import uniq from 'lodash/uniq';
 import { translatedStringFromObject } from "../../i18n/translatedStringFromObject";
 import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults';
 import { EquipmentInfo, PlaceInfo, PlaceProperties, Restroom } from '@sozialhelden/a11yjson';
+import { isOSMFeature } from '../shared/AnyFeature';
+import OSMFeature from '../osm/OSMFeature';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -110,9 +112,23 @@ export function sourceIdsForFeature(feature: PlaceInfo | EquipmentInfo | any): s
 }
 
 
+function hasAccessibleToiletOSM(feature: OSMFeature): YesNoUnknown {
+  const wheelchairToiletTag = feature.properties['toilets:wheelchair'] || feature.properties['wheelchair:toilets'] || feature.properties['wheelchair:toilet'] || feature.properties['toilet:wheelchair'];
+  if (['yes', 'no'].includes(wheelchairToiletTag)) {
+    return wheelchairToiletTag as 'yes' | 'no';
+  }
+  return 'unknown';
+}
+
 export function hasAccessibleToilet(
-  properties: PlaceProperties | any
+  feature: PlaceInfo | OSMFeature | any
 ): YesNoUnknown {
+  if (isOSMFeature(feature)) {
+    return hasAccessibleToiletOSM(feature);
+  }
+
+  const { properties } = feature;
+
   if (!properties.accessibility) {
     return 'unknown';
   }
