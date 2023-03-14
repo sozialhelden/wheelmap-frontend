@@ -10,7 +10,7 @@ const Pre = styled.pre`
 `;
 
 export default function FeaturesDebugJSON(props: { features: AnyFeature[] }) {
-  const json = <Pre>
+  const json = <Pre style={{ maxHeight: '300px', maxWidth: '500px', overflow: 'auto', fontSize: '10px' }}>
     {JSON.stringify(
       props.features.map((f) =>
         omit(f, "geometry.coordinates", "centroid", "type")

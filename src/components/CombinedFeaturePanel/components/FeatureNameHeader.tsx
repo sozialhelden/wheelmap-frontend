@@ -21,7 +21,7 @@ import { placeNameFor } from "../../../lib/model/shared/placeNameFor";
 import getEquipmentInfoDescription from "../../NodeToolbar/Equipment/getEquipmentInfoDescription";
 import ChevronRight from "../../shared/ChevronRight";
 import Icon from "../../shared/Icon";
-import { PlaceNameH1 } from "../../shared/PlaceName";
+import { PlaceNameH1, PlaceNameH2 } from "../../shared/PlaceName";
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -0.1rem;
@@ -31,7 +31,6 @@ const StyledChevronRight = styled(ChevronRight)`
 const PlaceNameDetail = styled.div`
   margin-top: 0.5rem;
   color: ${colors.textMuted};
-  font-size: 1rem;
 `;
 
 function getRoomNumberString(roomNumber: string) {
@@ -42,6 +41,7 @@ type Props = {
   feature: AnyFeature;
   onClickCurrentMarkerIcon?: (feature: AnyFeature) => void;
   children?: React.ReactNode;
+  size?: "small" | "medium" | "big";
 };
 
 const StyledHeader = styled.header`
@@ -52,7 +52,7 @@ const StyledHeader = styled.header`
   margin: -8px -16px 8px -16px;
   padding: 8px 16px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -96,7 +96,7 @@ export default function FeatureNameHeader(props: Props) {
     <Icon
       accessibility={isWheelchairAccessible(feature)}
       category={category ? category._id : "undefined"}
-      size="medium"
+      size={props.size || "medium"}
       ariaHidden={true}
       centered
       onClick={onClickCurrentMarkerIcon}
@@ -113,15 +113,17 @@ export default function FeatureNameHeader(props: Props) {
     <StyledChevronRight />
   );
 
+  const HeaderElement = props.size === 'small' ? PlaceNameH2 : PlaceNameH1;
+  const detailFontSize = props.size === 'small' ? '0.8rem' : '1rem';
   const placeNameElement = (
-    <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
+    <HeaderElement isSmall={hasLongName} aria-label={ariaLabel}>
       {icon}
       <div>
         <div>{lastNameElement}</div>
-        <PlaceNameDetail>{categoryName}</PlaceNameDetail>
-        <PlaceNameDetail>{parentElements}</PlaceNameDetail>
+        <PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>
+        <PlaceNameDetail style={{ fontSize: detailFontSize }}>{parentElements}</PlaceNameDetail>
       </div>
-    </PlaceNameH1>
+    </HeaderElement>
   );
 
   return (

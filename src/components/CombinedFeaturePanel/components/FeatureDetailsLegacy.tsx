@@ -5,7 +5,7 @@ import React from "react";
 import useSWR from "swr";
 import ExternalFeatureLink from "./IconButtonList/ExternalFeatureLink";
 import FeatureAddress, { addressForFeature } from "./FeatureAddressString";
-import OSMTagTable from "./OSMTagTable";
+import OSMTagTable from "./AccessibilitySection/OSMTagTable";
 import FeatureContext from "./FeatureContext";
 import { OSMFeatureId, OSMFeatureOrError, OSMAPIErrorResponse, isErrorResponse } from "../../../lib/model/osm/OSMFeature";
 import { TypeTaggedOSMFeatureOrError } from "../../../lib/model/shared/AnyFeature";
@@ -68,7 +68,6 @@ export default function FeatureDetails(props: Props) {
   const filteredKeys = sortedKeys.filter(
     (key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix))
   );
-
   const accessibilityRelevantKeys = filteredKeys.filter(
     isAccessibilityRelevantOSMKey
   );

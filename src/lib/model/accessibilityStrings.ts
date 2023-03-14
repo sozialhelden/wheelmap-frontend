@@ -50,16 +50,16 @@ export function accessibilityDescription(
   switch (accessibility) {
     // translator: Describes criteria for marking places as fully wheelchair accessible on Wheelmap
     case "yes":
-      return t`Entrance has no steps, and all rooms are accessible without steps.`;
+      return t`Entrance has no steps, important areas are accessible without steps.`;
     case "limited":
       return useImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
-          t`Entrance has one step with max. 3 inches height, most rooms are without steps.`
+          t`Entrance has one step with max. 3 inches height, most areas are without steps.`
         : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
-          t`Entrance has one step with max. 7 cm height, most rooms are without steps.`;
+          t`Entrance has one step with max. 7 cm height, most areas are without steps.`;
     // translator: Describes criteria for marking places as not wheelchair accessible on Wheelmap
     case "no":
-      return t`Entrance has a high step or several steps, none of the rooms are accessible.`;
+      return t`Entrance has a high step or several steps, important areas are inaccessible.`;
     case "unknown":
     default:
       return null;

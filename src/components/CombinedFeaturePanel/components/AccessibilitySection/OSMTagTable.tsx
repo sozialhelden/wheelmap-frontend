@@ -5,16 +5,19 @@ import {
 } from "@blueprintjs/core/lib/esm/common/classes";
 import React from "react";
 import styled from "styled-components";
-import Feature from "../../../model/Feature";
+import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 
 const StyledTable = styled("table")`
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 1);
   margin: 1rem 0;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0;
+  border: 1px solid rgba(16, 22, 26, 0.15);
 `;
 
 export default function OSMTagTable(props: {
   keys: string[];
-  feature: Feature;
+  feature: TypeTaggedOSMFeature;
 }) {
   return (
     <StyledTable

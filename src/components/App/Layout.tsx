@@ -11,6 +11,7 @@ import "normalize.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import { useRouter } from "next/router";
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -43,6 +44,11 @@ export default function Layout({
 
   const containerRef = React.useRef<HTMLElement>(null);
 
+  const router = useRouter();
+  const { pathname } = router;
+  React.useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>

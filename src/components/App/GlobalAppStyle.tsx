@@ -218,9 +218,9 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Inter', ${systemFontStack()};
     font-size: 16px;
     font-style: normal;
-    -moz-font-feature-settings: "ss01", "ss02", "cv09", "cv08", "kern";
-    -webkit-font-feature-settings: "ss01", "ss02", "cv09", "cv08", "kern";
-    font-feature-settings: "ss01", "ss02", "cv09", "cv08", "kern";
+    -moz-font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
+    -webkit-font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
+    font-feature-settings: "ss01", "ss04", "cv09", "cv08", "kern";
   }
 
   body {

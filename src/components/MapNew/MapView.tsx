@@ -50,7 +50,7 @@ const MapboxExtraStyles = createGlobalStyle`
     right: 4px;
   }
 
-  button {
+  button:not(.mapboxgl-ctrl-attrib-button) {
     min-width: 44px;
     min-height: 44px;
   }

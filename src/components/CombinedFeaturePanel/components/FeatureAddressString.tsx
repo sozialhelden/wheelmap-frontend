@@ -1,8 +1,11 @@
 import intersperse from "intersperse";
 import { compact } from "lodash";
+import styled from "styled-components";
+import { t } from "ttag";
 import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
 
 export const addressKeys = {
+  level: 1,
   street: 1,
   housenumber: 1,
   place: 1,
@@ -21,6 +24,10 @@ type Props = {
   address: PartialAddress;
 };
 
+const Address = styled.address`
+  font-style: normal;
+`;
+
 export default function FeatureAddressString(props: Props) {
   const { address } = props;
 
@@ -29,7 +36,7 @@ export default function FeatureAddressString(props: Props) {
   }
 
   return (
-    <address>
+    <Address>
       {intersperse(
         compact(
           Object.keys(address).map(
@@ -38,7 +45,7 @@ export default function FeatureAddressString(props: Props) {
         ),
         <span key="">, </span>
       )}
-    </address>
+    </Address>
   );
 }
 
@@ -67,6 +74,13 @@ export function addressForFeature(feature: AnyFeature) {
   if ("street" in address && "housenumber" in address) {
     address.street = `${address.street} ${address.housenumber}`;
     delete address.housenumber;
+  }
+
+  if ("level" in address) {
+    if (address.level.match(/^-?\d+(?:[.,;]\d+)*$/)) {
+      const level = address.level.replace(/[,;]/g, "–");
+      address.level = t`Level ${level}`;
+    }
   }
 
   if (Object.keys(address).length === 0) {

@@ -1,36 +1,49 @@
-import * as React from 'react';
-import includes from 'lodash/includes';
-import styled from 'styled-components';
-import { t } from 'ttag';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
-import colors from '../../../../lib/colors';
-import { YesNoUnknown, hasAccessibleToilet, YesNoLimitedUnknown } from '../../../../lib/model/ac/Feature';
-import { normalizedCoordinatesForFeature } from '../../../../lib/model/ac/normalizedCoordinatesForFeature';
-import { toiletDescription, accessibilityName, accessibilityDescription } from '../../../../lib/model/accessibilityStrings';
-import { formatDistance } from '../../../../lib/model/formatDistance';
-import { geoDistance } from '../../../../lib/model/geoDistance';
-import { isWheelchairAccessible } from '../../../../lib/model/shared/isWheelchairAccessible';
-import ToiletStatusNotAccessibleIcon from '../../../icons/accessibility/ToiletStatusNotAccessible';
-import { PenIcon } from '../../../icons/actions';
-import ToiletStatuAccessibleIcon from '../../../icons/accessibility/ToiletStatusAccessible';
-import { Callout } from '@blueprintjs/core';
-import FeatureContext from '../FeatureContext';
-import { isOSMFeature, isPlaceInfo } from '../../../../lib/model/shared/AnyFeature';
+import * as React from "react";
+import includes from "lodash/includes";
+import styled from "styled-components";
+import { t } from "ttag";
+import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import colors from "../../../../lib/colors";
+import {
+  YesNoUnknown,
+  hasAccessibleToilet,
+  YesNoLimitedUnknown,
+} from "../../../../lib/model/ac/Feature";
+import { normalizedCoordinatesForFeature } from "../../../../lib/model/ac/normalizedCoordinatesForFeature";
+import {
+  toiletDescription,
+  accessibilityName,
+  accessibilityDescription,
+} from "../../../../lib/model/accessibilityStrings";
+import { formatDistance } from "../../../../lib/model/formatDistance";
+import { geoDistance } from "../../../../lib/model/geoDistance";
+import { isWheelchairAccessible } from "../../../../lib/model/shared/isWheelchairAccessible";
+import ToiletStatusNotAccessibleIcon from "../../../icons/accessibility/ToiletStatusNotAccessible";
+import { PenIcon } from "../../../icons/actions";
+import ToiletStatuAccessibleIcon from "../../../icons/accessibility/ToiletStatusAccessible";
+import { Button, ButtonGroup, Callout, ControlGroup } from "@blueprintjs/core";
+import FeatureContext from "../FeatureContext";
+import {
+  isOSMFeature,
+  isPlaceInfo,
+} from "../../../../lib/model/shared/AnyFeature";
+import PanelButton from "../../PanelButton";
+import { OSMTags } from "./OSMTags";
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
-  'parking', // because this mostly affects parking lots
-  'bus_stop',
-  'tram_stop',
-  'atm',
-  'toilets',
-  'elevator',
-  'escalator',
+  "parking", // because this mostly affects parking lots
+  "bus_stop",
+  "tram_stop",
+  "atm",
+  "toilets",
+  "elevator",
+  "escalator",
 ];
 
 const toiletIcons = {
-  yes: <ToiletStatuAccessibleIcon />,
-  no: <ToiletStatusNotAccessibleIcon />,
+  yes: <ToiletStatuAccessibleIcon style={{ verticalAlign: 'middle' }} />,
+  no: <ToiletStatusNotAccessibleIcon style={{ verticalAlign: 'middle' }} />,
 };
 
 function ToiletDescription(accessibility: YesNoUnknown) {
@@ -41,45 +54,17 @@ function ToiletDescription(accessibility: YesNoUnknown) {
   const description = toiletDescription(accessibility) || editButtonCaption;
   const icon = toiletIcons[accessibility] || null;
   return (
-    <React.Fragment>
+    <>
       {icon}
       {icon && <>&nbsp;</>}
-      <span>{description}</span>
-    </React.Fragment>
+      {description}
+    </>
   );
 }
 
 type Props = {
   showToiletAccessibility?: boolean;
 };
-
-function ToiletAccessibilityButton({ toiletAccessibility }: { toiletAccessibility: YesNoUnknown }) {
-  return <button
-        className={`accessibility-toilet accessibility-${toiletAccessibility}`}
-      >
-        <header>
-          {ToiletDescription(toiletAccessibility)}
-          {/* {this.props.isEditingEnabled && <PenIcon className="pen-icon" />} */}
-        </header>
-      </button>
-}
-
-function WheelchairAccessibilityButton({ wheelchairAccessibility }: { wheelchairAccessibility: YesNoLimitedUnknown }) {
-  return (
-    <button
-      className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
-    >
-      <header>
-        <span>{accessibilityName(wheelchairAccessibility)}</span>
-        <PenIcon className="pen-icon" />
-      </header>
-
-      <footer className="accessibility-description">
-        {accessibilityDescription(wheelchairAccessibility)}
-      </footer>
-    </button>
-  );
-}
 
 function NearbyToiletButton() {
   // const { feature, toiletsNearby, onOpenToiletNearby } = this.props;
@@ -106,9 +91,7 @@ function NearbyToiletButton() {
   //     );
   //   });
 
-  return <Callout intent="warning">
-    Nearby toilets go here.
-  </Callout>
+  return <Callout intent="warning">Nearby toilets go here.</Callout>;
 }
 
 const StyledSection = styled.section`
@@ -188,28 +171,28 @@ const StyledSection = styled.section`
 
   .accessibility-yes {
     color: ${colors.positiveColorDarker};
-    .pen-icon path {
+    svg path {
       fill: ${colors.positiveColorDarker};
       stroke: ${colors.positiveColorDarker};
     }
   }
   .accessibility-limited {
     color: ${colors.warningColorDarker};
-    .pen-icon path {
+    svg path {
       fill: ${colors.warningColorDarker};
       stroke: ${colors.warningColorDarker};
     }
   }
   .accessibility-no {
     color: ${colors.negativeColorDarker};
-    .pen-icon path {
+    svg path {
       fill: ${colors.negativeColorDarker};
       stroke: ${colors.negativeColorDarker};
     }
   }
   .accessibility-unknown {
     color: ${colors.linkColor};
-    .pen-icon path {
+    svg path {
       fill: ${colors.linkColor};
       stroke: ${colors.linkColor};
     }
@@ -241,7 +224,9 @@ const StyledSection = styled.section`
   }
 `;
 
-export default function PlaceWheelchairAndToiletAccessibilitySection(props: Props) {
+export default function PlaceWheelchairAndToiletAccessibilitySection(
+  props: Props
+) {
   const isEditingEnabled = true;
   const { showToiletAccessibility } = props;
   const feature = React.useContext(FeatureContext);
@@ -256,29 +241,54 @@ export default function PlaceWheelchairAndToiletAccessibilitySection(props: Prop
   const wheelchairAccessibility = isWheelchairAccessible(feature);
   const toiletAccessibility = hasAccessibleToilet(feature);
 
-  const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
+  const isKnownWheelchairAccessibility = wheelchairAccessibility !== "unknown";
   const categoryId = properties.category;
-  const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
+  const hasBlacklistedCategory = includes(
+    placeCategoriesWithoutExtraToiletEntry,
+    categoryId
+  );
   const canAddToiletStatus =
-    isEditingEnabled && includes(['yes', 'limited'], wheelchairAccessibility);
+    isEditingEnabled && includes(["yes", "limited"], wheelchairAccessibility);
   const isToiletButtonShown =
-    showToiletAccessibility !== false &&
-    (isKnownWheelchairAccessibility && !hasBlacklistedCategory && canAddToiletStatus) ||
-    (toiletAccessibility === 'yes' && categoryId !== 'toilets');
+    (showToiletAccessibility !== false &&
+      (isKnownWheelchairAccessibility &&
+        !hasBlacklistedCategory &&
+        canAddToiletStatus)) ||
+    (toiletAccessibility === "yes" && categoryId !== "toilets");
+
+  let osmTags: React.ReactNode | undefined = isOSMFeature(feature) && <OSMTags feature={feature} />;
 
   // const findToiletsNearby =
   //   toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
   const hasContent =
-    isKnownWheelchairAccessibility || isToiletButtonShown; /*|| findToiletsNearby*/
+    osmTags ||
+    isKnownWheelchairAccessibility ||
+    isToiletButtonShown; /*|| findToiletsNearby*/
   if (!hasContent) {
     return null;
   }
 
   return (
     <StyledSection>
-      {isKnownWheelchairAccessibility && <WheelchairAccessibilityButton {...{ wheelchairAccessibility }} />}
-      {isToiletButtonShown && <ToiletAccessibilityButton {...{ toiletAccessibility }} />}
+      {isKnownWheelchairAccessibility && (
+        <ControlGroup vertical>
+          <ButtonGroup minimal large className={`accessibility-${toiletAccessibility}`}>
+            <Button fill style={{ justifyContent: 'start' }} text={accessibilityName(wheelchairAccessibility)} />
+            <Button icon="edit" />
+          </ButtonGroup>
+          <footer className="accessibility-description">
+            {accessibilityDescription(wheelchairAccessibility)}
+          </footer>
+        </ControlGroup>
+      )}
+      {isToiletButtonShown && (
+        <ButtonGroup minimal large className={`accessibility-${toiletAccessibility}`}>
+          <Button fill style={{ justifyContent: 'start' }} text={ToiletDescription(toiletAccessibility)} />
+          <Button icon="edit" />
+        </ButtonGroup>
+      )}
       {/* {findToiletsNearby && <NearbyToiletButton {...{ toiletsNearby }} />} */}
+      {osmTags}
     </StyledSection>
   );
 }

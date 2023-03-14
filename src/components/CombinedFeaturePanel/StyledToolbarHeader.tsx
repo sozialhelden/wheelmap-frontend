@@ -10,7 +10,7 @@ export const StyledToolbarHeader = styled.header`
   margin: -8px -16px 8px -16px;
   padding: 8px 16px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   position: sticky;
   top: 0;
   z-index: 1;

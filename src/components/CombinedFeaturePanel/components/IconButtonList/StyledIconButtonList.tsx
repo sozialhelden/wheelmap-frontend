@@ -24,10 +24,10 @@ const StyledIconButtonList = styled.ul`
       display: flex;
       flex-direction: row;
       align-items: center;
-      line-height: 2.5rem;
+      min-height: 2.5rem;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: ${colors.linkColorDarker};
+      color: ${colors.darkLinkColor};
       font-weight: 500;
       text-decoration: none;
     }

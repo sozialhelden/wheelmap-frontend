@@ -8,6 +8,7 @@ import { useUniqueSurveyId } from "../../../lib/context/useUniqueSurveyId";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import { insertPlaceholdersToAddPlaceUrl } from "../../../lib/insertPlaceholdersToAddPlaceUrl";
 import Spinner from "../../ActivityIndicator/Spinner";
+import SessionLink from "../../Session/SessionLink";
 
 const Badge = styled.span`
   background-color: ${colors.warningColor};
@@ -87,6 +88,11 @@ export default function AppLinks(props: {}) {
       const isEventsLink = link.tags && link.tags.indexOf("events") !== -1;
       if (isEventsLink) {
         return <JoinedEventLink {...{ label, url }} key="joined-event" />;
+      }
+
+      const isSessionLink = link.tags && link.tags.indexOf("session") !== -1;
+      if (isSessionLink) {
+        return <SessionLink {...{ label }} key="session" className={className} />;
       }
 
       if (typeof url === "string") {

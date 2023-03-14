@@ -10,7 +10,7 @@ import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfigu
 import CloseIcon from "../../icons/actions/Close";
 import VectorImage from "../../shared/VectorImage";
 import AppLinks from "./AppLinks";
-import Session from "../../Session/Session";
+import SessionLink from "../../Session/SessionLink";
 
 type Props = {
   onToggle: (isMainMenuOpen: boolean) => void;
@@ -202,7 +202,7 @@ const StyledNav = styled.nav`
     backdrop-filter: blur(5px);
 
     #main-menu {
-      justify-content: space-between;
+      justify-content: flex-end;
       min-height: 0;
     }
 
@@ -234,6 +234,7 @@ const StyledNav = styled.nav`
       height: 44px;
       padding: 8px;
       width: calc(50% - 16px);
+      max-width: 15rem;
       border-radius: 4px;
       text-align: center;
       background-color: white;
@@ -405,7 +406,6 @@ export default function MainMenu(props: Props) {
 
       <div id="main-menu" role="menu">
         <AppLinks />
-        <Session />
       </div>
 
       {closeButton}
