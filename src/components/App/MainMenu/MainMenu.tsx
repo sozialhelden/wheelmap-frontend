@@ -51,7 +51,7 @@ const StyledNav = styled.nav`
   display: flex;
   flex-direction: row;
   align-items: center;
-  z-index: 1000;
+  z-index: 20;
   box-shadow: 0 0 20px ${alpha(colors.darkLinkColor, 0.25)},
     0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
   overflow: hidden;
@@ -329,15 +329,6 @@ export default function MainMenu(props: Props) {
     [props.onToggle, props.isOpen]
   );
 
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (event.key === "Escape") {
-        props.onToggle(false);
-      }
-    },
-    [props.onToggle]
-  );
-
   const productName =
     translatedStringFromObject(
       props.clientSideConfiguration.textContent?.product.name
@@ -349,7 +340,6 @@ export default function MainMenu(props: Props) {
         <button
           className="btn-unstyled home-button"
           aria-label={t`Home`}
-          onKeyDown={handleKeyDown}
         >
           <VectorImage
             className="logo"
@@ -374,7 +364,6 @@ export default function MainMenu(props: Props) {
       aria-haspopup="true"
       aria-expanded={props.isOpen}
       aria-controls="main-menu"
-      onKeyDown={handleKeyDown}
     >
       {props.isOpen ? <CloseIcon /> : <MenuIcon />}
     </button>
