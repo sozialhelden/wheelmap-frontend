@@ -24,16 +24,18 @@ interface IOSMProfile {
   },
 };
 
+const baseUrl = process.env.NEXTAUTH_BASE_URL || "https://www.openstreetmap.org";
+const apiBaseUrl = process.env.NEXTAUTH_API_BASE_URL || "https://api.openstreetmap.org"
 const OSMProvider: OAuthConfig<IOSMProfile> = {
   id: "osm",
   name: "OpenStreetMap",
   type: "oauth",
-  token: "https://www.openstreetmap.org/oauth2/token",
-  userinfo: "https://api.openstreetmap.org/api/0.6/user/details.json",
+  token: `${baseUrl}/oauth2/token`,
+  userinfo: `${apiBaseUrl}/api/0.6/user/details.json`,
   clientId: process.env.OSM_OAUTH2_CLIENT_ID,
   clientSecret: process.env.OSM_OAUTH2_CLIENT_SECRET,
   authorization: {
-    url: "https://www.openstreetmap.org/oauth2/authorize",
+    url: `${baseUrl}/oauth2/authorize`,
     params: { scope: "read_prefs write_api write_notes" }
   },
   profile(profile) {
@@ -41,7 +43,7 @@ const OSMProvider: OAuthConfig<IOSMProfile> = {
       id: profile.user.id.toString(),
       name: profile.user.display_name,
       email: profile.user.display_name,
-      image: profile.user.img.href,
+      image: profile.user.img?.href,
     }
   },
 };
