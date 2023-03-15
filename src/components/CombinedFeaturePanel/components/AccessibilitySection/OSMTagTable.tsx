@@ -1,11 +1,12 @@
-import { Button } from "@blueprintjs/core";
+import { Button, HTMLTable } from "@blueprintjs/core";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 
-const StyledTable = styled.table`
+const StyledTable = styled(HTMLTable)`
   background-color: rgba(255, 255, 255, 1);
   margin: 1rem 0;
   border-radius: 0.5rem;
@@ -24,25 +25,36 @@ const StyledTable = styled.table`
 //   // return humanizeThroughInflection(tag.replace(/:/g, ' '));
 // }
 
+const StyledTableBody = styled.tbody`
+  border: none;
+`;
+
 export default function OSMTagTable(props: {
   keys: string[];
   feature: TypeTaggedOSMFeature;
 }) {
+  const router = useRouter();
+  const { ids } = router.query;
+
   return (
     <StyledTable
-      className="bp4-html-table bp4-html-table-striped bp4-html-table-condensed"
+      bordered={false}
+      condensed={true}
+      striped={false}
     >
-      {props.keys.map((k) => (
-        <tr key={k}>
-          <th>{k}</th>
-          <td>{props.feature.properties[k]}</td>
-          <td>
-            <Link href={`composite/`}>
-              <Button aria-label={t`Edit`} icon="edit" minimal small />
-            </Link>
-          </td>
-        </tr>
-      ))}
+      <StyledTableBody>
+        {props.keys.map((k) => (
+          <tr key={k}>
+            <th>{k}</th>
+              <td>{props.feature.properties[k]}</td>
+              <td>
+                <Link href={`/composite/${ids}/${props.feature._id}/${k}/edit`}>
+                  <Button aria-label={t`Edit`} icon="edit" minimal small />
+                </Link>
+              </td>
+          </tr>
+        ))}
+      </StyledTableBody>
     </StyledTable>
   );
 }

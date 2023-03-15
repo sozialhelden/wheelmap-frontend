@@ -49,15 +49,14 @@ const StyledHeader = styled.header`
     This is necessary to make the sticky header get a shadow that extends from the whole panel's
     margin.
   */
-  margin: -8px -16px 8px -16px;
-  padding: 8px 16px;
+  margin: -.5rem -1rem .5rem -1rem;
+  padding: .5rem 1rem;
   display: flex;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 1;
   color: rgba(0, 0, 0, 0.8);
-  background-color: ${colors.colorizedBackgroundColor};
 
   ${PlaceNameH1} {
     flex-grow: 2;

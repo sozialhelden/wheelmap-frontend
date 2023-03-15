@@ -3,21 +3,25 @@ import { isOSMFeature, TypeTaggedOSMFeature } from "../../../../lib/model/shared
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
 import isAddressRelevantOSMKey from "../../../../lib/model/osm/isAddressRelevantOSMKey";
 import OSMTagTable from "./OSMTagTable";
-import { difference } from "lodash";
+import { difference, sortBy } from "lodash";
+
+const sortOrderMap = new Map<string, number>([
+  ['name', 0 ],
+  ['wheelchair', 1 ],
+  ['wheelchair:description', 2 ],
+  ['wheelchair:toilets', 3 ],
+  ['toilets:wheelchair', 4 ],
+  ['toilets', 5],
+]);
 
 export function OSMTags({ feature }: { feature: TypeTaggedOSMFeature; }) {
   if (!isOSMFeature(feature)) {
     return null;
   }
-  const sortedKeys = Object.keys(feature.properties)
-    .sort()
-    .sort((a, b) => {
-      if (a.startsWith("name"))
-        return -1;
-      if (b.startsWith("name"))
-        return 1;
-      return 0;
-    });
+  const sortedKeys = sortBy(Object.keys(feature.properties).sort(), (key) => {
+    const order = sortOrderMap.get(key);
+    return order === undefined ? Infinity : order;
+  });
   const omittedKeyPrefixes = ["type", "name", "area"];
   const filteredKeys = sortedKeys.filter(
     (key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix))

@@ -15,7 +15,7 @@ import isAccessibilityRelevantOSMKey from "../../../lib/model/osm/isAccessibilit
 import isAddressRelevantOSMKey from "../../../lib/model/osm/isAddressRelevantOSMKey";
 import { translatedStringFromObject } from "../../../lib/i18n/translatedStringFromObject";
 import FeatureImage from "./image/FeatureImage";
-import PlaceWheelchairAndToiletAccessibilitySection from "./AccessibilitySection/WheelchairAndToiletAccessibilitySection";
+import PlaceWheelchairAndToiletAccessibilitySection from "./AccessibilitySection/tags/PlaceToiletAccessibility";
 
 type Props = {
   featureId: OSMFeatureId;

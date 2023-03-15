@@ -86,14 +86,12 @@ type Props = {
 };
 
 type State = {
-  shouldCloseOnEscape: boolean;
 }
 
 class NodeToolbar extends React.PureComponent<Props, State> {
   toolbar = React.createRef<HTMLElement>();
   reportDialog: React.ElementRef<typeof ReportDialog> | null;
   state = {
-    shouldCloseOnEscape: false,
   };
 
   placeName() {
@@ -105,7 +103,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
   }
 
   onLightboxStateChange = (isLightboxOpen: boolean) => {
-    this.setState({ shouldCloseOnEscape: !isLightboxOpen });
+    
   }
 
   renderReportDialog() {
@@ -388,7 +386,6 @@ class NodeToolbar extends React.PureComponent<Props, State> {
             ariaLabel={this.placeName()}
             minimalTopPosition={this.props.minimalTopPosition}
             minimalHeight={135}
-            closeOnEscape={this.state.shouldCloseOnEscape}
           >
             <ErrorBoundary>
               {this.renderNodeHeader()}

@@ -104,7 +104,6 @@ const PlaceInfoPanel = (props: Props) => {
         ariaLabel={placeName}
         minimalHeight={135}
         minimalTopPosition={60} // TODO replace magic number
-        closeOnEscape={true}
       >
         <ErrorBoundary>
           {nodeHeader}
