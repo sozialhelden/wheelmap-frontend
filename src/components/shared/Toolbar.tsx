@@ -22,7 +22,6 @@ type Props = {
   isSwipeable?: boolean;
   isModal?: boolean;
   enableTransitions?: boolean;
-  closeOnEscape?: boolean;
 };
 
 function mergeRefs(refs) {
@@ -534,22 +533,6 @@ const BaseToolbar = (
     [props.isModal, touchStartY, ySamples, topOffset]
   );
 
-  const handleKeyDown = React.useCallback(
-    (event: React.KeyboardEvent<HTMLElement>) => {
-      if (
-        props.closeOnEscape !== false &&
-        event.key === "Escape" &&
-        scrollElementRef.current
-      ) {
-        const closeLink = scrollElementRef.current.querySelector(".close-link");
-        if (closeLink && closeLink["click"]) {
-          closeLink["click"]();
-        }
-      }
-    },
-    []
-  );
-
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {
       return;
@@ -584,7 +567,6 @@ const BaseToolbar = (
   const { minimalTopPosition = 60 } = props;
   return (
     <StyledSection
-      onKeyDown={handleKeyDown}
       className={className}
       style={{
         touchAction,
