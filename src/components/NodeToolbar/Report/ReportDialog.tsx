@@ -171,11 +171,11 @@ class ReportDialog extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    document.addEventListener("keydown", this.escapeHandler);
+
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.escapeHandler);
+
   }
 
   generateIssues(
@@ -198,14 +198,6 @@ class ReportDialog extends React.Component<Props, State> {
       appToken
     );
   }
-
-  escapeHandler = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      this.props.onClose();
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  };
 
   onClose = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (event) {
