@@ -6,7 +6,6 @@ import { t } from "ttag";
 import colors from "../../../lib/colors";
 import { useCurrentAppToken } from "../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../lib/context/LocaleContext";
-import { useCategorySynonymCache } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { usePlaceInfo } from "../../../lib/fetchers/fetchOnePlaceInfo";
 import useCategory from "../../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";

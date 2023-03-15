@@ -34,7 +34,7 @@ export default function OSMTagTable(props: {
   feature: TypeTaggedOSMFeature;
 }) {
   const router = useRouter();
-  const { ids } = router.query;
+  const { ids, id } = router.query;
 
   return (
     <StyledTable

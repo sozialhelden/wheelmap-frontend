@@ -29,21 +29,21 @@ export type AnyFeature =
   | TypeTaggedOSMFeature;
 
 export function isPlaceInfo(feature: AnyFeature): feature is TypeTaggedPlaceInfo {
-  return feature["@type"] === "a11yjson:PlaceInfo";
+  return feature?.["@type"] === "a11yjson:PlaceInfo";
 }
 
 export function isEquipmentInfo(feature: AnyFeature): feature is TypeTaggedEquipmentInfo {
-  return feature["@type"] === "a11yjson:EquipmentInfo";
+  return feature?.["@type"] === "a11yjson:EquipmentInfo";
 }
 
 export function isEntrance(feature: AnyFeature): feature is TypeTaggedEntrance {
-  return feature["@type"] === "a11yjson:Entrance";
+  return feature?.["@type"] === "a11yjson:Entrance";
 }
 
 export function isSearchResultFeature(feature: AnyFeature): feature is TypeTaggedSearchResultFeature {
-  return feature["@type"] === "komoot:SearchResult";
+  return feature?.["@type"] === "komoot:SearchResult";
 }
 
 export function isOSMFeature(feature: AnyFeature): feature is TypeTaggedOSMFeature {
-  return feature["@type"] === "osm:Feature";
+  return feature?.["@type"] === "osm:Feature";
 }

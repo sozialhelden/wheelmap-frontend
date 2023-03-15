@@ -114,7 +114,7 @@ const StyledSection = styled.section`
   }
   /* Sizing (more sizing for different viewports below) */
   box-sizing: border-box;
-  width: 400px;
+  width: 600px;
   max-width: 100%;
   min-width: 320px;
 

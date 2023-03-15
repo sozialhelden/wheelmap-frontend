@@ -1,3 +1,4 @@
+import OSMFeature from "../osm/OSMFeature";
 import { AnyFeature } from "./AnyFeature";
 
 function getLatLonFromFeature(
@@ -42,6 +43,16 @@ export function generateOsmNoteUrl(feature: AnyFeature) {
 
   const coords = getLatLonFromFeature(feature);
   return generateOsmNoteUrlForCoords(coords);
+}
+
+export function getOSMType(feature?: OSMFeature) {
+  if (!feature) {
+    return undefined;
+  }
+  if (Number.parseInt(feature._id, 10) < 0) {
+    return "way";
+  }
+  return "node";
 }
 
 export function generateShowOnOsmUrl(feature: AnyFeature) {
