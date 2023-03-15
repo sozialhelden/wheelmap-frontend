@@ -19,25 +19,25 @@ export default function PlaceOfInterestDetails(props: Props) {
 
   return (
     <>
-    <FeatureContext.Provider value={feature}>
-      <FeatureNameHeader feature={feature}>
-        {feature["@type"] === "osm:Feature" && (
-          <FeatureImage feature={feature} />
-        )}
-      </FeatureNameHeader>
-      <FeatureAccessibility />
-      <StyledIconButtonList>
-        <AddressMapsLinkItems feature={feature} />
-        <PlaceWebsiteLink feature={feature} />
-        <PhoneNumberLinks {...props} />
-        {feature["@type"] === "a11yjson:PlaceInfo" && (
-          <ExternalInfoAndEditPageLinks feature={feature} />
-        )}
-        {/*
+      <FeatureContext.Provider value={feature}>
+        <FeatureNameHeader feature={feature}>
+          {feature["@type"] === "osm:Feature" && (
+            <FeatureImage feature={feature} />
+          )}
+        </FeatureNameHeader>
+        <FeatureAccessibility />
+        <StyledIconButtonList>
+          <AddressMapsLinkItems feature={feature} />
+          <PlaceWebsiteLink feature={feature} />
+          <PhoneNumberLinks {...props} />
+          {feature["@type"] === "a11yjson:PlaceInfo" && (
+            <ExternalInfoAndEditPageLinks feature={feature} />
+          )}
+          {/*
         <ShareButtons {...props} />
         {!props.equipmentInfoId && <ReportIssueButton {...props} />} */}
-      </StyledIconButtonList>
-    </FeatureContext.Provider>
+        </StyledIconButtonList>
+      </FeatureContext.Provider>
     </>
   );
 }

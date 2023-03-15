@@ -23,32 +23,6 @@ export default function CompositeFeaturesPage() {
   const { ids } = router.query;
   const app = useCurrentApp();
   const features = useSWR([app.tokenString, ids], fetchMultipleFeatures);
-  //TODO test useSWRWithErrorToast and check TypeError
-  // const features = useSWRWithErrorToast(
-  //   {
-  //     summary: (error: Error) => <>An error occured: {error.name}</>,
-  //     instructions: (error: Error) => (
-  //       <p>
-  //         Report this error:
-  //         <Button
-  //           className="bp4-button .bp4-small"
-  //           rightIcon="arrow-right"
-  //           text="Report!"
-  //           intent="success"
-  //         ></Button>
-  //       </p>
-  //     ),
-  //     details: (error: Error) => (
-  //       <>
-  //         <>{error && JSON.stringify(error.message?, null, 2)}</>
-  //         <>{error && JSON.stringify(error.stack?, null, 2)}</>
-  //       </>
-  //     ),
-  //   },
-  //   [(app.tokenString, ids)],
-  //   fetchMultipleFeatures,
-  //   {}
-  // );
 
   return (
     <Toolbar>

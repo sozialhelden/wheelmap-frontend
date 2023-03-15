@@ -1,10 +1,13 @@
+import { Button } from "@blueprintjs/core";
 import {
   HTML_TABLE,
   HTML_TABLE_CONDENSED,
   HTML_TABLE_STRIPED,
 } from "@blueprintjs/core/lib/esm/common/classes";
+import Link from "next/link";
 import React from "react";
 import styled from "styled-components";
+import { t } from "ttag";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 
 const StyledTable = styled("table")`
@@ -29,6 +32,11 @@ export default function OSMTagTable(props: {
         <tr key={k}>
           <th>{k}</th>
           <td>{props.feature.properties[k]}</td>
+          <td>
+            <Link href={`composite/`}>
+              <Button aria-label={t`Edit`} icon="edit" minimal small />
+            </Link>
+          </td>
         </tr>
       ))}
     </StyledTable>
