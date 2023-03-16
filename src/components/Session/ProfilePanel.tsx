@@ -16,6 +16,9 @@ export default function ProfilePanel() {
         <img src={session?.user.image} style={{ maxWidth: '5rem', maxHeight: '5rem', borderRadius: '2.5rem', boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }} />
         <p>{t`You’re signed in as ${username}.`}</p>
         <Button onClick={() => signOut()}>Sign out</Button>
+        <pre>
+          {JSON.stringify(session, null, 2)}
+        </pre>
       </ControlGroup>
     )
   }

@@ -7,9 +7,14 @@ export function OSMTagEditor({ feature, tag, onChange, onSubmit }: { feature: OS
     onChange(e.target.value);
   }, []);
   const value = feature?.properties[tag];
+  const handleSubmit = React.useCallback((e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onSubmit();
+  }, []);
 
   return (
-    <form onSubmitCapture={onSubmit}>
+    <form onSubmitCapture={handleSubmit}>
       <input type="text" value={value} onChange={onChangeInput} />
     </form>
   );

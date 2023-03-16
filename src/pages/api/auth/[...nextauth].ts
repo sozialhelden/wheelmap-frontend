@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { OAuthConfig } from "next-auth/providers/oauth";
 
 interface IOSMProfile {
@@ -48,6 +48,26 @@ const OSMProvider: OAuthConfig<IOSMProfile> = {
   },
 };
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [OSMProvider],
-});
+  callbacks: {
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+      return {
+        ...session,
+        accessToken: token.accessToken,
+      };
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log('JWT callback', { token, user, account, profile, isNewUser });
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+        token.tokenType = account.token_type;
+      }
+      return token
+    },
+  },
+};
+
+export default NextAuth(authOptions);

@@ -23,4 +23,4 @@ export async function fetchAccessibilityCloudCategorySynonymCache(
 }
 
 export const useCategorySynonymCache = (appToken?: string) =>
-  useSWR(appToken, fetchAccessibilityCloudCategorySynonymCache);
+  useSWR([appToken], fetchAccessibilityCloudCategorySynonymCache);
