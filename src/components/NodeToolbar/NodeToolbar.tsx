@@ -92,10 +92,15 @@ type State = {
 
 class NodeToolbar extends React.PureComponent<Props, State> {
   toolbar = React.createRef<HTMLElement>();
+
   reportDialog: React.ElementRef<typeof ReportDialog> | null;
   state = {
     shouldCloseOnEscape: false,
   };
+
+  componentDidMount() {
+    this.toolbar.current.setAttribute('tabindex', '-1');
+  }
 
   placeName() {
     return placeNameFor(get(this.props, 'feature.properties'), this.props.category);
@@ -375,10 +380,13 @@ class NodeToolbar extends React.PureComponent<Props, State> {
   }
 
   render() {
+    
     return (
       <FocusTrap
+        // hacky way to prevent focus trap from activating when we are in report mode
+        active={this.props.modalNodeState !== 'report'}
         // We need to set clickOutsideDeactivates here as we want clicks on e.g. the map markers to not be prevented.
-        focusTrapOptions={{ clickOutsideDeactivates: true }}
+        focusTrapOptions={{ clickOutsideDeactivates: true}}
       >
         <div>
           <StyledToolbar

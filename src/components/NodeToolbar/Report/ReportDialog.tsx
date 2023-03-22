@@ -36,8 +36,11 @@ type IssueEntry = {
   component?: React.ComponentType<any>;
 };
 
-const generateWheelmapClassicIssues = (properties: WheelmapProperties): IssueEntry[] => {
-  const appContext = React.useContext(AppContext);
+const generateWheelmapClassicIssues = (
+  properties: WheelmapProperties,
+  appContext: AppContextData
+): IssueEntry[] => {
+  // can't use hooks (useContext) here (rule of hooks), so we need to get the clientSideConfiguration from the classes props.appContext
   const { clientSideConfiguration } = appContext.app;
 
   return [
@@ -181,7 +184,7 @@ class ReportDialog extends React.Component<Props, State> {
 
   generateIssues(_featureId: string | number, props: NodeProperties, appToken: string) {
     if (isWheelmapProperties(props)) {
-      return generateWheelmapClassicIssues(props);
+      return generateWheelmapClassicIssues(props, this.props.appContext);
     }
 
     if (!this.state.source) {
