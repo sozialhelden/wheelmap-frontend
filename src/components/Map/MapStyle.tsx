@@ -1,9 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 
+// Why was the zoom buttons set to display: none; on touch devices?
+// body.is-touch-device .leaflet-control-zoom {
+//   display: none;
+// }
 export const MapStyle = createGlobalStyle`
-body.is-touch-device .leaflet-control-zoom {
-  display: none;
-}
 
 .leaflet-control-container .leaflet-top {
   top: 0px;
