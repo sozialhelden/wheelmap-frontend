@@ -4,9 +4,9 @@ import map from "lodash/map";
 
 import { Circle } from "../shared/IconButton";
 import CategoryButton, { StyledCategoryIconButton } from "./CategoryButton";
-import Categories from "../../lib/model/ac/categories/Categories";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import { isAccessibilityFiltered } from "../../lib/model/ac/filterAccessibility";
+import { getRootCategoryTable } from "../../lib/model/ac/categories/getRootCategoryTable";
 
 type Props = {
   onFocus?: () => void;
@@ -20,7 +20,7 @@ type Props = {
 function CategoryMenu(props: Props) {
   const { category } = props;
 
-  let rootCategories = Categories.getRootCategories();
+  let rootCategories = getRootCategoryTable();
 
   if (category) {
     rootCategories = { [category]: rootCategories[category] };
