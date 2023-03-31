@@ -38,9 +38,17 @@ import { t } from "ttag";
 import Layout from "../../components/App/Layout";
 import SearchPanel from "../../components/SearchPanel/SearchPanel";
 import { AppContext } from "../../lib/context/AppContext";
-import fetchPlaceSearchResults from "../../lib/fetchers/fetchPlaceSearchResults";
+import fetchPlaceSearchResults, {
+  SearchResultCollection,
+  SearchResultFeature,
+} from "../../lib/fetchers/fetchPlaceSearchResults";
 import { getProductTitle } from "../../lib/model/ac/ClientSideConfiguration";
 import { getAccessibilityFilterFrom } from "../../lib/model/ac/filterAccessibility";
+import {
+  AnyFeatureCollection,
+  AnyFeature,
+  TypeTaggedSearchResultFeature,
+} from "../../lib/model/shared/AnyFeature";
 
 export default function Page() {
   const router = useRouter();
@@ -109,6 +117,22 @@ export default function Page() {
     error: searchError,
   } = useSWR([searchQuery, undefined, undefined], fetchPlaceSearchResults);
 
+  function toTypeTaggedSearchResults(
+    col: SearchResultCollection
+  ): AnyFeatureCollection {
+    // returns the col.features array with the type tag added to each feature
+    return {
+      features: col.features.map(
+        (feature: SearchResultFeature | AnyFeature) => {
+          return {
+            ["@type"]: "komoot:SearchResult",
+            ...feature,
+          } as TypeTaggedSearchResultFeature;
+        }
+      ),
+    };
+  }
+
   return (
     <>
       <Head>
@@ -134,7 +158,11 @@ export default function Page() {
         minimalTopPosition={60}
         searchQuery={searchQuery}
         searchError={searchError}
-        searchResults={searchResults}
+        searchResults={
+          searchResults
+            ? toTypeTaggedSearchResults(searchResults)
+            : searchResults
+        }
         isSearching={isSearching}
       />
     </>

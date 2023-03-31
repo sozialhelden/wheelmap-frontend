@@ -24,6 +24,7 @@ import { GoButton } from "./GoButton";
 import { StyledToolbar } from "./StyledToolbar";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { AnyFeatureCollection } from "../../lib/model/shared/AnyFeature";
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -39,7 +40,7 @@ export type Props = PlaceFilter & {
   onClick: () => void;
   isExpanded: boolean;
   hasGoButton: boolean;
-  searchResults: null | SearchResultCollection;
+  searchResults: null | SearchResultCollection | AnyFeatureCollection;
   isSearching: boolean;
   searchError: string;
   minimalTopPosition: number;

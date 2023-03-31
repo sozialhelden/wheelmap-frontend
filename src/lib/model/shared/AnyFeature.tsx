@@ -19,7 +19,9 @@ export type TypeTaggedSearchResultFeature = SearchResultFeature & {
 };
 export type TypeTaggedOSMFeature = OSMFeature & { ["@type"]: "osm:Feature" };
 
-export type TypeTaggedOSMFeatureOrError = TypeTaggedOSMFeature | OSMAPIErrorResponse;
+export type TypeTaggedOSMFeatureOrError =
+  | TypeTaggedOSMFeature
+  | OSMAPIErrorResponse;
 
 export type AnyFeature =
   | TypeTaggedPlaceInfo
@@ -28,11 +30,19 @@ export type AnyFeature =
   | TypeTaggedSearchResultFeature
   | TypeTaggedOSMFeature;
 
-export function isPlaceInfo(feature: AnyFeature): feature is TypeTaggedPlaceInfo {
+export type AnyFeatureCollection = {
+  features: AnyFeature[];
+};
+
+export function isPlaceInfo(
+  feature: AnyFeature
+): feature is TypeTaggedPlaceInfo {
   return feature?.["@type"] === "a11yjson:PlaceInfo";
 }
 
-export function isEquipmentInfo(feature: AnyFeature): feature is TypeTaggedEquipmentInfo {
+export function isEquipmentInfo(
+  feature: AnyFeature
+): feature is TypeTaggedEquipmentInfo {
   return feature?.["@type"] === "a11yjson:EquipmentInfo";
 }
 
@@ -40,10 +50,14 @@ export function isEntrance(feature: AnyFeature): feature is TypeTaggedEntrance {
   return feature?.["@type"] === "a11yjson:Entrance";
 }
 
-export function isSearchResultFeature(feature: AnyFeature): feature is TypeTaggedSearchResultFeature {
+export function isSearchResultFeature(
+  feature: AnyFeature
+): feature is TypeTaggedSearchResultFeature {
   return feature?.["@type"] === "komoot:SearchResult";
 }
 
-export function isOSMFeature(feature: AnyFeature): feature is TypeTaggedOSMFeature {
+export function isOSMFeature(
+  feature: AnyFeature
+): feature is TypeTaggedOSMFeature {
   return feature?.["@type"] === "osm:Feature";
 }
