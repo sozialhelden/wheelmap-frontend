@@ -12,6 +12,8 @@ import colors from "../../lib/colors";
 import Link from "next/link";
 import Icon from "../shared/Icon";
 import { PlaceNameHeader } from "../shared/PlaceName";
+import { TypeTaggedSearchResultFeature } from "../../lib/model/shared/AnyFeature";
+import useCategory from "../../lib/fetchers/useCategory";
 
 type Props = {
   className?: string;
@@ -119,8 +121,12 @@ export default function SearchResult(props: Props) {
   // const accessibility =
   //   wheelmapFeatureProperties && isWheelchairAccessible(wheelmapFeatureProperties);
 
+  const { categorySynonymCache, category } = useCategory(
+    feature as TypeTaggedSearchResultFeature
+  );
+
   let wheelmapFeatureProperties;
-  let shownCategoryId;
+  let shownCategoryId = category && category._id;
   let accessibility;
 
   const osmType = {
@@ -144,7 +150,6 @@ export default function SearchResult(props: Props) {
   return (
     <StyledListItem className={className}>
       <Link href={href} tabIndex={props.hidden ? -1 : 0}>
-
         <PlaceNameHeader
           className={wheelmapFeatureProperties ? "is-on-wheelmap" : undefined}
         >
@@ -160,7 +165,6 @@ export default function SearchResult(props: Props) {
           {placeName}
         </PlaceNameHeader>
         {address ? <Address role="none">{address}</Address> : null}
-
       </Link>
     </StyledListItem>
   );
