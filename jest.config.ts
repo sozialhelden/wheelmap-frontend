@@ -158,7 +158,7 @@ export default {
   // testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
   // removing spec files from testing (spec files from browserstack should be ignored)
   // set test directory to test/jest/ to only use test files from jest
-  testMatch: ["**/test/jest/**/*.[jt]s?(x)", "**/?(*.)+(test).[tj]s?(x)"],
+  testMatch: ["**/jest/**/*.[jt]s?(x)", "**/?(*.)+(.test).[tj]s?(x)"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
