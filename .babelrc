@@ -1,19 +1,22 @@
 {
-  "presets": [[
-    "next/babel",
-    {
-      "preset-env": {
-        "useBuiltIns": "entry",
-        "corejs": 3
-      },
-      "transform-runtime": {
-        "corejs": 3,
-        "useESModules": false
-      },
-      "class-properties": {}
-    }
-  ]], // https://goo.gl/aqbWJY
+  "presets": [
+    [
+      "next/babel",
+      {
+        "preset-env": {
+          "useBuiltIns": "entry",
+          "corejs": 3
+        },
+        "transform-runtime": {
+          "corejs": 3,
+          "useESModules": false
+        },
+        "class-properties": {}
+      }
+    ]
+  ], // https://goo.gl/aqbWJY
   "plugins": [
-    "babel-plugin-styled-components"
-  ],
+    "babel-plugin-styled-components",
+    "@babel/plugin-proposal-class-properties"
+  ]
 }
