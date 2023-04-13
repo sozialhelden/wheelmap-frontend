@@ -6,7 +6,7 @@ type OSMFeature = {
   type: "Feature";
   source: string;
   sourceLayer: string;
-  error: never;
+  error?: never;
 };
 
 export type OSMAPIErrorResponse = {
