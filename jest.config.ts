@@ -181,6 +181,9 @@ export default {
   // A map from regular expressions to paths to transformers
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest",
+    // add this line to support esm modules. use together with npm install --save-dev jest-esm-transformer library
+    // see e.g.: https://gist.github.com/rstacruz/511f43265de4939f6ca729a3df7b001c
+    "\\.m?jsx?$": "jest-esm-transformer",
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

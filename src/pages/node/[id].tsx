@@ -7,7 +7,7 @@ import { RossmannNode } from "../../lib/fixtures/mocks/nodes/rossmann";
 import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 
 import Toolbar from "../../components/shared/Toolbar";
-const Node = (props) => {
+const NodePage = (props) => {
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
@@ -25,8 +25,8 @@ const Node = (props) => {
   );
 };
 
-Node.getLayout = function getLayout(page: ReactElement) {
+NodePage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default Node;
+export default NodePage;
