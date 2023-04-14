@@ -15,5 +15,5 @@ export async function fetchOnePlaceInfo(
   return { "@type": "a11yjson:PlaceInfo", ...json };
 }
 
-export const usePlaceInfo = (appToken?: string, _id?: string) =>
+export const usePlaceInfo = (appToken?: string, _id?: string | string[]) =>
   useSWR([appToken, _id], fetchOnePlaceInfo);

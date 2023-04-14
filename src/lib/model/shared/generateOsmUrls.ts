@@ -71,9 +71,11 @@ export function generateShowOnOsmUrl(feature: AnyFeature) {
 
   if (feature["@type"] === "a11yjson:PlaceInfo") {
     const sameAs = feature.properties.sameAs;
-    const osmUrl = sameAs.find((url: string) =>
-      url.startsWith("https://www.openstreetmap.org/")
-    );
+    const osmUrl =
+      sameAs &&
+      sameAs.find((url: string) =>
+        url.startsWith("https://www.openstreetmap.org/")
+      );
     if (osmUrl) {
       return osmUrl;
     }
