@@ -1,11 +1,11 @@
-import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
-import Layout from "../../components/App/Layout";
+import { useRouter } from "next/router";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import { fixtureDivStyle } from "../../lib/fixtures/mocks/styles";
-import { exampleStreet } from "../../lib/fixtures/mocks/ways/exampleStreet";
+import { BERLIN } from "../../lib/fixtures/mocks/relations/berlin";
+import Layout from "../../components/App/Layout";
 
-const WayPage = (props) => {
+function RelationPage() {
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
@@ -13,16 +13,16 @@ const WayPage = (props) => {
   return (
     <>
       <div style={fixtureDivStyle}>
-        Way: {id}
-        <pre>{JSON.stringify(exampleStreet, null, 2)}</pre>
+        Relation: {id}
+        <pre>{JSON.stringify(BERLIN, null, 2)}</pre>
       </div>
       ;
     </>
   );
-};
+}
 
-WayPage.getLayout = function getLayout(page: ReactElement) {
+RelationPage.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
 
-export default WayPage;
+export default RelationPage;

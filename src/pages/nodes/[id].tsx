@@ -18,7 +18,7 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-export default function Page() {
+export default function Nodes() {
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
@@ -27,6 +27,6 @@ export default function Page() {
   return <div style={fixtureDivStyle}>PlaceOfInterestDetails page</div>;
 }
 
-Page.getLayout = function getLayout(page: ReactElement) {
+Nodes.getLayout = function getLayout(page: ReactElement) {
   return <Layout>{page}</Layout>;
 };
