@@ -114,9 +114,13 @@ const StyledSection = styled.section`
 export default function ModalDialog(props: Props) {
   const isVisible = props.isVisible;
 
-  const { containerRef } = useFocusTrap({
-    disabled: !isVisible,
-  });
+  // const { containerRef } = useFocusTrap({
+  //   disabled: !isVisible,
+  // });
+
+  // a ref object is used to set the initial focus
+  // useFocusTrap not working probably with SSR
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   if (!isVisible) {
     return null;

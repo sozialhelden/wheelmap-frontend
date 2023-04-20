@@ -5,11 +5,12 @@ import { useEffect } from "react";
 import { findDOMNode } from "react-dom";
 import styled from "styled-components";
 
-import ModalDialog from "../ModalDialog";
 import ChevronRight from "../icons/actions/ChevronRight";
 import colors from "../../lib/colors";
-import Logo from "../Logo";
-import { PrimaryButton } from "../Button";
+
+import ModalDialog from "../shared/ModalDialog";
+import Logo from "../App/Logo";
+import { PrimaryButton } from "../shared/Button";
 
 type Props = {
   className?: string;
