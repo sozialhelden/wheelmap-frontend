@@ -1,10 +1,10 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
+import { t } from "ttag";
+import * as React from "react";
+import styled from "styled-components";
 
-import LicenseHint from './LicenseHint';
-import { SourceWithLicense } from '../../app/PlaceDetailsProps';
-import { EquipmentInfo, PlaceInfo } from '@sozialhelden/a11yjson';
+import LicenseHint from "./LicenseHint";
+import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
+import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
 
 type Props = {
   feature: PlaceInfo | EquipmentInfo | null;
@@ -33,7 +33,11 @@ function UnstyledSourceList(props: Props) {
   return (
     <section className={props.className}>
       {sources.length ? `${prefixCaption} ` : null}
-      <ul>{sources.map(sourceWithLicense => renderLicenseHint(sourceWithLicense))}</ul>
+      <ul>
+        {sources.map((sourceWithLicense) =>
+          renderLicenseHint(sourceWithLicense)
+        )}
+      </ul>
     </section>
   );
 }

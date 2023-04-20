@@ -10,11 +10,11 @@ import { Category } from "../../lib/model/ac/categories/Categories";
 import { YesNoLimitedUnknown } from "../../lib/Feature";
 import { ModalNodeState } from "../../lib/ModalNodeState";
 import { PhotoModel } from "../../lib/PhotoModel";
-import { SourceWithLicense } from "../../app/PlaceDetailsProps";
+import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
 import {
   PlaceDetailsProps,
   getPlaceDetailsIfAlreadyResolved,
-} from "../../app/PlaceDetailsProps";
+} from "../../../app/PlaceDetailsProps";
 import { UAResult } from "../../lib/userAgent";
 import { EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
 

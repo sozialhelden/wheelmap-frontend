@@ -17,7 +17,7 @@
 //   });
 // };
 
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const PlaceImageReportPage = () => {
   const router = useRouter();
@@ -34,9 +34,12 @@ const PlaceImageReportPage = () => {
   return (
     <>
       <header />
-      <h1>Upload Photo Instructions: {`imageId: ${imageId}, placeType: ${placeType}`}</h1>
+      <h1>
+        Upload Photo Instructions:{" "}
+        {`imageId: ${imageId}, placeType: ${placeType}`}
+      </h1>
     </>
   );
 };
 
-export default UploadPhotoInstructions;
+export default PlaceImageReportPage;

@@ -6,19 +6,15 @@ import {
   fetchOnePlaceInfo,
   usePlaceInfo,
 } from "../../lib/fetchers/fetchOnePlaceInfo";
-import { fetchAccessibilityCloudCategories } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
+
 import { useCurrentApp } from "../../lib/context/AppContext";
 import { getData } from "../../lib/fetchers/fetchWithSWR";
 import Layout from "../../components/App/Layout";
 import { ReactElement } from "react";
-import PlaceOfInterestDetails from "../../components/CombinedFeaturePanel/type-specific/poi/PlaceOfInterestDetails";
-import {
-  AnyFeature,
-  TypeTaggedOSMFeature,
-} from "../../lib/model/shared/AnyFeature";
-import { fixtureDivStyle } from "../../lib/fixtures/mocks/styles";
+import { AnyFeature } from "../../lib/model/shared/AnyFeature";
 import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import Toolbar from "../../components/shared/Toolbar";
+import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -44,15 +40,17 @@ export default function Nodes() {
 
   return (
     <>
-      {feature && (
-        <Toolbar>
-          <CombinedFeaturePanel features={[feature]}></CombinedFeaturePanel>
-        </Toolbar>
-      )}
-      <div style={fixtureDivStyle}>
-        PlaceOfInterestDetails page
-        <pre>{feature && JSON.stringify(feature, null, 2)}</pre>
-      </div>
+      <>
+        {feature && (
+          <Toolbar>
+            <CombinedFeaturePanel features={[feature]}></CombinedFeaturePanel>
+          </Toolbar>
+        )}
+      </>
+      <MockedPOIDetails
+        feature={feature}
+        description={`PlaceOfInterestDetails page`}
+      />
     </>
   );
 }

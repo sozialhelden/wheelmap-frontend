@@ -1,5 +1,9 @@
 import { t } from "ttag";
-import { AnyFeature, isOSMFeature, isSearchResultFeature } from "../../lib/model/shared/AnyFeature";
+import {
+  AnyFeature,
+  isOSMFeature,
+  isSearchResultFeature,
+} from "../../lib/model/shared/AnyFeature";
 import OSMBuildingDetails from "./OSMBuildingDetails";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
@@ -19,7 +23,10 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
     return <OSMBuildingDetails feature={feature} />;
   }
 
-  if (feature.properties.highway === 'footway' || feature.properties.highway === 'pedestrian') {
+  if (
+    feature.properties.highway === "footway" ||
+    feature.properties.highway === "pedestrian"
+  ) {
     return <OSMSidewalkDetails feature={feature} />;
   }
   // Place of Interest
@@ -27,7 +34,9 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
 }
 
 export function CombinedFeaturePanel(props: Props) {
-  const features = uniqBy(props.features, (feature) => isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id);
+  const features = uniqBy(props.features, (feature) =>
+    isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id
+  );
   return (
     <>
       {features && features[0] && (
@@ -37,8 +46,7 @@ export function CombinedFeaturePanel(props: Props) {
         features.length > 1 &&
         features
           .slice(1)
-          .map((feature) => <FeatureSection feature={feature} />)
-      }
+          .map((feature) => <FeatureSection feature={feature} />)}
       <FeaturesDebugJSON features={features} />
     </>
   );

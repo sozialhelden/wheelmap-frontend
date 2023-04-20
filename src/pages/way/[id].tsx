@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import Layout from "../../components/App/Layout";
 import { useCurrentApp } from "../../lib/context/AppContext";
-import { fixtureDivStyle } from "../../lib/fixtures/mocks/styles";
 import { exampleStreet } from "../../lib/fixtures/mocks/ways/exampleStreet";
+import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
 
 const WayPage = (props) => {
   const router = useRouter();
@@ -12,11 +12,7 @@ const WayPage = (props) => {
 
   return (
     <>
-      <div style={fixtureDivStyle}>
-        Way: {id}
-        <pre>{JSON.stringify(exampleStreet, null, 2)}</pre>
-      </div>
-      ;
+      <MockedPOIDetails feature={exampleStreet} description={`Way: ${id}`} />
     </>
   );
 };

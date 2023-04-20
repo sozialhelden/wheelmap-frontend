@@ -1,15 +1,15 @@
-import { t } from 'ttag';
-import get from 'lodash/get';
-import * as React from 'react';
-import { useEffect } from 'react';
-import { findDOMNode } from 'react-dom';
-import styled from 'styled-components';
+import { t } from "ttag";
+import get from "lodash/get";
+import * as React from "react";
+import { useEffect } from "react";
+import { findDOMNode } from "react-dom";
+import styled from "styled-components";
 
-import ModalDialog from '../ModalDialog';
-import ChevronRight from '../icons/actions/ChevronRight';
-import colors from '../../lib/colors';
-import Logo from '../Logo';
-import { PrimaryButton } from '../Button';
+import ModalDialog from "../ModalDialog";
+import ChevronRight from "../icons/actions/ChevronRight";
+import colors from "../../lib/colors";
+import Logo from "../Logo";
+import { PrimaryButton } from "../Button";
 
 type Props = {
   className?: string;
@@ -17,9 +17,13 @@ type Props = {
   statusCode: number;
 };
 
-const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode }) => {
+const NotFound: React.FC<Props> = ({
+  className,
+  onReturnHomeClick,
+  statusCode,
+}) => {
   const manageFocus = React.useCallback(({ nativeEvent }) => {
-    if (nativeEvent.key === 'Tab') {
+    if (nativeEvent.key === "Tab") {
       nativeEvent.preventDefault();
     }
   }, []);
@@ -36,7 +40,7 @@ const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode })
 
   useEffect(() => focus(), []);
 
-  const classList = [className, 'not-found-page'].filter(Boolean);
+  const classList = [className, "not-found-page"].filter(Boolean);
 
   // translator: Shown as header text on the error page.
   const errorText = t`Error`;
@@ -50,7 +54,10 @@ const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode })
   const isNotFound = statusCode === 404;
 
   const isOffline =
-    get({ className, onReturnHomeClick, statusCode }, 'error.response.status') === 3;
+    get(
+      { className, onReturnHomeClick, statusCode },
+      "error.response.status"
+    ) === 3;
 
   const shouldShowApology = !isNotFound && !isOffline;
 
@@ -77,14 +84,17 @@ const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode })
   );
 
   const reloadButton = (
-    <button className="button-cta-close focus-visible" onClick={() => window.location.reload()}>
+    <button
+      className="button-cta-close focus-visible"
+      onClick={() => window.location.reload()}
+    >
       {retryCaption}
     </button>
   );
 
   return (
     <ModalDialog
-      className={classList.join(' ')}
+      className={classList.join(" ")}
       isVisible={true}
       ariaDescribedBy="wheelmap-error-text wheelmap-apology-text"
       ariaLabel={t`Error`}

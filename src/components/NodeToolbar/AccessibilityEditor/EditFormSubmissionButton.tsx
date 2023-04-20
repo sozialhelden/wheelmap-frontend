@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { t } from 'ttag';
 import { v4 as uuidv4 } from 'uuid';
 
-import type { SourceWithLicense } from '../../../app/PlaceDetailsProps';
+import type { SourceWithLicense } from '../../../../app/PlaceDetailsProps';
 import { PrimaryButton } from '../../Button';
 import AppContext from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';

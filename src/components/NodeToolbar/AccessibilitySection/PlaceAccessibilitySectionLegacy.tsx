@@ -6,7 +6,7 @@ import AccessibleDescription from "./AccessibleDescription";
 import AccessibilitySourceDisclaimer from "./AccessibilitySourceDisclaimer";
 import WheelchairAndToiletAccessibility from "./WheelchairAndToiletAccessibility";
 
-import { SourceWithLicense } from "../../../app/PlaceDetailsProps";
+import { SourceWithLicense } from "../../../../app/PlaceDetailsProps";
 import { isWheelchairAccessible } from "../../../lib/Feature";
 import { YesNoLimitedUnknown } from "../../../lib/Feature";
 import { Category } from "../../../lib/model/ac/categories/Categories";

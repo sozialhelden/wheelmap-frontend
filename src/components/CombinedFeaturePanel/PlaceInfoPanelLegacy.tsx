@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import useSWR from "swr";
 import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
-import Layout from "../../App/Layout";
+import Layout from "../../../app/Layout";
 import CloseLink from "../../shared/CloseLink";
 import { ModalNodeState } from "../../../lib/ModalNodeState";
 import { PlaceInfo } from "@sozialhelden/a11yjson";

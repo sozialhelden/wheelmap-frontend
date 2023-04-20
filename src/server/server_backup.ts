@@ -9,7 +9,7 @@ import cache from "express-cache-headers";
 import compression from "compression";
 import * as querystring from "querystring";
 
-import router from "../app/router";
+import router from "../../app/router";
 import registerHealthChecks from "./healthChecks";
 console.log("Node version:", process.version);
 

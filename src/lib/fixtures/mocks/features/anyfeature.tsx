@@ -1,6 +1,6 @@
 import { AnyFeature } from "../../../model/shared/AnyFeature";
 
-export const anyFeat: AnyFeature = {
+export const anyFeature: AnyFeature = {
   ["@type"]: "a11yjson:PlaceInfo",
   _id: "123",
   properties: {
