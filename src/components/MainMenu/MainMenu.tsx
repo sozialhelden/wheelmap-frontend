@@ -142,7 +142,6 @@ class MainMenu extends React.Component<Props, State> {
         const url =
           link.url &&
           insertPlaceholdersToAddPlaceUrl(
-            baseUrl,
             translatedStringFromObject(link.url),
             this.props.uniqueSurveyId,
             this.props.joinedMappingEvent

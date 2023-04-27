@@ -1,15 +1,11 @@
 import { MappingEvent } from './MappingEvent';
 
 export function insertPlaceholdersToAddPlaceUrl(
-  baseUrl: string,
   url: string | undefined,
   uniqueSurveyId: string,
   joinedMappingEvent?: MappingEvent
 ) {
   const replacements = {
-    returnUrl:
-      `${baseUrl}/contribution-thanks?uniqueSurveyId=${uniqueSurveyId}`
-    ,
     uniqueSurveyId,
     mappingEventId: joinedMappingEvent?._id,
     mappingEventName: joinedMappingEvent?.name,
@@ -31,7 +27,7 @@ export function insertPlaceholdersToAddPlaceUrl(
         ) {
           try {
             const url = new URL(replacedUrl);
-            url.searchParams.append(key === 'returnUrl' ? key : `d[${key}]`, replacements[key]);
+            url.searchParams.append(`d[${key}]`, replacements[key]);
             replacedUrl = url.toString();
           } catch(e) {
             console.error(`Could not replace ${key}=${replacements[key]} in URL '${replacedUrl}'`, e);
