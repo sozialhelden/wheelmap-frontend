@@ -16,7 +16,7 @@
     "@wdio/browserstack-service": "^6.10.10",
     "@wdio/cli": "^6.11.3",
     "@wdio/local-runner": "^6.11.3",
-    "@wdio/mocha-framework": "^7.7.4",
+    "@wdio/mocha-framework": "^7.19.7",
     "abort-controller": "^3.0.0",
     "acorn-dynamic-import": "^4.0.0",
     "async_hooks": "^1.0.0",
