@@ -36,14 +36,14 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
   async uploadPhotoForFeature(featureId: string, images: FileList, appToken: string): Promise<any> {
     const image = images[0];
     const url = `${uncachedBaseUrl}/image-upload?placeId=${featureId}&appToken=${appToken}`;
-    const resizedImage = await readAndCompressImage(image, imageResizeConfig);
+    // const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await FeatureCache.fetch(url, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'image/jpeg',
       },
-      body: resizedImage,
+      body: image,
     });
 
     if (!response.ok) {
