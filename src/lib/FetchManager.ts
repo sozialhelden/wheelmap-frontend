@@ -21,7 +21,7 @@ export class FetchManager extends EventTarget<CustomEvent> {
     this.externalStatus[key] = busy;
   }
 
-  fetch(input: string, init?: any): Promise<Response> {
+  fetch(input: string, init?: RequestInit): Promise<Response> {
     let promise = null;
 
     const removeFromRunningPromises = (response: Response) => {

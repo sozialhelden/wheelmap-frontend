@@ -224,7 +224,7 @@ export default class FeatureCache<FeatureType, FeatureCollectionType> extends Ev
    * Fetches a non-cached feature from its store, using WhatWG `fetch`.
    * @param {string} url
    */
-  /** @protected @abstract */ static fetch(url: string, options?: {}): Promise<Response> {
+  /** @protected @abstract */ static fetch(url: string, options?: RequestInit): Promise<Response> {
     return globalFetchManager.fetch(url, options);
   }
 }
