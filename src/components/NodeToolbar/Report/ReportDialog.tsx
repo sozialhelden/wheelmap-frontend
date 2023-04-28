@@ -12,7 +12,7 @@ import { AppContextData } from "../../../AppContext";
 
 import strings from "./strings";
 import FixOsmComment from "./FixOsmComment";
-import MailToSupport from "./MailToSupport";
+import MailToSupportLegacy from "./MailToSupportLegacy";
 import SendReportToAc, { reportStrings, ReportReasons } from "./SendReportToAc";
 import FixOsmPlacePosition from "./FixOsmPlacePosition";
 import FixOnExternalPage from "./FixOnExternalPage";
@@ -78,7 +78,7 @@ const generateWheelmapClassicIssues = (
       className: "other-issue",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The problem isn’t listed here…`,
-      component: MailToSupport,
+      component: MailToSupportLegacy,
     },
   ].filter(Boolean);
 
@@ -128,7 +128,7 @@ const generateAcIssues = (
       className: "other-issue",
       // translator: Shown as issue description in the report dialog
       issueLink: () => t`The problem isn’t listed here…`,
-      component: MailToSupport,
+      component: MailToSupportLegacy,
     },
   ].filter(Boolean) as IssueEntry[];
 };
@@ -170,13 +170,9 @@ class ReportDialog extends React.Component<Props, State> {
     return null;
   }
 
-  componentDidMount() {
+  componentDidMount() {}
 
-  }
-
-  componentWillUnmount() {
-
-  }
+  componentWillUnmount() {}
 
   generateIssues(
     _featureId: string | number,

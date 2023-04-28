@@ -1,47 +1,47 @@
-import * as React from 'react';
-import { t } from 'ttag';
-import styled from 'styled-components';
+import * as React from "react";
+import { t } from "ttag";
+import styled from "styled-components";
 
-import strings from './strings';
-import colors from '../../../lib/colors';
-import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
-import Spinner from '../../ActivityIndicator/Spinner';
+import strings from "./strings";
+import colors from "../../../lib/colors";
+import { accessibilityCloudFeatureCache } from "../../../lib/cache/AccessibilityCloudFeatureCache";
+import Spinner from "../../ActivityIndicator/Spinner";
 
 export type ReportReasons =
-  | 'invalid-place'
-  | 'wrong-location'
-  | 'wrong-accessibility-data'
-  | 'information-missing'
-  | 'permanently-closed';
+  | "invalid-place"
+  | "wrong-location"
+  | "wrong-accessibility-data"
+  | "information-missing"
+  | "permanently-closed";
 
 type Props = {
-  reportReason: ReportReasons,
-  featureId: string,
-  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void,
-  className?: string,
-  appToken: string,
+  reportReason: ReportReasons;
+  featureId: string;
+  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
+  appToken: string;
 };
 
 type State = {
-  isSuccess: boolean,
-  isLoading: boolean,
-  error: Error | null,
-  request: Promise<boolean> | null,
-  lastFeatureId: string | null,
+  isSuccess: boolean;
+  isLoading: boolean;
+  error: Error | null;
+  request: Promise<boolean> | null;
+  lastFeatureId: string | null;
 };
 
 export const reportStrings = () => {
   return {
     // translator: Shown as issue description in the report dialog for wrong/missing information
-    'information-missing': t`I have more information about this place.`,
+    "information-missing": t`I have more information about this place.`,
     // translator: Shown as issue description in the report dialog for wrong location
-    'wrong-accessibility-data': t`The accessibility of the place is marked incorrectly.`,
+    "wrong-accessibility-data": t`The accessibility of the place is marked incorrectly.`,
     // translator: Shown as issue description in the report dialog for wrong location
-    'wrong-location': t`The place is at the wrong location.`,
+    "wrong-location": t`The place is at the wrong location.`,
     // translator: Shown as issue description in the report dialog for permanently closed
-    'permanently-closed': t`The place is permanently closed.`,
+    "permanently-closed": t`The place is permanently closed.`,
     // translator: Shown as issue description in the report dialog for invalid place
-    'invalid-place': t`The place does not exist.`,
+    "invalid-place": t`The place does not exist.`,
   };
 };
 
@@ -92,7 +92,7 @@ class SendReportToAc extends React.Component<Props, State> {
 
   startRequest() {
     const { featureId, reportReason, appToken } = this.props;
-    const reportMessage = this.textarea.current?.value || '';
+    const reportMessage = this.textarea.current?.value || "";
 
     this.setState(
       {
@@ -113,11 +113,13 @@ class SendReportToAc extends React.Component<Props, State> {
     if (request) {
       request
         .then(() => {
-          if (this.state.request === request) this.setState({ isLoading: false, isSuccess: true });
+          if (this.state.request === request)
+            this.setState({ isLoading: false, isSuccess: true });
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
-          if (this.state.request === request) this.setState({ isLoading: false, error });
+          if (this.state.request === request)
+            this.setState({ isLoading: false, error });
         });
     }
   }
@@ -160,8 +162,13 @@ class SendReportToAc extends React.Component<Props, State> {
           </p>
         )}
         {!isLoading && isSuccess && <p className="subtle">{thankYouCaption}</p>}
-        {!isLoading && error && <div className="error-result">{errorCaption}</div>}
-        <button className="link-button negative-button" onClick={this.props.onClose}>
+        {!isLoading && error && (
+          <div className="error-result">{errorCaption}</div>
+        )}
+        <button
+          className="link-button negative-button"
+          onClick={this.props.onClose}
+        >
           {backButtonCaption}
         </button>
       </section>

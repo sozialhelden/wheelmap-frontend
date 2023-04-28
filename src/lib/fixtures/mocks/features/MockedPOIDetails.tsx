@@ -16,6 +16,7 @@ export default function MockedPOIDetails(props: Props) {
       <header>{heading}</header>
       <div style={fixtureDivStyle}>
         <p>This is: {description}</p>
+        <p>In case of error a default element is shown</p>
         <section>
           <pre>{JSON.stringify(feature ? feature : relation, null, 2)}</pre>
         </section>

@@ -12,7 +12,7 @@ export default function NotFound() {
         className="404-not-found"
         onReturnHomeClick={() => router.push("/")}
         statusCode={404}
-      /> */}
+      />*/}
     </>
   );
 }

@@ -1,19 +1,22 @@
-import { PlaceInfo } from '@sozialhelden/a11yjson';
-import * as React from 'react';
-import { getCategoryId, Category } from '../../../lib/model/ac/categories/Categories';
-import strings from './strings';
+import { PlaceInfo } from "@sozialhelden/a11yjson";
+import * as React from "react";
+import {
+  getCategoryId,
+  Category,
+} from "../../../lib/model/ac/categories/Categories";
+import strings from "./strings";
 
 type Props = {
-  feature: PlaceInfo,
-  featureId: string | number | null,
-  category: Category | null,
-  parentCategory: Category | null,
-  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  feature: PlaceInfo;
+  featureId: string | number | null;
+  category: Category | null;
+  parentCategory: Category | null;
+  onClose: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
-export default class MailToSupport extends React.Component<Props> {
-  protected mailLink = React.createRef<HTMLAnchorElement>()
-  protected backButton = React.createRef<HTMLButtonElement>()
+export default class MailToSupportLegacy extends React.Component<Props> {
+  protected mailLink = React.createRef<HTMLAnchorElement>();
+  protected backButton = React.createRef<HTMLButtonElement>();
 
   constructor(props: Props) {
     super(props);
@@ -26,14 +29,18 @@ export default class MailToSupport extends React.Component<Props> {
   }
 
   trapFocus({ nativeEvent }) {
-    if (nativeEvent.target === this.mailLink && nativeEvent.key === 'Tab' && nativeEvent.shiftKey) {
+    if (
+      nativeEvent.target === this.mailLink &&
+      nativeEvent.key === "Tab" &&
+      nativeEvent.shiftKey
+    ) {
       nativeEvent.preventDefault();
 
       this.backButton.current?.focus();
     }
     if (
       nativeEvent.target === this.backButton &&
-      nativeEvent.key === 'Tab' &&
+      nativeEvent.key === "Tab" &&
       !nativeEvent.shiftKey
     ) {
       nativeEvent.preventDefault();
@@ -49,8 +56,11 @@ export default class MailToSupport extends React.Component<Props> {
 
     const url = `https://wheelmap.org/nodes/${featureId}`;
     const properties = feature.properties;
-    const categoryOrParentCategory = this.props.category || this.props.parentCategory;
-    const categoryName = categoryOrParentCategory ? getCategoryId(categoryOrParentCategory) : null;
+    const categoryOrParentCategory =
+      this.props.category || this.props.parentCategory;
+    const categoryName = categoryOrParentCategory
+      ? getCategoryId(categoryOrParentCategory)
+      : null;
 
     const {
       reportBody,

@@ -5,7 +5,7 @@ export const fixtureDivStyle: React.CSSProperties = {
   marginTop: "-50px",
   marginLeft: "-50px",
   width: "auto",
-  height: "100px",
+  height: "250px",
   color: "red",
   scrollBehavior: "smooth",
   overflowY: "scroll",
