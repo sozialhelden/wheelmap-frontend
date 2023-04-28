@@ -42,7 +42,7 @@
     "event-stream": "^4.0.1",
     "expect": "^26.6.2",
     "expect-webdriverio": "^1.4.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-cache-headers": "^0.1.4",
     "fast-levenshtein": "^2.0.6",
     "focus-trap-react": "^8.11.1",
