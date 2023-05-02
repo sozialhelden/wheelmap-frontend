@@ -1,11 +1,13 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import FlagIcon from '../../icons/actions/Flag';
-import { PlaceInfo } from '@sozialhelden/a11yjson';
+import { t } from "ttag";
+import * as React from "react";
+
+import { PlaceInfo } from "@sozialhelden/a11yjson";
+import Flag from "../../../icons/actions/Flag";
+import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
 
 type Props = {
   equipmentInfoId: string | null;
-  feature: PlaceInfo | null;
+  feature: PlaceInfo | AnyFeature | null;
   onOpenReportMode?: () => void;
 };
 
@@ -16,12 +18,12 @@ export default function ReportIssueButton(props: Props) {
     <button
       className="link-button full-width-button"
       onClick={() => {
-        if (typeof props.onOpenReportMode === 'function') {
+        if (typeof props.onOpenReportMode === "function") {
           props.onOpenReportMode();
         }
       }}
     >
-      <FlagIcon />
+      <Flag />
       <span>{caption}</span>
     </button>
   );

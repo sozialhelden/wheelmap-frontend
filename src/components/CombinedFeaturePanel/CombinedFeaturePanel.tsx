@@ -9,9 +9,11 @@ import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
 import OSMSidewalkDetails from "./OSMSidewalkDetails";
 import { uniqBy } from "lodash";
+import ReportIssueButton from "./components/IconButtonList/ReportIssueButton";
 
 type Props = {
   features: AnyFeature[];
+  options?: { handleOpenReportMode?: () => void };
 };
 
 function FeatureSection({ feature }: { feature: AnyFeature }) {
@@ -34,13 +36,22 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
 }
 
 export function CombinedFeaturePanel(props: Props) {
+  const { handleOpenReportMode } = props.options || {};
   const features = uniqBy(props.features, (feature) =>
     isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id
   );
   return (
     <>
       {features && features[0] && (
-        <PlaceOfInterestDetails feature={features[0]} />
+        <>
+          <PlaceOfInterestDetails feature={features[0]} />
+
+          <ReportIssueButton
+            equipmentInfoId={null}
+            feature={features[0]}
+            onOpenReportMode={handleOpenReportMode}
+          />
+        </>
       )}
       {features &&
         features.length > 1 &&
