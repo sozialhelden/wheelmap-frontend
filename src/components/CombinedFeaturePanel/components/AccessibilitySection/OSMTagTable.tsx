@@ -58,12 +58,12 @@ export default function OSMTagTable(props: {
 }
 function OSMTagRow({ k: key, props, ids }: { k: string; props: { keys: string[]; feature: TypeTaggedOSMFeature; }; ids: string | string[]; }): JSX.Element {
   const appToken = useCurrentAppToken();
-  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(appToken);
   const value = props.feature.properties[key];
+  const languageTagStrings = useCurrentLanguageTagStrings();
+  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(languageTagStrings, appToken);
   const keyAttribute = attributesById?.get(`osm:${key}`);
   const valueAttribute = attributesById?.get(`osm:${key}=${value}`);
-  const languageTagStrings = useCurrentLanguageTagStrings();
-  const keyLabel = getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.label, languageTagStrings);
+  const keyLabel = getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.label, languageTagStrings) || key;
   const valueLabel = getLocalizedStringTranslationWithMultipleLocales(valueAttribute?.label, languageTagStrings) || value;
 
   return <tr key={key}>

@@ -6,19 +6,19 @@ import IAccessibilityAttribute from "../model/ac/IAccessibilityAttribute";
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
 export function getAccessibilityAttributesURL(
-  preferredLocaleStrings: string[],
-  overriddenLocaleString?: string
+  languageTags: string[],
+  appToken?: string
 ) {
   // either fetches a response over the network,
   // or returns a cached promise with the same URL (if available)
   const preferredLocales = expandedPreferredLocales(
-    preferredLocaleStrings.map(normalizeLanguageCode).map(localeFromString),
-    overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
+    languageTags.map(normalizeLanguageCode).map(localeFromString),
+    // overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
   );
   const url = `${
     process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
   }/accessibility-attributes.json?appToken=${
-    process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN
+    appToken
   }&include=${preferredLocales
     .map(l => `label.${l.string.replace(/-/, '_')}`)
     .sort()
@@ -27,10 +27,10 @@ export function getAccessibilityAttributesURL(
 }
 
 export default function fetchAccessibilityAttributeIdMap(
-  preferredLocaleStrings: string[],
-  overriddenLocaleString?: string
+  languageTags: string[],
+  appToken?: string,
 ): Promise<Map<string, IAccessibilityAttribute>> {
-  const url = getAccessibilityAttributesURL(preferredLocaleStrings, overriddenLocaleString);
+  const url = getAccessibilityAttributesURL(languageTags, appToken);
   console.log('fetchAccessibilityAttributeIdMap', url);
   return fetch(url)
     .then(r => r.json())
@@ -41,6 +41,6 @@ export default function fetchAccessibilityAttributeIdMap(
 }
 
 
-export const useAccessibilityAttributesIdMap = (appToken?: string) =>
-  useSWR([appToken], fetchAccessibilityAttributeIdMap);
+export const useAccessibilityAttributesIdMap = (languageTags: string[], appToken: string) =>
+  useSWR([languageTags, appToken], fetchAccessibilityAttributeIdMap);
 
