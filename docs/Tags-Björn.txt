@@ -1,0 +1,80 @@
+// bjoern
+
+
+// done
+toilets:wheelchair=yes
+toilets:wheelchair=no
+
+toilets:female=yes
+toilets:female=no
+
+toilets:male=yes
+toilets:male=no
+toilets:unisex=yes
+toilets:unisex=no
+toilets=yes
+diet:vegan=yes
+diet:vegan=only
+diet:vegetarian=yes
+diet:vegetarian=only
+diet:vegetarian=no
+outdoor_seating=no
+outdoor_seating=yes
+
+{
+  "_id": "osm:outdoor_seating=no",
+  "label": {
+    "en": "Outdoor seating available",
+    "de": "Sitzplätze im Freien vorhanden"
+  },
+  "shortLabel": {
+    "en": "Outdoor seating",
+    "de": "Draußenplätze"
+  },
+  "summary": {
+    "en": "This place **does not** offer outdoor seating.",
+    "de": "Dieser Ort verfügt über **keine** Sitzplätze im Freien."
+  }
+}
+
+// Todo
+payment:cash=yes
+takeaway=only
+takeaway=yes
+self_service=only
+self_service=yes
+internet_access=wlan
+internet_access:fee=no
+building:levels
+opening_hours
+surveillance=outdoor
+lit=yes
+lit=no
+access=yes
+access=no
+access=customers
+outdoor_seating=yes
+smoking=yes
+smoking=no
+
+
+
+{
+  "_id": "osm:wheelchair=yes",
+  "label": {
+    "en": "Wheelchair accessible",
+    "de": "Rollstuhlgerecht"
+  },
+  "shortLabel": {
+    "en": "Fully",
+    "de": "Voll"
+  },
+  "summary": {
+    "en": "The place is fully wheelchair accessible.",
+    "de": "Der Ort ist voll rollstuhlgerecht."
+  },
+  "details": {
+    "en": "This means all important areas/functions are fully accessible with a wheelchair.",
+    "de": "Das bedeutet, dass alle wichtigen Bereiche oder Funktionen mit einem Rollstuhl nutzbar sind."
+  }
+}
