@@ -20,7 +20,8 @@ export function getAccessibilityAttributesURL(
   }/accessibility-attributes.json?appToken=${
     appToken
   }&include=${preferredLocales
-    .map(l => `label.${l.string.replace(/-/, '_')}`)
+    .map(l => l.string.replace(/-/, '_'))
+    .flatMap(l => [`label.${l}`, `shortLabel.${l}`, `summary.${l}`, `details.${l}`])
     .sort()
     .join(',')}`;
   return url;

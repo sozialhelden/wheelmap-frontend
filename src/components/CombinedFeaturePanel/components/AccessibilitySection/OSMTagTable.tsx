@@ -63,8 +63,8 @@ function OSMTagRow({ k: key, props, ids }: { k: string; props: { keys: string[];
   const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(languageTagStrings, appToken);
   const keyAttribute = attributesById?.get(`osm:${key}`);
   const valueAttribute = attributesById?.get(`osm:${key}=${value}`);
-  const keyLabel = getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.label, languageTagStrings) || key;
-  const valueLabel = getLocalizedStringTranslationWithMultipleLocales(valueAttribute?.label, languageTagStrings) || value;
+  const keyLabel = getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.shortLabel, languageTagStrings) || getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.label, languageTagStrings) || key;
+  const valueLabel = getLocalizedStringTranslationWithMultipleLocales(valueAttribute?.shortLabel, languageTagStrings) || getLocalizedStringTranslationWithMultipleLocales(valueAttribute?.label, languageTagStrings) || value;
 
   return <tr key={key}>
     <th>{keyLabel}</th>
