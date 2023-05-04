@@ -7,8 +7,8 @@ export function interpretJSONResponseAsApp(json: unknown): App {
 export default function fetchApp([hostname, appToken]: [string, string]) {
   const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
   const cleanedHostName = hostname
-    // Allow test deployments on zeit
-    .replace(/-[a-z0-9]+\.now\.sh$/, ".now.sh")
+    // Allow sharing a deployment with ngrok
+    .replace(/.*\.ngrok(?:-free)\.app$/, "wheelmap.tech")
     // Allow branch test deployments
     .replace(/.*\.wheelmap\.tech$/, "wheelmap.tech")
     // Use 'localhost' as hostname for loopback IP

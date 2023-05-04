@@ -1,7 +1,8 @@
 import { localeFromString } from "../i18n/localeFromString";
 import { expandedPreferredLocales } from "../i18n/expandedPreferredLocales";
 import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
-
+import useSWR from "swr";
+import IAccessibilityAttribute from "../model/ac/IAccessibilityAttribute";
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
 export function getAccessibilityAttributesURL(
@@ -25,15 +26,21 @@ export function getAccessibilityAttributesURL(
   return url;
 }
 
-export default function fetchAccessibilityAttributes(
+export default function fetchAccessibilityAttributeIdMap(
   preferredLocaleStrings: string[],
   overriddenLocaleString?: string
-) {
+): Promise<Map<string, IAccessibilityAttribute>> {
   const url = getAccessibilityAttributesURL(preferredLocaleStrings, overriddenLocaleString);
+  console.log('fetchAccessibilityAttributeIdMap', url);
   return fetch(url)
     .then(r => r.json())
     .then(json => {
-      const map = new Map<string, Record<string, string>>(json?.results.map(r => [r._id, r.label]));
+      const map = new Map<string, IAccessibilityAttribute>(json?.results.map(r => [r._id, r]));
       return map;
     });
 }
+
+
+export const useAccessibilityAttributesIdMap = (appToken?: string) =>
+  useSWR([appToken], fetchAccessibilityAttributeIdMap);
+

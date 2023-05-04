@@ -5,6 +5,12 @@ import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
+import { useCurrentAppToken } from "../../../../lib/context/AppContext";
+import { SKELETON } from "@blueprintjs/core/lib/esm/common/classes";
+import { translatedStringFromObject } from "../../../../lib/i18n/translatedStringFromObject";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { useCurrentLanguageTagStrings } from "../../../../lib/context/LocaleContext";
 
 const StyledTable = styled(HTMLTable)`
   background-color: rgba(255, 255, 255, 1);
@@ -44,17 +50,30 @@ export default function OSMTagTable(props: {
     >
       <StyledTableBody>
         {props.keys.map((k) => (
-          <tr key={k}>
-            <th>{k}</th>
-              <td>{props.feature.properties[k]}</td>
-              <td>
-                <Link href={`/composite/${ids}/${props.feature._id}/${k}/edit`}>
-                  <Button aria-label={t`Edit`} icon="edit" minimal small />
-                </Link>
-              </td>
-          </tr>
+          <OSMTagRow key={k} {...{ k, props, ids }} />
         ))}
       </StyledTableBody>
     </StyledTable>
   );
 }
+function OSMTagRow({ k: key, props, ids }: { k: string; props: { keys: string[]; feature: TypeTaggedOSMFeature; }; ids: string | string[]; }): JSX.Element {
+  const appToken = useCurrentAppToken();
+  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(appToken);
+  const value = props.feature.properties[key];
+  const keyAttribute = attributesById?.get(`osm:${key}`);
+  const valueAttribute = attributesById?.get(`osm:${key}=${value}`);
+  const languageTagStrings = useCurrentLanguageTagStrings();
+  const keyLabel = getLocalizedStringTranslationWithMultipleLocales(keyAttribute?.label, languageTagStrings);
+  const valueLabel = getLocalizedStringTranslationWithMultipleLocales(valueAttribute?.label, languageTagStrings) || value;
+
+  return <tr key={key}>
+    <th>{keyLabel}</th>
+    <td>{valueLabel}</td>
+    <td>
+      <Link href={`/composite/${ids}/${props.feature._id}/${key}/edit`}>
+        <Button aria-label={t`Edit`} icon="edit" minimal small />
+      </Link>
+    </td>
+  </tr>;
+}
+
