@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useDebugValue } from "react";
-import { useCurrentLanguageTagStrings } from "../../../../lib/context/LocaleContext";
+import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import useUserAgent from "../../../../lib/context/UserAgentContext";
 import useCategory from "../../../../lib/fetchers/useCategory";
 import { generateMapsUrl } from "../../../../lib/model/generateMapsUrls";

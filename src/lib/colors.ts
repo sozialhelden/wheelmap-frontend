@@ -15,6 +15,7 @@ const colors = {
   linkColor: "#2e6ce0",
   textColor: "#111",
   textColorTonedDown: null, // calculated below
+  textColorTonedDownSlightly: null, // calculated below
   textColorBrighter: "rgba(16, 16, 16, 0.8)",
   linkColorDarker: "#2163de",
   linkBackgroundColor: "rgb(218, 241, 255)",
@@ -78,6 +79,10 @@ colors.textColorTonedDown = interpolateLab(
   colors.tonedDownSelectedColor,
   colors.textColor
 )(0.5);
+colors.textColorTonedDownSlightly = interpolateLab(
+  colors.tonedDownSelectedColor,
+  colors.textColor
+)(0.6);
 
 export function coloredWhite(color: string, value: number = 0.5) {
   const labColor = hsl(color);

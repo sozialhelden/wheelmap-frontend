@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { t } from "ttag";
 import colors from "../../../lib/colors";
 import { useCurrentAppToken } from "../../../lib/context/AppContext";
-import { useCurrentLanguageTagStrings } from "../../../lib/context/LocaleContext";
+import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
 import { usePlaceInfo } from "../../../lib/fetchers/fetchOnePlaceInfo";
 import useCategory from "../../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";

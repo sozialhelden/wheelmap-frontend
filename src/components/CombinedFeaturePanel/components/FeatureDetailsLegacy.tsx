@@ -38,7 +38,7 @@ function Skeleton() {
   return <div className="bp3-skeleton">Loading...</div>;
 }
 
-const omittedKeyPrefixes = ["type", "name", "area"];
+const omittedKeyPrefixes = ["type", "name", "area", "opening_hours"];
 
 export default function FeatureDetails(props: Props) {
   const { featureId } = props;

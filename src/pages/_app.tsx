@@ -12,6 +12,13 @@ import { AppContext } from '../lib/context/AppContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { NextPage } from 'next';
 import { SessionContext, SessionProvider } from 'next-auth/react';
+import { HostnameContext } from '../lib/context/HostnameContext';
+import { LanguageTagContext } from '../lib/context/LanguageTagContext';
+import { uniq } from 'lodash';
+import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
+import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
+import CountryContext from '../lib/context/CountryContext';
+
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -24,14 +31,19 @@ type AppPropsWithLayout = AppProps & {
 interface ExtraProps {
   userAgentString?: string;
   app: App;
+  languageTags: ILanguageSubtag[];
+  ipCountryCode?: string;
 }
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const { userAgentString, app, session } = pageProps;
+  const { userAgentString, app, session, languageTags, ipCountryCode } = pageProps;
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
+    [HostnameContext, app.hostname],
+    [LanguageTagContext, { languageTags }],
+    [CountryContext, ipCountryCode]
   ];
 
   // Use the layout defined at the page level, if available
@@ -55,7 +67,18 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const { req, res } = ctx;
   const url = req ? req.url : location.href;
   const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
+  const languageTagStrings = req?.headers?.["accept-language"] ? parseAcceptLanguageString(req.headers["accept-language"]) : uniq([navigator.language, ...navigator.languages]);
+  const languageTags = languageTagStrings.map(parseLanguageTag);
+  res?.setHeader("Vary", "X-Lang, Content-Language");
+  if (languageTagStrings[0]) {
+    res?.setHeader("X-Lang", languageTagStrings[0]);
+    res?.setHeader("Content-Language", languageTagStrings.join(", "));
+  }
   const query = queryString.parseUrl(url).query;
+  const ipCountryCode = query.countryCode
+    || req?.headers?.["cf-ipcountry"]
+    || req?.headers?.["x-country-code"]
+    || languageTags.map(l => l.region).filter(Boolean)[0];
   const hostnameAndPort = query.appId || (req ? req.headers.host : location.hostname);
   if (typeof hostnameAndPort !== 'string') {
     throw new Error('Please supply only one appId query parameter.');
@@ -70,7 +93,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`);
   }
-  const pageProps = { userAgentString, app };
+  const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode };
   return { ...appProps, pageProps }
 }
 

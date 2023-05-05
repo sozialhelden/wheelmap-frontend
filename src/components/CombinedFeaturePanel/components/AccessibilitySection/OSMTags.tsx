@@ -22,7 +22,7 @@ export function OSMTags({ feature }: { feature: TypeTaggedOSMFeature; }) {
     const order = sortOrderMap.get(key);
     return order === undefined ? Infinity : order;
   });
-  const omittedKeyPrefixes = ["type", "name", "area"];
+  const omittedKeyPrefixes = ["type", "name", "area", "opening_hours:signed"];
   const filteredKeys = sortedKeys.filter(
     (key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix))
   );
