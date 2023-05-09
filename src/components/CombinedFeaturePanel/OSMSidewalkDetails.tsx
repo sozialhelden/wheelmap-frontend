@@ -2,7 +2,7 @@ import { t } from "ttag";
 import { TypeTaggedOSMFeature } from "../../lib/model/shared/AnyFeature";
 import FeatureNameHeader from "./components/FeatureNameHeader";
 import OSMTagTable from "./components/AccessibilitySection/OSMTagTable";
-import { OSMTags } from "./components/AccessibilitySection/OSMTags";
+import { OSMTagPanel } from "./components/AccessibilitySection/OSMTagPanel";
 import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRelevantOSMKey";
 import { isEqual } from "lodash";
 
@@ -14,6 +14,6 @@ export default function OSMSidewalkDetails({ feature }: { feature: TypeTaggedOSM
 
   return <section>
     <h4>{t`Sidewalks & Surroundings`}</h4>
-    <OSMTags feature={feature} />
+    <OSMTagPanel feature={feature} />
   </section>
 }

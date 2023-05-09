@@ -10,6 +10,7 @@ export default function FeatureImage({ feature }: { feature: OSMFeature }) {
     margin: "0 0 0 1rem",
     maxHeight: "3rem",
     maxWidth: "3rem",
+    borderRadius: '0.125rem',
   };
 
   const links = uniqBy(

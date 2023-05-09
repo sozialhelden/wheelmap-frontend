@@ -1,4 +1,4 @@
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
+import { AnyFeature, isOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 import FeatureAccessibility from "../../components/FeatureAccessibility";
 import FeatureContext from "../../components/FeatureContext";
 import FeatureNameHeader from "../../components/FeatureNameHeader";
@@ -8,6 +8,7 @@ import PhoneNumberLinks from "../../components/IconButtonList/PhoneNumberLinks";
 import PlaceWebsiteLink from "../../components/IconButtonList/PlaceWebsiteLink";
 import StyledIconButtonList from "../../components/IconButtonList/StyledIconButtonList";
 import FeatureImage from "../../components/image/FeatureImage";
+import WikimediaCommonsImage from "../../components/image/WikimediaCommonsImage";
 
 type Props = {
   feature: AnyFeature;
@@ -24,7 +25,9 @@ export default function PlaceOfInterestDetails(props: Props) {
             <FeatureImage feature={feature} />
           )}
         </FeatureNameHeader>
+
         <FeatureAccessibility feature={feature} />
+
         <StyledIconButtonList>
           <AddressMapsLinkItems feature={feature} />
           <PlaceWebsiteLink feature={feature} />

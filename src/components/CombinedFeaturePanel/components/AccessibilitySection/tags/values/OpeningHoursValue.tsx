@@ -78,6 +78,6 @@ export default function OpeningHoursValue(props: { value: string }) {
     </>;
   } catch (e) {
     console.error(e);
-    return value;
+    return <>value</>;
   }
 }

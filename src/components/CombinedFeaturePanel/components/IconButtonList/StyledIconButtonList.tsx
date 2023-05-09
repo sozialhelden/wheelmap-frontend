@@ -5,7 +5,7 @@ const StyledIconButtonList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  margin: 0 -8px;
+  margin: .5rem 0 0 0;
   padding: 0;
 
   li {

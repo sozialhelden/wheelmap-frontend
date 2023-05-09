@@ -19,6 +19,7 @@ export const accessibilityPrefixes = new Set([
   "changing_table",
   "charge",
   "crossing",
+  "cuisine",
   "cycleway",
   "deaf",
   "delivery",

@@ -114,12 +114,12 @@ export default function FeatureDetails(props: Props) {
           <FeatureImage feature={osmFeatureOrError} />
         </header>
 
-        <OSMTagTable keys={accessibilityRelevantKeys} feature={osmFeatureOrError} />
+        <OSMTagTable nestedTags={accessibilityRelevantKeys} feature={osmFeatureOrError} />
 
         <details>
           <summary>See OpenStreetMap information</summary>
           <h3>OSM tags</h3>
-          <OSMTagTable keys={remainingKeys} feature={osmFeatureOrError} />
+          <OSMTagTable nestedTags={remainingKeys} feature={osmFeatureOrError} />
           <UL className={LIST_UNSTYLED}>
             <ExternalFeatureLink
               href={`https://openstreetmap.org/${osmType}/${osmId}`}

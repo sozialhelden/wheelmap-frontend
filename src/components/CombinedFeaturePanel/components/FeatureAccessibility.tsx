@@ -1,5 +1,5 @@
 import { AnyFeature, isOSMFeature } from "../../../lib/model/shared/AnyFeature";
-import { OSMTags } from "./AccessibilitySection/OSMTags";
+import { OSMTagPanel } from "./AccessibilitySection/OSMTagPanel";
 
 type Props = {
   feature: AnyFeature;
@@ -8,7 +8,7 @@ type Props = {
 export default function FeatureAccessibility({ feature }: Props) {
   return (
     <>
-      {isOSMFeature(feature) && <OSMTags feature={feature} />}
+      {isOSMFeature(feature) && <OSMTagPanel feature={feature} />}
     </>
   );
 }
