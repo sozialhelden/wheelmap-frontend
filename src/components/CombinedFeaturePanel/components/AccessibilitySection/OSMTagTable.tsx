@@ -63,11 +63,17 @@ export const valueRenderFunctions: Record<
     (props) => <OpeningHoursValue value={props.value} />,
   "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
   "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "wheelchair:description(?:(\w\w))?": (props) => {
+  "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "([\w_]+):description(?:(\w\w))?": (props) => {
     const text = props.value;
-    const lang = props.matches[1];
+    const targetGroup = props.matches[1];
+    const lang = props.matches[2];
     return <p lang={lang}>{t`“${text}”`}</p>;
   },
+
 };
 
 export type TagOrTagGroup = {

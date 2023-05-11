@@ -14,6 +14,7 @@ export const tagsWithoutDisplayedKey = new Set([
   "wheelchair:description:en",
   "toilets:wheelchair",
   "internet_access:fee",
+  "acoustic:voice_description",
 ]);
 
 /**

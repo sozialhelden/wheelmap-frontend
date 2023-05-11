@@ -10,13 +10,15 @@ export const accessibilityPrefixes = new Set([
   "automatic_door",         // https://wiki.openstreetmap.org/wiki/Key:automatic_door
   "barrier",                // https://wiki.openstreetmap.org/wiki/Key:barrier
   "bicycle",                // https://wiki.openstreetmap.org/wiki/Key:bicycle
+  "electric_bicycle",       // https://wiki.openstreetmap.org/wiki/Key:electric_bicycle
   "blind",                  // https://wiki.openstreetmap.org/wiki/Key:blind
-  "blind:description",      // https://wiki.openstreetmap.org/wiki/Key:blind
   "braille",                // https://wiki.openstreetmap.org/wiki/Key:braille
   "building:levels",        // https://wiki.openstreetmap.org/wiki/Key:building
   "capacity",               // https://wiki.openstreetmap.org/wiki/Key:capacity
   "centralkey",             // https://wiki.openstreetmap.org/wiki/Key:centralkey
+  "baby_feeding",           // https://wiki.openstreetmap.org/wiki/Key:baby_feeding
   "changing_table",         // https://wiki.openstreetmap.org/wiki/Key:changing_table
+  "compressed_air",         // https://wiki.openstreetmap.org/wiki/Key:compressed_air
   "charge",                 // https://wiki.openstreetmap.org/wiki/Key:charge
   "crossing",               // https://wiki.openstreetmap.org/wiki/Key:crossing
   "cuisine",                // https://wiki.openstreetmap.org/wiki/Key:cuisine
@@ -74,6 +76,7 @@ export const accessibilityPrefixes = new Set([
   "step_count",             // https://wiki.openstreetmap.org/wiki/Key:step_count
   "stroller",               // https://wiki.openstreetmap.org/wiki/Key:stroller
   "surface",                // https://wiki.openstreetmap.org/wiki/Key:surface
+  "service:bicycle:pump",   // https://wiki.openstreetmap.org/wiki/Key:service:bicycle:pump
   // "surveillance",
   "tactile_paving",         // https://wiki.openstreetmap.org/wiki/Key:tactile_paving
   "tactile_writing",        // https://wiki.openstreetmap.org/wiki/Key:tactile_writing
