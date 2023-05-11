@@ -28,6 +28,7 @@ export const omittedKeyPrefixes = [
   "operator:wikidata",
   "payment:cryptocurrencies",
   "operator:short",
+  "operator:wikipedia",
 ];
 
 export const tagsWithSemicolonSupport = [
