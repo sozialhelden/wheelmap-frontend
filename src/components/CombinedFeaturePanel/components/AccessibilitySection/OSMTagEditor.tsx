@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import OSMFeature from "../../../../lib/model/osm/OSMFeature";
-import { getOSMType } from "../../../../lib/model/shared/generateOsmUrls";
 
 export function OSMTagEditor({ feature, tag, onChange, onSubmit }: { feature: OSMFeature; tag: string, onChange: (value: string) => void, onSubmit: () => void }) {
   const onChangeInput = React.useCallback((e) => {

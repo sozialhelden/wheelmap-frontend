@@ -1,26 +1,10 @@
+import { omittedKeyPrefixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
 import * as React from "react";
 import { isOSMFeature, TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
 import isAddressRelevantOSMKey from "../../../../lib/model/osm/isAddressRelevantOSMKey";
 import OSMTagTable, { TagOrTagGroup } from "./OSMTagTable";
 import { difference, get, groupBy, set, sortBy } from "lodash";
-
-const omittedKeyPrefixes = ["type", "name", "area", "opening_hours:signed", "opening_hours:covid19"];
-
-const pathsToConsumedTagKeys: [string, RegExp][] = [
-  ["payment.$1", /^payment:([\w_]+)$/],
-  ["payment.$1.$2", /^payment:([\w_]+):([\w_]+)$/],
-  ["diet.$1", /^diet:([\w_]+)$/],
-  ["diet.cuisine", /^cuisine$/],
-  ["seating.$1", /^(.*)_?seating$/],
-  ["internet.access", /^internet_access$/],
-  ["internet.$1", /^internet_access:([\w]+)$/],
-  ["entrance.$1.door", /^door:([\w]+)$/],
-  ["entrance.$1.door.automatic", /^automatic_door:([\w]+)$/],
-  ["entrance.step_count", /^step_count$/],
-  ["entrance.step_height", /^wheelchair:step_height$/],
-  ["$1", /(.*)/],
-];
 
 
 export interface ITreeNode {
@@ -48,8 +32,7 @@ function generateTree(keys: string[]): ITreeNode {
       const matches = key.match(keyRegExp);
       if (matches) {
         const path = key.replace(keyRegExp, bucketName);
-        tested.push(`${key} matched ${keyRegExp} -> ${bucketName} / ${path}`)
-        
+        tested.push(`${key} matched ${keyRegExp} -> ${bucketName} / ${path}`);
         set(result, path, get(result, path) || key);
         break;
       }
@@ -58,23 +41,6 @@ function generateTree(keys: string[]): ITreeNode {
   return result;
 }
 
-
-const sortOrderMap = new Map<string, number>([
-  ['name', 0 ],
-  ['wheelchair', 1 ],
-  ['wheelchair:description', 2 ],
-  ['wheelchair:toilets', 3 ],
-  ['toilets:wheelchair', 4 ],
-  ['toilets', 5],
-  ['opening_hours', 6],
-  ['opening_hours:covid19', 7],
-  ['opening_hours:signed', 8],
-  ['payment', 9],
-  ['diet', 10],
-  ['cuisine', 11],
-  ['internet_access', 12],
-  ['internet_access:fee', 13],
-]);
 
 function nest(tree: ITreeNode) {
   const entries = Object.entries(tree);
@@ -114,6 +80,7 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
   );
 
   const nestedTags = React.useMemo(() => nest(generateTree(accessibilityRelevantKeys)), [accessibilityRelevantKeys.join(',')]);
+
   return <OSMTagTable
     nestedTags={nestedTags} feature={feature}
   />;

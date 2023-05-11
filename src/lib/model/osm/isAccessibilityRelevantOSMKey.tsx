@@ -55,6 +55,8 @@ export const accessibilityPrefixes = new Set([
   "min_age",
   "opening_hours",
   "outdoor_seating",
+  "operator",
+  "indoor_seating",
   "parking",
   "payment",
   "ramp",
@@ -72,7 +74,7 @@ export const accessibilityPrefixes = new Set([
   "step_count",
   "stroller",
   "surface",
-  "surveillance",
+  // "surveillance",
   "tactile_paving",
   "tactile_writing",
   "takeaway",
@@ -86,6 +88,8 @@ export const accessibilityPrefixes = new Set([
   "wheelchair:description",
   "width",
   "winter_service",
+  "healthcare",
+  "healthcare:speciality",
 ]);
 
 export default function isAccessibilityRelevantOSMKey(osmKey: string): boolean {

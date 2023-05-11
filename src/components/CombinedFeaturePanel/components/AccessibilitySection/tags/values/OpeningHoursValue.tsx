@@ -69,6 +69,7 @@ export default function OpeningHoursValue(props: { value: string }) {
           {outputs[0]}
         </StyledMarkdown>
       </strong>
+
       {outputs.length > 1 && <>
         &nbsp;
         <StyledMarkdown inline={true} element='span'>
@@ -78,6 +79,6 @@ export default function OpeningHoursValue(props: { value: string }) {
     </>;
   } catch (e) {
     console.error(e);
-    return <>value</>;
+    return <>{value}</>;
   }
 }

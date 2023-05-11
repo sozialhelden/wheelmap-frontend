@@ -17,7 +17,7 @@ export function getAccessibilityAttributesURL(
   );
   const url = `${
     process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
-  }/accessibility-attributes.json?appToken=${
+  }/accessibility-attributes.json?limit=10000&appToken=${
     appToken
   }&include=${preferredLocales
     .map(l => l.string.replace(/-/, '_'))

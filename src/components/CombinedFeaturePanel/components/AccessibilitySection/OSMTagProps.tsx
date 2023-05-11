@@ -1,4 +1,5 @@
 import React from "react";
+import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
 
 
 export type OSMTagProps = {
@@ -9,4 +10,6 @@ export type OSMTagProps = {
   isEditable: boolean;
   editURL: string;
   shownDetailsLine: string;
+  keyAttribute: IAccessibilityAttribute;
+  valueAttribute: IAccessibilityAttribute;
 };

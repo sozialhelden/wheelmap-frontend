@@ -1,13 +1,16 @@
-import { Button, HTMLTable } from "@blueprintjs/core";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import colors from "../../../../lib/colors";
+import { useCurrentAppToken } from "../../../../lib/context/AppContext";
+import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
+import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { tagsWithSemicolonSupport } from "./config";
 import { getOSMTagProps } from "./getOSMTagProps";
 import { OSMTagTableRow } from "./OSMTagTableRow";
+import DisplayedQuantity from "./tags/values/DisplayedQuantity";
 import OpeningHoursValue from "./tags/values/OpeningHoursValue";
 
 const StyledTable = styled.table`
@@ -20,7 +23,7 @@ const StyledTable = styled.table`
   th {
     text-align: left;
     vertical-align: top;
-    padding-right: 1rem;
+    padding-right: 1rem !important;
   }
 
   th, td, tbody {
@@ -58,20 +61,14 @@ export const valueRenderFunctions: Record<
   opening_hours: (props) => <OpeningHoursValue value={props.value} />,
   "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)":
     (props) => <OpeningHoursValue value={props.value} />,
+  "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
+  "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
   "wheelchair:description(?:(\w\w))?": (props) => {
     const text = props.value;
     const lang = props.matches[1];
     return <p lang={lang}>{t`“${text}”`}</p>;
   },
 };
-
-export const editableKeys = new Set([
-  "wheelchair",
-  "wheelchair:description",
-  "wheelchair:description:de",
-  "wheelchair:description:en",
-  "toilets:wheelchair",
-]);
 
 export type TagOrTagGroup = {
   key: string;
@@ -87,16 +84,25 @@ export default function OSMTagTable(props: {
   const { ids, id } = router.query;
   const { feature } = props;
 
+  const appToken = useCurrentAppToken();
+  const languageTags = useCurrentLanguageTagStrings();
+  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(languageTags, appToken);
+
   return (
     <StyledTable>
       {props.nestedTags.map(({ key, children }) => {
-        const tagProps = getOSMTagProps({ key, feature, ids });
-        if (children?.length) {
-          const nestedTable = <OSMTagTable feature={feature} nestedTags={children} />;
-          return <OSMTagTableRow {...tagProps} valueElement={nestedTable} />;
-        } else {
-          return <OSMTagTableRow {...tagProps} />;
-        }
+        const originalOSMTagValue = feature.properties[key] || "";
+        const tagValues = tagsWithSemicolonSupport.includes(key) ? (originalOSMTagValue?.split(';') || []) : [originalOSMTagValue];
+        return tagValues.map((singleValue) => {
+          const matchedKey = Object.keys(valueRenderFunctions).find((renderFunctionKey) => key.match(renderFunctionKey));
+          const tagProps = getOSMTagProps({ key, matchedKey, singleValue, ids, currentId: feature._id, appToken, languageTags, attributesById });
+          if (children?.length) {
+            const nestedTable = <OSMTagTable key={singleValue} feature={feature} nestedTags={children} />;
+            return <OSMTagTableRow key={singleValue} {...tagProps} valueElement={nestedTable} />;
+          } else {
+            return <OSMTagTableRow key={singleValue} {...tagProps} />;
+          }
+        })
       })}
     </StyledTable>
   );
