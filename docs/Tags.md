@@ -81,3 +81,8 @@ diet:vegetarian=yes
 opening_hours
 outdoor_seating=no
 payment:cash=yes
+
+// Saabrigge
+
+outdoor_seating:pedestrian_zone
+outdoor_seating

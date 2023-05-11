@@ -1,0 +1,286 @@
+[
+  {
+    "_id": "osm:gay",
+    "shortLabel": {
+      "en": "LGBTQ",
+      "de": "LGBTQ"
+    }
+  },
+  {
+    "_id": "osm:gay=yes",
+    "shortLabel": {
+      "en": "For gays",
+      "de": "Für gays"
+    }
+  },
+  {
+    "_id": "osm:gay=primary",
+    "shortLabel": {
+      "en": "Primarily gay",
+      "de": "Mehrheitlich gay"
+    }
+  },
+  {
+    "_id": "osm:gay=welcome"
+  },
+
+  {
+    "_id": "osm:gay:men=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:gay:men=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:gay:men=yes",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:gay:women=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:gay:women=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:gay:women=yes",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lesbian",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lesbian=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lesbian=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lesbian=yes",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lesbian=friendly",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:women=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:women=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:men=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:men=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bi=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bi=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bisexual=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bisexual=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:trans=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:trans=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:transgender=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:transgender=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:cis=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:cis=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:cisgender=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:cisgender=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:queer=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:queer=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bears=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:bears=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:women*=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:women*=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:flinta*=primary",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  },
+  {
+    "_id": "osm:lgbtq:flinta*=only",
+    "shortLabel": {
+      "en": "",
+      "de": ""
+    }
+  }
+]

@@ -26,7 +26,9 @@ const StyledTable = styled.table`
     padding-right: 1rem !important;
   }
 
-  th, td, tbody {
+  th,
+  td,
+  tbody {
     p:first-child {
       margin-top: 0;
     }
@@ -41,7 +43,8 @@ const StyledTable = styled.table`
     border-spacing: 0px;
     border-collapse: separate;
 
-    th, td {
+    th,
+    td {
       padding: 0;
       margin: 0;
       border: none;
@@ -59,28 +62,33 @@ export const valueRenderFunctions: Record<
   (props: ValueRenderProps) => React.ReactNode
 > = {
   opening_hours: (props) => <OpeningHoursValue value={props.value} />,
-  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)":
-    (props) => <OpeningHoursValue value={props.value} />,
-  "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "([\w_]+):description(?:(\w\w))?": (props) => {
+  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)": (
+    props
+  ) => <OpeningHoursValue value={props.value} />,
+  step_height: (props) => (
+    <DisplayedQuantity value={props.value} defaultUnit="cm" />
+  ),
+  entrance_width: (props) => (
+    <DisplayedQuantity value={props.value} defaultUnit="cm" />
+  ),
+  width: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  height: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  depth: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  amperage: (props) => (
+    <DisplayedQuantity value={props.value} defaultUnit="A" />
+  ),
+  "([w_]+):description(?:(ww))?": (props) => {
     const text = props.value;
     const targetGroup = props.matches[1];
     const lang = props.matches[2];
     return <p lang={lang}>{t`“${text}”`}</p>;
   },
-
 };
 
 export type TagOrTagGroup = {
   key: string;
   children: TagOrTagGroup[];
-}
-
+};
 
 export default function OSMTagTable(props: {
   nestedTags: TagOrTagGroup[];
@@ -92,23 +100,51 @@ export default function OSMTagTable(props: {
 
   const appToken = useCurrentAppToken();
   const languageTags = useCurrentLanguageTagStrings();
-  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(languageTags, appToken);
+  const {
+    data: attributesById,
+    isValidating,
+  } = useAccessibilityAttributesIdMap(languageTags, appToken);
 
   return (
     <StyledTable>
       {props.nestedTags.map(({ key, children }) => {
         const originalOSMTagValue = feature.properties[key] || "";
-        const tagValues = tagsWithSemicolonSupport.includes(key) ? (originalOSMTagValue?.split(';') || []) : [originalOSMTagValue];
+        const tagValues = tagsWithSemicolonSupport.includes(key)
+          ? originalOSMTagValue?.split(";") || []
+          : [originalOSMTagValue];
         return tagValues.map((singleValue) => {
-          const matchedKey = Object.keys(valueRenderFunctions).find((renderFunctionKey) => key.match(renderFunctionKey));
-          const tagProps = getOSMTagProps({ key, matchedKey, singleValue, ids, currentId: feature._id, appToken, languageTags, attributesById });
+          const matchedKey = Object.keys(
+            valueRenderFunctions
+          ).find((renderFunctionKey) => key.match(renderFunctionKey));
+          const tagProps = getOSMTagProps({
+            key,
+            matchedKey,
+            singleValue,
+            ids,
+            currentId: feature._id,
+            appToken,
+            languageTags,
+            attributesById,
+          });
           if (children?.length) {
-            const nestedTable = <OSMTagTable key={singleValue} feature={feature} nestedTags={children} />;
-            return <OSMTagTableRow key={singleValue} {...tagProps} valueElement={nestedTable} />;
+            const nestedTable = (
+              <OSMTagTable
+                key={singleValue}
+                feature={feature}
+                nestedTags={children}
+              />
+            );
+            return (
+              <OSMTagTableRow
+                key={singleValue}
+                {...tagProps}
+                valueElement={nestedTable}
+              />
+            );
           } else {
             return <OSMTagTableRow key={singleValue} {...tagProps} />;
           }
-        })
+        });
       })}
     </StyledTable>
   );

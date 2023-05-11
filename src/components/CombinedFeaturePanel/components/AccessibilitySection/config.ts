@@ -38,12 +38,14 @@ export const tagsWithSemicolonSupport = [
   "cuisine",
   "healthcare:speciality",
   "operator",
-  "level"
+  "level",
+  "crossing",
 ];
 
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["payment.$1", /^payment:([\w_]+)$/],
   ["payment.$1.$2", /^payment:([\w_]+):([\w_]+)$/],
+  ["description.payment$1", /^payment:([\w_]+)$/],
   ["diet.$1", /^diet:([\w_]+)$/],
   ["diet.cuisine", /^cuisine$/],
   ["seating.$1", /^(.*)_?seating$/],
@@ -62,6 +64,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["entrance.width", /^wheelchair:entrance_width$/],
   ["access.note", /^access:note$/],
   ["healthcare.speciality", /^healthcare:speciality$/],
+  ["healthcare.dispensing", /^dispensing$/],
   ["capacity.total", /^capacity$/],
   ["capacity.$1", /^capacity:([\w_]+)$/],
   ["audience", /^unisex|male|female|child$/],
@@ -70,22 +73,22 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
 ];
 
 export const sortOrderMap = new Map<string, number>([
-  ['name', 0 ],
-  ['description', 0.5 ],
-  ['wheelchair', 1 ],
-  ['wheelchair:description', 2 ],
-  ['wheelchair:toilets', 3 ],
-  ['toilets:wheelchair', 4 ],
-  ['toilets', 5],
-  ['level', 5.5 ],
-  ['opening_hours', 6],
-  ['opening_hours:covid19', 7],
-  ['opening_hours:signed', 8],
-  ['payment', 9],
-  ['diet', 10],
-  ['cuisine', 11],
-  ['internet_access', 12],
-  ['internet_access:fee', 13],
+  ["name", 0],
+  ["description", 0.5],
+  ["wheelchair", 1],
+  ["wheelchair:description", 2],
+  ["wheelchair:toilets", 3],
+  ["toilets:wheelchair", 4],
+  ["toilets", 5],
+  ["level", 5.5],
+  ["opening_hours", 6],
+  ["opening_hours:covid19", 7],
+  ["opening_hours:signed", 8],
+  ["payment", 9],
+  ["diet", 10],
+  ["cuisine", 11],
+  ["internet_access", 12],
+  ["internet_access:fee", 13],
 ]);
 
 export const editableKeys = new Set([
