@@ -83,8 +83,12 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["capacity.total", /^capacity$/],
   ["capacity.$1", /^capacity:([\w_]+)$/],
   [
-    "audience",
-    /^unisex|male|female|child|gay|lgbtq|men|women|gay:men|gay:women|lesbian|lgbtq:women|lgbtq:men|lgbtq:bi|lgbtq:trans|lgbtq:bears|lgbtq:flinta*|lgbtq:women*|lgbtq:transgender|lgbtq:bisexual|lgbtq:queer$/,
+    "audience.$1",
+    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer)$/,
+  ],
+  [
+    "audience.$1.$2",
+    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer):(.*)$/,
   ],
   ["toilets.$1", /^toilets:([\w_]+)$/],
   ["information.tactile_writing.$1.$2", /^tactile_writing:([\w_]+):([\w_]+)$/],

@@ -66,6 +66,7 @@ export const accessibilityPrefixes = new Set([
   "indoor_seating",         // https://wiki.openstreetmap.org/wiki/Key:indoor_seating
   "parking",                // https://wiki.openstreetmap.org/wiki/Key:parking
   "payment",                // https://wiki.openstreetmap.org/wiki/Key:payment
+  "queer",                  // https://wiki.openstreetmap.org/wiki/Key:queer
   "ramp",                   // https://wiki.openstreetmap.org/wiki/Key:ramp
   "represented_date",       // https://wiki.openstreetmap.org/wiki/Key:represented_date
   "reservation",            // https://wiki.openstreetmap.org/wiki/Key:reservation

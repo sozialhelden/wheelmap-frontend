@@ -79,7 +79,8 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
     addressRelevantKeys
   );
 
-  const nestedTags = React.useMemo(() => nest(generateTree(accessibilityRelevantKeys)), [accessibilityRelevantKeys.join(',')]);
+  const tree = React.useMemo(() => generateTree(accessibilityRelevantKeys), [feature]);
+  const nestedTags = React.useMemo(() => nest(tree), [tree]);
 
   return <OSMTagTable
     nestedTags={nestedTags} feature={feature}
