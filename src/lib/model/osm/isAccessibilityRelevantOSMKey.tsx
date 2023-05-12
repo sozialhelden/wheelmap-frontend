@@ -16,6 +16,7 @@ export const accessibilityPrefixes = new Set([
   "building:levels",        // https://wiki.openstreetmap.org/wiki/Key:building
   "capacity",               // https://wiki.openstreetmap.org/wiki/Key:capacity
   "centralkey",             // https://wiki.openstreetmap.org/wiki/Key:centralkey
+  "community_centre",       // https://wiki.openstreetmap.org/wiki/Key:community_centre
   "baby_feeding",           // https://wiki.openstreetmap.org/wiki/Key:baby_feeding
   "changing_table",         // https://wiki.openstreetmap.org/wiki/Key:changing_table
   "compressed_air",         // https://wiki.openstreetmap.org/wiki/Key:compressed_air
