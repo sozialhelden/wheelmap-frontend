@@ -6,7 +6,7 @@ import { EditButton } from "./EditButton";
 
 export function OSMTagListElement(
   {
-    key, hasDisplayedKey, keyLabel, valueElement: valueLabel, isEditable, editURL, shownDetailsLine,
+    key, hasDisplayedKey, keyLabel, valueElement: valueLabel, isEditable, editURL, valueDetails: shownDetailsLine,
   }: OSMTagProps
 ) {
   return (

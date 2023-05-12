@@ -9,7 +9,8 @@ export type OSMTagProps = {
   valueElement: React.ReactNode;
   isEditable: boolean;
   editURL: string;
-  shownDetailsLine: string;
-  keyAttribute: IAccessibilityAttribute;
-  valueAttribute: IAccessibilityAttribute;
+  valueDetails?: string;
+  keyDetails?: string;
+  keyAttribute?: IAccessibilityAttribute;
+  valueAttribute?: IAccessibilityAttribute;
 };

@@ -34,9 +34,10 @@ export function getOSMTagProps(
       localize(valueAttribute?.shortLabel, languageTags) ||
       singleValue;
   }
-  const summary = localize(valueAttribute?.summary, languageTags);
-  const details = localize(valueAttribute?.details, languageTags);
-  const shownDetailsLine = details || (!valueLabel && summary);
+  const valueSummary = localize(valueAttribute?.summary, languageTags);
+  const valueDetails = localize(valueAttribute?.details, languageTags) || (!valueLabel && valueSummary);
+  const keySummary = localize(keyAttribute?.summary, languageTags);
+  const keyDetails = localize(keyAttribute?.details, languageTags) || (!keyLabel && keySummary);
   const hasDisplayedKey = !!keyLabel && !tagsWithoutDisplayedKey.has(key);
   const isEditable = editableKeys.has(key);
   const editURL = `/composite/${ids}/${currentId}/${key}/edit`;
@@ -49,7 +50,8 @@ export function getOSMTagProps(
     valueElement: valueLabel,
     isEditable,
     editURL,
-    shownDetailsLine,
+    valueDetails,
+    keyDetails,
   };
   return tagProps;
 }
