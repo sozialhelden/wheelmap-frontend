@@ -62,22 +62,17 @@ export const valueRenderFunctions: Record<
   (props: ValueRenderProps) => React.ReactNode
 > = {
   opening_hours: (props) => <OpeningHoursValue value={props.value} />,
-  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)": (
-    props
-  ) => <OpeningHoursValue value={props.value} />,
-  step_height: (props) => (
-    <DisplayedQuantity value={props.value} defaultUnit="cm" />
-  ),
-  entrance_width: (props) => (
-    <DisplayedQuantity value={props.value} defaultUnit="cm" />
-  ),
-  width: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  height: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  depth: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  amperage: (props) => (
-    <DisplayedQuantity value={props.value} defaultUnit="A" />
-  ),
-  "([w_]+):description(?:(ww))?": (props) => {
+  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)":
+    (props) => <OpeningHoursValue value={props.value} />,
+  "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
+  "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
+  "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "(?:socket:([\w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
+  "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
+  "([\w_]+):description(?:(\w\w))?": (props) => {
     const text = props.value;
     const targetGroup = props.matches[1];
     const lang = props.matches[2];
