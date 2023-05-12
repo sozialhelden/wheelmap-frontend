@@ -1,0 +1,16 @@
+[
+  { 
+    "_id": "osm:min_age",
+    "shortLabel": {
+      "en": "Minimum age",
+      "de": "Mindestalter"
+    }    
+  },
+  {
+    "_id": "osm:max_age",
+    "shortLabel": {
+      "en": "Maximum age",
+      "de": "Höchstalter"
+    }
+  }
+]

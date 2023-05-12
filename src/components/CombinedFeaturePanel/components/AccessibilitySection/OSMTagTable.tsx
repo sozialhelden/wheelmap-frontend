@@ -74,6 +74,7 @@ export const valueRenderFunctions: Record<
   "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
+  "kerb:height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "(?:([\w_]+):)?description(?:(\w\w))?": (props) => {
     const text = props.value;
     const targetGroup = props.matches[1];

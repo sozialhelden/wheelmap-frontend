@@ -98,6 +98,10 @@ export const tagsWithSemicolonSupport = [
   "diet",
   "cuisine",
   "healthcare:speciality",
+  "information",
+  "kerb",
+  "curb",
+  "material",
   "operator",
   "level",
   "crossing",
@@ -188,7 +192,6 @@ export const sortOrderMap = new Map<string, number>([
   ['opening_hours', 6],
   ['opening_hours:covid19', 7],
   ['opening_hours:signed', 8],
-
   ['diet', 9.01],
   ['seating', 9.1],
   ['reservation', 9.15],
@@ -198,17 +201,13 @@ export const sortOrderMap = new Map<string, number>([
   ['cuisine', 9.6],
   ['internet_access', 9.7],
   ['internet_access:fee', 9.8],
-
   ['charging', 14],
   ['amperage', 15],
   ['voltage', 16],
   ['socket', 17],
-
   ['color', 800],
   ['material', 801],
-
   ['operator', 1000000000],
-
   ['smoking', 10000000],
 ]);
 
