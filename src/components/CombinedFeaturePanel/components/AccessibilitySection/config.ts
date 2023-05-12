@@ -67,7 +67,10 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["healthcare.dispensing", /^dispensing$/],
   ["capacity.total", /^capacity$/],
   ["capacity.$1", /^capacity:([\w_]+)$/],
-  ["audience", /^unisex|male|female|child$/],
+  [
+    "audience",
+    /^unisex|male|female|child|gay|lgbtq|men|women|gay:men|gay:women|lesbian|lgbtq:women|lgbtq:men|lgbtq:bi|lgbtq:trans|lgbtq:bears|lgbtq:flinta*|lgbtq:women*|lgbtq:transgender|lgbtq:bisexual|lgbtq:queer$/,
+  ],
   ["toilets.$1", /^toilets:([\w_]+)$/],
   ["$1", /(.*)/],
 ];

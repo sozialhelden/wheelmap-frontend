@@ -1,12 +1,5 @@
 [
   {
-    "_id": "osm:gay",
-    "shortLabel": {
-      "en": "LGBTQ",
-      "de": "LGBTQ"
-    }
-  },
-  {
     "_id": "osm:gay=yes",
     "shortLabel": {
       "en": "For gays",
@@ -21,210 +14,213 @@
     }
   },
   {
-    "_id": "osm:gay=welcome"
+    "_id": "osm:gay=welcome",
+    "shortLabel": {
+      "en": "Gays welcome",
+      "de": "Gays willkommen"
+    }
   },
-
   {
     "_id": "osm:gay:men=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for gay men",
+      "de": "Mauptsächlich für Schwule"
     }
   },
   {
     "_id": "osm:gay:men=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Gay men only",
+      "de": "Nur für Schwule"
     }
   },
   {
     "_id": "osm:gay:men=yes",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "For gay men",
+      "de": "Für Schwule"
     }
   },
   {
     "_id": "osm:gay:women=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for lesbians",
+      "de": "Mauptsächlich für Lesben"
     }
   },
   {
     "_id": "osm:gay:women=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Lesbians only",
+      "de": "Nur für Lesben"
     }
   },
   {
     "_id": "osm:gay:women=yes",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "For Lesbians",
+      "de": "Für Lesben"
     }
   },
   {
     "_id": "osm:lesbian",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Lesbian",
+      "de": "Lesben"
     }
   },
   {
     "_id": "osm:lesbian=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for lesbians",
+      "de": "Mauptsächlich für Lesben"
     }
   },
   {
     "_id": "osm:lesbian=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Lesbians only",
+      "de": "Nur für Lesben"
     }
   },
   {
     "_id": "osm:lesbian=yes",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "For Lesbians",
+      "de": "Für Lesben"
     }
   },
   {
     "_id": "osm:lesbian=friendly",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Lesbian-friendly",
+      "de": "Lesben-freundlich"
     }
   },
   {
     "_id": "osm:lgbtq=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily LGBTQ",
+      "de": "Mehrheitlich LGBTQ"
     }
   },
   {
     "_id": "osm:lgbtq=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "LGBTQ only",
+      "de": "Nur für LGBTQ"
     }
   },
   {
     "_id": "osm:lgbtq:women=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarliy LGBTQ women",
+      "de": "Mehrheitlich LGBTQ Frauen"
     }
   },
   {
     "_id": "osm:lgbtq:women=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "LGBTQ women only",
+      "de": "Nur für LGBTQ Frauen"
     }
   },
   {
     "_id": "osm:lgbtq:men=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarliy LGBTQ men",
+      "de": "Mehrheitlich LGBTQ Männer"
     }
   },
   {
     "_id": "osm:lgbtq:men=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "LGBTQ men only",
+      "de": "Nur für LGBTQ Männer"
     }
   },
   {
     "_id": "osm:lgbtq:bi=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarliy bisexual",
+      "de": "Mehrheitlich Bisexuell"
     }
   },
   {
     "_id": "osm:lgbtq:bi=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Bisexual only",
+      "de": "Nur Bisexuell"
     }
   },
   {
     "_id": "osm:lgbtq:bisexual=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarliy bisexual",
+      "de": "Mehrheitlich Bisexuelle"
     }
   },
   {
     "_id": "osm:lgbtq:bisexual=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Bisexual only",
+      "de": "Nur Bisexuell"
     }
   },
   {
     "_id": "osm:lgbtq:trans=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for transgender",
+      "de": "Mehrheitlich für transgender"
     }
   },
   {
     "_id": "osm:lgbtq:trans=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Transgender only",
+      "de": "Nur für transgender"
     }
   },
   {
     "_id": "osm:lgbtq:transgender=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for transgender",
+      "de": "Mehrheitlich für transgender"
     }
   },
   {
     "_id": "osm:lgbtq:transgender=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Transgender only",
+      "de": "Nur für transgender"
     }
   },
   {
     "_id": "osm:lgbtq:cis=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for cisgender",
+      "de": "Mehrheitlich für cisgender"
     }
   },
   {
     "_id": "osm:lgbtq:cis=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Cisgender only",
+      "de": "Nur für Cisgender"
     }
   },
   {
     "_id": "osm:lgbtq:cisgender=primary",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Primarily for cisgender",
+      "de": "Mehrheitlich für cisgender"
     }
   },
   {
     "_id": "osm:lgbtq:cisgender=only",
     "shortLabel": {
-      "en": "",
-      "de": ""
+      "en": "Cisgender only",
+      "de": "Nur für Cisgender"
     }
   },
   {
