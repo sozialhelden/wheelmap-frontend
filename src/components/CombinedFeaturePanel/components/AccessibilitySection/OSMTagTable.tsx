@@ -6,9 +6,9 @@ import { useCurrentAppToken } from "../../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { OSMTagTableRow } from "./OSMTagTableRow";
 import { tagsWithSemicolonSupport } from "./config";
 import { getOSMTagProps } from "./getOSMTagProps";
-import { OSMTagTableRow } from "./OSMTagTableRow";
 import DisplayedQuantity from "./tags/values/DisplayedQuantity";
 import OpeningHoursValue from "./tags/values/OpeningHoursValue";
 
