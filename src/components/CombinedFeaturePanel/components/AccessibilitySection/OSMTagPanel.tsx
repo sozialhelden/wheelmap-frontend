@@ -1,4 +1,4 @@
-import { omittedKeyPrefixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
+import { omittedKeyPrefixes, omittedKeySuffixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
 import * as React from "react";
 import { isOSMFeature, TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
@@ -32,8 +32,13 @@ function generateTree(keys: string[]): ITreeNode {
       const matches = key.match(keyRegExp);
       if (matches) {
         const path = key.replace(keyRegExp, bucketName);
-        tested.push(`${key} matched ${keyRegExp} -> ${bucketName} / ${path}`);
-        set(result, path, get(result, path) || key);
+        const parentPath = path.replace(/\.[^.]+$/, '');
+        const existingParent = get(result, parentPath);
+        const newObject = typeof existingParent === 'string' ? existingParent : key;
+        set(result, path, newObject);
+        // console.log(`${key} matched ${keyRegExp} -> ${bucketName}, existing:`, existingParent, `new:`, newObject);
+        // console.log(`Assigned`, path, '=', newObject);
+        // console.log(`Result`, result);
         break;
       }
     }
@@ -46,7 +51,7 @@ function nest(tree: ITreeNode) {
   const entries = Object.entries(tree);
   const sortedEntries = sortBy(entries, ([key]) => {
     const order = sortOrderMap.get(key);
-    return order === undefined ? Infinity : order;
+    return order === undefined ? 100000 : order;
   });
 
   return sortedEntries.map(([k, v]) => {
@@ -63,9 +68,9 @@ export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
     return null;
   }
   const filteredKeys = React.useMemo(
-    () => Object.keys(feature.properties).filter(
-      (key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix))
-    ),
+    () => Object.keys(feature.properties)
+      .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
+      .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix))),
     [feature],
   );
   const accessibilityRelevantKeys = filteredKeys.filter(

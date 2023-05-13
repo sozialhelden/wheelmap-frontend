@@ -13,7 +13,15 @@ export const accessibilityPrefixes = new Set([
   "electric_bicycle",       // https://wiki.openstreetmap.org/wiki/Key:electric_bicycle
   "blind",                  // https://wiki.openstreetmap.org/wiki/Key:blind
   "braille",                // https://wiki.openstreetmap.org/wiki/Key:braille
-  "building:levels",        // https://wiki.openstreetmap.org/wiki/Key:building
+  "building",               // https://wiki.openstreetmap.org/wiki/Key:building
+  "building:part",
+  "building:colour",
+  "building:max_level",
+  "building:min_level",
+  "max_level",
+  "min_level",
+  "building:flats",
+  "building:levels",
   "capacity",               // https://wiki.openstreetmap.org/wiki/Key:capacity
   "centralkey",             // https://wiki.openstreetmap.org/wiki/Key:centralkey
   "community_centre",       // https://wiki.openstreetmap.org/wiki/Key:community_centre
@@ -67,12 +75,11 @@ export const accessibilityPrefixes = new Set([
   "indoor_seating",         // https://wiki.openstreetmap.org/wiki/Key:indoor_seating
   "parking",                // https://wiki.openstreetmap.org/wiki/Key:parking
   "payment",                // https://wiki.openstreetmap.org/wiki/Key:payment
+  "power_supply",           // https://wiki.openstreetmap.org/wiki/Key:power_supply
   "queer",                  // https://wiki.openstreetmap.org/wiki/Key:queer
   "ramp",                   // https://wiki.openstreetmap.org/wiki/Key:ramp
-  "represented_date",       // https://wiki.openstreetmap.org/wiki/Key:represented_date
   "reservation",            // https://wiki.openstreetmap.org/wiki/Key:reservation
   "room",                   // https://wiki.openstreetmap.org/wiki/Key:room
-  "scale",                  // https://wiki.openstreetmap.org/wiki/Key:scale
   "self_service",           // https://wiki.openstreetmap.org/wiki/Key:self_service
   "sidewalk",               // https://wiki.openstreetmap.org/wiki/Key:sidewalk
   "sloped_curb",            // https://wiki.openstreetmap.org/wiki/Key:sloped_curb
@@ -80,6 +87,7 @@ export const accessibilityPrefixes = new Set([
   "smoking",                // https://wiki.openstreetmap.org/wiki/Key:smoking
   "smoothness",             // https://wiki.openstreetmap.org/wiki/Key:smoothness
   "socket",                 // https://wiki.openstreetmap.org/wiki/Key:socket
+  "social_facility",        // https://wiki.openstreetmap.org/wiki/Key:social_facility
   "speech_input",           // https://wiki.openstreetmap.org/wiki/Key:speech_input
   "speech_output",          // https://wiki.openstreetmap.org/wiki/Key:speech_output
   "step_count",             // https://wiki.openstreetmap.org/wiki/Key:step_count

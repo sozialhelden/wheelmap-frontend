@@ -5,7 +5,6 @@ import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRe
 import { TypeTaggedOSMFeature } from "../../lib/model/shared/AnyFeature";
 import FeatureAccessibility from "./components/FeatureAccessibility";
 import FeatureNameHeader from "./components/FeatureNameHeader";
-import WikimediaCommonsImage from "./components/image/WikimediaCommonsImage";
 
 export default function OSMBuildingDetails({ feature }: { feature: TypeTaggedOSMFeature }) {
   const keys = Object.keys(feature.properties).filter(isAccessibilityRelevantOSMKey);
@@ -14,7 +13,7 @@ export default function OSMBuildingDetails({ feature }: { feature: TypeTaggedOSM
   }
 
   return <section>
-    <p>{t`Probably inside…`}</p>
+    <h4>{t`Probably inside…`}</h4>
     <Card>
       <FeatureNameHeader feature={feature} size="small" />
       <FeatureAccessibility feature={feature} compact />

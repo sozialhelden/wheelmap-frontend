@@ -6,16 +6,50 @@
  *
  * The value-specific labels usually are displayed as full sentences.
  */
-export const tagsWithoutDisplayedKey = new Set([
+export const tagsWithoutDisplayedKeySet = new Set([
   "wheelchair",
   "description",
   "wheelchair:description",
   "wheelchair:description:de",
   "wheelchair:description:en",
   "toilets:wheelchair",
+  "internet_access",
   "internet_access:fee",
   "acoustic:voice_description",
+  "sidewalk",
+  "tactile_paving",
+  "kerb",
+  "bicycle",
+  "entrance",
+  "crossing",
+  "crossing:island",
+  "unisex",
+  "male",
+  "female",
+  "queer",
+  "toilets",
+  "toilets:disposal",
+  "fee",
+  "supervised",
+  "changing_table",
+  "cuisine",
+  "outdoor_seating",
+  "indoor_seating",
+  "healthcare:speciality",
+  "air_conditioning",
+  "takeaway",
+  "social_facility",
+  "social_facility:for",
+  "community_centre:for",
+  "community_centre",
+  "delivery",
+  "reservation",
+  "offer",
+  "self_service",
+  "building",
 ]);
+
+export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/
 
 /**
  * These tags are not displayed in the accessibility section.
@@ -27,7 +61,6 @@ export const omittedKeyPrefixes = [
   "opening_hours:signed", // Unclear semantics for visitors
   "opening_hours:covid19", // Not relevant enough right now. Just tested in western countries for now, might need to be added later
   "operator:wikidata",
-  "payment:cryptocurrencies",
   "operator:short",
   "operator:wikipedia",
   "toilets:position",
@@ -35,6 +68,14 @@ export const omittedKeyPrefixes = [
   "delivery:covid19",
   "bicycle:air",
   "operator:type",
+  "tactile_paving",
+  "payment:cryptocurrencies",
+  "building:height",
+  "building:levels:underground",
+];
+
+export const omittedKeySuffixes = [
+
 ];
 
 export const tagsWithSemicolonSupport = [
@@ -52,14 +93,22 @@ export const tagsWithSemicolonSupport = [
   "toilets:position",
   "voltage",
   "healthcare",
+  "community_centre",
+  "community_centre:for",
+  "social_facility",
+  "social_facility:for",
 ];
 
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
+  ["building.type", /^building$/],
+  ["building.$1", /^building:([\w_]+)$/],
+  ["building.$1_level", /^(min|max)_level$/],
   ["payment.$1", /^payment:([\w_]+)$/],
   ["payment.$1.$2", /^payment:([\w_]+):([\w_]+)$/],
   ["description.payment$1", /^payment:([\w_]+)$/],
   ["payment.description.$1", /^description:payment:([\w_]+)$/],
   ["payment.description", /^description:payment$/],
+  ["payment.fee", /^fee$/],
   ["diet.$1", /^diet:([\w_]+)$/],
   ["diet.cuisine", /^cuisine$/],
   ["seating.$1", /^(.*)_?seating$/],
@@ -84,12 +133,13 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["capacity.$1", /^capacity:([\w_]+)$/],
   [
     "audience.$1",
-    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer)$/,
+    /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer|community_centre:for)$/,
   ],
   [
     "audience.$1.$2",
     /^(unisex|male|female|child|gay|lgbtq|men|women|gay|lgbtq|queer):(.*)$/,
   ],
+  ["audience.$1", /^(social_facility|community_centre):for$/],
   ["toilets.$1", /^toilets:([\w_]+)$/],
   ["information.tactile_writing.$1.$2", /^tactile_writing:([\w_]+):([\w_]+)$/],
   ["information.speech_output.$1", /^speech_output:([\w_]+)$/],
@@ -97,7 +147,12 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["information.braille", /^braille$/],
   ["socket.$1.count", /^socket:([\w_]+)$/],
   ["socket.$1.$2", /^socket:([\w_]+):([\w_]+)$/],
+  ["sidewalk.sidewalk:$1", /^sidewalk:([\w_]+)$/],
+  ["sidewalk.sidewalk:$1.$2", /^sidewalk:([\w_]+):([\w_]+)$/],
+  ["crossing.1", /^crossing$/],
+  ["crossing.$1", /^crossing:([\w_]+)$/],
   ["$1", /(.*)/],
+  ["description.$1", /^description:([\w_]+)$/],
 ];
 
 export const sortOrderMap = new Map<string, number>([
@@ -108,19 +163,28 @@ export const sortOrderMap = new Map<string, number>([
   ['wheelchair:toilets', 3 ],
   ['toilets:wheelchair', 4 ],
   ['toilets', 5],
+  ['building', 5.1 ],
+  ['building:use', 5.2 ],
   ['level', 5.5 ],
   ['opening_hours', 6],
   ['opening_hours:covid19', 7],
   ['opening_hours:signed', 8],
-  ['payment', 9],
-  ['diet', 10],
-  ['cuisine', 11],
-  ['internet_access', 12],
-  ['internet_access:fee', 13],
+
+  ['diet', 9.01],
+  ['seating', 9.1],
+  ['reservation', 9.15],
+  ['takeaway', 9.2],
+  ['delivery', 9.3],
+  ['payment', 9.4],
+  ['cuisine', 9.6],
+  ['internet_access', 9.7],
+  ['internet_access:fee', 9.8],
+
   ['charging', 14],
   ['amperage', 15],
   ['voltage', 16],
   ['socket', 17],
+  ['smoking', 10000000],
 ]);
 
 export const editableKeys = new Set([
@@ -129,4 +193,20 @@ export const editableKeys = new Set([
   "wheelchair:description:de",
   "wheelchair:description:en",
   "toilets:wheelchair",
+]);
+
+const sidewalkPrefixSet = new Set(["sidewalk", "sidewalk:left", "sidewalk:right", "sidewalk:both"]);
+
+export const additionalPrefixesForKeys: Map<string, Set<string>> = new Map([
+  // https://wiki.openstreetmap.org/wiki/Key:sidewalk
+  ["surface", sidewalkPrefixSet],
+  ["smoothness", sidewalkPrefixSet],
+  ["width", sidewalkPrefixSet],
+  ["est_width", sidewalkPrefixSet],
+  ["bicycle", sidewalkPrefixSet],
+  ["incline", sidewalkPrefixSet],
+  ["kerb", sidewalkPrefixSet],
+  ["wheelchair", sidewalkPrefixSet],
+  ["tactile_paving", sidewalkPrefixSet],
+  ["traffic_sign", sidewalkPrefixSet],
 ]);

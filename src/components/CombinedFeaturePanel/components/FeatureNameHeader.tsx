@@ -6,6 +6,7 @@ import { t } from "ttag";
 import colors from "../../../lib/colors";
 import { useCurrentAppToken } from "../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../lib/context/LanguageTagContext";
+import { useAccessibilityAttributesIdMap } from "../../../lib/fetchers/fetchAccessibilityAttributes";
 import { usePlaceInfo } from "../../../lib/fetchers/fetchOnePlaceInfo";
 import useCategory from "../../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -13,7 +14,7 @@ import {
   getCategoryForFeature,
   getLocalizableCategoryName,
 } from "../../../lib/model/ac/categories/Categories";
-import getFeatureCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
+import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
 import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
 import { isWheelchairAccessible } from "../../../lib/model/shared/isWheelchairAccessible";
 import { placeNameFor } from "../../../lib/model/shared/placeNameFor";
@@ -195,8 +196,14 @@ function useFeatureLabel({
       localizableCategoryName,
       languageTags
     );
-  if (!category && feature["@type"] === "osm:Feature") {
-    categoryName = getFeatureCategoryDisplayName(feature);
+
+  const {
+    data: attributesById,
+    isValidating,
+  } = useAccessibilityAttributesIdMap(languageTags, appToken);
+
+  if ((!category || category?._id === 'unknown') && feature["@type"] === "osm:Feature") {
+    categoryName = getGenericCategoryDisplayName(feature, attributesById, languageTags);
   }
 
   let placeName: string | undefined;

@@ -69,7 +69,12 @@ export const valueRenderFunctions: Record<
   "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "power_supply:voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
+  "power_supply:current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "power_supply:maxcurrent": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "power_supply:frequency": (props) => <DisplayedQuantity value={props.value} defaultUnit="Hz" />,
   "(?:socket:([\w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
   "([\w_]+):description(?:(\w\w))?": (props) => {
