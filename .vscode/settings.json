@@ -11,5 +11,6 @@
   "editor.formatOnSave": true,
   "eslint.enable": true,
   "javascript.format.enable": false,
-  "typescript.format.enable": false
+  "typescript.format.enable": false,
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
