@@ -50,11 +50,11 @@ export function CombinedFeaturePanel(props: Props) {
         <>
           <PlaceOfInterestDetails feature={features[0]} />
 
-          <ReportIssueButton
+          {/* <ReportIssueButton
             equipmentInfoId={null}
             feature={features[0]}
             onOpenReportMode={handleOpenReportMode}
-          />
+          /> */}
         </>
       )}
       {features &&
