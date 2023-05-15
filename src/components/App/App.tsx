@@ -3,13 +3,12 @@ import "focus-visible";
 import findIndex from "lodash/findIndex";
 import includes from "lodash/includes";
 import * as React from "react";
-import { PlaceDetailsProps } from "../app/PlaceDetailsProps";
-import { trackModalView } from "../../lib/Analytics";
-import config from "../../lib/config";
 import "../../lib/NativeAppStrings";
-import savedState, { isFirstStart, saveState } from "../../lib/savedState";
-import { isTouchDevice } from "../../lib/userAgent";
 import { hasBigViewport } from "../../lib/ViewportSize";
+import config from "../../lib/config";
+import savedState, { saveState } from "../../lib/savedState";
+import { isTouchDevice } from "../../lib/userAgent";
+import { PlaceDetailsProps } from "../app/PlaceDetailsProps";
 import MainView, { UnstyledMainView } from "./MainView";
 
 interface Props extends PlaceDetailsProps {

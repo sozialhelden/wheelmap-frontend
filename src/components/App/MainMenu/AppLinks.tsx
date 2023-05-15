@@ -1,5 +1,6 @@
+import { useHotkeys } from "@blueprintjs/core";
 import Link from "next/link";
-import React from "react";
+import { useMemo, useState } from "react";
 import styled from "styled-components";
 import colors from "../../../lib/colors";
 import { useCurrentApp } from "../../../lib/context/AppContext";
@@ -50,6 +51,19 @@ export default function AppLinks(props: {}) {
     related: { appLinks },
   } = app;
 
+      
+  const [toogle, setToogle] = useState(false);
+  const hotkeys = useMemo(() => [
+    {
+      combo: "l",
+      global: true,
+      label: "Toogle OSM Power User Mode",
+      onKeyDown: () => setToogle(!toogle),
+      }, 
+
+  ], [toogle]);  
+  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
+
   const links = Object.values(appLinks)
     .sort((a, b) => (a.order || 0) - (b.order || 0))
     .map((link) => {
@@ -89,10 +103,12 @@ export default function AppLinks(props: {}) {
       if (isEventsLink) {
         return <JoinedEventLink {...{ label, url }} key="joined-event" />;
       }
-
+      
       const isSessionLink = link.tags && link.tags.indexOf("session") !== -1;
       if (isSessionLink) {
-        return <SessionLink {...{ label }} key="session" className={className} />;
+        return (
+          toogle && <SessionLink {...{ label }} key="session" className={className} onKeyDown={handleKeyDown} />
+        );
       }
 
       if (typeof url === "string") {

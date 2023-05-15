@@ -4,24 +4,25 @@ import * as React from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
   Layer,
+  Map,
+  MapProvider,
   MapRef,
   NavigationControl,
   Source,
   ViewState,
   ViewStateChangeEvent,
 } from "react-map-gl";
-import { MapProvider, Map, useMap } from "react-map-gl";
 
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import useMeasure from "react-use-measure";
 // import FeatureListPopup from "../feature/FeatureListPopup";
+import MapboxLanguage from "@mapbox/mapbox-gl-language";
+import { uniq } from "lodash";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/shared/getFeatureIdsFromLocation";
+import HelpButton from "../CombinedFeaturePanel/components/HelpButton";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
-import "mapbox-gl/dist/mapbox-gl.css";
-import MapboxLanguage from "@mapbox/mapbox-gl-language";
-import { createGlobalStyle } from "styled-components";
-import { uniq } from "lodash";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -228,6 +229,7 @@ export default function MapView(props: IProps) {
           <NavigationControl style={{ right: "1rem", top: "1rem" }} />
         </Map>
       </MapProvider>
+      <HelpButton />
     </>
   );
 }
