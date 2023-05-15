@@ -1,8 +1,7 @@
-import React from "react";
 import StyledMarkdown from "../../../shared/StyledMarkdown";
-import { OSMTagProps } from "./OSMTagProps";
 import { EditButton } from "./EditButton";
-import { isNumber } from "lodash";
+import { OSMTagProps } from "./OSMTagProps";
+
 
 export function OSMTagTableRow(
   {
@@ -10,42 +9,32 @@ export function OSMTagTableRow(
   }: OSMTagProps
 ) {
   const valueIsNumeric = typeof valueElement === 'string' && valueElement.match(/^-?\d+(\.\d+)?$/);
+  const displayedKey = hasDisplayedKey && <th rowSpan={keyDetails ? 1 : 2}>{keyLabel}</th>;
+  const textAlign = valueIsNumeric ? 'right' : 'left';
+  const valueIsString = typeof valueElement === 'string';
+  const ValueElement = valueElement && valueElement !== "" && valueIsString ? 'td' : 'td';
+  const displayedValue = <ValueElement colSpan={hasDisplayedKey ? 1 : 2} style={{ textAlign }}>
+    {valueIsString ? <StyledMarkdown inline={true}>{valueElement}</StyledMarkdown> : valueElement}
+  </ValueElement>;
+
   return (
     <tbody key={key}>
       <tr>
-        {hasDisplayedKey && <th rowSpan={keyDetails ? 1 : 2}>{keyLabel}</th>}
-        {valueElement && valueElement !== "" && typeof valueElement === "string"
-          ? (
-            <th colSpan={hasDisplayedKey ? 1 : 2} style={{ textAlign: valueIsNumeric ? 'right' : 'left' }}>
-              <StyledMarkdown inline={true}>{valueElement}</StyledMarkdown>
-            </th>
-          )
-          : <td colSpan={hasDisplayedKey ? 1 : 2} style={{ textAlign: valueIsNumeric ? 'right' : 'left' }}>{valueElement}</td>}
-
+        {displayedKey}
+        {displayedValue}
         <td style={{ textAlign: "right" }}>
           {isEditable && <EditButton editURL={editURL} />}
         </td>
       </tr>
-
-      {valueDetails && valueDetails !== "" && (
-        <tr>
+      {[keyDetails, valueDetails].filter(Boolean).map((details, i) => (
+        <tr key={i}>
           <td colSpan={2}>
             <StyledMarkdown>
-              {valueDetails}
+              {details}
             </StyledMarkdown>
           </td>
         </tr>
-      )}
-
-      {keyDetails && keyDetails !== "" && (
-        <tr>
-          <td colSpan={2}>
-            <StyledMarkdown>
-              {keyDetails}
-            </StyledMarkdown>
-          </td>
-        </tr>
-      )}
+      ))}
     </tbody>
   );
 }

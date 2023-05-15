@@ -1,10 +1,13 @@
-import { Entrance, EquipmentInfo, PlaceInfo } from "@sozialhelden/a11yjson";
+import { Entrance, EquipmentInfo, LocalizedString, PlaceInfo, PlaceProperties } from "@sozialhelden/a11yjson";
 import { SearchResultFeature } from "../../fetchers/fetchPlaceSearchResults";
 import OSMFeature, { OSMAPIErrorResponse } from "../osm/OSMFeature";
 
 export type TypeTaggedPlaceInfo = PlaceInfo & {
   ["@type"]: "a11yjson:PlaceInfo";
   _id: string;
+  properties: PlaceProperties & {
+    parentPlaceInfoName?: string | LocalizedString;
+  };
 };
 export type TypeTaggedEquipmentInfo = EquipmentInfo & {
   ["@type"]: "a11yjson:EquipmentInfo";
@@ -60,4 +63,8 @@ export function isOSMFeature(
   feature: AnyFeature
 ): feature is TypeTaggedOSMFeature {
   return feature?.["@type"] === "osm:Feature";
+}
+
+export function getKey(feature: AnyFeature) {
+  return isSearchResultFeature(feature) ? `osm:${feature.properties.osm_type}:${feature.properties.osm_id}` : feature._id;
 }

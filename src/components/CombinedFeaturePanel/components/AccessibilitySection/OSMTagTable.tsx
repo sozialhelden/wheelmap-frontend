@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import colors from "../../../../lib/colors";
 import { useCurrentAppToken } from "../../../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../../../lib/context/LanguageTagContext";
 import { useAccessibilityAttributesIdMap } from "../../../../lib/fetchers/fetchAccessibilityAttributes";
@@ -14,16 +13,14 @@ import DisplayedQuantity from "./tags/values/DisplayedQuantity";
 import OpeningHoursValue from "./tags/values/OpeningHoursValue";
 
 const StyledTable = styled.table`
-  background-color: rgba(255, 255, 255, 1);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid rgba(16, 22, 26, 0.15);
-  color: ${colors.textColorTonedDownSlightly};
-
   th {
     text-align: left;
     vertical-align: top;
     padding-right: 1rem !important;
+  }
+
+  th {
+    font-weight: 500;
   }
 
   th,
@@ -77,7 +74,7 @@ export const valueRenderFunctions: Record<
   "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
-  "([\w_]+):description(?:(\w\w))?": (props) => {
+  "(?:([\w_]+):)?description(?:(\w\w))?": (props) => {
     const text = props.value;
     const targetGroup = props.matches[1];
     const lang = props.matches[2];
@@ -122,7 +119,6 @@ export default function OSMTagTable(props: {
             singleValue,
             ids,
             currentId: feature._id,
-            appToken,
             languageTags,
             attributesById,
           });

@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { omit } from "lodash";
 import { HTMLAttributes } from "react";
 import useSWR from "swr";

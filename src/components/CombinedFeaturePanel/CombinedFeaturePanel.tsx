@@ -1,17 +1,16 @@
-import { t } from "ttag";
+import { uniqBy } from "lodash";
+import styled from "styled-components";
+import colors from "../../lib/colors";
 import {
   AnyFeature,
+  getKey,
   isOSMFeature,
-  isSearchResultFeature,
+  isSearchResultFeature
 } from "../../lib/model/shared/AnyFeature";
-import OSMBuildingDetails from "./OSMBuildingDetails";
 import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
-import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
+import OSMBuildingDetails from "./OSMBuildingDetails";
 import OSMSidewalkDetails from "./OSMSidewalkDetails";
-import { uniqBy } from "lodash";
-import ReportIssueButton from "./components/IconButtonList/ReportIssueButton";
-import fetchAccessibilityAttributeIdMap, {useAccessibilityAttributesIdMap} from "../../lib/fetchers/fetchAccessibilityAttributes";
-import { useCurrentApp } from "../../lib/context/AppContext";
+import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
 
 type Props = {
   features: AnyFeature[];
@@ -37,6 +36,10 @@ function FeatureSection({ feature }: { feature: AnyFeature }) {
   // Environment
 }
 
+const Panel = styled.section`
+  color: ${colors.textColorTonedDownSlightly};
+`;
+
 export function CombinedFeaturePanel(props: Props) {
   const { handleOpenReportMode } = props.options || {};
   const features = uniqBy(props.features, (feature) =>
@@ -45,7 +48,7 @@ export function CombinedFeaturePanel(props: Props) {
 
   
   return (
-    <>
+    <Panel>
       {features && features[0] && (
         <>
           <PlaceOfInterestDetails feature={features[0]} />
@@ -61,8 +64,10 @@ export function CombinedFeaturePanel(props: Props) {
         features.length > 1 &&
         features
           .slice(1)
-          .map((feature) => <FeatureSection feature={feature} />)}
-      <FeaturesDebugJSON features={features} />
-    </>
+          .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
+      <p>
+        <FeaturesDebugJSON features={features} />
+      </p>
+    </Panel>
   );
 }

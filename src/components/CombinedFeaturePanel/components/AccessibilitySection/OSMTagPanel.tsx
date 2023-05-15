@@ -1,10 +1,10 @@
-import { omittedKeyPrefixes, omittedKeySuffixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
+import { get, set, sortBy } from "lodash";
 import * as React from "react";
-import { isOSMFeature, TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
 import isAddressRelevantOSMKey from "../../../../lib/model/osm/isAddressRelevantOSMKey";
-import OSMTagTable, { TagOrTagGroup } from "./OSMTagTable";
-import { difference, get, groupBy, set, sortBy } from "lodash";
+import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
+import { omittedKeyPrefixes, omittedKeys, omittedKeySuffixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
+import OSMTagTable from "./OSMTagTable";
 
 
 export interface ITreeNode {
@@ -62,30 +62,30 @@ function nest(tree: ITreeNode) {
   });
 }
 
-
 export function OSMTagPanel({ feature }: { feature: TypeTaggedOSMFeature; }) {
-  if (!isOSMFeature(feature)) {
-    return null;
-  }
-  const filteredKeys = React.useMemo(
-    () => Object.keys(feature.properties)
-      .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
-      .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix))),
+  const nestedTags = React.useMemo(
+    () => {
+      const filteredKeys = Object.keys(feature.properties)
+        .filter((key) => !omittedKeys.has(key))
+        .filter((key) => !omittedKeyPrefixes.find((prefix) => key.startsWith(prefix)))
+        .filter((key) => !omittedKeySuffixes.find((suffix) => key.endsWith(suffix)));
+      const accessibilityRelevantKeys = filteredKeys.filter(
+        isAccessibilityRelevantOSMKey
+      );
+      const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey);
+
+      // const remainingKeys = difference(
+      //   filteredKeys,
+      //   accessibilityRelevantKeys,
+      //   addressRelevantKeys
+      // );
+
+      const tree = generateTree(accessibilityRelevantKeys);
+      const nestedTags = nest(tree);
+      return nestedTags;
+    },
     [feature],
   );
-  const accessibilityRelevantKeys = filteredKeys.filter(
-    isAccessibilityRelevantOSMKey
-  );
-  const addressRelevantKeys = filteredKeys.filter(isAddressRelevantOSMKey);
-
-  const remainingKeys = difference(
-    filteredKeys,
-    accessibilityRelevantKeys,
-    addressRelevantKeys
-  );
-
-  const tree = React.useMemo(() => generateTree(accessibilityRelevantKeys), [feature]);
-  const nestedTags = React.useMemo(() => nest(tree), [tree]);
 
   return <OSMTagTable
     nestedTags={nestedTags} feature={feature}

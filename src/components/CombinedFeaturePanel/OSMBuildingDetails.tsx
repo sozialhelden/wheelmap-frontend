@@ -1,4 +1,3 @@
-import { Card } from "@blueprintjs/core";
 import { isEqual } from "lodash";
 import { t } from "ttag";
 import isAccessibilityRelevantOSMKey from "../../lib/model/osm/isAccessibilityRelevantOSMKey";
@@ -14,9 +13,9 @@ export default function OSMBuildingDetails({ feature }: { feature: TypeTaggedOSM
 
   return <section>
     <h4>{t`Probably inside…`}</h4>
-    <Card>
+    <article>
       <FeatureNameHeader feature={feature} size="small" />
-      <FeatureAccessibility feature={feature} compact />
-    </Card>
+      <FeatureAccessibility feature={feature} />
+    </article>
   </section>
 }

@@ -28,7 +28,6 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "female",
   "queer",
   "toilets",
-  "toilets:disposal",
   "fee",
   "supervised",
   "changing_table",
@@ -47,6 +46,16 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "offer",
   "self_service",
   "building",
+  "gay",
+  "lesbian",
+  "lgbtq",
+  "queer",
+  "man",
+  "woman",
+  "elevator",
+  "building_object",
+  "service:bicycle:pump",
+  "get_in",
 ]);
 
 export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/
@@ -71,12 +80,18 @@ export const omittedKeyPrefixes = [
   "tactile_paving",
   "payment:cryptocurrencies",
   "building:height",
+  "building:parts",
   "building:levels:underground",
+  "building:architecture",
 ];
 
 export const omittedKeySuffixes = [
 
 ];
+
+export const omittedKeys = new Set([
+  "building",
+]);
 
 export const tagsWithSemicolonSupport = [
   "access",
@@ -100,15 +115,18 @@ export const tagsWithSemicolonSupport = [
 ];
 
 export const pathsToConsumedTagKeys: [string, RegExp][] = [
-  ["building.type", /^building$/],
-  ["building.$1", /^building:([\w_]+)$/],
-  ["building.$1_level", /^(min|max)_level$/],
+  ["building_object.type", /^building$/],
+  ["building_object.$1", /^building:([\w_]+)$/],
+  ["building_object.$1_level", /^(min|max)_level$/],
   ["payment.$1", /^payment:([\w_]+)$/],
   ["payment.$1.$2", /^payment:([\w_]+):([\w_]+)$/],
   ["description.payment$1", /^payment:([\w_]+)$/],
   ["payment.description.$1", /^description:payment:([\w_]+)$/],
   ["payment.description", /^description:payment$/],
   ["payment.fee", /^fee$/],
+  ["payment.charge", /^charge$/],
+  ["payment.charge.$1", /^charge:([\w_]+)$/],
+  ["payment.charge.$1", /^([\w_]+):charge$/],
   ["diet.$1", /^diet:([\w_]+)$/],
   ["diet.cuisine", /^cuisine$/],
   ["seating.$1", /^(.*)_?seating$/],
@@ -126,7 +144,8 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["entrance.step_count", /^step_count$/],
   ["entrance.step_height", /^wheelchair:step_height$/],
   ["entrance.width", /^wheelchair:entrance_width$/],
-  ["access.note", /^access:note$/],
+  ["$1", /^access:([\w_]+)$/],
+  ["centralkey", /^centralkey$/],
   ["healthcare.speciality", /^healthcare:speciality$/],
   ["healthcare.dispensing", /^dispensing$/],
   ["capacity.total", /^capacity$/],
@@ -151,8 +170,8 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["sidewalk.sidewalk:$1.$2", /^sidewalk:([\w_]+):([\w_]+)$/],
   ["crossing.1", /^crossing$/],
   ["crossing.$1", /^crossing:([\w_]+)$/],
-  ["$1", /(.*)/],
   ["description.$1", /^description:([\w_]+)$/],
+  ["$1", /(.*)/],
 ];
 
 export const sortOrderMap = new Map<string, number>([
@@ -184,6 +203,12 @@ export const sortOrderMap = new Map<string, number>([
   ['amperage', 15],
   ['voltage', 16],
   ['socket', 17],
+
+  ['color', 800],
+  ['material', 801],
+
+  ['operator', 1000000000],
+
   ['smoking', 10000000],
 ]);
 

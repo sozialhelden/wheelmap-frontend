@@ -6,7 +6,7 @@ const Quantity = styled.span.attrs({ className: 'quantity' })``;
 
 const Value = styled.span.attrs({ className: 'value' })`
 
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const Unit = styled.span.attrs({ className: 'unit' })`

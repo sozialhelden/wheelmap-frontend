@@ -17,6 +17,8 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
   ];
 
   const keysWithoutKeyAsSuffix = [
+    "elevator",
+    "stairwell",
     "sport",
     "leisure",
     "tourism",
@@ -29,9 +31,12 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
     "highway",
   ];
 
+  const result = [];
+
   for (const key of keysWithoutKeyAsSuffix) {
     if (properties[key] && properties[key] !== "yes") {
-      return `${humanize(properties[key])} ${properties.ref || ""}`;
+      result.push(`${humanize(properties[key])} ${properties.ref || ""}`);
+      break;
     }
   }
 
@@ -42,20 +47,28 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
 
       if (attribute) {
         const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags);
-        return `${fullTypeName} ${properties.ref || ""}`;
+        result.push(`${fullTypeName} ${properties.ref || ""}`);
+        break;
       }
       const specifier = humanize(properties[key]);
       const typeName = key;
-      return `${specifier} ${typeName} ${properties.ref || ""}`;
+      result.push(`${specifier} ${typeName} ${properties.ref || ""}`);
+      break;
     }
   }
 
-  for (const key of keysWithKeyAsSuffix) {
+  for (const key of [...keysWithKeyAsSuffix, ...keysWithoutKeyAsSuffix]) {
     if (properties[key] === "yes") {
-      return (
+      const attributeId = `osm:${key}=yes`;
+      const attribute = attributeMap?.get(attributeId);
+      const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags);
+      result.push(
         properties.note ||
-        `${humanize(key)} ${properties.ref || properties.note || ""}`
+        `${fullTypeName || humanize(key)} ${properties.ref || properties.note || ""}`
       );
+      break;
     }
   }
+
+  return result.join(", ");
 }

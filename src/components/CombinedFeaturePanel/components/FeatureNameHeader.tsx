@@ -64,20 +64,17 @@ const StyledHeader = styled.header`
 `;
 
 export default function FeatureNameHeader(props: Props) {
-  const { feature, children } = props;
-  const onClickCurrentMarkerIcon = React.useCallback(() => {
-    if (feature && props.onClickCurrentMarkerIcon) {
-      props.onClickCurrentMarkerIcon(feature);
+  const { feature, children, onClickCurrentMarkerIcon } = props;
+
+  const handleMarkerClick = React.useCallback(() => {
+    if (feature && onClickCurrentMarkerIcon) {
+      onClickCurrentMarkerIcon(feature);
     }
-  }, [feature]);
+  }, [feature, onClickCurrentMarkerIcon]);
 
   const languageTags = useCurrentLanguageTagStrings();
 
-  if (!feature) return null;
-  const properties = feature.properties;
-  if (!properties) return null;
-
-  var {
+  const {
     parentPlaceName,
     levelName,
     roomNameAndNumber,
@@ -91,6 +88,10 @@ export default function FeatureNameHeader(props: Props) {
     languageTags,
   });
 
+  if (!feature) return null;
+  const properties = feature.properties;
+  if (!properties) return null;
+
   const icon = (
     <Icon
       accessibility={isWheelchairAccessible(feature)}
@@ -98,7 +99,7 @@ export default function FeatureNameHeader(props: Props) {
       size={props.size || "medium"}
       ariaHidden={true}
       centered
-      onClick={onClickCurrentMarkerIcon}
+      onClick={handleMarkerClick}
     />
   );
 

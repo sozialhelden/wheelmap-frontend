@@ -10,7 +10,7 @@ export default function Page() {
     if (isFirstStart()) {
       router.replace("/onboarding");
     }
-  }, []);
+  }, [router]);
 
   return <></>;
 }
