@@ -1,23 +1,18 @@
-import * as React from "react";
 import { t } from "ttag";
 
-import useImperialUnits from "../../../lib/useImperialUnits";
 import {
-  AccessibilityCloudFeature,
-  WheelmapFeature,
-  YesNoUnknown,
+  AccessibilityCloudFeature, accessibleToiletDescription,
+  hasAccessibleToilet, WheelmapFeature,
+  YesNoUnknown
 } from "../../../lib/Feature";
-import {
-  accessibleToiletDescription,
-  hasAccessibleToilet,
-} from "../../../lib/Feature";
+import shouldPreferImperialUnits from "../../../lib/shouldPreferImperialUnits";
 
-import { saveToiletStatus } from "./saveStatus";
-import RadioStatusEditor from "./RadioStatusEditor";
+import { AppContextConsumer } from "../../../AppContext";
+import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
 import ToiletStatusAccessibleIcon from "../../icons/accessibility/ToiletStatusAccessible";
 import ToiletStatusNotAccessibleIcon from "../../icons/accessibility/ToiletStatusNotAccessible";
-import { CategoryLookupTables } from "../../../lib/model/ac/categories/Categories";
-import { AppContextConsumer } from "../../../AppContext";
+import RadioStatusEditor from "./RadioStatusEditor";
+import { saveToiletStatus } from "./saveStatus";
 
 type SaveOptions = {
   featureId: string;
@@ -35,7 +30,7 @@ type Props = SaveOptions & {
 function AccessibleToiletDescription() {
   return (
     <ul>
-      {accessibleToiletDescription(useImperialUnits()).map((text) => (
+      {accessibleToiletDescription(shouldPreferImperialUnits()).map((text) => (
         <li key={text}>{text}</li>
       ))}
     </ul>

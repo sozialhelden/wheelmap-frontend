@@ -1,71 +1,65 @@
 import L from "leaflet";
 import "mapbox-gl";
-import "mapbox-gl/src/css/mapbox-gl.css";
 import "mapbox-gl-leaflet";
+import "mapbox-gl/src/css/mapbox-gl.css";
 
 // import { GestureHandling } from "./leaflet-gesture-handling/leaflet-gesture-handling";
 import "leaflet.markercluster/dist/leaflet.markercluster-src";
-import { t } from "ttag";
+import debounce from "lodash/debounce";
 import includes from "lodash/includes";
 import isEqual from "lodash/isEqual";
-import debounce from "lodash/debounce";
 import * as React from "react";
-import SozialheldenLogo from "./SozialheldenLogo";
+import { t } from "ttag";
 import { currentLocales } from "../../lib/i18n/i18n";
-import LeafletLocateControl from "./L.Control.Locate";
 import HighlightableMarker from "./HighlightableMarker";
+import LeafletLocateControl from "./L.Control.Locate";
+import SozialheldenLogo from "./SozialheldenLogo";
 
-import {
-  getFeatureId,
-  hrefForPlaceInfo,
-  hrefForEquipmentInfo,
-  YesNoLimitedUnknown,
-  YesNoUnknown,
-} from "../../lib/model/ac/Feature";
-import { isOrHasAccessibleToilet } from "../../lib/model/shared/isOrHasAccessibleToilet";
-import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
-import ClusterIcon from "./ClusterIcon";
+import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
+import goToLocationSettings from "../../lib/goToLocationSettings";
 import Categories, {
-  CategoryLookupTables,
+  CategoryLookupTables
 } from "../../lib/model/ac/categories/Categories";
 import { RootCategoryEntry } from "../../lib/model/ac/categories/RootCategoryEntry";
-import isSamePosition from "./isSamePosition";
-import GeoJSONTileLayer from "./GeoJSONTileLayer";
-import addLocateControlToMap from "./addLocateControlToMap";
-import getAccessibilityCloudTileUrl from "./getAccessibilityCloudTileUrl";
-import goToLocationSettings from "../../lib/goToLocationSettings";
-import highlightMarkers from "./highlightMarkers";
-import overrideLeafletZoomBehavior from "./overrideLeafletZoomBehavior";
 import {
-  normalizeCoordinate,
-  normalizeCoordinates,
-} from "../../lib/normalizeCoordinates";
-import NotificationButton from "./NotificationButton";
-import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
-import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
-import useImperialUnits from "../../lib/useImperialUnits";
-import { Cluster } from "./Cluster";
+  getFeatureId, hrefForEquipmentInfo, hrefForPlaceInfo, YesNoLimitedUnknown,
+  YesNoUnknown
+} from "../../lib/model/ac/Feature";
 import { MappingEvents } from "../../lib/model/ac/MappingEvent";
+import { isOrHasAccessibleToilet } from "../../lib/model/shared/isOrHasAccessibleToilet";
+import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
+import {
+  normalizeCoordinates
+} from "../../lib/normalizeCoordinates";
+import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
+import shouldPreferImperialUnits from "../../lib/shouldPreferImperialUnits";
 import A11yMarkerIcon from "./A11yMarkerIcon";
+import addLocateControlToMap from "./addLocateControlToMap";
+import { Cluster } from "./Cluster";
+import ClusterIcon from "./ClusterIcon";
+import GeoJSONTileLayer from "./GeoJSONTileLayer";
+import getAccessibilityCloudTileUrl from "./getAccessibilityCloudTileUrl";
+import highlightMarkers from "./highlightMarkers";
+import isSamePosition from "./isSamePosition";
 import MappingEventMarkerIcon from "./MappingEventMarkerIcon";
+import NotificationButton from "./NotificationButton";
+import overrideLeafletZoomBehavior from "./overrideLeafletZoomBehavior";
 
-import { LeafletStyle } from "./LeafletStyle";
-import "./MapStyle.tsx";
-import { hrefForMappingEvent } from "../../lib/model/ac/MappingEvent";
-import { MapStyle } from "./MapStyle";
-import { LeafletLocateControlStyle } from "./LeafletLocateControlStyle";
 import {
   EquipmentInfo,
   EquipmentProperties,
   PlaceInfo,
-  PlaceProperties,
+  PlaceProperties
 } from "@sozialhelden/a11yjson";
-import { hasBigViewport } from "../../lib/ViewportSize";
 import {
   getUserAgentString,
-  parseUserAgentString,
+  parseUserAgentString
 } from "../../lib/context/UserAgentContext";
-import config from "../../lib/config";
+import { hrefForMappingEvent } from "../../lib/model/ac/MappingEvent";
+import { LeafletLocateControlStyle } from "./LeafletLocateControlStyle";
+import { LeafletStyle } from "./LeafletStyle";
+import { MapStyle } from "./MapStyle";
+import "./MapStyle.tsx";
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -370,7 +364,7 @@ export default class Map extends React.Component<Props, State> {
     let unitSystem = this.props.unitSystem;
     if (!unitSystem) {
       // derive unitSystem from locale
-      unitSystem = useImperialUnits() ? "imperial" : "metric";
+      unitSystem = shouldPreferImperialUnits() ? "imperial" : "metric";
     }
 
     this.setupLocateMeButton(map);

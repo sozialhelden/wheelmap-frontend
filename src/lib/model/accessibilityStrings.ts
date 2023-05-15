@@ -1,5 +1,5 @@
 import { t } from "ttag";
-import useImperialUnits from "../useImperialUnits";
+import shouldPreferImperialUnits from "../shouldPreferImperialUnits";
 import { YesNoLimitedUnknown, YesNoUnknown } from "./ac/Feature";
 
 export function accessibilityName(
@@ -52,7 +52,7 @@ export function accessibilityDescription(
     case "yes":
       return t`Entrance has no steps, important areas are accessible without steps.`;
     case "limited":
-      return useImperialUnits()
+      return shouldPreferImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
           t`Entrance has one step with max. 3 inches height, most areas are without steps.`
         : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units
