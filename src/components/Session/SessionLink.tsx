@@ -1,6 +1,6 @@
 
-import { Spinner } from "@blueprintjs/core"
-import { useSession } from "next-auth/react"
+import { Spinner } from "@blueprintjs/core";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { t } from "ttag";
 import { UserIcon } from "../icons/ui-elements";
@@ -28,3 +28,4 @@ export default function SessionLink({ label, className }: { label: string, class
     {t`Sign in`}
   </Link>
 }
+

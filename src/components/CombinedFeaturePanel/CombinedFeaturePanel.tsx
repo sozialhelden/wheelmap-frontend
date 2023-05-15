@@ -1,4 +1,6 @@
+import { useHotkeys } from "@blueprintjs/core";
 import { uniqBy } from "lodash";
+import { useMemo, useState } from "react";
 import styled from "styled-components";
 import colors from "../../lib/colors";
 import {
@@ -7,9 +9,9 @@ import {
   isOSMFeature,
   isSearchResultFeature
 } from "../../lib/model/shared/AnyFeature";
-import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import OSMBuildingDetails from "./OSMBuildingDetails";
 import OSMSidewalkDetails from "./OSMSidewalkDetails";
+import FeaturesDebugJSON from "./components/FeaturesDebugJSON";
 import PlaceOfInterestDetails from "./type-specific/poi/PlaceOfInterestDetails";
 
 type Props = {
@@ -46,9 +48,21 @@ export function CombinedFeaturePanel(props: Props) {
     isSearchResultFeature(feature) ? feature.properties.osm_id : feature._id
   );
 
+  /* Hotkeys */
+  const [toogle, setToogle] = useState(false);
+  const hotkeys = useMemo(() => [
+    {
+      combo: "j",
+      global: true,
+      label: "Show JSON Feature Debugger",
+      onKeyDown: () => setToogle(!toogle),
+      }, 
+
+  ], [toogle]);  
+  const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
   
   return (
-    <Panel>
+    <Panel onKeyDown={handleKeyDown} >
       {features && features[0] && (
         <>
           <PlaceOfInterestDetails feature={features[0]} />
@@ -65,9 +79,11 @@ export function CombinedFeaturePanel(props: Props) {
         features
           .slice(1)
           .map((feature) => <FeatureSection key={getKey(feature)} feature={feature} />)}
+      
       <p>
-        <FeaturesDebugJSON features={features} />
+        {toogle && <FeaturesDebugJSON features={features} /> }
       </p>
-    </Panel>
+    </Panel>    
   );
 }
+

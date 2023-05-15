@@ -1,5 +1,6 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
+import { HotkeysProvider } from '@blueprintjs/core';
 import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
 import { uniq } from 'lodash';
 import { NextPage } from 'next';
@@ -14,7 +15,7 @@ import { AppContext } from '../lib/context/AppContext';
 import CountryContext from '../lib/context/CountryContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { parseUserAgentString, UserAgentContext } from '../lib/context/UserAgentContext';
+import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
 import { App } from '../lib/model/ac/App';
@@ -47,16 +48,18 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
   ];
 
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page)
+  const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
     <>
       <Head>
 
       </Head>
-      <SessionProvider session={session}>
-        {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
-      </SessionProvider>
+      <HotkeysProvider>
+          <SessionProvider session={session}>
+            {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
+          </SessionProvider>
+      </HotkeysProvider>
     </>
   );
 }

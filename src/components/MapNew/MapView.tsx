@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
-  Layer, Map, MapProvider, MapRef,
+  Layer,
+  Map,
+  MapProvider,
+  MapRef,
   NavigationControl,
   Source,
   ViewState,
@@ -17,6 +20,7 @@ import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/shared/getFeatureIdsFromLocation";
+import HelpButton from "../CombinedFeaturePanel/components/HelpButton";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
 
@@ -225,6 +229,7 @@ export default function MapView(props: IProps) {
           <NavigationControl style={{ right: "1rem", top: "1rem" }} />
         </Map>
       </MapProvider>
+      <HelpButton />
     </>
   );
 }

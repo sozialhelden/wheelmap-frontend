@@ -8,7 +8,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
-import LoadableMapView from "../MapNew/LoadableMapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
@@ -64,9 +63,11 @@ export default function Layout({
         />
       )}
 
-      <main style={{ height: "100%" }} ref={containerRef}>
-        <LoadableMapView {...{ containerRef }} />
-
+      <main 
+        style={{ height: "100%" }} 
+        ref={containerRef} 
+      >
+        <MapView {...{ containerRef }} />
         <BlurLayer active={blur} style={{ zIndex: 1000 }} />
         <div style={{ zIndex: 2000 }}>{children}</div>
         <ToastContainer position="bottom-center" />
