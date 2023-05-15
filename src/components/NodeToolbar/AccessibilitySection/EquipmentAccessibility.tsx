@@ -4,15 +4,13 @@ import styled from "styled-components";
 import colors from "../../../lib/colors";
 import { EquipmentInfo } from "../../../lib/EquipmentInfo";
 import {
-  isExistingInformationOutdated,
   equipmentStatusTitle,
-  isEquipmentAccessible,
-  lastUpdateString,
+  isEquipmentAccessible, isExistingInformationOutdated, lastUpdateString
 } from "../../../lib/model/ac/EquipmentInfo";
 
-import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
 import AppContext from "../../../AppContext";
 import { useAccessibilityAttributes } from "../../../lib/data-fetching/useAccessibilityAttributes";
+import AccessibilityDetailsTree from "./AccessibilityDetailsTree";
 
 function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
@@ -24,9 +22,6 @@ type Props = {
 };
 
 function EquipmentAccessibility(props: Props) {
-  if (!props.equipmentInfo) return null;
-  if (!props.equipmentInfo.properties) return null;
-
   const properties = props.equipmentInfo.properties;
   const lastUpdate = properties.lastUpdate
     ? new Date(properties.lastUpdate)
@@ -47,6 +42,9 @@ function EquipmentAccessibility(props: Props) {
     return null;
   }
 
+  if (!props.equipmentInfo) return null;
+  if (!props.equipmentInfo.properties) return null;
+  
   return (
     <div className={`equipment-accessibility ${props.className || ""}`}>
       <header

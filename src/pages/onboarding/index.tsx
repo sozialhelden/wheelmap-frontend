@@ -9,7 +9,7 @@ export default function Page() {
   const handleClose = React.useCallback(() => {
     saveState({ onboardingCompleted: "true" });
     router.push("/");
-  }, []);
+  }, [router]);
 
   return <OnboardingDialog onClose={handleClose} />;
 }

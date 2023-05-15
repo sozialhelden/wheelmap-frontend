@@ -1,6 +1,5 @@
 import * as React from "react";
 import { MutableRefObject } from "react";
-import { useWindowContext } from "../../lib/context/WindowContext";
 
 type Props = {
   onClose?: (event) => void;

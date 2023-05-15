@@ -1,17 +1,17 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import * as queryString from "query-string";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import colors from "../../lib/colors";
+import { useCurrentApp } from "../../lib/context/AppContext";
+import { getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId } from "../../lib/context/MappingEventContext";
+import { useMappingEvent } from "../../lib/fetchers/fetchMappingEvent";
 import { PrimaryButton } from "../shared/Button";
 import CloseButton from "../shared/CloseButton";
 import ModalDialog from "../shared/ModalDialog";
 import { EmailInputForm } from "./EmailInputForm";
-import { useMappingEvent } from "../../lib/fetchers/fetchMappingEvent";
-import { useCurrentApp } from "../../lib/context/AppContext";
-import { getJoinedMappingEventData, getUUID, setJoinedMappingEventId, trackMappingEventMembershipChanged, useCurrentMappingEventId } from "../../lib/context/MappingEventContext";
-import { useRouter } from "next/router";
 
 type Props = {
   mappingEventId: string;
@@ -204,7 +204,7 @@ export default function MappingEventWelcomeDialog({
     trackMappingEventMembershipChanged({ userUUID, app, reason: "button", joinedMappingEvent: mappingEvent, emailAddress });
     mutateMappingEventId(null);
     router.push('/');
-  }, [mappingEvent, userUUID, mutateMappingEventId, router, app]);
+  }, [mappingEvent, userUUID, mutateMappingEventId, router, app, mappingEventId]);
 
   return (
     <StyledModalDialog

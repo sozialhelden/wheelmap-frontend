@@ -1,17 +1,14 @@
-import { useRouter } from "next/router";
-import MailToSupportLegacy from "../../../../components/NodeToolbar/Report/MailToSupportLegacy";
-import { MouseEvent } from "react";
-import { RossmannNode } from "../../../../lib/fixtures/mocks/nodes/rossmann";
-import { PlaceInfoNode } from "../../../../lib/fixtures/mocks/nodes/placeinfo";
-import { useCurrentApp } from "../../../../lib/context/AppContext";
 import "@blueprintjs/core/lib/css/blueprint.css";
+import { useRouter } from "next/router";
+import { useCurrentApp } from "../../../../lib/context/AppContext";
+import { PlaceInfoNode } from "../../../../lib/fixtures/mocks/nodes/placeinfo";
 
 import {
   Button,
   Dialog,
   DialogBody,
   DialogFooter,
-  DialogProps,
+  DialogProps
 } from "@blueprintjs/core";
 import React from "react";
 
@@ -32,7 +29,6 @@ const ReportSupportMail = () => {
         className="buttonreportdialogemail"
         buttonText="Email me"
         footerStyle="minimal"
-        autoFocus={true}
         usePortal={true}
         shouldReturnFocusOnClose={true}
         enforceFocus={true}
@@ -67,7 +63,7 @@ function ButtonWithDialog({
   footerStyle: "default" | "minimal" | "none";
 }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), []);
+  const handleButtonClick = React.useCallback(() => setIsOpen(!isOpen), [isOpen]);
   const handleClose = React.useCallback(() => setIsOpen(false), []);
   const footerActions = (
     <>
