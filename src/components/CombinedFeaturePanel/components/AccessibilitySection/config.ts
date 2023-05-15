@@ -76,6 +76,7 @@ export const omittedKeyPrefixes = [
   "toilets:position",
   "takeaway:covid19",
   "delivery:covid19",
+  "access:covid19",
   "bicycle:air",
   "operator:type",
   "tactile_paving",
@@ -125,7 +126,6 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["building_object.$1_level", /^(min|max)_level$/],
   ["payment.$1", /^payment:([\w_]+)$/],
   ["payment.$1.$2", /^payment:([\w_]+):([\w_]+)$/],
-  ["description.payment$1", /^payment:([\w_]+)$/],
   ["payment.description.$1", /^description:payment:([\w_]+)$/],
   ["payment.description", /^description:payment$/],
   ["payment.fee", /^fee$/],
@@ -235,4 +235,15 @@ export const additionalPrefixesForKeys: Map<string, Set<string>> = new Map([
   ["wheelchair", sidewalkPrefixSet],
   ["tactile_paving", sidewalkPrefixSet],
   ["traffic_sign", sidewalkPrefixSet],
+]);
+
+export const languageTaggedKeys = new Set([
+  "name",
+  "building:name",
+  "entrance:name",
+  "description",
+  "wheelchair:description",
+  "blind:description",
+  "deaf:description",
+  "toilets:wheelchair:description",
 ]);

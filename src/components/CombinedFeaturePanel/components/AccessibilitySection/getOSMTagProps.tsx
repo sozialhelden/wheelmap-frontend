@@ -1,9 +1,9 @@
-import { additionalPrefixesForKeys, editableKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet } from "./config";
 import React from "react";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
-import { valueRenderFunctions } from "./OSMTagTable";
-import { OSMTagProps } from "./OSMTagProps";
 import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
+import { additionalPrefixesForKeys, editableKeys, languageTaggedKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet } from "./config";
+import { OSMTagProps } from "./OSMTagProps";
+import { valueRenderFunctions } from "./OSMTagTable";
 
 function findAttribute(attributesById: Map<string, IAccessibilityAttribute>, key: string, value?: string): IAccessibilityAttribute | undefined {
   const suffix = key.match('[^:]+$')?.[0];
@@ -30,8 +30,10 @@ export function getOSMTagProps(
     attributesById: Map<string, IAccessibilityAttribute>;
     languageTags: string[];
   }): OSMTagProps {
-
-  const keyAttribute = findAttribute(attributesById, key);
+  const keyWithoutLanguageTag = key.replace(/:\w\w(?:[_-]\w\w)?$/, '');
+  const keyAttribute = findAttribute(attributesById, key) ||
+    languageTaggedKeys.has(keyWithoutLanguageTag)
+    && findAttribute(attributesById, keyWithoutLanguageTag);
   const valueAttribute = findAttribute(attributesById, key, singleValue);
   let valueLabel: string | React.ReactNode | undefined;
 
