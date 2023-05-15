@@ -1,19 +1,14 @@
-import React, { ReactElement, useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import {
-  fetchOneEquipmentInfo,
-  useEquipmentInfo,
-} from "../../../../lib/fetchers/fetchOneEquipmentInfo";
-import { useCurrentApp } from "../../../../lib/context/AppContext";
-import { getData } from "../../../../lib/fetchers/fetchWithSWR";
+import React, { ReactElement, useState } from "react";
+import Layout from "../../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import Toolbar from "../../../../components/shared/Toolbar";
-import Layout from "../../../../components/App/Layout";
-import MockedPOIDetails from "../../../../lib/fixtures/mocks/features/MockedPOIDetails";
-import { isEquipmentInfo } from "../../../../lib/model/shared/AnyFeature";
-import useCategory from "../../../../lib/fetchers/useCategory";
+import { useCurrentApp } from "../../../../lib/context/AppContext";
+import {
+  useEquipmentInfo
+} from "../../../../lib/fetchers/fetchOneEquipmentInfo";
 import { usePlaceInfo } from "../../../../lib/fetchers/fetchOnePlaceInfo";
-import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
+import MockedPOIDetails from "../../../../lib/fixtures/mocks/features/MockedPOIDetails";
 // TODO clean up this page
 function EquipmentInfoPage() {
   const router = useRouter();

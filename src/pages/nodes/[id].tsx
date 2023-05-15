@@ -1,19 +1,16 @@
-import React from "react";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import CloseLink from "../../components/shared/CloseLink";
 import {
-  fetchOnePlaceInfo,
-  usePlaceInfo,
+  fetchOnePlaceInfo
 } from "../../lib/fetchers/fetchOnePlaceInfo";
 
-import { useCurrentApp } from "../../lib/context/AppContext";
-import { getData } from "../../lib/fetchers/fetchWithSWR";
-import Layout from "../../components/App/Layout";
 import { ReactElement } from "react";
-import { AnyFeature } from "../../lib/model/shared/AnyFeature";
+import useSWR from "swr";
+import Layout from "../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import Toolbar from "../../components/shared/Toolbar";
+import { useCurrentApp } from "../../lib/context/AppContext";
 import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
 
 const PositionedCloseLink = styled(CloseLink)`
@@ -24,20 +21,16 @@ const PositionedCloseLink = styled(CloseLink)`
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
 export default function Nodes() {
-  const [feature, setFeature] = React.useState<AnyFeature | null>(null);
 
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
-  const myFeature = getData([app.tokenString, id], fetchOnePlaceInfo);
+  const { data: feature, error } = useSWR([app.tokenString, id], fetchOnePlaceInfo);
 
-  const myFallbackFeature = usePlaceInfo(app.tokenString, "222RZF9r2AAzqBQXh");
-
-  React.useEffect(() => {
-    myFeature && setFeature(myFeature);
-    myFeature?.error && setFeature(myFallbackFeature.data);
-  }, [myFeature]);
-
+  if (error) {
+    return <pre>{String(error)}</pre>;
+  }
+  
   return (
     <>
       <>

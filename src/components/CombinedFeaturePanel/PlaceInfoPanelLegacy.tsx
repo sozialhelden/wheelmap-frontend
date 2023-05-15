@@ -1,29 +1,18 @@
-import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import * as React from "react";
 import styled from "styled-components";
 import useSWR from "swr";
-import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
-import Layout from "../../../app/Layout";
-import CloseLink from "../../shared/CloseLink";
-import { ModalNodeState } from "../../../lib/ModalNodeState";
-import { PlaceInfo } from "@sozialhelden/a11yjson";
-import StyledToolbar from "../StyledToolbar";
-import ErrorBoundary from "../../shared/ErrorBoundary";
-import { placeNameFor } from "../../../lib/model/Feature";
-import get from "lodash/get";
-import { includes } from "lodash";
-import NodeHeader from "../NodeHeader";
-import Categories, {
-  Category,
-  CategoryLookupTables,
-  getCategoryId,
-  RawCategoryLists,
-} from "../../../lib/model/Categories";
 import { useCurrentApp } from "../../../lib/context/AppContext";
+import { fetchAccessibilityCloudCategories } from "../../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { fetchOnePlaceInfo } from "../../../lib/fetchers/fetchOnePlaceInfo";
-import { getData } from "../../../lib/fetchers/fetchWithSWR";
+import Categories from "../../../lib/model/Categories";
+import { placeNameFor } from "../../../lib/model/Feature";
+import CloseLink from "../../shared/CloseLink";
+import ErrorBoundary from "../../shared/ErrorBoundary";
+import NodeHeader from "../NodeHeader";
 import PhotoSection from "../Photos/PhotoSection";
+import StyledToolbar from "../StyledToolbar";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;

@@ -12,7 +12,7 @@ export default function useCategory(feature: AnyFeature) {
       categorySynonymCache.data &&
       feature &&
       getCategoryForFeature(categorySynonymCache.data, feature),
-    [appToken, categorySynonymCache.data, feature]
+    [categorySynonymCache.data, feature]
   );
   return { categorySynonymCache, category };
 }
