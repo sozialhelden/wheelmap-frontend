@@ -29,7 +29,6 @@
     "d3-color": "^3.1.0",
     "d3-interpolate": "^3.0.0",
     "d3-scale": "^4.0.0",
-    "dotenv": "^4.0.0",
     "ejson": "^2.1.2",
     "eslint": "^8.29.0",
     "eslint-config-standard-with-typescript": "^23.0.0",
