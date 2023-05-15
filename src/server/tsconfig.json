@@ -11,9 +11,9 @@
     "resolveJsonModule": true,
     "noEmit": true,
     "jsx": "preserve",
-    "moduleResolution": "node",
-    "target": "es5",
-    "module": "commonjs",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "module": "NodeNext",
     "lib": [
       "esnext"
     ]
@@ -25,6 +25,7 @@
   "include": [
     "./*.ts",
     "../lib/env.ts",
-    "../app/router.ts"
+    "../app/router.ts",
+    "server.ts"
   ]
 }
