@@ -1,8 +1,8 @@
 import { FunctionComponent, useEffect, useRef, useState } from "react";
 import ShareBarToggle from "./ShareBarToggle";
-import ShareBarContent from "./ShareBarContent";
-import colors from "../../lib/colors";
+// import ShareBarContent from "./ShareBarContent";
 import styled from "styled-components";
+import colors from "../../lib/colors";
 import { Caption } from "../shared/IconButton";
 
 type ShareBarProps = {
@@ -60,17 +60,17 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
     );
   }
 
-  return (
-    <ShareBarContent
-      url={url}
-      sharedObjectTitle={sharedObjectTitle}
-      pageDescription={pageDescription}
-      mailToLink={mailToLink}
-      className={className}
-      isExpanded={isExpanded}
-      ref={collapseButtonRef}
-      onHide={() => toggleShareBar(false)}
-    />
+  return (<div>SHARING GOES HERE</div>
+    // <ShareBarContent
+    //   url={url}
+    //   sharedObjectTitle={sharedObjectTitle}
+    //   pageDescription={pageDescription}
+    //   mailToLink={mailToLink}
+    //   className={className}
+    //   isExpanded={isExpanded}
+    //   ref={collapseButtonRef}
+    //   onHide={() => toggleShareBar(false)}
+    // />
   );
 };
 

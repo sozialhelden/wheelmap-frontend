@@ -1,12 +1,11 @@
 import { useRouter } from "next/router";
-import React from "react";
-import { ReactElement, useCallback } from "react";
+import React, { ReactElement, useCallback } from "react";
 import { t } from "ttag";
 import Layout from "../../../../components/App/Layout";
-import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
+// import PhotoUploadInstructionsToolbar from "../../../../components/NodeToolbar/Photos/PhotoUpload/PhotoUploadInstructionsToolbar";
+import { toast } from "react-toastify";
 import { useCurrentAppToken } from "../../../../lib/context/AppContext";
 import postImageUpload from "../../../../lib/fetchers/postImageUpload";
-import { toast } from "react-toastify";
 
 export default function Page() {
   const router = useRouter();
@@ -56,12 +55,12 @@ export default function Page() {
     [router, placeType, id, appToken]
   );
 
-  return (
-    <PhotoUploadInstructionsToolbar
-      onClose={closeToolbar}
-      onCompleted={uploadFiles}
-      waitingForPhotoUpload={waitingForPhotoUpload}
-    />
+  return (<div>PHOTO UPLOAD INSTRUCTIONS GO HERE</div>
+    // <PhotoUploadInstructionsToolbar
+    //   onClose={closeToolbar}
+    //   onCompleted={uploadFiles}
+    //   waitingForPhotoUpload={waitingForPhotoUpload}
+    // />
   );
 }
 
