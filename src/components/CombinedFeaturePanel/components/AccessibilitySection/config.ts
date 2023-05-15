@@ -56,6 +56,7 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "building_object",
   "service:bicycle:pump",
   "get_in",
+  "fee:urinal"
 ]);
 
 export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/
@@ -164,6 +165,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ],
   ["audience.$1", /^(social_facility|community_centre):for$/],
   ["toilets.$1", /^toilets:([\w_]+)$/],
+  ["payment.fee:urinal", /^fee:urinal$/],
   ["information.tactile_writing.$1.$2", /^tactile_writing:([\w_]+):([\w_]+)$/],
   ["information.speech_output.$1", /^speech_output:([\w_]+)$/],
   ["information.speech_input.$1", /^speech_input:([\w_]+)$/],

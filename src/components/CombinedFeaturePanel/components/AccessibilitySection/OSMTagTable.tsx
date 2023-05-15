@@ -21,6 +21,7 @@ const StyledTable = styled.table`
 
   th {
     font-weight: 500;
+    min-width: 6rem;
   }
 
   th,

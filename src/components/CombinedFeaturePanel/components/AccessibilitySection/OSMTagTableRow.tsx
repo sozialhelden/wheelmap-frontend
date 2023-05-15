@@ -13,7 +13,7 @@ export function OSMTagTableRow(
   const textAlign = valueIsNumeric ? 'right' : 'left';
   const valueIsString = typeof valueElement === 'string';
   const ValueElement = valueElement && valueElement !== "" && valueIsString ? 'td' : 'td';
-  const displayedValue = <ValueElement colSpan={hasDisplayedKey ? 1 : 2} style={{ textAlign }}>
+  const displayedValue = <ValueElement colSpan={hasDisplayedKey ? 1 : 2} style={{ textAlign, paddingBottom: '0.25rem' }}>
     {valueIsString ? <StyledMarkdown inline={true}>{valueElement}</StyledMarkdown> : valueElement}
   </ValueElement>;
 
