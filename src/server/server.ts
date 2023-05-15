@@ -1,8 +1,8 @@
 import { createServer } from "http";
-import { parse } from "url";
 import next from "next";
-import env from "../lib/env";
+import { parse } from "url";
 import addEmbedModeResponseHeaders from "../lib/addEmbedModeResponseHeaders";
+import env from "../lib/env";
 import fetchApp from "../lib/fetchers/fetchApp";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -42,8 +42,7 @@ app.prepare().then(() => {
       res.statusCode = 500;
       res.end("internal server error");
     }
-  }).listen(port, (err: any) => {
-    if (err) throw err;
+  }).listen(port, () => {
     console.log(`> Ready on http://${hostname}:${port}`);
   });
 });
