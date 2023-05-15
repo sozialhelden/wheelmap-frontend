@@ -178,7 +178,6 @@
     "compile-svgs": "npm run compile-main-categories && npm run compile-action-icons && npm run compile-category-icons && npm run compile-markers && npm run compile-equipment-icons",
     "compile-merged-svgs": "BABEL_ENV=development babel-node --plugins transform-es2015-modules-commonjs scripts/generate-icons.js && ./node_modules/svgo/bin/svgo --multipass build/icons/*.svg",
     "format": "eslint \"src/**/*.js\" --write",
-    "lint": "next lint",
     "clear-babel-cache": "rimraf -rf ./node_modules/.cache/babel-loader/*"
   },
   "browserslist": [
