@@ -18,18 +18,18 @@ import SozialheldenLogo from "./SozialheldenLogo";
 import colors, { interpolateWheelchairAccessibility } from "../../lib/colors";
 import goToLocationSettings from "../../lib/goToLocationSettings";
 import Categories, {
-  CategoryLookupTables
+    CategoryLookupTables
 } from "../../lib/model/ac/categories/Categories";
 import { RootCategoryEntry } from "../../lib/model/ac/categories/RootCategoryEntry";
 import {
-  getFeatureId, hrefForEquipmentInfo, hrefForPlaceInfo, YesNoLimitedUnknown,
-  YesNoUnknown
+    getFeatureId, hrefForEquipmentInfo, hrefForPlaceInfo, YesNoLimitedUnknown,
+    YesNoUnknown
 } from "../../lib/model/ac/Feature";
 import { MappingEvents } from "../../lib/model/ac/MappingEvent";
 import { isOrHasAccessibleToilet } from "../../lib/model/shared/isOrHasAccessibleToilet";
 import { isWheelchairAccessible } from "../../lib/model/shared/isWheelchairAccessible";
 import {
-  normalizeCoordinates
+    normalizeCoordinates
 } from "../../lib/normalizeCoordinates";
 import { hasOpenedLocationHelp, saveState } from "../../lib/savedState";
 import shouldPreferImperialUnits from "../../lib/shouldPreferImperialUnits";
@@ -46,14 +46,14 @@ import NotificationButton from "./NotificationButton";
 import overrideLeafletZoomBehavior from "./overrideLeafletZoomBehavior";
 
 import {
-  EquipmentInfo,
-  EquipmentProperties,
-  PlaceInfo,
-  PlaceProperties
+    EquipmentInfo,
+    EquipmentProperties,
+    PlaceInfo,
+    PlaceProperties
 } from "@sozialhelden/a11yjson";
 import {
-  getUserAgentString,
-  parseUserAgentString
+    getUserAgentString,
+    parseUserAgentString
 } from "../../lib/context/UserAgentContext";
 import { hrefForMappingEvent } from "../../lib/model/ac/MappingEvent";
 import { LeafletLocateControlStyle } from "./LeafletLocateControlStyle";
@@ -370,7 +370,7 @@ export default class Map extends React.Component<Props, State> {
     this.setupLocateMeButton(map);
 
     const basemapLayer = (L as any).mapboxGL({
-      accessToken: process.env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
+      accessToken: process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN,
       style: "mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q",
     });
 
@@ -1253,7 +1253,7 @@ export default class Map extends React.Component<Props, State> {
   ): string | null {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = process.env.REACT_APP_LEGACY_API_BASE_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_LEGACY_API_BASE_URL;
     if (typeof baseUrl !== "string") return null;
     return `${baseUrl}/api/v1/amenities.json?bbox={bbox}&geometryTypes=centroid&limit=1000`;
   }

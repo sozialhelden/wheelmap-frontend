@@ -2,7 +2,6 @@ import { createServer } from "http";
 import next from "next";
 import { parse } from "url";
 import addEmbedModeResponseHeaders from "../lib/addEmbedModeResponseHeaders";
-import env from "../lib/env";
 import fetchApp from "../lib/fetchers/fetchApp";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -19,7 +18,7 @@ app.prepare().then(() => {
       const parsedUrl = parse(req.url, true);
       const { pathname, query } = parsedUrl;
       const hostname = req ? req.headers["host"] : location.hostname;
-      const appToken = env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
+      const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
       const { embedToken } = query;
       const app = await fetchApp([hostname, appToken]);
 

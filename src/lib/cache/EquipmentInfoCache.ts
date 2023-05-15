@@ -1,9 +1,9 @@
 import get from "lodash/get";
-import FeatureCache from "./FeatureCache";
 import {
-  EquipmentInfo,
-  EquipmentInfoFeatureCollection,
+    EquipmentInfo,
+    EquipmentInfoFeatureCollection
 } from "../EquipmentInfo";
+import FeatureCache from "./FeatureCache";
 
 export default class EquipmentInfoCache extends FeatureCache<
   EquipmentInfo,
@@ -15,7 +15,7 @@ export default class EquipmentInfoCache extends FeatureCache<
     useCache: boolean = true
   ): Promise<Response> {
     const baseUrl =
-      process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
+      process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
     const url = `${baseUrl}/equipment-infos/${id}.json?appToken=${appToken}`;
     return FeatureCache.fetch(url);
   }

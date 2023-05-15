@@ -1,10 +1,9 @@
 import {
-  AccessibilityCloudFeature,
-  AccessibilityCloudFeatureCollection,
+    AccessibilityCloudFeature,
+    AccessibilityCloudFeatureCollection
 } from "../Feature";
-import FeatureCache from "./FeatureCache";
 import { equipmentInfoCache } from "./EquipmentInfoCache";
-import { currentLocales } from "../i18n/i18n";
+import FeatureCache from "./FeatureCache";
 
 type CacheMap = {
   [key: string]: FeatureCache<any, any>;
@@ -36,7 +35,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
     useCache: boolean = true
   ): Promise<Response> {
     // const acLocaleString = currentLocales[0].transifexLanguageIdentifier;
-    const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
+    const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
     return AccessibilityCloudFeatureCache.fetch(
       `${baseUrl}/place-infos/${id}.json?appToken=${appToken}&includePlacesWithoutAccessibility=1`
     );
@@ -68,7 +67,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   createPlace(place: CreatePlaceData, appToken: string): Promise<string> {
     const uploadPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ""}/place-infos/?appToken=${appToken}`,
         {
           method: "POST",
@@ -114,7 +113,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ""}/place-infos/rate?id=${placeId}&mode=${mode}&rating=${rating}&appToken=${appToken}`,
         {
           method: "POST",
@@ -158,7 +157,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<string> {
     const editUrlPromise = new Promise<string>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ""}/place-infos/edit-form-submission?id=${placeId}&returnUrl=${encodeURI(
           returnUrl
         )}&appToken=${appToken}`,
@@ -208,7 +207,7 @@ export default class AccessibilityCloudFeatureCache extends FeatureCache<
   ): Promise<boolean> {
     const uploadPromise = new Promise<boolean>((resolve, reject) => {
       FeatureCache.fetch(
-        `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
+        `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL ||
           ""}/place-infos/report?id=${placeId}&reason=${reason}&message=${message}&appToken=${appToken}`,
         {
           method: "POST",

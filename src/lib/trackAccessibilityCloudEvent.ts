@@ -1,7 +1,7 @@
 import pick from "lodash/pick";
 import { App } from "./model/ac/App";
-import { TrackingEvent } from "./model/ac/TrackingModel";
 import { MappingEvent } from "./model/ac/MappingEvent";
+import { TrackingEvent } from "./model/ac/TrackingModel";
 
 export type Query = {
   [k: string]: string | Array<string> | null;
@@ -48,7 +48,7 @@ export async function trackAccessibilityCloudEvent({
     },
   };
 
-  const fetchUrl = `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL}/tracking-events/report?appToken=${app.tokenString}`;
 
   return fetch(fetchUrl, fetchRequest).then((r) => r.json());
 }

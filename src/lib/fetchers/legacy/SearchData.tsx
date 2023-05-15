@@ -1,17 +1,12 @@
-import React from "react";
-import { t } from "ttag";
 
-import searchPlaces, {
-  searchPlacesDebounced,
-  SearchResultCollection,
-  SearchResultProperties,
-  getOsmIdFromSearchResultProperties,
-} from "../lib/searchPlaces";
-import { DataTableEntry } from "./getInitialProps";
+import { compact } from "lodash";
 import { wheelmapFeatureCache } from "../lib/cache/WheelmapFeatureCache";
 import { WheelmapFeature } from "../lib/Feature";
-import { getProductTitle } from "../lib/ClientSideConfiguration";
-import { compact } from "lodash";
+import {
+    getOsmIdFromSearchResultProperties, SearchResultCollection,
+    SearchResultProperties
+} from "../lib/searchPlaces";
+import { DataTableEntry } from "./getInitialProps";
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>;
@@ -24,9 +19,9 @@ async function fetchWheelmapNode(
   appToken: string,
   useCache: boolean
 ): Promise<WheelmapFeature | undefined> {
-  if (!process.env.REACT_APP_WHEELMAP_API_KEY) {
+  if (!process.env.NEXT_PUBLIC_WHEELMAP_API_KEY) {
     console.log(
-      "Warning: REACT_APP_WHEELMAP_API_KEY not set, cannot fetch place."
+      "Warning: NEXT_PUBLIC_WHEELMAP_API_KEY not set, cannot fetch place."
     );
     return null;
   }

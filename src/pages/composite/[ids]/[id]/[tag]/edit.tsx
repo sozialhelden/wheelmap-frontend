@@ -1,4 +1,5 @@
 import { Dialog, DialogBody, DialogFooter } from "@blueprintjs/core";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
@@ -6,15 +7,13 @@ import useSWR from "swr";
 import { t } from "ttag";
 import Layout from "../../../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
-import FeatureNameHeader from "../../../../../components/CombinedFeaturePanel/components/FeatureNameHeader";
+import { OSMTagEditor } from "../../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor";
 import CloseLink from "../../../../../components/shared/CloseLink";
 import Toolbar from "../../../../../components/shared/Toolbar";
 import { useCurrentApp } from "../../../../../lib/context/AppContext";
 import { fetchMultipleFeatures } from "../../../../../lib/fetchers/fetchMultipleFeatures";
 import { isOSMFeature } from "../../../../../lib/model/shared/AnyFeature";
-import { OSMTagEditor } from "../../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor";
 import { getOSMType } from "../../../../../lib/model/shared/generateOsmUrls";
-import { useSession } from "next-auth/react";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -23,7 +22,7 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-const baseUrl = process.env.REACT_APP_OSM_API_BASE_URL;
+const baseUrl = process.env.NEXT_PUBLIC_OSM_API_BASE_URL;
 
 async function createChangeset({ tagName, newValue, accessToken }: { tagName: string; newValue: string; accessToken: string}): Promise<string> {
   const response = await fetch(`${baseUrl}/api/0.6/changeset/create`, {

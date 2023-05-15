@@ -1,7 +1,7 @@
-import { localeFromString } from "../i18n/localeFromString";
-import { expandedPreferredLocales } from "../i18n/expandedPreferredLocales";
-import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
 import useSWR from "swr";
+import { expandedPreferredLocales } from "../i18n/expandedPreferredLocales";
+import { localeFromString } from "../i18n/localeFromString";
+import { normalizeLanguageCode } from "../i18n/normalizeLanguageCode";
 import IAccessibilityAttribute from "../model/ac/IAccessibilityAttribute";
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
@@ -16,7 +16,7 @@ export function getAccessibilityAttributesURL(
     // overriddenLocaleString ? localeFromString(overriddenLocaleString) : null
   );
   const url = `${
-    process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
+    process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
   }/accessibility-attributes.json?limit=10000&appToken=${
     appToken
   }&include=${preferredLocales

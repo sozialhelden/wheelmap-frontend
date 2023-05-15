@@ -15,7 +15,6 @@
     "@primer/react": "^35.15.0",
     "@sozialhelden/a11yjson": "^15.3.0",
     "@sozialhelden/ietf-language-tags": "^5.4.2",
-    "@sozialhelden/twelve-factor-dotenv": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "@wdio/browserstack-service": "^6.10.10",

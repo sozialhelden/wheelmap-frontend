@@ -1,9 +1,9 @@
-import { PhotoModel } from "../PhotoModel";
 import { Image } from "react-photo-album";
 import { AccessibilityCloudImage } from "../model/ac/Feature";
+import { PhotoModel } from "../PhotoModel";
 
 const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
-  return `${process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL ||
+  return `${process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL ||
     ""}/images/scale/${acPhoto.imagePath}?fitw=${size}&fith=${size}${
     acPhoto.angle ? `&angle=${((acPhoto.angle % 360) + 360) % 360}` : ""
   }`;

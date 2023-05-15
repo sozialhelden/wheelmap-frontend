@@ -5,7 +5,7 @@ export function interpretJSONResponseAsApp(json: unknown): App {
 }
 
 export default function fetchApp([hostname, appToken]: [string, string]) {
-  const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
   const cleanedHostName = hostname
     // Allow sharing a deployment with ngrok
     .replace(/.*\.ngrok(?:-free)\.app$/, "wheelmap.tech")

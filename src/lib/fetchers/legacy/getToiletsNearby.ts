@@ -1,4 +1,3 @@
-import { PlaceInfo } from "@sozialhelden/a11yjson";
 import { Feature } from "geojson";
 import flatten from "lodash/flatten";
 import sortBy from "lodash/sortBy";
@@ -30,7 +29,7 @@ function fetchAcToiletPlaces(
     includeSourceIds,
     excludeSourceIds
   );
-  const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
+  const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
   const url = `${baseUrl}/place-infos.json?${sourceIdParams}&latitude=${lat}&longitude=${lon}&accuracy=${radius}&limit=20&appToken=${appToken}`;
   return globalFetchManager
     .fetch(url)

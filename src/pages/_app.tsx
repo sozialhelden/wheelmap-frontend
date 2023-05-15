@@ -89,7 +89,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }
-  const centralAppToken = process.env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const centralAppToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
   const app = await fetchApp([hostname, centralAppToken]);
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`);

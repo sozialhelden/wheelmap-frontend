@@ -1,6 +1,6 @@
-import URLDataCache from "./URLDataCache";
-import { MappingEvents, MappingEvent } from "../model/ac/MappingEvent";
 import { App } from "../App";
+import { MappingEvent, MappingEvents } from "../model/ac/MappingEvent";
+import URLDataCache from "./URLDataCache";
 
 import { IImage } from "../model/ac/Image";
 
@@ -20,7 +20,7 @@ export type MappingEventByIdResult = MappingEvent & {
 export default class MappingEventsCache extends URLDataCache<
   MappingEventsListResult | MappingEventByIdResult
 > {
-  baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
+  baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || "";
 
   async getMappingEvents(app: App, useCache = true): Promise<MappingEvent[]> {
     const url = `${this.baseUrl}/mapping-events.json?appToken=${app.tokenString}&includeRelated=images`;

@@ -3,25 +3,22 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
-  Layer,
-  MapRef,
-  NavigationControl,
-  Source,
-  ViewState,
-  ViewStateChangeEvent,
+    Layer, Map, MapProvider, MapRef,
+    NavigationControl,
+    Source,
+    ViewState,
+    ViewStateChangeEvent
 } from "react-map-gl";
-import { MapProvider, Map, useMap } from "react-map-gl";
 
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import useMeasure from "react-use-measure";
 // import FeatureListPopup from "../feature/FeatureListPopup";
+import MapboxLanguage from "@mapbox/mapbox-gl-language";
+import { uniq } from "lodash";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { createGlobalStyle } from "styled-components";
 import getFeatureIdsFromLocation from "../../lib/model/shared/getFeatureIdsFromLocation";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
-import "mapbox-gl/dist/mapbox-gl.css";
-import MapboxLanguage from "@mapbox/mapbox-gl-language";
-import { createGlobalStyle } from "styled-components";
-import { uniq } from "lodash";
 
 // The following is required to stop "npm build" from transpiling mapbox code.
 // notice the exclamation point in the import.
@@ -185,7 +182,7 @@ export default function MapView(props: IProps) {
       <MapProvider>
         <Map
           {...viewport}
-          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
           onMove={setViewportCallback}
           onTransitionEnd={updateViewportQuery}
           onTouchEnd={updateViewportQuery}
@@ -204,7 +201,7 @@ export default function MapView(props: IProps) {
               type="vector"
               tiles={[0, 1, 2, 3].map(
                 (n) =>
-                  `${process.env.REACT_APP_OSM_API_TILE_BACKEND_URL?.replace(
+                  `${process.env.NEXT_PUBLIC_OSM_API_TILE_BACKEND_URL?.replace(
                     /{n}/,
                     n.toString()
                   )}/${name}.mvt?limit=10000&bbox={bbox-epsg-3857}&epsg=3857`

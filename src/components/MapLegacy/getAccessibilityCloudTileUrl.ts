@@ -34,6 +34,6 @@ export default function getAccessibilityCloudTileUrl(
     resourceType == "place-infos"
       ? buildSourceIdParams(includeSourceIds, excludeSourceIds)
       : "";
-  const baseUrl = process.env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || "";
+  const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL || "";
   return `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&includePlacesWithoutAccessibility=1`;
 }
