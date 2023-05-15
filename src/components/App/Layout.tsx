@@ -1,17 +1,17 @@
+import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/icons/lib/css/blueprint-icons.css";
+import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+import { useRouter } from "next/router";
+import "normalize.css";
 import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
-import MapView from "../MapNew/MapView";
+import LoadableMapView from "../MapNew/LoadableMapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import "normalize.css";
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-import { useRouter } from "next/router";
 
 const BlurLayer = styled.div<{ active: boolean }>`
   position: fixed;
@@ -65,7 +65,8 @@ export default function Layout({
       )}
 
       <main style={{ height: "100%" }} ref={containerRef}>
-        <MapView {...{ containerRef }} />
+        <LoadableMapView {...{ containerRef }} />
+
         <BlurLayer active={blur} style={{ zIndex: 1000 }} />
         <div style={{ zIndex: 2000 }}>{children}</div>
         <ToastContainer position="bottom-center" />

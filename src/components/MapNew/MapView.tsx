@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import * as React from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import {
-    Layer, Map, MapProvider, MapRef,
-    NavigationControl,
-    Source,
-    ViewState,
-    ViewStateChangeEvent
+  Layer, Map, MapProvider, MapRef,
+  NavigationControl,
+  Source,
+  ViewState,
+  ViewStateChangeEvent
 } from "react-map-gl";
 
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
@@ -182,7 +182,7 @@ export default function MapView(props: IProps) {
       <MapProvider>
         <Map
           {...viewport}
-          mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN}
           onMove={setViewportCallback}
           onTransitionEnd={updateViewportQuery}
           onTouchEnd={updateViewportQuery}

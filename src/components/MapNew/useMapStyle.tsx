@@ -5,7 +5,7 @@ const fetcher = (input: RequestInfo, init?: RequestInit | undefined) =>
 
 function useMapStyle() {
   const styleId = process.env.NEXT_PUBLIC_MAPBOX_STYLE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN;
   const accountId = process.env.NEXT_PUBLIC_MAPBOX_ACCOUNT_ID;
 
   const url = `https://api.mapbox.com/styles/v1/${accountId}/${styleId}?fresh=true&access_token=${accessToken}`;
