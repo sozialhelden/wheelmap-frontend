@@ -157,7 +157,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "rm -rf dist/ && rm -rf src/.next/ && npm run copy-files && NEXT_TELEMETRY_DISABLED=1 next build src && tsc -p src/server/ --outDir dist/ --noEmit false && mv src/.next dist/",
+    "build": "rm -rf dist/ && rm -rf src/.next/ && npm run copy-files && NEXT_TELEMETRY_DISABLED=1 next build src && tsc -p src/server/ --outDir dist/ --noEmit false && mv src/.next .",
     "start": "pwd; env; cat .env; NODE_ENV=production node --icu-data-dir=node_modules/full-icu dist/server/server.js",
     "copy-files": "copyfiles -u 1 ./src/**/*.css ./dist && copyfiles -u 1 ./src/**/*.scss ./dist && copyfiles ./public ./dist",
     "analyze": "source-map-explorer build/static/js/main.*",
