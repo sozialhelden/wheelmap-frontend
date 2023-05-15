@@ -47,6 +47,7 @@ COPY --from=buildenv /usr/app/package.json .
 COPY --from=buildenv /usr/app/.env .
 COPY --from=buildenv /usr/app/.env.example .
 COPY --from=buildenv /usr/app/dist ./dist
+COPY --from=buildenv /usr/app/.next ./.next
 COPY --from=buildenv /usr/app/public ./public
 COPY --from=buildenv /usr/app/node_modules ./node_modules
 COPY --from=buildenv /usr/app/tests ./tests
