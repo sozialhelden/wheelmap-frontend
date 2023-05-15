@@ -17,11 +17,6 @@ COPY package-lock.json .
 FROM base AS buildenv
 RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \
-  g++ \
-  build-essential \
-  make \
-  gnupg2 \
-  dumb-init \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

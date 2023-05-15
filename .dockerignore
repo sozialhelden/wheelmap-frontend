@@ -1,5 +1,6 @@
 .env
 .env.*
+.git
 !.env.example
 node_modules
 npm-debug.log
