@@ -1,23 +1,23 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
-import * as React from 'react';
-import Head from 'next/head';
-import type { AppProps } from 'next/app'
-import composeContexts, { ContextAndValue } from '../lib/composeContexts';
-import * as queryString from 'query-string';
-import { App } from '../lib/model/ac/App';
-import { default as NextApp } from 'next/app';
-import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
-import { AppContext } from '../lib/context/AppContext';
-import fetchApp from '../lib/fetchers/fetchApp';
+import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
+import { uniq } from 'lodash';
 import { NextPage } from 'next';
-import { SessionContext, SessionProvider } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
+import type { AppProps } from 'next/app';
+import { default as NextApp } from 'next/app';
+import Head from 'next/head';
+import * as queryString from 'query-string';
+import * as React from 'react';
+import composeContexts, { ContextAndValue } from '../lib/composeContexts';
+import { AppContext } from '../lib/context/AppContext';
+import CountryContext from '../lib/context/CountryContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { uniq } from 'lodash';
+import { parseUserAgentString, UserAgentContext } from '../lib/context/UserAgentContext';
+import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
-import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
-import CountryContext from '../lib/context/CountryContext';
+import { App } from '../lib/model/ac/App';
 
 
 export type NextPageWithLayout = NextPage & {
@@ -67,7 +67,8 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const { req, res } = ctx;
   const url = req ? req.url : location.href;
   const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
-  const languageTagStrings = req?.headers?.["accept-language"] ? parseAcceptLanguageString(req.headers["accept-language"]) : uniq([navigator.language, ...navigator.languages]);
+  const acceptLanguageHeader = req?.headers?.["accept-language"];
+  const languageTagStrings = req ? (acceptLanguageHeader && parseAcceptLanguageString(acceptLanguageHeader) || ['en']) : uniq([navigator.language, ...navigator.languages]);
   const languageTags = languageTagStrings.map(parseLanguageTag);
   res?.setHeader("Vary", "X-Lang, Content-Language");
   if (languageTagStrings[0]) {
