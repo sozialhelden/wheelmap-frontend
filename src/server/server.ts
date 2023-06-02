@@ -98,7 +98,7 @@ app.prepare().then(() => {
   server.use(
     ['/api/*', '/nodes/*'],
     createProxyMiddleware({
-      target: process.env.REACT_APP_LEGACY_API_BASE_URL,
+      target: process.env.REACT_APP_OSM_API_LEGACY_BASE_URL,
       changeOrigin: true,
     })
   );

@@ -12,5 +12,5 @@ export default {
   minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
   wheelmapApiKey: env.REACT_APP_WHEELMAP_API_KEY,
-  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.REACT_APP_LEGACY_API_BASE_URL : '',
+  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.REACT_APP_OSM_API_LEGACY_BASE_URL : '',
 };
