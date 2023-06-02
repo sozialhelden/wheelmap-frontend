@@ -74,6 +74,9 @@ type DataTable = {
 
 const dataTable: DataTable = Object.freeze({
   placeDetail: PlaceDetailsData,
+  node: PlaceDetailsData,
+  way: PlaceDetailsData,
+  relation: PlaceDetailsData,
   search: SearchData,
   map: MapData,
   equipment: PlaceDetailsData,

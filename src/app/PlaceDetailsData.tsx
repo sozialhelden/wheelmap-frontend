@@ -43,18 +43,18 @@ import { translatedStringFromObject } from '../lib/i18n';
 import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
 
 function fetchFeature(
+  osmType: string,
   featureId: string,
   appToken: string,
   useCache: boolean,
   disableWheelmapSource?: boolean
 ): Promise<Feature> | null {
-  const isWheelmap = isWheelmapFeatureId(featureId);
-
+  const isWheelmap = !!osmType;
   if (isWheelmap) {
     if (disableWheelmapSource) {
       return null;
     }
-    return wheelmapFeatureCache.fetchFeature(featureId, appToken, useCache);
+    return wheelmapFeatureCache.fetchFeature(osmType + '/' + featureId, appToken, useCache);
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache);
@@ -174,7 +174,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const disableWheelmapSource = query.disableWheelmapSource === 'true';
     const renderContext = await renderContextPromise;
     const appToken = renderContext.app.tokenString;
-    const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
+    const featurePromise = fetchFeature(query.osmType, featureId, appToken, useCache, disableWheelmapSource);
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
       : null;

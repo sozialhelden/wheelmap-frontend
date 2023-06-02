@@ -749,9 +749,12 @@ class App extends React.Component<Props, State> {
     const { routerHistory } = this.props;
 
     // show equipment inside their place details
-    let routeName = 'placeDetail';
     const params = this.getCurrentParams() as any;
-
+    
+    // This is only set for OSM features, not for accessibility.cloud features.
+    const osmType = get(properties, 'osm_type');
+    params.osmType = osmType;
+    let routeName = osmType ? osmType : 'placeDetail';
     params.id = featureIdString;
     delete params.eid;
 

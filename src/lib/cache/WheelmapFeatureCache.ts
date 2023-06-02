@@ -15,7 +15,7 @@ export default class WheelmapFeatureCache extends FeatureCache<
     useCache: boolean = true
   ): Promise<Response> {
     return this.fetch(
-      `${config.wheelmapApiBaseUrl}/api/nodes/${id}?api_key=${config.wheelmapApiKey}`
+      `${config.wheelmapApiBaseUrl}/api/${id}?api_key=${config.wheelmapApiKey}`
     );
   }
 
