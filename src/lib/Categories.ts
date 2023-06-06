@@ -281,6 +281,7 @@ export default class Categories {
 
     function wheelmapCategoriesFetch() {
       const url = `${config.wheelmapApiBaseUrl}/api/categories?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
+      console.log("url:", url);
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
@@ -289,6 +290,7 @@ export default class Categories {
 
     function wheelmapNodeTypesFetch() {
       const url = `${config.wheelmapApiBaseUrl}/api/node_types?api_key=${env.REACT_APP_WHEELMAP_API_KEY}&locale=${languageCode}`;
+      console.log("url:", url);
       return globalFetchManager
         .fetch(url, { mode: 'no-cors' })
         .then(responseHandler)
