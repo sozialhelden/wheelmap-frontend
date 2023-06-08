@@ -61,11 +61,13 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
     if (properties[key] === "yes") {
       const attributeId = `osm:${key}=yes`;
       const attribute = attributeMap?.get(attributeId);
-      const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags);
-      result.push(
-        properties.note ||
-        `${fullTypeName || humanize(key)} ${properties.ref || properties.note || ""}`
-      );
+      if (attribute) {
+        const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags);
+        result.push(
+          properties.note ||
+          `${fullTypeName || humanize(key)} ${properties.ref || properties.note || ""}`
+        );
+      }
       break;
     }
   }

@@ -1,5 +1,5 @@
-import { hsl } from "d3-color";
 import { useFocusTrap } from "@primer/react/lib-esm/hooks/useFocusTrap";
+import { hsl } from "d3-color";
 import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
@@ -10,7 +10,6 @@ import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfigu
 import CloseIcon from "../../icons/actions/Close";
 import VectorImage from "../../shared/VectorImage";
 import AppLinks from "./AppLinks";
-import SessionLink from "../../Session/SessionLink";
 
 type Props = {
   onToggle: (isMainMenuOpen: boolean) => void;
@@ -61,6 +60,11 @@ const StyledNav = styled.nav`
     margin-right: 10px;
     object-fit: contain;
     object-position: left;
+    svg {
+      max-width: 140px;
+      max-height: 24px;
+      width: auto;
+    }
   }
 
   .claim {

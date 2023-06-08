@@ -14,8 +14,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*Legacy.ts", "**/*Legacy.tsx"]
+  "exclude": ["node_modules", "**/*Legacy.ts", "**/*Legacy.tsx"],
 }

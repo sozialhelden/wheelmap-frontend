@@ -53,20 +53,20 @@ async function createChange({ accessToken, osmType, osmId, changesetId, tagName,
   }).join('\n');
 
   console.log('allTagsAsXML', allTagsAsXML);
-  // return fetch(`${baseUrl}/api/0.6/${osmType}/${osmId}`, {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "text/xml",
-  //     "Authorization": `Bearer ${accessToken}`,
-  //   },
-  //   body: `<osm>
-  //     <${osmType} id="${osmId}" changeset="${changesetId}">
-
-  //     </${osmType}>
-  //   </osm>`,
-  // }).then((res) => res.text()).then((data) => {
-  //   console.log(data);
-  // });
+  return fetch(`${baseUrl}/api/0.6/${osmType}/${osmId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "text/xml",
+      "Authorization": `Bearer ${accessToken}`,
+    },
+    body: `<osm>
+      <${osmType} id="${osmId}" changeset="${changesetId}">
+        ${allTagsAsXML}
+      </${osmType}>
+    </osm>`,
+  }).then((res) => res.text()).then((data) => {
+    console.log(data);
+  });
 }
 
 const fetcher = (type: string, id: number) => {

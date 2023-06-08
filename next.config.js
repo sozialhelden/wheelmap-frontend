@@ -1,26 +1,53 @@
 const withTranspileModules = require("next-transpile-modules");
+const {
+  loadGlobalEnvironment,
+  getFilteredClientEnvironment,
+} = require("@sozialhelden/twelve-factor-dotenv");
+const env = getFilteredClientEnvironment(loadGlobalEnvironment(), (variableName) => variableName.startsWith("NEXT_PUBLIC_"));
 
-let configuration = withTranspileModules({
-
+/**
+ * @type {import('next').NextConfig}
+ **/
+const configuration = {
   webpack: (config) => {
-    // Fixes npm packages that depend on `fs` module
-    config.node = {
-      fs: "empty",
-      dgram: "empty",
-      net: "empty",
-      tls: "empty",
-      child_process: "empty",
-      async_hooks: "mock",
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        // assert: require.resolve('assert'),
+        // buffer: require.resolve('buffer'),
+        // console: require.resolve('console-browserify'),
+        // constants: require.resolve('constants-browserify'),
+        // crypto: require.resolve('crypto-browserify'),
+        // domain: require.resolve('domain-browser'),
+        // events: require.resolve('events'),
+        // http: require.resolve('stream-http'),
+        // https: require.resolve('https-browserify'),
+        // os: require.resolve('os-browserify/browser'),
+        // path: require.resolve('path-browserify'),
+        // punycode: require.resolve('punycode'),
+        // process: require.resolve('process/browser'),
+        // querystring: require.resolve('querystring-es3'),
+        // stream: require.resolve('stream-browserify'),
+        // string_decoder: require.resolve('string_decoder'),
+        // sys: require.resolve('util'),
+        // timers: require.resolve('timers-browserify'),
+        // tty: require.resolve('tty-browserify'),
+        // url: require.resolve('url'),
+        // util: require.resolve('util'),
+        // vm: require.resolve('vm-browserify'),
+        // zlib: require.resolve('browserify-zlib'),
+        fs: "empty",
+        dgram: "empty",
+        net: "empty",
+        tls: "empty",
+        child_process: "empty",
+        async_hooks: "mock",
+      },
     };
-
     return config;
   },
-});
-
-// these options would be ignored above, so they needs to be extended manually
-configuration = {
-  ...configuration,
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
+  env,
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

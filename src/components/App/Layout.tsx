@@ -55,13 +55,11 @@ export default function Layout({
 
       <GlobalStyle />
 
-      {!blur && (
-        <MainMenu
-          onToggle={toggleMainMenu}
-          isOpen={isMenuOpen}
-          clientSideConfiguration={clientSideConfiguration}
-        />
-      )}
+      <MainMenu
+        onToggle={toggleMainMenu}
+        isOpen={isMenuOpen}
+        clientSideConfiguration={clientSideConfiguration}
+      />
 
       <main 
         style={{ height: "100%" }} 
