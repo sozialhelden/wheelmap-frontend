@@ -55,7 +55,7 @@ export default class MyDocument extends Document<any> {
                 https://api.mapbox.com
                 https://api.tiles.mapbox.com
                 https://events.mapbox.com
-                ${env.REACT_APP_OSM_API_LEGACY_BASE_URL || ''}
+                ${env.REACT_APP_OSM_API_LEGACY_BASE_URL.replace(/(https:\/\/.*?)\/.*$/, '$1') || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
