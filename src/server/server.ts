@@ -94,15 +94,6 @@ app.prepare().then(() => {
     app.render(req, res, '/main', { ...match.params, ...req.query, routeName: match.route.name });
   });
 
-  // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
-  server.use(
-    ['/api/*', '/nodes/*'],
-    createProxyMiddleware({
-      target: process.env.REACT_APP_OSM_API_LEGACY_BASE_URL,
-      changeOrigin: true,
-    })
-  );
-
   server.use(
     ['/images/*'],
     createProxyMiddleware({
