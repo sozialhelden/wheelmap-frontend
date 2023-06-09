@@ -117,6 +117,7 @@ type Props = {
   accessibilityCloudAppToken: string;
   accessibilityCloudBaseUrl?: string;
   wheelmapApiBaseUrl: string;
+  wheelmapApiBaseUrlForTiles: string;
   wheelmapApiKey: string;
   maxZoom: number;
   minZoomWithSetCategory: number;
@@ -1110,7 +1111,7 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileUrl(props: Props = this.props, state: State = this.state): string | null {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = props.wheelmapApiBaseUrl;
+    const baseUrl = props.wheelmapApiBaseUrlForTiles;
     if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = props.wheelmapApiKey;
     const categoryName = props.categoryId;

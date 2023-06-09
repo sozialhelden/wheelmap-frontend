@@ -1,8 +1,4 @@
-import { Position } from 'geojson';
 import env from './env';
-
-// use base url on server, otherwise use the proxy running on the hosting server
-const useAbsoluteWheelmapBaseUrl = typeof window === 'undefined';
 
 export default {
   locateTimeout: 60 * 60 * 1000,
@@ -12,5 +8,6 @@ export default {
   minZoomWithSetCategory: 13,
   minZoomWithoutSetCategory: 16,
   wheelmapApiKey: env.REACT_APP_WHEELMAP_API_KEY,
-  wheelmapApiBaseUrl: useAbsoluteWheelmapBaseUrl ? env.REACT_APP_OSM_API_LEGACY_BASE_URL : '',
+  wheelmapApiBaseUrl: env.REACT_APP_OSM_API_LEGACY_BASE_URL,
+  wheelmapApiBaseUrlForTiles: env.REACT_APP_OSM_API_TILE_BACKEND_URL_LEGACY,
 };

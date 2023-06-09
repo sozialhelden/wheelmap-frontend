@@ -162,6 +162,8 @@ class GeoJSONTileLayer extends TileLayer {
       y: coords.y,
       z: this._getZoomForUrl(),
       timestamp: 0,
+      // Generate a random number between 0 and 3
+      n: Math.random() * 4 | 0,
     };
     const bbox = geoTileToBbox(data);
     if (hasEditsInBBox(bbox)) {

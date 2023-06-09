@@ -55,6 +55,10 @@ export default class MyDocument extends Document<any> {
                 https://api.mapbox.com
                 https://api.tiles.mapbox.com
                 https://events.mapbox.com
+                https://ac-o-0.global.ssl.fastly.net
+                https://ac-o-1.global.ssl.fastly.net
+                https://ac-o-2.global.ssl.fastly.net
+                https://ac-o-3.global.ssl.fastly.net
                 ${env.REACT_APP_OSM_API_LEGACY_BASE_URL.replace(/(https:\/\/.*?)\/.*$/, '$1') || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
