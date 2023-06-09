@@ -18,6 +18,7 @@ import { AppContextData } from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
 import { isWheelmapFeature } from '../../../lib/Feature';
 import env from '../../../lib/env';
+import { saveEditInLocalStorage } from './LastEditsStorage';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
@@ -71,7 +72,7 @@ async function finishRatingFlow<T>(options: TrackableSaveOptions<T>) {
       label: String(value),
     });
     trackAttributeChanged(options);
-
+    debugger
     if (isWheelmapFeatureId(featureId)) {
       [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
         if (cache.getCachedFeature(featureId)) {
@@ -98,22 +99,21 @@ async function finishRatingFlow<T>(options: TrackableSaveOptions<T>) {
 
 // todo delete
 async function saveToWheelmap<T>(options: TrackableSaveOptions<T>): Promise<void> {
-  
   if (!isWheelmapFeature(options.feature)) {
     throw new Error('Cannot save to Wheelmap: Feature is not a Wheelmap feature.');
   }
-  // debugger
+
   const osmType = options.feature.properties.osm_type;
   const osmId = options.feature.properties.id;
-  // if(!osmType || !osmId) {
-  //   throw new Error('Cannot save to Wheelmap: Feature does not have osm_type or osm_id.');
-  // }
-
   const baseUrl = env.REACT_APP_OSM_API_LEGACY_BASE_URL;
   if (!baseUrl) {
     throw new Error('Cannot save to Wheelmap: REACT_APP_OSM_API_LEGACY_BASE_URL is not set.');
   }
-  const url = `${baseUrl}/api/${osmType}/${osmId}/wheelchair`;
+  const tag = {
+    'wheelchair': 'wheelchair',
+    'toilet': 'toilets:wheelchair',
+  }[options.action];
+  const url = `${baseUrl}/api/${osmType}/${osmId}/${tag}`;
   console.log('saveToWheelmap options', JSON.stringify(options, null , 2) );
   console.log('saveToWheelmap osmapi url', url);
   const requestInit = {
@@ -121,12 +121,12 @@ async function saveToWheelmap<T>(options: TrackableSaveOptions<T>): Promise<void
       'content-type': 'application/json',
     },
     method: 'POST',
-    body: `{ "value": "${options.value}" }`,    
+    body: `{ "value": "${options.value}" }`,
   };
   console.log('saveToWheelmap requestInit:', requestInit);
-  debugger
   const response = await fetch(url, requestInit);
   await response.json();
+  saveEditInLocalStorage({ timestamp: Date.now(), lat: options.feature.geometry.coordinates[1], lon: options.feature.geometry.coordinates[0]});
   return finishRatingFlow(options);
 }
 
@@ -134,7 +134,7 @@ function saveWheelmapToiletStatus(options: ExternalSaveOptions<YesNoUnknown>) {
   return saveToWheelmap({
     ...options,
     action: 'toilet',
-    propertyUpdates: { value: options.value },
+    propertyUpdates: { wheelchair_toilet: options.value },
   });
 }
 
@@ -142,7 +142,7 @@ function saveWheelmapWheelchairStatus(options: ExternalSaveOptions<YesNoLimitedU
   return saveToWheelmap({
     ...options,
     action: 'wheelchair',
-    propertyUpdates: { value: options.value },
+    propertyUpdates: { wheelchair: options.value },
   });
 }
 

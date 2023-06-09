@@ -38,6 +38,7 @@ import highlightMarkers from './highlightMarkers';
 import { CustomEvent } from '../../lib/EventTarget';
 import { Feature, getFeatureId } from '../../lib/Feature';
 import HighlightableMarker from './HighlightableMarker';
+import { getLastTimestamp, hasEditsInBBox } from '../NodeToolbar/AccessibilityEditor/LastEditsStorage';
 
 const TileLayer = L.TileLayer;
 
@@ -160,8 +161,13 @@ class GeoJSONTileLayer extends TileLayer {
       x: coords.x,
       y: coords.y,
       z: this._getZoomForUrl(),
+      timestamp: 0,
     };
-    data.bbox = geoTileToBbox(data);
+    const bbox = geoTileToBbox(data);
+    if (hasEditsInBBox(bbox)) {
+      data.timestamp = getLastTimestamp();
+    }
+    data.bbox = bbox;
     if (this._map && !this._map.options.crs.infinite) {
       const invertedY = this._globalTileRange.max.y - coords.y;
       if (this.options.tms) {
