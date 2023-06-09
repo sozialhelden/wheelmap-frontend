@@ -63,11 +63,8 @@ export function generateShowOnOsmUrl(feature: Feature) {
 
   if (isWheelmapFeature(feature)) {
     const featureId = Number(feature.id);
-    if (featureId < 0) {
-      return `https://www.openstreetmap.org/way/${Math.abs(featureId)}`;
-    }
-
-    return `https://www.openstreetmap.org/node/${Math.abs(featureId)}`;
+    const osmType = feature.properties.osm_type;
+    return `https://www.openstreetmap.org/${osmType}/${Math.abs(featureId)}`;
   }
 
   const coords = getLatLonFromFeature(feature);
