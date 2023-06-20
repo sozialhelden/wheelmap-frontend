@@ -37,7 +37,7 @@
     "ejson": "^2.1.2",
     "es6-set": "^0.1.5",
     "es6-symbol": "^3.1.1",
-    "eslint": "^5.16.0",
+    "eslint": "^7.0.0",
     "eslint-plugin-wdio": "^7.25.3",
     "eslint-plugin-webdriverio": "^1.0.1",
     "event-stream": "^4.0.1",
