@@ -133,6 +133,12 @@ function isLocalizedString(value: any): boolean {
   return isPlainObject(value) && Object.keys(value).every(key => key.match(/^\w\w[-_]?(?:\w\w)?$/));
 }
 
+// TODO test this function
+// pulled from copilot
+function isIetfLanguageTag(str: string): boolean {
+  return !!str.match(/^[a-z]{2,3}(?:-[a-z]{3}(?:-[a-z]{3}){0,2})?(?:-[a-z]{4})?(?:-[a-z]{2}|-[0-9]{3})?(?:-(?:[a-z0-9]{5,8}|[0-9][a-z0-9]{3}))*$/i);
+}
+
 function DetailsObject(props: {
   className: string | null;
   object: {};
@@ -149,13 +155,14 @@ function DetailsObject(props: {
 
       const value = object[key];
       const nameForKeyAndValue = formatKeyAndValue(key, value, props.accessibilityAttributes);
-      const nameForKeyOnly = formatName(key, props.accessibilityAttributes)
+      const nameForKeyOnly = formatName(key, props.accessibilityAttributes);
+      const isIetfLangTag = isIetfLanguageTag(nameForKeyOnly); // used to omit lang tags when rendering 
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
       // between the previous attribute value and the attribute name.
       const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(nameForKeyAndValue || nameForKeyOnly));
-
+      
       if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
         if (key === 'name' || key === 'title') {
           return <header>{translatedStringFromObject(value)}</header>;
@@ -177,7 +184,7 @@ function DetailsObject(props: {
         return (
           <>
             <dt key={`${key}-name`} data-key={key}>
-              {capitalizedName}
+              {!isIetfLangTag? capitalizedName : ''}
             </dt>
             <dd key={`${key}-tree`}>{subtree}</dd>
           </>
@@ -188,7 +195,7 @@ function DetailsObject(props: {
         return (
           <>
             <dt key={`${key}-name`} className="ac-rating">
-              {capitalizedName}:
+              {!isIetfLangTag ? capitalizedName : ''}:
             </dt>
             <dd key={`${key}-rating`}>
               <FormatRating rating={parseFloat(String(value))} />
@@ -200,8 +207,8 @@ function DetailsObject(props: {
       const formattedValue = formatValue(value);
       return (
         <div className={`leaf-property ${generatedClassName}`}>
-          <span className="ac-key">{capitalizedName}</span>
-          {!nameForKeyAndValue && <>: <span className="ac-value">{formattedValue}</span></>}
+          <span className="ac-key">{ !isIetfLangTag ? capitalizedName : ''}</span>
+          {!nameForKeyAndValue && <>{!isIetfLangTag ? ': ' : '' }<span className="ac-value">{formattedValue}</span></>}
         </div>
       );
     })
