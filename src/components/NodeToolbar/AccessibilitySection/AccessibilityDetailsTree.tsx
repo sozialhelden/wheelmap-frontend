@@ -36,6 +36,17 @@ function getDescribedQuantity(value: { unit?: string; operator?: string; value?:
   }
 }
 
+function formatKeyAndValue(
+  name: string,
+  value: any,
+  accessibilityAttributes: Map<string, Record<string, string>>
+): string | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  return accessibilityAttributes && translatedStringFromObject(accessibilityAttributes.get(name + '=' + value));
+}
+
 function formatName(
   name: string,
   accessibilityAttributes: Map<string, Record<string, string>>
@@ -137,12 +148,13 @@ function DetailsObject(props: {
       }
 
       const value = object[key];
-      const name = formatName(key, props.accessibilityAttributes);
+      const nameForKeyAndValue = formatKeyAndValue(key, value, props.accessibilityAttributes);
+      const nameForKeyOnly = formatName(key, props.accessibilityAttributes)
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
       // between the previous attribute value and the attribute name.
-      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
+      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(nameForKeyAndValue || nameForKeyOnly));
 
       if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
         if (key === 'name' || key === 'title') {
@@ -187,14 +199,10 @@ function DetailsObject(props: {
       const generatedClassName = `ac-${typeof value}`;
       const formattedValue = formatValue(value);
       return (
-        <>
-          <dt key={`${key}-name`} className={generatedClassName}>
-            {capitalizedName}:
-          </dt>
-          <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
-            <em>{formattedValue}</em>
-          </dd>
-        </>
+        <div className={`leaf-property ${generatedClassName}`}>
+          <span className="ac-key">{capitalizedName}</span>
+          {!nameForKeyAndValue && <>: <span className="ac-value">{formattedValue}</span></>}
+        </div>
       );
     })
     .filter(Boolean);
@@ -269,7 +277,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   }
 
   ol {
-    list-style-type: numeric;
+    list-style-type: decimal;
     margin-left: 1rem;
     &.has-only-one-item {
       list-style: none;
@@ -298,20 +306,14 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     width: 100%;
     /*display: block;*/
     /*background-color: rgba(0, 0, 0, 0.1);*/
-    overflow: auto;
     margin: 0;
   }
 
   dt {
     /*background-color: rgba(255, 0, 0, 0.1);*/
-    float: left;
-    clear: left;
+    clear: both;
     margin: 0;
     padding: 0;
-  }
-
-  dt[data-key] {
-    font-weight: bolder;
   }
 
   dd {
@@ -319,6 +321,15 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     margin-left: 0.5em;
     display: table-cell;
     padding: 0 0 0 0.3em;
+  }
+
+  .ac-key {
+    font-weight: bolder;
+  }
+
+  .ac-value {
+    margin-left: .5rem;
+    font-style: italic;
   }
 
   dt[data-key='areas'] {
@@ -362,6 +373,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     margin-top: 10px;
     & + dd {
       margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 `;
