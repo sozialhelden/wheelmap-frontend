@@ -5,6 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
 import { translatedStringFromObject } from '../../../lib/i18n';
+import { createRFC5646Regexp } from '@sozialhelden/ietf-language-tags';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -133,10 +134,8 @@ function isLocalizedString(value: any): boolean {
   return isPlainObject(value) && Object.keys(value).every(key => key.match(/^\w\w[-_]?(?:\w\w)?$/));
 }
 
-// TODO test this function
-// pulled from copilot
 function isIetfLanguageTag(str: string): boolean {
-  return !!str.match(/^[a-z]{2,3}(?:-[a-z]{3}(?:-[a-z]{3}){0,2})?(?:-[a-z]{4})?(?:-[a-z]{2}|-[0-9]{3})?(?:-(?:[a-z0-9]{5,8}|[0-9][a-z0-9]{3}))*$/i);
+  return !!str.match(/^[a-z]{2,3}(?:-[a-z]{3}(?:-[a-z]{3}){0,2})?$/i);
 }
 
 function DetailsObject(props: {
@@ -156,7 +155,7 @@ function DetailsObject(props: {
       const value = object[key];
       const nameForKeyAndValue = formatKeyAndValue(key, value, props.accessibilityAttributes);
       const nameForKeyOnly = formatName(key, props.accessibilityAttributes);
-      const isIetfLangTag = isIetfLanguageTag(nameForKeyOnly); // used to omit lang tags when rendering 
+      const isIetfLangTag = isIetfLanguageTag(key); // used to omit lang tags when rendering
       const htmlLangtag = isIetfLangTag ? nameForKeyOnly.toLowerCase() : null; // used to set lang attribute on html element
 
 
@@ -258,6 +257,12 @@ function AccessibilityDetailsTree(props: Props) {
         keyPrefix={props.keyPrefix}
       />
     );
+  }
+  if (typeof details === 'string') {
+    const keyAndValue = formatKeyAndValue(props.keyPrefix.replace(/\.\d+$/, ''), details, props.accessibilityAttributes);
+    if (keyAndValue) {
+      return <div className={props.className}>{keyAndValue}</div>;
+    }
   }
   return <div className={props.className}>{details}</div>;
 }
