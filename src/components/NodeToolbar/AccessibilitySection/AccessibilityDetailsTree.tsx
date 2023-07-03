@@ -157,6 +157,8 @@ function DetailsObject(props: {
       const nameForKeyAndValue = formatKeyAndValue(key, value, props.accessibilityAttributes);
       const nameForKeyOnly = formatName(key, props.accessibilityAttributes);
       const isIetfLangTag = isIetfLanguageTag(nameForKeyOnly); // used to omit lang tags when rendering 
+      const htmlLangtag = isIetfLangTag ? nameForKeyOnly.toLowerCase() : null; // used to set lang attribute on html element
+
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
@@ -208,7 +210,7 @@ function DetailsObject(props: {
       return (
         <div className={`leaf-property ${generatedClassName}`}>
           <span className="ac-key">{ !isIetfLangTag ? capitalizedName : ''}</span>
-          {!nameForKeyAndValue && <>{!isIetfLangTag ? ': ' : '' }<span className="ac-value">{formattedValue}</span></>}
+          {!nameForKeyAndValue && <>{!isIetfLangTag ? ': ' : '' }<span lang={htmlLangtag} className="ac-value">{formattedValue}</span></>}
         </div>
       );
     })
