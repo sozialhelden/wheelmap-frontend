@@ -65,7 +65,7 @@ The app disallows embedding via `<iframe>` if you provide no valid `embedToken` 
 
 ## Translation process
 
-Ensure the transifex client is setup https://docs.transifex.com/client/client-configuration#-transifexrc
+Ensure the transifex client is setup <https://docs.transifex.com/client/client-configuration#-transifexrc>
 
 Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
 
