@@ -65,7 +65,7 @@ The app disallows embedding via `<iframe>` if you provide no valid `embedToken` 
 
 ## Translation process
 
-Ensure the transifex client is setup https://docs.transifex.com/client/client-configuration#-transifexrc
+Ensure the transifex client is setup <https://docs.transifex.com/client/client-configuration#-transifexrc>
 
 Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
 
@@ -107,4 +107,3 @@ New code is automatically tested on pushing it to the git repository. GitHub dis
 ## Code of Conduct
 
 We follow the [Berlin Code of Conduct](https://berlincodeofconduct.org).
-
