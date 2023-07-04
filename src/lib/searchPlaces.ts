@@ -48,13 +48,10 @@ export function getOsmIdFromSearchResultProperties(
     return null;
   }
 
-  // Wheelmap stores features with osm type 'W' with negativ ids.
-  // @TODO Do this in some kind of util function. (Maybe wheelmap feature cache?)
-  if (searchResultProperties.osm_type === 'W') {
-    osmId = -osmId;
-  }
-
-  return osmId;
+  return {
+    N: 'node',
+    W: 'way',
+  }[searchResultProperties.osm_type] + '/' + osmId;
 }
 
 export function buildOriginalOsmId(searchResultProperties?: SearchResultProperties) {
