@@ -100,13 +100,12 @@ function fetchPhotos(
   appToken: string,
   useCache: boolean,
 ) {
-  const isWheelmap = isWheelmapFeature(feature);
   const featureId = getFeatureId(feature);
   const surveyResultId = get(feature, 'properties.surveyResultId');
-
+  const isOSMWay = isWheelmapFeature(feature) && feature.properties.osm_type === 'way';
   const photosPromise = Promise.all([
     accessibilityCloudImageCache
-      .getImage('place', featureId, appToken, useCache)
+      .getImage('place', isOSMWay ? String(-featureId) : featureId, appToken, useCache)
       .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : []),
     surveyResultId ?
       accessibilityCloudImageCache
