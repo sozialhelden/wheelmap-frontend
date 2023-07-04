@@ -34,9 +34,6 @@ import router from './router';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import { EquipmentInfo } from '../lib/EquipmentInfo';
 
-import { wheelmapFeaturePhotosCache } from '../lib/cache/WheelmapFeaturePhotosCache';
-import convertWheelmapPhotosToLightboxPhotos from '../lib/cache/convertWheelmapPhotosToLightboxPhotos';
-
 import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
 import { translatedStringFromObject } from '../lib/i18n';
@@ -105,7 +102,6 @@ function fetchPhotos(
   disableWheelmapSource?: boolean
 ) {
   const isWheelmap = isWheelmapFeature(feature);
-  const useWheelmap = isWheelmap && !disableWheelmapSource;
   const featureId = getFeatureId(feature);
   const surveyResultId = get(feature, 'properties.surveyResultId');
 
@@ -117,11 +113,6 @@ function fetchPhotos(
       accessibilityCloudImageCache
         .getImage('surveyResult', surveyResultId, appToken, useCache)
         .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : [])
-      : [],
-    useWheelmap
-      ? wheelmapFeaturePhotosCache
-          .getPhotosForFeature(featureId, appToken, useCache)
-          .then(wmPhotos => wmPhotos ? convertWheelmapPhotosToLightboxPhotos(wmPhotos) : [])
       : [],
   ])
     .then(photoArrays => photoArrays.flat())
