@@ -59,7 +59,8 @@ export default class MyDocument extends Document<any> {
                 https://ac-o-1.global.ssl.fastly.net
                 https://ac-o-2.global.ssl.fastly.net
                 https://ac-o-3.global.ssl.fastly.net
-                ${env.REACT_APP_OSM_API_LEGACY_BASE_URL.replace(/(https:\/\/.*?)\/.*$/, '$1') || ''}
+                ${env.REACT_APP_OSM_API_LEGACY_BASE_URL.replace(/(https?:\/\/.*?)\/.*$/, '$1') || ''}
+                ${env.REACT_APP_OSM_API_TILE_BACKEND_URL_LEGACY.replace(/(https?:\/\/.*?)\/.*$/, '$1') || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}
                 ${env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || ''}
                 ${env.REACT_APP_ELASTIC_APM_SERVER_URL || ''}
