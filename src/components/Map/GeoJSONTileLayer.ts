@@ -183,6 +183,7 @@ class GeoJSONTileLayer extends TileLayer {
 
   pointToLayer(feature) {
     const geometry = feature.geometry;
+    if (!geometry) return null;
     const latlng = [geometry.coordinates[1], geometry.coordinates[0]];
     const id = String(feature._id || feature.properties._id || feature.properties.id);
     const existingMarker = this._idsToShownLayers[id];
