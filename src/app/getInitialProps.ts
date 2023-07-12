@@ -108,7 +108,7 @@ export async function getInitialRouteProps(
     return {};
   }
 
-  return dataItem.getInitialRouteProps(query, renderContextPromise, isServer);
+  return dataItem.getInitialRouteProps({ ...query, routeName }, renderContextPromise, isServer);
 }
 
 export function getAdditionalPageComponentProps<Props>(

@@ -161,9 +161,11 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     // do not cache features on server
     const useCache = !isServer;
     const disableWheelmapSource = query.disableWheelmapSource === 'true';
+    console.log('query', query);
     const renderContext = await renderContextPromise;
     const appToken = renderContext.app.tokenString;
-    const featurePromise = fetchFeature(query.osmType, featureId, appToken, useCache, disableWheelmapSource);
+    const osmType = ['way', 'node', 'relation'].includes(query.routeName) ? query.routeName : null;
+    const featurePromise = fetchFeature(osmType, featureId, appToken, useCache, disableWheelmapSource);
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
       : null;

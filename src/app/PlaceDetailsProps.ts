@@ -47,7 +47,6 @@ export type PlaceDetailsProps = {
   // toilets around the selected feature
   toiletsNearby: PotentialPromise<Feature[]> | undefined,
   renderContext: RenderContext,
-  osmType: string | undefined,
 };
 
 export type ResolvedPlaceDetailsProps = {

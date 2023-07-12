@@ -84,6 +84,22 @@ app.prepare().then(() => {
   // Read https://github.com/sozialhelden/twelve-factor-dotenv for more infos.
   server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
+  server.get(
+    '/nodes/:id',
+    (req, res, next) => {
+      const id = req.params.id;
+      console.log('id', id);
+      if (!id.match(/^-?\d+$/)) {
+        return next();
+      }
+      if (id.slice(0, 1) === '-') {
+        res.redirect(`/way/${id}`);
+        return;
+      }
+      res.redirect(`/node/${id}`);
+    }
+  );
+
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
 

@@ -31,7 +31,6 @@ function UnstyledIconButtonList(props: Props): JSX.Element {
       <PhoneNumberLink {...props} />
       <ExternalLinks {...props} />
       <PlaceWebsiteLink {...props} />
-      <ShareButtons {...props} />
       {!props.equipmentInfoId && <ReportIssueButton {...props} />}
     </div>
   );

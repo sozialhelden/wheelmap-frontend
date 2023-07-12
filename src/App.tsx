@@ -753,7 +753,6 @@ class App extends React.Component<Props, State> {
     
     // This is only set for OSM features, not for accessibility.cloud features.
     const osmType = get(properties, 'osm_type');
-    params.osmType = osmType;
     let routeName = osmType ? osmType : 'placeDetail';
     params.id = featureIdString;
     delete params.eid;
@@ -835,7 +834,6 @@ class App extends React.Component<Props, State> {
       let id = getFeatureId(wheelmapFeature);
       if (id) {
         let osmType = get(wheelmapFeature, 'properties.osm_type');
-        params.osmType = osmType;
         params.id = id;
         delete params.eid;
         routeName = osmType ? osmType : 'placeDetail';
