@@ -93,7 +93,7 @@ app.prepare().then(() => {
         return next();
       }
       if (id.slice(0, 1) === '-') {
-        res.redirect(`/way/${id}`);
+        res.redirect(`/way/${id.replace(/-/, '')}`);
         return;
       }
       res.redirect(`/node/${id}`);
