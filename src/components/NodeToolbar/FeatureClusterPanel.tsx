@@ -82,28 +82,33 @@ export const StyledClusterIcon = styled(ClusterIcon)`
   }
 `;
 
-class UnstyledFeatureClusterPanel extends React.Component<Props> {
-  renderCloseLink() {
-    const { onClose } = this.props;
-    return <PositionedCloseLink {...{ onClick: onClose }} />;
+function UnstyledFeatureClusterPanel (props: Props) {
+  const { cluster, onClose, categories, onFeatureSelected, className, hidden, modalNodeState, minimalTopPosition } = props;
+      
+  if (!cluster || cluster.features.length === 0) {
+    return null;
   }
 
-  renderClusterEntry(feature: Feature | EquipmentInfo, allFeatures: (Feature | EquipmentInfo)[]) {
-    const { category, parentCategory } = Categories.getCategoriesForFeature(
-      this.props.categories,
-      feature
-    );
+  // translator: Label caption of a cluster that contains multiple nodes with its count, e.g. '(3) Places'
+  const placesLabel = t`Places`;
 
-    const isEquipment = category._tag === 'ACCategory' && CategoryStrings.includes(category._id as CategoryString);
+  function renderCloseLink() {
+      return <PositionedCloseLink {...{ onClick: onClose }} />;
+  }
+
+  function renderClusterEntry(feature: Feature | EquipmentInfo, allFeatures: (Feature | EquipmentInfo)[]) {
+    const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
+
+    const isEquipment = category && (category._tag === 'ACCategory' && CategoryStrings.includes(category._id as CategoryString));
     const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
     const equipmentInfoId = equipmentInfo?.properties._id;
     const parentPlaceInfo = equipmentInfo && accessibilityCloudFeatureCache.getCachedFeature(equipmentInfo.properties.placeInfoId);
     return (
-      <button onClick={() => this.props.onFeatureSelected(feature)}>
+      <button onClick={() => onFeatureSelected(feature)}>
         <NodeHeader
           // TODO comment that this should allow typed features
           feature={parentPlaceInfo || feature as any}
-          categories={this.props.categories}
+          categories={categories}
           category={category}
           parentCategory={parentCategory}
           equipmentInfo={equipmentInfo}
@@ -114,13 +119,13 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     );
   }
 
-  renderClusterEntries(features: ArrayLike<Feature | EquipmentInfo>) {
+  function renderClusterEntries(features: ArrayLike<Feature | EquipmentInfo>) {
     const sortedFeatures = sortBy(features, feature => {
       if (!feature.properties) {
         return getFeatureId(feature)
       }
       const { category, parentCategory } = Categories.getCategoriesForFeature(
-        this.props.categories,
+        categories,
         feature
       );
 
@@ -129,46 +134,35 @@ class UnstyledFeatureClusterPanel extends React.Component<Props> {
     });
 
     return sortedFeatures.map(feature => (
-      <li key={getFeatureId(feature)}>{this.renderClusterEntry(feature, sortedFeatures)}</li>
+      <li key={getFeatureId(feature)}>{renderClusterEntry(feature, sortedFeatures)}</li>
     ));
   }
 
-  render() {
-    const { cluster } = this.props;
-
-    if (!cluster || cluster.features.length === 0) {
-      return null;
-    }
-
-    // translator: Label caption of a cluster that contains multiple nodes with its count, e.g. '(3) Places'
-    const placesLabel = t`Places`;
-
-    return (
-      <StyledToolbar
-        className={this.props.className}
-        hidden={this.props.hidden}
-        isModal={this.props.modalNodeState}
-        role="dialog"
-        minimalTopPosition={this.props.minimalTopPosition}
-        minimalHeight={135}
-      >
-        <ErrorBoundary>
-          <section className="cluster-entries">
-            <StyledNodeHeader>
-              <PlaceNameH1>
-                <StyledClusterIcon {...this.props} />
-                {placesLabel}
-              </PlaceNameH1>
-              {this.renderCloseLink()}
-            </StyledNodeHeader>
-            <StyledFrame>
-              <ul>{this.renderClusterEntries(cluster.features)}</ul>
-            </StyledFrame>
-          </section>
-        </ErrorBoundary>
-      </StyledToolbar>
-    );
-  }
+  return (
+    <StyledToolbar
+      className={className}
+      hidden={hidden}
+      isModal={modalNodeState}
+      role="dialog"
+      minimalTopPosition={minimalTopPosition}
+      minimalHeight={135}
+    >
+      <ErrorBoundary>
+        <section className="cluster-entries">
+          <StyledNodeHeader>
+            <PlaceNameH1>
+              <StyledClusterIcon {...props} />
+              {placesLabel}
+            </PlaceNameH1>
+            {renderCloseLink()}
+          </StyledNodeHeader>
+          <StyledFrame>
+            <ul>{renderClusterEntries(cluster.features)}</ul>
+          </StyledFrame>
+        </section>
+      </ErrorBoundary>
+    </StyledToolbar>
+  );
 }
 
 const FeatureClusterPanel = styled(UnstyledFeatureClusterPanel)`
