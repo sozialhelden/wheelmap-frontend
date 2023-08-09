@@ -94,14 +94,13 @@ const SearchData: DataTableEntry<SearchProps> = {
         };
       }
 
-      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = compact(
+      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] =
         results.features.map(feature => {
           const { type, osm_key } = feature.properties;
           if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
             return fetchWheelmapNode(feature.properties, props.app.tokenString, useCache);
           }
-        })
-      );
+        });
 
       // Fetch all wheelmap features when on server.
       if (isServer) {
