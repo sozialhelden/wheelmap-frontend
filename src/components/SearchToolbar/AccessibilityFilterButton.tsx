@@ -65,33 +65,31 @@ function AccessibilityFilterButton(props: Props) {
 }
 
 export default styled(AccessibilityFilterButton)`
-  & {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 1em 10px 1.3em;
-    min-height: 3rem;
-    cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 1em 10px 1.3em;
+  min-height: 3rem;
+  cursor: pointer;
 
-    svg.icon {
-      width: 21px;
-      height: 21px;
-    }
+  svg.icon {
+    width: 21px;
+    height: 21px;
+  }
 
-    ${CombinedIcon} {
-      width: 70px;
-    }
+  ${CombinedIcon} {
+    width: 70px;
+  }
 
-    ${props =>
-      props.isActive &&
-      css`
-        background-color: ${colors.coldBackgroundColor};
-      `};
+  ${props =>
+    props.isActive &&
+    css`
+      background-color: ${colors.coldBackgroundColor};
+    `};
 
-    &:hover,
-    &:focus {
-      background-color: ${colors.linkBackgroundColorTransparent};
-    }
+  &:hover,
+  &:focus {
+    background-color: ${colors.linkBackgroundColorTransparent};
   }
 `;
