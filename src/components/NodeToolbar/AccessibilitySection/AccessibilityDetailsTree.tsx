@@ -5,6 +5,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import humanizeString from 'humanize-string';
 import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
 import { translatedStringFromObject } from '../../../lib/i18n';
+import StyledMarkdown from '../../StyledMarkdown';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -149,7 +150,7 @@ function DetailsObject(props: {
           return <header>{translatedStringFromObject(value)}</header>;
         }
         if (key === 'description') {
-          return <section>{translatedStringFromObject(value)}</section>;
+          return <section><StyledMarkdown>{translatedStringFromObject(value)}</StyledMarkdown></section>;
         }
         const subtree = (
           <AccessibilityDetailsTree
