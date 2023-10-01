@@ -75,7 +75,7 @@
     "next-transpile-modules": "^5.0.0",
     "path-to-regexp": "^2.4.0",
     "plist": "^3.0.5",
-    "postcss": "^8.4.13",
+    "postcss": "^8.4.31",
     "query-string": "^6.13.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
