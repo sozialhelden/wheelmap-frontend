@@ -4,11 +4,9 @@ import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
 import { useRouter } from "next/router";
 import "normalize.css";
 import React from "react";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
-import MapView from "../MapNew/MapView";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
@@ -23,7 +21,7 @@ const BlurLayer = styled.div<{ active: boolean }>`
   pointer-events: ${(p) => (p.active ? "initial" : "none")};
 `;
 
-export default function Layout({
+export default function LayoutHealthPage({
   children,
   blur,
 }: {
@@ -68,10 +66,13 @@ export default function Layout({
         style={{ height: "100%" }} 
         ref={containerRef} 
       >
-        <MapView {...{ containerRef }} />
-        <BlurLayer active={blur} style={{ zIndex: 1000 }} />
-        <div style={{ zIndex: 2000 }}>{children}</div>
-        <ToastContainer position="bottom-center" />
+        {/* <BlurLayer active={blur} style={{ zIndex: 1000 }} /> */}
+        <div style={{ 
+          zIndex: 2000
+          }}>
+          {children}
+          </div>
+        {/* <ToastContainer position="bottom-center" /> */}
       </main>
     </>
   );
