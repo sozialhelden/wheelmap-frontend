@@ -39,26 +39,77 @@ import PreferencesFilter from "./components/PreferencesFilter";
 
 */
 
-
-
-// export const HealthSearchFilter = styled.section`
-//   background-color: skyblue;
-//   position: absolute;
-//   height: fit-content;
-//   width: 100vw;
-//   margin-inline: auto;
-// `;
   
-// export const HealthSeachResults = styled.section`
-//   // top: auto;
-//   left: 0;
-//   bottom: 0;
-//   background-color: pink;
-//   position: relative;
-//   // width: fit-content;
-//   margin-inline: auto;
-//   box-shadow: 0 0 20px rgba(69,86,104,0.25), 0 1px 5px rgba(69,86,104,0.1);
-// `;
+export const HealthSeachResultsSection = styled.section`
+  left: 0;
+  bottom: 0;
+  padding : 1rem;
+  background-color: pink;
+  // position: relative;    
+
+  ul.search-results-list {
+    list-style-type: none;
+    list-style-position: outside;
+    // padding-inline-start: 5%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 40vh;
+    width: 100%;
+  }
+
+  li {
+    margin-bottom: 0.9rem;
+  }
+`;
+
+export const SearchResult = styled.article`
+  width: 95%;
+  height: fit-content;
+  background-color: beige;
+  border-radius: 0.5rem;
+  padding: 0.15rem;
+  h3, p {
+    margin: 0.2rem;
+    margin-bottom: 0.35rem;
+  }
+`;
+  
+export const SearchResultHeading = styled.h3`
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  height: 2rem;
+  width: 70%;
+  background-color: #e5cccc;
+  border-radius: 0.5rem;
+  padding-left: 0.6rem;
+  padding-top: 0.4rem;
+`;
+
+export const SearchResultdescription = styled.p`
+  font-size: 1rem;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  height: 5rem;
+  background-color: #e5cccc;
+  border-radius: 0.5rem;
+  padding-left: 0.6rem;
+  padding-top: 0.4rem;
+  `;
+  
+ export const SearchResultAddress = styled.p`
+  font-size: 1rem;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0;
+  height: 2rem;
+  background-color: #e7dbdb;
+  border-radius: 0.5rem;
+  padding-left: 0.6rem;
+  padding-top: 0.4rem;
+  width: min(25%, 70vw);
+`;
 
 
 const renderMockedJSONSearchResults = (data) => {
@@ -73,25 +124,33 @@ const renderMockedJSONSearchResults = (data) => {
 const renderMockedDetailedSearchResults = (data: MockData[]) => {
   // TODO Make h2 live region
   return (
-    <section className="health-search-results">
+    <HealthSeachResultsSection className="health-search-results">
       <h2>{data.length} {t`Search Results`}</h2> 
-      <ul>
+      <ul className="search-results-list">
         {data.map((item: MockData) => {
           const name = typeof item.properties.name === 'string' ? item.properties.name : item.properties.name?.en ?? "Praxis Dr. Linker Platzhalter";
           const { street, city, house, postalCode, text } = item.properties.address || {};
+          const description = item.properties.description?.en ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
           return (
             <li key={item._id}>
-              {JSON.stringify(name)}
-              {JSON.stringify(street)}
-              {JSON.stringify(city)}
-              {JSON.stringify(house)}
-              {JSON.stringify(postalCode)}
-              {JSON.stringify(text)}
+              <SearchResult>
+                <SearchResultHeading>{JSON.stringify(name)}</SearchResultHeading>
+                <SearchResultdescription>
+                  {JSON.stringify(description)}
+                  {/* <SearchResultAddress>
+                    {JSON.stringify(street + city + house + postalCode + text)}
+                    {JSON.stringify(city)}
+                    {JSON.stringify(house)}
+                    {JSON.stringify(postalCode)}
+                    {JSON.stringify(text)}
+                  {/* </SearchResultAddress> */} 
+                </SearchResultdescription>
+              </SearchResult>
             </li>
           );
         })}
       </ul>
-    </section>
+    </HealthSeachResultsSection>
   );
 
       }
@@ -118,7 +177,7 @@ const renderMockedSurveyForm = () => {
 
 
 
-
+// use useswr to import data from file
 export default function Page() {  
   return (
     <React.Fragment>
@@ -138,7 +197,7 @@ const HealthSearchFilterSection = styled.section`
   padding: 1rem;
   display: grid;
   background-color: rgb(255, 255, 255, 0.95);
-  h1, h2 {
+  h1, h2, h3 {
     line-height: 1;
     font-weight: 400;
     display: flex;
@@ -150,6 +209,10 @@ const HealthSearchFilterSection = styled.section`
   }
   h2 { 
     font-size: 1.25rem;
+    font-weight: 500;
+  }
+  h3 {
+    font-size: 1rem;
     font-weight: 500;
   }
 `;

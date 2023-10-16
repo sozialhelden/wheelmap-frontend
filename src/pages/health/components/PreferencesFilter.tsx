@@ -23,47 +23,41 @@ li {
 
 ul {
   padding-inline-start: 0;
-  margin-inline-start: 0;
 }
-
 
 label {
   user-select: none;
 }
 
-
-
 label input[role="switch"] {
-  opacity: 0;
-  // position: relative;
-  
+  opacity: 0;  
 }
 
 label input[role="switch"] ~ .state {
   display: inline-block;
-  // user-select: none;
 }
 
 label input[role="switch"] ~ .state > .container {
   position: relative;
-  top: 2px;
+  display: flex;
+  justify-content: center;
+  top: 0em;
   display: inline-block;
   border: 1px solid black;
   opacity: 0.6;
-  width: 40px;
-  height: 15px;
-  left: -1.5rem;
-  border-radius: 11px;
+  width: calc(2em + 4px);
+  height: calc(1em + 4px);
+  left: -1.25rem;
+  border-radius: 1em;
 }
 
 label input[role="switch"] ~ .state > .container > .position {
   position: relative;
-  top: 0px;
-  left: 3px;
+  left: 2px;
   display: inline-block;
-  border-radius: 9px;
-  width: 14px;
-  height: 14px;
+  border-radius: 0.5em;
+  width: calc(1em - 2px);
+  height: calc(1em - 2px);
   background: black;
   
 }
@@ -77,27 +71,11 @@ label input[role="switch"]:checked ~ .state > span.off {
 }
 
 label input[role="switch"]:checked ~ .state > .container > .position {
-  left: 25px;
+  left: 1.1em;
   border-color: green;
   background: green;
   opacity: 1;
 }
-
-// // label.focus,
-// // label:hover {
-// //   padding: 2px 2px 4px 4px;
-// //   border-width: 2px;
-// //   outline: none;
-// //   background-color: #def;
-// //   cursor: pointer;
-// // }
-
-// // label.focus span.container,
-// // label:hover span.container {
-// //   background-color: white;
-// // }
-
-
 `;
 
 
