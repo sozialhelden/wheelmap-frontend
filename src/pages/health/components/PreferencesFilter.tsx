@@ -43,12 +43,18 @@ label input[role="switch"] ~ .state > .container {
   justify-content: center;
   top: 0em;
   display: inline-block;
-  border: 1px solid black;
-  opacity: 0.6;
+  opacity: 0.8;
   width: calc(2em + 4px);
-  height: calc(1em + 4px);
+  height: calc(1em + 2px);
   left: -1.25rem;
   border-radius: 1em;
+}
+
+label input[role="switch"]:checked ~ .state > .container {
+  background-color: #1c6e42;
+}
+label input[role="switch"]:not(:checked) ~ .state > .container {
+  background-color: #ababab;
 }
 
 label input[role="switch"] ~ .state > .container > .position {
@@ -59,6 +65,7 @@ label input[role="switch"] ~ .state > .container > .position {
   width: calc(1em - 2px);
   height: calc(1em - 2px);
   background: black;
+  border: 0.01em solid rgb(255, 255, 255, 0.85);
   
 }
 
@@ -71,10 +78,11 @@ label input[role="switch"]:checked ~ .state > span.off {
 }
 
 label input[role="switch"]:checked ~ .state > .container > .position {
-  left: 1.1em;
-  border-color: green;
-  background: green;
+  left: 1.25em;
+  border-color: white;
+  background: white;
   opacity: 1;
+  border: 0.01em solid black;
 }
 `;
 

@@ -14,31 +14,48 @@ import PreferencesFilter from "./components/PreferencesFilter";
   - https://www.w3.org/WAI/tutorials/forms/inputs/
   - https://www.w3.org/WAI/tutorials/forms/inputs/select/
   ...
-
-  The search results are clickable panels, which contain a looot of text. 
-  That makes it hard to navigate with a screen reader, because the content of the panel must 
-  be machine readable and IS the text within the link.
-  Example output: 
-  "Praxis Dr. Linker Platzhalter, Novalisstr. 9, 12099 Berlin, Urologe, jetzt geöffnet, Entfernung: 2.5 km, 
-  Nimmt nur Kassenpatienten, keine Privatpatienten,
-  Telefon: 030 12345678, Webseite: www.linker-platzhalter.de,
-  Beschreibung: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  Barrierefreiheit: Die Praxis ist barrierefrei zugänglich.
-  Der Stuhl im Wartezimmer ist nicht barrierefrei zugänglich.
-  ... ... 
-  Link, Gruppe
-
-  Das ist zuviel Text. Lösung: Das panel ist nur Maus-klickbar und nicht mit der Tastatur navigierbar. Es gibt im Panel einen Link,
-  der mit der Tastatur bedienbar ist. Mal im IAAP-DACH-Slack nachfragen ob das geht. So wie bei Datepickern, wo man nur mit der 
-  Maus den Picker öffnent und per Keyboard nur den Input befüllen kann.
-  
-
   --- 
 
   pagination? 
 
 */
 
+const HealthSearchFilterSection = styled.section`
+  margin-top: 6vh;
+  padding: 1rem;
+  display: grid;
+  background-color: rgb(255, 255, 255, 0.95);
+
+  h1, h2, h3 {
+    line-height: 1;
+    font-weight: 400;
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    word-break: break-word;
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  select input {
+    width: min-content;
+  }
+
+  #facilities-select option {
+    // position: absolute;
+    overflow-y: visible;
+  }
+
+  .survey-form {
+    display: flex;
+    flex-direction: column;
+    overflow-y: visible;
+  }
+`;
   
 export const HealthSeachResultsSection = styled.section`
   left: 0;
@@ -50,9 +67,16 @@ export const HealthSeachResultsSection = styled.section`
   ul.search-results-list {
     list-style-type: none;
     list-style-position: outside;
-    // padding-inline-start: 5%;
+    padding-inline-start: 0em; 
     overflow-y: auto;
     overflow-x: hidden;
+    
+    ::-webkit-scrollbar { 
+      display: none;
+    }
+
+    scrollbar-width: none;  /* Firefox */
+
     height: 40vh;
     width: 100%;
   }
@@ -60,6 +84,12 @@ export const HealthSeachResultsSection = styled.section`
   li {
     margin-bottom: 0.9rem;
   }
+`;
+
+export const SearchResultsHeading2 = styled.h2`
+  font-size: 2rem;
+  font-weight: 500;
+  width: fit-content;
 `;
 
 export const SearchResult = styled.article`
@@ -72,6 +102,7 @@ export const SearchResult = styled.article`
     margin: 0.2rem;
     margin-bottom: 0.35rem;
   }
+
 `;
   
 export const SearchResultHeading = styled.h3`
@@ -79,23 +110,29 @@ export const SearchResultHeading = styled.h3`
   font-weight: 500;
   line-height: 1.2;
   height: 2rem;
-  width: 70%;
+  width: fit-content;
   background-color: #e5cccc;
   border-radius: 0.5rem;
-  padding-left: 0.6rem;
-  padding-top: 0.4rem;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
 `;
 
 export const SearchResultdescription = styled.p`
   font-size: 1rem;
   line-height: 1.2;
   margin: 0;
-  padding: 0;
-  height: 5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.5em;
+  display: flex; 
+  align-items: center;
+  height: fit-content;
   background-color: #e5cccc;
   border-radius: 0.5rem;
-  padding-left: 0.6rem;
-  padding-top: 0.4rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   `;
   
  export const SearchResultAddress = styled.p`
@@ -125,7 +162,7 @@ const renderMockedDetailedSearchResults = (data: MockData[]) => {
   // TODO Make h2 live region
   return (
     <HealthSeachResultsSection className="health-search-results">
-      <h2>{data.length} {t`Search Results`}</h2> 
+      <SearchResultsHeading2>{data.length} {t`Search Results`}</SearchResultsHeading2> 
       <ul className="search-results-list">
         {data.map((item: MockData) => {
           const name = typeof item.properties.name === 'string' ? item.properties.name : item.properties.name?.en ?? "Praxis Dr. Linker Platzhalter";
@@ -155,22 +192,47 @@ const renderMockedDetailedSearchResults = (data: MockData[]) => {
 
       }
 
+const handleOnFocus = (event) => {
+  event.target.size = 10;
+}
+
+const handleOnBlurSelect = (event) => {
+  event.target.size = 0;
+}
+
+const handleOnChangeSelect = (event) => {
+  event.target.size = 0;
+  event.target.blur();
+}
+
 const renderMockedSurveyForm = () => {
+
+  // Todo: Custom Select for large select menu
   return (
     <React.Fragment>
-      <label htmlFor="place">{t`Ort`}</label>
-      <input type="text" name="" id="place" />
-      <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
-      <select name="facilities" id="facilities-select">
-        <option value="">{t`--Bitte eine Option auswählen--`}</option>
-        {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
-      </select>
-      <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
-      <select name="insurance-type" id="insurance-type">
-        <option value="">{t`--Bitte eine Option auswählen--`}</option>
-        <option value="privat">{t`Private Krankenversicherung`}</option>
-        <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
-      </select>      
+      <div id="survey-form-titel" className="survey-form-titel">Allgemeine Angaben</div>
+        <div className="survey-form" role="group" aria-labelledby="survey-form-titel">
+        <label htmlFor="place">{t`Ort`}</label>
+        <input type="text" name="" id="place" />
+        <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
+        <select 
+          name="facilities" 
+          id="facilities-select" 
+          onFocus= {handleOnFocus} 
+          onBlur={handleOnBlurSelect} 
+          onChange={handleOnChangeSelect}
+          >
+            <option value="">{t`--Bitte eine Option auswählen--`}</option>
+            {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
+        </select>
+        <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
+        <select name="insurance-type" id="insurance-type">
+          <option value="">{t`--Bitte eine Option auswählen--`}</option>
+          <option value="privat">{t`Private Krankenversicherung`}</option>
+          <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
+        </select>      
+      </div>
+
     </React.Fragment>
   );
 }
@@ -182,7 +244,7 @@ export default function Page() {
   return (
     <React.Fragment>
       <HealthSearchFilterSection className="health-search-filter">
-        <h1>{t`Gesundheit`}</h1>
+        <h1>{t`Praxissuche`}</h1>
         {renderMockedSurveyForm()}
         <h2>{t`Filter`}</h2>
         <PreferencesFilter />
@@ -192,30 +254,7 @@ export default function Page() {
   );
 }
 
-const HealthSearchFilterSection = styled.section`
-  margin-top: 6vh;
-  padding: 1rem;
-  display: grid;
-  background-color: rgb(255, 255, 255, 0.95);
-  h1, h2, h3 {
-    line-height: 1;
-    font-weight: 400;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    word-break: break-word;
-    font-size: 1.5rem;
-  }
-  h2 { 
-    font-size: 1.25rem;
-    font-weight: 500;
-  }
-  h3 {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-`;
+
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return <LayoutHealthPage>{page}</LayoutHealthPage>;
