@@ -31,6 +31,8 @@ const placeCategoriesWithoutExtraToiletEntry = [
   'toilets',
   'elevator',
   'escalator',
+  'entrance',
+  'subway_entrance',
 ];
 
 export function AccessibilityName({ accessibility }: { accessibility: YesNoLimitedUnknown }) {
