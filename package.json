@@ -10,6 +10,7 @@
     "@babel/runtime-corejs3": "^7.12.1",
     "@elastic/apm-rum": "^4.9.1",
     "@sozialhelden/a11yjson": "^12.0.1",
+    "@sozialhelden/ietf-language-tags": "^5.4.2",
     "@sozialhelden/twelve-factor-dotenv": "^18.0.0",
     "@turf/turf": "^6.5.0",
     "@types/chai": "^4.2.5",

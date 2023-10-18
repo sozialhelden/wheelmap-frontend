@@ -52,7 +52,7 @@ export function getAccessibilityAttributesURL(
   );
   const url = `${
     env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
-  }/accessibility-attributes.json?appToken=${
+  }/accessibility-attributes.json?limit=10000&appToken=${
     env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN
   }&include=${preferredLocales
     .map(l => `label.${l.string.replace(/-/, '_')}`)

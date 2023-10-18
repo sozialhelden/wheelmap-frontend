@@ -37,6 +37,17 @@ function getDescribedQuantity(value: { unit?: string; operator?: string; value?:
   }
 }
 
+function formatKeyAndValue(
+  name: string,
+  value: any,
+  accessibilityAttributes: Map<string, Record<string, string>>
+): string | undefined {
+  if (typeof value !== 'string') {
+    return undefined;
+  }
+  return accessibilityAttributes && translatedStringFromObject(accessibilityAttributes.get(name + '=' + value));
+}
+
 function formatName(
   name: string,
   accessibilityAttributes: Map<string, Record<string, string>>
@@ -123,6 +134,10 @@ function isLocalizedString(value: any): boolean {
   return isPlainObject(value) && Object.keys(value).every(key => key.match(/^\w\w[-_]?(?:\w\w)?$/));
 }
 
+function isIetfLanguageTag(str: string): boolean {
+  return !!str.match(/^[a-z]{2,3}(?:-[a-z]{3}(?:-[a-z]{3}){0,2})?$/i);
+}
+
 function DetailsObject(props: {
   className: string | null;
   object: {};
@@ -138,13 +153,17 @@ function DetailsObject(props: {
       }
 
       const value = object[key];
-      const name = formatName(key, props.accessibilityAttributes);
+      const nameForKeyAndValue = formatKeyAndValue(key, value, props.accessibilityAttributes);
+      const nameForKeyOnly = formatName(key, props.accessibilityAttributes);
+      const isIetfLangTag = isIetfLanguageTag(key); // used to omit lang tags when rendering
+      const htmlLangtag = isIetfLangTag ? nameForKeyOnly.toLowerCase() : null; // used to set lang attribute on html element
+
 
       // Screen readers work better when the first letter is capitalized.
       // If the attribute starts with a lowercase letter, there is no spoken pause
       // between the previous attribute value and the attribute name.
-      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(name));
-
+      const capitalizedName = humanizeCamelCase(capitalizeFirstLetter(nameForKeyAndValue || nameForKeyOnly));
+      
       if (value && (value instanceof Array || (isPlainObject(value) && !value.unit))) {
         if (key === 'name' || key === 'title') {
           return <header>{translatedStringFromObject(value)}</header>;
@@ -166,7 +185,7 @@ function DetailsObject(props: {
         return (
           <>
             <dt key={`${key}-name`} data-key={key}>
-              {capitalizedName}
+              {!isIetfLangTag? capitalizedName : ''}
             </dt>
             <dd key={`${key}-tree`}>{subtree}</dd>
           </>
@@ -177,7 +196,7 @@ function DetailsObject(props: {
         return (
           <>
             <dt key={`${key}-name`} className="ac-rating">
-              {capitalizedName}:
+              {!isIetfLangTag ? capitalizedName : ''}:
             </dt>
             <dd key={`${key}-rating`}>
               <FormatRating rating={parseFloat(String(value))} />
@@ -188,14 +207,10 @@ function DetailsObject(props: {
       const generatedClassName = `ac-${typeof value}`;
       const formattedValue = formatValue(value);
       return (
-        <>
-          <dt key={`${key}-name`} className={generatedClassName}>
-            {capitalizedName}:
-          </dt>
-          <dd key={`${key}-value`} className={generatedClassName} aria-label={`${formattedValue}!`}>
-            <em>{formattedValue}</em>
-          </dd>
-        </>
+        <div className={`leaf-property ${generatedClassName}`}>
+          <span className="ac-key">{ !isIetfLangTag ? capitalizedName : ''}</span>
+          {!nameForKeyAndValue && <>{!isIetfLangTag ? ': ' : '' }<span lang={htmlLangtag} className="ac-value">{formattedValue}</span></>}
+        </div>
       );
     })
     .filter(Boolean);
@@ -243,6 +258,12 @@ function AccessibilityDetailsTree(props: Props) {
       />
     );
   }
+  if (typeof details === 'string') {
+    const keyAndValue = formatKeyAndValue(props.keyPrefix.replace(/\.\d+$/, ''), details, props.accessibilityAttributes);
+    if (keyAndValue) {
+      return <div className={props.className}>{keyAndValue}</div>;
+    }
+  }
   return <div className={props.className}>{details}</div>;
 }
 
@@ -270,7 +291,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
   }
 
   ol {
-    list-style-type: numeric;
+    list-style-type: decimal;
     margin-left: 1rem;
     &.has-only-one-item {
       list-style: none;
@@ -299,20 +320,14 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     width: 100%;
     /*display: block;*/
     /*background-color: rgba(0, 0, 0, 0.1);*/
-    overflow: auto;
     margin: 0;
   }
 
   dt {
     /*background-color: rgba(255, 0, 0, 0.1);*/
-    float: left;
-    clear: left;
+    clear: both;
     margin: 0;
     padding: 0;
-  }
-
-  dt[data-key] {
-    font-weight: bolder;
   }
 
   dd {
@@ -320,6 +335,15 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     margin-left: 0.5em;
     display: table-cell;
     padding: 0 0 0 0.3em;
+  }
+
+  .ac-key {
+    font-weight: bolder;
+  }
+
+  .ac-value {
+    margin-left: .5rem;
+    font-style: italic;
   }
 
   dt[data-key='areas'] {
@@ -363,6 +387,7 @@ const StyledAccessibilityDetailsTree = styled(AccessibilityDetailsTree)`
     margin-top: 10px;
     & + dd {
       margin-top: 10px;
+      margin-bottom: 10px;
     }
   }
 `;
