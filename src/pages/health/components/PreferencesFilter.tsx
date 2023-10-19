@@ -2,8 +2,66 @@ import styled from "styled-components";
 import { t } from "ttag";
 
 export const PrefFilterSection = styled.section`
+
+.label {
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.checkbox-switch {
+  opacity: 1;
+  height:  calc(2rem - 4px);
+  width: calc(3rem + 6px);
+  appearance: inherit;
+  background-color: #f6f7f9;
+  border-radius: 2rem;
+  box-shadow: inset 0 0.5px 1px rgba(0,0,0,0.2),
+              inset 0 0.5px 1px rgba(0,0,0,0.2),
+              inset 0 -0.5px 1px rgba(0,0,0,0.2); 
+  transition: 0.2s;
+  position: relative;
+  outline: none;
+  cursor: pointer;
+} 
+.checkbox-switch::before {
+  height: calc(2rem - 4px);
+  width: calc(2rem - 4px);
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  background: linear-gradient(to top, grey, lightgrey);
+  border-radius: 2rem;
+  transform: scale(0.85);
+  transition: 0.2s;
+  box-shadow: 0 0.5px 0.5px rgba(0,0,0,0.5),
+              inset 0.5px 0.5px rgba(255,255,255,0.2),
+              inset -0.5px 0.5px rgba(255,255,255,0.2);
+}
+
+.checkbox-switch:not(focus):focus-visible {
+  outline: 1px dotted #212121;
+  outline: 5px auto -webkit-focus-ring-color;
+  transition: 0s;
+}
+
+.checkbox-switch:checked {
+  background-color: #fff;
+  box-shadow: inset 0 0.2px 1px rgba(0,0,0, 0.2),
+              inset 0 0.2px 1px rgba(0,0,0, 0.2),
+              inset 0 -0.2px 1px rgba(0,0,0, 0.2);
+}
+
+.checkbox-switch:checked::before  {
+  left: calc(2rem - 6px);
+  background: linear-gradient(to top, green, lightgreen);
+}
+
 fieldset {
   width: fit-content;
+  border: none;
 }
 
 legend {
@@ -11,8 +69,9 @@ legend {
 }
 
 .label {
-  display: grid;
-  grid-template-columns: [preference-label-start] minmax(5rem, 9rem) [switch-start] max-content [state-start] max-content [preference-label-end];
+  display: flex;
+  // grid-template-columns: 1fr 2fr;
+  flex-direction: row;
   gap: 1rem;
   width: auto;
 }
@@ -29,46 +88,6 @@ label {
   user-select: none;
 }
 
-label input[role="switch"] {
-  opacity: 0;  
-}
-
-label input[role="switch"] ~ .state {
-  display: inline-block;
-}
-
-label input[role="switch"] ~ .state > .container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  top: 0em;
-  display: inline-block;
-  opacity: 0.8;
-  width: calc(2em + 4px);
-  height: calc(1em + 2px);
-  left: -1.25rem;
-  border-radius: 1em;
-}
-
-label input[role="switch"]:checked ~ .state > .container {
-  background-color: #1c6e42;
-}
-label input[role="switch"]:not(:checked) ~ .state > .container {
-  background-color: #ababab;
-}
-
-label input[role="switch"] ~ .state > .container > .position {
-  position: relative;
-  left: 2px;
-  display: inline-block;
-  border-radius: 0.5em;
-  width: calc(1em - 2px);
-  height: calc(1em - 2px);
-  background: black;
-  border: 0.01em solid rgb(255, 255, 255, 0.85);
-  
-}
-
 label input[role="switch"]:not(:checked) ~ .state span.on {
   display: none;
 }
@@ -77,13 +96,7 @@ label input[role="switch"]:checked ~ .state > span.off {
   display: none;
 }
 
-label input[role="switch"]:checked ~ .state > .container > .position {
-  left: 1.25em;
-  border-color: white;
-  background: white;
-  opacity: 1;
-  border: 0.01em solid black;
-}
+
 `;
 
 
@@ -97,15 +110,12 @@ function PreferencesFilter() {
         <ul> {labels.map((label) => {return (
           <li key={label + `-key`}>
             <label className="label">
-                {label} 
-                <input type="checkbox" role="switch" name={label} id={label} />
+                <input type="checkbox" role="switch" className="checkbox-switch" name={label} id={label} />
                 <span className="state">
-                  <span className="container">
-                    <span className="position"> </span>
-                  </span>
-                  <span className="on" aria-hidden="true">On</span>
-                  <span className="off" aria-hidden="true">Off</span>
+                  {/* <span className="on" aria-hidden="true">On</span>
+                  <span className="off" aria-hidden="true">Off</span> */}
                 </span>
+                {label} 
             </label>
           </li>
         );})}

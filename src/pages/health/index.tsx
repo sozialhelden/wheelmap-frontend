@@ -21,147 +21,166 @@ import PreferencesFilter from "./components/PreferencesFilter";
 
 */
 
-const HealthSearchFilterSection = styled.section`
-  margin-top: 50px;
-  padding: 1rem;
-  display: grid;
-  background-color: rgb(255, 255, 255, 0.95);
-
-  h1, h2, h3 {
-    line-height: 1;
-    font-weight: 400;
-    display: flex;
-    position: relative;
-    flex-direction: row;
-    align-items: center;
-    word-break: break-word;
-    font-size: 1.5rem;
+const StyledPage = styled.div`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-
-  h3 {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  select input {
-    width: min-content;
-  }
-
-  #facilities-select option {
-    // position: absolute;
-    overflow-y: visible;
-  }
-
-  .survey-form {
+  
+  .health-site-content {
     display: flex;
     flex-direction: column;
-    overflow-y: visible;
-  }
-
-  section.filter-form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    // flex-direction: column;
-    // overflow-y: visible;
-  }
-`;
-  
-export const HealthSeachResultsSection = styled.section`
-  left: 0;
-  bottom: 0;
-  // position: relative;
-  padding : 1rem;
-  background-color: pink; 
-
-  
-  display: flex;
-  flex-direction: column;
-  
-  .search-results-list-wrapper {
+    background-color: rgb(224, 237, 255, 1);
     width: 100vw;
+    height: 100vh;
+    overflow: hidden;
   }
-  ul.search-results-list {
-    list-style-type: none;
-    list-style-position: outside;
-    padding-inline-start: 0em; 
-    overflow-y: auto;
-    overflow-x: hidden;
-    
+
+  .search-filter-section {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: rgb(237, 224, 255, 1);
+    margin-top: calc(50px + 1rem); 
+    // height: clamp(33%, 33vh, 100%)
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-results-section {
+    margin: 1rem;
+    background-color: rgb( 255, 224, 237,  1);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .search-results-container {
+    // border: 3px solid limegreen;
+    width: min(100% - 2rem, max(600px, calc(100vw - 1rem)));
+    margin-inline: auto;
+    margin-bottom: 1rem;
+    overflow: auto;
+    height: 100%
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    position: relative;
     ::-webkit-scrollbar { 
       display: none;
     }
+    scrollbar-width: none;  /* Firefox */ 
+  }
+
+  .search-filter-container {
+    // border: 3px solid limegreen;
+    width: min(100% - 2rem, max(800px, 60%));
+    height: fit-content;
+    margin-inline: auto;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media screen and (max-width: 600px) {
     
-    height: 80vh;
-    scrollbar-width: none;  /* Firefox */
+    .search-filter-container {
+      flex-direction: column;
 
+      .input-choices,
+      .preference-choices {
+        width: auto;
+      }
+    }
   }
 
-  li {
-    margin-bottom: 0.9rem;
-  }
-`;
-
-export const SearchResultsHeading2 = styled.h2`
-  font-size: 2rem;
-  font-weight: 500;
-  width: fit-content;
-`;
-
-export const SearchResult = styled.article`
-  width: 95%;
-  height: fit-content;
-  background-color: beige;
-  border-radius: 0.5rem;
-  padding: 0.15rem;
-  h3, p {
-    margin: 0.2rem;
-    margin-bottom: 0.35rem;
+  .input-choices {
+    margin: 0.5rem;
+    height: auto;
+    width: 50%;
+    // border: 3px solid limegreen;
   }
 
-`;
-  
-export const SearchResultHeading = styled.h3`
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.2;
-  height: 2rem;
-  width: fit-content;
-  background-color: #e5cccc;
-  border-radius: 0.5rem;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  display: flex;
-  align-items: center;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
-`;
+  .preference-choices {
+    margin: 0.5rem;
+    height: auto;
+    width: 50%;
+    // border: 3px solid limegreen;
+  }
 
-export const SearchResultdescription = styled.p`
-  font-size: 1rem;
-  line-height: 1.2;
-  margin: 0;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  padding-left: 0.5em;
-  display: flex; 
-  align-items: center;
-  height: fit-content;
-  background-color: #e5cccc;
-  border-radius: 0.5rem;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
-  `;
-  
- export const SearchResultAddress = styled.p`
-  font-size: 1rem;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0;
-  height: 2rem;
-  background-color: #e7dbdb;
-  border-radius: 0.5rem;
-  padding-left: 0.6rem;
-  padding-top: 0.4rem;
-  width: min(25%, 70vw);
-`;
+  .survey-form-titel {
+    font-size: 110%;
+  }
+ 
+  .search-filter-inputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
+  .search-result {
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    margin-block: 0.7rem;
+    margin-inline: auto;
+    height: fit-content;
+    background-color: beige;
+    border-radius: 1rem;
+    padding: 0.4rem;
+    h3 {
+      margin-bottom: 0.4rem;
+    }
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+  }
+  .search-result-heading {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    height: 2rem;
+    width: fit-content;
+    background-color: #e5cccc;
+    border-radius: 1rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    display: flex;
+    align-items: center;
+    margin-top: 0.4rem;
+  }
+  .search-result-description {
+    font-size: 1rem;
+    line-height: 1.2;
+    margin: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5em;
+    display: flex; 
+    flex-direction: column;
+    height: fit-content;
+    background-color: #e5cccc;
+    border-radius: 1rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+    margin-bottom: 0.4rem;
+    
+  }
+  .search-result-address {
+    font-size: 1rem;
+    line-height: 1.2;
+    margin-bottom: 0.4rem;
+    padding: 0;
+    width: fit-content;
+    height: 2rem;
+    background-color: #e7dbdb;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+`;
 
 const renderMockedJSONSearchResults = (data) => {
   return (
@@ -173,91 +192,51 @@ const renderMockedJSONSearchResults = (data) => {
 }
 
 const renderMockedDetailedSearchResults = (data: MockData[]) => {
-  // TODO Make h2 live region
   return (
-    <HealthSeachResultsSection className="health-search-results">
-      <SearchResultsHeading2>{data.length} {t`Search Results`}</SearchResultsHeading2> 
-      <div className="search-results-list-wrapper">
-        <ul className="search-results-list">
-          {data.map((item: MockData) => {
-            const name = typeof item.properties.name === 'string' ? item.properties.name : item.properties.name?.en ?? "Praxis Dr. Linker Platzhalter";
-            const { street, city, house, postalCode, text } = item.properties.address || {};
-            const description = item.properties.description?.en ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-            return (
-              <li key={item._id}>
-                <SearchResult>
-                  <SearchResultHeading>{JSON.stringify(name)}</SearchResultHeading>
-                  <SearchResultdescription>
-                    {JSON.stringify(description)}
-                    {/* <SearchResultAddress>
-                      {JSON.stringify(street + city + house + postalCode + text)}
-                      {JSON.stringify(city)}
-                      {JSON.stringify(house)}
-                      {JSON.stringify(postalCode)}
-                      {JSON.stringify(text)}
-                    {/* </SearchResultAddress> */} 
-                  </SearchResultdescription>
-                </SearchResult>
-              </li>
-            );
-          })}
-        </ul>
-
-      </div>
-    
-    </HealthSeachResultsSection>
+      <ul className="search-results-list">
+        {data.map((item: MockData) => {
+          const name = typeof item.properties.name === 'string' ? item.properties.name : item.properties.name?.en ?? "Praxis Dr. Linker Platzhalter";
+          const { street, city, house, postalCode, text } = item.properties.address || {};
+          const description = item.properties.description?.en ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+          return (
+            <li key={item._id}>
+              <div className="search-result">
+                <h3 className="search-result-heading">{name}</h3>
+                <p className="search-result-address">{text ? text : "Keine Adresse"}</p>
+                <p className="search-result-description">{ description ? description : t`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
   );
 
-      }
-
-const handleOnFocus = (event) => {
-  event.target.size = 10;
-}
-
-const handleOnBlurSelect = (event) => {
-  event.target.size = 0;
-}
-
-const handleOnChangeSelect = (event) => {
-  event.target.size = 0;
-  event.target.blur();
 }
 
 const renderMockedSurveyForm = () => {
-
   // Todo: Custom Select for large select menu
   return (
     <React.Fragment>
       <div id="survey-form-titel" className="survey-form-titel">Allgemeine Angaben</div>
-        <div className="survey-form" role="group" aria-labelledby="survey-form-titel">
-        <label htmlFor="place">{t`Ort`}</label>
-        <input type="text" name="" id="place" />
-        <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
-        <select 
-          name="facilities" 
-          id="facilities-select" 
-          onFocus= {handleOnFocus} 
-          onBlur={handleOnBlurSelect} 
-          onChange={handleOnChangeSelect}
-          >
-            <option value="">{t`--Bitte eine Option auswählen--`}</option>
-            {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
-        </select>
-        <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
-        <select name="insurance-type" id="insurance-type">
-          <option value="">{t`--Bitte eine Option auswählen--`}</option>
-          <option value="privat">{t`Private Krankenversicherung`}</option>
-          <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
-        </select>      
+        <div className="search-filter-inputs" role="group" aria-labelledby="survey-form-titel">
+          <label htmlFor="place">{t`Ort`}</label>
+          <input type="text" name="" id="place" />
+          <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
+          <select name="facilities" id="facilities-select">
+              <option value="">{t`--Bitte Option auswählen--`}</option>
+              {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
+          </select>
+          <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
+          <select name="insurance-type" id="insurance-type">
+            <option value="">{t`--Bitte Option auswählen--`}</option>
+            <option value="privat">{t`Private Krankenversicherung`}</option>
+            <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
+          </select>      
       </div>
-
     </React.Fragment>
   );
 }
 
-
-
-// use useswr to import data from file
 export default function Page() {  
 
   const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
@@ -269,25 +248,33 @@ export default function Page() {
   const mockedData: MockData[] = JSON.parse(data);
 
   return (
-    <React.Fragment>
-      <HealthSearchFilterSection className="health-search-filter">
-        <section className="filter-form">
-          <div>
-            <h1>{t`Praxissuche`}</h1>
-            {renderMockedSurveyForm()}
-          </div>
-          <div>
-            <h2>{t`Filter`}</h2>
-            <PreferencesFilter />
+    <StyledPage>
+      <div className="health-site-content">
+        
+        <section className="search-filter-section">
+          <h1>Praxissuche</h1>
+          <h2 className="search-filter-h2">{t`Suchfilter`}</h2>
+          <div className="search-filter-container">
+            <div className="input-choices">
+              {renderMockedSurveyForm()}
+            </div>
+            <div className="preference-choices">
+              <PreferencesFilter />  
+            </div>          
           </div>
         </section>
-      </HealthSearchFilterSection>
-      {mockedData && renderMockedDetailedSearchResults(mockedData)}
-    </React.Fragment>
+        
+        <section className="search-results-section">
+          <h2 className="search-results-h2"> {mockedData ? mockedData.length : ""} {t`Search Results`}</h2> 
+          <div className="search-results-container">
+            {renderMockedDetailedSearchResults(mockedData)}
+          </div>   
+        </section>
+      
+      </div>
+    </StyledPage>
   );
 }
-
-
 
 Page.getLayout = function getLayout(page: ReactElement) {
   return <LayoutHealthPage>{page}</LayoutHealthPage>;
@@ -322,7 +309,7 @@ export type MockData = {
       city?: string | null;
       house?: string | null;
       postalCode?: string | null;
-      text?: string | null | object;
+      text?: string | null;
     };
     category: string;
     accessibility?: {
@@ -342,6 +329,385 @@ export type MockData = {
     type: string;
     coordinates: [number, number];
   };
+}
+
+const mockedHealthcareFacilities: MockFacility[] =[
+  {
+    "en": "alternative",
+    "de": "Alternativmedizin"
+  },
+  {
+    "en": "audiologist",
+    "de": "Hörakustik"
+  },
+  {
+    "en": "birthing_centre",
+    "de": "Geburtshaus"
+  },
+  {
+    "en": "blood_bank",
+    "de": "Blutbank"
+  },
+  {
+    "en": "blood_donation",
+    "de": "Blut- / Plasma-/ Zellspende"
+  },
+  {
+    "en": "counselling",
+    "de": "Gesundheitsberatung"
+  },
+  {
+    "en": "dialysis",
+    "de": "Dialyse"
+  },
+  {
+    "en": "hospice",
+    "de": "Hospiz (Palliativmedizin)"
+  },
+  {
+    "en": "laboratory",
+    "de": "Labor"
+  },
+  {
+    "en": "midwife",
+    "de": "Hebamme(n)"
+  },
+  {
+    "en": "nurse",
+    "de": "Gesundheits- und Krankenpflege"
+  },
+  {
+    "en": "occupational_therapist",
+    "de": "Ergotherapie"
+  },
+  {
+    "en": "optometrist",
+    "de": "Optik"
+  },
+  {
+    "en": "physiotherapist",
+    "de": "Physiotherapie"
+  },
+  {
+    "en": "podiatrist",
+    "de": "Podologie"
+  },
+  {
+    "en": "psychotherapist",
+    "de": "Psychotherapie"
+  },
+  {
+    "en": "rehabilitation",
+    "de": "Rehabilitation"
+  },
+  {
+    "en": "sample_collection",
+    "de": "Probenentnahme"
+  },
+  {
+    "en": "speech_therapist",
+    "de": "Logopädie"
+  },
+  {
+    "en": "vaccination_centre",
+    "de": "Impfstelle"
+  },
+  {
+    "en": "centre",
+    "de": "Gesundheitszentrum (nichtnäher spezifiziert)"
+  },
+  {
+    "en": "allergology",
+    "de": "Allergologie"
+  },
+  {
+    "en": "anaesthetics",
+    "de": "Anästhesie"
+  },
+  {
+    "en": "cardiology",
+    "de": "Kardiologie"
+  },
+  {
+    "en": "cardiothoracic_surgery",
+    "de": "Herz- und Thoraxchirurgie"
+  },
+  {
+    "en": "child_psychiatry",
+    "de": "Kinder- und Jugendpsychiatrie"
+  },
+  {
+    "en": "community",
+    "de": "Medizin im öffentlichen Gesundheitswesen"
+  },
+  {
+    "en": "dermatology",
+    "de": "Dermatologie"
+  },
+  {
+    "en": "dermatovenereology",
+    "de": "Dermatologie und Venerologie"
+  },
+  {
+    "en": "diagnostic_radiology",
+    "de": "Klinische Radiologie"
+  },
+  {
+    "en": "emergency",
+    "de": "Unfall- und Notfallmedizin"
+  },
+  {
+    "en": "endocrinology",
+    "de": "Endokrinologie und Diabetologie"
+  },
+  {
+    "en": "gastroenterology",
+    "de": "Gastroenterologie"
+  },
+  {
+    "en": "general",
+    "de": "Allgemein"
+  },
+  {
+    "en": "geriatrics",
+    "de": "Geriatrie"
+  },
+  {
+    "en": "gynaecology",
+    "de": "Geburtshilfe und Gynäkologie"
+  },
+  {
+    "en": "haematology",
+    "de": "Hämatologie"
+  },
+  {
+    "en": "hepatology",
+    "de": "Hepatologie"
+  },
+  {
+    "en": "infectious_diseases",
+    "de": "Infektiöse Krankheiten"
+  },
+  {
+    "en": "intensive",
+    "de": "Intensive Pflege"
+  },
+  {
+    "en": "internal",
+    "de": "Allgemeine (innere) Medizin"
+  },
+  {
+    "en": "dental_oral_maxillo_facial_surgery",
+    "de": "Mund-, Kiefer- und Gesichtschirurgie"
+  },
+  {
+    "en": "neonatology",
+    "de": "Pädiatrische Abteilung für Neugeborene"
+  },
+  {
+    "en": "nephrology",
+    "de": "Nierenheilkunde"
+  },
+  {
+    "en": "neurology",
+    "de": "Neurologie"
+  },
+  {
+    "en": "neuropsychiatry",
+    "de": "Neuropsychiatrie"
+  },
+  {
+    "en": "neurosurgery",
+    "de": "Neurochirurgie"
+  },
+  {
+    "en": "nuclear",
+    "de": "Nuklearmedizin"
+  },
+  {
+    "en": "occupational",
+    "de": "Arbeitsmedizin"
+  },
+  {
+    "en": "oncology",
+    "de": "Onkologie"
+  },
+  {
+    "en": "ophthalmology",
+    "de": "Ophthalmologie"
+  },
+  {
+    "en": "orthodontics",
+    "de": "Kieferorthopädie"
+  },
+  {
+    "en": "orthopaedics",
+    "de": "Orthopädie"
+  },
+  {
+    "en": "otolaryngology",
+    "de": "Hals-Nasen-Ohren-Heilkunde"
+  },
+  {
+    "en": "paediatric_surgery",
+    "de": "Pädiatrische Chirurgie"
+  },
+  {
+    "en": "paediatrics",
+    "de": "Pädiatrie"
+  },
+  {
+    "en": "palliative",
+    "de": "Palliativmedizin (Hospiz)"
+  },
+  {
+    "en": "pathology",
+    "de": "Pathologie"
+  },
+  {
+    "en": "physiatry",
+    "de": "Physikalische Medizin und Rehabilitation (Sportmedizin)"
+  },
+  {
+    "en": "plastic_surgery",
+    "de": "Plastische Chirurgie"
+  },
+  {
+    "en": "podiatry",
+    "de": "Podologie"
+  },
+  {
+    "en": "proctology",
+    "de": "Proktologie"
+  },
+  {
+    "en": "psychiatry",
+    "de": "Allgemeine Psychiatrie"
+  },
+  {
+    "en": "pulmonology",
+    "de": "Medizin der Atemwege"
+  },
+  {
+    "en": "radiology",
+    "de": "Radiologie"
+  },
+  {
+    "en": "radiotherapy",
+    "de": "Strahlentherapie"
+  },
+  {
+    "en": "rheumatology",
+    "de": "Rheumatologie"
+  },
+  {
+    "en": "stomatology",
+    "de": "Stomatologie"
+  },
+  {
+    "en": "surgery",
+    "de": "Allgemeine Chirurgie"
+  },
+  {
+    "en": "transplant",
+    "de": "Transplantationschirurgie"
+  },
+  {
+    "en": "trauma",
+    "de": "Unfallchirurgie"
+  },
+  {
+    "en": "tropical",
+    "de": "Tropenmedizin"
+  },
+  {
+    "en": "urology",
+    "de": "Urologie"
+  },
+  {
+    "en": "vascular_surgery",
+    "de": "Gefäßchirurgie"
+  },
+  {
+    "en": "venereology",
+    "de": "Venerologie"
+  },
+  {
+    "en": "abortion",
+    "de": "Schwangerschaftsabbruch"
+  },
+  {
+    "en": "fertility",
+    "de": "Fruchtbarkeit"
+  },
+  {
+    "en": "vaccination",
+    "de": "Impfungen"
+  },
+  {
+    "en": "behavior",
+    "de": "Verhaltenstherapeutische Psychotherapie"
+  },
+  {
+    "en": "body",
+    "de": "Körperorientierte Psychotherapie"
+  },
+  {
+    "en": "depth",
+    "de": "Tiefenpsychologie / Psychoanalyse"
+  },
+  {
+    "en": "humanistic",
+    "de": "Therapie auf der Grundlage der humanistischen Psychologie"
+  },
+  {
+    "en": "other",
+    "de": "Anderes (z.B. Kunsttherapie)"
+  },
+  {
+    "en": "systemic",
+    "de": "Systemische Therapie"
+  },
+  {
+    "en": "biology",
+    "de": "Biologie (unspezifisch)"
+  },
+  {
+    "en": "biochemistry",
+    "de": "Biochemie"
+  },
+  {
+    "en": "blood_check",
+    "de": "Blutuntersuchung"
+  },
+  {
+    "en": "clinical_pathology",
+    "de": "Klinische Pathologie"
+  },
+  {
+    "en": "addiction",
+    "de": "Sucht"
+  },
+  {
+    "en": "antenatal",
+    "de": "Schwangerschafts- und Schwangerenberatung"
+  },
+  {
+    "en": "dietitian",
+    "de": "Diätetiker"
+  },
+  {
+    "en": "nutrition",
+    "de": "Ernährung"
+  },
+  {
+    "en": "sexual",
+    "de": "Sexualberatung"
+  }
+]
+export type MockFacility = {
+  en: string,
+  de: string
 }
 
 // const mockedData: MockData[] = [
@@ -1930,382 +2296,3 @@ export type MockData = {
 //     }
 //   }
 // ]
-
-const mockedHealthcareFacilities: MockFacility[] =[
-  {
-    "en": "alternative",
-    "de": "Alternativmedizin"
-  },
-  {
-    "en": "audiologist",
-    "de": "Hörakustik"
-  },
-  {
-    "en": "birthing_centre",
-    "de": "Geburtshaus"
-  },
-  {
-    "en": "blood_bank",
-    "de": "Blutbank"
-  },
-  {
-    "en": "blood_donation",
-    "de": "Blut- / Plasma-/ Zellspende"
-  },
-  {
-    "en": "counselling",
-    "de": "Gesundheitsberatung"
-  },
-  {
-    "en": "dialysis",
-    "de": "Dialyse"
-  },
-  {
-    "en": "hospice",
-    "de": "Hospiz (Palliativmedizin)"
-  },
-  {
-    "en": "laboratory",
-    "de": "Labor"
-  },
-  {
-    "en": "midwife",
-    "de": "Hebamme(n)"
-  },
-  {
-    "en": "nurse",
-    "de": "Gesundheits- und Krankenpflege"
-  },
-  {
-    "en": "occupational_therapist",
-    "de": "Ergotherapie"
-  },
-  {
-    "en": "optometrist",
-    "de": "Optik"
-  },
-  {
-    "en": "physiotherapist",
-    "de": "Physiotherapie"
-  },
-  {
-    "en": "podiatrist",
-    "de": "Podologie"
-  },
-  {
-    "en": "psychotherapist",
-    "de": "Psychotherapie"
-  },
-  {
-    "en": "rehabilitation",
-    "de": "Rehabilitation"
-  },
-  {
-    "en": "sample_collection",
-    "de": "Probenentnahme"
-  },
-  {
-    "en": "speech_therapist",
-    "de": "Logopädie"
-  },
-  {
-    "en": "vaccination_centre",
-    "de": "Impfstelle"
-  },
-  {
-    "en": "centre",
-    "de": "Gesundheitszentrum (nichtnäher spezifiziert)"
-  },
-  {
-    "en": "allergology",
-    "de": "Allergologie"
-  },
-  {
-    "en": "anaesthetics",
-    "de": "Anästhesie"
-  },
-  {
-    "en": "cardiology",
-    "de": "Kardiologie"
-  },
-  {
-    "en": "cardiothoracic_surgery",
-    "de": "Herz- und Thoraxchirurgie"
-  },
-  {
-    "en": "child_psychiatry",
-    "de": "Kinder- und Jugendpsychiatrie"
-  },
-  {
-    "en": "community",
-    "de": "Medizin im öffentlichen Gesundheitswesen"
-  },
-  {
-    "en": "dermatology",
-    "de": "Dermatologie"
-  },
-  {
-    "en": "dermatovenereology",
-    "de": "Dermatologie und Venerologie"
-  },
-  {
-    "en": "diagnostic_radiology",
-    "de": "Klinische Radiologie"
-  },
-  {
-    "en": "emergency",
-    "de": "Unfall- und Notfallmedizin"
-  },
-  {
-    "en": "endocrinology",
-    "de": "Endokrinologie und Diabetologie"
-  },
-  {
-    "en": "gastroenterology",
-    "de": "Gastroenterologie"
-  },
-  {
-    "en": "general",
-    "de": "Allgemein"
-  },
-  {
-    "en": "geriatrics",
-    "de": "Geriatrie"
-  },
-  {
-    "en": "gynaecology",
-    "de": "Geburtshilfe und Gynäkologie"
-  },
-  {
-    "en": "haematology",
-    "de": "Hämatologie"
-  },
-  {
-    "en": "hepatology",
-    "de": "Hepatologie"
-  },
-  {
-    "en": "infectious_diseases",
-    "de": "Infektiöse Krankheiten"
-  },
-  {
-    "en": "intensive",
-    "de": "Intensive Pflege"
-  },
-  {
-    "en": "internal",
-    "de": "Allgemeine (innere) Medizin"
-  },
-  {
-    "en": "dental_oral_maxillo_facial_surgery",
-    "de": "Mund-, Kiefer- und Gesichtschirurgie"
-  },
-  {
-    "en": "neonatology",
-    "de": "Pädiatrische Abteilung für Neugeborene"
-  },
-  {
-    "en": "nephrology",
-    "de": "Nierenheilkunde"
-  },
-  {
-    "en": "neurology",
-    "de": "Neurologie"
-  },
-  {
-    "en": "neuropsychiatry",
-    "de": "Neuropsychiatrie"
-  },
-  {
-    "en": "neurosurgery",
-    "de": "Neurochirurgie"
-  },
-  {
-    "en": "nuclear",
-    "de": "Nuklearmedizin"
-  },
-  {
-    "en": "occupational",
-    "de": "Arbeitsmedizin"
-  },
-  {
-    "en": "oncology",
-    "de": "Onkologie"
-  },
-  {
-    "en": "ophthalmology",
-    "de": "Ophthalmologie"
-  },
-  {
-    "en": "orthodontics",
-    "de": "Kieferorthopädie"
-  },
-  {
-    "en": "orthopaedics",
-    "de": "Orthopädie"
-  },
-  {
-    "en": "otolaryngology",
-    "de": "Hals-Nasen-Ohren-Heilkunde"
-  },
-  {
-    "en": "paediatric_surgery",
-    "de": "Pädiatrische Chirurgie"
-  },
-  {
-    "en": "paediatrics",
-    "de": "Pädiatrie"
-  },
-  {
-    "en": "palliative",
-    "de": "Palliativmedizin (Hospiz)"
-  },
-  {
-    "en": "pathology",
-    "de": "Pathologie"
-  },
-  {
-    "en": "physiatry",
-    "de": "Physikalische Medizin und Rehabilitation (Sportmedizin)"
-  },
-  {
-    "en": "plastic_surgery",
-    "de": "Plastische Chirurgie"
-  },
-  {
-    "en": "podiatry",
-    "de": "Podologie"
-  },
-  {
-    "en": "proctology",
-    "de": "Proktologie"
-  },
-  {
-    "en": "psychiatry",
-    "de": "Allgemeine Psychiatrie"
-  },
-  {
-    "en": "pulmonology",
-    "de": "Medizin der Atemwege"
-  },
-  {
-    "en": "radiology",
-    "de": "Radiologie"
-  },
-  {
-    "en": "radiotherapy",
-    "de": "Strahlentherapie"
-  },
-  {
-    "en": "rheumatology",
-    "de": "Rheumatologie"
-  },
-  {
-    "en": "stomatology",
-    "de": "Stomatologie"
-  },
-  {
-    "en": "surgery",
-    "de": "Allgemeine Chirurgie"
-  },
-  {
-    "en": "transplant",
-    "de": "Transplantationschirurgie"
-  },
-  {
-    "en": "trauma",
-    "de": "Unfallchirurgie"
-  },
-  {
-    "en": "tropical",
-    "de": "Tropenmedizin"
-  },
-  {
-    "en": "urology",
-    "de": "Urologie"
-  },
-  {
-    "en": "vascular_surgery",
-    "de": "Gefäßchirurgie"
-  },
-  {
-    "en": "venereology",
-    "de": "Venerologie"
-  },
-  {
-    "en": "abortion",
-    "de": "Schwangerschaftsabbruch"
-  },
-  {
-    "en": "fertility",
-    "de": "Fruchtbarkeit"
-  },
-  {
-    "en": "vaccination",
-    "de": "Impfungen"
-  },
-  {
-    "en": "behavior",
-    "de": "Verhaltenstherapeutische Psychotherapie"
-  },
-  {
-    "en": "body",
-    "de": "Körperorientierte Psychotherapie"
-  },
-  {
-    "en": "depth",
-    "de": "Tiefenpsychologie / Psychoanalyse"
-  },
-  {
-    "en": "humanistic",
-    "de": "Therapie auf der Grundlage der humanistischen Psychologie"
-  },
-  {
-    "en": "other",
-    "de": "Anderes (z.B. Kunsttherapie)"
-  },
-  {
-    "en": "systemic",
-    "de": "Systemische Therapie"
-  },
-  {
-    "en": "biology",
-    "de": "Biologie (unspezifisch)"
-  },
-  {
-    "en": "biochemistry",
-    "de": "Biochemie"
-  },
-  {
-    "en": "blood_check",
-    "de": "Blutuntersuchung"
-  },
-  {
-    "en": "clinical_pathology",
-    "de": "Klinische Pathologie"
-  },
-  {
-    "en": "addiction",
-    "de": "Sucht"
-  },
-  {
-    "en": "antenatal",
-    "de": "Schwangerschafts- und Schwangerenberatung"
-  },
-  {
-    "en": "dietitian",
-    "de": "Diätetiker"
-  },
-  {
-    "en": "nutrition",
-    "de": "Ernährung"
-  },
-  {
-    "en": "sexual",
-    "de": "Sexualberatung"
-  }
-]
-export type MockFacility = {
-  en: string,
-  de: string
-}
