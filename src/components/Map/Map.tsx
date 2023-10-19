@@ -117,6 +117,7 @@ type Props = {
   accessibilityCloudAppToken: string;
   accessibilityCloudBaseUrl?: string;
   wheelmapApiBaseUrl: string;
+  wheelmapApiBaseUrlForTiles: string;
   wheelmapApiKey: string;
   maxZoom: number;
   minZoomWithSetCategory: number;
@@ -1110,7 +1111,7 @@ export default class Map extends React.Component<Props, State> {
   wheelmapTileUrl(props: Props = this.props, state: State = this.state): string | null {
     // For historical reasons: 'Classic' Wheelmap way of fetching GeoJSON tiles:
     // const wheelmapTileUrl = '/nodes/{x}/{y}/{z}.geojson?limit=25';
-    const baseUrl = props.wheelmapApiBaseUrl;
+    const baseUrl = props.wheelmapApiBaseUrlForTiles;
     if (typeof baseUrl !== 'string') return null;
     const wheelmapApiKey = props.wheelmapApiKey;
     const categoryName = props.categoryId;
@@ -1125,10 +1126,10 @@ export default class Map extends React.Component<Props, State> {
         if (!subCategory) {
           return null;
         }
-        return `${baseUrl}/api/node_types/${subCategory.id}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
+        return `${baseUrl}/api/node_types/${subCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100&t={timestamp}`;
       }
-      return `${baseUrl}/api/categories/${rootCategory.id}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100`;
+      return `${baseUrl}/api/categories/${rootCategory.identifier}/nodes/?api_key=${wheelmapApiKey}&per_page=100&bbox={bbox}&limit=100&t={timestamp}`;
     }
-    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100`;
+    return `${baseUrl}/api/nodes/?api_key=${wheelmapApiKey}&per_page=25&bbox={bbox}&per_page=100&limit=100&t={timestamp}`;
   }
 }

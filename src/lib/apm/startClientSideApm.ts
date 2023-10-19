@@ -17,7 +17,7 @@ export default function startClientSideApm() {
     secretToken: env.REACT_APP_ELASTIC_APM_SECRET_TOKEN,
     // Other APM monitored services
     distributedTracingOrigins: [
-      env.REACT_APP_LEGACY_API_BASE_URL,
+      env.REACT_APP_OSM_API_LEGACY_BASE_URL,
       env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL,
       env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL,
     ].filter(Boolean),

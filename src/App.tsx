@@ -749,9 +749,11 @@ class App extends React.Component<Props, State> {
     const { routerHistory } = this.props;
 
     // show equipment inside their place details
-    let routeName = 'placeDetail';
     const params = this.getCurrentParams() as any;
-
+    
+    // This is only set for OSM features, not for accessibility.cloud features.
+    const osmType = get(properties, 'osm_type');
+    let routeName = osmType ? osmType : 'placeDetail';
     params.id = featureIdString;
     delete params.eid;
 
@@ -831,9 +833,10 @@ class App extends React.Component<Props, State> {
     if (wheelmapFeature) {
       let id = getFeatureId(wheelmapFeature);
       if (id) {
+        let osmType = get(wheelmapFeature, 'properties.osm_type');
         params.id = id;
         delete params.eid;
-        routeName = 'placeDetail';
+        routeName = osmType ? osmType : 'placeDetail';
       }
     }
 

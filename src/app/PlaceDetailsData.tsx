@@ -40,18 +40,18 @@ import { translatedStringFromObject } from '../lib/i18n';
 import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
 
 function fetchFeature(
+  osmType: string,
   featureId: string,
   appToken: string,
   useCache: boolean,
   disableWheelmapSource?: boolean
 ): Promise<Feature> | null {
-  const isWheelmap = isWheelmapFeatureId(featureId);
-
+  const isWheelmap = !!osmType;
   if (isWheelmap) {
     if (disableWheelmapSource) {
       return null;
     }
-    return wheelmapFeatureCache.fetchFeature(featureId, appToken, useCache);
+    return wheelmapFeatureCache.fetchFeature(osmType + '/' + featureId, appToken, useCache);
   }
 
   return accessibilityCloudFeatureCache.fetchFeature(featureId, appToken, useCache);
@@ -99,15 +99,13 @@ function fetchPhotos(
   feature: Feature,
   appToken: string,
   useCache: boolean,
-  disableWheelmapSource?: boolean
 ) {
-  const isWheelmap = isWheelmapFeature(feature);
   const featureId = getFeatureId(feature);
   const surveyResultId = get(feature, 'properties.surveyResultId');
-
+  const isOSMWay = isWheelmapFeature(feature) && feature.properties.osm_type === 'way';
   const photosPromise = Promise.all([
     accessibilityCloudImageCache
-      .getImage('place', featureId, appToken, useCache)
+      .getImage('place', isOSMWay ? String(-featureId) : featureId, appToken, useCache)
       .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : []),
     surveyResultId ?
       accessibilityCloudImageCache
@@ -163,9 +161,11 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     // do not cache features on server
     const useCache = !isServer;
     const disableWheelmapSource = query.disableWheelmapSource === 'true';
+    console.log('query', query);
     const renderContext = await renderContextPromise;
     const appToken = renderContext.app.tokenString;
-    const featurePromise = fetchFeature(featureId, appToken, useCache, disableWheelmapSource);
+    const osmType = ['way', 'node', 'relation'].includes(query.routeName) ? query.routeName : null;
+    const featurePromise = fetchFeature(osmType, featureId, appToken, useCache, disableWheelmapSource);
     const equipmentPromise = equipmentInfoId
       ? fetchEquipment(equipmentInfoId, appToken, useCache)
       : null;
@@ -177,7 +177,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       ? undefined
       : fetchToiletsNearby(renderContext, featurePromise);
     const photosPromise = featurePromise.then(feature =>
-      fetchPhotos(feature, appToken, useCache, disableWheelmapSource));
+      fetchPhotos(feature, appToken, useCache));
 
     const [feature, equipmentInfo, sources, photos] = await Promise.all([
       featurePromise,

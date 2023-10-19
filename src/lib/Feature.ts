@@ -105,6 +105,8 @@ export interface WheelmapCategoryOrNodeType {
 
 export type WheelmapProperties = {
   id: number,
+  osm_type: string | null,
+  osm_id: string | null,
   category: WheelmapCategoryOrNodeType | null,
   node_type: WheelmapCategoryOrNodeType | null,
   city: string | null,
@@ -259,6 +261,9 @@ export function hrefForFeature(
     }
   }
 
+  if (get(properties, 'osm_id')) {
+    return `/${(properties as any).osm_id}`;
+  }
   return `/nodes/${featureId}`;
 }
 

@@ -16,6 +16,9 @@ import Categories, { getCategoryId } from '../../../lib/Categories';
 import { CategoryLookupTables } from '../../../lib/Categories';
 import { AppContextData } from '../../../AppContext';
 import { accessibilityCloudFeatureCache } from '../../../lib/cache/AccessibilityCloudFeatureCache';
+import { isWheelmapFeature } from '../../../lib/Feature';
+import env from '../../../lib/env';
+import { saveEditInLocalStorage } from './LastEditsStorage';
 
 type ExternalSaveOptions<T> = {
   featureId: string,
@@ -32,11 +35,6 @@ type PropertyUpdates = { [key: string]: string | boolean | number | void };
 type TrackableSaveOptions<T> = ExternalSaveOptions<T> & {
   propertyUpdates: PropertyUpdates,
   action: string,
-};
-
-type WheelmapSaveOptions<T> = TrackableSaveOptions<T> & {
-  url: string,
-  jsonPropertyName: string,
 };
 
 function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {
@@ -65,91 +63,90 @@ function trackAttributeChanged<T>(options: TrackableSaveOptions<T>) {
   });
 }
 
-function finishRatingFlow<T>(options: TrackableSaveOptions<T>, promise: Promise<any>) {
+async function finishRatingFlow<T>(options: TrackableSaveOptions<T>) {
   const { value, featureId, action, propertyUpdates } = options;
-
-  return promise
-    .then(json => {
-      trackEventExternally({
-        category: 'UpdateAccessibilityData',
-        action,
-        label: String(value),
-      });
-      trackAttributeChanged(options);
-
-      if (isWheelmapFeatureId(featureId)) {
-        [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
-          if (cache.getCachedFeature(featureId)) {
-            cache.updateFeatureAttribute(featureId, propertyUpdates);
-          }
-        });
-      } else {
-        accessibilityCloudFeatureCache.updateFeatureAttribute(featureId, propertyUpdates);
-      }
-      if (typeof options.onSave === 'function') options.onSave(value);
-    })
-    .catch(e => {
-      if (typeof options.onClose === 'function') options.onClose();
-      // translator: Shown after marking a place did not work, for example because the connection was interrupted
-      window.alert(t`Sorry, this place could not be marked because of an error: ${e}`);
-
-      trackEventExternally({
-        category: 'UpdateAccessibilityData',
-        action,
-        label: 'failed',
-      });
+  try {
+    trackEventExternally({
+      category: 'UpdateAccessibilityData',
+      action,
+      label: String(value),
     });
+    trackAttributeChanged(options);
+    debugger
+    if (isWheelmapFeatureId(featureId)) {
+      [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
+        if (cache.getCachedFeature(featureId)) {
+          cache.updateFeatureAttribute(featureId, propertyUpdates);
+        }
+      });
+    } else {
+      accessibilityCloudFeatureCache.updateFeatureAttribute(featureId, propertyUpdates);
+    }
+    if (typeof options.onSave === 'function') options.onSave(value);
+  }
+  catch (e) {
+    if (typeof options.onClose === 'function') options.onClose();
+    // translator: Shown after marking a place did not work, for example because the connection was interrupted
+    window.alert(t`Sorry, this place could not be marked because of an error: ${e}`);
+
+    trackEventExternally({
+      category: 'UpdateAccessibilityData',
+      action,
+      label: 'failed',
+    });
+  }
 }
 
-function saveToWheelmap<T>(options: WheelmapSaveOptions<T>): Promise<void> {
-  const { url, value } = options;
+// todo delete
+async function saveToWheelmap<T>(options: TrackableSaveOptions<T>): Promise<void> {
+  if (!isWheelmapFeature(options.feature)) {
+    throw new Error('Cannot save to Wheelmap: Feature is not a Wheelmap feature.');
+  }
 
-  const formData = new FormData();
-  formData.append(options.jsonPropertyName, String(value));
-  const body = formData;
-
-  const requestOptions = {
-    method: 'PUT',
-    body,
-    serializer: 'urlencoded',
+  const osmType = options.feature.properties.osm_type;
+  const osmId = options.feature.properties.id;
+  const baseUrl = env.REACT_APP_OSM_API_LEGACY_BASE_URL;
+  if (!baseUrl) {
+    throw new Error('Cannot save to Wheelmap: REACT_APP_OSM_API_LEGACY_BASE_URL is not set.');
+  }
+  const tag = {
+    'wheelchair': 'wheelchair',
+    'toilet': 'toilets:wheelchair',
+  }[options.action];
+  const url = `${baseUrl}/api/${osmType}/${osmId}/${tag}`;
+  console.log('saveToWheelmap options', JSON.stringify(options, null , 2) );
+  console.log('saveToWheelmap osmapi url', url);
+  const requestInit = {
     headers: {
-      Accept: 'application/json',
+      'content-type': 'application/json',
     },
+    method: 'POST',
+    body: `{ "value": "${options.value}" }`,
   };
-
-  const result = fetch(url, requestOptions).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-    throw response;
-  });
-
-  return finishRatingFlow(options, result);
+  console.log('saveToWheelmap requestInit:', requestInit);
+  const response = await fetch(url, requestInit);
+  await response.json();
+  saveEditInLocalStorage({ timestamp: Date.now(), lat: options.feature.geometry.coordinates[1], lon: options.feature.geometry.coordinates[0]});
+  return finishRatingFlow(options);
 }
 
 function saveWheelmapToiletStatus(options: ExternalSaveOptions<YesNoUnknown>) {
-  const url = `${config.wheelmapApiBaseUrl}/nodes/${options.featureId}/update_toilet.js?api_key=${config.wheelmapApiKey}`;
   return saveToWheelmap({
     ...options,
-    url,
     action: 'toilet',
     propertyUpdates: { wheelchair_toilet: options.value },
-    jsonPropertyName: 'toilet',
   });
 }
 
 function saveWheelmapWheelchairStatus(options: ExternalSaveOptions<YesNoLimitedUnknown>) {
-  const url = `${config.wheelmapApiBaseUrl}/nodes/${options.featureId}/update_wheelchair.js?api_key=${config.wheelmapApiKey}`;
   return saveToWheelmap({
     ...options,
-    url,
     action: 'wheelchair',
     propertyUpdates: { wheelchair: options.value },
-    jsonPropertyName: 'wheelchair',
   });
 }
 
-function saveToAc<T>(
+async function saveToAc<T>(
   mode: 'toilet' | 'wheelchair',
   rating: 'yes' | 'no' | 'unknown' | 'partial',
   propertyUpdates: PropertyUpdates,
@@ -161,14 +158,14 @@ function saveToAc<T>(
     action: mode,
   };
 
-  const result = accessibilityCloudFeatureCache.ratePlace(
+  await accessibilityCloudFeatureCache.ratePlace(
     options.featureId,
     mode,
     rating,
     options.appContext.app.tokenString
   );
 
-  return finishRatingFlow(trackableOptions, result);
+  return finishRatingFlow(trackableOptions);
 }
 
 function yesNoUnknownAsBoolean(value: YesNoUnknown) {

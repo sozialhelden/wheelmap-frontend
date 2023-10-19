@@ -84,6 +84,22 @@ app.prepare().then(() => {
   // Read https://github.com/sozialhelden/twelve-factor-dotenv for more infos.
   server.get('/clientEnv.js', createEnvironmentJSResponseHandler(env));
 
+  server.get(
+    '/nodes/:id',
+    (req, res, next) => {
+      const id = req.params.id;
+      console.log('id', id);
+      if (!id.match(/^-?\d+$/)) {
+        return next();
+      }
+      if (id.slice(0, 1) === '-') {
+        res.redirect(`/way/${id.replace(/-/, '')}`);
+        return;
+      }
+      res.redirect(`/node/${id}`);
+    }
+  );
+
   server.get('*', (req, res, next) => {
     const match = router.match(req.path);
 
@@ -93,15 +109,6 @@ app.prepare().then(() => {
 
     app.render(req, res, '/main', { ...match.params, ...req.query, routeName: match.route.name });
   });
-
-  // changeOrigin: overwrite host with target host (needed to proxy to cloudflare)
-  server.use(
-    ['/api/*', '/nodes/*'],
-    createProxyMiddleware({
-      target: process.env.REACT_APP_LEGACY_API_BASE_URL,
-      changeOrigin: true,
-    })
-  );
 
   server.use(
     ['/images/*'],

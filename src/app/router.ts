@@ -6,6 +6,18 @@ const routes = [
     path: '/nodes/:id',
   },
   {
+    name: 'way',
+    path: '/way/:id',
+  },
+  {
+    name: 'node',
+    path: '/node/:id',
+  },
+  {
+    name: 'relation',
+    path: '/relation/:id',
+  },
+  {
     name: 'equipment',
     path: '/nodes/:id/equipment/:eid',
   },

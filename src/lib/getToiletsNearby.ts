@@ -41,7 +41,7 @@ function fetchWheelmapToiletPlaces(lat: number, lon: number, radius: number): Pr
   return globalFetchManager
     .fetch(url)
     .then(response => response.json())
-    .then(responseJson => responseJson.nodes.map(convertResponseToWheelmapFeature));
+    .then(responseJson => responseJson?.nodes?.map(convertResponseToWheelmapFeature));
 }
 
 function fetchAcToiletPlaces(
