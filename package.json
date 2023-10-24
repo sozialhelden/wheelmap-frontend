@@ -71,7 +71,7 @@
     "mapbox-gl-leaflet": "0.0.14",
     "marked": "^4.0.10",
     "mkdirp": "^0.5.5",
-    "next": "^12.1.0",
+    "next": "^13.5.0",
     "next-transpile-modules": "^5.0.0",
     "path-to-regexp": "^2.4.0",
     "plist": "^3.0.5",
