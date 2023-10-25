@@ -13,7 +13,7 @@ function SearchResults({ data }: Props) {
   return (
     <section className="search-results-section">
       <div className="search-results-container">
-        <h2 className="search-results-h2"> {mockedData ? mockedData.length : ""} {t`Search Results`}</h2> 
+      <h2 className="search-results-h2"> {mockedData ? mockedData.length : ""} {t`Search Results`}</h2> 
         <ul className="search-results-list">
           {data.map((item: MockData) => {
             return (

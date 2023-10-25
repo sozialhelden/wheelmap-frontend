@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-const placeNameCSS = css`
+export const placeNameCSS = css`
   margin: 0;
   line-height: 1;
   font-weight: 400;
