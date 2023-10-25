@@ -7,6 +7,7 @@ import React from "react";
 import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import { AppContext } from "../../lib/context/AppContext";
+import WindowContextProvider from "../../lib/context/WindowContext";
 import GlobalStyle from "./GlobalAppStyle";
 import HeadMetaTags from "./HeadMetaTags";
 import MainMenu from "./MainMenu/MainMenu";
@@ -63,16 +64,18 @@ export default function LayoutHealthPage({
       )}
 
       <main 
-        style={{ height: "100%" }} 
+        style={{ height: "100vh" }} 
         ref={containerRef} 
       >
         {/* <BlurLayer active={blur} style={{ zIndex: 1000 }} /> */}
-        <div style={{ 
-          zIndex: 2000
+        <WindowContextProvider>
+          <div style={{ 
+            zIndex: 2000
           }}>
-          {children}
-          </div>
-        {/* <ToastContainer position="bottom-center" /> */}
+            {children}
+            </div>
+          {/* <ToastContainer position="bottom-center" /> */}
+        </WindowContextProvider>
       </main>
     </>
   );

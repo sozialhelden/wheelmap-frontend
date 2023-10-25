@@ -1,9 +1,10 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { t } from "ttag";
 import LayoutHealthPage from "../../components/App/LayoutHealthPage";
-import PreferencesFilter from "./components/PreferencesFilter";
+import FilterSection from "./components/FilterSection";
+import SearchResults from "./components/SearchResults";
 
 /*
   A11y Design considerations
@@ -19,106 +20,174 @@ import PreferencesFilter from "./components/PreferencesFilter";
 
   pagination? 
 
+
+  summary details
+  oder dialog 
+  cards: keine bubbles- nur für filter-a11y labels auf den cards
 */
 
 const StyledPage = styled.div`
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
   
-  /* header bar */
-  height: calc(100vh - 50px); //margin-top: 50px 
-  
-  overflow-y: scroll;
+  .health-site-content {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(224, 237, 255, 1);
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-  .layout {
+  .health-site-h1 {
+    margin-top: calc(50px + 1rem);
+    margin-inline: 2rem;
+  }
+
+  .search-filter-section {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    background-color: rgb(237, 224, 255, 1);
+    margin-top: 1rem; 
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-results-section {
+    margin: 1rem;
+    background-color: rgb( 255, 224, 237,  1);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .search-filter-h2 {
+    margin-top: 1rem;
+    margin-inline: 1rem;
+
+  }
+
+  .search-filter-container {
+    width: min(100% - 2rem, max(800px, 70%));
+    height: fit-content;
+    margin-inline: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .input-choices {
+    height: auto;
+    width: 50%;
+    
+    .survey-form-titel {
+      font-size: 110%;
+      margin-bottom: 0.5rem;
+    }
+   
+    .search-filter-inputs {
+      display: flex;
+      flex-direction: column;
+      width: 90%;
+    }
+  }
+
+  .preference-choices {
+    height: auto;
+    width: 50%;
+  }
+
+  .search-filter-details {
+    margin-left: 1rem;
+  }
+  .search-filter-details[open] > .search-filter-summary::marker {
+    transform: rotate(90deg);
+  }
+
+  active-filters-bar {
+    
+  }
+  .disabled-filter-button {
+    display: none
+  }
+
+  .active-filter-button {
+    margin-left: 1rem;
+  }
+
+  .active-filters-bar {
+    list-style-type: none; 
+    display: flex;
+    // gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  @media screen and (max-width: 600px) {
+    .search-filter-container {
+      flex-direction: column;
+
+      .input-choices,
+      .preference-choices {
+        width: auto;
+      }
+    }
+  }
+
+  .search-results-container {
+    width: min(100% - 2rem, max(600px, calc(100vw - 1rem)));
+    margin-inline: auto;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
   }
 
-  div {
-    border: 1px solid red;
+  .search-results-list {
+    list-style-type: none;
   }
 
-  /** 
-   * breakpoint for wrap based on WCAG reflow test with desired pixel width at 400% zoomfaktor by 1280*1024 vp.
-   * This width is 320px vp plus 7px on both sides for bars, i.e.: space on mobile or scrollbars. 
-   * 334px is the min-width of the input cards, they will stack as soon as the viewport is smaller than two times 334px.
-   * The cards will not be smaller than 334px, the viewport as well. This is the smallest WCAG-compliant viewport width value 
-   * that has to be supported by any application. 
-  */
-  .top-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
-  }
-
-  .stack {
+  .search-result {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    width: 95%;
+    margin-block: 0.7rem;
+    
+    height: fit-content;
+    background-color: beige;
+    border-radius: 0.3rem;
+    padding: 0.4rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }
   
-  .stack > * {
-    margin-block: 0;
-  } 
+  .search-results-h2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    // margin-left: 1.5rem;
+  }
+
+  .search-result-address,
+  .search-result-heading,
+  .search-result-description {
+    font-size: 1rem;
+    line-height: 1.2;  
+  }
   
-  .stack > * + * {
-    margin-block-start: var(--space, 1.2rem);
+  .search-result-heading {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+  }
+  
+  .search-result-address {
+
   }
 
 `;
-
-const renderMockedJSONSearchResults = (data) => {
-  return (
-    <React.Fragment>
-      <h2>Search Results</h2>
-      <ul>{data.map((item: any) => <li key={item._id}>{JSON.stringify(item)}</li>)}</ul>
-    </React.Fragment>
-  )
-}
-
-const renderMockedDetailedSearchResults = (data: MockData[]) => {
-  return (
-      <ul className="search-results-list">
-        {data.map((item: MockData) => {
-          const name = typeof item.properties.name === 'string' ? item.properties.name : item.properties.name?.en ?? "Praxis Dr. Linker Platzhalter";
-          const { street, city, house, postalCode, text } = item.properties.address || {};
-          const description = item.properties.description?.en ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-          return (
-            <li key={item._id}>
-              <div className="search-result">
-                <h3 className="search-result-heading">{name}</h3>
-                <p className="search-result-address">{text ? text : "Keine Adresse"}</p>
-                <p className="search-result-description">{ description ? description : t`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}</p>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-  );
-
-}
-
-const renderSurveyForm = () => {
-  // Todo: Custom Select for large select menu
-  return (
-    <React.Fragment>
-      <div id="survey-form-titel" className="survey-form-titel">Allgemeine Angaben</div>
-        <div className="search-filter-inputs" role="group" aria-labelledby="survey-form-titel">
-          <label htmlFor="place">{t`Ort`}</label>
-          <input type="text" name="" id="place" />
-          <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
-          <select name="facilities" id="facilities-select">
-              <option value="">{t`--Bitte Option auswählen--`}</option>
-              {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
-          </select>
-          <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
-          <select name="insurance-type" id="insurance-type">
-            <option value="">{t`--Bitte Option auswählen--`}</option>
-            <option value="privat">{t`Private Krankenversicherung`}</option>
-            <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
-          </select>      
-      </div>
-    </React.Fragment>
-  );
-}
 
 export default function Page() {  
 
@@ -129,39 +198,16 @@ export default function Page() {
   if (!data) return <div>Loading...</div>;
 
   const mockedData: MockData[] = JSON.parse(data);
-
+  const labels = ["Aufzug", "Ebenerdiger Eingang", "Parkplatz", "Leichte Sprache", "Gebärdensprache"];
+  
   return (
-    <StyledPage>
-      <div className="layout">
-        <div className="top">Praxissuche
-          <div className="top-grid">
-            <div className="left">
-              <div id="survey-form-titel" className="survey-form-titel">Allgemeine Angaben</div>
-                <div className="stack" role="group" aria-labelledby="survey-form-titel">
-                  <label htmlFor="place">{t`Ort`}</label>
-                  <input type="text" name="" id="place" />
-                  <label htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</label>
-                  <select name="facilities" id="facilities-select">
-                    <option value="">{t`--Bitte Option auswählen--`}</option>
-                    {mockedHealthcareFacilities.map((item, index) => <option key={item.de+(index++).toString()} value={item.de}>{item.de}</option>)}
-                  </select>
-                  <label htmlFor="insurance-type">{t`Versicherungsart`}</label>
-                  <select name="insurance-type" id="insurance-type">
-                    <option value="">{t`--Bitte Option auswählen--`}</option>
-                    <option value="privat">{t`Private Krankenversicherung`}</option>
-                    <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
-                  </select>      
-              </div>
-            </div>
-            <div className="right">
-              <PreferencesFilter />
-            </div>
-          </div>
+      <StyledPage>
+        <div className="health-site-content">
+          <h1 className="health-site-h1">{t`Praxissuche`}</h1>
+          <FilterSection data={mockedHealthcareFacilities} labels={labels} />
+          <SearchResults data={mockedData} />
         </div>
-        <div className="bottom">Ergebnisse</div>
-      </div>
-
-    </StyledPage>
+      </StyledPage>
   );
 }
 

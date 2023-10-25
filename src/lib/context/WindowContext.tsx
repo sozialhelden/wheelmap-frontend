@@ -23,7 +23,11 @@ export default function WindowContextProvider({
 }) {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-  const [userAgent, setUserAgent] = useState(window.navigator.userAgent);
+  const [userAgent, setUserAgent] = useState(null);
+
+  useEffect(() => {
+    setUserAgent(window.navigator.userAgent);
+  }, []);
 
   const handleResize = useCallback(() => {
     setWidth(window.innerWidth);
