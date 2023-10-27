@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { t } from "ttag";
 import { MockFacility } from "..";
 import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
-import ActivePreferenceButton from "./ActivePreferenceButton";
+import ActiveFilters from "./ActiveFilters";
+import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
+import { FilterContext } from "./FilterContext";
 import FilterInputs from "./FilterInputs";
-import PreferenceSwitch from "./PreferenceSwitch";
 
 export const StyledFilterPreferencesSection = styled.section`
   --switch-height: calc(2rem - 8px);
@@ -119,60 +120,18 @@ function FilterSection ({data, labels}: Props) {
   const [isMobile, setMobile] = React.useState(width < 640);
   const [isDesktop, setDesktop] = React.useState(width >= 640);
   const [activeStyle, setStyle] = React.useState("disabled-filter-button");
+  const [filterMap, setFilterMap] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
 
-  const buttonRefsMap = new Map(labels.map((label) => [label, React.createRef<HTMLButtonElement>()]));
-  const switchRefsMap = new Map(labels.map((label) => [label, React.createRef<HTMLInputElement>()]));
+  const memoizedFilterContext = React.useMemo(() => ({filterMap, setFilterMap}), [filterMap, setFilterMap]);
 
   React.useEffect(() => {
     setMobile(width < 640);
     setDesktop(width >= 640);
   },[width]);
 
-
-  const handleActivePreferenceButtonCLick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const activeButton = e.target as HTMLButtonElement;
-    const buttonRef = buttonRefsMap.get(activeButton.name);
-    const checkboxRef = switchRefsMap.get(activeButton.name);
-    buttonRef.current?.classList.remove("active-filter-button");
-    buttonRef.current?.classList.add("disabled-filter-button");
-    checkboxRef.current.checked = false;
-  }
-
-  const handleSwitchClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    const activeSwitch = e.target as HTMLInputElement;
-    const buttonRef = buttonRefsMap.get(activeSwitch.name);
-    const checkboxRef = switchRefsMap.get(activeSwitch.name);
-    const checked = checkboxRef.current.checked;
-    const unChecked = !checked;
-    
-    if(checked) {
-      buttonRef.current?.classList.add("active-filter-button");
-      buttonRef.current?.classList.remove("disabled-filter-button");
-    }
-    if(unChecked) {
-      buttonRef.current?.classList.remove("active-filter-button");
-      buttonRef.current?.classList.add("disabled-filter-button");
-    }
-  }
-
-  const renderActiveFilters = () => {
-    return (
-      <ul className="active-filters-bar" aria-label={t`Aktive Filter`} >
-        {labels.map(label => 
-          <li key={label}>
-            <ActivePreferenceButton
-              ref={buttonRefsMap.get(label)}
-              className={activeStyle} 
-              name={label}
-              onClick={handleActivePreferenceButtonCLick}
-            />
-          </li>
-        )}
-      </ul>);
-  }
-
   const renderFilterContainer = () => {
     return (
+
       <div className="search-filter-container">
         <div className="input-choices">
           <FilterInputs data={mockedHealthcareFacilities} />
@@ -184,10 +143,8 @@ function FilterSection ({data, labels}: Props) {
               <ul> {labels.map((label) => {return (
                 <li key={label + `-key`}>
                   <label className="label">
-                    <PreferenceSwitch 
-                      ref={switchRefsMap.get(label)}
-                      label={label} 
-                      onClick={handleSwitchClick}
+                    <ActivePreferenceSwitch 
+                      name={label} 
                     />
                     <span className="state">
                       {/* <span className="on" aria-hidden="true">On</span>
@@ -207,9 +164,10 @@ function FilterSection ({data, labels}: Props) {
    
 
   return (
+    <FilterContext.Provider value={memoizedFilterContext}>
       <section className="search-filter-section">
           <h2 className="search-filter-h2">{t`Suchfilter`}</h2>      
-          {renderActiveFilters()}
+          <ActiveFilters />
           {isDesktop && renderFilterContainer() }
           {isMobile && 
             <details className="search-filter-details">
@@ -217,7 +175,8 @@ function FilterSection ({data, labels}: Props) {
               {renderFilterContainer()}
             </details>
           }
-    </section>
+      </section>
+    </FilterContext.Provider>
   );
 }
 
