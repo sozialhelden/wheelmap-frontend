@@ -134,7 +134,7 @@ function FilterSection ({data, labels}: Props) {
 
       <div className="search-filter-container">
         <div className="input-choices">
-          <FilterInputs data={mockedHealthcareFacilities} />
+          <FilterInputs mockedFacilities={mockedHealthcareFacilities} />
         </div>
         <div className="preference-choices">
           <StyledFilterPreferencesSection>

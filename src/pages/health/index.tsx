@@ -6,6 +6,7 @@ import LayoutHealthPage from "../../components/App/LayoutHealthPage";
 import { placeNameCSS } from "../../components/shared/PlaceName";
 import FilterSection from "./components/FilterSection";
 import SearchResults from "./components/SearchResults";
+import { fetcher } from "./components/helpers";
 
 /*
   A11y Design considerations
@@ -197,8 +198,14 @@ const StyledPage = styled.div`
 
 export default function Page() {  
 
-  const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR('/api/staticdata', fetcher);
+  // TODOS: get photon api bbox for query
+  // const [searchResult, setSearchResult] = React.useState<any>([]);
+  // const memoizedSearchResultsContext = React.useMemo(() => ({ searchResult, setSearchResult }), [searchResult, setSearchResult]);
+
+  const staticdataURL = '/api/staticdata';
+  const url = staticdataURL;
+  
+  const { data, error } = useSWR( url, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -206,6 +213,8 @@ export default function Page() {
   const mockedData: MockData[] = JSON.parse(data);
   const labels = ["Aufzug", "Ebenerdiger Eingang", "Parkplatz", "Leichte Sprache", "Gebärdensprache"];
   
+  
+
   return (
       <StyledPage>
         <div className="health-site-content">
