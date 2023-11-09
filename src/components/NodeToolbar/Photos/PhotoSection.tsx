@@ -1,14 +1,14 @@
 import * as React from 'react';
-import { t } from 'ttag';
-import styled, { createGlobalStyle } from 'styled-components';
 import Lightbox, { Modal, ModalGateway } from 'react-images';
 import PhotoAlbum from 'react-photo-album';
+import styled, { createGlobalStyle } from 'styled-components';
+import { t } from 'ttag';
 
 import { PhotoModel } from '../../../lib/PhotoModel';
 
-import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
-import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
 import { maxBy } from 'lodash';
+import PhotoNotification from '../../NodeToolbar/Photos/PhotoNotification';
+import PhotoUploadButton from '../../PhotoUpload/PhotoUploadButton';
 
 type Props = {
   featureId: string;
@@ -24,14 +24,14 @@ type Props = {
 const GlobalLightboxStyles = createGlobalStyle`
   .react-images__header {
     margin-top: 0;
-    margin-top: env(safe-area-inset-top);
+    opacity: 1 !important;
   }
 
   .react-images__footer {
     display: flex;
     justify-content: space-between;
     margin-bottom: 0;
-    margin-bottom: env(safe-area-inset-bottom);
+    opacity: 1 !important;
   }
 `;
 
@@ -201,11 +201,12 @@ const StyledPhotoSection = styled(PhotoSection)`
       font-weight: bold;
       color: white;
       background: none;
-      border: none;
+      border: 1px solid grey;
       cursor: pointer;
       text-shadow: 0 1px 1px black;
+      border-radius: 4px;
       padding: 0.2rem 0.5rem;
-      font-size: 1rem;
+      font-size: 0.875rem;
     }
 
     kbd {
