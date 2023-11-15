@@ -1,7 +1,7 @@
 import * as React from 'react';
 import includes from 'lodash/includes';
 import styled from 'styled-components';
-import { t } from 'ttag';
+import { msgid, ngettext, t } from 'ttag';
 import {
   isWheelchairAccessible,
   hasAccessibleToilet,
@@ -21,6 +21,27 @@ import ToiletStatusNotAccessibleIcon from '../../icons/accessibility/ToiletStatu
 import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
 import AppContext from '../../../AppContext';
+import { isParkingFacility } from '../AccessibilityEditor/isA11yEditable';
+import { isNumber } from 'lodash';
+
+
+const isNumericString = (s: string | undefined) => s?.match(/^\d+$/)
+const isPositive = (s: string | undefined) => isNumericString(s) && Number(s) >= 1;
+const isUndefined = (s: string | undefined) => s === undefined || s === '';
+const isYes = (s: string | undefined) => s === 'yes';
+const isZeroOrNo = (s: string | undefined) => s === 'no' || s === '0';
+
+export function getAccessDescription(accessTagValue: string) {
+  switch(accessTagValue) {
+    case 'permissive': return t`There is no guarantee you can use this facility.`;
+    case 'yes': return t`This is a public parking facility.`;
+    case 'permit': return t`This parking facility needs a permit.`;
+    case 'customers': return t`This parking facility is only for local customers.`;
+    case 'destination': return t`This parking facility is only for local residents.`;
+    default: return null;
+  }
+}
+
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
@@ -102,8 +123,22 @@ type Props = {
   accessibility: YesNoLimitedUnknown;
 };
 
+const ParkingAccessibilityList = styled.ul`
+  margin: 0 !important;
+  padding: 0;
+  list-style-type: none;
+`;
+
+const ParkingAccessibilityListItem = styled.li`
+  margin-bottom: 0.8rem;
+`;
+
 class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
-  renderWheelchairButton(wheelchairAccessibility) {
+  renderWheelchairButton(wheelchairAccessibility, showSummary: boolean = true) {
+    if (!showSummary && !this.props.showDescription) {
+      return null;
+    }
+
     return (
       <button
         className={`accessibility-wheelchair accessibility-${wheelchairAccessibility}`}
@@ -111,7 +146,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
         disabled={!this.props.isEditingEnabled}
       >
         <header>
-          <span>{<AccessibilityName accessibility={wheelchairAccessibility} />}</span>
+          {showSummary && <span>{<AccessibilityName accessibility={wheelchairAccessibility} />}</span>}
           {this.props.isEditingEnabled && <PenIcon className="pen-icon" />}
         </header>
 
@@ -165,6 +200,52 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
     });
   }
 
+  renderParkingAccessibility() {
+    const { feature } = this.props;
+    if (!isWheelmapFeature(feature)) {
+      return null;
+    }
+    const tags = feature.properties.tags;
+    if (!tags) {
+      return null;
+    }
+
+    const disabledCapacity = tags['capacity:disabled'];
+    const disabledCapacityNumeric = isNumericString(tags['capacity:disabled']) ? parseInt(tags['capacity:disabled'], 10) : undefined;
+    const capacity = tags.capacity;
+    const capacityNumeric = isNumericString(tags['capacity']) ? parseInt(tags['capacity'], 10) : undefined;
+
+    const config: [(string) => boolean, (string) => boolean, string, () => string][] = [
+      [isUndefined, isUndefined, undefined, () => null ],
+      [isPositive,  isUndefined, undefined, () => ngettext(msgid`${capacityNumeric} parking lot available.`, t`${capacityNumeric} parking lots available.`, capacityNumeric)],
+      [isYes,       isUndefined, undefined, () => t`Parking available (accessibility unknown).` ],
+      [isUndefined, isZeroOrNo,  'no',      () => t`No accessible parking lots available.` ],
+      [isZeroOrNo,  isUndefined, 'no',      () => t`No parking available.` ],
+      [isZeroOrNo,  isZeroOrNo,  'no',      () => t`No parking available.` ],
+      [isPositive,  isZeroOrNo,  'no',      () => ngettext(msgid`${capacityNumeric} parking lot available, but no accessible parking.`, t`${capacityNumeric} parking lots available, but no accessible parking.`, capacityNumeric) ],
+      [isYes,       isZeroOrNo,  'no',      () => t`Parking available, but no accessible parking.` ],
+      [isUndefined, isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lots available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
+      [isUndefined, isYes,       'yes',     () => t`Accessible parking available.` ],
+      [isPositive,  isYes,       'yes',     () => t`Accessible parking available.` ],
+      [isYes,       isYes,       'yes',     () => t`Accessible parking available.` ],
+      [isPositive,  isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available (${capacityNumeric} total).`, t`${disabledCapacityNumeric} accessible parking lots available (${capacityNumeric} total).`, disabledCapacityNumeric) ],
+      [isYes,       isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
+    ];
+
+    const foundConfig = config.find(c => c[0](capacity) && c[1](disabledCapacity));
+    const accessibilityValue = foundConfig ? foundConfig[2] : null;
+    const parkingDescriptionString = foundConfig ? foundConfig[3]() : null;
+
+    return (<ParkingAccessibilityList className={'accessibility-wheelchair accessibility-description'}>
+      {foundConfig &&
+        <ParkingAccessibilityListItem className={`accessibility-${accessibilityValue}`}>
+          {parkingDescriptionString}
+        </ParkingAccessibilityListItem>
+      }
+      {tags.access && <ParkingAccessibilityListItem>{getAccessDescription(tags.access)}</ParkingAccessibilityListItem>}
+    </ParkingAccessibilityList>);
+  }
+
   render() {
     const { feature, toiletsNearby, isEditingEnabled } = this.props;
     const { properties } = feature || {};
@@ -172,10 +253,11 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       return null;
     }
 
+    const wheelmapFeature = isWheelmapFeature(feature) ? feature : undefined;
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
-
     const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
+    const hasAccessibilityDetails = isKnownWheelchairAccessibility || wheelmapFeature && Object.keys(wheelmapFeature.properties.tags).length > 0;
     const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =
@@ -187,14 +269,15 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
     const findToiletsNearby =
       toiletAccessibility !== 'yes' && toiletsNearby && toiletsNearby.length > 0;
     const hasContent =
-      isKnownWheelchairAccessibility || isToiletButtonShown; /*|| findToiletsNearby*/
+      isKnownWheelchairAccessibility || hasAccessibilityDetails || isToiletButtonShown; /*|| findToiletsNearby*/
     if (!hasContent) {
       return null;
     }
 
     return (
       <div className={this.props.className}>
-        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility)}
+        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility, !wheelmapFeature || !isParkingFacility(wheelmapFeature))}
+        {this.renderParkingAccessibility()}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
       </div>
@@ -279,7 +362,12 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
 
+  .accessibility-description {
+    font-weight: normal;
+  }
+
   .accessibility-yes {
+    font-weight: bold;
     color: ${colors.positiveColorDarker};
     .pen-icon path {
       fill: ${colors.positiveColorDarker};
@@ -287,6 +375,7 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
   .accessibility-limited {
+    font-weight: bold;
     color: ${colors.warningColorDarker};
     .pen-icon path {
       fill: ${colors.warningColorDarker};
@@ -294,6 +383,7 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
   .accessibility-no {
+    font-weight: bold;
     color: ${colors.negativeColorDarker};
     .pen-icon path {
       fill: ${colors.negativeColorDarker};
@@ -301,6 +391,7 @@ const StyledBasicPlaceAccessibility = styled(WheelchairAndToiletAccessibility)`
     }
   }
   .accessibility-unknown {
+    font-weight: bold;
     color: ${colors.linkColor};
     .pen-icon path {
       fill: ${colors.linkColor};
