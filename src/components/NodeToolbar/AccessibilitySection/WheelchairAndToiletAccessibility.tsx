@@ -45,7 +45,12 @@ export function getAccessDescription(accessTagValue: string) {
 
 // Don't incentivize people to add toilet status to places of these categories
 const placeCategoriesWithoutExtraToiletEntry = [
-  'parking', // because this mostly affects parking lots
+  'parking_carports',
+  'parking_half_on_kerb',
+  'parking_on_kerb',
+  'parking_layby',
+  'parking_street_side',
+  'parking_surface',
   'bus_stop',
   'tram_stop',
   'atm',
