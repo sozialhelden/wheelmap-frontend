@@ -212,7 +212,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 
     const disabledCapacity = tags['capacity:disabled'];
     const disabledCapacityNumeric = isNumericString(tags['capacity:disabled']) ? parseInt(tags['capacity:disabled'], 10) : undefined;
-    const capacity = tags.capacity;
+    const capacity = tags.capacity !== tags['capacity:disabled'] ? tags.capacity : undefined;
     const capacityNumeric = isNumericString(tags['capacity']) ? parseInt(tags['capacity'], 10) : undefined;
 
     const config: [(string) => boolean, (string) => boolean, string, () => string][] = [
@@ -224,11 +224,17 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       [isZeroOrNo,  isZeroOrNo,  'no',      () => t`No parking available.` ],
       [isPositive,  isZeroOrNo,  'no',      () => ngettext(msgid`${capacityNumeric} parking lot available, but no accessible parking.`, t`${capacityNumeric} parking lots available, but no accessible parking.`, capacityNumeric) ],
       [isYes,       isZeroOrNo,  'no',      () => t`Parking available, but no accessible parking.` ],
-      [isUndefined, isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lots available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
+      [isUndefined, isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
       [isUndefined, isYes,       'yes',     () => t`Accessible parking available.` ],
       [isPositive,  isYes,       'yes',     () => t`Accessible parking available.` ],
       [isYes,       isYes,       'yes',     () => t`Accessible parking available.` ],
-      [isPositive,  isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available (${capacityNumeric} total).`, t`${disabledCapacityNumeric} accessible parking lots available (${capacityNumeric} total).`, disabledCapacityNumeric) ],
+      [isPositive,  isPositive,  'yes',     () =>
+
+        ngettext(
+          msgid`${disabledCapacityNumeric} accessible parking lot available (${capacityNumeric} total).`,
+          t`${disabledCapacityNumeric} accessible parking lots available (${capacityNumeric} total).`,
+          disabledCapacityNumeric
+        )],
       [isYes,       isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
     ];
 
