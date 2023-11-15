@@ -25,6 +25,8 @@ import {
   isWheelmapFeatureId,
   placeNameFor,
   isWheelchairAccessible,
+  isWheelmapFeature,
+  WheelmapFeature,
 } from '../../lib/Feature';
 
 import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
@@ -237,7 +239,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
   }
 
   renderInlineWheelchairAccessibilityEditor(
-    feature: Feature,
+    feature: WheelmapFeature,
     category: null | undefined | Category,
     sources: null | undefined | SourceWithLicense[]
   ) {
@@ -249,6 +251,8 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     if (wheelchairAccessibility !== 'unknown') {
       return null;
     }
+
+    // if (feature.properties)
 
     const primarySource = sources && sources.length > 0 ? sources[0].source : undefined;
     // translator: Shown as header/title when you edit wheelchair accessibility of a place

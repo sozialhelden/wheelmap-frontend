@@ -125,6 +125,7 @@ export type WheelmapProperties = {
   wheelchair: YesNoLimitedUnknown | null,
   wheelchair_description: string | null,
   wheelchair_toilet: YesNoUnknown | null,
+  tags?: { [key: string]: string | null },
 } & AccessibilityDescription;
 
 export type WheelmapFeature = {
@@ -460,8 +461,11 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     return result;
   }
 
+
   const isAccessible =
-    get(properties, 'wheelchair') || get(properties, 'accessibility.accessibleWith.wheelchair');
+    get(properties, 'wheelchair') ||
+    get(properties, 'accessibility.accessibleWith.wheelchair') ||
+    get(properties, 'tags.capacity:disabled') && get(properties, 'tags.capacity:disabled') > 0;
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
 
   switch (isAccessible) {
