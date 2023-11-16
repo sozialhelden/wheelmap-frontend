@@ -2,6 +2,7 @@ import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { MockFacility } from "..";
+import { FilterContext, FilterContextType } from "./FilterContext";
 import { OSM_DATA, fetcher } from "./helpers";
 
 type Props = {
@@ -12,6 +13,8 @@ function FilterInputs ({ mockedFacilities }: Props) {
   // const rounter = useRouter();
   //todo params as search query
   
+  const fc: FilterContextType = React.useContext(FilterContext);
+
   const photonURL = (query: string) => `https://photon.komoot.io/api/?q=${query}&limit=30&lang=de`;
   const [extent, setExtent] = React.useState<[number,number,number,number,]>(null);
   const [placeQuery, setPlaceQuery] = React.useState<string>("");
@@ -21,6 +24,12 @@ function FilterInputs ({ mockedFacilities }: Props) {
 
   const { data, error } = useSWR<OSM_DATA, Error>(photonURL(placeQuery), fetcher);
   
+  React.useEffect(() => {
+    if (extent) {
+      fc.setExtent(extent);
+    }
+  }, [extent, fc, placeQuery ]);
+
   React.useEffect(() => {
     if (data) {
       setQueryData(data);

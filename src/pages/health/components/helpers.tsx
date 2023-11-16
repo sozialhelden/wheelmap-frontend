@@ -1,40 +1,6 @@
+
 export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
 
-
-/** 
- * a type for JSON data 
- * the object looks like this:
-features: [
-    {
-      geometry: {
-        coordinates: [
-          9.7385532,
-          52.3744779
-        ],
-        type: Point
-      },
-      type: Feature,
-      properties: {
-        osm_type: R,
-        osm_id: 59418,
-        extent: [
-          9.60443,
-          52.4543349,
-          9.9184259,
-          52.3051373
-        ],
-        country: Deutschland,
-        osm_key: place,
-        countrycode: DE,
-        osm_value: city,
-        name: Hannover,
-        county: Region Hannover,
-        state: Niedersachsen,
-        type: city
-      }
-    }
-  ]
-  */ 
 export type OSM_DATA = {
   features: [
     {
@@ -66,4 +32,50 @@ export type OSM_DATA = {
       }
     }
   ]
+}
+
+// "name": "Turn-Klubb zu Hannover",
+// "wheelchair": "yes",
+// "wheelchair_description": null,
+// "wheelchair_toilet": null,
+// "lat": 52.366247567151355,
+// "lon": 9.74301691912578,
+// "id": 11184300493,
+// "osm_type": "node",
+// "osm_id": "node/11184300493",
+// "street": null,
+// "housenumber": null,
+// "city": null,
+// "postcode": null,
+// "website": "https://www.turn-klubb.de",
+// "phone": null,
+// "node_type": {
+//   "identifier": "sports_center"
+// },
+// "category": {
+//   "identifier": "sport"
+// }
+
+export type OSM_API_FEATURE = {  
+  name: string,
+  wheelchair: string,
+  wheelchair_description: string,
+  wheelchair_toilet: string,
+  lat: number,
+  lon: number,
+  id: number,
+  osm_type: string,
+  osm_id: string, // type/id
+  street: string,
+  housenumber: string,
+  city: string,
+  postcode: string,
+  website: string,
+  phone: string,
+  node_type: {
+    identifier: string,
+  },
+  category: {
+    identifier: string,
+  }
 }

@@ -5,7 +5,6 @@ import { MockFacility } from "..";
 import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
 import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
-import { FilterContext } from "./FilterContext";
 import FilterInputs from "./FilterInputs";
 
 export const StyledFilterPreferencesSection = styled.section`
@@ -108,22 +107,17 @@ export const StyledFilterPreferencesSection = styled.section`
 `;
 
 type Props = {
-  data: MockFacility[];
+  mockFacilities: MockFacility[];
   labels: string[];
 }
 
-function FilterSection ({data, labels}: Props) {
-  const mockedHealthcareFacilities = data;
+function FilterSection ({mockFacilities, labels}: Props) {
   
   const { width }: WindowContextType = useWindowContext();
   
   const [isMobile, setMobile] = React.useState(width < 640);
   const [isDesktop, setDesktop] = React.useState(width >= 640);
-  const [activeStyle, setStyle] = React.useState("disabled-filter-button");
-  const [filterMap, setFilterMap] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
-
-  const memoizedFilterContext = React.useMemo(() => ({filterMap, setFilterMap}), [filterMap, setFilterMap]);
-
+  
   React.useEffect(() => {
     setMobile(width < 640);
     setDesktop(width >= 640);
@@ -134,7 +128,7 @@ function FilterSection ({data, labels}: Props) {
 
       <div className="search-filter-container">
         <div className="input-choices">
-          <FilterInputs mockedFacilities={mockedHealthcareFacilities} />
+          <FilterInputs mockedFacilities={mockFacilities} />
         </div>
         <div className="preference-choices">
           <StyledFilterPreferencesSection>
@@ -164,7 +158,6 @@ function FilterSection ({data, labels}: Props) {
    
 
   return (
-    <FilterContext.Provider value={memoizedFilterContext}>
       <section className="search-filter-section">
           <h2 className="search-filter-h2">{t`Suchfilter`}</h2>      
           <ActiveFilters />
@@ -176,7 +169,6 @@ function FilterSection ({data, labels}: Props) {
             </details>
           }
       </section>
-    </FilterContext.Provider>
   );
 }
 
