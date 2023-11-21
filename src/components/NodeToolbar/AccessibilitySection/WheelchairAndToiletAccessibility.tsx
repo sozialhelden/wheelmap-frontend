@@ -215,7 +215,10 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       return null;
     }
 
-    const disabledCapacity = tags['capacity:disabled'];
+    let disabledCapacity = tags['capacity:disabled'];
+    if (disabledCapacity === undefined && ['yes', 'no'].includes(feature.properties.wheelchair)) {
+      disabledCapacity = feature.properties.wheelchair;
+    }
     const disabledCapacityNumeric = isNumericString(tags['capacity:disabled']) ? parseInt(tags['capacity:disabled'], 10) : undefined;
     const capacity = tags.capacity !== tags['capacity:disabled'] ? tags.capacity : undefined;
     const capacityNumeric = isNumericString(tags['capacity']) ? parseInt(tags['capacity'], 10) : undefined;
