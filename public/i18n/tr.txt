@@ -1,23 +1,23 @@
 # 
 # Translators:
+# Sebastian Felix Zappe <hypo@me.com>, 2019
 # Björn Uhlig <bjoern@sozialhelden.de>, 2019
 # Developers, 2021
-# ferit yazgan <ferityazgan@gmail.com>, 2021
-# Sebastian Felix Zappe <hypo@me.com>, 2022
+# ferit yazgan <ferityazgan@gmail.com>, 2023
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
-"Language-Team: Turkish (https://www.transifex.com/sozialhelden/teams/16671/tr/)\n"
+"Last-Translator: ferit yazgan <ferityazgan@gmail.com>, 2023\n"
+"Language-Team: Turkish (https://app.transifex.com/sozialhelden/teams/16671/tr/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
 msgid "Search"
 msgstr "Ara"
 
-#: src/pages/_app.tsx:332
+#: src/pages/_app.tsx:336
 msgid "Homepage"
 msgstr "Ana sayfa "
 
@@ -134,47 +134,61 @@ msgstr "Tuvaletler"
 msgid "Error while loading place categories."
 msgstr "Mekan kategorileri yüklenirken hata oluştu."
 
-#: src/lib/Feature.ts:480
+#. translator: Long accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:491
 msgid "Fully wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine tamamen uygun"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:483
+#. translator: Long accessibility description for partial wheelchair
+#. accessibility
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
+#: src/lib/Feature.ts:494
 msgid "Partially wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine kısmen uygun"
 
-#: src/lib/Feature.ts:486
+#. translator: Long accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:497
 msgid "Not wheelchair accessible"
 msgstr "Tekerlekli sandalye erişimine uygun değil"
 
-#: src/lib/Feature.ts:489
+#. translator: Long accessibility description for unknown wheelchair
+#. accessibility
+#: src/lib/Feature.ts:500
 msgid "Unknown accessibility"
 msgstr "Tekerlekli sandalye erişimine uygunluğu belirsiz"
 
-#: src/lib/Feature.ts:499
+#. translator: Short accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:514
 msgid "Fully"
 msgstr "Tamamen"
 
-#: src/lib/Feature.ts:502
+#. translator: Short accessibility description for partial wheelchair
+#. accessibility
+#: src/lib/Feature.ts:517
 msgid "Partially"
 msgstr "Kısmen"
 
-#: src/lib/Feature.ts:505
+#. translator: Short accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:520
 msgid "Not at all"
 msgstr "Hiç değil"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:508
+#. translator: Short accessibility description for unknown wheelchair
+#. accessibility
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:101
+#: src/lib/Feature.ts:523
 msgid "Unknown"
 msgstr "Belirsiz"
 
-#: src/lib/Feature.ts:518
+#: src/lib/Feature.ts:535
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Girişte basamak yok, tüm odalara girişte basamak yok."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:522
+#: src/lib/Feature.ts:539
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -184,55 +198,55 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:524
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Girişte maksimum 7 cm yüksekliğinde bir basamak vardır, çoğu oda "
 "basamaksızdır."
 
-#: src/lib/Feature.ts:527
+#: src/lib/Feature.ts:544
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr "Girişte bir veya birkaç basamak var, odalar erişilebilir değil."
 
-#: src/lib/Feature.ts:538
+#: src/lib/Feature.ts:555
 msgid "Wheelchair accessible toilet"
 msgstr "Tekerlekli sandalye erişimine uygun tuvalet"
 
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:558
 msgid "No wheelchair accessible toilet"
 msgstr "Tuvalet tekerlekli sandalye erişimine uygun değil"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Kapıların iç genişliği 35 inç'ten büyük"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Kapıların iç genişliği 90 cm'den büyük"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Açık alan 59 inç'ten geniş"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Açık alan 150 cm'den geniş"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:568
 msgid "Wheelchair-height toilet seat"
 msgstr "Tekerlekli sandalye yüksekliğinde klozet"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:569
 msgid "Foldable grab rails"
 msgstr "Çift taraflı tutma yerleri"
 
-#: src/lib/Feature.ts:553
+#: src/lib/Feature.ts:570
 msgid "Accessible sink"
 msgstr "Ulaşılabilir lavabo"
 
-#: src/lib/Feature.ts:560
+#: src/lib/Feature.ts:577
 msgid "Unnamed place"
 msgstr "Adı belirsiz mekan"
 
@@ -249,14 +263,14 @@ msgstr "Çevrimdışısınız."
 
 #: src/lib/NativeAppStrings.ts:12
 msgid "To add photos to places, camera access is needed."
-msgstr ""
+msgstr "Mekan fotoğrafı eklemek için kameraya izin vermeniz gerekiyor."
 
-#: src/app/PlaceDetailsData.tsx:293
+#: src/app/PlaceDetailsData.tsx:278
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Bu mekanın konumu ${ productName }: ${ placeTitle } "
 
-#: src/app/SearchData.tsx:127
+#: src/app/SearchData.tsx:126
 #: src/components/SearchToolbar/SearchResults.tsx:46
 msgid "Search results"
 msgstr "Arama sonuçları"
@@ -271,18 +285,18 @@ msgid "Add a new place"
 msgstr "Yeni bir mekan ekle"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1019
+#: src/components/Map/Map.tsx:1020
 msgid "Zoom in closer to see more places"
 msgstr "Daha fazla yer görmek için yakınlaştırın"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1035
+#: src/components/Map/Map.tsx:1036
 msgid "Turn on location services"
 msgstr "Konum hizmetlerini aç"
 
-#: src/components/Map/Map.tsx:1068
+#: src/components/Map/Map.tsx:1069
 msgid "Map"
 msgstr "Harita"
 
@@ -292,7 +306,7 @@ msgstr "Harita"
 msgid "Go to ${ appName }"
 msgstr "${ AppName } uygulamasına git "
 
-#: src/components/Onboarding/Onboarding.tsx:51
+#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "Uygulama Logosu"
@@ -358,7 +372,7 @@ msgstr "Son güncelleme ${ dateString }"
 msgid "Home"
 msgstr "Anasayfa"
 
-#: src/components/MainMenu/MainMenu.tsx:245
+#: src/components/MainMenu/MainMenu.tsx:244
 msgid "Menu"
 msgstr "Menü"
 
@@ -374,7 +388,7 @@ msgstr "Bütün mekanlar"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
 msgid "Places"
 msgstr "Mekanlar"
 
@@ -504,7 +518,7 @@ msgstr "Teşekkür ederiz! "
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:105
 msgid "Back to place"
-msgstr ""
+msgstr "Mekana geri dön"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:106
 msgid "Back to map"
@@ -513,7 +527,7 @@ msgstr "Haritaya geri dön"
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:115
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:59
 msgid "Clapping hands"
-msgstr ""
+msgstr "Alkış"
 
 #. translator: Screenreader description for the mapping events list
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:35
@@ -542,118 +556,120 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:37
+#: src/components/Onboarding/Onboarding.tsx:38
 msgid "Help out by marking places!"
 msgstr "Mekanları işaretleyerek yardım edin!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:40
+#: src/components/Onboarding/Onboarding.tsx:41
 msgid "Okay, let’s go!"
 msgstr "Pekala, hadi başlayalım!"
 
-#: src/components/Onboarding/Onboarding.tsx:63
+#: src/components/Onboarding/Onboarding.tsx:64
 msgid "Start screen"
 msgstr "Wheelmap başlangıç ekranı"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:93
+#: src/components/MappingEvents/MappingEventToolbar.tsx:92
 msgid "starting"
 msgstr "başlama"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:98
+#: src/components/MappingEvents/MappingEventToolbar.tsx:97
 msgid "until"
 msgstr "bitiş"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:112
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "Haritalama etkinliği ${ mappingEvent.name } "
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:114
 msgid "Center map on mapping event"
 msgstr "Haritalama etkinliğinde haritayı ortalayın"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:116
 msgid "Meeting point"
 msgstr "Buluşma noktası "
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:118
 msgid "Area name"
 msgstr "Bölge adı"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:120
 msgid "Event date"
 msgstr "Etkinlik tarihi"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:122
 msgid "Event start date"
 msgstr "Etkinlik başlangıç tarihi"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:124
 msgid "Event end date"
 msgstr "Etkinlik bitiş tarihi "
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:126
 msgid "Back to the mapping events list"
 msgstr "Haritalama etkinliği listesine geri dön"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:128
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Paylaş"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:131
+#: src/components/MappingEvents/MappingEventToolbar.tsx:130
 msgid "Join mapping event"
 msgstr "Haritalama etkinliğine katıl"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:133
+#: src/components/MappingEvents/MappingEventToolbar.tsx:132
 msgid "Leave mapping event"
 msgstr "Haritalama etkinliğinden çık"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:50
 msgid "Your email address is required!"
-msgstr ""
+msgstr "E-posta adresiniz gerekli"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:57
 msgid "This email address is not valid."
-msgstr ""
+msgstr "Bu e-mail geçersizdir."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
-msgstr ""
+msgstr "E-posta adresi"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:92
 msgid "Let’s go"
-msgstr ""
+msgstr "Haydi başlayalım"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
 #, javascript-format
 msgid "You are participating as ${ initialEmailAddress }."
-msgstr ""
+msgstr "${ initialEmailAddress } ile katıldınız."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:107
 msgid ""
 "To stay in touch with you, you must provide us with your email address."
 msgstr ""
+"Sizinle iletişimde kalmak için e-posta adresinizi bizimle paylaşmalısınız."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:108
 msgid "To stay in touch with you, please share your email address with us."
 msgstr ""
+"Sizinle iletişimde kalmak için lütfen e-posta adresinizi bizimle paylaşın."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:112
 msgid "Welcome"
@@ -663,7 +679,7 @@ msgstr "Hoşgeldiniz"
 #. message defined by the event organizer.
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:118
 msgid "Great! Thanks for joining us."
-msgstr ""
+msgstr "Yaşasın! Topluluğumuza katıldığınız için çok teşekkürler."
 
 #. translator: Shown when there was an error while loading a place.
 #: src/lib/cache/FeatureCache.ts:187 src/lib/cache/WheelmapFeatureCache.ts:29
@@ -677,8 +693,8 @@ msgstr "Veri yüklenirken hata oluştu."
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:250
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
+#: src/components/NodeToolbar/NodeToolbar.tsx:259
 msgid "How wheelchair accessible is this place?"
 msgstr "Bu mekan tekerlekli sandalye erişimine ne kadar uygun?"
 
@@ -722,31 +738,31 @@ msgstr "Katılanlar "
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:59
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:93
 msgid "Create Place"
-msgstr ""
+msgstr "Mekan oluştur"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:64
 msgid "Check if the place already exists by searching for it"
-msgstr ""
+msgstr "Mekanı arayarak zaten kayıtlı olup olmadığını kontrol edin"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:68
 msgid "No matching result?"
-msgstr ""
+msgstr "Hiç bir şey bulamadınız mı?"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:70
 msgid "Create a new place with this name"
-msgstr ""
+msgstr "Bu isimde yeni bir mekan oluşturun"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:77
 msgid "An error occurred while searching"
-msgstr ""
+msgstr "Arama yapılırken bir hata oluştu."
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:80
 msgid "Type more to start searching"
-msgstr ""
+msgstr "Aramaya başlamak için bir kaç kelime girin"
 
 #: src/components/CreatePlaceFlow/pages/ExistingPlacePicker.tsx:87
 msgid "Searching..."
-msgstr ""
+msgstr "Aranıyor..."
 
 #. translator: Button caption in report dialog
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:58
@@ -758,67 +774,70 @@ msgstr "Geri"
 
 #: src/components/CreatePlaceFlow/pages/CategoryPicker.tsx:59
 msgid "Select Category"
-msgstr ""
+msgstr "Kategori seçin"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:43
 #, javascript-format
 msgid "Uploading ${ placeName } to ${ appName }."
-msgstr ""
+msgstr "${ placeName } adlı mekan ${ appName } uygulamasına yükleniyor."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:44
 msgid "Dismiss"
-msgstr ""
+msgstr "Reddet"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:49
 msgid "Unhappy face"
-msgstr ""
+msgstr "Mutsuz"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:52
 msgid "Sorry"
-msgstr ""
+msgstr "Üzgün"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:53
 #, javascript-format
 msgid "Something went wrong while uploading ${ placeName } to ${ appName }."
 msgstr ""
+"${ placeName } adlı mekan ${ appName } uygulamasına yüklenirken bir hata "
+"oluştu."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:62
 msgid "You rock!"
-msgstr ""
+msgstr "Harikasın!"
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:63
 #, javascript-format
 msgid "${ placeName } was added to ${ appName }."
-msgstr ""
+msgstr "${ placeName } adlı mekan ${ appName } uygulamasına eklendi."
 
 #: src/components/CreatePlaceFlow/pages/CreationSuccessScreen.tsx:65
 msgid "Continue to place"
-msgstr ""
+msgstr "İşaretlemeye devam"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:95
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:108
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:110
 msgid "Select category"
-msgstr ""
+msgstr "Kategori seçin"
 
 #: src/components/CreatePlaceFlow/components/MapButton.tsx:47
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
 msgid "Define main entry"
-msgstr ""
+msgstr "Temel kaydı tanımlayın"
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:114
 msgid "Move the map to place the entry as correct as possible."
 msgstr ""
+"Mekanı mümkün olduğunca doğru yerleştirmek için haritayı hareket ettirin."
 
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:124
 msgid "Confirm Position"
-msgstr ""
+msgstr "Konumu Onaylayın"
 
 #: src/lib/goToLocationSettings.ts:37
 msgid ""
@@ -854,35 +873,35 @@ msgstr "Sonuç bulunamadı. Lütfen daha sonra tekrar deneyin!"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:38
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:40
 msgid "Partially accessible with accessible WC"
 msgstr "Erişilebilir WC ile birlikte kısmen erişilebilir"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:45
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:47
 msgid "Only fully wheelchair accessible"
 msgstr "Sadece tekerlekli sandalye erişimine tamamen uygun mekanlar"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:51
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:53
 msgid "Only fully accessible with accessible WC"
 msgstr "Sadece erişilebilir WC ile tamamen erişilebilir mekanlar"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:58
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:60
 msgid "Places that I can contribute information to"
 msgstr "Katkıda bulunabileceğim mekanlar"
 
 #. translator: Checkbox caption on the filter toolbar. If the checkbox is
 #. clicked, only places that are not wheelchair accessible are shown.
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:64
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:66
 msgid "Only places that are not accessible"
 msgstr "Sadece erişilebilir olmayan mekanlar"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:91
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:98
 msgid "Wheelchair accessibility filter"
 msgstr "Tekerlekli Sandalye Erişilebilirliği Filtresi"
 
@@ -894,19 +913,19 @@ msgstr "İsimsiz"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:50
 msgid "Address"
-msgstr ""
+msgstr "Adres"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:52
 msgid "City"
-msgstr ""
+msgstr "Şehir"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:54
 msgid "Region"
-msgstr ""
+msgstr "Bölge"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:60
 msgid "Postal Code"
-msgstr ""
+msgstr "Posta Kodu"
 
 #. translator: Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.tsx:31
@@ -920,56 +939,56 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Bu mekandaki tuvalet tekerlekli sandalye erişimine uygun mu?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
 msgid "Yes"
 msgstr "Evet"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
 msgid "No"
 msgstr "Hayır"
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:124
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
 msgid "Wheelchair accessibility"
 msgstr "Tekerlekli Sandalye Erişilebilirliği"
 
 #. translator: Shown as issue description in the report dialog
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:47
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:53
 #, javascript-format
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
 msgstr ""
 "Mekan ‘${ accessibilityDescription }’ olarak işaretlenmiş, fakat yanlış!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:56
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:62
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "Mekanın tuvalet durumu yanlış veya eksik."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:63
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:36
 msgid "I have more information about this place."
 msgstr "Bu mekan hakkında daha fazla bilgim var."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:44
 msgid "The place does not exist."
 msgstr "Bu mekan mevcut değil."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:40
 msgid "The place is at the wrong location."
 msgstr "Mekanın konumu yanlış."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:127
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:87
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:134
 msgid "The problem isn’t listed here…"
 msgstr "Sorunum burada listelenmiyor..."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:104
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
 #, javascript-format
 msgid ""
 "Information about this place has kindly been provided by another "
@@ -978,7 +997,7 @@ msgstr ""
 "Bu mekanın bilgisi başka bir kurum tarafından sağlandı ve ${ sourceName } "
 "kurumun bir parçasıdır. "
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:118
 msgid "Fix on external page."
 msgstr "Harici sayfaya sabitle"
 
@@ -1000,84 +1019,32 @@ msgstr "Görüntüyü şikayet et"
 msgid "of"
 msgstr "'den"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:145
 msgid "Next (right arrow key)"
 msgstr "Sonraki (sağ ok tuşu)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:147
 msgid "Previous (left arrow key)"
 msgstr "Önceki (sol ok tuşu)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:149
 msgid "Close (Esc)"
 msgstr "Kapat (Esc)"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:101
 msgid "Add more details"
-msgstr ""
+msgstr "Daha fazla bilgi ekle"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:106
 msgid ""
 "Sorry, something went wrong! Please retry later, or write an email to "
 "bugs@wheelmap.org if the issue persists."
 msgstr ""
+"Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin, eğer yine sorunla "
+"karşılaşırsanız bugs@wheelmap.org adresine e-mail gönderin."
 
 #: src/components/SearchToolbar/AccessibilityFilterButton.tsx:52
 #, javascript-format
@@ -1111,11 +1078,11 @@ msgid "Change"
 msgstr "Değiştir"
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:57
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
 msgid "Mark wheelchair accessibility of WC"
 msgstr "Tuvaletin tekerlekli sandalye ile erişilebilirlik durumunu ekle"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:127
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
 msgid "Show next wheelchair accessible toilet"
 msgstr "Sonraki tekerlekli sandalye ile erişilebilir tuvaleti göster"
 
@@ -1235,7 +1202,7 @@ msgstr ""
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:94
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr "Üzgünüz, bu yer bir hata nedeniyle işaretlenemedi: ${ e }"
@@ -1492,11 +1459,11 @@ msgstr "ve"
 #: src/components/NodeToolbar/NodeHeader.tsx:67
 #, javascript-format
 msgid "Room ${ roomNumber }"
-msgstr ""
+msgstr "${ roomNumber } nolu oda"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:88
 msgid "“Vespucci” in PlayStore"
-msgstr "PlayStore'da “Vespucci”"
+msgstr "“Vespucci” artık PlayStore'da"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:93
 msgid "Use the OpenStreetMap web editor"
@@ -1504,15 +1471,15 @@ msgstr "OpenStreetMap web düzenleyicisini kullanın"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:98
 msgid "“Go Map!!” in App Store"
-msgstr "App Store'da “Go Map!!”"
+msgstr "“Go Map!!” artık App Store'da"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:103
 msgid "“MAPS.ME” in App Store"
-msgstr "App Store'da “MAPS.ME”"
+msgstr "“MAPS.ME” artık PlayStore'da"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:108
 msgid "“MAPS.ME” in PlayStore"
-msgstr "PlayStore'da “MAPS.ME”"
+msgstr "“MAPS.ME” artık PlayStore'da"
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:162
 msgid ""
@@ -1521,22 +1488,22 @@ msgid ""
 "on OSM, they will appear here a bit later."
 msgstr ""
 "Burada gösterilen çoğu mekan<a "
-"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a> 'dendir. OSM'ye "
-"mekan eklerseniz, kısa bir süre sonra burada görünürler."
+"href='https://openstreetmap.org'>OpenStreetMap (OSM)</a>'ten yüklenmektedir."
+" OSM'ye mekan eklerseniz, kısa bir süre sonra burada görünecektir."
 
 #: src/components/CreatePlaceDialog/CreatePlaceDialog.tsx:164
 msgid "Add a place on OpenStreetMap"
-msgstr "OpenStreetMap'ta bir mekan ekleyin"
+msgstr "OpenStreetMap'te bir mekan ekleyin"
 
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:43
 msgid "Learn how to organize a mapping event"
-msgstr ""
+msgstr "İşaretleme etkinliğinin nasıl organize edileceğini öğrenin"
 
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:45
 msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
-msgstr ""
+msgstr "https://news.wheelmap.org/en/organize-a-mapping-event/"
 
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:34
@@ -1550,37 +1517,123 @@ msgid ""
 "\n"
 "See you there!"
 msgstr ""
+"Merhaba 👋\n"
+"\n"
+"${ productNameLocalized } uygulamasındaki ‘${ eventName }’ etkinliğine katılın ve bize yardım edin. Bilgi için\n"
+"\n"
+"${ url }\n"
+"\n"
+"Etkinlikte görüşürüz!"
 
 #. translator: Shown next to a form input label for a field where the user
 #. must enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
 msgid "(required)"
-msgstr ""
+msgstr "(gerekli)"
 
 #. translator: Shown next to a form input label for a field where the user can
 #. optionally enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
-msgstr ""
+msgstr "(isteğe bağlı)"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
-msgstr "Katkınızı doğrulamamız için bize biraz müsaade edin."
+msgstr ""
+"Yaptığınız değişiklik kaydedildi, bir süre sonra haritada görünecektir."
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
 #, javascript-format
 msgid "${ valueAndUnit } or less"
-msgstr ""
+msgstr "${ valueAndUnit } veya daha küçük"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
 msgid "${ valueAndUnit } or more"
-msgstr ""
+msgstr "${ valueAndUnit } veya daha büyük"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
+msgstr "${ valueAndUnit } değerinden küçük"
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
+msgid "greater than ${ valueAndUnit }"
+msgstr "${ valueAndUnit } değerinden büyük"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36
+msgid ""
+"This is a private parking facility, but public access is usually allowed."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
-msgid "greater than ${ valueAndUnit }"
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
+msgid "This is a public parking facility."
 msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
+msgid "You need a permit to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
+msgid "Only customers are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
+msgid "Only residents are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available."
+msgid_plural "${ capacityNumeric } parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
+msgid "Parking available (accessibility unknown)."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+msgid "No accessible parking lots available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
+msgid "No parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available, but no accessible parking."
+msgid_plural ""
+"${ capacityNumeric } parking lots available, but no accessible parking."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
+msgid "Parking available, but no accessible parking."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
+#, javascript-format
+msgid "${ disabledCapacityNumeric } accessible parking lot available."
+msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
+msgid "Accessible parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
+#, javascript-format
+msgid ""
+"${ disabledCapacityNumeric } accessible parking lot available (${ "
+"capacityNumeric } total)."
+msgid_plural ""
+"${ disabledCapacityNumeric } accessible parking lots available (${ "
+"capacityNumeric } total)."
+msgstr[0] ""
+msgstr[1] ""

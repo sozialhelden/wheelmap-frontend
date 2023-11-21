@@ -33,11 +33,11 @@ const isZeroOrNo = (s: string | undefined) => s === 'no' || s === '0';
 
 export function getAccessDescription(accessTagValue: string) {
   switch(accessTagValue) {
-    case 'permissive': return t`There is no guarantee you can use this facility.`;
+    case 'permissive': return t`This is a private parking facility, but public access is usually allowed.`;
     case 'yes': return t`This is a public parking facility.`;
-    case 'permit': return t`This parking facility needs a permit.`;
-    case 'customers': return t`This parking facility is only for local customers.`;
-    case 'destination': return t`This parking facility is only for local residents.`;
+    case 'permit': return t`You need a permit to park here.`;
+    case 'customers': return t`Only customers are allowed to park here.`;
+    case 'destination': return t`Only residents are allowed to park here.`;
     default: return null;
   }
 }
@@ -222,25 +222,40 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
 
     const config: [(string) => boolean, (string) => boolean, string, () => string][] = [
       [isUndefined, isUndefined, undefined, () => null ],
-      [isPositive,  isUndefined, undefined, () => ngettext(msgid`${capacityNumeric} parking lot available.`, t`${capacityNumeric} parking lots available.`, capacityNumeric)],
+      [isPositive,  isUndefined, undefined, () => ngettext(
+        msgid`${capacityNumeric} parking lot available.`,
+        `${capacityNumeric} parking lots available.`,
+        capacityNumeric
+      )],
       [isYes,       isUndefined, undefined, () => t`Parking available (accessibility unknown).` ],
       [isUndefined, isZeroOrNo,  'no',      () => t`No accessible parking lots available.` ],
       [isZeroOrNo,  isUndefined, 'no',      () => t`No parking available.` ],
       [isZeroOrNo,  isZeroOrNo,  'no',      () => t`No parking available.` ],
-      [isPositive,  isZeroOrNo,  'no',      () => ngettext(msgid`${capacityNumeric} parking lot available, but no accessible parking.`, t`${capacityNumeric} parking lots available, but no accessible parking.`, capacityNumeric) ],
+      [isPositive,  isZeroOrNo,  'no',      () => ngettext(
+        msgid`${capacityNumeric} parking lot available, but no accessible parking.`,
+        `${capacityNumeric} parking lots available, but no accessible parking.`,
+        capacityNumeric
+      ) ],
       [isYes,       isZeroOrNo,  'no',      () => t`Parking available, but no accessible parking.` ],
-      [isUndefined, isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
+      [isUndefined, isPositive,  'yes',     () => ngettext(
+        msgid`${disabledCapacityNumeric} accessible parking lot available.`,
+        `${disabledCapacityNumeric} accessible parking lots available.`,
+        disabledCapacityNumeric
+      ) ],
       [isUndefined, isYes,       'yes',     () => t`Accessible parking available.` ],
       [isPositive,  isYes,       'yes',     () => t`Accessible parking available.` ],
       [isYes,       isYes,       'yes',     () => t`Accessible parking available.` ],
       [isPositive,  isPositive,  'yes',     () =>
-
         ngettext(
           msgid`${disabledCapacityNumeric} accessible parking lot available (${capacityNumeric} total).`,
-          t`${disabledCapacityNumeric} accessible parking lots available (${capacityNumeric} total).`,
+          `${disabledCapacityNumeric} accessible parking lots available (${capacityNumeric} total).`,
           disabledCapacityNumeric
         )],
-      [isYes,       isPositive,  'yes',     () => ngettext(msgid`${disabledCapacityNumeric} accessible parking lot available.`, t`${disabledCapacityNumeric} accessible parking lots available.`, disabledCapacityNumeric) ],
+      [isYes,       isPositive,  'yes',     () => ngettext(
+        msgid`${disabledCapacityNumeric} accessible parking lot available.`,
+        `${disabledCapacityNumeric} accessible parking lots available.`,
+        disabledCapacityNumeric
+      ) ],
     ];
 
     const foundConfig = config.find(c => c[0](capacity) && c[1](disabledCapacity));
