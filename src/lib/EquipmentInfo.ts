@@ -116,8 +116,8 @@ export function isEquipmentAccessible(
     return null;
   }
 
-  const lastUpdateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
-  const lastUpdate = lastUpdateString ? new Date(lastUpdateString) : null;
+  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
+  const lastUpdate = lastUpdateDateString ? new Date(lastUpdateDateString) : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   return {
     true: 'yes' as YesNoLimitedUnknown,
