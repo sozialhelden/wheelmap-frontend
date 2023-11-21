@@ -80,6 +80,7 @@ export type EquipmentInfoProperties = {
   };
   isWorking?: boolean;
   stateLastUpdate?: string;
+  lastUpdate?: string;
   lastDisruptionProperties?: DisruptionProperties;
 };
 
@@ -115,12 +116,13 @@ export function isEquipmentAccessible(
     return null;
   }
 
-  const lastUpdate = properties.lastUpdate ? new Date(properties.lastUpdate) : null;
+  const lastUpdateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
+  const lastUpdate = lastUpdateString ? new Date(lastUpdateString) : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   return {
-    true: 'yes',
-    false: 'no',
-    undefined: 'unknown',
+    true: 'yes' as YesNoLimitedUnknown,
+    false: 'no' as YesNoLimitedUnknown,
+    undefined: 'unknown' as YesNoLimitedUnknown,
   }[String(isOutdated ? undefined : properties.isWorking)];
 }
 
