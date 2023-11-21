@@ -215,6 +215,23 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       return null;
     }
 
+    // Parse a combination of these tags: `capacity`, `capacity:disabled`, and `wheelchair`.
+    // See https://wiki.openstreetmap.org/wiki/Key:capacity:disabled.
+    //
+    // The `capacity` tag is used to indicate the total number of parking lots, while the
+    // `capacity:disabled` tag is used to indicate the number of accessible parking lots.
+    // Some combinations make sense and some are contradictory. For example, a numeric value for
+    // `capacity` could be less than `capacity:disabled`.
+    //
+    // For this implementation, we have looked at all combinations of undefined, 'yes', 'no'/'0',
+    // and numeric strings greater than 0. If a combination is contradictory, we display nothing.
+    //
+    // If `capacity:disabled` is missing, we fall back to a `wheelchair` tag if it exists and has
+    // either 'no' or 'yes' as value.
+    //
+    // Technically, the  `wheelchair` tag is not supposed to be used for parking facilities, but
+    // it's better to display it than to display nothing if it exists.
+
     let disabledCapacity = tags['capacity:disabled'];
     if (disabledCapacity === undefined && ['yes', 'no'].includes(feature.properties.wheelchair)) {
       disabledCapacity = feature.properties.wheelchair;
