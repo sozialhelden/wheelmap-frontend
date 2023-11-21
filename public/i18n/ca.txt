@@ -4,20 +4,21 @@
 # Holger Dieterich <holger@sozialhelden.de>, 2019
 # Developers, 2021
 # Sebastian Felix Zappe <hypo@me.com>, 2022
+# Pau Nofuentes Sendra, 2022
 # 
 msgid ""
 msgstr ""
-"Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
-"Language-Team: Catalan (https://www.transifex.com/sozialhelden/teams/16671/ca/)\n"
+"Last-Translator: Pau Nofuentes Sendra, 2022\n"
+"Language-Team: Catalan (https://app.transifex.com/sozialhelden/teams/16671/ca/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
 msgid "Search"
 msgstr "Cerca"
 
-#: src/pages/_app.tsx:332
+#: src/pages/_app.tsx:336
 msgid "Homepage"
 msgstr "Pàgina principal"
 
@@ -134,47 +135,61 @@ msgstr "Lavabos"
 msgid "Error while loading place categories."
 msgstr "Error al carregar les categories de lloc."
 
-#: src/lib/Feature.ts:480
+#. translator: Long accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:491
 msgid "Fully wheelchair accessible"
 msgstr "Plenament accesible amb cadira de rodes"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:483
+#. translator: Long accessibility description for partial wheelchair
+#. accessibility
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
+#: src/lib/Feature.ts:494
 msgid "Partially wheelchair accessible"
 msgstr "Accessible amb cadira de rodes parcialment"
 
-#: src/lib/Feature.ts:486
+#. translator: Long accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:497
 msgid "Not wheelchair accessible"
 msgstr "No es accessible amb cadira de rodes "
 
-#: src/lib/Feature.ts:489
+#. translator: Long accessibility description for unknown wheelchair
+#. accessibility
+#: src/lib/Feature.ts:500
 msgid "Unknown accessibility"
 msgstr "Estat desconegut"
 
-#: src/lib/Feature.ts:499
+#. translator: Short accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:514
 msgid "Fully"
 msgstr "Plenament"
 
-#: src/lib/Feature.ts:502
+#. translator: Short accessibility description for partial wheelchair
+#. accessibility
+#: src/lib/Feature.ts:517
 msgid "Partially"
 msgstr "Parcialment"
 
-#: src/lib/Feature.ts:505
+#. translator: Short accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:520
 msgid "Not at all"
 msgstr "No tots"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:508
+#. translator: Short accessibility description for unknown wheelchair
+#. accessibility
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:101
+#: src/lib/Feature.ts:523
 msgid "Unknown"
 msgstr "Desconegut"
 
-#: src/lib/Feature.ts:518
+#: src/lib/Feature.ts:535
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Entrada sense graons, totes les habitacions sense graons"
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:522
+#: src/lib/Feature.ts:539
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -184,56 +199,56 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:524
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "L'entrada té un esgraó de 7 centímetres d'alçada com a molt, la majoria "
 "d'habitacions no tenen escales."
 
-#: src/lib/Feature.ts:527
+#: src/lib/Feature.ts:544
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "L'entrada té un graó o diversos graons, les habitacions no són accessibles."
 
-#: src/lib/Feature.ts:538
+#: src/lib/Feature.ts:555
 msgid "Wheelchair accessible toilet"
 msgstr "Lavabo accessible en cadira de rodes"
 
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:558
 msgid "No wheelchair accessible toilet"
 msgstr "Sense vàter accessible amb cadira de rodes"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Ample interior de la porta  ≥ 35 polzades"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Ample interior de la porta ≥ 90 cm"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Espai lliure a terra ≥ 59 cm d'amplada"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Espai lliure a terra  ≥ 150 cm d'amplada"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:568
 msgid "Wheelchair-height toilet seat"
 msgstr "Seient del vàter adaptat per cadira de rodes"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:569
 msgid "Foldable grab rails"
 msgstr "Baranes plegables"
 
-#: src/lib/Feature.ts:553
+#: src/lib/Feature.ts:570
 msgid "Accessible sink"
 msgstr "Rentamans accessible"
 
-#: src/lib/Feature.ts:560
+#: src/lib/Feature.ts:577
 msgid "Unnamed place"
 msgstr "Lloc sense nom"
 
@@ -252,12 +267,12 @@ msgstr "Esteu desconnectats."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:293
+#: src/app/PlaceDetailsData.tsx:278
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Aquest lloc és a ${ productName }: ${ placeTitle }"
 
-#: src/app/SearchData.tsx:127
+#: src/app/SearchData.tsx:126
 #: src/components/SearchToolbar/SearchResults.tsx:46
 msgid "Search results"
 msgstr "Buscar resultats"
@@ -272,18 +287,18 @@ msgid "Add a new place"
 msgstr "Afegeix lloc desaparegut"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1019
+#: src/components/Map/Map.tsx:1020
 msgid "Zoom in closer to see more places"
 msgstr "Augmenta el zoom per a veure més llocs"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1035
+#: src/components/Map/Map.tsx:1036
 msgid "Turn on location services"
 msgstr "Activar els serveis d'ubicació"
 
-#: src/components/Map/Map.tsx:1068
+#: src/components/Map/Map.tsx:1069
 msgid "Map"
 msgstr "Mapa"
 
@@ -293,7 +308,7 @@ msgstr "Mapa"
 msgid "Go to ${ appName }"
 msgstr "Anar a ${ appName }"
 
-#: src/components/Onboarding/Onboarding.tsx:51
+#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "Logo de l'aplicació"
@@ -359,7 +374,7 @@ msgstr "Última actualització: ${ dateString }"
 msgid "Home"
 msgstr "Casa"
 
-#: src/components/MainMenu/MainMenu.tsx:245
+#: src/components/MainMenu/MainMenu.tsx:244
 msgid "Menu"
 msgstr "Menú"
 
@@ -375,7 +390,7 @@ msgstr "Tots els llocs"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
 msgid "Places"
 msgstr "Llocs"
 
@@ -545,86 +560,86 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:37
+#: src/components/Onboarding/Onboarding.tsx:38
 msgid "Help out by marking places!"
 msgstr "Ajuda marcant llocs!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:40
+#: src/components/Onboarding/Onboarding.tsx:41
 msgid "Okay, let’s go!"
 msgstr "Dacord, comencem!"
 
-#: src/components/Onboarding/Onboarding.tsx:63
+#: src/components/Onboarding/Onboarding.tsx:64
 msgid "Start screen"
 msgstr "Començar pantalla"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:93
+#: src/components/MappingEvents/MappingEventToolbar.tsx:92
 msgid "starting"
 msgstr "començant"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:98
+#: src/components/MappingEvents/MappingEventToolbar.tsx:97
 msgid "until"
 msgstr "fins"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:112
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "Esdeveniment de mapatge ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:114
 msgid "Center map on mapping event"
 msgstr "Centrar mapa als esdeveniments de mapatge"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:116
 msgid "Meeting point"
 msgstr "Punt de trobada"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:118
 msgid "Area name"
 msgstr "Nom de la zona"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:120
 msgid "Event date"
 msgstr "Data de l'esdeveniment"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:122
 msgid "Event start date"
 msgstr "Data d'inici de l'esdeveniment"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:124
 msgid "Event end date"
 msgstr "Esdeveniment i data"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:126
 msgid "Back to the mapping events list"
 msgstr "Tornar a la llista d'esdeveniments de mapatge"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:128
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Compartir"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:131
+#: src/components/MappingEvents/MappingEventToolbar.tsx:130
 msgid "Join mapping event"
 msgstr "Unir-se a l'esdeveniment de mapatge"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:133
+#: src/components/MappingEvents/MappingEventToolbar.tsx:132
 msgid "Leave mapping event"
 msgstr "Sortir de l'esdeveniment de mapatge"
 
@@ -634,15 +649,15 @@ msgstr ""
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:57
 msgid "This email address is not valid."
-msgstr ""
+msgstr "L'adreça de correu electrònic no és correcta."
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:74
 msgid "Email address"
-msgstr ""
+msgstr "Adreça de correu electrònic"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:92
 msgid "Let’s go"
-msgstr ""
+msgstr "Anem"
 
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:94
 #, javascript-format
@@ -680,8 +695,8 @@ msgstr "Error mentre es carregaven les dades."
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:250
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
+#: src/components/NodeToolbar/NodeToolbar.tsx:259
 msgid "How wheelchair accessible is this place?"
 msgstr "Es aquest lloc accessible per a cadires de rodes?"
 
@@ -804,11 +819,11 @@ msgstr ""
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:108
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #: src/components/CreatePlaceFlow/pages/PlaceDetailsEditor.tsx:110
 msgid "Select category"
-msgstr ""
+msgstr "Seleccioneu una categoria"
 
 #: src/components/CreatePlaceFlow/components/MapButton.tsx:47
 #: src/components/CreatePlaceFlow/pages/PointGeometryPicker.tsx:72
@@ -857,35 +872,35 @@ msgstr "Sense resultats. Si us plau torna a provar més tard!"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:38
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:40
 msgid "Partially accessible with accessible WC"
 msgstr "Parcialment accesible amb WC accessible"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:45
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:47
 msgid "Only fully wheelchair accessible"
 msgstr "Es totalment accessible amb cadira de rodes"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:51
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:53
 msgid "Only fully accessible with accessible WC"
 msgstr "Només completament accessibles amb WC accessible"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:58
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:60
 msgid "Places that I can contribute information to"
 msgstr "Llocs als quals puc contribuir"
 
 #. translator: Checkbox caption on the filter toolbar. If the checkbox is
 #. clicked, only places that are not wheelchair accessible are shown.
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:64
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:66
 msgid "Only places that are not accessible"
 msgstr "Només llocs no accessibles"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:91
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:98
 msgid "Wheelchair accessibility filter"
 msgstr "Flexibilitat accessibilitat amb cadira de rodes"
 
@@ -897,19 +912,19 @@ msgstr "Sense nom"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:50
 msgid "Address"
-msgstr ""
+msgstr "Adreça"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:52
 msgid "City"
-msgstr ""
+msgstr "Ciutat"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:54
 msgid "Region"
-msgstr ""
+msgstr "Regió"
 
 #: src/components/CreatePlaceFlow/components/AddressEditor.tsx:60
 msgid "Postal Code"
-msgstr ""
+msgstr "Codi Postal"
 
 #. translator: Prefix for the sources on the PoI details panel
 #: src/components/NodeToolbar/SourceList.tsx:31
@@ -923,24 +938,24 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "El vàter és accessible?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
 msgid "Yes"
 msgstr "Si"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
 msgid "No"
 msgstr "No"
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:124
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
 msgid "Wheelchair accessibility"
 msgstr "Accessible amb cadira de rodes"
 
 #. translator: Shown as issue description in the report dialog
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:47
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:53
 #, javascript-format
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
@@ -948,32 +963,32 @@ msgstr ""
 "Aquest lloc està marcat com a  ‘${ accessibilityDescription }’, però és un "
 "error!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:56
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:62
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "L'estat del vàters es erroni o inexistent"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:63
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:36
 msgid "I have more information about this place."
 msgstr "Tinc mes informacio sobre aquest lloc."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:44
 msgid "The place does not exist."
 msgstr "Aquest lloc no existeix."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:40
 msgid "The place is at the wrong location."
 msgstr "El lloc es a una posició incorrecta."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:127
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:87
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:134
 msgid "The problem isn’t listed here…"
 msgstr "El meu problema no hi es a la llista"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:104
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
 #, javascript-format
 msgid ""
 "Information about this place has kindly been provided by another "
@@ -982,7 +997,7 @@ msgstr ""
 "La informació sobre aquest lloc prové d'una altra organització, és una part "
 "de  ${ sourceName }."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:118
 msgid "Fix on external page."
 msgstr "Posar a una pàgina externa."
 
@@ -1004,78 +1019,24 @@ msgstr "Reportar imatge"
 msgid "of"
 msgstr "de"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:145
 msgid "Next (right arrow key)"
 msgstr "Següent (tecla de fletxa dreta)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:147
 msgid "Previous (left arrow key)"
 msgstr "Anterior (tecla de fletxa esquerra)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:149
 msgid "Close (Esc)"
 msgstr "Tancar (Esc)"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:101
 msgid "Add more details"
-msgstr ""
+msgstr "Afegeix més detalls"
 
 #: src/components/NodeToolbar/AccessibilityEditor/EditFormSubmissionButton.tsx:106
 msgid ""
@@ -1115,11 +1076,11 @@ msgid "Change"
 msgstr "Canvia"
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:57
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
 msgid "Mark wheelchair accessibility of WC"
 msgstr "Afegeix estat del vàter "
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:127
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
 msgid "Show next wheelchair accessible toilet"
 msgstr "Mostrar el següent lavabo accessible en cadira de rodes"
 
@@ -1237,7 +1198,7 @@ msgstr ""
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:94
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
@@ -1539,7 +1500,7 @@ msgstr ""
 #. translator: Link for further infos about how to organize mapping events
 #: src/components/MappingEvents/MappingEventsToolbar.tsx:45
 msgid "https://news.wheelmap.org/en/organize-a-mapping-event/"
-msgstr ""
+msgstr "https://news.wheelmap.org/en/organize-a-mapping-event/"
 
 #. translator: Email text used when sharing a mapping event via email.
 #: src/components/MappingEvents/MappingEventShareBar.tsx:34
@@ -1558,32 +1519,110 @@ msgstr ""
 #. must enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:65
 msgid "(required)"
-msgstr ""
+msgstr "(necessari)"
 
 #. translator: Shown next to a form input label for a field where the user can
 #. optionally enter a value
 #: src/components/MappingEvents/MappingEventWelcomeDialog.tsx:67
 msgid "(optional)"
-msgstr ""
+msgstr "(opcional)"
 
 #: src/components/ContributionThanksDialog/ContributionThanksDialog.tsx:103
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Si us plau, dona'ns un moment per verificar la teva contribució."
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
 #, javascript-format
 msgid "${ valueAndUnit } or less"
-msgstr ""
+msgstr "${ valueAndUnit } o menys"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
 msgid "${ valueAndUnit } or more"
-msgstr ""
+msgstr "${ valueAndUnit } o més"
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
+msgstr "menys que ${ valueAndUnit }"
+
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
+msgid "greater than ${ valueAndUnit }"
+msgstr "millor que ${ valueAndUnit }"
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36
+msgid ""
+"This is a private parking facility, but public access is usually allowed."
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
-msgid "greater than ${ valueAndUnit }"
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
+msgid "This is a public parking facility."
 msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
+msgid "You need a permit to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
+msgid "Only customers are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
+msgid "Only residents are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available."
+msgid_plural "${ capacityNumeric } parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
+msgid "Parking available (accessibility unknown)."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+msgid "No accessible parking lots available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
+msgid "No parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available, but no accessible parking."
+msgid_plural ""
+"${ capacityNumeric } parking lots available, but no accessible parking."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
+msgid "Parking available, but no accessible parking."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
+#, javascript-format
+msgid "${ disabledCapacityNumeric } accessible parking lot available."
+msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
+msgid "Accessible parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
+#, javascript-format
+msgid ""
+"${ disabledCapacityNumeric } accessible parking lot available (${ "
+"capacityNumeric } total)."
+msgid_plural ""
+"${ disabledCapacityNumeric } accessible parking lots available (${ "
+"capacityNumeric } total)."
+msgstr[0] ""
+msgstr[1] ""

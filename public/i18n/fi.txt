@@ -7,16 +7,16 @@
 msgid ""
 msgstr ""
 "Last-Translator: Sebastian Felix Zappe <hypo@me.com>, 2022\n"
-"Language-Team: Finnish (https://www.transifex.com/sozialhelden/teams/16671/fi/)\n"
+"Language-Team: Finnish (https://app.transifex.com/sozialhelden/teams/16671/fi/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:331
+#: src/components/SearchToolbar/SearchButton.tsx:68 src/pages/_app.tsx:335
 msgid "Search"
 msgstr "Hae"
 
-#: src/pages/_app.tsx:332
+#: src/pages/_app.tsx:336
 msgid "Homepage"
 msgstr "Kotisivu"
 
@@ -133,47 +133,61 @@ msgstr "Käymälät"
 msgid "Error while loading place categories."
 msgstr "Paikkakategorioita ladatessa tapahtui virhe."
 
-#: src/lib/Feature.ts:480
+#. translator: Long accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:491
 msgid "Fully wheelchair accessible"
 msgstr "Täysin esteetön pyörätuolia käyttävälle"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:32
-#: src/lib/Feature.ts:483
+#. translator: Long accessibility description for partial wheelchair
+#. accessibility
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:34
+#: src/lib/Feature.ts:494
 msgid "Partially wheelchair accessible"
 msgstr "Osittain esteetön pyörätuolia käyttävälle"
 
-#: src/lib/Feature.ts:486
+#. translator: Long accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:497
 msgid "Not wheelchair accessible"
 msgstr "Ei esteetön pyörätuolia käyttävälle"
 
-#: src/lib/Feature.ts:489
+#. translator: Long accessibility description for unknown wheelchair
+#. accessibility
+#: src/lib/Feature.ts:500
 msgid "Unknown accessibility"
 msgstr "Tuntematon tila"
 
-#: src/lib/Feature.ts:499
+#. translator: Short accessibility description for full wheelchair
+#. accessibility
+#: src/lib/Feature.ts:514
 msgid "Fully"
 msgstr "Täysin"
 
-#: src/lib/Feature.ts:502
+#. translator: Short accessibility description for partial wheelchair
+#. accessibility
+#: src/lib/Feature.ts:517
 msgid "Partially"
 msgstr "Osittain"
 
-#: src/lib/Feature.ts:505
+#. translator: Short accessibility description for no wheelchair accessibility
+#: src/lib/Feature.ts:520
 msgid "Not at all"
 msgstr "Ei lainkaan"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:94
-#: src/lib/Feature.ts:508
+#. translator: Short accessibility description for unknown wheelchair
+#. accessibility
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:101
+#: src/lib/Feature.ts:523
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: src/lib/Feature.ts:518
+#: src/lib/Feature.ts:535
 msgid "Entrance has no steps, and all rooms are accessible without steps."
 msgstr "Sisäänkäynti portaaton, kaikki huoneet portaattomia."
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using imperial units
-#: src/lib/Feature.ts:522
+#: src/lib/Feature.ts:539
 msgid ""
 "Entrance has one step with max. 3 inches height, most rooms are without "
 "steps."
@@ -183,57 +197,57 @@ msgstr ""
 
 #. translator: Describes criteria for marking places as partially wheelchair
 #. accessible on Wheelmap, using metric units
-#: src/lib/Feature.ts:524
+#: src/lib/Feature.ts:541
 msgid ""
 "Entrance has one step with max. 7 cm height, most rooms are without steps."
 msgstr ""
 "Sisäänkäynnissä on yksi porras, jonka korkeus on enintään 7 cm. Useimmissa "
 "huoneissa ei ole portaita."
 
-#: src/lib/Feature.ts:527
+#: src/lib/Feature.ts:544
 msgid ""
 "Entrance has a high step or several steps, none of the rooms are accessible."
 msgstr ""
 "Sisäänkäynnillä on yksi tai useampia portaita, huoneet eivät ole "
 "esteettömiä."
 
-#: src/lib/Feature.ts:538
+#: src/lib/Feature.ts:555
 msgid "Wheelchair accessible toilet"
 msgstr "Pyörätuolille sopiva vessa"
 
-#: src/lib/Feature.ts:541
+#: src/lib/Feature.ts:558
 msgid "No wheelchair accessible toilet"
 msgstr "Ei pyörätuolia käyttävälle esteetöntä wc:tä."
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 35 inches"
 msgstr "Oviaukkojen sisäleveys ≥ 35 tuumaa"
 
-#: src/lib/Feature.ts:549
+#: src/lib/Feature.ts:566
 msgid "Doorways' inner width ≥ 90 cm"
 msgstr "Oviaukkojen sisäleveys ≥ 90 cm"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 59 inches wide"
 msgstr "Vapaan lattiatilan leveys  ≥ 59 tuumaa"
 
-#: src/lib/Feature.ts:550
+#: src/lib/Feature.ts:567
 msgid "Clear turning space ≥ 150 cm wide"
 msgstr "Vapaan lattiatilan leveys ≥ 150 cm"
 
-#: src/lib/Feature.ts:551
+#: src/lib/Feature.ts:568
 msgid "Wheelchair-height toilet seat"
 msgstr "Korotettu wc-istuin"
 
-#: src/lib/Feature.ts:552
+#: src/lib/Feature.ts:569
 msgid "Foldable grab rails"
 msgstr "Käännettävät käsituet"
 
-#: src/lib/Feature.ts:553
+#: src/lib/Feature.ts:570
 msgid "Accessible sink"
 msgstr "Esteetön käsienpesuallas"
 
-#: src/lib/Feature.ts:560
+#: src/lib/Feature.ts:577
 msgid "Unnamed place"
 msgstr "Nimetön paikka"
 
@@ -252,12 +266,12 @@ msgstr "Et ole yhteydessä verkkoon."
 msgid "To add photos to places, camera access is needed."
 msgstr ""
 
-#: src/app/PlaceDetailsData.tsx:293
+#: src/app/PlaceDetailsData.tsx:278
 #, javascript-format
 msgid "This place is on ${ productName }: ${ placeTitle }"
 msgstr "Tämä paikka löytyy kohteesta ${ productName }: ${ placeTitle }"
 
-#: src/app/SearchData.tsx:127
+#: src/app/SearchData.tsx:126
 #: src/components/SearchToolbar/SearchResults.tsx:46
 msgid "Search results"
 msgstr "Hakutulokset"
@@ -272,18 +286,18 @@ msgid "Add a new place"
 msgstr "Lisää puuttuva paikka"
 
 #. translator: Shown when zoomed out to far
-#: src/components/Map/Map.tsx:1019
+#: src/components/Map/Map.tsx:1020
 msgid "Zoom in closer to see more places"
 msgstr "Zoomaa lähemmäksi nähdäksesi lisää paikkoja"
 
 #. translator: Shown next to the locate-me button when location services are
 #. not
 #. enabled
-#: src/components/Map/Map.tsx:1035
+#: src/components/Map/Map.tsx:1036
 msgid "Turn on location services"
 msgstr "Laita sijaintipalvelut päälle"
 
-#: src/components/Map/Map.tsx:1068
+#: src/components/Map/Map.tsx:1069
 msgid "Map"
 msgstr "Kartta"
 
@@ -293,7 +307,7 @@ msgstr "Kartta"
 msgid "Go to ${ appName }"
 msgstr "Siirry ${ appName } -sovellukseen"
 
-#: src/components/Onboarding/Onboarding.tsx:51
+#: src/components/Onboarding/Onboarding.tsx:52
 #: src/components/WheelmapHomeLink.tsx:30
 msgid "App Logo"
 msgstr "Sovelluksen logo"
@@ -359,7 +373,7 @@ msgstr "Päivitetty viimeksi ${ dateString }."
 msgid "Home"
 msgstr "Koti"
 
-#: src/components/MainMenu/MainMenu.tsx:245
+#: src/components/MainMenu/MainMenu.tsx:244
 msgid "Menu"
 msgstr "Valikko"
 
@@ -375,7 +389,7 @@ msgstr "Kaikki paikat"
 
 #. translator: Label caption of a cluster that contains multiple nodes with
 #. its count, e.g. '(3) Places'
-#: src/components/NodeToolbar/FeatureClusterPanel.tsx:144
+#: src/components/NodeToolbar/FeatureClusterPanel.tsx:93
 msgid "Places"
 msgstr "Paikat"
 
@@ -543,86 +557,86 @@ msgstr ""
 
 #. translator: Shown on the onboarding screen. To find it, click the logo at
 #. the top.
-#: src/components/Onboarding/Onboarding.tsx:37
+#: src/components/Onboarding/Onboarding.tsx:38
 msgid "Help out by marking places!"
 msgstr "Auta merkitsemällä paikkoja!"
 
 #. translator: Button caption shown on the onboarding screen. To find it,
 #. click the logo at the top.
-#: src/components/Onboarding/Onboarding.tsx:40
+#: src/components/Onboarding/Onboarding.tsx:41
 msgid "Okay, let’s go!"
 msgstr "Okei, mennään!"
 
-#: src/components/Onboarding/Onboarding.tsx:63
+#: src/components/Onboarding/Onboarding.tsx:64
 msgid "Start screen"
 msgstr "Wheelmapin alkunäyttö"
 
 #. translator: Prefix for the mapping event start date ("starting 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:93
+#: src/components/MappingEvents/MappingEventToolbar.tsx:92
 msgid "starting"
 msgstr "alkaa"
 
 #. translator: Prefix for the mapping event end date ("until 01.12.2019")
-#: src/components/MappingEvents/MappingEventToolbar.tsx:98
+#: src/components/MappingEvents/MappingEventToolbar.tsx:97
 msgid "until"
 msgstr "päättyy"
 
 #. translator: Screenreader description for a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:113
+#: src/components/MappingEvents/MappingEventToolbar.tsx:112
 #, javascript-format
 msgid "Mapping event ${ mappingEvent.name }"
 msgstr "Kartoitustapahtuma ${ mappingEvent.name }"
 
 #. translator: Label for clickable mapping event name that makes the map jump
 #. to the event's position
-#: src/components/MappingEvents/MappingEventToolbar.tsx:115
+#: src/components/MappingEvents/MappingEventToolbar.tsx:114
 msgid "Center map on mapping event"
 msgstr "Keskitä kartta kartoitustapahtumaan"
 
 #. translator: Label for the meeting point of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:117
+#: src/components/MappingEvents/MappingEventToolbar.tsx:116
 msgid "Meeting point"
 msgstr "Kohtauspaikka"
 
 #. translator: Label for the area of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:119
+#: src/components/MappingEvents/MappingEventToolbar.tsx:118
 msgid "Area name"
 msgstr "Alueen nimi"
 
 #. translator: Label for the date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:121
+#: src/components/MappingEvents/MappingEventToolbar.tsx:120
 msgid "Event date"
 msgstr "Tapahtumapäivä"
 
 #. translator: Label for the start date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:123
+#: src/components/MappingEvents/MappingEventToolbar.tsx:122
 msgid "Event start date"
 msgstr "Tapahtuman alkamispäivä"
 
 #. translator: Label for the end date of a mapping event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:125
+#: src/components/MappingEvents/MappingEventToolbar.tsx:124
 msgid "Event end date"
 msgstr "Tapahtuman päättymispäivä"
 
 #. translator: Screenreader description for the back link that leads to the
 #. list of mapping events
-#: src/components/MappingEvents/MappingEventToolbar.tsx:127
+#: src/components/MappingEvents/MappingEventToolbar.tsx:126
 msgid "Back to the mapping events list"
 msgstr "Takaisin kartoitustapahtumien luetteloon"
 
 #. translator: Shown as button caption in the place toolbar
-#: src/components/MappingEvents/MappingEventToolbar.tsx:129
+#: src/components/MappingEvents/MappingEventToolbar.tsx:128
 #: src/components/NodeToolbar/IconButtonList/ShareButtons.tsx:37
 msgid "Share"
 msgstr "Jaa"
 
 #. translator: Button caption for joining an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:131
+#: src/components/MappingEvents/MappingEventToolbar.tsx:130
 msgid "Join mapping event"
 msgstr "Liity kartoitustapahtumaan"
 
 #. translator: Button caption for leaving an event
-#: src/components/MappingEvents/MappingEventToolbar.tsx:133
+#: src/components/MappingEvents/MappingEventToolbar.tsx:132
 msgid "Leave mapping event"
 msgstr "Poistu kartoitustapahtumasta"
 
@@ -678,8 +692,8 @@ msgstr "Virhe ladattaessa tietoja."
 
 #. translator: Shown as header/title when you edit wheelchair accessibility of
 #. a place
-#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:58
-#: src/components/NodeToolbar/NodeToolbar.tsx:250
+#: src/components/NodeToolbar/AccessibilityEditor/WheelchairStatusEditor.tsx:62
+#: src/components/NodeToolbar/NodeToolbar.tsx:259
 msgid "How wheelchair accessible is this place?"
 msgstr "Kuinka esteetön tämä paikka on pyörätuolia käyttävälle?"
 
@@ -855,35 +869,35 @@ msgstr "Tuloksia ei ole saatavilla. Ole hyvä ja yritä myöhemmin uudelleen!"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:38
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:40
 msgid "Partially accessible with accessible WC"
 msgstr "Osittain esteetön esteettömällä wc:llä"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:45
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:47
 msgid "Only fully wheelchair accessible"
 msgstr "Vain täysin pyörätuolia käyttävälle esteettömät"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:51
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:53
 msgid "Only fully accessible with accessible WC"
 msgstr "Vain täysin esteettömät esteettömällä wc:llä"
 
 #. translator: Button caption in the filter toolbar. Answer to the question
 #. 'which places you want to see'
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:58
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:60
 msgid "Places that I can contribute information to"
 msgstr "Paikat, joiden kanssa voin avustaa"
 
 #. translator: Checkbox caption on the filter toolbar. If the checkbox is
 #. clicked, only places that are not wheelchair accessible are shown.
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:64
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:66
 msgid "Only places that are not accessible"
 msgstr "Vain paikat, jotka eivät ole esteettömiä"
 
-#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:91
+#: src/components/SearchToolbar/AccessibilityFilterMenu.tsx:98
 msgid "Wheelchair accessibility filter"
 msgstr "Pyörätuolia käyttävälle esteetön -suodatus"
 
@@ -921,24 +935,24 @@ msgid "Is the toilet here wheelchair accessible?"
 msgstr "Onko täällä pyörätuolia käyttävälle esteetön wc?"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:44
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:62
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:66
 msgid "Yes"
 msgstr "Kyllä"
 
 #: src/components/NodeToolbar/AccessibilityEditor/ToiletStatusEditor.tsx:46
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:67
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:71
 msgid "No"
 msgstr "Ei"
 
 #. translator: Screen reader description for the accessibility choice buttons
 #. for gray places
-#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:124
+#: src/components/NodeToolbar/AccessibilityEditor/InlineWheelchairAccessibilityEditor.tsx:128
 #: src/components/NodeToolbar/AccessibilityEditor/RadioStatusEditor.tsx:128
 msgid "Wheelchair accessibility"
 msgstr "Esteettömyys pyörätuolia käyttävälle"
 
 #. translator: Shown as issue description in the report dialog
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:47
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:53
 #, javascript-format
 msgid ""
 "The place is marked as ‘${ accessibilityDescription }’, but this is wrong!"
@@ -946,32 +960,32 @@ msgstr ""
 "Paikka on merkitty tunnisteella ‘${ accessibilityDescription }’, mutta se on"
 " väärin!"
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:56
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:62
 msgid ""
 "The toilet accessibility of the place is marked incorrectly or is missing."
 msgstr "Tieto paikan wc-tiloista on väärin tai puuttuu."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:63
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:36
 msgid "I have more information about this place."
 msgstr "Minulla on lisätietoja tästä paikasta."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:69
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:44
 msgid "The place does not exist."
 msgstr "Paikkaa ei ole olemassa."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:75
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
 #: src/components/NodeToolbar/Report/SendReportToAc.tsx:40
 msgid "The place is at the wrong location."
 msgstr "Paikka on väärässä asemassa."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:81
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:127
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:87
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:134
 msgid "The problem isn’t listed here…"
 msgstr "Ongelmaani ei ole listassa..."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:104
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
 #, javascript-format
 msgid ""
 "Information about this place has kindly been provided by another "
@@ -980,7 +994,7 @@ msgstr ""
 "Toinen organisaatio on antanut meille tietoja tästä paikasta: se on osa "
 "kohdetta ${ sourceName }."
 
-#: src/components/NodeToolbar/Report/ReportDialog.tsx:111
+#: src/components/NodeToolbar/Report/ReportDialog.tsx:118
 msgid "Fix on external page."
 msgstr "Korjaa ulkoisella sivulla."
 
@@ -1002,72 +1016,18 @@ msgstr "Ilmoita kuva"
 msgid "of"
 msgstr "/"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on next image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:165
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:145
 msgid "Next (right arrow key)"
 msgstr "Seuraava (oikea nuolinäppäin)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on previous image button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:167
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:147
 msgid "Previous (left arrow key)"
 msgstr "Edellinen (vasen nuolinäppäin)"
 
-#. const customStyles = {
-#. header: (base, state) => ({
-#. ...base,
-#. borderBottom: '1px dotted pink',
-#. color: state.isFullscreen ? 'red' : 'blue',
-#. padding: 20,
-#. }),
-#. view: () => ({
-#. // none of react-images styles are passed to <View />
-#. height: 400,
-#. width: 600,
-#. }),
-#. footer: (base, state) => {
-#. const opacity = state.interactionIsIdle ? 0 : 1;
-#. const transition = 'opacity 300ms';
-#. return { ...base, opacity, transition };
-#. }
-#. }
 #. translator: alt info on close button in lightbox
-#: src/components/NodeToolbar/Photos/PhotoSection.tsx:169
+#: src/components/NodeToolbar/Photos/PhotoSection.tsx:149
 msgid "Close (Esc)"
 msgstr "Sulje (Esc)"
 
@@ -1113,11 +1073,11 @@ msgid "Change"
 msgstr "Muuta"
 
 #. translator: Button caption, shown in the place toolbar
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:57
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:107
 msgid "Mark wheelchair accessibility of WC"
 msgstr "Lisää wc:n tila"
 
-#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:127
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:195
 msgid "Show next wheelchair accessible toilet"
 msgstr "Näytä seuraava pyörätuolilla käytettävä käymälä"
 
@@ -1235,7 +1195,7 @@ msgstr ""
 
 #. translator: Shown after marking a place did not work, for example because
 #. the connection was interrupted
-#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:94
+#: src/components/NodeToolbar/AccessibilityEditor/saveStatus.ts:90
 #, javascript-format
 msgid "Sorry, this place could not be marked because of an error: ${ e }"
 msgstr ""
@@ -1568,20 +1528,98 @@ msgstr ""
 msgid "Your change is saved. It can take a while until it appears on the map."
 msgstr "Anna meille hetki aikaa työpanoksesi vahvistamiseen."
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:32
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:25
 #, javascript-format
 msgid "${ valueAndUnit } or less"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:34
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:27
 msgid "${ valueAndUnit } or more"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:36
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:29
 #, javascript-format
 msgid "less than ${ valueAndUnit }"
 msgstr ""
 
-#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:38
+#: src/components/NodeToolbar/AccessibilitySection/AccessibilityDetailsTree.tsx:31
 msgid "greater than ${ valueAndUnit }"
 msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:36
+msgid ""
+"This is a private parking facility, but public access is usually allowed."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:37
+msgid "This is a public parking facility."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:38
+msgid "You need a permit to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:39
+msgid "Only customers are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:40
+msgid "Only residents are allowed to park here."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:225
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available."
+msgid_plural "${ capacityNumeric } parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:230
+msgid "Parking available (accessibility unknown)."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:231
+msgid "No accessible parking lots available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:232
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:233
+msgid "No parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:234
+#, javascript-format
+msgid "${ capacityNumeric } parking lot available, but no accessible parking."
+msgid_plural ""
+"${ capacityNumeric } parking lots available, but no accessible parking."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:239
+msgid "Parking available, but no accessible parking."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:240
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:254
+#, javascript-format
+msgid "${ disabledCapacityNumeric } accessible parking lot available."
+msgid_plural "${ disabledCapacityNumeric } accessible parking lots available."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:245
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:246
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:247
+msgid "Accessible parking available."
+msgstr ""
+
+#: src/components/NodeToolbar/AccessibilitySection/WheelchairAndToiletAccessibility.tsx:249
+#, javascript-format
+msgid ""
+"${ disabledCapacityNumeric } accessible parking lot available (${ "
+"capacityNumeric } total)."
+msgid_plural ""
+"${ disabledCapacityNumeric } accessible parking lots available (${ "
+"capacityNumeric } total)."
+msgstr[0] ""
+msgstr[1] ""
