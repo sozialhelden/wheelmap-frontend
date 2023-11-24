@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { MockFacility } from "..";
-import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
+import {
+  WindowContextType,
+  useWindowContext,
+} from "../../../lib/context/WindowContext";
+import { StyledLegend } from "../styles";
 import ActiveFilters from "./ActiveFilters";
 import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
 import FilterInputs from "./FilterInputs";
@@ -15,56 +19,6 @@ export const StyledFilterPreferencesSection = styled.section`
     display: flex;
     flex-direction: row;
     align-items: center;
-  }
-
-  .checkbox-switch {
-    opacity: 1;
-    height: var(--switch-height);
-    width: calc(3rem + 2px);
-    appearance: inherit;
-    background-color: #f6f7f9;
-    border-radius: 2rem;
-    box-shadow: inset 0 0.5px 1px rgba(0,0,0,0.2),
-                inset 0 0.5px 1px rgba(0,0,0,0.2),
-                inset 0 -0.5px 1px rgba(0,0,0,0.2); 
-    transition: 0.2s;
-    position: relative;
-    outline: none;
-    cursor: pointer;
-  } 
-
-  .checkbox-switch::before {
-    height: var(--switch-height);
-    width: var(--switch-height);
-    position: absolute;
-    top: 0;
-    left: 0;
-    content: "";
-    background: linear-gradient(to bottom, grey, lightgrey);
-    border-radius: 2rem;
-    transform: scale(0.75);
-    transition: 0.2s;
-    box-shadow: 0 0.5px 0.5px rgba(0,0,0,0.5),
-                inset 0.5px 0.5px rgba(255,255,255,0.2),
-                inset -0.5px 0.5px rgba(255,255,255,0.2);
-  }
-
-  .checkbox-switch:not(focus):focus-visible {
-    outline: 1px dotted #212121;
-    outline: 5px auto -webkit-focus-ring-color;
-    transition: 0s;
-  }
-
-  .checkbox-switch:checked {
-    background-color: #fff;
-    box-shadow: inset 0 0.2px 1px rgba(0,0,0, 0.2),
-                inset 0 0.2px 1px rgba(0,0,0, 0.2),
-                inset 0 -0.2px 1px rgba(0,0,0, 0.2);
-  }
-
-  .checkbox-switch:checked::before  {
-    left: calc(2rem - 6px);
-    background: linear-gradient(to top, green, lightgreen);
   }
 
   fieldset {
@@ -103,72 +57,61 @@ export const StyledFilterPreferencesSection = styled.section`
   label input[role="switch"]:checked ~ .state > span.off {
     display: none;
   }
-
 `;
 
 type Props = {
   mockFacilities: MockFacility[];
   labels: string[];
-}
+};
 
-function FilterSection ({mockFacilities, labels}: Props) {
-  
+function FilterSection({ mockFacilities, labels }: Props) {
   const { width }: WindowContextType = useWindowContext();
-  
+
   const [isMobile, setMobile] = React.useState(width < 640);
   const [isDesktop, setDesktop] = React.useState(width >= 640);
-  
+
   React.useEffect(() => {
     setMobile(width < 640);
     setDesktop(width >= 640);
-  },[width]);
+  }, [width]);
 
   const renderFilterContainer = () => {
     return (
-
       <div className="search-filter-container">
         <div className="input-choices">
           <FilterInputs mockedFacilities={mockFacilities} />
         </div>
         <div className="preference-choices">
           <StyledFilterPreferencesSection>
-            <fieldset>  
-              <legend>{t`Präferenzen`}</legend>
-              <ul> {labels.map((label) => {return (
-                <li key={label + `-key`}>
-                  <label className="label">
-                    <ActivePreferenceSwitch 
-                      name={label} 
-                    />
-                    <span className="state">
-                      {/* <span className="on" aria-hidden="true">On</span>
-                      <span className="off" aria-hidden="true">Off</span> */}
-                    </span>
-                    {label} 
-                  </label>
-                </li>
-              );})}
+            <fieldset>
+              <StyledLegend>{t`Präferenzen`}</StyledLegend>
+              <ul>
+                {labels.map((label) => {
+                  return (
+                    <ActivePreferenceSwitch key={label + `-key`} name={label} />
+                  );
+                })}
               </ul>
             </fieldset>
           </StyledFilterPreferencesSection>
-        </div>          
+        </div>
       </div>
     );
-   }
-   
+  };
 
   return (
-      <section className="search-filter-section">
-          <h2 className="search-filter-h2">{t`Suchfilter`}</h2>      
-          <ActiveFilters />
-          {isDesktop && renderFilterContainer() }
-          {isMobile && 
-            <details className="search-filter-details">
-              <summary className="search-filter-summary">{t`Filteroptionen ausklappen`}</summary>
-              {renderFilterContainer()}
-            </details>
-          }
-      </section>
+    <section className="search-filter-section">
+      <h2 className="search-filter-h2">{t`Suchfilter`}</h2>
+      <ActiveFilters />
+      {renderFilterContainer()}
+      {/* {isDesktop && renderFilterContainer()}
+      {isMobile && (
+        <details className="search-filter-details">
+          <summary className="search-filter-summary">{t`Filteroptionen ausklappen`}</summary>
+          {renderFilterContainer()}
+        </details>
+      )} */}
+    </section>
   );
 }
 

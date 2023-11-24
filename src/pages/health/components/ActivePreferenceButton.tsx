@@ -1,4 +1,5 @@
 import React from "react";
+import { StyledButton } from "../styles";
 import { FilterContext } from "./FilterContext";
 
 type Props = {
@@ -14,10 +15,10 @@ function ActivePreferenceButton({name}: Props) {
     nextMap.set(name, false);
     filterContext.setFilterMap(nextMap);
   }
-  , [filterMap, name]);
+  , [filterContext,filterMap, name]);
 
   return (
-    <button value={name} className="active-filter-button" onClick={handleClick}>{name}</button>
+    <StyledButton value={name} className="active-filter-button" onClick={handleClick}>{name}</StyledButton>
   )
 }
 

@@ -38,7 +38,7 @@ function SearchResults({}: Props) {
       console.log(`${baseurl}/api/healthcare?${bbox}&geometry=centroid&wheelchairAccessibility=yes&limit=100`);
     }
   }
-  , [extent, fc]);
+  , [baseurl, bbox, extent, fc]);
 
   
   const {data, error} = useSWR<OSM_API_RESPONSE, Error>(

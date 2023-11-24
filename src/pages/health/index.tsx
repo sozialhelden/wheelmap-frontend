@@ -127,6 +127,7 @@ const StyledPage = styled.div`
 
   .active-filters-bar {
     min-height: 2rem;
+    margin-top: 0.5rem;
     max-height: fit-content;
     list-style-type: none; 
     display: flex;
