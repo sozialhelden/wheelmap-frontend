@@ -5,6 +5,9 @@ import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
 import { WheelmapFeature } from './Feature';
 import debouncePromise from '../lib/debouncePromise';
+import { use } from 'chai';
+import React from 'react';
+import AppContext from '../AppContext';
 
 export type SearchResultProperties = {
   city?: any,
@@ -87,15 +90,15 @@ export default function searchPlaces(
 
   const url = `https://photon.komoot.io/api/?q=${encodedQuery}&limit=30${localeSuffix}`;
 
-  // For now, no location bias anymore: It seems to sort irrelevant results to the top
-  // so you are not able to find New York anymore when entering 'New York', for example
-  // let locationBiasedUrl = url;
-  // if (typeof lat === 'number' && typeof lon === 'number') {
-  //   locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
-  // }
+
+  // location bias for apps with location bias e.g. Olpe
+  let locationBiasedUrl = url;
+  if (typeof lat === 'number' && typeof lon === 'number') {
+    locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
+  }
 
   return globalFetchManager
-    .fetch(url)
+    .fetch(locationBiasedUrl || url)
     .then(response => {
       return response.json();
     })

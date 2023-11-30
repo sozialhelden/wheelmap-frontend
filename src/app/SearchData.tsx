@@ -62,10 +62,16 @@ const SearchData: DataTableEntry<SearchProps> = {
     };
 
     if (searchQuery && (trimmedSearchQuery = searchQuery.trim())) {
-      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(trimmedSearchQuery, {
-        lat: parseFloat(query.lat),
-        lon: parseFloat(query.lon),
-      });
+      
+      
+      const { app } = await renderContext; 
+      const centerPoint = app?.clientSideConfiguration?.associatedGeometries?.centerPoint;
+      const locationFromApp = centerPoint && {
+        lat: centerPoint.coordinates[1],
+        lon: centerPoint.coordinates[0],
+      };
+
+      searchResults = (isServer ? searchPlaces : searchPlacesDebounced)(trimmedSearchQuery, locationFromApp);
 
       // Fetch search results when on server. Otherwise pass (nested) promises as props into app.
       searchResults = isServer ? await searchResults : searchResults;
