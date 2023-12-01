@@ -2,10 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import { MockFacility } from "..";
-import {
-  WindowContextType,
-  useWindowContext,
-} from "../../../lib/context/WindowContext";
+import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
 import { StyledLegend } from "../styles";
 import ActiveFilters from "./ActiveFilters";
 import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
@@ -87,9 +84,7 @@ function FilterSection({ mockFacilities, labels }: Props) {
               <StyledLegend>{t`Präferenzen`}</StyledLegend>
               <ul>
                 {labels.map((label) => {
-                  return (
-                    <ActivePreferenceSwitch key={label + `-key`} name={label} />
-                  );
+                  return <ActivePreferenceSwitch key={label + `-key`} name={label} />;
                 })}
               </ul>
             </fieldset>
@@ -103,14 +98,13 @@ function FilterSection({ mockFacilities, labels }: Props) {
     <section className="search-filter-section">
       <h2 className="search-filter-h2">{t`Suchfilter`}</h2>
       <ActiveFilters />
-      {renderFilterContainer()}
-      {/* {isDesktop && renderFilterContainer()}
+      {isDesktop && renderFilterContainer()}
       {isMobile && (
         <details className="search-filter-details">
           <summary className="search-filter-summary">{t`Filteroptionen ausklappen`}</summary>
           {renderFilterContainer()}
         </details>
-      )} */}
+      )}
     </section>
   );
 }
