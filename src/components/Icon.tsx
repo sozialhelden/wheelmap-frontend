@@ -42,6 +42,7 @@ function fontSize(size: Size) {
 
 function Figure(props: Partial<Props>) {
   return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
     <figure className={props.className} onClick={props.onClick}>
       {props.children}
     </figure>
@@ -73,7 +74,7 @@ export const StyledIconContainer = styled(Figure)`
   > small {
     position: absolute;
     bottom: 1px;
-    right 1px;
+    right: 1px;
     font-size: 8px;
   }
 
@@ -87,7 +88,7 @@ export const StyledIconContainer = styled(Figure)`
       height: 100%;
       top: 0;
       left: 0;
-      
+
       g,
       polygon,
       path,

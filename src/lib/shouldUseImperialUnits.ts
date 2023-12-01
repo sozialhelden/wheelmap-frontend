@@ -1,6 +1,6 @@
 import { currentLocales } from './i18n';
 
-export default function useImperialUnits(): boolean {
+export default function shouldUseImperialUnits(): boolean {
   const currentLocale = currentLocales[0];
   if (!currentLocale) return false;
   return (

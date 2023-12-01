@@ -24,6 +24,11 @@ type Props = {
 };
 
 function EquipmentAccessibility(props: Props) {
+  const appContext = React.useContext(AppContext);
+  const { data: accessibilityAttributes, error } = useAccessibilityAttributes([
+    appContext.preferredLanguage,
+  ]);
+
   if (!props.equipmentInfo) return null;
   if (!props.equipmentInfo.properties) return null;
 
@@ -34,11 +39,8 @@ function EquipmentAccessibility(props: Props) {
   const category = properties.category;
   const isWorking = properties.isWorking;
   const accessibility = properties.accessibility;
-  const appContext = React.useContext(AppContext);
 
-  const { data: accessibilityAttributes, error } = useAccessibilityAttributes([
-    appContext.preferredLanguage,
-  ]);
+
   if (error) {
     throw error;
   }

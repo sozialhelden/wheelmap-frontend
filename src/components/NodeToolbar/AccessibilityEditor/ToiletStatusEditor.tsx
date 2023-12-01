@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { t } from 'ttag';
 
-import useImperialUnits from '../../../lib/useImperialUnits';
+import shouldUseImperialUnits from '../../../lib/shouldUseImperialUnits';
 import { AccessibilityCloudFeature, WheelmapFeature, YesNoUnknown } from '../../../lib/Feature';
 import { accessibleToiletDescription, hasAccessibleToilet } from '../../../lib/Feature';
 
@@ -28,7 +28,7 @@ type Props = SaveOptions & {
 function AccessibleToiletDescription() {
   return (
     <ul>
-      {accessibleToiletDescription(useImperialUnits()).map(text => (
+      {accessibleToiletDescription(shouldUseImperialUnits()).map(text => (
         <li key={text}>{text}</li>
       ))}
     </ul>

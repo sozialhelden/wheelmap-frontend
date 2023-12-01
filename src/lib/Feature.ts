@@ -10,7 +10,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import { Point } from 'geojson';
 import { translatedStringFromObject } from './i18n';
 
-import useImperialUnits from './useImperialUnits';
+import shouldUseImperialUnits from './shouldUseImperialUnits';
 import { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
 import { isEquipmentAccessible } from './EquipmentInfo';
 import { Category } from './Categories';
@@ -82,11 +82,11 @@ export type AccessibilityDescription = {
 export interface Restroom {
   isAccessibleWithWheelchair?: boolean,
   ratingForWheelchair: number,
-};
+}
 
 export interface Area {
   restrooms: Restroom[],
-};
+}
 
 export interface MinimalAccessibility {
   accessibleWith: {
@@ -96,12 +96,12 @@ export interface MinimalAccessibility {
     wheelchair: boolean,
   },
   areas?: Area[],
-};
+}
 
 export interface WheelmapCategoryOrNodeType {
   id: number | null,
   identifier: string | null,
-};
+}
 
 export type WheelmapProperties = {
   id: number,
@@ -534,7 +534,7 @@ export function accessibilityDescription(accessibility: YesNoLimitedUnknown): st
     case 'yes':
       return t`Entrance has no steps, and all rooms are accessible without steps.`;
     case 'limited':
-      return useImperialUnits()
+      return shouldUseImperialUnits()
         ? // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using imperial units
           t`Entrance has one step with max. 3 inches height, most rooms are without steps.`
         : // translator: Describes criteria for marking places as partially wheelchair accessible on Wheelmap, using metric units

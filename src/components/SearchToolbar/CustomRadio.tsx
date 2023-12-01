@@ -17,7 +17,7 @@ type CustomRadioState = {
 
 interface Focusable {
   focus(): void;
-};
+}
 
 export default class CustomRadio extends React.Component<CustomRadioProps, CustomRadioState> {
   state = {

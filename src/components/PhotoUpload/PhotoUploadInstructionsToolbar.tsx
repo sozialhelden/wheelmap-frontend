@@ -236,7 +236,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                       <img
                         src="/images/photo-upload/entrancePlaceholder.png"
                         className="placeholder-image entrance-image"
-                        aria-label=""
+                        alt=""
                       />
                       <figcaption>{t`Entrances`}</figcaption>
                     </figure>
@@ -244,7 +244,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                       <img
                         src="/images/photo-upload/sitemapPlaceholder.png"
                         className="placeholder-image sitemap-image"
-                        aria-label=""
+                        alt=""
                       />
                       <figcaption>{t`Site map`}</figcaption>
                     </figure>
@@ -252,7 +252,7 @@ export default class PhotoUploadInstructionsToolbar extends React.Component<Prop
                       <img
                         src="/images/photo-upload/toiletPlaceholder.png"
                         className="placeholder-image toilet-image"
-                        aria-label=""
+                        alt=""
                       />
                       <figcaption>{t`toilets`}</figcaption>
                     </figure>

@@ -72,7 +72,7 @@ async function finishRatingFlow<T>(options: TrackableSaveOptions<T>) {
       label: String(value),
     });
     trackAttributeChanged(options);
-    debugger
+
     if (isWheelmapFeatureId(featureId)) {
       [wheelmapFeatureCache, wheelmapLightweightFeatureCache].forEach(cache => {
         if (cache.getCachedFeature(featureId)) {

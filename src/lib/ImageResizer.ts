@@ -142,7 +142,7 @@ function findMaxWidth(config: BrowserImageResizerConfig, canvas) {
       mWidth,
       Math.floor((config.maxSize * 1000) / canvas.height)
     );
-  if (!!config.scaleRatio)
+  if (config.scaleRatio)
     mWidth = Math.min(mWidth, Math.floor(config.scaleRatio * canvas.width));
 
   if (config.debug) {

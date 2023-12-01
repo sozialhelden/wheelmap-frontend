@@ -14,7 +14,7 @@ export function insertPlaceholdersToAddPlaceUrl(
   let replacedUrl = url;
   if (typeof replacedUrl === 'string') {
     for (const key in replacements) {
-      if (replacements.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(replacements, key)) {
         const templateString = `{${key}}`;
         const fieldRegexp = new RegExp(templateString, 'g');
         replacedUrl = replacedUrl.replace(fieldRegexp, replacements[key]);

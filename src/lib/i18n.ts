@@ -134,6 +134,7 @@ export function addTranslationsToTTag(translations: Translations[]) {
   // console.log('Available locales:', localesToUse.map(l => l.string));
 
   // set locale in ttag
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useLocales(localesToUse.map(locale => locale.string));
 
   // update active locales

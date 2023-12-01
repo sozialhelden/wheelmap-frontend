@@ -45,7 +45,7 @@ import { getUserAgent } from '../../lib/userAgent';
 import NotificationButton from './NotificationButton';
 import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
 import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
-import useImperialUnits from '../../lib/useImperialUnits';
+import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
 import { Cluster } from './Cluster';
 import { MappingEvents } from '../../lib/MappingEvent';
@@ -336,7 +336,7 @@ export default class Map extends React.Component<Props, State> {
     let unitSystem = this.props.unitSystem;
     if (!unitSystem) {
       // derive unitSystem from locale
-      unitSystem = useImperialUnits() ? 'imperial' : 'metric';
+      unitSystem = shouldUseImperialUnits() ? 'imperial' : 'metric';
     }
 
     this.setupLocateMeButton(map);

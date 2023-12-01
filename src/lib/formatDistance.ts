@@ -1,4 +1,4 @@
-import useImperialUnits from './useImperialUnits';
+import shouldUseImperialUnits from './shouldUseImperialUnits';
 
 const unitSets = {
   metric: [
@@ -42,7 +42,7 @@ const unitSets = {
 //    2123.12 becomes  2.1km
 //    12123.12 becomes  12km
 export function formatDistance(distanceInMeters: number, precision: number = 2): { unit: string | number, distance: string | number } {
-  const unitSet = useImperialUnits() ? unitSets.imperialYard : unitSets.metric;
+  const unitSet = shouldUseImperialUnits() ? unitSets.imperialYard : unitSets.metric;
 
   // TODO: check types
   let distance: number | string = distanceInMeters;
