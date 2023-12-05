@@ -243,7 +243,6 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     category: null | undefined | Category,
     sources: null | undefined | SourceWithLicense[]
   ) {
-    const { featureId } = this.props;
     const wheelchairAccessibility = feature.properties
       ? isWheelchairAccessible(feature.properties)
       : 'unknown';
@@ -263,7 +262,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     return (
       <AppContextConsumer>
         {appContext => {
-          if (!isA11yEditable(featureId, appContext.app, primarySource)) {
+          if (!isA11yEditable(feature, appContext.app, primarySource)) {
             return null;
           }
 
