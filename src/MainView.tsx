@@ -384,7 +384,7 @@ class MainView extends React.Component<Props, State> {
         hidden={!this.props.isSearchBarVisible}
         inert={isInert}
         category={this.props.category}
-        showCategoryMenu={!this.props.disableWheelmapSource}
+        showCategoryMenu={true}
         searchQuery={this.props.searchQuery}
         searchResults={this.props.searchResults}
         accessibilityFilter={this.props.accessibilityFilter}

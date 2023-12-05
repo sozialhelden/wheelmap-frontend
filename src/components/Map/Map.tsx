@@ -434,15 +434,15 @@ export default class Map extends React.Component<Props, State> {
     );
 
     const customFilterChanged =
-      this.props.categoryId !== prevProps.categoryId &&
       ((prevState.category && prevState.category.isMetaCategory) ||
         (this.state.category && this.state.category.isMetaCategory));
 
+    const categoryChanged = this.props.categoryId !== prevProps.categoryId;
+
     const filterNeedsRefreshing =
-      accessibilityFilterChanged || toiletFilterChanged || customFilterChanged;
+      accessibilityFilterChanged || toiletFilterChanged || customFilterChanged || categoryChanged;
     if (filterNeedsRefreshing) {
       setTimeout(() => {
-        // console.log("Resetting layers", accessibilityFilterChanged, toiletFilterChanged, customFilterChanged);
         if (this.accessibilityCloudTileLayer) this.accessibilityCloudTileLayer._reset();
         if (this.equipmentTileLayer) this.equipmentTileLayer._reset();
         if (this.wheelmapTileLayer) this.wheelmapTileLayer._reset();
@@ -467,7 +467,7 @@ export default class Map extends React.Component<Props, State> {
       );
     }
 
-    if (prevProps.categoryId !== this.props.categoryId) {
+    if (filterNeedsRefreshing) {
       this.updateFeatureLayerVisibility();
     }
   }
@@ -566,7 +566,6 @@ export default class Map extends React.Component<Props, State> {
       console.error('Could not load AC equipment tile layer because no current locale is set.');
     }
     const tileUrl = getAccessibilityCloudTileUrl(
-      locale,
       'equipment-infos',
       [],
       [],
@@ -590,11 +589,11 @@ export default class Map extends React.Component<Props, State> {
       console.error('Could not load AC tile layer because no current locale is set.');
     }
     const tileUrl = getAccessibilityCloudTileUrl(
-      locale,
       'place-infos',
       this.props.includeSourceIds,
       this.props.excludeSourceIds,
-      this.props.accessibilityCloudAppToken
+      this.props.categoryId,
+      this.props.accessibilityCloudAppToken,
     );
 
     this.accessibilityCloudTileLayer = new GeoJSONTileLayer(tileUrl, {
@@ -661,13 +660,6 @@ export default class Map extends React.Component<Props, State> {
       ? this.props.minZoomWithSetCategory
       : this.props.minZoomWithoutSetCategory;
 
-    if (!this.shouldShowAccessibilityCloudLayer(this.props, this.state)) {
-      if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-        // console.log('Hide AC layer...');
-        featureLayer.removeLayer(this.accessibilityCloudTileLayer);
-        featureLayer.removeLayer(this.equipmentTileLayer);
-      }
-    }
     if (map.getZoom() < minimalZoomLevelForFeatures && map.hasLayer(featureLayer)) {
       // console.log('Hide feature layer...');
       map.removeLayer(featureLayer);
@@ -724,13 +716,11 @@ export default class Map extends React.Component<Props, State> {
 
   updateFeatureLayerVisibility = debounce(
     (props: Props = this.props, state: State = this.state) => {
-      // console.log('Update feature layer visibility...');
+      console.log('Update feature layer visibility...');
       const map: L.Map = this.map;
       const featureLayer = this.featureLayer;
-      const wheelmapTileLayer = this.wheelmapTileLayer;
       const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
-      const equipmentTileLayer = this.equipmentTileLayer;
-      if (!map || !featureLayer || !this.accessibilityCloudTileLayer) return;
+      if (!map || !featureLayer) return;
 
       let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
 
@@ -738,50 +728,21 @@ export default class Map extends React.Component<Props, State> {
         if (!map.hasLayer(featureLayer)) {
           // console.log('Show feature layer...');
           map.addLayer(featureLayer);
+          map.addLayer(accessibilityCloudTileLayer);
         }
       } else if (map.hasLayer(featureLayer)) {
         // console.log('Hide feature layer...');
         map.removeLayer(featureLayer);
+        map.removeLayer(accessibilityCloudTileLayer);
       }
 
+      // debugger
       this.updateFeatureLayerSourceUrls(props);
-
-      if (this.shouldShowAccessibilityCloudLayer(props, state)) {
-        minimalZoomLevelForFeatures = props.minZoomWithoutSetCategory;
-        if (!featureLayer.hasLayer(accessibilityCloudTileLayer) && accessibilityCloudTileLayer) {
-          // console.log('Show AC layer...');
-          featureLayer.addLayer(accessibilityCloudTileLayer);
-          accessibilityCloudTileLayer._update(map.getCenter());
-          featureLayer.addLayer(equipmentTileLayer);
-          equipmentTileLayer._update(map.getCenter());
-        }
-      } else {
-        if (featureLayer.hasLayer(this.accessibilityCloudTileLayer)) {
-          // console.log('Hide AC layer...');
-          featureLayer.removeLayer(this.accessibilityCloudTileLayer);
-          featureLayer.removeLayer(this.equipmentTileLayer);
-        }
-      }
-
-      if (!featureLayer.hasLayer(wheelmapTileLayer) && wheelmapTileLayer) {
-        // console.log('Show wheelmap layer...');
-        featureLayer.addLayer(wheelmapTileLayer);
-        wheelmapTileLayer._update(map.getCenter());
-      }
 
       this.updateHighlightedMarker(props);
     },
     100
   );
-
-  shouldShowAccessibilityCloudLayer(props: Props = this.props, state: State = this.state): boolean {
-    // always show if no category was selected
-    if (!state.category) {
-      return true;
-    }
-
-    return !!state.category.isMetaCategory;
-  }
 
   // calculate bounds with variable pixel padding
   calculateBoundsWithPadding(padding: Padding) {
@@ -984,15 +945,32 @@ export default class Map extends React.Component<Props, State> {
 
   updateFeatureLayerSourceUrls = debounce((props: Props = this.props) => {
     const wheelmapTileLayer = this.wheelmapTileLayer;
-    if (!wheelmapTileLayer) return;
-    const url = this.wheelmapTileUrl(props);
     const featureLayer = this.featureLayer;
-    if (featureLayer && wheelmapTileLayer._url !== url) {
-      // console.log('Setting new URL on wheelmap layer / removing + re-adding layer:', url);
-      wheelmapTileLayer._reset();
-      featureLayer.removeLayer(wheelmapTileLayer);
-      featureLayer.addLayer(wheelmapTileLayer);
-      wheelmapTileLayer.setUrl(url);
+    if (!featureLayer) return;
+    if (wheelmapTileLayer) {
+      const wheelmapTileUrl = this.wheelmapTileUrl(props);
+      if (wheelmapTileLayer._url !== wheelmapTileUrl) {
+        console.log('Setting new URL on wheelmap layer / removing + re-adding layer:', wheelmapTileUrl);
+        wheelmapTileLayer._reset();
+        featureLayer.removeLayer(wheelmapTileLayer);
+        featureLayer.addLayer(wheelmapTileLayer);
+        wheelmapTileLayer.setUrl(wheelmapTileUrl);
+      }
+    }
+    const acTileUrl = getAccessibilityCloudTileUrl(
+      'place-infos',
+      props.includeSourceIds,
+      props.excludeSourceIds,
+      props.categoryId,
+      props.accessibilityCloudAppToken,
+    );
+    const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
+    if (accessibilityCloudTileLayer._url !== acTileUrl) {
+      console.log('Setting new URL on AC layer / removing + re-adding layer:', acTileUrl);
+      accessibilityCloudTileLayer._reset();
+      featureLayer.removeLayer(accessibilityCloudTileLayer);
+      featureLayer.addLayer(accessibilityCloudTileLayer);
+      accessibilityCloudTileLayer.setUrl(acTileUrl);
     }
   }, 500);
 

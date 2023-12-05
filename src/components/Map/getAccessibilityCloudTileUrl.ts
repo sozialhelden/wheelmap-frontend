@@ -22,14 +22,18 @@ export function buildSourceIdParams(
 }
 
 export default function getAccessibilityCloudTileUrl(
-  locale: Locale,
   resourceType: 'place-infos' | 'equipment-infos',
   includeSourceIds: Array<string>,
   excludeSourceIds: Array<string>,
+  categoryId: string,
   appToken: string
 ): string {
   const sourceIdParams =
     resourceType == 'place-infos' ? buildSourceIdParams(includeSourceIds, excludeSourceIds) : '';
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  return `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&includePlacesWithoutAccessibility=1`;
+  const url = `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&includePlacesWithoutAccessibility=1`;
+  if (categoryId && categoryId !== '') {
+    return `${url}&includeCategories=${categoryId}`;
+  }
+  return url;
 }
