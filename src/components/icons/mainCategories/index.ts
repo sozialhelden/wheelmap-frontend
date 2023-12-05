@@ -1,4 +1,5 @@
 export { default as accommodation } from './accommodation';
+export { default as culture } from './culture';
 export { default as education } from './education';
 export { default as food } from './food';
 export { default as government } from './government';

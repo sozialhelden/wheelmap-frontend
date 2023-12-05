@@ -106,6 +106,10 @@ const getRootCategoryTable = (): { [key: string]: RootCategoryEntry } => ({
     // translator: Root category
     name: t`Leisure`,
   },
+  culture: {
+    // translator: Root category
+    name: t`Culture`,
+  },
   accommodation: {
     // translator: Root category
     name: t`Hotels`,

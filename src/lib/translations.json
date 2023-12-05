@@ -11761,6 +11761,12 @@
             "Suchen"
           ]
         },
+        "Culture": {
+          "msgid": "Culture",
+          "msgstr": [
+            "Kultur"
+          ]
+        },
         "Homepage": {
           "msgid": "Homepage",
           "comments": {
