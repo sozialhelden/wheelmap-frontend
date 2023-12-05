@@ -76,8 +76,9 @@ export const searchPlacesDebounced: (
 
 export default function searchPlaces(
   query: string,
-  { lat, lon }: { lat?: number | undefined, lon?: number | undefined }
+  coords?: { lat?: number | undefined, lon?: number | undefined }
 ): Promise<SearchResultCollection> {
+
   const locale = currentLocales[0];
   const languageCode = locale && locale.languageCode;
   const supportedLanguageCodes = ['en', 'de', 'fr', 'it']; // See Photon documentation
@@ -93,8 +94,11 @@ export default function searchPlaces(
 
   // location bias for apps with location bias e.g. Olpe
   let locationBiasedUrl = url;
-  if (typeof lat === 'number' && typeof lon === 'number') {
-    locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
+  if (typeof coords !== 'undefined') {
+    const { lat, lon } = coords;
+    if (typeof lat === 'number' && typeof lon === 'number') {
+      locationBiasedUrl = `${url}&lon=${lon}&lat=${lat}`;
+    }
   }
 
   return globalFetchManager
