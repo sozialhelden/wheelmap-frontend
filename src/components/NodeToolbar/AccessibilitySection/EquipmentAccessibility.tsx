@@ -33,7 +33,7 @@ function EquipmentAccessibility(props: Props) {
   if (!props.equipmentInfo.properties) return null;
 
   const properties = props.equipmentInfo.properties;
-  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties.lastUpdate;
+  const lastUpdateDateString = properties.stateLastUpdate || properties.lastUpdate || properties.lastDisruptionProperties?.lastUpdate;
   const lastUpdate = lastUpdateDateString ? new Date(lastUpdateDateString) : null;
   const isOutdated = isExistingInformationOutdated(lastUpdate);
   const category = properties.category;
