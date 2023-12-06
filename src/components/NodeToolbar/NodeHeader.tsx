@@ -90,6 +90,24 @@ type Props = {
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
 
+const TextPlaceholder = styled.span.attrs({ 'aria-label': '' })`
+  background-color: ${alpha(colors.linkColor, 0.2)};
+  color: transparent;
+  animation: pulse 1.5s infinite;
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+`;
+
+
 function PlaceInfoLink({ _id }: { _id: string | null }) {
   const [placeInfo, setPlaceInfo] = React.useState<AccessibilityCloudFeature | null>(null);
   const appContext = React.useContext(AppContext);
@@ -113,7 +131,7 @@ function PlaceInfoLink({ _id }: { _id: string | null }) {
           className="link-button"
         >
           <div>
-            {placeInfo ? translatedStringFromObject(placeInfo.properties.name) : 'LOADING...'}
+            {placeInfo ? translatedStringFromObject(placeInfo.properties.name) : <TextPlaceholder>Testington Townhall</TextPlaceholder>}
           </div>
         </Link>
       );
