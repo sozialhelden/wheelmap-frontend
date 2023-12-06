@@ -839,9 +839,7 @@ class App extends React.Component<Props, State> {
       params.id = id;
       delete params.eid;
       routeName = 'placeDetail';
-    }
-
-    if (wheelmapFeature) {
+    } else if (wheelmapFeature) {
       let id = getFeatureId(wheelmapFeature);
       if (id) {
         let osmType = get(wheelmapFeature, 'properties.osm_type');
