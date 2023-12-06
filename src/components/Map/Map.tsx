@@ -719,7 +719,6 @@ export default class Map extends React.Component<Props, State> {
       console.log('Update feature layer visibility...');
       const map: L.Map = this.map;
       const featureLayer = this.featureLayer;
-      const accessibilityCloudTileLayer = this.accessibilityCloudTileLayer;
       if (!map || !featureLayer) return;
 
       let minimalZoomLevelForFeatures = this.props.minZoomWithSetCategory;
@@ -728,12 +727,18 @@ export default class Map extends React.Component<Props, State> {
         if (!map.hasLayer(featureLayer)) {
           // console.log('Show feature layer...');
           map.addLayer(featureLayer);
-          map.addLayer(accessibilityCloudTileLayer);
+          map.addLayer(this.accessibilityCloudTileLayer);
+          if (this.wheelmapTileLayer) {
+            map.addLayer(this.wheelmapTileLayer);
+          }
         }
       } else if (map.hasLayer(featureLayer)) {
         // console.log('Hide feature layer...');
         map.removeLayer(featureLayer);
-        map.removeLayer(accessibilityCloudTileLayer);
+        map.removeLayer(this.accessibilityCloudTileLayer);
+        if (this.wheelmapTileLayer) {
+          map.removeLayer(this.wheelmapTileLayer);
+        }
       }
 
       // debugger
