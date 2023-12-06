@@ -18,7 +18,7 @@ import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
 import { isTouchDevice, UAResult } from './lib/userAgent';
 import { RouterHistory } from './lib/RouterHistory';
 import { SearchResultCollection } from './lib/searchPlaces';
-import { Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from './lib/Feature';
+import { AccessibilityCloudFeature, Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from './lib/Feature';
 import { SearchResultFeature } from './lib/searchPlaces';
 import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
 import {
@@ -826,9 +826,20 @@ class App extends React.Component<Props, State> {
     this.props.routerHistory.push(routeName, params);
   };
 
-  onSearchResultClick = (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => {
+  onSearchResultClick = (
+    feature: SearchResultFeature,
+    wheelmapFeature: WheelmapFeature | null,
+    accessibilityCloudFeature: AccessibilityCloudFeature | null,
+  ) => {
     const params = this.getCurrentParams() as any;
     let routeName = 'map';
+
+    if (accessibilityCloudFeature) {
+      const id = accessibilityCloudFeature.properties._id;
+      params.id = id;
+      delete params.eid;
+      routeName = 'placeDetail';
+    }
 
     if (wheelmapFeature) {
       let id = getFeatureId(wheelmapFeature);

@@ -3,11 +3,12 @@ import { Point } from 'geojson';
 
 import { currentLocales } from './i18n';
 import { globalFetchManager } from './FetchManager';
-import { WheelmapFeature } from './Feature';
+import { AccessibilityCloudFeature, WheelmapFeature } from './Feature';
 import debouncePromise from '../lib/debouncePromise';
 import { use } from 'chai';
 import React from 'react';
 import AppContext from '../AppContext';
+import { Dictionary } from 'lodash';
 
 export type SearchResultProperties = {
   city?: any,
@@ -35,6 +36,7 @@ export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
   wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[],
+  accessibilityCloudFeaturesByURI?: Promise<Dictionary<AccessibilityCloudFeature>>,
 };
 
 export function getOsmIdFromSearchResultProperties(

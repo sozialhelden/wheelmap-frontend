@@ -4,7 +4,7 @@ import classNames from 'classnames';
 
 import getAddressString from '../../lib/getAddressString';
 import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/Categories';
-import { isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
+import { AccessibilityCloudFeature, isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 
 import Icon from '../Icon';
@@ -18,9 +18,10 @@ type Props = {
   className?: string,
   feature: SearchResultFeature,
   categories: CategoryLookupTables,
-  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null) => void,
+  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null, accessibilityCloudFeature: AccessibilityCloudFeature | null) => void,
   hidden: boolean,
   wheelmapFeature: PotentialPromise<WheelmapFeature | null>,
+  accessibilityCloudFeature?: AccessibilityCloudFeature,
 };
 
 type State = {
@@ -115,7 +116,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature } = this.props;
+    const { feature, accessibilityCloudFeature } = this.props;
     const { wheelmapFeature, category, parentCategory } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
@@ -148,7 +149,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
       <li ref={this.root} className={className}>
         <button
           onClick={() => {
-            this.props.onClick(feature, wheelmapFeature);
+            this.props.onClick(feature, wheelmapFeature, accessibilityCloudFeature);
           }}
           tabIndex={this.props.hidden ? -1 : 0}
         >

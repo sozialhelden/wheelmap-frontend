@@ -9,10 +9,11 @@ import searchPlaces, {
 } from '../lib/searchPlaces';
 import { DataTableEntry } from './getInitialProps';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import { WheelmapFeature } from '../lib/Feature';
+import { AccessibilityCloudFeature, WheelmapFeature } from '../lib/Feature';
 import { getProductTitle } from '../lib/ClientSideConfiguration';
 import env from '../lib/env';
-import { compact } from 'lodash';
+import { Dictionary, compact, keyBy } from 'lodash';
+import customFetch from '../lib/fetch';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -52,6 +53,20 @@ async function fetchWheelmapNode(
   }
 }
 
+async function fetchAccessibilityCloudPlacesBySameURI(
+  appToken: string,
+  sameAsURIs: string[],
+): Promise<Dictionary<AccessibilityCloudFeature>> {
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const url = `${baseUrl}/place-infos.json?appToken=${appToken}&includePlacesWithoutAccessibility=1&sameAs=${sameAsURIs.join(',')}`;
+  console.log(url);
+  const response = await customFetch(url, {});
+  const features = (await response.json()).features;
+  console.log(features);
+  return keyBy(features as AccessibilityCloudFeature[], 'properties.sameAs.0')
+}
+
+
 const SearchData: DataTableEntry<SearchProps> = {
   async getInitialRouteProps(query, renderContext, isServer) {
     const searchQuery = query.q;
@@ -88,35 +103,52 @@ const SearchData: DataTableEntry<SearchProps> = {
       return props;
     }
 
-    let { searchResults, disableWheelmapSource } = props;
+    let { searchResults, disableWheelmapSource, app: { tokenString } } = props;
 
     searchResults = Promise.resolve(searchResults).then(async results => {
       const useCache = !isServer;
 
-      if (disableWheelmapSource) {
-        return {
-          ...results,
-          wheelmapFeatures: [],
-        };
-      }
-
-      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] =
+      let wheelmapFeatures: Promise<WheelmapFeature | undefined>[] = disableWheelmapSource ? [] :
         results.features.map(feature => {
           const { type, osm_key } = feature.properties;
           if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
-            return fetchWheelmapNode(feature.properties, props.app.tokenString, useCache);
+            return fetchWheelmapNode(feature.properties, tokenString, useCache);
           }
         });
+
+      // The komoot API supplies OSM places, but does not know about accessibility.cloud places.
+      // We have surveyed places that refer to OSM places, but have additional accessibility
+      // information.
+      // For displaying this information, we need to fetch the accessibility.cloud places via their
+      // OSM ID saved in the `properties.sameAs` attribute.
+      let osmURIs =
+        compact(results.features.map(feature => {
+          const { type, osm_key, osm_id, osm_type } = feature.properties;
+          if (type !== 'street' && osm_key !== 'landuse' && osm_key !== 'place') {
+            const fullOSMType = {
+              N: 'node',
+              W: 'way',
+              R: 'relation',
+            }[osm_type];
+            return `https://openstreetmap.org/${fullOSMType}/${osm_id}`;
+          }
+          return undefined;
+        }));
+
+      let accessibilityCloudFeaturesByURI = await fetchAccessibilityCloudPlacesBySameURI(tokenString, osmURIs);
 
       // Fetch all wheelmap features when on server.
       if (isServer) {
         // @ts-ignore
         wheelmapFeatures = await Promise.all(wheelmapFeatures);
+        // @ts-ignore
+        // accessibilityCloudFeaturesByURI = await accessibilityCloudFeaturesByURI;
       }
 
       return {
         ...results,
         wheelmapFeatures,
+        accessibilityCloudFeaturesByURI,
       };
     });
 

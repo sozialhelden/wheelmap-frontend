@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import { SearchResultCollection } from '../../lib/searchPlaces';
 import { SearchResultFeature } from '../../lib/searchPlaces';
-import { WheelmapFeature } from '../../lib/Feature';
+import { AccessibilityCloudFeature, WheelmapFeature } from '../../lib/Feature';
 import SearchResult, { UnstyledSearchResult } from './SearchResult';
 import { CategoryLookupTables } from '../../lib/Categories';
 
@@ -15,7 +15,8 @@ type Props = {
   hidden: boolean | null,
   onSearchResultClick: (
     feature: SearchResultFeature,
-    wheelmapFeature: WheelmapFeature | null
+    wheelmapFeature: WheelmapFeature | null,
+    accessibilityCloudFeature: AccessibilityCloudFeature | null
   ) => void,
   refFirst: (result: UnstyledSearchResult | null) => void | null,
 };
@@ -27,7 +28,7 @@ const StyledSearchResultList = styled.ul`
 
 export default function SearchResults(props: Props) {
   const id = result => result && result.properties && result.properties.osm_id;
-  const { wheelmapFeatures, features } = props.searchResults;
+  const { wheelmapFeatures, features, accessibilityCloudFeaturesByURI } = props.searchResults;
 
   const failedLoading = !!props.searchResults.error;
   const hasNoResults = !failedLoading && features.length === 0;
@@ -49,6 +50,12 @@ export default function SearchResults(props: Props) {
       {hasNoResults && <li className="no-result">{noResultsFoundCaption}</li>}
       {features.map((feature, index) => {
         const featureId = id(feature);
+        const fullOSMType = {
+          'N': 'node',
+          'W': 'way',
+          'R': 'relation',
+        }[feature.properties.osm_type];
+        const osmURL = `https://openstreetmap.org/${fullOSMType}/${feature.properties.osm_id}`;
 
         if (renderedFeatureIds.indexOf(featureId) > -1) {
           return null;
@@ -60,6 +67,7 @@ export default function SearchResults(props: Props) {
           <SearchResult
             feature={feature}
             wheelmapFeature={wheelmapFeatures && wheelmapFeatures[index]}
+            accessibilityCloudFeature={accessibilityCloudFeaturesByURI?.[osmURL]}
             key={featureId}
             onClick={props.onSearchResultClick}
             hidden={!!props.hidden}
