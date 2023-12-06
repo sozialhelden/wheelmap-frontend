@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
+import { AccessibilityCloudFeature, Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import intersperse from 'intersperse';
@@ -24,6 +24,9 @@ import { translatedStringFromObject } from '../../lib/i18n';
 import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
+import Link, { RouteConsumer } from '../Link/Link';
+import AppContext from '../../AppContext';
+import env from '../../lib/env';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;
@@ -61,6 +64,12 @@ const PlaceNameDetail = styled.div`
   margin-top: 0.5rem;
   color: ${colors.textMuted};
   font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  .link-button {
+    padding: 0;
+  }
 `;
 
 function getRoomNumberString(roomNumber: string) {
@@ -80,6 +89,37 @@ type Props = {
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
+
+function PlaceInfoLink({ _id }: { _id: string | null }) {
+  const [placeInfo, setPlaceInfo] = React.useState<AccessibilityCloudFeature | null>(null);
+  const appContext = React.useContext(AppContext);
+  const appToken = appContext.app.tokenString;
+
+  React.useEffect(() => {
+    if (!_id) return;
+    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL;
+    fetch(`${baseUrl}/place-infos/${_id}.json?appToken=${appToken}`)
+      .then(response => response.json())
+      .then(setPlaceInfo);
+  }, [_id, appToken]);
+
+  return <RouteConsumer>
+    {context => {
+      let params = { ...context.params, id: _id };
+      return (
+        <Link
+          to={'placeDetail'}
+          params={params}
+          className="link-button"
+        >
+          <div>
+            {placeInfo ? translatedStringFromObject(placeInfo.properties.name) : 'LOADING...'}
+          </div>
+        </Link>
+      );
+    }}
+  </RouteConsumer>
+}
 
 export default class NodeHeader extends React.Component<Props> {
   onClickCurrentMarkerIcon = () => {
@@ -104,6 +144,7 @@ export default class NodeHeader extends React.Component<Props> {
     const acFeature = accessibilityCloudFeatureFrom(feature);
     const parentPlaceName =
       acFeature && translatedStringFromObject(acFeature.properties.parentPlaceInfoName);
+    const parentPlaceInfoId = acFeature && acFeature.properties.parentPlaceInfoId;
     const address = acFeature?.properties.address;
     const addressObject = typeof address === 'object' ? address : undefined;
     const levelName = addressObject && translatedStringFromObject(addressObject?.level);
@@ -144,8 +185,12 @@ export default class NodeHeader extends React.Component<Props> {
       />
     ) : null;
 
-
-    const nameElements = uniq(compact([parentPlaceName, levelName, roomNameAndNumber, placeName]));
+    const nameElements = uniq(compact([
+      parentPlaceInfoId ? <PlaceInfoLink _id={parentPlaceInfoId} /> : parentPlaceName,
+      levelName,
+      roomNameAndNumber,
+      placeName
+    ]));
     const lastNameElement = nameElements[nameElements.length - 1];
 
     const parentElements = intersperse(

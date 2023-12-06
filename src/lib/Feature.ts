@@ -145,6 +145,7 @@ export type AccessibilityCloudProperties = {
   accessibility?: MinimalAccessibility,
   category?: string,
   placeInfoId?: string,
+  parentPlaceInfoId?: string,
   parentPlaceInfoName?: LocalizedString,
   address?:
     | {
@@ -291,7 +292,7 @@ export function wheelmapFeatureFrom(feature: Feature | null): WheelmapFeature | 
   return null;
 }
 
-export function accessibilityCloudFeatureFrom(feature: Feature | null): AccessibilityCloudFeature | null {
+export function accessibilityCloudFeatureFrom(feature: Feature | EquipmentInfo | null): AccessibilityCloudFeature | null {
   if (!isWheelmapFeature(feature)) {
     return feature;
   }

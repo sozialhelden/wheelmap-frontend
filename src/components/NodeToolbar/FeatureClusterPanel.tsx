@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import sortBy from 'lodash/sortBy';
 
-import { Feature, placeNameFor, getFeatureId, isWheelmapFeature } from '../../lib/Feature';
+import { Feature, placeNameFor, getFeatureId, isWheelmapFeature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { EquipmentInfo, CategoryStrings, CategoryString } from '../../lib/EquipmentInfo';
 import StyledToolbar from '../NodeToolbar/StyledToolbar';
 import ErrorBoundary from '../ErrorBoundary';
@@ -129,8 +129,12 @@ function UnstyledFeatureClusterPanel (props: Props) {
         feature
       );
 
-      // TODO comment that this should be typed
-      return placeNameFor(feature.properties as any, category || parentCategory);
+      const placeInfoName = placeNameFor(feature.properties as any, category || parentCategory);
+      if (!get(feature, 'properties.parentPlaceInfoId')) {
+        // Rank places withuot a parent place first
+        return '0' + placeInfoName;
+      }
+      return placeInfoName;
     });
 
     return sortedFeatures.map(feature => (
