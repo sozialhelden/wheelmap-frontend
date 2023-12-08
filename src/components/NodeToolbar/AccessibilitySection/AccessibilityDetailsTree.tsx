@@ -6,6 +6,7 @@ import humanizeString from 'humanize-string';
 import { AccessibilityAttributesMap } from '../../../lib/data-fetching/useAccessibilityAttributes';
 import { translatedStringFromObject } from '../../../lib/i18n';
 import StyledMarkdown from '../../StyledMarkdown';
+import EquipmentInfoLink from '../EquipmentInfoLink';
 
 function humanizeCamelCase(string: string) {
   return string.replace(/([a-z])([A-Z])/g, (substring, array) => {
@@ -260,6 +261,13 @@ function AccessibilityDetailsTree(props: Props) {
   }
   if (typeof details === 'string') {
     const keyAndValue = formatKeyAndValue(props.keyPrefix.replace(/\.\d+$/, ''), details, props.accessibilityAttributes);
+    
+
+    if(props.keyPrefix?.match(/alternativeMobileEquipmentIds\.\d+$/)) {
+      const id = details;
+      return <EquipmentInfoLink _id={id}/> ;
+    }
+    
     if (keyAndValue) {
       return <div className={props.className}>{keyAndValue}</div>;
     }

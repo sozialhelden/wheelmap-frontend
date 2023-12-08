@@ -1,7 +1,7 @@
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { AccessibilityCloudFeature, Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
+import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
 import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import intersperse from 'intersperse';
@@ -16,7 +16,7 @@ import Icon from '../Icon';
 import { PlaceNameH1 } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
 import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
-import colors, { alpha } from '../../lib/colors';
+import colors from '../../lib/colors';
 import { Cluster } from '../Map/Cluster';
 import ChevronRight from '../ChevronRight';
 import { StyledClusterIcon } from './FeatureClusterPanel';
@@ -24,9 +24,7 @@ import { translatedStringFromObject } from '../../lib/i18n';
 import { compact, uniq } from 'lodash';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
 import { t } from 'ttag';
-import Link, { RouteConsumer } from '../Link/Link';
-import AppContext from '../../AppContext';
-import env from '../../lib/env';
+import PlaceInfoLink from './PlaceInfoLink';
 
 const StyledChevronRight = styled(ChevronRight)`
   vertical-align: -.1rem;
@@ -89,55 +87,6 @@ type Props = {
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
 };
-
-const TextPlaceholder = styled.span.attrs({ 'aria-label': '' })`
-  background-color: ${alpha(colors.linkColor, 0.2)};
-  color: transparent;
-  animation: pulse 1.5s infinite;
-  @keyframes pulse {
-    0% {
-      opacity: 0.5;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-`;
-
-
-function PlaceInfoLink({ _id }: { _id: string | null }) {
-  const [placeInfo, setPlaceInfo] = React.useState<AccessibilityCloudFeature | null>(null);
-  const appContext = React.useContext(AppContext);
-  const appToken = appContext.app.tokenString;
-
-  React.useEffect(() => {
-    if (!_id) return;
-    const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL;
-    fetch(`${baseUrl}/place-infos/${_id}.json?appToken=${appToken}`)
-      .then(response => response.json())
-      .then(setPlaceInfo);
-  }, [_id, appToken]);
-
-  return <RouteConsumer>
-    {context => {
-      let params = { ...context.params, id: _id };
-      return (
-        <Link
-          to={'placeDetail'}
-          params={params}
-          className="link-button"
-        >
-          <div>
-            {placeInfo ? translatedStringFromObject(placeInfo.properties.name) : <TextPlaceholder>Testington Townhall</TextPlaceholder>}
-          </div>
-        </Link>
-      );
-    }}
-  </RouteConsumer>
-}
 
 export default class NodeHeader extends React.Component<Props> {
   onClickCurrentMarkerIcon = () => {
