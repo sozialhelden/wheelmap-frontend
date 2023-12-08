@@ -569,6 +569,7 @@ export default class Map extends React.Component<Props, State> {
       'equipment-infos',
       [],
       [],
+      null,
       this.props.accessibilityCloudAppToken
     );
 
@@ -728,6 +729,7 @@ export default class Map extends React.Component<Props, State> {
           // console.log('Show feature layer...');
           map.addLayer(featureLayer);
           map.addLayer(this.accessibilityCloudTileLayer);
+          map.addLayer(this.equipmentTileLayer);
           if (this.wheelmapTileLayer) {
             map.addLayer(this.wheelmapTileLayer);
           }
@@ -736,6 +738,7 @@ export default class Map extends React.Component<Props, State> {
         // console.log('Hide feature layer...');
         map.removeLayer(featureLayer);
         map.removeLayer(this.accessibilityCloudTileLayer);
+        map.removeLayer(this.equipmentTileLayer);
         if (this.wheelmapTileLayer) {
           map.removeLayer(this.wheelmapTileLayer);
         }
