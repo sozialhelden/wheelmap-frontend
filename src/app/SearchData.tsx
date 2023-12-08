@@ -135,7 +135,13 @@ const SearchData: DataTableEntry<SearchProps> = {
           return undefined;
         }));
 
-      let accessibilityCloudFeaturesByURI = await fetchAccessibilityCloudPlacesBySameURI(tokenString, osmURIs);
+
+      let accessibilityCloudFeaturesByURI = {}; 
+      try {
+        accessibilityCloudFeaturesByURI = await fetchAccessibilityCloudPlacesBySameURI(tokenString, osmURIs);
+      } catch (error) {
+        console.error(error);
+      }  
 
       // Fetch all wheelmap features when on server.
       if (isServer) {
