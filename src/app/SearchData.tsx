@@ -57,6 +57,9 @@ async function fetchAccessibilityCloudPlacesBySameURI(
   appToken: string,
   sameAsURIs: string[],
 ): Promise<Dictionary<AccessibilityCloudFeature>> {
+  if (!sameAsURIs?.length) {
+    return {};
+  }
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
   const url = `${baseUrl}/place-infos.json?appToken=${appToken}&includePlacesWithoutAccessibility=1&sameAs=${sameAsURIs.join(',')}`;
   console.log(url);
