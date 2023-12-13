@@ -13,7 +13,7 @@ import {
   Category,
 } from '../../lib/Categories';
 import Icon from '../Icon';
-import { PlaceNameH1 } from '../PlaceName';
+import { PlaceNameDiv, PlaceNameH1, PlaceNameHeader } from '../PlaceName';
 import BreadCrumbs from './BreadCrumbs';
 import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
@@ -86,6 +86,9 @@ type Props = {
   hasIcon: boolean,
   onClickCurrentCluster?: (cluster: Cluster) => void,
   onClickCurrentMarkerIcon?: (feature: Feature) => void,
+  showParentLink?: boolean,
+  small?: boolean,
+  showCategoryName?: boolean,
 };
 
 export default class NodeHeader extends React.Component<Props> {
@@ -126,7 +129,7 @@ export default class NodeHeader extends React.Component<Props> {
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
     const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined;
-    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].join(' ');
+    const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].filter(Boolean).join(' ').trim();
 
     const accessibility = isEquipment
       ? isEquipmentAccessible(get(this.props, ['equipmentInfo', 'properties']))
@@ -136,7 +139,7 @@ export default class NodeHeader extends React.Component<Props> {
       <Icon
         accessibility={accessibility}
         category={shownCategoryId ? shownCategoryId : 'undefined'}
-        size="medium"
+        size={this.props.small ? "small" : "medium"}
         ariaHidden={true}
         centered
         onClick={this.onClickCurrentMarkerIcon}
@@ -153,27 +156,29 @@ export default class NodeHeader extends React.Component<Props> {
     ) : null;
 
     const nameElements = uniq(compact([
-      parentPlaceInfoId ? <PlaceInfoLink _id={parentPlaceInfoId} /> : parentPlaceName,
+      (this.props.showParentLink !== false && parentPlaceInfoId) ? <PlaceInfoLink _id={parentPlaceInfoId} /> : parentPlaceName,
       levelName,
       roomNameAndNumber,
       placeName
     ]));
     const lastNameElement = nameElements[nameElements.length - 1];
 
-    const parentElements = intersperse(
-      nameElements.slice(0, nameElements.length - 1),
+    const parentElements = nameElements.slice(0, nameElements.length - 1);
+    const parentElementsWithChevrons = parentElements.length >= 1 ? intersperse(
+      parentElements,
       <StyledChevronRight />
-    );
+    ) : parentElements;
 
+    const NameComponent = this.props.small ? PlaceNameDiv : PlaceNameH1;
     const placeNameElement = (
-      <PlaceNameH1 isSmall={hasLongName} aria-label={ariaLabel}>
+      <NameComponent isSmall={hasLongName || this.props.small} aria-label={ariaLabel}>
         {this.props.hasIcon && icon}
         <div>
           <div>{lastNameElement}</div>
-          <div>{categoryElement}</div>
-          <PlaceNameDetail>{parentElements}</PlaceNameDetail>
+          {this.props.showCategoryName !== false && <div>{categoryElement}</div>}
+          <PlaceNameDetail>{parentElementsWithChevrons}</PlaceNameDetail>
         </div>
-      </PlaceNameH1>
+      </NameComponent>
     );
 
     const { cluster, onClickCurrentCluster } = this.props;

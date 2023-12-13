@@ -96,9 +96,8 @@ function UnstyledFeatureClusterPanel (props: Props) {
       return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
-  function renderClusterEntry(feature: Feature | EquipmentInfo, allFeatures: (Feature | EquipmentInfo)[]) {
+  function renderClusterEntry(feature: Feature | EquipmentInfo) {
     const { category, parentCategory } = Categories.getCategoriesForFeature(categories, feature);
-
     const isEquipment = category && (category._tag === 'ACCategory' && CategoryStrings.includes(category._id as CategoryString));
     const equipmentInfo = isEquipment ? (feature as EquipmentInfo) : undefined;
     const equipmentInfoId = equipmentInfo?.properties._id;

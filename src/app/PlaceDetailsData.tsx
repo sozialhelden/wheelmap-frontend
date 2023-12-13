@@ -7,6 +7,7 @@ import {
   isWheelmapFeatureId,
   sourceIdsForFeature,
   isWheelmapFeature,
+  accessibilityCloudFeatureCollectionFromResponse,
 } from '../lib/Feature';
 import { licenseCache } from '../lib/cache/LicenseCache';
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
@@ -38,6 +39,8 @@ import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudIma
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
 import { translatedStringFromObject } from '../lib/i18n';
 import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
+import env from '../lib/env';
+import { globalFetchManager } from '../lib/FetchManager';
 
 function fetchFeature(
   osmType: string,
@@ -139,6 +142,27 @@ function fetchToiletsNearby(
     : [];
 }
 
+function fetchAcChildPlaces(
+  parentPlaceInfoId: string,
+  appToken?: string
+): Promise<Feature[]> {
+  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
+  const url = `${baseUrl}/place-infos.json?parentPlaceInfoId=${parentPlaceInfoId}&limit=100&appToken=${appToken}`;
+  return globalFetchManager
+    .fetch(url)
+    .then(response => {
+      if (response.status === 200) {
+        return response.json();
+      }
+      return null;
+    })
+    .then(responseJson => {
+      const parsed = responseJson && accessibilityCloudFeatureCollectionFromResponse(responseJson);
+      return parsed ? parsed.features : [];
+    });
+}
+
+
 const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
   async getInitialRouteProps(query, renderContextPromise, isServer): Promise<PlaceDetailsProps> {
     const featureId = query.id;
@@ -176,14 +200,17 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
     const toiletsNearby = isServer
       ? undefined
       : fetchToiletsNearby(renderContext, featurePromise);
+    const childPlaceInfosPromise = fetchAcChildPlaces(featureId, appToken);
+
     const photosPromise = featurePromise.then(feature =>
       fetchPhotos(feature, appToken, useCache));
 
-    const [feature, equipmentInfo, sources, photos] = await Promise.all([
+    const [feature, equipmentInfo, sources, photos, childPlaceInfos] = await Promise.all([
       featurePromise,
       equipmentPromise,
       sourcesPromise,
       photosPromise,
+      childPlaceInfosPromise,
     ]);
 
     return {
@@ -195,6 +222,7 @@ const PlaceDetailsData: DataTableEntry<PlaceDetailsProps> = {
       equipmentInfoId,
       equipmentInfo,
       toiletsNearby,
+      childPlaceInfos,
       renderContext,
     };
   },

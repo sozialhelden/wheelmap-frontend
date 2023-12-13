@@ -6,7 +6,7 @@ import { interpolateWheelchairAccessibility } from '../../lib/colors';
 import isSamePlace from './isSamePlace';
 import getIconNameForProperties from './getIconNameForProperties';
 import * as markers from '../icons/markers';
-import Icon, { StyledIconContainer } from '../Icon';
+import CategoryIcon, { StyledIconContainer } from '../Icon';
 
 export default class ClusterIcon extends L.Icon {
   constructor(options: L.IconOptions) {
@@ -59,9 +59,9 @@ export default class ClusterIcon extends L.Icon {
 
       if (iconNames[0]) {
         ReactDOM.render(
-          <Icon {...commonOptions} category={iconNames[0]}>
+          <CategoryIcon {...commonOptions} category={iconNames[0]}>
             <MarkerComponent className="background" fill={actualBackgroundColor.toString()} />
-          </Icon>,
+          </CategoryIcon>,
           elem
         );
         hasIcon = true;

@@ -7,7 +7,7 @@ import Categories, { getCategoryId, Category, CategoryLookupTables } from '../..
 import { AccessibilityCloudFeature, isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 
-import Icon from '../Icon';
+import CategoryIcon from '../Icon';
 import Address from '../NodeToolbar/Address';
 import { PlaceNameHeader } from '../PlaceName';
 import { PotentialPromise } from '../../app/PlaceDetailsProps';
@@ -155,7 +155,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
         >
           <PlaceNameHeader className={wheelmapFeatureProperties ? 'is-on-wheelmap' : undefined}>
             {shownCategoryId ? (
-              <Icon
+              <CategoryIcon
                 accessibility={accessibility || null}
                 category={shownCategoryId}
                 size="medium"

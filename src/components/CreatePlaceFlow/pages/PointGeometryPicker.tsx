@@ -7,7 +7,7 @@ import env from '../../../lib/env';
 import colors from '../../../lib/colors';
 import savedState from '../../../lib/savedState';
 
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 
 import VerticalPage from '../components/VerticalPage';
@@ -100,7 +100,7 @@ const PointGeometryPicker = (props: Props) => {
             showUserLocation={true}
           />
         </ReactMapGL>
-        <Icon
+        <CategoryIcon
           className="mapCenterIndicator"
           withArrow={true}
           category={props.category || 'other'}

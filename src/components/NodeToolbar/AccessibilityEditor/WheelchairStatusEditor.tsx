@@ -13,7 +13,7 @@ import {
 } from '../../../lib/Feature';
 import { saveWheelchairStatus } from './saveStatus';
 import RadioStatusEditor from './RadioStatusEditor';
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 import { CategoryLookupTables } from '../../../lib/Categories';
 import { isOnSmallViewport } from '../../../lib/ViewportSize';
 import { AppContextConsumer } from '../../../AppContext';
@@ -44,7 +44,7 @@ export default function WheelchairStatusEditor(props: Props) {
             saveWheelchairStatus({ ...props, appContext, value: value as YesNoLimitedUnknown })
           }
           renderChildrenForValue={({ value, categoryId }) => (
-            <Icon
+            <CategoryIcon
               accessibility={value as YesNoLimitedUnknown}
               category={categoryId}
               size={isOnSmallViewport() ? 'small' : 'medium'}

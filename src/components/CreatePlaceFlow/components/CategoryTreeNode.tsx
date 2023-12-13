@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 import ChevronRight from '../../icons/actions/ChevronRight';
 
 import CategoryTreeLeaf from './CategoryTreeLeaf';
@@ -31,7 +31,7 @@ const CategoryTreeNode = (props: Props) => {
     <li className={className}>
       <header>
         <button onClick={toggleExpanded}>
-          <Icon
+          <CategoryIcon
             withArrow={false}
             category={node._id}
             ariaHidden={true}

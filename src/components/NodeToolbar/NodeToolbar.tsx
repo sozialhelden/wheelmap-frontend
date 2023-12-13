@@ -27,22 +27,26 @@ import {
   isWheelchairAccessible,
   isWheelmapFeature,
   WheelmapFeature,
+  getFeatureId,
 } from '../../lib/Feature';
 
-import { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
+import { CategoryStrings, EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
 import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import IconButtonList from './IconButtonList/IconButtonList';
+import IconButtonList, { StyledIconButtonList } from './IconButtonList/IconButtonList';
 import { SourceWithLicense } from '../../app/PlaceDetailsProps';
 import { Cluster } from '../Map/Cluster';
 import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { UAResult } from '../../lib/userAgent';
 import isA11yEditable from './AccessibilityEditor/isA11yEditable';
-import { Dictionary } from 'lodash';
+import { Dictionary, sortBy } from 'lodash';
+import Link, { RouteConsumer } from '../Link/Link';
+import { translatedStringFromObject } from '../../lib/i18n';
+import CategoryIcon from '../Icon';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -58,6 +62,7 @@ type Props = {
   featureId: string | number,
   cluster: Cluster | null,
   sources: SourceWithLicense[],
+  childPlaceInfos: Feature[] | null,
   photos: PhotoModel[],
   toiletsNearby: Feature[] | null,
   categories: CategoryLookupTables,
@@ -281,6 +286,54 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     );
   }
 
+  renderChildPlace(feature: Feature) {
+    const { category, parentCategory } = Categories.getCategoriesForFeature(this.props.categories, feature);
+
+    return <RouteConsumer>
+      {context => {
+        let params = { ...context.params, id: getFeatureId(feature) };
+        return (
+          <Link
+            to={'placeDetail'}
+            params={params}
+            className="link-button"
+            style={{ display: 'flex', alignItems: 'center', gap: '.75rem', padding: '0.125rem 0.75rem', margin: '0.25rem -0.25rem', fontSize: '1rem' }}
+          >
+            <CategoryIcon size="small" accessibility={isWheelchairAccessible(feature.properties)} category={String(feature.properties.category)} />
+            <span>
+              {translatedStringFromObject(feature.properties.name) || categoryNameFor(category || parentCategory)}
+            </span>
+          </Link>
+        );
+      }}
+    </RouteConsumer>;
+  }
+
+  renderChildPlaces() {
+    const { featureId, childPlaceInfos } = this.props;
+    if (!featureId || !childPlaceInfos || childPlaceInfos.length === 0) {
+      return;
+    }
+    const sortedFeatures = sortBy(childPlaceInfos, feature => {
+      if (!feature.properties) {
+        return getFeatureId(feature)
+      }
+      const { category, parentCategory } = Categories.getCategoriesForFeature(
+        this.props.categories,
+        feature
+      );
+
+      const placeInfoName = placeNameFor(feature.properties as any, category || parentCategory);
+      return placeInfoName;
+    });
+
+    return <StyledIconButtonList style={{ listStyleType: 'none', margin: 0, padding: 0 }}>
+      {sortedFeatures.map(feature => (
+        <li key={getFeatureId(feature)}>{this.renderChildPlace(feature)}</li>
+      ))}
+    </StyledIconButtonList>;
+  }
+
   renderEquipmentInfos() {
     const { featureId, equipmentInfoId, onEquipmentSelected } = this.props;
     if (!featureId) {
@@ -359,10 +412,14 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       sources,
     };
 
+    const childPlaceInfos = this.renderChildPlaces();
     const accessibilitySection = isEquipment ? (
       <EquipmentAccessibility equipmentInfo={equipmentInfo} />
     ) : (
-      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props} />
+      <PlaceAccessibilitySection presetStatus={accessibilityPresetStatus} isWheelmapFeature={isWheelmapFeatureId(featureId)} {...this.props}>
+        {this.props.childPlaceInfos?.length > 0 && <h2 style={{ fontSize: '1rem', margin: '0 0 0.25rem 0' }}>{t`Places`}</h2>}
+        {childPlaceInfos}
+      </PlaceAccessibilitySection>
     );
 
     const inlineWheelchairAccessibilityEditor = feature

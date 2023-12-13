@@ -2,7 +2,7 @@ import { t } from 'ttag';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 import { shortAccessibilityName } from '../../../lib/Feature';
 import { YesNoLimitedUnknown } from '../../../lib/Feature';
 import IconButton, { Caption } from '../../IconButton';
@@ -138,7 +138,7 @@ export default function InlineWheelchairAccessibilityEditor(props: Props) {
             caption={shortAccessibilityName(value, clientSideConfiguration)}
             isHorizontal={false}
           >
-            <Icon
+            <CategoryIcon
               accessibility={value}
               category={props.category}
               size="medium"

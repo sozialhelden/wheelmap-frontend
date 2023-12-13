@@ -4,7 +4,7 @@ import * as categoryIcons from '../icons/categories';
 import getIconNameForProperties from './getIconNameForProperties';
 import { isWheelchairAccessible, accessibilityName } from '../../lib/Feature';
 import MarkerIcon from './MarkerIcon';
-import Icon from '../Icon';
+import CategoryIcon from '../Icon';
 import { CategoryLookupTables } from '../../lib/Categories';
 import { translatedStringFromObject } from '../../lib/i18n';
 import { Feature } from '../../lib/Feature';
@@ -36,7 +36,7 @@ export default class A11yMarkerIcon extends MarkerIcon {
 
     const hasIcon = !!categoryIcons[iconName];
     this.iconSvgElement = (
-      <Icon
+      <CategoryIcon
         accessibility={accessibility}
         category={hasIcon ? iconName : 'other'}
         size={highlighted ? 'big' : 'small'}

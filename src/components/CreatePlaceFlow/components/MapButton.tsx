@@ -7,7 +7,7 @@ import env from '../../../lib/env';
 import colors from '../../../lib/colors';
 
 import { PrimaryButton } from '../../Button';
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 
 type Props = {
   className?: string,
@@ -36,7 +36,7 @@ const MapButton = (props: Props) => {
           }
         }}
       />
-      <Icon
+      <CategoryIcon
         withArrow={true}
         category={category || 'other'}
         ariaHidden={true}

@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Feature } from '../../../lib/Feature';
 import { Category } from '../../../lib/Categories';
 
-import ShareButtons from './ShareButtons';
 import PhoneNumberLink from './PhoneNumberLink';
 import ExternalLinks from './ExternalLinks';
 import PlaceAddress from './PlaceAddress';
@@ -24,19 +23,9 @@ type Props = {
   onToggle?: () => void
 };
 
-function UnstyledIconButtonList(props: Props): JSX.Element {
-  return (
-    <div className={props.className}>
-      <PlaceAddress {...props} />
-      <PhoneNumberLink {...props} />
-      <ExternalLinks {...props} />
-      <PlaceWebsiteLink {...props} />
-      {!props.equipmentInfoId && <ReportIssueButton {...props} />}
-    </div>
-  );
-}
-
-const IconButtonList = styled(UnstyledIconButtonList)`
+export const StyledIconButtonList = styled.ul`
+  list-style: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -44,7 +33,7 @@ const IconButtonList = styled(UnstyledIconButtonList)`
 
   .link-button,
   .expand-button {
-    svg {
+    > svg {
       margin-left: 0.3rem;
       margin-right: 0.7rem;
     }
@@ -55,7 +44,7 @@ const IconButtonList = styled(UnstyledIconButtonList)`
     flex-direction: row;
     align-items: center;
 
-    svg {
+    > svg {
       width: 1.5rem;
       height: 1.5rem;
       min-width: 1.5rem;
@@ -73,5 +62,18 @@ const IconButtonList = styled(UnstyledIconButtonList)`
     }
   }
 `;
+
+
+function IconButtonList(props: Props): JSX.Element {
+  return (
+    <StyledIconButtonList className={props.className}>
+      <PlaceAddress {...props} />
+      <PhoneNumberLink {...props} />
+      <ExternalLinks {...props} />
+      <PlaceWebsiteLink {...props} />
+      {!props.equipmentInfoId && <ReportIssueButton {...props} />}
+    </StyledIconButtonList>
+  );
+}
 
 export default IconButtonList;

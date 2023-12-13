@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { ACCategory, categoryNameFor } from '../../../lib/Categories';
 import colors from '../../../lib/colors';
 
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 
 type Props = {
   className?: string,
@@ -21,7 +21,7 @@ const CategoryTreeLeaf = (props: Props) => {
   return (
     <li className={className}>
       <button onClick={selectEntry}>
-        <Icon
+        <CategoryIcon
           withArrow={false}
           category={id}
           ariaHidden={true}

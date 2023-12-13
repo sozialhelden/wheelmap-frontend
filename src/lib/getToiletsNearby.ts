@@ -151,3 +151,4 @@ if (typeof window !== 'undefined') {
   // @ts-ignore
   window.fetchToiletsNearby = fetchToiletsNearby;
 }
+

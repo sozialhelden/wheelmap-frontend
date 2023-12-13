@@ -55,6 +55,7 @@ type State = {
   requiredDataPromise: null | Promise<RequiredData>,
   resolvedSources: null | SourceWithLicense[],
   resolvedPhotos: null | PhotoModel[],
+  resolvedChildPlaceInfos: null | Feature[],
   resolvedToiletsNearby: null | Feature[],
   lastFeatureId: null | (string | number),
   lastEquipmentInfoId: null | string,
@@ -72,6 +73,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
     requiredDataPromise: null,
     lastFeatureId: null,
     lastEquipmentInfoId: null,
+    resolvedChildPlaceInfos: null,
   };
   nodeToolbar = React.createRef<NodeToolbar>();
 
@@ -97,6 +99,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         ...resolvedCategories,
         resolvedSources: resolvedPlaceDetails.sources,
         resolvedPhotos: resolvedPlaceDetails.photos,
+        resolvedChildPlaceInfos: resolvedPlaceDetails.childPlaceInfos,
         resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
         resolvedRequiredData: { resolvedFeature: feature, resolvedEquipmentInfo: equipmentInfo },
         lastFeatureId: props.featureId,
@@ -119,6 +122,7 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       ...categories,
       lastFeatureId: props.featureId,
       lastEquipmentInfoId: props.equipmentInfoId,
+      resolvedChildPlaceInfos: null,
       resolvedRequiredData: null,
       requiredDataPromise: null,
       resolvedPhotos: null,
@@ -162,11 +166,12 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
         resolvedSources: resolvedPlaceDetails.sources,
         resolvedPhotos: resolvedPlaceDetails.photos,
         resolvedToiletsNearby: resolvedPlaceDetails.toiletsNearby,
+        resolvedChildPlaceInfos: resolvedPlaceDetails.childPlaceInfos,
         ...resolvedCategories,
       });
     }
 
-    const { feature, equipmentInfo, sources, photos, toiletsNearby } = this.props;
+    const { feature, equipmentInfo, sources, photos, toiletsNearby, childPlaceInfos } = this.props;
 
     // required data promise
     if (feature instanceof Promise && (!equipmentInfo || equipmentInfo instanceof Promise)) {
@@ -185,17 +190,18 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       });
     }
 
-    // toilets nearby promise
     if (toiletsNearby instanceof Promise) {
       toiletsNearby.then(resolved => this.handleToiletsNearbyFetched(toiletsNearby, resolved));
     }
 
-    // sources promise
+    if (childPlaceInfos instanceof Promise) {
+      childPlaceInfos.then(resolved => this.handleToiletsNearbyFetched(childPlaceInfos, resolved));
+    }
+
     if (sources instanceof Promise) {
       sources.then(resolved => this.handleSourcesFetched(sources, resolved));
     }
 
-    // photos promise
     if (photos instanceof Promise) {
       photos.then(resolved => this.handlePhotosFetched(photos, resolved));
     }
@@ -235,6 +241,17 @@ class NodeToolbarFeatureLoader extends React.Component<Props, State> {
       return;
     }
     this.setState({ resolvedToiletsNearby });
+  }
+
+  handleChildPlaceInfosFetched(
+    childPlaceInfosPromise: Promise<Feature[]>,
+    resolvedChildPlaceInfos: Feature[]
+  ) {
+    // ignore unwanted promise results (e.g. after unmounting)
+    if (childPlaceInfosPromise !== this.props.childPlaceInfos) {
+      return;
+    }
+    this.setState({ resolvedChildPlaceInfos });
   }
 
   handleSourcesFetched(

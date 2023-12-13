@@ -46,6 +46,8 @@ export type PlaceDetailsProps = {
   equipmentInfo: PotentialPromise<EquipmentInfo> | undefined,
   // toilets around the selected feature
   toiletsNearby: PotentialPromise<Feature[]> | undefined,
+  // Places that are inside the currently shown place
+  childPlaceInfos: PotentialPromise<Feature[]> | undefined,
   renderContext: RenderContext,
 };
 
@@ -66,6 +68,8 @@ export type ResolvedPlaceDetailsProps = {
   equipmentInfo: EquipmentInfo | undefined,
   // toilets around the selected feature
   toiletsNearby: Feature[] | undefined,
+  // Places that are inside the currently shown place
+  childPlaceInfos: Feature[] | undefined,
 };
 
 export function getPlaceDetailsIfAlreadyResolved(
@@ -80,6 +84,7 @@ export function getPlaceDetailsIfAlreadyResolved(
   const resolvedToiletsNearby = props.toiletsNearby
     ? getDataIfAlreadyResolved(props.toiletsNearby)
     : null;
+  const resolvedChildPlaceInfos = getDataIfAlreadyResolved(props.childPlaceInfos);
 
   if (!resolvedFeature || (props.equipmentInfo && !resolvedEquimentInfo)) {
     return null;
@@ -94,6 +99,7 @@ export function getPlaceDetailsIfAlreadyResolved(
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquimentInfo,
     toiletsNearby: resolvedToiletsNearby || [],
+    childPlaceInfos: resolvedChildPlaceInfos || [],
   };
 }
 
@@ -109,6 +115,7 @@ export async function awaitPlaceDetails(
   const resolvedToiletsNearby = props.toiletsNearby
     ? await getDataPromise(props.toiletsNearby)
     : null;
+  const resolvedChildPlaceInfos = await getDataPromise(props.childPlaceInfos);
 
   return {
     lightweightFeature: props.lightweightFeature,
@@ -119,5 +126,6 @@ export async function awaitPlaceDetails(
     equipmentInfoId: props.equipmentInfoId,
     equipmentInfo: resolvedEquipmentInfo,
     toiletsNearby: resolvedToiletsNearby,
+    childPlaceInfos: resolvedChildPlaceInfos,
   };
 }

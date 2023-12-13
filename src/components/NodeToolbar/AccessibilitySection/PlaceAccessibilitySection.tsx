@@ -38,10 +38,11 @@ type Props = {
   presetStatus: YesNoLimitedUnknown | null;
   feature: Feature | null;
   toiletsNearby: Feature[] | null;
+  children?: React.ReactNode;
 };
 
 export default function PlaceAccessibilitySection(props: Props) {
-  const { featureId, feature, toiletsNearby, cluster, sources } = props;
+  const { featureId, feature, toiletsNearby, cluster, sources, children } = props;
 
   const appContext = React.useContext(AppContext);
   const properties = feature && feature.properties;
@@ -116,6 +117,8 @@ export default function PlaceAccessibilitySection(props: Props) {
           appToken={appContext.app.tokenString}
         />
       )}
+
+      {children}
     </StyledFrame>
   );
 }

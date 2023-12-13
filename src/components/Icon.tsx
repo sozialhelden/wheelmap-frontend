@@ -40,6 +40,14 @@ function fontSize(size: Size) {
   }[size];
 }
 
+function iconSize(size: Size) {
+  return {
+    big: 24,
+    medium: 18,
+    small: 15,
+  }[size];
+}
+
 function Figure(props: Partial<Props>) {
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -103,8 +111,8 @@ export const StyledIconContainer = styled(Figure)`
 
     &.icon {
       position: relative;
-      width: 60%;
-      height: 60%;
+      width: ${props => iconSize(props.size)}px;
+      height: ${props => iconSize(props.size)}px;
 
       g,
       polygon,
@@ -121,7 +129,7 @@ export const StyledIconContainer = styled(Figure)`
 `;
 
 // @TODO Rename it to CategoryIcon
-export default function Icon({
+export default function CategoryIcon({
   accessibility,
   children,
   backgroundColor = colors.markers.background[accessibility],
@@ -166,7 +174,7 @@ export default function Icon({
         <MarkerComponent className="background" fill={backgroundColor} />
       ) : null}
       {children}
-      {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
+      {CategoryIconComponent ? <CategoryIconComponent className="icon category-icon" /> : null}
     </StyledIconContainer>
   );
 }

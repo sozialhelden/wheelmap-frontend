@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import colors from '../../../lib/colors';
 
-import Icon from '../../Icon';
+import CategoryIcon from '../../Icon';
 import { ChromelessButton, PrimaryButton } from '../../Button';
 
 import VerticalPage from '../components/VerticalPage';
@@ -110,7 +110,7 @@ const PlaceDetailsEditor = (props: Props) => {
             {!hasValidCategory && <span>{t`Select category`}</span>}
             {hasValidCategory && (
               <>
-                <Icon
+                <CategoryIcon
                   withArrow={false}
                   category={place.properties.category}
                   ariaHidden={true}

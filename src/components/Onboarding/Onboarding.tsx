@@ -7,7 +7,7 @@ import ModalDialog from '../ModalDialog';
 import ChevronRight from '../icons/actions/ChevronRight';
 import colors from '../../lib/colors';
 import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import Icon from '../Icon';
+import CategoryIcon from '../Icon';
 import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
 import { ChromelessButton, CallToActionButton } from '../Button';
 import env from '../../lib/env';
@@ -85,7 +85,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
       <section>
         <ul id="wheelmap-icon-descriptions">
           <li className="ac-marker-yes">
-            <Icon
+            <CategoryIcon
               accessibility="yes"
               category={null}
               isMainCategory
@@ -98,7 +98,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
             <footer>{accessibilityDescription('yes')}</footer>
           </li>
           <li className="ac-marker-limited">
-            <Icon
+            <CategoryIcon
               accessibility="limited"
               category={null}
               isMainCategory
@@ -111,7 +111,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
             <footer>{accessibilityDescription('limited')}</footer>
           </li>
           <li className="ac-marker-no">
-            <Icon
+            <CategoryIcon
               accessibility="no"
               category={null}
               isMainCategory
@@ -124,7 +124,7 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
             <footer>{accessibilityDescription('no')}</footer>
           </li>
           <li className="ac-marker-unknown">
-            <Icon
+            <CategoryIcon
               accessibility="unknown"
               category={null}
               isMainCategory

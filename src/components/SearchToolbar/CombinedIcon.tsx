@@ -2,7 +2,7 @@ import * as React from 'react';
 import isEqual from 'lodash/isEqual';
 import styled from 'styled-components';
 
-import Icon from '../Icon';
+import CategoryIcon from '../Icon';
 import { YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
 import ToiletStatusAccessible from '../icons/accessibility/ToiletStatusAccessible';
 import { isAccessibilityFiltered } from '../../lib/Feature';
@@ -25,7 +25,7 @@ function CombinedIcon(props: Props) {
   return (
     <div aria-hidden className={props.className}>
       {accessibilities.map(accessibility => (
-        <Icon
+        <CategoryIcon
           key={accessibility}
           accessibility={accessibility}
           category={props.category}
