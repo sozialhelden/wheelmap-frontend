@@ -6,7 +6,7 @@ import { FilterContext } from "./components/FilterContext";
 import SearchFilters from "./components/SearchFilters";
 import SearchResults from "./components/SearchResults";
 import { mockedHealthcareFacilities } from "./mocks";
-import { StyledColors, StyledH1, StyledHealthSiteContent } from "./styles";
+import { StyledH1, StyledHealthSiteContent } from "./styles";
 /*
   A11y Design considerations
   - https://www.w3.org/WAI/tutorials/forms/
@@ -52,11 +52,9 @@ const StyledPage = styled.div`
     flex-direction: column;
     width: 95%;
     margin-block: 0.7rem;
-
     height: fit-content;
-    background-color: ${StyledColors.green}
-    border-radius: 0.3rem;
-    padding: 0.4rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }
 
@@ -83,7 +81,7 @@ const StyledPage = styled.div`
 
   .search-result-description {
     display: flex;
-    gap: 0.2rem;
+    gap: 0.5rem;
   }
 `;
 

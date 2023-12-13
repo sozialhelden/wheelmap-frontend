@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-const containerSpacing = "1rem";
+export const containerSpacing = "1rem";
+export const borderRadius = "2rem";
 
 export const StyledColors = {
   green: "#77AD2B",
@@ -71,7 +72,7 @@ export const chips = `
   background-color: white;
   border: 1px solid ${StyledColors.green};
   color: ${StyledColors.green};
-  border-radius: 2rem;
+  border-radius: ${borderRadius};
   cursor: pointer;
   font-size: 0.7rem;
   font-weight: 700;
@@ -97,7 +98,7 @@ export const StyledCheckbox = styled.input`
   width: calc(3rem + 2px);
   appearance: inherit;
   background-color: transparent;
-  border-radius: 2rem;
+  border-radius: ${borderRadius};
   box-shadow: inset 0 0.5px 1px rgba(0, 0, 0, 0.2), inset 0 0.5px 1px rgba(0, 0, 0, 0.2), inset 0 -0.5px 1px rgba(0, 0, 0, 0.2);
   transition: 0.2s;
   position: relative;
@@ -111,7 +112,7 @@ export const StyledCheckbox = styled.input`
     left: 0;
     content: "";
     background: ${StyledColors.grey};
-    border-radius: 2rem;
+    border-radius: ${borderRadius};
     transform: scale(0.75);
     transition: 0.2s;
     box-shadow: 0 0.5px 0.5px rgba(0, 0, 0, 0.5), inset 0.5px 0.5px rgba(255, 255, 255, 0.2), inset -0.5px 0.5px rgba(255, 255, 255, 0.2);
