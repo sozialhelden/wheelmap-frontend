@@ -3,7 +3,7 @@ import styled from "styled-components";
 const containerSpacing = "1rem";
 
 export const StyledColors = {
-  green: "#76b82a",
+  green: "#77AD2B",
   grey: "silver",
 };
 

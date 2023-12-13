@@ -1,7 +1,7 @@
 import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { MockFacility } from "..";
+import { MockFacility } from "../mocks";
 import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "../styles";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { OSM_DATA, fetcher } from "./helpers";
