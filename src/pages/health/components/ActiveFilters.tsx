@@ -1,5 +1,6 @@
 import React from "react";
 import { t } from "ttag";
+import { StyledActiveFilterBar } from "../styles";
 import ActivePreferenceButton from "./ActivePreferenceButton";
 import { FilterContext, getFilterLabels } from "./FilterContext";
 
@@ -9,15 +10,11 @@ function ActiveFilters() {
   const labels = React.useMemo(() => getFilterLabels(filterContext).filter((label) => filterMap.get(label)), [filterMap, filterContext]);
 
   return (
-    <div>
-      <ul className="active-filters-bar" aria-label={t`Aktive Filter`}>
-        {labels.map((label) => (
-          <li key={label}>
-            <ActivePreferenceButton name={label} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <StyledActiveFilterBar aria-label={t`Aktive Filter`}>
+      {labels.map((label, index) => (
+        <ActivePreferenceButton key={index.toString()} name={label} />
+      ))}
+    </StyledActiveFilterBar>
   );
 }
 

@@ -1,16 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { MockFacility } from "..";
 import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
-import { StyledLegend } from "../styles";
+import { MockFacility } from "../mocks";
+import { StyledH2, StyledLegend, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "../styles";
 import ActiveFilters from "./ActiveFilters";
 import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
 import FilterInputs from "./FilterInputs";
 
 export const StyledFilterPreferencesSection = styled.section`
   --switch-height: calc(2rem - 8px);
-
   .label {
     height: 2rem;
     display: flex;
@@ -74,38 +73,39 @@ function FilterSection({ mockFacilities, labels }: Props) {
 
   const renderFilterContainer = () => {
     return (
-      <div className="search-filter-container">
-        <div className="input-choices">
+      <StyledSearchFilterContainer>
+        <div>
           <FilterInputs mockedFacilities={mockFacilities} />
         </div>
-        <div className="preference-choices">
+        <div>
           <StyledFilterPreferencesSection>
             <fieldset>
               <StyledLegend>{t`Präferenzen`}</StyledLegend>
               <ul>
-                {labels.map((label) => {
-                  return <ActivePreferenceSwitch key={label + `-key`} name={label} />;
+                {labels.map((label, index) => {
+                  // Use index as key instead of "${label}-key" because label can be duplicated
+                  return <ActivePreferenceSwitch key={index.toString()} name={label} />;
                 })}
               </ul>
             </fieldset>
           </StyledFilterPreferencesSection>
         </div>
-      </div>
+      </StyledSearchFilterContainer>
     );
   };
 
   return (
-    <section className="search-filter-section">
-      <h2 className="search-filter-h2">{t`Suchfilter`}</h2>
+    <StyledSearchFilterSection>
+      <StyledH2>{t`Suchfilter`}</StyledH2>
       <ActiveFilters />
       {isDesktop && renderFilterContainer()}
       {isMobile && (
-        <details className="search-filter-details">
-          <summary className="search-filter-summary">{t`Filteroptionen ausklappen`}</summary>
+        <StyledSearchFilterDetails>
+          <summary>{t`Filteroptionen ausklappens`}</summary>
           {renderFilterContainer()}
-        </details>
+        </StyledSearchFilterDetails>
       )}
-    </section>
+    </StyledSearchFilterSection>
   );
 }
 

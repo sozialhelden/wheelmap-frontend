@@ -2,7 +2,7 @@ import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { MockFacility } from "..";
-import { StyledLabel, StyledLegend, StyledSelect, StyledTextInput } from "../styles";
+import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "../styles";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { OSM_DATA, fetcher } from "./helpers";
 
@@ -56,11 +56,12 @@ function FilterInputs({ mockedFacilities }: Props) {
 
   return (
     <React.Fragment>
-      <StyledLegend id="survey-form-titel">{t`Allgemeine Angaben`}</StyledLegend>
-      <div className="search-filter-inputs" role="group" aria-labelledby="survey-form-titel">
+      <StyledLegend>{t`Allgemeine Angaben`}</StyledLegend>
+      <StyledSearchFilterInputs role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="place">{t`Ort`}</StyledLabel>
         <StyledTextInput type="text" name="" id="place" onChange={handleOnChange} />
         <StyledLabel htmlFor="facilities-select">{t`Name Fachgebiet Einrichtung`}</StyledLabel>
+
         <StyledSelect name="facilities" id="facilities-select">
           <option value="">{t`--Bitte Option auswählen--`}</option>
           {mockedFacilities.map((item, index) => (
@@ -69,13 +70,15 @@ function FilterInputs({ mockedFacilities }: Props) {
             </option>
           ))}
         </StyledSelect>
+
         <StyledLabel htmlFor="insurance-type">{t`Versicherungsart`}</StyledLabel>
+
         <StyledSelect name="insurance-type" id="insurance-type">
           <option value="">{t`--Bitte Option auswählen--`}</option>
           <option value="privat">{t`Private Krankenversicherung`}</option>
           <option value="öffentlich">{t`Öffentliche Krankenversicherung`}</option>
         </StyledSelect>
-      </div>
+      </StyledSearchFilterInputs>
     </React.Fragment>
   );
 }
