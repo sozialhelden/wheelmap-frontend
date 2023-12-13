@@ -10,7 +10,7 @@ import { EquipmentInfo } from '../../../lib/EquipmentInfo';
 import getEquipmentInfoDescription from './getEquipmentInfoDescription';
 
 type Props = {
-  equipmentInfos: { [key: string]: EquipmentInfo },
+  equipmentInfosById: { [key: string]: EquipmentInfo },
   onEquipmentSelected: (placeInfoId: string, equipmentInfo: EquipmentInfo) => void,
   placeInfoId: string,
   className?: string,
@@ -34,9 +34,9 @@ class EquipmentOverview extends React.Component<Props, State> {
   };
 
   render() {
-    const { equipmentInfos, placeInfoId } = this.props;
+    const { equipmentInfosById, placeInfoId } = this.props;
 
-    const sortedEquipmentInfos = sortBy(Object.values(equipmentInfos), [
+    const sortedEquipmentInfos = sortBy(Object.values(equipmentInfosById), [
       'properties.category',
       e => getEquipmentInfoDescription(e, 'shortDescription'),
     ]);

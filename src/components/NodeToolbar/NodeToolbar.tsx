@@ -42,6 +42,7 @@ import { AppContextConsumer } from '../../AppContext';
 import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
 import { UAResult } from '../../lib/userAgent';
 import isA11yEditable from './AccessibilityEditor/isA11yEditable';
+import { Dictionary } from 'lodash';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -298,17 +299,23 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       return;
     }
 
-    const equipmentInfos = fromPairs(
-      Array.from(equipmentInfoSet).map(equipmentInfo => [
-        get(equipmentInfo, 'properties._id'),
+    const equipmentInfos = Array.from(equipmentInfoSet);
+
+    if (equipmentInfos.length === 1) {
+      return null;
+    }
+
+    const equipmentInfosById = fromPairs(
+      equipmentInfos.map(equipmentInfo => [
+        get(equipmentInfo, 'properties._id') || get(equipmentInfo, '_id'),
         equipmentInfo,
       ])
-    );
+    ) as Dictionary<EquipmentInfo>;
 
     return (
       <EquipmentOverview
         placeInfoId={String(featureId)}
-        equipmentInfos={equipmentInfos}
+        equipmentInfosById={equipmentInfosById}
         equipmentInfoId={equipmentInfoId}
         onEquipmentSelected={onEquipmentSelected}
       />
