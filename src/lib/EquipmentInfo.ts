@@ -138,8 +138,7 @@ export function lastUpdateString({
   isOutdated: boolean;
 }) {
   if (!lastUpdate) {
-    // translator: Shown next to equipment status when the system does not know a last update.
-    return `Unfortunately there is no information when this status was last updated.`;
+    return null;
   }
 
   const translatedEquipmentCategory = {
