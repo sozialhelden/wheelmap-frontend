@@ -1,6 +1,6 @@
 import React from "react";
-import { StyledCheckbox } from "../styles";
 import { FilterContext } from "./FilterContext";
+import { StyledCheckbox } from "./styles";
 
 type Props = {
   key: string;

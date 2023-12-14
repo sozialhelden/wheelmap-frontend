@@ -2,11 +2,11 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { t } from "ttag";
 import LayoutHealthPage from "../../components/App/LayoutHealthPage";
-import { FilterContext } from "./components/FilterContext";
-import SearchFilters from "./components/SearchFilters";
-import SearchResults from "./components/SearchResults";
-import { mockedHealthcareFacilities } from "./mocks";
-import { StyledH1, StyledHealthSiteContent } from "./styles";
+import { FilterContext } from "../../components/Health/FilterContext";
+import SearchFilters from "../../components/Health/SearchFilters";
+import SearchResults from "../../components/Health/SearchResults";
+import { mockedHealthcareFacilities } from "../../components/Health/mocks";
+import { StyledH1, StyledHealthSiteContent } from "../../components/Health/styles";
 /*
   A11y Design considerations
   - https://www.w3.org/WAI/tutorials/forms/

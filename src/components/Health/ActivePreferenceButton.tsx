@@ -1,6 +1,6 @@
 import React from "react";
-import { StyledButton } from "../styles";
 import { FilterContext } from "./FilterContext";
+import { StyledButton } from "./styles";
 
 type Props = {
   key: string;

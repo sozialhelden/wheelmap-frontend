@@ -1,8 +1,8 @@
 import React from "react";
 import { t } from "ttag";
-import { StyledActiveFilterBar } from "../styles";
 import ActivePreferenceButton from "./ActivePreferenceButton";
 import { FilterContext, getFilterLabels } from "./FilterContext";
+import { StyledActiveFilterBar } from "./styles";
 
 function ActiveFilters() {
   const filterContext = React.useContext(FilterContext);

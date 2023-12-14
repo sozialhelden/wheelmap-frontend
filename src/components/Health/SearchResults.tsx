@@ -1,10 +1,10 @@
 import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "../styles";
 import { FilterContext, FilterContextType, getFilterInputExtent } from "./FilterContext";
 import SearchResult from "./SearchResult";
 import { OSM_API_FEATURE, fetcher } from "./helpers";
+import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 
 type Props = {};
 type EXTENT = [number, number, number, number];

@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { t } from "ttag";
-import { WindowContextType, useWindowContext } from "../../../lib/context/WindowContext";
-import { MockFacility } from "../mocks";
-import { StyledH2, StyledLegend, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "../styles";
+import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
 import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
 import FilterInputs from "./FilterInputs";
+import { MockFacility } from "./mocks";
+import { StyledH2, StyledLegend, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
 
 export const StyledFilterPreferencesSection = styled.section`
   --switch-height: calc(2rem - 8px);

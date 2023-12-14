@@ -1,5 +1,5 @@
-import { StyledDescription } from "../styles";
 import { OSM_API_FEATURE } from "./helpers";
+import { StyledDescription } from "./styles";
 
 type Props = {
   data: OSM_API_FEATURE;
