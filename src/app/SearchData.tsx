@@ -84,16 +84,9 @@ const SearchData: DataTableEntry<SearchProps> = {
       
       const { app } = await renderContext; 
       const centerPoint = app?.clientSideConfiguration?.associatedGeometries?.centerPoint;
-
-      const appId = app?._id;
-      // const appName = app?.name;
-      const orgId = app?.organizationId; // LPb4y2ri7b6fLxLFa
-
-      console.log('appId', appId);
-      const locationFromApp =   appId !== 'wheelmap.org' && 
-                                // appName !== 'Wheelmap' &&
-                                orgId !== 'LPb4y2ri7b6fLxLFa' &&
-                                centerPoint && {
+      const isLocationBiased = app?.clientSideConfiguration?.associatedGeometries?.usesCenterPointAsSearchBias;
+      const locationFromApp = isLocationBiased && 
+                              centerPoint && {
         lat: centerPoint.coordinates[1],
         lon: centerPoint.coordinates[0],
       };

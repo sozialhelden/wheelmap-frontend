@@ -39,6 +39,7 @@ export interface ClientSideConfiguration {
   associatedGeometries?: {
     centerPoint?: Point;
     regionPolygon?: Polygon;
+    usesCenterPointAsSearchBias?: boolean;
   };
   textContent?: {
     onboarding?: {
