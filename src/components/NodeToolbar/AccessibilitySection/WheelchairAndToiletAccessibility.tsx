@@ -320,10 +320,12 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
       return null;
     }
 
+    const isParking = !!wheelmapFeature && isParkingFacility(wheelmapFeature);
+
     return (
       <div className={this.props.className}>
-        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility, !wheelmapFeature || !isParkingFacility(wheelmapFeature))}
-        {this.renderParkingAccessibility()}
+        {isKnownWheelchairAccessibility && this.renderWheelchairButton(wheelchairAccessibility, !wheelmapFeature || !isParking)}
+        {isParking && this.renderParkingAccessibility()}
         {isToiletButtonShown && this.renderToiletButton(toiletAccessibility)}
         {findToiletsNearby && this.renderNearbyToilets()}
       </div>
