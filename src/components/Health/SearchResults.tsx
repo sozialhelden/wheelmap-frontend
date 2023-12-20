@@ -30,7 +30,7 @@ function SearchResults({}: Props) {
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
 
   // const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-  const baseurl = "https://osm-api.wheelmap.tech/api/v1/legacy";
+  const baseurl: string = "https://osm-api.wheelmap.tech/api/v1/legacy";
 
   React.useEffect(() => {
     if (extent) {
