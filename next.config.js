@@ -21,6 +21,10 @@ let configuration = withTranspileModules({
 configuration = {
   ...configuration,
   productionBrowserSourceMaps: true,
+  compiler: {
+    reactStrictMode: true,
+    styledComponents: true,
+  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
