@@ -27,7 +27,7 @@ const makeSrcUrl = (acPhoto: AccessibilityCloudImage, size: number) => {
   const { width, height } = calculateDimensionsToFit(acPhoto, size);
   return `${env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || ''}/images/scale/${
     acPhoto.imagePath
-  }?fitw=${width}&fith=${height}${
+  }?fit=inside&fitw=${width}&fith=${height}${
     acPhoto.angle ? `&angle=${((acPhoto.angle % 360) + 360) % 360}` : ''
   }`;
 };
