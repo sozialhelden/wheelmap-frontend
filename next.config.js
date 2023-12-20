@@ -22,7 +22,6 @@ configuration = {
   ...configuration,
   productionBrowserSourceMaps: true,
   compiler: {
-    reactStrictMode: true,
     styledComponents: true,
   },
   typescript: {
