@@ -16,12 +16,21 @@ import PlaceIcon from '../../icons/actions/Place';
 import RouteIcon from '../../icons/actions/Route';
 
 import { UAResult } from '../../../lib/userAgent';
+import getAddressStringFromA11yJSONFeature from '../../../lib/getAddressStringFromA11yJSONFeature';
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): string | null {
   if (typeof properties.address === 'string') return properties.address;
   if (typeof properties.address === 'object') {
-    if (typeof properties.address.full === 'string') return properties.address.full;
-    if (typeof properties.address.text === 'string') return properties.address.text;
+    switch (true) {
+      case typeof properties.address.full === 'string':
+        return properties.address.full;
+      case typeof properties.address.text === 'string':
+        return properties.address.text;
+      case (typeof properties.address.full !== 'string' || typeof properties.address.text !== 'string'):
+        return getAddressStringFromA11yJSONFeature(properties.address);
+      default:
+        return null;
+    }
   }
   return null;
 }
@@ -51,6 +60,9 @@ export default class PlaceAddress extends React.Component<Props, {}> {
     const address = getAddressForProperties(feature.properties);
     const addressString = address && address.replace(/,$/, '').replace(/^,/, '');
 
+    console.log('PlaceAddress, feature', { feature });
+    console.log('PlaceAddress, address', { address });
+    console.log('PlaceAddress, feature', { feature });
     return (
       <React.Fragment>
         {openInMaps && (
