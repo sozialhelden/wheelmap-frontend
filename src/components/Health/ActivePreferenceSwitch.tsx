@@ -3,11 +3,10 @@ import { FilterContext } from "./FilterContext";
 import { StyledCheckbox } from "./styles";
 
 type Props = {
-  key: string;
   name: string;
 };
 
-function ActivePreferenceSwitch({ key, name }: Props) {
+function ActivePreferenceSwitch({ name }: Props) {
   const filterContext = React.useContext(FilterContext);
   const filterMap = filterContext.filterMap;
 
@@ -22,7 +21,7 @@ function ActivePreferenceSwitch({ key, name }: Props) {
   );
 
   return (
-    <li key={key}>
+    <li>
       <label className="label">
         <StyledCheckbox type="checkbox" role="switch" name={name} onChange={handleChange} id={name} value={name || ""} checked={filterMap.get(name) || false} />
         {/* set default value to false b/c of uncontrolled component       */}
