@@ -6,12 +6,21 @@ export const borderRadius = "2rem";
 export const StyledColors = {
   green: "#77AD2B",
   grey: "silver",
+  red: "#d51030",
 };
 
 export const StyledLegend = styled.legend`
   font-size: 1rem !important;
   font-weight: 700;
   margin-bottom: 1rem;
+`;
+
+export const StyledLink = styled.a`
+  text-decoration: none;
+  :hover {
+    color: ${StyledColors.green};
+    text-decoration: none;
+  }
 `;
 
 export const StyledTextInput = styled.input`

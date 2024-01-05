@@ -5,6 +5,7 @@ import { FilterContext, FilterContextType, getFilterInputExtent } from "./Filter
 import SearchResult from "./SearchResult";
 import { OSM_API_FEATURE, fetcher, healthAPI } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
+const useRouter = require("next/router").useRouter;
 
 type Props = {};
 type EXTENT = [number, number, number, number];
@@ -25,7 +26,6 @@ type OSM_API_RESPONSE = {
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
   const extent: string = getFilterInputExtent(fc);
-
   const [city, setCity] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
 
@@ -37,7 +37,7 @@ function SearchResults({}: Props) {
 
   const finalURL = healthAPI({
     city: city,
-    wheelchairAccessibility: "limited",
+    wheelchairAccessibility: useRouter().query.wheelchairAccessibility || "yes",
     limit: 100,
   });
   const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);

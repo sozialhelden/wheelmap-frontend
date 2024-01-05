@@ -24,7 +24,6 @@ function ActivePreferenceSwitch({ name }: Props) {
     <li>
       <label className="label">
         <StyledCheckbox type="checkbox" role="switch" name={name} onChange={handleChange} id={name} value={name || ""} checked={filterMap.get(name) || false} />
-        {/* set default value to false b/c of uncontrolled component       */}
         {name}
       </label>
     </li>

@@ -95,7 +95,6 @@ export default function Page() {
   const memoizedFilterContext = React.useMemo(() => ({ filterMap, setFilterMap, extent, setExtent }), [filterMap, setFilterMap, extent, setExtent]);
 
   const labels = ["Aufzug", "Ebenerdiger Eingang", "Parkplatz", "Leichte Sprache", "Gebärdensprache"];
-
   return (
     <FilterContext.Provider value={memoizedFilterContext}>
       <StyledPage>
