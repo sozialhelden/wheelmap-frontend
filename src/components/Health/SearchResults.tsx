@@ -71,7 +71,7 @@ function SearchResults({}: Props) {
   );
 
   if (error) return <div>{error.message}</div>;
-  if (!searchResults) return loadingSpinner;
+  if (!searchResults && city != "" && Array.isArray(searchResults)) return loadingSpinner;
   return (
     <StlyedSecion>
       <StyledH2>
