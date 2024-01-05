@@ -29,8 +29,6 @@ function SearchResults({}: Props) {
   const [city, setCity] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
 
-  const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-
   React.useEffect(() => {
     if (extent) {
       setCity(`city=${extent}`);
