@@ -24,21 +24,20 @@ type OSM_API_RESPONSE = {
 
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const extent: EXTENT = getFilterInputExtent(fc);
+  const extent: string = getFilterInputExtent(fc);
 
-  const [bbox, setBbox] = React.useState<string>("");
+  const [city, setCity] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
 
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
 
   React.useEffect(() => {
     if (extent) {
-      setBbox(`bbox=${extent[0]},${extent[1]},${extent[2]},${extent[3]}`);
-      console.log(`${baseurl}/api/healthcare?${bbox}&geometry=centroid&wheelchairAccessibility=yes&limit=100`);
+      setCity(`city=${extent}`);
     }
-  }, [baseurl, bbox, extent, fc]);
+  }, [baseurl, city, extent, fc]);
 
-  const { data, error } = useSWR<OSM_API_RESPONSE, Error>(bbox ? `${baseurl}/api/healthcare?${bbox}&geometry=centroid&wheelchairAccessibility=yes&limit=100` : null, fetcher);
+  const { data, error } = useSWR<OSM_API_RESPONSE, Error>(city ? `${baseurl}/api/healthcare?${city}&geometry=centroid&wheelchairAccessibility=yes&limit=100` : null, fetcher);
 
   React.useEffect(() => {
     if (data) {

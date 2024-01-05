@@ -1,8 +1,6 @@
 import React from "react";
-import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType } from "./FilterContext";
-import { OSM_DATA, fetcher } from "./helpers";
 import { MockFacility } from "./mocks";
 import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
 
@@ -16,41 +14,17 @@ function FilterInputs({ mockedFacilities }: Props) {
 
   const fc: FilterContextType = React.useContext(FilterContext);
 
-  const photonURL = (query: string) => `https://photon.komoot.io/api/?q=${query}&limit=30&lang=de`;
-  const [extent, setExtent] = React.useState<[number, number, number, number]>(null);
+  const [extent, setExtent] = React.useState<string>("");
   const [placeQuery, setPlaceQuery] = React.useState<string>("");
-  const [queryData, setQueryData] = React.useState<OSM_DATA>(null);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setPlaceQuery(e.target.value);
 
-  const { data, error } = useSWR<OSM_DATA, Error>(photonURL(placeQuery), fetcher);
-
   React.useEffect(() => {
-    if (extent) {
+    if (placeQuery) {
+      setExtent(placeQuery);
       fc.setExtent(extent);
     }
   }, [extent, fc, placeQuery]);
-
-  React.useEffect(() => {
-    if (data) {
-      setQueryData(data);
-    }
-  }, [data]);
-
-  React.useEffect(() => {
-    if (queryData) {
-      const [features] = queryData?.features.filter((item) => item.properties.osm_key === "place").filter((item) => item.properties.osm_type === "R");
-      features?.properties?.extent && setExtent(features.properties.extent);
-    }
-  }, [queryData]);
-
-  if (error)
-    return (
-      <div>{t`Es gab einen Fehler beim Laden der Daten. Refresh & Retry. 
-                            Error: ${error.name}
-                            ErrorMSG: ${error.message}
-                            `}</div>
-    );
 
   console.log(`extent: ${extent}`);
 
