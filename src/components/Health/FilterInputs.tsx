@@ -27,8 +27,6 @@ function FilterInputs({ mockedFacilities }: Props) {
     }
   }, [extent, fc, placeQuery]);
 
-  console.log(`extent: ${extent}`);
-
   return (
     <React.Fragment>
       <StyledLegend>{t`Allgemeine Angaben`}</StyledLegend>
