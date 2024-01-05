@@ -83,7 +83,6 @@ function FilterSection({ mockFacilities, labels }: Props) {
               <StyledLegend>{t`Präferenzen`}</StyledLegend>
               <ul>
                 {labels.map((label, index) => {
-                  // Use index as key instead of "${label}-key" because label can be duplicated
                   return <ActivePreferenceSwitch key={index.toString()} name={label} />;
                 })}
               </ul>

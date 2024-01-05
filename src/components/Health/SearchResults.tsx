@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterInputExtent } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { OSM_API_FEATURE, fetcher } from "./helpers";
+import { OSM_API_FEATURE, fetcher, healthAPI } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 
 type Props = {};
@@ -35,9 +35,14 @@ function SearchResults({}: Props) {
     if (extent) {
       setCity(`city=${extent}`);
     }
-  }, [baseurl, city, extent, fc]);
+  }, [city, extent, fc]);
 
-  const { data, error } = useSWR<OSM_API_RESPONSE, Error>(city ? `${baseurl}/api/healthcare?${city}&geometry=centroid&wheelchairAccessibility=yes&limit=100` : null, fetcher);
+  const finalURL = healthAPI({
+    city: city,
+    wheelchairAccessibility: "limited",
+    limit: 100,
+  });
+  const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
     if (data) {

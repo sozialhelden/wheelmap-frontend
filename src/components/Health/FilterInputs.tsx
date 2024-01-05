@@ -9,15 +9,16 @@ type Props = {
 };
 
 function FilterInputs({ mockedFacilities }: Props) {
-  // const rounter = useRouter();
-  //todo params as search query
-
   const fc: FilterContextType = React.useContext(FilterContext);
 
   const [extent, setExtent] = React.useState<string>("");
   const [placeQuery, setPlaceQuery] = React.useState<string>("");
 
-  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => setPlaceQuery(e.target.value);
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTimeout(() => {
+      setPlaceQuery(e.target.value);
+    }, 2000);
+  };
 
   React.useEffect(() => {
     if (placeQuery) {
