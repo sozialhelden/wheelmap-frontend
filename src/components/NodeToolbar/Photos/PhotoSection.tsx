@@ -185,6 +185,7 @@ const StyledPhotoSection = styled(PhotoSection)`
 
   .react-photo-album--photo {
     object-fit: cover;
+    object-position: bottom;
   }
 
   /* lazy workaround for Lightbox putting its nodes higher up in the dom */
