@@ -88,7 +88,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
     throw new Error('Please supply only one appId query parameter.');
   }
   const hostname = hostnameAndPort.split(':')[0];
-  console.log('Hostname:', query, query.appId, hostname);
+  // console.log('Hostname:', query, query.appId, hostname);
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }

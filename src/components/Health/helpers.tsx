@@ -50,9 +50,11 @@ export type OSM_API_FEATURE = {
 };
 
 export const healthAPI = (options: any) => {
-  const { city, category, wheelchairAccessibility, limit } = options;
+  const { city, wheelchairAccessibility, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-  return city ? `${baseurl}/api/healthcare?${city}&geometry=centroid&wheelchairAccessibility=${wheelchairAccessibility}&limit=${limit}` : null;
+  if (city) {
+    return `${baseurl}/api/healthcare?${city}&${wheelchairAccessibility}&${limit}&geometry=centroid`;
+  }
 };
 
 export function toRadians(degrees: number): number {

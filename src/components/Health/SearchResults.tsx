@@ -27,21 +27,22 @@ function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
   const extent: string = getFilterInputExtent(fc);
   const [city, setCity] = React.useState<string>("");
-  const [category, setCategory] = React.useState<string>("");
+  const [wheelchairAccessibility, setWheelchairAccessibility] = React.useState<string>("");
+  const [limit, setLimit] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
-
+  const limitValue = 10000;
   React.useEffect(() => {
     if (extent) {
       setCity(`city=${extent}`);
-      setCategory(`category=hostpital`);
+      setWheelchairAccessibility(`wheelchairAccessibility=yes`);
+      setLimit(`limit=${limitValue}`);
     }
   }, [city, extent, fc]);
 
   const finalURL = healthAPI({
     city: city,
-    wheelchairAccessibility: useRouter().query.wheelchairAccessibility || "yes",
-    category: category,
-    limit: 100,
+    wheelchairAccessibility: wheelchairAccessibility,
+    limit: limit,
   });
   const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);
 
