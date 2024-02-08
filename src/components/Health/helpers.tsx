@@ -50,7 +50,7 @@ export type OSM_API_FEATURE = {
 };
 
 export const healthAPI = (options: any) => {
-  const { city, wheelchairAccessibility, limit } = options;
+  const { city, category, wheelchairAccessibility, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   return city ? `${baseurl}/api/healthcare?${city}&geometry=centroid&wheelchairAccessibility=${wheelchairAccessibility}&limit=${limit}` : null;
 };

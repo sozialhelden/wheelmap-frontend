@@ -28,7 +28,6 @@ function SearchResult({ data }: Props) {
         })
       : "Keine Adresse";
 
-  // Get coordinates based on my location based on browser geolocation
   navigator.geolocation.getCurrentPosition((position) => {
     setMyCoordinates([position.coords.latitude, position.coords.longitude]);
   });

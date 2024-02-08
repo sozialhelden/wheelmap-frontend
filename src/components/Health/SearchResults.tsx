@@ -8,8 +8,8 @@ import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 const useRouter = require("next/router").useRouter;
 
 type Props = {};
-type EXTENT = [number, number, number, number];
 
+type EXTENT = [number, number, number, number];
 type OSM_API_RESPONSE = {
   conditions: {
     limit: number;
@@ -27,17 +27,20 @@ function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
   const extent: string = getFilterInputExtent(fc);
   const [city, setCity] = React.useState<string>("");
+  const [category, setCategory] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
 
   React.useEffect(() => {
     if (extent) {
       setCity(`city=${extent}`);
+      setCategory(`category=hostpital`);
     }
   }, [city, extent, fc]);
 
   const finalURL = healthAPI({
     city: city,
     wheelchairAccessibility: useRouter().query.wheelchairAccessibility || "yes",
+    category: category,
     limit: 100,
   });
   const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);

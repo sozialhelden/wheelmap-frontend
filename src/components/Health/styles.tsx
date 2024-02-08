@@ -3,6 +3,53 @@ import styled from "styled-components";
 export const containerSpacing = "1rem";
 export const borderRadius = "2rem";
 
+export const StyledFilterPreferencesSection = styled.section`
+  --switch-height: calc(2rem - 8px);
+  .label {
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  fieldset {
+    width: fit-content;
+    border: none;
+  }
+
+  legend {
+    font-size: 110%;
+    margin-bottom: 0.5rem;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: auto;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  ul {
+    padding-inline-start: 0;
+  }
+
+  label {
+    user-select: none;
+  }
+
+  label input[role="switch"]:not(:checked) ~ .state span.on {
+    display: none;
+  }
+
+  label input[role="switch"]:checked ~ .state > span.off {
+    display: none;
+  }
+`;
+
 export const StyledColors = {
   green: "#77AD2B",
   grey: "silver",
