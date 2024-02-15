@@ -50,7 +50,10 @@ function SearchResults({}: Props) {
     if (data) {
       setSearchResults(data.nodes);
     }
-  }, [data]);
+    if (error) {
+      console.log(error);
+    }
+  }, [data, error]);
 
   const loadingSpinner = (
     <StlyedSecion>
@@ -74,12 +77,12 @@ function SearchResults({}: Props) {
     </div>
   );
 
-  if (error) return <div>{error.message}</div>;
   if (!searchResults && city != "" && Array.isArray(searchResults)) return loadingSpinner;
   return (
     <StlyedSecion>
       <StyledH2>
         {searchResults ? searchResults.length : ""} {t`Search Results`}
+        {error && error.message && `: ${error.message}`}
       </StyledH2>
       {searchResultsUI}
     </StlyedSecion>
