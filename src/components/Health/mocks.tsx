@@ -378,9 +378,17 @@ export const mockedHealthcareFacilities: MockFacility[] = [
   },
 ];
 
+//  https://wiki.openstreetmap.org/wiki/Key:healthcare
+export const mockedHealthcare: MockHealthcare[] = [];
+
 export type MockFacility = {
   en: string;
   de: string;
+};
+
+export type MockHealthcare = {
+  value: string;
+  label: string;
 };
 
 export type MockData = {
