@@ -32,6 +32,7 @@ export type OSM_API_FEATURE = {
   wheelchair_toilet: string;
   lat: number;
   lon: number;
+  distance: number;
   id: number;
   osm_type: string;
   osm_id: string; // type/id
@@ -49,11 +50,12 @@ export type OSM_API_FEATURE = {
   };
 };
 
+export const limitValue = 1000;
 export const healthAPI = (options: any) => {
-  const { city, wheelchairAccessibility, limit } = options;
+  const { city, wheelchair, healthcare, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   if (city) {
-    return `${baseurl}/api/healthcare?${city}&${wheelchairAccessibility}&${limit}&geometry=centroid`;
+    return `${baseurl}/api/healthcare?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
   }
 };
 

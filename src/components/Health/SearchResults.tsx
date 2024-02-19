@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterInputExtent } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { OSM_API_FEATURE, fetcher, healthAPI } from "./helpers";
+import { OSM_API_FEATURE, fetcher, healthAPI, limitValue } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 const useRouter = require("next/router").useRouter;
 
@@ -27,21 +27,23 @@ function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
   const extent: string = getFilterInputExtent(fc);
   const [city, setCity] = React.useState<string>("");
-  const [wheelchairAccessibility, setWheelchairAccessibility] = React.useState<string>("");
+  const [wheelchair, setWheelchair] = React.useState<string>("");
+  const [healthcare, setHealthcare] = React.useState<string>("");
   const [limit, setLimit] = React.useState<string>("");
   const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
-  const limitValue = 10000;
   React.useEffect(() => {
     if (extent) {
       setCity(`city=${extent}`);
-      setWheelchairAccessibility(`wheelchairAccessibility=yes`);
+      setWheelchair(`wheelchair=yes`);
+      setHealthcare(`healthcare=pharmacy`);
       setLimit(`limit=${limitValue}`);
     }
   }, [city, extent, fc]);
 
   const finalURL = healthAPI({
     city: city,
-    wheelchairAccessibility: wheelchairAccessibility,
+    wheelchair: wheelchair,
+    healthcare: healthcare,
     limit: limit,
   });
   const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);

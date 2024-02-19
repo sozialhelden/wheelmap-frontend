@@ -26,7 +26,7 @@ function SearchResult({ data }: Props) {
       ? Array.from([node_type, category]).map((item, index) => {
           return item && <StyledDescription key={index}>{item.replace("_", " ").toUpperCase()}</StyledDescription>;
         })
-      : "Keine Adresse";
+      : "";
 
   navigator.geolocation.getCurrentPosition((position) => {
     setMyCoordinates([position.coords.latitude, position.coords.longitude]);

@@ -2,10 +2,9 @@ import React from "react";
 import { t } from "ttag";
 import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
-import ActivePreferenceSwitch from "./ActivePreferenceSwitch";
 import FilterInputs from "./FilterInputs";
 import { MockFacility } from "./mocks";
-import { StyledFilterPreferencesSection, StyledH2, StyledLegend, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
+import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
 
 type Props = {
   mockFacilities: MockFacility[];
@@ -28,18 +27,6 @@ function FilterSection({ mockFacilities, labels }: Props) {
       <StyledSearchFilterContainer>
         <div>
           <FilterInputs mockedFacilities={mockFacilities} />
-        </div>
-        <div>
-          <StyledFilterPreferencesSection>
-            <fieldset>
-              <StyledLegend>{t`Präferenzen`}</StyledLegend>
-              <ul>
-                {labels.map((label, index) => {
-                  return <ActivePreferenceSwitch key={index.toString()} name={label} />;
-                })}
-              </ul>
-            </fieldset>
-          </StyledFilterPreferencesSection>
         </div>
       </StyledSearchFilterContainer>
     );
