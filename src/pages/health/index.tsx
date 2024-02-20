@@ -5,8 +5,10 @@ import LayoutHealthPage from "../../components/App/LayoutHealthPage";
 import { FilterContext } from "../../components/Health/FilterContext";
 import SearchFilters from "../../components/Health/SearchFilters";
 import SearchResults from "../../components/Health/SearchResults";
-import { mockedHealthcareFacilities } from "../../components/Health/mocks";
-import { StyledH1, StyledHealthSiteContent } from "../../components/Health/styles";
+import {
+  StyledH1,
+  StyledHealthSiteContent,
+} from "../../components/Health/styles";
 /*
   A11y Design considerations
   - https://www.w3.org/WAI/tutorials/forms/
@@ -55,7 +57,8 @@ const StyledPage = styled.div`
     height: fit-content;
     border-radius: 0.5rem;
     padding: 1rem;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+      rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }
 
   .search-results-h2 {
@@ -90,17 +93,30 @@ export default function Page() {
   // const [searchResult, setSearchResult] = React.useState<any>([]);
   // const memoizedSearchResultsContext = React.useMemo(() => ({ searchResult, setSearchResult }), [searchResult, setSearchResult]);
 
-  const [filterMap, setFilterMap] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
-  const [extent, setExtent] = React.useState<[number, number, number, number]>(null);
-  const memoizedFilterContext = React.useMemo(() => ({ filterMap, setFilterMap, extent, setExtent }), [filterMap, setFilterMap, extent, setExtent]);
+  const [filterMap, setFilterMap] = React.useState<Map<string, boolean>>(
+    new Map<string, boolean>()
+  );
+  const [city, setCity] = React.useState<[number, number, number, number]>(
+    null
+  );
+  const memoizedFilterContext = React.useMemo(
+    () => ({ filterMap, setFilterMap, city, setCity }),
+    [filterMap, setFilterMap, city, setCity]
+  );
 
-  const labels = ["Aufzug", "Ebenerdiger Eingang", "Parkplatz", "Leichte Sprache", "Gebärdensprache"];
+  const labels = [
+    "Aufzug",
+    "Ebenerdiger Eingang",
+    "Parkplatz",
+    "Leichte Sprache",
+    "Gebärdensprache",
+  ];
   return (
     <FilterContext.Provider value={memoizedFilterContext}>
       <StyledPage>
         <StyledHealthSiteContent>
           <StyledH1>{t`Praxissuche`}</StyledH1>
-          <SearchFilters mockFacilities={mockedHealthcareFacilities} labels={labels} />
+          <SearchFilters />
           <SearchResults />
         </StyledHealthSiteContent>
       </StyledPage>

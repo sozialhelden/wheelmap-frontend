@@ -1,7 +1,11 @@
 import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { FilterContext, FilterContextType, getFilterInputExtent } from "./FilterContext";
+import {
+  FilterContext,
+  FilterContextType,
+  getFilterInputCity,
+} from "./FilterContext";
 import SearchResult from "./SearchResult";
 import { OSM_API_FEATURE, fetcher, healthAPI, limitValue } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
@@ -25,7 +29,7 @@ type OSM_API_RESPONSE = {
 
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const extent: string = getFilterInputExtent(fc);
+  const extent: string = getFilterInputCity(fc);
   const [city, setCity] = React.useState<string>("");
   const [wheelchair, setWheelchair] = React.useState<string>("");
   const [healthcare, setHealthcare] = React.useState<string>("");
@@ -79,11 +83,13 @@ function SearchResults({}: Props) {
     </div>
   );
 
-  if (!searchResults && city != "" && Array.isArray(searchResults)) return loadingSpinner;
+  if (!searchResults && city != "" && Array.isArray(searchResults))
+    return loadingSpinner;
   return (
     <StlyedSecion>
       <StyledH2>
-        {searchResults ? searchResults.length : ""} {t`Search Results`}
+        {searchResults ? searchResults.length : ""} {t`Search Results für `}
+        {extent}
         {error && error.message && `: ${error.message}`}
       </StyledH2>
       {searchResultsUI}

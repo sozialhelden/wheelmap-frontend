@@ -12,7 +12,7 @@ import {
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const [extent, setExtent] = React.useState<string>("");
+  const [city, setCity] = React.useState<string>("");
   const [cityQuery, setCityQuery] = React.useState<string>("");
   const [wheelchair, setWheelchair] = React.useState<string>("");
   const [healthcare, setHealthcare] = React.useState<string>("");
@@ -37,10 +37,10 @@ function FilterInputs() {
 
   React.useEffect(() => {
     if (cityQuery) {
-      setExtent(cityQuery);
-      fc.setExtent(extent);
+      setCity(cityQuery);
+      fc.setCity(city);
     }
-  }, [extent, fc, cityQuery]);
+  }, [city, fc, cityQuery]);
 
   return (
     <React.Fragment>

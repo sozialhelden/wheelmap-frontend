@@ -53,7 +53,7 @@ export type OSM_API_FEATURE = {
   };
 };
 
-export const limitValue = 1000;
+export const limitValue = 10000;
 export const healthAPI = (options: any) => {
   const { city, wheelchair, healthcare, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
