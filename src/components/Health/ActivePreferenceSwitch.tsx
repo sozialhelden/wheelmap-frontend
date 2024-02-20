@@ -13,7 +13,6 @@ function ActivePreferenceSwitch({ name }: Props) {
   const handleChange = React.useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const nextMap = new Map(filterMap);
-      // nextMap.set(name, !filterMap.get(name));
       nextMap.set(name, e.target.checked);
       filterContext.setFilterMap(nextMap);
     },
@@ -23,7 +22,15 @@ function ActivePreferenceSwitch({ name }: Props) {
   return (
     <li>
       <label className="label">
-        <StyledCheckbox type="checkbox" role="switch" name={name} onChange={handleChange} id={name} value={name || ""} checked={filterMap.get(name) || false} />
+        <StyledCheckbox
+          type="checkbox"
+          role="switch"
+          name={name}
+          onChange={handleChange}
+          id={name}
+          value={name || ""}
+          checked={filterMap.get(name) || false}
+        />
         {name}
       </label>
     </li>

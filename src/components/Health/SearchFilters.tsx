@@ -1,17 +1,19 @@
 import React from "react";
 import { t } from "ttag";
-import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
+import {
+  WindowContextType,
+  useWindowContext,
+} from "../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
 import FilterInputs from "./FilterInputs";
-import { MockFacility } from "./mocks";
-import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
+import {
+  StyledH2,
+  StyledSearchFilterContainer,
+  StyledSearchFilterDetails,
+  StyledSearchFilterSection,
+} from "./styles";
 
-type Props = {
-  mockFacilities: MockFacility[];
-  labels: string[];
-};
-
-function FilterSection({ mockFacilities, labels }: Props) {
+function FilterSection() {
   const { width }: WindowContextType = useWindowContext();
 
   const [isMobile, setMobile] = React.useState(width < 640);
@@ -26,7 +28,7 @@ function FilterSection({ mockFacilities, labels }: Props) {
     return (
       <StyledSearchFilterContainer>
         <div>
-          <FilterInputs mockedFacilities={mockFacilities} />
+          <FilterInputs />
         </div>
       </StyledSearchFilterContainer>
     );
