@@ -9,24 +9,7 @@ import {
 import SearchResult from "./SearchResult";
 import { OSM_API_FEATURE, fetcher, healthAPI, limitValue } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
-const useRouter = require("next/router").useRouter;
-
 type Props = {};
-
-type EXTENT = [number, number, number, number];
-type OSM_API_RESPONSE = {
-  conditions: {
-    limit: number;
-    offset: number;
-    page: string;
-    per_page: string;
-    format: string;
-    bbox: EXTENT;
-  };
-  type: "LegacyFeatureCollection";
-  nodes: OSM_API_FEATURE[];
-};
-
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
   const extent: string = getFilterInputCity(fc);
@@ -56,10 +39,7 @@ function SearchResults({}: Props) {
     if (data) {
       setSearchResults(data);
     }
-    if (error) {
-      console.log(error);
-    }
-  }, [data, error]);
+  }, [data]);
 
   const loadingSpinner = (
     <StlyedSecion>
@@ -88,8 +68,9 @@ function SearchResults({}: Props) {
   return (
     <StlyedSecion>
       <StyledH2>
-        {searchResults ? searchResults.length : ""} {t`Search Results für `}
-        {extent}
+        {Array.isArray(searchResults)
+          ? t`Ergebnisse für ` + extent + ` (${searchResults.length})`
+          : t`Keine Ergebnisse für ` + extent}
         {error && error.message && `: ${error.message}`}
       </StyledH2>
       {searchResultsUI}
