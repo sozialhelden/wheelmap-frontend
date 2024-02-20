@@ -30,7 +30,7 @@ function SearchResults({}: Props) {
   const [wheelchair, setWheelchair] = React.useState<string>("");
   const [healthcare, setHealthcare] = React.useState<string>("");
   const [limit, setLimit] = React.useState<string>("");
-  const [searchResults, setSearchResults] = React.useState<OSM_API_FEATURE[]>(null);
+  const [searchResults, setSearchResults] = React.useState<any[]>(null);
   React.useEffect(() => {
     if (extent) {
       setCity(`city=${extent}`);
@@ -46,11 +46,11 @@ function SearchResults({}: Props) {
     healthcare: healthcare,
     limit: limit,
   });
-  const { data, error } = useSWR<OSM_API_RESPONSE, Error>(finalURL, fetcher);
+  const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
     if (data) {
-      setSearchResults(data.nodes);
+      setSearchResults(data);
     }
     if (error) {
       console.log(error);
