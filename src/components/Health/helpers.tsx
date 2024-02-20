@@ -1,5 +1,3 @@
-import { t } from "ttag";
-
 export const fetcher = (url: RequestInfo | URL) =>
   fetch(url).then((res) => res.json());
 
@@ -57,7 +55,7 @@ export const limitValue = 10000;
 export const healthAPI = (options: any) => {
   const { city, wheelchair, healthcare, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-  if (city) {
+  if (city || wheelchair || healthcare || limit) {
     return `${baseurl}/healthcare?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
   }
 };
@@ -84,17 +82,4 @@ export function calculateDistance(
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return (R * c) / 1000;
-}
-
-export function isWheelchairAccessible(wheelchair: string): string {
-  switch (wheelchair) {
-    case "yes":
-      return t`Rollstuhlzugänglich`;
-    case "no":
-      return t`Nicht rollstuhlzugänglich`;
-    case "limited":
-      return t`Eingeschränkt rollstuhlzugänglich`;
-    default:
-      return t`Keine Angaben`;
-  }
 }
