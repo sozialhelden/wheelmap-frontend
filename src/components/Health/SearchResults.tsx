@@ -71,7 +71,7 @@ function SearchResults({}: Props) {
   const searchResultsUI = (
     <div className="search-results-container">
       <ul className="search-results-list">
-        {searchResults &&
+        {Array.isArray(searchResults) &&
           searchResults.map((item: OSM_API_FEATURE) => {
             return (
               <li key={item.osm_id}>
