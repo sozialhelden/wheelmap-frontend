@@ -1,70 +1,61 @@
 import React from "react";
 import { t } from "ttag";
 import { FilterContext, FilterContextType } from "./FilterContext";
+import { FilterOptions, defaultFilterOptions } from "./helpers";
 import { mockedHealthcare } from "./mocks";
-import {
-  StyledLabel,
-  StyledLegend,
-  StyledSearchFilterInputs,
-  StyledSelect,
-  StyledTextInput,
-} from "./styles";
+import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const [city, setCity] = React.useState<string>("");
-  const [cityQuery, setCityQuery] = React.useState<string>("");
-  const [wheelchair, setWheelchair] = React.useState<string>("");
-  const [healthcare, setHealthcare] = React.useState<string>("");
+  const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
 
   const handleOnChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTimeout(() => {
-      setCityQuery(e.target.value);
+      setFilterOptions({
+        ...filterOptions,
+        city: e.target.value,
+      });
     }, 2000);
   };
 
-  const handleOnChangeWheelchair = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setWheelchair(e.target.value);
+  const handleOnChangeWheelchair = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterOptions({
+      ...filterOptions,
+      wheelchair: e.target.value,
+    });
   };
 
-  const handleOnChangeHealthcare = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setHealthcare(e.target.value);
+  const handleOnChangeHealthcare = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterOptions({
+      ...filterOptions,
+      healthcare: e.target.value,
+    });
+  };
+
+  const handleOnChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterOptions({
+      ...filterOptions,
+      limit: e.target.value,
+    });
   };
 
   React.useEffect(() => {
-    if (cityQuery) {
-      setCity(cityQuery);
-      fc.setCity(city);
+    if (filterOptions) {
+      fc.setFilterOptions(filterOptions);
     }
-  }, [city, fc, cityQuery]);
+  }, [fc, filterOptions]);
 
   return (
     <React.Fragment>
       <StyledLegend>{t`Allgemeine Angaben`}</StyledLegend>
-      <StyledSearchFilterInputs
-        role="group"
-        aria-labelledby="survey-form-titel"
-      >
+      <StyledSearchFilterInputs role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="place">{t`Ort`}</StyledLabel>
-        <StyledTextInput
-          type="text"
-          name=""
-          id="place"
-          onChange={handleOnChangeCity}
-        />
+        <StyledTextInput type="text" name="" id="place" onChange={handleOnChangeCity} />
 
         <StyledLabel htmlFor="healthcare-select">
-          {t`Einrichtungsart`} : {healthcare}
+          {t`Einrichtungsart`} : {filterOptions.healthcare}
         </StyledLabel>
-        <StyledSelect
-          name="healthcare"
-          id="healthcare-select"
-          onChange={handleOnChangeHealthcare}
-        >
+        <StyledSelect name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
           <option value="">{t`--Bitte Option auswählen--`}</option>
           {mockedHealthcare.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>
@@ -74,18 +65,23 @@ function FilterInputs() {
         </StyledSelect>
 
         <StyledLabel htmlFor="wheelchair-select">
-          {t`Rollstuhlgerecht`} : {wheelchair}
+          {t`Rollstuhlgerecht`} : {filterOptions.wheelchair}
         </StyledLabel>
-        <StyledSelect
-          name="wheelchair"
-          id="wheelchair-select"
-          onChange={handleOnChangeWheelchair}
-        >
+        <StyledSelect name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
           <option value="">{t`--Bitte Option auswählen--`}</option>
           <option value="yes">{t`Ja`}</option>
           <option value="no">{t`Nein`}</option>
           <option value="limited">{t`Teilweise`}</option>
-          <option value="unknown">{t`Unbekannt`}</option>
+        </StyledSelect>
+
+        <StyledLabel htmlFor="limit-select">
+          {t`Suchgrenze (Anzahl)`} : {filterOptions.limit}
+        </StyledLabel>
+        <StyledSelect name="limit" id="limit-select" onChange={handleOnChangeLimit}>
+          <option value="">{t`--Bitte Option auswählen--`}</option>
+          <option value="100">100</option>
+          <option value="1000">1000</option>
+          <option value="10000">10000</option>
         </StyledSelect>
       </StyledSearchFilterInputs>
     </React.Fragment>

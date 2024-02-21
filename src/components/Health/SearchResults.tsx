@@ -1,47 +1,45 @@
 import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import {
-  FilterContext,
-  FilterContextType,
-  getFilterInputCity,
-} from "./FilterContext";
+import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { OSM_API_FEATURE, fetcher, healthAPI, limitValue } from "./helpers";
+import { FilterOptions, OSM_API_FEATURE, fetcher, healthAPI } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const extent: string = getFilterInputCity(fc);
-  const [city, setCity] = React.useState<string>("");
-  const [wheelchair, setWheelchair] = React.useState<string>("");
-  const [healthcare, setHealthcare] = React.useState<string>("");
-  const [limit, setLimit] = React.useState<string>("");
+  const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
+  const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
   const [searchResults, setSearchResults] = React.useState<any[]>(null);
+  const [loadingSpinner, setLoadingSpinner] = React.useState<boolean>(true);
   React.useEffect(() => {
-    if (extent) {
-      setCity(`city=${extent}`);
-      setWheelchair(`wheelchair=yes`);
-      setHealthcare(`healthcare=pharmacy`);
-      setLimit(`limit=${limitValue}`);
+    if (filterOptionsFC) {
+      setFilterOptions({
+        city: `city=${filterOptionsFC.city}`,
+        wheelchair: `wheelchair=${filterOptionsFC.wheelchair}`,
+        healthcare: `healthcare=${filterOptionsFC.healthcare}`,
+        limit: `limit=${filterOptionsFC.limit}`,
+      });
     }
-  }, [city, extent, fc]);
+  }, [fc, filterOptionsFC]);
 
   const finalURL = healthAPI({
-    city: city,
-    wheelchair: wheelchair,
-    healthcare: healthcare,
-    limit: limit,
+    city: filterOptions.city,
+    wheelchair: filterOptions.wheelchair,
+    limit: filterOptions.limit,
+    healthcare: filterOptions.healthcare,
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
+    setLoadingSpinner(true);
     if (data) {
       setSearchResults(data);
+      setLoadingSpinner(false);
     }
   }, [data]);
 
-  const loadingSpinner = (
+  const loadingSpinnerUI = (
     <StlyedSecion>
       <StyledH2>{t`Suchen ...`}</StyledH2>
       <StyledLoadingSpinner />
@@ -63,17 +61,13 @@ function SearchResults({}: Props) {
     </div>
   );
 
-  if (!searchResults && city != "" && Array.isArray(searchResults))
-    return loadingSpinner;
   return (
     <StlyedSecion>
       <StyledH2>
-        {Array.isArray(searchResults)
-          ? t`Ergebnisse für ` + extent + ` (${searchResults.length})`
-          : t`Keine Ergebnisse für ` + extent}
+        {Array.isArray(searchResults) ? t`Ergebnisse für ` + filterOptionsFC.city + ` (${searchResults.length})` : t`Keine Ergebnisse für ` + filterOptionsFC.city}
         {error && error.message && `: ${error.message}`}
       </StyledH2>
-      {searchResultsUI}
+      {loadingSpinner ? loadingSpinnerUI : searchResultsUI}
     </StlyedSecion>
   );
 }

@@ -1,17 +1,9 @@
 import React from "react";
 import { t } from "ttag";
-import {
-  WindowContextType,
-  useWindowContext,
-} from "../../lib/context/WindowContext";
+import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
 import FilterInputs from "./FilterInputs";
-import {
-  StyledH2,
-  StyledSearchFilterContainer,
-  StyledSearchFilterDetails,
-  StyledSearchFilterSection,
-} from "./styles";
+import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
 
 function FilterSection() {
   const { width }: WindowContextType = useWindowContext();
