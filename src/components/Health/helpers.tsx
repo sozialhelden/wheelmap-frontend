@@ -69,7 +69,7 @@ export const healthAPI = (options: any) => {
   const { city, wheelchair, healthcare, limit } = options;
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   if (city || wheelchair || healthcare || limit) {
-    return `${baseurl}/healthcare?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
+    return `${baseurl}/healthcare.json?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
   }
 };
 
