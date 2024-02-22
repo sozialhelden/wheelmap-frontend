@@ -2,8 +2,8 @@ import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
+import { fetcher, FilterOptions, OSM_API_FEATURE, useHealthAPIURL } from "./helpers";
 import SearchResult from "./SearchResult";
-import { FilterOptions, OSM_API_FEATURE, fetcher, healthAPI } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
@@ -23,7 +23,7 @@ function SearchResults({}: Props) {
     }
   }, [fc, filterOptionsFC]);
 
-  const finalURL = healthAPI({
+  const finalURL = useHealthAPIURL({
     city: filterOptions.city,
     wheelchair: filterOptions.wheelchair,
     limit: filterOptions.limit,

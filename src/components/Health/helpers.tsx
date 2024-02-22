@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import EnvContext from "../shared/EnvContext";
+
 export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
 
 export type OSM_DATA = {
@@ -65,9 +68,10 @@ export type OSM_API_FEATURE = {
 };
 
 export const limitValue = 10000;
-export const healthAPI = (options: any) => {
+export const useHealthAPIURL = (options: any) => {
   const { city, wheelchair, healthcare, limit } = options;
-  const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const env = useContext(EnvContext);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   if (city || wheelchair || healthcare || limit) {
     return `${baseurl}/healthcare.json?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
   }

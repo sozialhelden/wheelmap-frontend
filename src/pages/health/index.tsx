@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { t } from "ttag";
 import LayoutHealthPage from "../../components/App/LayoutHealthPage";
 import { FilterContext } from "../../components/Health/FilterContext";
+import { defaultFilterOptions } from "../../components/Health/helpers";
 import SearchFilters from "../../components/Health/SearchFilters";
 import SearchResults from "../../components/Health/SearchResults";
-import { defaultFilterOptions } from "../../components/Health/helpers";
 import { StyledH1, StyledHealthSiteContent } from "../../components/Health/styles";
 /*
   A11y Design considerations

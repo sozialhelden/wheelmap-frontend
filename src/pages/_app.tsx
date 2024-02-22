@@ -2,7 +2,7 @@
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
 import { HotkeysProvider } from '@blueprintjs/core';
 import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
-import { uniq } from 'lodash';
+import { pick, uniq } from 'lodash';
 import { NextPage } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
@@ -10,12 +10,13 @@ import { default as NextApp } from 'next/app';
 import Head from 'next/head';
 import * as queryString from 'query-string';
 import * as React from 'react';
+import EnvContext from '../components/shared/EnvContext';
 import composeContexts, { ContextAndValue } from '../lib/composeContexts';
 import { AppContext } from '../lib/context/AppContext';
 import CountryContext from '../lib/context/CountryContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
+import { parseUserAgentString, UserAgentContext } from '../lib/context/UserAgentContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
 import { App } from '../lib/model/ac/App';
@@ -34,17 +35,19 @@ interface ExtraProps {
   app: App;
   languageTags: ILanguageSubtag[];
   ipCountryCode?: string;
+  environmentVariables: Record<string, string>;
 }
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const { userAgentString, app, session, languageTags, ipCountryCode } = pageProps;
+  const { userAgentString, app, session, languageTags, ipCountryCode, environmentVariables } = pageProps;
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
     [HostnameContext, app.hostname],
     [LanguageTagContext, { languageTags }],
-    [CountryContext, ipCountryCode]
+    [CountryContext, ipCountryCode],
+    [EnvContext, environmentVariables]
   ];
 
   // Use the layout defined at the page level, if available
@@ -97,7 +100,14 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (!app) {
     throw new Error(`No app found for hostname ${hostname}`);
   }
-  const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode };
+  const environmentVariables = pick(
+    process.env,
+    Object
+      .keys(process.env)
+      .filter((key) => key.startsWith("NEXT_PUBLIC_")
+      )
+  );
+  const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode, environmentVariables };
   return { ...appProps, pageProps }
 }
 
