@@ -47,6 +47,8 @@ import { Dictionary, sortBy } from 'lodash';
 import Link, { RouteConsumer } from '../Link/Link';
 import { translatedStringFromObject } from '../../lib/i18n';
 import CategoryIcon from '../Icon';
+import ConfigurableExternalLinks from './IconButtonList/ConfigurableExternalLinks';
+import { MappingEvent } from '../../lib/MappingEvent';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -72,6 +74,7 @@ type Props = {
   modalNodeState: ModalNodeState,
   userAgent: UAResult,
   minimalTopPosition: number,
+  joinedMappingEvent?: MappingEvent,
   onClose: () => void,
   onOpenReportMode: () => void | null,
   onOpenToiletAccessibility: () => void,
@@ -433,6 +436,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       <div>
         {isEquipment && featureId && this.renderPlaceNameForEquipment()}
         {inlineWheelchairAccessibilityEditor}
+        <ConfigurableExternalLinks feature={this.props.feature} joinedMappingEvent={this.props.joinedMappingEvent} />
         {accessibilitySection}
         {photoSection}
         {equipmentOverview}

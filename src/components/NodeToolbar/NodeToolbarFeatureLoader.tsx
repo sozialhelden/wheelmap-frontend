@@ -41,6 +41,7 @@ type Props = {
   photoFlowErrorMessage: null | string,
   minimalTopPosition: number,
   userAgent: UAResult,
+  joinedMappingEventId?: string,
 } & PlaceDetailsProps;
 
 type RequiredData = {

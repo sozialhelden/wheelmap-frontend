@@ -266,6 +266,8 @@ class MainView extends React.Component<Props, State> {
     return (
       <div className="node-toolbar">
         <NodeToolbarFeatureLoader
+          joinedMappingEventId={this.props.joinedMappingEventId}
+          joinedMappingEvent={this.props.joinedMappingEvent}
           featureId={this.props.featureId}
           equipmentInfoId={this.props.equipmentInfoId}
           cluster={this.props.activeCluster}

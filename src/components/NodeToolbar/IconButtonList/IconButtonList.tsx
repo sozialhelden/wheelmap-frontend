@@ -11,6 +11,7 @@ import colors from '../../../lib/colors';
 import PlaceWebsiteLink from './PlaceWebsiteLink';
 import ReportIssueButton from './ReportIssueButton';
 import { UAResult } from '../../../lib/userAgent';
+import ConfigurableExternalLinks from './ConfigurableExternalLinks';
 
 type Props = {
   feature: Feature | null,

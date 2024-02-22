@@ -79,6 +79,32 @@ export interface ClientSideConfiguration {
   };
   customMainMenuLinks?: LinkData[];
   addPlaceURL?: string;
+  /**
+   * External links to be shown in the place details view.
+   */
+  externalPlaceLinks?: [
+    {
+      /**
+       * For which places should the button be shown? This is a JSON MongoDB selector that is
+       * applied on the currently open feature. If the selector matches, the button is shown.
+       */
+      selectorString?: string;
+      /** Name to identify the link as an admin */
+      name: LocalizedString;
+      /** Link label in the app's UI. */
+      caption?: LocalizedString;
+      /**
+       * URL to open when the link is clicked/tapped. Can contain the following template strings:
+       *
+       * - `{{placeInfoId}}`: The place's ID
+       * - `{{osmId}}`: The place's OpenStreetMap ID
+       * - `{{osmType}}`: The place's OpenStreetMap type (e.g. 'node', 'way', 'relation')
+       * - `{{properties.tags.amenity}}`: \`amenity\` OSM tag value
+       */
+      href: string;
+      intent?: 'primary' | 'none' | 'danger' | 'success' | 'warning';
+    },
+  ],
 }
 
 export function getProductTitle(

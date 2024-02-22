@@ -141,10 +141,7 @@ class MainMenu extends React.Component<Props, State> {
         const url =
           link.url &&
           insertPlaceholdersToAddPlaceUrl(
-            translatedStringFromObject(link.url),
-            this.props.uniqueSurveyId,
-            this.props.joinedMappingEvent
-          );
+            { url: translatedStringFromObject(link.url), uniqueSurveyId: this.props.uniqueSurveyId, joinedMappingEvent: this.props.joinedMappingEvent }          );
         const label = translatedStringFromObject(link.label);
         const badgeLabel = translatedStringFromObject(link.badgeLabel);
         const classNamesFromTags = link.tags && link.tags.map(tag => `${tag}-link`);
