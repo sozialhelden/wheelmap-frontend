@@ -435,7 +435,8 @@ export default class Map extends React.Component<Props, State> {
 
     const customFilterChanged =
       ((prevState.category && prevState.category.isMetaCategory) ||
-        (this.state.category && this.state.category.isMetaCategory));
+        (this.state.category && this.state.category.isMetaCategory))
+      && prevState.category?.name !== this.state.category?.name;
 
     const categoryChanged = this.props.categoryId !== prevProps.categoryId;
 
