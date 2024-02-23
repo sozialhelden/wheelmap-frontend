@@ -1,7 +1,5 @@
 import env from '../lib/env';
 import { createEnvironmentJSResponseHandler } from '@sozialhelden/twelve-factor-dotenv';
-
-import startServerSideApm from '../lib/apm/startServerSideApm';
 import nextjs from 'next';
 import * as path from 'path';
 import express from 'express';
@@ -20,23 +18,10 @@ const app = nextjs({ dir: path.join(__dirname, '..'), dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  // TODO: Re-enable APM
-  // startServerSideApm();
-
   const server = express();
   server.use(cache(3600));
   server.use(compression());
   server.use(express.static('public'));
-
-  // TODO: Deploy new native apps that bring their own localizations and remove this redirect
-  server.use(
-    ['/beta/i18n/*'],
-    createProxyMiddleware({
-      target: 'http://classic.wheelmap.org',
-      changeOrigin: true,
-    })
-  );
-
   server.use(
     ['/t/*'],
     createProxyMiddleware({
@@ -52,19 +37,6 @@ app.prepare().then(() => {
   server.get(/\/beta/, (req, res) => {
     res.redirect(`${req.originalUrl.replace(/\/beta\/?/, '/')}`);
   });
-
-  // Old urls from the classic rails app
-  // First capturing group represents optional locale
-  server.get(
-    [
-      /(\/[a-zA-Z_-]+)?\/map\/.+/,
-      /(\/[a-zA-Z_-]+)?\/community_support\/new.*/,
-      /(\/[a-zA-Z_-]+)?\/api\/docs.*/,
-    ],
-    (req, res) => {
-      res.redirect(`http://classic.wheelmap.org${req.originalUrl}`);
-    }
-  );
 
   server.get([/(\/[a-zA-Z_-]+)?\/embed.*/], (req, res) => {
     const extendedQueryString = querystring.stringify({
