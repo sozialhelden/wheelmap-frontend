@@ -56,7 +56,10 @@ export const tagsWithoutDisplayedKeySet = new Set([
   "building_object",
   "service:bicycle:pump",
   "get_in",
-  "fee:urinal"
+  "fee:urinal",
+  "automatic_door",
+  "door:handle",
+  "door:wings",
 ]);
 
 export const tagsWithoutDisplayedKeyRegExp = /^(payment|diet):.*$/
@@ -83,6 +86,7 @@ export const omittedKeyPrefixes = [
   "payment:cryptocurrencies",
   "building:height",
   "building:parts",
+  "building:roof",
   "building:levels:underground",
   "building:architecture",
 ];
@@ -144,7 +148,7 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["changing_table.$1", /^changing_table:([\w_]+)$/],
   ["entrance.door", /^door$/],
   ["entrance.automatic_door", /^automatic_door$/],
-  ["entrance.door:wings", /^door:wings$/],
+  ["entrance.door:$1", /^door:([\w_]+)$/],
   ["entrance.$1.door.automatic", /^automatic_door:([\w_]+)$/],
   ["entrance.step_count", /^step_count$/],
   ["entrance.step_height", /^wheelchair:step_height$/],
@@ -153,7 +157,6 @@ export const pathsToConsumedTagKeys: [string, RegExp][] = [
   ["centralkey", /^centralkey$/],
   ["healthcare.speciality", /^healthcare:speciality$/],
   ["healthcare.dispensing", /^dispensing$/],
-  ["capacity.total", /^capacity$/],
   ["capacity.$1", /^capacity:([\w_]+)$/],
   [
     "audience.$1",
@@ -194,23 +197,38 @@ export const sortOrderMap = new Map<string, number>([
   ['opening_hours', 6],
   ['opening_hours:covid19', 7],
   ['opening_hours:signed', 8],
-  ['diet', 9.01],
+  ['cuisine', 9.01],
+  ['diet', 9.02],
+  ['vegan', 9.03],
+  ['vegetarian', 9.04],
+  ['organic', 9.05],
+  ['halal', 9.06],
+  ['kosher', 9.07],
   ['seating', 9.1],
   ['reservation', 9.15],
   ['takeaway', 9.2],
   ['delivery', 9.3],
   ['payment', 9.4],
-  ['cuisine', 9.6],
   ['internet_access', 9.7],
   ['internet_access:fee', 9.8],
   ['charging', 14],
   ['amperage', 15],
+  ['current', 15],
+  ['output', 15],
   ['voltage', 16],
   ['socket', 17],
   ['color', 800],
   ['material', 801],
   ['operator', 1000000000],
   ['smoking', 10000000],
+]);
+
+export const defaultUnits = new Map<string, string>([
+  ["voltage", "V"],
+  ["current", "A"],
+  ["amperage", "A"],
+  ["output", "W"],
+  ["socket", "×"],
 ]);
 
 export const editableKeys = new Set([
@@ -239,6 +257,7 @@ export const additionalPrefixesForKeys: Map<string, Set<string>> = new Map([
 
 export const languageTaggedKeys = new Set([
   "name",
+  "operator",
   "building:name",
   "entrance:name",
   "description",
@@ -246,4 +265,10 @@ export const languageTaggedKeys = new Set([
   "blind:description",
   "deaf:description",
   "toilets:wheelchair:description",
+]);
+
+export const horizontalKeys = new Set([
+  "payment",
+  "internet_access",
+  "diet",
 ]);
