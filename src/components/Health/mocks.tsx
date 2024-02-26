@@ -400,6 +400,17 @@ export const mockedHealthcare: MockHealthcare[] = [
   },
 ];
 
+export const mockedHealthcareSpeciality: MockHealthcare[] = [
+  {
+    value: "allergology",
+    label: t`Allergologie`,
+  },
+  {
+    value: "anaesthetics",
+    label: t`Anästhesie`,
+  },
+];
+
 export type MockFacility = {
   en: string;
   de: string;
@@ -772,8 +783,7 @@ export const mockedData: MockData[] = [
       hasAccessibility: true,
       phoneNumber: "06232/42045",
       description: {
-        en:
-          "Behinderten Parkplätze sind vorhanden, aber leider gibt es 40 Sufen und 5 Schwellen",
+        en: "Behinderten Parkplätze sind vorhanden, aber leider gibt es 40 Sufen und 5 Schwellen",
       },
     },
   },
@@ -1277,8 +1287,7 @@ export const mockedData: MockData[] = [
       infoPageUrl: "https://wheelmap.org/nodes/85077606",
       category: "doctor",
       name: {
-        en:
-          "Mehnert Dres. Gemeinschaftspraxis für Genetik Mikrobiologie, Molekulargenetik",
+        en: "Mehnert Dres. Gemeinschaftspraxis für Genetik Mikrobiologie, Molekulargenetik",
       },
       accessibility: {
         accessibleWith: {
@@ -1353,8 +1362,7 @@ export const mockedData: MockData[] = [
       infoPageUrl: "https://wheelmap.org/nodes/3782963202",
       category: "doctor",
       name: {
-        en:
-          "Gemeinschaftspraxis Dr.med. Gudrun Schirmer und Dipl.-Med. U. Schirmer",
+        en: "Gemeinschaftspraxis Dr.med. Gudrun Schirmer und Dipl.-Med. U. Schirmer",
       },
       accessibility: {
         accessibleWith: {

@@ -2,8 +2,8 @@ import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
-import { fetcher, FilterOptions, OSM_API_FEATURE, useHealthAPIURL } from "./helpers";
 import SearchResult from "./SearchResult";
+import { FilterOptions, OSM_API_FEATURE, fetcher, useHealthAPIURL } from "./helpers";
 import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
@@ -19,6 +19,7 @@ function SearchResults({}: Props) {
         wheelchair: `wheelchair=${filterOptionsFC.wheelchair}`,
         healthcare: `healthcare=${filterOptionsFC.healthcare}`,
         limit: `limit=${filterOptionsFC.limit}`,
+        ["healthcare:speciality"]: `healthcare:speciality=${filterOptionsFC["healthcare:speciality"]}`,
       });
     }
   }, [fc, filterOptionsFC]);
@@ -28,6 +29,7 @@ function SearchResults({}: Props) {
     wheelchair: filterOptions.wheelchair,
     limit: filterOptions.limit,
     healthcare: filterOptions.healthcare,
+    ["healthcare:speciality"]: filterOptions["healthcare:speciality"],
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 

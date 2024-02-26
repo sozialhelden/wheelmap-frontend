@@ -33,6 +33,7 @@ export type FilterOptions = {
   wheelchair: string;
   limit: string;
   healthcare: string;
+  ["healthcare:speciality"]: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
@@ -40,6 +41,7 @@ export const defaultFilterOptions: FilterOptions = {
   wheelchair: "yes",
   limit: "100",
   healthcare: "pharmacy",
+  ["healthcare:speciality"]: "",
 };
 
 export type OSM_API_FEATURE = {
@@ -69,11 +71,11 @@ export type OSM_API_FEATURE = {
 
 export const limitValue = 10000;
 export const useHealthAPIURL = (options: any) => {
-  const { city, wheelchair, healthcare, limit } = options;
+  const { city, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, limit } = options;
   const env = useContext(EnvContext);
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   if (city || wheelchair || healthcare || limit) {
-    return `${baseurl}/healthcare.json?${city}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
+    return `${baseurl}/healthcare.json?${city}&${wheelchair}&${healthcareSpeciality}&${healthcare}&${limit}&geometry=centroid`;
   }
 };
 

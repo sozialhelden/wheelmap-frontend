@@ -16,6 +16,7 @@ export const FilterContext = React.createContext<FilterContextType>({
     wheelchair: "",
     limit: "",
     healthcare: "",
+    ["healthcare:speciality"]: "",
   },
   setFilterOptions: () => {},
 });

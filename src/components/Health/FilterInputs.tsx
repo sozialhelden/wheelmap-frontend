@@ -2,7 +2,7 @@ import React from "react";
 import { t } from "ttag";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions } from "./helpers";
-import { mockedHealthcare } from "./mocks";
+import { mockedHealthcare, mockedHealthcareSpeciality } from "./mocks";
 import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
 
 function FilterInputs() {
@@ -32,6 +32,13 @@ function FilterInputs() {
     });
   };
 
+  const handleOnChangeHealthcareSpeciality = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterOptions({
+      ...filterOptions,
+      "healthcare:speciality": e.target.value,
+    });
+  };
+
   const handleOnChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterOptions({
       ...filterOptions,
@@ -58,6 +65,18 @@ function FilterInputs() {
         <StyledSelect name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
           <option value="">{t`--Bitte Option auswählen--`}</option>
           {mockedHealthcare.map((item, index) => (
+            <option key={item.value + (index++).toString()} value={item.value}>
+              {item.label}
+            </option>
+          ))}
+        </StyledSelect>
+
+        <StyledLabel htmlFor="healthcare-speciality-select">
+          {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
+        </StyledLabel>
+        <StyledSelect name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
+          <option value="">{t`--Bitte Option auswählen--`}</option>
+          {mockedHealthcareSpeciality.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>
               {item.label}
             </option>

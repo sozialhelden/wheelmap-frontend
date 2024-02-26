@@ -40,12 +40,7 @@ function SearchResult({ data }: Props) {
           <StyledLegend>
             <Icon icon="map-marker" size={20} />
             &nbsp;&nbsp;
-            {calculateDistance(
-              myCoordinates[0],
-              myCoordinates[1],
-              lat,
-              lon
-            ).toFixed(2)}
+            {calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon).toFixed(2)}
             KM entfernt
           </StyledLegend>
         </p>
@@ -60,9 +55,7 @@ function SearchResult({ data }: Props) {
       ) : (
         <h3 className="search-result-heading">{name}</h3>
       )}
-      <p className="search-result-address">
-        {[customStreet, customHousenumber, customPostcode, customCity].join("")}
-      </p>
+      <p className="search-result-address">{[customStreet, customHousenumber, customPostcode, customCity].join("")}</p>
       {cutomePhone && (
         <StyledLink href={"tel:" + cutomePhone} target="_blank" className="">
           <p className="search-result-phone">
