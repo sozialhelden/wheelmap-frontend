@@ -2,7 +2,9 @@ import { parseQuantity } from "@sozialhelden/a11yjson";
 import React from "react";
 import styled from "styled-components";
 
-const Quantity = styled.span.attrs({ className: 'quantity' })``;
+const Quantity = styled.div.attrs({ className: 'quantity' })`
+  text-align: right;
+`;
 
 const Value = styled.span.attrs({ className: 'value' })`
 

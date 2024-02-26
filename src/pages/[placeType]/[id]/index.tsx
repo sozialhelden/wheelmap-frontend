@@ -1,14 +1,11 @@
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import styled from "styled-components";
-import useSWR from "swr";
 import Layout from "../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import CloseLink from "../../../components/shared/CloseLink";
 import Toolbar from "../../../components/shared/Toolbar";
-import { useCurrentApp } from "../../../lib/context/AppContext";
-import { fetchMultipleFeatures } from "../../../lib/fetchers/fetchMultipleFeatures";
-import ReportIssueButton from "../../../components/CombinedFeaturePanel/components/IconButtonList/ReportIssueButton";
+import { useMultipleFeatures } from "../../../lib/fetchers/fetchMultipleFeatures";
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -20,12 +17,7 @@ PositionedCloseLink.displayName = "PositionedCloseLink";
 export default function CompositeFeaturesPage() {
   const router = useRouter();
   const { placeType, id } = router.query;
-  const app = useCurrentApp();
-
-  const features = useSWR(
-    [app.tokenString, `${placeType}:${id}`],
-    fetchMultipleFeatures
-  );
+  const features = useMultipleFeatures(`${placeType}:${id}`);
 
   const options = {
     handleOpenReportMode: () => router.push(`/${placeType}/${id}/report`),

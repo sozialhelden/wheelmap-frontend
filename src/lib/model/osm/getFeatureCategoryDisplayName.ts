@@ -5,6 +5,7 @@ import OSMFeature from "./OSMFeature";
 
 export default function getGenericCategoryDisplayName(feature: OSMFeature, attributeMap: Map<string, IAccessibilityAttribute>, languageTags: string[]) {
   const properties = feature.properties;
+  let tagKeys: string[] = [];
 
   const keysWithKeyAsSuffix = [
     "studio",
@@ -36,6 +37,7 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
   for (const key of keysWithoutKeyAsSuffix) {
     if (properties[key] && properties[key] !== "yes") {
       result.push(`${humanize(properties[key])} ${properties.ref || ""}`);
+      tagKeys.push(key);
       break;
     }
   }
@@ -45,6 +47,7 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
       const attributeId = `osm:${key}=${properties[key]}`;
       const attribute = attributeMap?.get(attributeId);
 
+      tagKeys.push(key);
       if (attribute) {
         const fullTypeName = getLocalizedStringTranslationWithMultipleLocales(attribute.shortLabel || attribute.label, languageTags);
         result.push(`${fullTypeName} ${properties.ref || ""}`);
@@ -59,6 +62,7 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
 
   for (const key of [...keysWithKeyAsSuffix, ...keysWithoutKeyAsSuffix]) {
     if (properties[key] === "yes") {
+      tagKeys.push(key);
       const attributeId = `osm:${key}=yes`;
       const attribute = attributeMap?.get(attributeId);
       if (attribute) {
@@ -72,5 +76,5 @@ export default function getGenericCategoryDisplayName(feature: OSMFeature, attri
     }
   }
 
-  return result.join(", ");
+  return { tagKeys, displayName: result.join(", ") };
 }

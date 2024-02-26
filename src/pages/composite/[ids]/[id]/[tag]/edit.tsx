@@ -9,9 +9,9 @@ import Layout from "../../../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import { OSMTagEditor } from "../../../../../components/CombinedFeaturePanel/components/AccessibilitySection/OSMTagEditor";
 import CloseLink from "../../../../../components/shared/CloseLink";
+import { useEnvContext } from "../../../../../components/shared/EnvContext";
 import Toolbar from "../../../../../components/shared/Toolbar";
-import { useCurrentApp } from "../../../../../lib/context/AppContext";
-import { fetchMultipleFeatures } from "../../../../../lib/fetchers/fetchMultipleFeatures";
+import { useMultipleFeatures } from "../../../../../lib/fetchers/fetchMultipleFeatures";
 import { isOSMFeature } from "../../../../../lib/model/shared/AnyFeature";
 import { getOSMType } from "../../../../../lib/model/shared/generateOsmUrls";
 
@@ -22,9 +22,7 @@ const PositionedCloseLink = styled(CloseLink)`
 `;
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
-const baseUrl = process.env.NEXT_PUBLIC_OSM_API_BASE_URL;
-
-async function createChangeset({ tagName, newValue, accessToken }: { tagName: string; newValue: string; accessToken: string}): Promise<string> {
+async function createChangeset({ baseUrl, tagName, newValue, accessToken }: { baseUrl: string; tagName: string; newValue: string; accessToken: string}): Promise<string> {
   const response = await fetch(`${baseUrl}/api/0.6/changeset/create`, {
     method: "PUT",
     headers: {
@@ -41,7 +39,7 @@ async function createChangeset({ tagName, newValue, accessToken }: { tagName: st
   return await response.text();
 }
 
-async function createChange({ accessToken, osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer }: { accessToken: string; osmType: string; osmId: string | string[]; changesetId: string; tagName: string; newTagValue: any; currentTagsOnServer: any; }) {
+async function createChange({ accessToken, baseUrl, osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer }: { baseUrl: string; accessToken: string; osmType: string; osmId: string | string[]; changesetId: string; tagName: string; newTagValue: any; currentTagsOnServer: any; }) {
   console.log('createChange', osmType, osmId, changesetId, tagName, newTagValue, currentTagsOnServer)
   debugger
   const newTags = {
@@ -85,11 +83,12 @@ type ChangesetState = 'creatingChangeset' | 'creatingChange' | 'error' | 'change
 
 export default function CompositeFeaturesPage() {
   const router = useRouter();
+  const env = useEnvContext();
+  const officialOSMAPIBaseUrl = env.NEXT_PUBLIC_OSM_API_URL;
   const { ids, id, tag } = router.query;
   const tagName = typeof tag === 'string' ? tag : tag[0];
-  const app = useCurrentApp();
   const accessToken = (useSession().data as any)?.accessToken;
-  const features = useSWR([app.tokenString, ids], fetchMultipleFeatures);
+  const features = useMultipleFeatures(ids);
   const feature = features.data?.find((f) => isOSMFeature(f) && f._id === id);
   const osmFeature = isOSMFeature(feature) ? feature : null;
   const closeEditor = React.useCallback(() => {
@@ -120,11 +119,11 @@ export default function CompositeFeaturesPage() {
       debugger
       return;
     }
-    createChangeset({ accessToken, tagName, newValue: editedTagValue })
+    createChangeset({ baseUrl: officialOSMAPIBaseUrl, accessToken, tagName, newValue: editedTagValue })
       .then((changesetId) => {
         setChangesetState('creatingChange');
         debugger
-        return createChange({ accessToken, osmType, osmId: id, changesetId, tagName, newTagValue: editedTagValue, currentTagsOnServer }).then(() => setChangesetState('changesetComplete'));
+        return createChange({ baseUrl: officialOSMAPIBaseUrl, accessToken, osmType, osmId: id, changesetId, tagName, newTagValue: editedTagValue, currentTagsOnServer }).then(() => setChangesetState('changesetComplete'));
       })
       .catch((err) => {
         console.error(err);

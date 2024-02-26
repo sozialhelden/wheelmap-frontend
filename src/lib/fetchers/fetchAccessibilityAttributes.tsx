@@ -19,7 +19,7 @@ export function getAccessibilityAttributesURL(
     process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL
   }/accessibility-attributes.json?limit=10000&appToken=${
     appToken
-  }&include=${preferredLocales
+  }&surrogateKeys=false&include=effects,${preferredLocales
     .map(l => l.string.replace(/-/, '_'))
     .flatMap(l => [`label.${l}`, `shortLabel.${l}`, `summary.${l}`, `details.${l}`])
     .sort()

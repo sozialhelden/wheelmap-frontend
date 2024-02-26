@@ -1,5 +1,4 @@
-import intersperse from "intersperse";
-import { compact } from "lodash";
+import { compact, uniq } from "lodash";
 import styled from "styled-components";
 import { t } from "ttag";
 import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
@@ -37,14 +36,9 @@ export default function FeatureAddressString(props: Props) {
 
   return (
     <Address>
-      {intersperse(
-        compact(
-          Object.keys(address).map(
-            (key) => address[key] && <span key={key}>{address[key]}</span>
-          )
-        ),
-        <span key="">, </span>
-      )}
+      {uniq(compact(
+        Object.keys(address).map((key) => address[key])
+      )).join(', ')}
     </Address>
   );
 }

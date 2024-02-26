@@ -3,8 +3,8 @@ import * as React from "react";
 import isAccessibilityRelevantOSMKey from "../../../../lib/model/osm/isAccessibilityRelevantOSMKey";
 import isAddressRelevantOSMKey from "../../../../lib/model/osm/isAddressRelevantOSMKey";
 import { TypeTaggedOSMFeature } from "../../../../lib/model/shared/AnyFeature";
-import { omittedKeyPrefixes, omittedKeys, omittedKeySuffixes, pathsToConsumedTagKeys, sortOrderMap } from "./config";
 import OSMTagTable from "./OSMTagTable";
+import { omittedKeyPrefixes, omittedKeySuffixes, omittedKeys, pathsToConsumedTagKeys, sortOrderMap } from "./config";
 
 
 export interface ITreeNode {

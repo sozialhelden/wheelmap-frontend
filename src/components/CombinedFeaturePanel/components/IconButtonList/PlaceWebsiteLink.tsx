@@ -1,9 +1,7 @@
-import * as React from "react";
-import WorldIcon from "../../../icons/actions/World";
+import Link from "next/link";
 import styled from "styled-components";
 import { AnyFeature } from "../../../../lib/model/shared/AnyFeature";
-import Link from "next/link";
-import { t } from "ttag";
+import WorldIcon from "../../../icons/actions/World";
 
 const NonBreakingSpan = styled.span`
   white-space: nowrap;
@@ -20,7 +18,7 @@ export default function PlaceWebsiteLink(props: Props) {
 
   let placeWebsiteUrl = null;
   if (feature["@type"] === "osm:Feature") {
-    placeWebsiteUrl = feature.properties["contact:website"];
+    placeWebsiteUrl = feature.properties["contact:website"] || feature.properties["website"];
   } else if (feature["@type"] === "a11yjson:PlaceInfo") {
     placeWebsiteUrl = feature.properties.placeWebsiteUrl;
   }
@@ -35,7 +33,7 @@ export default function PlaceWebsiteLink(props: Props) {
       <li>
         <Link href={placeWebsiteUrl} target="_blank" rel="noreferrer noopener">
           <WorldIcon />
-          <NonBreakingSpan>{t`Open website`}</NonBreakingSpan>
+          <NonBreakingSpan>{placeWebsiteUrl}</NonBreakingSpan>
         </Link>
       </li>
     )

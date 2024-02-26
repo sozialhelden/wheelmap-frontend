@@ -7044,6 +7044,11 @@
   "resolved" "https://registry.npmjs.org/json-buffer/-/json-buffer-3.0.1.tgz"
   "version" "3.0.1"
 
+"json-criteria@^2.6.0":
+  "integrity" "sha512-y2+BXQkSwItNm0i0DP33Yx3Qbkcf95YHwqy6c7MBkb33y9xOZFUCIQVMYQM0Rn6xYXvubTyNJzF5kOyRToBX5A=="
+  "resolved" "https://registry.npmjs.org/json-criteria/-/json-criteria-2.6.0.tgz"
+  "version" "2.6.0"
+
 "json-format@^1.0.1":
   "resolved" "https://registry.npmjs.org/json-format/-/json-format-1.0.1.tgz"
   "version" "1.0.1"

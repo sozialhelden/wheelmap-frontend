@@ -37,6 +37,11 @@ export type AnyFeatureCollection = {
   features: AnyFeature[];
 };
 
+export type OSMFeatureCollection = {
+  ["@type"]: "osm:FeatureCollection";
+  features: OSMFeature[];
+};
+
 export function isPlaceInfo(
   feature: AnyFeature
 ): feature is TypeTaggedPlaceInfo {

@@ -12,6 +12,15 @@ import { getOSMTagProps } from "./getOSMTagProps";
 import DisplayedQuantity from "./tags/values/DisplayedQuantity";
 import OpeningHoursValue from "./tags/values/OpeningHoursValue";
 
+const StyledList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+`;
+
 const StyledTable = styled.table`
   th {
     text-align: left;
@@ -67,11 +76,14 @@ export const valueRenderFunctions: Record<
   "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "colour": (props) => <span lang="en" aria-label={props.value} style={{ backgroundColor: props.value, borderRadius: '0.5rem', boxShadow: 'inset 0 0 1px rgba(0,0,0,255)', width: "1rem", height: "1rem", display: "inline-block" }} />,
   "power_supply:voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "power_supply:current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "power_supply:maxcurrent": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "power_supply:frequency": (props) => <DisplayedQuantity value={props.value} defaultUnit="Hz" />,
+  "socket:([\w_]+)": (props) => <DisplayedQuantity value={props.value} defaultUnit="×" />,
   "(?:socket:([\w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "(?:socket:([\w_]+):)?current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
@@ -92,6 +104,7 @@ export type TagOrTagGroup = {
 export default function OSMTagTable(props: {
   nestedTags: TagOrTagGroup[];
   feature: TypeTaggedOSMFeature;
+  isHorizontal?: boolean;
 }) {
   const router = useRouter();
   const { ids, id } = router.query;
@@ -104,8 +117,9 @@ export default function OSMTagTable(props: {
     isValidating,
   } = useAccessibilityAttributesIdMap(languageTags, appToken);
 
+  const SurroundingListElement = props.isHorizontal ? StyledList : StyledTable;
   return (
-    <StyledTable>
+    <SurroundingListElement>
       {props.nestedTags.map(({ key, children }) => {
         const originalOSMTagValue = feature.properties[key] || "";
         const tagValues = tagsWithSemicolonSupport.includes(key)
@@ -130,20 +144,23 @@ export default function OSMTagTable(props: {
                 key={singleValue}
                 feature={feature}
                 nestedTags={children}
+                isHorizontal={tagProps.isHorizontal}
               />
             );
             return (
               <OSMTagTableRow
                 key={singleValue}
+                keyName={singleValue}
                 {...tagProps}
                 valueElement={nestedTable}
+                isHorizontal={props.isHorizontal}
               />
             );
           } else {
-            return <OSMTagTableRow key={singleValue} {...tagProps} />;
+            return <OSMTagTableRow key={singleValue} {...tagProps} isHorizontal={props.isHorizontal} />;
           }
         });
       })}
-    </StyledTable>
+    </SurroundingListElement>
   );
 }

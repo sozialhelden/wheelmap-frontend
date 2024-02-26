@@ -1,8 +1,7 @@
 import { LocalizedString } from "../../../i18n/LocalizedString";
 import { AnyFeature } from "../../shared/AnyFeature";
-import { getRootCategoryTable } from "./getRootCategoryTable";
 import { ACCategory } from "./ACCategory";
-import { accessibilityCloudCachedBaseUrl } from "../../../fetchers/config";
+import { getRootCategoryTable } from "./getRootCategoryTable";
 
 type SynonymCache = Map<string, ACCategory>;
 
@@ -84,12 +83,13 @@ export function getCategoryForFeature(
 }
 
 export async function fetchCategoryData(
-  appToken?: string
+  appToken?: string,
+  baseUrl?: string,
 ): Promise<ACCategory[]> {
-  const url = `${accessibilityCloudCachedBaseUrl}/categories.json?appToken=${appToken}`;
-  if (!appToken) {
+  if (!appToken || !baseUrl) {
     return [];
   }
+  const url = `${baseUrl}/categories.json?appToken=${appToken}`;
   return fetch(url)
     .then((r) => r.json())
     .then((json) => json.results || []);

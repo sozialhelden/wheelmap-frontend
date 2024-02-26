@@ -3,7 +3,6 @@ import React, { ReactElement, useState } from "react";
 import Layout from "../../../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../../../components/CombinedFeaturePanel/CombinedFeaturePanel";
 import Toolbar from "../../../../components/shared/Toolbar";
-import { useCurrentApp } from "../../../../lib/context/AppContext";
 import {
   useEquipmentInfo
 } from "../../../../lib/fetchers/fetchOneEquipmentInfo";
@@ -14,7 +13,6 @@ function EquipmentInfoPage() {
   const router = useRouter();
   const { query, asPath } = router;
   const { id, eid } = query;
-  const app = useCurrentApp();
 
   const [equipment, setEquipment] = useState(null);
   const [place, setPlace] = useState(null);
@@ -29,13 +27,12 @@ function EquipmentInfoPage() {
   // move fetching closer to render of fetched data? avoid re-rendering?
   // Implies changing CombinedFeaturePanel to fetch the data, not the page
   const fallbackEquipmentResponse = useEquipmentInfo(
-    app.tokenString,
     fallbackId
   );
-  const equipmentResponse = useEquipmentInfo(app.tokenString, equipmentInfoId);
-  const placeResponse = usePlaceInfo(app.tokenString, placeInfoId);
+
+  const equipmentResponse = useEquipmentInfo(equipmentInfoId);
+  const placeResponse = usePlaceInfo(placeInfoId);
   const fallbackplaceResponse = usePlaceInfo(
-    app.tokenString,
     "222RZF9r2AAzqBQXh"
   );
   React.useEffect(() => {

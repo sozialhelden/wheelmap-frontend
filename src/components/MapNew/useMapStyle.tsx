@@ -1,12 +1,14 @@
 import useSWR from "swr";
+import { useEnvContext } from "../shared/EnvContext";
 
 const fetcher = (input: RequestInfo, init?: RequestInit | undefined) =>
   fetch(input, init).then((res) => res.json());
 
 function useMapStyle() {
-  const styleId = process.env.NEXT_PUBLIC_MAPBOX_STYLE_ID;
-  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN;
-  const accountId = process.env.NEXT_PUBLIC_MAPBOX_ACCOUNT_ID;
+  const env = useEnvContext();
+  const styleId = env.NEXT_PUBLIC_MAPBOX_STYLE_ID;
+  const accessToken = env.NEXT_PUBLIC_MAPBOX_GL_ACCESS_TOKEN;
+  const accountId = env.NEXT_PUBLIC_MAPBOX_ACCOUNT_ID;
 
   const url = `https://api.mapbox.com/styles/v1/${accountId}/${styleId}?fresh=true&access_token=${accessToken}`;
 

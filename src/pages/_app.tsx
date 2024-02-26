@@ -16,7 +16,7 @@ import { AppContext } from '../lib/context/AppContext';
 import CountryContext from '../lib/context/CountryContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { parseUserAgentString, UserAgentContext } from '../lib/context/UserAgentContext';
+import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
 import { App } from '../lib/model/ac/App';
@@ -38,16 +38,22 @@ interface ExtraProps {
   environmentVariables: Record<string, string>;
 }
 
+let globalEnvironmentVariables;
+
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
   const { userAgentString, app, session, languageTags, ipCountryCode, environmentVariables } = pageProps;
+  if (!globalEnvironmentVariables && Object.keys(environmentVariables).length > 0) {
+    globalEnvironmentVariables = environmentVariables;
+  }
+
   const contexts: ContextAndValue<any>[] = [
     [UserAgentContext, parseUserAgentString(userAgentString)],
     [AppContext, app],
     [HostnameContext, app.hostname],
     [LanguageTagContext, { languageTags }],
     [CountryContext, ipCountryCode],
-    [EnvContext, environmentVariables]
+    [EnvContext, globalEnvironmentVariables]
   ];
 
   // Use the layout defined at the page level, if available
@@ -104,9 +110,9 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
     process.env,
     Object
       .keys(process.env)
-      .filter((key) => key.startsWith("NEXT_PUBLIC_")
-      )
+      .filter((key) => key.startsWith("NEXT_PUBLIC_")),
   );
+
   const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode, environmentVariables };
   return { ...appProps, pageProps }
 }

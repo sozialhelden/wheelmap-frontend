@@ -1,12 +1,14 @@
 import useSWR from "swr";
+import { useEnvContext } from "../../components/shared/EnvContext";
+import { useCurrentAppToken } from "../context/AppContext";
 import { ACCategory } from "../model/ac/categories/ACCategory";
 import { generateSynonymCache } from "../model/ac/categories/Categories";
-import { accessibilityCloudCachedBaseUrl } from "./config";
 
 export async function fetchAccessibilityCloudCategories(
-  appToken?: string
+  appToken: string,
+  baseUrl: string,
 ): Promise<ACCategory[]> {
-  const url = `${accessibilityCloudCachedBaseUrl}/categories.json?appToken=${appToken}`;
+  const url = `${baseUrl}/categories.json?appToken=${appToken}`;
   const r = await fetch(url, {
     method: "GET",
   });
@@ -15,12 +17,17 @@ export async function fetchAccessibilityCloudCategories(
 }
 
 export async function fetchAccessibilityCloudCategorySynonymCache(
-  appToken?: string
+  appToken: string,
+  baseUrl: string,
 ) {
-  const categories = await fetchAccessibilityCloudCategories(appToken);
+  const categories = await fetchAccessibilityCloudCategories(appToken, baseUrl);
   const synonyms = generateSynonymCache(categories);
   return synonyms;
 }
 
-export const useCategorySynonymCache = (appToken?: string) =>
-  useSWR([appToken], fetchAccessibilityCloudCategorySynonymCache);
+export const useCategorySynonymCache = () => {
+  const appToken = useCurrentAppToken();
+  const env = useEnvContext();
+  const baseUrl = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
+  return useSWR(appToken && baseUrl && [appToken, baseUrl] || null, fetchAccessibilityCloudCategorySynonymCache);
+}

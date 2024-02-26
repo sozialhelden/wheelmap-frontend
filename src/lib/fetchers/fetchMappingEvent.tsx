@@ -1,15 +1,15 @@
 import useSWR from "swr";
 import { MappingEvent } from "../model/ac/MappingEvent";
-import { accessibilityCloudCachedBaseUrl } from "./config";
 
 export default function fetchMappingEvent(
   appToken: string,
+  baseUrl: string,
   _id?: string
 ): Promise<MappingEvent | null> {
   if (!_id) {
     return Promise.resolve(null);
   }
-  const url = `${accessibilityCloudCachedBaseUrl}/mapping-events/${_id}.json?appToken=${appToken}&includeRelated=images`;
+  const url = `${baseUrl}/mapping-events/${_id}.json?appToken=${appToken}&includeRelated=images`;
   return fetch(url)
     .then((response) => response.json())
     .then((mappingEvent) => ({
@@ -22,10 +22,12 @@ export default function fetchMappingEvent(
 
 export function useMappingEvent({
   appToken,
+  baseUrl,
   _id,
 }: {
   appToken: string;
+  baseUrl: string;
   _id: string;
 }) {
-  return useSWR([appToken, _id], fetchMappingEvent);
+  return useSWR(appToken && baseUrl && _id && [appToken, baseUrl, _id], fetchMappingEvent);
 }

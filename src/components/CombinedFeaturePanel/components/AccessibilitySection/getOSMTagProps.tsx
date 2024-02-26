@@ -1,9 +1,9 @@
 import React from "react";
 import { getLocalizedStringTranslationWithMultipleLocales as localize } from "../../../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttribute";
-import { additionalPrefixesForKeys, editableKeys, languageTaggedKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet } from "./config";
 import { OSMTagProps } from "./OSMTagProps";
 import { valueRenderFunctions } from "./OSMTagTable";
+import { additionalPrefixesForKeys, editableKeys, horizontalKeys, languageTaggedKeys, tagsWithoutDisplayedKeyRegExp, tagsWithoutDisplayedKeySet } from "./config";
 
 function findAttribute(attributesById: Map<string, IAccessibilityAttribute>, key: string, value?: string): IAccessibilityAttribute | undefined {
   const suffix = key.match('[^:]+$')?.[0];
@@ -76,6 +76,7 @@ export function getOSMTagProps(
     editURL,
     valueDetails,
     keyDetails,
+    isHorizontal: horizontalKeys.has(key),
   };
   return tagProps;
 }

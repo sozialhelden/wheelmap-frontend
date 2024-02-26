@@ -13,6 +13,7 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../../lib/i
 import {
   getCategoryForFeature,
   getLocalizableCategoryName,
+  unknownCategory,
 } from "../../../lib/model/ac/categories/Categories";
 import getGenericCategoryDisplayName from "../../../lib/model/osm/getFeatureCategoryDisplayName";
 import { AnyFeature } from "../../../lib/model/shared/AnyFeature";
@@ -29,7 +30,9 @@ const StyledChevronRight = styled(ChevronRight)`
 `;
 
 const PlaceNameDetail = styled.div`
-  margin-top: 0.5rem;
+  &:not(:first-child) {
+    margin-top: 0.5rem;
+  }
   color: ${colors.textMuted};
 `;
 
@@ -83,6 +86,7 @@ export default function FeatureNameHeader(props: Props) {
     ariaLabel,
     categoryName,
     category,
+    categoryTagKeys,
   } = useFeatureLabel({
     feature,
     languageTags,
@@ -95,7 +99,7 @@ export default function FeatureNameHeader(props: Props) {
   const icon = (
     <Icon
       accessibility={isWheelchairAccessible(feature)}
-      category={category ? category._id : "undefined"}
+      category={(category !== unknownCategory) && category?._id || categoryTagKeys[0] || "undefined"}
       size={props.size || "medium"}
       ariaHidden={true}
       centered
@@ -104,7 +108,7 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   const nameElements = uniq(
-    compact([parentPlaceName, levelName, roomNameAndNumber, placeName])
+    compact([parentPlaceName?.trim(), levelName?.trim(), roomNameAndNumber?.trim(), placeName?.trim()])
   );
 
   const lastNameElement = nameElements[nameElements.length - 1];
@@ -114,14 +118,18 @@ export default function FeatureNameHeader(props: Props) {
   );
 
   const HeaderElement = props.size === 'small' ? PlaceNameH2 : PlaceNameH1;
-  const detailFontSize = props.size === 'small' ? '0.8rem' : '1rem';
+  const detailFontSize = (props.size === 'small' || lastNameElement) ? '0.9em' : '1em';
+  const categoryElement =
+    !lastNameElement?.toLocaleLowerCase().startsWith(categoryName?.toLocaleLowerCase())
+    && !lastNameElement?.toLocaleLowerCase().endsWith(categoryName?.toLocaleLowerCase())
+    && (<PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>);
   const placeNameElement = (
     <HeaderElement isSmall={hasLongName} aria-label={ariaLabel}>
       {icon}
       <div>
-        <div>{lastNameElement}</div>
-        <PlaceNameDetail style={{ fontSize: detailFontSize }}>{categoryName}</PlaceNameDetail>
-        <PlaceNameDetail style={{ fontSize: detailFontSize }}>{parentElements}</PlaceNameDetail>
+        {lastNameElement && <div>{lastNameElement}</div>}
+        {categoryElement}
+        {nameElements.length > 1 && <PlaceNameDetail style={{ fontSize: detailFontSize }}>{parentElements}</PlaceNameDetail>}
       </div>
     </HeaderElement>
   );
@@ -141,6 +149,7 @@ function useFeatureLabel({
   feature: AnyFeature;
   languageTags: string[];
 }) {
+  let categoryTagKeys;
   const appToken = useCurrentAppToken();
   const { categorySynonymCache, category } = useCategory(feature);
 
@@ -150,7 +159,7 @@ function useFeatureLabel({
       : feature["@type"] === "a11yjson:EquipmentInfo"
       ? feature.properties.placeInfoId
       : undefined;
-  const parentPlaceInfo = usePlaceInfo(appToken, acParentPlaceInfoId);
+  const parentPlaceInfo = usePlaceInfo(acParentPlaceInfoId);
 
   const parentPlaceInfoCategory = React.useMemo(
     () =>
@@ -204,7 +213,9 @@ function useFeatureLabel({
   } = useAccessibilityAttributesIdMap(languageTags, appToken);
 
   if ((!category || category?._id === 'unknown') && feature["@type"] === "osm:Feature") {
-    categoryName = getGenericCategoryDisplayName(feature, attributesById, languageTags);
+    const { displayName, tagKeys } = getGenericCategoryDisplayName(feature, attributesById, languageTags);
+    categoryName = displayName;
+    categoryTagKeys = tagKeys;
   }
 
   let placeName: string | undefined;
@@ -243,5 +254,6 @@ function useFeatureLabel({
     ariaLabel,
     categoryName,
     category,
+    categoryTagKeys,
   };
 }

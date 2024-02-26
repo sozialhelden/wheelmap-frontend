@@ -2,6 +2,8 @@ import mapboxgl, { MapLayerMouseEvent } from "mapbox-gl";
 import { useRouter } from "next/router";
 import * as React from "react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { flushSync } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import {
   Layer,
   Map,
@@ -15,12 +17,15 @@ import {
 
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 // import FeatureListPopup from "../feature/FeatureListPopup";
+import { useHotkeys } from "@blueprintjs/core";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
 import { uniq } from "lodash";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { createGlobalStyle } from "styled-components";
+import { t } from "ttag";
 import getFeatureIdsFromLocation from "../../lib/model/shared/getFeatureIdsFromLocation";
 import HelpButton from "../CombinedFeaturePanel/components/HelpButton";
+import * as categoryIcons from "../icons/categories";
 import { databaseTableNames, filterLayers } from "./filterLayers";
 import useMapStyle from "./useMapStyle";
 
@@ -123,13 +128,14 @@ export default function MapView(props: IProps) {
         // Show source overview again if user just clicks/taps on the map
         feature &&
           router.push(
-            `/${feature.source}/${feature.properties.id}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`
+            `/${feature.source}/${feature.properties.id?.replace('/', ':')}?lon=${event.lngLat.lng}&lat=${event.lngLat.lat}&zoom=${zoom}`
           );
         return;
       }
+
       if (event.features?.length) {
         router.push(
-          `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id].join(":")))
+          `/composite/${uniq(event.features?.map((f) => [f.source, f.properties.id?.replace('/', ':')].join(":")))
             .join(",")}?lon=${event.lngLat.lng}&lat=${
             event.lngLat.lat
           }&zoom=${zoom}`
@@ -164,21 +170,92 @@ export default function MapView(props: IProps) {
 
   const setViewportCallback = useCallback(
     (event: ViewStateChangeEvent) => {
-      console.log("Setting viewport because of callback:", event);
+      // console.log("Setting viewport because of callback:", event);
       setViewport({ ...viewport, ...event.viewState });
     },
     [setViewport, viewport]
   );
 
-  // const onLoadCallback = useCallback(() => {
-  // const map = mapRef.current?.getMap();
-  // }, [mapRef.current]);
+  const onLoadCallback = useCallback(() => {
+    const map = mapRef.current?.getMap();
+    Object.keys(categoryIcons).forEach(iconName => {
+      const CategoryIconComponent = categoryIcons[iconName];
+      const div = document.createElement('div');
+      const root = createRoot(div);
+      flushSync(() => {
+        root.render(<CategoryIconComponent />);
+      });
+      const svgElement = div.querySelector('svg');
+      svgElement.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns", "http://www.w3.org/2000/svg");
+      const graphicalElements = svgElement.querySelectorAll('path, rect, circle, ellipse, line, polyline, polygon');
+      // set fill to white for all elements
+      graphicalElements.forEach(e => e.setAttribute('fill', 'white'));
+      // add a shadow to all elements
+      graphicalElements.forEach(e => e.setAttribute('filter', 'url(#shadow)'));
+      // add the shadow filter
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      const filter = document.createElementNS('http://www.w3.org/2000/svg', 'filter');
+      filter.setAttribute('id', 'shadow');
+      const feDropShadow = document.createElementNS('http://www.w3.org/2000/svg', 'feDropShadow');
+      feDropShadow.setAttribute('dx', '0');
+      feDropShadow.setAttribute('dy', '0');
+      feDropShadow.setAttribute('stdDeviation', '0.5');
+      feDropShadow.setAttribute('flood-color', 'black');
+      feDropShadow.setAttribute('flood-opacity', '0.9');
+      filter.appendChild(feDropShadow);
+      defs.appendChild(filter);
+      svgElement.appendChild(defs);
+
+      let svg = div.innerHTML;
+      const dataUrl = `data:image/svg+xml;base64,${btoa(svg)}`;
+
+      // let blob = new Blob([svg], {type: 'image/svg+xml'});
+      // let url = URL.createObjectURL(blob);
+      const customIcon = new Image(30, 30);
+      customIcon.onload = () => {
+        console.log('adding icon', iconName + '-15-white');
+        map.addImage(iconName + '-15-white', customIcon, { pixelRatio: 2 });
+      };
+      customIcon.onerror = () => {
+        console.log('error loading icon', iconName, dataUrl);
+      };
+      customIcon.src = dataUrl;
+  });
+  }, [mapRef.current]);
 
   const mapStyle = useMapStyle();
+
+  const [hasBuildings, setHasBuildings] = useState(true);
+  const [hasPublicTransport, setHasPublicTransport] = useState(false);
+  const [hasSurfaces, setHasSurfaces] = useState(true);
+
+  const hotkeys = React.useMemo(() => [
+    {
+      combo: "1",
+      global: true,
+      label: t`Toggle building focus`,
+      onKeyDown: () => setHasBuildings(!hasBuildings),
+    },
+    {
+      combo: "2",
+      global: true,
+      label: t`Toggle public transport focus`,
+      onKeyDown: () => setHasPublicTransport(!hasPublicTransport),
+    },
+    {
+      combo: "3",
+      global: true,
+      label: t`Toggle surfaces`,
+      onKeyDown: () => setHasSurfaces(!hasSurfaces),
+    },
+  ], [hasBuildings, hasPublicTransport, hasSurfaces]);
+  useHotkeys(hotkeys);
+
   const layers = React.useMemo(
-    () => mapStyle.data?.layers && filterLayers(mapStyle.data?.layers),
-    [mapStyle]
+    () => mapStyle.data?.layers && filterLayers({ layers: mapStyle.data?.layers, hasBuildings, hasPublicTransport, hasSurfaces }),
+    [mapStyle, hasBuildings, hasPublicTransport]
   );
+
 
   return (
     <>
@@ -192,12 +269,10 @@ export default function MapView(props: IProps) {
           onTouchEnd={updateViewportQuery}
           onMouseUp={updateViewportQuery}
           interactive={true}
-          interactiveLayerIds={mapStyle.data?.layers
-            ?.map((l) => l.id)
-            .filter((id) => id.startsWith("osm-"))}
+          interactiveLayerIds={layers?.map((l) => l.id)}
           onClick={handleMapClick}
-          // onLoad={onLoadCallback}
-          mapStyle="mapbox://styles/mapbox/light-v10"
+          onLoad={onLoadCallback}
+          mapStyle="mapbox://styles/mapbox/light-v11"
           ref={mapRef}
         >
           {databaseTableNames.map((name) => (

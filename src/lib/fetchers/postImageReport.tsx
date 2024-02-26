@@ -1,12 +1,12 @@
-import { accessibilityCloudUncachedBaseUrl } from "./config";
 
 export default async function postImageReport(
   appToken: string,
+  baseUrl: string,
   imageId: string,
   reason: string
 ) {
   const response = await fetch(
-    `${accessibilityCloudUncachedBaseUrl}/images/report?imageId=${imageId}&reason=${reason}&appToken=${appToken}`,
+    `${baseUrl}/images/report?imageId=${imageId}&reason=${reason}&appToken=${appToken}`,
     {
       method: "POST",
       headers: {

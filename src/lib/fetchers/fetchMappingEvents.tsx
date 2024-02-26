@@ -1,10 +1,10 @@
 import { MappingEvent } from "../model/ac/MappingEvent";
-import { accessibilityCloudCachedBaseUrl } from "./config";
 
 export default async function fetchMappingEvents(
-  appToken: string
+  appToken: string,
+  baseUrl: string,
 ): Promise<MappingEvent[] | null> {
-  const url = `${accessibilityCloudCachedBaseUrl}/mapping-events.json?appToken=${appToken}&includeRelated=images`;
+  const url = `${baseUrl}/mapping-events.json?appToken=${appToken}&includeRelated=images`;
   return fetch(url)
     .then((response) => response.json())
     .then((json) =>

@@ -4,6 +4,7 @@ import IAccessibilityAttribute from "../../../../lib/model/ac/IAccessibilityAttr
 
 export type OSMTagProps = {
   key: string;
+  keyName: string;
   hasDisplayedKey: boolean;
   keyLabel: React.ReactNode;
   valueElement: React.ReactNode;
@@ -13,4 +14,5 @@ export type OSMTagProps = {
   keyDetails?: string;
   keyAttribute?: IAccessibilityAttribute;
   valueAttribute?: IAccessibilityAttribute;
+  isHorizontal?: boolean;
 };

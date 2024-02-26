@@ -9,6 +9,7 @@ import { ReactElement } from "react";
 import useSWR from "swr";
 import Layout from "../../components/App/Layout";
 import { CombinedFeaturePanel } from "../../components/CombinedFeaturePanel/CombinedFeaturePanel";
+import { useEnvContext } from "../../components/shared/EnvContext";
 import Toolbar from "../../components/shared/Toolbar";
 import { useCurrentApp } from "../../lib/context/AppContext";
 import MockedPOIDetails from "../../lib/fixtures/mocks/features/MockedPOIDetails";
@@ -21,16 +22,17 @@ const PositionedCloseLink = styled(CloseLink)`
 PositionedCloseLink.displayName = "PositionedCloseLink";
 
 export default function Nodes() {
-
   const router = useRouter();
   const { id } = router.query;
   const app = useCurrentApp();
-  const { data: feature, error } = useSWR([app.tokenString, id], fetchOnePlaceInfo);
+  const env = useEnvContext();
+  const baseUrl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const { data: feature, error } = useSWR([app.tokenString, baseUrl, id], fetchOnePlaceInfo);
 
   if (error) {
     return <pre>{String(error)}</pre>;
   }
-  
+
   return (
     <>
       <>

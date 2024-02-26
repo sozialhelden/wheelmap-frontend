@@ -61,12 +61,8 @@ export function generateShowOnOsmUrl(feature: AnyFeature) {
   }
 
   if (feature["@type"] === "osm:Feature") {
-    const featureId = Number(feature.properties._id);
-    if (featureId < 0) {
-      return `https://www.openstreetmap.org/way/${Math.abs(featureId)}`;
-    }
-
-    return `https://www.openstreetmap.org/node/${Math.abs(featureId)}`;
+    const osmId = feature._id;
+    return `https://www.openstreetmap.org/${osmId}`;
   }
 
   if (feature["@type"] === "a11yjson:PlaceInfo") {
