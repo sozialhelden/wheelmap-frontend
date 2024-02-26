@@ -78,8 +78,6 @@ export default function OpeningHoursValue(props: { value: string, feature: Featu
     }
   }, [lat, lon, country, state, value]);
 
-  window['oh'] = oh;
-
   const niceLines = oh?.prettifyValue();
   const shownValue = (niceString as string || value)
     .replace(/\bMo\b/g, t`Monday`)
