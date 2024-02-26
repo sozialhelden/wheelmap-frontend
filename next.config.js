@@ -1,9 +1,4 @@
 const withTranspileModules = require("next-transpile-modules");
-const {
-  loadGlobalEnvironment,
-  getFilteredClientEnvironment,
-} = require("@sozialhelden/twelve-factor-dotenv");
-const env = getFilteredClientEnvironment(loadGlobalEnvironment(), (variableName) => variableName.startsWith("NEXT_PUBLIC_"));
 
 /**
  * @type {import('next').NextConfig}
@@ -47,7 +42,6 @@ const configuration = {
     return config;
   },
   productionBrowserSourceMaps: false,
-  env,
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

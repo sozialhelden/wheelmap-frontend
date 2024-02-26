@@ -32,7 +32,7 @@ npm run dev
 
 You will get some error messages from the Elastic APM client (our error collector for both [server](https://www.elastic.co/products/apm) and [client](https://www.elastic.co/guide/en/apm/agent/rum-js/4.x/getting-started.html)). If you want to test/develop the Elastic APM integration, you can get a valid token from the project maintainers.
 
-You can configure the app using process environment variables or a `.env` file. Process environment variables override values set in the `.env` file. Note that the build configuration [deviates from Webpack’s default behavior](https://github.com/sozialhelden/twelve-factor-dotenv) to improve build and bug reproducibility.
+You can configure the app using process environment variables or a `.env` file. Process environment variables override values set in the `.env` file.
 
 ### Recompile SVG
 
@@ -65,7 +65,7 @@ The app disallows embedding via `<iframe>` if you provide no valid `embedToken` 
 
 ## Translation process
 
-Ensure the transifex client is setup https://docs.transifex.com/client/client-configuration#-transifexrc
+Ensure the transifex client is setup <https://docs.transifex.com/client/client-configuration#-transifexrc>
 
 Use `npm run push-translations` to push a new translation resource to our translation service [transifex](http://transifex.com).
 
