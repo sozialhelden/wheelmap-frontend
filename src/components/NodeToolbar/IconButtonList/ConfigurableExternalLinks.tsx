@@ -96,25 +96,5 @@ export default function ConfigurableExternalLinks(props: Props): JSX.Element {
       );
     });
 
-  // const links = ['infoPageUrl', 'editPageUrl'].map((propertyName: PropertyName) => {
-  //   return (
-  //     <AppContextConsumer key={propertyName}>
-  //       {appContext => (
-  //         <SourceLink
-  //           key={propertyName}
-  //           properties={properties}
-  //           knownSourceNameCaption={captions[propertyName]}
-  //           propertyName={propertyName}
-  //           appToken={appContext.app.tokenString}
-  //         />
-  //       )}
-  //     </AppContextConsumer>
-  //   );
-  // });
-
-  // if (properties && properties.infoPageUrl === properties.editPageUrl) {
-  //   links.shift();
-  // }
-
   return <>{links}</>;
 }

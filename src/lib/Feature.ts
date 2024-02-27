@@ -106,7 +106,6 @@ export interface WheelmapCategoryOrNodeType {
 export type WheelmapProperties = {
   id: number,
   osm_type: string | null,
-  osm_id: string | null,
   category: WheelmapCategoryOrNodeType | null,
   node_type: WheelmapCategoryOrNodeType | null,
   city: string | null,
@@ -233,14 +232,16 @@ export type NodeProperties = AccessibilityCloudProperties | WheelmapProperties;
 // todo: case analysis for id extraction
 export function getFeatureId(feature: Feature | EquipmentInfo | any): string | null {
   if (!feature) return null;
+  const { properties } = feature;
   const idProperties = [
+    properties &&
+      typeof properties.id === 'number' &&
+      typeof properties.osm_type === 'string' &&
+      `${properties.osm_type}/${properties.id}`,
     typeof feature.id === 'number' && feature.id,
     typeof feature._id === 'string' && feature._id,
-    feature.properties && typeof feature.properties.id === 'number' && feature.properties.id,
-    feature.properties && typeof feature.properties._id === 'string' && feature.properties._id,
-    feature.properties &&
-      typeof feature.properties.osm_id === 'number' &&
-      feature.properties.osm_id,
+    properties && typeof properties.id === 'number' && properties.id,
+    properties && typeof properties._id === 'string' && properties._id,
   ];
   const result = idProperties.filter(Boolean)[0];
   return result ? String(result) : null;
@@ -263,8 +264,10 @@ export function hrefForFeature(
     }
   }
 
-  if (get(properties, 'osm_id')) {
-    return `/${(properties as any).osm_id}`;
+  const osm_type = get(properties, 'osm_type');
+  const osm_id = get(properties, 'id');
+  if (osm_type && osm_id) {
+    return `/${osm_type}/${osm_id}`;
   }
   return `/nodes/${featureId}`;
 }

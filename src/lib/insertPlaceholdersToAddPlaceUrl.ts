@@ -18,7 +18,7 @@ export function insertPlaceholdersToAddPlaceUrl(
     uniqueSurveyId,
     mappingEventId: joinedMappingEvent?._id,
     mappingEventName: joinedMappingEvent?.name,
-    osmId: osmFeature?.properties?.osm_id,
+    osmId: `${osmFeature?.properties?.osm_type}/${osmFeature?.id}`,
     osmIdNumeric: osmFeature?.id,
     osmType: osmFeature?.properties?.osm_type,
   };
