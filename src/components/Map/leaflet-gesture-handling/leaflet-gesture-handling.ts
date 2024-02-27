@@ -4,6 +4,8 @@
 */
 import LanguageContent from "./language-content";
 
+const L = (window as any)?.L;
+
 L.Map.mergeOptions({
     gestureHandlingOptions: {
         text: {},

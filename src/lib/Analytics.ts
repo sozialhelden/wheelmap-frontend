@@ -1,4 +1,3 @@
-let lastPath: string = '/';
 let lastModalName: string = '';
 
 export function trackPageView(path: string) {

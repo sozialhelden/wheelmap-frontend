@@ -2,7 +2,6 @@ import * as React from 'react';
 import { searchPlacesDebounced } from '../../../lib/searchPlaces';
 import type { SearchResultCollection } from '../../../lib/searchPlaces';
 import { Dispatch, SetStateAction } from "react";
-import { WheelmapResolvedSearchResultFeature } from "./usePlaceSearchWithWheelmapResolution";
 
 export type SearchState = 'TypeMore' | 'Loading' | 'Error' | 'Results';
 

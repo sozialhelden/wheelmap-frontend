@@ -1,19 +1,18 @@
-import { t } from 'ttag';
+import { parse } from 'marked';
 import * as React from 'react';
-import {useEffect} from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import {parse} from 'marked';
-import ModalDialog from '../ModalDialog';
-import ChevronRight from '../icons/actions/ChevronRight';
-import colors from '../../lib/colors';
-import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
-import CategoryIcon from '../Icon';
-import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
-import { ChromelessButton, CallToActionButton } from '../Button';
-import env from '../../lib/env';
+import { t } from 'ttag';
 import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
+import { accessibilityDescription, accessibilityName } from '../../lib/Feature';
+import colors from '../../lib/colors';
+import env from '../../lib/env';
+import { translatedStringFromObject } from '../../lib/i18n';
+import { CallToActionButton } from '../Button';
+import CategoryIcon from '../Icon';
+import ModalDialog from '../ModalDialog';
 import VectorImage from '../VectorImage';
-import AppContext from '../../AppContext';
+import ChevronRight from '../icons/actions/ChevronRight';
 
 type Props = {
   className?: string,
@@ -48,12 +47,9 @@ const Onboarding: React.FC<Props> = ({className, isVisible, onClose, clientSideC
 
   const headerMarkdownHTML = headerMarkdown && parse(translatedStringFromObject(headerMarkdown));
 
-  /* translator: The alternative desription of the app logo for screenreaders */
-  const appLogoAltText = t`App Logo`;
-
   useEffect(() => {setTimeout(() => {
     callToActionButton.current?.focus();
-  }, 100)}, []);
+  }, 100)}, [callToActionButton]);
 
   return (
     <ModalDialog

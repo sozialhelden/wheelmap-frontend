@@ -131,10 +131,6 @@ function capitalizeFirstLetter(string): string {
   return string.charAt(0).toLocaleUpperCase() + string.slice(1);
 }
 
-function isLocalizedString(value: any): boolean {
-  return isPlainObject(value) && Object.keys(value).every(key => key.match(/^\w\w[-_]?(?:\w\w)?$/));
-}
-
 function isIetfLanguageTag(str: string): boolean {
   return !!str.match(/^[a-z]{2,3}(?:-[a-z]{3}(?:-[a-z]{3}){0,2})?$/i);
 }

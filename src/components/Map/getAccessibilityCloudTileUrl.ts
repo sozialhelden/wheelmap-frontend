@@ -1,4 +1,3 @@
-import { Locale } from '../../lib/i18n';
 import env from '../../lib/env';
 
 export function buildSourceIdParams(
@@ -29,7 +28,7 @@ export default function getAccessibilityCloudTileUrl(
   appToken: string
 ): string {
   const sourceIdParams =
-    resourceType == 'place-infos' ? buildSourceIdParams(includeSourceIds, excludeSourceIds) : '';
+    resourceType === 'place-infos' ? buildSourceIdParams(includeSourceIds, excludeSourceIds) : '';
   const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
   const url = `${baseUrl}/${resourceType}.json?${sourceIdParams}&x={x}&y={y}&z={z}&appToken=${appToken}&includePlacesWithoutAccessibility=1`;
   if (categoryId && categoryId !== '') {

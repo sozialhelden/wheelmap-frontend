@@ -1,42 +1,6 @@
-import customFetch from '../fetch';
 import env from '../env';
 import { expandedPreferredLocales, normalizeLanguageCode, localeFromString } from '../i18n';
 import useSWRWithPrefetch from './useSWRWithPrefetch';
-
-type ResponseT = { status: number, json: () => Promise<Record<string, unknown>> };
-
-// const cache = new FetchCache<
-//   {},
-//   ResponseT,
-//   typeof customFetch,
-//   PromiseLike<any>,
-//   (response: ResponseT) => any
-// >({
-//   transformResult: r => r.json(),
-//   fetch: customFetch,
-//   ttl: cachedValue => {
-//     switch (cachedValue.state) {
-//       case 'running':
-//         return 30000;
-//       case 'resolved':
-//         const { response } = cachedValue;
-//         if (response && (response.status === 200 || response.status === 404)) {
-//           return 10 * 1000;
-//         }
-//         return 10000;
-//       case 'rejected':
-//         const { error } = cachedValue;
-//         if (typeof error.name !== 'undefined' && error.name === 'AbortError') {
-//           return 0;
-//         }
-//         return 10000;
-//     }
-//   },
-//   cacheOptions: {
-//     maximalItemCount: 2000,
-//     evictExceedingItemsBy: 'lru', // Valid values: 'lru' or 'age'
-//   },
-// });
 
 export type AccessibilityAttributesMap = Map<string, Record<string, string>>;
 
@@ -54,7 +18,7 @@ export function getAccessibilityAttributesURL(
     env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL
   }/accessibility-attributes.json?limit=10000&appToken=${
     env.REACT_APP_ACCESSIBILITY_CLOUD_APP_TOKEN
-  }&include=${preferredLocales
+  }&surrogateKeys=false&include=${preferredLocales
     .map(l => `label.${l.string.replace(/-/, '_')}`)
     .sort()
     .join(',')}`;

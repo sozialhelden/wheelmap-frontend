@@ -1,24 +1,23 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import styled from 'styled-components';
 import sortBy from 'lodash/sortBy';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import { Feature, placeNameFor, getFeatureId, isWheelmapFeature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
-import { EquipmentInfo, CategoryStrings, CategoryString } from '../../lib/EquipmentInfo';
-import StyledToolbar from '../NodeToolbar/StyledToolbar';
-import ErrorBoundary from '../ErrorBoundary';
+import { get } from 'lodash';
+import Categories, { CategoryLookupTables } from '../../lib/Categories';
+import { CategoryString, CategoryStrings, EquipmentInfo } from '../../lib/EquipmentInfo';
+import { Feature, getFeatureId, placeNameFor } from '../../lib/Feature';
+import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import colors from '../../lib/colors';
 import StyledCloseLink from '../CloseLink';
+import ErrorBoundary from '../ErrorBoundary';
+import { StyledIconContainer } from '../Icon';
+import { Circle } from '../IconButton';
+import { Cluster } from '../Map/Cluster';
+import StyledToolbar from '../NodeToolbar/StyledToolbar';
+import { PlaceNameH1 } from '../PlaceName';
+import * as markers from '../icons/markers';
 import StyledFrame from './AccessibilitySection/StyledFrame';
 import NodeHeader, { StyledNodeHeader } from './NodeHeader';
-import { PlaceNameH1 } from '../PlaceName';
-import { Circle } from '../IconButton';
-import { StyledIconContainer } from '../Icon';
-import colors from '../../lib/colors';
-import Categories, { CategoryLookupTables } from '../../lib/Categories';
-import { Cluster } from '../Map/Cluster';
-import * as markers from '../icons/markers';
-import { get } from 'lodash';
-import AccessibilityCloudFeatureCache, { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
 
 type Props = {
   hidden?: boolean,
@@ -137,7 +136,7 @@ function UnstyledFeatureClusterPanel (props: Props) {
     });
 
     return sortedFeatures.map(feature => (
-      <li key={getFeatureId(feature)}>{renderClusterEntry(feature, sortedFeatures)}</li>
+      <li key={getFeatureId(feature)}>{renderClusterEntry(feature)}</li>
     ));
   }
 

@@ -1,29 +1,25 @@
-import { t } from 'ttag';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
+import { t } from 'ttag';
 
-import Toolbar from '../Toolbar';
-import Button from '../Button';
 import CloseLink from '../CloseLink';
-import SearchIcon from './SearchIcon';
-import ChevronRight from '../ChevronRight';
-import CategoryMenu from './CategoryMenu';
-import SearchResults from './SearchResults';
-import SearchResult from './SearchResults';
-import SearchInputField from './SearchInputField';
+import Toolbar from '../Toolbar';
 import AccessibilityFilterMenu from './AccessibilityFilterMenu';
+import CategoryMenu from './CategoryMenu';
+import SearchIcon from './SearchIcon';
+import SearchInputField from './SearchInputField';
+import SearchResults from './SearchResults';
 
+import { CategoryLookupTables } from '../../lib/Categories';
 import colors from '../../lib/colors';
 import { isAccessibilityFiltered, WheelmapFeature } from '../../lib/Feature';
-import { SearchResultCollection } from '../../lib/searchPlaces';
-import { PlaceFilter } from './AccessibilityFilterModel';
+import { SearchResultCollection, SearchResultFeature } from '../../lib/searchPlaces';
 import { isOnSmallViewport } from '../../lib/ViewportSize';
-import { SearchResultFeature } from '../../lib/searchPlaces';
-import { CategoryLookupTables } from '../../lib/Categories';
-import ErrorBoundary from '../ErrorBoundary';
-import { UnstyledSearchResult } from './SearchResult';
 import Spinner from '../ActivityIndicator/Spinner';
+import ErrorBoundary from '../ErrorBoundary';
+import { PlaceFilter } from './AccessibilityFilterModel';
+import { UnstyledSearchResult } from './SearchResult';
 
 export type Props = PlaceFilter & {
   categories: CategoryLookupTables;
@@ -53,19 +49,6 @@ type State = {
   searchResults: null | SearchResultCollection;
   searchResultsPromise: null | Promise<SearchResultCollection>;
 };
-
-const StyledChevronRight = styled(ChevronRight)`
-  height: 1rem;
-  vertical-align: bottom;
-  opacity: 0.5;
-  g,
-  polygon,
-  rect,
-  circle,
-  path {
-    fill: white;
-  }
-`;
 
 const StyledToolbar = styled(Toolbar)`
   & {
@@ -211,7 +194,7 @@ export default class SearchToolbar extends React.PureComponent<Props, State> {
     searchResultsPromise: null,
   };
 
-  searchInputField = React.createRef<SearchInputField>();
+  searchInputField = React.createRef<any>();
   goButton = React.createRef<HTMLButtonElement>();
   firstResult: UnstyledSearchResult | null = null;
 

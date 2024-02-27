@@ -1,4 +1,4 @@
-import L, { IconOptions } from 'leaflet';
+import L from 'leaflet';
 
 import { Feature } from '../../lib/Feature';
 
@@ -21,7 +21,7 @@ export default class HighlightableMarker extends L.Marker {
       zIndexOffset: zIndexOffset,
     });
 
-    this.markerIcon = this.options.icon;
+    this.markerIcon = (this as any).options.icon;
     this.markerIconType = MarkerIconType;
     this.markerIconOptions = markerIconOptions;
     this.featureId = featureId;

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, RefObject } from 'react';
+import React from 'react';
 import { ChromelessButton } from '../Button';
 import ShareIcon from '../icons/actions/ShareIOS';
 import { t } from 'ttag';

@@ -92,7 +92,6 @@ export default function PlaceAccessibilitySection(props: Props) {
     return null;
   }
 
-  const translatedDescription = translatedStringFromObject(properties.description);
   const showDefaultDescription = isWheelmapFeature(feature) && hasDefaultOSMDescription(feature);
 
   return (

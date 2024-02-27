@@ -41,11 +41,6 @@ const makeCachedImageSrcSetEntry = (acPhoto: AccessibilityCloudImage, size: numb
 };
 
 const thumbnailSizes = [96, 192, 384];
-const thumbnailMediaSelector = [
-  `(min-resolution: 192dpi) 300px`,
-  `(min-resolution: 120dpi) 200px`,
-  `100px`,
-];
 
 const fullScreenSizes = [480, 960, 1500];
 const fullScreenMediaSelector = [

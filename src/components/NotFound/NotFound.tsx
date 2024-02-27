@@ -2,7 +2,6 @@ import { t } from 'ttag';
 import get from 'lodash/get';
 import * as React from 'react';
 import { useEffect } from 'react';
-import { findDOMNode } from 'react-dom';
 import styled from 'styled-components';
 
 import ModalDialog from '../ModalDialog';
@@ -34,7 +33,7 @@ const NotFound: React.FC<Props> = ({ className, onReturnHomeClick, statusCode })
     closeButton.focus();
   }, [closeButton]);
 
-  useEffect(() => focus(), []);
+  useEffect(() => focus(), [focus]);
 
   const classList = [className, 'not-found-page'].filter(Boolean);
 

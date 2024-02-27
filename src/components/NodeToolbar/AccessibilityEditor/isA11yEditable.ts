@@ -1,15 +1,19 @@
-import { Feature, isWheelmapFeature, isWheelmapFeatureId, WheelmapFeature } from '../../../lib/Feature';
-import { DataSource } from '../../../lib/cache/DataSourceCache';
-import { App } from '../../../lib/App';
-import { t } from 'ttag';
-
+import {
+  Feature,
+  isWheelmapFeature,
+  WheelmapFeature,
+} from "../../../lib/Feature";
+import { DataSource } from "../../../lib/cache/DataSourceCache";
+import { App } from "../../../lib/App";
 
 export function isParkingFacility(feature: WheelmapFeature) {
-  return feature.properties.node_type?.identifier === 'parking' || feature.properties.tags?.parking;
+  return feature.properties.node_type?.identifier === "parking" ||
+    feature.properties.tags?.parking;
 }
 
 export function hasDefaultOSMDescription(feature: WheelmapFeature) {
-  return !isParkingFacility(feature) && feature.properties.wheelchair_description === null;
+  return !isParkingFacility(feature) &&
+    feature.properties.wheelchair_description === null;
 }
 
 export function hasEditablePlaceCategory(feature: WheelmapFeature) {
@@ -21,12 +25,16 @@ export function hasEditablePlaceCategory(feature: WheelmapFeature) {
 export default function isA11yEditable(
   feature: Feature,
   app?: App,
-  primarySource?: DataSource
+  primarySource?: DataSource,
 ) {
-  const isDefaultSourceForPlaceEditing =
-    primarySource && app ? app.defaultSourceIdForAddedPlaces === primarySource._id : false;
-  const isA11yRatingAllowed = primarySource ? primarySource.isA11yRatingAllowed === true : false;
+  const isDefaultSourceForPlaceEditing = primarySource && app
+    ? app.defaultSourceIdForAddedPlaces === primarySource._id
+    : false;
+  const isA11yRatingAllowed = primarySource
+    ? primarySource.isA11yRatingAllowed === true
+    : false;
   const isEditingEnabled =
-    isWheelmapFeature(feature) && hasEditablePlaceCategory(feature) || isDefaultSourceForPlaceEditing || isA11yRatingAllowed;
+    (isWheelmapFeature(feature) && hasEditablePlaceCategory(feature)) ||
+    isDefaultSourceForPlaceEditing || isA11yRatingAllowed;
   return isEditingEnabled;
 }

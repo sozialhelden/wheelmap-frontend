@@ -1,4 +1,4 @@
-export default {
+const content = {
     //Arabic
     ar: {
         touch:
@@ -421,3 +421,5 @@ export default {
             "\u6309 \u2318 \u52a0\u4e0a\u6efe\u52d5\u6372\u8ef8\u53ef\u4ee5\u7e2e\u653e\u5730\u5716"
     }
 };
+
+export default content;

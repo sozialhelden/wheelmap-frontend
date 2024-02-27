@@ -6,7 +6,7 @@ import union from 'lodash/union';
 export default function highlightMarkers(
   highlightLayer: L.Layer,
   markers: HighlightableMarker[],
-  currentHighlightedMarkers: HighlightableMarker[],
+  currentHighlightedMarkers: HighlightableMarker[] = [],
   removeOldMarkers: boolean = true,
   isAnimated: boolean = true
 ) {

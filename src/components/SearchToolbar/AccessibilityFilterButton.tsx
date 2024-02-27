@@ -37,7 +37,6 @@ function AccessibilityFilterButton(props: Props) {
     isMainCategory,
     showCloseButton,
     caption,
-    isActive,
     onClick,
     className,
   } = props;

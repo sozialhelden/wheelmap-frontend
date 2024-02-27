@@ -22,7 +22,6 @@ import { geoDistance } from '../../../lib/geoDistance';
 import { formatDistance } from '../../../lib/formatDistance';
 import AppContext from '../../../AppContext';
 import { isParkingFacility } from '../AccessibilityEditor/isA11yEditable';
-import { isNumber } from 'lodash';
 
 
 const isNumericString = (s: string | undefined) => s?.match(/^\d+$/)
@@ -125,7 +124,6 @@ type Props = {
   className?: string;
   isEditingEnabled: boolean;
   showDescription: boolean;
-  accessibility: YesNoLimitedUnknown;
 };
 
 const ParkingAccessibilityList = styled.ul`
@@ -303,7 +301,7 @@ class WheelchairAndToiletAccessibility extends React.PureComponent<Props> {
     const wheelchairAccessibility = isWheelchairAccessible(properties);
     const toiletAccessibility = hasAccessibleToilet(properties);
     const isKnownWheelchairAccessibility = wheelchairAccessibility !== 'unknown';
-    const hasAccessibilityDetails = isKnownWheelchairAccessibility || wheelmapFeature && Object.keys(wheelmapFeature.properties.tags).length > 0;
+    const hasAccessibilityDetails = isKnownWheelchairAccessibility || (wheelmapFeature && Object.keys(wheelmapFeature.properties.tags).length > 0);
     const categoryId = getCategoryIdFromProperties(properties);
     const hasBlacklistedCategory = includes(placeCategoriesWithoutExtraToiletEntry, categoryId);
     const canAddToiletStatus =

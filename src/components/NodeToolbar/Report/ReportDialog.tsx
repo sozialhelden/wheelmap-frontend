@@ -15,7 +15,7 @@ import {
   WheelmapProperties,
 } from '../../../lib/Feature';
 import { CategoryLookupTables } from '../../../lib/Categories';
-import AppContext, { AppContextData } from '../../../AppContext';
+import { AppContextData } from '../../../AppContext';
 
 import strings from './strings';
 import FixOsmComment from './FixOsmComment';

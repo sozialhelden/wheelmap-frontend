@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { FunctionComponent, RefObject } from 'react';
+import React from 'react';
 import {
   FacebookShareButton,
   TwitterShareButton,

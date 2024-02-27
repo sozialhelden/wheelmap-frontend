@@ -1,29 +1,28 @@
+import intersperse from 'intersperse';
 import get from 'lodash/get';
 import * as React from 'react';
 import styled from 'styled-components';
-import { Feature, accessibilityCloudFeatureFrom } from '../../lib/Feature';
-import { isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import intersperse from 'intersperse';
+import { Feature, accessibilityCloudFeatureFrom, isWheelchairAccessible, placeNameFor } from '../../lib/Feature';
 
+import { compact, uniq } from 'lodash';
+import { t } from 'ttag';
 import {
+  Category,
+  CategoryLookupTables,
   categoryNameFor,
   getCategoryId,
-  CategoryLookupTables,
-  Category,
 } from '../../lib/Categories';
-import Icon from '../Icon';
-import { PlaceNameDiv, PlaceNameH1, PlaceNameHeader } from '../PlaceName';
-import BreadCrumbs from './BreadCrumbs';
 import { isEquipmentAccessible } from '../../lib/EquipmentInfo';
 import colors from '../../lib/colors';
-import { Cluster } from '../Map/Cluster';
-import ChevronRight from '../ChevronRight';
-import { StyledClusterIcon } from './FeatureClusterPanel';
 import { translatedStringFromObject } from '../../lib/i18n';
-import { compact, uniq } from 'lodash';
+import ChevronRight from '../ChevronRight';
+import Icon from '../Icon';
+import { Cluster } from '../Map/Cluster';
+import { PlaceNameDiv, PlaceNameH1 } from '../PlaceName';
+import BreadCrumbs from './BreadCrumbs';
 import getEquipmentInfoDescription from './Equipment/getEquipmentInfoDescription';
-import { t } from 'ttag';
+import { StyledClusterIcon } from './FeatureClusterPanel';
 import PlaceInfoLink from './PlaceInfoLink';
 
 const StyledChevronRight = styled(ChevronRight)`
@@ -128,7 +127,7 @@ export default class NodeHeader extends React.Component<Props> {
       t`Unnamed facility`;
       ariaLabel = getEquipmentInfoDescription(this.props.equipmentInfo, 'longDescription');
     }
-    const roomNumberString = roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber) || undefined;
+    const roomNumberString = (roomNumber !== roomName && roomNumber !== placeName && roomNumber && getRoomNumberString(roomNumber)) || undefined;
     const roomNameAndNumber = placeName === roomName ? roomNumberString : [roomName, roomNumberString && `(${roomNumberString})`].filter(Boolean).join(' ').trim();
 
     const accessibility = isEquipment

@@ -2,7 +2,7 @@ import { t } from 'ttag';
 import { Point } from 'geojson';
 
 import { FeatureCollection, YesNoLimitedUnknown } from './Feature';
-import { currentLocales, translatedStringFromObject } from './i18n';
+import { currentLocales } from './i18n';
 
 export type CategoryString =
   | 'elevator'
@@ -130,7 +130,6 @@ export function lastUpdateString({
   lastUpdate,
   isWorking,
   category,
-  isOutdated,
 }: {
   lastUpdate: Date | null;
   isWorking: boolean | undefined;
@@ -154,7 +153,7 @@ export function lastUpdateString({
   const twoDaysInMilliseconds = 2 * 24 * 60 * 60 * 1000;
   const isShortAgo = now.getTime() - lastUpdate.getTime() < twoDaysInMilliseconds;
   const isToday = isShortAgo && lastUpdate.getDay() === now.getDay();
-  const fullDateOptions = {
+  const fullDateOptions: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     month: 'long',
     day: 'numeric',
@@ -172,7 +171,7 @@ export function lastUpdateString({
     return t`Last known operational status: ${translatedEquipmentCategory} was ${lastStatus} on ${dateString}.`;
   } else {
     if (isShortAgo) {
-      const timeOptions = { hour: '2-digit', minute: '2-digit' };
+      const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit' };
       dateString = `${isToday ? today : yesterday}, ${lastUpdate.toLocaleTimeString(
         currentLocales.map(l => l.string),
         timeOptions

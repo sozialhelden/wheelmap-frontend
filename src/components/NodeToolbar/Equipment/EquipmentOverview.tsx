@@ -54,8 +54,6 @@ class EquipmentOverview extends React.Component<Props, State> {
     if (sortedEquipmentInfos.length === 0) return null;
 
     const hasBrokenEquipment = brokenEquipmentInfoArrays.length;
-    const hasWorkingEquipment =
-      workingEquipmentInfoArrays.length > brokenEquipmentInfoArrays.length;
     const shouldBeExpandable = sortedEquipmentInfos.length > 1 && !this.state.expanded;
     const isExpanded = this.state.expanded || sortedEquipmentInfos.length <= 2;
 

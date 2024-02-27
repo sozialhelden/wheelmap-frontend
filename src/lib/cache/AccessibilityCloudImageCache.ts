@@ -1,19 +1,9 @@
-// import readAndCompressImage from 'browser-image-resizer';
-import { readAndCompressImage } from '../../lib/ImageResizer';
 import env from '../env';
 import URLDataCache from './URLDataCache';
 import { AccessibilityCloudImages } from '../Feature';
 import FeatureCache from './FeatureCache';
 
 export const UnknownReason = 'unknown';
-
-const imageResizeConfig = {
-  quality: 0.7,
-  maxWidth: 1024,
-  maxHeight: 1024,
-  autoRotate: true,
-  debug: true,
-};
 
 const uncachedBaseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL || '';
 const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
@@ -48,8 +38,7 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
 
     if (!response.ok) {
       const json = await response.json();
-      const reason = json.error.reason;
-      throw new Error(json.error.reason);
+      throw new Error(json?.error?.reason);
     }
   }
 

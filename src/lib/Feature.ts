@@ -292,7 +292,7 @@ export function wheelmapFeatureFrom(feature: Feature | null): WheelmapFeature | 
   return null;
 }
 
-export function accessibilityCloudFeatureFrom(feature: Feature | EquipmentInfo | null): AccessibilityCloudFeature | null {
+export function accessibilityCloudFeatureFrom(feature: Feature | null): AccessibilityCloudFeature | null {
   if (!isWheelmapFeature(feature)) {
     return feature;
   }
@@ -466,7 +466,7 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
   const isAccessible =
     get(properties, 'wheelchair') ||
     get(properties, 'accessibility.accessibleWith.wheelchair') ||
-    get(properties, 'tags.capacity:disabled') && get(properties, 'tags.capacity:disabled') > 0;
+    (get(properties, 'tags.capacity:disabled') && get(properties, 'tags.capacity:disabled') > 0);
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
 
   switch (isAccessible) {

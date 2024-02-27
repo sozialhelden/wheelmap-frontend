@@ -3,7 +3,6 @@ import { t } from 'ttag';
 import styled from 'styled-components';
 
 import MapPinWithPlusIcon from '../icons/ui-elements/MapPinWithPlusIcon';
-import BellIcon from '../icons/ui-elements/BellIcon';
 import { UserIcon } from '../icons/ui-elements/index';
 
 type Props = {

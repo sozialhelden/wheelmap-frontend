@@ -1,23 +1,22 @@
-import * as React from 'react';
 import { hsl } from 'd3-color';
+import * as React from 'react';
 import styled from 'styled-components';
 import { t } from 'ttag';
 
 import FocusTrap from 'focus-trap-react';
 
-import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
-import { translatedStringFromObject, LocalizedString } from '../../lib/i18n';
-import colors, { alpha } from '../../lib/colors';
 import { MappingEvent } from '../../lib/MappingEvent';
+import colors, { alpha } from '../../lib/colors';
+import { translatedStringFromObject } from '../../lib/i18n';
+import { insertPlaceholdersToAddPlaceUrl } from '../../lib/insertPlaceholdersToAddPlaceUrl';
 
-import GlobalActivityIndicator from './GlobalActivityIndicator';
-import { LinkData } from '../../App';
-import Link, { RouteConsumer } from '../Link/Link';
 import { AppContextConsumer } from '../../AppContext';
+import Link, { RouteConsumer } from '../Link/Link';
+import GlobalActivityIndicator from './GlobalActivityIndicator';
 
-import CloseIcon from '../icons/actions/Close';
 import { ClientSideConfiguration } from '../../lib/ClientSideConfiguration';
 import VectorImage from '../VectorImage';
+import CloseIcon from '../icons/actions/Close';
 
 type State = {
   isMenuButtonVisible: boolean,
@@ -153,7 +152,7 @@ class MainMenu extends React.Component<Props, State> {
 
         let customClickHandler = null;
         const isAddPlaceLink = link.tags && link.tags.indexOf('add-place') !== -1;
-        const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url == '/add-place');
+        const isAddPlaceLinkWithoutCustomUrl = isAddPlaceLink && (!url || url === '/add-place');
 
         if (isAddPlaceLinkWithoutCustomUrl) {
           return (

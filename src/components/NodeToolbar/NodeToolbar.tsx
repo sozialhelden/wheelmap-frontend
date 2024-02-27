@@ -25,13 +25,13 @@ import {
   isWheelmapFeatureId,
   placeNameFor,
   isWheelchairAccessible,
-  isWheelmapFeature,
   WheelmapFeature,
   getFeatureId,
+  wheelmapFeatureFrom,
 } from '../../lib/Feature';
 
 import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
-import { CategoryStrings, EquipmentInfo } from '../../lib/EquipmentInfo';
+import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import { ModalNodeState } from '../../lib/ModalNodeState';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
@@ -422,8 +422,9 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       </PlaceAccessibilitySection>
     );
 
-    const inlineWheelchairAccessibilityEditor = feature
-      ? this.renderInlineWheelchairAccessibilityEditor(feature, category, sources)
+    const wheelmapFeature = wheelmapFeatureFrom(feature);
+    const inlineWheelchairAccessibilityEditor = wheelmapFeature
+      ? this.renderInlineWheelchairAccessibilityEditor(wheelmapFeature, category, sources)
       : null;
     const photoSection = this.renderPhotoSection();
     const equipmentOverview = this.renderEquipmentInfos();

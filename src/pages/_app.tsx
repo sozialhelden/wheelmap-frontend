@@ -43,14 +43,8 @@ import { trackPageView } from '../lib/Analytics';
 import { buildFullImageUrl } from '../lib/Image';
 import isEmbedTokenValid from '../lib/isEmbedTokenValid';
 import EmbedModeDeniedDialog from '../components/EmbedModeDeniedDialog';
-import startClientSideApm from '../lib/apm/startClientSideApm';
 import { ClientSideConfiguration } from '../lib/ClientSideConfiguration';
 import env from '../lib/env';
-
-if (typeof window !== 'undefined') {
-  // TODO: Re-enable APM
-  // startClientSideApm();
-}
 
 let isServer = false;
 // only used in serverSideRendering when getting the initial props

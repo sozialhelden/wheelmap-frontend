@@ -1,7 +1,6 @@
 import { AccessibilityCloudFeature, AccessibilityCloudFeatureCollection } from '../Feature';
 import FeatureCache from './FeatureCache';
 import { equipmentInfoCache } from './EquipmentInfoCache';
-import { currentLocales } from '../i18n';
 import env from '../env';
 
 type CacheMap = {

@@ -50,11 +50,12 @@ const SearchInputField = forwardRef(
       }
     };
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const debouncedInternalOnChange = useCallback(
       _.debounce(searchTerm => {
         onChange(searchTerm);
       }, DEBOUNCE_THRESHOLD),
-      []
+      [onChange]
     );
 
     const updateSearchQuery = (event: React.ChangeEvent<HTMLInputElement>) => {

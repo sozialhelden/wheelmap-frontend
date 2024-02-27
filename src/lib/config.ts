@@ -1,6 +1,6 @@
 import env from './env';
 
-export default {
+const config = {
   locateTimeout: 60 * 60 * 1000,
   // If no location is known, start at the Cologne cathedral landmark
   defaultStartCenter: [50.94133042185295, 6.957112947082502] as number[],
@@ -11,3 +11,5 @@ export default {
   wheelmapApiBaseUrl: env.REACT_APP_OSM_API_LEGACY_BASE_URL,
   wheelmapApiBaseUrlForTiles: env.REACT_APP_OSM_API_TILE_BACKEND_URL_LEGACY,
 };
+
+export default config;

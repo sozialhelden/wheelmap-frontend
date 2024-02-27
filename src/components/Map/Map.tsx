@@ -1,63 +1,60 @@
 import L from 'leaflet';
 import 'mapbox-gl';
-import 'mapbox-gl/src/css/mapbox-gl.css';
 import 'mapbox-gl-leaflet';
+import 'mapbox-gl/src/css/mapbox-gl.css';
 
-import { GestureHandling } from './leaflet-gesture-handling/leaflet-gesture-handling';
 import 'leaflet.markercluster/dist/leaflet.markercluster-src';
-import { t } from 'ttag';
+import debounce from 'lodash/debounce';
 import includes from 'lodash/includes';
 import isEqual from 'lodash/isEqual';
-import debounce from 'lodash/debounce';
 import * as React from 'react';
-import SozialheldenLogo from './SozialheldenLogo';
+import { t } from 'ttag';
+import { hrefForFeature } from '../../lib/Feature';
 import { currentLocales } from '../../lib/i18n';
-import LeafletLocateControl from './L.Control.Locate';
 import HighlightableMarker from './HighlightableMarker';
-import { hrefForFeature, isWheelmapProperties } from '../../lib/Feature';
-import { CategoryStrings as EquipmentCategoryStrings } from '../../lib/EquipmentInfo';
+import LeafletLocateControl from './L.Control.Locate';
+import SozialheldenLogo from './SozialheldenLogo';
 
+import { PotentialPromise } from '../../app/PlaceDetailsProps';
+import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
+import { EquipmentInfo } from '../../lib/EquipmentInfo';
 import {
-  isWheelchairAccessible,
-  hasAccessibleToilet,
-  wheelmapFeatureCollectionFromResponse,
+  Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown,
   accessibilityCloudFeatureCollectionFromResponse,
   getFeatureId,
+  hasAccessibleToilet,
+  isWheelchairAccessible,
+  wheelmapFeatureCollectionFromResponse,
 } from '../../lib/Feature';
+import { globalFetchManager } from '../../lib/FetchManager';
+import { MappingEvents } from '../../lib/MappingEvent';
+import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
+import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
+import goToLocationSettings from '../../lib/goToLocationSettings';
+import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
+import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
+import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
+import { getUserAgent } from '../../lib/userAgent';
+import A11yMarkerIcon from './A11yMarkerIcon';
+import { Cluster } from './Cluster';
 import ClusterIcon from './ClusterIcon';
-import Categories, { CategoryLookupTables, RootCategoryEntry } from '../../lib/Categories';
-import isSamePosition from './isSamePosition';
 import GeoJSONTileLayer from './GeoJSONTileLayer';
+import MappingEventMarkerIcon from './MappingEventMarkerIcon';
+import NotificationButton from './NotificationButton';
 import addLocateControlToMap from './addLocateControlToMap';
 import getAccessibilityCloudTileUrl from './getAccessibilityCloudTileUrl';
-import goToLocationSettings from '../../lib/goToLocationSettings';
 import highlightMarkers from './highlightMarkers';
+import isSamePosition from './isSamePosition';
 import overrideLeafletZoomBehavior from './overrideLeafletZoomBehavior';
-import { Feature, NodeProperties, YesNoLimitedUnknown, YesNoUnknown } from '../../lib/Feature';
-import { EquipmentInfo } from '../../lib/EquipmentInfo';
-import { PotentialPromise } from '../../app/PlaceDetailsProps';
-import { normalizeCoordinate, normalizeCoordinates } from '../../lib/normalizeCoordinates';
-import { accessibilityCloudFeatureCache } from '../../lib/cache/AccessibilityCloudFeatureCache';
-import { wheelmapLightweightFeatureCache } from '../../lib/cache/WheelmapLightweightFeatureCache';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import { globalFetchManager } from '../../lib/FetchManager';
-import { getUserAgent } from '../../lib/userAgent';
-import NotificationButton from './NotificationButton';
-import { hasOpenedLocationHelp, saveState } from '../../lib/savedState';
-import colors, { interpolateWheelchairAccessibility } from '../../lib/colors';
-import shouldUseImperialUnits from '../../lib/shouldUseImperialUnits';
 import { tileLoadingStatus } from './trackTileLoadingState';
-import { Cluster } from './Cluster';
-import { MappingEvents } from '../../lib/MappingEvent';
-import A11yMarkerIcon from './A11yMarkerIcon';
-import MappingEventMarkerIcon from './MappingEventMarkerIcon';
 
-import { LeafletStyle } from './LeafletStyle';
-import './MapStyle.tsx';
 import { hrefForMappingEvent } from '../../lib/MappingEvent';
-import { MapStyle } from './MapStyle';
-import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
 import env from '../../lib/env';
+import { LeafletLocateControlStyle } from './LeafletLocateControlStyle';
+import { LeafletStyle } from './LeafletStyle';
+import { MapStyle } from './MapStyle';
 
 // L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 
@@ -341,7 +338,7 @@ export default class Map extends React.Component<Props, State> {
 
     this.setupLocateMeButton(map);
 
-    const basemapLayer = L.mapboxGL({
+    const basemapLayer = (L as any).mapboxGL({
       accessToken: env.REACT_APP_MAPBOX_GL_ACCESS_TOKEN,
       style: 'mapbox://styles/sozialhelden/cko1h26xf0tg717qieiftte7q',
     });

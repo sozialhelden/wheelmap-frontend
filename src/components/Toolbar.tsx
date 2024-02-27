@@ -64,12 +64,12 @@ const useIsomorphicLayoutEffect =
 
 // Use this to debug state value changes in the console - very handy for complex state handling with
 // React Hooks.
-function logStateValueChange(name: string, value: any) {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useIsomorphicLayoutEffect(() => {
-    console.log(name, '=', value);
-  }, [name, value]);
-}
+// function logStateValueChange(name: string, value: any) {
+//   // eslint-disable-next-line react-hooks/rules-of-hooks
+//   useIsomorphicLayoutEffect(() => {
+//     console.log(name, '=', value);
+//   }, [name, value]);
+// }
 
 type PositionSample = { pos: number; t: number };
 type FlickState = 'up' | 'down' | 'noFlick';
@@ -529,7 +529,7 @@ const BaseToolbar = (
         closeLink['click']();
       }
     }
-  }, []);
+  }, [props.closeOnEscape]);
 
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {

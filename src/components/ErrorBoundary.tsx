@@ -31,7 +31,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    const { catched, error, errorInfo } = this.state;
+    const { catched, error } = this.state;
 
     if (catched) {
       const { className } = this.props;

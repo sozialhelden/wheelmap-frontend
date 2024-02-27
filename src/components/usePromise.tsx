@@ -10,7 +10,7 @@ export default function usePromise<T>(
   );
   const [value, setValue] = React.useState<T>();
   const [error, setError] = React.useState<any>();
-  const promise = React.useEffect(() => {
+  React.useEffect(() => {
     const promise = promiseFn();
     promise.then(
       value => {
@@ -23,7 +23,8 @@ export default function usePromise<T>(
       }
     );
     return abort;
-  }, [promiseFn, ...deps]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [abort, promiseFn, ...deps]);
 
   return {
     promiseState,

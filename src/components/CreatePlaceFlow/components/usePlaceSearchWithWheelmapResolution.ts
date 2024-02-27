@@ -3,7 +3,7 @@ import env from '../../../lib/env';
 
 import usePlaceSearch from './usePlaceSearch';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
-import { AccessibilityCloudFeature, WheelmapFeature } from "../../../lib/Feature";
+import { WheelmapFeature } from "../../../lib/Feature";
 import { SearchResultFeature, getOsmIdFromSearchResultProperties } from '../../../lib/searchPlaces';
 import { Dispatch, SetStateAction } from "react";
 

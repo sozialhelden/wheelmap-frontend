@@ -4,6 +4,7 @@ import ShareBarContent from './ShareBarContent';
 import { Caption } from '../IconButton';
 import colors from '../../lib/colors';
 import styled from 'styled-components';
+import React from 'react';
 
 type ShareBarProps = {
   shareButtonCaption: string;
@@ -30,9 +31,16 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
   const shareBarToggleRef = useRef(null);
   const collapseButtonRef = useRef(null);
 
+  const toggleShareBar = React.useCallback((show: boolean | undefined) => {
+    setIsExpanded(show !== undefined ? show : !isExpanded);
+    if (onToggle) {
+      onToggle();
+    }
+  }, [isExpanded, onToggle]);
+
   useEffect(() => {
     toggleShareBar(false);
-  }, [featureId]);
+  }, [featureId, toggleShareBar]);
 
   useEffect(() => {
     if (isExpanded && collapseButtonRef) {
@@ -41,13 +49,6 @@ const ShareBar: FunctionComponent<ShareBarProps> = ({
       shareBarToggleRef.current.focus();
     }
   }, [isExpanded]);
-
-  const toggleShareBar = (show: boolean | undefined) => {
-    setIsExpanded(show !== undefined ? show : !isExpanded);
-    if (onToggle) {
-      onToggle();
-    }
-  };
 
   if (!isExpanded) {
     return (

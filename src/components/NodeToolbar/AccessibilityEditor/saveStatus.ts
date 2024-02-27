@@ -1,7 +1,6 @@
 import { t } from 'ttag';
 import fetch from '../../../lib/fetch';
 import get from 'lodash/get';
-import config from '../../../lib/config';
 import { trackingEventBackend } from '../../../lib/TrackingEventBackend';
 import { wheelmapFeatureCache } from '../../../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../../../lib/cache/WheelmapLightweightFeatureCache';

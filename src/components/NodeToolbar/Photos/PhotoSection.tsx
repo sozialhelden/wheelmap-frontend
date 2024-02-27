@@ -45,7 +45,7 @@ function flipPhotoDimensions(photo: PhotoModel) {
 }
 
 function PhotoSection(props: Props) {
-  const { photoFlowNotification, onStartPhotoUploadFlow, photos: rawPhotos, className } = props;
+  const { photoFlowNotification, onStartPhotoUploadFlow, photos: rawPhotos, className, onLightbox, onReportPhoto } = props;
 
   const photos = rawPhotos.map(photo =>
     photo.angle % 180 === 0 ? photo : flipPhotoDimensions(photo)
@@ -55,8 +55,8 @@ function PhotoSection(props: Props) {
   const [isLightboxOpen, setIsLightboxOpen] = React.useState<boolean>(false);
   const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
   React.useEffect(() => {
-    props.onLightbox(isLightboxOpen);
-  }, [isLightboxOpen]);
+    onLightbox(isLightboxOpen);
+  }, [isLightboxOpen, onLightbox]);
 
   const showImage = React.useCallback((_event, _photo, index) => {
     setCurrentImageIndex(index);
@@ -74,8 +74,8 @@ function PhotoSection(props: Props) {
       return;
     }
     const toBeReported = photos[currentImageIndex];
-    props.onReportPhoto(toBeReported);
-  }, [photos, currentImageIndex]);
+    onReportPhoto(toBeReported);
+  }, [photos, currentImageIndex, onReportPhoto]);
 
   const gotoPrevious = React.useCallback(() => {
     setCurrentImageIndex(currentImageIndex - 1);
@@ -104,7 +104,7 @@ function PhotoSection(props: Props) {
         )}
       </section>
     );
-  }, [canReportPhoto, currentImageIndex, photos, reportImage]);
+  }, [canReportPhoto, currentImageIndex, photos, reportImage, className]);
 
   const FooterCount = React.useMemo(() => {
     // translator: divider between <currentImageIndex> and <imageCount> in lightbox, such as 1 of 10
