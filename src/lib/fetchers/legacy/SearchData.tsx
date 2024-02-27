@@ -3,8 +3,8 @@ import { compact } from "lodash";
 import { wheelmapFeatureCache } from "../lib/cache/WheelmapFeatureCache";
 import { WheelmapFeature } from "../lib/Feature";
 import {
-    getOsmIdFromSearchResultProperties, SearchResultCollection,
-    SearchResultProperties
+  getOsmIdFromSearchResultProperties, SearchResultCollection,
+  SearchResultProperties
 } from "../lib/searchPlaces";
 import { DataTableEntry } from "./getInitialProps";
 
@@ -19,12 +19,6 @@ async function fetchWheelmapNode(
   appToken: string,
   useCache: boolean
 ): Promise<WheelmapFeature | undefined> {
-  if (!process.env.NEXT_PUBLIC_WHEELMAP_API_KEY) {
-    console.log(
-      "Warning: NEXT_PUBLIC_WHEELMAP_API_KEY not set, cannot fetch place."
-    );
-    return null;
-  }
 
   const osmId = getOsmIdFromSearchResultProperties(searchResultProperties);
   if (osmId === null) {
