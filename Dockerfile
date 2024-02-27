@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN npm set progress=false && npm config set depth 0
 RUN npm ci
+RUN npm i @next/swc-linux-x64-gnu
 COPY . .
 RUN touch .env && NODE_ENV=production npm run build && npm prune --production && rm -rf ./node_modules/.cache
 
