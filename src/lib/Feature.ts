@@ -234,10 +234,6 @@ export function getFeatureId(feature: Feature | EquipmentInfo | any): string | n
   if (!feature) return null;
   const { properties } = feature;
   const idProperties = [
-    properties &&
-      typeof properties.id === 'number' &&
-      typeof properties.osm_type === 'string' &&
-      `${properties.osm_type}/${properties.id}`,
     typeof feature.id === 'number' && feature.id,
     typeof feature._id === 'string' && feature._id,
     properties && typeof properties.id === 'number' && properties.id,
