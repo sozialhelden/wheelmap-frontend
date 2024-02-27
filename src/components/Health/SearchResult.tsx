@@ -12,7 +12,7 @@ function SearchResult({ data }: Props) {
 
   React.useEffect(() => {}, [searchResult]);
 
-  const { centroid, properties } = searchResult;
+  const { centroid, properties, _id } = searchResult;
   const lat = centroid.coordinates[1];
   const lon = centroid.coordinates[0];
   const name = properties.name;
@@ -20,7 +20,7 @@ function SearchResult({ data }: Props) {
   const housenumber = properties["addr:housenumber"];
   const postcode = properties["addr:postcode"];
   const city = properties["addr:city"];
-  const { website, phone } = properties;
+  const { website, phone, wheelchair } = properties;
   const customStreet = street ? street + ", " : "";
   const customHousenumber = housenumber ? housenumber + ", " : "";
   const customPostcode = postcode ? postcode + ", " : "";
@@ -34,7 +34,7 @@ function SearchResult({ data }: Props) {
   });
 
   return (
-    <div className="search-result">
+    <div>
       {myCoordinates && (
         <p style={{ marginBottom: 10, color: StyledColors.red }}>
           <StyledLegend>
@@ -45,23 +45,30 @@ function SearchResult({ data }: Props) {
           </StyledLegend>
         </p>
       )}
-      {customWebsite ? (
-        <StyledLink href={customWebsite} target="_blank" className="">
-          <h3 className="search-result-heading">
-            <Icon icon="link" size={20} />
-            &nbsp;&nbsp;{name}
-          </h3>
+      <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
+        <h3>
+          <Icon icon="link" size={20} />
+          &nbsp;&nbsp;{name}, Rollstuhl : {wheelchair}
+        </h3>
+      </StyledLink>
+      {customStreet && (
+        <StyledLink href={"https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon} target="_blank">
+          <Icon icon="map-marker" size={20} />
+          &nbsp;&nbsp;{[customStreet, customHousenumber, customPostcode, customCity].join("")}
         </StyledLink>
-      ) : (
-        <h3 className="search-result-heading">{name}</h3>
       )}
-      <p className="search-result-address">{[customStreet, customHousenumber, customPostcode, customCity].join("")}</p>
+      {customStreet && (cutomePhone || customWebsite) && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
       {cutomePhone && (
-        <StyledLink href={"tel:" + cutomePhone} target="_blank" className="">
-          <p className="search-result-phone">
-            <Icon icon="phone" size={20} />
-            &nbsp;&nbsp;{cutomePhone}
-          </p>
+        <StyledLink href={"tel:" + cutomePhone} target="_blank">
+          <Icon icon="phone" size={20} />
+          &nbsp;&nbsp;{cutomePhone}
+        </StyledLink>
+      )}
+      {cutomePhone && customWebsite && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
+      {customWebsite && (
+        <StyledLink href={"tel:" + cutomePhone} target="_blank">
+          <Icon icon="link" size={20} />
+          &nbsp;&nbsp;{customWebsite.split("/")[2]}
         </StyledLink>
       )}
     </div>

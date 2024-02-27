@@ -3,17 +3,17 @@ import { t } from "ttag";
 import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
 import ActiveFilters from "./ActiveFilters";
 import FilterInputs from "./FilterInputs";
-import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection } from "./styles";
+import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection, responsiveValue } from "./styles";
 
 function FilterSection() {
   const { width }: WindowContextType = useWindowContext();
 
-  const [isMobile, setMobile] = React.useState(width < 640);
-  const [isDesktop, setDesktop] = React.useState(width >= 640);
+  const [isMobile, setMobile] = React.useState(width < responsiveValue);
+  const [isDesktop, setDesktop] = React.useState(width >= responsiveValue);
 
   React.useEffect(() => {
-    setMobile(width < 640);
-    setDesktop(width >= 640);
+    setMobile(width < responsiveValue);
+    setDesktop(width >= responsiveValue);
   }, [width]);
 
   const renderFilterContainer = () => {

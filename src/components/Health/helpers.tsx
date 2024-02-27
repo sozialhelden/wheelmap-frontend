@@ -1,5 +1,7 @@
 import { useContext } from "react";
+import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
+import { StyledColors } from "./styles";
 
 export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
 
@@ -39,7 +41,7 @@ export type FilterOptions = {
 export const defaultFilterOptions: FilterOptions = {
   city: "Berlin",
   wheelchair: "yes",
-  limit: "100",
+  limit: "1000",
   healthcare: "pharmacy",
   ["healthcare:speciality"]: "",
 };
@@ -69,7 +71,6 @@ export type OSM_API_FEATURE = {
   };
 };
 
-export const limitValue = 10000;
 export const useHealthAPIURL = (options: any) => {
   const { city, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, limit } = options;
   const env = useContext(EnvContext);
@@ -94,4 +95,36 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   return (R * c) / 1000;
+}
+
+export function getWheelchairColor(wheelchair: string): any {
+  let wheelchairStatus = {
+    label: "",
+    color: "",
+  };
+  switch (wheelchair) {
+    case "yes":
+      wheelchairStatus = {
+        label: t`Vollrollstuhlgerecht`,
+        color: StyledColors.green,
+      };
+    case "limited":
+      wheelchairStatus = {
+        label: t`Eingeschränkt rollstuhlgerecht`,
+        color: StyledColors.orange,
+      };
+
+    case "no":
+      wheelchairStatus = {
+        label: t`Nicht rollstuhlgerecht`,
+        color: StyledColors.red,
+      };
+    default:
+      wheelchairStatus = {
+        label: t`Unbekannt`,
+        color: StyledColors.grey,
+      };
+  }
+  console.log(wheelchairStatus);
+  return wheelchairStatus;
 }

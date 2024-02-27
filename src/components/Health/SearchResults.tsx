@@ -4,7 +4,7 @@ import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
 import { FilterOptions, OSM_API_FEATURE, fetcher, useHealthAPIURL } from "./helpers";
-import { StlyedSecion, StyledH2, StyledLoadingSpinner } from "./styles";
+import { StyledH2, StyledLoadingSpinner, StyledSection, StyledUL } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
   const fc: FilterContextType = React.useContext(FilterContext);
@@ -42,15 +42,15 @@ function SearchResults({}: Props) {
   }, [data]);
 
   const loadingSpinnerUI = (
-    <StlyedSecion>
+    <StyledSection>
       <StyledH2>{t`Suchen ...`}</StyledH2>
       <StyledLoadingSpinner />
-    </StlyedSecion>
+    </StyledSection>
   );
 
   const searchResultsUI = (
-    <div className="search-results-container">
-      <ul className="search-results-list">
+    <StyledSection>
+      <StyledUL>
         {Array.isArray(searchResults) &&
           searchResults.map((item: OSM_API_FEATURE) => {
             return (
@@ -59,18 +59,18 @@ function SearchResults({}: Props) {
               </li>
             );
           })}
-      </ul>
-    </div>
+      </StyledUL>
+    </StyledSection>
   );
 
   return (
-    <StlyedSecion>
+    <StyledSection>
       <StyledH2>
         {Array.isArray(searchResults) ? t`Ergebnisse für ` + filterOptionsFC.city + ` (${searchResults.length})` : t`Keine Ergebnisse für ` + filterOptionsFC.city}
         {error && error.message && `: ${error.message}`}
       </StyledH2>
       {loadingSpinner ? loadingSpinnerUI : searchResultsUI}
-    </StlyedSecion>
+    </StyledSection>
   );
 }
 

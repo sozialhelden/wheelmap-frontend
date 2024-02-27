@@ -21,16 +21,8 @@ function ActivePreferenceSwitch({ name }: Props) {
 
   return (
     <li>
-      <label className="label">
-        <StyledCheckbox
-          type="checkbox"
-          role="switch"
-          name={name}
-          onChange={handleChange}
-          id={name}
-          value={name || ""}
-          checked={filterMap.get(name) || false}
-        />
+      <label>
+        <StyledCheckbox type="checkbox" role="switch" name={name} onChange={handleChange} id={name} value={name || ""} checked={filterMap.get(name) || false} />
         {name}
       </label>
     </li>

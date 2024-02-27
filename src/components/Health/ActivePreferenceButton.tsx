@@ -22,7 +22,7 @@ function ActivePreferenceButton({ key, name }: Props) {
 
   return (
     <li key={key}>
-      <StyledButton value={name} className="active-filter-button" onClick={handleClick}>
+      <StyledButton value={name} onClick={handleClick}>
         {name}
       </StyledButton>
     </li>

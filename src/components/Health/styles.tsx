@@ -2,58 +2,13 @@ import styled from "styled-components";
 
 export const containerSpacing = "1rem";
 export const borderRadius = "2rem";
-
-export const StyledFilterPreferencesSection = styled.section`
-  --switch-height: calc(2rem - 8px);
-  .label {
-    height: 2rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  fieldset {
-    width: fit-content;
-    border: none;
-  }
-
-  legend {
-    font-size: 110%;
-    margin-bottom: 0.5rem;
-  }
-
-  .label {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    width: auto;
-  }
-
-  li {
-    list-style-type: none;
-  }
-
-  ul {
-    padding-inline-start: 0;
-  }
-
-  label {
-    user-select: none;
-  }
-
-  label input[role="switch"]:not(:checked) ~ .state span.on {
-    display: none;
-  }
-
-  label input[role="switch"]:checked ~ .state > span.off {
-    display: none;
-  }
-`;
+export const responsiveValue = 640;
 
 export const StyledColors = {
   green: "#77AD2B",
   grey: "silver",
   red: "#d51030",
+  orange: "#f39e3b",
 };
 
 export const StyledLegend = styled.legend`
@@ -83,7 +38,7 @@ export const StyledLabel = styled.label`
   margin-bottom: 0.5rem !important;
 `;
 
-export const StlyedSecion = styled.section`
+export const StyledSection = styled.section`
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   margin: 1rem !important;
   background-color: rgb(255, 255, 255, 1);
@@ -94,9 +49,14 @@ export const StlyedSecion = styled.section`
   overflow-x: hidden;
 `;
 
-export const StyledH1 = styled.h1`
-  margin-top: calc(50px + 1rem) !important;
-  margin-inline: ${containerSpacing} !important;
+export const StyledUL = styled.ul`
+  padding-inline-start: 0;
+  list-style-type: none;
+  li {
+    margin: 1rem;
+    padding: 1rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+  }
 `;
 
 export const StyledH2 = styled.h2`
@@ -245,11 +205,15 @@ export const StyledSearchFilterDetails = styled.details`
 `;
 
 export const StyledHealthSiteContent = styled.div`
-  display: flex;
-  flex-direction: column;
+  margin-top: 3rem !important;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
   background-color: rgb(255, 255, 255, 0.95);
   width: 100vw;
   height: 100vh;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 export const StyledActiveFilterBar = styled.ul`
