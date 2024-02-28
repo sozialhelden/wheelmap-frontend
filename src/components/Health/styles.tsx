@@ -11,6 +11,13 @@ export const StyledColors = {
   orange: "#f39e3b",
 };
 
+export const StyledCircle = styled.span<{ color?: boolean }>`
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+  color: white;
+  padding: 0.5rem;
+`;
+
 export const StyledLegend = styled.legend`
   font-size: 1rem !important;
   font-weight: 700;

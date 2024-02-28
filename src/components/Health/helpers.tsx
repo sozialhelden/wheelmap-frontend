@@ -1,3 +1,4 @@
+import { faWheelchair } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
@@ -40,7 +41,7 @@ export type FilterOptions = {
 
 export const defaultFilterOptions: FilterOptions = {
   city: "Berlin",
-  wheelchair: "yes",
+  wheelchair: "all",
   limit: "1000",
   healthcare: "pharmacy",
   ["healthcare:speciality"]: "",
@@ -56,7 +57,7 @@ export type OSM_API_FEATURE = {
   distance: number;
   id: number;
   osm_type: string;
-  osm_id: string; // type/id
+  osm_id: string;
   street: string;
   housenumber: string;
   city: string;
@@ -98,33 +99,31 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
 }
 
 export function getWheelchairColor(wheelchair: string): any {
-  let wheelchairStatus = {
-    label: "",
-    color: "",
-  };
   switch (wheelchair) {
     case "yes":
-      wheelchairStatus = {
+      return {
         label: t`Vollrollstuhlgerecht`,
         color: StyledColors.green,
+        icon: faWheelchair,
       };
     case "limited":
-      wheelchairStatus = {
+      return {
         label: t`Eingeschränkt rollstuhlgerecht`,
         color: StyledColors.orange,
+        icon: faWheelchair,
       };
 
     case "no":
-      wheelchairStatus = {
+      return {
         label: t`Nicht rollstuhlgerecht`,
         color: StyledColors.red,
+        icon: faWheelchair,
       };
     default:
-      wheelchairStatus = {
+      return {
         label: t`Unbekannt`,
         color: StyledColors.grey,
+        icon: faWheelchair,
       };
   }
-  console.log(wheelchairStatus);
-  return wheelchairStatus;
 }

@@ -83,19 +83,16 @@ function FilterInputs() {
           ))}
         </StyledSelect>
 
-        <StyledLabel htmlFor="wheelchair-select">
-          {t`Rollstuhlgerecht`} : {filterOptions.wheelchair}
-        </StyledLabel>
-        <StyledSelect name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
-          <option value="">{t`--Bitte Option auswählen--`}</option>
+        <StyledLabel htmlFor="wheelchair-select">{t`Rollstuhlgerecht`}</StyledLabel>
+        <StyledSelect defaultValue={"yes"} name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
+          <option value="all">{t`Alle (Ja, Nein, Teilweise, Unbekannt)`}</option>
           <option value="yes">{t`Ja`}</option>
           <option value="no">{t`Nein`}</option>
           <option value="limited">{t`Teilweise`}</option>
+          <option value="unknown">{t`Unbekannt`}</option>
         </StyledSelect>
 
-        <StyledLabel htmlFor="limit-select">
-          {t`Suchgrenze (Anzahl)`} : {filterOptions.limit}
-        </StyledLabel>
+        <StyledLabel htmlFor="limit-select">{t`Suchgrenze (Anzahl)`}</StyledLabel>
         <StyledSelect name="limit" id="limit-select" onChange={handleOnChangeLimit}>
           <option value="">{t`--Bitte Option auswählen--`}</option>
           <option value="100">100</option>

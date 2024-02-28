@@ -1,6 +1,8 @@
-import { Icon } from "@blueprintjs/core";
+import { faLink, faLocationArrow, faMapPin, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { calculateDistance } from "./helpers";
+import CustomFontAwesomeIcon from "./Customs/CustomFontAwesomeIcon";
+import { calculateDistance, getWheelchairColor } from "./helpers";
 import { StyledColors, StyledLegend, StyledLink } from "./styles";
 
 type Props = {
@@ -38,7 +40,7 @@ function SearchResult({ data }: Props) {
       {myCoordinates && (
         <p style={{ marginBottom: 10, color: StyledColors.red }}>
           <StyledLegend>
-            <Icon icon="map-marker" size={20} />
+            <FontAwesomeIcon icon={faLocationArrow} color={StyledColors.red} />
             &nbsp;&nbsp;
             {calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon).toFixed(2)}
             KM entfernt
@@ -47,27 +49,27 @@ function SearchResult({ data }: Props) {
       )}
       <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
         <h3>
-          <Icon icon="link" size={20} />
-          &nbsp;&nbsp;{name}, Rollstuhl : {wheelchair}
+          <CustomFontAwesomeIcon icon={getWheelchairColor(wheelchair).icon} color={getWheelchairColor(wheelchair).color} />
+          &nbsp;&nbsp;{name}
         </h3>
       </StyledLink>
       {customStreet && (
         <StyledLink href={"https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon} target="_blank">
-          <Icon icon="map-marker" size={20} />
+          <FontAwesomeIcon icon={faMapPin} />
           &nbsp;&nbsp;{[customStreet, customHousenumber, customPostcode, customCity].join("")}
         </StyledLink>
       )}
       {customStreet && (cutomePhone || customWebsite) && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
       {cutomePhone && (
         <StyledLink href={"tel:" + cutomePhone} target="_blank">
-          <Icon icon="phone" size={20} />
+          <FontAwesomeIcon icon={faPhone} />
           &nbsp;&nbsp;{cutomePhone}
         </StyledLink>
       )}
       {cutomePhone && customWebsite && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
       {customWebsite && (
-        <StyledLink href={"tel:" + cutomePhone} target="_blank">
-          <Icon icon="link" size={20} />
+        <StyledLink href={customWebsite} target="_blank">
+          <FontAwesomeIcon icon={faLink} />
           &nbsp;&nbsp;{customWebsite.split("/")[2]}
         </StyledLink>
       )}
