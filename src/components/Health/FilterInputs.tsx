@@ -57,12 +57,12 @@ function FilterInputs() {
       <StyledLegend>{t`Allgemeine Angaben`}</StyledLegend>
       <StyledSearchFilterInputs role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="place">{t`Ort`}</StyledLabel>
-        <StyledTextInput type="text" name="" id="place" onChange={handleOnChangeCity} />
+        <StyledTextInput defaultValue={defaultFilterOptions.city} type="text" name="" id="place" onChange={handleOnChangeCity} />
 
         <StyledLabel htmlFor="healthcare-select">
           {t`Einrichtungsart`} : {filterOptions.healthcare}
         </StyledLabel>
-        <StyledSelect name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
+        <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
           <option value="">{t`--Alle--`}</option>
           {mockedHealthcare.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>
@@ -74,7 +74,7 @@ function FilterInputs() {
         <StyledLabel htmlFor="healthcare-speciality-select">
           {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
         </StyledLabel>
-        <StyledSelect name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
+        <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
           <option value="">{t`--Alle--`}</option>
           {mockedHealthcareSpeciality.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>

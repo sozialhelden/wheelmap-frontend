@@ -43,7 +43,7 @@ export const defaultFilterOptions: FilterOptions = {
   city: "Berlin",
   wheelchair: "all",
   limit: "1000",
-  healthcare: "pharmacy",
+  healthcare: "",
   ["healthcare:speciality"]: "",
 };
 
