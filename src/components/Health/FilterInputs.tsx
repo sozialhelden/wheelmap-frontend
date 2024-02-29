@@ -63,7 +63,7 @@ function FilterInputs() {
           {t`Einrichtungsart`} : {filterOptions.healthcare}
         </StyledLabel>
         <StyledSelect name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
-          <option value="">{t`--Bitte Option auswählen--`}</option>
+          <option value="">{t`--Alle--`}</option>
           {mockedHealthcare.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>
               {item.label}
@@ -75,7 +75,7 @@ function FilterInputs() {
           {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
         </StyledLabel>
         <StyledSelect name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
-          <option value="">{t`--Bitte Option auswählen--`}</option>
+          <option value="">{t`--Alle--`}</option>
           {mockedHealthcareSpeciality.map((item, index) => (
             <option key={item.value + (index++).toString()} value={item.value}>
               {item.label}
@@ -93,8 +93,7 @@ function FilterInputs() {
         </StyledSelect>
 
         <StyledLabel htmlFor="limit-select">{t`Suchgrenze (Anzahl)`}</StyledLabel>
-        <StyledSelect name="limit" id="limit-select" onChange={handleOnChangeLimit}>
-          <option value="">{t`--Bitte Option auswählen--`}</option>
+        <StyledSelect defaultValue={"1000"} name="limit" id="limit-select" onChange={handleOnChangeLimit}>
           <option value="100">100</option>
           <option value="1000">1000</option>
           <option value="10000">10000</option>
