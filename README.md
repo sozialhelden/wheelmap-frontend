@@ -17,7 +17,7 @@ The web server serves the app as server-side rendered static page, and runs on t
 Prepare your development environment:
 
 ```bash
-# Environment variables
+# Environment variables!
 cp .env.example .env
 
 # npm dependencies
