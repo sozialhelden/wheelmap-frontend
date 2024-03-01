@@ -461,11 +461,11 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
     return result;
   }
 
-
   const isAccessible =
-    get(properties, 'wheelchair') ||
-    get(properties, 'accessibility.accessibleWith.wheelchair') ||
+    get(properties, 'wheelchair') ??
+    get(properties, 'accessibility.accessibleWith.wheelchair') ??
     (get(properties, 'tags.capacity:disabled') && get(properties, 'tags.capacity:disabled') > 0);
+
   const isPartiallyAccessible = get(properties, 'accessibility.partiallyAccessibleWith.wheelchair');
 
   switch (isAccessible) {
@@ -476,9 +476,9 @@ export function isWheelchairAccessible(properties: NodeProperties): YesNoLimited
       return 'limited';
     case 'no':
     case false:
-      return isPartiallyAccessible ? 'limited' : 'no';
+      return isPartiallyAccessible === true ? 'limited' : 'no';
     default:
-      return isPartiallyAccessible ? 'limited' : 'unknown';
+      return isPartiallyAccessible === true ? 'limited' : 'unknown';
   }
 }
 
