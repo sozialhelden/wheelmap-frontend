@@ -41,7 +41,7 @@ export type FilterOptions = {
 
 export const defaultFilterOptions: FilterOptions = {
   city: "Berlin",
-  wheelchair: "all",
+  wheelchair: "yes",
   limit: "1000",
   healthcare: "",
   ["healthcare:speciality"]: "",

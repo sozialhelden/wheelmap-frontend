@@ -85,7 +85,6 @@ function FilterInputs() {
 
         <StyledLabel htmlFor="wheelchair-select">{t`Rollstuhlgerecht`}</StyledLabel>
         <StyledSelect defaultValue={"yes"} name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
-          <option value="all">{t`Alle (Ja, Nein, Teilweise, Unbekannt)`}</option>
           <option value="yes">{t`Ja`}</option>
           <option value="no">{t`Nein`}</option>
           <option value="limited">{t`Teilweise`}</option>
