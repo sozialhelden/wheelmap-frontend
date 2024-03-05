@@ -71,17 +71,21 @@ function FilterInputs() {
           ))}
         </StyledSelect>
 
-        <StyledLabel htmlFor="healthcare-speciality-select">
-          {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
-        </StyledLabel>
-        <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
-          <option value="">{t`--Alle--`}</option>
-          {mockedHealthcareSpeciality.map((item, index) => (
-            <option key={item.value + (index++).toString()} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </StyledSelect>
+        {false && (
+          <>
+            <StyledLabel htmlFor="healthcare-speciality-select">
+              {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
+            </StyledLabel>
+            <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
+              <option value="">{t`--Alle--`}</option>
+              {mockedHealthcareSpeciality.map((item, index) => (
+                <option key={item.value + (index++).toString()} value={item.value}>
+                  {item.label}
+                </option>
+              ))}
+            </StyledSelect>
+          </>
+        )}
 
         <StyledLabel htmlFor="wheelchair-select">{t`Rollstuhlgerecht`}</StyledLabel>
         <StyledSelect defaultValue={"yes"} name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
