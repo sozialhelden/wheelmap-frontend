@@ -1,12 +1,13 @@
 import React from "react";
 import { t } from "ttag";
-import { FilterContext, FilterContextType } from "./FilterContext";
+import { FilterContext, FilterContextType, getHealthcareOptionsInput, getHealthcareSpecialityOptionsInput } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions } from "./helpers";
-import { mockedHealthcare, mockedHealthcareSpeciality } from "./mocks";
 import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
+  const healthcareOptionsFC: any = getHealthcareOptionsInput(fc);
+  const healthcareSpecialityOptionsFC: any = getHealthcareSpecialityOptionsInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
 
   const handleOnChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,28 +60,32 @@ function FilterInputs() {
         <StyledLabel htmlFor="place">{t`Ort`}</StyledLabel>
         <StyledTextInput defaultValue={defaultFilterOptions.city} type="text" name="" id="place" onChange={handleOnChangeCity} />
 
-        <StyledLabel htmlFor="healthcare-select">
-          {t`Einrichtungsart`} : {filterOptions.healthcare}
-        </StyledLabel>
-        <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
-          <option value="">{t`--Alle--`}</option>
-          {mockedHealthcare.map((item, index) => (
-            <option key={item.value + (index++).toString()} value={item.value}>
-              {item.label}
-            </option>
-          ))}
-        </StyledSelect>
+        {true && (
+          <>
+            <StyledLabel htmlFor="healthcare-select">
+              {t`Einrichtungsart`} : {filterOptions.healthcare}
+            </StyledLabel>
+            <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
+              <option value="">{t`--Alle--`}</option>
+              {healthcareOptionsFC.map((item, index) => (
+                <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
+                  {`(${item.count}) ${t`${item.healthcare.toLocaleUpperCase().substring(0, 25)}`}`}
+                </option>
+              ))}
+            </StyledSelect>
+          </>
+        )}
 
-        {false && (
+        {true && (
           <>
             <StyledLabel htmlFor="healthcare-speciality-select">
               {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
             </StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
               <option value="">{t`--Alle--`}</option>
-              {mockedHealthcareSpeciality.map((item, index) => (
-                <option key={item.value + (index++).toString()} value={item.value}>
-                  {item.label}
+              {healthcareSpecialityOptionsFC.map((item, index) => (
+                <option key={item["healthcare:speciality"] + (index++).toString()} value={item["healthcare:speciality"]}>
+                  {`(${item.count}) ${t`${item["healthcare:speciality"]?.toLocaleUpperCase().substring(0, 25)}`}`}
                 </option>
               ))}
             </StyledSelect>

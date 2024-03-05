@@ -27,10 +27,10 @@ import { StyledHealthSiteContent } from "../../components/Health/styles";
 
 export default function Page() {
   const [filterMap, setFilterMap] = React.useState<Map<string, boolean>>(new Map<string, boolean>());
-  const [city, setCity] = React.useState<[number, number, number, number]>(null);
-
   const [filterOptions, setFilterOptions] = React.useState(defaultFilterOptions);
-  const memoizedFilterContext = React.useMemo(() => ({ filterMap, setFilterMap, city, setCity, filterOptions, setFilterOptions }), [filterMap, setFilterMap, city, setCity, filterOptions, setFilterOptions]);
+  const [healthcareOptions, setHealthcareOptions] = React.useState([{ healthcare: "", count: 0 }]);
+  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState([{ healthcare: "", count: 0 }]);
+  const memoizedFilterContext = React.useMemo(() => ({ filterMap, setFilterMap, filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions }), [filterMap, setFilterMap, filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions]);
 
   return (
     <FilterContext.Provider value={memoizedFilterContext}>

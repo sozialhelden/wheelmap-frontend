@@ -36,10 +36,13 @@ function SearchResults({}: Props) {
   React.useEffect(() => {
     setLoadingSpinner(true);
     if (data) {
-      setSearchResults(data);
+      setSearchResults(data.nodes);
+      fc.setHealthcareOptions(data.filterOptions.healthcare);
+      fc.setHealthcareSpecialityOptions(data.filterOptions["healthcare:speciality"]);
+      console.log(fc);
       setLoadingSpinner(false);
     }
-  }, [data]);
+  }, [data, fc]);
 
   const loadingSpinnerUI = (
     <StyledSection>
