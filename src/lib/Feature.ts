@@ -1,24 +1,22 @@
-import { t } from 'ttag';
-import get from 'lodash/get';
-import pick from 'lodash/pick';
-import flatten from 'lodash/flatten';
-import includes from 'lodash/includes';
-import isEqual from 'lodash/isEqual';
-import isArray from 'lodash/isArray';
-import uniq from 'lodash/uniq';
-import isPlainObject from 'lodash/isPlainObject';
 import { Point } from 'geojson';
+import flatten from 'lodash/flatten';
+import get from 'lodash/get';
+import includes from 'lodash/includes';
+import isArray from 'lodash/isArray';
+import isEqual from 'lodash/isEqual';
+import isPlainObject from 'lodash/isPlainObject';
+import pick from 'lodash/pick';
+import uniq from 'lodash/uniq';
+import { t } from 'ttag';
 import { translatedStringFromObject } from './i18n';
 
-import shouldUseImperialUnits from './shouldUseImperialUnits';
-import { EquipmentInfo, EquipmentInfoProperties } from './EquipmentInfo';
-import { isEquipmentAccessible } from './EquipmentInfo';
-import { Category } from './Categories';
-import { categoryNameFor, getCategoryIdFromProperties } from './Categories';
+import { Category, categoryNameFor, getCategoryIdFromProperties } from './Categories';
+import { ClientSideConfiguration } from './ClientSideConfiguration';
+import { EquipmentInfo, EquipmentInfoProperties, isEquipmentAccessible } from './EquipmentInfo';
 import { LocalizedString } from './i18n';
 import { normalizeCoordinates } from './normalizeCoordinates';
 import { SearchResultFeature } from './searchPlaces';
-import { ClientSideConfiguration } from './ClientSideConfiguration';
+import shouldUseImperialUnits from './shouldUseImperialUnits';
 
 export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
@@ -170,6 +168,10 @@ export type AccessibilityCloudProperties = {
   phone: string | null,
   phoneNumber: string | null,
   placeWebsiteUrl?: string | null,
+  surveyProjectId?: string,
+  surveyResultId?: string,
+  organizationId?: string,
+  lastUpdate?: string,
 } & AccessibilityDescription;
 
 export type AccessibilityCloudFeature = {

@@ -22,6 +22,7 @@ import {
   Feature,
   WheelmapFeature,
   YesNoLimitedUnknown,
+  accessibilityCloudFeatureFrom,
   getFeatureId,
   isWheelchairAccessible,
   isWheelmapFeatureId,
@@ -451,6 +452,18 @@ class NodeToolbar extends React.PureComponent<Props, State> {
     return <PositionedCloseLink {...{ onClick: onClose }} />;
   }
 
+  handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key === 'e' && (event.metaKey || event.ctrlKey) && event.shiftKey) {
+      const feature = accessibilityCloudFeatureFrom(this.props.feature);
+      if (!feature) {
+        return;
+      }
+      const { properties } = feature;
+      const { organizationId, surveyProjectId, surveyResultId } = properties;
+      window.open(`https://wheelmap.pro/organizations/${organizationId}/survey-projects/${surveyProjectId}/show?surveyResultId=${surveyResultId}`)
+    }
+  }
+
   render() {
     
     return (
@@ -470,6 +483,7 @@ class NodeToolbar extends React.PureComponent<Props, State> {
             minimalTopPosition={this.props.minimalTopPosition}
             minimalHeight={135}
             closeOnEscape={this.state.shouldCloseOnEscape}
+            onKeyDown={this.handleKeyDown}
           >
             <ErrorBoundary>
               {this.renderNodeHeader()}

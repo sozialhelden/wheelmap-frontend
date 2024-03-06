@@ -1,13 +1,13 @@
-import { t } from 'ttag';
 import { hsl } from 'd3-color';
-import uniq from 'lodash/uniq';
-import minBy from 'lodash/minBy';
 import includes from 'lodash/includes';
-import styled from 'styled-components';
+import minBy from 'lodash/minBy';
+import uniq from 'lodash/uniq';
 import * as React from 'react';
-import colors, { alpha } from '../lib/colors';
-import { isOnSmallViewport } from '../lib/ViewportSize';
 import ResizeObserverPolyfill from 'resize-observer-polyfill';
+import styled from 'styled-components';
+import { t } from 'ttag';
+import { isOnSmallViewport } from '../lib/ViewportSize';
+import colors, { alpha } from '../lib/colors';
 
 type Props = {
   className?: string;
@@ -23,6 +23,7 @@ type Props = {
   isModal?: boolean;
   enableTransitions?: boolean;
   closeOnEscape?: boolean;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
 };
 
 function mergeRefs(refs) {
@@ -522,14 +523,16 @@ const BaseToolbar = (
     [props.isModal, touchStartY, ySamples, topOffset]
   );
 
+  const { closeOnEscape, onKeyDown } = props;
   const handleKeyDown = React.useCallback((event: React.KeyboardEvent<HTMLElement>) => {
-    if (props.closeOnEscape !== false && event.key === 'Escape' && scrollElementRef.current) {
+    if (closeOnEscape !== false && event.key === 'Escape' && scrollElementRef.current) {
       const closeLink = scrollElementRef.current.querySelector('.close-link');
       if (closeLink && closeLink['click']) {
         closeLink['click']();
       }
     }
-  }, [props.closeOnEscape]);
+    onKeyDown?.(event);
+  }, [closeOnEscape, onKeyDown]);
 
   const toolbarIsScrollable = React.useMemo(() => {
     if (!scrollElementRef.current) {
