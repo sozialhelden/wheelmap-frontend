@@ -131,6 +131,7 @@ export { default as official } from './official';
 export { default as ophthalmologist } from './ophthalmologist';
 export { default as organic_food } from './organic_food';
 export { default as other } from './other';
+export { default as outdoor_seating } from './outdoor_seating';
 export { default as parcel_locker } from './parcel_locker';
 export { default as park } from './park';
 export { default as parking } from './parking';
@@ -218,3 +219,4 @@ export { default as video_store } from './video_store';
 export { default as viewpoint } from './viewpoint';
 export { default as water_ramp } from './water_ramp';
 export { default as zoo } from './zoo';
+
