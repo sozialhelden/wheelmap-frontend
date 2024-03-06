@@ -1,11 +1,11 @@
-import includes from 'lodash/includes';
 import { Point } from 'geojson';
+import includes from 'lodash/includes';
 
-import { currentLocales } from './i18n';
-import { globalFetchManager } from './FetchManager';
-import { AccessibilityCloudFeature, WheelmapFeature } from './Feature';
-import debouncePromise from '../lib/debouncePromise';
 import { Dictionary } from 'lodash';
+import debouncePromise from '../lib/debouncePromise';
+import { AccessibilityCloudFeature, WheelmapFeature } from './Feature';
+import { globalFetchManager } from './FetchManager';
+import { currentLocales } from './i18n';
 
 export type SearchResultProperties = {
   city?: any,
@@ -33,7 +33,7 @@ export type SearchResultCollection = {
   features: SearchResultFeature[],
   error?: Error,
   wheelmapFeatures?: (WheelmapFeature | undefined)[] | Promise<WheelmapFeature | undefined>[],
-  accessibilityCloudFeaturesByURI?: Promise<Dictionary<AccessibilityCloudFeature>>,
+  accessibilityCloudFeaturesByURI?: Promise<Dictionary<AccessibilityCloudFeature[]>>,
 };
 
 export function getOsmIdFromSearchResultProperties(

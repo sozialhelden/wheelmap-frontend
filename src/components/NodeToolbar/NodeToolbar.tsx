@@ -1,54 +1,54 @@
-import * as React from 'react';
-import { t } from 'ttag';
 import FocusTrap from 'focus-trap-react';
+import fromPairs from 'lodash/fromPairs';
 import get from 'lodash/get';
 import includes from 'lodash/includes';
-import fromPairs from 'lodash/fromPairs';
+import * as React from 'react';
 import styled from 'styled-components';
+import { t } from 'ttag';
 
+import Button from '../Button';
 import CloseLink from '../CloseLink';
 import ErrorBoundary from '../ErrorBoundary';
-import NodeHeader from './NodeHeader';
-import SourceList from './SourceList';
-import StyledToolbar from './StyledToolbar';
-import ReportDialog from './Report/ReportDialog';
-import PhotoSection from './Photos/PhotoSection';
-import EquipmentOverview from './Equipment/EquipmentOverview';
 import EquipmentAccessibility from './AccessibilitySection/EquipmentAccessibility';
 import PlaceAccessibilitySection from './AccessibilitySection/PlaceAccessibilitySection';
-import Button from '../Button';
+import EquipmentOverview from './Equipment/EquipmentOverview';
+import NodeHeader from './NodeHeader';
+import PhotoSection from './Photos/PhotoSection';
+import ReportDialog from './Report/ReportDialog';
+import SourceList from './SourceList';
+import StyledToolbar from './StyledToolbar';
 
-import { PhotoModel } from '../../lib/PhotoModel';
 import {
   Feature,
+  WheelmapFeature,
   YesNoLimitedUnknown,
+  getFeatureId,
+  isWheelchairAccessible,
   isWheelmapFeatureId,
   placeNameFor,
-  isWheelchairAccessible,
-  WheelmapFeature,
-  getFeatureId,
   wheelmapFeatureFrom,
 } from '../../lib/Feature';
+import { PhotoModel } from '../../lib/PhotoModel';
 
+import { Dictionary, sortBy } from 'lodash';
+import { AppContextConsumer } from '../../AppContext';
+import { SourceWithLicense } from '../../app/PlaceDetailsProps';
 import Categories, { Category, CategoryLookupTables, categoryNameFor } from "../../lib/Categories";
 import { EquipmentInfo } from '../../lib/EquipmentInfo';
+import { MappingEvent } from '../../lib/MappingEvent';
 import { ModalNodeState } from '../../lib/ModalNodeState';
+import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
+import { translatedStringFromObject } from '../../lib/i18n';
+import { UAResult } from '../../lib/userAgent';
+import CategoryIcon from '../Icon';
+import Link, { RouteConsumer } from '../Link/Link';
+import { Cluster } from '../Map/Cluster';
+import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
 import ToiletStatusEditor from './AccessibilityEditor/ToiletStatusEditor';
 import WheelchairStatusEditor from './AccessibilityEditor/WheelchairStatusEditor';
-import InlineWheelchairAccessibilityEditor from './AccessibilityEditor/InlineWheelchairAccessibilityEditor';
-import IconButtonList, { StyledIconButtonList } from './IconButtonList/IconButtonList';
-import { SourceWithLicense } from '../../app/PlaceDetailsProps';
-import { Cluster } from '../Map/Cluster';
-import { AppContextConsumer } from '../../AppContext';
-import { equipmentInfoCache } from '../../lib/cache/EquipmentInfoCache';
-import { UAResult } from '../../lib/userAgent';
 import isA11yEditable from './AccessibilityEditor/isA11yEditable';
-import { Dictionary, sortBy } from 'lodash';
-import Link, { RouteConsumer } from '../Link/Link';
-import { translatedStringFromObject } from '../../lib/i18n';
-import CategoryIcon from '../Icon';
 import ConfigurableExternalLinks from './IconButtonList/ConfigurableExternalLinks';
-import { MappingEvent } from '../../lib/MappingEvent';
+import IconButtonList, { StyledIconButtonList } from './IconButtonList/IconButtonList';
 
 const PositionedCloseLink = styled(CloseLink)`
   align-self: flex-start;
@@ -436,8 +436,8 @@ class NodeToolbar extends React.PureComponent<Props, State> {
       <div>
         {isEquipment && featureId && this.renderPlaceNameForEquipment()}
         {inlineWheelchairAccessibilityEditor}
-        <ConfigurableExternalLinks feature={this.props.feature} joinedMappingEvent={this.props.joinedMappingEvent} />
         {accessibilitySection}
+        <ConfigurableExternalLinks feature={this.props.feature} joinedMappingEvent={this.props.joinedMappingEvent} />
         {photoSection}
         {equipmentOverview}
         {this.renderIconButtonList()}

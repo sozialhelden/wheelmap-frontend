@@ -1,19 +1,18 @@
-import React from 'react';
 import { t } from 'ttag';
 
+import { Dictionary, compact } from 'lodash';
+import { getProductTitle } from '../lib/ClientSideConfiguration';
+import { AccessibilityCloudFeature, WheelmapFeature } from '../lib/Feature';
+import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
+import env from '../lib/env';
 import searchPlaces, {
-  searchPlacesDebounced,
   SearchResultCollection,
   SearchResultProperties,
   getOsmIdFromSearchResultProperties,
+  searchPlacesDebounced,
 } from '../lib/searchPlaces';
+import { fetchAccessibilityCloudPlacesBySameURI } from './fetchAccessibilityCloudPlacesBySameURI';
 import { DataTableEntry } from './getInitialProps';
-import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
-import { AccessibilityCloudFeature, WheelmapFeature } from '../lib/Feature';
-import { getProductTitle } from '../lib/ClientSideConfiguration';
-import env from '../lib/env';
-import { Dictionary, compact, keyBy } from 'lodash';
-import customFetch from '../lib/fetch';
 
 type SearchProps = {
   searchResults: SearchResultCollection | Promise<SearchResultCollection>,
@@ -52,23 +51,6 @@ async function fetchWheelmapNode(
     return null;
   }
 }
-
-async function fetchAccessibilityCloudPlacesBySameURI(
-  appToken: string,
-  sameAsURIs: string[],
-): Promise<Dictionary<AccessibilityCloudFeature>> {
-  if (!sameAsURIs?.length) {
-    return {};
-  }
-  const baseUrl = env.REACT_APP_ACCESSIBILITY_CLOUD_BASE_URL || '';
-  const url = `${baseUrl}/place-infos.json?appToken=${appToken}&includePlacesWithoutAccessibility=1&sameAs=${sameAsURIs.join(',')}`;
-  console.log(url);
-  const response = await customFetch(url, {});
-  const features = (await response.json()).features;
-  console.log(features);
-  return keyBy(features as AccessibilityCloudFeature[], 'properties.sameAs.0')
-}
-
 
 const SearchData: DataTableEntry<SearchProps> = {
   async getInitialRouteProps(query, renderContext, isServer) {
@@ -141,7 +123,7 @@ const SearchData: DataTableEntry<SearchProps> = {
         }));
 
 
-      let accessibilityCloudFeaturesByURI = {}; 
+      let accessibilityCloudFeaturesByURI: Dictionary<AccessibilityCloudFeature[]> = {};
       try {
         accessibilityCloudFeaturesByURI = await fetchAccessibilityCloudPlacesBySameURI(tokenString, osmURIs);
       } catch (error) {

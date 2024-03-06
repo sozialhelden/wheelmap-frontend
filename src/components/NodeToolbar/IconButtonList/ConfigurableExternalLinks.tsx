@@ -1,18 +1,18 @@
-import { t } from 'ttag';
-import * as React from 'react';
-import { accessibilityCloudFeatureFrom, wheelmapFeatureFrom } from '../../../lib/Feature';
-import { Feature } from '../../../lib/Feature';
-import AppContext, { AppContextConsumer } from '../../../AppContext';
-import Link from '../../Link/Link';
-import { translatedStringFromObject } from '../../../lib/i18n';
-import { isEqual } from 'lodash';
 import * as testMongoDBSelector from 'json-criteria';
-import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/insertPlaceholdersToAddPlaceUrl';
-import { v4 as uuidv4 } from 'uuid';
-import { MappingEvent } from '../../../lib/MappingEvent';
-import { PenIcon } from '../../icons/actions';
+import { isEqual } from 'lodash';
+import * as React from 'react';
 import styled from 'styled-components';
+import useSWR from 'swr';
+import { v4 as uuidv4 } from 'uuid';
+import AppContext from '../../../AppContext';
+import { fetchAccessibilityCloudPlacesBySameURI } from '../../../app/fetchAccessibilityCloudPlacesBySameURI';
+import { Feature, accessibilityCloudFeatureFrom, wheelmapFeatureFrom } from '../../../lib/Feature';
+import { MappingEvent } from '../../../lib/MappingEvent';
 import colors from '../../../lib/colors';
+import { translatedStringFromObject } from '../../../lib/i18n';
+import { insertPlaceholdersToAddPlaceUrl } from '../../../lib/insertPlaceholdersToAddPlaceUrl';
+import Link from '../../Link/Link';
+import { PenIcon } from '../../icons/actions';
 
 type Props = {
   feature: Feature | null,
@@ -22,8 +22,7 @@ type Props = {
 const selectorStringsToSelectors = new Map<string, any>();
 
 function isLinkVisible(
-  feature: Feature | null,
-  selectorString?: string,
+  { sameFeatures, feature, selectorString }: { sameFeatures: Feature[], feature: Feature | null; selectorString?: string; },
 ): boolean {
   if (!feature) {
     return false;
@@ -40,7 +39,7 @@ function isLinkVisible(
       selector = JSON.parse(selectorString);
       selectorStringsToSelectors.set(selectorString, selector);
     }
-    return (testMongoDBSelector.test(feature, selector));
+    return (testMongoDBSelector.test({ feature, sameFeatures }, selector));
   } catch (error) {
     console.error('Error parsing / using selector to match place:', feature, selector, error);
   }
@@ -73,10 +72,16 @@ export default function ConfigurableExternalLinks(props: Props): JSX.Element {
     setUniqueSurveyId(uuidv4());
   }, []);
 
+  const wheelmapFeature = wheelmapFeatureFrom(props.feature);
+  const osmUri = `https://openstreetmap.org/${wheelmapFeature.properties.osm_type}/${wheelmapFeature.properties.id}`;
+  const osmUris = React.useMemo(() => [osmUri], [osmUri]);
+  const { data: sameFeaturesByUri } = useSWR([appContext.app.tokenString, osmUris], fetchAccessibilityCloudPlacesBySameURI);
+  const sameFeatures = React.useMemo(() => sameFeaturesByUri?.[osmUri] || [], [sameFeaturesByUri, osmUri]);
+
   if (!externalPlaceLinks) return null;
 
   const links = externalPlaceLinks
-    .filter(link => isLinkVisible(props.feature, link.selectorString))
+    .filter(link => isLinkVisible({ sameFeatures, feature: props.feature, selectorString: link.selectorString }))
     .map((link, index) => {
       const href = insertPlaceholdersToAddPlaceUrl(
         { url: link.href, uniqueSurveyId, joinedMappingEvent: props.joinedMappingEvent, feature: props.feature },

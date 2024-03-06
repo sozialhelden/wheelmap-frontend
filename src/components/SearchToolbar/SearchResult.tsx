@@ -1,27 +1,27 @@
-import { t } from 'ttag';
-import * as React from 'react';
 import classNames from 'classnames';
+import * as React from 'react';
+import { t } from 'ttag';
 
+import Categories, { Category, CategoryLookupTables, getCategoryId } from '../../lib/Categories';
+import { AccessibilityCloudFeature, WheelmapFeature, isWheelchairAccessible } from '../../lib/Feature';
 import getAddressString from '../../lib/getAddressString';
-import Categories, { getCategoryId, Category, CategoryLookupTables } from '../../lib/Categories';
-import { AccessibilityCloudFeature, isWheelchairAccessible, WheelmapFeature } from '../../lib/Feature';
 import { SearchResultFeature } from '../../lib/searchPlaces';
 
+import styled from 'styled-components';
+import { PotentialPromise } from '../../app/PlaceDetailsProps';
+import colors from '../../lib/colors';
 import CategoryIcon from '../Icon';
 import Address from '../NodeToolbar/Address';
 import { PlaceNameHeader } from '../PlaceName';
-import { PotentialPromise } from '../../app/PlaceDetailsProps';
-import styled from 'styled-components';
-import colors from '../../lib/colors';
 
 type Props = {
   className?: string,
   feature: SearchResultFeature,
   categories: CategoryLookupTables,
-  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null, accessibilityCloudFeature: AccessibilityCloudFeature | null) => void,
+  onClick: (feature: SearchResultFeature, wheelmapFeature: WheelmapFeature | null, accessibilityCloudFeatures: AccessibilityCloudFeature | null) => void,
   hidden: boolean,
   wheelmapFeature: PotentialPromise<WheelmapFeature | null>,
-  accessibilityCloudFeature?: AccessibilityCloudFeature,
+  accessibilityCloudFeatures?: PotentialPromise<AccessibilityCloudFeature[]>,
 };
 
 type State = {
@@ -116,7 +116,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
   }
 
   render() {
-    const { feature, accessibilityCloudFeature } = this.props;
+    const { feature, accessibilityCloudFeatures } = this.props;
     const { wheelmapFeature, category, parentCategory } = this.state;
     const properties = feature && feature.properties;
     // translator: Place name shown in search results for places with unknown name / category.
@@ -149,7 +149,7 @@ export class UnstyledSearchResult extends React.Component<Props, State> {
       <li ref={this.root} className={className}>
         <button
           onClick={() => {
-            this.props.onClick(feature, wheelmapFeature, accessibilityCloudFeature);
+            this.props.onClick(feature, wheelmapFeature, accessibilityCloudFeatures);
           }}
           tabIndex={this.props.hidden ? -1 : 0}
         >

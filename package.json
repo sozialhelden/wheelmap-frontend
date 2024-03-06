@@ -21,6 +21,7 @@
     "abort-controller": "^3.0.0",
     "acorn-dynamic-import": "^4.0.0",
     "async_hooks": "^1.0.0",
+    "babel-plugin-ttag": "^1.8.15",
     "browser-image-resizer": "^1.2.0",
     "browserstack-local": "^1.4.8",
     "caniuse-lite": "^1.0.30001565",
@@ -99,8 +100,6 @@
     "webpack-log": "^3.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@babel/plugin-transform-template-literals": "^7.4.4",
     "@babel/preset-env": "^7.23.5",
     "@svgr/cli": "^8.1.0",
@@ -152,7 +151,7 @@
     "source-map-loader": "^0.2.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "ttag-cli": "^1.9.3",
+    "ttag-cli": "^1.10.11",
     "typescript": "^5.3.3"
   },
   "scripts": {
@@ -195,7 +194,7 @@
     "not dead"
   ],
   "engines": {
-    "node": "18"
+    "node": "20"
   },
   "resolutions": {
     "https-proxy-agent": "^3.0.0"
