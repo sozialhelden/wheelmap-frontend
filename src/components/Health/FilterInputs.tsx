@@ -1,22 +1,41 @@
 import React from "react";
+import useSWR from "swr";
 import { t } from "ttag";
-import { FilterContext, FilterContextType, getHealthcareOptionsInput, getHealthcareSpecialityOptionsInput } from "./FilterContext";
-import { FilterOptions, defaultFilterOptions } from "./helpers";
+import { FilterContext, FilterContextType } from "./FilterContext";
+import { FilterOptions, defaultFilterOptions, fetcher, getFilterOptions, transferCityToBbox } from "./helpers";
 import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const healthcareOptionsFC: any = getHealthcareOptionsInput(fc);
-  const healthcareSpecialityOptionsFC: any = getHealthcareSpecialityOptionsInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
+  const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
+  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState<any[]>([]);
+  const [city, setCity] = React.useState<string>("");
+
+  const cityToBBoxURL = transferCityToBbox({
+    city: city,
+  });
+
+  const healthcareOptionsURL = getFilterOptions({
+    bbox: filterOptions.bbox,
+    wheelchair: filterOptions.wheelchair,
+    limit: filterOptions.limit,
+    tags: "healthcare",
+  });
+
+  const healthcareSpecialityOptionsURL = getFilterOptions({
+    bbox: filterOptions.bbox,
+    wheelchair: filterOptions.wheelchair,
+    limit: filterOptions.limit,
+    tags: "healthcare:speciality",
+  });
+
+  const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(cityToBBoxURL, fetcher);
+  const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
+  const { data: dataHealthcareSpecialityOptions, error: errorHealthcareSpecialityOptions } = useSWR<any, Error>(healthcareSpecialityOptionsURL, fetcher);
 
   const handleOnChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTimeout(() => {
-      setFilterOptions({
-        ...filterOptions,
-        city: e.target.value,
-      });
-    }, 2000);
+    setCity(e.target.value);
   };
 
   const handleOnChangeWheelchair = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,6 +43,8 @@ function FilterInputs() {
       ...filterOptions,
       wheelchair: e.target.value,
     });
+    setHealthcareOptions(dataHealthcareOptions);
+    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
 
   const handleOnChangeHealthcare = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -31,6 +52,8 @@ function FilterInputs() {
       ...filterOptions,
       healthcare: e.target.value,
     });
+    setHealthcareOptions(dataHealthcareOptions);
+    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
 
   const handleOnChangeHealthcareSpeciality = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -38,6 +61,8 @@ function FilterInputs() {
       ...filterOptions,
       "healthcare:speciality": e.target.value,
     });
+    setHealthcareOptions(dataHealthcareOptions);
+    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
 
   const handleOnChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,6 +70,8 @@ function FilterInputs() {
       ...filterOptions,
       limit: e.target.value,
     });
+    setHealthcareOptions(dataHealthcareOptions);
+    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
 
   React.useEffect(() => {
@@ -53,12 +80,26 @@ function FilterInputs() {
     }
   }, [fc, filterOptions]);
 
+  React.useEffect(() => {
+    if (city && dataCityToBBox) {
+      try {
+        const finalData = dataCityToBBox.features.find((feature: any) => feature.properties.osm_value === "city" && feature.properties.countrycode === "DE").properties.extent || defaultFilterOptions.bbox;
+        setFilterOptions({
+          ...filterOptions,
+          bbox: finalData,
+        });
+        setHealthcareOptions(dataHealthcareOptions);
+        setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
+      } catch (e) {}
+    }
+  }, [city, dataCityToBBox, dataHealthcareOptions, dataHealthcareSpecialityOptions, filterOptions]);
+
   return (
     <React.Fragment>
       <StyledLegend>{t`Allgemeine Angaben`}</StyledLegend>
       <StyledSearchFilterInputs role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="place">{t`Ort`}</StyledLabel>
-        <StyledTextInput defaultValue={defaultFilterOptions.city} type="text" name="" id="place" onChange={handleOnChangeCity} />
+        <StyledTextInput placeholder={t`Berlin`} type="text" name="" id="place" onChange={handleOnChangeCity} />
 
         {true && (
           <>
@@ -67,7 +108,7 @@ function FilterInputs() {
             </StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
               <option value="">{t`--Alle--`}</option>
-              {healthcareOptionsFC.map((item, index) => (
+              {healthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
                   {`(${item.count}) ${t`${item.healthcare.toLocaleUpperCase().substring(0, 25)}`}`}
                 </option>
@@ -76,14 +117,14 @@ function FilterInputs() {
           </>
         )}
 
-        {true && (
+        {false && (
           <>
             <StyledLabel htmlFor="healthcare-speciality-select">
               {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
             </StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
               <option value="">{t`--Alle--`}</option>
-              {healthcareSpecialityOptionsFC.map((item, index) => (
+              {healthcareSpecialityOptions?.map((item, index) => (
                 <option key={item["healthcare:speciality"] + (index++).toString()} value={item["healthcare:speciality"]}>
                   {`(${item.count}) ${t`${item["healthcare:speciality"]?.toLocaleUpperCase().substring(0, 25)}`}`}
                 </option>

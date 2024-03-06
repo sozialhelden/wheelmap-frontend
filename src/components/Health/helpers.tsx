@@ -32,19 +32,19 @@ export type OSM_DATA = {
 };
 
 export type FilterOptions = {
-  city: string;
+  bbox: [number, number, number, number];
   wheelchair: string;
-  limit: string;
   healthcare: string;
   ["healthcare:speciality"]: string;
+  limit: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
-  city: "Berlin",
+  bbox: [13.088345, 52.6755087, 13.7611609, 52.3382448],
   wheelchair: "yes",
-  limit: "1000",
   healthcare: "",
   ["healthcare:speciality"]: "",
+  limit: "1000",
 };
 
 export type OSM_API_FEATURE = {
@@ -73,12 +73,30 @@ export type OSM_API_FEATURE = {
 };
 
 export const useHealthAPIURL = (options: any) => {
-  const { city, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, limit } = options;
+  const { bbox, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, limit } = options;
   const env = useContext(EnvContext);
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-  if (city || wheelchair || healthcare || limit) {
-    return `${baseurl}/healthcare.json?${city}&${wheelchair}&${healthcareSpeciality}&${healthcare}&${limit}&geometry=centroid`;
+  if (bbox || wheelchair || healthcare || limit) {
+    const editedBbox = `bbox=${bbox}`;
+    return `${baseurl}/healthcare.json?${editedBbox}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
   }
+};
+
+export const transferCityToBbox = (options: any) => {
+  const { city } = options;
+  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de`;
+  if (city) {
+    return `${baseurl}`;
+  }
+};
+
+export const getFilterOptions = (options: any) => {
+  const { bbox, wheelchair, tags, limit } = options;
+  const baseurl: string = `http://localhost:4000/api/v1/amenities.json?bbox=${bbox}&geometry=centroid&wheelchair=${wheelchair}&limit=${limit}&mode=aggregate&tags=${tags}&aggregate=count`;
+  if (bbox || wheelchair || tags || limit) {
+    return `${baseurl}`;
+  }
+  return [];
 };
 
 export function toRadians(degrees: number): number {

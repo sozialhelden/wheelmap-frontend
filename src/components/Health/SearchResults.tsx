@@ -15,31 +15,28 @@ function SearchResults({}: Props) {
   React.useEffect(() => {
     if (filterOptionsFC) {
       setFilterOptions({
-        city: `city=${filterOptionsFC.city}`,
+        bbox: filterOptionsFC.bbox,
         wheelchair: `wheelchair=${filterOptionsFC.wheelchair}`,
         healthcare: `healthcare=${filterOptionsFC.healthcare}`,
-        limit: `limit=${filterOptionsFC.limit}`,
         ["healthcare:speciality"]: `healthcare:speciality=${filterOptionsFC["healthcare:speciality"]}`,
+        limit: `limit=${filterOptionsFC.limit}`,
       });
     }
   }, [fc, filterOptionsFC]);
 
   const finalURL = useHealthAPIURL({
-    city: filterOptions.city,
+    bbox: filterOptions.bbox,
     wheelchair: filterOptions.wheelchair,
-    limit: filterOptions.limit,
     healthcare: filterOptions.healthcare,
     ["healthcare:speciality"]: filterOptions["healthcare:speciality"],
+    limit: filterOptions.limit,
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
     setLoadingSpinner(true);
     if (data) {
-      setSearchResults(data.nodes);
-      fc.setHealthcareOptions(data.filterOptions.healthcare);
-      fc.setHealthcareSpecialityOptions(data.filterOptions["healthcare:speciality"]);
-      console.log(fc);
+      setSearchResults(data.features);
       setLoadingSpinner(false);
     }
   }, [data, fc]);
@@ -69,7 +66,7 @@ function SearchResults({}: Props) {
   return (
     <StyledSection>
       <StyledH2>
-        {Array.isArray(searchResults) ? t`Ergebnisse für ` + filterOptionsFC.city + ` (${searchResults.length})` : t`Keine Ergebnisse für ` + filterOptionsFC.city}
+        {Array.isArray(searchResults) ? t`Ergebnisse (${searchResults.length})` : t`Keine Ergebnisse`}
         {error && error.message && `: ${error.message}`}
       </StyledH2>
       {loadingSpinner ? loadingSpinnerUI : searchResultsUI}
