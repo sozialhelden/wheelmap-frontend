@@ -1,22 +1,22 @@
 import * as React from 'react';
 import {
+  AccessibilityCloudProperties,
   Feature,
   NodeProperties,
-  AccessibilityCloudProperties,
   isWheelmapProperties,
 } from '../../../lib/Feature';
 
-import getAddressString from '../../../lib/getAddressString';
+import { Category } from '../../../lib/Categories';
+import { placeNameFor } from '../../../lib/Feature';
 import { generateMapsUrl } from '../../../lib/generateMapsUrls';
 import { generateShowOnOsmUrl } from '../../../lib/generateOsmUrls';
-import { placeNameFor } from '../../../lib/Feature';
+import getAddressString from '../../../lib/getAddressString';
 import openButtonCaption from '../../../lib/openButtonCaption';
-import { Category } from '../../../lib/Categories';
 import PlaceIcon from '../../icons/actions/Place';
 import RouteIcon from '../../icons/actions/Route';
 
-import { UAResult } from '../../../lib/userAgent';
 import getAddressStringFromA11yJSONFeature from '../../../lib/getAddressStringFromA11yJSONFeature';
+import { UAResult } from '../../../lib/userAgent';
 
 function getAddressForACProperties(properties: AccessibilityCloudProperties): string | null {
   if (typeof properties.address === 'string') return properties.address;
@@ -60,9 +60,6 @@ export default class PlaceAddress extends React.Component<Props, {}> {
     const address = getAddressForProperties(feature.properties);
     const addressString = address && address.replace(/,$/, '').replace(/^,/, '');
 
-    console.log('PlaceAddress, feature', { feature });
-    console.log('PlaceAddress, address', { address });
-    console.log('PlaceAddress, feature', { feature });
     return (
       <React.Fragment>
         {openInMaps && (
