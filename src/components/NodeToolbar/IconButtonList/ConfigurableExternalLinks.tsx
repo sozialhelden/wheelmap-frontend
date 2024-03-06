@@ -65,6 +65,7 @@ const StyledPenIcon = styled(PenIcon)`
 `;
 
 export default function ConfigurableExternalLinks(props: Props): JSX.Element {
+  const { feature, joinedMappingEvent } = props;
   const appContext = React.useContext(AppContext);
   const externalPlaceLinks = appContext.app?.clientSideConfiguration?.externalPlaceLinks;
   const [uniqueSurveyId, setUniqueSurveyId] = React.useState<string>(uuidv4());
@@ -72,34 +73,38 @@ export default function ConfigurableExternalLinks(props: Props): JSX.Element {
     setUniqueSurveyId(uuidv4());
   }, []);
 
-  const wheelmapFeature = wheelmapFeatureFrom(props.feature);
-  const osmUri = `https://openstreetmap.org/${wheelmapFeature.properties.osm_type}/${wheelmapFeature.properties.id}`;
+  const wheelmapFeature = wheelmapFeatureFrom(feature);
+  const osmUri = wheelmapFeature && `https://openstreetmap.org/${wheelmapFeature.properties.osm_type}/${wheelmapFeature.properties.id}`;
   const osmUris = React.useMemo(() => [osmUri], [osmUri]);
-  const { data: sameFeaturesByUri } = useSWR([appContext.app.tokenString, osmUris], fetchAccessibilityCloudPlacesBySameURI);
+  const { data: sameFeaturesByUri } = useSWR(wheelmapFeature && [appContext.app.tokenString, osmUris], fetchAccessibilityCloudPlacesBySameURI);
   const sameFeatures = React.useMemo(() => sameFeaturesByUri?.[osmUri] || [], [sameFeaturesByUri, osmUri]);
 
-  if (!externalPlaceLinks) return null;
+  const links = React.useMemo(
+    () => externalPlaceLinks?.filter(
+      link => isLinkVisible({ sameFeatures, feature, selectorString: link.selectorString })
+    )
+      .map((link) => {
+        const href = insertPlaceholdersToAddPlaceUrl(
+          { url: link.href, uniqueSurveyId, joinedMappingEvent, feature },
+        );
 
-  const links = externalPlaceLinks
-    .filter(link => isLinkVisible({ sameFeatures, feature: props.feature, selectorString: link.selectorString }))
-    .map((link, index) => {
-      const href = insertPlaceholdersToAddPlaceUrl(
-        { url: link.href, uniqueSurveyId, joinedMappingEvent: props.joinedMappingEvent, feature: props.feature },
-      );
+        return (
+          <StyledLink
+            key={link.href}
+            to={href}
+            onClick={resetSurveyId}
+            style={{ fontWeight: 'bolder' }}
+          >
+            <StyledPenIcon />
+            &nbsp;
+            {translatedStringFromObject(link.caption)}
+          </StyledLink>
+        );
+      }),
+    [externalPlaceLinks, sameFeatures, feature, uniqueSurveyId, joinedMappingEvent, resetSurveyId],
+  );
 
-      return (
-        <StyledLink
-          key={link.href}
-          to={href}
-          onClick={resetSurveyId}
-          style={{ fontWeight: 'bolder' }}
-        >
-          <StyledPenIcon />
-          &nbsp;
-          {translatedStringFromObject(link.caption)}
-        </StyledLink>
-      );
-    });
+  if (!links) return null;
 
   return <>{links}</>;
 }
