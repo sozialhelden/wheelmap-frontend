@@ -52,9 +52,9 @@ function SearchResults({}: Props) {
     <StyledSection>
       <StyledUL>
         {Array.isArray(searchResults) &&
-          searchResults.map((item: OSM_API_FEATURE) => {
+          searchResults.map((item: OSM_API_FEATURE, index: number) => {
             return (
-              <li key={item.osm_id}>
+              <li key={index}>
                 <SearchResult data={item} />
               </li>
             );
