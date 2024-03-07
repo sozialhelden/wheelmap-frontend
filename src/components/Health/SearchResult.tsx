@@ -1,8 +1,8 @@
 import { faLink, faLocationArrow, faMapPin, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomFontAwesomeIcon from "./Customs/CustomFontAwesomeIcon";
-import { calculateDistance, getWheelchairColor } from "./helpers";
+import { calculateDistance, getWheelchairSettings } from "./helpers";
 import { StyledColors, StyledLegend, StyledLink } from "./styles";
 
 type Props = {
@@ -18,6 +18,7 @@ function SearchResult({ data }: Props) {
   const lat = centroid.coordinates[1];
   const lon = centroid.coordinates[0];
   const name = properties.name;
+  const healthcare = properties.healthcare;
   const street = properties["addr:street"];
   const housenumber = properties["addr:housenumber"];
   const postcode = properties["addr:postcode"];
@@ -31,9 +32,11 @@ function SearchResult({ data }: Props) {
   const cutomePhone = phone ? phone : "";
   const [myCoordinates, setMyCoordinates] = useState<[number, number]>([0, 0]);
 
-  navigator.geolocation.getCurrentPosition((position) => {
-    setMyCoordinates([position.coords.latitude, position.coords.longitude]);
-  });
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setMyCoordinates([position.coords.latitude, position.coords.longitude]);
+    });
+  }, [myCoordinates]);
 
   return (
     <div>
@@ -49,8 +52,8 @@ function SearchResult({ data }: Props) {
       )}
       <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
         <h3>
-          <CustomFontAwesomeIcon icon={getWheelchairColor(wheelchair).icon} color={getWheelchairColor(wheelchair).color} />
-          &nbsp;&nbsp;{name}
+          <CustomFontAwesomeIcon icon={getWheelchairSettings(wheelchair).icon} color={getWheelchairSettings(wheelchair).color} />
+          &nbsp;&nbsp;{name} ({healthcare})
         </h3>
       </StyledLink>
       {customStreet && (

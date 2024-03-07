@@ -60,7 +60,8 @@ export const StyledUL = styled.ul`
   padding-inline-start: 0;
   list-style-type: none;
   li {
-    margin: 1rem;
+    margin-inline: ${containerSpacing} !important;
+    margin-bottom: ${containerSpacing} !important;
     padding: 1rem;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }

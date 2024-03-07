@@ -5,6 +5,7 @@ import EnvContext from "../shared/EnvContext";
 import { StyledColors } from "./styles";
 
 export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
+export const defaultLimit = 10000;
 
 export type OSM_DATA = {
   features: [
@@ -33,18 +34,18 @@ export type OSM_DATA = {
 
 export type FilterOptions = {
   bbox: [number, number, number, number];
+  city: string;
   wheelchair: string;
   healthcare: string;
   ["healthcare:speciality"]: string;
-  limit: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
   bbox: [13.088345, 52.6755087, 13.7611609, 52.3382448],
+  city: "Berlin",
   wheelchair: "yes",
   healthcare: "",
   ["healthcare:speciality"]: "",
-  limit: "1000",
 };
 
 export type OSM_API_FEATURE = {
@@ -72,16 +73,6 @@ export type OSM_API_FEATURE = {
   };
 };
 
-export const useHealthAPIURL = (options: any) => {
-  const { bbox, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, limit } = options;
-  const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
-  if (bbox || wheelchair || healthcare || limit) {
-    const editedBbox = `bbox=${bbox}`;
-    return `${baseurl}/healthcare.json?${editedBbox}&${wheelchair}&${healthcare}&${limit}&geometry=centroid`;
-  }
-};
-
 export const transferCityToBbox = (options: any) => {
   const { city } = options;
   const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de`;
@@ -90,11 +81,29 @@ export const transferCityToBbox = (options: any) => {
   }
 };
 
+export const useHealthAPIURL = (options: any) => {
+  const { bbox, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality } = options;
+  const env = useContext(EnvContext);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  if (bbox || wheelchair || healthcare) {
+    const editedBbox = `bbox=${bbox}`;
+    const editedLimit = `limit=${defaultLimit}`;
+    const editedWheelchair = `wheelchair=${wheelchair}`;
+    const editedHealthcare = `healthcare=${healthcare}`;
+    const editedHealthcareSpeciality = `healthcare:speciality=${healthcareSpeciality}`;
+    return `${baseurl}/healthcare.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedHealthcareSpeciality}&${editedLimit}&geometry=centroid`;
+  }
+  return [];
+};
+
 export const getFilterOptions = (options: any) => {
-  const { bbox, wheelchair, tags, limit } = options;
-  const baseurl: string = `http://localhost:4000/api/v1/amenities.json?bbox=${bbox}&geometry=centroid&wheelchair=${wheelchair}&limit=${limit}&mode=aggregate&tags=${tags}&aggregate=count`;
-  if (bbox || wheelchair || tags || limit) {
-    return `${baseurl}`;
+  const { bbox, wheelchair, tags } = options;
+  if (bbox || wheelchair || tags) {
+    const editedBbox = `bbox=${bbox}`;
+    const editedLimit = `limit=${defaultLimit}`;
+    const editedTags = `tags=${tags}`;
+    const editedWheelchair = `wheelchair=${wheelchair}`;
+    return `http://localhost:4000/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
   }
   return [];
 };
@@ -116,7 +125,7 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   return (R * c) / 1000;
 }
 
-export function getWheelchairColor(wheelchair: string): any {
+export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
     case "yes":
       return {

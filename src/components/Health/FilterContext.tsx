@@ -13,8 +13,8 @@ export const FilterContext = React.createContext<FilterContextType>({
   setFilterMap: () => {},
   filterOptions: {
     bbox: defaultFilterOptions.bbox,
+    city: defaultFilterOptions.city,
     wheelchair: defaultFilterOptions.wheelchair,
-    limit: defaultFilterOptions.limit,
     healthcare: defaultFilterOptions.healthcare,
     ["healthcare:speciality"]: defaultFilterOptions["healthcare:speciality"],
   },

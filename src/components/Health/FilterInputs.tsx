@@ -19,14 +19,12 @@ function FilterInputs() {
   const healthcareOptionsURL = getFilterOptions({
     bbox: filterOptions.bbox,
     wheelchair: filterOptions.wheelchair,
-    limit: filterOptions.limit,
     tags: "healthcare",
   });
 
   const healthcareSpecialityOptionsURL = getFilterOptions({
     bbox: filterOptions.bbox,
     wheelchair: filterOptions.wheelchair,
-    limit: filterOptions.limit,
     tags: "healthcare:speciality",
   });
 
@@ -36,44 +34,29 @@ function FilterInputs() {
 
   const handleOnChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCity(e.target.value);
+    handleFilterOptions("city", e.target.value);
   };
 
   const handleOnChangeWheelchair = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterOptions({
-      ...filterOptions,
-      wheelchair: e.target.value,
-    });
-    setHealthcareOptions(dataHealthcareOptions);
-    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
+    handleFilterOptions("wheelchair", e.target.value);
   };
 
   const handleOnChangeHealthcare = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterOptions({
-      ...filterOptions,
-      healthcare: e.target.value,
-    });
-    setHealthcareOptions(dataHealthcareOptions);
-    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
+    handleFilterOptions("healthcare", e.target.value);
   };
 
   const handleOnChangeHealthcareSpeciality = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    handleFilterOptions("healthcare:speciality", e.target.value);
+  };
+
+  const handleFilterOptions = (key: string, value: any) => {
     setFilterOptions({
       ...filterOptions,
-      "healthcare:speciality": e.target.value,
+      [key]: value,
     });
     setHealthcareOptions(dataHealthcareOptions);
     setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
-
-  const handleOnChangeLimit = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterOptions({
-      ...filterOptions,
-      limit: e.target.value,
-    });
-    setHealthcareOptions(dataHealthcareOptions);
-    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
-  };
-
   React.useEffect(() => {
     if (filterOptions) {
       fc.setFilterOptions(filterOptions);
@@ -107,7 +90,7 @@ function FilterInputs() {
               {t`Einrichtungsart`} : {filterOptions.healthcare}
             </StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
-              <option value="">{t`--Alle--`}</option>
+              <option value="">{t`Alle`}</option>
               {healthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
                   {`(${item.count}) ${t`${item.healthcare.toLocaleUpperCase().substring(0, 25)}`}`}
@@ -135,17 +118,11 @@ function FilterInputs() {
 
         <StyledLabel htmlFor="wheelchair-select">{t`Rollstuhlgerecht`}</StyledLabel>
         <StyledSelect defaultValue={"yes"} name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
+          <option value="">{t`--Alle--`}</option>
           <option value="yes">{t`Ja`}</option>
           <option value="no">{t`Nein`}</option>
           <option value="limited">{t`Teilweise`}</option>
           <option value="unknown">{t`Unbekannt`}</option>
-        </StyledSelect>
-
-        <StyledLabel htmlFor="limit-select">{t`Suchgrenze (Anzahl)`}</StyledLabel>
-        <StyledSelect defaultValue={"1000"} name="limit" id="limit-select" onChange={handleOnChangeLimit}>
-          <option value="100">100</option>
-          <option value="1000">1000</option>
-          <option value="10000">10000</option>
         </StyledSelect>
       </StyledSearchFilterInputs>
     </React.Fragment>

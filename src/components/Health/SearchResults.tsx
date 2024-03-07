@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { FilterOptions, OSM_API_FEATURE, fetcher, useHealthAPIURL } from "./helpers";
+import { FilterOptions, OSM_API_FEATURE, fetcher, getWheelchairSettings, useHealthAPIURL } from "./helpers";
 import { StyledH2, StyledLoadingSpinner, StyledSection, StyledUL } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
@@ -11,15 +11,19 @@ function SearchResults({}: Props) {
   const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
   const [searchResults, setSearchResults] = React.useState<any[]>(null);
-  const [loadingSpinner, setLoadingSpinner] = React.useState<boolean>(true);
+  const [headerOptions, setHeaderOptions] = React.useState<any>({
+    loadingSpinner: true,
+    text: t`Suchen ...`,
+  });
+
   React.useEffect(() => {
     if (filterOptionsFC) {
       setFilterOptions({
+        city: filterOptionsFC.city,
         bbox: filterOptionsFC.bbox,
-        wheelchair: `wheelchair=${filterOptionsFC.wheelchair}`,
-        healthcare: `healthcare=${filterOptionsFC.healthcare}`,
-        ["healthcare:speciality"]: `healthcare:speciality=${filterOptionsFC["healthcare:speciality"]}`,
-        limit: `limit=${filterOptionsFC.limit}`,
+        wheelchair: `${filterOptionsFC.wheelchair}`,
+        healthcare: `${filterOptionsFC.healthcare}`,
+        ["healthcare:speciality"]: `${filterOptionsFC["healthcare:speciality"]}`,
       });
     }
   }, [fc, filterOptionsFC]);
@@ -29,47 +33,50 @@ function SearchResults({}: Props) {
     wheelchair: filterOptions.wheelchair,
     healthcare: filterOptions.healthcare,
     ["healthcare:speciality"]: filterOptions["healthcare:speciality"],
-    limit: filterOptions.limit,
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
-    setLoadingSpinner(true);
+    setHeaderOptions({
+      loadingSpinner: true,
+      text: t`Suchen ...`,
+    });
     if (data) {
       setSearchResults(data.features);
-      setLoadingSpinner(false);
+      setHeaderOptions({
+        loadingSpinner: false,
+        text: Array.isArray(searchResults) ? t`${searchResults.length} Ergebnisse für Einrichtungsart ${filterOptions.healthcare} in ${filterOptions.city} und ${getWheelchairSettings(filterOptions.wheelchair).label}` : t`Keine Ergebnisse`,
+      });
     }
-  }, [data, fc]);
+  }, [data, fc, filterOptions.city, filterOptions.healthcare, filterOptions.wheelchair, searchResults]);
 
-  const loadingSpinnerUI = (
-    <StyledSection>
-      <StyledH2>{t`Suchen ...`}</StyledH2>
-      <StyledLoadingSpinner />
-    </StyledSection>
+  const HeaderUI = (
+    <>
+      <StyledH2>{headerOptions.text}</StyledH2>
+      {headerOptions.loadingSpinner && <StyledLoadingSpinner />}
+    </>
   );
 
   const searchResultsUI = (
-    <StyledSection>
-      <StyledUL>
-        {Array.isArray(searchResults) &&
-          searchResults.map((item: OSM_API_FEATURE, index: number) => {
-            return (
-              <li key={index}>
-                <SearchResult data={item} />
-              </li>
-            );
-          })}
-      </StyledUL>
-    </StyledSection>
+    <StyledUL>
+      {Array.isArray(searchResults) &&
+        searchResults.map((item: OSM_API_FEATURE, index: number) => {
+          return (
+            <li key={index}>
+              <SearchResult data={item} />
+            </li>
+          );
+        })}
+    </StyledUL>
   );
 
   return (
     <StyledSection>
-      <StyledH2>
-        {Array.isArray(searchResults) ? t`Ergebnisse (${searchResults.length})` : t`Keine Ergebnisse`}
+      <>
+        {HeaderUI}
         {error && error.message && `: ${error.message}`}
-      </StyledH2>
-      {loadingSpinner ? loadingSpinnerUI : searchResultsUI}
+      </>
+      {!headerOptions.loadingSpinner && searchResultsUI}
     </StyledSection>
   );
 }
