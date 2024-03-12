@@ -7,37 +7,13 @@ import { StyledColors } from "./styles";
 export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
 export const defaultLimit = 10000;
 
-export type OSM_DATA = {
-  features: [
-    {
-      geometry: {
-        coordinates: [number, number];
-        type: string; // Point
-      };
-      type: string; //Feature,
-      properties: {
-        osm_type: string; //R,
-        osm_id: number;
-        extent: [number, number, number, number];
-        country: string; // Deutschland,
-        osm_key: string; // place,
-        countrycode: string; // DE,
-        osm_value: string; // city,
-        name: string; // Hannover,
-        county: string; // Region Hannover,
-        state: string; // Niedersachsen,
-        type: string; // city
-      };
-    }
-  ];
-};
-
 export type FilterOptions = {
   bbox: [number, number, number, number];
   city: string;
   wheelchair: string;
   healthcare: string;
   ["healthcare:speciality"]: string;
+  sort: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
@@ -46,31 +22,7 @@ export const defaultFilterOptions: FilterOptions = {
   wheelchair: "yes",
   healthcare: "",
   ["healthcare:speciality"]: "",
-};
-
-export type OSM_API_FEATURE = {
-  name: string;
-  wheelchair: string;
-  wheelchair_description: string;
-  wheelchair_toilet: string;
-  lat: number;
-  lon: number;
-  distance: number;
-  id: number;
-  osm_type: string;
-  osm_id: string;
-  street: string;
-  housenumber: string;
-  city: string;
-  postcode: string;
-  website: string;
-  phone: string;
-  node_type: {
-    identifier: string;
-  };
-  category: {
-    identifier: string;
-  };
+  sort: "distance:asc",
 };
 
 export const transferCityToBbox = (options: any) => {

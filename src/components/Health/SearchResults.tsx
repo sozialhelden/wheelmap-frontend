@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { FilterOptions, OSM_API_FEATURE, fetcher, getWheelchairSettings, useHealthAPIURL } from "./helpers";
+import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useHealthAPIURL } from "./helpers";
 import { StyledH2, StyledLoadingSpinner, StyledSection, StyledUL } from "./styles";
 type Props = {};
 function SearchResults({}: Props) {
@@ -15,6 +15,7 @@ function SearchResults({}: Props) {
     loadingSpinner: true,
     text: t`Suchen ...`,
   });
+  const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
 
   React.useEffect(() => {
     if (filterOptionsFC) {
@@ -24,6 +25,7 @@ function SearchResults({}: Props) {
         wheelchair: `${filterOptionsFC.wheelchair}`,
         healthcare: `${filterOptionsFC.healthcare}`,
         ["healthcare:speciality"]: `${filterOptionsFC["healthcare:speciality"]}`,
+        sort: `${filterOptionsFC.sort}`,
       });
     }
   }, [fc, filterOptionsFC]);
@@ -35,6 +37,12 @@ function SearchResults({}: Props) {
     ["healthcare:speciality"]: filterOptions["healthcare:speciality"],
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
+
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      setMyCoordinates([position.coords.latitude, position.coords.longitude]);
+    });
+  }, [myCoordinates]);
 
   React.useEffect(() => {
     setHeaderOptions({
@@ -60,13 +68,20 @@ function SearchResults({}: Props) {
   const searchResultsUI = (
     <StyledUL>
       {Array.isArray(searchResults) &&
-        searchResults.map((item: OSM_API_FEATURE, index: number) => {
-          return (
+        searchResults
+          .map((item: any) => {
+            const { centroid } = item;
+            const lat = centroid.coordinates[1];
+            const lon = centroid.coordinates[0];
+            item.distance = calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon);
+            return item;
+          })
+          .sort((a, b) => a.distance - b.distance)
+          .map((item: any, index: number) => (
             <li key={index}>
-              <SearchResult data={item} />
+              <SearchResult data={{ ...item, distance: item.distance.toFixed(2) }} />
             </li>
-          );
-        })}
+          ))}
     </StyledUL>
   );
 

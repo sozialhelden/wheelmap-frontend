@@ -1,8 +1,7 @@
 import { faLink, faLocationArrow, faMapPin, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
 import CustomFontAwesomeIcon from "./Customs/CustomFontAwesomeIcon";
-import { calculateDistance, getWheelchairSettings } from "./helpers";
+import { getWheelchairSettings } from "./helpers";
 import { StyledColors, StyledLegend, StyledLink } from "./styles";
 
 type Props = {
@@ -11,10 +10,7 @@ type Props = {
 
 function SearchResult({ data }: Props) {
   const searchResult = data;
-
-  React.useEffect(() => {}, [searchResult]);
-
-  const { centroid, properties, _id } = searchResult;
+  const { centroid, properties, _id, distance } = searchResult;
   const lat = centroid.coordinates[1];
   const lon = centroid.coordinates[0];
   const name = properties.name;
@@ -30,30 +26,21 @@ function SearchResult({ data }: Props) {
   const customCity = city ? city : "";
   const customWebsite = website ? website : "";
   const cutomePhone = phone ? phone : "";
-  const [myCoordinates, setMyCoordinates] = useState<[number, number]>([0, 0]);
-
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setMyCoordinates([position.coords.latitude, position.coords.longitude]);
-    });
-  }, [myCoordinates]);
 
   return (
     <div>
-      {myCoordinates && (
+      {distance && (
         <p style={{ marginBottom: 10, color: StyledColors.red }}>
           <StyledLegend>
             <FontAwesomeIcon icon={faLocationArrow} color={StyledColors.red} />
-            &nbsp;&nbsp;
-            {calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon).toFixed(2)}
-            KM entfernt
+            &nbsp;&nbsp;{distance} KM entfernt
           </StyledLegend>
         </p>
       )}
       <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
         <h3>
           <CustomFontAwesomeIcon icon={getWheelchairSettings(wheelchair).icon} color={getWheelchairSettings(wheelchair).color} />
-          &nbsp;&nbsp;{name} ({healthcare})
+          &nbsp;&nbsp;{name} ({healthcare}),
         </h3>
       </StyledLink>
       {customStreet && (

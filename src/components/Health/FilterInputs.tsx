@@ -57,6 +57,7 @@ function FilterInputs() {
     setHealthcareOptions(dataHealthcareOptions);
     setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
   };
+
   React.useEffect(() => {
     if (filterOptions) {
       fc.setFilterOptions(filterOptions);
