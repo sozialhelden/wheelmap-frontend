@@ -2,7 +2,7 @@ import { faLink, faLocationArrow, faMapPin, faPhone } from "@fortawesome/free-so
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CustomFontAwesomeIcon from "./Customs/CustomFontAwesomeIcon";
 import { getWheelchairSettings } from "./helpers";
-import { StyledColors, StyledLegend, StyledLink } from "./styles";
+import { StyledColors, StyledLegend, StyledLink, StyledType } from "./styles";
 
 type Props = {
   data: any;
@@ -29,6 +29,7 @@ function SearchResult({ data }: Props) {
 
   return (
     <div>
+      <StyledType>{healthcare}</StyledType>
       {distance && (
         <p style={{ marginBottom: 10, color: StyledColors.red }}>
           <StyledLegend>
@@ -40,7 +41,7 @@ function SearchResult({ data }: Props) {
       <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
         <h3>
           <CustomFontAwesomeIcon icon={getWheelchairSettings(wheelchair).icon} color={getWheelchairSettings(wheelchair).color} />
-          &nbsp;&nbsp;{name} ({healthcare}),
+          &nbsp;&nbsp;{name}
         </h3>
       </StyledLink>
       {customStreet && (

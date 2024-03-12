@@ -79,6 +79,12 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
 
 export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
+    case "all":
+      return {
+        label: t`Alle Rollstuhlgerechtigkeiten`,
+        color: StyledColors.grey,
+        icon: faWheelchair,
+      };
     case "yes":
       return {
         label: t`Vollrollstuhlgerecht`,

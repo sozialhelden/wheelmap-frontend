@@ -116,6 +116,11 @@ export const StyledDescription = styled.span`
   ${chips}
 `;
 
+export const StyledType = styled.span`
+  float: right;
+  ${chips};
+`;
+
 export const StyledCheckbox = styled.input`
   opacity: 1;
   height: var(--switch-height);

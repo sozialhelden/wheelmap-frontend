@@ -38,6 +38,12 @@ function SearchResults({}: Props) {
   });
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
+  const filterOptionsStrings = {
+    city: `in ${filterOptions.city}`,
+    healthcare: `für ${filterOptions.healthcare ? `Einrichtungsart ${filterOptions.healthcare}` : `Alle Einrichtungsarten`}`,
+    wheelchair: `und ${getWheelchairSettings(filterOptions.wheelchair).label}`,
+  };
+
   React.useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       setMyCoordinates([position.coords.latitude, position.coords.longitude]);
@@ -53,10 +59,10 @@ function SearchResults({}: Props) {
       setSearchResults(data.features);
       setHeaderOptions({
         loadingSpinner: false,
-        text: Array.isArray(searchResults) ? t`${searchResults.length} Ergebnisse für Einrichtungsart ${filterOptions.healthcare} in ${filterOptions.city} und ${getWheelchairSettings(filterOptions.wheelchair).label}` : t`Keine Ergebnisse`,
+        text: Array.isArray(searchResults) ? t`${searchResults.length} Ergebnisse ${filterOptionsStrings.healthcare} ${filterOptionsStrings.city} ${filterOptionsStrings.wheelchair}` : t`Keine Ergebnisse`,
       });
     }
-  }, [data, fc, filterOptions.city, filterOptions.healthcare, filterOptions.wheelchair, searchResults]);
+  }, [data, fc, filterOptions.city, filterOptions.healthcare, filterOptions.wheelchair, filterOptionsStrings.city, filterOptionsStrings.healthcare, filterOptionsStrings.wheelchair, searchResults]);
 
   const HeaderUI = (
     <>
@@ -76,7 +82,12 @@ function SearchResults({}: Props) {
             item.distance = calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon);
             return item;
           })
-          .sort((a, b) => a.distance - b.distance)
+          .sort((a, b) => {
+            if (filterOptions.sort === "d:asc") return a.distance - b.distance;
+            if (filterOptions.sort === "d:desc") return b.distance - a.distance;
+            if (filterOptions.sort === "a:asc") return a?.properties?.name?.localeCompare(b?.properties?.name);
+            if (filterOptions.sort === "a:desc") return b?.properties?.name?.localeCompare(a?.properties?.name);
+          })
           .map((item: any, index: number) => (
             <li key={index}>
               <SearchResult data={{ ...item, distance: item.distance.toFixed(2) }} />

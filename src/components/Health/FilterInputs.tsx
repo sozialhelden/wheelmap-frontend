@@ -49,6 +49,10 @@ function FilterInputs() {
     handleFilterOptions("healthcare:speciality", e.target.value);
   };
 
+  const handleOnChangeSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    handleFilterOptions("sort", e.target.value);
+  };
+
   const handleFilterOptions = (key: string, value: any) => {
     setFilterOptions({
       ...filterOptions,
@@ -87,9 +91,19 @@ function FilterInputs() {
 
         {true && (
           <>
-            <StyledLabel htmlFor="healthcare-select">
-              {t`Einrichtungsart`} : {filterOptions.healthcare}
-            </StyledLabel>
+            <StyledLabel htmlFor="sort-select">{t`Sort`}</StyledLabel>
+            <StyledSelect defaultValue={"distance:asc"} name="sort" id="sort-select" onChange={handleOnChangeSort}>
+              <option value="d:asc">{t`Nach Abstand Sortieren (ASC)`}</option>
+              <option value="d:desc">{t`Nach Abstand Sortieren (DESC)`}</option>
+              <option value="a:asc">{t`Nach Alphabet Sortieren (ASC)`}</option>
+              <option value="a:desc">{t`Nach Alphabet Sortieren (DESC)`}</option>
+            </StyledSelect>
+          </>
+        )}
+
+        {true && (
+          <>
+            <StyledLabel htmlFor="healthcare-select">{t`Einrichtungsart`}</StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
               <option value="">{t`Alle`}</option>
               {healthcareOptions?.map((item, index) => (
@@ -103,9 +117,7 @@ function FilterInputs() {
 
         {false && (
           <>
-            <StyledLabel htmlFor="healthcare-speciality-select">
-              {t`Einrichtungsart Spezialisierung`} : {filterOptions["healthcare:speciality"]}
-            </StyledLabel>
+            <StyledLabel htmlFor="healthcare-speciality-select">{t`Einrichtungsart Spezialisierung`}</StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
               <option value="">{t`--Alle--`}</option>
               {healthcareSpecialityOptions?.map((item, index) => (
