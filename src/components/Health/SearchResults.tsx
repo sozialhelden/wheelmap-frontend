@@ -5,8 +5,8 @@ import { FilterContext, FilterContextType, getFilterOptionsInput } from "./Filte
 import SearchResult from "./SearchResult";
 import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useHealthAPIURL } from "./helpers";
 import { StyledH2, StyledLoadingSpinner, StyledSection, StyledUL } from "./styles";
-type Props = {};
-function SearchResults({}: Props) {
+
+function SearchResults() {
   const fc: FilterContextType = React.useContext(FilterContext);
   const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
