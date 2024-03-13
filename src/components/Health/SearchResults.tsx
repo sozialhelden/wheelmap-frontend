@@ -121,7 +121,7 @@ function SearchResults({}: Props) {
               myCoordinates[1],
               lat,
               lon
-            ).toFixed(1);
+            ).toFixed(2);
             return item;
           })
           .filter((item: any) =>
@@ -137,11 +137,15 @@ function SearchResults({}: Props) {
             if (filterOptions.sort === "a:desc")
               return b?.properties?.name?.localeCompare(a?.properties?.name);
           })
-          .map((item: any, index: number) => (
-            <li key={index}>
-              <SearchResult data={item} />
-            </li>
-          ))}
+          .map((item: any, index: number, data: any) => {
+            return (
+              <>
+                <li key={index}>
+                  <SearchResult data={item} />
+                </li>
+              </>
+            );
+          })}
     </StyledUL>
   );
 

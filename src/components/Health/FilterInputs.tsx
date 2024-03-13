@@ -145,14 +145,19 @@ function FilterInputs() {
           onChange={handleOnChangeCity}
         />
 
-        <StyledLabel htmlFor="name">{t`Suche nach`}</StyledLabel>
-        <StyledTextInput
-          placeholder={t`Suchen`}
-          type="text"
-          name=""
-          id="name"
-          onChange={handleChangeName}
-        />
+        {false && (
+          <>
+            <StyledLabel htmlFor="name">{t`Suche nach`}</StyledLabel>
+            <StyledTextInput
+              placeholder={t`Suchen`}
+              type="text"
+              name=""
+              id="name"
+              onChange={handleChangeName}
+            />
+          </>
+        )}
+
         {true && (
           <>
             <StyledLabel htmlFor="sort-select">{t`Sort`}</StyledLabel>
