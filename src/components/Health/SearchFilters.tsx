@@ -1,17 +1,9 @@
 import React from "react";
 import { t } from "ttag";
-import {
-  WindowContextType,
-  useWindowContext,
-} from "../../lib/context/WindowContext";
+import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
+import SozialheldenLogo from "../MapLegacy/SozialheldenLogo";
 import FilterInputs from "./FilterInputs";
-import {
-  StyledH2,
-  StyledSearchFilterContainer,
-  StyledSearchFilterDetails,
-  StyledSearchFilterSection,
-  responsiveValue,
-} from "./styles";
+import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection, responsiveValue } from "./styles";
 
 function FilterSection() {
   const { width }: WindowContextType = useWindowContext();
@@ -36,7 +28,11 @@ function FilterSection() {
 
   return (
     <StyledSearchFilterSection>
-      <StyledH2>{t`Suchfilter`}</StyledH2>
+      <StyledH2>
+        {t`Arztpraxis Suche`}
+        <br />
+        <SozialheldenLogo />
+      </StyledH2>
       {isDesktop && renderFilterContainer()}
       {isMobile && (
         <StyledSearchFilterDetails>
