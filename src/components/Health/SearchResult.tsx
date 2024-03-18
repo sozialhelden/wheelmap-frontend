@@ -1,70 +1,71 @@
-import { faLink, faLocationArrow, faMapPin, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CustomFontAwesomeIcon from "./Customs/CustomFontAwesomeIcon";
+import { Phone, Place, World } from "../icons/actions";
+import { MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledColors, StyledLegend, StyledLink, StyledType } from "./styles";
+import { StyledH3, StyledH4, StyledLink, StyledType } from "./styles";
 
-type Props = {
-  data: any;
-};
-
-function SearchResult({ data }: Props) {
-  const searchResult = data;
-  const { centroid, properties, _id, distance } = searchResult;
+function SearchResult({ data }: any) {
+  const { centroid, properties, _id, distance } = data;
+  const { name, healthcare, ["addr:street"]: street, ["addr:housenumber"]: housenumber, ["addr:postcode"]: postcode, ["addr:city"]: city, website, phone, wheelchair } = properties;
   const lat = centroid.coordinates[1];
   const lon = centroid.coordinates[0];
-  const name = properties.name;
-  const healthcare = properties.healthcare;
-  const street = properties["addr:street"];
-  const housenumber = properties["addr:housenumber"];
-  const postcode = properties["addr:postcode"];
-  const city = properties["addr:city"];
-  const { website, phone, wheelchair } = properties;
-  const customStreet = street ? street + ", " : "";
-  const customHousenumber = housenumber ? housenumber + ", " : "";
-  const customPostcode = postcode ? postcode + ", " : "";
-  const customCity = city ? city : "";
-  const customWebsite = website ? website : "";
-  const cutomePhone = phone ? phone : "";
+
+  const customAddress = {
+    street: street ? street : "",
+    housenumber: housenumber ? housenumber : "",
+    postcode: postcode ? postcode : "",
+    city: city ? city : "",
+  };
+
+  const customContact = {
+    website: website ? website : "",
+    phone: phone ? phone : "",
+  };
 
   return (
-    <div>
+    <>
       <StyledType>{healthcare}</StyledType>
-      {distance && (
-        <p style={{ marginBottom: 10, color: StyledColors.red }}>
-          <StyledLegend>
-            <FontAwesomeIcon icon={faLocationArrow} color={StyledColors.red} />
-            &nbsp;&nbsp;{distance} KM entfernt
-          </StyledLegend>
-        </p>
-      )}
-      <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
-        <h3>
-          <CustomFontAwesomeIcon icon={getWheelchairSettings(wheelchair).icon} color={getWheelchairSettings(wheelchair).color} />
-          &nbsp;&nbsp;{name}
-        </h3>
-      </StyledLink>
-      {customStreet && (
-        <StyledLink href={"https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon} target="_blank">
-          <FontAwesomeIcon icon={faMapPin} />
-          &nbsp;&nbsp;{[customStreet, customHousenumber, customPostcode, customCity].join("")}
+      <div style={{ lineHeight: "2rem" }}>
+        {distance && (
+          <>
+            <StyledH4>
+              <MapPinIcon /> {distance} KM entfernt
+            </StyledH4>
+          </>
+        )}
+        <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
+          <StyledH3 style={{ color: getWheelchairSettings(wheelchair).color }}>
+            {name}
+            &nbsp;
+          </StyledH3>
         </StyledLink>
-      )}
-      {customStreet && (cutomePhone || customWebsite) && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
-      {cutomePhone && (
-        <StyledLink href={"tel:" + cutomePhone} target="_blank">
-          <FontAwesomeIcon icon={faPhone} />
-          &nbsp;&nbsp;{cutomePhone}
-        </StyledLink>
-      )}
-      {cutomePhone && customWebsite && <>&nbsp;&nbsp;|&nbsp;&nbsp;</>}
-      {customWebsite && (
-        <StyledLink href={customWebsite} target="_blank">
-          <FontAwesomeIcon icon={faLink} />
-          &nbsp;&nbsp;{customWebsite.split("/")[2]}
-        </StyledLink>
-      )}
-    </div>
+        {customAddress.street && (
+          <>
+            <StyledLink href={"https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon} target="_blank">
+              <Place />
+              &nbsp;
+              {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
+            </StyledLink>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+          </>
+        )}
+        {customContact.phone && (
+          <>
+            <StyledLink href={"tel:" + customContact.phone} target="_blank">
+              <Phone />
+              &nbsp;{customContact.phone}
+            </StyledLink>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+          </>
+        )}
+        {customContact.website && (
+          <StyledLink href={customContact.website} target="_blank">
+            <World />
+            &nbsp;
+            {customContact.website.split("/")[2]}
+          </StyledLink>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -4,38 +4,12 @@ import { FilterContext } from "../../components/Health/FilterContext";
 import SearchFilters from "../../components/Health/SearchFilters";
 import SearchResults from "../../components/Health/SearchResults";
 import { defaultFilterOptions } from "../../components/Health/helpers";
-import { StyledHealthSiteContent } from "../../components/Health/styles";
-/*
-  A11y Design considerations
-  - https://www.w3.org/WAI/tutorials/forms/
-  - https://www.w3.org/WAI/tutorials/forms/labels/
-  - https://www.w3.org/WAI/tutorials/forms/grouping/
-  - https://www.w3.org/WAI/tutorials/forms/controls/
-  - https://www.w3.org/WAI/tutorials/forms/notifications/
-  - https://www.w3.org/WAI/tutorials/forms/inputs/
-  - https://www.w3.org/WAI/tutorials/forms/inputs/select/
-  ...
-  --- 
-
-  pagination? 
-
-
-  summary details
-  oder dialog 
-  cards: keine bubbles- nur für filter-a11y labels auf den cards
-*/
+import { StyledMainContainer } from "../../components/Health/styles";
 
 export default function Page() {
-  const [filterOptions, setFilterOptions] = React.useState(
-    defaultFilterOptions
-  );
-  const [healthcareOptions, setHealthcareOptions] = React.useState([
-    { healthcare: "", count: 0 },
-  ]);
-  const [
-    healthcareSpecialityOptions,
-    setHealthcareSpecialityOptions,
-  ] = React.useState([{ healthcare: "", count: 0 }]);
+  const [filterOptions, setFilterOptions] = React.useState(defaultFilterOptions);
+  const [healthcareOptions, setHealthcareOptions] = React.useState([{ healthcare: "", count: 0 }]);
+  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState([{ healthcare: "", count: 0 }]);
   const memoizedFilterContext = React.useMemo(
     () => ({
       filterOptions,
@@ -45,22 +19,17 @@ export default function Page() {
       healthcareSpecialityOptions,
       setHealthcareSpecialityOptions,
     }),
-    [
-      filterOptions,
-      setFilterOptions,
-      healthcareOptions,
-      setHealthcareOptions,
-      healthcareSpecialityOptions,
-      setHealthcareSpecialityOptions,
-    ]
+    [filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions]
   );
 
   return (
     <FilterContext.Provider value={memoizedFilterContext}>
-      <StyledHealthSiteContent>
-        <SearchFilters />
-        <SearchResults />
-      </StyledHealthSiteContent>
+      <StyledMainContainer>
+        <div>
+          <SearchFilters />
+          <SearchResults />
+        </div>
+      </StyledMainContainer>
     </FilterContext.Provider>
   );
 }

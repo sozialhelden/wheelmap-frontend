@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
+import AccessibilityFilterButtonOnClick from "./AccessibilityFilterButtonOnClick";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions, fetcher, getFilterOptions, transferCityToBbox } from "./helpers";
-import { StyledLabel, StyledLegend, StyledSearchFilterInputs, StyledSelect, StyledTextInput } from "./styles";
+import { StyledLabel, StyledSecionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
-  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState<any[]>([]);
   const [city, setCity] = React.useState<string>("");
 
   const cityToBBoxURL = transferCityToBbox({
@@ -17,50 +17,23 @@ function FilterInputs() {
   });
 
   const healthcareOptionsURL = getFilterOptions({
-    bbox: filterOptions.bbox,
-    wheelchair: filterOptions.wheelchair,
+    ...filterOptions,
     tags: "healthcare",
-  });
-
-  const healthcareSpecialityOptionsURL = getFilterOptions({
-    bbox: filterOptions.bbox,
-    wheelchair: filterOptions.wheelchair,
-    tags: "healthcare:speciality",
   });
 
   const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(cityToBBoxURL, fetcher);
   const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
-  const { data: dataHealthcareSpecialityOptions, error: errorHealthcareSpecialityOptions } = useSWR<any, Error>(healthcareSpecialityOptionsURL, fetcher);
 
-  const handleOnChangeCity = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCity(e.target.value);
-    handleFilterOptions("city", e.target.value);
-  };
-
-  const handleOnChangeWheelchair = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleFilterOptions("wheelchair", e.target.value);
-  };
-
-  const handleOnChangeHealthcare = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleFilterOptions("healthcare", e.target.value);
-  };
-
-  const handleOnChangeHealthcareSpeciality = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleFilterOptions("healthcare:speciality", e.target.value);
-  };
-
-  const handleOnChangeSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    handleFilterOptions("sort", e.target.value);
-  };
-
-  const handleFilterOptions = (key: string, value: any) => {
-    setFilterOptions({
-      ...filterOptions,
-      [key]: value,
-    });
-    setHealthcareOptions(dataHealthcareOptions);
-    setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
-  };
+  const handleFilterOptions = useCallback(
+    (key: string, value: any) => {
+      setFilterOptions({
+        ...filterOptions,
+        [key]: value,
+      });
+      setHealthcareOptions(dataHealthcareOptions);
+    },
+    [filterOptions, dataHealthcareOptions]
+  );
 
   React.useEffect(() => {
     if (filterOptions) {
@@ -69,30 +42,34 @@ function FilterInputs() {
   }, [fc, filterOptions]);
 
   React.useEffect(() => {
-    if (city && dataCityToBBox) {
+    if (city) {
       try {
         const finalData = dataCityToBBox.features.find((feature: any) => feature.properties.osm_value === "city" && feature.properties.countrycode === "DE").properties.extent || defaultFilterOptions.bbox;
-        setFilterOptions({
-          ...filterOptions,
-          bbox: finalData,
-        });
-        setHealthcareOptions(dataHealthcareOptions);
-        setHealthcareSpecialityOptions(dataHealthcareSpecialityOptions);
-      } catch (e) {}
+        handleFilterOptions("bbox", finalData);
+      } catch (e) {
+        setFilterOptions(defaultFilterOptions);
+      }
     }
-  }, [city, dataCityToBBox, dataHealthcareOptions, dataHealthcareSpecialityOptions, filterOptions]);
+  }, [city, dataCityToBBox, handleFilterOptions]);
 
   return (
-    <React.Fragment>
-      <StyledLegend>{t`Filter Angaben`}</StyledLegend>
-      <StyledSearchFilterInputs role="group" aria-labelledby="survey-form-titel">
-        <StyledLabel htmlFor="place">{t`In Ort`}</StyledLabel>
-        <StyledTextInput placeholder={t`Berlin`} type="text" name="" id="place" onChange={handleOnChangeCity} />
+    <>
+      <StyledSecionsContainer role="group" aria-labelledby="survey-form-titel">
+        <StyledLabel htmlFor="place" $fontBold="bold">{t`In Ort`}</StyledLabel>
+        <StyledTextInput
+          type="text"
+          name=""
+          id="place"
+          onChange={(e) => {
+            setCity(e.target.value);
+            handleFilterOptions("city", e.target.value);
+          }}
+        />
 
         {true && (
           <>
-            <StyledLabel htmlFor="healthcare-select">{t`Nach Gesundheitseinrichtungen`}</StyledLabel>
-            <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={handleOnChangeHealthcare}>
+            <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Nach Gesundheitseinrichtungen`}</StyledLabel>
+            <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={(e) => handleFilterOptions("healthcare", e.target.value)}>
               <option value="">{t`Alle`}</option>
               {healthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
@@ -105,21 +82,8 @@ function FilterInputs() {
 
         {true && (
           <>
-            <StyledLabel htmlFor="wheelchair-select">{t`Mit Rollstuhlgerechtigkeit`}</StyledLabel>
-            <StyledSelect defaultValue={"yes"} name="wheelchair" id="wheelchair-select" onChange={handleOnChangeWheelchair}>
-              <option value="">{t`--Alle--`}</option>
-              <option value="yes">{t`Ja`}</option>
-              <option value="no">{t`Nein`}</option>
-              <option value="limited">{t`Teilweise`}</option>
-              <option value="unknown">{t`Unbekannt`}</option>
-            </StyledSelect>
-          </>
-        )}
-
-        {true && (
-          <>
-            <StyledLabel htmlFor="sort-select">{t`Mit Sortierung`}</StyledLabel>
-            <StyledSelect defaultValue={"distance:asc"} name="sort" id="sort-select" onChange={handleOnChangeSort}>
+            <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Mit Sortierung`}</StyledLabel>
+            <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
               <option value="d:asc">{t`Nach Entfernung (Aufsteigend)`}</option>
               <option value="d:desc">{t`Nach Entfernung (Absteigend)`}</option>
               <option value="a:asc">{t`Nach Alphabet (Aufsteigend)`}</option>
@@ -128,21 +92,18 @@ function FilterInputs() {
           </>
         )}
 
-        {false && (
-          <>
-            <StyledLabel htmlFor="healthcare-speciality-select">{t`Einrichtungsart Spezialisierung`}</StyledLabel>
-            <StyledSelect defaultValue={""} name="healthcare-speciality" id="healthcare-speciality-select" onChange={handleOnChangeHealthcareSpeciality}>
-              <option value="">{t`--Alle--`}</option>
-              {healthcareSpecialityOptions?.map((item, index) => (
-                <option key={item["healthcare:speciality"] + (index++).toString()} value={item["healthcare:speciality"]}>
-                  {`(${item.count}) ${t`${item["healthcare:speciality"]?.toLocaleUpperCase().substring(0, 25)}`}`}
-                </option>
-              ))}
-            </StyledSelect>
-          </>
+        {true && (
+          <StyledWheelchairFilter>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Mit Rollstuhlgerechtigkeit`}</StyledLabel>
+            <AccessibilityFilterButtonOnClick accessibilityFilter={[]} caption={t`Alle`} onFocus={() => handleFilterOptions("wheelchair", "")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["yes"]} caption={t`Ja`} onFocus={() => handleFilterOptions("wheelchair", "yes")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["no"]} caption={t`Nein`} onFocus={() => handleFilterOptions("wheelchair", "no")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["limited"]} caption={t`Teilweise`} onFocus={() => handleFilterOptions("wheelchair", "limited")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["unknown"]} caption={t`Unbekannt`} onFocus={() => handleFilterOptions("wheelchair", "unknown")} />
+          </StyledWheelchairFilter>
         )}
-      </StyledSearchFilterInputs>
-    </React.Fragment>
+      </StyledSecionsContainer>
+    </>
   );
 }
 

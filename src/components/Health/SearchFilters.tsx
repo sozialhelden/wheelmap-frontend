@@ -1,47 +1,29 @@
 import React from "react";
 import { t } from "ttag";
-import { WindowContextType, useWindowContext } from "../../lib/context/WindowContext";
-import SozialheldenLogo from "../MapLegacy/SozialheldenLogo";
+import SozialheldInnenLogo from "../MapLegacy/SozialheldInnenLogo";
+import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
 import FilterInputs from "./FilterInputs";
-import { StyledH2, StyledSearchFilterContainer, StyledSearchFilterDetails, StyledSearchFilterSection, responsiveValue } from "./styles";
+import { FilterOptions } from "./helpers";
+import { StyledH2, StyledMainContainerColumn, StyledSecionsContainer } from "./styles";
 
-function FilterSection() {
-  const { width }: WindowContextType = useWindowContext();
-
-  const [isMobile, setMobile] = React.useState(width < responsiveValue);
-  const [isDesktop, setDesktop] = React.useState(width >= responsiveValue);
-
-  React.useEffect(() => {
-    setMobile(width < responsiveValue);
-    setDesktop(width >= responsiveValue);
-  }, [width]);
-
-  const renderFilterContainer = () => {
-    return (
-      <StyledSearchFilterContainer>
-        <div>
-          <FilterInputs />
-        </div>
-      </StyledSearchFilterContainer>
-    );
-  };
+function SearchFilters() {
+  const fc: FilterContextType = React.useContext(FilterContext);
+  const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
+  const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
+  const [headerOptions, setHeaderOptions] = React.useState<any>({
+    loadingSpinner: true,
+    text: t`Arztpraxis Suche`,
+  });
 
   return (
-    <StyledSearchFilterSection>
-      <StyledH2>
-        {t`Arztpraxis Suche`}
-        <br />
-        <SozialheldenLogo />
-      </StyledH2>
-      {isDesktop && renderFilterContainer()}
-      {isMobile && (
-        <StyledSearchFilterDetails>
-          <summary>{t`Filteroptionen ausklappens`}</summary>
-          {renderFilterContainer()}
-        </StyledSearchFilterDetails>
-      )}
-    </StyledSearchFilterSection>
+    <StyledMainContainerColumn>
+      <StyledH2>{headerOptions.text}</StyledH2>
+      <SozialheldInnenLogo />
+      <StyledSecionsContainer>
+        <FilterInputs />
+      </StyledSecionsContainer>
+    </StyledMainContainerColumn>
   );
 }
 
-export default FilterSection;
+export default SearchFilters;

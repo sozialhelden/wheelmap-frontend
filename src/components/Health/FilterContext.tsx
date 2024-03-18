@@ -12,7 +12,6 @@ export const FilterContext = React.createContext<FilterContextType>({
     city: defaultFilterOptions.city,
     wheelchair: defaultFilterOptions.wheelchair,
     healthcare: defaultFilterOptions.healthcare,
-    ["healthcare:speciality"]: defaultFilterOptions["healthcare:speciality"],
     sort: defaultFilterOptions.sort,
     name: defaultFilterOptions.name,
   },
