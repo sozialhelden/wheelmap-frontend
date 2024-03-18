@@ -44,7 +44,7 @@ export const StyledMainContainer = styled.div`
     margin-inline: auto;
     display: grid;
     grid-gap: ${containerSpacing};
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 2fr;
     max-width: ${maxContentWidth}px;
     width: 100%;
     height: 100vh;
@@ -64,15 +64,35 @@ export const StyledMainContainerColumn = styled.div`
   height: calc(100vh - 3rem);
   overflow-y: auto;
 `;
-export const StyledH2 = styled.h2`
+export const StyledH2 = styled.h2<{ $fontBold?: boolean }>`
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
 `;
-export const StyledH3 = styled.h3`
+
+export const StyledH3 = styled.h3<{ $fontBold?: boolean }>`
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
 `;
-export const StyledH4 = styled.h4`
+
+export const StyledH4 = styled.h4<{ $fontBold?: boolean }>`
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
 `;
+
+export const StyledH5 = styled.h5<{ $fontBold?: boolean }>`
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  ${HStyles}
+`;
+
+export const StyledHDivider = styled.hr<{ $colored?: any; $space?: number }>`
+  width: 100%;
+  height: 0.1rem;
+  border: none;
+  background-color: ${({ $colored }) => ($colored ? $colored : "transparent")};
+  margin-bottom: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
+  margin-top: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
+`;
+
 export const StyledSecionsContainer = styled.div`
   margin-top: 1rem;
   display: flex;
@@ -92,9 +112,7 @@ export const StyledLink = styled.a`
     text-decoration: none;
   }
 `;
-export const StyledBR = styled.br<{ $space?: number }>`
-  padding-bottom: ${({ $space }) => ($space ? `${$space}rem` : `0.1rem !important`)};
-`;
+
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
   font-size: 1rem;
   margin-bottom: 0.5rem;

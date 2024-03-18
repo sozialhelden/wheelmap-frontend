@@ -27,13 +27,13 @@ function SearchResult({ data }: any) {
       <div style={{ lineHeight: "2rem" }}>
         {distance && (
           <>
-            <StyledH4>
+            <StyledH4 $fontBold={true}>
               <MapPinIcon /> {distance} KM entfernt
             </StyledH4>
           </>
         )}
         <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
-          <StyledH3 style={{ color: getWheelchairSettings(wheelchair).color }}>
+          <StyledH3 $fontBold={true} style={{ color: getWheelchairSettings(wheelchair).color }}>
             {name}
             &nbsp;
           </StyledH3>
