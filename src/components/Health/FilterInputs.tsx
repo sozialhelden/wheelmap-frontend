@@ -73,7 +73,7 @@ function FilterInputs() {
               <option value="">{t`Alle`}</option>
               {healthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
-                  {`(${item.count}) ${t`${item.healthcare.toLocaleUpperCase().substring(0, 25)}`}`}
+                  {`(${item.count}) ${t`${item.healthcare}`}`}
                 </option>
               ))}
             </StyledSelect>

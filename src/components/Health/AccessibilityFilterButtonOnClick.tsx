@@ -25,7 +25,7 @@ function AccessibilityFilterButton(props: Props) {
 
   return (
     <Button className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={caption}>
-      <CombinedIcon {...{ accessibilityFilter }} />
+      <CombinedIcon {...{ accessibilityFilter }} category="health" />
       <Caption>{caption}</Caption>
     </Button>
   );
@@ -46,7 +46,7 @@ export default styled(AccessibilityFilterButton)`
     }
 
     ${CombinedIcon} {
-      width: 70px;
+      width: 60px;
     }
 
     &:hover,

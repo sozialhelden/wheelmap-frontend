@@ -62,7 +62,7 @@ function SearchResults() {
 
   return (
     <StyledMainContainerColumn>
-      <StyledH2>{headerOptions.text}</StyledH2>
+      <StyledH2 $fontBold>{headerOptions.text}</StyledH2>
       <StyledSecionsContainer>
         {error && error.message && `: ${error.message}`}
         {!headerOptions.loadingSpinner && (
@@ -76,7 +76,6 @@ function SearchResults() {
                   item.distance = calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon).toFixed(2);
                   return item;
                 })
-                .filter((item: any) => item?.properties?.name?.toLowerCase().includes(filterOptions.name.toLowerCase()))
                 .sort((a, b) => {
                   if (filterOptions.sort === "d:asc") return a.distance - b.distance;
                   if (filterOptions.sort === "d:desc") return b.distance - a.distance;

@@ -26,12 +26,12 @@ export const inputStyles = `
 `;
 export const chips = `
   background-color: white;
-  border: 1px solid ${StyledColors.green};
-  color: ${StyledColors.green};
-  border-radius: ${borderRadius};
+  border: 1px solid ${StyledColors.grey};
+  color: ${StyledColors.grey};
   font-size: 0.7rem;
   font-weight: 700;
   padding-inline:0.5rem;
+  padding-block: 0.25rem;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
 `;
@@ -94,7 +94,6 @@ export const StyledHDivider = styled.hr<{ $colored?: any; $space?: number }>`
 `;
 
 export const StyledSecionsContainer = styled.div`
-  margin-top: 1rem;
   display: flex;
   flex-direction: column;
   line-height: 2rem;
@@ -158,7 +157,6 @@ export const StyledButton = styled.button`
 `;
 export const StyledType = styled.span`
   ${chips};
-  float: right;
 `;
 
 export const StyledWheelchairFilter = styled.div`

@@ -20,15 +20,16 @@ function SearchFilters() {
     <StyledMainContainerColumn>
       <IncluscienceLogo />
       <StyledHDivider $space={0.1} />
-      <StyledH2>{headerOptions.text}</StyledH2>
-      <StyledH5 $fontBold={true}>{t`Barrierefreie Praxen finden - einfach und überall.`}</StyledH5>
+      <StyledH2 $fontBold>{headerOptions.text}</StyledH2>
+      <StyledH5>{t`Barrierefreie Praxen finden - einfach und überall.`}</StyledH5>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledSecionsContainer>
         <FilterInputs />
       </StyledSecionsContainer>
       <StyledHDivider />
-      <SozialheldInnenLogo />
-      <StyledH5>{t`Ein Projekt der Sozialheld*innen.`}</StyledH5>
+      <StyledH5>
+        {t`Ein Projekt der`} <SozialheldInnenLogo />
+      </StyledH5>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledH5>{t`© OpenStreetMap contributors`}</StyledH5>
     </StyledMainContainerColumn>

@@ -1,5 +1,6 @@
 import { Phone, Place, World } from "../icons/actions";
 import { MapPinIcon } from "../icons/ui-elements";
+import AccessibilityFilterButtonOnClick from "./AccessibilityFilterButtonOnClick";
 import { getWheelchairSettings } from "./helpers";
 import { StyledH3, StyledH4, StyledLink, StyledType } from "./styles";
 
@@ -23,19 +24,18 @@ function SearchResult({ data }: any) {
 
   return (
     <>
-      <StyledType>{healthcare}</StyledType>
-      <div style={{ lineHeight: "2rem" }}>
+      <div style={{ lineHeight: "2.2rem" }}>
         {distance && (
-          <>
-            <StyledH4 $fontBold={true}>
+          <span style={{ float: "right" }}>
+            <StyledH4 $fontBold>
               <MapPinIcon /> {distance} KM entfernt
             </StyledH4>
-          </>
+          </span>
         )}
+        <StyledType>{healthcare}</StyledType>
         <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
-          <StyledH3 $fontBold={true} style={{ color: getWheelchairSettings(wheelchair).color }}>
-            {name}
-            &nbsp;
+          <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
+            <AccessibilityFilterButtonOnClick accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} />
           </StyledH3>
         </StyledLink>
         {customAddress.street && (
