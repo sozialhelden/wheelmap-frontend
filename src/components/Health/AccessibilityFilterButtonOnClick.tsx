@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   accessibilityFilter: YesNoLimitedUnknown[];
   caption: string;
+  category?: string;
   onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
@@ -21,11 +22,11 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  const { accessibilityFilter, caption, className } = props;
+  const { accessibilityFilter, caption, className, category } = props;
 
   return (
     <Button className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={caption}>
-      <CombinedIcon {...{ accessibilityFilter }} category="health" />
+      <CombinedIcon {...{ accessibilityFilter }} category={category} />
       <Caption>{caption}</Caption>
     </Button>
   );

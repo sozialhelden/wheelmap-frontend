@@ -35,7 +35,7 @@ function SearchResult({ data }: any) {
         <StyledType>{healthcare}</StyledType>
         <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
           <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-            <AccessibilityFilterButtonOnClick accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} category={healthcare} />
           </StyledH3>
         </StyledLink>
         {customAddress.street && (
