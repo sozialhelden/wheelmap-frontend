@@ -41,7 +41,7 @@ export const useOsmAPIUrl = (options: any) => {
     const editedBbox = `bbox=${bbox}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
     const editedHealthcare = `healthcare=${healthcare}`;
-    return `${baseurl}/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&geometry=centroid`;
+    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&geometry=centroid`;
   }
   return [];
 };
@@ -55,7 +55,7 @@ export const useFilterOptionsUrl = (options: any) => {
     const editedBbox = bbox && `bbox=${bbox}`;
     const editedTags = `tags=${tags}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
-    return `${baseurl}/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
+    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
   }
   return [];
 };
