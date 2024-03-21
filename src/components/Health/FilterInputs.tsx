@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import AccessibilityFilterButtonOnClick from "./AccessibilityFilterButtonOnClick";
 import { FilterContext, FilterContextType } from "./FilterContext";
-import { FilterOptions, defaultFilterOptions, fetcher, getFilterOptions, transferCityToBbox } from "./helpers";
+import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
 import { StyledLabel, StyledSecionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
@@ -16,7 +16,7 @@ function FilterInputs() {
     city: city,
   });
 
-  const healthcareOptionsURL = getFilterOptions({
+  const healthcareOptionsURL = useFilterOptionsUrl({
     ...filterOptions,
     tags: "healthcare",
   });

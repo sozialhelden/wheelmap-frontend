@@ -1,14 +1,14 @@
 import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
+import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useHealthAPIURL } from "./helpers";
+import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useOsmAPIUrl } from "./helpers";
 import { StyledH2, StyledMainContainerColumn, StyledSecionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
+  const filterOptionsFC: FilterOptions = useFilterOptionsUrlInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
   const [headerOptions, setHeaderOptions] = React.useState<any>({
     loadingSpinner: true,
@@ -31,7 +31,7 @@ function SearchResults() {
     }
   }, [fc, filterOptionsFC]);
 
-  const finalURL = useHealthAPIURL(filterOptions);
+  const finalURL = useOsmAPIUrl(filterOptions);
   const { data, error } = useSWR<any, Error>(finalURL, fetcher);
 
   const filterOptionsStrings = {

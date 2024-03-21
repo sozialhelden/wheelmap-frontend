@@ -32,10 +32,10 @@ export const transferCityToBbox = (options: any) => {
   }
 };
 
-export const useHealthAPIURL = (options: any) => {
+export const useOsmAPIUrl = (options: any) => {
   const { bbox, wheelchair, healthcare } = options;
   const env = useContext(EnvContext);
-  const baseurl = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   const editedLimit = `limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare) {
     const editedBbox = `bbox=${bbox}`;
@@ -46,13 +46,13 @@ export const useHealthAPIURL = (options: any) => {
   return [];
 };
 
-export const getFilterOptions = (options: any) => {
+export const useFilterOptionsUrl = (options: any) => {
   const { bbox, wheelchair, tags } = options;
   const env = useContext(EnvContext);
-  const baseurl = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const editedLimit = `limit=${defaultLimit}`;
   if (bbox || wheelchair || tags) {
-    const editedBbox = `bbox=${bbox}`;
-    const editedLimit = `limit=${defaultLimit}`;
+    const editedBbox = bbox && `bbox=${bbox}`;
     const editedTags = `tags=${tags}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
     return `${baseurl}/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;

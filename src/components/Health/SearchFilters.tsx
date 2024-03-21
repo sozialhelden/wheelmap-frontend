@@ -2,14 +2,14 @@ import React from "react";
 import { t } from "ttag";
 import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
 import SozialheldInnenLogo from "../MapLegacy/SozialheldInnenLogo";
-import { FilterContext, FilterContextType, getFilterOptionsInput } from "./FilterContext";
+import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
 import FilterInputs from "./FilterInputs";
 import { FilterOptions } from "./helpers";
 import { StyledColors, StyledH2, StyledH5, StyledHDivider, StyledMainContainerColumn, StyledSecionsContainer } from "./styles";
 
 function SearchFilters() {
   const fc: FilterContextType = React.useContext(FilterContext);
-  const filterOptionsFC: FilterOptions = getFilterOptionsInput(fc);
+  const filterOptionsFC: FilterOptions = useFilterOptionsUrlInput(fc);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
   const [headerOptions, setHeaderOptions] = React.useState<any>({
     loadingSpinner: true,

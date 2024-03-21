@@ -18,6 +18,6 @@ export const FilterContext = React.createContext<FilterContextType>({
   setFilterOptions: () => {},
 });
 
-export function getFilterOptionsInput(fc: FilterContextType) {
+export function useFilterOptionsUrlInput(fc: FilterContextType) {
   return fc.filterOptions;
 }
