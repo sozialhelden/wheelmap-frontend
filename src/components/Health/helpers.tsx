@@ -35,7 +35,7 @@ export const transferCityToBbox = (options: any) => {
 export const useOsmAPIUrl = (options: any) => {
   const { bbox, wheelchair, healthcare } = options;
   const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const editedLimit = `limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare) {
     const editedBbox = `bbox=${bbox}`;
@@ -49,7 +49,7 @@ export const useOsmAPIUrl = (options: any) => {
 export const useFilterOptionsUrl = (options: any) => {
   const { bbox, wheelchair, tags } = options;
   const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const editedLimit = `limit=${defaultLimit}`;
   if (bbox || wheelchair || tags) {
     const editedBbox = bbox && `bbox=${bbox}`;
