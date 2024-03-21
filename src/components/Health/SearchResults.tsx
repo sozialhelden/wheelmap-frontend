@@ -4,7 +4,7 @@ import { t } from "ttag";
 import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
 import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useOsmAPIUrl } from "./helpers";
-import { StyledH2, StyledMainContainerColumn, StyledSecionsContainer, StyledUL } from "./styles";
+import { StyledH2, StyledLoadingSpinner, StyledMainContainerColumn, StyledSecionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
   const fc: FilterContextType = React.useContext(FilterContext);
@@ -63,6 +63,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <StyledH2 $fontBold>{headerOptions.text}</StyledH2>
+      {headerOptions.loadingSpinner && <StyledLoadingSpinner />}
       <StyledSecionsContainer>
         {error && error.message && `: ${error.message}`}
         {!headerOptions.loadingSpinner && (

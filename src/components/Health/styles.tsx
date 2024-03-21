@@ -137,7 +137,7 @@ export const StyledLoadingSpinner = styled.div`
   width: 5rem;
   height: 5rem;
   animation: spin 2s linear infinite;
-  margin-top: 2rem;
+  margin-block: 2rem;
   margin-inline: ${containerSpacing};
 
   @keyframes spin {
