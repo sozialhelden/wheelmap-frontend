@@ -45,7 +45,7 @@ function SearchResult({ data }: any) {
               &nbsp;
               {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
             </StyledLink>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
           </>
         )}
         {customContact.phone && (
@@ -54,7 +54,7 @@ function SearchResult({ data }: any) {
               <Phone />
               &nbsp;{customContact.phone}
             </StyledLink>
-            &nbsp;&nbsp;|&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;
           </>
         )}
         {customContact.website && (

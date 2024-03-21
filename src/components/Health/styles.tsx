@@ -110,6 +110,10 @@ export const StyledLink = styled.a`
     color: ${StyledColors.green};
     text-decoration: none;
   }
+  svg {
+    vertical-align: middle;
+    margin-bottom: 0.2rem;
+  }
 `;
 
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
