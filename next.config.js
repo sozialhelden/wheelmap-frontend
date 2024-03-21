@@ -18,9 +18,6 @@ let configuration = withTranspileModules({
 
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
-  env: {
-    NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL: process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL,
-  },
   ...configuration,
   productionBrowserSourceMaps: true,
   compiler: {
