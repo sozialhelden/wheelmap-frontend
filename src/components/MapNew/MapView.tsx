@@ -13,7 +13,7 @@ import {
   ViewStateChangeEvent
 } from "react-map-gl";
 
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+// import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
 // import FeatureListPopup from "../feature/FeatureListPopup";
 import MapboxLanguage from "@mapbox/mapbox-gl-language";
 import { uniq } from "lodash";
