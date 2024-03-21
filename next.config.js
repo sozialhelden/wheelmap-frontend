@@ -1,7 +1,6 @@
 const withTranspileModules = require("next-transpile-modules");
 
 let configuration = withTranspileModules({
-
   webpack: (config) => {
     // Fixes npm packages that depend on `fs` module
     config.node = {
@@ -19,6 +18,9 @@ let configuration = withTranspileModules({
 
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
+  env: {
+    NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL: process.env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL,
+  },
   ...configuration,
   productionBrowserSourceMaps: true,
   compiler: {
@@ -37,7 +39,7 @@ configuration = {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
-  }
+  },
 };
 
 module.exports = configuration;

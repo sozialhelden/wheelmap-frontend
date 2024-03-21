@@ -41,19 +41,21 @@ export const useHealthAPIURL = (options: any) => {
     const editedBbox = `bbox=${bbox}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
     const editedHealthcare = `healthcare=${healthcare}`;
-    return `http://localhost:4000/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&geometry=centroid`;
+    return `${baseurl}/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&geometry=centroid`;
   }
   return [];
 };
 
 export const getFilterOptions = (options: any) => {
   const { bbox, wheelchair, tags } = options;
+  const env = useContext(EnvContext);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_LEGACY_BASE_URL;
   if (bbox || wheelchair || tags) {
     const editedBbox = `bbox=${bbox}`;
     const editedLimit = `limit=${defaultLimit}`;
     const editedTags = `tags=${tags}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
-    return `http://localhost:4000/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
+    return `${baseurl}/api/v1/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
   }
   return [];
 };
