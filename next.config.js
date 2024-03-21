@@ -18,6 +18,7 @@ let configuration = withTranspileModules({
 
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
+  basePath: "/",
   ...configuration,
   productionBrowserSourceMaps: true,
   compiler: {
