@@ -1,20 +1,39 @@
-import { useRouter } from "next/router";
-import { ReactElement, useEffect } from "react";
-import Layout from "../components/App/Layout";
-import { isFirstStart } from "../lib/savedState";
+import React, { ReactElement } from "react";
+import LayoutHealthPage from "../components/App/LayoutHealthPage";
+import { FilterContext } from "../components/Health/FilterContext";
+import SearchFilters from "../components/Health/SearchFilters";
+import SearchResults from "../components/Health/SearchResults";
+import { defaultFilterOptions } from "../components/Health/helpers";
+import { StyledMainContainer } from "../components/Health/styles";
 
 export default function Page() {
-  const router = useRouter();
+  const [filterOptions, setFilterOptions] = React.useState(defaultFilterOptions);
+  const [healthcareOptions, setHealthcareOptions] = React.useState([{ healthcare: "", count: 0 }]);
+  const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState([{ healthcare: "", count: 0 }]);
+  const memoizedFilterContext = React.useMemo(
+    () => ({
+      filterOptions,
+      setFilterOptions,
+      healthcareOptions,
+      setHealthcareOptions,
+      healthcareSpecialityOptions,
+      setHealthcareSpecialityOptions,
+    }),
+    [filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions]
+  );
 
-  useEffect(() => {
-    if (isFirstStart()) {
-      router.replace("/onboarding");
-    }
-  }, [router]);
-
-  return <></>;
+  return (
+    <FilterContext.Provider value={memoizedFilterContext}>
+      <StyledMainContainer>
+        <div>
+          <SearchFilters />
+          <SearchResults />
+        </div>
+      </StyledMainContainer>
+    </FilterContext.Provider>
+  );
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
+  return <LayoutHealthPage>{page}</LayoutHealthPage>;
 };
