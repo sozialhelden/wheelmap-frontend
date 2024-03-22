@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import IncluscienceLogo from "../MapLegacy/IncluscienceLogo";
+import SozialheldenInnenLogo from "../MapLegacy/SozialheldInnenLogo";
 
 export const containerSpacing = "1rem";
 export const borderRadius = "2rem";
-export const responsiveValue = 640;
+export const responsiveValue = 800;
 export const maxContentWidth = 1280;
 
 export const StyledColors = {
@@ -57,13 +59,14 @@ export const StyledMainContainer = styled.div`
 export const StyledMainContainerColumn = styled.div`
   background-color: rgb(255, 255, 255, 1);
   display: flex;
-  max-width: 100%;
   flex-direction: column;
+  max-width: 100%;
   padding: ${containerSpacing};
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   height: calc(100vh - 3rem);
   overflow-y: auto;
 `;
+
 export const StyledH2 = styled.h2<{ $fontBold?: boolean }>`
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
@@ -93,7 +96,7 @@ export const StyledHDivider = styled.hr<{ $colored?: any; $space?: number }>`
   margin-top: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
 `;
 
-export const StyledSecionsContainer = styled.div`
+export const StyledSectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   line-height: 2rem;
@@ -125,6 +128,9 @@ export const StyledUL = styled.ul`
   padding-inline-start: 0;
   list-style-type: none;
   li {
+    &:hover {
+      background-color: ${StyledColors.silver};
+    }
     margin-bottom: ${containerSpacing};
     padding: 1rem;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
@@ -145,8 +151,7 @@ export const StyledLoadingSpinner = styled.div`
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(-360deg);
-    }
+      transform: rotate(-360deg);    }
   }
 `;
 export const StyledChip = styled.span`
@@ -168,4 +173,17 @@ export const StyledWheelchairFilter = styled.div`
   padding: 0.5rem;
   background-color: ${StyledColors.silver};
   border-radius: 5px;
+`;
+
+export const StyledIncluscienceLogo = styled(IncluscienceLogo)`
+  height: 1.2em;
+`;
+export const StyledSozialheldInnenLogo = styled(SozialheldenInnenLogo)`
+  height: 2em;
+`;
+
+export const StyledFooter = styled.footer`
+  svg {
+    vertical-align: middle;
+  }
 `;

@@ -1,16 +1,22 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
+import { useCurrentAppToken } from "../../lib/context/AppContext";
+import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
+import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
+import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
+import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButtonOnClick from "./AccessibilityFilterButtonOnClick";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
-import { StyledLabel, StyledSecionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
   const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
-  const [city, setCity] = React.useState<string>("");
+  const [city, setCity] = React.useState<string | undefined>(undefined);
 
   const cityToBBoxURL = transferCityToBbox({
     city: city,
@@ -52,28 +58,53 @@ function FilterInputs() {
     }
   }, [city, dataCityToBBox, handleFilterOptions]);
 
+  const appToken = useCurrentAppToken();
+  const synonymCache = useCategorySynonymCache(appToken);
+  const languageTags = useCurrentLanguageTagStrings();
+  const translatedHealthcareOptions = useMemo(() => {
+    if (!synonymCache.data) {
+      return healthcareOptions;
+    }
+    return  healthcareOptions.map((item) => {
+      const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
+      return {
+        ...item,
+        healthcareTranslated: translatedCategoryName,
+        healthcareTranslatedLowercase: (translatedCategoryName || item.healthcare)?.toLocaleLowerCase(),
+      };
+    })
+    .sort((i1, i2) => {
+      const a = i1.healthcareTranslatedLowercase;
+      const b = i2.healthcareTranslatedLowercase;
+      return a.localeCompare(b);
+    });
+  }, [healthcareOptions]);
+
   return (
     <>
-      <StyledSecionsContainer role="group" aria-labelledby="survey-form-titel">
-        <StyledLabel htmlFor="place" $fontBold="bold">{t`In Ort`}</StyledLabel>
+      <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
+        <StyledLabel htmlFor="place" $fontBold="bold">{t`Where?`}</StyledLabel>
         <StyledTextInput
           type="text"
           name=""
           id="place"
           onChange={(e) => {
-            setCity(e.target.value);
-            handleFilterOptions("city", e.target.value);
+            const cityName = e.target.value.trim();
+            if (cityName.length) {
+              setCity(cityName);
+              handleFilterOptions("city", cityName);
+            }
           }}
         />
 
         {true && (
           <>
-            <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Nach Gesundheitseinrichtungen`}</StyledLabel>
+            <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
             <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={(e) => handleFilterOptions("healthcare", e.target.value)}>
               <option value="">{t`Alle`}</option>
-              {healthcareOptions?.map((item, index) => (
+              {translatedHealthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
-                  {`(${item.count}) ${t`${item.healthcare}`}`}
+                  {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
                 </option>
               ))}
             </StyledSelect>
@@ -81,28 +112,27 @@ function FilterInputs() {
         )}
 
         {true && (
+          <StyledWheelchairFilter>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
+            <AccessibilityFilterButtonOnClick accessibilityFilter={[]} caption={t`All places`} onFocus={() => handleFilterOptions("wheelchair", "")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["yes"]} caption={t`Yes`} onFocus={() => handleFilterOptions("wheelchair", "yes")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["no"]} caption={t`No`} onFocus={() => handleFilterOptions("wheelchair", "no")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["limited"]} caption={t`Partially`} onFocus={() => handleFilterOptions("wheelchair", "limited")} />
+            <AccessibilityFilterButtonOnClick accessibilityFilter={["unknown"]} caption={t`Unknown`} onFocus={() => handleFilterOptions("wheelchair", "unknown")} />
+          </StyledWheelchairFilter>
+        )}
+
+        {true && (
           <>
-            <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Mit Sortierung`}</StyledLabel>
+            <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
             <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
-              <option value="d:asc">{t`Nach Entfernung (Aufsteigend)`}</option>
-              <option value="d:desc">{t`Nach Entfernung (Absteigend)`}</option>
-              <option value="a:asc">{t`Nach Alphabet (Aufsteigend)`}</option>
-              <option value="a:desc">{t`Nach Alphabet (Absteigend)`}</option>
+              <option value="d:asc">{t`By distance`}</option>
+              <option value="a:asc">{t`Alphabetically`}</option>
             </StyledSelect>
           </>
         )}
 
-        {true && (
-          <StyledWheelchairFilter>
-            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Mit Rollstuhlgerechtigkeit`}</StyledLabel>
-            <AccessibilityFilterButtonOnClick accessibilityFilter={[]} caption={t`Alle`} onFocus={() => handleFilterOptions("wheelchair", "")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["yes"]} caption={t`Ja`} onFocus={() => handleFilterOptions("wheelchair", "yes")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["no"]} caption={t`Nein`} onFocus={() => handleFilterOptions("wheelchair", "no")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["limited"]} caption={t`Teilweise`} onFocus={() => handleFilterOptions("wheelchair", "limited")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["unknown"]} caption={t`Unbekannt`} onFocus={() => handleFilterOptions("wheelchair", "unknown")} />
-          </StyledWheelchairFilter>
-        )}
-      </StyledSecionsContainer>
+      </StyledSectionsContainer>
     </>
   );
 }

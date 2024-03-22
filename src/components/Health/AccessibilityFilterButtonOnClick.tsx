@@ -49,10 +49,5 @@ export default styled(AccessibilityFilterButton)`
     ${CombinedIcon} {
       width: 60px;
     }
-
-    &:hover,
-    &:focus {
-      background-color: ${colors.linkBackgroundColorTransparent};
-    }
   }
 `;

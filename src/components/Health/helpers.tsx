@@ -8,7 +8,7 @@ export const defaultLimit = 10000;
 
 export type FilterOptions = {
   bbox: [number, number, number, number];
-  city: string;
+  city: string | undefined;
   wheelchair: string;
   healthcare: string;
   sort: string;
@@ -17,10 +17,10 @@ export type FilterOptions = {
 
 export const defaultFilterOptions: FilterOptions = {
   bbox: [0, 0, 0, 0],
-  city: "",
+  city: undefined,
   wheelchair: "",
   healthcare: "",
-  sort: "distance:asc",
+  sort: "d:asc",
   name: "",
 };
 
@@ -74,7 +74,7 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
   const a = Math.sin(B1 / 2) * Math.sin(B1 / 2) + Math.cos(A1) * Math.cos(A2) * Math.sin(B2 / 2) * Math.sin(B2 / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  return (R * c) / 1000;
+  return R * c;
 }
 
 export function getWheelchairSettings(wheelchair: string): any {

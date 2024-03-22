@@ -38,8 +38,8 @@ export default function Layout({
   const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app || {};
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const toggleMainMenu = React.useCallback(() => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleMainMenu = React.useCallback((newValue?: boolean) => {
+    setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen);
   }, [isMenuOpen]);
 
   const containerRef = React.useRef<HTMLElement>(null);

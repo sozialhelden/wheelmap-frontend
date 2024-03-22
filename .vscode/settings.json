@@ -13,7 +13,6 @@
   "typescript.format.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
   }
 }
