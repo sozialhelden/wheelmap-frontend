@@ -65,7 +65,7 @@ function FilterInputs() {
     if (!synonymCache.data) {
       return healthcareOptions;
     }
-    return  healthcareOptions.map((item) => {
+    return  healthcareOptions?.map((item) => {
       const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
       return {
         ...item,

@@ -53,18 +53,20 @@ function SearchResult({ data }: any) {
     if (category?._id === 'unknown') {
       return healthcare;
     }
-    if (name.match(categoryName, 'i')) {
-      return undefined;
-    }
-    const isDoctor = (category._id === 'doctor' || category._id === 'doctors');
-    if (name.match(/Dr\./) && isDoctor) {
-      return undefined;
-    }
-    if (name.match(/MD/) && isDoctor) {
-      return undefined;
-    }
-    if (name.match(/M\.D\./) && isDoctor) {
-      return undefined;
+    if (name) {
+      if (name.match(categoryName, 'i')) {
+        return undefined;
+      }
+      const isDoctor = (category._id === 'doctor' || category._id === 'doctors');
+      if (name.match(/Dr\./) && isDoctor) {
+        return undefined;
+      }
+      if (name.match(/MD/) && isDoctor) {
+        return undefined;
+      }
+      if (name.match(/M\.D\./) && isDoctor) {
+        return undefined;
+      }
     }
     return categoryName;
   }, [category, categoryName])
