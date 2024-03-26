@@ -46,7 +46,6 @@ function FilterInputs() {
         [key]: value,
       });
       setHealthcareOptions(dataHealthcareOptions);
-      // Change Router URL
     },
     [filterOptions, dataHealthcareOptions]
   );

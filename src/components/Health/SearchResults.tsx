@@ -67,7 +67,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <StyledHDivider $space={0.5} />
-      {text && (
+      {!isLoading && text && (
         <StyledH2 style={{ textAlign: "center" }} $fontBold>
           {text}
         </StyledH2>
@@ -78,10 +78,7 @@ function SearchResults() {
           <StyledLoadingSpinner />
         </FullSizeFlexContainer>
       )}
-      <StyledSectionsContainer>
-        {error && error.message && <FullSizeFlexContainer>{error.message}</FullSizeFlexContainer>}
-        {sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}
-      </StyledSectionsContainer>
+      <StyledSectionsContainer>{sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}</StyledSectionsContainer>
     </StyledMainContainerColumn>
   );
 }
