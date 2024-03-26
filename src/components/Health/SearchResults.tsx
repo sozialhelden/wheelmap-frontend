@@ -48,7 +48,7 @@ function SearchResults() {
   );
   const text = React.useMemo(() => {
     if (data?.features.length === 0) {
-      return t`No Results Found!`;
+      return t`No Results Found! Please try again with different City/Filters`;
     }
     if (data?.features) {
       return (

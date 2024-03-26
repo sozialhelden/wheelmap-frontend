@@ -24,6 +24,7 @@ type Props = {
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
   isActive: boolean;
   isNotHoverAble?: boolean;
+  isDisabled?: boolean;
 };
 
 export const Caption = styled.span`
@@ -32,7 +33,7 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className } = props;
+  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled } = props;
 
   const router = useRouter();
 
@@ -56,7 +57,7 @@ function AccessibilityFilterButton(props: Props) {
       }}
       legacyBehavior
     >
-      <Button className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
+      <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
         <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
