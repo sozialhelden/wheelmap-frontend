@@ -6,11 +6,10 @@ import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagConte
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
-import AccessibilityFilterButtonOnClick from "./AccessibilityFilterButtonOnClick";
+import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
 import { StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
-
 
 function FilterInputs() {
   const fc: FilterContextType = React.useContext(FilterContext);
@@ -65,19 +64,20 @@ function FilterInputs() {
     if (!synonymCache.data) {
       return healthcareOptions;
     }
-    return  healthcareOptions?.map((item) => {
-      const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
-      return {
-        ...item,
-        healthcareTranslated: translatedCategoryName,
-        healthcareTranslatedLowercase: (translatedCategoryName || item.healthcare)?.toLocaleLowerCase(),
-      };
-    })
-    .sort((i1, i2) => {
-      const a = i1.healthcareTranslatedLowercase;
-      const b = i2.healthcareTranslatedLowercase;
-      return a.localeCompare(b);
-    });
+    return healthcareOptions
+      ?.map((item) => {
+        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
+        return {
+          ...item,
+          healthcareTranslated: translatedCategoryName,
+          healthcareTranslatedLowercase: (translatedCategoryName || item.healthcare)?.toLocaleLowerCase(),
+        };
+      })
+      .sort((i1, i2) => {
+        const a = i1.healthcareTranslatedLowercase;
+        const b = i2.healthcareTranslatedLowercase;
+        return a.localeCompare(b);
+      });
   }, [healthcareOptions]);
 
   return (
@@ -112,17 +112,6 @@ function FilterInputs() {
         )}
 
         {true && (
-          <StyledWheelchairFilter>
-            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
-            <AccessibilityFilterButtonOnClick accessibilityFilter={[]} caption={t`All places`} onFocus={() => handleFilterOptions("wheelchair", "")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["yes"]} caption={t`Yes`} onFocus={() => handleFilterOptions("wheelchair", "yes")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["no"]} caption={t`No`} onFocus={() => handleFilterOptions("wheelchair", "no")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["limited"]} caption={t`Partially`} onFocus={() => handleFilterOptions("wheelchair", "limited")} />
-            <AccessibilityFilterButtonOnClick accessibilityFilter={["unknown"]} caption={t`Unknown`} onFocus={() => handleFilterOptions("wheelchair", "unknown")} />
-          </StyledWheelchairFilter>
-        )}
-
-        {true && (
           <>
             <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
             <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
@@ -132,6 +121,16 @@ function FilterInputs() {
           </>
         )}
 
+        {true && (
+          <StyledWheelchairFilter>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
+            <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "")} isActive={filterOptions.wheelchair === ""} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "yes")} isActive={filterOptions.wheelchair === "yes"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "no")} isActive={filterOptions.wheelchair === "no"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "limited")} isActive={filterOptions.wheelchair === "limited"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "unknown")} isActive={filterOptions.wheelchair === "unknown"} showCloseButton={false} />
+          </StyledWheelchairFilter>
+        )}
       </StyledSectionsContainer>
     </>
   );

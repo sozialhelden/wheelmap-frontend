@@ -28,12 +28,13 @@ export const inputStyles = `
 `;
 export const chips = `
   background-color: white;
-  border: 1px solid ${StyledColors.grey};
-  color: ${StyledColors.grey};
-  font-size: 0.7rem;
-  font-weight: 700;
-  padding-inline:0.5rem;
-  padding-block: 0.25rem;
+  border: 1px solid ${StyledColors.green};
+  color: ${StyledColors.green};
+  font-size: 0.8rem;
+  border-radius:${borderRadius};
+  margin-inline: 0.1rem;
+  font-weight: 6500;
+  padding: 0.75rem;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
 `;
@@ -96,6 +97,12 @@ export const StyledHDivider = styled.hr<{ $colored?: any; $space?: number }>`
   margin-top: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
 `;
 
+export const FullSizeFlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const StyledSectionsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,6 +115,7 @@ export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 export const StyledLink = styled.a`
+  color: ${StyledColors.grey};
   text-decoration: none;
   :hover {
     color: ${StyledColors.green};
@@ -151,7 +159,8 @@ export const StyledLoadingSpinner = styled.div`
       transform: rotate(0deg);
     }
     100% {
-      transform: rotate(-360deg);    }
+      transform: rotate(-360deg);
+    }
   }
 `;
 export const StyledChip = styled.span`
@@ -170,8 +179,8 @@ export const StyledType = styled.span`
 
 export const StyledWheelchairFilter = styled.div`
   margin-top: 1rem;
-  padding: 0.5rem;
-  background-color: ${StyledColors.silver};
+  padding: 1rem;
+  border: ${StyledColors.silver} 1px solid;
   border-radius: 5px;
 `;
 

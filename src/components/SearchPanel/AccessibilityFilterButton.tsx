@@ -1,15 +1,15 @@
-import { t } from "ttag";
 import * as React from "react";
 import styled, { css } from "styled-components";
+import { t } from "ttag";
 
-import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
-import Button from "../shared/Button";
-import colors from "../../lib/colors";
-import CombinedIcon from "./CombinedIcon";
-import CloseIcon from "../icons/actions/Close";
+import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { omit } from "lodash";
+import colors from "../../lib/colors";
+import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
+import CloseIcon from "../icons/actions/Close";
+import Button from "../shared/Button";
+import CombinedIcon from "./CombinedIcon";
 
 type Props = {
   className?: string;
@@ -23,6 +23,7 @@ type Props = {
   onBlur?: (event: React.FocusEvent<HTMLButtonElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLButtonElement>) => void;
   isActive: boolean;
+  isNotHoverAble?: boolean;
 };
 
 export const Caption = styled.span`
@@ -31,16 +32,7 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  const {
-    toiletFilter,
-    accessibilityFilter,
-    category,
-    isMainCategory,
-    showCloseButton,
-    caption,
-    isActive,
-    className,
-  } = props;
+  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className } = props;
 
   const router = useRouter();
 
@@ -62,18 +54,10 @@ function AccessibilityFilterButton(props: Props) {
         pathname: router.pathname,
         query,
       }}
-      legacyBehavior>
-      <Button
-        className={className}
-        onFocus={props.onFocus}
-        onBlur={props.onBlur}
-        onKeyDown={props.onKeyDown}
-        tabIndex={0}
-        aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}
-      >
-        <CombinedIcon
-          {...{ toiletFilter, accessibilityFilter, category, isMainCategory }}
-        />
+      legacyBehavior
+    >
+      <Button className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
+        <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
@@ -106,9 +90,13 @@ export default styled(AccessibilityFilterButton)`
         background-color: ${colors.coldBackgroundColor};
       `};
 
-    &:hover,
-    &:focus {
-      background-color: ${colors.linkBackgroundColorTransparent};
-    }
+    ${(props) =>
+      !props.isNotHoverAble &&
+      css`
+        &:hover,
+        &:focus {
+          background-color: ${colors.linkBackgroundColorTransparent};
+        }
+      `};
   }
 `;

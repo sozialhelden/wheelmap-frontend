@@ -81,28 +81,28 @@ export function getWheelchairSettings(wheelchair: string): any {
   switch (wheelchair) {
     case "all":
       return {
-        label: t`Alle Rollstuhlgerechtigkeiten`,
+        label: t`All Wheelchair Settings`,
         color: StyledColors.grey,
       };
     case "yes":
       return {
-        label: t`Vollrollstuhlgerecht`,
+        label: t`Wheelchair Accessible`,
         color: StyledColors.green,
       };
     case "limited":
       return {
-        label: t`Eingeschränkt rollstuhlgerecht`,
+        label: t`Limited Wheelchair Accessibility`,
         color: StyledColors.orange,
       };
 
     case "no":
       return {
-        label: t`Nicht rollstuhlgerecht`,
+        label: t`Not Wheelchair Accessible`,
         color: StyledColors.red,
       };
     default:
       return {
-        label: t`Unbekannt`,
+        label: t`Wheelchair Accessibility Unknown`,
         color: StyledColors.grey,
       };
   }

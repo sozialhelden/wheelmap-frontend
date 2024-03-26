@@ -1,5 +1,9 @@
 {
   "extends": ["next/core-web-vitals", "plugin:jsx-a11y/recommended"],
-  "plugins": ["jsx-a11y"]
+  "plugins": ["jsx-a11y"],
+  "parser": "@babel/eslint-parser",
+  "rules": {
+    "react/no-unescaped-entities": [ ]
+  }
 }
 
