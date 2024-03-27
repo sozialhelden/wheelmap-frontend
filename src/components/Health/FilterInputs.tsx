@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useContext, useMemo } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { useCurrentAppToken } from "../../lib/context/AppContext";
@@ -8,6 +7,7 @@ import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCl
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
+import EnvContext from "../shared/EnvContext";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
@@ -26,15 +26,6 @@ function FilterInputs() {
     ...filterOptions,
     tags: "healthcare",
   });
-
-  const router = useRouter();
-  const handleRouteChange = useCallback(
-    (key: string, value: any) => {
-      const query = { ...router.query, [key]: value };
-      router.push({ pathname: router.pathname, query }, undefined, { shallow: true });
-    },
-    [router]
-  );
 
   const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(cityToBBoxURL, fetcher);
   const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
@@ -68,7 +59,9 @@ function FilterInputs() {
   }, [city, dataCityToBBox, handleFilterOptions]);
 
   const appToken = useCurrentAppToken();
-  const synonymCache = useCategorySynonymCache(appToken);
+  const env = useContext(EnvContext);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const synonymCache = useCategorySynonymCache(appToken, baseurl);
   const languageTags = useCurrentLanguageTagStrings();
   const translatedHealthcareOptions = useMemo(() => {
     if (!synonymCache.data) {
