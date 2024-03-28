@@ -60,7 +60,7 @@ function FilterInputs() {
 
   const appToken = useCurrentAppToken();
   const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const baseurl: string = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
   const synonymCache = useCategorySynonymCache(appToken, baseurl);
   const languageTags = useCurrentLanguageTagStrings();
   const translatedHealthcareOptions = useMemo(() => {
