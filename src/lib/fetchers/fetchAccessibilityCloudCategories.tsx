@@ -4,7 +4,8 @@ import { generateSynonymCache } from "../model/ac/categories/Categories";
 import { accessibilityCloudCachedBaseUrl } from "./config";
 
 export async function fetchAccessibilityCloudCategories(appToken?: string, baseUrl?: string): Promise<ACCategory[]> {
-  baseUrl = baseUrl || accessibilityCloudCachedBaseUrl;
+  baseUrl = baseUrl ? baseUrl : accessibilityCloudCachedBaseUrl;
+  console.log(baseUrl);
   const url = `${baseUrl}/categories.json?appToken=${appToken}`;
   const r = await fetch(url, {
     method: "GET",
@@ -19,4 +20,7 @@ export async function fetchAccessibilityCloudCategorySynonymCache(appToken?: str
   return synonyms;
 }
 
-export const useCategorySynonymCache = (appToken?: string, baseUrl?: string) => useSWR([appToken], fetchAccessibilityCloudCategorySynonymCache(appToken, baseUrl));
+export const useCategorySynonymCache = (appToken?: string, baseUrl?: string) => {
+  const fetcher = () => fetchAccessibilityCloudCategorySynonymCache(appToken, baseUrl);
+  return useSWR([appToken, baseUrl], fetcher);
+};

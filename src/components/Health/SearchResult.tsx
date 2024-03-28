@@ -46,7 +46,7 @@ function SearchResult({ data }: any) {
       if (name.match(categoryName, "i")) {
         return undefined;
       }
-      const isDoctor = category._id === "doctor" || category._id === "doctors";
+      const isDoctor = category?._id === "doctor" || category?._id === "doctors";
       if (name.match(/Dr\./) && isDoctor) {
         return undefined;
       }
