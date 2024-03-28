@@ -1,13 +1,11 @@
-import React, { useCallback, useContext, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { useCurrentAppToken } from "../../lib/context/AppContext";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import EnvContext from "../shared/EnvContext";
 import { FilterContext, FilterContextType } from "./FilterContext";
 import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
@@ -58,10 +56,7 @@ function FilterInputs() {
     }
   }, [city, dataCityToBBox, handleFilterOptions]);
 
-  const appToken = useCurrentAppToken();
-  const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
-  const synonymCache = useCategorySynonymCache(appToken, baseurl);
+  const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
   const translatedHealthcareOptions = useMemo(() => {
     if (!synonymCache.data) {
