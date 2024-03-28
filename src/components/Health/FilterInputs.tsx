@@ -78,8 +78,8 @@ function FilterInputs() {
       });
   }, [healthcareOptions]);
 
-  const isDisabled = React.useMemo(() => {
-    return !city;
+  const isVisible = React.useMemo(() => {
+    return city;
   }, [city]);
 
   return (
@@ -98,35 +98,35 @@ function FilterInputs() {
           }}
         />
 
-        <>
-          <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-          <StyledSelect disabled={isDisabled} defaultValue={""} name="healthcare" id="healthcare-select" onChange={(e) => handleFilterOptions("healthcare", e.target.value)}>
-            <option value="">{t`Alle`}</option>
-            {translatedHealthcareOptions?.map((item, index) => (
-              <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
-                {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
-              </option>
-            ))}
-          </StyledSelect>
-        </>
+        {isVisible && (
+          <>
+            <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
+            <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={(e) => handleFilterOptions("healthcare", e.target.value)}>
+              <option value="">{t`Alle`}</option>
+              {translatedHealthcareOptions?.map((item, index) => (
+                <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
+                  {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
+                </option>
+              ))}
+            </StyledSelect>
 
-        <>
-          <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
-          <StyledSelect disabled={isDisabled} defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
-            <option value="d:asc">{t`By distance`}</option>
-            <option value="a:asc">{t`Alphabetically`}</option>
-          </StyledSelect>
-        </>
+            <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
+            <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
+              <option value="d:asc">{t`By distance`}</option>
+              <option value="a:asc">{t`Alphabetically`}</option>
+            </StyledSelect>
 
-        <StyledWheelchairFilter>
-          <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
-          <StyledHDivider $space={0.25} />
-          <AccessibilityFilterButton isDisabled={isDisabled} accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "")} isActive={filterOptions.wheelchair === "all"} showCloseButton={false} />
-          <AccessibilityFilterButton isDisabled={isDisabled} accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "yes")} isActive={filterOptions.wheelchair === "yes"} showCloseButton={false} />
-          <AccessibilityFilterButton isDisabled={isDisabled} accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "no")} isActive={filterOptions.wheelchair === "no"} showCloseButton={false} />
-          <AccessibilityFilterButton isDisabled={isDisabled} accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "limited")} isActive={filterOptions.wheelchair === "limited"} showCloseButton={false} />
-          <AccessibilityFilterButton isDisabled={isDisabled} accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "unknown")} isActive={filterOptions.wheelchair === "unknown"} showCloseButton={false} />
-        </StyledWheelchairFilter>
+            <StyledWheelchairFilter>
+              <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
+              <StyledHDivider $space={0.25} />
+              <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "")} isActive={filterOptions.wheelchair === "all"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "yes")} isActive={filterOptions.wheelchair === "yes"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "no")} isActive={filterOptions.wheelchair === "no"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "limited")} isActive={filterOptions.wheelchair === "limited"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "unknown")} isActive={filterOptions.wheelchair === "unknown"} showCloseButton={false} />
+            </StyledWheelchairFilter>
+          </>
+        )}
       </StyledSectionsContainer>
     </>
   );
