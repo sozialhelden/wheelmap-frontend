@@ -34,13 +34,13 @@ export const useOsmAPI = (options: any, aggregate: boolean = false) => {
   const { bbox, wheelchair, healthcare, tags } = options;
   const env = useContext(EnvContext);
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const editedLimit = `limit=${defaultLimit}`;
-  if (bbox || wheelchair || healthcare) {
-    const editedBbox = `bbox=${bbox}`;
-    const editedWheelchair = `wheelchair=${wheelchair}`;
-    const editedHealthcare = `healthcare=${healthcare}`;
-    const editedTags = `tags=${tags}`;
-    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&${editedTags}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
+  const editedLimit = `&limit=${defaultLimit}`;
+  if (bbox || wheelchair || healthcare || tags) {
+    const editedBbox = bbox ? `bbox=${bbox}` : "";
+    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
+    const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
+    const editedTags = tags ? `&tags=${tags}` : "";
+    return `${baseurl}/amenities.json?${editedBbox}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
   }
   return [];
 };
