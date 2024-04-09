@@ -54,6 +54,7 @@ function FilterInputs() {
         const finalData = dataCityToBBox.features.find((feature: any) => feature.properties.osm_value === "city" && feature.properties.countrycode === "DE").properties.extent || defaultFilterOptions.bbox;
         handleFilterOptions("bbox", finalData);
       } catch (e) {
+        console.error("Error in cityToBBox", errorCityTiBBox);
         setFilterOptions(defaultFilterOptions);
       }
     }

@@ -1,30 +1,19 @@
 import React from "react";
 import { jt, t } from "ttag";
-import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
 import FilterInputs from "./FilterInputs";
-import { FilterOptions } from "./helpers";
 import { StyledColors, StyledFooter, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters() {
-  const fc: FilterContextType = React.useContext(FilterContext);
-  const filterOptionsFC: FilterOptions = useFilterOptionsUrlInput(fc);
-  const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(filterOptionsFC);
-  const [headerOptions, setHeaderOptions] = React.useState<any>({
+  const [headerOptions] = React.useState<any>({
     loadingSpinner: true,
     text: t`Find health sites`,
   });
 
-  const incluScienceLink = <a href="https://incluscience.org" target="_blank" rel="noreferrer noopener">
-    <StyledIncluscienceLogo />
-  </a>;
-
-  const sozialheldenLink = <a href="https://sozialhelden.de" target="_blank" rel="noreferrer noopener">
-    <StyledSozialheldInnenLogo />
-  </a>;
-
-  const openStreetMapLink = <a href="https://openstreetmap.org" target="_blank" rel="noreferrer noopener">
-    OpenStreetMap
-  </a>;
+  const footerList = [
+    { href: "https://incluscience.org", content: jt`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.` },
+    { href: "https://sozialhelden.de", content: jt`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.` },
+    { href: "https://openstreetmap.org", content: jt`© OpenStreetMap contributors.` },
+  ];
 
   return (
     <StyledMainContainerColumn>
@@ -38,9 +27,13 @@ function SearchFilters() {
       <div style={{ flex: 1 }} />
 
       <StyledFooter>
-        <p>{jt`Powered by ${incluScienceLink}.`}</p>
-        <p>{jt`A project by ${sozialheldenLink}.`}</p>
-        <p>{jt`© ${openStreetMapLink} contributors.`}</p>
+        {footerList.map((item, index) => (
+          <p key={index.toString()}>
+            <a href={item.href} target="_blank" rel="noreferrer noopener">
+              {item.content}
+            </a>
+          </p>
+        ))}
       </StyledFooter>
     </StyledMainContainerColumn>
   );
