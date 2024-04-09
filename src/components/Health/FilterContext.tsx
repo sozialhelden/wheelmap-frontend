@@ -13,7 +13,6 @@ export const FilterContext = React.createContext<FilterContextType>({
     wheelchair: defaultFilterOptions.wheelchair,
     healthcare: defaultFilterOptions.healthcare,
     sort: defaultFilterOptions.sort,
-    name: defaultFilterOptions.name,
   },
   setFilterOptions: () => {},
 });

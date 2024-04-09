@@ -12,7 +12,6 @@ export type FilterOptions = {
   wheelchair: string;
   healthcare: string;
   sort: string;
-  name: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
@@ -21,7 +20,6 @@ export const defaultFilterOptions: FilterOptions = {
   wheelchair: "",
   healthcare: "",
   sort: "distance",
-  name: "",
 };
 
 export const transferCityToBbox = (options: any) => {
