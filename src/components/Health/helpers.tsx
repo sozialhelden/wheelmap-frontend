@@ -20,7 +20,7 @@ export const defaultFilterOptions: FilterOptions = {
   city: undefined,
   wheelchair: "",
   healthcare: "",
-  sort: "d:asc",
+  sort: "distance",
   name: "",
 };
 
@@ -32,8 +32,8 @@ export const transferCityToBbox = (options: any) => {
   }
 };
 
-export const useOsmAPIUrl = (options: any) => {
-  const { bbox, wheelchair, healthcare } = options;
+export const useOsmAPI = (options: any, aggregate: boolean = false) => {
+  const { bbox, wheelchair, healthcare, tags } = options;
   const env = useContext(EnvContext);
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const editedLimit = `limit=${defaultLimit}`;
@@ -41,21 +41,8 @@ export const useOsmAPIUrl = (options: any) => {
     const editedBbox = `bbox=${bbox}`;
     const editedWheelchair = `wheelchair=${wheelchair}`;
     const editedHealthcare = `healthcare=${healthcare}`;
-    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&geometry=centroid`;
-  }
-  return [];
-};
-
-export const useFilterOptionsUrl = (options: any) => {
-  const { bbox, wheelchair, tags } = options;
-  const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const editedLimit = `limit=${defaultLimit}`;
-  if (bbox || wheelchair || tags) {
-    const editedBbox = bbox && `bbox=${bbox}`;
     const editedTags = `tags=${tags}`;
-    const editedWheelchair = `wheelchair=${wheelchair}`;
-    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedLimit}` + `&${editedTags}&geometry=centroid&mode=aggregate&aggregate=count`;
+    return `${baseurl}/amenities.json?${editedBbox}&${editedWheelchair}&${editedHealthcare}&${editedLimit}&${editedTags}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
   }
   return [];
 };

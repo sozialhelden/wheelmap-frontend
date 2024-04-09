@@ -7,7 +7,7 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import { FilterContext, FilterContextType } from "./FilterContext";
-import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useFilterOptionsUrl } from "./helpers";
+import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
@@ -20,10 +20,13 @@ function FilterInputs() {
     city: city,
   });
 
-  const healthcareOptionsURL = useFilterOptionsUrl({
-    ...filterOptions,
-    tags: "healthcare",
-  });
+  const healthcareOptionsURL = useOsmAPI(
+    {
+      ...filterOptions,
+      tags: "healthcare",
+    },
+    true
+  );
 
   const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(cityToBBoxURL, fetcher);
   const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
@@ -112,8 +115,8 @@ function FilterInputs() {
 
             <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
             <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
-              <option value="d:asc">{t`By distance`}</option>
-              <option value="a:asc">{t`Alphabetically`}</option>
+              <option value="distance">{t`By distance`}</option>
+              <option value="alphabetically">{t`Alphabetically`}</option>
             </StyledSelect>
 
             <StyledWheelchairFilter>

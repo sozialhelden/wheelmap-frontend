@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
 import SearchResult from "./SearchResult";
-import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useOsmAPIUrl } from "./helpers";
+import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
@@ -12,7 +12,7 @@ function SearchResults() {
 
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
 
-  const finalURL = useOsmAPIUrl(filterOptions);
+  const finalURL = useOsmAPI(filterOptions);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
@@ -33,8 +33,8 @@ function SearchResults() {
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (filterOptions.sort === "d:asc") return a.distance - b.distance;
-          if (filterOptions.sort === "a:asc") return a?.properties?.name?.localeCompare(b?.properties?.name);
+          if (filterOptions.sort === "distance") return a.distance - b.distance;
+          if (filterOptions.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
         })
         .map((item: any, index: number, data: any) => {
           return (
