@@ -26,6 +26,19 @@ export const inputStyles = `
   padding-block: 0.5rem;
   margin-bottom: 0.5rem;
 `;
+export const linkStyles = `
+color: ${StyledColors.grey};
+cursor: pointer;
+text-decoration: none !important;
+:hover {
+  color: ${StyledColors.green};
+}
+svg {
+  vertical-align: middle;
+  margin-bottom: 0.2rem;
+}
+`;
+
 export const chips = `
   background-color: white;
   border: 1px solid ${StyledColors.green};
@@ -114,17 +127,15 @@ export const StyledTextInput = styled.input`
 export const StyledSelect = styled.select`
   ${inputStyles}
 `;
+
 export const StyledLink = styled.a`
-  color: ${StyledColors.grey};
-  text-decoration: none;
-  :hover {
-    color: ${StyledColors.green};
-    text-decoration: none;
-  }
-  svg {
-    vertical-align: middle;
-    margin-bottom: 0.2rem;
-  }
+  ${linkStyles}
+`;
+
+export const StyledButtonAsLink = styled.button`
+  background-color: transparent;
+  border: none;
+  ${linkStyles}
 `;
 
 export const StyledLabel = styled.label<{ $fontBold?: string }>`

@@ -8,7 +8,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import { Phone, Place, World } from "../icons/actions";
 import { MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledH3, StyledH4, StyledLink } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledH4, StyledLink } from "./styles";
 
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
@@ -78,29 +78,29 @@ function SearchResult({ data }: any) {
 
       {customAddress.street && (
         <>
-          <StyledLink href={"https://www.google.com/maps/search/?api=1&query=" + lat + "," + lon} target="_blank">
+          <StyledButtonAsLink onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lon}`, "_blank")}>
             <Place />
             &nbsp;
             {[customAddress.street, customAddress.housenumber, customAddress.postcode, customAddress.city].join(" ")}
-          </StyledLink>
+          </StyledButtonAsLink>
           &nbsp;&nbsp;&nbsp;&nbsp;
         </>
       )}
       {customContact.phone && (
         <>
-          <StyledLink href={"tel:" + customContact.phone} target="_blank">
+          <StyledButtonAsLink onClick={() => window.open(`tel:${customContact.phone}`, "_blank")}>
             <Phone />
             &nbsp;{customContact.phone}
-          </StyledLink>
+          </StyledButtonAsLink>
           &nbsp;&nbsp;&nbsp;&nbsp;
         </>
       )}
       {customContact.website && (
-        <StyledLink href={customContact.website} target="_blank">
+        <StyledButtonAsLink onClick={() => window.open(customContact.website, "_blank")}>
           <World />
           &nbsp;
           {customContact.website.split("/")[2]}
-        </StyledLink>
+        </StyledButtonAsLink>
       )}
     </StyledLink>
   );

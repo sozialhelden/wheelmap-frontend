@@ -1,7 +1,7 @@
 import React from "react";
 import { jt, t } from "ttag";
 import FilterInputs from "./FilterInputs";
-import { StyledColors, StyledFooter, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
+import { StyledColors, StyledFooter, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLink, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters() {
   const [headerOptions] = React.useState<any>({
@@ -29,9 +29,9 @@ function SearchFilters() {
       <StyledFooter>
         {footerList.map((item, index) => (
           <p key={index.toString()}>
-            <a href={item.href} target="_blank" rel="noreferrer noopener">
+            <StyledLink href={item.href} target="_blank" rel="noreferrer noopener">
               {item.content}
-            </a>
+            </StyledLink>
           </p>
         ))}
       </StyledFooter>
