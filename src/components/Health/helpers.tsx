@@ -8,26 +8,15 @@ export const defaultLimit = 10000;
 
 export type FilterOptions = {
   bbox: [number, number, number, number];
-  city: string | undefined;
-  wheelchair: string;
-  healthcare: string;
-  sort: string;
 };
 
 export const defaultFilterOptions: FilterOptions = {
   bbox: [0, 0, 0, 0],
-  city: undefined,
-  wheelchair: "",
-  healthcare: "",
-  sort: "distance",
 };
 
-export const transferCityToBbox = (options: any) => {
-  const { city } = options;
+export const transferCityToBbox = (city: string) => {
   const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de`;
-  if (city) {
-    return `${baseurl}`;
-  }
+  return `${baseurl}`;
 };
 
 export const useOsmAPI = (options: any, aggregate: boolean = false) => {

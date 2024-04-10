@@ -86,7 +86,7 @@ function SearchResult({ data }: any) {
           &nbsp;&nbsp;&nbsp;&nbsp;
         </>
       )}
-      <StyledHDivider $space={0.1} />
+      <StyledHDivider $space={0} />
       {customContact.phone && (
         <>
           <StyledButtonAsLink onClick={() => window.open(`tel:${customContact.phone}`, "_blank")}>

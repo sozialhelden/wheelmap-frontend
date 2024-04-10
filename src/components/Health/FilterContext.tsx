@@ -9,10 +9,6 @@ export type FilterContextType = {
 export const FilterContext = React.createContext<FilterContextType>({
   filterOptions: {
     bbox: defaultFilterOptions.bbox,
-    city: defaultFilterOptions.city,
-    wheelchair: defaultFilterOptions.wheelchair,
-    healthcare: defaultFilterOptions.healthcare,
-    sort: defaultFilterOptions.sort,
   },
   setFilterOptions: () => {},
 });
