@@ -8,7 +8,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import { Phone, Place, World } from "../icons/actions";
 import { MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledH4, StyledLink } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink } from "./styles";
 
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
@@ -86,6 +86,7 @@ function SearchResult({ data }: any) {
           &nbsp;&nbsp;&nbsp;&nbsp;
         </>
       )}
+      <StyledHDivider $space={0.1} />
       {customContact.phone && (
         <>
           <StyledButtonAsLink onClick={() => window.open(`tel:${customContact.phone}`, "_blank")}>
