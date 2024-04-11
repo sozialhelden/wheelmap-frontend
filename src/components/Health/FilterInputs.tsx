@@ -1,17 +1,19 @@
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
+import EnvContext from "../shared/EnvContext";
 import { fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
+  const env = useContext(EnvContext);
 
   const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -32,7 +34,8 @@ function FilterInputs() {
       ...(route.query.healthcare && { healthcare: route.query.healthcare }),
       tags: "healthcare",
     };
-    const dataHealthcareOptions = await fetcher(useOsmAPI(options, true).toString());
+    const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+    const dataHealthcareOptions = await fetcher(useOsmAPI(options, baseurl, true).toString());
     setHealthcareOptions(dataHealthcareOptions);
   };
 

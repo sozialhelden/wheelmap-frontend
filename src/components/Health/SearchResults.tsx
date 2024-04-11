@@ -1,7 +1,8 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
+import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
@@ -9,8 +10,10 @@ import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoad
 function SearchResults() {
   const route = useRouter();
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
+  const env = useContext(EnvContext);
 
-  const finalURL = useOsmAPI(route.query, false);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const finalURL = useOsmAPI(route.query, baseurl, false);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
