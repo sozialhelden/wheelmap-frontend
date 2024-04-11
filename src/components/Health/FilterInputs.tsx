@@ -84,7 +84,7 @@ function FilterInputs() {
         <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
         <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
 
-        {route.query.city && (
+        {route.query.city && translatedHealthcareOptions && (
           <>
             <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
             <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
