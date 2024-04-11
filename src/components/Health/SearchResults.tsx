@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
@@ -12,9 +11,8 @@ function SearchResults() {
   const [routeFilters, setRouteFilters] = React.useState<any>(route.query);
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
 
-  const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = useOsmAPI(routeFilters, baseurl, true);
+  const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const finalURL = useOsmAPI(routeFilters, baseurl, false);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
@@ -49,7 +47,7 @@ function SearchResults() {
     [data, route.query]
   );
   const text = React.useMemo(() => {
-    if (data?.features.length === 0) {
+    if (data?.features?.length === 0) {
       return t`No Results Found! Please try again with different City/Filters`;
     }
     if (data?.features) {
@@ -60,11 +58,15 @@ function SearchResults() {
           </StyledChip>
           <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
           {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(route.query.wheelchair.toString()).label}</StyledChip>
+          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>
         </>
       );
     }
   }, [data]);
+
+  React.useEffect(() => {
+    setRouteFilters(route.query);
+  }, [route.query]);
 
   return (
     <StyledMainContainerColumn>
