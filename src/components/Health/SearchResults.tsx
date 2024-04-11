@@ -8,11 +8,10 @@ import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoad
 
 function SearchResults() {
   const route = useRouter();
-  const [routeFilters, setRouteFilters] = React.useState<any>(route.query);
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
 
   const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = useOsmAPI(routeFilters, baseurl, false);
+  const finalURL = useOsmAPI(route.query, baseurl, false);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
@@ -33,8 +32,8 @@ function SearchResults() {
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (routeFilters.sort === "distance") return a.distance - b.distance;
-          if (routeFilters.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
+          if (route.query.sort === "distance") return a.distance - b.distance;
+          if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
         })
         .map((item: any, index: number, data: any) => {
           return (
@@ -44,7 +43,7 @@ function SearchResults() {
           );
         })
         .slice(0, 100),
-    [data, routeFilters]
+    [data, route.query]
   );
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) {
@@ -56,17 +55,13 @@ function SearchResults() {
           <StyledChip>
             {t`Results`} : {data?.features.length}
           </StyledChip>
-          <StyledChip>{routeFilters.healthcare ? `${routeFilters.healthcare}` : t`All Categories`}</StyledChip>
-          {routeFilters.city && <StyledChip>{routeFilters.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(routeFilters.wheelchair?.toString()).label}</StyledChip>
+          <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
+          {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
+          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>
         </>
       );
     }
   }, [data]);
-
-  React.useEffect(() => {
-    setRouteFilters(route.query);
-  }, [route.query]);
 
   return (
     <StyledMainContainerColumn>
