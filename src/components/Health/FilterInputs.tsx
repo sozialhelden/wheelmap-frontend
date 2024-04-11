@@ -1,13 +1,13 @@
 import { useRouter } from "next/router";
-import React, { useMemo } from "react";
-import useSWR from "swr";
+import React, { useContext, useMemo } from "react";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import { fetcher, useOsmAPI } from "./helpers";
+import EnvContext from "../shared/EnvContext";
+import { fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
@@ -15,35 +15,66 @@ function FilterInputs() {
   const [routeFilters, setRouteFilters] = React.useState<any>(route.query);
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
 
-  const healthcareOptionsURL = useOsmAPI(
-    {
-      ...(route.query.bbox && { bbox: route.query.bbox }),
-      ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
-      ...(route.query.healthcare && { healthcare: route.query.healthcare }),
-      tags: "healthcare",
-    },
-    true
-  );
+  // const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(transferCityToBbox(route.query.city as any), fetcher);
+  // const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(
+  //   useOsmAPI(
+  //     {
+  //       ...(route.query.bbox && { bbox: route.query.bbox }),
+  //       ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+  //       ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+  //       tags: "healthcare",
+  //     },
+  //     true
+  //   ),
+  //   fetcher
+  // );
 
-  const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(route.query.bbox, fetcher);
-  const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
-
-  React.useEffect(() => {
-    setRouteFilters(route.query);
-  }, [route.query]);
-
-  const handleRoute = (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>, bbox?: [number, number, number, number]) => {
+  const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    if (name !== "city") {
+      route.push({
+        query: {
+          ...route.query,
+          [name]: value,
+        },
+      });
+    }
+  };
+
+  const env = useContext(EnvContext);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const options = {
+    ...(route.query.bbox && { bbox: route.query.bbox }),
+    ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+    ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+    tags: "healthcare",
+  };
+
+  const reloadHealthcareOptions = async () => {
+    const dataHealthcareOptions = await fetcher(useOsmAPI(options, baseurl, true).toString());
+    setHealthcareOptions(dataHealthcareOptions?.features);
+  };
+
+  const convertCityToBbox = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const dataCityToBBox = await fetcher(transferCityToBbox(value));
+    const bbox = await dataCityToBBox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
     route.push({
       query: {
         ...route.query,
         [name]: value,
+        bbox: bbox,
       },
     });
   };
 
   const isVisible = React.useMemo(() => {
     return route.query.city;
+  }, [route.query]);
+
+  React.useEffect(() => {
+    setRouteFilters(route.query);
+    reloadHealthcareOptions();
   }, [route.query]);
 
   const synonymCache = useCategorySynonymCache();
@@ -70,10 +101,10 @@ function FilterInputs() {
 
   return (
     <>
-      {JSON.stringify(routeFilters)}
+      <pre>{JSON.stringify(routeFilters, null, 2)}</pre>
       <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
-        <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={handleRoute} />
+        <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
 
         {isVisible && (
           <>

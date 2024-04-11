@@ -1,5 +1,5 @@
 import React from "react";
-import { FilterOptions, defaultFilterOptions } from "./helpers";
+import { FilterOptions } from "./helpers";
 
 export type FilterContextType = {
   filterOptions: FilterOptions;
@@ -7,9 +7,7 @@ export type FilterContextType = {
 };
 
 export const FilterContext = React.createContext<FilterContextType>({
-  filterOptions: {
-    bbox: defaultFilterOptions.bbox,
-  },
+  filterOptions: {},
   setFilterOptions: () => {},
 });
 

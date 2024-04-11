@@ -1,28 +1,20 @@
-import { useContext } from "react";
 import { t } from "ttag";
-import EnvContext from "../shared/EnvContext";
 import { StyledColors } from "./styles";
 
-export const fetcher = (url: RequestInfo | URL) => fetch(url).then((res) => res.json());
+export const fetcher = async (url: RequestInfo | URL) => await fetch(url).then((res) => res.json());
 export const defaultLimit = 10000;
 
-export type FilterOptions = {
-  bbox: [number, number, number, number];
-};
+export type FilterOptions = {};
 
-export const defaultFilterOptions: FilterOptions = {
-  bbox: [0, 0, 0, 0],
-};
+export const defaultFilterOptions: FilterOptions = {};
 
 export const transferCityToBbox = (city: string) => {
   const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de`;
   return `${baseurl}`;
 };
 
-export const useOsmAPI = (options: any, aggregate: boolean = false) => {
+export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = false) => {
   const { bbox, wheelchair, healthcare, tags } = options;
-  const env = useContext(EnvContext);
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
