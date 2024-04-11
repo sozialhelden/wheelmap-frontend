@@ -33,8 +33,8 @@ function SearchResults() {
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (route.query.sort === "distance") return a.distance - b.distance;
-          if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
+          if (routeFilters.sort === "distance") return a.distance - b.distance;
+          if (routeFilters.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
         })
         .map((item: any, index: number, data: any) => {
           return (
@@ -44,7 +44,7 @@ function SearchResults() {
           );
         })
         .slice(0, 100),
-    [data, route.query]
+    [data, routeFilters]
   );
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) {
@@ -56,9 +56,9 @@ function SearchResults() {
           <StyledChip>
             {t`Results`} : {data?.features.length}
           </StyledChip>
-          <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
-          {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>
+          <StyledChip>{routeFilters.healthcare ? `${routeFilters.healthcare}` : t`All Categories`}</StyledChip>
+          {routeFilters.city && <StyledChip>{routeFilters.city}</StyledChip>}
+          <StyledChip>{getWheelchairSettings(routeFilters.wheelchair?.toString()).label}</StyledChip>
         </>
       );
     }
