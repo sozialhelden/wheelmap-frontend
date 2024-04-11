@@ -1,63 +1,60 @@
-import React, { useCallback, useMemo } from "react";
-import useSWR from "swr";
+import { useRouter } from "next/router";
+import React, { useContext, useMemo } from "react";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
-import { FilterContext, FilterContextType } from "./FilterContext";
-import { FilterOptions, defaultFilterOptions, fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
+import EnvContext from "../shared/EnvContext";
+import { fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
-  const fc: FilterContextType = React.useContext(FilterContext);
-  const [filterOptions, setFilterOptions] = React.useState<FilterOptions>(defaultFilterOptions);
+  const route = useRouter();
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
-  const [city, setCity] = React.useState<string | undefined>(undefined);
+  const env = useContext(EnvContext);
 
-  const cityToBBoxURL = transferCityToBbox({
-    city: city,
-  });
-
-  const healthcareOptionsURL = useOsmAPI(
-    {
-      ...filterOptions,
-      tags: "healthcare",
-    },
-    true
-  );
-
-  const { data: dataCityToBBox, error: errorCityTiBBox } = useSWR<any, Error>(cityToBBoxURL, fetcher);
-  const { data: dataHealthcareOptions, error: errorHealthcareOptions } = useSWR<any, Error>(healthcareOptionsURL, fetcher);
-
-  const handleFilterOptions = useCallback(
-    (key: string, value: any) => {
-      setFilterOptions({
-        ...filterOptions,
-        [key]: value,
+  const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (name !== "city") {
+      route.push({
+        query: {
+          ...route.query,
+          [name]: value,
+        },
       });
-      setHealthcareOptions(dataHealthcareOptions);
-    },
-    [filterOptions, dataHealthcareOptions]
-  );
+    }
+  };
+
+  const reloadHealthcareOptions = async () => {
+    const options = {
+      ...(route.query.bbox && { bbox: route.query.bbox }),
+      ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+      ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+      tags: "healthcare",
+    };
+    const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+    const dataHealthcareOptions = await fetcher(useOsmAPI(options, baseurl, true).toString());
+    setHealthcareOptions(dataHealthcareOptions);
+  };
+
+  const convertCityToBbox = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    const dataCityToBBox = await fetcher(transferCityToBbox(value));
+    const bbox = await dataCityToBBox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
+    route.push({
+      query: {
+        ...route.query,
+        [name]: value,
+        bbox: bbox,
+      },
+    });
+  };
 
   React.useEffect(() => {
-    if (filterOptions) {
-      fc.setFilterOptions(filterOptions);
-    }
-  }, [fc, filterOptions]);
-
-  React.useEffect(() => {
-    if (city) {
-      try {
-        const finalData = dataCityToBBox.features.find((feature: any) => feature.properties.osm_value === "city" && feature.properties.countrycode === "DE").properties.extent || defaultFilterOptions.bbox;
-        handleFilterOptions("bbox", finalData);
-      } catch (e) {
-        setFilterOptions(defaultFilterOptions);
-      }
-    }
-  }, [city, dataCityToBBox, handleFilterOptions]);
+    reloadHealthcareOptions();
+  }, [route.query]);
 
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
@@ -81,40 +78,28 @@ function FilterInputs() {
       });
   }, [healthcareOptions]);
 
-  const isVisible = React.useMemo(() => {
-    return city;
-  }, [city]);
-
   return (
     <>
       <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
-        <StyledLabel htmlFor="place" $fontBold="bold">{t`Where?`}</StyledLabel>
-        <StyledTextInput
-          type="text"
-          name=""
-          id="place"
-          value={city || ""}
-          onChange={(e) => {
-            const cityName = e.target.value.trim();
-            setCity(cityName);
-            handleFilterOptions("city", cityName);
-          }}
-        />
+        <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
+        <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
 
-        {isVisible && (
+        {route.query.city && translatedHealthcareOptions && (
           <>
             <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-            <StyledSelect defaultValue={""} name="healthcare" id="healthcare-select" onChange={(e) => handleFilterOptions("healthcare", e.target.value)}>
+            <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
               <option value="">{t`Alle`}</option>
-              {translatedHealthcareOptions?.map((item, index) => (
-                <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
-                  {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
-                </option>
-              ))}
+              {translatedHealthcareOptions &&
+                translatedHealthcareOptions.length > 0 &&
+                translatedHealthcareOptions?.map((item, index) => (
+                  <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
+                    {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
+                  </option>
+                ))}
             </StyledSelect>
 
             <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
-            <StyledSelect defaultValue={""} name="sort" id="sort-select" onChange={(e) => handleFilterOptions("sort", e.target.value)}>
+            <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleRoute}>
               <option value="distance">{t`By distance`}</option>
               <option value="alphabetically">{t`Alphabetically`}</option>
             </StyledSelect>
@@ -122,11 +107,11 @@ function FilterInputs() {
             <StyledWheelchairFilter>
               <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
               <StyledHDivider $space={0.25} />
-              <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "")} isActive={filterOptions.wheelchair === "all"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "yes")} isActive={filterOptions.wheelchair === "yes"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "no")} isActive={filterOptions.wheelchair === "no"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "limited")} isActive={filterOptions.wheelchair === "limited"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} onFocus={() => handleFilterOptions("wheelchair", "unknown")} isActive={filterOptions.wheelchair === "unknown"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limited"} showCloseButton={false} />
+              <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
             </StyledWheelchairFilter>
           </>
         )}

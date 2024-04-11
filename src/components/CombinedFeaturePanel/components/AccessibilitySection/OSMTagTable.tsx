@@ -55,28 +55,24 @@ type ValueRenderProps = {
   matches: RegExpMatchArray;
 };
 
-export const valueRenderFunctions: Record<
-  string,
-  (props: ValueRenderProps) => React.ReactNode
-> = {
+export const valueRenderFunctions: Record<string, (props: ValueRenderProps) => React.ReactNode> = {
   opening_hours: (props) => <OpeningHoursValue value={props.value} />,
-  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)":
-    (props) => <OpeningHoursValue value={props.value} />,
-  "step_height": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "entrance_width": (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
-  "width": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "depth": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  "opening_hours:(atm|covid19|drive_through|kitchen|lifeguard|office|pharmacy|reception|store|workshop)": (props) => <OpeningHoursValue value={props.value} />,
+  step_height: (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
+  entrance_width: (props) => <DisplayedQuantity value={props.value} defaultUnit="cm" />,
+  width: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  height: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
+  depth: (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
   "power_supply:voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
   "power_supply:current": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "power_supply:maxcurrent": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
   "power_supply:frequency": (props) => <DisplayedQuantity value={props.value} defaultUnit="Hz" />,
-  "(?:socket:([\w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "(?:socket:([\w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
-  "(?:socket:([\w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
-  "(?:socket:([\w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
+  "(?:socket:([w_]+):)?amperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "(?:socket:([w_]+):)?maxamperage": (props) => <DisplayedQuantity value={props.value} defaultUnit="A" />,
+  "(?:socket:([w_]+):)?voltage": (props) => <DisplayedQuantity value={props.value} defaultUnit="V" />,
+  "(?:socket:([w_]+):)?output": (props) => <DisplayedQuantity value={props.value} defaultUnit="W" />,
   "kerb:height": (props) => <DisplayedQuantity value={props.value} defaultUnit="m" />,
-  "(?:([\w_]+):)?description(?:(\w\w))?": (props) => {
+  "(?:([w_]+):)?description(?:(ww))?": (props) => {
     const text = props.value;
     const targetGroup = props.matches[1];
     const lang = props.matches[2];
@@ -89,32 +85,22 @@ export type TagOrTagGroup = {
   children: TagOrTagGroup[];
 };
 
-export default function OSMTagTable(props: {
-  nestedTags: TagOrTagGroup[];
-  feature: TypeTaggedOSMFeature;
-}) {
+export default function OSMTagTable(props: { nestedTags: TagOrTagGroup[]; feature: TypeTaggedOSMFeature }) {
   const router = useRouter();
   const { ids, id } = router.query;
   const { feature } = props;
 
   const appToken = useCurrentAppToken();
   const languageTags = useCurrentLanguageTagStrings();
-  const {
-    data: attributesById,
-    isValidating,
-  } = useAccessibilityAttributesIdMap(languageTags, appToken);
+  const { data: attributesById, isValidating } = useAccessibilityAttributesIdMap(languageTags, appToken);
 
   return (
     <StyledTable>
       {props.nestedTags.map(({ key, children }) => {
         const originalOSMTagValue = feature.properties[key] || "";
-        const tagValues = tagsWithSemicolonSupport.includes(key)
-          ? originalOSMTagValue?.split(";") || []
-          : [originalOSMTagValue];
+        const tagValues = tagsWithSemicolonSupport.includes(key) ? originalOSMTagValue?.split(";") || [] : [originalOSMTagValue];
         return tagValues.map((singleValue) => {
-          const matchedKey = Object.keys(
-            valueRenderFunctions
-          ).find((renderFunctionKey) => key.match(renderFunctionKey));
+          const matchedKey = Object.keys(valueRenderFunctions).find((renderFunctionKey) => key.match(renderFunctionKey));
           const tagProps = getOSMTagProps({
             key,
             matchedKey,
@@ -125,20 +111,8 @@ export default function OSMTagTable(props: {
             attributesById,
           });
           if (children?.length) {
-            const nestedTable = (
-              <OSMTagTable
-                key={singleValue}
-                feature={feature}
-                nestedTags={children}
-              />
-            );
-            return (
-              <OSMTagTableRow
-                key={singleValue}
-                {...tagProps}
-                valueElement={nestedTable}
-              />
-            );
+            const nestedTable = <OSMTagTable key={singleValue} feature={feature} nestedTags={children} />;
+            return <OSMTagTableRow key={singleValue} {...tagProps} valueElement={nestedTable} />;
           } else {
             return <OSMTagTableRow key={singleValue} {...tagProps} />;
           }

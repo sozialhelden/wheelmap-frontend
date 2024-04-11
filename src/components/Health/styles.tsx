@@ -103,11 +103,10 @@ export const StyledH5 = styled.h5<{ $fontBold?: boolean }>`
 
 export const StyledHDivider = styled.hr<{ $colored?: any; $space?: number }>`
   width: 100%;
-  height: 0.1rem;
   border: none;
   background-color: ${({ $colored }) => ($colored ? $colored : "transparent")};
-  margin-bottom: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
-  margin-top: ${({ $space }) => ($space ? $space + "rem" : "1rem")};
+  margin-bottom: ${({ $space }) => ($space ? $space + "px" : "1px")};
+  margin-top: ${({ $space }) => ($space ? $space + "px" : "1px")};
 `;
 
 export const FullSizeFlexContainer = styled.div`

@@ -1,18 +1,19 @@
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useContext } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { FilterContext, FilterContextType, useFilterOptionsUrlInput } from "./FilterContext";
+import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
-import { FilterOptions, calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
+import { calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
-  const fc: FilterContextType = React.useContext(FilterContext);
-  const filterOptions: FilterOptions = useFilterOptionsUrlInput(fc);
-
+  const route = useRouter();
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
+  const env = useContext(EnvContext);
 
-  const finalURL = useOsmAPI(filterOptions);
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const finalURL = useOsmAPI(route.query, baseurl, false);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
@@ -33,8 +34,8 @@ function SearchResults() {
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (filterOptions.sort === "distance") return a.distance - b.distance;
-          if (filterOptions.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
+          if (route.query.sort === "distance") return a.distance - b.distance;
+          if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
         })
         .map((item: any, index: number, data: any) => {
           return (
@@ -44,10 +45,10 @@ function SearchResults() {
           );
         })
         .slice(0, 100),
-    [data, filterOptions]
+    [data, route.query]
   );
   const text = React.useMemo(() => {
-    if (data?.features.length === 0) {
+    if (data?.features?.length === 0) {
       return t`No Results Found! Please try again with different City/Filters`;
     }
     if (data?.features) {
@@ -56,9 +57,9 @@ function SearchResults() {
           <StyledChip>
             {t`Results`} : {data?.features.length}
           </StyledChip>
-          <StyledChip>{filterOptions.healthcare ? `${filterOptions.healthcare}` : t`All Categories`}</StyledChip>
-          {filterOptions.city && <StyledChip>{filterOptions.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(filterOptions.wheelchair).label}</StyledChip>
+          <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
+          {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
+          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>
         </>
       );
     }
