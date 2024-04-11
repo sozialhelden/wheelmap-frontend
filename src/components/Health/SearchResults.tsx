@@ -10,8 +10,7 @@ function SearchResults() {
   const route = useRouter();
   const [myCoordinates, setMyCoordinates] = React.useState<[number, number]>([0, 0]);
 
-  const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = useOsmAPI(route.query, baseurl, false);
+  const finalURL = useOsmAPI(route.query, false);
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {

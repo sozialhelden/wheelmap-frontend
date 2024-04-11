@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import useSWR from "swr";
 import EnvContext from "../../components/shared/EnvContext";
+import { useCurrentAppToken } from "../context/AppContext";
 import { ACCategory } from "../model/ac/categories/ACCategory";
 import { generateSynonymCache } from "../model/ac/categories/Categories";
 
@@ -22,8 +23,7 @@ export async function fetchAccessibilityCloudCategorySynonymCache(appToken?: str
 export const useCategorySynonymCache = () => {
   const env = useContext(EnvContext);
   const baseUrl: string = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_BASE_URL;
-  // const appToken: string = useCurrentAppToken();
-  const appToken: string = env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const appToken: string = useCurrentAppToken();
   const fetcher = () => fetchAccessibilityCloudCategorySynonymCache(appToken, baseUrl);
   return useSWR([appToken, baseUrl], fetcher);
 };

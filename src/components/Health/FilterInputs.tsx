@@ -26,14 +26,13 @@ function FilterInputs() {
   };
 
   const reloadHealthcareOptions = async () => {
-    const baseurl: string = process.env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
     const options = {
       ...(route.query.bbox && { bbox: route.query.bbox }),
       ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
       ...(route.query.healthcare && { healthcare: route.query.healthcare }),
       tags: "healthcare",
     };
-    const dataHealthcareOptions = await fetcher(useOsmAPI(options, baseurl, true).toString());
+    const dataHealthcareOptions = await fetcher(useOsmAPI(options, true).toString());
     setHealthcareOptions(dataHealthcareOptions);
   };
 
