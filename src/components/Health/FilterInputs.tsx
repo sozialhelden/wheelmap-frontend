@@ -90,6 +90,7 @@ function FilterInputs() {
             <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
               <option value="">{t`Alle`}</option>
               {translatedHealthcareOptions &&
+                translatedHealthcareOptions.length > 0 &&
                 translatedHealthcareOptions?.map((item, index) => (
                   <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
                     {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
