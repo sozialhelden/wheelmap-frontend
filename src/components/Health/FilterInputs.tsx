@@ -84,7 +84,6 @@ function FilterInputs() {
 
   return (
     <>
-      <pre>{JSON.stringify(routeFilters, null, 2)}</pre>
       <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
         <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
