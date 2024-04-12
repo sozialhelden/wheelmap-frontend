@@ -53,7 +53,7 @@ function FilterInputs() {
   };
 
   React.useEffect(() => {
-    reloadHealthcareOptions();
+    if (route.query.bbox) reloadHealthcareOptions();
   }, [route.query]);
 
   const synonymCache = useCategorySynonymCache();
