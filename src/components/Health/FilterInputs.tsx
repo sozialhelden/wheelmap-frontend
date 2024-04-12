@@ -19,6 +19,7 @@ function FilterInputs() {
     const { name, value } = event.target;
     if (name !== "city") {
       route.push({
+        pathname: "/",
         query: {
           ...route.query,
           [name]: value,
@@ -44,6 +45,7 @@ function FilterInputs() {
     const dataCityToBBox = await fetcher(transferCityToBbox(value));
     const bbox = await dataCityToBBox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
     route.push({
+      pathname: "/",
       query: {
         ...route.query,
         [name]: value,
