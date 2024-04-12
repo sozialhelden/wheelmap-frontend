@@ -18,13 +18,17 @@ function FilterInputs() {
   const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name !== "city") {
-      route.push({
-        pathname: "/",
-        query: {
-          ...route.query,
-          [name]: value,
+      route.replace(
+        {
+          pathname: route.pathname,
+          query: {
+            ...route.query,
+            [name]: value,
+          },
         },
-      });
+        undefined,
+        { shallow: true }
+      );
     }
   };
 
@@ -44,14 +48,18 @@ function FilterInputs() {
     const { name, value } = event.target;
     const dataCityToBBox = await fetcher(transferCityToBbox(value));
     const bbox = await dataCityToBBox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
-    route.push({
-      pathname: "/",
-      query: {
-        ...route.query,
-        [name]: value,
-        bbox: bbox,
+    route.replace(
+      {
+        pathname: route.pathname,
+        query: {
+          ...route.query,
+          [name]: value,
+          bbox: bbox,
+        },
       },
-    });
+      undefined,
+      { shallow: true }
+    );
   };
 
   React.useEffect(() => {
