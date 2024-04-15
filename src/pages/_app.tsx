@@ -10,16 +10,16 @@ import { default as NextApp } from 'next/app';
 import Head from 'next/head';
 import * as queryString from 'query-string';
 import * as React from 'react';
+import useSWR from 'swr';
 import EnvContext from '../components/shared/EnvContext';
 import composeContexts, { ContextAndValue } from '../lib/composeContexts';
 import { AppContext } from '../lib/context/AppContext';
 import CountryContext from '../lib/context/CountryContext';
 import { HostnameContext } from '../lib/context/HostnameContext';
 import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { parseUserAgentString, UserAgentContext } from '../lib/context/UserAgentContext';
+import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
 import fetchApp from '../lib/fetchers/fetchApp';
 import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
-import { App } from '../lib/model/ac/App';
 
 
 export type NextPageWithLayout = NextPage & {
@@ -32,26 +32,60 @@ type AppPropsWithLayout = AppProps & {
 
 interface ExtraProps {
   userAgentString?: string;
-  app: App;
+  hostname: string;
   languageTags: ILanguageSubtag[];
   ipCountryCode?: string;
   environmentVariables: Record<string, string>;
 }
 
+function getPublicEnvironmentVariablesOnServer() {
+  return pick(
+    process.env,
+    Object
+      .keys(process.env)
+      .filter((key) => key.startsWith("NEXT_PUBLIC_")
+      )
+  );
+}
+
+let isometricEnvironmentVariables: Record<string, string> | undefined;
+if (typeof window === 'undefined') {
+  // We are on the server, so we can directly populate the environment variables with real values
+  // as we have access to process.env.
+  isometricEnvironmentVariables = getPublicEnvironmentVariablesOnServer();
+}
+
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
-  const { userAgentString, app, session, languageTags, ipCountryCode, environmentVariables } = pageProps;
+  const { userAgentString, session, languageTags, ipCountryCode, environmentVariables, hostname } = pageProps;
+  // On the first render pass, we set the environment variables to what the server hands over.
+  // On every following render pass, the variables are already set globally.
+  isometricEnvironmentVariables = isometricEnvironmentVariables || Object.freeze(environmentVariables);
+
+  const centralAppToken = isometricEnvironmentVariables.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+  const baseUrl = isometricEnvironmentVariables.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
+
+  const { data: app, isLoading: isAppLoading } = useSWR([baseUrl, hostname, centralAppToken], fetchApp);
+  if (!isAppLoading && !app) {
+    throw new Error(`No app found for hostname ${hostname}`);
+  }
+
+  if (!app) {
+    return null;
+  }
+
+  const parsedUserAgentString = parseUserAgentString(userAgentString);
   const contexts: ContextAndValue<any>[] = [
-    [UserAgentContext, parseUserAgentString(userAgentString)],
+    [UserAgentContext, parsedUserAgentString],
     [AppContext, app],
-    [HostnameContext, app.hostname],
+    [HostnameContext, hostname],
     [LanguageTagContext, { languageTags }],
     [CountryContext, ipCountryCode],
     [EnvContext, environmentVariables]
   ];
 
   // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const getLayout = Component.getLayout ?? React.useCallback((page) => page, []);
 
   return (
     <>
@@ -95,19 +129,9 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   if (typeof hostname !== 'string') {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }
-  const centralAppToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
-  const app = await fetchApp([hostname, centralAppToken]);
-  if (!app) {
-    throw new Error(`No app found for hostname ${hostname}`);
-  }
-  const environmentVariables = pick(
-    process.env,
-    Object
-      .keys(process.env)
-      .filter((key) => key.startsWith("NEXT_PUBLIC_")
-      )
-  );
-  const pageProps: ExtraProps = { userAgentString, app, languageTags, ipCountryCode, environmentVariables };
+  // On the client, isometricEnvironmentVariables is set on the first page rendering.
+  const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
+  const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname };
   return { ...appProps, pageProps }
 }
 

@@ -19,8 +19,9 @@ app.prepare().then(() => {
       const { pathname, query } = parsedUrl;
       const hostname = req ? req.headers["host"] : location.hostname;
       const appToken = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_APP_TOKEN;
+      const baseUrl = process.env.NEXT_PUBLIC_ACCESSIBILITY_CLOUD_UNCACHED_BASE_URL;
       const { embedToken } = query;
-      const app = await fetchApp([hostname, appToken]);
+      const app = await fetchApp([baseUrl, hostname, appToken]);
 
       addEmbedModeResponseHeaders(
         app,
