@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useContext, useMemo } from "react";
+import React, { useCallback, useContext, useEffect, useMemo } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
@@ -13,69 +13,30 @@ import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, Sty
 
 function FilterInputs() {
   const route = useRouter();
-  const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
   const env = useContext(EnvContext);
+  const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const cityQuery = Array.isArray(route.query.city) ? route.query.city[0] : route.query.city;
 
-  const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    if (name !== "city") {
-      route.replace({
-        pathname: route.pathname,
-        query: {
-          ...route.query,
-          [name]: value,
-        },
-      });
-    }
-  };
+  const { data: dataCityToBbox, error: errorCityToBbox, isValidating: isLoadingCityToBbox } = useSWR(() => transferCityToBbox(cityQuery), fetcher);
 
-  const generalRouteQueries = {
-    ...(route.query.bbox && { bbox: route.query.bbox }),
-    ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
-    ...(route.query.healthcare && { healthcare: route.query.healthcare }),
-  };
+  const options = useMemo(
+    () => ({
+      ...(route.query.bbox && { bbox: route.query.bbox }),
+      ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+      tags: "healthcare",
+    }),
+    [route.query.bbox, route.query.wheelchair]
+  );
 
-  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const { data: dataCityToBbox, error: errorCityToBbox, isLoading: isLoadingCityToBbox } = useSWR<any, Error>(transferCityToBbox(Array.isArray(route.query.city) ? route.query.city[0] : route.query.city), fetcher);
-
-  const options = {
-    ...generalRouteQueries,
-    tags: "healthcare",
-  };
-  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isLoading: isLoadingHealthcareOptions } = useSWR<any, Error>(useOsmAPI(options, baseurl, true), fetcher);
-
-  const reloadHealthcareOptions = async () => {
-    setHealthcareOptions(dataHealthcareOptions);
-  };
-
-  const convertCityToBbox = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    const bbox = await dataCityToBbox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
-    route.replace(
-      {
-        pathname: route.pathname,
-        query: {
-          ...route.query,
-          [name]: value,
-          bbox: bbox,
-        },
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
-  React.useEffect(() => {
-    if (route.query.bbox) reloadHealthcareOptions();
-  }, [route.query]);
-
+  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR(route.query.bbox ? () => useOsmAPI(options, baseurl, true) : null, fetcher);
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
+
   const translatedHealthcareOptions = useMemo(() => {
     if (!synonymCache.data) {
-      return healthcareOptions;
+      return dataHealthcareOptions;
     }
-    return healthcareOptions
+    return dataHealthcareOptions
       ?.map((item) => {
         const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item.healthcare}`)?.translations?._id, languageTags);
         return {
@@ -91,44 +52,73 @@ function FilterInputs() {
       });
   }, [route.query, dataCityToBbox]);
 
+  const handleRoute = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      route.replace(
+        {
+          pathname: route.pathname,
+          query: { ...route.query, [name]: value },
+        },
+        undefined,
+        { shallow: true }
+      );
+    },
+    [route.query]
+  );
+
+  const convertCityToBbox = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      const bbox = dataCityToBbox?.features?.find((feature) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
+      route.replace(
+        {
+          pathname: route.pathname,
+          query: { ...route.query, [name]: value, bbox },
+        },
+        undefined,
+        { shallow: true }
+      );
+    },
+    [route.query, dataCityToBbox]
+  );
+
+  useEffect(() => {}, [route.query.bbox]);
+
   return (
-    <>
-      <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
-        <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
-        <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
+    <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
+      <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
+      <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={cityQuery} name="city" id="city" onChange={convertCityToBbox} />
+      {route.query.bbox && (
+        <>
+          <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
+          <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
+            <option value="">{t`Alle`}</option>
+            {translatedHealthcareOptions?.map((item, index) => (
+              <option key={item.healthcare + index} value={item.healthcare}>
+                {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
+              </option>
+            ))}
+          </StyledSelect>
 
-        {route.query.bbox && (
-          <>
-            <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-            <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
-              <option value="">{t`Alle`}</option>
-              {translatedHealthcareOptions &&
-                translatedHealthcareOptions?.map((item, index) => (
-                  <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
-                    {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
-                  </option>
-                ))}
-            </StyledSelect>
+          <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
+          <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleRoute}>
+            <option value="distance">{t`By distance`}</option>
+            <option value="alphabetically">{t`Alphabetically`}</option>
+          </StyledSelect>
 
-            <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
-            <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleRoute}>
-              <option value="distance">{t`By distance`}</option>
-              <option value="alphabetically">{t`Alphabetically`}</option>
-            </StyledSelect>
-
-            <StyledWheelchairFilter>
-              <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
-              <StyledHDivider $space={0.25} />
-              <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limited"} showCloseButton={false} />
-              <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
-            </StyledWheelchairFilter>
-          </>
-        )}
-      </StyledSectionsContainer>
-    </>
+          <StyledWheelchairFilter>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
+            <StyledHDivider $space={0.25} />
+            <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limited"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
+          </StyledWheelchairFilter>
+        </>
+      )}
+    </StyledSectionsContainer>
   );
 }
 
