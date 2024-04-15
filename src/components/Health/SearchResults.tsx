@@ -26,6 +26,7 @@ function SearchResults() {
     () =>
       route.query.bbox &&
       route.query.bbox !== "" &&
+      route.query.bbox !== "undefined" &&
       data?.features &&
       data.features
         .map((item: any) => {

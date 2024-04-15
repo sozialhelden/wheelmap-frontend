@@ -14,7 +14,6 @@ import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, Sty
 function FilterInputs() {
   const route = useRouter();
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
-  const [isVisible, setIsVisible] = React.useState(false);
   const env = useContext(EnvContext);
 
   const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +67,6 @@ function FilterInputs() {
 
   React.useEffect(() => {
     if (route.query.bbox) reloadHealthcareOptions();
-    if (route.query.city) setIsVisible(true);
   }, [route.query]);
 
   const synonymCache = useCategorySynonymCache();
@@ -97,9 +95,9 @@ function FilterInputs() {
     <>
       <StyledSectionsContainer role="group" aria-labelledby="survey-form-titel">
         <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
-        <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
+        <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
 
-        {route.query.city && (
+        {route.query.bbox && (
           <>
             <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
             <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
