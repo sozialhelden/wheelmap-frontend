@@ -91,7 +91,7 @@ function FilterInputs() {
         const b = i2.healthcareTranslatedLowercase;
         return a.localeCompare(b);
       });
-  }, [dataCityToBbox]);
+  }, [route.query, dataCityToBbox]);
 
   return (
     <>
