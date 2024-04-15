@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useContext, useMemo } from "react";
+import useSWR from "swr";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
@@ -13,41 +14,44 @@ import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, Sty
 function FilterInputs() {
   const route = useRouter();
   const [healthcareOptions, setHealthcareOptions] = React.useState<any[]>([]);
+  const [isVisible, setIsVisible] = React.useState(false);
   const env = useContext(EnvContext);
 
   const handleRoute = async (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (name !== "city") {
-      route.replace(
-        {
-          pathname: route.pathname,
-          query: {
-            ...route.query,
-            [name]: value,
-          },
+      route.replace({
+        pathname: route.pathname,
+        query: {
+          ...route.query,
+          [name]: value,
         },
-        undefined,
-        { shallow: true }
-      );
+      });
     }
   };
 
+  const generalRouteQueries = {
+    ...(route.query.bbox && { bbox: route.query.bbox }),
+    ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+    ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+  };
+
+  const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
+  const { data: dataCityToBbox, error: errorCityToBbox, isLoading: isLoadingCityToBbox } = useSWR<any, Error>(transferCityToBbox(Array.isArray(route.query.city) ? route.query.city[0] : route.query.city), fetcher);
+
+  const options = {
+    ...generalRouteQueries,
+    tags: "healthcare",
+  };
+  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isLoading: isLoadingHealthcareOptions } = useSWR<any, Error>(useOsmAPI(options, baseurl, true), fetcher);
+
   const reloadHealthcareOptions = async () => {
-    const options = {
-      ...(route.query.bbox && { bbox: route.query.bbox }),
-      ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
-      ...(route.query.healthcare && { healthcare: route.query.healthcare }),
-      tags: "healthcare",
-    };
-    const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-    const dataHealthcareOptions = await fetcher(useOsmAPI(options, baseurl, true).toString());
     setHealthcareOptions(dataHealthcareOptions);
   };
 
   const convertCityToBbox = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    const dataCityToBBox = await fetcher(transferCityToBbox(value));
-    const bbox = await dataCityToBBox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
+    const bbox = await dataCityToBbox?.features?.find((feature: any) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
     route.replace(
       {
         pathname: route.pathname,
@@ -64,6 +68,7 @@ function FilterInputs() {
 
   React.useEffect(() => {
     if (route.query.bbox) reloadHealthcareOptions();
+    if (route.query.city) setIsVisible(true);
   }, [route.query]);
 
   const synonymCache = useCategorySynonymCache();
@@ -86,7 +91,7 @@ function FilterInputs() {
         const b = i2.healthcareTranslatedLowercase;
         return a.localeCompare(b);
       });
-  }, [healthcareOptions]);
+  }, [dataCityToBbox]);
 
   return (
     <>
@@ -94,13 +99,12 @@ function FilterInputs() {
         <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
         <StyledTextInput type="text" defaultValue={route.query.city} name="city" id="city" onChange={convertCityToBbox} />
 
-        {route.query.city && translatedHealthcareOptions && (
+        {route.query.city && (
           <>
             <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
             <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
               <option value="">{t`Alle`}</option>
               {translatedHealthcareOptions &&
-                translatedHealthcareOptions.length > 0 &&
                 translatedHealthcareOptions?.map((item, index) => (
                   <option key={item.healthcare + (index++).toString()} value={item.healthcare}>
                     {`${item.healthcareTranslated || item.healthcare} (${item.count})`}

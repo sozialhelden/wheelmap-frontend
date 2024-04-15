@@ -23,7 +23,7 @@ export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = fa
     const editedTags = tags ? `&tags=${tags}` : "";
     return `${baseurl}/amenities.json?${editedBbox}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
   }
-  return [];
+  return null;
 };
 
 export function toRadians(degrees: number): number {

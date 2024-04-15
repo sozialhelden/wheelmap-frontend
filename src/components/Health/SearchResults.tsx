@@ -24,6 +24,8 @@ function SearchResults() {
 
   const sortedFeatures = React.useMemo(
     () =>
+      route.query.bbox &&
+      route.query.bbox !== "" &&
       data?.features &&
       data.features
         .map((item: any) => {
