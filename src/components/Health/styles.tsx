@@ -50,6 +50,10 @@ export const chips = `
   padding: 0.75rem;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
+  @media screen and (max-width: ${responsiveValue}px) {
+    display:block;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 export const StyledMainContainer = styled.div`
@@ -135,6 +139,24 @@ export const StyledButtonAsLink = styled.button`
   background-color: transparent;
   border: none;
   ${linkStyles}
+  @media screen and (max-width: ${responsiveValue}px) {
+    text-align: left;
+  }
+`;
+
+export const StyledSearchResultHeader = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  @media screen and (max-width: ${responsiveValue}px) {
+    flex-direction: column;
+    h4 {
+      text-align: right;
+    }
+    button {
+      padding: 0;
+    }
+  }
 `;
 
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
@@ -197,7 +219,7 @@ export const StyledType = styled.span`
 `;
 
 export const StyledWheelchairFilter = styled.div`
-  margin-top: 1rem;
+  margin-block: 1rem;
   padding: 1rem;
   border: ${StyledColors.silver} 1px solid;
   border-radius: 5px;

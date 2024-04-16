@@ -8,7 +8,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import { Phone, Place, World } from "../icons/actions";
 import { MapPinIcon } from "../icons/ui-elements";
 import { getWheelchairSettings } from "./helpers";
-import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink } from "./styles";
+import { StyledButtonAsLink, StyledH3, StyledH4, StyledHDivider, StyledLink, StyledSearchResultHeader } from "./styles";
 
 function SearchResult({ data }: any) {
   const { centroid, properties, _id, distance } = data;
@@ -62,19 +62,17 @@ function SearchResult({ data }: any) {
 
   return (
     <StyledLink href={`https://wheelmap.org/${_id}`} target="_blank">
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
-        <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
-          <AccessibilityFilterButton accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} />
-        </StyledH3>
+      <StyledSearchResultHeader>
         {distance && (
-          <div style={{ textAlign: "right" }}>
-            <StyledH4>
-              {optionalCategoryName} <MapPinIcon />
-              {distanceValue} {distanceUnit}
-            </StyledH4>
-          </div>
+          <StyledH4>
+            {optionalCategoryName} <MapPinIcon />
+            {distanceValue} {distanceUnit}
+          </StyledH4>
         )}
-      </div>
+        <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
+          <AccessibilityFilterButton isDisabled accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} />
+        </StyledH3>
+      </StyledSearchResultHeader>
 
       {customAddress.street && (
         <>
