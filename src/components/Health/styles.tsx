@@ -142,6 +142,15 @@ export const StyledLabel = styled.label<{ $fontBold?: string }>`
   margin-bottom: 0.5rem;
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
 `;
+
+export const StyledLoadingLabel = styled.label`
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: white;
+  background-color: ${StyledColors.green};
+  font-weight: "bold";
+`;
+
 export const StyledUL = styled.ul`
   padding-inline-start: 0;
   list-style-type: none;

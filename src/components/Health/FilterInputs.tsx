@@ -9,7 +9,7 @@ import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
 import { fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
@@ -94,14 +94,18 @@ function FilterInputs() {
       {route.query.bbox && (
         <>
           <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-          <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
-            <option value="">{t`Alle`}</option>
-            {translatedHealthcareOptions?.map((item, index) => (
-              <option key={item.healthcare + index} value={item.healthcare}>
-                {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
-              </option>
-            ))}
-          </StyledSelect>
+          {isLoadingHealthcareOptions ? (
+            <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
+          ) : (
+            <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
+              <option value="">{t`Alle`}</option>
+              {translatedHealthcareOptions?.map((item, index) => (
+                <option key={item.healthcare + index} value={item.healthcare}>
+                  {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
+                </option>
+              ))}
+            </StyledSelect>
+          )}
 
           <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
           <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleRoute}>
