@@ -18,7 +18,7 @@ export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = fa
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
-    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
+    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
     return `${baseurl}/amenities.json?${editedBbox}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;

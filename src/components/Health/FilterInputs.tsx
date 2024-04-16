@@ -50,15 +50,14 @@ function FilterInputs() {
         const b = i2.healthcareTranslatedLowercase;
         return a.localeCompare(b);
       });
-  }, [route.query, dataCityToBbox]);
+  }, [dataHealthcareOptions, synonymCache, languageTags]);
 
-  const handleRoute = useCallback(
-    (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
+  const routeReplace = useCallback(
+    (query: Record<string, string | string[] | undefined>) => {
       route.replace(
         {
           pathname: route.pathname,
-          query: { ...route.query, [name]: value },
+          query: { ...route.query, ...query },
         },
         undefined,
         { shallow: true }
@@ -67,23 +66,26 @@ function FilterInputs() {
     [route.query]
   );
 
+  const handleRoute = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+      routeReplace({ [name]: value });
+    },
+    [route.query]
+  );
+
   const convertCityToBbox = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.target;
       const bbox = dataCityToBbox?.features?.find((feature) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
-      route.replace(
-        {
-          pathname: route.pathname,
-          query: { ...route.query, [name]: value, bbox },
-        },
-        undefined,
-        { shallow: true }
-      );
+      routeReplace({ [name]: value, bbox });
     },
     [route.query, dataCityToBbox]
   );
 
-  useEffect(() => {}, [route.query.bbox]);
+  useEffect(() => {
+    console.log("Route or bbox changed, rechecking data");
+  }, [route.query, options]);
 
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
@@ -92,7 +94,7 @@ function FilterInputs() {
       {route.query.bbox && (
         <>
           <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-          <StyledSelect defaultValue={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
+          <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleRoute}>
             <option value="">{t`Alle`}</option>
             {translatedHealthcareOptions?.map((item, index) => (
               <option key={item.healthcare + index} value={item.healthcare}>
