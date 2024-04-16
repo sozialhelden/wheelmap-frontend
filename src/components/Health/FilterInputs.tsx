@@ -8,17 +8,14 @@ import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n
 import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
-import { fetcher, transferCityToBbox, useOsmAPI } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
+import { fetcher, useOsmAPI } from "./helpers";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const cityQuery = Array.isArray(route.query.city) ? route.query.city[0] : route.query.city;
-
-  const { data: dataCityToBbox, error: errorCityToBbox, isValidating: isLoadingCityToBbox } = useSWR(() => transferCityToBbox(cityQuery), fetcher);
-
   const options = useMemo(
     () => ({
       ...(route.query.bbox && { bbox: route.query.bbox }),
@@ -74,15 +71,6 @@ function FilterInputs() {
     [route.query]
   );
 
-  const convertCityToBbox = useCallback(
-    async (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-      const bbox = dataCityToBbox?.features?.find((feature) => feature?.properties?.osm_value === "city" && feature?.properties?.countrycode === "DE")?.properties?.extent;
-      routeReplace({ [name]: value, bbox });
-    },
-    [route.query, dataCityToBbox]
-  );
-
   useEffect(() => {
     console.log("Route or bbox changed, rechecking data");
   }, [route.query, options]);
@@ -90,7 +78,8 @@ function FilterInputs() {
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
       <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
-      <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={cityQuery} name="city" id="city" onChange={convertCityToBbox} />
+      {/* <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={cityQuery} name="city" id="city" onChange={convertCityToBbox} /> */}
+      <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
           <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>

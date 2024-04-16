@@ -144,6 +144,35 @@ export const StyledButtonAsLink = styled.button`
   }
 `;
 
+export const StyledDropDownListItem = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: white;
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  li {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover,
+    &:focus {
+      background-color: #f0f0f0;
+    }
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+  }
+`;
+
 export const StyledSearchResultHeader = styled.div`
   display: flex;
   flex-direction: row-reverse;
