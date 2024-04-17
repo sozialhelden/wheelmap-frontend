@@ -43,11 +43,12 @@ export const chips = `
   background-color: white;
   border: 1px solid ${StyledColors.green};
   color: ${StyledColors.green};
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   border-radius:${borderRadius};
   margin-inline: 0.1rem;
-  font-weight: 6500;
-  padding: 0.75rem;
+  font-weight: 500;
+  padding-inline: 0.5rem;
+  padding-block: 0.3rem;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
   @media screen and (max-width: ${responsiveValue}px) {
@@ -200,6 +201,7 @@ export const StyledLoadingLabel = styled.label`
   color: white;
   background-color: ${StyledColors.green};
   font-weight: "bold";
+  margin-bottom: 0.5rem;
 `;
 
 export const StyledUL = styled.ul`
