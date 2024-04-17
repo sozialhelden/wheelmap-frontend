@@ -40,9 +40,8 @@ export function SearchBoxAutocomplete() {
   }, []);
 
   const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Escape") {
-      setIsDropdownVisible(false);
-    }
+    const { key } = event;
+    if (key === "Escape") setIsDropdownVisible(false);
   }, []);
 
   return (
@@ -56,16 +55,12 @@ export function SearchBoxAutocomplete() {
               key={index}
               role="option"
               aria-selected={false}
+              tabIndex={0}
               onClick={() => handleSelectItem(item)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSelectItem(item);
-                }
-                if (e.key === "Escape") {
-                  setIsDropdownVisible(false);
-                }
+                if (e.key === "Enter") handleSelectItem(item);
+                if (e.key === "Escape") setIsDropdownVisible(false);
               }}
-              tabIndex={0}
             >
               {item.properties.name}
             </li>
