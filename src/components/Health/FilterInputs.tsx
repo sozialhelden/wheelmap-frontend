@@ -77,8 +77,6 @@ function FilterInputs() {
 
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
-      <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
-      {/* <StyledTextInput aria-label={t`Where?`} type="text" defaultValue={cityQuery} name="city" id="city" onChange={convertCityToBbox} /> */}
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
