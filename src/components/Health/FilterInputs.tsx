@@ -71,9 +71,7 @@ function FilterInputs() {
     [route.query]
   );
 
-  useEffect(() => {
-    console.log("Route or bbox changed, rechecking data");
-  }, [route.query, options]);
+  useEffect(() => {}, [route.query, options]);
 
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
@@ -96,8 +94,8 @@ function FilterInputs() {
 
           <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
           <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleRoute}>
-            <option value="distance">{t`By distance`}</option>
             <option value="alphabetically">{t`Alphabetically`}</option>
+            <option value="distance">{t`By distance`}</option>
           </StyledSelect>
 
           <StyledWheelchairFilter>

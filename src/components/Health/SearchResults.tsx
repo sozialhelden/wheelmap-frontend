@@ -17,11 +17,13 @@ function SearchResults() {
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
-    if (!route.query.bbox) return;
-    navigator.geolocation.getCurrentPosition((position) => {
-      setMyCoordinates([position.coords.latitude, position.coords.longitude]);
-    });
-  }, [route.query.bbox]);
+    if (route.query.sort === "distance") {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setMyCoordinates([position.coords.latitude, position.coords.longitude]);
+        route.push({ query: { ...route.query, sort: "distance" } });
+      });
+    }
+  }, [route.query.sort]);
 
   const sortedFeatures = React.useMemo(
     () =>
@@ -38,8 +40,9 @@ function SearchResults() {
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
-          if (route.query.sort === "distance") return a.distance - b.distance;
+          if (!route.query.sort) return a?.properties?.name?.localeCompare(b?.properties?.name);
           if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
+          if (route.query.sort === "distance") return a.distance - b.distance;
         })
         .map((item: any, index: number, data: any) => {
           return (
@@ -51,6 +54,7 @@ function SearchResults() {
         .slice(0, 100),
     [data, route.query]
   );
+
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) {
       return t`No Results Found! Please try again with different City/Filters`;
