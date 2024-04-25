@@ -44,6 +44,13 @@ function SearchResults() {
           if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
           if (route.query.sort === "distance") return a.distance - b.distance;
         })
+        .filter((item: any) => {
+          if (route.query.name) {
+            const queryName = Array.isArray(route.query.name) ? route.query.name[0] : route.query.name;
+            return item?.properties?.name?.toLowerCase().includes(queryName.toLowerCase());
+          }
+          return item;
+        })
         .map((item: any, index: number, data: any) => {
           return (
             <li key={index.toString()}>
@@ -62,9 +69,9 @@ function SearchResults() {
     if (data?.features) {
       return (
         <>
-          <StyledChip>
+          {/* <StyledChip>
             {t`Results`} : {data?.features.length}
-          </StyledChip>
+          </StyledChip> */}
           <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
           {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
           <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>

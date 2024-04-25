@@ -10,7 +10,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { fetcher, useOsmAPI } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledWheelchairFilter } from "./styles";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
@@ -78,6 +78,9 @@ function FilterInputs() {
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
+          <StyledLabel htmlFor="name" $fontBold="bold">{t`Name?`}</StyledLabel>
+          <StyledTextInput type="text" defaultValue={route.query.name} name="name" id="name" onChange={handleRoute} />
+
           <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
           {isLoadingHealthcareOptions ? (
             <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
@@ -86,7 +89,8 @@ function FilterInputs() {
               <option value="">{t`Alle`}</option>
               {translatedHealthcareOptions?.map((item, index) => (
                 <option key={item.healthcare + index} value={item.healthcare}>
-                  {`${item.healthcareTranslated || item.healthcare} (${item.count})`}
+                  {/* {`${item.healthcareTranslated || item.healthcare} (${item.count})`} */}
+                  {`${item.healthcareTranslated || item.healthcare}`}
                 </option>
               ))}
             </StyledSelect>
