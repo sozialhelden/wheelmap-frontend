@@ -17,10 +17,11 @@ function SearchResults() {
   const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
 
   React.useEffect(() => {
+    if (!route.query.bbox) return;
     navigator.geolocation.getCurrentPosition((position) => {
       setMyCoordinates([position.coords.latitude, position.coords.longitude]);
     });
-  }, []);
+  }, [route.query.bbox]);
 
   const sortedFeatures = React.useMemo(
     () =>
