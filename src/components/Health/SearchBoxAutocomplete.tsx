@@ -1,15 +1,16 @@
 import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { fetcher, transferCityToBbox } from "./helpers";
-import { StyledDropDownListItem, StyledTextInput } from "./styles";
+import { StyledDropDownListItem, StyledLabel, StyledTextInput } from "./styles";
 
 export function SearchBoxAutocomplete() {
   const router = useRouter();
   const [query, setQuery] = useState(router.query.city || "");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { data, error } = useSWR(query.length > 2 ? transferCityToBbox(query.toString()) : null, fetcher);
+  const dropdownRef = useRef(null);
 
   if (error) return <div>{error}.</div>;
 
@@ -38,20 +39,29 @@ export function SearchBoxAutocomplete() {
     setIsDropdownVisible(true);
   }, []);
 
-  const ariaOptions = {
-    placeholder: t`Where?`,
-    "aria-label": t`Where?`,
-    "aria-autocomplete": "list" as const,
-    "aria-controls": "autocomplete-options",
-    "aria-expanded": isDropdownVisible,
-  };
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+    const { key } = event;
+    if (key === "Escape") setIsDropdownVisible(false);
+  }, []);
+
   return (
     <>
-      <StyledTextInput type="text" value={query} name="city" id="city" onChange={handleInputChange} {...ariaOptions} />
+      <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
+      <StyledTextInput type="text" value={query} name="city" id="city" onChange={handleInputChange} onKeyDown={handleKeyDown} aria-autocomplete="list" aria-controls="autocomplete-options" aria-expanded={isDropdownVisible} ref={dropdownRef} />
       {isDropdownVisible && suggestions.length > 0 && (
-        <StyledDropDownListItem>
+        <StyledDropDownListItem role="listbox" id="autocomplete-options">
           {suggestions.map((item: any, index: number) => (
-            <li key={index} onClick={() => handleSelectItem(item)}>
+            <li
+              key={index}
+              role="option"
+              aria-selected={false}
+              tabIndex={0}
+              onClick={() => handleSelectItem(item)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSelectItem(item);
+                if (e.key === "Escape") setIsDropdownVisible(false);
+              }}
+            >
               {item.properties.name}
             </li>
           ))}
