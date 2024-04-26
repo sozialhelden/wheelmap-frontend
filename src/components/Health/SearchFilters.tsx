@@ -1,7 +1,7 @@
 import React from "react";
 import { jt, t } from "ttag";
 import FilterInputs from "./FilterInputs";
-import { StyledColors, StyledFooter, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLink, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
+import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLink, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters() {
   const [headerOptions] = React.useState<any>({
@@ -27,6 +27,7 @@ function SearchFilters() {
       <div style={{ flex: 1 }} />
 
       <StyledFooter>
+        <StyledH1 $fontBold>{t`Barrierefreie Praxen finden - einfach und überall.`}</StyledH1>
         {footerList.map((item, index) => (
           <p key={index.toString()}>
             <StyledLink href={item.href} target="_blank" rel="noreferrer noopener">

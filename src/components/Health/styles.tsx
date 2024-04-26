@@ -86,6 +86,12 @@ export const StyledMainContainerColumn = styled.div`
   overflow-y: auto;
 `;
 
+export const StyledH1 = styled.h1<{ $fontBold?: boolean }>`
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`;
+
 export const StyledH2 = styled.h2<{ $fontBold?: boolean }>`
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
