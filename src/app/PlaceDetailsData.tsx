@@ -1,46 +1,45 @@
+import { compact, get } from 'lodash';
 import React from 'react';
 import { t } from 'ttag';
-import { get } from 'lodash';
 
 import {
   Feature,
-  isWheelmapFeatureId,
-  sourceIdsForFeature,
-  isWheelmapFeature,
   accessibilityCloudFeatureCollectionFromResponse,
+  accessibilityName,
+  getFeatureId,
+  isWheelchairAccessible,
+  isWheelmapFeature,
+  isWheelmapFeatureId,
+  normalizedCoordinatesForFeature,
+  placeNameFor,
+  sourceIdsForFeature,
+  wheelmapFeatureFrom,
 } from '../lib/Feature';
-import { licenseCache } from '../lib/cache/LicenseCache';
+import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
 import { dataSourceCache } from '../lib/cache/DataSourceCache';
+import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
+import { licenseCache } from '../lib/cache/LicenseCache';
 import { wheelmapFeatureCache } from '../lib/cache/WheelmapFeatureCache';
 import { wheelmapLightweightFeatureCache } from '../lib/cache/WheelmapLightweightFeatureCache';
-import { accessibilityCloudFeatureCache } from '../lib/cache/AccessibilityCloudFeatureCache';
-import { equipmentInfoCache } from '../lib/cache/EquipmentInfoCache';
-import {
-  placeNameFor,
-  isWheelchairAccessible,
-  accessibilityName,
-  normalizedCoordinatesForFeature,
-  getFeatureId,
-} from '../lib/Feature';
 
 import Categories from '../lib/Categories';
 
-import { RenderContext, DataTableEntry } from './getInitialProps';
+import { getProductTitle } from '../lib/ClientSideConfiguration';
+import { EquipmentInfo } from '../lib/EquipmentInfo';
 import {
   PlaceDetailsProps,
   SourceWithLicense,
   getDataIfAlreadyResolved,
 } from './PlaceDetailsProps';
+import { DataTableEntry, RenderContext } from './getInitialProps';
 import router from './router';
-import { getProductTitle } from '../lib/ClientSideConfiguration';
-import { EquipmentInfo } from '../lib/EquipmentInfo';
 
+import { globalFetchManager } from '../lib/FetchManager';
 import { accessibilityCloudImageCache } from '../lib/cache/AccessibilityCloudImageCache';
 import convertAcPhotosToLightboxPhotos from '../lib/cache/convertAcPhotosToLightboxPhotos';
-import { translatedStringFromObject } from '../lib/i18n';
-import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
 import env from '../lib/env';
-import { globalFetchManager } from '../lib/FetchManager';
+import { fetchToiletsNearFeature } from '../lib/getToiletsNearby';
+import { translatedStringFromObject } from '../lib/i18n';
 
 function fetchFeature(
   osmType: string,
@@ -104,9 +103,13 @@ function fetchPhotos(
   useCache: boolean,
 ) {
   const featureId = getFeatureId(feature);
+  const osmFeature = wheelmapFeatureFrom(feature);
   const surveyResultId = get(feature, 'properties.surveyResultId');
   const isOSMWay = isWheelmapFeature(feature) && feature.properties.osm_type === 'way';
-  const photosPromise = Promise.all([
+  const photosPromise = Promise.all(compact([
+    osmFeature && accessibilityCloudImageCache
+      .getImage('osmGeometry', 'osm:' + osmFeature.properties.osm_type + '/' + osmFeature.id, appToken, useCache)
+      .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : []),
     accessibilityCloudImageCache
       .getImage('place', isOSMWay ? String(-featureId) : featureId, appToken, useCache)
       .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : []),
@@ -115,7 +118,7 @@ function fetchPhotos(
         .getImage('surveyResult', surveyResultId, appToken, useCache)
         .then(acPhotos => acPhotos ? convertAcPhotosToLightboxPhotos(acPhotos) : [])
       : [],
-  ])
+  ]))
     .then(photoArrays => photoArrays.flat())
     .catch(err => {
       console.error(err);

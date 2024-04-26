@@ -1,7 +1,7 @@
+import { AccessibilityCloudImages, Feature, accessibilityCloudFeatureFrom, getFeatureId, wheelmapFeatureFrom } from '../Feature';
 import env from '../env';
-import URLDataCache from './URLDataCache';
-import { AccessibilityCloudImages } from '../Feature';
 import FeatureCache from './FeatureCache';
+import URLDataCache from './URLDataCache';
 
 export const UnknownReason = 'unknown';
 
@@ -23,9 +23,21 @@ export default class AccessibilityCloudImageCache extends URLDataCache<Accessibi
     );
   }
 
-  async uploadPhotoForFeature(featureId: string, images: FileList, appToken: string): Promise<any> {
+  async uploadPhotoForFeature(feature: Feature, images: FileList, appToken: string): Promise<void> {
     const image = images[0];
-    const url = `${uncachedBaseUrl}/image-upload?placeId=${featureId}&appToken=${appToken}`;
+    const acFeature = accessibilityCloudFeatureFrom(feature);
+    const osmFeature = wheelmapFeatureFrom(feature);
+    if (!acFeature && !osmFeature) throw new Error('Feature has unknown kind.');
+
+    let url;
+    if (acFeature) {
+      const id = getFeatureId(acFeature);
+      url = `${uncachedBaseUrl}/image-upload?placeId=${id}&appToken=${appToken}`;
+    } else {
+      const uri = `osm:${osmFeature.properties.osm_type}/${osmFeature.id}`;
+      url = `${uncachedBaseUrl}/image-upload/osm-geometry/photo?uri=${uri}&appToken=${appToken}`;
+    }
+
     // const resizedImage = await readAndCompressImage(image, imageResizeConfig);
     const response = await FeatureCache.fetch(url, {
       method: 'POST',

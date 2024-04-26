@@ -1,34 +1,33 @@
-import './lib/NativeAppStrings';
-import * as React from 'react';
-import includes from 'lodash/includes';
 import findIndex from 'lodash/findIndex';
 import get from 'lodash/get';
+import includes from 'lodash/includes';
 import { Router } from 'next/router';
 import * as queryString from 'query-string';
+import * as React from 'react';
+import './lib/NativeAppStrings';
 
-import config from './lib/config';
-import savedState, {
-  saveState,
-  isFirstStart,
-  setJoinedMappingEventData,
-  getJoinedMappingEventId as readStoredJoinedMappingEventId,
-  setJoinedMappingEventId as storeJoinedMappingEventId,
-} from './lib/savedState';
-import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
-import { isTouchDevice, UAResult } from './lib/userAgent';
-import { RouterHistory } from './lib/RouterHistory';
-import { SearchResultCollection } from './lib/searchPlaces';
-import { AccessibilityCloudFeature, Feature, isEquipmentPropertiesWithPlaceInfoId, WheelmapFeature } from './lib/Feature';
-import { SearchResultFeature } from './lib/searchPlaces';
-import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
-import {
-  MappingEvents,
-  MappingEvent,
-  isMappingEventVisible,
-  canMappingEventBeJoined,
-} from './lib/MappingEvent';
 import { Cluster } from './components/Map/Cluster';
 import { App as AppModel } from './lib/App';
+import { EquipmentInfo, EquipmentInfoProperties } from './lib/EquipmentInfo';
+import { AccessibilityCloudFeature, Feature, WheelmapFeature, isEquipmentPropertiesWithPlaceInfoId } from './lib/Feature';
+import {
+  MappingEvent,
+  MappingEvents,
+  canMappingEventBeJoined,
+  isMappingEventVisible,
+} from './lib/MappingEvent';
+import { RouterHistory } from './lib/RouterHistory';
+import { hasBigViewport, isOnSmallViewport } from './lib/ViewportSize';
+import config from './lib/config';
+import savedState, {
+  isFirstStart,
+  getJoinedMappingEventId as readStoredJoinedMappingEventId,
+  saveState,
+  setJoinedMappingEventData,
+  setJoinedMappingEventId as storeJoinedMappingEventId,
+} from './lib/savedState';
+import { SearchResultCollection, SearchResultFeature } from './lib/searchPlaces';
+import { UAResult, isTouchDevice } from './lib/userAgent';
 
 import MainView, { UnstyledMainView } from './MainView';
 
@@ -36,25 +35,25 @@ import {
   NodeProperties,
   YesNoLimitedUnknown,
   YesNoUnknown,
+  getFeatureId,
   isAccessibilityFiltered,
   isToiletFiltered,
-  getFeatureId,
 } from './lib/Feature';
 
 import { accessibilityCloudImageCache } from './lib/cache/AccessibilityCloudImageCache';
 
-import { ModalNodeState } from './lib/ModalNodeState';
-import { CategoryLookupTables } from './lib/Categories';
-import { PhotoModel } from './lib/PhotoModel';
 import { PlaceDetailsProps, PotentialPromise } from './app/PlaceDetailsProps';
-import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
-import { LocalizedString } from './lib/i18n';
 import { RouteProvider } from './components/Link/RouteContext';
+import { PlaceFilter } from './components/SearchToolbar/AccessibilityFilterModel';
+import { CategoryLookupTables } from './lib/Categories';
+import { ModalNodeState } from './lib/ModalNodeState';
+import { PhotoModel } from './lib/PhotoModel';
+import { LocalizedString } from './lib/i18n';
 
 import 'focus-visible';
-import { trackModalView, trackEventExternally } from './lib/Analytics';
-import { trackingEventBackend } from './lib/TrackingEventBackend';
 import { createGlobalStyle } from 'styled-components';
+import { trackEventExternally, trackModalView } from './lib/Analytics';
+import { trackingEventBackend } from './lib/TrackingEventBackend';
 
 export type LinkData = {
   label: LocalizedString;
@@ -904,11 +903,12 @@ class App extends React.Component<Props, State> {
     this.onFinishPhotoUploadFlow(photos);
   };
 
-  onFinishPhotoUploadFlow = (photos: FileList) => {
+  onFinishPhotoUploadFlow = async (photos: FileList) => {
     console.log('onFinishPhotoUploadFlow');
-    const { featureId } = this.props;
 
-    if (!featureId) {
+    const feature = await this.props.feature;
+
+    if (!feature) {
       console.error('No feature found, aborting upload!');
       this.onExitPhotoUploadFlow();
       return;
@@ -917,7 +917,7 @@ class App extends React.Component<Props, State> {
     this.setState({ waitingForPhotoUpload: true, photoFlowNotification: 'uploadProgress' });
 
     accessibilityCloudImageCache
-      .uploadPhotoForFeature(String(featureId), photos, this.props.app.tokenString)
+      .uploadPhotoForFeature(feature, photos, this.props.app.tokenString)
       .then(() => {
         console.log('Succeeded upload');
         this.onExitPhotoUploadFlow('waitingForReview');
