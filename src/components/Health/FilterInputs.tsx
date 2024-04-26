@@ -73,38 +73,42 @@ function FilterInputs() {
   return (
     <StyledSectionsContainer role="group" aria-labelledby="survey-form-title">
       <SearchBoxAutocomplete />
-      <StyledLabel htmlFor="name" $fontBold="bold">{t`Name?`}</StyledLabel>
-      <StyledTextInput type="text" value={name} name="name" id="name" onChange={handleInputChange} />
+      {route.query.bbox && (
+        <>
+          <StyledLabel htmlFor="name" $fontBold="bold">{t`Name?`}</StyledLabel>
+          <StyledTextInput type="text" value={name} name="name" id="name" onChange={handleInputChange} />
 
-      <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
-      {isLoadingHealthcareOptions ? (
-        <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
-      ) : (
-        <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-          <option value="">{t`Alle`}</option>
-          {translatedHealthcareOptions?.map((item, index) => (
-            <option key={item.healthcare + index} value={item.healthcare}>
-              {`${item.healthcareTranslated || item.healthcare}`}
-            </option>
-          ))}
-        </StyledSelect>
+          <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
+          {isLoadingHealthcareOptions ? (
+            <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
+          ) : (
+            <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+              <option value="">{t`Alle`}</option>
+              {translatedHealthcareOptions?.map((item, index) => (
+                <option key={item.healthcare + index} value={item.healthcare}>
+                  {`${item.healthcareTranslated || item.healthcare}`}
+                </option>
+              ))}
+            </StyledSelect>
+          )}
+
+          <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
+          <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
+            <option value="alphabetically">{t`Alphabetically`}</option>
+            <option value="distance">{t`By distance`}</option>
+          </StyledSelect>
+
+          <StyledWheelchairFilter>
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
+            <StyledHDivider $space={0.25} />
+            <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limited"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
+          </StyledWheelchairFilter>
+        </>
       )}
-
-      <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
-      <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
-        <option value="alphabetically">{t`Alphabetically`}</option>
-        <option value="distance">{t`By distance`}</option>
-      </StyledSelect>
-
-      <StyledWheelchairFilter>
-        <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
-        <StyledHDivider $space={0.25} />
-        <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
-        <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
-        <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
-        <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limited"} showCloseButton={false} />
-        <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
-      </StyledWheelchairFilter>
     </StyledSectionsContainer>
   );
 }
