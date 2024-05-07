@@ -19,6 +19,7 @@ export const HStyles = `
   margin: 0;
   padding: 0;
 `;
+
 export const inputStyles = `
   background-color: transparent;
   border: 1px solid ${StyledColors.silver};
@@ -31,7 +32,7 @@ color: ${StyledColors.grey};
 cursor: pointer;
 text-decoration: none !important;
 :hover {
-  color: ${StyledColors.green};
+  color: unset;
 }
 svg {
   vertical-align: middle;
@@ -86,23 +87,28 @@ export const StyledMainContainerColumn = styled.div`
   overflow-y: auto;
 `;
 
-export const StyledH1 = styled.h1<{ $fontBold?: boolean }>`
+export const StyledH1 = styled.h1<{ $fontBold?: boolean; $textAlign?: string }>`
+  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
+  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+  font-size: 1.6rem;
+  margin-block: 0rem;
+`;
+
+export const StyledH2 = styled.h2<{ $fontBold?: boolean; $textAlign?: string }>`
+  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   font-size: 1rem;
-  margin-bottom: 1rem;
+  ${HStyles}
 `;
 
-export const StyledH2 = styled.h2<{ $fontBold?: boolean }>`
+export const StyledH3 = styled.h3<{ $fontBold?: boolean; $textAlign?: string }>`
+  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
 `;
 
-export const StyledH3 = styled.h3<{ $fontBold?: boolean }>`
-  font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
-  ${HStyles}
-`;
-
-export const StyledH4 = styled.h4<{ $fontBold?: boolean }>`
+export const StyledH4 = styled.h4<{ $fontBold?: boolean; $textAlign?: string }>`
+  text-align: ${({ $textAlign }) => ($textAlign ? $textAlign : "left")};
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
   ${HStyles}
 `;
@@ -138,14 +144,23 @@ export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 
-export const StyledLink = styled.a`
+export const StyledLink = styled.div`
+  display: block;
+  padding: ${containerSpacing};
   ${linkStyles}
 `;
 
-export const StyledButtonAsLink = styled.button`
+export const StyledLinkFooter = styled.a`
+  ${linkStyles}
+`;
+
+export const StyledButtonAsLink = styled.a`
   background-color: transparent;
   border: none;
   ${linkStyles}
+  :hover {
+    color: ${StyledColors.green};
+  }
   @media screen and (max-width: ${responsiveValue}px) {
     text-align: left;
   }
@@ -180,21 +195,6 @@ export const StyledDropDownListItem = styled.ul`
   }
 `;
 
-export const StyledSearchResultHeader = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  @media screen and (max-width: ${responsiveValue}px) {
-    flex-direction: column;
-    h4 {
-      text-align: right;
-    }
-    button {
-      padding: 0;
-    }
-  }
-`;
-
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
   font-size: 1rem;
   margin-bottom: 0.5rem;
@@ -218,7 +218,6 @@ export const StyledUL = styled.ul`
       background-color: ${StyledColors.silver};
     }
     margin-bottom: ${containerSpacing};
-    padding: 1rem;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
   }
 `;
@@ -244,16 +243,6 @@ export const StyledLoadingSpinner = styled.div`
 export const StyledChip = styled.span`
   ${chips}
 `;
-export const StyledButton = styled.button`
-  cursor: pointer;
-  ${chips} :hover {
-    background-color: ${StyledColors.green};
-    color: white;
-  }
-`;
-export const StyledType = styled.span`
-  ${chips};
-`;
 
 export const StyledWheelchairFilter = styled.div`
   margin-block: 1rem;
@@ -270,6 +259,8 @@ export const StyledSozialheldInnenLogo = styled(SozialheldenInnenLogo)`
 `;
 
 export const StyledFooter = styled.footer`
+  display: flex;
+  flex-direction: column;
   svg {
     vertical-align: middle;
   }

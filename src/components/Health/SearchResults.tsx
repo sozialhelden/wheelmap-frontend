@@ -69,12 +69,12 @@ function SearchResults() {
     if (data?.features) {
       return (
         <>
-          {/* <StyledChip>
-            {t`Results`} : {data?.features.length}
-          </StyledChip> */}
-          <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
+          <StyledChip>
+            {data?.features.length} {getWheelchairSettings(route.query.wheelchair?.toString()).label} {route.query.healthcare ? `${route.query.healthcare}` : ""} {route.query.city ? `in ${route.query.city}` : ""}
+          </StyledChip>
+          {/* <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
           {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip>
+          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip> */}
         </>
       );
     }
@@ -94,7 +94,16 @@ function SearchResults() {
           <StyledLoadingSpinner />
         </FullSizeFlexContainer>
       )}
-      <StyledSectionsContainer>{sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}</StyledSectionsContainer>
+      <StyledSectionsContainer>
+        {sortedFeatures ? (
+          <StyledUL>{sortedFeatures}</StyledUL>
+        ) : (
+          <>
+            <StyledH2 $fontBold $textAlign="center">{t`Here you will find health centers, as well as psychotherapists, physiotherapists, and more medical facilities near you`}</StyledH2>
+            <StyledH2 $textAlign="center">{t`You can choose further search criteria in the next step.`}</StyledH2>
+          </>
+        )}
+      </StyledSectionsContainer>
     </StyledMainContainerColumn>
   );
 }

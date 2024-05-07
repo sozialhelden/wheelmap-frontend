@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import colors from "../../lib/colors";
 import { YesNoLimitedUnknown, YesNoUnknown } from "../../lib/model/ac/Feature";
 import CloseIcon from "../icons/actions/Close";
+import { ExternalLinkIcon } from "../icons/ui-elements";
 import Button from "../shared/Button";
 import CombinedIcon from "./CombinedIcon";
 
@@ -25,6 +26,7 @@ type Props = {
   isActive: boolean;
   isNotHoverAble?: boolean;
   isDisabled?: boolean;
+  isExternalLink?: boolean;
 };
 
 export const Caption = styled.span`
@@ -33,7 +35,7 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled } = props;
+  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink } = props;
 
   const router = useRouter();
 
@@ -59,6 +61,7 @@ function AccessibilityFilterButton(props: Props) {
     >
       <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
         <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
+        {isExternalLink && <ExternalLinkIcon />}
         <Caption>{caption}</Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
