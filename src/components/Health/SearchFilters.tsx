@@ -19,7 +19,7 @@ function SearchFilters() {
     <StyledMainContainerColumn>
       <StyledHDivider $space={0.1} />
       <StyledH1 $fontBold>{headerOptions.text}</StyledH1>
-      <StyledH2 $fontBold>{t`Barrierefreie Praxen finden - einfach und überall.`}</StyledH2>
+      <StyledH2>{t`Barrierefreie Praxen finden - einfach und überall.`}</StyledH2>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledSectionsContainer>
         <FilterInputs />
