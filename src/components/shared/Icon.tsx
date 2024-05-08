@@ -1,7 +1,7 @@
-import styled from "styled-components";
 import * as React from "react";
-import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
+import styled from "styled-components";
 import colors from "../../lib/colors";
+import { YesNoLimitedUnknown } from "../../lib/model/ac/Feature";
 import * as categoryIcons from "../icons/categories";
 import * as mainCategoryIcons from "../icons/mainCategories";
 import * as markers from "../icons/markers";
@@ -64,10 +64,7 @@ export const StyledIconContainer = styled(Figure)`
   > .foreground {
     z-index: 300;
     font-size: ${(props) => fontSize(props.size)}px;
-    color: ${(props) =>
-      props.accessibility
-        ? colors.markers.foreground[props.accessibility]
-        : props.foregroundColor || "#496394"};
+    color: ${(props) => (props.accessibility ? colors.markers.foreground[props.accessibility] : props.foregroundColor || "#496394")};
   }
 
   > small {
@@ -77,10 +74,8 @@ export const StyledIconContainer = styled(Figure)`
     font-size: 8px;
   }
 
-  ${(props) =>
-    props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : ""}
-  ${(props) =>
-    props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : ""}
+  ${(props) => (props.centered ? `left: calc(50% - ${width(props.size) / 2}px);` : "")}
+  ${(props) => (props.centered ? `top: calc(50% - ${width(props.size) / 2}px);` : "")}
 
   svg {
     &.background {
@@ -95,10 +90,7 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${(props) =>
-          props.accessibility
-            ? colors.markers.background[props.accessibility]
-            : props.backgroundColor || "#FFF"};
+        fill: ${(props) => (props.accessibility ? colors.markers.background[props.accessibility] : props.backgroundColor || "#FFF")};
       }
     }
 
@@ -112,31 +104,14 @@ export const StyledIconContainer = styled(Figure)`
       path,
       circle,
       rect {
-        fill: ${(props) =>
-          props.accessibility
-            ? colors.markers.foreground[props.accessibility]
-            : props.foregroundColor || "#496394"};
+        fill: ${(props) => (props.accessibility ? colors.markers.foreground[props.accessibility] : props.foregroundColor || "#496394")};
       }
     }
   }
 `;
 
 // @TODO Rename it to CategoryIcon
-export default function Icon({
-  accessibility,
-  children,
-  backgroundColor = colors.markers.background[accessibility],
-  foregroundColor,
-  category,
-  isMainCategory,
-  className,
-  size,
-  withArrow,
-  shadowed,
-  ariaHidden,
-  centered,
-  onClick,
-}: Props) {
+export default function Icon({ accessibility, children, backgroundColor = colors.markers.background[accessibility], foregroundColor, category, isMainCategory, className, size, withArrow, shadowed, ariaHidden, centered, onClick }: Props) {
   let iconName = category;
 
   if (iconName === "2nd_hand") {
@@ -144,36 +119,19 @@ export default function Icon({
   }
 
   const icons = isMainCategory ? mainCategoryIcons : categoryIcons;
-  const CategoryIconComponent =
-    icons[iconName || "undefined"] || icons["undefined"];
-  const MarkerComponent =
-    markers[`${String(accessibility)}${withArrow ? "With" : "Without"}Arrow`];
+  const CategoryIconComponent = icons[iconName || "hospital"] || icons["hospital"];
+  const MarkerComponent = markers[`${String(accessibility)}${withArrow ? "With" : "Without"}Arrow`];
 
   if (typeof CategoryIconComponent === "object") {
     // eslint-disable-next-line no-console
-    console.log(
-      "Found a CategoryIconComponent that was an object, but should not be."
-    );
+    console.log("Found a CategoryIconComponent that was an object, but should not be.");
   }
 
   return (
-    <StyledIconContainer
-      size={size}
-      className={className}
-      aria-hidden={ariaHidden}
-      accessibility={accessibility}
-      backgroundColor={backgroundColor}
-      foregroundColor={foregroundColor}
-      centered={centered}
-      onClick={onClick}
-    >
-      {accessibility && MarkerComponent ? (
-        <MarkerComponent className="background" fill={backgroundColor} />
-      ) : null}
+    <StyledIconContainer size={size} className={className} aria-hidden={ariaHidden} accessibility={accessibility} backgroundColor={backgroundColor} foregroundColor={foregroundColor} centered={centered} onClick={onClick}>
+      {accessibility && MarkerComponent ? <MarkerComponent className="background" fill={backgroundColor} /> : null}
       {children}
-      {CategoryIconComponent ? (
-        <CategoryIconComponent className="icon" />
-      ) : null}
+      {CategoryIconComponent ? <CategoryIconComponent className="icon" /> : null}
     </StyledIconContainer>
   );
 }
