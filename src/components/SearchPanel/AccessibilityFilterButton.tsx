@@ -61,8 +61,10 @@ function AccessibilityFilterButton(props: Props) {
     >
       <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
         <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
-        {isExternalLink && <ExternalLinkIcon />}
-        <Caption>{caption}</Caption>
+        <Caption>
+          {isExternalLink && <ExternalLinkIcon />}
+          {caption}
+        </Caption>
         {showCloseButton && <CloseIcon className="close-icon" />}
       </Button>
     </Link>

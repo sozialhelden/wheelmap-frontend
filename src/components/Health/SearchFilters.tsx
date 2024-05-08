@@ -28,6 +28,9 @@ function SearchFilters() {
       <div style={{ flex: 1 }} />
 
       <StyledFooter>
+        <div style={{ textAlign: "left" }}>
+          <img src="/images/BMBF-Logo.jpg" alt="BMBF Logo" width={"50%"} />
+        </div>
         {footerList.map((item, index) => (
           <p key={index.toString()}>
             <StyledLinkFooter href={item.href} target="_blank" rel="noreferrer noopener">
