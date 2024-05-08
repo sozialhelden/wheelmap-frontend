@@ -1,34 +1,32 @@
 // babel-preset-react-app uses useBuiltIn "entry". We therefore need an entry
 // polyfill import to be replaced with polyfills we need for our targeted browsers.
-import { HotkeysProvider } from '@blueprintjs/core';
-import { ILanguageSubtag, parseLanguageTag } from '@sozialhelden/ietf-language-tags';
-import { pick, uniq } from 'lodash';
-import { NextPage } from 'next';
-import { SessionProvider } from 'next-auth/react';
-import type { AppProps } from 'next/app';
-import { default as NextApp } from 'next/app';
-import Head from 'next/head';
-import * as queryString from 'query-string';
-import * as React from 'react';
-import useSWR from 'swr';
-import EnvContext from '../components/shared/EnvContext';
-import composeContexts, { ContextAndValue } from '../lib/composeContexts';
-import { AppContext } from '../lib/context/AppContext';
-import CountryContext from '../lib/context/CountryContext';
-import { HostnameContext } from '../lib/context/HostnameContext';
-import { LanguageTagContext } from '../lib/context/LanguageTagContext';
-import { UserAgentContext, parseUserAgentString } from '../lib/context/UserAgentContext';
-import fetchApp from '../lib/fetchers/fetchApp';
-import { parseAcceptLanguageString } from '../lib/i18n/parseAcceptLanguageString';
-
+import { HotkeysProvider } from "@blueprintjs/core";
+import { ILanguageSubtag, parseLanguageTag } from "@sozialhelden/ietf-language-tags";
+import { pick, uniq } from "lodash";
+import { NextPage } from "next";
+import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
+import { default as NextApp } from "next/app";
+import * as queryString from "query-string";
+import * as React from "react";
+import useSWR from "swr";
+import EnvContext from "../components/shared/EnvContext";
+import composeContexts, { ContextAndValue } from "../lib/composeContexts";
+import { AppContext } from "../lib/context/AppContext";
+import CountryContext from "../lib/context/CountryContext";
+import { HostnameContext } from "../lib/context/HostnameContext";
+import { LanguageTagContext } from "../lib/context/LanguageTagContext";
+import { UserAgentContext, parseUserAgentString } from "../lib/context/UserAgentContext";
+import fetchApp from "../lib/fetchers/fetchApp";
+import { parseAcceptLanguageString } from "../lib/i18n/parseAcceptLanguageString";
 
 export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: React.ReactElement) => React.ReactNode
-}
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
 
 type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout
-}
+  Component: NextPageWithLayout;
+};
 
 interface ExtraProps {
   userAgentString?: string;
@@ -41,15 +39,12 @@ interface ExtraProps {
 function getPublicEnvironmentVariablesOnServer() {
   return pick(
     process.env,
-    Object
-      .keys(process.env)
-      .filter((key) => key.startsWith("NEXT_PUBLIC_")
-      )
+    Object.keys(process.env).filter((key) => key.startsWith("NEXT_PUBLIC_"))
   );
 }
 
 let isometricEnvironmentVariables: Record<string, string> | undefined;
-if (typeof window === 'undefined') {
+if (typeof window === "undefined") {
   // We are on the server, so we can directly populate the environment variables with real values
   // as we have access to process.env.
   isometricEnvironmentVariables = getPublicEnvironmentVariablesOnServer();
@@ -81,7 +76,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
     [HostnameContext, hostname],
     [LanguageTagContext, { languageTags }],
     [CountryContext, ipCountryCode],
-    [EnvContext, environmentVariables]
+    [EnvContext, environmentVariables],
   ];
 
   // Use the layout defined at the page level, if available
@@ -89,13 +84,8 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
   return (
     <>
-      <Head>
-
-      </Head>
       <HotkeysProvider>
-          <SessionProvider session={session}>
-            {composeContexts(contexts, getLayout(<Component {...pageProps} />))}
-          </SessionProvider>
+        <SessionProvider session={session}>{composeContexts(contexts, getLayout(<Component {...pageProps} />))}</SessionProvider>
       </HotkeysProvider>
     </>
   );
@@ -106,9 +96,9 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const { ctx } = appContext;
   const { req, res } = ctx;
   const url = req ? req.url : location.href;
-  const userAgentString = req ? req.headers['user-agent'] : navigator.userAgent
+  const userAgentString = req ? req.headers["user-agent"] : navigator.userAgent;
   const acceptLanguageHeader = req?.headers?.["accept-language"];
-  const languageTagStrings = req ? (acceptLanguageHeader && parseAcceptLanguageString(acceptLanguageHeader) || ['en']) : uniq([navigator.language, ...navigator.languages]);
+  const languageTagStrings = req ? (acceptLanguageHeader && parseAcceptLanguageString(acceptLanguageHeader)) || ["en"] : uniq([navigator.language, ...navigator.languages]);
   const languageTags = languageTagStrings.map(parseLanguageTag);
   res?.setHeader("Vary", "X-Lang, Content-Language");
   if (languageTagStrings[0]) {
@@ -116,24 +106,20 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
     res?.setHeader("Content-Language", languageTagStrings.join(", "));
   }
   const query = queryString.parseUrl(url).query;
-  const ipCountryCode = query.countryCode
-    || req?.headers?.["cf-ipcountry"]
-    || req?.headers?.["x-country-code"]
-    || languageTags.map(l => l.region).filter(Boolean)[0];
+  const ipCountryCode = query.countryCode || req?.headers?.["cf-ipcountry"] || req?.headers?.["x-country-code"] || languageTags.map((l) => l.region).filter(Boolean)[0];
   const hostnameAndPort = query.appId || (req ? req.headers.host : location.hostname);
-  if (typeof hostnameAndPort !== 'string') {
-    throw new Error('Please supply only one appId query parameter.');
+  if (typeof hostnameAndPort !== "string") {
+    throw new Error("Please supply only one appId query parameter.");
   }
-  const hostname = hostnameAndPort.split(':')[0];
+  const hostname = hostnameAndPort.split(":")[0];
   // console.log('Hostname:', query, query.appId, hostname);
-  if (typeof hostname !== 'string') {
+  if (typeof hostname !== "string") {
     throw new Error(`Hostname ${hostname} must be a string.`);
   }
   // On the client, isometricEnvironmentVariables is set on the first page rendering.
   const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
   const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname };
-  return { ...appProps, pageProps }
-}
-
+  return { ...appProps, pageProps };
+};
 
 MyApp.getInitialProps = getInitialProps;

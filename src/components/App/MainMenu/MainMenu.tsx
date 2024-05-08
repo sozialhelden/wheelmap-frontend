@@ -1,5 +1,5 @@
-import { hsl } from "d3-color";
 import { useFocusTrap } from "@primer/react/lib-esm/hooks/useFocusTrap";
+import { hsl } from "d3-color";
 import Link from "next/link";
 import * as React from "react";
 import styled from "styled-components";
@@ -10,7 +10,6 @@ import { ClientSideConfiguration } from "../../../lib/model/ac/ClientSideConfigu
 import CloseIcon from "../../icons/actions/Close";
 import VectorImage from "../../shared/VectorImage";
 import AppLinks from "./AppLinks";
-import SessionLink from "../../Session/SessionLink";
 
 type Props = {
   onToggle: (isMainMenuOpen: boolean) => void;
@@ -21,15 +20,7 @@ type Props = {
 
 function MenuIcon(props) {
   return (
-    <svg
-      className="menu-icon"
-      width="25px"
-      height="18px"
-      viewBox="0 0 25 18"
-      version="1.1"
-      alt="Toggle menu"
-      {...props}
-    >
+    <svg className="menu-icon" width="25px" height="18px" viewBox="0 0 25 18" version="1.1" alt="Toggle menu" {...props}>
       <g stroke="none" strokeWidth={1} fillRule="evenodd">
         <rect x="0" y="0" width="25" height="3" />
         <rect x="0" y="7" width="25" height="3" />
@@ -52,8 +43,7 @@ const StyledNav = styled.nav`
   flex-direction: row;
   align-items: center;
   z-index: 20;
-  box-shadow: 0 0 20px ${alpha(colors.darkLinkColor, 0.25)},
-    0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
+  box-shadow: 0 0 20px ${alpha(colors.darkLinkColor, 0.25)}, 0 1px 5px ${alpha(colors.darkLinkColor, 0.1)};
   overflow: hidden;
 
   .logo {
@@ -118,9 +108,7 @@ const StyledNav = styled.nav`
     }
     &:active {
       color: ${colors.linkColor};
-      background-color: ${hsl(colors.linkColor)
-        .brighter(1.7)
-        .toString()};
+      background-color: ${hsl(colors.linkColor).brighter(1.7).toString()};
     }
   }
 
@@ -238,11 +226,9 @@ const StyledNav = styled.nav`
       border-radius: 4px;
       text-align: center;
       background-color: white;
-      box-shadow: 0 1px 2px ${alpha(colors.darkLinkColor, 0.1)},
-        0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
+      box-shadow: 0 1px 2px ${alpha(colors.darkLinkColor, 0.1)}, 0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
       &:focus {
-        box-shadow: 0 0px 0px 2px ${alpha(colors.linkColor, 0.7)},
-          0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
+        box-shadow: 0 0px 0px 2px ${alpha(colors.linkColor, 0.7)}, 0 2px 9px ${alpha(colors.darkLinkColor, 0.07)};
       }
     }
 
@@ -268,17 +254,13 @@ const StyledNav = styled.nav`
         &:hover {
           background-color: ${openMenuHoverColor.toString()};
           svg g {
-            fill: ${hsl(colors.primaryColor)
-              .darker(1)
-              .toString()};
+            fill: ${hsl(colors.primaryColor).darker(1).toString()};
           }
         }
         &:active {
           background-color: ${openMenuHoverColor.toString()};
           svg g {
-            color: ${hsl(openMenuHoverColor)
-              .darker(2)
-              .toString()};
+            color: ${hsl(openMenuHoverColor).darker(2).toString()};
           }
         }
       }
@@ -329,66 +311,35 @@ export default function MainMenu(props: Props) {
     [props.onToggle, props.isOpen]
   );
 
-  const productName =
-    translatedStringFromObject(
-      props.clientSideConfiguration.textContent?.product.name
-    ) || "Wheelmap";
+  const productName = translatedStringFromObject(props.clientSideConfiguration.textContent?.product.name) || "Wheelmap";
 
   const homeLink = (
     <div className="home-link">
       <Link href="/onboarding" legacyBehavior>
-        <button
-          className="btn-unstyled home-button"
-          aria-label={t`Home`}
-        >
-          <VectorImage
-            className="logo"
-            svg={props.clientSideConfiguration.branding?.vectorLogoSVG}
-            aria-label={productName}
-            maxHeight={"30px"}
-            maxWidth={"150px"}
-            hasShadow={false}
-          />
+        <button className="btn-unstyled home-button" aria-label={t`Home`}>
+          <VectorImage className="logo" svg={props.clientSideConfiguration.branding?.vectorLogoSVG} aria-label={productName} maxHeight={"30px"} maxWidth={"150px"} hasShadow={false} />
         </button>
       </Link>
     </div>
   );
 
   const closeButton = (
-    <button
-      className="btn-unstyled menu"
-      onClick={toggleMenu}
-      aria-hidden={!isMenuButtonVisible}
-      tabIndex={isMenuButtonVisible ? 0 : -1}
-      aria-label={t`Menu`}
-      aria-haspopup="true"
-      aria-expanded={props.isOpen}
-      aria-controls="main-menu"
-    >
+    <button className="btn-unstyled menu" onClick={toggleMenu} aria-hidden={!isMenuButtonVisible} tabIndex={isMenuButtonVisible ? 0 : -1} aria-label={t`Menu`} aria-haspopup="true" aria-expanded={props.isOpen} aria-controls="main-menu">
       {props.isOpen ? <CloseIcon /> : <MenuIcon />}
     </button>
   );
 
   const { isOpen, className, clientSideConfiguration } = props;
-  const claim = translatedStringFromObject(
-    clientSideConfiguration?.textContent?.product?.claim
-  );
+  const claim = translatedStringFromObject(clientSideConfiguration?.textContent?.product?.claim);
 
-  const classList = [
-    className,
-    isOpen || !isMenuButtonVisible ? "is-open" : null,
-    "main-menu",
-  ].filter(Boolean);
+  const classList = [className, isOpen || !isMenuButtonVisible ? "is-open" : null, "main-menu"].filter(Boolean);
 
   const { containerRef } = useFocusTrap({
     disabled: !isMenuButtonVisible || !isOpen,
   });
 
   return (
-    <StyledNav
-      className={classList.join(" ")}
-      ref={containerRef as React.RefObject<HTMLElement>}
-    >
+    <StyledNav className={classList.join(" ")} ref={containerRef as React.RefObject<HTMLElement>}>
       {homeLink}
 
       <div className="claim">{claim}</div>

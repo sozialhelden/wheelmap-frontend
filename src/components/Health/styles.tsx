@@ -62,7 +62,6 @@ export const StyledMainContainer = styled.div`
   background-color: rgb(255, 255, 255, 0.95);
   > div {
     overflow-y: auto;
-    margin-top: 3rem;
     margin-inline: auto;
     display: grid;
     grid-gap: ${containerSpacing};

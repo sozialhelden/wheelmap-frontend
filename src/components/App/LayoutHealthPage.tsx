@@ -22,13 +22,7 @@ const BlurLayer = styled.div<{ active: boolean }>`
   pointer-events: ${(p) => (p.active ? "initial" : "none")};
 `;
 
-export default function LayoutHealthPage({
-  children,
-  blur,
-}: {
-  children?: React.ReactNode;
-  blur?: boolean;
-}) {
+export default function LayoutHealthPage({ children, blur }: { children?: React.ReactNode; blur?: boolean }) {
   // const { data, error } = useSWR('/api/navigation', fetcher)
 
   // if (error) return <div>Failed to load</div>
@@ -37,9 +31,12 @@ export default function LayoutHealthPage({
   const app = React.useContext(AppContext);
   const { clientSideConfiguration } = app || {};
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const toggleMainMenu = React.useCallback((newValue?: boolean) => {
-    setIsMenuOpen(typeof newValue === 'boolean' ? newValue : !isMenuOpen);
-  }, [isMenuOpen]);
+  const toggleMainMenu = React.useCallback(
+    (newValue?: boolean) => {
+      setIsMenuOpen(typeof newValue === "boolean" ? newValue : !isMenuOpen);
+    },
+    [isMenuOpen]
+  );
 
   const containerRef = React.useRef<HTMLElement>(null);
 
@@ -49,31 +46,24 @@ export default function LayoutHealthPage({
     setIsMenuOpen(false);
   }, [pathname]);
 
+  const isHealth = !pathname.startsWith("/"); // && !pathname.startsWith("/health");
   return (
     <>
       <HeadMetaTags />
 
       <GlobalStyle />
+      {!blur && isHealth && <MainMenu onToggle={toggleMainMenu} isOpen={isMenuOpen} clientSideConfiguration={clientSideConfiguration} />}
 
-      {!blur && (
-        <MainMenu
-          onToggle={toggleMainMenu}
-          isOpen={isMenuOpen}
-          clientSideConfiguration={clientSideConfiguration}
-        />
-      )}
-
-      <main 
-        style={{ height: "100vh" }} 
-        ref={containerRef} 
-      >
+      <main style={{ height: "100vh" }} ref={containerRef}>
         {/* <BlurLayer active={blur} style={{ zIndex: 1000 }} /> */}
         <WindowContextProvider>
-          <div style={{ 
-            zIndex: 2000
-          }}>
+          <div
+            style={{
+              zIndex: 2000,
+            }}
+          >
             {children}
-            </div>
+          </div>
           {/* <ToastContainer position="bottom-center" /> */}
         </WindowContextProvider>
       </main>
