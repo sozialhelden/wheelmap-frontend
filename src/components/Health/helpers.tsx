@@ -10,7 +10,7 @@ export type FilterOptions = {};
 export const defaultFilterOptions: FilterOptions = {};
 
 export const transferCityToBbox = (city: string) => {
-  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de&layer=city`;
+  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de&layer=city&layer=county&layer=country&layer=state&layer=district&layer=locality`;
   return `${baseurl}`;
 };
 
