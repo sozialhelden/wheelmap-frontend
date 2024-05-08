@@ -76,7 +76,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <Head>
-        <title key="title">{t`${headText} | Find health sites`}</title>
+        <title key="title">{sortedFeatures ? t`${headText} | Find health sites` : t`Find health sites`}</title>
       </Head>
       <StyledHDivider $space={0.5} />
       {!isLoading && text && (
