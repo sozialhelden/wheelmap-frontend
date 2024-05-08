@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { fetcher, transferCityToBbox } from "./helpers";
+import { fetcher, formatOSMAddress, transferCityToBbox } from "./helpers";
 import { StyledDropDownListItem, StyledLabel, StyledTextInput } from "./styles";
 
 export function SearchBoxAutocomplete() {
@@ -62,7 +62,7 @@ export function SearchBoxAutocomplete() {
                 if (e.key === "Escape") setIsDropdownVisible(false);
               }}
             >
-              {item.properties.name}
+              {formatOSMAddress(item.properties)}
             </li>
           ))}
         </StyledDropDownListItem>

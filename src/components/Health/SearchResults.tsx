@@ -73,6 +73,7 @@ function SearchResults() {
     }
   }, [data]);
 
+  if (!sortedFeatures) return null;
   return (
     <StyledMainContainerColumn>
       <Head>

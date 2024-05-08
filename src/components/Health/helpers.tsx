@@ -1,3 +1,4 @@
+import { uniq } from "lodash";
 import { t } from "ttag";
 import { StyledColors } from "./styles";
 
@@ -9,7 +10,7 @@ export type FilterOptions = {};
 export const defaultFilterOptions: FilterOptions = {};
 
 export const transferCityToBbox = (city: string) => {
-  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de`;
+  const baseurl: string = `https://photon.komoot.io/api/?q=${city}&limit=30&lang=de&layer=city`;
   return `${baseurl}`;
 };
 
@@ -24,6 +25,13 @@ export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = fa
     return `${baseurl}/amenities.json?${editedBbox}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
   }
   return null;
+};
+
+export const formatOSMAddress = (properties: any, longFormat: boolean = true) => {
+  if (longFormat) {
+    return (properties?.postcode || "") + " " + uniq([properties?.name, properties?.city, properties?.municipality, properties?.town, properties?.village, properties?.city_district, properties?.suburb, properties?.borough, properties?.county, properties?.country].filter(Boolean)).join(", ") + (properties?.neighbourhood ? ` (${properties?.neighbourhood})` : "");
+  }
+  return properties?.suburb + ", " + properties?.city;
 };
 
 export function toRadians(degrees: number): number {
