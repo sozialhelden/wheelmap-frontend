@@ -69,26 +69,15 @@ function SearchResults() {
       return t`No Results Found! Please try again with different City/Filters`;
     }
     if (data?.features) {
-      return (
-        <>
-          <StyledChip>{headText}</StyledChip>
-          {/* <StyledChip>{route.query.healthcare ? `${route.query.healthcare}` : t`All Categories`}</StyledChip>
-          {route.query.city && <StyledChip>{route.query.city}</StyledChip>}
-          <StyledChip>{getWheelchairSettings(route.query.wheelchair?.toString()).label}</StyledChip> */}
-        </>
-      );
+      return <StyledChip>{headText}</StyledChip>;
     }
   }, [data]);
 
-  const head = (
-    <Head>
-      <title key="title">{t`${headText} | Find health sites`}</title>
-    </Head>
-  );
-
   return (
     <StyledMainContainerColumn>
-      {head}
+      <Head>
+        <title key="title">{t`${headText} | Find health sites`}</title>
+      </Head>
       <StyledHDivider $space={0.5} />
       {!isLoading && text && (
         <StyledH2 style={{ textAlign: "center" }} $fontBold>
