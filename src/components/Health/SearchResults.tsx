@@ -63,7 +63,7 @@ function SearchResults() {
     [data, route.query]
   );
 
-  const headText = `${data?.features.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? route.query.healthcare : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
+  const headText = `${data?.features.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? t`${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) {
       return t`No Results Found! Please try again with different City/Filters`;
