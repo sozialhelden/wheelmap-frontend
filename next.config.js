@@ -18,7 +18,7 @@ let configuration = withTranspileModules({
 
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
-  basePath: "",
+  basePath: "/health",
   ...configuration,
   productionBrowserSourceMaps: true,
   compiler: {

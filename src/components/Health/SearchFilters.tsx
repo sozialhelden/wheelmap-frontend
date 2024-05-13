@@ -29,7 +29,7 @@ function SearchFilters() {
 
       <StyledFooter>
         <div style={{ textAlign: "left" }}>
-          <img src="/images/BMBF-Logo.jpg" alt="BMBF Logo" width={"50%"} />
+          <img src="/health/images/BMBF-Logo.jpg" alt="BMBF Logo" width={"50%"} />
         </div>
         {footerList.map((item, index) => (
           <p key={index.toString()}>
