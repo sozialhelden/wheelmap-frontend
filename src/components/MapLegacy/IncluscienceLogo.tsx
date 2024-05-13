@@ -1,6 +1,6 @@
 export default function IncluscienceLogo(props: any) {
   return (
-    <svg viewBox="0 0 160 23" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg viewBox="0 0 160 23" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Inclu-Science" {...props}>
       <ellipse cx="11.896" cy="11.569" rx="9.783" ry="9.956" fill="#fff"></ellipse>
       <g clipPath="url(#a)">
         <path d="M10.462 0h1.854c5.337.42 9.983 5.17 10.285 10.646v1.752C22.177 17.993 17.552 22.684 12.007 23h-1.413C5.171 22.574.314 18.113 0 12.398v-1.752C.31 5.023 5.05.426 10.462 0Zm-2.56 4.672c-.632.045-1.197.302-1.647.548-4.491 2.461-2.514 9.202 2.552 8.93 5.563-.298 5.98-9.478-.905-9.478Zm7.769 7.906a2.407 2.407 0 0 0-1.183.48c-2.302 1.918-1.137 5.42 1.646 5.27 3.732-.2 3.567-5.75-.463-5.75Z" fill="url(#b)"></path>

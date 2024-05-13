@@ -5,6 +5,7 @@ export default  function SozialheldInnenLogo(props: SVGProps<SVGSVGElement>) {
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 729 131"
+    aria-label="SozialheldInnen"
     {...props}
   >
     <path
