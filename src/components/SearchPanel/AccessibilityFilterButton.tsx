@@ -27,6 +27,7 @@ type Props = {
   isNotHoverAble?: boolean;
   isDisabled?: boolean;
   isExternalLink?: boolean;
+  isHealthcare?: boolean;
 };
 
 export const Caption = styled.span`
@@ -35,8 +36,7 @@ export const Caption = styled.span`
 `;
 
 function AccessibilityFilterButton(props: Props) {
-  const { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink } = props;
-
+  let { toiletFilter, accessibilityFilter, category, isMainCategory, showCloseButton, caption, isActive, className, isDisabled, isExternalLink, isHealthcare } = props;
   const router = useRouter();
 
   const query = {
@@ -44,7 +44,8 @@ function AccessibilityFilterButton(props: Props) {
   };
   if (!isActive) {
     if (accessibilityFilter.length > 0) {
-      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(",");
+      if (isHealthcare) query.wheelchair = accessibilityFilter.map((t) => t.toString()).join("");
+      else query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(",");
     }
     if (toiletFilter.length > 0) {
       query.toilet = toiletFilter.map((t) => t.toString()).join(",");

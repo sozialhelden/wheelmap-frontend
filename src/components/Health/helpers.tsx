@@ -19,7 +19,7 @@ export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = fa
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
-    const editedName = name ? (name.length > 2 ? `&name=${name}` : "") : "";
+    const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";

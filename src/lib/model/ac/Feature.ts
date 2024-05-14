@@ -1,16 +1,17 @@
+import { EquipmentInfo, PlaceInfo, Restroom } from '@sozialhelden/a11yjson';
 import flatten from 'lodash/flatten';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
-import { translatedStringFromObject } from "../../i18n/translatedStringFromObject";
 import { SearchResultFeature } from '../../fetchers/fetchPlaceSearchResults';
-import { EquipmentInfo, PlaceInfo, PlaceProperties, Restroom } from '@sozialhelden/a11yjson';
-import { isOSMFeature } from '../shared/AnyFeature';
 import OSMFeature from '../osm/OSMFeature';
+import { isOSMFeature } from '../shared/AnyFeature';
 
-export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'unknown';
+export type YesNoLimitedUnknown = 'yes' | 'no' | 'limited' | 'limitedyes' | 'yeslimited' | 'unknown';
 export type YesNoUnknown = 'yes' | 'no' | 'unknown';
 export const yesNoLimitedUnknownArray: YesNoLimitedUnknown[] = [
   'limited',
+  'limitedyes', 
+  'yeslimited',
   'yes',
   'no',
   'unknown',
