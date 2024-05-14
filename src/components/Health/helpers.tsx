@@ -15,14 +15,15 @@ export const transferCityToBbox = (city: string) => {
 };
 
 export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = false) => {
-  const { bbox, wheelchair, healthcare, tags } = options;
+  const { bbox, name, wheelchair, healthcare, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
+    const editedName = name ? (name.length > 2 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/amenities.json?${editedBbox}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
+    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
   }
   return null;
 };

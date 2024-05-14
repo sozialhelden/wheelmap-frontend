@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
@@ -18,21 +18,17 @@ function FilterInputs() {
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
   const options = useMemo(
     () => ({
+      ...(route.query.name && { name: route.query.name }),
       ...(route.query.bbox && { bbox: route.query.bbox }),
       ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
       tags: "healthcare",
     }),
-    [route.query.bbox, route.query.wheelchair]
+    [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
   const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR(route.query.bbox ? () => useOsmAPI(options, baseurl, true) : null, fetcher);
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
-  const [name, setName] = useState("");
-
-  useEffect(() => {
-    route.query.name ? setName(route.query.name.toString()) : setName("");
-  }, [route.query.city]);
 
   const translatedHealthcareOptions = useMemo(() => {
     if (!synonymCache.data) {
@@ -57,7 +53,6 @@ function FilterInputs() {
   const handleInputChange = useCallback(
     (event) => {
       const { name, value } = event.target;
-      if (name === "name") setName(value);
       route.replace(
         {
           pathname: route.pathname,
@@ -75,8 +70,8 @@ function FilterInputs() {
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
-          <StyledLabel htmlFor="name" $fontBold="bold">{t`Name?`}</StyledLabel>
-          <StyledTextInput type="text" value={name} name="name" id="name" onChange={handleInputChange} />
+          <StyledLabel htmlFor="name-search" $fontBold="bold">{t`Name?`}</StyledLabel>
+          <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
 
           <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
           {isLoadingHealthcareOptions ? (
