@@ -19,9 +19,6 @@ let configuration = withTranspileModules({
 
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
-  basePath: "/health",
-  // This is needed as the Next.js build process seems to ignore the base path when exporting
-  // assets.
   assetPrefix: isProd ? '/health/' : undefined,
   ...configuration,
   productionBrowserSourceMaps: true,
