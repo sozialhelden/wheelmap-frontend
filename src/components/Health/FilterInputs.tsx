@@ -71,13 +71,13 @@ function FilterInputs() {
   const handleFilterType = useCallback(
     (event) => {
       const { value } = event.target;
-      const updatedQuery = { ...route.query }; // Create a copy of the current query object
+      const updatedQuery = { ...route.query };
 
       if (value === "healthcare") {
-        delete updatedQuery.name; // Remove the 'name' key from the query object
+        delete updatedQuery.name;
         setIsNameFilter(false);
       } else if (value === "name") {
-        delete updatedQuery.healthcare; // Remove the 'name' key from the query object
+        delete updatedQuery.healthcare;
         setIsNameFilter(true);
       }
 
