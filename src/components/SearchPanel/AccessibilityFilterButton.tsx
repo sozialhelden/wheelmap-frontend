@@ -42,13 +42,13 @@ function AccessibilityFilterButton(props: Props) {
   const query = {
     ...omit(router.query, "q", "wheelchair", "toilet"),
   };
+
   if (!isActive) {
     if (accessibilityFilter.length > 0) {
-      if (isHealthcare) query.wheelchair = accessibilityFilter.map((t) => t.toString()).join("");
-      else query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(",");
+      query.wheelchair = accessibilityFilter.map((t) => t.toString()).join(";");
     }
     if (toiletFilter.length > 0) {
-      query.toilet = toiletFilter.map((t) => t.toString()).join(",");
+      query.toilet = toiletFilter.map((t) => t.toString()).join(";");
     }
   }
 

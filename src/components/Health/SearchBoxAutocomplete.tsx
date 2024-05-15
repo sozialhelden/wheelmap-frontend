@@ -1,15 +1,16 @@
+// @ts-ignore
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { fetcher, formatOSMAddress, transferCityToBbox } from "./helpers";
+import { fetchJSON, formatOSMAddress, transferCityToBbox } from "./helpers";
 import { StyledDropDownListItem, StyledLabel, StyledTextInput } from "./styles";
 
 export function SearchBoxAutocomplete() {
   const router = useRouter();
   const [query, setQuery] = useState(router.query.city || "");
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const { data, error } = useSWR(query.length > 2 ? transferCityToBbox(query.toString()) : null, fetcher);
+  const { data, error } = useSWR(query.length > 2 ? transferCityToBbox(query.toString()) : null, fetchJSON);
   const dropdownRef = useRef(null);
 
   if (error) return <div>{error}.</div>;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useCategory from "../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -69,8 +70,7 @@ function SearchResult({ data }: any) {
         {distance && (
           <StyledH4 $textAlign="right">
             {optionalCategoryName}
-            {route.query.sort === "distance" && <MapPinIcon />}
-            {route.query.sort === "distance" && `(${distanceValue} ${distanceUnit})`}
+            <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.sort === "distance" ? `(${t`from your location`})` : `(${t`from the center of ${route.query.city}`})`}
           </StyledH4>
         )}
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>

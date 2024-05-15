@@ -7,7 +7,7 @@
   "main": "lib/App.js",
   "license": "MIT",
   "dependencies": {
-    "@blueprintjs/core": "^4.18.0",
+    "@blueprintjs/core": "^4.20.2",
     "@blueprintjs/popover2": "^1.14.1",
     "@juggle/resize-observer": "^3.3.1",
     "@mapbox/mapbox-gl-language": "^1.0.0",

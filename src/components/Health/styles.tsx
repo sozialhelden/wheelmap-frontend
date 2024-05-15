@@ -21,6 +21,7 @@ export const HStyles = `
 `;
 
 export const inputStyles = `
+  height: 2.25rem;
   background-color: transparent;
   border: 1px solid ${StyledColors.silver};
   padding-inline: 0.3rem;
@@ -201,8 +202,10 @@ export const StyledLabel = styled.label<{ $fontBold?: string }>`
 `;
 
 export const StyledLoadingLabel = styled.label`
-  padding: 0.5rem;
+  height: 2.25rem;
+  padding-inline: 0.5rem;
   font-size: 1rem;
+  border-radius: 5px;
   color: white;
   background-color: ${StyledColors.green};
   font-weight: "bold";

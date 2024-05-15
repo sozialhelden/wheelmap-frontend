@@ -1,11 +1,12 @@
 import Head from "next/head";
+// @ts-ignore
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
-import { calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
+import { AmenityListResponse, calculateDistance, fetchJSON, generateAmenityListURL, getWheelchairSettings } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
@@ -14,8 +15,8 @@ function SearchResults() {
   const env = useContext(EnvContext);
 
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = useOsmAPI(route.query, baseurl, false);
-  const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
+  const finalURL = generateAmenityListURL(route.query, baseurl);
+  const { data, error, isLoading } = useSWR<AmenityListResponse>(finalURL, fetchJSON);
 
   React.useEffect(() => {
     if (route.query.sort === "distance") {
@@ -37,13 +38,18 @@ function SearchResults() {
           const { centroid } = item;
           const lat = centroid.coordinates[1];
           const lon = centroid.coordinates[0];
-          item.distance = calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon).toFixed(2);
+          if (route.query.sort === "distance") {
+            item.distance = calculateDistance(myCoordinates[0], myCoordinates[1], lat, lon);
+          } else {
+            item.distance = calculateDistance(parseFloat(route.query.bbox[1]), parseFloat(route.query.bbox[0]), lat, lon);
+          }
           return item;
         })
         .sort((a: { distance: number; properties: { name: string } }, b: { distance: number; properties: { name: any } }) => {
           if (!route.query.sort) return a?.properties?.name?.localeCompare(b?.properties?.name);
           if (route.query.sort === "alphabetically") return a?.properties?.name?.localeCompare(b?.properties?.name);
           if (route.query.sort === "distance") return a.distance - b.distance;
+          if (route.query.sort === "distanceFromCity") return a.distance - b.distance;
         })
         .map((item: any, index: number, data: any) => {
           return (
