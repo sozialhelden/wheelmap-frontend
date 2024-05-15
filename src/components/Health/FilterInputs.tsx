@@ -11,7 +11,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { AmenityStatsResponse, QueryParameters, fetchJSON, generateAmenityStatsURL } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
@@ -98,21 +98,25 @@ function FilterInputs() {
       <SearchBoxAutocomplete />
       {route.query.bbox && (
         <>
-          <StyledLabel htmlFor="search-type" $fontBold="bold">{t`Suche nach?`}</StyledLabel>
-          <StyledSelect defaultValue={"name"} name="search" id="search-type" onChange={handleFilterType}>
-            <option value="name">{t`Name`}</option>
-            <option value="healthcare">{t`Category`}</option>
-          </StyledSelect>
+          <StyledRadioBox>
+            <div>
+              <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
+              <label htmlFor="search-name">{t`Suche nach Name?`}</label>
+            </div>
+            <div>
+              <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!isNameFilter} onChange={handleFilterType} />
+              <label htmlFor="search-healthcare">{t`Suche nach Category?`}</label>
+            </div>
+          </StyledRadioBox>
           {isNameFilter && (
             <>
               <StyledLabel htmlFor="name-search" $fontBold="bold">{t`Name?`}</StyledLabel>
               <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
             </>
           )}
-
           {!isNameFilter && (
             <>
-              <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category or specialty?`}</StyledLabel>
+              <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category?`}</StyledLabel>
               {isLoadingHealthcareOptions ? (
                 <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
               ) : (
@@ -127,14 +131,12 @@ function FilterInputs() {
               )}
             </>
           )}
-
           <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
           <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
             <option value="alphabetically">{t`Alphabetically`}</option>
             <option value="distance">{t`By distance from me`}</option>
             <option value="distanceFromCity">{t`By distance from the center of ${route.query.city}`}</option>
           </StyledSelect>
-
           <StyledWheelchairFilter>
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
             <StyledHDivider $space={0.25} />

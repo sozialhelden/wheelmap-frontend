@@ -144,6 +144,16 @@ export const StyledSelect = styled.select`
   ${inputStyles}
 `;
 
+export const StyledRadioBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: ${containerSpacing};
+`;
+
+export const StyledRadio = styled.input`
+  margin-inline: 0.5rem;
+`;
+
 export const StyledLink = styled.div`
   display: block;
   padding: ${containerSpacing};
