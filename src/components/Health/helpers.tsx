@@ -2,7 +2,7 @@ import { uniq } from "lodash";
 import { t } from "ttag";
 import { StyledColors } from "./styles";
 
-export const fetcher = async (url: RequestInfo | URL) => await fetch(url).then((res) => res.json());
+export const fetchJSON = async (url: RequestInfo | URL) => await fetch(url).then((res) => res.json());
 export const defaultLimit = 10000;
 
 export type FilterOptions = {};
@@ -14,7 +14,25 @@ export const transferCityToBbox = (city: string) => {
   return `${baseurl}`;
 };
 
-export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = false) => {
+type QueryParameters = {
+  bbox?: string;
+  name?: string;
+  wheelchair?: string;
+  healthcare?: string;
+  tags?: string;
+};
+
+export type AmenityStatsResponse = {
+  healthcare?: string;
+  "healthcare:speciality"?: string;
+  count: number;
+}[];
+
+export type AmenityListResponse = {
+  TODO: "Anas :D";
+};
+
+export function generateAmenityListURL (options: QueryParameters, baseurl: string): string {
   const { bbox, name, wheelchair, healthcare, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
   if (bbox || wheelchair || healthcare || tags) {
@@ -23,10 +41,18 @@ export const useOsmAPI = (options: any, baseurl: string, aggregate: boolean = fa
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid${aggregate ? "&mode=aggregate&aggregate=count" : ""}`;
+    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid`;
   }
-  return null;
+  return undefined;
 };
+
+export function generateAmenityStatsURL (options: QueryParameters, baseurl: string): string {
+  const url = generateAmenityListURL(options, baseurl);
+  if (!url) {
+    return undefined;
+  }
+  return `${url}&mode=aggregate&aggregate=count`;
+}
 
 export const formatOSMAddress = (properties: any, longFormat: boolean = true) => {
   if (longFormat) {

@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
-import { calculateDistance, fetcher, getWheelchairSettings, useOsmAPI } from "./helpers";
+import { AmenityListResponse, calculateDistance, fetchJSON, generateAmenityListURL, getWheelchairSettings } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
@@ -14,8 +14,8 @@ function SearchResults() {
   const env = useContext(EnvContext);
 
   const baseurl: string = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
-  const finalURL = useOsmAPI(route.query, baseurl, false);
-  const { data, error, isLoading } = useSWR<any, Error>(finalURL, fetcher);
+  const finalURL = generateAmenityListURL(route.query, baseurl);
+  const { data, error, isLoading } = useSWR<AmenityListResponse>(finalURL, fetchJSON);
 
   React.useEffect(() => {
     if (route.query.sort === "distance") {

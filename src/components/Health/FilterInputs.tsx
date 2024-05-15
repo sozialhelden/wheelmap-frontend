@@ -9,7 +9,7 @@ import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
-import { fetcher, useOsmAPI } from "./helpers";
+import { AmenityStatsResponse, fetchJSON, generateAmenityStatsURL } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
@@ -26,11 +26,14 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
-  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR(route.query.bbox ? () => useOsmAPI(options, baseurl, true) : null, fetcher);
+  const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(options, baseurl) : null, fetchJSON);
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
 
   const translatedHealthcareOptions = useMemo(() => {
+    if (errorHealthcareOptions) {
+      return dataHealthcareOptions;
+    }
     if (!synonymCache.data) {
       return dataHealthcareOptions;
     }
