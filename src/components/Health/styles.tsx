@@ -21,7 +21,7 @@ export const HStyles = `
 `;
 
 export const inputStyles = `
-  height: 2.25rem;
+  height: auto;
   background-color: transparent;
   border: 1px solid ${StyledColors.silver};
   padding-inline: 0.3rem;

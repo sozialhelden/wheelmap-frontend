@@ -19,6 +19,7 @@ export type QueryParameters = {
   name?: string;
   wheelchair?: string;
   healthcare?: string;
+  ["healthcare:speciality"]?: string;
   tags?: string;
 };
 
@@ -64,15 +65,16 @@ export type AmenityListResponse = {
 };
 
 export function generateAmenityListURL(options: QueryParameters, baseurl: string): string {
-  const { bbox, name, wheelchair, healthcare, tags } = options;
+  const { bbox, name, wheelchair, healthcare, ["healthcare:speciality"]: healthcareSpeciality, tags } = options;
   const editedLimit = `&limit=${defaultLimit}`;
-  if (bbox || wheelchair || healthcare || tags) {
+  if (bbox || wheelchair || healthcare || healthcareSpeciality || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
     const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
+    const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";
-    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedTags}${editedLimit}&geometry=centroid`;
+    return `${baseurl}/amenities.json?${editedBbox}${editedName}${editedWheelchair}${editedHealthcare}${editedHealthcareSpeciality}${editedTags}${editedLimit}&geometry=centroid`;
   }
   return undefined;
 }

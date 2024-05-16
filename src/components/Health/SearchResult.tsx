@@ -67,12 +67,9 @@ function SearchResult({ data }: any) {
   return (
     <StyledLink>
       <>
-        {distance && (
-          <StyledH4 $textAlign="right">
-            {optionalCategoryName}
-            <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.sort === "distance" ? `(${t`from your location`})` : `(${t`from the center of ${route.query.city}`})`}
-          </StyledH4>
-        )}
+        <StyledH4 $textAlign="right">
+          {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.sort === "distance" ? `(${t`from your location`})` : `(${t`from the center of ${route.query.city}`})`}
+        </StyledH4>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
           <Link href={`https://wheelmap.org/${_id}`} target="_blank">
             <AccessibilityFilterButton isDisabled accessibilityFilter={[wheelchair ? wheelchair : "unknown"]} caption={name ? name : healthcare} category={healthcare} toiletFilter={toiletsWheelchair ? [toiletsWheelchair] : []} onFocus={null} isActive={null} isNotHoverAble={true} showCloseButton={false} isExternalLink={true} />

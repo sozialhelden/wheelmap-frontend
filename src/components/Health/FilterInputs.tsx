@@ -28,8 +28,21 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
+  const optionsSpeciality = useMemo(
+    () =>
+      ({
+        ...(route.query.bbox && { bbox: route.query.bbox }),
+        ...(route.query.name && { name: route.query.name }),
+        ...(route.query.wheelchair && { wheelchair: route.query.wheelchair }),
+        ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+        tags: "healthcare:speciality",
+      } as QueryParameters),
+    [route.query.bbox, route.query.name, route.query.wheelchair]
+  );
+
   const [isNameFilter, setIsNameFilter] = useState(true);
   const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(options, baseurl) : null, fetchJSON);
+  const { data: dataSpecialityOptions, error: errorSpecialityOptions, isValidating: isLoadingSpecialityOptions } = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(optionsSpeciality, baseurl) : null, fetchJSON);
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
 
@@ -52,6 +65,26 @@ function FilterInputs() {
         return a.localeCompare(b);
       });
   }, [dataHealthcareOptions, synonymCache, languageTags]);
+
+  const translatedSpecialityOptions: any = useMemo(() => {
+    if (!synonymCache.data) {
+      return dataSpecialityOptions;
+    }
+    return dataSpecialityOptions
+      ?.map((item) => {
+        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item["healthcare:speciality"]}`)?.translations?._id, languageTags);
+        return {
+          ...item,
+          healthcareTranslated: translatedCategoryName,
+          healthcareTranslatedLowercase: (translatedCategoryName || item["healthcare:speciality"])?.toLocaleLowerCase(),
+        };
+      })
+      .sort((i1, i2) => {
+        const a = i1.healthcareTranslatedLowercase;
+        const b = i2.healthcareTranslatedLowercase;
+        return a.localeCompare(b);
+      });
+  }, [dataSpecialityOptions, synonymCache, languageTags]);
 
   const handleInputChange = useCallback(
     (event) => {
@@ -78,6 +111,7 @@ function FilterInputs() {
         setIsNameFilter(false);
       } else if (value === "name") {
         delete updatedQuery.healthcare;
+        delete updatedQuery["healthcare:speciality"];
         setIsNameFilter(true);
       }
 
@@ -116,18 +150,36 @@ function FilterInputs() {
           )}
           {!isNameFilter && (
             <>
-              <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Category?`}</StyledLabel>
-              {isLoadingHealthcareOptions ? (
+              {isLoadingHealthcareOptions || isLoadingSpecialityOptions ? (
                 <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
               ) : (
-                <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                  <option value="">{t`Alle`}</option>
-                  {translatedHealthcareOptions?.map((item, index) => (
-                    <option key={item.healthcare + index} value={item.healthcare}>
-                      {`${item.healthcareTranslated || item.healthcare}`}
-                    </option>
-                  ))}
-                </StyledSelect>
+                <>
+                  <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Healthcare?`}</StyledLabel>
+                  <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+                    <option value="">{t`Alle`}</option>
+                    {translatedHealthcareOptions?.map((item, index) => (
+                      <option key={item.healthcare + index} value={item.healthcare}>
+                        {`${item.healthcareTranslated || item.healthcare}`}
+                      </option>
+                    ))}
+                  </StyledSelect>
+                  {route.query.healthcare && (
+                    <>
+                      <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">{t`Healthcare Speciality?`}</StyledLabel>
+                      <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
+                        <option value="">{t`Alle`}</option>
+                        {translatedSpecialityOptions?.map(
+                          (item, index) =>
+                            item["healthcare:speciality"] !== "" && (
+                              <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
+                                {`${item.healthcareTranslated || item["healthcare:speciality"]}`}
+                              </option>
+                            )
+                        )}
+                      </StyledSelect>
+                    </>
+                  )}
+                </>
               )}
             </>
           )}
