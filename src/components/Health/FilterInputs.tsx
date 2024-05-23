@@ -159,7 +159,7 @@ function FilterInputs() {
                     <option value="">{t`Alle`}</option>
                     {translatedHealthcareOptions?.map((item, index) => (
                       <option key={item.healthcare + index} value={item.healthcare}>
-                        {`${item.healthcareTranslated || item.healthcare}`}
+                        {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
                       </option>
                     ))}
                   </StyledSelect>
@@ -172,7 +172,7 @@ function FilterInputs() {
                           (item, index) =>
                             item["healthcare:speciality"] !== "" && (
                               <option key={item["healthcare:speciality"] + index} value={item["healthcare:speciality"]}>
-                                {`${item.healthcareTranslated || item["healthcare:speciality"]}`}
+                                {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item["healthcare:speciality"]}`}
                               </option>
                             )
                         )}

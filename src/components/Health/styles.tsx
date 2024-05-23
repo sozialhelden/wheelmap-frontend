@@ -10,7 +10,7 @@ export const maxContentWidth = 1280;
 export const StyledColors = {
   green: "#77AD2B",
   grey: "grey",
-  silver: "#f2f2f0",
+  silver: "#575757",
   red: "#d51030",
   orange: "#f39e3b",
 };
@@ -21,7 +21,7 @@ export const HStyles = `
 `;
 
 export const inputStyles = `
-  height: auto;
+  height: 2.5rem;
   background-color: transparent;
   border: 1px solid ${StyledColors.silver};
   padding-inline: 0.3rem;
@@ -61,6 +61,9 @@ export const chips = `
 
 export const StyledMainContainer = styled.div`
   background-color: rgb(255, 255, 255, 0.95);
+  * {
+    transition: all 0.2s ease-in-out;
+  }
   > div {
     overflow-y: auto;
     margin-inline: auto;
@@ -227,7 +230,7 @@ export const StyledUL = styled.ul`
   list-style-type: none;
   li {
     &:hover {
-      background-color: ${StyledColors.silver};
+      opacity: 0.7;
     }
     margin-bottom: ${containerSpacing};
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;

@@ -29,7 +29,7 @@ function SearchFilters() {
 
       <StyledFooter>
         <div style={{ textAlign: "left" }}>
-          <img src="/images/BMBF-Logo.jpg" alt="Gefördert vom Bundesministerium für Bildung und Forschung." width={"50%"} />
+          <img src="/images/BMBF-Logo.jpg" alt="Gefördert vom Bundesministerium für Bildung und Forschung." width={"30%"} />
         </div>
         {footerList.map((item, index) => (
           <p key={index.toString()}>
