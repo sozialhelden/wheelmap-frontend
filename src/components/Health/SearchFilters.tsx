@@ -47,12 +47,12 @@ function SearchFilters() {
       </StyledFooter>
       <StyledFooter $flexDirection="row" style={{ marginTop: 7.5 }}>
         {footerListRow.map((item, index) => (
-          <>
+          <span key={index.toString()}>
             <StyledLinkFooter href={item.href} target="_blank" rel="noreferrer noopener">
               {item.content}
             </StyledLinkFooter>
             {index < footerListRow.length - 1 && <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
-          </>
+          </span>
         ))}
       </StyledFooter>
     </StyledMainContainerColumn>
