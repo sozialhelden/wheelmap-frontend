@@ -9,10 +9,16 @@ function SearchFilters() {
     text: t`Find health sites`,
   });
 
-  const footerList = [
+  const footerListColumn = [
     { href: "https://incluscience.org", content: jt`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.` },
     { href: "https://sozialhelden.de", content: jt`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.` },
     { href: "https://openstreetmap.org", content: jt`© OpenStreetMap contributors.` },
+  ];
+
+  const footerListRow = [
+    { href: "", content: jt`Impressum` },
+    { href: "", content: jt`Datenschutz` },
+    { href: "", content: jt`Kontakt` },
   ];
 
   return (
@@ -31,12 +37,22 @@ function SearchFilters() {
         <div style={{ textAlign: "left" }}>
           <img src="/images/BMBF-Logo.jpg" alt="Gefördert vom Bundesministerium für Bildung und Forschung." width={"30%"} />
         </div>
-        {footerList.map((item, index) => (
+        {footerListColumn.map((item, index) => (
           <p key={index.toString()}>
             <StyledLinkFooter href={item.href} target="_blank" rel="noreferrer noopener">
               {item.content}
             </StyledLinkFooter>
           </p>
+        ))}
+      </StyledFooter>
+      <StyledFooter $flexDirection="row" style={{ marginTop: 7.5 }}>
+        {footerListRow.map((item, index) => (
+          <>
+            <StyledLinkFooter href={item.href} target="_blank" rel="noreferrer noopener">
+              {item.content}
+            </StyledLinkFooter>
+            {index < footerListRow.length - 1 && <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>}
+          </>
         ))}
       </StyledFooter>
     </StyledMainContainerColumn>

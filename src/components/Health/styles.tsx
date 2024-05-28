@@ -273,9 +273,9 @@ export const StyledSozialheldInnenLogo = styled(SozialheldenInnenLogo)`
   height: 2em;
 `;
 
-export const StyledFooter = styled.footer`
+export const StyledFooter = styled.footer<{ $flexDirection?: string }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ $flexDirection }) => ($flexDirection ? $flexDirection : "column")};
   svg {
     vertical-align: middle;
   }
