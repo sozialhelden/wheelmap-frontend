@@ -26,6 +26,7 @@ export type QueryParameters = {
 export type AmenityStatsResponse = {
   healthcare?: string;
   "healthcare:speciality"?: string;
+  wheelchair?: string;
   count: number;
 }[];
 
@@ -70,7 +71,7 @@ export function generateAmenityListURL(options: QueryParameters, baseurl: string
   if (bbox || wheelchair || healthcare || healthcareSpeciality || tags) {
     const editedBbox = bbox ? `bbox=${bbox}` : "";
     const editedName = name ? (name.length > 1 ? `&name=${name}` : "") : "";
-    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "&wheelchair=all";
+    const editedWheelchair = wheelchair ? `&wheelchair=${wheelchair}` : "";
     const editedHealthcare = healthcare ? `&healthcare=${healthcare}` : "";
     const editedHealthcareSpeciality = healthcareSpeciality ? `&healthcare:speciality=${healthcareSpeciality}` : "";
     const editedTags = tags ? `&tags=${tags}` : "";

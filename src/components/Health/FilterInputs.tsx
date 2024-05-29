@@ -40,9 +40,23 @@ function FilterInputs() {
     [route.query.bbox, route.query.name, route.query.wheelchair]
   );
 
+  const optionsWheelchair = useMemo(
+    () =>
+      ({
+        ...(route.query.bbox && { bbox: route.query.bbox }),
+        ...(route.query.name && { name: route.query.name }),
+        ...(route.query.healthcare && { healthcare: route.query.healthcare }),
+        ...(route.query["healthcare:speciality"] && { "healthcare:speciality": route.query["healthcare:speciality"] }),
+        tags: "wheelchair",
+      } as QueryParameters),
+    [route.query.bbox, route.query.name, route.query.healthcare, route.query["healthcare:speciality"]]
+  );
+
   const [isNameFilter, setIsNameFilter] = useState(true);
   const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(options, baseurl) : null, fetchJSON);
   const { data: dataSpecialityOptions, error: errorSpecialityOptions, isValidating: isLoadingSpecialityOptions } = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(optionsSpeciality, baseurl) : null, fetchJSON);
+  const { data: dataWheelchairOptions, error: errorWheelchairOptions, isValidating: isLoadingWheelchairOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(optionsWheelchair, baseurl) : null, fetchJSON);
+  // Wheelchair filter
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
 
@@ -72,7 +86,7 @@ function FilterInputs() {
     }
     return dataSpecialityOptions
       ?.map((item) => {
-        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item["healthcare:speciality"]}`)?.translations?._id, languageTags);
+        const translatedCategoryName = getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare:specialty=${item["healthcare:speciality"]}`)?.translations?._id, languageTags) || getLocalizedStringTranslationWithMultipleLocales(getCategory(synonymCache.data, `healthcare=${item["healthcare:speciality"]}`)?.translations?._id, languageTags);
         return {
           ...item,
           healthcareTranslated: translatedCategoryName,
@@ -125,6 +139,32 @@ function FilterInputs() {
       );
     },
     [route, setIsNameFilter]
+  );
+
+  const getWheelchairCount = useCallback(
+    (wheelchair) => {
+      if (dataWheelchairOptions) {
+        let count = 0;
+        switch (wheelchair) {
+          case "":
+            return t`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
+          case "yes":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0})`;
+          case "limited":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0})`;
+          case "limitedyes":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "limited" || item.wheelchair === "yes")?.count || 0})`;
+          case "no":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "no")?.count || 0})`;
+          case "unknown":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
+          default:
+            return t`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
+        }
+      }
+      return 0;
+    },
+    [route, dataWheelchairOptions]
   );
 
   return (
@@ -192,12 +232,12 @@ function FilterInputs() {
           <StyledWheelchairFilter>
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
             <StyledHDivider $space={0.25} />
-            <AccessibilityFilterButton accessibilityFilter={[]} caption={t`All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} caption={t`Yes & Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />
-            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
-            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={[]} caption={t`${getWheelchairCount("")} All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`${getWheelchairCount("yes")} Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} caption={t`${getWheelchairCount("limitedyes")} Yes & Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />
+            <AccessibilityFilterButton accessibilityFilter={["limited"]} caption={t`${getWheelchairCount("limited")} Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limit"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["no"]} caption={t`${getWheelchairCount("no")} No`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "no"} showCloseButton={false} />
+            <AccessibilityFilterButton accessibilityFilter={["unknown"]} caption={t`${getWheelchairCount("unknown")} Unknown`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "unknown"} showCloseButton={false} />
           </StyledWheelchairFilter>
         </>
       )}
