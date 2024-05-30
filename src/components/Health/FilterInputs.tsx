@@ -153,7 +153,9 @@ function FilterInputs() {
           case "limited":
             return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0})`;
           case "limitedyes":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "limited" || item.wheelchair === "yes")?.count || 0})`;
+            const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
+            const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
+            return t`(${countYes + countLimited})`;
           case "no":
             return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "no")?.count || 0})`;
           case "unknown":
