@@ -16,9 +16,8 @@ function SearchFilters() {
   ];
 
   const footerListRow = [
-    { href: "", content: jt`Impressum` },
-    { href: "", content: jt`Datenschutz` },
-    { href: "", content: jt`Kontakt` },
+    { href: "https://news.wheelmap.org/impressum/", content: jt`Impressum` },
+    { href: "https://news.wheelmap.org/kontakt/", content: jt`Kontakt` },
   ];
 
   return (
