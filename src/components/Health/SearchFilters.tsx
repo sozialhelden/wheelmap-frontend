@@ -1,6 +1,7 @@
 import React from "react";
 import { jt, t } from "ttag";
 import FilterInputs from "./FilterInputs";
+import { getTheRightLangauge } from "./helpers";
 import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters() {
@@ -16,8 +17,8 @@ function SearchFilters() {
   ];
 
   const footerListRow = [
-    { href: "https://news.wheelmap.org/en/imprint/", content: jt`Impressum` },
-    { href: "https://news.wheelmap.org/en/contact/", content: jt`Kontakt` },
+    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/impressum/", en: "https://news.wheelmap.org/en/imprint/" }), content: t`Impressum` },
+    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/kontakt/", en: "https://news.wheelmap.org/en/contact/" }), content: t`Datenschutz` },
   ];
 
   return (

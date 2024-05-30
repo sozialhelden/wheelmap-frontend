@@ -11,7 +11,7 @@ import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton"
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { AmenityStatsResponse, QueryParameters, fetchJSON, generateAmenityStatsURL } from "./helpers";
-import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledTextInput, StyledWheelchairFilter } from "./styles";
+import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs() {
   const route = useRouter();
@@ -146,18 +146,14 @@ function FilterInputs() {
       if (dataWheelchairOptions) {
         let count = 0;
         switch (wheelchair) {
-          case "":
-            return t`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
           case "yes":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0})`;
           case "limited":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0})`;
+          case "no":
+            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
           case "limitedyes":
             const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
             const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
             return t`(${countYes + countLimited})`;
-          case "no":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "no")?.count || 0})`;
           case "unknown":
             return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
           default:
@@ -177,16 +173,19 @@ function FilterInputs() {
           <StyledRadioBox>
             <div>
               <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
-              <label htmlFor="search-name">{t`Suche nach Name?`}</label>
+              <label htmlFor="search-name">{t`Search by Name?`}</label>
             </div>
             <div>
               <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!isNameFilter} onChange={handleFilterType} />
-              <label htmlFor="search-healthcare">{t`Suche nach Category?`}</label>
+              <label htmlFor="search-healthcare">{t`Search by Healthcare?`}</label>
             </div>
           </StyledRadioBox>
           {isNameFilter && (
             <>
-              <StyledLabel htmlFor="name-search" $fontBold="bold">{t`Name?`}</StyledLabel>
+              <StyledLabel htmlFor="name-search" $fontBold="bold">
+                {t`Name?`}
+                <StyledSubLabel>{t`Search for a specific name`}</StyledSubLabel>
+              </StyledLabel>
               <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
             </>
           )}
@@ -196,7 +195,10 @@ function FilterInputs() {
                 <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
               ) : (
                 <>
-                  <StyledLabel htmlFor="healthcare-select" $fontBold="bold">{t`Healthcare?`}</StyledLabel>
+                  <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
+                    {t`Healthcare?`}
+                    <StyledSubLabel>{t`Select one of the items in the list`}</StyledSubLabel>
+                  </StyledLabel>
                   <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
                     <option value="">{t`Alle`}</option>
                     {translatedHealthcareOptions?.map((item, index) => (
@@ -207,7 +209,10 @@ function FilterInputs() {
                   </StyledSelect>
                   {route.query.healthcare && (
                     <>
-                      <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">{t`Healthcare Speciality?`}</StyledLabel>
+                      <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
+                        {t`Healthcare Speciality?`}
+                        <StyledSubLabel>{t`Select one of the items in the list`}</StyledSubLabel>
+                      </StyledLabel>
                       <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
                         <option value="">{t`Alle`}</option>
                         {translatedSpecialityOptions?.map(
@@ -225,15 +230,19 @@ function FilterInputs() {
               )}
             </>
           )}
-          <StyledLabel htmlFor="sort-select" $fontBold="bold">{t`Sort results`}</StyledLabel>
+          <StyledLabel htmlFor="sort-select" $fontBold="bold">
+            {t`Sort results`}
+          </StyledLabel>
           <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
             <option value="alphabetically">{t`Alphabetically`}</option>
             <option value="distance">{t`By distance from me`}</option>
             <option value="distanceFromCity">{t`By distance from the center of ${route.query.city}`}</option>
           </StyledSelect>
           <StyledWheelchairFilter>
-            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">{t`Wheelchair accessible?`}</StyledLabel>
-            <StyledHDivider $space={0.25} />
+            <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
+              {t`Wheelchair accessible?`}
+            </StyledLabel>
+            <StyledHDivider $space={5} />
             <AccessibilityFilterButton accessibilityFilter={[]} caption={t`${getWheelchairCount("")} All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
             <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`${getWheelchairCount("yes")} Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />
             <AccessibilityFilterButton accessibilityFilter={["yes", "limited"]} caption={t`${getWheelchairCount("limitedyes")} Yes & Partially`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "limitedyes"} showCloseButton={false} isHealthcare />

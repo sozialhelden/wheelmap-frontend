@@ -72,7 +72,6 @@ function SearchResults() {
     }
   }, [data]);
 
-  if (!sortedFeatures) return null;
   return (
     <StyledMainContainerColumn>
       <Head>
@@ -85,7 +84,7 @@ function SearchResults() {
         </StyledH2>
       )}
       <StyledHDivider $space={0.5} />
-      {isLoading && (
+      {!data && (
         <FullSizeFlexContainer>
           <StyledLoadingSpinner />
         </FullSizeFlexContainer>

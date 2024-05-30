@@ -210,8 +210,14 @@ export const StyledDropDownListItem = styled.ul`
 
 export const StyledLabel = styled.label<{ $fontBold?: string }>`
   font-size: 1rem;
-  margin-bottom: 0.5rem;
   font-weight: ${({ $fontBold }) => ($fontBold ? "bold" : "normal")};
+`;
+
+export const StyledSubLabel = styled.span`
+  font-size: 0.8rem;
+  display: block;
+  margin-top: -0.5rem;
+  color: ${StyledColors.grey};
 `;
 
 export const StyledLoadingLabel = styled.label`

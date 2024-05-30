@@ -4,7 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
 import { fetchJSON, formatOSMAddress, transferCityToBbox } from "./helpers";
-import { StyledDropDownListItem, StyledLabel, StyledTextInput } from "./styles";
+import { StyledDropDownListItem, StyledLabel, StyledSubLabel, StyledTextInput } from "./styles";
 
 export function SearchBoxAutocomplete() {
   const router = useRouter();
@@ -47,7 +47,10 @@ export function SearchBoxAutocomplete() {
 
   return (
     <>
-      <StyledLabel htmlFor="city" $fontBold="bold">{t`Where?`}</StyledLabel>
+      <StyledLabel htmlFor="city" $fontBold="bold">
+        {t`Where?`}
+        <StyledSubLabel>{t`Enter a location or district`}</StyledSubLabel>
+      </StyledLabel>
       <StyledTextInput type="text" value={query} name="city" id="city" onChange={handleInputChange} onKeyDown={handleKeyDown} aria-autocomplete="list" aria-controls="autocomplete-options" aria-expanded={isDropdownVisible} ref={dropdownRef} />
       {isDropdownVisible && suggestions.length > 0 && (
         <StyledDropDownListItem role="listbox" id="autocomplete-options">
