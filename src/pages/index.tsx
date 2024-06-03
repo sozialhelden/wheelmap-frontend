@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import { useRouter } from "next/router";
+import React, { ReactElement, useRef } from "react";
 import LayoutHealthPage from "../components/App/LayoutHealthPage";
 import { FilterContext } from "../components/Health/FilterContext";
 import SearchFilters from "../components/Health/SearchFilters";
@@ -22,12 +23,23 @@ export default function Page() {
     [filterOptions, setFilterOptions, healthcareOptions, setHealthcareOptions, healthcareSpecialityOptions, setHealthcareSpecialityOptions]
   );
 
+  const route = useRouter();
+  const searchFiltersRef = useRef(null);
+
+  React.useEffect(() => {
+    if (searchFiltersRef.current) {
+      searchFiltersRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [route.query]);
+
   return (
     <FilterContext.Provider value={memoizedFilterContext}>
       <StyledMainContainer>
         <div>
           <SearchFilters />
-          <SearchResults />
+          <div ref={searchFiltersRef}>
+            <SearchResults />
+          </div>
         </div>
       </StyledMainContainer>
     </FilterContext.Provider>

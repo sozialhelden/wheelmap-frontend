@@ -74,7 +74,7 @@ export const StyledMainContainer = styled.div`
     width: 100%;
     height: 100vh;
     @media screen and (max-width: ${responsiveValue}px) {
-      grid-template-columns: 1fr;
+      display: block;
     }
   }
 `;
@@ -86,8 +86,13 @@ export const StyledMainContainerColumn = styled.div`
   max-width: 100%;
   padding: ${containerSpacing};
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.05) 0px 1px 3px 1px;
+
   height: calc(100vh - 3rem);
   overflow-y: auto;
+
+  @media screen and (max-width: ${responsiveValue}px) {
+    height: unset;
+  }
 `;
 
 export const StyledH1 = styled.h1<{ $fontBold?: boolean; $textAlign?: string }>`

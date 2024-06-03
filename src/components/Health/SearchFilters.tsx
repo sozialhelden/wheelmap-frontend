@@ -4,7 +4,7 @@ import FilterInputs from "./FilterInputs";
 import { getTheRightLangauge } from "./helpers";
 import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
-function SearchFilters() {
+function SearchFilters(props: any) {
   const [headerOptions] = React.useState<any>({
     loadingSpinner: true,
     text: t`Find health sites`,
