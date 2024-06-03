@@ -84,7 +84,7 @@ function SearchResults() {
         </StyledH2>
       )}
       <StyledHDivider $space={0.5} />
-      {!data && (
+      {isLoading && (
         <FullSizeFlexContainer>
           <StyledLoadingSpinner />
         </FullSizeFlexContainer>
