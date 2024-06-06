@@ -186,8 +186,10 @@ function FilterInputs() {
           {isNameFilter && (
             <>
               <StyledLabel htmlFor="name-search" $fontBold="bold">
-                {t`Name?`}
-                <StyledSubLabel>{t`Search for a specific name`}</StyledSubLabel>
+                <T _str="Name?" />
+                <StyledSubLabel>
+                  <T _str="Search for a specific name" />
+                </StyledSubLabel>
               </StyledLabel>
               <StyledTextInput type="text" value={route.query.name} name="name" id="name-search" onChange={handleInputChange} />
             </>
@@ -195,15 +197,19 @@ function FilterInputs() {
           {!isNameFilter && (
             <>
               {isLoadingHealthcareOptions || isLoadingSpecialityOptions ? (
-                <StyledLoadingLabel>{t`Loading ...`}</StyledLoadingLabel>
+                <StyledLoadingLabel>
+                  <T _str="Loading" />
+                </StyledLoadingLabel>
               ) : (
                 <>
                   <StyledLabel htmlFor="healthcare-select" $fontBold="bold">
-                    {t`Healthcare?`}
+                    <T _str="Healthcare?" />
                     <StyledSubLabel>{t`Select one of the items in the list`}</StyledSubLabel>
                   </StyledLabel>
                   <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
-                    <option value="">{t`Alle`}</option>
+                    <option value="">
+                      <T _str="Alle" />
+                    </option>
                     {translatedHealthcareOptions?.map((item, index) => (
                       <option key={item.healthcare + index} value={item.healthcare}>
                         {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
@@ -213,11 +219,15 @@ function FilterInputs() {
                   {route.query.healthcare && (
                     <>
                       <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
-                        {t`Healthcare Speciality?`}
-                        <StyledSubLabel>{t`Select one of the items in the list`}</StyledSubLabel>
+                        <T _str="Healthcare Speciality?" />
+                        <StyledSubLabel>
+                          <T _str="Select one of the items in the list" />
+                        </StyledSubLabel>
                       </StyledLabel>
                       <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
-                        <option value="">{t`Alle`}</option>
+                        <option value="">
+                          <T _str="Alle" />
+                        </option>
                         {translatedSpecialityOptions?.map(
                           (item, index) =>
                             item["healthcare:speciality"] !== "" && (
@@ -234,16 +244,23 @@ function FilterInputs() {
             </>
           )}
           <StyledLabel htmlFor="sort-select" $fontBold="bold">
-            {t`Sort results`}
+            <T _str="Sort results" />
           </StyledLabel>
           <StyledSelect defaultValue={route.query.sort} name="sort" id="sort-select" onChange={handleInputChange}>
-            <option value="alphabetically">{t`Alphabetically`}</option>
-            <option value="distance">{t`By distance from me`}</option>
-            <option value="distanceFromCity">{t`By distance from the center of ${route.query.city}`}</option>
+            <option value="alphabetically">
+              <T _str="Alphabetically" />
+            </option>
+            <option value="distance">
+              <T _str="By distance from me" />
+            </option>
+            <option value="distanceFromCity">
+              <T _str="By distance from the center of" />
+              {` ${route.query.city}`}
+            </option>
           </StyledSelect>
           <StyledWheelchairFilter>
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
-              {t`Wheelchair accessible?`}
+              <T _str="Wheelchair accessible?" />
             </StyledLabel>
             <StyledHDivider $space={5} />
             <AccessibilityFilterButton accessibilityFilter={[]} caption={t`${getWheelchairCount("")} All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
