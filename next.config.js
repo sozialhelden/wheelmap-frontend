@@ -20,8 +20,8 @@ let configuration = withTranspileModules({
 let transifex = {
   i18n: {
     locales: ["en", "fr", "de", "el"],
-    defaultLocale: "en",
-    localeDetection: false,
+    defaultLocale: "de",
+    localeDetection: true,
   },
   publicRuntimeConfig: {
     TxNativePublicToken: "1/9099afe662e4300641b90026c94b18871c9d0152",
