@@ -1,5 +1,5 @@
 const withTranspileModules = require("next-transpile-modules");
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === "production";
 
 let configuration = withTranspileModules({
   webpack: (config) => {
@@ -17,9 +17,21 @@ let configuration = withTranspileModules({
   },
 });
 
+let transifex = {
+  i18n: {
+    locales: ["en", "fr", "de", "el"],
+    defaultLocale: "en",
+    localeDetection: false,
+  },
+  publicRuntimeConfig: {
+    TxNativePublicToken: "1/9099afe662e4300641b90026c94b18871c9d0152",
+  },
+};
+
 // these options would be ignored above, so they needs to be extended manually
 configuration = {
   ...configuration,
+  ...transifex,
   productionBrowserSourceMaps: true,
   compiler: {
     styledComponents: true,

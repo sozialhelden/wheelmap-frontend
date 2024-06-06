@@ -11,6 +11,7 @@ import * as queryString from "query-string";
 import * as React from "react";
 import useSWR from "swr";
 import EnvContext from "../components/shared/EnvContext";
+import { getServerSideTranslations, setClientSideTranslations } from "../i18n";
 import composeContexts, { ContextAndValue } from "../lib/composeContexts";
 import { AppContext } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
@@ -81,7 +82,7 @@ export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) 
 
   // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout ?? React.useCallback((page) => page, []);
-
+  setClientSideTranslations(pageProps);
   return (
     <>
       <HotkeysProvider>
@@ -121,5 +122,14 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname };
   return { ...appProps, pageProps };
 };
+
+export async function getServerSideProps(context) {
+  const data = await getServerSideTranslations(context);
+  return {
+    props: {
+      ...data,
+    },
+  };
+}
 
 MyApp.getInitialProps = getInitialProps;

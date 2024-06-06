@@ -1,15 +1,10 @@
-import React from "react";
+import { T } from "@transifex/react";
 import { jt, t } from "ttag";
 import FilterInputs from "./FilterInputs";
 import { getTheRightLangauge } from "./helpers";
 import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters(props: any) {
-  const [headerOptions] = React.useState<any>({
-    loadingSpinner: true,
-    text: t`Find health sites`,
-  });
-
   const footerListColumn = [
     { href: "https://incluscience.org", content: jt`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.` },
     { href: "https://sozialhelden.de", content: jt`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.` },
@@ -24,8 +19,12 @@ function SearchFilters(props: any) {
   return (
     <StyledMainContainerColumn>
       <StyledHDivider $space={0.1} />
-      <StyledH1 $fontBold>{headerOptions.text}</StyledH1>
-      <StyledH2>{t`Find accessible health sites - easily and everywhere.`}</StyledH2>
+      <StyledH1 $fontBold>
+        <T _str="Find health sites" />
+      </StyledH1>
+      <StyledH2>
+        <T _str="Find accessible health sites - easily and everywhere." />
+      </StyledH2>
       <StyledHDivider $colored={StyledColors.silver} />
       <StyledSectionsContainer>
         <FilterInputs />
@@ -35,7 +34,7 @@ function SearchFilters(props: any) {
 
       <StyledFooter>
         <div style={{ textAlign: "left" }}>
-          <img src="/images/BMBF-Logo.jpg" alt="Gefördert vom Bundesministerium für Bildung und Forschung." width={"30%"} />
+          <img src="/images/BMBF-Logo.jpg" alt={"Gefördert vom Bundesministerium für Bildung und Forschung."} width={"30%"} />
         </div>
         {footerListColumn.map((item, index) => (
           <p key={index.toString()}>

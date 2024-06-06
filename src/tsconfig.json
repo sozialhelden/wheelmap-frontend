@@ -16,5 +16,5 @@
     "incremental": true
   },
   "exclude": ["node_modules", "src/lib/apm", "src/server"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/node/id.test.js"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/node/id.test.js", "i18n.js"]
 }

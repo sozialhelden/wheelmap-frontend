@@ -1,4 +1,5 @@
 // @ts-ignore
+import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
@@ -173,7 +174,9 @@ function FilterInputs() {
           <StyledRadioBox>
             <div>
               <StyledRadio type="radio" name="search" id="search-name" value="name" checked={isNameFilter} onChange={handleFilterType} />
-              <label htmlFor="search-name">{t`Search by Name?`}</label>
+              <label htmlFor="search-name">
+                <T _str="Search by Name?" />
+              </label>
             </div>
             <div>
               <StyledRadio type="radio" name="search" id="search-healthcare" value="healthcare" checked={!isNameFilter} onChange={handleFilterType} />
