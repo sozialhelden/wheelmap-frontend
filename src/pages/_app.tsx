@@ -11,6 +11,7 @@ import * as queryString from "query-string";
 import * as React from "react";
 import useSWR from "swr";
 import EnvContext from "../components/shared/EnvContext";
+import { getServerSideTranslations, setClientSideTranslations } from "../i18n";
 import composeContexts, { ContextAndValue } from "../lib/composeContexts";
 import { AppContext } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
@@ -52,6 +53,7 @@ if (typeof window === "undefined") {
 
 export default function MyApp(props: AppProps<ExtraProps> & AppPropsWithLayout) {
   const { Component, pageProps } = props;
+  setClientSideTranslations(pageProps);
   const { userAgentString, session, languageTags, ipCountryCode, environmentVariables, hostname } = pageProps;
   // On the first render pass, we set the environment variables to what the server hands over.
   // On every following render pass, the variables are already set globally.
@@ -120,5 +122,15 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname };
   return { ...appProps, pageProps };
 };
+
+export async function getServerSideProps(context) {
+  const data = await getServerSideTranslations(context);
+  console.log("data", data);
+  return {
+    props: {
+      ...data,
+    },
+  };
+}
 
 MyApp.getInitialProps = getInitialProps;
