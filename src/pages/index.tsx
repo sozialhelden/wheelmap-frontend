@@ -50,6 +50,7 @@ export default function Page(props) {
 
 export async function getServerSideProps(context) {
   const data = await getServerSideTranslations(context);
+  console.log("data", data);
   return {
     props: {
       ...data,
