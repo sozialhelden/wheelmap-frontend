@@ -11,7 +11,6 @@ import * as queryString from "query-string";
 import * as React from "react";
 import useSWR from "swr";
 import EnvContext from "../components/shared/EnvContext";
-import { getServerSideTranslations, setClientSideTranslations } from "../i18n";
 import composeContexts, { ContextAndValue } from "../lib/composeContexts";
 import { AppContext } from "../lib/context/AppContext";
 import CountryContext from "../lib/context/CountryContext";
@@ -19,6 +18,7 @@ import { HostnameContext } from "../lib/context/HostnameContext";
 import { LanguageTagContext } from "../lib/context/LanguageTagContext";
 import { UserAgentContext, parseUserAgentString } from "../lib/context/UserAgentContext";
 import fetchApp from "../lib/fetchers/fetchApp";
+import { getServerSideTranslations, setClientSideTranslations } from "../lib/i18n";
 import { parseAcceptLanguageString } from "../lib/i18n/parseAcceptLanguageString";
 
 export type NextPageWithLayout = NextPage & {
@@ -119,18 +119,9 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   }
   // On the client, isometricEnvironmentVariables is set on the first page rendering.
   const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
-  const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname };
+  const translationProps = await getServerSideTranslations(appContext.ctx);
+  const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname, ...translationProps };
   return { ...appProps, pageProps };
 };
-
-export async function getServerSideProps(context) {
-  const data = await getServerSideTranslations(context);
-  console.log("data", data);
-  return {
-    props: {
-      ...data,
-    },
-  };
-}
 
 MyApp.getInitialProps = getInitialProps;
