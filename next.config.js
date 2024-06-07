@@ -1,5 +1,6 @@
 const withTranspileModules = require("next-transpile-modules");
 const isProd = process.env.NODE_ENV === "production";
+const transifexToken = process.env.TRANSIFEX_API_TOKEN;
 
 let configuration = withTranspileModules({
   webpack: (config) => {
@@ -24,7 +25,7 @@ let transifex = {
     localeDetection: true,
   },
   publicRuntimeConfig: {
-    TxNativePublicToken: "1/9099afe662e4300641b90026c94b18871c9d0152",
+    TxNativePublicToken: transifexToken,
   },
 };
 
