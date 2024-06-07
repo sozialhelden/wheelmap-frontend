@@ -1,4 +1,5 @@
 // @ts-ignore
+import { Callout } from "@blueprintjs/core";
 import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
@@ -12,7 +13,8 @@ import { getCategory } from "../../lib/model/ac/categories/Categories";
 import AccessibilityFilterButton from "../SearchPanel/AccessibilityFilterButton";
 import EnvContext from "../shared/EnvContext";
 import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
-import { AmenityStatsResponse, QueryParameters, fetchJSON, generateAmenityStatsURL } from "./helpers";
+import { fetchJSON } from "./fetchJSON";
+import { AmenityStatsResponse, QueryParameters, generateAmenityStatsURL } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
 function FilterInputs(props) {
@@ -59,6 +61,7 @@ function FilterInputs(props) {
   const { data: dataHealthcareOptions, error: errorHealthcareOptions, isValidating: isLoadingHealthcareOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(options, baseurl) : null, fetchJSON);
   const { data: dataSpecialityOptions, error: errorSpecialityOptions, isValidating: isLoadingSpecialityOptions } = useSWR<AmenityStatsResponse>(route.query.bbox && route.query.healthcare ? () => generateAmenityStatsURL(optionsSpeciality, baseurl) : null, fetchJSON);
   const { data: dataWheelchairOptions, error: errorWheelchairOptions, isValidating: isLoadingWheelchairOptions } = useSWR<AmenityStatsResponse>(route.query.bbox ? () => generateAmenityStatsURL(optionsWheelchair, baseurl) : null, fetchJSON);
+
   // Wheelchair filter
   const synonymCache = useCategorySynonymCache();
   const languageTags = useCurrentLanguageTagStrings();
@@ -208,7 +211,8 @@ function FilterInputs(props) {
                     <T _str="Healthcare?" />
                     <StyledSubLabel>{t`Select one of the items in the list`}</StyledSubLabel>
                   </StyledLabel>
-                  <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
+                  {errorHealthcareOptions && <Callout intent="danger" icon="error">{t`Could not healthcare categories.`}</Callout>}
+                  {!errorHealthcareOptions && <StyledSelect value={route.query.healthcare} name="healthcare" id="healthcare-select" onChange={handleInputChange}>
                     <option value="">
                       <T _str="Alle" />
                     </option>
@@ -217,7 +221,7 @@ function FilterInputs(props) {
                         {item.count ? `(${item.count})` : ""} {`${item.healthcareTranslated || item.healthcare}`}
                       </option>
                     ))}
-                  </StyledSelect>
+                  </StyledSelect>}
                   {route.query.healthcare && (
                     <>
                       <StyledLabel htmlFor="healthcare:speciality-select" $fontBold="bold">
@@ -226,7 +230,8 @@ function FilterInputs(props) {
                           <T _str="Select one of the items in the list" />
                         </StyledSubLabel>
                       </StyledLabel>
-                      <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
+                      {errorSpecialityOptions && <Callout intent="danger" icon="error">{t`Could not load healthcare specialities.`}</Callout>}
+                      {!errorSpecialityOptions && <StyledSelect value={route.query["healthcare:speciality"]} name="healthcare:speciality" id="healthcare:speciality-select" onChange={handleInputChange}>
                         <option value="">
                           <T _str="Alle" />
                         </option>
@@ -238,7 +243,7 @@ function FilterInputs(props) {
                               </option>
                             )
                         )}
-                      </StyledSelect>
+                      </StyledSelect>}
                     </>
                   )}
                 </>
@@ -264,6 +269,7 @@ function FilterInputs(props) {
             <StyledLabel htmlFor="wheelchair-select" $fontBold="bold">
               <T _str="Wheelchair accessible?" />
             </StyledLabel>
+            {errorWheelchairOptions && <Callout intent="warning" icon="warning-sign">{t`Could not load statistics by accessibility.`}</Callout>}
             <StyledHDivider $space={5} />
             <AccessibilityFilterButton accessibilityFilter={[]} caption={t`${getWheelchairCount("")} All places`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === undefined} showCloseButton={false} />
             <AccessibilityFilterButton accessibilityFilter={["yes"]} caption={t`${getWheelchairCount("yes")} Yes`} category="wheelchair" toiletFilter={[]} isActive={route.query.wheelchair === "yes"} showCloseButton={false} />

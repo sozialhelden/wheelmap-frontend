@@ -2,7 +2,6 @@ import { uniq } from "lodash";
 import { t } from "ttag";
 import { StyledColors } from "./styles";
 
-export const fetchJSON = async (url: RequestInfo | URL) => await fetch(url).then((res) => res.json());
 export const defaultLimit = 10000;
 
 export type FilterOptions = {};

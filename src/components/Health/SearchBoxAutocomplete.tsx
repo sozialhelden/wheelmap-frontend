@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
-import { fetchJSON, formatOSMAddress, transferCityToBbox } from "./helpers";
+import { fetchJSON } from "./fetchJSON";
+import { formatOSMAddress, transferCityToBbox } from "./helpers";
 import { StyledDropDownListItem, StyledLabel, StyledSubLabel, StyledTextInput } from "./styles";
 
 export function SearchBoxAutocomplete() {

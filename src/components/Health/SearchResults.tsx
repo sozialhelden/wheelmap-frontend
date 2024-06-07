@@ -6,7 +6,8 @@ import useSWR from "swr";
 import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
-import { AmenityListResponse, calculateDistance, fetchJSON, generateAmenityListURL, getWheelchairSettings } from "./helpers";
+import { fetchJSON } from "./fetchJSON";
+import { AmenityListResponse, calculateDistance, generateAmenityListURL, getWheelchairSettings } from "./helpers";
 import { FullSizeFlexContainer, StyledChip, StyledH2, StyledHDivider, StyledLoadingSpinner, StyledMainContainerColumn, StyledSectionsContainer, StyledUL } from "./styles";
 
 function SearchResults() {
