@@ -146,24 +146,24 @@ function FilterInputs(props) {
 
   const getWheelchairCount = useCallback(
     (wheelchair) => {
-      if (dataWheelchairOptions) {
-        let count = 0;
-        switch (wheelchair) {
-          case "yes":
-          case "limited":
-          case "no":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
-          case "limitedyes":
-            const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
-            const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
-            return t`(${countYes + countLimited})`;
-          case "unknown":
-            return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
-          default:
-            return t`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
-        }
+      if (!dataWheelchairOptions) {
+        return 0;
       }
-      return 0;
+      let count = 0;
+      switch (wheelchair) {
+        case "yes":
+        case "limited":
+        case "no":
+          return t`(${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
+        case "limitedyes":
+          const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
+          const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
+          return t`(${countYes + countLimited})`;
+        case "unknown":
+          return t`(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
+        default:
+          return t`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
+      }
     },
     [route, dataWheelchairOptions]
   );
