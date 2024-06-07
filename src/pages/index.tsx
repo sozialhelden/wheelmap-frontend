@@ -6,10 +6,8 @@ import SearchFilters from "../components/Health/SearchFilters";
 import SearchResults from "../components/Health/SearchResults";
 import { defaultFilterOptions } from "../components/Health/helpers";
 import { StyledMainContainer } from "../components/Health/styles";
-import { getServerSideTranslations, setClientSideTranslations } from "../i18n";
 
-export default function Page(props) {
-  setClientSideTranslations(props);
+export default function Page() {
   const [filterOptions, setFilterOptions] = React.useState(defaultFilterOptions);
   const [healthcareOptions, setHealthcareOptions] = React.useState([{ healthcare: "", count: 0 }]);
   const [healthcareSpecialityOptions, setHealthcareSpecialityOptions] = React.useState([{ healthcare: "", count: 0 }]);
@@ -46,16 +44,6 @@ export default function Page(props) {
       </StyledMainContainer>
     </FilterContext.Provider>
   );
-}
-
-export async function getServerSideProps(context) {
-  const data = await getServerSideTranslations(context);
-  console.log("data", data);
-  return {
-    props: {
-      ...data,
-    },
-  };
 }
 
 Page.getLayout = function getLayout(page: ReactElement) {

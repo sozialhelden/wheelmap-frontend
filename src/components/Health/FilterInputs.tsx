@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useCallback, useContext, useMemo, useState } from "react";
 import useSWR from "swr";
 import { t } from "ttag";
+import { getServerSideTranslations, setClientSideTranslations } from "../../i18n";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import { useCategorySynonymCache } from "../../lib/fetchers/fetchAccessibilityCloudCategories";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -14,7 +15,8 @@ import { SearchBoxAutocomplete } from "./SearchBoxAutocomplete";
 import { AmenityStatsResponse, QueryParameters, fetchJSON, generateAmenityStatsURL } from "./helpers";
 import { StyledHDivider, StyledLabel, StyledLoadingLabel, StyledRadio, StyledRadioBox, StyledSectionsContainer, StyledSelect, StyledSubLabel, StyledTextInput, StyledWheelchairFilter } from "./styles";
 
-function FilterInputs() {
+function FilterInputs(props) {
+  setClientSideTranslations(props);
   const route = useRouter();
   const env = useContext(EnvContext);
   const baseurl = env.NEXT_PUBLIC_OSM_API_BACKEND_URL;
@@ -274,6 +276,16 @@ function FilterInputs() {
       )}
     </StyledSectionsContainer>
   );
+}
+
+export async function getServerSideProps(context) {
+  const data = await getServerSideTranslations(context);
+  console.log("data", data);
+  return {
+    props: {
+      ...data,
+    },
+  };
 }
 
 export default FilterInputs;
