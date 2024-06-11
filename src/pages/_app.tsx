@@ -119,7 +119,7 @@ const getInitialProps: typeof NextApp.getInitialProps = async (appContext) => {
   }
   // On the client, isometricEnvironmentVariables is set on the first page rendering.
   const environmentVariables = isometricEnvironmentVariables || getPublicEnvironmentVariablesOnServer();
-  const translationProps = await getServerSideTranslations(appContext.ctx);
+  const translationProps = await getServerSideTranslations({ locale: languageTags[0], locales: languageTags });
   const pageProps: ExtraProps = { userAgentString, languageTags, ipCountryCode, environmentVariables, hostname, ...translationProps };
   return { ...appProps, pageProps };
 };
