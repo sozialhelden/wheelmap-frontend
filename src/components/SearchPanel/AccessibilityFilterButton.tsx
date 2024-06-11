@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled, { css } from "styled-components";
-import { t } from "ttag";
 
+import { T } from "@transifex/react";
 import { omit } from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -60,7 +60,7 @@ function AccessibilityFilterButton(props: Props) {
       }}
       legacyBehavior
     >
-      <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? t`Remove ${caption} Filter` : caption}>
+      <Button disabled={isDisabled} className={className} onFocus={props.onFocus} onBlur={props.onBlur} onKeyDown={props.onKeyDown} tabIndex={0} aria-label={showCloseButton ? <T _str={`Remove ${caption} Filter`} /> : caption}>
         <CombinedIcon {...{ toiletFilter, accessibilityFilter, category, isMainCategory }} />
         <Caption>
           {isExternalLink && <ExternalLinkIcon />}

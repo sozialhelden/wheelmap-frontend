@@ -1,9 +1,9 @@
 import Head from "next/head";
 // @ts-ignore
+import { T } from "@transifex/react";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 import useSWR from "swr";
-import { t } from "ttag";
 import EnvContext from "../shared/EnvContext";
 import SearchResult from "./SearchResult";
 import { fetchJSON } from "./fetchJSON";
@@ -63,10 +63,10 @@ function SearchResults() {
     [data, route.query]
   );
 
-  const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? t`${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
+  const headText = `${data?.features?.length} ${getWheelchairSettings(route.query.wheelchair?.toString()).label} ${route.query.healthcare ? `${route.query.healthcare}` : ""} ${route.query.city ? `in ${route.query.city}` : ""}`;
   const text = React.useMemo(() => {
     if (data?.features?.length === 0) {
-      return t`No Results Found! Please try again with different City/Filters`;
+      return <T _str={`No Results Found! Please try again with different City/Filters`} />;
     }
     if (data?.features) {
       return <StyledChip>{headText}</StyledChip>;
@@ -76,7 +76,7 @@ function SearchResults() {
   return (
     <StyledMainContainerColumn>
       <Head>
-        <title key="title">{sortedFeatures ? t`${headText} | Find health sites` : t`Find health sites`}</title>
+        <title key="title">{sortedFeatures ? <T _str={`${headText} | Find health sites`} /> : <T _str={`Find health sites`} />}</title>
       </Head>
       <StyledHDivider $space={0.5} />
       {!isLoading && text && (
@@ -94,8 +94,12 @@ function SearchResults() {
         {sortedFeatures && <StyledUL>{sortedFeatures}</StyledUL>}
         {!sortedFeatures && !isLoading && (
           <>
-            <StyledH2 $fontBold $textAlign="center">{t`Here you will find health centers, as well as psychotherapists, physiotherapists, and more medical facilities near you`}</StyledH2>
-            <StyledH2 $textAlign="center">{t`You can choose further search criteria in the next step.`}</StyledH2>
+            <StyledH2 $fontBold $textAlign="center">
+              <T _str={`Here you will find health centers, as well as psychotherapists, physiotherapists, and more medical facilities near you`} />
+            </StyledH2>
+            <StyledH2 $textAlign="center">
+              <T _str={`You can choose further search criteria in the next step.`} />
+            </StyledH2>
           </>
         )}
       </StyledSectionsContainer>

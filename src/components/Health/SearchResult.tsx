@@ -1,7 +1,7 @@
+import { T } from "@transifex/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { t } from "ttag";
 import { useCurrentLanguageTagStrings } from "../../lib/context/LanguageTagContext";
 import useCategory from "../../lib/fetchers/useCategory";
 import { getLocalizedStringTranslationWithMultipleLocales } from "../../lib/i18n/getLocalizedStringTranslationWithMultipleLocales";
@@ -68,7 +68,7 @@ function SearchResult({ data }: any) {
     <StyledLink>
       <>
         <StyledH4 $textAlign="right">
-          {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.sort === "distance" ? `(${t`from your location`})` : `(${t`from the center of ${route.query.city}`})`}
+          {optionalCategoryName} <MapPinIcon /> {distanceValue} {distanceUnit} {route.query.srot === "distance" ? <T _str="from your location" /> : <T _str={`from the center of ${route.query.city}`} />}
         </StyledH4>
         <StyledH3 $fontBold style={{ color: getWheelchairSettings(wheelchair).color }}>
           <Link href={`https://wheelmap.org/${_id}`} target="_blank">

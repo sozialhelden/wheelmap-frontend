@@ -1,19 +1,18 @@
 import { T } from "@transifex/react";
-import { jt, t } from "ttag";
 import FilterInputs from "./FilterInputs";
 import { getTheRightLangauge } from "./helpers";
 import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledIncluscienceLogo, StyledLinkFooter, StyledMainContainerColumn, StyledSectionsContainer, StyledSozialheldInnenLogo } from "./styles";
 
 function SearchFilters(props: any) {
   const footerListColumn = [
-    { href: "https://incluscience.org", content: jt`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.` },
-    { href: "https://sozialhelden.de", content: jt`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.` },
-    { href: "https://openstreetmap.org", content: jt`© OpenStreetMap contributors.` },
+    { href: "https://incluscience.org", content: <T _str={`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.`} /> },
+    { href: "https://sozialhelden.de", content: <T _str={`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.`} /> },
+    { href: "https://openstreetmap.org", content: <T _str={`© OpenStreetMap contributors.`} /> },
   ];
 
   const footerListRow = [
-    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/impressum/", en: "https://news.wheelmap.org/en/imprint/" }), content: t`Impressum` },
-    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/kontakt/", en: "https://news.wheelmap.org/en/contact/" }), content: t`Datenschutz` },
+    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/impressum/", en: "https://news.wheelmap.org/en/imprint/" }), content: <T _str={`Impressum`} /> },
+    { href: getTheRightLangauge({ de: "https://news.wheelmap.org/kontakt/", en: "https://news.wheelmap.org/en/contact/" }), content: <T _str={`Datenschutz`} /> },
   ];
 
   return (
