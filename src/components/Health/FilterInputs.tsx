@@ -155,15 +155,15 @@ function FilterInputs() {
         case "yes":
         case "limited":
         case "no":
-          return <T _str={`${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`} />;
+          return `${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
         case "limitedyes":
           const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
           const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
-          return <T _str={`(${countYes + countLimited})`} />;
+          return `(${countYes + countLimited})`;
         case "unknown":
-          return <T _str={`(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`} />;
+          return `(${dataWheelchairOptions.find((item) => item.wheelchair === "")?.count || 0})`;
         default:
-          return <T _str={`(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`} />;
+          return `(${dataWheelchairOptions.reduce((acc, item) => acc + item.count, 0)})`;
       }
     },
     [route, dataWheelchairOptions]
