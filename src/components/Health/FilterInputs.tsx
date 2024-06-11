@@ -155,7 +155,7 @@ function FilterInputs() {
         case "yes":
         case "limited":
         case "no":
-          return `${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
+          return `(${dataWheelchairOptions.find((item) => item.wheelchair === wheelchair)?.count || 0})`;
         case "limitedyes":
           const countYes = dataWheelchairOptions.find((item) => item.wheelchair === "yes")?.count || 0;
           const countLimited = dataWheelchairOptions.find((item) => item.wheelchair === "limited")?.count || 0;
