@@ -1,7 +1,4 @@
-import { tx, normalizeLocale } from "@transifex/native";
-import getConfig from "next/config";
-
-const { publicRuntimeConfig } = getConfig();
+import { normalizeLocale, tx } from "@transifex/native";
 
 const TRANSLATIONS_TTL_SEC = 10 * 60; // 10 minutes
 
@@ -14,7 +11,7 @@ const TRANSLATIONS_TTL_SEC = 10 * 60; // 10 minutes
  */
 export async function getServerSideTranslations({ locale, locales }) {
   tx.init({
-    token: publicRuntimeConfig.TxNativePublicToken,
+    token: process.env.TRANSIFEX_API_TOKEN,
   });
   // ensure that nextjs locale is in the Transifex format,
   // for example, de-de -> de_DE
