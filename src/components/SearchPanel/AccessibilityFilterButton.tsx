@@ -17,7 +17,7 @@ type Props = {
   showCloseButton: boolean;
   accessibilityFilter: YesNoLimitedUnknown[];
   toiletFilter: YesNoUnknown[];
-  caption: string;
+  caption: any;
   category: string;
   isMainCategory?: boolean;
   onFocus?: (event: React.FocusEvent<HTMLButtonElement>) => void;
