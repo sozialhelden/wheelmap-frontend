@@ -5,8 +5,26 @@ import { StyledColors, StyledFooter, StyledH1, StyledH2, StyledHDivider, StyledI
 
 function SearchFilters(props: any) {
   const footerListColumn = [
-    { href: "https://incluscience.org", content: <T _str={`Powered by ${(<StyledIncluscienceLogo key="StyledIncluscienceLogo" />)}.`} /> },
-    { href: "https://sozialhelden.de", content: <T _str={`A project by ${(<StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />)}.`} /> },
+    {
+      href: "https://incluscience.org",
+      content: (
+        <>
+          <T _str={`Powered by`} />
+          &nbsp;
+          <StyledIncluscienceLogo key="StyledIncluscienceLogo" />
+        </>
+      ),
+    },
+    {
+      href: "https://sozialhelden.de",
+      content: (
+        <>
+          <T _str={`A project by`} />
+          &nbsp;
+          <StyledSozialheldInnenLogo key="StyledSozialheldInnenLogo" />.
+        </>
+      ),
+    },
     { href: "https://openstreetmap.org", content: <T _str={`© OpenStreetMap contributors.`} /> },
   ];
 
