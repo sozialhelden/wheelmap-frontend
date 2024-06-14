@@ -40,7 +40,7 @@
     "eslint-plugin-webdriverio": "^1.0.1",
     "event-stream": "^4.0.1",
     "expect": "^26.6.2",
-    "expect-webdriverio": "^4.7.0",
+    "expect-webdriverio": "^4.7.2",
     "express": "^4.19.2",
     "express-cache-headers": "^0.1.4",
     "fast-levenshtein": "^2.0.6",
